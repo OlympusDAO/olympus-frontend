@@ -1,4 +1,4 @@
-import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, addresses } from "../constants";
+import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, addresses, NetworkId } from "../constants";
 import { BigNumber, ethers } from "ethers";
 import axios from "axios";
 import { abi as PairContractABI } from "../abi/PairContract.json";
@@ -24,7 +24,7 @@ import { NodeHelper } from "../helpers/NodeHelper";
 export async function getMarketPrice() {
   const mainnetProvider = NodeHelper.getMainnetStaticProvider();
   // v2 price
-  const ohm_dai_address = ohm_dai.getAddressForReserve(1);
+  const ohm_dai_address = ohm_dai.getAddressForReserve(NetworkId.MAINNET);
   const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
   const reserves = await pairContract.getReserves();
 
@@ -36,8 +36,8 @@ export async function getMarketPrice() {
 export async function getMarketPriceFromWeth() {
   const mainnetProvider = NodeHelper.getMainnetStaticProvider();
   // v2 price
-  const ohm_weth_address = ohm_weth.getAddressForReserve(1);
-  const wethBondContract = ohm_weth.getContractForBond(1, mainnetProvider);
+  const ohm_weth_address = ohm_weth.getAddressForReserve(NetworkId.MAINNET);
+  const wethBondContract = ohm_weth.getContractForBond(NetworkId.MAINNET, mainnetProvider);
   const pairContract = new ethers.Contract(ohm_weth_address || "", PairContractABI, mainnetProvider) as PairContract;
   const reserves = await pairContract.getReserves();
 
@@ -51,7 +51,7 @@ export async function getMarketPriceFromWeth() {
 export async function getV1MarketPrice() {
   const mainnetProvider = NodeHelper.getMainnetStaticProvider();
   // v1 price
-  const ohm_dai_address = ohm_daiOld.getAddressForReserve(1);
+  const ohm_dai_address = ohm_daiOld.getAddressForReserve(NetworkId.MAINNET);
   const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
   const reserves = await pairContract.getReserves();
   const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
@@ -64,14 +64,25 @@ export async function getV1MarketPrice() {
  * @returns INTEGER usd value
  */
 export async function getTokenPrice(tokenId = "olympus") {
-  let resp: any;
+  let resp;
   try {
     // replacing direct coingecko call with ohm API middleware
     // resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
     resp = await axios.get(`https://api.olympusdao.finance/api/rest/coingecko_name/${tokenId}`);
-    return resp.coingeckoTicker.value;
+    return resp.data.coingeckoTicker.value;
   } catch (e) {
     // console.log("coingecko api error: ", e);
+  }
+}
+
+export async function getTokenIdByContract(contractAddress: string) {
+  let resp;
+  try {
+    resp = await axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${contractAddress}'`);
+    return resp.data.id;
+  } catch (e) {
+    // console.log("coingecko api error: ", e);
+    return null;
   }
 }
 
@@ -110,7 +121,7 @@ export function getRebaseBlock(currentBlock: number) {
   return currentBlock + EPOCH_INTERVAL - (currentBlock % EPOCH_INTERVAL);
 }
 
-export function secondsUntilBlock(startBlock: number, endBlock: number) {
+export function secondsUntilBlock(startBlock: number, endBlock: number): number {
   const blocksAway = endBlock - startBlock;
   const secondsAway = blocksAway * BLOCK_RATE_SECONDS;
 
@@ -170,7 +181,7 @@ export function getTokenImage(name: string) {
 }
 
 // TS-REFACTOR-NOTE - Used for:
-// AccountSlice.ts, AppSlice.ts, LusdSlice.ts
+// AccountSlice.ts, AppSlice.ts
 export function setAll(state: any, properties: any) {
   if (properties) {
     const props = Object.keys(properties);
@@ -184,7 +195,7 @@ export function contractForRedeemHelper({
   networkID,
   provider,
 }: {
-  networkID: number;
+  networkID: NetworkId;
   provider: StaticJsonRpcProvider | JsonRpcSigner;
 }) {
   return new ethers.Contract(

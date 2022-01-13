@@ -22,6 +22,7 @@ query {
     treasuryWETHMarketValue
     treasuryLusdRiskFreeValue
     treasuryLusdMarketValue
+    treasuryOtherMarketValue
     currentAPY
     runway10k
     runway20k
@@ -164,7 +165,7 @@ export const bulletpoints = {
 
 export const tooltipItems = {
   tvl: ["Total Value Deposited"],
-  coin: ["DAI", "FRAX", "ETH", "SUSHI", "LUSD"],
+  coin: ["DAI", "FRAX", "ETH", "LUSD", "Other"],
   rfv: ["DAI", "FRAX", "LUSD"],
   holder: ["OHMies"],
   apy: ["APY"],

@@ -25,11 +25,10 @@ function a11yProps(index: number) {
 
 const Bond = ({ bond }: { bond: IAllBondData }) => {
   const history = useHistory();
-  const { provider, address } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
-  const [slippage, setSlippage] = useState<number>(0.5);
+  const [slippage, setSlippage] = useState<string>("0.5");
   const [recipientAddress, setRecipientAddress] = useState<string>(address);
 
   const [view, setView] = useState<number>(0);
@@ -42,7 +41,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   };
 
   const onSlippageChange = (e: InputEvent): void => {
-    return setSlippage(Number(e.target.value));
+    return setSlippage(e.target.value);
   };
 
   const onClickAway = (): void => {
@@ -128,7 +127,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
 };
 
 export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement => {
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { networkId } = useWeb3Context();
 
   if (typeof bond.bondPrice === undefined || !bond.getBondability(networkId)) {
     return <Fragment>--</Fragment>;
@@ -146,8 +145,8 @@ export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement
   );
 };
 
-export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactNode => {
-  const networkId = useAppSelector(state => state.network.networkId);
+export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactElement => {
+  const { networkId } = useWeb3Context();
 
   if (typeof bond.bondDiscount === undefined || !bond.getBondability(networkId)) {
     return <Fragment>--</Fragment>;

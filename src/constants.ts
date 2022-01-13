@@ -3,6 +3,21 @@ import { EnvHelper } from "./helpers/Environment";
 import ethereum from "./assets/tokens/wETH.svg";
 import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
+import polygon from "./assets/tokens/matic.svg";
+import { ReactComponent as OhmImg } from "src/assets/tokens/token_OHM.svg";
+import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
+import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
+import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
+import { ReactComponent as OhmFraxImg } from "src/assets/tokens/OHM-FRAX.svg";
+import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
+import { ReactComponent as OhmEthImg } from "src/assets/tokens/OHM-WETH.svg";
+import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
+import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
+import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
+
+import { getTokenPrice } from "./helpers";
+import { ethers } from "ethers";
+import { IERC20__factory, UniswapV2Lp__factory } from "./typechain";
 
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-protocol-metrics";
 export const EPOCH_INTERVAL = 2200;
@@ -21,12 +36,29 @@ export const POOL_GRAPH_URLS: IPoolGraphURLS = {
   1: "https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-v3_4_3",
 };
 
+export enum NetworkId {
+  MAINNET = 1,
+  TESTNET_RINKEBY = 4,
+
+  ARBITRUM = 42161,
+  ARBITRUM_TESTNET = 421611,
+
+  AVALANCHE = 43114,
+  AVALANCHE_TESTNET = 43113,
+
+  POLYGON = 137,
+  POLYGON_TESTNET = 80001,
+
+  FANTOM = 250,
+  FANTOM_TESTNET = 4002,
+}
+
 interface IAddresses {
   [key: number]: { [key: string]: string };
 }
 
 export const addresses: IAddresses = {
-  4: {
+  [NetworkId.TESTNET_RINKEBY]: {
     DAI_ADDRESS: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // duplicate
     OHM_ADDRESS: "0xC0b491daBf3709Ee5Eb79E603D73289Ca6060932",
     STAKING_ADDRESS: "0xC5d3318C0d74a72cD7C55bdf844e24516796BaB2",
@@ -53,8 +85,10 @@ export const addresses: IAddresses = {
     TREASURY_V2: "0x8dd0d811CEFb5CF41528C495E76638B2Ea39d2e6",
     SOHM_V2: "0xebED323CEbe4FfF65F7D7612Ea04313F718E5A75",
     STAKING_V2: "0x06984c3A9EB8e3A8df02A4C09770D5886185792D",
+    BOND_DEPOSITORY: "0x9810C5c97C57Ef3F23d9ee06813eF7FD51E13042",
+    DAO_TREASURY: "0xee1520f94f304e8d551cbf310fe214212e3ca34a",
   },
-  1: {
+  [NetworkId.MAINNET]: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
     OHM_ADDRESS: "0x383518188c0c6d7730d91b2c03a03c837814a899",
     STAKING_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // The new staking contract
@@ -70,9 +104,6 @@ export const addresses: IAddresses = {
     BONDINGCALC_ADDRESS: "0xcaaa6a2d4b26067a391e7b7d65c16bb2d5fa571a",
     CIRCULATING_SUPPLY_ADDRESS: "0x0efff9199aa1ac3c3e34e957567c1be8bf295034",
     TREASURY_ADDRESS: "0x31f8cc382c9898b273eff4e0b7626a6987c846e8",
-    CRUCIBLE_OHM_LUSD: "0x2230ad29920D61A535759678191094b74271f373",
-    LQTY: "0x6dea81c8171d0ba574754ef6f8b412f2ed88c54d",
-    MIST: "0x88acdd2a6425c3faae4bc9650fd7e27e0bebb7ab",
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
     FUSE_6_SOHM: "0x59bd6774c22486d9f4fab2d448dce4f892a9ae25", // Tetranode's Locker
     FUSE_18_SOHM: "0x6eDa4b59BaC787933A4A21b65672539ceF6ec97b", // Olympus Pool Party
@@ -80,6 +111,7 @@ export const addresses: IAddresses = {
     PT_TOKEN_ADDRESS: "0x0E930b8610229D74Da0A174626138Deb732cE6e9", // 33T token address, taken from `ticket` function on PRIZE_STRATEGY_ADDRESS
     PT_PRIZE_POOL_ADDRESS: "0xEaB695A8F5a44f583003A8bC97d677880D528248", // NEW
     PT_PRIZE_STRATEGY_ADDRESS: "0xf3d253257167c935f8C62A02AEaeBB24c9c5012a", // NEW
+    ZAPPER_POOL_V1: "0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f",
     BONDINGCALC_V2: "0x7b1a5649145143F4faD8504712ca9c614c3dA2Ae",
     MIGRATOR_ADDRESS: "0x184f3FAd8618a6F458C16bae63F70C426fE784B3",
     GOHM_ADDRESS: "0x0ab87046fBb341D058F17CBC4c1133F25a20a52f",
@@ -89,8 +121,10 @@ export const addresses: IAddresses = {
     STAKING_V2: "0xB63cac384247597756545b500253ff8E607a8020",
     FIATDAO_WSOHM_ADDRESS: "0xe98ae8cD25CDC06562c29231Db339d17D02Fd486",
     GIVING_ADDRESS: "0x2604170762A1dD22BB4F96C963043Cd4FC358f18",
+    BOND_DEPOSITORY: "0x9025046c6fb25Fb39e720d97a8FD881ED69a1Ef6", // updated
+    DAO_TREASURY: "0xee1520f94f304e8d551cbf310fe214212e3ca34a",
   },
-  42161: {
+  [NetworkId.ARBITRUM]: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
     OHM_ADDRESS: "0x383518188c0c6d7730d91b2c03a03c837814a899",
     STAKING_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // The new staking contract
@@ -110,7 +144,7 @@ export const addresses: IAddresses = {
     GOHM_ADDRESS: "0x8D9bA570D6cb60C7e3e0F31343Efe75AB8E65FB1", // good
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
   }, // TODO: Replace with Arbitrum contract addresses when ready
-  421611: {
+  [NetworkId.ARBITRUM_TESTNET]: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
     OHM_ADDRESS: "0x383518188c0c6d7730d91b2c03a03c837814a899",
     STAKING_ADDRESS: "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a", // The new staking contract
@@ -126,10 +160,9 @@ export const addresses: IAddresses = {
     CIRCULATING_SUPPLY_ADDRESS: "0x0efff9199aa1ac3c3e34e957567c1be8bf295034",
     TREASURY_ADDRESS: "0x31f8cc382c9898b273eff4e0b7626a6987c846e8",
     // TODO (appleseed-lusd): swap this out
-    PICKLE_OHM_LUSD_ADDRESS: "0xc3d03e4f041fd4cd388c549ee2a29a9e5075882f",
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
   }, // TODO: Replace with Arbitrum Testnet contract addresses when ready
-  43113: {
+  [NetworkId.AVALANCHE_TESTNET]: {
     DAI_ADDRESS: "",
     OHM_ADDRESS: "",
     STAKING_ADDRESS: "", // The new staking contract
@@ -150,7 +183,7 @@ export const addresses: IAddresses = {
     // GOHM_ADDRESS: "",
     // MIGRATOR_ADDRESS: ""
   }, // TODO: Avalanche Testnet addresses
-  43114: {
+  [NetworkId.AVALANCHE]: {
     DAI_ADDRESS: "",
     OHM_ADDRESS: "",
     // STAKING_ADDRESS: "", // The new staking contract
@@ -171,6 +204,12 @@ export const addresses: IAddresses = {
     GOHM_ADDRESS: "0x321e7092a180bb43555132ec53aaa65a5bf84251",
     MIGRATOR_ADDRESS: "0xB10209BFbb37d38EC1B5F0c964e489564e223ea7",
   }, // TODO: Avalanche Mainnet addresses
+  [NetworkId.POLYGON]: {
+    GOHM_ADDRESS: "0xd8cA34fd379d9ca3C6Ee3b3905678320F5b45195",
+  },
+  [NetworkId.FANTOM]: {
+    GOHM_ADDRESS: "0x91fa20244fb509e8289ca630e5db3e9166233fdc",
+  },
 };
 
 /**
@@ -196,14 +235,14 @@ interface INetwork {
 
 // These networks will be available for users to select. Other networks may be functional
 // (e.g. testnets, or mainnets being prepared for launch) but need to be selected directly via the wallet.
-export const USER_SELECTABLE_NETWORKS = [1, 42161, 43114];
+export const USER_SELECTABLE_NETWORKS = [NetworkId.MAINNET, NetworkId.ARBITRUM, NetworkId.AVALANCHE];
 
 // Set this to the chain number of the most recently added network in order to enable the 'Now supporting X network'
 // message in the UI. Set to -1 if we don't want to display the message at the current time.
-export const NEWEST_NETWORK_ID = 43114;
+export const NEWEST_NETWORK_ID = NetworkId.AVALANCHE;
 
 export const NETWORKS: { [key: number]: INetwork } = {
-  1: {
+  [NetworkId.MAINNET]: {
     chainName: "Ethereum",
     chainId: 1,
     nativeCurrency: {
@@ -215,9 +254,9 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://etherscan.io/#/"],
     image: ethereum,
     imageAltText: "Ethereum Logo",
-    uri: () => NodeHelper.getMainnetURI(1),
+    uri: () => NodeHelper.getMainnetURI(NetworkId.MAINNET),
   },
-  4: {
+  [NetworkId.TESTNET_RINKEBY]: {
     chainName: "Rinkeby Testnet",
     chainId: 4,
     nativeCurrency: {
@@ -229,9 +268,9 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://rinkeby.etherscan.io/#/"],
     image: ethereum,
     imageAltText: "Ethereum Logo",
-    uri: () => NodeHelper.getMainnetURI(4),
+    uri: () => NodeHelper.getMainnetURI(NetworkId.TESTNET_RINKEBY),
   },
-  42161: {
+  [NetworkId.ARBITRUM]: {
     chainName: "Arbitrum",
     chainId: 42161,
     nativeCurrency: {
@@ -243,9 +282,9 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://explorer.arbitrum.io/#/"],
     image: arbitrum,
     imageAltText: "Arbitrum Logo",
-    uri: () => NodeHelper.getMainnetURI(42161),
+    uri: () => NodeHelper.getMainnetURI(NetworkId.ARBITRUM),
   },
-  421611: {
+  [NetworkId.ARBITRUM_TESTNET]: {
     chainName: "Arbitrum Testnet",
     chainId: 421611,
     nativeCurrency: {
@@ -259,7 +298,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     imageAltText: "Arbitrum Logo",
     uri: () => EnvHelper.alchemyArbitrumTestnetURI,
   },
-  43113: {
+  [NetworkId.AVALANCHE_TESTNET]: {
     chainName: "Avalanche Fuji Testnet",
     chainId: 43113,
     nativeCurrency: {
@@ -273,7 +312,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     imageAltText: "Avalanche Logo",
     uri: () => EnvHelper.alchemyAvalancheTestnetURI,
   },
-  43114: {
+  [NetworkId.AVALANCHE]: {
     chainName: "Avalanche",
     chainId: 43114,
     nativeCurrency: {
@@ -285,7 +324,35 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://cchain.explorer.avax.network/"],
     image: avalanche,
     imageAltText: "Avalanche Logo",
-    uri: () => NodeHelper.getMainnetURI(43114),
+    uri: () => NodeHelper.getMainnetURI(NetworkId.AVALANCHE),
+  },
+  [NetworkId.POLYGON]: {
+    chainName: "Polygon",
+    chainId: 137,
+    nativeCurrency: {
+      name: "Polygon",
+      symbol: "MATIC",
+      decimals: 18,
+    },
+    rpcUrls: ["https://polygon-rpc.com"],
+    blockExplorerUrls: ["https://polygonscan.com/"],
+    image: polygon,
+    imageAltText: "Polygon Logo",
+    uri: () => NodeHelper.getMainnetURI(NetworkId.POLYGON),
+  },
+  [NetworkId.POLYGON_TESTNET]: {
+    chainName: "Polygon Mumbai Testnet",
+    chainId: 80001,
+    nativeCurrency: {
+      name: "Polygon",
+      symbol: "MATIC",
+      decimals: 18,
+    },
+    rpcUrls: ["https://polygon-rpc.com"],
+    blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+    image: polygon,
+    imageAltText: "Polygon Logo",
+    uri: () => "", // NodeHelper.getMainnetURI(NetworkId.POLYGON_TESTNET),
   },
 };
 
@@ -300,10 +367,11 @@ interface IViewsForNetwork {
   threeTogether: boolean;
   bonds: boolean;
   network: boolean;
+  bondsV2: boolean;
 }
 
 export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
-  1: {
+  [NetworkId.MAINNET]: {
     dashboard: true,
     stake: true,
     wrap: true,
@@ -311,8 +379,9 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: true,
     bonds: true,
     network: true,
+    bondsV2: true,
   },
-  4: {
+  [NetworkId.TESTNET_RINKEBY]: {
     dashboard: true,
     stake: true,
     wrap: true,
@@ -320,8 +389,9 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: true,
     bonds: true,
     network: true,
+    bondsV2: true,
   },
-  42161: {
+  [NetworkId.ARBITRUM]: {
     dashboard: true,
     stake: false,
     wrap: true,
@@ -329,8 +399,9 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: false,
     bonds: false,
     network: true,
+    bondsV2: false,
   },
-  421611: {
+  [NetworkId.ARBITRUM_TESTNET]: {
     dashboard: true,
     stake: false,
     wrap: true,
@@ -338,8 +409,9 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: false,
     bonds: false,
     network: true,
+    bondsV2: false,
   },
-  43114: {
+  [NetworkId.AVALANCHE]: {
     dashboard: true,
     stake: false,
     wrap: true,
@@ -347,8 +419,9 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: false,
     bonds: false,
     network: true,
+    bondsV2: false,
   },
-  43113: {
+  [NetworkId.AVALANCHE_TESTNET]: {
     dashboard: true,
     stake: false,
     wrap: true,
@@ -356,5 +429,140 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: false,
     bonds: false,
     network: true,
+    bondsV2: false,
+  },
+};
+
+// VIEWS FOR NETWORK is used to denote which paths should be viewable on each network
+// ... attempting to prevent contract calls that can't complete & prevent user's from getting
+// ... stuck on the wrong view
+export interface V2BondDetails {
+  name: string;
+  bondIconSvg: SVGImageElement;
+  pricingFunction(provider: ethers.providers.JsonRpcProvider, quoteToken: string): Promise<number>;
+  isLP: boolean;
+  lpUrl: { [key: number]: string };
+}
+
+const DaiDetails: V2BondDetails = {
+  name: "DAI",
+  bondIconSvg: DaiImg,
+  pricingFunction: async () => {
+    return getTokenPrice("dai");
+  },
+  isLP: false,
+  lpUrl: {},
+};
+
+const FraxDetails: V2BondDetails = {
+  name: "FRAX",
+  bondIconSvg: FraxImg,
+  pricingFunction: async () => {
+    return 1.0;
+  },
+  isLP: false,
+  lpUrl: {},
+};
+
+const EthDetails: V2BondDetails = {
+  name: "ETH",
+  bondIconSvg: wETHImg,
+  pricingFunction: async () => {
+    return getTokenPrice("ethereum");
+  },
+  isLP: false,
+  lpUrl: {},
+};
+
+const CvxDetails: V2BondDetails = {
+  name: "CVX",
+  bondIconSvg: CvxImg,
+  pricingFunction: async () => {
+    return getTokenPrice("convex-finance");
+  },
+  isLP: false,
+  lpUrl: {},
+};
+
+const OhmDaiDetails: V2BondDetails = {
+  name: "OHM-DAI LP",
+  bondIconSvg: OhmDaiImg,
+  async pricingFunction(provider, quoteToken) {
+    return pricingFunctionHelper(provider, quoteToken, "olympus", "dai");
+  },
+  isLP: true,
+  lpUrl: {
+    [NetworkId.TESTNET_RINKEBY]:
+      "https://app.sushi.com/add/0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C/0x1e630a578967968eb02EF182a50931307efDa7CF",
+  },
+};
+
+const OhmEthDetails: V2BondDetails = {
+  name: "OHM-ETH LP",
+  bondIconSvg: OhmEthImg,
+  async pricingFunction(provider, quoteToken) {
+    return pricingFunctionHelper(provider, quoteToken, "olympus", "ethereum");
+  },
+  isLP: true,
+  lpUrl: {
+    [NetworkId.MAINNET]:
+      "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+  },
+};
+
+const pricingFunctionHelper = async (
+  provider: ethers.providers.JsonRpcProvider,
+  quoteToken: string,
+  firstToken: string,
+  secondToken: string,
+) => {
+  const baseContract = UniswapV2Lp__factory.connect(quoteToken, provider);
+  const reserves = await baseContract.getReserves();
+  const totalSupply = +(await baseContract.totalSupply()) / Math.pow(10, await baseContract.decimals());
+
+  const token0Contract = IERC20__factory.connect(await baseContract.token0(), provider);
+  const token0Decimals = await token0Contract.decimals();
+  const token0Amount = +reserves._reserve0 / Math.pow(10, token0Decimals);
+  const token0TotalValue = (await getTokenPrice(firstToken)) * token0Amount;
+
+  const token1Contract = IERC20__factory.connect(await baseContract.token1(), provider);
+  const token1Decimals = await token1Contract.decimals();
+  const token1Amount = +reserves._reserve1 / Math.pow(10, token1Decimals);
+  const token1TotalValue = (await getTokenPrice(secondToken)) * token1Amount;
+
+  const totalValue = token0TotalValue + token1TotalValue;
+  const valuePerLpToken = totalValue / totalSupply;
+
+  return valuePerLpToken;
+};
+
+export const UnknownDetails: V2BondDetails = {
+  name: "unknown",
+  bondIconSvg: OhmImg,
+  pricingFunction: async () => {
+    return 1;
+  },
+  isLP: false,
+  lpUrl: "",
+};
+
+/**
+ * DOWNCASE ALL THE ADDRESSES!!! for comparison purposes
+ */
+export const v2BondDetails: { [key: number]: { [key: string]: V2BondDetails } } = {
+  [NetworkId.TESTNET_RINKEBY]: {
+    ["0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c"]: DaiDetails,
+    ["0x5ed8bd53b0c3fa3deabd345430b1a3a6a4e8bd7c"]: DaiDetails,
+    ["0x2f7249cb599139e560f0c81c269ab9b04799e453"]: FraxDetails,
+    ["0xc778417e063141139fce010982780140aa0cd5ab"]: EthDetails,
+    // ["0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c"]: CvxDetails, // we do not have CVX rinkeby in previous bonds
+    ["0x80edbf2f58c7b130df962bb485c28188f6b5ed29"]: OhmDaiDetails,
+  },
+  [NetworkId.MAINNET]: {
+    ["0x6b175474e89094c44da98b954eedeac495271d0f"]: DaiDetails,
+    ["0x853d955acef822db058eb8505911ed77f175b99e"]: FraxDetails,
+    ["0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"]: EthDetails,
+    ["0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b"]: CvxDetails,
+    ["0x69b81152c5a8d35a67b32a4d3772795d96cae4da"]: OhmEthDetails,
   },
 };

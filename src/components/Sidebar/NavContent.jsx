@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import Social from "./Social";
 import externalUrls from "./externalUrls";
@@ -15,10 +15,12 @@ import { ReactComponent as BridgeIcon } from "../../assets/icons/bridge.svg";
 import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
 import { ReactComponent as ProIcon } from "../../assets/Olympus Logo.svg";
 import { Trans } from "@lingui/macro";
-import { trim, shorten } from "../../helpers";
-import { useAddress } from "src/hooks/web3Context";
+import { trim } from "../../helpers";
+import { useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
-import useENS from "../../hooks/useENS";
+import { EnvHelper } from "src/helpers/Environment";
+import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
+import { NetworkId } from "src/constants";
 import {
   Paper,
   Link,
@@ -30,20 +32,33 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@material-ui/core";
+import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
+
 import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
-import { useSelector } from "react-redux";
-import { EnvHelper } from "src/helpers/Environment";
+import { useSelector, useDispatch } from "react-redux";
 import { ExpandMore } from "@material-ui/icons";
+import { useAppSelector } from "src/hooks";
+import { AppDispatch } from "src/store";
 
-function NavContent() {
+function NavContent({ handleDrawerToggle }) {
   const [isActive] = useState();
-  const address = useAddress();
-  const networkId = useSelector(state => state.network.networkId);
+  const { networkId, address, provider } = useWeb3Context();
   const { bonds } = useBonds(networkId);
-  const { ensName, ensAvatar } = useENS(address);
   const location = useLocation();
+  const dispatch = useDispatch();
 
+  const bondsV2 = useAppSelector(state => {
+    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
+  });
+
+  useEffect(() => {
+    const interval = setTimeout(() => {
+      dispatch(getAllBonds({ address, networkID: networkId, provider }));
+      dispatch(getUserNotes({ address, networkID: networkId, provider }));
+    }, 60000);
+    return () => clearTimeout(interval);
+  });
   const checkPage = useCallback((match, location, page) => {
     const currentPath = location.pathname.replace("/", "");
     if (currentPath.indexOf("dashboard") >= 0 && page === "dashboard") {
@@ -67,6 +82,9 @@ function NavContent() {
     if (currentPath.indexOf("giveredeem") >= 0 && page == "give/redeem") {
       return true;
     }
+    if ((currentPath.indexOf("bonds-v1") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds-v1") {
+      return true;
+    }
     if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
       return true;
     }
@@ -78,6 +96,14 @@ function NavContent() {
     }
     return false;
   }, []);
+
+  const sortedBonds = bondsV2
+    .filter(bond => bond.soldOut === false)
+    .sort((a, b) => {
+      return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
+    });
+
+  bonds.sort((a, b) => b.bondDiscount - a.bondDiscount);
 
   return (
     <Paper className="dapp-sidebar">
@@ -93,19 +119,12 @@ function NavContent() {
               />
             </Link>
 
-            {address && (
-              <div className="wallet-link">
-                {ensAvatar && <img className="avatar" src={ensAvatar} alt={address} />}
-                <Link href={`https://etherscan.io/address/${address}`} target="_blank">
-                  {ensName || shorten(address)}
-                </Link>
-              </div>
-            )}
+            <WalletAddressEns />
           </Box>
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              {networkId === 1 || networkId === 4 ? (
+              {networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY ? (
                 <>
                   <Link
                     component={NavLink}
@@ -115,6 +134,7 @@ function NavContent() {
                       return checkPage(match, location, "dashboard");
                     }}
                     className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                    onClick={handleDrawerToggle}
                   >
                     <Typography variant="h6">
                       <SvgIcon color="primary" component={DashboardIcon} />
@@ -130,6 +150,7 @@ function NavContent() {
                       return checkPage(match, location, "bonds");
                     }}
                     className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                    onClick={handleDrawerToggle}
                   >
                     <Typography variant="h6">
                       <SvgIcon color="primary" component={BondIcon} />
@@ -150,21 +171,48 @@ function NavContent() {
                           }
                         >
                           <Typography variant="body2">
-                            <Trans>Bond discounts</Trans>
+                            <Trans>Highest ROI</Trans>
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
+                          {sortedBonds.map((bond, i) => {
+                            return (
+                              <Link
+                                component={NavLink}
+                                to={`/bonds/${bond.index}`}
+                                key={i}
+                                className={"bond"}
+                                onClick={handleDrawerToggle}
+                              >
+                                <Typography variant="body2">
+                                  {bond.displayName}
+                                  <span className="bond-pair-roi">
+                                    {`${bond.discount && trim(bond.discount * 100, 2)}%`}
+                                  </span>
+                                </Typography>
+                              </Link>
+                            );
+                          })}
+                          {sortedBonds.length > 0 && (
+                            <Box className="menu-divider">
+                              <Divider />
+                            </Box>
+                          )}
                           {bonds.map((bond, i) => {
-                            // NOTE (appleseed): temporary for ONHOLD MIGRATION
-                            // if (bond.getBondability(networkId)) {
                             if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
                               return (
-                                <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
+                                <Link
+                                  component={NavLink}
+                                  to={`/bonds-v1/${bond.name}`}
+                                  key={i}
+                                  className={"bond"}
+                                  onClick={handleDrawerToggle}
+                                >
                                   {!bond.bondDiscount ? (
                                     <Skeleton variant="text" width={"150px"} />
                                   ) : (
                                     <Typography variant="body2">
-                                      {bond.displayName}
+                                      {`${bond.displayName} (v1)`}
 
                                       <span className="bond-pair-roi">
                                         {bond.isLOLable[networkId]
@@ -173,8 +221,8 @@ function NavContent() {
                                           ? "Sold Out"
                                           : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
                                         {/* {!bond.isBondable[networkId]
-                                          ? "Sold Out"
-                                          : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`} */}
+                                              ? "Sold Out"
+                                              : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`} */}
                                       </span>
                                     </Typography>
                                   )}
@@ -195,6 +243,7 @@ function NavContent() {
                       return checkPage(match, location, "stake");
                     }}
                     className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                    onClick={handleDrawerToggle}
                   >
                     <Typography variant="h6">
                       <SvgIcon color="primary" component={StakeIcon} />
@@ -202,7 +251,8 @@ function NavContent() {
                     </Typography>
                   </Link>
 
-                  <Link
+                  {/* NOTE (appleseed-olyzaps): OlyZaps disabled until v2 contracts */}
+                  {/* <Link
                     component={NavLink}
                     id="zap-nav"
                     to="/zap"
@@ -210,13 +260,13 @@ function NavContent() {
                       return checkPage(match, location, "zap");
                     }}
                     className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                    onClick={handleDrawerToggle}
                   >
                     <Box display="flex" alignItems="center">
                       <SvgIcon component={ZapIcon} color="primary" />
                       <Typography variant="h6">OlyZaps</Typography>
-                      {/* <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
                     </Box>
-                  </Link>
+                  </Link> */}
 
                   {EnvHelper.isGiveEnabled(location.search) ? (
                     <>
@@ -228,6 +278,7 @@ function NavContent() {
                           return checkPage(match, location, "give");
                         }}
                         className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                        onClick={handleDrawerToggle}
                       >
                         <Typography variant="h6">
                           <SvgIcon color="primary" component={GiveIcon} />
@@ -248,6 +299,7 @@ function NavContent() {
                       return checkPage(match, location, "wrap");
                     }}
                     className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                    onClick={handleDrawerToggle}
                   >
                     <Box display="flex" alignItems="center">
                       <SvgIcon component={WrapIcon} color="primary" viewBox="1 0 20 22" />
@@ -261,6 +313,7 @@ function NavContent() {
                     href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}
                     target="_blank"
                     className="external-site-link"
+                    onClick={handleDrawerToggle}
                   >
                     <Typography variant="h6">
                       <BridgeIcon />
@@ -277,7 +330,12 @@ function NavContent() {
                     <Divider />
                   </Box>
 
-                  <Link href="https://pro.olympusdao.finance/" target="_blank" className="external-site-link">
+                  <Link
+                    href="https://pro.olympusdao.finance/"
+                    target="_blank"
+                    className="external-site-link"
+                    onClick={handleDrawerToggle}
+                  >
                     <Box display="flex" alignItems="center">
                       <SvgIcon component={ProIcon} color="primary" color="primary" viewBox="0 0 50 50" />
                       <Typography variant="h6">Olympus Pro</Typography>
@@ -313,6 +371,7 @@ function NavContent() {
                       return checkPage(match, location, "wrap");
                     }}
                     className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                    onClick={handleDrawerToggle}
                   >
                     <Box display="flex" alignItems="center">
                       <SvgIcon component={WrapIcon} color="primary" viewBox="1 0 20 22" />
@@ -325,6 +384,7 @@ function NavContent() {
                   <Link
                     href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}
                     target="_blank"
+                    onClick={handleDrawerToggle}
                   >
                     <Typography variant="h6">
                       <BridgeIcon />
@@ -341,7 +401,13 @@ function NavContent() {
           <div className="dapp-menu-external-links">
             {Object.keys(externalUrls).map((link, i) => {
               return (
-                <Link key={i} href={`${externalUrls[link].url}`} target="_blank" className="external-site-link">
+                <Link
+                  key={i}
+                  href={`${externalUrls[link].url}`}
+                  target="_blank"
+                  className="external-site-link"
+                  onClick={handleDrawerToggle}
+                >
                   <Typography variant="h6">{externalUrls[link].icon}</Typography>
                   <Typography variant="h6">{externalUrls[link].title}</Typography>
                   <SvgIcon component={ArrowUpIcon} className="external-site-link-icon" />

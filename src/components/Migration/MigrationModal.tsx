@@ -13,6 +13,8 @@ import {
   TableBody,
   Typography,
   Paper,
+  Tab,
+  Tabs,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
@@ -23,14 +25,15 @@ import { useDispatch } from "react-redux";
 import { BigNumber } from "ethers";
 import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
 import { useWeb3Context } from "src/hooks";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { info } from "src/slices/MessagesSlice";
-import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import { InfoTooltip } from "@olympusdao/component-library";
 import "./migration-modal.scss";
 import { useAppSelector } from "src/hooks";
 import { trim } from "src/helpers";
 import { t, Trans } from "@lingui/macro";
+import { NetworkId } from "src/constants";
 const formatCurrency = (c: number) => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -63,9 +66,12 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const dispatch = useDispatch();
   const classes = useStyles();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
-  const { provider, address, connect } = useWeb3Context();
+  const { provider, address, networkId } = useWeb3Context();
 
-  const networkId = useAppSelector(state => state.network.networkId);
+  const [view, setView] = useState(0);
+  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+    setView(newView);
+  };
 
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
@@ -98,14 +104,18 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
     );
   };
 
-  const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: networkId }));
-  const currentIndex = useAppSelector(state => Number(state.app.currentIndexV1!));
+  const indexV1 = useAppSelector(state => Number(state.app.currentIndexV1!));
+  const currentIndex = useAppSelector(state => Number(state.app.currentIndex));
 
   const currentOhmBalance = useAppSelector(state => Number(state.account.balances.ohmV1));
   const currentSOhmBalance = useAppSelector(state => Number(state.account.balances.sohmV1));
   const currentWSOhmBalance = useAppSelector(state => Number(state.account.balances.wsohm));
   const wsOhmPrice = useAppSelector(state => state.app.marketPrice! * Number(state.app.currentIndex!));
+  const gOHMPrice = wsOhmPrice;
 
+  /**
+   * V2!!! market price
+   */
   const marketPrice = useAppSelector(state => {
     return state.app.marketPrice;
   });
@@ -117,43 +127,51 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const wsOhmFullApproval = approvedWSOhmBalance >= currentWSOhmBalance;
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
-  const ohmInUSD = formatCurrency(marketPrice! * currentOhmBalance);
-  const sOhmInUSD = formatCurrency(marketPrice! * currentSOhmBalance);
+  const ohmAsgOHM = currentOhmBalance / currentIndex;
+  const sOHMAsgOHM = currentSOhmBalance / indexV1;
+
+  const ohmInUSD = formatCurrency(gOHMPrice! * ohmAsgOHM);
+  const sOhmInUSD = formatCurrency(gOHMPrice! * sOHMAsgOHM);
   const wsOhmInUSD = formatCurrency(wsOhmPrice * currentWSOhmBalance);
 
   useEffect(() => {
     if (
       networkId &&
-      (networkId === 1 || networkId === 4) &&
+      (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) &&
       isAllApproved &&
       (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)
     ) {
       dispatch(info("All approvals complete. You may now migrate."));
     }
   }, [isAllApproved]);
+  const isGOHM = view === 1;
+  const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM (v2)"), [view]);
+  const targetMultiplier = useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
+
+  const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: networkId, gOHM: isGOHM }));
 
   rows = [
     {
       initialAsset: "OHM",
       initialBalance: currentOhmBalance,
-      targetAsset: "gOHM",
-      targetBalance: currentOhmBalance / currentIndex,
+      targetAsset: targetAsset,
+      targetBalance: ohmAsgOHM * targetMultiplier,
       fullApproval: ohmFullApproval,
       usdBalance: ohmInUSD,
     },
     {
       initialAsset: "sOHM",
       initialBalance: currentSOhmBalance,
-      targetAsset: "gOHM",
-      targetBalance: currentSOhmBalance / currentIndex,
+      targetAsset: targetAsset,
+      targetBalance: sOHMAsgOHM * targetMultiplier,
       fullApproval: sOhmFullApproval,
       usdBalance: sOhmInUSD,
     },
     {
       initialAsset: "wsOHM",
       initialBalance: currentWSOhmBalance,
-      targetAsset: "gOHM",
-      targetBalance: currentWSOhmBalance,
+      targetAsset: targetAsset,
+      targetBalance: currentWSOhmBalance * targetMultiplier,
       fullApproval: wsOhmFullApproval,
       usdBalance: wsOhmInUSD,
     },
@@ -191,12 +209,17 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                 </Box>
                 <Box />
               </Box>
+
               {isMigrationComplete || !oldAssetsDetected ? null : (
-                <Box paddingTop={4}>
-                  <Typography id="migration-modal-description" variant="body2">
+                <Box paddingTop={isMobileScreen ? 2 : 4} paddingBottom={isMobileScreen ? 2 : 0}>
+                  <Typography
+                    id="migration-modal-description"
+                    variant="body2"
+                    className={isMobileScreen ? `mobile` : ``}
+                  >
                     {isAllApproved
-                      ? t`Click on the Migrate button to complete the upgrade to v2. `
-                      : `Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability. `}
+                      ? t`Click on the Migrate button to complete the upgrade to v2.`
+                      : t`Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability.`}{" "}
                     <a
                       href="https://docs.olympusdao.finance/main/basics/migration"
                       target="_blank"
@@ -211,7 +234,24 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                   </Typography>
                 </Box>
               )}
+              <Box display="flex" justifyContent="center" marginTop={1}>
+                <Typography variant="h5" color="textSecondary">
+                  <Trans>Migration Output</Trans>
+                </Typography>
+              </Box>
 
+              <Tabs
+                centered
+                value={view}
+                textColor="primary"
+                indicatorColor="primary"
+                onChange={changeView}
+                aria-label="payout token tabs"
+                className="payout-token-tabs"
+              >
+                <Tab label={`sOHM`} className="payout-token-tab" />
+                <Tab label={`gOHM`} className="payout-token-tab" />
+              </Tabs>
               {isMobileScreen ? (
                 <Box id="mobile-container-migration">
                   {rows
@@ -262,30 +302,39 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
               ) : (
                 <Table>
                   <TableHead>
-                    <TableRow>
+                    <TableRow style={{ verticalAlign: "top" }}>
                       <TableCell align="center">
                         <Typography>Asset</Typography>
                       </TableCell>
-                      <TableCell align="center">
-                        <Box display="inline-flex">
-                          <Typography>
-                            <Trans>Pre-migration</Trans>
-                          </Typography>
-                          <InfoTooltip
-                            message={t`This is the current balance of v1 assets in your wallet.`}
-                            children={undefined}
-                          ></InfoTooltip>
+                      <TableCell align="left">
+                        <Box display="flex">
+                          <Box display="inline-flex">
+                            <Typography>
+                              <Trans>Pre-migration</Trans>
+                            </Typography>
+                            <InfoTooltip
+                              message={t`This is the current balance of v1 assets in your wallet.`}
+                              children={undefined}
+                            ></InfoTooltip>
+                          </Box>
                         </Box>
                       </TableCell>
-                      <TableCell align="center">
+                      <TableCell align="left">
+                        <Box display="flex" flexDirection="column">
+                          <Box display="inline-flex">
+                            <Typography>
+                              <Trans>Post-migration</Trans>
+                            </Typography>
+                            <InfoTooltip
+                              message={t`This is the equivalent amount of gOHM you will have in your wallet once migration is complete.`}
+                              children={undefined}
+                            ></InfoTooltip>
+                          </Box>
+                        </Box>
                         <Box display="inline-flex">
-                          <Typography>
-                            <Trans>Post-migration</Trans>
+                          <Typography variant="body2">
+                            <Trans>(includes rebase rewards)</Trans>
                           </Typography>
-                          <InfoTooltip
-                            message={t`This is the equivalent amount of gOHM you will have in your wallet once migration is complete.`}
-                            children={undefined}
-                          ></InfoTooltip>
                         </Box>
                       </TableCell>
 
@@ -362,11 +411,25 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                     <Typography>
                       {isMigrationComplete || !oldAssetsDetected
                         ? "Close"
-                        : txnButtonText(pendingTransactions, "migrate_all", t`Migrate`)}
+                        : txnButtonText(
+                            pendingTransactions,
+                            "migrate_all",
+                            `${t`Migrate all to`} ${isGOHM ? "gOHM" : "sOHM"}`,
+                          )}
                     </Typography>
                   </Box>
                 </Button>
               </Box>
+              <div className="help-text">
+                <em>
+                  <Typography variant="body2" style={isMobileScreen ? { lineHeight: "1em" } : {}}>
+                    <Trans>
+                      Save on gas fees by migrating all your assets to the new gOHM or sOHM in one transaction. Each
+                      asset above must be approved before all can be migrated.
+                    </Trans>
+                  </Typography>
+                </em>
+              </div>
             </Paper>
           </Box>
         </Fade>
