@@ -47,9 +47,11 @@ function NavContent({ handleDrawerToggle }) {
     }, 60000);
     return () => clearTimeout(interval);
   });
-  const sortedBonds = bondsV2.sort((a, b) => {
-    return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
-  });
+  const sortedBonds = bondsV2
+    .filter(bond => bond.soldOut === false)
+    .sort((a, b) => {
+      return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
+    });
 
   bonds.sort((a, b) => b.bondDiscount - a.bondDiscount);
 
@@ -111,9 +113,11 @@ function NavContent({ handleDrawerToggle }) {
                               </Link>
                             );
                           })}
-                          <Box className="menu-divider">
-                            <Divider />
-                          </Box>
+                          {sortedBonds.length > 0 && (
+                            <Box className="menu-divider">
+                              <Divider />
+                            </Box>
+                          )}
                           {bonds.map((bond, i) => {
                             if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
                               return (
