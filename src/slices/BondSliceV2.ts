@@ -33,6 +33,7 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   isLP: boolean;
   lpUrl: string;
   marketPrice: number;
+  soldOut: boolean;
 }
 
 export interface IBondV2Balance {
@@ -143,7 +144,13 @@ export const purchaseBond = createAsyncThunk(
 
     let depositTx: ethers.ContractTransaction | undefined;
     try {
-      depositTx = await depositoryContract.deposit(bond.index, amount, maxPrice, address, address);
+      depositTx = await depositoryContract.deposit(
+        bond.index,
+        amount,
+        maxPrice,
+        address,
+        addresses[networkID].DAO_TREASURY,
+      );
       const text = `Purchase ${bond.displayName} Bond`;
       const pendingTxnType = `bond_${bond.displayName}`;
       if (depositTx) {
@@ -226,6 +233,9 @@ async function processBond(
     duration = prettifySeconds(seconds);
   }
 
+  let soldOut = false;
+  if (+bond.capacity / Math.pow(10, 9) < 1) soldOut = true;
+
   return {
     ...bond,
     ...metadata,
@@ -242,6 +252,7 @@ async function processBond(
     lpUrl: v2BondDetail.isLP ? v2BondDetail.lpUrl[networkID] : "",
     marketPrice: ohmPrice,
     quoteToken: bond.quoteToken.toLowerCase(),
+    soldOut: soldOut,
   };
 }
 

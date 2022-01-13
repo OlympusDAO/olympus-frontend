@@ -29,7 +29,7 @@ function AdvancedSettings({
           <IconButton onClick={handleClose}>
             <SvgIcon color="primary" component={XIcon} />
           </IconButton>
-          <Typography variant="h3">Hades</Typography>
+          <Typography variant="h3">Settings</Typography>
         </Box>
 
         <Box className="card-content">

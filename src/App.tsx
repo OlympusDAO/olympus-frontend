@@ -35,7 +35,7 @@ import {
   ChooseBondV2,
 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
-import TopBar from "./components/TopBar/TopBar.jsx";
+import TopBar from "./components/TopBar/TopBar";
 import CallToAction from "./components/CallToAction/CallToAction";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import Messages from "./components/Messages/Messages";
@@ -309,7 +309,6 @@ function App() {
         <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
           <Messages />
           <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
-
           <nav className={classes.drawer}>
             {isSmallerScreen ? (
               <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />

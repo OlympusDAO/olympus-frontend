@@ -2,6 +2,7 @@ import { ExternalPool } from "src/lib/ExternalPool";
 import { ReactComponent as avaxImage } from "src/assets/tokens/AVAX.svg";
 import { ReactComponent as gOhmImage } from "src/assets/tokens/token_wsOHM.svg";
 import { ReactComponent as wEthImage } from "src/assets/tokens/wETH.svg";
+import { ReactComponent as fantomImage } from "src/assets/tokens/fantom.svg";
 import { addresses, NetworkId } from "src/constants";
 import { NodeHelper } from "./NodeHelper";
 import { BigNumber, ethers } from "ethers";
@@ -53,8 +54,19 @@ export const sushi_poly_gohm_weth = new ExternalPool({
   networkID: NetworkId.POLYGON,
 });
 
+export const spirit_gohm_ftm = new ExternalPool({
+  poolName: "gOHM-FTM",
+  icons: [gOhmImage, fantomImage],
+  stakeOn: "Spirit (Fantom)",
+  pairGecko: "fantom",
+  href: "https://app.spiritswap.finance/#/boostedfarms",
+  address: "0xae9BBa22E87866e48ccAcFf0689AFaa41eB94995",
+  masterchef: "0xb3AfA9CB6c53d061bC2263cE15357A691D0D60d4",
+  networkID: NetworkId.FANTOM,
+});
+
 // export const allPools = [tj_gohm_wavax, pango_gohm_wavax, sushi_arb_gohm_weth, sushi_poly_gohm_weth];
-export const allPools = [tj_gohm_wavax, sushi_arb_gohm_weth, sushi_poly_gohm_weth];
+export const allPools = [tj_gohm_wavax, sushi_arb_gohm_weth, sushi_poly_gohm_weth, spirit_gohm_ftm];
 
 /**
  * iterate through a given wallet address for all ExternalPools

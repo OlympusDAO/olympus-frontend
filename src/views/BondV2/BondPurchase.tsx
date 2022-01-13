@@ -23,6 +23,7 @@ import { useAppSelector } from "src/hooks";
 import { changeApproval, getSingleBond, IBondV2, IBondV2Balance, purchaseBond } from "src/slices/BondSliceV2";
 import { BigNumber, ethers } from "ethers";
 import { AppDispatch } from "src/store";
+import { InfoTooltip } from "@olympusdao/component-library";
 
 function BondPurchase({
   bond,
@@ -82,14 +83,14 @@ function BondPurchase({
   }, [balance]);
 
   const setMax = () => {
-    let maxQ;
+    let maxQ: string;
     const maxPayout = (bond.priceToken * +bond.maxPayout) / Math.pow(10, 9);
     if (balanceNumber > maxPayout) {
-      maxQ = maxPayout * 0.999;
+      maxQ = (maxPayout * 0.999).toString();
     } else {
-      maxQ = balanceNumber;
+      maxQ = ethers.utils.formatUnits(balance.balance, bond.quoteDecimals);
     }
-    setQuantity(maxQ.toString());
+    setQuantity(maxQ);
   };
 
   useEffect(() => {
@@ -157,7 +158,17 @@ function BondPurchase({
                     />
                   </FormControl>
                 )}
-                {balance ? (
+                {bond.soldOut ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    id="bond-btn"
+                    className="transaction-button"
+                    disabled={true}
+                  >
+                    <Trans>Sold Out</Trans>
+                  </Button>
+                ) : balance ? (
                   hasAllowance() ? (
                     <Button
                       variant="contained"
@@ -202,9 +213,12 @@ function BondPurchase({
           </div>
 
           <div className={`data-row`}>
-            <Typography>
-              <Trans>You Will Get</Trans>
-            </Typography>
+            <Box display="flex" flexDirection="row">
+              <Typography>
+                <Trans>You Will Get</Trans>
+              </Typography>
+              <InfoTooltip message="Actual sOHM amount you receive will be higher at the end of the term due to rebase accrual."></InfoTooltip>
+            </Box>
             <Typography id="bond-value-id" className="price-data">
               {isBondLoading ? (
                 <Skeleton width="100px" />
@@ -253,8 +267,8 @@ function BondPurchase({
       <div className="help-text">
         <em>
           <Typography variant="body2">
-            Important: New bonds are auto-staked and no longer vest linearly. Simply claim as sOHM or gOHM at the end of
-            the term.
+            Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as
+            sOHM or gOHM at the end of the term.
           </Typography>
         </em>
       </div>
