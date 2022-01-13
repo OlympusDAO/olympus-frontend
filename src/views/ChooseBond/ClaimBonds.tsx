@@ -20,9 +20,11 @@ import {
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./choosebond.scss";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { IUserBondDetails } from "src/slices/AccountSlice";
+import { useAppSelector } from "src/hooks";
 
-function ClaimBonds({ activeBonds }) {
+function ClaimBonds({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
   const { bonds } = useBonds(networkId);
@@ -30,7 +32,7 @@ function ClaimBonds({ activeBonds }) {
   const [numberOfBonds, setNumberOfBonds] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
@@ -43,14 +45,6 @@ function ClaimBonds({ activeBonds }) {
     }
 
     return false;
-  };
-
-  const onRedeemAll = async ({ autostake }) => {
-    console.log("redeeming all bonds");
-
-    await dispatch(redeemAllBonds({ address, bonds, networkID: networkId, provider, autostake }));
-
-    console.log("redeem all complete");
   };
 
   useEffect(() => {
@@ -74,7 +68,7 @@ function ClaimBonds({ activeBonds }) {
 
 export default ClaimBonds;
 
-export function ClaimBondsSubComponent({ activeBonds }) {
+export function ClaimBondsSubComponent({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
   const { bonds } = useBonds(networkId);
@@ -82,7 +76,7 @@ export function ClaimBondsSubComponent({ activeBonds }) {
   const [numberOfBonds, setNumberOfBonds] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
@@ -95,14 +89,6 @@ export function ClaimBondsSubComponent({ activeBonds }) {
     }
 
     return false;
-  };
-
-  const onRedeemAll = async ({ autostake }) => {
-    console.log("redeeming all bonds");
-
-    await dispatch(redeemAllBonds({ address, bonds, networkID: networkId, provider, autostake }));
-
-    console.log("redeem all complete");
   };
 
   useEffect(() => {
@@ -142,42 +128,6 @@ export function ClaimBondsSubComponent({ activeBonds }) {
       )}
 
       {isSmallScreen && Object.entries(activeBonds).map((bond, i) => <ClaimBondCardData key={i} userBond={bond} />)}
-
-      {/* <Box display="flex" justifyContent="center" className={`global-claim-buttons ${isSmallScreen ? "small" : ""}`}>
-        {numberOfBonds > 1 && (
-          <>
-            <Button
-              variant="contained"
-              color="primary"
-              className="transaction-button"
-              fullWidth
-              disabled={pendingClaim()}
-              onClick={() => {
-                onRedeemAll({ autostake: false });
-              }}
-            >
-              {txnButtonTextGeneralPending(pendingTransactions, "redeem_all_bonds", t`Claim all`)}
-            </Button>
-          </>
-        )}
-        <Button
-          variant="contained"
-          color="primary"
-          id="claim-all-and-stake-btn"
-          className="transaction-button"
-          fullWidth
-          disabled={pendingClaim()}
-          onClick={() => {
-            onRedeemAll({ autostake: true });
-          }}
-        >
-          {txnButtonTextGeneralPending(
-            pendingTransactions,
-            "redeem_all_bonds_autostake",
-            numberOfBonds > 1 ? t`Claim all and Stake` : t`Claim and Stake`,
-          )}
-        </Button>
-      </Box> */}
     </Box>
   );
 }

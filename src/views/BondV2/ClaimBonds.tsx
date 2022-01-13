@@ -108,8 +108,8 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
               aria-label="payout token tabs"
               className="payout-token-tabs"
             >
-              <Tab label={t`sOHM`} {...a11yProps(0)} className="payout-token-tab" />
-              <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tab" />
+              <Tab label={`sOHM`} {...a11yProps(0)} className="payout-token-tab" />
+              <Tab label={`gOHM`} {...a11yProps(1)} className="payout-token-tab" />
             </Tabs>
           </Box>
 
