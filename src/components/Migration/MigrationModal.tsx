@@ -141,7 +141,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
       dispatch(info("All approvals complete. You may now migrate."));
     }
   }, [isAllApproved]);
-  const isGOHM = view === 1;
+  const isGOHM = view === 0;
   const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM (v2)"), [view]);
   const targetMultiplier = useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
 
@@ -237,38 +237,87 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
               .map(row => (
                 <Box style={{ margin: "20px 0px 20px 0px" }}>
                   <Typography
-                    id="m-asset-row"
-                    style={{ margin: "10px 0px 10px 0px", fontWeight: 700 }}
-                  >{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
-                  <Box display="flex" flexDirection="row" justifyContent="space-between">
-                    <Typography>
-                      {trim(row.initialBalance, 4)} {row.initialAsset}
-                    </Typography>
-                    <Typography>{`(${row.usdBalance})`}</Typography>
-                  </Box>
-                  <Box display="flex" justifyContent="center" style={{ margin: "10px 0px 10px 0px" }}>
-                    {isMigrationComplete || !oldAssetsDetected ? (
-                      <Typography align="center" className={classes.custom}>
-                        <Trans>Migrated</Trans>
-                      </Typography>
-                    ) : row.fullApproval ? (
-                      <Typography align="center" className={classes.custom}>
-                        <Trans>Approved</Trans>
-                      </Typography>
-                    ) : (
-                      <Button
-                        variant="outlined"
-                        onClick={() => onSeekApproval(row.initialAsset)}
-                        disabled={isPendingTxn(
-                          pendingTransactions,
-                          `approve_migration_${row.initialAsset.toLowerCase()}`,
-                        )}
-                      >
-                        <Typography>
-                          {txnButtonText(
-                            pendingTransactions,
-                            `approve_migration_${row.initialAsset.toLowerCase()}`,
-                            t`Approve`,
+                    id="migration-modal-description"
+                    variant="body2"
+                    className={isMobileScreen ? `mobile` : ``}
+                  >
+                    {isAllApproved
+                      ? t`Click on the Migrate button to complete the upgrade to v2.`
+                      : t`Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability.`}{" "}
+                    <a
+                      href="https://docs.olympusdao.finance/main/basics/migration"
+                      target="_blank"
+                      color="inherit"
+                      rel="noreferrer"
+                      className="docs-link"
+                    >
+                      <u>
+                        <Trans>Learn More</Trans>
+                      </u>
+                    </a>
+                  </Typography>
+                </Box>
+              )}
+              <Box display="flex" justifyContent="center" marginTop={1}>
+                <Typography variant="h5" color="textSecondary">
+                  <Trans>Migration Output</Trans>
+                </Typography>
+              </Box>
+
+              <Tabs
+                centered
+                value={view}
+                textColor="primary"
+                indicatorColor="primary"
+                onChange={changeView}
+                aria-label="payout token tabs"
+                className="payout-token-tabs"
+              >
+                <Tab label={`gOHM`} className="payout-token-tab" />
+                <Tab label={`sOHM`} className="payout-token-tab" />
+              </Tabs>
+              {isMobileScreen ? (
+                <Box id="mobile-container-migration">
+                  {rows
+                    .filter(asset => asset.initialBalance > 0)
+                    .map(row => (
+                      <Box style={{ margin: "20px 0px 20px 0px" }}>
+                        <Typography
+                          id="m-asset-row"
+                          style={{ margin: "10px 0px 10px 0px", fontWeight: 700 }}
+                        >{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
+                        <Box display="flex" flexDirection="row" justifyContent="space-between">
+                          <Typography>
+                            {trim(row.initialBalance, 4)} {row.initialAsset}
+                          </Typography>
+                          <Typography>{`(${row.usdBalance})`}</Typography>
+                        </Box>
+                        <Box display="flex" justifyContent="center" style={{ margin: "10px 0px 10px 0px" }}>
+                          {isMigrationComplete || !oldAssetsDetected ? (
+                            <Typography align="center" className={classes.custom}>
+                              <Trans>Migrated</Trans>
+                            </Typography>
+                          ) : row.fullApproval ? (
+                            <Typography align="center" className={classes.custom}>
+                              <Trans>Approved</Trans>
+                            </Typography>
+                          ) : (
+                            <Button
+                              variant="outlined"
+                              onClick={() => onSeekApproval(row.initialAsset)}
+                              disabled={isPendingTxn(
+                                pendingTransactions,
+                                `approve_migration_${row.initialAsset.toLowerCase()}`,
+                              )}
+                            >
+                              <Typography>
+                                {txnButtonText(
+                                  pendingTransactions,
+                                  `approve_migration_${row.initialAsset.toLowerCase()}`,
+                                  t`Approve`,
+                                )}
+                              </Typography>
+                            </Button>
                           )}
                         </Typography>
                       </Button>
