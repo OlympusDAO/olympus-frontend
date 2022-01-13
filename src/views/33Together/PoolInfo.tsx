@@ -1,26 +1,35 @@
 import { useState, useEffect } from "react";
 import { Box, Button, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
-import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import { Skeleton } from "@material-ui/lab";
+import { useWeb3Context, useAppSelector } from "src/hooks";
+import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
+import { poolTogetherUILinks } from "src/helpers/33Together";
 import { t, Trans } from "@lingui/macro";
-
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { useWeb3Context } from "../../hooks";
-import { poolTogetherUILinks } from "../../helpers/33Together";
 import { DataRow } from "@olympusdao/component-library";
 
-export const PoolInfo = props => {
+interface PoolInfoProps {
+  graphLoading: boolean;
+  isAccountLoading: boolean;
+  poolBalance?: string;
+  sohmBalance?: string;
+  yourTotalAwards?: string;
+  yourOdds?: string | number;
+  winners: string | number;
+  totalDeposits: number;
+  totalSponsorship: number;
+}
+
+export const PoolInfo = (props: PoolInfoProps) => {
   const [poolLoadedCount, setPoolLoadedCount] = useState(0);
   const { address, networkId } = useWeb3Context();
-  const isPoolLoading = useSelector(state => state.poolData.loading ?? true);
+  const isPoolLoading = useAppSelector(state => state.poolData.loading ?? true);
 
-  const creditMaturationInDays = useSelector(state => {
-    return state.poolData && parseFloat(state.poolData.creditMaturationInDays);
+  const creditMaturationInDays = useAppSelector(state => {
+    return state.poolData && state.poolData.creditMaturationInDays;
   });
 
-  const creditLimitPercentage = useSelector(state => {
-    return state.poolData && parseFloat(state.poolData.creditLimitPercentage);
+  const creditLimitPercentage = useAppSelector(state => {
+    return state.poolData && state.poolData.creditLimitPercentage;
   });
 
   // this useEffect is to prevent flashing `Early Exit Fee` & `Exit Fee Decay Time`...
@@ -70,7 +79,11 @@ export const PoolInfo = props => {
         )}
 
         <Box display="flex" flexDirection="column" className="pool-data">
-          <DataRow title={t`Winners / prize period`} balance={props.winners} isLoading={props.graphLoading} />
+          <DataRow
+            title={t`Winners / prize period`}
+            balance={props.winners.toString()}
+            isLoading={props.graphLoading}
+          />
           <DataRow
             title={t`Total Deposits`}
             balance={`${props.totalDeposits.toLocaleString()} sOHM`}
@@ -119,16 +132,4 @@ export const PoolInfo = props => {
       </Paper>
     </Zoom>
   );
-};
-
-PoolInfo.propTypes = {
-  graphLoading: PropTypes.bool.isRequired,
-  isAccountLoading: PropTypes.bool.isRequired,
-  poolBalance: PropTypes.string,
-  sohmBalance: PropTypes.string,
-  yourTotalAwards: PropTypes.string,
-  yourOdds: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  winners: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  totalDeposits: PropTypes.number,
-  totalSponsorship: PropTypes.number,
 };

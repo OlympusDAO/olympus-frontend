@@ -23,6 +23,7 @@ import { useAppSelector } from "src/hooks";
 import { changeApproval, getSingleBond, IBondV2, IBondV2Balance, purchaseBond } from "src/slices/BondSliceV2";
 import { BigNumber, ethers } from "ethers";
 import { AppDispatch } from "src/store";
+import { InfoTooltip } from "@olympusdao/component-library";
 
 function BondPurchase({
   bond,
@@ -78,13 +79,18 @@ function BondPurchase({
   };
 
   const hasAllowance = useCallback(() => {
-    return +balance.allowance > 0;
+    return +balance?.allowance > 0;
   }, [balance]);
 
   const setMax = () => {
-    let maxQ;
-    maxQ = balanceNumber;
-    setQuantity(maxQ.toString());
+    let maxQ: string;
+    const maxPayout = (bond.priceToken * +bond.maxPayout) / Math.pow(10, 9);
+    if (balanceNumber > maxPayout) {
+      maxQ = (maxPayout * 0.999).toString();
+    } else {
+      maxQ = ethers.utils.formatUnits(balance.balance, bond.quoteDecimals);
+    }
+    setQuantity(maxQ);
   };
 
   useEffect(() => {
@@ -152,28 +158,42 @@ function BondPurchase({
                     />
                   </FormControl>
                 )}
-                {hasAllowance() ? (
+                {bond.soldOut ? (
                   <Button
                     variant="contained"
                     color="primary"
                     id="bond-btn"
                     className="transaction-button"
-                    disabled={isPendingTxn(pendingTransactions, "bond_" + bond.displayName)}
-                    onClick={onBond}
+                    disabled={true}
                   >
-                    {txnButtonText(pendingTransactions, "bond_" + bond.displayName, "Bond")}
+                    <Trans>Sold Out</Trans>
                   </Button>
+                ) : balance ? (
+                  hasAllowance() ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      id="bond-btn"
+                      className="transaction-button"
+                      disabled={isPendingTxn(pendingTransactions, "bond_" + bond.displayName)}
+                      onClick={onBond}
+                    >
+                      {txnButtonText(pendingTransactions, "bond_" + bond.displayName, "Bond")}
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      id="bond-approve-btn"
+                      className="transaction-button"
+                      disabled={isPendingTxn(pendingTransactions, `approve_${bond.displayName}_bonding`)}
+                      onClick={onSeekApproval}
+                    >
+                      {txnButtonText(pendingTransactions, `approve_${bond.displayName}_bonding`, "Approve")}
+                    </Button>
+                  )
                 ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    id="bond-approve-btn"
-                    className="transaction-button"
-                    disabled={isPendingTxn(pendingTransactions, `approve_${bond.displayName}_bonding`)}
-                    onClick={onSeekApproval}
-                  >
-                    {txnButtonText(pendingTransactions, `approve_${bond.displayName}_bonding`, "Approve")}
-                  </Button>
+                  <Skeleton width="300px" height={40} />
                 )}
               </>
             )}{" "}
@@ -193,9 +213,12 @@ function BondPurchase({
           </div>
 
           <div className={`data-row`}>
-            <Typography>
-              <Trans>You Will Get</Trans>
-            </Typography>
+            <Box display="flex" flexDirection="row">
+              <Typography>
+                <Trans>You Will Get</Trans>
+              </Typography>
+              <InfoTooltip message="Actual sOHM amount you receive will be higher at the end of the term due to rebase accrual."></InfoTooltip>
+            </Box>
             <Typography id="bond-value-id" className="price-data">
               {isBondLoading ? (
                 <Skeleton width="100px" />
@@ -211,7 +234,7 @@ function BondPurchase({
               <Trans>Max You Can Buy</Trans>
             </Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(+bond.capacity, 1) || "0"} ` + `sOHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(+bond.maxPayout / 10 ** 9, 1) || "0"} ` + `sOHM`}
             </Typography>
           </div>
 
@@ -244,8 +267,8 @@ function BondPurchase({
       <div className="help-text">
         <em>
           <Typography variant="body2">
-            Important: New bonds are auto-staked and no longer vest linearly. Simply claim as sOHM or gOHM at the end of
-            the term.
+            Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as
+            sOHM or gOHM at the end of the term.
           </Typography>
         </em>
       </div>

@@ -97,7 +97,7 @@ function ChooseBondV2() {
         <Paper className="ohm-card">
           <Box className="card-header">
             <Typography variant="h5" data-testid="t">
-              <Trans>Bond</Trans> (1,1)
+              <Trans>Bond</Trans> (4,4)
             </Typography>
 
             <ButtonBase>
@@ -161,8 +161,8 @@ function ChooseBondV2() {
           <div className="help-text">
             <em>
               <Typography variant="body2">
-                Important: New bonds are auto-staked and no longer vest linearly. Simply claim as sOHM or gOHM at the
-                end of the term.
+                Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim
+                as sOHM or gOHM at the end of the term.
               </Typography>
             </em>
           </div>
