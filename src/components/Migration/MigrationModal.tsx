@@ -211,8 +211,12 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
               </Box>
 
               {isMigrationComplete || !oldAssetsDetected ? null : (
-                <Box paddingTop={4}>
-                  <Typography id="migration-modal-description" variant="body2">
+                <Box paddingTop={isMobileScreen ? 2 : 4} paddingBottom={isMobileScreen ? 2 : 0}>
+                  <Typography
+                    id="migration-modal-description"
+                    variant="body2"
+                    className={isMobileScreen ? `mobile` : ``}
+                  >
                     {isAllApproved
                       ? t`Click on the Migrate button to complete the upgrade to v2.`
                       : t`Olympus v2 introduces upgrades to on-chain governance and bonds to enhance decentralization and immutability.`}{" "}
@@ -418,7 +422,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
               </Box>
               <div className="help-text">
                 <em>
-                  <Typography variant="body2">
+                  <Typography variant="body2" style={isMobileScreen ? { lineHeight: "1em" } : {}}>
                     <Trans>
                       Save on gas fees by migrating all your assets to the new gOHM or sOHM in one transaction. Each
                       asset above must be approved before all can be migrated.
