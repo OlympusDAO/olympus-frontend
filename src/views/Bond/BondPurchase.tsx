@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
@@ -20,9 +20,18 @@ import useDebounce from "../../hooks/Debounce";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./Bond";
 import ConnectButton from "../../components/ConnectButton";
+import { IAllBondData } from "src/hooks/Bonds";
+import { useAppSelector } from "src/hooks";
+import { NetworkId } from "src/constants";
 import { DataRow } from "@olympusdao/component-library";
 
-function BondPurchase({ bond, slippage, recipientAddress }) {
+interface IBondPurchaseProps {
+  readonly bond: IAllBondData;
+  readonly slippage: string;
+  readonly recipientAddress: string;
+}
+
+function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) {
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
@@ -30,18 +39,19 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
 
-  const currentBlock = useSelector(state => {
-    return state.app.currentBlock;
+  const currentBlock = useAppSelector(state => {
+    return state.app.currentBlock || 0;
   });
 
-  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
+  const isBondLoading = useAppSelector(state => state.bonding.loading ?? true);
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
   const vestingPeriod = () => {
-    const vestingBlock = parseInt(currentBlock) + parseInt(bond.vestingTerm);
+    const vestingTerm = bond.vestingTerm ? bond.vestingTerm.toString() : "0";
+    const vestingBlock = parseInt(currentBlock.toString()) + parseInt(vestingTerm);
     const seconds = secondsUntilBlock(currentBlock, vestingBlock);
     return prettifySeconds(seconds, "day");
   };
@@ -49,9 +59,9 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   async function onBond() {
     if (quantity === "") {
       dispatch(error(t`Please enter a value!`));
-    } else if (isNaN(quantity)) {
+    } else if (isNaN(Number(quantity))) {
       dispatch(error(t`Please enter a valid value!`));
-    } else if (bond.interestDue > 0 || bond.pendingPayout > 0) {
+    } else if (bond.interestDue > 0 || Number(bond.pendingPayout) > 0) {
       const shouldProceed = window.confirm(
         t`You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?`,
       );
@@ -59,7 +69,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
         await dispatch(
           bondAsset({
             value: quantity,
-            slippage,
+            slippage: Number(slippage),
             bond,
             networkID: networkId,
             provider,
@@ -71,7 +81,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
       await dispatch(
         bondAsset({
           value: quantity,
-          slippage,
+          slippage: Number(slippage),
           bond,
           networkID: networkId,
           provider,
@@ -83,7 +93,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   }
 
   const clearInput = () => {
-    setQuantity(0);
+    setQuantity("0");
   };
 
   const hasAllowance = useCallback(() => {
@@ -94,11 +104,11 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
     let maxQ;
     if (bond.maxBondPrice * bond.bondPrice < Number(bond.balance)) {
       // there is precision loss here on Number(bond.balance)
-      maxQ = bond.maxBondPrice * bond.bondPrice.toString();
+      maxQ = bond.maxBondPrice * bond.bondPrice;
     } else {
       maxQ = bond.balance;
     }
-    setQuantity(maxQ);
+    setQuantity(maxQ.toString());
   };
 
   const bondDetailsDebounce = useDebounce(quantity, 1000);
@@ -108,9 +118,9 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
   }, [bondDetailsDebounce]);
 
   useEffect(() => {
-    let interval = null;
+    let interval: number = 0;
     if (secondsToRefresh > 0) {
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         setSecondsToRefresh(secondsToRefresh => secondsToRefresh - 1);
       }, 1000);
     } else {
@@ -174,7 +184,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                     />
                   </FormControl>
                 )}
-                {!bond.isBondable[networkId] ? (
+                {!bond.isBondable[networkId as NetworkId] ? (
                   <Button
                     variant="contained"
                     color="primary"
@@ -219,7 +229,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
         <Box className="bond-data">
           <DataRow
             title={t`Your Balance`}
-            balance={`${trim(bond.balance, 4)} ${displayUnits}`}
+            balance={`${trim(parseFloat(bond.balance), 4)} ${displayUnits}`}
             isLoading={isBondLoading}
           />
           <DataRow
@@ -232,11 +242,20 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
             balance={`${trim(bond.maxBondPrice, 4) || "0"} ` + `${bond.payoutToken}`}
             isLoading={isBondLoading}
           />
-          <DataRow
+          {/* DisplayBondDiscount is not an acceptable type */}
+          {/* <DataRow
             title={t`ROI`}
             balance={<DisplayBondDiscount key={bond.name} bond={bond} />}
             isLoading={isBondLoading}
-          />
+          /> */}
+          <div className="data-row">
+            <Typography>
+              <Trans>ROI</Trans>
+            </Typography>
+            <Typography>
+              {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
+            </Typography>
+          </div>
           <DataRow title={t`Debt Ratio`} balance={`${trim(bond.debtRatio / 10000000, 2)}%`} isLoading={isBondLoading} />
           <DataRow title={t`Vesting Term`} balance={vestingPeriod()} isLoading={isBondLoading} />
           {recipientAddress !== address && (

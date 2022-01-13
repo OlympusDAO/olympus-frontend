@@ -1,24 +1,37 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import BondLogo from "../../components/BondLogo";
-import AdvancedSettings from "./AdvancedSettings";
 import { Typography, IconButton, SvgIcon, Link } from "@material-ui/core";
-import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
+
+import BondLogo from "../../components/BondLogo";
 import useEscape from "../../hooks/useEscape";
+import AdvancedSettings from "./AdvancedSettings";
+import { BondOpts } from "../../lib/Bond";
+import { IBondDetails } from "../../slices/BondSlice";
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
+import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
 
-function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
-  const [open, setOpen] = useState(false);
+type InputEvent = ChangeEvent<HTMLInputElement>;
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+interface IBondHeaderProps {
+  bond: IBondDetails & BondOpts;
+  slippage: string;
+  recipientAddress: string;
+  onRecipientAddressChange(e: InputEvent): void;
+  onSlippageChange(e: InputEvent): void;
+}
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+function BondHeader({
+  bond,
+  slippage,
+  recipientAddress,
+  onRecipientAddressChange,
+  onSlippageChange,
+}: IBondHeaderProps) {
+  const history = useHistory();
+  const [open, setOpen] = useState<boolean>(false);
 
-  let history = useHistory();
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   useEscape(() => {
     if (open) handleClose;

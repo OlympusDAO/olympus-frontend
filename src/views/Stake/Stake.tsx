@@ -369,10 +369,10 @@ function Stake() {
                                   </>
                                 ) : (
                                   <>
-                                    <Trans>First time unstaking</Trans> <b>sOHM</b>?
+                                    <Trans>First time unstaking</Trans> <b>{confirmation ? "gOHM" : "sOHM"}</b>?
                                     <br />
-                                    <Trans>Please approve Olympus Dao to use your</Trans> <b>sOHM</b>{" "}
-                                    <Trans>for unstaking</Trans>.
+                                    <Trans>Please approve Olympus Dao to use your</Trans>{" "}
+                                    <b>{confirmation ? "gOHM" : "sOHM"}</b> <Trans>for unstaking</Trans>.
                                   </>
                                 )}
                               </Typography>
