@@ -21,6 +21,7 @@ import { ReactComponent as wsOhmTokenImg } from "src/assets/tokens/token_wsOHM.s
 import { ReactComponent as arrowDown } from "src/assets/icons/arrow-down.svg";
 import { formatCurrency } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
+import { useDispatch } from "react-redux";
 import useCurrentTheme from "src/hooks/useTheme";
 
 import { dai, frax } from "src/helpers/AllBonds";
@@ -29,6 +30,7 @@ import { IToken, Tokens, useWallet } from "./Token";
 import { Trans } from "@lingui/macro";
 import WalletAddressEns from "./WalletAddressEns";
 import { addresses } from "src/constants";
+import { getOhm } from "src/helpers/OhmFaucet";
 
 const Borrow = ({
   Icon1,
@@ -154,6 +156,24 @@ const WalletTotalValue = () => {
   );
 };
 
+const OhmFaucetButton = () => {
+  const theme = useTheme();
+  const dispatch = useDispatch();
+  const { address, provider, networkId } = useWeb3Context();
+
+  const runOhmFaucet = async () => {
+    dispatch(getOhm({ address, provider, networkID: networkId }));
+  };
+
+  return (
+    <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(1.5) }}>
+      <Button onClick={() => runOhmFaucet()} variant="outlined" size="large" color="secondary">
+        <Trans>OHM Faucet</Trans>
+      </Button>
+    </Box>
+  );
+};
+
 function InitialWalletView({ onClose }: { onClose: () => void }) {
   const theme = useTheme();
   const [currentTheme] = useCurrentTheme();
@@ -216,6 +236,7 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
               <Typography>Shadow's dashboard</Typography>
             </ExternalLink>
           </Box>
+          <OhmFaucetButton />
         </Box>
 
         <Box sx={{ marginTop: "auto", marginX: "auto", padding: theme.spacing(2) }}>
