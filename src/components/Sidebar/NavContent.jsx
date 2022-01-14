@@ -18,7 +18,6 @@ import { Trans } from "@lingui/macro";
 import { trim } from "../../helpers";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useBonds from "../../hooks/Bonds";
-import { EnvHelper } from "src/helpers/Environment";
 import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
 import { NetworkId } from "src/constants";
 import {
@@ -40,7 +39,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { ExpandMore } from "@material-ui/icons";
 import { useAppSelector } from "src/hooks";
 import { AppDispatch } from "src/store";
-import { OLYZAPS_FEATURE_FLAG, isFeatureEnabled } from "../../helpers/featureFlags";
+import { OLYZAPS_ENABLED, isFeatureEnabled, GIVE_ENABLED } from "../../helpers/featureFlags";
 
 function NavContent({ handleDrawerToggle }) {
   const [isActive] = useState();
@@ -251,7 +250,7 @@ function NavContent({ handleDrawerToggle }) {
                       <Trans>Stake</Trans>
                     </Typography>
                   </Link>
-                  { isFeatureEnabled(OLYZAPS_FEATURE_FLAG) && (
+                  {isFeatureEnabled(OLYZAPS_ENABLED) && (
                     <Link
                       component={NavLink}
                       id="zap-nav"
@@ -268,7 +267,7 @@ function NavContent({ handleDrawerToggle }) {
                       </Box>
                     </Link>
                   )}
-                  {EnvHelper.isGiveEnabled(location.search) ? (
+                  {isFeatureEnabled(GIVE_ENABLED) && (
                     <>
                       <Link
                         component={NavLink}
@@ -287,8 +286,6 @@ function NavContent({ handleDrawerToggle }) {
                         </Typography>
                       </Link>
                     </>
-                  ) : (
-                    <></>
                   )}
 
                   <Link
