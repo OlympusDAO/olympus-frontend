@@ -40,7 +40,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { ExpandMore } from "@material-ui/icons";
 import { useAppSelector } from "src/hooks";
 import { AppDispatch } from "src/store";
-import { OLYZAPS_FEATURE_FLAG } from "../../helpers/featureFlags";
+import { OLYZAPS_FEATURE_FLAG, isFeatureEnabled } from "../../helpers/featureFlags";
 
 function NavContent({ handleDrawerToggle }) {
   const [isActive] = useState();
