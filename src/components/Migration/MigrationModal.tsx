@@ -144,7 +144,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
       dispatch(info("All approvals complete. You may now migrate."));
     }
   }, [isAllApproved]);
-  const isGOHM = view === 1;
+  const isGOHM = view === 0;
   const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM (v2)"), [view]);
   const targetMultiplier = useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
 
@@ -249,8 +249,8 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                 aria-label="payout token tabs"
                 className="payout-token-tabs"
               >
-                <Tab label={`sOHM`} className="payout-token-tab" />
                 <Tab label={`gOHM`} className="payout-token-tab" />
+                <Tab label={`sOHM`} className="payout-token-tab" />
               </Tabs>
               {isMobileScreen ? (
                 <Box id="mobile-container-migration">

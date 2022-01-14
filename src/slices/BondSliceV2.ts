@@ -13,7 +13,7 @@ import {
 } from "./interfaces";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
 import { addresses, NetworkId, V2BondDetails, v2BondDetails, UnknownDetails } from "src/constants";
-import { getTokenIdByContract, getTokenPrice, prettifySeconds } from "src/helpers";
+import { prettifySeconds } from "src/helpers";
 import { findOrLoadMarketPrice } from "./AppSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { error, info } from "./MessagesSlice";
