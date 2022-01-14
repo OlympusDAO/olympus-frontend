@@ -229,50 +229,44 @@
 
   .donation-table {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    margin: 10px 0px;
 
-    .donation-row {
+    .MuiTableCell-root {
+      p {
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center;
+        // justify-content: flex-start;
+      }
+    }
+
+    .MuiTableHead-root {
+      max-width: 90%;
+    }
+
+    .MuiTableBody-root {
+      max-width: 90%;
+    }
+
+    .MuiTableRow-root {
       display: flex;
-      justify-content: flex-end;
-      width: 100%;
-
-      .donation-buttons {
-        display: flex;
-        justify-content: flex-end;
-
-        .donation-lp-button {
-          width: 25%;
-          margin-right: 1rem;
-        }
-      }
-
-      .recipient-divider {
-        width: 100%;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-      }
     }
 
-    .MuiTypography-h6 {
-      min-width: 33%;
-      margin-right: 2rem;
+    .MuiTableHead-root .MuiTableRow-head .MuiTableCell-alignLeft {
+      width: 20%;
+      margin-left: 5px !important;
     }
 
-    .MuiTypography-body1 {
-      min-width: 33%;
-      margin-top: 0.5rem;
-      margin-right: 2rem;
-      margin-bottom: 0rem;
-    }
-  }
-
-  .donation-table.smaller {
-    .donation-buttons {
-      justify-content: flex-start;
-      margin-top: 1rem;
-
-      .donation-lp-button {
-        width: 40%;
+    .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
+      display: flex;
+      align-items: center;
+      width: 20%;
+      margin-left: 5px !important;
+      text-align: left;
+      p {
+        margin-bottom: unset !important;
+        line-height: 140% !important;
       }
     }
   }
@@ -378,6 +372,21 @@
 
     .give-info-vault-box {
       margin-right: 0px;
+    }
+  }
+
+  .donation-table {
+    .MuiTableHead-root .MuiTableRow-head .MuiTableCell-alignLeft {
+      font-size: 12px;
+      width: 33%;
+    }
+
+    .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
+      width: 33%;
+
+      &.deposit-manage-cell {
+        width: 40%;
+      }
     }
   }
 }

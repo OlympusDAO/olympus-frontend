@@ -32,28 +32,8 @@ export default function DepositYield() {
   });
 
   return (
-    <Container
-      style={{
-        paddingLeft: isSmallScreen ? "0" : "3.3rem",
-        paddingRight: isSmallScreen ? "0" : "3.3rem",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <div id="give-view">
-        <div className="card-header">
-          <div className="give-yield-title">
-            <Typography variant="h5">
-              <Trans>My Donations</Trans>
-            </Typography>
-            <InfoTooltip
-              message={t`Direct yield from your deposited sOHM to other recipients. Your sOHM is deposited in a vault, but you can withdraw it or change the deposited amount at any time.`}
-              children={null}
-            />
-          </div>
-        </div>
-        <YieldRecipients />
-      </div>
-    </Container>
+    <div>
+      <YieldRecipients />
+    </div>
   );
 }
