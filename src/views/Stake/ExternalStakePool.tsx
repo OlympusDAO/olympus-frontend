@@ -1,14 +1,14 @@
 import { useEffect, useState, ElementType } from "react";
 import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
-import { Box, Button, Paper, SvgIcon, withStyles, Typography, Zoom, useTheme, makeStyles } from "@material-ui/core";
+import { Box, Paper, Typography, Zoom, useTheme, makeStyles } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
 import allPools, { fetchPoolData } from "src/helpers/AllExternalPools";
 import { ExternalPoolwBalance } from "src/lib/ExternalPool";
 import { Skeleton } from "@material-ui/lab";
+import { SecondaryButton, TokenStack } from "@olympusdao/component-library";
 
 export const useExternalPools = (address: string) => {
   const { isLoading, data } = useQuery(["externalPools", address], () => fetchPoolData(address), {
@@ -70,7 +70,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
   return (
     <Paper id={`${pool.poolName}--pool`} className="bond-data-card ohm-card">
       <div className={styles.poolPair}>
-        <MultiLogo icons={pool.icons} />
+        <TokenStack tokens={pool.icons} style={undefined} />
         <div className={styles.poolName}>
           <Typography>{pool.poolName}</Typography>
         </div>
@@ -101,26 +101,9 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
       )}
       {/* Pool Staking Linkouts */}
       <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
-        <Button
-          className={styles.stakeOnButton}
-          variant="outlined"
-          color="secondary"
-          target="_blank"
-          href={pool.href}
-          fullWidth
-        >
-          <Typography variant="body1">{`${t`Stake on`} ${pool.stakeOn}`}</Typography>
-          <SvgIcon
-            component={ArrowUp}
-            style={{
-              position: "absolute",
-              right: 5,
-              height: `20px`,
-              width: `20px`,
-              verticalAlign: "middle",
-            }}
-          />
-        </Button>
+        <SecondaryButton href={pool.href} fullWidth>
+          {`${t`Stake on`} ${pool.stakeOn}`}
+        </SecondaryButton>
       </Box>
     </Paper>
   );
@@ -133,7 +116,7 @@ const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading:
   return (
     <Box style={{ gap: theme.spacing(1.5) }} className={styles.stakePoolsWrapper}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <MultiLogo icons={pool.icons} />
+        <TokenStack tokens={pool.icons} style={undefined} />
         <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px" }}>
           {pool.poolName}
         </Typography>
@@ -148,26 +131,9 @@ const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading:
         {isLoading ? <Skeleton width={30} /> : connected && pool.userBalance ? `${pool.userBalance} LP` : ""}
       </Typography>
       <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
-        <Button
-          className={styles.stakeOnButton}
-          variant="outlined"
-          color="secondary"
-          target="_blank"
-          href={pool.href}
-          fullWidth
-        >
-          <Typography variant="body1">{`${t`Stake on`} ${pool.stakeOn}`}</Typography>
-          <SvgIcon
-            component={ArrowUp}
-            style={{
-              position: "absolute",
-              right: 5,
-              height: `20px`,
-              width: `20px`,
-              verticalAlign: "middle",
-            }}
-          />
-        </Button>
+        <SecondaryButton target="_blank" href={pool.href} fullWidth>
+          {`${t`Stake on`} ${pool.stakeOn}`}
+        </SecondaryButton>
       </Box>
     </Box>
   );
