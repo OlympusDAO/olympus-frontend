@@ -40,6 +40,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { ExpandMore } from "@material-ui/icons";
 import { useAppSelector } from "src/hooks";
 import { AppDispatch } from "src/store";
+import { OLYZAPS_FEATURE_FLAG } from "../../helpers/featureFlags";
 
 function NavContent({ handleDrawerToggle }) {
   const [isActive] = useState();
@@ -250,24 +251,23 @@ function NavContent({ handleDrawerToggle }) {
                       <Trans>Stake</Trans>
                     </Typography>
                   </Link>
-
-                  {/* NOTE (appleseed-olyzaps): OlyZaps disabled until v2 contracts */}
-                  {/* <Link
-                    component={NavLink}
-                    id="zap-nav"
-                    to="/zap"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "zap");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                    onClick={handleDrawerToggle}
-                  >
-                    <Box display="flex" alignItems="center">
-                      <SvgIcon component={ZapIcon} color="primary" />
-                      <Typography variant="h6">OlyZaps</Typography>
-                    </Box>
-                  </Link> */}
-
+                  { isFeatureEnabled(OLYZAPS_FEATURE_FLAG) && (
+                    <Link
+                      component={NavLink}
+                      id="zap-nav"
+                      to="/zap"
+                      isActive={(match, location) => {
+                        return checkPage(match, location, "zap");
+                      }}
+                      className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                      onClick={handleDrawerToggle}
+                    >
+                      <Box display="flex" alignItems="center">
+                        <SvgIcon component={ZapIcon} color="primary" />
+                        <Typography variant="h6">OlyZaps</Typography>
+                      </Box>
+                    </Link>
+                  )}
                   {EnvHelper.isGiveEnabled(location.search) ? (
                     <>
                       <Link
