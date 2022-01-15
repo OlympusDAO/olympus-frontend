@@ -20,8 +20,8 @@ Required:
 - [Git](https://git-scm.com/downloads)
 
 ```bash
-$ git clone https://github.com/OlympusDAO/olympusdao.git
-$ cd olympusdao
+$ git clone https://github.com/OlympusDAO/olympus-frontend.git
+$ cd olympus-frontend
 
 # set up your environment variables
 # read the comments in the .env files for what is required/optional
