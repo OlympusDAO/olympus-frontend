@@ -38,6 +38,8 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   capacityInQuoteToken: string;
   maxPayoutInBaseToken: string;
   maxPayoutInQuoteToken: string;
+  maxPayoutOrCapacityInQuote: string;
+  maxPayoutOrCapacityInBase: string;
 }
 
 export interface IBondV2Balance {
@@ -253,8 +255,12 @@ async function processBond(
     duration = prettifySeconds(seconds);
   }
 
+  // SAFETY CHECKs
+  // 1. check sold out
   let soldOut = false;
   if (+capacityInBaseToken < 1) soldOut = true;
+  const maxPayoutOrCapacityInQuote = bond.maxPayout.gt(bond.capacity) ? maxPayoutInQuoteToken : capacityInQuoteToken;
+  const maxPayoutOrCapacityInBase = bond.maxPayout.gt(bond.capacity) ? maxPayoutInBaseToken : capacityInBaseToken;
 
   return {
     ...bond,
@@ -272,11 +278,13 @@ async function processBond(
     lpUrl: v2BondDetail.isLP ? v2BondDetail.lpUrl[networkID] : "",
     marketPrice: ohmPrice,
     quoteToken: bond.quoteToken.toLowerCase(),
-    soldOut: soldOut,
     maxPayoutInQuoteToken,
     maxPayoutInBaseToken,
     capacityInQuoteToken,
     capacityInBaseToken,
+    soldOut,
+    maxPayoutOrCapacityInQuote,
+    maxPayoutOrCapacityInBase,
   };
 }
 
