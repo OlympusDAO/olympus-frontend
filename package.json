@@ -79,7 +79,7 @@
     "postcss": "^8.4.5",
     "qrcode.react": "^1.0.0",
     "query-string": "7.0.1",
-    "react": "17.0.0",
+    "react": "17.0.2",
     "react-blockies": "^1.4.1",
     "react-countdown": "^2.3.2",
     "react-css-theme-switcher": "^0.2.2",
