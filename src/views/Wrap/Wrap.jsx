@@ -10,7 +10,6 @@ import {
   InputLabel,
   Link,
   OutlinedInput,
-  Paper,
   Typography,
   Zoom,
   Select,
@@ -25,7 +24,7 @@ import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlic
 import { Skeleton } from "@material-ui/lab";
 import { NETWORKS } from "../../constants";
 import "../Stake/stake.scss";
-import { Metric, MetricCollection, DataRow, SecondaryButton, Icon } from "@olympusdao/component-library";
+import { Metric, MetricCollection, DataRow, SecondaryButton, Icon, Paper } from "@olympusdao/component-library";
 import { t, Trans } from "@lingui/macro";
 import { useAppSelector } from "src/hooks";
 import WrapCrossChain from "./WrapCrossChain";
@@ -82,7 +81,7 @@ function Wrap() {
   const avax = NETWORKS[43114];
   const arbitrum = NETWORKS[42161];
 
-  const isAvax = useMemo(() => networkId != 1 && networkId != 4 && networkId != -1, [networkId]);
+  const isAvax = useMemo(() => networkId !== 1 && networkId !== 4 && networkId !== -1, [networkId]);
 
   const wrapButtonText =
     assetTo === "gOHM" ? (assetFrom === "wsOHM" ? "Migrate" : "Wrap") + " to gOHM" : `${currentAction} ${assetFrom}`;
