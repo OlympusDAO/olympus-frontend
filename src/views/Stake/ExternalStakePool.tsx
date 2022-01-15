@@ -1,4 +1,4 @@
-import { useEffect, useState, ElementType } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
 import { Box, Paper, Typography, Zoom, useTheme, makeStyles } from "@material-ui/core";
@@ -19,30 +19,7 @@ export const useExternalPools = (address: string) => {
   return { isLoading, pools: data };
 };
 
-const MultiLogo = ({ icons, size = 35 }: { icons: ElementType[]; size?: number }) => (
-  <>
-    {icons.map((Icon, i) => (
-      <Icon
-        style={{
-          height: size,
-          width: size,
-          ...(i !== 0 ? { marginLeft: -(size / 5), zIndex: 1 } : { zIndex: 2 }),
-        }}
-      />
-    ))}
-  </>
-);
-
 const useStyles = makeStyles(theme => ({
-  stakeOnButton: {
-    padding: theme.spacing(1),
-    maxHeight: "100%",
-    height: "100%",
-    position: "relative",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   stakePoolsWrapper: {
     display: "grid",
     gridTemplateColumns: `1.5fr 0.2fr 1.0fr 0.3fr 1.5fr auto`,
