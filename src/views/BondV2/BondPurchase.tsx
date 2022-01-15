@@ -42,6 +42,7 @@ function BondPurchase({
   });
 
   const [quantity, setQuantity] = useState("");
+  const [maxBondable, setMaxBondable] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
 
   const isBondLoading = useAppSelector(state => state.bondingV2.loading ?? true);
@@ -58,8 +59,17 @@ function BondPurchase({
   });
 
   async function onBond() {
-    if (quantity === "") {
+    if (quantity === "" || Number(quantity) <= 0) {
       dispatch(error(t`Please enter a value!`));
+    } else if (Number(quantity) > +maxBondable) {
+      dispatch(
+        error(
+          t`Max capacity is ${maxBondable} ${bond.displayName} for ${trim(
+            +bond.maxPayoutOrCapacityInBase,
+            4,
+          )} sOHM. Click Max to autocomplete.`,
+        ),
+      );
     } else {
       dispatch(
         purchaseBond({
@@ -84,14 +94,19 @@ function BondPurchase({
 
   const setMax = () => {
     let maxQ: string;
-    const maxPayout = (bond.priceToken * +bond.maxPayout) / Math.pow(10, 9);
-    if (balanceNumber > maxPayout) {
-      maxQ = (maxPayout * 0.999).toString();
+    const maxBondableNumber = +maxBondable * 0.999;
+    if (balanceNumber > maxBondableNumber) {
+      maxQ = maxBondableNumber.toString();
     } else {
       maxQ = ethers.utils.formatUnits(balance.balance, bond.quoteDecimals);
     }
     setQuantity(maxQ);
   };
+
+  // set maxPayout
+  useEffect(() => {
+    setMaxBondable(bond.maxPayoutOrCapacityInQuote);
+  }, [bond.maxPayoutOrCapacityInQuote]);
 
   useEffect(() => {
     let interval: NodeJS.Timer | undefined;
@@ -113,7 +128,7 @@ function BondPurchase({
 
   // const displayUnits = bond.displayUnits;
 
-  const isAllowanceDataLoading = useAppSelector(state => state.bondingV2.balanceLoading);
+  const isAllowanceDataLoading = useAppSelector(state => state.bondingV2.balanceLoading[bond.quoteToken]);
 
   return (
     <Box display="flex" flexDirection="column">
@@ -234,7 +249,11 @@ function BondPurchase({
               <Trans>Max You Can Buy</Trans>
             </Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(+bond.maxPayout / 10 ** 9, 1) || "0"} ` + `sOHM`}
+              {isBondLoading ? (
+                <Skeleton width="100px" />
+              ) : (
+                `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} ` + `sOHM`
+              )}
             </Typography>
           </div>
 

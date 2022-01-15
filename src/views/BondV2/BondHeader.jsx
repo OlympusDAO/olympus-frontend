@@ -3,7 +3,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import BondLogo from "../../components/BondLogo";
 import AdvancedSettings from "./AdvancedSettings";
 import { Typography, IconButton, SvgIcon, Link } from "@material-ui/core";
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import useEscape from "../../hooks/useEscape";
