@@ -34,7 +34,12 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   lpUrl: string;
   marketPrice: number;
   soldOut: boolean;
-  maxPayoutOrCapacity: BigNumber;
+  capacityInBaseToken: string;
+  capacityInQuoteToken: string;
+  maxPayoutInBaseToken: string;
+  maxPayoutInQuoteToken: string;
+  maxPayoutOrCapacityInQuote: string;
+  maxPayoutOrCapacityInBase: string;
 }
 
 export interface IBondV2Balance {
@@ -219,6 +224,20 @@ async function processBond(
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
   const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;
 
+  let maxPayoutInBaseToken: string,
+    maxPayoutInQuoteToken: string,
+    capacityInBaseToken: string,
+    capacityInQuoteToken: string;
+  if (bond.capacityInQuote) {
+    capacityInBaseToken = ethers.utils.formatUnits(bond.capacity.div(bondPriceBigNumber), BASE_TOKEN_DECIMALS);
+    capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, metadata.quoteDecimals);
+  } else {
+    capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, BASE_TOKEN_DECIMALS);
+    capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity.mul(bondPriceBigNumber), metadata.quoteDecimals);
+  }
+  maxPayoutInBaseToken = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
+  maxPayoutInQuoteToken = ethers.utils.formatUnits(bond.maxPayout.mul(bondPriceBigNumber), metadata.quoteDecimals);
+
   let seconds = 0;
   if (terms.fixedTerm) {
     const vestingTime = currentTime + terms.vesting;
@@ -237,10 +256,9 @@ async function processBond(
   // SAFETY CHECKs
   // 1. check sold out
   let soldOut = false;
-  if (+bond.capacity / Math.pow(10, 9) < 1) soldOut = true;
-  // 2. modify maxPayout to be <= capacity
-  let maxPayoutOrCapacity = bond.maxPayout;
-  if (bond.maxPayout.gt(bond.capacity)) maxPayoutOrCapacity = bond.capacity;
+  if (+capacityInBaseToken < 1 || +maxPayoutInBaseToken < 1) soldOut = true;
+  const maxPayoutOrCapacityInQuote = bond.maxPayout.gt(bond.capacity) ? capacityInQuoteToken : maxPayoutInQuoteToken;
+  const maxPayoutOrCapacityInBase = bond.maxPayout.gt(bond.capacity) ? capacityInBaseToken : maxPayoutInBaseToken;
 
   return {
     ...bond,
@@ -258,8 +276,13 @@ async function processBond(
     lpUrl: v2BondDetail.isLP ? v2BondDetail.lpUrl[networkID] : "",
     marketPrice: ohmPrice,
     quoteToken: bond.quoteToken.toLowerCase(),
+    maxPayoutInQuoteToken,
+    maxPayoutInBaseToken,
+    capacityInQuoteToken,
+    capacityInBaseToken,
     soldOut,
-    maxPayoutOrCapacity,
+    maxPayoutOrCapacityInQuote,
+    maxPayoutOrCapacityInBase,
   };
 }
 
@@ -418,7 +441,7 @@ export const claimSingleNote = createAsyncThunk(
 // Note(zx): this is a barebones interface for the state. Update to be more accurate
 interface IBondSlice {
   loading: boolean;
-  balanceLoading: boolean;
+  balanceLoading: { [key: string]: boolean };
   notesLoading: boolean;
   indexes: number[];
   balances: { [key: string]: IBondV2Balance };
@@ -428,7 +451,7 @@ interface IBondSlice {
 
 const initialState: IBondSlice = {
   loading: false,
-  balanceLoading: false,
+  balanceLoading: {},
   notesLoading: false,
   indexes: [],
   balances: {},
@@ -465,15 +488,15 @@ const bondingSliceV2 = createSlice({
         state.loading = false;
         console.error(error.message);
       })
-      .addCase(getTokenBalance.pending, state => {
-        state.balanceLoading = true;
+      .addCase(getTokenBalance.pending, (state, action) => {
+        state.balanceLoading[action.meta.arg.value] = true;
       })
       .addCase(getTokenBalance.fulfilled, (state, action) => {
         state.balances[action.payload.tokenAddress] = action.payload;
-        state.balanceLoading = false;
+        state.balanceLoading[action.meta.arg.value] = false;
       })
-      .addCase(getTokenBalance.rejected, (state, { error }) => {
-        state.balanceLoading = false;
+      .addCase(getTokenBalance.rejected, (state, { error, meta }) => {
+        state.balanceLoading[meta.arg.value] = false;
         console.error(error.message);
       })
       .addCase(getUserNotes.pending, state => {
