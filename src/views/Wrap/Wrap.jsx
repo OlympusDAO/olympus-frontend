@@ -24,7 +24,15 @@ import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlic
 import { Skeleton } from "@material-ui/lab";
 import { NETWORKS } from "../../constants";
 import "../Stake/stake.scss";
-import { Metric, MetricCollection, DataRow, SecondaryButton, Icon, Paper } from "@olympusdao/component-library";
+import {
+  Metric,
+  MetricCollection,
+  DataRow,
+  SecondaryButton,
+  Icon,
+  Paper,
+  PrimaryButton,
+} from "@olympusdao/component-library";
 import { t, Trans } from "@lingui/macro";
 import { useAppSelector } from "src/hooks";
 import WrapCrossChain from "./WrapCrossChain";
@@ -119,9 +127,9 @@ function Wrap() {
   let modalButton = [];
 
   modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-      Connect Wallet
-    </Button>,
+    <PrimaryButton variant="contained" color="primary" className="connect-button" onClick={connect}>
+      <Trans>Connect Wallet</Trans>
+    </PrimaryButton>,
   );
 
   let temporaryStore = assetTo;
@@ -275,9 +283,6 @@ function Wrap() {
                     <div className="wallet-menu" id="wallet-menu">
                       {modalButton}
                     </div>
-                    <Typography variant="h6">
-                      <Trans>Connect your wallet</Trans>
-                    </Typography>
                   </div>
                 ) : (
                   <>
