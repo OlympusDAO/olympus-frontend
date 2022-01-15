@@ -94,9 +94,9 @@ function BondPurchase({
 
   const setMax = () => {
     let maxQ: string;
-
-    if (balanceNumber > +maxBondable) {
-      maxQ = maxBondable;
+    const maxBondableNumber = +maxBondable * 0.999;
+    if (balanceNumber > maxBondableNumber) {
+      maxQ = maxBondableNumber.toString();
     } else {
       maxQ = ethers.utils.formatUnits(balance.balance, bond.quoteDecimals);
     }
