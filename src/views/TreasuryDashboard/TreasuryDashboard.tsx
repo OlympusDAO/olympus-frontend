@@ -1,9 +1,8 @@
 import { memo } from "react";
 import "./treasury-dashboard.scss";
-import { Paper, Grid, Box, Zoom, Container, useMediaQuery, Typography, SvgIcon } from "@material-ui/core";
+import { Grid, Box, Zoom, Container, useMediaQuery, Typography } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
-import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 
 import {
   TotalValueDepositedGraph,
@@ -13,7 +12,8 @@ import {
   OHMStakedGraph,
   RunwayAvailableGraph,
 } from "./components/Graph/Graph";
-import { MetricCollection } from "@olympusdao/component-library";
+import { Icon, MetricCollection, Paper } from "@olympusdao/component-library";
+import { Trans } from "@lingui/macro";
 const TreasuryDashboard = memo(() => {
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
@@ -47,11 +47,13 @@ const TreasuryDashboard = memo(() => {
             style={{ wordBreak: "break-word" }}
           >
             <Box alignItems={"center"} display={"flex"}>
-              <SvgIcon component={InfoIcon} />
+              <Icon name={"info-fill"} />
               <Box width={10} />
               <Typography>
-                Olympus is currently migrating to improved contracts. Please note that during this time, frontend
-                metrics may be inaccurate.
+                <Trans>
+                  Olympus is currently migrating to improved contracts. Please note that during this time, frontend
+                  metrics may be inaccurate.
+                </Trans>
               </Typography>
             </Box>
           </Alert>
