@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { t } from "@lingui/macro";
 import { Paper, Tab, Tabs, Box } from "@material-ui/core";
-import InfoTooltipMulti from "../../components/InfoTooltip/InfoTooltipMulti";
+import { InfoTooltipMulti } from "@olympusdao/component-library";
 import { Prize, PrizePool } from "src/typechain/pooltogether";
 import TabPanel from "../../components/TabPanel";
 import CardHeader from "../../components/CardHeader/CardHeader";
@@ -41,8 +41,7 @@ const PoolTogether = () => {
 
   // NOTE (appleseed): these calcs were previously in PoolInfo, however would be need in PoolPrize, too, if...
   // ... we ever were to implement other types of awards
-  const { connect, address, provider, hasCachedProvider } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { connect, address, provider, hasCachedProvider, networkId, providerInitialized } = useWeb3Context();
   const dispatch = useDispatch();
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[1]);
   const [poolData, setPoolData] = useState(null);
@@ -71,7 +70,7 @@ const PoolTogether = () => {
 
   // query correct pool subgraph depending on current chain
   useEffect(() => {
-    if (networkId === -1) {
+    if (!providerInitialized) {
       setGraphUrl(POOL_GRAPH_URLS[1]);
     } else {
       setGraphUrl(POOL_GRAPH_URLS[networkId]);
@@ -81,7 +80,7 @@ const PoolTogether = () => {
   useEffect(() => {
     console.log("apollo", networkId);
     let apolloUrl: string;
-    if (networkId === -1) {
+    if (!providerInitialized) {
       apolloUrl = poolDataQuery(addresses[1].PT_PRIZE_POOL_ADDRESS);
     } else {
       apolloUrl = poolDataQuery(addresses[networkId].PT_PRIZE_POOL_ADDRESS);
