@@ -41,7 +41,6 @@ function Wrap() {
   const dispatch = useDispatch();
   const { provider, address, connect, networkId } = useWeb3Context();
 
-  const [zoomed, setZoomed] = useState(false);
   const [assetFrom, setAssetFrom] = useState("sOHM");
   const [assetTo, setAssetTo] = useState("gOHM");
   const [quantity, setQuantity] = useState("");
@@ -241,7 +240,7 @@ function Wrap() {
   if (!isAvax) {
     return (
       <div id="stake-view" className="wrapper">
-        <Zoom in={true} onEntered={() => setZoomed(true)}>
+        <Zoom in={true}>
           <Paper className={`ohm-card`}>
             <Grid container direction="column" spacing={2}>
               <Grid item>
