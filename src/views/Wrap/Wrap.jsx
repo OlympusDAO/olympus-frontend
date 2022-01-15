@@ -272,7 +272,11 @@ function Wrap() {
                     label={`gOHM ${t`Price`}`}
                     metric={formatCurrency(gOhmPrice, 2)}
                     isLoading={!gOhmPrice}
-                    tooltip={t`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of sOHM multiplied by the current index`}
+                    tooltip={
+                      t`gOHM = sOHM * index` +
+                      "\n\n" +
+                      t`The price of gOHM is equal to the price of sOHM multiplied by the current index`
+                    }
                   />
                 </MetricCollection>
               </Grid>
