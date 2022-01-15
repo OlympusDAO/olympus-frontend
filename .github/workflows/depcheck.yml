@@ -1,7 +1,7 @@
 name: Unused dependencies check
 
 on:
-  pull_request:
+  pull_request_target:
     # The branches below must be a subset of the branches above
     branches: [ develop ]
 
