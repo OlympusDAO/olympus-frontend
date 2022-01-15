@@ -34,6 +34,7 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   lpUrl: string;
   marketPrice: number;
   soldOut: boolean;
+  maxPayoutOrCapacity: BigNumber;
 }
 
 export interface IBondV2Balance {
@@ -233,8 +234,13 @@ async function processBond(
     duration = prettifySeconds(seconds);
   }
 
+  // SAFETY CHECKs
+  // 1. check sold out
   let soldOut = false;
   if (+bond.capacity / Math.pow(10, 9) < 1) soldOut = true;
+  // 2. modify maxPayout to be <= capacity
+  let maxPayoutOrCapacity = bond.maxPayout;
+  if (bond.maxPayout.gt(bond.capacity)) maxPayoutOrCapacity = bond.capacity;
 
   return {
     ...bond,
@@ -252,7 +258,8 @@ async function processBond(
     lpUrl: v2BondDetail.isLP ? v2BondDetail.lpUrl[networkID] : "",
     marketPrice: ohmPrice,
     quoteToken: bond.quoteToken.toLowerCase(),
-    soldOut: soldOut,
+    soldOut,
+    maxPayoutOrCapacity,
   };
 }
 
