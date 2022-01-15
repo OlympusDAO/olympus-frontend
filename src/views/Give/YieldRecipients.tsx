@@ -21,7 +21,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { EnvHelper } from "src/helpers/Environment";
 import { NetworkId } from "src/constants";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
-import { useIsDesktop } from "src/hooks/useIsDesktop";
 
 export default function YieldRecipients() {
   const location = useLocation();
@@ -32,7 +31,6 @@ export default function YieldRecipients() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const [totalDeposited, setTotalDeposited] = useState([] as RecipientTotalDeposited[]);
-  const isDesktop = useIsDesktop();
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   // TODO fix typing of state.app.loading
@@ -188,12 +186,10 @@ export default function YieldRecipients() {
     );
   }
 
-  const gridSm = isDesktop ? 6 : 12;
-
   return (
     <div className="card-content">
       <Grid container className={`donation-table ${isSmallScreen && "smaller"}`}>
-        <Grid item xs={12} sm={gridSm} style={{ width: "100%", display: "flex", marginBottom: "1rem" }}>
+        <Grid item xs={6} style={{ width: "100%", display: "flex", marginBottom: "1rem" }}>
           <Typography variant="h6" color="textSecondary" align="center" style={{ fontSize: 12 }}>
             <Trans>RECIPIENT</Trans>
           </Typography>
@@ -213,7 +209,7 @@ export default function YieldRecipients() {
             const recipientTotalDeposited = totalDeposited.find(item => item.recipient === recipient);
             return (
               <Grid container className="donation-row">
-                <Grid item xs={12} sm={gridSm} className="donation-info" style={{ display: "flex" }}>
+                <Grid item xs={6} className="donation-info" style={{ display: "flex" }}>
                   <Typography variant="body1" align="left">
                     {getRecipientTitle(recipient)}
                   </Typography>
@@ -223,8 +219,6 @@ export default function YieldRecipients() {
                   <Typography variant="body1" align="left">
                     {donationInfo[recipient]} sOHM
                   </Typography>
-                </Grid>
-                <Grid item xs={12} sm={gridSm} className="donation-buttons">
                   <Button
                     variant="outlined"
                     color="secondary"

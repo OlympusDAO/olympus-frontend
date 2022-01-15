@@ -233,17 +233,11 @@
 
     .donation-row {
       display: flex;
-      justify-content: flex-end;
       width: 100%;
 
-      .donation-buttons {
-        display: flex;
-        justify-content: flex-end;
-
-        .donation-lp-button {
-          width: 25%;
-          margin-right: 1rem;
-        }
+      .donation-lp-button {
+        width: 25%;
+        margin-right: 1rem;
       }
 
       .recipient-divider {
