@@ -42,13 +42,15 @@ import ConnectButton from "../../components/ConnectButton";
 import { NetworkId } from "src/constants";
 import { ChevronLeft } from "@material-ui/icons";
 
-type RecipientModalProps = {
+type ManageModalProps = {
   isModalOpen: boolean;
   callbackFunc: SubmitCallback;
   cancelFunc: CancelCallback;
   project?: Project;
   currentWalletAddress?: string;
   currentDepositAmount?: BigNumber; // As per IUserDonationInfo
+  depositDate?: string;
+  yieldSent?: string;
 };
 
 // TODO consider shifting this into interfaces.ts
@@ -57,14 +59,16 @@ type State = {
   pendingTransactions: IPendingTxn[];
 };
 
-export function RecipientModal({
+export function ManageDonationModal({
   isModalOpen,
   callbackFunc,
   cancelFunc,
   project,
   currentWalletAddress,
   currentDepositAmount,
-}: RecipientModalProps) {
+  depositDate,
+  yieldSent
+}: ManageModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
   const { provider, address, connect, networkId } = useWeb3Context();
@@ -114,107 +118,6 @@ export function RecipientModal({
   };
 
   /**
-   * Returns the user's sOHM balance
-   *
-   * Copied from Stake.jsx
-   *
-   * TODO consider extracting this into a helper file
-   */
-  const sohmBalance: string = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.balances && state.account.balances.mockSohm
-      : state.account.balances && state.account.balances.sohm;
-  });
-
-  const giveAllowance: number = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving && state.account.mockGiving.sohmGive
-      : state.account.giving && state.account.giving.sohmGive;
-  });
-
-  const isAccountLoading: boolean = useSelector((state: State) => {
-    return state.account.loading;
-  });
-
-  const isGiveLoading: boolean = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving.loading
-      : state.account.giving.loading;
-  });
-
-  const pendingTransactions: IPendingTxn[] = useSelector((state: State) => {
-    return state.pendingTransactions;
-  });
-
-  const onSeekApproval = async () => {
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
-      await dispatch(changeMockApproval({ address, token: "sohm", provider, networkID: networkId }));
-    } else {
-      await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));
-    }
-  };
-
-  const hasAllowance = useCallback(() => {
-    return giveAllowance > 0;
-  }, [giveAllowance]);
-
-  const getSOhmBalance = (): BigNumber => {
-    return new BigNumber(sohmBalance);
-  };
-
-  /**
-   * Returns the maximum deposit that can be directed to the recipient.
-   *
-   * This is equal to the current wallet balance and the current deposit amount (in the vault).
-   *
-   * @returns BigNumber
-   */
-  const getMaximumDepositAmount = (): BigNumber => {
-    return new BigNumber(sohmBalance).plus(currentDepositAmount ? currentDepositAmount : 0);
-  };
-
-  const handleSetDepositAmount = (value: string) => {
-    checkIsDepositAmountValid(value);
-    setDepositAmount(parseFloat(value));
-  };
-
-  const checkIsDepositAmountValid = (value: string) => {
-    const valueNumber = new BigNumber(value);
-    const sOhmBalanceNumber = getSOhmBalance();
-
-    if (!value || value == "" || valueNumber.isEqualTo(0)) {
-      setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`Please enter a value`);
-      return;
-    }
-
-    if (valueNumber.isLessThan(0)) {
-      setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`Value must be positive`);
-      return;
-    }
-
-    if (sOhmBalanceNumber.isEqualTo(0)) {
-      setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
-    }
-
-    if (valueNumber.isGreaterThan(getMaximumDepositAmount())) {
-      setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`Value cannot be more than your sOHM balance of ` + getMaximumDepositAmount());
-      return;
-    }
-
-    setIsDepositAmountValid(true);
-    setIsDepositAmountValidError("");
-  };
-
-  const handleSetWallet = (value: string) => {
-    checkIsWalletAddressValid(value);
-    setWalletAddress(value);
-  };
-
-  /**
    * Checks if the provided wallet address is valid.
    *
    * This will return false if:
@@ -241,93 +144,6 @@ export function RecipientModal({
   };
 
   /**
-   * Determines if an existing recipient entry is being edited (false)
-   * or if a new entry is being added (true).
-   *
-   * @returns boolean
-   */
-  const isCreateMode = (): boolean => {
-    if (currentWalletAddress) return false;
-
-    return true;
-  };
-
-  const isProjectMode = (): boolean => {
-    if (project) return true;
-
-    return false;
-  };
-
-  const getTitle = (): string => {
-    if (!isCreateMode()) return t`Edit Yield`;
-
-    return t`Donate Yield`;
-  };
-
-  /**
-   * Indicates whether the form can be submitted.
-   *
-   * This will return false if:
-   * - the deposit amount is invalid
-   * - the wallet address is invalid
-   * - there is no sender address
-   * - an add/edit transaction is pending
-   * - it is not in create mode and there is no difference in the amount
-   *
-   * @returns boolean
-   */
-  const canSubmit = (): boolean => {
-    if (!isDepositAmountValid) return false;
-
-    if (isAccountLoading || isGiveLoading) return false;
-
-    // The wallet address is only set when a project is not given
-    if (!isProjectMode() && !isWalletAddressValid) return false;
-
-    if (!address) return false;
-    if (hasPendingGiveTxn(pendingTransactions)) return false;
-    if (!isCreateMode() && getDepositAmountDiff().isEqualTo(0)) return false;
-
-    return true;
-  };
-
-  /**
-   * Indicates the amount retained in the user's wallet after a deposit to the vault.
-   *
-   * If a yield direction is being created, it returns the current sOHM balance minus the entered deposit.
-   * If a yield direction is being edited, it returns the current sOHM balance minus the difference in the entered deposit.
-   *
-   * @returns BigNumber instance
-   */
-  const getRetainedAmountDiff = (): BigNumber => {
-    const tempDepositAmount: BigNumber = !isCreateMode() ? getDepositAmountDiff() : getDepositAmount();
-    return new BigNumber(sohmBalance).minus(tempDepositAmount);
-  };
-
-  const getDepositAmountDiff = (): BigNumber => {
-    // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
-    const depositAmountBig = new BigNumber(depositAmount);
-    return depositAmountBig.minus(getCurrentDepositAmount());
-  };
-
-  /**
-   * Ensures that the depositAmount returned is a valid number.
-   *
-   * @returns
-   */
-  const getDepositAmount = (): BigNumber => {
-    if (!depositAmount) return new BigNumber(0);
-
-    return new BigNumber(depositAmount);
-  };
-
-  const getCurrentDepositAmount = (): BigNumber => {
-    if (!currentDepositAmount) return new BigNumber(0);
-
-    return new BigNumber(currentDepositAmount);
-  };
-
-  /**
    * Returns the wallet address. If a project is defined, it uses the
    * project wallet, else what was passed in as a parameter.
    */
@@ -351,79 +167,12 @@ export function RecipientModal({
     return project.owner + " - " + project.title;
   };
 
-  const handleGoBack = () => {
-    setIsAmountSet(false);
+  const getRenderedDetails = (shorten: boolean) => {
+    return {
+      __html: MarkdownIt({ html: true }).render(shorten ? `${shortDescription}` : `${details}`),
+    };
   };
 
-  const handleContinue = () => {
-    setIsAmountSet(true);
-  };
-
-  /**
-   * Calls the submission callback function that is provided to the component.
-   */
-  const handleSubmit = () => {
-    const depositAmountBig = new BigNumber(depositAmount);
-
-    callbackFunc(getWalletAddress(), depositAmountBig, getDepositAmountDiff());
-  };
-
-  const getRecipientElements = () => {
-    // If project mode is enabled, the amount is editable, but the recipient is not
-    if (isProjectMode()) {
-      return (
-        <>
-          <Typography variant="body1">
-            <Trans>Recipient</Trans>
-          </Typography>
-          <Typography variant="h6">{getRecipientTitle()}</Typography>
-        </>
-      );
-    }
-
-    // If not in create mode, don't display the recipient wallet address
-    if (!isCreateMode()) {
-      return <></>;
-    }
-
-    return (
-      <>
-        <div className="give-modal-alloc-tip">
-          <Typography variant="body1">
-            <Trans>Recipient</Trans>
-          </Typography>
-          {/* The main reason for having this tooltip is because it keeps spacing consistent with the sOHM Allocation above */}
-          <InfoTooltip
-            message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
-            children={null}
-          />
-        </div>
-        <FormControl className="modal-input" variant="outlined" color="primary">
-          <InputLabel htmlFor="wallet-input"></InputLabel>
-          <OutlinedInput
-            id="wallet-input"
-            type="text"
-            placeholder={t`Enter a wallet address in the form of 0x ...`}
-            className="stake-input"
-            value={walletAddress}
-            error={!isWalletAddressValid}
-            onChange={e => handleSetWallet(e.target.value)}
-            labelWidth={0}
-            disabled={!isCreateMode()}
-          />
-          <FormHelperText>{isWalletAddressValidError}</FormHelperText>
-        </FormControl>{" "}
-      </>
-    );
-  };
-
-  const handleConnect = () => {
-    // Close the modal first
-    cancelFunc();
-
-    // Then connect
-    connect();
-  };
 
   // TODO stop modal from moving when validation messages are shown
 
@@ -442,188 +191,68 @@ export function RecipientModal({
     <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
       <Paper className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`} onClick={handleModalInsideClick}>
         <div className="yield-header">
-          {isAmountSet ? (
-            <Link onClick={() => handleGoBack()}>
-              <SvgIcon color="primary" component={ChevronLeft} />
-            </Link>
-          ) : (
-            <Link onClick={() => cancelFunc()}>
-              <SvgIcon color="primary" component={XIcon} />
-            </Link>
-          )}
+          <Link onClick={() => cancelFunc()}>
+            <SvgIcon color="primary" component={XIcon} />
+          </Link>
           <Typography variant="h4">
-            <strong>{getTitle()}</strong>
+            <strong>Manage Donation</strong>
           </Typography>
         </div>
-        {!address ? (
-          <>
-            <FormHelperText>
-              <Trans>
-                You must be logged into your wallet to use this feature. Click on the "Connect Wallet" button and try
-                again.
-              </Trans>
-            </FormHelperText>
-          </>
-        ) : isAccountLoading || isGiveLoading ? (
-          <Skeleton />
-        ) : !hasAllowance() ? (
-          <Box className="help-text">
-            <Typography variant="h6" className="stream-note" color="textSecondary">
-              <Trans>
-                Is this your first time donating sOHM? Please approve OlympusDAO to use your sOHM for donating.
-              </Trans>
-            </Typography>
-          </Box>
-        ) : isAmountSet ? (
-          <>
-            <Box
-              className="give-confirmation-details"
-              style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px" }}
-            >
-              <div className="details-row">
-                <div className="sohm-allocation-col">
-                  <Typography variant="body1">
-                    <Trans>sOHM deposit</Trans>
-                  </Typography>
-                  <Typography variant="h6">{getDepositAmount().toFixed(2)} sOHM</Typography>
-                </div>
-                {!isSmallScreen && <ArrowGraphic />}
-                <div className="recipient-address-col">
-                  <Typography variant="body1">
-                    <Trans>Recipient address</Trans>
-                  </Typography>
-                  <Typography variant="h6">
+        <div className="manage-project-info">
+          <div className="cause-image">
+            <Link href={`#/give/projects/${project.slug}`}>
+              <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
+            </Link>
+          </div>
+          <div className="cause-content">
+            <Grid container className="cause-header">
+              <Grid item className="cause-title">
+                <Link href={`#/give/projects/${project.slug}`}>
+                  <Typography variant="h4">
                     <strong>{getRecipientTitle()}</strong>
                   </Typography>
-                </div>
-              </div>
-            </Box>
-          </>
-        ) : (
-          <>
-            <div className="give-modal-alloc-tip">
-              <Typography variant="body1">
-                <Trans>sOHM Allocation</Trans>
+                </Link>
+              </Grid>
+            </Grid>
+            <div className="cause-body">
+              <Typography variant="body1" style={{ lineHeight: "20px" }}>
+                <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
               </Typography>
-              <InfoTooltip
-                message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
-                children={null}
-              />
             </div>
-            <FormControl className="modal-input" variant="outlined" color="primary">
-              <InputLabel htmlFor="amount-input"></InputLabel>
-              <OutlinedInput
-                id="amount-input"
-                type="number"
-                placeholder={t`Enter an amount`}
-                className="stake-input"
-                value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
-                error={!isDepositAmountValid}
-                onChange={e => handleSetDepositAmount(e.target.value)}
-                labelWidth={0}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <div className="logo-holder">{sOhmImg}</div>
-                  </InputAdornment>
-                }
-                endAdornment={
-                  <InputAdornment position="end">
-                    <Button variant="text" onClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}>
-                      <Trans>Max</Trans>
-                    </Button>
-                  </InputAdornment>
-                }
-              />
-              <FormHelperText>{isDepositAmountValidError}</FormHelperText>
-              <div className="give-staked-balance">
-                <Typography variant="body2" align="left">
-                  <Trans>Your current Staked Balance {getSOhmBalance().toFixed(4)} sOHM</Trans>
-                </Typography>
-              </div>
-            </FormControl>
-            {getRecipientElements()}
-            {!isSmallScreen ? (
-              isCreateMode() ? (
-                <div className={`give-education-graphics ${isSmallScreen && "smaller"}`}>
-                  <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
-                  {!isSmallScreen && <ArrowGraphic />}
-                  <VaultGraphic quantity={getDepositAmount().toFixed()} />
-                  {!isSmallScreen && <ArrowGraphic />}
-                  <YieldGraphic quantity={getDepositAmount().toFixed()} />
-                </div>
-              ) : (
-                <div className="give-education-graphics">
-                  <CurrPositionGraphic quantity={getCurrentDepositAmount().toFixed()} />
-                  <NewPositionGraphic quantity={getDepositAmount().toFixed()} />
-                </div>
-              )
-            ) : (
-              <></>
-            )}
-          </>
-        )}
-        {isCreateMode() ? (
-          !address ? (
-            <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" className="connect-button" onClick={handleConnect}>
-                <Trans>Connect Wallet</Trans>
-              </Button>
-            </FormControl>
-          ) : address && (hasAllowance() || isGiveLoading) && !isAmountSet ? (
-            <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
-                <Trans>Continue</Trans>
-              </Button>
-            </FormControl>
-          ) : isAmountSet ? (
-            <>
-              <FormControl className="ohm-modal-submit">
-                <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-                  {txnButtonText(
-                    pendingTransactions,
-                    PENDING_TXN_GIVE,
-                    t`Confirm ${getDepositAmount().toFixed(2)} sOHM`,
-                  )}
-                </Button>
-              </FormControl>
-            </>
-          ) : (
-            <FormControl className="ohm-modal-submit">
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading}
-                onClick={onSeekApproval}
-              >
-                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, t`Approve`)}
-              </Button>
-            </FormControl>
-          )
-        ) : !isAmountSet ? (
-          <FormControl className="ohm-modal-submit">
-            <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
-              <Trans>Continue</Trans>
-            </Button>
-          </FormControl>
-        ) : (
-          <>
-            <FormControl className="ohm-modal-submit">
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={hasPendingGiveTxn(pendingTransactions)}
-                onClick={handleGoBack}
-              >
-                {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Go Back`)}
-              </Button>
-            </FormControl>
-            <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-                {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Edit Give Amount`)}
-              </Button>
-            </FormControl>
-          </>
-        )}
+          </div>
+        </div>
+        <div className="manage-project-stats">
+          <Box
+            className="project-goal"
+            style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px 40px 20px 40px" }}
+          >
+            <Typography variant="h5">{project.depositGoal}</Typography>
+            <Typography variant="body1" className="subtext">Goal</Typography>
+          </Box>
+          
+        </div>
+        <Box
+          className="give-confirmation-details"
+          style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px" }}
+        >
+          <div className="details-row">
+            <div className="sohm-allocation-col">
+              <Typography variant="body1">
+                <Trans>sOHM deposit</Trans>
+              </Typography>
+              <Typography variant="h6">{getDepositAmount().toFixed(2)} sOHM</Typography>
+            </div>
+            {!isSmallScreen && <ArrowGraphic />}
+            <div className="recipient-address-col">
+              <Typography variant="body1">
+                <Trans>Recipient address</Trans>
+              </Typography>
+              <Typography variant="h6">
+                <strong>{getRecipientTitle()}</strong>
+              </Typography>
+            </div>
+          </div>
+        </Box>
       </Paper>
     </Modal>
   );
