@@ -1,7 +1,9 @@
 on:
+  push:
+    branches: [ develop ]
   pull_request:
-    branches:
-      - develop
+    # The branches below must be a subset of the branches above
+    branches: [ develop ]
 
   build:
     runs-on: ubuntu-latest
