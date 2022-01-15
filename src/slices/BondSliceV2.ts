@@ -34,6 +34,10 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   lpUrl: string;
   marketPrice: number;
   soldOut: boolean;
+  capacityInBaseToken: string;
+  capacityInQuoteToken: string;
+  maxPayoutInBaseToken: string;
+  maxPayoutInQuoteToken: string;
 }
 
 export interface IBondV2Balance {
@@ -218,6 +222,22 @@ async function processBond(
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
   const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;
 
+  let maxPayoutInBaseToken: string,
+    maxPayoutInQuoteToken: string,
+    capacityInBaseToken: string,
+    capacityInQuoteToken: string;
+  if (bond.capacityInQuote) {
+    maxPayoutInBaseToken = ethers.utils.formatUnits(bond.maxPayout.div(bondPriceBigNumber), BASE_TOKEN_DECIMALS);
+    maxPayoutInQuoteToken = ethers.utils.formatUnits(bond.maxPayout, metadata.quoteDecimals);
+    capacityInBaseToken = ethers.utils.formatUnits(bond.capacity.div(bondPriceBigNumber), BASE_TOKEN_DECIMALS);
+    capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, metadata.quoteDecimals);
+  } else {
+    maxPayoutInBaseToken = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
+    maxPayoutInQuoteToken = ethers.utils.formatUnits(bond.maxPayout.mul(bondPriceBigNumber), metadata.quoteDecimals);
+    capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, BASE_TOKEN_DECIMALS);
+    capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity.mul(bondPriceBigNumber), metadata.quoteDecimals);
+  }
+
   let seconds = 0;
   if (terms.fixedTerm) {
     const vestingTime = currentTime + terms.vesting;
@@ -234,7 +254,7 @@ async function processBond(
   }
 
   let soldOut = false;
-  if (+bond.capacity / Math.pow(10, 9) < 1) soldOut = true;
+  if (+capacityInBaseToken < 1) soldOut = true;
 
   return {
     ...bond,
@@ -253,6 +273,10 @@ async function processBond(
     marketPrice: ohmPrice,
     quoteToken: bond.quoteToken.toLowerCase(),
     soldOut: soldOut,
+    maxPayoutInQuoteToken,
+    maxPayoutInBaseToken,
+    capacityInQuoteToken,
+    capacityInBaseToken,
   };
 }
 
