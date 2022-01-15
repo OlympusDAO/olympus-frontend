@@ -47,7 +47,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
   return (
     <Paper id={`${pool.poolName}--pool`} className="bond-data-card ohm-card">
       <div className={styles.poolPair}>
-        <TokenStack tokens={pool.icons} style={undefined} />
+        <TokenStack tokens={pool.icons}/>
         <div className={styles.poolName}>
           <Typography>{pool.poolName}</Typography>
         </div>
@@ -93,7 +93,7 @@ const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading:
   return (
     <Box style={{ gap: theme.spacing(1.5) }} className={styles.stakePoolsWrapper}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <TokenStack tokens={pool.icons} style={undefined} />
+        <TokenStack tokens={pool.icons}/>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px" }}>
           {pool.poolName}
         </Typography>
