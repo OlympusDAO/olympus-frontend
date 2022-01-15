@@ -1,3 +1,5 @@
+name: Unused dependencies check
+
 on:
   push:
     branches: [ develop ]
