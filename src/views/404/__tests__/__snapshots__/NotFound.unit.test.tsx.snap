@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NotFound/> should render component 1`] = `
+<div>
+  <div
+    id="not-found"
+  >
+    <div
+      class="not-found-header"
+    >
+      <a
+        href="https://olympusdao.finance"
+        target="_blank"
+      >
+        <img
+          alt="OlympusDAO"
+          class="branding-header-icon"
+          src="Olympus Logo.svg"
+        />
+      </a>
+      <h4>
+        Page not found
+      </h4>
+    </div>
+  </div>
+</div>
+`;
