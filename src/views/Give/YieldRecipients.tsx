@@ -2,42 +2,26 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Typography, Button, Grid, Divider } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 import { Skeleton } from "@material-ui/lab";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { RecipientModal } from "src/views/Give/RecipientModal";
-import { SubmitCallback } from "src/views/Give/Interfaces";
+import { DonationInfoState, RecipientTotalDeposited, SubmitCallback } from "src/views/Give/Interfaces";
 import { WithdrawDepositModal, WithdrawSubmitCallback, WithdrawCancelCallback } from "./WithdrawDepositModal";
 import { shorten } from "src/helpers";
 import { BigNumber } from "bignumber.js";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IAppData } from "src/slices/AppSlice";
-import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { error } from "../../slices/MessagesSlice";
 import data from "./projects.json";
 import { Project } from "src/components/GiveProject/project.type";
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { NetworkId } from "src/constants";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
-
-// TODO consider shifting this into interfaces.ts
-type State = {
-  account: IAccountSlice;
-  pendingTransactions: IPendingTxn[];
-  app: IAppData;
-};
-
-// TODO(joaot) : better name for type, and move it somewhere
-interface RecipientTotalDebt {
-  recipient: string;
-  totalDebt: string;
-}
+import { useIsDesktop } from "src/hooks/useIsDesktop";
 
 export default function YieldRecipients() {
   const location = useLocation();
@@ -47,12 +31,13 @@ export default function YieldRecipients() {
   const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState("");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
-  const [debt, setDebt] = useState([] as RecipientTotalDebt[]); //TODO(joaot): come back here for better name;
+  const [totalDeposited, setTotalDeposited] = useState([] as RecipientTotalDeposited[]);
+  const isDesktop = useIsDesktop();
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   // TODO fix typing of state.app.loading
   const isAppLoading = useSelector((state: any) => state.app.loading);
-  const donationInfo = useSelector((state: State) => {
+  const donationInfo = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
@@ -70,7 +55,7 @@ export default function YieldRecipients() {
       })
         .then(resultAction => {
           const { totalDebt } = resultAction.redeeming.recipientInfo;
-          setDebt([...debt, { recipient, totalDebt }]);
+          setTotalDeposited([...totalDeposited, { recipient, total: totalDebt }]);
         })
         .catch(e => console.log(e));
     });
@@ -203,19 +188,18 @@ export default function YieldRecipients() {
     );
   }
 
+  const gridSm = isDesktop ? 6 : 12;
+
   return (
     <div className="card-content">
       <Grid container className={`donation-table ${isSmallScreen && "smaller"}`}>
-        <Grid item xs={12} sm={6} style={{ width: "100%", display: "flex", marginBottom: "1rem" }}>
-          <Typography variant="h6" color="textSecondary" style={{ fontSize: 12 }}>
-            <Trans>DATE</Trans>
-          </Typography>
+        <Grid item xs={12} sm={gridSm} style={{ width: "100%", display: "flex", marginBottom: "1rem" }}>
           <Typography variant="h6" color="textSecondary" align="center" style={{ fontSize: 12 }}>
             <Trans>RECIPIENT</Trans>
           </Typography>
           <Typography variant="h6" color="textSecondary" align="center" style={{ fontSize: 12 }}>
             <Trans>DEPOSITED</Trans>
-            <InfoTooltip message={t`The amount of sOHM deposited`} children={null} />
+            <InfoTooltip message={t`The amount of sOHM deposited in total`} children={null} />
           </Typography>
           <Typography variant="h6" color="textSecondary" align="center" style={{ fontSize: 12 }}>
             <Trans>YIELD SENT</Trans>
@@ -226,24 +210,21 @@ export default function YieldRecipients() {
           <Skeleton />
         ) : (
           Object.keys(donationInfo).map(recipient => {
-            const debtInfo = debt.find(item => item.recipient === recipient); //TODO(joaot): give this better name;
+            const recipientTotalDeposited = totalDeposited.find(item => item.recipient === recipient);
             return (
               <Grid container className="donation-row">
-                <Grid item xs={12} sm={6} className="donation-info" style={{ display: "flex" }}>
-                  <Typography variant="body1" align="left">
-                    Date
-                  </Typography>
+                <Grid item xs={12} sm={gridSm} className="donation-info" style={{ display: "flex" }}>
                   <Typography variant="body1" align="left">
                     {getRecipientTitle(recipient)}
                   </Typography>
                   <Typography variant="body1" align="center">
-                    {debtInfo && debtInfo.totalDebt} sOHM
+                    {recipientTotalDeposited && `${recipientTotalDeposited?.total} sOHM`}
                   </Typography>
-                  <Typography variant="body1" align="center">
+                  <Typography variant="body1" align="left">
                     {donationInfo[recipient]} sOHM
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} className="donation-buttons">
+                <Grid item xs={12} sm={gridSm} className="donation-buttons">
                   <Button
                     variant="outlined"
                     color="secondary"
