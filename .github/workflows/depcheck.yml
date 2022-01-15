@@ -1,0 +1,20 @@
+on:
+  pull_request:
+    branches:
+      - develop
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      - name: "depcheck"
+        uses: tubone24/depcheck_action@v1.0.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_COMMENT_URL: ${{ github.event.pull_request.comments_url }}
