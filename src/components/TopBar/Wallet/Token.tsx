@@ -224,7 +224,7 @@ export const MigrateToken = ({ symbol, icon, balance = "0.0", price = 0 }: IToke
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
       <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-        <img src={icon} style={{ height: "28px", width: "28px", marginRight: theme.spacing(1) }} />
+        <TokenSVG name={icon} style={{ fontSize: 28, marginRight: theme.spacing(1) }} />
         <Typography>{symbol}</Typography>
       </Box>
       {/* <Button variant="contained" color="primary" size="small" onClick={() => true}>
