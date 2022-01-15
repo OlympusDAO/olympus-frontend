@@ -443,7 +443,7 @@ export const claimSingleNote = createAsyncThunk(
 // Note(zx): this is a barebones interface for the state. Update to be more accurate
 interface IBondSlice {
   loading: boolean;
-  balanceLoading: boolean;
+  balanceLoading: { [key: string]: boolean };
   notesLoading: boolean;
   indexes: number[];
   balances: { [key: string]: IBondV2Balance };
@@ -453,7 +453,7 @@ interface IBondSlice {
 
 const initialState: IBondSlice = {
   loading: false,
-  balanceLoading: false,
+  balanceLoading: {},
   notesLoading: false,
   indexes: [],
   balances: {},
@@ -490,15 +490,15 @@ const bondingSliceV2 = createSlice({
         state.loading = false;
         console.error(error.message);
       })
-      .addCase(getTokenBalance.pending, state => {
-        state.balanceLoading = true;
+      .addCase(getTokenBalance.pending, (state, action) => {
+        state.balanceLoading[action.meta.arg.value] = true;
       })
       .addCase(getTokenBalance.fulfilled, (state, action) => {
         state.balances[action.payload.tokenAddress] = action.payload;
-        state.balanceLoading = false;
+        state.balanceLoading[action.meta.arg.value] = false;
       })
-      .addCase(getTokenBalance.rejected, (state, { error }) => {
-        state.balanceLoading = false;
+      .addCase(getTokenBalance.rejected, (state, { error, meta }) => {
+        state.balanceLoading[meta.arg.value] = false;
         console.error(error.message);
       })
       .addCase(getUserNotes.pending, state => {

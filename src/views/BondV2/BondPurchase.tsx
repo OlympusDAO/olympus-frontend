@@ -128,7 +128,7 @@ function BondPurchase({
 
   // const displayUnits = bond.displayUnits;
 
-  const isAllowanceDataLoading = useAppSelector(state => state.bondingV2.balanceLoading);
+  const isAllowanceDataLoading = useAppSelector(state => state.bondingV2.balanceLoading[bond.quoteToken]);
 
   return (
     <Box display="flex" flexDirection="column">
