@@ -63,24 +63,30 @@ export async function getV1MarketPrice() {
  * @param tokenId STRING taken from https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list
  * @returns INTEGER usd value
  */
-export async function getTokenPrice(tokenId = "olympus") {
-  let resp;
+export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
   try {
-    resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
-    return resp.data[tokenId].usd;
+    const resp = (await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`,
+    )) as {
+      data: { [id: string]: { usd: number } };
+    };
+    let tokenPrice: number = resp.data[tokenId].usd;
+    return tokenPrice;
   } catch (e) {
     // console.log("coingecko api error: ", e);
+    return 0;
   }
 }
 
-export async function getTokenIdByContract(contractAddress: string) {
-  let resp;
+export async function getTokenIdByContract(contractAddress: string): Promise<string> {
   try {
-    resp = await axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${contractAddress}'`);
+    const resp = (await axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${contractAddress}'`)) as {
+      data: { id: string };
+    };
     return resp.data.id;
   } catch (e) {
     // console.log("coingecko api error: ", e);
-    return null;
+    return "";
   }
 }
 
