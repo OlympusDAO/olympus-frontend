@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
@@ -11,35 +11,24 @@ import {
   Link,
   OutlinedInput,
   Paper,
-  Tab,
-  Tabs,
   Typography,
   Zoom,
-  SvgIcon,
-  makeStyles,
   Select,
   MenuItem,
 } from "@material-ui/core";
-import { InfoTooltip } from "@olympusdao/component-library";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 
-import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
+import { trim, formatCurrency } from "../../helpers";
 import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
-import { migrateWithType, migrateCrossChainWSOHM } from "../../slices/MigrateThunk";
 import { switchNetwork } from "../../helpers/NetworkHelper";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
+import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
-import { error } from "../../slices/MessagesSlice";
 import { NETWORKS } from "../../constants";
-import { ethers } from "ethers";
 import "../Stake/stake.scss";
-import { Metric, MetricCollection } from "@olympusdao/component-library";
-import { t } from "@lingui/macro";
+import { Metric, MetricCollection, DataRow, SecondaryButton, Icon } from "@olympusdao/component-library";
+import { t, Trans } from "@lingui/macro";
 import { useAppSelector } from "src/hooks";
 import WrapCrossChain from "./WrapCrossChain";
-import { loadAccountDetails } from "src/slices/AccountSlice";
-import { DataRow } from "@olympusdao/component-library";
 
 function Wrap() {
   const dispatch = useDispatch();
@@ -51,14 +40,13 @@ function Wrap() {
   const [quantity, setQuantity] = useState("");
 
   const chooseCurrentAction = () => {
-    if (assetFrom === "sOHM") return "Wrap from";
-    if (assetTo === "sOHM") return "Unwrap from";
-    return "Transform";
+    if (assetFrom === "sOHM") return t`Wrap from`;
+    if (assetTo === "sOHM") return t`Unwrap from`;
+    return t`Transform`;
   };
   const currentAction = chooseCurrentAction();
 
   const isAppLoading = useSelector(state => state.app.loading);
-  const isAccountLoading = useSelector(state => state.account.loading);
   const currentIndex = useSelector(state => {
     return state.app.currentIndex;
   });
@@ -189,11 +177,11 @@ function Wrap() {
 
     return (
       <FormControl className="ohm-input" variant="outlined" color="primary">
-        <InputLabel htmlFor="amount-input"></InputLabel>
+        <InputLabel htmlFor="amount-input" />
         <OutlinedInput
           id="amount-input"
           type="number"
-          placeholder="Enter an amount"
+          placeholder={t`Enter an amount`}
           className="stake-input"
           value={quantity}
           onChange={e => setQuantity(e.target.value)}
@@ -201,7 +189,7 @@ function Wrap() {
           endAdornment={
             <InputAdornment position="end">
               <Button variant="text" onClick={setMax} color="inherit">
-                Max
+                <Trans>Max</Trans>
               </Button>
             </InputAdornment>
           }
@@ -225,7 +213,7 @@ function Wrap() {
           }
           onClick={approveCorrectToken}
         >
-          {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Approve")}
+          {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], t`Approve`)}
         </Button>
       );
 
@@ -251,7 +239,9 @@ function Wrap() {
             <Grid container direction="column" spacing={2}>
               <Grid item>
                 <div className="card-header">
-                  <Typography variant="h5">Wrap / Unwrap</Typography>
+                  <Typography variant="h5">
+                    <Trans>Wrap / Unwrap</Trans>
+                  </Typography>
                   <Link
                     className="migrate-sohm-button"
                     style={{ textDecoration: "none" }}
@@ -264,27 +254,19 @@ function Wrap() {
                     target="_blank"
                   >
                     <Typography>gOHM</Typography>{" "}
-                    <SvgIcon component={ArrowUp} color="primary" style={{ marginLeft: "5px", width: ".8em" }} />
+                    <Icon name={"arrow-up"} color={"primary"} style={{ marginLeft: "5px", width: ".8em" }} />
                   </Link>
                 </div>
               </Grid>
               <Grid item>
                 <MetricCollection>
-                  <Metric
-                    label={`sOHM ${t`Price`}`}
-                    metric={formatCurrency(sOhmPrice, 2)}
-                    isLoading={sOhmPrice ? false : true}
-                  />
-                  <Metric
-                    label={t`Current Index`}
-                    metric={trim(currentIndex, 1)}
-                    isLoading={currentIndex ? false : true}
-                  />
+                  <Metric label={`sOHM ${t`Price`}`} metric={formatCurrency(sOhmPrice, 2)} isLoading={!sOhmPrice} />
+                  <Metric label={t`Current Index`} metric={trim(currentIndex, 1)} isLoading={!currentIndex} />
                   <Metric
                     label={`gOHM ${t`Price`}`}
                     metric={formatCurrency(gOhmPrice, 2)}
-                    isLoading={gOhmPrice ? false : true}
-                    tooltip={`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of sOHM multiplied by the current index`}
+                    isLoading={!gOhmPrice}
+                    tooltip={t`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of sOHM multiplied by the current index`}
                   />
                 </MetricCollection>
               </Grid>
@@ -294,7 +276,9 @@ function Wrap() {
                     <div className="wallet-menu" id="wallet-menu">
                       {modalButton}
                     </div>
-                    <Typography variant="h6">Connect your wallet</Typography>
+                    <Typography variant="h6">
+                      <Trans>Connect your wallet</Trans>
+                    </Typography>
                   </div>
                 ) : (
                   <>
@@ -317,7 +301,7 @@ function Wrap() {
                             <Select
                               id="asset-select"
                               value={assetFrom}
-                              label="Asset"
+                              label={t`Asset`}
                               onChange={changeAsset}
                               disableUnderline
                             >
@@ -342,7 +326,7 @@ function Wrap() {
                             <Select
                               id="asset-select"
                               value={assetTo}
-                              label="Asset"
+                              label={t`Asset`}
                               onChange={changeAsset}
                               disableUnderline
                             >
@@ -374,31 +358,31 @@ function Wrap() {
                         <Divider />
                         <Box width="100%" align="center" p={1}>
                           <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
-                            Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no
-                            bridge required!)
+                            <Trans>
+                              Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no
+                              bridge required!)
+                            </Trans>
                           </Typography>
-                          <Button
+                          <SecondaryButton
                             onClick={handleSwitchChain(43114)}
                             variant="outlined"
-                            p={1}
                             style={{ margin: "0.3rem" }}
                           >
                             <img height="28px" width="28px" src={avax.image} alt={avax.imageAltText} />
                             <Typography variant="h6" style={{ marginLeft: "8px" }}>
                               {avax.chainName}
                             </Typography>
-                          </Button>
-                          <Button
+                          </SecondaryButton>
+                          <SecondaryButton
                             onClick={handleSwitchChain(42161)}
                             variant="outlined"
-                            p={1}
                             style={{ margin: "0.3rem" }}
                           >
                             <img height="28px" width="28px" src={arbitrum.image} alt={arbitrum.imageAltText} />
                             <Typography variant="h6" style={{ marginLeft: "8px" }}>
                               {arbitrum.chainName}
                             </Typography>
-                          </Button>
+                          </SecondaryButton>
                         </Box>
                       </>
                     </div>
