@@ -258,9 +258,9 @@ async function processBond(
   // SAFETY CHECKs
   // 1. check sold out
   let soldOut = false;
-  if (+capacityInBaseToken < 1) soldOut = true;
-  const maxPayoutOrCapacityInQuote = bond.maxPayout.gt(bond.capacity) ? maxPayoutInQuoteToken : capacityInQuoteToken;
-  const maxPayoutOrCapacityInBase = bond.maxPayout.gt(bond.capacity) ? maxPayoutInBaseToken : capacityInBaseToken;
+  if (+capacityInBaseToken < 1 || +maxPayoutInBaseToken < 1) soldOut = true;
+  const maxPayoutOrCapacityInQuote = bond.maxPayout.gt(bond.capacity) ? capacityInQuoteToken : maxPayoutInQuoteToken;
+  const maxPayoutOrCapacityInBase = bond.maxPayout.gt(bond.capacity) ? capacityInBaseToken : maxPayoutInBaseToken;
 
   return {
     ...bond,
