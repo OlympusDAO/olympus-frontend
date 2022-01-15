@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
-import { Box, Paper, Typography, Zoom, useTheme, makeStyles } from "@material-ui/core";
+import { Box, Typography, Zoom, useTheme, makeStyles } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useWeb3Context } from "src/hooks/web3Context";
 import allPools, { fetchPoolData } from "src/helpers/AllExternalPools";
 import { ExternalPoolwBalance } from "src/lib/ExternalPool";
 import { Skeleton } from "@material-ui/lab";
-import { SecondaryButton, TokenStack } from "@olympusdao/component-library";
+import { SecondaryButton, TokenStack, Paper } from "@olympusdao/component-library";
 
 export const useExternalPools = (address: string) => {
   const { isLoading, data } = useQuery(["externalPools", address], () => fetchPoolData(address), {
@@ -45,7 +45,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
   const styles = useStyles();
   const { connected } = useWeb3Context();
   return (
-    <Paper id={`${pool.poolName}--pool`} className="bond-data-card ohm-card">
+    <Paper>
       <div className={styles.poolPair}>
         <TokenStack tokens={pool.icons} />
         <div className={styles.poolName}>
@@ -146,12 +146,7 @@ export default function ExternalStakePool() {
           ))}
         </>
       ) : (
-        <Paper className={`ohm-card secondary`}>
-          <div className="card-header">
-            <Typography variant="h5">
-              <Trans>Farm Pool</Trans>
-            </Typography>
-          </div>
+        <Paper headerText={t`Farm Pool`}>
           <Box className={styles.stakePoolsWrapper} style={{ gap: theme.spacing(1.5), marginBottom: "0.5rem" }}>
             <Typography gutterBottom={false} className={styles.stakePoolHeaderText} style={{ marginLeft: "75px" }}>
               Asset
