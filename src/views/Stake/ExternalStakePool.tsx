@@ -1,7 +1,7 @@
 import { useEffect, useState, ElementType } from "react";
 import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
-import { Box, Paper, Typography, Zoom, useTheme, makeStyles } from "@material-ui/core";
+import { Box, Typography, Paper, Zoom, useTheme, makeStyles } from "@material-ui/core";
 import { SecondaryButton } from "@olympusdao/component-library";
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -34,15 +34,6 @@ const MultiLogo = ({ icons, size = 35 }: { icons: ElementType[]; size?: number }
 );
 
 const useStyles = makeStyles(theme => ({
-  stakeOnButton: {
-    padding: theme.spacing(1),
-    maxHeight: "100%",
-    height: "100%",
-    position: "relative",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   stakePoolsWrapper: {
     display: "grid",
     gridTemplateColumns: `1.2fr 0.5fr 0.5fr 1.0fr auto`,
