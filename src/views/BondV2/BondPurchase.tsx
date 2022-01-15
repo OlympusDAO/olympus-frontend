@@ -59,7 +59,7 @@ function BondPurchase({
   });
 
   async function onBond() {
-    if (quantity === "") {
+    if (quantity === "" || Number(quantity) <= 0) {
       dispatch(error(t`Please enter a value!`));
     } else if (Number(quantity) > maxBondable) {
       dispatch(
