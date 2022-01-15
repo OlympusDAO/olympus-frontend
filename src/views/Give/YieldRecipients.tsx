@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Typography, Button, Grid, Divider } from "@material-ui/core";
@@ -19,12 +19,12 @@ import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { error } from "../../slices/MessagesSlice";
 import data from "./projects.json";
 import { Project } from "src/components/GiveProject/project.type";
-import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { NetworkId } from "src/constants";
+import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -32,6 +32,12 @@ type State = {
   pendingTransactions: IPendingTxn[];
   app: IAppData;
 };
+
+// TODO(joaot) : better name for type, and move it somewhere
+interface RecipientTotalDebt {
+  recipient: string;
+  totalDebt: string;
+}
 
 export default function YieldRecipients() {
   const location = useLocation();
@@ -41,6 +47,7 @@ export default function YieldRecipients() {
   const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState("");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+  const [debt, setDebt] = useState([] as RecipientTotalDebt[]); //TODO(joaot): come back here for better name;
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   // TODO fix typing of state.app.loading
@@ -53,6 +60,21 @@ export default function YieldRecipients() {
 
   const isDonationInfoLoading = useSelector((state: any) => state.account.loading);
   const isLoading = isAppLoading || isDonationInfoLoading;
+
+  useEffect(() => {
+    Object.keys(donationInfo).forEach(recipient => {
+      getRedemptionBalancesAsync({
+        networkID: networkId,
+        provider,
+        address: recipient,
+      })
+        .then(resultAction => {
+          const { totalDebt } = resultAction.redeeming.recipientInfo;
+          setDebt([...debt, { recipient, totalDebt }]);
+        })
+        .catch(e => console.log(e));
+    });
+  }, [networkId]);
 
   // *** Edit modal
   const handleEditButtonClick = (walletAddress: string) => {
@@ -149,9 +171,9 @@ export default function YieldRecipients() {
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
 
-  const getRecipientTitle = (address: string): string => {
-    const project = projectMap.get(address);
-    if (!project) return shorten(address);
+  const getRecipientTitle = (recipient: string): string => {
+    const project = projectMap.get(recipient);
+    if (!project) return shorten(recipient);
 
     if (!project.owner) return project.title;
 
@@ -185,26 +207,40 @@ export default function YieldRecipients() {
     <div className="card-content">
       <Grid container className={`donation-table ${isSmallScreen && "smaller"}`}>
         <Grid item xs={12} sm={6} style={{ width: "100%", display: "flex", marginBottom: "1rem" }}>
-          <Typography variant="h6">
-            <Trans>Recipient</Trans>
+          <Typography variant="h6" color="textSecondary" style={{ fontSize: 12 }}>
+            <Trans>DATE</Trans>
           </Typography>
-          <Typography variant="h6">
-            <Trans>Deposit</Trans>
+          <Typography variant="h6" color="textSecondary" align="center" style={{ fontSize: 12 }}>
+            <Trans>RECIPIENT</Trans>
+          </Typography>
+          <Typography variant="h6" color="textSecondary" align="center" style={{ fontSize: 12 }}>
+            <Trans>DEPOSITED</Trans>
             <InfoTooltip message={t`The amount of sOHM deposited`} children={null} />
+          </Typography>
+          <Typography variant="h6" color="textSecondary" align="center" style={{ fontSize: 12 }}>
+            <Trans>YIELD SENT</Trans>
+            <InfoTooltip message={t`The amount of sOHM sent`} children={null} />
           </Typography>
         </Grid>
         {isLoading ? (
           <Skeleton />
         ) : (
           Object.keys(donationInfo).map(recipient => {
+            const debtInfo = debt.find(item => item.recipient === recipient); //TODO(joaot): give this better name;
             return (
               <Grid container className="donation-row">
                 <Grid item xs={12} sm={6} className="donation-info" style={{ display: "flex" }}>
                   <Typography variant="body1" align="left">
-                    {getRecipientTitle(recipient)}
+                    Date
                   </Typography>
                   <Typography variant="body1" align="left">
-                    {donationInfo[recipient]}
+                    {getRecipientTitle(recipient)}
+                  </Typography>
+                  <Typography variant="body1" align="center">
+                    {debtInfo && debtInfo.totalDebt} sOHM
+                  </Typography>
+                  <Typography variant="body1" align="center">
+                    {donationInfo[recipient]} sOHM
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} className="donation-buttons">
