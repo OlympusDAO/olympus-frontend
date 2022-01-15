@@ -22,7 +22,7 @@ export const useExternalPools = (address: string) => {
 const useStyles = makeStyles(theme => ({
   stakePoolsWrapper: {
     display: "grid",
-    gridTemplateColumns: `1.5fr 0.2fr 1.0fr 0.3fr 1.5fr auto`,
+    gridTemplateColumns: `1.0fr 0.5fr 0.5fr 1.5fr auto`,
     gridTemplateRows: "auto",
     alignItems: "center",
   },
@@ -53,12 +53,6 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
         </div>
       </div>
       <div className="data-row">
-        <Typography>{/* <Trans>APY</Trans> */}</Typography>
-        <Typography className="bond-price">
-          <>{/*pool.apy*/}</>
-        </Typography>
-      </div>
-      <div className="data-row">
         <Typography>
           <Trans>TVL</Trans>
         </Typography>
@@ -72,7 +66,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
             <Trans>Balance</Trans>
           </Typography>
           <Typography>
-            <>{isLoading ? <Skeleton width={30} /> : `${pool.userBalance} LP`}</>
+            <>{pool.userBalance ? <Skeleton width={30} /> : `${pool.userBalance} LP`}</>
           </Typography>
         </div>
       )}
@@ -99,13 +93,10 @@ const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading:
         </Typography>
       </Box>
       <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-        {/* {pool.apy} */}
-      </Typography>
-      <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
         {!pool.tvl ? <Skeleton width={30} /> : pool.tvl}
       </Typography>
       <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-        {isLoading ? <Skeleton width={30} /> : connected && pool.userBalance ? `${pool.userBalance} LP` : ""}
+        {!pool.userBalance ? <Skeleton width={30} /> : connected && pool.userBalance ? `${pool.userBalance} LP` : ""}
       </Typography>
       <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
         <SecondaryButton target="_blank" href={pool.href} fullWidth>
@@ -162,11 +153,8 @@ export default function ExternalStakePool() {
             </Typography>
           </div>
           <Box className={styles.stakePoolsWrapper} style={{ gap: theme.spacing(1.5), marginBottom: "0.5rem" }}>
-            <Typography gutterBottom={false} className={styles.stakePoolHeaderText} style={{ marginLeft: "93px" }}>
+            <Typography gutterBottom={false} className={styles.stakePoolHeaderText} style={{ marginLeft: "75px" }}>
               Asset
-            </Typography>
-            <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
-              {/* APY */}
             </Typography>
             <Typography gutterBottom={false} className={styles.stakePoolHeaderText} style={{ paddingLeft: "3px" }}>
               TVL
