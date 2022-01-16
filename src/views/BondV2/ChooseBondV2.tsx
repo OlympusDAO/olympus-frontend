@@ -52,17 +52,7 @@ function ChooseBondV2() {
     return state.app.marketPrice;
   });
 
-  const treasuryBalance: number | undefined = useAppSelector(state => {
-    if (state.bonding.loading == false) {
-      let tokenBalances = 0;
-      for (const bond in allBondsMap) {
-        if (state.bonding[bond]) {
-          tokenBalances += state.bonding[bond].purchased;
-        }
-      }
-      return tokenBalances;
-    }
-  });
+  const treasuryBalance = useAppSelector(state => state.app.treasuryMarketValue);
 
   const formattedTreasuryBalance = new Intl.NumberFormat("en-US", {
     style: "currency",

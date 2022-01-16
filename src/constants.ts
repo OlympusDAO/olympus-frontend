@@ -13,9 +13,11 @@ import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
 import { ReactComponent as OhmEthImg } from "src/assets/tokens/OHM-WETH.svg";
 import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
+import { ReactComponent as UstImg } from "src/assets/tokens/UST.svg";
 import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
+import { ReactComponent as wBTCImg } from "src/assets/tokens/wBTC.svg";
 
-import { getTokenPrice } from "./helpers";
+import { getTokenByContract, getTokenPrice } from "./helpers";
 import { ethers } from "ethers";
 import { IERC20__factory, UniswapV2Lp__factory } from "./typechain";
 
@@ -441,6 +443,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
 export interface V2BondDetails {
   name: string;
   bondIconSvg: SVGImageElement;
+  bondIconViewBox?: string;
   pricingFunction(provider: ethers.providers.JsonRpcProvider, quoteToken: string): Promise<number>;
   isLP: boolean;
   lpUrl: { [key: number]: string };
@@ -486,6 +489,28 @@ const CvxDetails: V2BondDetails = {
   lpUrl: {},
 };
 
+const UstDetails: V2BondDetails = {
+  name: "UST",
+  bondIconSvg: UstImg,
+  bondIconViewBox: "0 0 80 80",
+  pricingFunction: async () => {
+    return getTokenByContract("0xa693b19d2931d498c5b318df961919bb4aee87a5");
+  },
+  isLP: false,
+  lpUrl: {},
+};
+
+const WbtcDetails: V2BondDetails = {
+  name: "wBTC",
+  bondIconSvg: wBTCImg,
+  bondIconViewBox: "0 0 109 109",
+  pricingFunction: async () => {
+    return getTokenByContract("0x2260fac5e5542a773aa44fbcfedf7c193bc2c599");
+  },
+  isLP: false,
+  lpUrl: {},
+};
+
 const OhmDaiDetails: V2BondDetails = {
   name: "OHM-DAI LP",
   bondIconSvg: OhmDaiImg,
@@ -496,6 +521,8 @@ const OhmDaiDetails: V2BondDetails = {
   lpUrl: {
     [NetworkId.TESTNET_RINKEBY]:
       "https://app.sushi.com/add/0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C/0x1e630a578967968eb02EF182a50931307efDa7CF",
+    [NetworkId.MAINNET]:
+      "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x6b175474e89094c44da98b954eedeac495271d0f",
   },
 };
 
@@ -563,8 +590,11 @@ export const v2BondDetails: { [key: number]: { [key: string]: V2BondDetails } } 
   [NetworkId.MAINNET]: {
     ["0x6b175474e89094c44da98b954eedeac495271d0f"]: DaiDetails,
     ["0x853d955acef822db058eb8505911ed77f175b99e"]: FraxDetails,
+    ["0xa693b19d2931d498c5b318df961919bb4aee87a5"]: UstDetails,
+    ["0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"]: WbtcDetails,
     ["0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"]: EthDetails,
     ["0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b"]: CvxDetails,
     ["0x69b81152c5a8d35a67b32a4d3772795d96cae4da"]: OhmEthDetails,
+    ["0x055475920a8c93cffb64d039a8205f7acc7722d3"]: OhmDaiDetails,
   },
 };
