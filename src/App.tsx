@@ -220,6 +220,7 @@ function App() {
   });
 
   const hasDust = useAppSelector(state => {
+    // return false;
     if (!state.app.currentIndex || !state.app.marketPrice) {
       return true;
     }
@@ -446,11 +447,7 @@ function App() {
               <Route component={NotFound} />
             </Switch>
           </div>
-          {hasDust ? (
-            <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
-          ) : (
-            <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
-          )}
+          <MigrationModal open={migrationModalOpen} handleClose={migModalClose} hasDust={hasDust} />
         </div>
       </ThemeProvider>
     </QueryClientProvider>

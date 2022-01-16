@@ -15,7 +15,7 @@ import { InfoTooltip, Modal } from "@olympusdao/component-library";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
-import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
+import { changeMigrationApproval, migrateAll, migrateSingle, TokenType } from "src/slices/MigrateThunk";
 import { useWeb3Context } from "src/hooks";
 import { useEffect, useMemo, useState } from "react";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -40,7 +40,7 @@ const useStyles = makeStyles({
   },
 });
 
-function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any }) {
+function MigrationModal({ open, handleClose, hasDust }: { open: boolean; handleClose: any; hasDust: boolean }) {
   const dispatch = useDispatch();
   const classes = useStyles();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
@@ -85,9 +85,9 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const indexV1 = useAppSelector(state => Number(state.app.currentIndexV1!));
   const currentIndex = useAppSelector(state => Number(state.app.currentIndex));
 
-  const currentOhmBalance = useAppSelector(state => Number(state.account.balances.ohmV1));
-  const currentSOhmBalance = useAppSelector(state => Number(state.account.balances.sohmV1));
-  const currentWSOhmBalance = useAppSelector(state => Number(state.account.balances.wsohm));
+  const currentOhmBalance = useAppSelector(state => state.account.balances.ohmV1);
+  const currentSOhmBalance = useAppSelector(state => state.account.balances.sohmV1);
+  const currentWSOhmBalance = useAppSelector(state => state.account.balances.wsohm);
   const wsOhmPrice = useAppSelector(state => state.app.marketPrice! * Number(state.app.currentIndex!));
   const gOHMPrice = wsOhmPrice;
 
@@ -97,27 +97,31 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const marketPrice = useAppSelector(state => {
     return state.app.marketPrice;
   });
+
   const approvedOhmBalance = useAppSelector(state => Number(state.account.migration.ohm));
   const approvedSOhmBalance = useAppSelector(state => Number(state.account.migration.sohm));
   const approvedWSOhmBalance = useAppSelector(state => Number(state.account.migration.wsohm));
-  const ohmFullApproval = approvedOhmBalance >= currentOhmBalance;
-  const sOhmFullApproval = approvedSOhmBalance >= currentSOhmBalance;
-  const wsOhmFullApproval = approvedWSOhmBalance >= currentWSOhmBalance;
-  const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
+  const ohmFullApproval = approvedOhmBalance >= +currentOhmBalance;
+  const sOhmFullApproval = approvedSOhmBalance >= +currentSOhmBalance;
+  const wsOhmFullApproval = hasDust
+    ? approvedWSOhmBalance >= +currentWSOhmBalance
+    : +approvedWSOhmBalance >= +currentWSOhmBalance;
+  const isAllApproved = !hasDust && ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
-  const ohmAsgOHM = currentOhmBalance / currentIndex;
-  const sOHMAsgOHM = currentSOhmBalance / indexV1;
+  const ohmAsgOHM = +currentOhmBalance / currentIndex;
+  const sOHMAsgOHM = +currentSOhmBalance / indexV1;
 
   const ohmInUSD = formatCurrency(gOHMPrice! * ohmAsgOHM);
   const sOhmInUSD = formatCurrency(gOHMPrice! * sOHMAsgOHM);
-  const wsOhmInUSD = formatCurrency(wsOhmPrice * currentWSOhmBalance);
+  const wsOhmInUSD = formatCurrency(wsOhmPrice * +currentWSOhmBalance);
 
   useEffect(() => {
     if (
+      !hasDust &&
       networkId &&
       (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) &&
       isAllApproved &&
-      (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)
+      (+currentOhmBalance || +currentSOhmBalance || currentWSOhmBalance)
     ) {
       dispatch(info("All approvals complete. You may now migrate."));
     }
@@ -126,7 +130,24 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM (v2)"), [view]);
   const targetMultiplier = useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
 
-  const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: networkId, gOHM: isGOHM }));
+  const onMigrate = (type: number | null, amount: string | null) => {
+    if (hasDust) {
+      // Migrate single
+      dispatch(
+        migrateSingle({
+          provider,
+          address,
+          networkID: networkId,
+          gOHM: isGOHM,
+          type: type as number,
+          amount: amount as string,
+        }),
+      );
+    } else {
+      // Migrate All
+      dispatch(migrateAll({ provider, address, networkID: networkId, gOHM: isGOHM }));
+    }
+  };
 
   rows = [
     {
@@ -136,6 +157,8 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
       targetBalance: ohmAsgOHM * targetMultiplier,
       fullApproval: ohmFullApproval,
       usdBalance: ohmInUSD,
+      type: TokenType.UNSTAKED,
+      display: hasDust ? gOHMPrice! * ohmAsgOHM > 10 : true,
     },
     {
       initialAsset: "sOHM",
@@ -144,16 +167,25 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
       targetBalance: sOHMAsgOHM * targetMultiplier,
       fullApproval: sOhmFullApproval,
       usdBalance: sOhmInUSD,
+      type: TokenType.STAKED,
+      display: hasDust ? gOHMPrice! * sOHMAsgOHM > 10 : true,
     },
     {
       initialAsset: "wsOHM",
       initialBalance: currentWSOhmBalance,
       targetAsset: targetAsset,
-      targetBalance: currentWSOhmBalance * targetMultiplier,
+      targetBalance: +currentWSOhmBalance * targetMultiplier,
       fullApproval: wsOhmFullApproval,
       usdBalance: wsOhmInUSD,
+      type: TokenType.WRAPPED,
+      display: hasDust ? wsOhmPrice * +currentWSOhmBalance > 10 : true,
     },
   ];
+
+  function pendingTransactionDispatchType(row: any) {
+    if (hasDust) return `migrate_${row.type}_tokens`;
+    return `approve_migration_${row.initialAsset.toLowerCase()}`;
+  }
 
   return (
     <div>
@@ -166,7 +198,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
         minHeight={"200px"}
         closePosition={"left"}
         headerText={
-          isMigrationComplete || !oldAssetsDetected
+          !oldAssetsDetected || (!hasDust && isMigrationComplete)
             ? t`Migration complete`
             : isAllApproved
             ? t`You are now ready to migrate`
@@ -174,7 +206,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
         }
       >
         <>
-          {isMigrationComplete || !oldAssetsDetected ? null : (
+          {(!hasDust && isMigrationComplete) || !oldAssetsDetected ? null : (
             <Box paddingTop={isMobileScreen ? 2 : 4} paddingBottom={isMobileScreen ? 2 : 0}>
               <Typography id="migration-modal-description" variant="body2" className={isMobileScreen ? `mobile` : ``}>
                 {isAllApproved
@@ -214,7 +246,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
           {isMobileScreen ? (
             <Box id="mobile-container-migration">
               {rows
-                .filter(asset => asset.initialBalance > 0)
+                .filter(asset => +asset.initialBalance > 0 && asset.display)
                 .map(row => (
                   <Box style={{ margin: "20px 0px 20px 0px" }}>
                     <Typography
@@ -223,12 +255,12 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                     >{`${row.initialAsset} -> ${row.targetAsset}`}</Typography>
                     <Box display="flex" flexDirection="row" justifyContent="space-between">
                       <Typography>
-                        {trim(row.initialBalance, 4)} {row.initialAsset}
+                        {trim(+row.initialBalance, 4)} {row.initialAsset}
                       </Typography>
                       <Typography>{`(${row.usdBalance})`}</Typography>
                     </Box>
                     <Box display="flex" justifyContent="center" style={{ margin: "10px 0px 10px 0px" }}>
-                      {isMigrationComplete || !oldAssetsDetected ? (
+                      {(!hasDust && isMigrationComplete) || !oldAssetsDetected ? (
                         <Typography align="center" className={classes.custom}>
                           <Trans>Migrated</Trans>
                         </Typography>
@@ -240,17 +272,10 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                         <Button
                           variant="outlined"
                           onClick={() => onSeekApproval(row.initialAsset)}
-                          disabled={isPendingTxn(
-                            pendingTransactions,
-                            `approve_migration_${row.initialAsset.toLowerCase()}`,
-                          )}
+                          disabled={isPendingTxn(pendingTransactions, pendingTransactionDispatchType(row))}
                         >
                           <Typography>
-                            {txnButtonText(
-                              pendingTransactions,
-                              `approve_migration_${row.initialAsset.toLowerCase()}`,
-                              t`Approve`,
-                            )}
+                            {txnButtonText(pendingTransactions, pendingTransactionDispatchType(row), t`Approve`)}
                           </Typography>
                         </Button>
                       )}
@@ -306,7 +331,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
               </TableHead>
               <TableBody>
                 {rows
-                  .filter(asset => asset.initialBalance > 0)
+                  .filter(asset => +asset.initialBalance > 0 && asset.display)
                   .map(row => (
                     <TableRow key={row.initialAsset}>
                       <TableCell component="th" scope="row">
@@ -314,7 +339,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                       </TableCell>
                       <TableCell align="left">
                         <Typography>
-                          {trim(row.initialBalance, 4)} {row.initialAsset}
+                          {trim(+row.initialBalance, 4)} {row.initialAsset}
                           <Typography style={{ marginTop: "10px" }}>{`(${row.usdBalance})`}</Typography>
                         </Typography>
                       </TableCell>
@@ -325,14 +350,26 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                         </Typography>
                       </TableCell>
                       <TableCell align="left">
-                        {isMigrationComplete || !oldAssetsDetected ? (
+                        {(!hasDust && isMigrationComplete) || !oldAssetsDetected ? (
                           <Typography align="center" className={classes.custom}>
                             <Trans>Migrated</Trans>
                           </Typography>
                         ) : row.fullApproval ? (
-                          <Typography align="center" className={classes.custom}>
-                            <Trans>Approved</Trans>
-                          </Typography>
+                          hasDust ? (
+                            <Button
+                              variant="outlined"
+                              onClick={() => onMigrate(row.type, row.initialBalance)}
+                              disabled={isPendingTxn(pendingTransactions, `migrate_${row.type}_tokens`)}
+                            >
+                              <Typography>
+                                {txnButtonText(pendingTransactions, `migrate_${row.type}_tokens`, t`Migrate`)}
+                              </Typography>
+                            </Button>
+                          ) : (
+                            <Typography align="center" className={classes.custom}>
+                              <Trans>Approved</Trans>
+                            </Typography>
+                          )
                         ) : (
                           <Button
                             variant="outlined"
@@ -358,33 +395,36 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
             </Table>
           )}
 
-          <Box display="flex" flexDirection="row" justifyContent="center">
-            <Button
-              color="primary"
-              variant="contained"
-              disabled={!isAllApproved || isPendingTxn(pendingTransactions, "migrate_all")}
-              onClick={isMigrationComplete || !oldAssetsDetected ? handleClose : onMigrate}
-              fullWidth={isMobileScreen}
-            >
-              <Box marginX={4} marginY={0.5}>
-                <Typography>
-                  {isMigrationComplete || !oldAssetsDetected
-                    ? "Close"
-                    : txnButtonText(
-                        pendingTransactions,
-                        "migrate_all",
-                        `${t`Migrate all to`} ${isGOHM ? "gOHM" : "sOHM"}`,
-                      )}
-                </Typography>
-              </Box>
-            </Button>
-          </Box>
+          {!hasDust && (
+            <Box display="flex" flexDirection="row" justifyContent="center">
+              <Button
+                color="primary"
+                variant="contained"
+                disabled={!isAllApproved || isPendingTxn(pendingTransactions, "migrate_all")}
+                onClick={(!hasDust && isMigrationComplete) || !oldAssetsDetected ? handleClose : onMigrate}
+                fullWidth={isMobileScreen}
+              >
+                <Box marginX={4} marginY={0.5}>
+                  <Typography>
+                    {(!hasDust && isMigrationComplete) || !oldAssetsDetected
+                      ? "Close"
+                      : txnButtonText(
+                          pendingTransactions,
+                          "migrate_all",
+                          `${t`Migrate all to`} ${isGOHM ? "gOHM" : "sOHM"}`,
+                        )}
+                  </Typography>
+                </Box>
+              </Button>
+            </Box>
+          )}
           <div className="help-text">
             <em>
               <Typography variant="body2" style={isMobileScreen ? { lineHeight: "1em" } : {}}>
                 <Trans>
-                  Save on gas fees by migrating all your assets to the new gOHM or sOHM in one transaction. Each asset
-                  asset above must be approved before all can be migrated.
+                  {hasDust
+                    ? "Each asset type requires two transactions. First Approve, then Migrate each asset. Amounts less than 10$ are ignored."
+                    : "Save on gas fees by migrating all your assets to the new gOHM or sOHM in one transaction. Each asset above must be approved before all can be migrated"}
                 </Trans>
               </Typography>
             </em>
