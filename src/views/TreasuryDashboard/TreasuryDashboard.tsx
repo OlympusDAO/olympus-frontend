@@ -39,7 +39,7 @@ const TreasuryDashboard = memo(() => {
             </MetricCollection>
           </Paper>
         </Box>
-        <Box className="hero-metrics" style={{ marginTop: "20px" }}>
+        <Box style={{ marginTop: "20px", marginBottom: "20px" }}>
           <DefaultNotification>
             <Trans>
               Olympus is currently migrating to improved contracts. Please note that during this time, frontend metrics
