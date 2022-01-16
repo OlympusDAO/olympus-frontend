@@ -4,6 +4,7 @@ import { Paper, Grid, Box, Zoom, Container, useMediaQuery, Typography, SvgIcon }
 import Alert from "@material-ui/lab/Alert";
 import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
 import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
+import { Trans } from "@lingui/macro";
 
 import {
   TotalValueDepositedGraph,
@@ -50,8 +51,10 @@ const TreasuryDashboard = memo(() => {
               <SvgIcon component={InfoIcon} />
               <Box width={10} />
               <Typography>
-                Olympus is currently migrating to improved contracts. Please note that during this time, frontend
-                metrics may be inaccurate.
+                <Trans>
+                  Olympus is currently migrating to improved contracts. Please note that during this time, frontend
+                  metrics may be inaccurate.
+                </Trans>
               </Typography>
             </Box>
           </Alert>
