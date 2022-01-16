@@ -21,7 +21,7 @@ export const TotalValueDepositedGraph = () => {
       headerText={t`Total Value Deposited`}
       stopColor={[["#768299", "#98B3E9"]]}
       bulletpointColors={bulletpoints.tvl}
-      infoTooltipMessage={tooltipInfoMessages.tvl}
+      infoTooltipMessage={tooltipInfoMessages().tvl}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
       headerSubText={t`${data && formatCurrency(data[0].totalValueLocked)}`}
     />
@@ -55,7 +55,7 @@ export const MarketValueGraph = () => {
       bulletpointColors={bulletpoints.coin}
       itemNames={tooltipItems.coin}
       itemType={itemType.dollar}
-      infoTooltipMessage={tooltipInfoMessages.mvt}
+      infoTooltipMessage={tooltipInfoMessages().mvt}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
     />
   );
@@ -83,7 +83,7 @@ export const RiskFreeValueGraph = () => {
       bulletpointColors={bulletpoints.rfv}
       itemNames={tooltipItems.rfv}
       itemType={itemType.dollar}
-      infoTooltipMessage={tooltipInfoMessages.rfv}
+      infoTooltipMessage={tooltipInfoMessages().rfv}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
     />
   );
@@ -103,7 +103,7 @@ export const ProtocolOwnedLiquidityGraph = () => {
       itemType={itemType.percentage}
       dataKey={["treasuryOhmDaiPOL"]}
       bulletpointColors={bulletpoints.pol}
-      infoTooltipMessage={tooltipInfoMessages.pol}
+      infoTooltipMessage={tooltipInfoMessages().pol}
       headerText={t`Protocol Owned Liquidity OHM-DAI`}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
       headerSubText={t`${data && trim(data[0].treasuryOhmDaiPOL, 2)}% `}
@@ -135,7 +135,7 @@ export const OHMStakedGraph = () => {
       headerText={t`OHM Staked`}
       stopColor={[["#55EBC7", "#47ACEB"]]}
       bulletpointColors={bulletpoints.staked}
-      infoTooltipMessage={tooltipInfoMessages.staked}
+      infoTooltipMessage={tooltipInfoMessages().staked}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
       headerSubText={t`${staked && trim(staked[0].staked, 2)}% `}
     />
@@ -165,7 +165,7 @@ export const RunwayAvailableGraph = () => {
       bulletpointColors={runwayBulletpoints}
       itemNames={tooltipItems.runway}
       itemType={""}
-      infoTooltipMessage={tooltipInfoMessages.runway}
+      infoTooltipMessage={tooltipInfoMessages().runway}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
     />
   );

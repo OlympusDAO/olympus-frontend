@@ -98,7 +98,7 @@ const TreasuryDashboard = memo(() => {
                   bulletpointColors={bulletpoints.holder}
                   itemNames={tooltipItems.holder}
                   itemType={undefined}
-                  infoTooltipMessage={tooltipInfoMessages.holder}
+                  infoTooltipMessage={tooltipInfoMessages().holder}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
                   scale={undefined}
                   color={undefined}
