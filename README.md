@@ -2,7 +2,6 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 [![OHM Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/gGZUMVDuhQ)
 
-
 # [Ω Olympus Frontend](https://app.olympusdao.finance/)
 
 This is the front-end repo for Olympus that allows users to be part of the future of _Meta Greece_.
@@ -48,6 +47,10 @@ To run all unit test and see coverage report:
 ```
 yarn test:unit
 ```
+
+We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
+When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
+`yarn snapshot`.
 
 ## Rinkeby Testing
 
