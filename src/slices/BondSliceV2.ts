@@ -229,14 +229,23 @@ async function processBond(
     capacityInBaseToken: string,
     capacityInQuoteToken: string;
   if (bond.capacityInQuote) {
-    capacityInBaseToken = ethers.utils.formatUnits(bond.capacity.div(bondPriceBigNumber), BASE_TOKEN_DECIMALS);
+    capacityInBaseToken = ethers.utils.formatUnits(
+      bond.capacity.mul(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)).div(bondPriceBigNumber),
+      BASE_TOKEN_DECIMALS,
+    );
     capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, metadata.quoteDecimals);
   } else {
     capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, BASE_TOKEN_DECIMALS);
-    capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity.mul(bondPriceBigNumber), metadata.quoteDecimals);
+    capacityInQuoteToken = ethers.utils.formatUnits(
+      bond.capacity.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
+      metadata.quoteDecimals,
+    );
   }
   maxPayoutInBaseToken = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
-  maxPayoutInQuoteToken = ethers.utils.formatUnits(bond.maxPayout.mul(bondPriceBigNumber), metadata.quoteDecimals);
+  maxPayoutInQuoteToken = ethers.utils.formatUnits(
+    bond.maxPayout.mul(bondPriceBigNumber).div(Math.pow(10, 18 - metadata.quoteDecimals)),
+    metadata.quoteDecimals,
+  );
 
   let seconds = 0;
   if (terms.fixedTerm) {
