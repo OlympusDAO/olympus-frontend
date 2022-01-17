@@ -57,7 +57,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
           <Trans>TVL</Trans>
         </Typography>
         <Typography>
-          <>{!pool.tvl ? <Skeleton width={70} /> : pool.tvl}</>
+          <>{!pool.tvl ? <Skeleton width={40} /> : pool.tvl}</>
         </Typography>
       </div>
       <div className="data-row">
@@ -95,7 +95,7 @@ const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading:
         </Typography>
       </Box>
       <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-        {!pool.tvl ? <Skeleton width={70} /> : pool.tvl}
+        {!pool.tvl ? <Skeleton width={40} /> : pool.tvl}
       </Typography>
       <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
         {!pool.userBalance && connected ? (
