@@ -18,6 +18,7 @@ import { findOrLoadMarketPrice } from "./AppSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { error, info } from "./MessagesSlice";
 import { getBalances } from "./AccountSlice";
+import { OHMTokenStackProps } from "@olympusdao/component-library";
 
 const BASE_TOKEN_DECIMALS: number = 9;
 
@@ -40,6 +41,7 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   maxPayoutInQuoteToken: string;
   maxPayoutOrCapacityInQuote: string;
   maxPayoutOrCapacityInBase: string;
+  bondIconSvg: OHMTokenStackProps["tokens"];
 }
 
 export interface IBondV2Balance {
@@ -97,6 +99,7 @@ export interface IUserNote {
   claimed: boolean;
   displayName: string;
   quoteToken: string;
+  bondIconSvg: OHMTokenStackProps["tokens"];
   index: number;
 }
 
@@ -285,6 +288,7 @@ async function processBond(
     soldOut,
     maxPayoutOrCapacityInQuote,
     maxPayoutOrCapacityInBase,
+    bondIconSvg: v2BondDetail.bondIconSvg,
   };
 }
 
@@ -374,6 +378,7 @@ export const getUserNotes = createAsyncThunk(
         displayName: bond?.displayName,
         quoteToken: bond.quoteToken.toLowerCase(),
         index: +userNoteIndexes[i],
+        bondIconSvg: bond?.bondIconSvg,
       };
       notes.push(note);
     }

@@ -29,6 +29,7 @@ import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { IUserNote } from "./BondSliceV2";
+import { OHMTokenStackProps } from "@olympusdao/component-library";
 
 interface IUserBalances {
   balances: {
@@ -523,6 +524,7 @@ export interface IUserBondDetails {
   readonly interestDue: number;
   readonly bondMaturationBlock: number;
   readonly pendingPayout: string; //Payout formatted in gwei.
+  readonly bondIconSvg: OHMTokenStackProps["tokens"]; //Payout formatted in gwei.
 }
 export const calculateUserBondDetails = createAsyncThunk(
   "account/calculateUserBondDetails",
@@ -531,7 +533,7 @@ export const calculateUserBondDetails = createAsyncThunk(
       return {
         bond: "",
         displayName: "",
-        bondIconSvg: "",
+        bondIconSvg: [],
         isLP: false,
         allowance: 0,
         balance: "0",
