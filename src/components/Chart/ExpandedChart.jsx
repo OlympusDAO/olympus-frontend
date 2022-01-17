@@ -2,6 +2,7 @@ import { InfoTooltip } from "@olympusdao/component-library";
 import { Box, Typography } from "@material-ui/core";
 import { ResponsiveContainer } from "recharts";
 import { Modal } from "@olympusdao/component-library";
+import { Trans } from "@lingui/macro";
 
 function ExpandedChart({
   open,
@@ -44,7 +45,7 @@ function ExpandedChart({
             </Typography>
             {runwayExtraInfo}
             <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400 }}>
-              Today
+              <Trans>Today</Trans>
             </Typography>
           </Box>
         </div>
