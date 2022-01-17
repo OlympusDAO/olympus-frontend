@@ -60,16 +60,14 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
           <>{!pool.tvl ? <Skeleton width={30} /> : pool.tvl}</>
         </Typography>
       </div>
-      {connected && pool.userBalance && (
-        <div className="data-row">
-          <Typography>
-            <Trans>Balance</Trans>
-          </Typography>
-          <Typography>
-            <>{!pool.userBalance ? <Skeleton width={30} /> : `${pool.userBalance} LP`}</>
-          </Typography>
-        </div>
-      )}
+      <div className="data-row">
+        <Typography>
+          <Trans>Balance</Trans>
+        </Typography>
+        <Typography>
+          {!pool.userBalance ? <Skeleton width={30} /> : connected && pool.userBalance ? `${pool.userBalance} LP` : ""}
+        </Typography>
+      </div>
       {/* Pool Staking Linkouts */}
       <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
         <SecondaryButton href={pool.href} fullWidth>
