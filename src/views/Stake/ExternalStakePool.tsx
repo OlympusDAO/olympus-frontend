@@ -66,7 +66,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
             <Trans>Balance</Trans>
           </Typography>
           <Typography>
-            <>{pool.userBalance ? <Skeleton width={30} /> : `${pool.userBalance} LP`}</>
+            <>{!pool.userBalance ? <Skeleton width={30} /> : `${pool.userBalance} LP`}</>
           </Typography>
         </div>
       )}
