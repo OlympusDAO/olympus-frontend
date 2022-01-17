@@ -21,4 +21,5 @@ vscode:
   extensions:
     - dbaeumer.vscode-eslint
     - esbenp.prettier-vscode
-    - juanblanco.solidity
+    - streetsidesoftware.code-spell-checker
+    - ban.spellright
