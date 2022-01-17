@@ -10,8 +10,13 @@ module.exports = {
       jsx: true,
     },
   },
-  extends: ["plugin:prettier/recommended", "plugin:react-hooks/recommended", "plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/eslint-recommended",],
-  plugins: ["prettier", "@typescript-eslint", "simple-import-sort", "unused-imports"],
+  extends: [
+    "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+  ],
+  plugins: ["@typescript-eslint", "simple-import-sort", "unused-imports"],
   rules: {
     "prettier/prettier": ["error"],
     "import/prefer-default-export": "off",
