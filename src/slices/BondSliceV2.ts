@@ -229,8 +229,10 @@ async function processBond(
     capacityInBaseToken: string,
     capacityInQuoteToken: string;
   if (bond.capacityInQuote) {
-    capacityInBaseToken = ethers.utils.formatUnits(bond.capacity.div(bondPriceBigNumber), BASE_TOKEN_DECIMALS);
     capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, metadata.quoteDecimals);
+    capacityInBaseToken = (
+      Number(capacityInQuoteToken) / Number(ethers.utils.formatUnits(bondPriceBigNumber, BASE_TOKEN_DECIMALS))
+    ).toString();
   } else {
     capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, BASE_TOKEN_DECIMALS);
     capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity.mul(bondPriceBigNumber), metadata.quoteDecimals);
