@@ -158,7 +158,8 @@
     "lingui:fetch": "git submodule update --init --remote src/locales/translations",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "preinstall": "[ ! -e src/locales/translations/.git ] && yarn lingui:fetch || exit 0",
-    "postinstall": "yarn typechain:build && yarn lingui:compile"
+    "postinstall": "yarn typechain:build && yarn lingui:compile",
+    "prepare": "husky install"
   },
   "resolutions": {
     "**/immer": "9.0.6",
@@ -182,8 +183,7 @@
   },
   "lint-staged": {
     "!(src/locales)src/**/*.{ts,tsx,js,jsx}": [
-      "yarn lint --fix",
-      "prettier --write"
+      "yarn lint --fix"
     ]
   }
 }
