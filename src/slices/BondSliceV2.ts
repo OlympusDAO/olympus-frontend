@@ -243,7 +243,7 @@ async function processBond(
   }
   maxPayoutInBaseToken = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
   maxPayoutInQuoteToken = ethers.utils.formatUnits(
-    bond.maxPayout.mul(bondPriceBigNumber).div(Math.pow(10, 18 - metadata.quoteDecimals)),
+    bond.maxPayout.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
     metadata.quoteDecimals,
   );
 
