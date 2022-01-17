@@ -14,7 +14,7 @@ import { t, Trans } from "@lingui/macro";
 import { shorten } from "src/helpers";
 
 export interface WithdrawSubmitCallback {
-  (walletAddress: string, depositAmount: BigNumber): void;
+  (walletAddress: string, eventSource: string, depositAmount: BigNumber): void;
 }
 
 export interface WithdrawCancelCallback {
@@ -23,6 +23,7 @@ export interface WithdrawCancelCallback {
 
 type WithdrawModalProps = {
   isModalOpen: boolean;
+  eventSource: string;
   callbackFunc: WithdrawSubmitCallback;
   cancelFunc: WithdrawCancelCallback;
   walletAddress: string;
@@ -38,6 +39,7 @@ type State = {
 
 export function WithdrawDepositModal({
   isModalOpen,
+  eventSource,
   callbackFunc,
   cancelFunc,
   walletAddress,
@@ -65,7 +67,7 @@ export function WithdrawDepositModal({
    * Calls the submission callback function that is provided to the component.
    */
   const handleSubmit = () => {
-    callbackFunc(walletAddress, new BigNumber(depositAmount));
+    callbackFunc(walletAddress, eventSource, new BigNumber(depositAmount));
   };
 
   const getRecipientTitle = () => {

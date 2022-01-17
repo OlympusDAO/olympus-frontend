@@ -370,6 +370,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const handleGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
+    eventSource: string,
     depositAmount: BigNumber,
     depositAmountDiff?: BigNumber,
   ) => {
@@ -389,6 +390,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource: eventSource,
         }),
       );
     } else {
@@ -402,6 +404,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource: eventSource,
         }),
       );
     }
@@ -537,6 +540,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         </Box>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
+          eventSource="Project List"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
           project={project}
@@ -686,6 +690,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         </Container>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
+          eventSource="Project Details"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
           project={project}

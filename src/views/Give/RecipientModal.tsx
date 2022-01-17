@@ -44,6 +44,7 @@ import { ChevronLeft } from "@material-ui/icons";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
+  eventSource: string;
   callbackFunc: SubmitCallback;
   cancelFunc: CancelCallback;
   project?: Project;
@@ -59,6 +60,7 @@ type State = {
 
 export function RecipientModal({
   isModalOpen,
+  eventSource,
   callbackFunc,
   cancelFunc,
   project,
@@ -365,7 +367,7 @@ export function RecipientModal({
   const handleSubmit = () => {
     const depositAmountBig = new BigNumber(depositAmount);
 
-    callbackFunc(getWalletAddress(), depositAmountBig, getDepositAmountDiff());
+    callbackFunc(getWalletAddress(), eventSource, depositAmountBig, getDepositAmountDiff());
   };
 
   const getRecipientElements = () => {
