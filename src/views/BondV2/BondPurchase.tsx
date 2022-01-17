@@ -252,7 +252,9 @@ function BondPurchase({
               {isBondLoading ? (
                 <Skeleton width="100px" />
               ) : (
-                `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} ` + `sOHM`
+                `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
+                  trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
+                } ${bond.displayName})`
               )}
             </Typography>
           </div>
