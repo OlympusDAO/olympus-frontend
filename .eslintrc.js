@@ -10,8 +10,8 @@ module.exports = {
       jsx: true,
     },
   },
-  extends: ["plugin:prettier/recommended", "plugin:@typescript-eslint/recommended"],
-  plugins: ["prettier", "@typescript-eslint"],
+  extends: ["react-app", "plugin:prettier/recommended", "plugin:react-hooks/recommended", "plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/eslint-recommended",],
+  plugins: ["prettier", "@typescript-eslint", "simple-import-sort", "unused-imports"],
   rules: {
     "prettier/prettier": ["error"],
     "import/prefer-default-export": "off",
@@ -27,5 +27,17 @@ module.exports = {
     "no-nested-ternary": "off",
     "no-restricted-syntax": "off",
     "no-plusplus": "off",
+    "simple-import-sort/imports": "error",
+    "unused-imports/no-unused-imports": "error",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "no-undef": "error",
+  },
+  ignorePatterns: ["build", "node_modules"],
+  globals: {
+    React: true,
+    JSX: true,
   },
 };
