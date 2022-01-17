@@ -1,4 +1,4 @@
-import { Box, Modal, Paper, Typography, SvgIcon, Link, Button, Divider } from "@material-ui/core";
+import { Box, Modal, Paper, Grid, Typography, SvgIcon, Link, Button, Divider } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
@@ -36,21 +36,23 @@ import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
-import { CancelCallback, SubmitCallback } from "./Interfaces";
+import { CancelCallback, SwitchModal } from "./Interfaces";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ConnectButton from "../../components/ConnectButton";
 import { NetworkId } from "src/constants";
 import { ChevronLeft } from "@material-ui/icons";
+import MarkdownIt from "markdown-it";
 
 type ManageModalProps = {
   isModalOpen: boolean;
-  callbackFunc: SubmitCallback;
   cancelFunc: CancelCallback;
+  switchToEdit: SwitchModal;
+  switchToWithdraw: SwitchModal;
   project?: Project;
   currentWalletAddress?: string;
   currentDepositAmount?: BigNumber; // As per IUserDonationInfo
-  depositDate?: string;
-  yieldSent?: string;
+  depositDate: string;
+  yieldSent: string;
 };
 
 // TODO consider shifting this into interfaces.ts
@@ -61,13 +63,14 @@ type State = {
 
 export function ManageDonationModal({
   isModalOpen,
-  callbackFunc,
   cancelFunc,
+  switchToEdit,
+  switchToWithdraw,
   project,
   currentWalletAddress,
   currentDepositAmount,
   depositDate,
-  yieldSent
+  yieldSent,
 }: ManageModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -98,49 +101,15 @@ export function ManageDonationModal({
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  useEffect(() => {
-    checkIsDepositAmountValid(getDepositAmount().toFixed());
-    checkIsWalletAddressValid(getWalletAddress());
-  }, []);
-
-  useEffect(() => {
-    // When we close the modal, we ensure that the state is also reset to default
-    if (!isModalOpen) {
-      handleSetDepositAmount(getInitialDepositAmount().toFixed());
-      handleSetWallet(getInitialWalletAddress());
-      setIsAmountSet(_initialIsAmountSet);
-    }
-  }, [isModalOpen]);
-
   const handleModalInsideClick = (e: any): void => {
     // When the user clicks within the modal window, we do not want to pass the event up the tree
     e.stopPropagation();
   };
 
-  /**
-   * Checks if the provided wallet address is valid.
-   *
-   * This will return false if:
-   * - it is an invalid Ethereum address
-   * - it is the same as the sender address
-   *
-   * @param {string} value the proposed value for the wallet address
-   */
-  const checkIsWalletAddressValid = (value: string) => {
-    if (!isAddress(value)) {
-      setIsWalletAddressValid(false);
-      setIsWalletAddressValidError(t`Please enter a valid Ethereum address`);
-      return;
-    }
+  const getDepositAmount = (): BigNumber => {
+    if (!depositAmount) return new BigNumber(0);
 
-    if (value == address) {
-      setIsWalletAddressValid(false);
-      setIsWalletAddressValidError(t`Please enter a different address: cannot direct to the same wallet`);
-      return;
-    }
-
-    setIsWalletAddressValid(true);
-    setIsWalletAddressValidError("");
+    return new BigNumber(depositAmount);
   };
 
   /**
@@ -167,12 +136,11 @@ export function ManageDonationModal({
     return project.owner + " - " + project.title;
   };
 
-  const getRenderedDetails = (shorten: boolean) => {
+  const getRenderedDetails = () => {
     return {
-      __html: MarkdownIt({ html: true }).render(shorten ? `${shortDescription}` : `${details}`),
+      __html: MarkdownIt({ html: true }).render(project ? project.shortDescription : ""),
     };
   };
-
 
   // TODO stop modal from moving when validation messages are shown
 
@@ -199,60 +167,102 @@ export function ManageDonationModal({
           </Typography>
         </div>
         <div className="manage-project-info">
-          <div className="cause-image">
-            <Link href={`#/give/projects/${project.slug}`}>
-              <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
-            </Link>
-          </div>
-          <div className="cause-content">
-            <Grid container className="cause-header">
-              <Grid item className="cause-title">
-                <Link href={`#/give/projects/${project.slug}`}>
-                  <Typography variant="h4">
-                    <strong>{getRecipientTitle()}</strong>
+          {project ? (
+            <div className="project">
+              <div className="cause-image">
+                <img width="100%" src={`${process.env.PUBLIC_URL}${project.photos[0]}`} />
+              </div>
+              <div className="cause-content">
+                <Grid container className="cause-header">
+                  <Grid item className="cause-title">
+                    <Typography variant="h6">
+                      <strong>{getRecipientTitle()}</strong>
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <div className="cause-body">
+                  <Typography variant="body1" className="project-description" style={{ lineHeight: "20px" }}>
+                    <div dangerouslySetInnerHTML={getRenderedDetails()} />
                   </Typography>
-                </Link>
-              </Grid>
-            </Grid>
-            <div className="cause-body">
-              <Typography variant="body1" style={{ lineHeight: "20px" }}>
-                <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
-              </Typography>
+                </div>
+              </div>
             </div>
+          ) : (
+            <Typography variant="h6">Custom Recipient</Typography>
+          )}
+        </div>
+        <div className="manage-project-stats-container">
+          <div className="manage-project-stats">
+            <Box className="project-stats-box">
+              <Typography variant="h5" align="center" className="project-stat-top">
+                {project ? project.depositGoal : "N/A"}
+              </Typography>
+              <Typography variant="body1" align="center" className="subtext">
+                Goal
+              </Typography>
+            </Box>
+            <Box className="project-stats-box" style={{ marginLeft: "20px", marginRight: "20px" }}>
+              <Typography variant="h5" align="center" className="project-stat-top">
+                1
+              </Typography>
+              <Typography variant="body1" align="center" className="subtext">
+                Total Raised
+              </Typography>
+            </Box>
+            <Box className="project-stats-box">
+              <Typography variant="h5" align="center" className="project-stat-top">
+                50%
+              </Typography>
+              <Typography variant="body1" align="center" className="subtext">
+                of Goal
+              </Typography>
+            </Box>
           </div>
         </div>
-        <div className="manage-project-stats">
+        <div className="manage-donation-details">
           <Box
-            className="project-goal"
+            className="donation-details"
             style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px 40px 20px 40px" }}
           >
-            <Typography variant="h5">{project.depositGoal}</Typography>
-            <Typography variant="body1" className="subtext">Goal</Typography>
+            <div className="details-container">
+              <div className="details-header">
+                <Typography variant="h5">Donation Details</Typography>
+              </div>
+              <div className="details-row">
+                <Typography variant="h6" className="row-title">
+                  Date
+                </Typography>
+                <Typography variant="h6">{depositDate}</Typography>
+              </div>
+              <div className="details-row">
+                <Typography variant="h6" className="row-title">
+                  Recipient
+                </Typography>
+                <Typography variant="h6">{getRecipientTitle()}</Typography>
+              </div>
+              <div className="details-row">
+                <Typography variant="h6" className="row-title">
+                  Deposited
+                </Typography>
+                <Typography variant="h6">{depositAmount} sOHM</Typography>
+              </div>
+              <div className="details-row">
+                <Typography variant="h6" className="row-title">
+                  Yield Sent
+                </Typography>
+                <Typography variant="h6">{yieldSent} sOHM</Typography>
+              </div>
+            </div>
           </Box>
-          
         </div>
-        <Box
-          className="give-confirmation-details"
-          style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px" }}
-        >
-          <div className="details-row">
-            <div className="sohm-allocation-col">
-              <Typography variant="body1">
-                <Trans>sOHM deposit</Trans>
-              </Typography>
-              <Typography variant="h6">{getDepositAmount().toFixed(2)} sOHM</Typography>
-            </div>
-            {!isSmallScreen && <ArrowGraphic />}
-            <div className="recipient-address-col">
-              <Typography variant="body1">
-                <Trans>Recipient address</Trans>
-              </Typography>
-              <Typography variant="h6">
-                <strong>{getRecipientTitle()}</strong>
-              </Typography>
-            </div>
-          </div>
-        </Box>
+        <div className="manage-buttons">
+          <Button variant="contained" color="primary" style={{ marginBottom: "20px" }} onClick={switchToEdit}>
+            <Typography variant="h6">Edit Donation</Typography>
+          </Button>
+          <Button variant="outlined" color="primary" onClick={switchToWithdraw}>
+            <Typography variant="h6">Stop Donation</Typography>
+          </Button>
+        </div>
       </Paper>
     </Modal>
   );

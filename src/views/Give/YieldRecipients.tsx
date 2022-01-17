@@ -218,6 +218,7 @@ export default function YieldRecipients() {
               <TableCell align="left"></TableCell>
             </TableRow>
           </TableHead>
+          <Divider className="table-head-divider" />
           <TableBody>
             {isLoading ? (
               <Skeleton />

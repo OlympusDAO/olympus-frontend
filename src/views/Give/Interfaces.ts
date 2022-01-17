@@ -7,3 +7,7 @@ export interface SubmitCallback {
 export interface CancelCallback {
   (): void;
 }
+
+export interface SwitchModal {
+  (): void;
+}

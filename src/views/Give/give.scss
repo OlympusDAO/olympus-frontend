@@ -241,14 +241,6 @@
       }
     }
 
-    .MuiTableHead-root {
-      max-width: 90%;
-    }
-
-    .MuiTableBody-root {
-      max-width: 90%;
-    }
-
     .MuiTableRow-root {
       display: flex;
     }
@@ -273,6 +265,20 @@
 }
 
 #give-view.medium {
+  .donation-table {
+    .table-head-divider {
+      max-width: 90%;
+    }
+
+    .MuiTableHead-root {
+      max-width: 90%;
+    }
+
+    .MuiTableBody-root {
+      max-width: 90%;
+    }
+  }
+
   .cause-title {
     margin-bottom: 1rem;
   }
@@ -530,6 +536,17 @@
       margin-left: 0px;
       margin-right: 0px;
     }
+
+    .manage-project-info {
+      .project {
+        .cause-image {
+          max-width: 40%;
+        }
+        .cause-content {
+          width: 60%;
+        }
+      }
+    }
   }
 
   .yield-header {
@@ -581,6 +598,81 @@
     button {
       height: 40px;
       width: 100%;
+    }
+  }
+
+  .manage-project-info {
+    .project {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding-bottom: 20px;
+
+      .cause-image {
+        max-width: 20%;
+        padding-right: 20px;
+      }
+
+      .project-description {
+        color: #999999;
+      }
+    }
+  }
+
+  .manage-project-stats {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 20px;
+
+    .MuiBox-root {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #999999;
+      border-radius: 10px;
+      padding: 20px 40px 20px 40px;
+      width: 33%;
+      overflow: auto;
+
+      .project-stat-top {
+        font-weight: 600;
+      }
+
+      .subtext {
+        color: #999999;
+      }
+    }
+  }
+
+  .details-container {
+    display: flex;
+    flex-direction: column;
+
+    .details-header .MuiTypography-h5 {
+      font-weight: 600;
+      padding-bottom: 18px;
+    }
+
+    .details-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding-bottom: 18px;
+
+      .row-title {
+        color: #999999;
+      }
+    }
+  }
+
+  .manage-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+
+    .MuiButton-root {
+      width: 75%;
     }
   }
 }

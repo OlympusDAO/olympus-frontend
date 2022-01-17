@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./give.scss";
-import DepositYield from "./DepositYield";
+import YieldRecipients from "./YieldRecipients";
 import RedeemYield from "./RedeemYield";
 import { Button, Paper, Typography, Zoom, Tab, Tabs } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
@@ -76,7 +76,7 @@ function Give() {
               <CausesDashboard />
             </TabPanel>
             <TabPanel value={view} index={1} className="donations-tab-panel">
-              <DepositYield />
+              <YieldRecipients />
             </TabPanel>
             <TabPanel value={view} index={2} className="redeem-tab-panel">
               <RedeemYield />
