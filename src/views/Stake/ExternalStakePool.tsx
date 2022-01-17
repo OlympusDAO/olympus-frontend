@@ -45,7 +45,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
   const styles = useStyles();
   const { connected } = useWeb3Context();
   return (
-    <Paper>
+    <Paper id={`${pool.poolName}--pool`} className="bond-data-card ohm-card">
       <div className={styles.poolPair}>
         <TokenStack tokens={pool.icons} />
         <div className={styles.poolName}>
@@ -57,15 +57,19 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
           <Trans>TVL</Trans>
         </Typography>
         <Typography>
-          <>{!pool.tvl ? <Skeleton width={30} /> : pool.tvl}</>
+          <>{!pool.tvl ? <Skeleton width={70} /> : pool.tvl}</>
         </Typography>
       </div>
       <div className="data-row">
+        <Typography>{connected && t`Balance`}</Typography>
         <Typography>
-          <Trans>Balance</Trans>
-        </Typography>
-        <Typography>
-          {!pool.userBalance ? <Skeleton width={30} /> : connected && pool.userBalance ? `${pool.userBalance} LP` : ""}
+          {!pool.userBalance && connected ? (
+            <Skeleton width={30} />
+          ) : connected && pool.userBalance ? (
+            `${pool.userBalance} LP`
+          ) : (
+            ""
+          )}
         </Typography>
       </div>
       {/* Pool Staking Linkouts */}
@@ -91,10 +95,16 @@ const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading:
         </Typography>
       </Box>
       <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-        {!pool.tvl ? <Skeleton width={30} /> : pool.tvl}
+        {!pool.tvl ? <Skeleton width={70} /> : pool.tvl}
       </Typography>
       <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-        {!pool.userBalance ? <Skeleton width={30} /> : connected && pool.userBalance ? `${pool.userBalance} LP` : ""}
+        {!pool.userBalance && connected ? (
+          <Skeleton width={30} />
+        ) : connected && pool.userBalance ? (
+          `${pool.userBalance} LP`
+        ) : (
+          ""
+        )}
       </Typography>
       <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
         <SecondaryButton target="_blank" href={pool.href} fullWidth>
@@ -147,13 +157,13 @@ export default function ExternalStakePool() {
         <Paper headerText={t`Farm Pool`}>
           <Box className={styles.stakePoolsWrapper} style={{ gap: theme.spacing(1.5), marginBottom: "0.5rem" }}>
             <Typography gutterBottom={false} className={styles.stakePoolHeaderText} style={{ marginLeft: "75px" }}>
-              Asset
+              <Trans>Asset</Trans>
             </Typography>
             <Typography gutterBottom={false} className={styles.stakePoolHeaderText} style={{ paddingLeft: "3px" }}>
-              TVL
+              <Trans>TVL</Trans>
             </Typography>
             <Typography gutterBottom={false} className={styles.stakePoolHeaderText}>
-              {connected && `Balance`}
+              {connected && t`Balance`}
             </Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(4), padding: "16px 0px" }}>
