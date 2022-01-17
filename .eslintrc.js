@@ -40,11 +40,18 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
-    "no-undef": "error",
   },
   ignorePatterns: ["build", "node_modules"],
   globals: {
     React: true,
     JSX: true,
   },
+  overrides: [
+    {
+      files: ["**/*.js", "**/*.jsx"],
+      rules: {
+        "no-undef": "error",
+      },
+    },
+  ],
 };
