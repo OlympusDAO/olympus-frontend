@@ -134,6 +134,10 @@
     "extends": "react-app"
   },
   "scripts": {
+    "prepare": "husky install",
+    "postinstall": "husky install",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
