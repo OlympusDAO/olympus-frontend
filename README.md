@@ -31,8 +31,8 @@ $ cp .env.example .env
 $ yarn
 $ yarn start
 
-# Set up Husky (for pre-commit) hooks by running:
-$ husky install
+# Set up Husky (for pre-commit hooks) by running:
+$ yarn prepare
 ```
 
 The site is now running at `http://localhost:3000`!
