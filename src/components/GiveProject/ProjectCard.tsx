@@ -432,7 +432,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
    */
   const handleProjectDetailsButtonClick = (source: string) => {
     ReactGA.event({
-      category: "Give",
+      category: "Olympus Give",
       action: "View Project",
       label: title,
       dimension1: address ?? "unknown",
