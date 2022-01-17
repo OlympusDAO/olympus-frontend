@@ -81,6 +81,10 @@ export interface IActionValueRecipientAsyncThunk extends IActionValueAsyncThunk 
   readonly eventSource: string;
 }
 
+export interface IRedeemAsyncThunk extends IBaseAddressAsyncThunk {
+  readonly eventSource: string;
+}
+
 export interface IZapAsyncThunk extends IBaseAddressAsyncThunk {
   readonly tokenAddress: string;
   readonly sellAmount: number;
