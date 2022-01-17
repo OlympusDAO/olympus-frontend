@@ -1,5 +1,7 @@
 module.exports = {
   env: {
+    node: true,
+    jest: true,
     browser: true,
   },
   parser: "@typescript-eslint/parser",
