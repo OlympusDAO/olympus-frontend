@@ -1,31 +1,25 @@
-import { ReactComponent as ForumIcon } from "../../assets/icons/forum.svg";
-import { ReactComponent as GovIcon } from "../../assets/icons/governance.svg";
-import { ReactComponent as DocsIcon } from "../../assets/icons/docs.svg";
-import BugReportIcon from "@material-ui/icons/BugReport";
-import { ReactComponent as BridgeIcon } from "../../assets/icons/bridge.svg";
-import { SvgIcon } from "@material-ui/core";
 import { Trans } from "@lingui/macro";
 
 const externalUrls = [
   {
     title: <Trans>Forum</Trans>,
     url: "https://forum.olympusdao.finance/",
-    icon: <SvgIcon color="primary" component={ForumIcon} />,
+    icon: "forum",
   },
   {
     title: <Trans>Governance</Trans>,
     url: "https://vote.olympusdao.finance/",
-    icon: <SvgIcon color="primary" component={GovIcon} />,
+    icon: "governance",
   },
   {
     title: <Trans>Docs</Trans>,
     url: "https://docs.olympusdao.finance/",
-    icon: <SvgIcon color="primary" component={DocsIcon} />,
+    icon: "docs",
   },
   {
     title: <Trans>Bug Bounty</Trans>,
     url: "https://immunefi.com/bounty/olympus/",
-    icon: <SvgIcon color="primary" component={BugReportIcon} />,
+    icon: "bug-report",
   },
   // {
   //   title: "Feedback",
