@@ -16,7 +16,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { InfoTooltip, Modal } from "@olympusdao/component-library";
-import { useMemo, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
@@ -46,7 +46,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
   const { provider, address, networkId } = useWeb3Context();
 
   const [view, setView] = useState(0);
-  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 

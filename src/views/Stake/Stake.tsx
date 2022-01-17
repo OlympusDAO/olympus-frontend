@@ -23,7 +23,7 @@ import { ExpandMore } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, Metric, MetricCollection } from "@olympusdao/component-library";
 import { ethers } from "ethers";
-import { ChangeEventHandler, useCallback, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useAppSelector } from "src/hooks";
@@ -240,7 +240,7 @@ function Stake() {
     </Button>,
   );
 
-  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 

@@ -20,7 +20,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ExpandMore } from "@material-ui/icons";
 import { isEmpty } from "lodash";
 import title from "material-ui/svg-icons/editor/title";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
 import { useAppSelector } from "src/hooks";
@@ -66,7 +66,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
-  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 

@@ -218,6 +218,7 @@ const zapTokenBalancesSlice = createSlice({
         console.error("Handled error");
         console.error(error.message);
       })
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       .addCase(getZapTokenAllowance.pending, state => {})
       .addCase(getZapTokenAllowance.fulfilled, (state, action) => {
         if (!action.payload) return;

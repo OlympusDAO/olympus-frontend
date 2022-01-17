@@ -3,7 +3,7 @@ import "./33together.scss";
 import { t } from "@lingui/macro";
 import { Box, Paper, Tab, Tabs } from "@material-ui/core";
 import { InfoTooltipMulti } from "@olympusdao/component-library";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addresses, POOL_GRAPH_URLS } from "src/constants";
 import { calculateOdds, trimOdds } from "src/helpers/33Together";
@@ -36,7 +36,7 @@ const PoolTogether = () => {
   const [view, setView] = useState(0);
   const [zoomed, setZoomed] = useState(false);
 
-  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 

@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, OHMTokenProps, Token as TokenSVG } from "@olympusdao/component-library";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useQuery } from "react-query";
 import { addresses, NETWORKS } from "src/constants";
 import { NetworkId } from "src/constants";
@@ -96,7 +96,7 @@ const addTokenToWallet = async (token: IToken, userAddress: string) => {
 
 interface TokenProps extends IToken {
   expanded: boolean;
-  onChangeExpanded: (event: React.ChangeEvent<{}>, isExpanded: boolean) => void;
+  onChangeExpanded: (event: ChangeEvent<any>, isExpanded: boolean) => void;
   onAddTokenToWallet: () => void;
   decimals: number;
 }

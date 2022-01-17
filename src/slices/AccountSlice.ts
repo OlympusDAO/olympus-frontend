@@ -534,17 +534,13 @@ export const calculateUserBondDetails = createAsyncThunk(
     // Calculate bond details.
     const bondContract = bond.getContractForBond(networkID, provider);
     const reserveContract = bond.getContractForReserve(networkID, provider);
-
-    let pendingPayout, bondMaturationBlock;
-
     const bondDetails = await bondContract.bondInfo(address);
     const interestDue: BigNumberish = Number(bondDetails.payout.toString()) / Math.pow(10, 9);
-    bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
-    pendingPayout = await bondContract.pendingPayoutFor(address);
+    const bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
+    const pendingPayout = await bondContract.pendingPayoutFor(address);
 
-    let allowance,
-      balance = BigNumber.from(0);
-    allowance = await reserveContract.allowance(address, bond.getAddressForBond(networkID) || "");
+    let balance = BigNumber.from(0);
+    const allowance = await reserveContract.allowance(address, bond.getAddressForBond(networkID) || "");
     balance = await reserveContract.balanceOf(address);
     // formatEthers takes BigNumber => String
     const balanceVal = ethers.utils.formatEther(balance);

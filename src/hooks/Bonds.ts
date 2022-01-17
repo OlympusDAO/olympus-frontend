@@ -32,8 +32,7 @@ function useBonds(networkId: NetworkId) {
   const [expiredBonds, setExpiredBonds] = useState<Bond[] | IAllBondData[]>(initialExpiredArray);
 
   useEffect(() => {
-    let bondDetails: IAllBondData[];
-    bondDetails = allBonds
+    const bondDetails: IAllBondData[] = allBonds
       .flatMap(bond => {
         if (bondState[bond.name] && bondState[bond.name].bondDiscount) {
           return Object.assign(bond, bondState[bond.name]); // Keeps the object type
@@ -57,8 +56,7 @@ function useBonds(networkId: NetworkId) {
     // setBonds(bondDetails);
 
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-    let expiredDetails: IAllBondData[];
-    expiredDetails = allExpiredBonds
+    const expiredDetails: IAllBondData[] = allExpiredBonds
       .flatMap(bond => {
         if (bondState[bond.name] && bondState[bond.name].bondDiscount) {
           return Object.assign(bond, bondState[bond.name]); // Keeps the object type

@@ -57,7 +57,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
 
-  const changeView = (event: ChangeEvent<{}>, value: string | number): void => {
+  const changeView = (event: ChangeEvent<any>, value: string | number): void => {
     setView(Number(value));
   };
 

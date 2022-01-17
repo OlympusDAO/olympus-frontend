@@ -80,7 +80,6 @@ function Messages() {
       </div>
     </div>
   );
-  return res;
 }
 // Invoke repetedly obsolete messages deletion (should be in slice file but I cannot find a way to access the store from there)
 window.setInterval(() => {

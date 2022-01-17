@@ -225,10 +225,7 @@ async function processBond(
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
   const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;
 
-  let maxPayoutInBaseToken: string,
-    maxPayoutInQuoteToken: string,
-    capacityInBaseToken: string,
-    capacityInQuoteToken: string;
+  let capacityInBaseToken: string, capacityInQuoteToken: string;
   if (bond.capacityInQuote) {
     capacityInBaseToken = ethers.utils.formatUnits(
       bond.capacity.mul(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)).div(bondPriceBigNumber),
@@ -242,8 +239,8 @@ async function processBond(
       metadata.quoteDecimals,
     );
   }
-  maxPayoutInBaseToken = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
-  maxPayoutInQuoteToken = ethers.utils.formatUnits(
+  const maxPayoutInBaseToken: string = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
+  const maxPayoutInQuoteToken: string = ethers.utils.formatUnits(
     bond.maxPayout.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
     metadata.quoteDecimals,
   );
