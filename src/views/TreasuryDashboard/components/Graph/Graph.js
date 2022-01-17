@@ -23,7 +23,7 @@ export const TotalValueDepositedGraph = () => {
       bulletpointColors={bulletpoints.tvl}
       infoTooltipMessage={tooltipInfoMessages().tvl}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
-      headerSubText={t`${data && formatCurrency(data[0].totalValueLocked)}`}
+      headerSubText={`${data && formatCurrency(data[0].totalValueLocked)}`}
     />
   );
 };
@@ -51,7 +51,7 @@ export const MarketValueGraph = () => {
         ["#ff758f", "#c9184a"],
       ]}
       headerText={t`Market Value of Treasury Assets`}
-      headerSubText={t`${data && formatCurrency(data[0].treasuryMarketValue)}`}
+      headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
       bulletpointColors={bulletpoints.coin}
       itemNames={tooltipItems.coin}
       itemType={itemType.dollar}
@@ -79,7 +79,7 @@ export const RiskFreeValueGraph = () => {
         ["#000", "#fff"],
       ]}
       headerText={t`Risk Free Value of Treasury Assets`}
-      headerSubText={t`${data && formatCurrency(data[0].treasuryRiskFreeValue)}`}
+      headerSubText={`${data && formatCurrency(data[0].treasuryRiskFreeValue)}`}
       bulletpointColors={bulletpoints.rfv}
       itemNames={tooltipItems.rfv}
       itemType={itemType.dollar}
@@ -106,7 +106,7 @@ export const ProtocolOwnedLiquidityGraph = () => {
       infoTooltipMessage={tooltipInfoMessages().pol}
       headerText={t`Protocol Owned Liquidity OHM-DAI`}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
-      headerSubText={t`${data && trim(data[0].treasuryOhmDaiPOL, 2)}% `}
+      headerSubText={`${data && trim(data[0].treasuryOhmDaiPOL, 2)}% `}
       stopColor={[["rgba(128, 204, 131, 1)", "rgba(128, 204, 131, 0)"]]}
     />
   );
@@ -137,7 +137,7 @@ export const OHMStakedGraph = () => {
       bulletpointColors={bulletpoints.staked}
       infoTooltipMessage={tooltipInfoMessages().staked}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
-      headerSubText={t`${staked && trim(staked[0].staked, 2)}% `}
+      headerSubText={`${staked && trim(staked[0].staked, 2)}% `}
     />
   );
 };
@@ -160,7 +160,7 @@ export const RunwayAvailableGraph = () => {
       color={theme.palette.text.primary}
       stroke={colors}
       headerText={t`Runway Available`}
-      headerSubText={t`${data && trim(data[0].runwayCurrent, 1)} Days`}
+      headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
       dataFormat="days"
       bulletpointColors={runwayBulletpoints}
       itemNames={tooltipItems.runway}
