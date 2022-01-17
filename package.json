@@ -50,6 +50,8 @@
     "@types/material-ui": "^0.21.12",
     "@walletconnect/web3-provider": "^1.6.6",
     "axios": "^0.24.0",
+    "babel-plugin-lodash": "^3.3.4",
+    "babel-plugin-transform-imports": "^2.0.0",
     "bignumber.js": "^9.0.1",
     "date-fns": "^2.28.0",
     "ethers": "^5.4.0",
@@ -71,8 +73,8 @@
     "react-scripts": "^4.0.3",
     "react-uid": "^2.3.1",
     "recharts": "^2.0.10",
-    "typescript": "^4.5.4",
     "sass": "^1.35.1",
+    "typescript": "^4.5.4",
     "web3modal": "^1.9.1"
   },
   "devDependencies": {
