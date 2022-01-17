@@ -117,9 +117,11 @@
     "gulp-less": "^5.0.0",
     "gulp-postcss": "^9.0.0",
     "hardhat": "^2.6.7",
+    "husky": "^7.0.4",
     "jest": "26.6.0",
     "jest-puppeteer": "^6.0.0",
     "less-plugin-npm-import": "^2.1.0",
+    "lint-staged": "^12.1.7",
     "msw": "^0.36.3",
     "pptr-testing-library": "^0.6.5",
     "prettier": "^2.0.5",
@@ -171,5 +173,16 @@
     "**/ejs": "3.1.6",
     "**/ansi-html": "https://registry.yarnpkg.com/ansi-html-community/-/ansi-html-community-0.0.8.tgz",
     "react-error-overlay": "6.0.9"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "!(src/locales)src/**/*.{ts,tsx,js,jsx}": [
+      "yarn lint --fix",
+      "prettier --write"
+    ]
   }
 }
