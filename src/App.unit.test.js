@@ -1,4 +1,4 @@
-import { render, renderRoute, screen } from "./testUtils";
+import { renderRoute, screen } from "./testUtils";
 
 // eslint-disable-next-line no-undef
 test("renders learn react link", () => {

@@ -1,16 +1,17 @@
-import React from "react";
+import { i18n } from "@lingui/core";
+import { I18nProvider } from "@lingui/react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider } from "@material-ui/core/styles";
 import { render } from "@testing-library/react";
+import { createMemoryHistory } from "history";
+import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { light as lightTheme } from "./themes/light.js";
+
+import App from "./App";
 import { Web3ContextProvider } from "./hooks/web3Context";
 import store from "./store.ts";
-import { createMemoryHistory } from "history";
-import App from "./App";
-import { I18nProvider } from "@lingui/react";
-import { i18n } from "@lingui/core";
+import { light as lightTheme } from "./themes/light.js";
 
 const AllTheProviders = ({ children }) => {
   return (

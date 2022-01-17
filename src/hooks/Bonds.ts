@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import allBonds, { allExpiredBonds } from "src/helpers/AllBonds";
-import { IUserBondDetails } from "src/slices/AccountSlice";
-import { Bond } from "src/lib/Bond";
-import { IBondDetails } from "src/slices/BondSlice";
+import { useSelector } from "react-redux";
 import { NetworkId } from "src/constants";
+import allBonds, { allExpiredBonds } from "src/helpers/AllBonds";
+import { Bond } from "src/lib/Bond";
+import { IUserBondDetails } from "src/slices/AccountSlice";
+import { IBondDetails } from "src/slices/BondSlice";
 
 interface IBondingStateView {
   account: {
@@ -13,7 +13,7 @@ interface IBondingStateView {
     };
   };
   bonding: {
-    loading: Boolean;
+    loading: boolean;
     [key: string]: any;
   };
 }

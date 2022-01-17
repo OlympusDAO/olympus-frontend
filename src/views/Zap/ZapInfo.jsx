@@ -1,10 +1,12 @@
-import { Box, Button, Paper, Typography, Grid, SvgIcon } from "@material-ui/core";
 import "./zap.scss";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { makeStyles } from "@material-ui/core/styles";
-import { segmentUA } from "../../helpers/userAnalyticHelpers";
+
 import { Trans } from "@lingui/macro";
-import { TokenStack, Token } from "@olympusdao/component-library";
+import { Box, Button, Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { Token, TokenStack } from "@olympusdao/component-library";
+
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { segmentUA } from "../../helpers/userAnalyticHelpers";
 
 const useStyles = makeStyles(theme => ({
   infoBox: {

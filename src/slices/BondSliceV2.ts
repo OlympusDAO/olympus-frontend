@@ -1,25 +1,26 @@
-import { ethers, BigNumber } from "ethers";
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
+import { BigNumber, ethers } from "ethers";
+import { addresses, NetworkId, UnknownDetails, V2BondDetails, v2BondDetails } from "src/constants";
+import { prettifySeconds } from "src/helpers";
 import { RootState } from "src/store";
+import { BondDepository__factory, IERC20__factory } from "src/typechain";
+
+import { getBalances } from "./AccountSlice";
+import { findOrLoadMarketPrice } from "./AppSlice";
 import {
   IBaseAddressAsyncThunk,
-  IBondV2AysncThunk,
-  IValueAsyncThunk,
-  IBondV2PurchaseAsyncThunk,
-  IJsonRPCError,
   IBaseBondV2ClaimAsyncThunk,
   IBaseBondV2SingleClaimAsyncThunk,
+  IBondV2AysncThunk,
   IBondV2IndexAsyncThunk,
+  IBondV2PurchaseAsyncThunk,
+  IJsonRPCError,
+  IValueAsyncThunk,
 } from "./interfaces";
-import { BondDepository__factory, IERC20__factory } from "src/typechain";
-import { addresses, NetworkId, V2BondDetails, v2BondDetails, UnknownDetails } from "src/constants";
-import { prettifySeconds } from "src/helpers";
-import { findOrLoadMarketPrice } from "./AppSlice";
-import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { error, info } from "./MessagesSlice";
-import { getBalances } from "./AccountSlice";
+import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 
-const BASE_TOKEN_DECIMALS: number = 9;
+const BASE_TOKEN_DECIMALS = 9;
 
 export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   index: number;
@@ -219,7 +220,7 @@ async function processBond(
   }
   const quoteTokenPrice = await v2BondDetail.pricingFunction(provider, bond.quoteToken);
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
-  let bondPrice = +bondPriceBigNumber / Math.pow(10, BASE_TOKEN_DECIMALS);
+  const bondPrice = +bondPriceBigNumber / Math.pow(10, BASE_TOKEN_DECIMALS);
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
   const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;
@@ -305,7 +306,7 @@ export const getAllBonds = createAsyncThunk(
     const liveBondPromises = liveBondIndexes.map(async index => await depositoryContract.markets(index));
     const liveBondMetadataPromises = liveBondIndexes.map(async index => await depositoryContract.metadata(index));
     const liveBondTermsPromises = liveBondIndexes.map(async index => await depositoryContract.terms(index));
-    let liveBonds: IBondV2[] = [];
+    const liveBonds: IBondV2[] = [];
 
     for (let i = 0; i < liveBondIndexes.length; i++) {
       const bondIndex = +liveBondIndexes[i];
@@ -353,8 +354,8 @@ export const getUserNotes = createAsyncThunk(
         marketID: number;
       } = userNotes[i];
       const bond: IBondV2 = bonds[rawNote.marketID];
-      let originalDurationSeconds = Math.max(rawNote.matured - rawNote.created, 0);
-      let seconds = Math.max(rawNote.matured - currentTime, 0);
+      const originalDurationSeconds = Math.max(rawNote.matured - rawNote.created, 0);
+      const seconds = Math.max(rawNote.matured - currentTime, 0);
       let duration = "";
       if (seconds > 86400) {
         duration = prettifySeconds(seconds, "day");

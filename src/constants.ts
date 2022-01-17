@@ -1,24 +1,21 @@
-import { NodeHelper } from "./helpers/NodeHelper";
-import { EnvHelper } from "./helpers/Environment";
-import ethereum from "./assets/tokens/wETH.svg";
+import { ethers } from "ethers";
+import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
+import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
+import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
+import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
+import { ReactComponent as OhmEthImg } from "src/assets/tokens/OHM-WETH.svg";
+import { ReactComponent as OhmImg } from "src/assets/tokens/token_OHM.svg";
+import { ReactComponent as UstImg } from "src/assets/tokens/UST.svg";
+import { ReactComponent as wBTCImg } from "src/assets/tokens/wBTC.svg";
+import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
+
 import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
 import polygon from "./assets/tokens/matic.svg";
-import { ReactComponent as OhmImg } from "src/assets/tokens/token_OHM.svg";
-import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
-import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
-import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
-import { ReactComponent as OhmFraxImg } from "src/assets/tokens/OHM-FRAX.svg";
-import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
-import { ReactComponent as OhmEthImg } from "src/assets/tokens/OHM-WETH.svg";
-import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
-import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
-import { ReactComponent as UstImg } from "src/assets/tokens/UST.svg";
-import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
-import { ReactComponent as wBTCImg } from "src/assets/tokens/wBTC.svg";
-
+import ethereum from "./assets/tokens/wETH.svg";
 import { getTokenByContract, getTokenPrice } from "./helpers";
-import { ethers } from "ethers";
+import { EnvHelper } from "./helpers/Environment";
+import { NodeHelper } from "./helpers/NodeHelper";
 import { IERC20__factory, UniswapV2Lp__factory } from "./typechain";
 
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-protocol-metrics";

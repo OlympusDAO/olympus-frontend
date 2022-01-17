@@ -1,28 +1,18 @@
-import { useEffect, useState } from "react";
-import { t, Trans } from "@lingui/macro";
-import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
-import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
-import { redeemAllBonds } from "src/slices/BondSlice";
-import CardHeader from "../../components/CardHeader/CardHeader";
-import { useWeb3Context } from "src/hooks/web3Context";
-import useBonds from "src/hooks/Bonds";
-import {
-  Box,
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Zoom,
-} from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./choosebond.scss";
+
+import { Trans } from "@lingui/macro";
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Zoom } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { IUserBondDetails } from "src/slices/AccountSlice";
 import { useAppSelector } from "src/hooks";
+import useBonds from "src/hooks/Bonds";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { IUserBondDetails } from "src/slices/AccountSlice";
+import { isPendingTxn } from "src/slices/PendingTxnsSlice";
+
+import CardHeader from "../../components/CardHeader/CardHeader";
+import { ClaimBondCardData, ClaimBondTableData } from "./ClaimRow";
 
 function ClaimBonds({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
   const dispatch = useDispatch();
@@ -48,7 +38,7 @@ function ClaimBonds({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
   };
 
   useEffect(() => {
-    let bondCount = Object.keys(activeBonds).length;
+    const bondCount = Object.keys(activeBonds).length;
     setNumberOfBonds(bondCount);
   }, [activeBonds]);
 
@@ -92,7 +82,7 @@ export function ClaimBondsSubComponent({ activeBonds }: { activeBonds: IUserBond
   };
 
   useEffect(() => {
-    let bondCount = activeBonds.length;
+    const bondCount = activeBonds.length;
     setNumberOfBonds(bondCount);
   }, [activeBonds]);
 

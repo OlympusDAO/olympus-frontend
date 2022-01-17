@@ -1,19 +1,20 @@
 import "@testing-library/jest-dom";
+
 import {
-  dapp,
   clickElement,
   connectWallet,
-  selectorExists,
-  waitSelectorExists,
+  dapp,
   getSelectorTextContent,
+  selectorExists,
   typeValue,
+  waitSelectorExists,
 } from "../../../tests/e2e/testHelpers";
 
 // TODO deploy contracts on temporary network
 // TODO add eth to wallet
 // TODO close Chromium after test case
 
-var STAKE_AMOUNT = 0.1;
+const STAKE_AMOUNT = 0.1;
 
 describe("staking", () => {
   test("cannot stake without connected wallet", async () => {

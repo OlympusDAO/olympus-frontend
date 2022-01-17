@@ -1,36 +1,23 @@
+import { t, Trans } from "@lingui/macro";
+import { Box, Button, Container, Paper, Typography, Zoom } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { InfoTooltip } from "@olympusdao/component-library";
+import { DataRow } from "@olympusdao/component-library";
+import { BigNumber } from "bignumber.js";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Paper,
-  Typography,
-  Button,
-  Zoom,
-  TableCell,
-  TableBody,
-  Table,
-  TableRow,
-  TableContainer,
-  Container,
-  Box,
-} from "@material-ui/core";
 import { useLocation } from "react-router-dom";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
-import { Skeleton } from "@material-ui/lab";
-import { IAccountSlice, loadAccountDetails } from "src/slices/AccountSlice";
-import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { IAppData } from "src/slices/AppSlice";
-import { BigNumber } from "bignumber.js";
-import { t, Trans } from "@lingui/macro";
-import { InfoTooltip } from "@olympusdao/component-library";
-import { VaultGraphic, ArrowGraphic, RedeemGraphic } from "../../components/EducationCard";
-import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
-import { useAppSelector } from "src/hooks";
-import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 import { NetworkId } from "src/constants";
-import { DataRow } from "@olympusdao/component-library";
+import { EnvHelper } from "src/helpers/Environment";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { IAccountSlice, loadAccountDetails } from "src/slices/AccountSlice";
+import { IAppData } from "src/slices/AppSlice";
+import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+
+import { ArrowGraphic, RedeemGraphic, VaultGraphic } from "../../components/EducationCard";
+import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
+import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 
 // TODO consider shifting this into interfaces.ts
 type State = {

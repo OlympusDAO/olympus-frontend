@@ -3,10 +3,12 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom/extend-expect";
-import { setupServer } from "msw/node";
-import handlers from "./testHandlers";
 import "react-router-dom";
+
 import { i18n } from "@lingui/core";
+import { setupServer } from "msw/node";
+
+import handlers from "./testHandlers";
 
 i18n.activate("en");
 

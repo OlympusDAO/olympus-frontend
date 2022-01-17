@@ -1,9 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
+import "./choosebond.scss";
+
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
   ButtonBase,
   Grid,
   Paper,
+  SvgIcon,
   Table,
   TableBody,
   TableCell,
@@ -12,28 +15,24 @@ import {
   TableRow,
   Typography,
   Zoom,
-  SvgIcon,
 } from "@material-ui/core";
-import { t, Trans } from "@lingui/macro";
-import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { formatCurrency } from "../../helpers";
-import useBonds from "../../hooks/Bonds";
+import { Metric, MetricCollection } from "@olympusdao/component-library";
+import isEmpty from "lodash/isEmpty";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import "./choosebond.scss";
-import { Skeleton } from "@material-ui/lab";
-import ClaimBonds from "./ClaimBonds";
-import isEmpty from "lodash/isEmpty";
-import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector, useWeb3Context } from "src/hooks";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { IUserBondDetails } from "src/slices/AccountSlice";
-import { Metric, MetricCollection } from "@olympusdao/component-library";
-import { getAllBonds, getUserNotes, IBondV2, IUserNote } from "src/slices/BondSliceV2";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { useEffect, useState } from "react";
+import { getAllBonds, getUserNotes, IUserNote } from "src/slices/BondSliceV2";
 import { AppDispatch } from "src/store";
+
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { formatCurrency } from "../../helpers";
+import { BondDataCard, BondTableData } from "./BondRow";
+import ClaimBonds from "./ClaimBonds";
 
 function ChooseBondV2() {
   const { networkId, address, provider } = useWeb3Context();

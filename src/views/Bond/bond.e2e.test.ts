@@ -1,15 +1,15 @@
 import "@testing-library/jest-dom";
-import {
-  clickElement,
-  setupMetamask,
-  connectWallet,
-  selectorExists,
-  waitSelectorExists,
-  getSelectorTextContent,
-  typeValue,
-} from "../../../tests/e2e/testHelpers";
+
+import { Dappeteer, launch } from "@chainsafe/dappeteer";
 import puppeteer, { Browser, Page } from "puppeteer";
-import { launch, Dappeteer } from "@chainsafe/dappeteer";
+
+import {
+  connectWallet,
+  getSelectorTextContent,
+  selectorExists,
+  setupMetamask,
+  waitSelectorExists,
+} from "../../../tests/e2e/testHelpers";
 
 describe("bonding", () => {
   let browser: Browser;
@@ -51,7 +51,6 @@ describe("bonding", () => {
 
   test("select first bond row and approve", async () => {
     fail("TODO");
-
   });
 
   test("select first bond row and bond", async () => {
