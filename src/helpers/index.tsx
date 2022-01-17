@@ -63,13 +63,52 @@ export async function getV1MarketPrice() {
  * @param tokenId STRING taken from https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list
  * @returns INTEGER usd value
  */
-export async function getTokenPrice(tokenId = "olympus") {
-  let resp;
+export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
   try {
-    resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
-    return resp.data[tokenId].usd;
+    const resp = (await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`,
+    )) as {
+      data: { [id: string]: { usd: number } };
+    };
+    let tokenPrice: number = resp.data[tokenId].usd;
+    return tokenPrice;
   } catch (e) {
     // console.log("coingecko api error: ", e);
+    return 0;
+  }
+}
+
+/**
+ * gets price of token from coingecko
+ * @param contractAddress STRING representing address
+ * @returns INTEGER usd value
+ */
+export async function getTokenByContract(contractAddress: string): Promise<number> {
+  const downcasedAddress = contractAddress.toLowerCase();
+  const chainName = "ethereum";
+  try {
+    const resp = (await axios.get(
+      `https://api.coingecko.com/api/v3/simple/token_price/${chainName}?contract_addresses=${downcasedAddress}&vs_currencies=usd`,
+    )) as {
+      data: { [address: string]: { usd: number } };
+    };
+    let tokenPrice: number = resp.data[downcasedAddress].usd;
+    return tokenPrice;
+  } catch (e) {
+    // console.log("coingecko api error: ", e);
+    return 0;
+  }
+}
+
+export async function getTokenIdByContract(contractAddress: string): Promise<string> {
+  try {
+    const resp = (await axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${contractAddress}'`)) as {
+      data: { id: string };
+    };
+    return resp.data.id;
+  } catch (e) {
+    // console.log("coingecko api error: ", e);
+    return "";
   }
 }
 
@@ -108,7 +147,7 @@ export function getRebaseBlock(currentBlock: number) {
   return currentBlock + EPOCH_INTERVAL - (currentBlock % EPOCH_INTERVAL);
 }
 
-export function secondsUntilBlock(startBlock: number, endBlock: number) {
+export function secondsUntilBlock(startBlock: number, endBlock: number): number {
   const blocksAway = endBlock - startBlock;
   const secondsAway = blocksAway * BLOCK_RATE_SECONDS;
 
@@ -168,7 +207,7 @@ export function getTokenImage(name: string) {
 }
 
 // TS-REFACTOR-NOTE - Used for:
-// AccountSlice.ts, AppSlice.ts, LusdSlice.ts
+// AccountSlice.ts, AppSlice.ts
 export function setAll(state: any, properties: any) {
   if (properties) {
     const props = Object.keys(properties);

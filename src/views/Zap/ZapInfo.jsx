@@ -1,12 +1,10 @@
 import { Box, Button, Paper, Typography, Grid, SvgIcon } from "@material-ui/core";
 import "./zap.scss";
-import { ReactComponent as CircleZapIcon } from "../../assets/icons/circle-zap.svg";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import MultiLogo from "../../components/MultiLogo";
 import { makeStyles } from "@material-ui/core/styles";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
-import { useState } from "react";
 import { Trans } from "@lingui/macro";
+import { TokenStack, Token } from "@olympusdao/component-library";
 
 const useStyles = makeStyles(theme => ({
   infoBox: {
@@ -68,7 +66,10 @@ function ZapInfo({ tokens, address }) {
               classes={{ root: classes.infoHeader }}
               className="oly-info-header-box"
             >
-              <MultiLogo images={[]} />
+              <Box>
+                <TokenStack tokens={["DAI", "wETH"]} style={{ marginBottom: "16px" }} />
+              </Box>
+
               <Typography color="textSecondary" align="center">
                 <Trans>You Give</Trans>
               </Typography>
@@ -93,7 +94,7 @@ function ZapInfo({ tokens, address }) {
               classes={{ root: classes.infoHeader }}
               className="oly-info-header-box"
             >
-              <MultiLogo icons={[CircleZapIcon]} />
+              <Token name={["zap"]} style={{ marginBottom: "16px" }} />
               <Typography color="textSecondary" align="center">
                 <Trans>All-in-one zap contracts</Trans>
               </Typography>
@@ -115,11 +116,7 @@ function ZapInfo({ tokens, address }) {
               classes={{ root: classes.infoHeader }}
               className="oly-info-header-box"
             >
-              <MultiLogo
-                images={[
-                  "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png",
-                ]}
-              />
+              <Token name="sOHM" style={{ marginBottom: "16px" }} />
               <Typography color="textSecondary" align="center">
                 <Trans>You Get sOHM</Trans>{" "}
               </Typography>
