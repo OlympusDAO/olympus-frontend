@@ -10,8 +10,8 @@ module.exports = {
       jsx: true,
     },
   },
-  extends: ["plugin:prettier/recommended"],
-  plugins: ["prettier"],
+  extends: ["plugin:prettier/recommended", "plugin:@typescript-eslint/recommended"],
+  plugins: ["prettier", "@typescript-eslint"],
   rules: {
     "prettier/prettier": ["error"],
     "import/prefer-default-export": "off",
