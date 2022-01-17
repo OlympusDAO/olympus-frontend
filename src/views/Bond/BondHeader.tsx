@@ -3,12 +3,12 @@ import { NavLink, useHistory } from "react-router-dom";
 import { Typography, IconButton, SvgIcon, Link } from "@material-ui/core";
 
 import BondLogo from "../../components/BondLogo";
+import AdvancedSettings from "../BondV2/AdvancedSettings";
+import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
 import useEscape from "../../hooks/useEscape";
-import AdvancedSettings from "./AdvancedSettings";
 import { BondOpts } from "../../lib/Bond";
 import { IBondDetails } from "../../slices/BondSlice";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
