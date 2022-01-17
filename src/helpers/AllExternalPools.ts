@@ -1,8 +1,4 @@
 import { ExternalPool } from "src/lib/ExternalPool";
-import { ReactComponent as avaxImage } from "src/assets/tokens/AVAX.svg";
-import { ReactComponent as gOhmImage } from "src/assets/tokens/token_wsOHM.svg";
-import { ReactComponent as wEthImage } from "src/assets/tokens/wETH.svg";
-import { ReactComponent as fantomImage } from "src/assets/tokens/fantom.svg";
 import { addresses, NetworkId } from "src/constants";
 import { NodeHelper } from "./NodeHelper";
 import { BigNumber, ethers } from "ethers";
@@ -12,7 +8,7 @@ import { formatCurrency, getMarketPrice, getTokenPrice } from "src/helpers";
 
 export const tj_gohm_wavax = new ExternalPool({
   poolName: "gOHM-AVAX",
-  icons: [gOhmImage, avaxImage],
+  icons: ["wsOHM", "AVAX"],
   stakeOn: "Trader Joe",
   pairGecko: "avalanche-2",
   href: "https://traderjoexyz.com/#/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00",
@@ -23,7 +19,7 @@ export const tj_gohm_wavax = new ExternalPool({
 
 export const pango_gohm_wavax = new ExternalPool({
   poolName: "gOHM-AVAX",
-  icons: [gOhmImage, avaxImage],
+  icons: ["wsOHM", "AVAX"],
   stakeOn: "Pangolin",
   pairGecko: "avalanche-2",
   href: "https://app.pangolin.exchange/#/png/0x321E7092a180BB43555132ec53AaA65a5bF84251/AVAX/2",
@@ -34,7 +30,7 @@ export const pango_gohm_wavax = new ExternalPool({
 
 export const sushi_arb_gohm_weth = new ExternalPool({
   poolName: "gOHM-wETH",
-  icons: [gOhmImage, wEthImage],
+  icons: ["wsOHM", "wETH"],
   stakeOn: "Sushi (Arbitrum)",
   pairGecko: "ethereum",
   href: "https://app.sushi.com/farm?filter=2x",
@@ -45,7 +41,7 @@ export const sushi_arb_gohm_weth = new ExternalPool({
 
 export const sushi_poly_gohm_weth = new ExternalPool({
   poolName: "gOHM-wETH",
-  icons: [gOhmImage, wEthImage],
+  icons: ["wsOHM", "wETH"],
   stakeOn: "Sushi (Polygon)",
   pairGecko: "ethereum",
   href: "https://app.sushi.com/farm?filter=2x",
@@ -56,7 +52,7 @@ export const sushi_poly_gohm_weth = new ExternalPool({
 
 export const spirit_gohm_ftm = new ExternalPool({
   poolName: "gOHM-FTM",
-  icons: [gOhmImage, fantomImage],
+  icons: ["wsOHM", "FANTOM"],
   stakeOn: "Spirit (Fantom)",
   pairGecko: "fantom",
   href: "https://app.spiritswap.finance/#/boostedfarms",
