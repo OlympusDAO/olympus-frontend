@@ -49,6 +49,10 @@ To run all unit test and see coverage report:
 yarn test:unit
 ```
 
+Note that the focus of unit testing is to excersize all paths through the code hosted in this repo and **only** code hosted in this repo. To the extend possible, unit tests should abstract out dependencies such as remote API calls and crypto wallet APIs via [`mock functions`](https://jestjs.io/docs/mock-functions).
+
+For integration testing automation that runs browser and remote API code as well as our own code, see the E2E test section below.
+
 ## Rinkeby Testing
 
 **Rinkeby faucet for sOHM:**
