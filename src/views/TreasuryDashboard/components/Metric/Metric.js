@@ -73,7 +73,11 @@ export const GOHMPrice = () => {
       metric={gOhmPrice && formatCurrency(gOhmPrice, 2)}
       isLoading={!gOhmPrice}
       {...sharedProps}
-      tooltip={t`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of OHM multiplied by the current index`}
+      tooltip={
+        t`gOHM = sOHM * index` +
+        "\n\n" +
+        t`The price of gOHM is equal to the price of OHM multiplied by the current index`
+      }
     />
   );
 };
