@@ -81,7 +81,6 @@ export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
   } finally {
     return tokenPrice;
   }
-  console.error("4. THIS LINE WAS ALSO CALLED @@@@@@+++++++>>>>>>><<<<<<<", { tokenPrice });
 }
 
 /**
