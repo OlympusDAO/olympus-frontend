@@ -1,10 +1,8 @@
 name: Main CI
 
 on:
-  # push:
   pull_request:
-  #  branches:
-  #    - master
+    branches: [ master, develop ]
 
 jobs:
   test:
@@ -18,6 +16,6 @@ jobs:
           yarn build
       env:
           CI: true
-    - name: Run unit tests
+    - name: Run Unit Tests
       run: |
           yarn test:unit

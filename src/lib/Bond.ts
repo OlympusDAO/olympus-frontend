@@ -7,6 +7,7 @@ import { getBondCalculator } from "src/helpers/BondCalculator";
 import { EthContract, PairContract } from "src/typechain";
 import { addresses, NetworkId } from "src/constants";
 import React from "react";
+import { OHMTokenStackProps } from "@olympusdao/component-library";
 
 export enum BondType {
   StableAsset,
@@ -29,7 +30,7 @@ export interface BondOpts {
   isLOLable: Available; // aka isBondable => set false to hide
   LOLmessage: string; // aka isBondable => set false to hide
   isClaimable: Available; // set false to hide
-  bondIconSvg: React.ReactNode; //  SVG path for icons
+  bondIconSvg: OHMTokenStackProps["tokens"]; //  SVG path for icons
   bondContractABI: ethers.ContractInterface; // ABI for contract
   networkAddrs: NetworkAddresses; // Mapping of network --> Addresses
   bondToken: string; // Unused, but native token to buy the bond.
@@ -48,7 +49,7 @@ export abstract class Bond {
   readonly LOLmessage: string;
   readonly isClaimable: Available;
   readonly type: BondType;
-  readonly bondIconSvg: React.ReactNode;
+  readonly bondIconSvg: OHMTokenStackProps["tokens"];
   readonly bondContractABI: ethers.ContractInterface; // Bond ABI
   readonly networkAddrs: NetworkAddresses;
   readonly bondToken: string;

@@ -3,13 +3,13 @@ import { useDispatch } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import { shorten, trim, prettyVestingPeriod } from "../../helpers";
 import { redeemBond } from "../../slices/BondSlice";
-import BondLogo from "../../components/BondLogo";
 import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import { useAppSelector, useBonds, useWeb3Context } from "src/hooks";
 import { isPendingTxn, txnButtonText, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
 import { IUserNote, claimSingleNote } from "src/slices/BondSliceV2";
+import { TokenStack } from "@olympusdao/component-library";
 
 export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gOHM: boolean }) {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
     <TableRow id={`${bondName}--claim`}>
       {/* Name */}
       <TableCell align="left" className="bond-name-cell">
-        <BondLogo bond={note} />
+        <TokenStack tokens={note.bondIconSvg} />
         <div className="bond-name">
           <Typography variant="body1">{bondName ? bondName : <Skeleton width={100} />}</Typography>
         </div>
@@ -97,7 +97,7 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
   return (
     <Box id={`${bondName}--claim`} className="claim-bond-data-card bond-data-card" style={{ marginBottom: "30px" }}>
       <Box className="bond-pair">
-        <BondLogo bond={note} />
+        <TokenStack tokens={note.bondIconSvg} />
         <Box className="bond-name">
           <Typography>{bondName}</Typography>
         </Box>
