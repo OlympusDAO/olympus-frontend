@@ -42,15 +42,9 @@
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
-<<<<<<< HEAD
-    "@olympusdao/component-library": "^1.5.1",
-    "@reduxjs/toolkit": "^1.6.1",
-    "@testing-library/jest-dom": "^5.14.1",
-=======
-    "@olympusdao/component-library": "^1.5.0",
+"@olympusdao/component-library": "^1.5.1",
     "@reduxjs/toolkit": "^1.7.1",
     "@testing-library/jest-dom": "^5.16.1",
->>>>>>> develop
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.1.9",
     "@types/material-ui": "^0.21.12",
