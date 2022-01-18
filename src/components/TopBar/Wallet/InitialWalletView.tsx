@@ -21,16 +21,18 @@ import { ReactComponent as wsOhmTokenImg } from "src/assets/tokens/token_wsOHM.s
 import { ReactComponent as arrowDown } from "src/assets/icons/arrow-down.svg";
 import { formatCurrency } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useCurrentTheme from "src/hooks/useTheme";
 
 import { dai, frax } from "src/helpers/AllBonds";
 
-import { IToken, Tokens, useWallet } from "./Token";
-import { Trans } from "@lingui/macro";
+import { Tokens, useWallet } from "./Token";
+import { t, Trans } from "@lingui/macro";
 import WalletAddressEns from "./WalletAddressEns";
 import { addresses } from "src/constants";
-import { getOhm } from "src/helpers/OhmFaucet";
+import { FAUCET_PENDING_TYPE, getOhm } from "src/helpers/OhmFaucet";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { State } from "src/slices/interfaces";
 
 const Borrow = ({
   Icon1,
@@ -161,14 +163,24 @@ const OhmFaucetButton = () => {
   const dispatch = useDispatch();
   const { address, provider, networkId } = useWeb3Context();
 
+  const pendingTransactions = useSelector((state: State) => {
+    return state.pendingTransactions;
+  });
+
   const runOhmFaucet = async () => {
     dispatch(getOhm({ address, provider, networkID: networkId }));
   };
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(1.5) }}>
-      <Button onClick={() => runOhmFaucet()} variant="outlined" size="large" color="secondary">
-        <Trans>OHM Faucet</Trans>
+      <Button
+        onClick={() => runOhmFaucet()}
+        variant="outlined"
+        size="large"
+        color="secondary"
+        disabled={isPendingTxn(pendingTransactions, FAUCET_PENDING_TYPE)}
+      >
+        {txnButtonText(pendingTransactions, FAUCET_PENDING_TYPE, t`OHM Faucet`)}
       </Button>
     </Box>
   );

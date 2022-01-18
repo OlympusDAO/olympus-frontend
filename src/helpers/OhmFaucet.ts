@@ -1,9 +1,13 @@
 import { addresses, NetworkId } from "src/constants";
-import { IBaseAddressAsyncThunk } from "src/slices/interfaces";
+import { IBaseAddressAsyncThunk, IJsonRPCError } from "src/slices/interfaces";
 import { error, info } from "../slices/MessagesSlice";
 import { OhmFaucet__factory } from "src/typechain";
 import { useDispatch } from "react-redux";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { clearPendingTxn, fetchPendingTxns } from "src/slices/PendingTxnsSlice";
+
+export const FAUCET_PENDING_TEXT = "Pending";
+export const FAUCET_PENDING_TYPE = "faucet_dispense";
 
 // TODO replace with dispatch
 export const getOhm = createAsyncThunk(
@@ -29,9 +33,20 @@ export const getOhm = createAsyncThunk(
     const signer = provider.getSigner();
     const faucetContract = OhmFaucet__factory.connect(addresses[networkID].OHM_FAUCET, signer);
 
-    await faucetContract.dispense();
-    console.info("OHM deposited into your wallet!");
+    let dispenseTx;
+    try {
+      dispenseTx = await faucetContract.dispense();
 
-    return;
+      // Record that we have a pending transaction, so the interface can reflect it
+      dispatch(fetchPendingTxns({ txnHash: dispenseTx.hash, text: FAUCET_PENDING_TEXT, type: FAUCET_PENDING_TYPE }));
+      await dispenseTx.wait();
+      console.info("OHM deposited into your wallet!");
+    } catch (e: unknown) {
+      const rpcError = e as IJsonRPCError;
+      dispatch(error(rpcError.message));
+    } finally {
+      // Clears the "pending" state
+      if (dispenseTx) dispatch(clearPendingTxn(dispenseTx.hash));
+    }
   },
 );
