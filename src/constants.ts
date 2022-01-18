@@ -13,9 +13,11 @@ import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
 import { ReactComponent as OhmEthImg } from "src/assets/tokens/OHM-WETH.svg";
 import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
+import { ReactComponent as UstImg } from "src/assets/tokens/UST.svg";
 import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
+import { ReactComponent as wBTCImg } from "src/assets/tokens/wBTC.svg";
 
-import { getTokenPrice } from "./helpers";
+import { getTokenByContract, getTokenPrice } from "./helpers";
 import { ethers } from "ethers";
 import { IERC20__factory, UniswapV2Lp__factory } from "./typechain";
 
@@ -51,6 +53,8 @@ export enum NetworkId {
 
   FANTOM = 250,
   FANTOM_TESTNET = 4002,
+
+  Localhost = 1337,
 }
 
 interface IAddresses {
@@ -86,6 +90,7 @@ export const addresses: IAddresses = {
     SOHM_V2: "0xebED323CEbe4FfF65F7D7612Ea04313F718E5A75",
     STAKING_V2: "0x06984c3A9EB8e3A8df02A4C09770D5886185792D",
     BOND_DEPOSITORY: "0x9810C5c97C57Ef3F23d9ee06813eF7FD51E13042",
+    DAO_TREASURY: "0xee1520f94f304e8d551cbf310fe214212e3ca34a",
   },
   [NetworkId.MAINNET]: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
@@ -103,9 +108,6 @@ export const addresses: IAddresses = {
     BONDINGCALC_ADDRESS: "0xcaaa6a2d4b26067a391e7b7d65c16bb2d5fa571a",
     CIRCULATING_SUPPLY_ADDRESS: "0x0efff9199aa1ac3c3e34e957567c1be8bf295034",
     TREASURY_ADDRESS: "0x31f8cc382c9898b273eff4e0b7626a6987c846e8",
-    CRUCIBLE_OHM_LUSD: "0x2230ad29920D61A535759678191094b74271f373",
-    LQTY: "0x6dea81c8171d0ba574754ef6f8b412f2ed88c54d",
-    MIST: "0x88acdd2a6425c3faae4bc9650fd7e27e0bebb7ab",
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
     FUSE_6_SOHM: "0x59bd6774c22486d9f4fab2d448dce4f892a9ae25", // Tetranode's Locker
     FUSE_18_SOHM: "0x6eDa4b59BaC787933A4A21b65672539ceF6ec97b", // Olympus Pool Party
@@ -124,6 +126,7 @@ export const addresses: IAddresses = {
     FIATDAO_WSOHM_ADDRESS: "0xe98ae8cD25CDC06562c29231Db339d17D02Fd486",
     GIVING_ADDRESS: "0x2604170762A1dD22BB4F96C963043Cd4FC358f18",
     BOND_DEPOSITORY: "0x9025046c6fb25Fb39e720d97a8FD881ED69a1Ef6", // updated
+    DAO_TREASURY: "0xee1520f94f304e8d551cbf310fe214212e3ca34a",
   },
   [NetworkId.ARBITRUM]: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
@@ -161,7 +164,6 @@ export const addresses: IAddresses = {
     CIRCULATING_SUPPLY_ADDRESS: "0x0efff9199aa1ac3c3e34e957567c1be8bf295034",
     TREASURY_ADDRESS: "0x31f8cc382c9898b273eff4e0b7626a6987c846e8",
     // TODO (appleseed-lusd): swap this out
-    PICKLE_OHM_LUSD_ADDRESS: "0xc3d03e4f041fd4cd388c549ee2a29a9e5075882f",
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
   }, // TODO: Replace with Arbitrum Testnet contract addresses when ready
   [NetworkId.AVALANCHE_TESTNET]: {
@@ -441,6 +443,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
 export interface V2BondDetails {
   name: string;
   bondIconSvg: SVGImageElement;
+  bondIconViewBox?: string;
   pricingFunction(provider: ethers.providers.JsonRpcProvider, quoteToken: string): Promise<number>;
   isLP: boolean;
   lpUrl: { [key: number]: string };
@@ -486,6 +489,28 @@ const CvxDetails: V2BondDetails = {
   lpUrl: {},
 };
 
+const UstDetails: V2BondDetails = {
+  name: "UST",
+  bondIconSvg: UstImg,
+  bondIconViewBox: "0 0 80 80",
+  pricingFunction: async () => {
+    return getTokenByContract("0xa693b19d2931d498c5b318df961919bb4aee87a5");
+  },
+  isLP: false,
+  lpUrl: {},
+};
+
+const WbtcDetails: V2BondDetails = {
+  name: "wBTC",
+  bondIconSvg: wBTCImg,
+  bondIconViewBox: "0 0 109 109",
+  pricingFunction: async () => {
+    return getTokenByContract("0x2260fac5e5542a773aa44fbcfedf7c193bc2c599");
+  },
+  isLP: false,
+  lpUrl: {},
+};
+
 const OhmDaiDetails: V2BondDetails = {
   name: "OHM-DAI LP",
   bondIconSvg: OhmDaiImg,
@@ -496,6 +521,8 @@ const OhmDaiDetails: V2BondDetails = {
   lpUrl: {
     [NetworkId.TESTNET_RINKEBY]:
       "https://app.sushi.com/add/0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C/0x1e630a578967968eb02EF182a50931307efDa7CF",
+    [NetworkId.MAINNET]:
+      "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x6b175474e89094c44da98b954eedeac495271d0f",
   },
 };
 
@@ -563,8 +590,11 @@ export const v2BondDetails: { [key: number]: { [key: string]: V2BondDetails } } 
   [NetworkId.MAINNET]: {
     ["0x6b175474e89094c44da98b954eedeac495271d0f"]: DaiDetails,
     ["0x853d955acef822db058eb8505911ed77f175b99e"]: FraxDetails,
+    ["0xa693b19d2931d498c5b318df961919bb4aee87a5"]: UstDetails,
+    ["0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"]: WbtcDetails,
     ["0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"]: EthDetails,
     ["0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b"]: CvxDetails,
     ["0x69b81152c5a8d35a67b32a4d3772795d96cae4da"]: OhmEthDetails,
+    ["0x055475920a8c93cffb64d039a8205f7acc7722d3"]: OhmDaiDetails,
   },
 };
