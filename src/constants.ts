@@ -501,7 +501,7 @@ const OhmDaiDetails: V2BondDetails = {
   name: "OHM-DAI LP",
   bondIconSvg: ["OHM", "DAI"],
   async pricingFunction(provider, quoteToken) {
-    return pricingFunctionHelper(provider, quoteToken, "olympus", "dai");
+    return pricingFunctionHelper(provider, quoteToken);
   },
   isLP: true,
   lpUrl: {
@@ -516,7 +516,7 @@ const OhmEthDetails: V2BondDetails = {
   name: "OHM-ETH LP",
   bondIconSvg: ["OHM", "wETH"],
   async pricingFunction(provider, quoteToken) {
-    return pricingFunctionHelper(provider, quoteToken, "olympus", "ethereum");
+    return pricingFunctionHelper(provider, quoteToken);
   },
   isLP: true,
   lpUrl: {
@@ -525,25 +525,22 @@ const OhmEthDetails: V2BondDetails = {
   },
 };
 
-const pricingFunctionHelper = async (
-  provider: ethers.providers.JsonRpcProvider,
-  quoteToken: string,
-  firstToken: string,
-  secondToken: string,
-) => {
+const pricingFunctionHelper = async (provider: ethers.providers.JsonRpcProvider, quoteToken: string) => {
   const baseContract = UniswapV2Lp__factory.connect(quoteToken, provider);
   const reserves = await baseContract.getReserves();
   const totalSupply = +(await baseContract.totalSupply()) / Math.pow(10, await baseContract.decimals());
 
-  const token0Contract = IERC20__factory.connect(await baseContract.token0(), provider);
+  const token0Address = await baseContract.token0();
+  const token0Contract = IERC20__factory.connect(token0Address, provider);
   const token0Decimals = await token0Contract.decimals();
   const token0Amount = +reserves._reserve0 / Math.pow(10, token0Decimals);
-  const token0TotalValue = (await getTokenPrice(firstToken)) * token0Amount;
+  const token0TotalValue = (await getTokenByContract(token0Address)) * token0Amount;
 
-  const token1Contract = IERC20__factory.connect(await baseContract.token1(), provider);
+  const token1Address = await baseContract.token1();
+  const token1Contract = IERC20__factory.connect(token1Address, provider);
   const token1Decimals = await token1Contract.decimals();
   const token1Amount = +reserves._reserve1 / Math.pow(10, token1Decimals);
-  const token1TotalValue = (await getTokenPrice(secondToken)) * token1Amount;
+  const token1TotalValue = (await getTokenByContract(token1Address)) * token1Amount;
 
   const totalValue = token0TotalValue + token1TotalValue;
   const valuePerLpToken = totalValue / totalSupply;
