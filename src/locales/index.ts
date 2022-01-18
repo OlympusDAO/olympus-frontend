@@ -1,9 +1,10 @@
 import { i18n } from "@lingui/core";
 import { en, fr, ko, tr, zh, ar, es, vi } from "make-plural/plurals";
+import { OHMLocaleSwitcherProps } from "@olympusdao/component-library";
 
 // Declare locales
 interface ILocale {
-  flag: string;
+  flag: OHMLocaleSwitcherProps["locales"]["locale"]["flag"];
   plurals: (n: number | string, ord?: boolean) => "zero" | "one" | "two" | "few" | "many" | "other";
   direction: "inherit" | "rtl";
 }
