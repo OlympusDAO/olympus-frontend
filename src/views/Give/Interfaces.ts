@@ -1,7 +1,7 @@
 import { BigNumber } from "bignumber.js";
 
 export interface SubmitCallback {
-  (walletAddress: string, depositAmount: BigNumber, depositAmountDiff?: BigNumber): void;
+  (walletAddress: string, eventSource: string, depositAmount: BigNumber, depositAmountDiff?: BigNumber): void;
 }
 
 export interface CancelCallback {

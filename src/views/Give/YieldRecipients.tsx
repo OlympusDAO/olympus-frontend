@@ -60,7 +60,12 @@ export default function YieldRecipients() {
     setIsEditModalOpen(true);
   };
 
-  const handleEditModalSubmit: SubmitCallback = async (walletAddress, depositAmount, depositAmountDiff) => {
+  const handleEditModalSubmit: SubmitCallback = async (
+    walletAddress,
+    eventSource,
+    depositAmount,
+    depositAmountDiff,
+  ) => {
     if (!depositAmountDiff) {
       return dispatch(error(t`Please enter a value!`));
     }
@@ -79,6 +84,7 @@ export default function YieldRecipients() {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource: eventSource,
         }),
       );
     } else {
@@ -92,6 +98,7 @@ export default function YieldRecipients() {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource: eventSource,
         }),
       );
     }
@@ -109,7 +116,7 @@ export default function YieldRecipients() {
     setIsWithdrawModalOpen(true);
   };
 
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, depositAmount) => {
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
     // Issue withdrawal from smart contract
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
@@ -122,6 +129,7 @@ export default function YieldRecipients() {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource,
         }),
       );
     } else {
@@ -135,6 +143,7 @@ export default function YieldRecipients() {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource,
         }),
       );
     }
@@ -246,6 +255,7 @@ export default function YieldRecipients() {
             recipient === selectedRecipientForEdit && (
               <RecipientModal
                 isModalOpen={isEditModalOpen}
+                eventSource="My Donations"
                 callbackFunc={handleEditModalSubmit}
                 cancelFunc={handleEditModalCancel}
                 currentWalletAddress={recipient}
@@ -266,6 +276,7 @@ export default function YieldRecipients() {
             recipient === selectedRecipientForWithdraw && (
               <WithdrawDepositModal
                 isModalOpen={isWithdrawModalOpen}
+                eventSource="My Donations"
                 callbackFunc={handleWithdrawModalSubmit}
                 cancelFunc={handleWithdrawModalCancel}
                 walletAddress={recipient}

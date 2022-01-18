@@ -66,6 +66,7 @@ export default function CausesDashboard() {
 
   const handleCustomGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
+    eventSource: string,
     depositAmount: BigNumber,
     depositAmountDiff?: BigNumber,
   ) => {
@@ -85,6 +86,7 @@ export default function CausesDashboard() {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource: eventSource,
         }),
       );
     } else {
@@ -98,6 +100,7 @@ export default function CausesDashboard() {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource: eventSource,
         }),
       );
     }
@@ -157,6 +160,7 @@ export default function CausesDashboard() {
           </Paper>
           <RecipientModal
             isModalOpen={isCustomGiveModalOpen}
+            eventSource="Custom Recipient Button"
             callbackFunc={handleCustomGiveModalSubmit}
             cancelFunc={handleCustomGiveModalCancel}
           />

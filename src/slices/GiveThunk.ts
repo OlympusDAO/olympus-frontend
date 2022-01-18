@@ -148,7 +148,10 @@ export const changeMockApproval = createAsyncThunk(
 
 export const changeGive = createAsyncThunk(
   "give/changeGive",
-  async ({ action, value, recipient, provider, address, networkID }: IActionValueRecipientAsyncThunk, { dispatch }) => {
+  async (
+    { action, value, recipient, provider, address, networkID, eventSource }: IActionValueRecipientAsyncThunk,
+    { dispatch },
+  ) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet!`));
       return;
@@ -212,6 +215,7 @@ export const changeGive = createAsyncThunk(
           label: uaData.txHash ?? "unknown",
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
+          dimension3: eventSource,
         });
 
         dispatch(clearPendingTxn(giveTx.hash));
@@ -224,7 +228,10 @@ export const changeGive = createAsyncThunk(
 
 export const changeMockGive = createAsyncThunk(
   "give/changeMockGive",
-  async ({ action, value, recipient, provider, address, networkID }: IActionValueRecipientAsyncThunk, { dispatch }) => {
+  async (
+    { action, value, recipient, provider, address, networkID, eventSource }: IActionValueRecipientAsyncThunk,
+    { dispatch },
+  ) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet!`));
       return;
@@ -280,6 +287,16 @@ export const changeMockGive = createAsyncThunk(
     } finally {
       if (giveTx) {
         segmentUA(uaData);
+
+        ReactGA.event({
+          category: "Olympus Give",
+          action: uaData.type ?? "unknown",
+          value: parseFloat(uaData.value),
+          label: uaData.txHash ?? "unknown",
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
+          dimension3: eventSource,
+        });
 
         dispatch(clearPendingTxn(giveTx.hash));
       }
