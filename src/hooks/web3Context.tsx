@@ -2,10 +2,19 @@ import React, { ReactElement, useCallback, useContext, useEffect, useMemo, useSt
 import Web3Modal from "web3modal";
 import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import WalletLink from "walletlink";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import { NodeHelper } from "src/helpers/NodeHelper";
 import { NETWORKS } from "../constants";
 import { initNetworkFunc, idFromHexString } from "src/helpers/NetworkHelper";
+
+/**
+ *  Coinbase wallet init
+ */
+const walletLink = new WalletLink({
+  appName: "coinbase",
+});
+const walletLinkProvider = walletLink.makeWeb3Provider(NETWORKS[1].uri(), 1);
 
 /**
  * determine if in IFrame for Ledger Live
@@ -70,6 +79,16 @@ const initModal = new Web3Modal({
           43113: NETWORKS[43113].uri(),
           43114: NETWORKS[43114].uri(),
         },
+      },
+    },
+    walletlink: {
+      package: WalletLink,
+      options: {
+        appName: "Coinbase Wallet", // Required
+        rpc: NETWORKS[1].uri(), // Optional if `infuraId` is provided; otherwise it's required
+        chainId: 1, // Optional. It defaults to 1 if not provided
+        appLogoUrl: null, // Optional. Application logo image URL. favicon is used if unspecified
+        darkMode: false, // Optional. Use dark theme, defaults to false
       },
     },
   },
