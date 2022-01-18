@@ -22,7 +22,7 @@ export const redeemBalance = createAsyncThunk(
   "redeem/redeemBalance",
   async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
     if (!provider) {
-      dispatch(error(t`Please conenect your wallet!`));
+      dispatch(error(t`Please connect your wallet!`));
       return;
     }
 

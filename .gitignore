@@ -41,6 +41,10 @@ yarn-error.log*
 # Integrated development environnements
 .idea
 *.sublime-*
+
+# Hardhat
+cache
+
 .vscode
 
 src/typechain

@@ -21,7 +21,7 @@ export interface BondAddresses {
 export type NetworkAddresses = { [key in NetworkId]?: BondAddresses };
 export type Available = { [key in NetworkId]?: boolean };
 
-interface BondOpts {
+export interface BondOpts {
   name: string; // Internal name used for references
   displayName: string; // Displayname on UI
   isBondable: Available; // aka isBondable => set false to hide

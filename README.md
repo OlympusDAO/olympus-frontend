@@ -1,9 +1,11 @@
 [![Lighthouse PWA Test](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+[![OHM Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/gGZUMVDuhQ)
+
 
 # [Ω Olympus Frontend](https://app.olympusdao.finance/)
 
-This is the front-end repo for Olympus that allows users be part of the future of _Meta Greece_.
+This is the front-end repo for Olympus that allows users to be part of the future of _Meta Greece_.
 
 We are moving at web3 speed and we are looking for talented contributors to boost this rocket. Take a look at our [CONTRIBUTING GUIDE](CONTRIBUTING.md) if you are considering joining a world class DAO.
 
@@ -18,8 +20,8 @@ Required:
 - [Git](https://git-scm.com/downloads)
 
 ```bash
-$ git clone https://github.com/OlympusDAO/olympusdao.git
-$ cd olympusdao
+$ git clone https://github.com/OlympusDAO/olympus-frontend.git
+$ cd olympus-frontend
 
 # set up your environment variables
 # read the comments in the .env files for what is required/optional
@@ -35,6 +37,18 @@ Open the source code and start editing!
 
 If you would like to run the frontend in a Docker image (e.g. to isolate dependencies and the nodejs version), run `yarn docker-start`.
 
+## Unit Testing
+
+Unit tests are co-located with source code with naming convention `*.unit.test.js`.
+Jest is the test driver. Unit tests are isolated from integration dependencies via mocks; including Web3 RPC APIs and smart contract interactions.
+No local blockchain node is expected to run for unit testing. Hard Hat is not required.
+
+To run all unit test and see coverage report:
+
+```
+yarn test:unit
+```
+
 ## Rinkeby Testing
 
 **Rinkeby faucet for sOHM:**
@@ -42,13 +56,22 @@ If you would like to run the frontend in a Docker image (e.g. to isolate depende
 
 Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 
+## End-to-end testing
+
+Puppeteer (with the Dappeteer addition) is used to do browser-based end-to-end testing.
+
+To run the tests:
+
+- Run the frontend, using `yarn start`
+- In another terminal, run the tests, using `yarn test:e2e`
+
 **Rinkeby faucet for WETH:**
 [Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
 
 **Rinkeby faucets for LUSD, FRAX & DAI can be taken from rinkeby etherscan:**
 
 1. Go to `src/helpers/AllBonds.ts`
-2. then copy the rinkeby `reserveAddress` for the applicable bond & navigate to that contract on rinkeby etherscan.
+2. Then copy the rinkeby `reserveAddress` for the applicable bond & navigate to that contract on rinkeby etherscan.
 3. On Rinkeby etherscan use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
 
 ## Avax Fuji Testnet
