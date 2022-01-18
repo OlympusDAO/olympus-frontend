@@ -313,14 +313,19 @@ export const getAllBonds = createAsyncThunk(
 
     for (let i = 0; i < liveBondIndexes.length; i++) {
       const bondIndex = +liveBondIndexes[i];
-      const bond: IBondV2Core = await liveBondPromises[i];
-      const bondMetadata: IBondV2Meta = await liveBondMetadataPromises[i];
-      const bondTerms: IBondV2Terms = await liveBondTermsPromises[i];
-      const finalBond = await processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
-      liveBonds.push(finalBond);
+      try {
+        const bond: IBondV2Core = await liveBondPromises[i];
+        const bondMetadata: IBondV2Meta = await liveBondMetadataPromises[i];
+        const bondTerms: IBondV2Terms = await liveBondTermsPromises[i];
+        const finalBond = await processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
+        liveBonds.push(finalBond);
 
-      if (address) {
-        dispatch(getTokenBalance({ provider, networkID, address, value: finalBond.quoteToken }));
+        if (address) {
+          dispatch(getTokenBalance({ provider, networkID, address, value: finalBond.quoteToken }));
+        }
+      } catch (e) {
+        console.log("getAllBonds Error for Bond Index: ", bondIndex);
+        console.log(e);
       }
     }
     return liveBonds;
