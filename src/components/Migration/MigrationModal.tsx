@@ -122,7 +122,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
       dispatch(info("All approvals complete. You may now migrate."));
     }
   }, [isAllApproved]);
-  const isGOHM = view === 0;
+  const isGOHM = view === 1;
   const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM (v2)"), [view]);
   const targetMultiplier = useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
 

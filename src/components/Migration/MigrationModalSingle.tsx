@@ -110,7 +110,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
   const sOhmInUSD = formatCurrency(gOHMPrice! * sOHMAsgOHM);
   const wsOhmInUSD = formatCurrency(wsOhmPrice * +currentWSOhmBalance);
 
-  const isGOHM = view === 0;
+  const isGOHM = view === 1;
   const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM (v2)"), [view]);
   const targetMultiplier = useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
 
