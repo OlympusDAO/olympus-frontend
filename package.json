@@ -119,9 +119,11 @@
     "gulp-less": "^5.0.0",
     "gulp-postcss": "^9.0.0",
     "hardhat": "^2.6.7",
+    "husky": "^7.0.4",
     "jest": "26.6.0",
     "jest-puppeteer": "^6.0.0",
     "less-plugin-npm-import": "^2.1.0",
+    "lint-staged": "^12.1.7",
     "msw": "^0.36.3",
     "pptr-testing-library": "^0.6.5",
     "prettier": "^2.5.1",
@@ -155,7 +157,8 @@
     "lingui:fetch": "git submodule update --init --remote src/locales/translations",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "preinstall": "[ ! -e src/locales/translations/.git ] && yarn lingui:fetch || exit 0",
-    "postinstall": "yarn typechain:build && yarn lingui:compile"
+    "postinstall": "yarn typechain:build && yarn lingui:compile",
+    "prepare": "husky install"
   },
   "resolutions": {
     "**/immer": "9.0.6",
@@ -171,5 +174,15 @@
     "**/ejs": "3.1.6",
     "**/ansi-html": "https://registry.yarnpkg.com/ansi-html-community/-/ansi-html-community-0.0.8.tgz",
     "react-error-overlay": "6.0.9"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "!(src/locales)src/**/*.{ts,tsx,js,jsx}": [
+      "yarn lint --fix"
+    ]
   }
 }
