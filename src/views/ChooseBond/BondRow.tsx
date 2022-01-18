@@ -18,9 +18,8 @@ type OnChainProvider = ReturnType<typeof useWeb3Context>;
 
 export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
   const { networkId } = useWeb3Context();
-  // Type assertion for union undefined properties
-  const uBond: BondUnion | undefined = bond.isLP ? (bond as BondUnion) : undefined;
-  const allBondData: IAllBondData | undefined = !(bond instanceof Bond) ? (bond as IAllBondData) : undefined;
+  const uBond = bond as BondUnion;
+  const allBondData = bond as IAllBondData;
   // Use BondPrice as indicator of loading.
   const isBondLoading = !allBondData?.bondPrice ?? true;
 
@@ -49,7 +48,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
           </Typography>
           <Typography className="bond-price">
             <>
-              {isBondLoading || typeof allBondData === undefined ? (
+              {isBondLoading ? (
                 <Skeleton width="50px" />
               ) : (
                 <DisplayBondPrice key={bond.name} bond={allBondData as IAllBondData} />
@@ -62,7 +61,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
             <Trans>ROI</Trans>
           </Typography>
           <Typography>
-            {isBondLoading || typeof allBondData === undefined ? (
+            {isBondLoading ? (
               <Skeleton width="50px" />
             ) : (
               <DisplayBondDiscount key={bond.name} bond={allBondData as IAllBondData} />
@@ -75,7 +74,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
             <Trans>Purchased</Trans>
           </Typography>
           <Typography>
-            {isBondLoading || typeof allBondData === undefined ? (
+            {isBondLoading ? (
               <Skeleton width="80px" />
             ) : (
               new Intl.NumberFormat("en-US", {

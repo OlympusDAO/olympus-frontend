@@ -1,10 +1,9 @@
 import { Box, Button, Paper, Typography, Grid, SvgIcon, Link } from "@material-ui/core";
 import "./zap.scss";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import MultiLogo from "../../components/MultiLogo";
 import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Trans } from "@lingui/macro";
+import { TokenStack } from "@olympusdao/component-library";
 
 const useStyles = makeStyles(theme => ({
   subHeader: {
@@ -32,7 +31,7 @@ function ZapCta() {
       <Paper className="ohm-card" id="olyzaps-cta">
         <Grid container display="flex" className="cta-box" wrap>
           <Grid item xs={5} sm={3} className="icons-box">
-            <MultiLogo images={[]} />
+            <TokenStack tokens={["DAI", "wETH"]} />
           </Grid>
           <Grid item xs={7} sm={5}>
             <Box alignItems="center" display="flex" flexDirection="column">
