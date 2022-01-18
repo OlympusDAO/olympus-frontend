@@ -159,10 +159,13 @@ function App() {
   const loadApp = useCallback(
     loadProvider => {
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
-      // NOTE (appleseed) - tech debt - better network filtering for active bonds
       if (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) {
         bonds.map(bond => {
-          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+          // NOTE (appleseed): getBondability & getLOLability control which bonds are active in the view for Bonds V1
+          // ... getClaimability is the analogue for claiming bonds
+          if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
+            dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+          }
         });
         dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
       }
