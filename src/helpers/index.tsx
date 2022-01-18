@@ -1,5 +1,5 @@
 import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, addresses, NetworkId } from "../constants";
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import axios from "axios";
 import { abi as PairContractABI } from "../abi/PairContract.json";
 import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
@@ -16,6 +16,8 @@ import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
 import { EnvHelper } from "../helpers/Environment";
 import { NodeHelper } from "../helpers/NodeHelper";
+import { formatUnits } from "@ethersproject/units";
+import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 
 /**
  * gets marketPrice from Ohm-DAI v2
@@ -310,6 +312,26 @@ export function queryAssertion(value: unknown, queryKey: any = "not specified"):
 export function assert(value: unknown, message: string | Error): asserts value {
   if (!value) throw message instanceof Error ? message : new Error(message);
 }
+
+/**
+ * Converts gOHM to OHM. Mimics `balanceFrom()` gOHM contract function.
+ * @returns Formatted string representation of OHM equivalent.
+ */
+export const convertGohmToOhm = (amount: BigNumber, index: BigNumber): string => {
+  return formatUnits(amount.div(10 ** 9).mul(index), 36);
+};
+
+/**
+ * Converts OHM to gOHM. Mimics `balanceTo()` gOHM contract function.
+ * @returns Formatted string representation of gOHM equivalent.
+ */
+export const convertOhmToGohm = (amount: BigNumber, index: BigNumber): string => {
+  return formatUnits(amount.mul(10 ** 9).div(index), 18);
+};
+
+export const parseBigNumber = (value: BigNumber, units: BigNumberish = 9) => {
+  return parseFloat(formatUnits(value, units));
+};
 
 interface ICheckBalance extends IBaseAsyncThunk {
   readonly sOHMbalance: string;
