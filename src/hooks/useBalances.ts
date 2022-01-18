@@ -9,15 +9,16 @@ import {
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
 import { useAddress } from "./useAddress";
-import { queryAssertion } from "src/helpers";
+import { assert, queryAssertion } from "src/helpers";
 import { covalent } from "src/lib/covalent";
-import { TokenBalance } from "src/lib/covalent.types";
+import { CovalentTokenBalance } from "src/lib/covalent.types";
 import { BigNumber } from "@ethersproject/bignumber";
 import { parseUnits } from "@ethersproject/units";
+import { NetworkId } from "src/constants";
 
 const unstable_Object = Object as unstable_ObjectConstructor;
 
-type Balances = Record<keyof typeof covalent.SUPPORTED_NETWORKS, TokenBalance[]>;
+type Balances = Record<keyof typeof covalent.SUPPORTED_NETWORKS, CovalentTokenBalance[]>;
 
 export const useBalancesKey = (address?: string) => ["useBalances", address];
 
@@ -46,27 +47,33 @@ export const useBalances = <TSelectData = unknown>(select: (data: Balances) => T
   );
 };
 
+const getBalance = (balances: Balances, addressMap: AddressMap, networkId: NetworkId) => {
+  if (!covalent.isSupportedNetwork(networkId)) return BigNumber.from(0);
+
+  const covalentTokens = balances[networkId as keyof typeof covalent.SUPPORTED_NETWORKS];
+  const tokenAddress = addressMap[networkId];
+
+  assert(tokenAddress, "addressMap[networkId] should always exist");
+
+  const token = covalentTokens.find(token => token.contract_address.toLowerCase() === tokenAddress.toLowerCase());
+
+  if (!token) return BigNumber.from(0);
+
+  return parseUnits(token.balance, token.contract_decimals);
+};
+
 /**
  * Returns a balance.
  * @param addressMap Address map of the token you want the balance of.
  */
 const useBalance = <TAddressMap extends AddressMap = AddressMap>(addressMap: TAddressMap) => {
   return useBalances<Record<keyof typeof addressMap, BigNumber>>(balances => {
-    return unstable_Object.keys(addressMap).reduce((prev, networkId) => {
-      // Assign and return 0 if covalent doesn't support this networkId
-      if (!balances.hasOwnProperty(networkId)) {
-        prev[networkId] = BigNumber.from(0);
-        return prev;
-      }
-
-      const tokenAddress = addressMap[networkId]!;
-      const tokens = balances[networkId as keyof typeof covalent.SUPPORTED_NETWORKS];
-      const token = tokens.find(token => token.contract_address.toLowerCase() === tokenAddress.toLowerCase());
-
-      prev[networkId] = token ? parseUnits(token.balance, token.contract_decimals) : BigNumber.from(0);
-
-      return prev;
-    }, {} as Record<keyof typeof addressMap, BigNumber>);
+    return unstable_Object
+      .keys(addressMap)
+      .reduce(
+        (prev, networkId) => Object.assign(prev, { [networkId]: getBalance(balances, addressMap, networkId) }),
+        {} as Record<keyof typeof addressMap, BigNumber>,
+      );
   });
 };
 
