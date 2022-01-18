@@ -69,15 +69,7 @@ const BondV2 = ({ index }: { index: number }) => {
                     <Trans>Bond Price</Trans>
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    <>
-                      {bond.soldOut ? (
-                        t`--`
-                      ) : isBondLoading ? (
-                        <Skeleton width="50px" />
-                      ) : (
-                        <DisplayBondPrice key={bond.index} bond={bond} />
-                      )}
-                    </>
+                    <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.index} bond={bond} />}</>
                   </Typography>
                 </div>
                 <div className="bond-price-data">
@@ -90,7 +82,32 @@ const BondV2 = ({ index }: { index: number }) => {
                 </div>
               </Box>
 
+              {/* <Tabs
+                centered
+                value={view}
+                textColor="primary"
+                indicatorColor="primary"
+                onChange={changeView}
+                aria-label="bond tabs"
+              >
+                <Tab
+                  aria-label="bond-tab-button"
+                  label={t({
+                    id: "do_bond",
+                    comment: "The action of bonding (verb)",
+                  })}
+                  {...a11yProps(0)}
+                />
+                <Tab aria-label="redeem-tab-button" label={t`Redeem`} {...a11yProps(1)} />
+              </Tabs> */}
+
+              {/* <TabPanel value={view} index={0}> */}
               <BondPurchase bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
+              {/* </TabPanel> */}
+
+              {/* <TabPanel value={view} index={1}>
+                <BondRedeem bond={bond} />
+              </TabPanel> */}
             </Paper>
           </Fade>
         </Backdrop>
@@ -100,7 +117,7 @@ const BondV2 = ({ index }: { index: number }) => {
 };
 
 export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
-  if (typeof bond.priceUSD === undefined || bond.soldOut) {
+  if (typeof bond.priceUSD === undefined) {
     return <Fragment>--</Fragment>;
   }
 
@@ -117,7 +134,7 @@ export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
 };
 
 export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement => {
-  if (typeof bond.discount === undefined || bond.soldOut) {
+  if (typeof bond.discount === undefined) {
     return <Fragment>--</Fragment>;
   }
 

@@ -23,7 +23,6 @@ import { useAppSelector } from "src/hooks";
 import { changeApproval, getSingleBond, IBondV2, IBondV2Balance, purchaseBond } from "src/slices/BondSliceV2";
 import { BigNumber, ethers } from "ethers";
 import { AppDispatch } from "src/store";
-import { InfoTooltip } from "@olympusdao/component-library";
 
 function BondPurchase({
   bond,
@@ -42,7 +41,6 @@ function BondPurchase({
   });
 
   const [quantity, setQuantity] = useState("");
-  const [maxBondable, setMaxBondable] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
 
   const isBondLoading = useAppSelector(state => state.bondingV2.loading ?? true);
@@ -59,17 +57,8 @@ function BondPurchase({
   });
 
   async function onBond() {
-    if (quantity === "" || Number(quantity) <= 0) {
+    if (quantity === "") {
       dispatch(error(t`Please enter a value!`));
-    } else if (Number(quantity) > +maxBondable) {
-      dispatch(
-        error(
-          t`Max capacity is ${maxBondable} ${bond.displayName} for ${trim(
-            +bond.maxPayoutOrCapacityInBase,
-            4,
-          )} sOHM. Click Max to autocomplete.`,
-        ),
-      );
     } else {
       dispatch(
         purchaseBond({
@@ -93,20 +82,15 @@ function BondPurchase({
   }, [balance]);
 
   const setMax = () => {
-    let maxQ: string;
-    const maxBondableNumber = +maxBondable * 0.999;
-    if (balanceNumber > maxBondableNumber) {
-      maxQ = maxBondableNumber.toString();
+    let maxQ;
+    const maxPayout = (bond.priceToken * +bond.maxPayout) / Math.pow(10, 9);
+    if (balanceNumber > maxPayout) {
+      maxQ = maxPayout * 0.999;
     } else {
-      maxQ = ethers.utils.formatUnits(balance.balance, bond.quoteDecimals);
+      maxQ = balanceNumber;
     }
-    setQuantity(maxQ);
+    setQuantity(maxQ.toString());
   };
-
-  // set maxPayout
-  useEffect(() => {
-    setMaxBondable(bond.maxPayoutOrCapacityInQuote);
-  }, [bond.maxPayoutOrCapacityInQuote]);
 
   useEffect(() => {
     let interval: NodeJS.Timer | undefined;
@@ -128,7 +112,7 @@ function BondPurchase({
 
   // const displayUnits = bond.displayUnits;
 
-  const isAllowanceDataLoading = useAppSelector(state => state.bondingV2.balanceLoading[bond.quoteToken]);
+  const isAllowanceDataLoading = useAppSelector(state => state.bondingV2.balanceLoading);
 
   return (
     <Box display="flex" flexDirection="column">
@@ -173,17 +157,7 @@ function BondPurchase({
                     />
                   </FormControl>
                 )}
-                {bond.soldOut ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    id="bond-btn"
-                    className="transaction-button"
-                    disabled={true}
-                  >
-                    <Trans>Sold Out</Trans>
-                  </Button>
-                ) : balance ? (
+                {balance ? (
                   hasAllowance() ? (
                     <Button
                       variant="contained"
@@ -228,12 +202,9 @@ function BondPurchase({
           </div>
 
           <div className={`data-row`}>
-            <Box display="flex" flexDirection="row">
-              <Typography>
-                <Trans>You Will Get</Trans>
-              </Typography>
-              <InfoTooltip message="Actual sOHM amount you receive will be higher at the end of the term due to rebase accrual."></InfoTooltip>
-            </Box>
+            <Typography>
+              <Trans>You Will Get</Trans>
+            </Typography>
             <Typography id="bond-value-id" className="price-data">
               {isBondLoading ? (
                 <Skeleton width="100px" />
@@ -249,13 +220,7 @@ function BondPurchase({
               <Trans>Max You Can Buy</Trans>
             </Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
-                  trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
-                } ${bond.displayName})`
-              )}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(+bond.maxPayout / 10 ** 9, 1) || "0"} ` + `sOHM`}
             </Typography>
           </div>
 
@@ -288,8 +253,8 @@ function BondPurchase({
       <div className="help-text">
         <em>
           <Typography variant="body2">
-            Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as
-            sOHM or gOHM at the end of the term.
+            Important: New bonds are auto-staked and no longer vest linearly. Simply claim as sOHM or gOHM at the end of
+            the term.
           </Typography>
         </em>
       </div>

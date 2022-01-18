@@ -82,7 +82,8 @@ export const CurrentIndex = () => {
   const props: MetricProps = {
     ...sharedProps,
     label: t`Current Index`,
-    tooltip: t`The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held 1 OHM from launch.`,
+    tooltip:
+      "The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held 1 OHM from launch.",
   };
 
   if (currentIndex) props.metric = `${parseFloat(formatUnits(currentIndex, 9)).toFixed(2)} sOHM`;
@@ -98,10 +99,7 @@ export const GOHMPrice = () => {
     ...sharedProps,
     label: t`gOHM Price`,
     className: "wsoprice",
-    tooltip:
-      t`gOHM = sOHM * index` +
-      "\n\n" +
-      t`The price of gOHM is equal to the price of OHM multiplied by the current index`,
+    tooltip: "gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of OHM multiplied by the current index",
   };
 
   if (gOhmPrice) props.metric = formatCurrency(gOhmPrice, 2);

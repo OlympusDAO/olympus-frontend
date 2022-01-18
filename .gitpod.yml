@@ -4,9 +4,13 @@ tasks:
       yarn &&
       gp sync-done install
     command: REACT_APP_PROVIDER=$(gp url 8545) yarn start
-  - name: Test
+  - name: Chain
     init: gp sync-await install
-    command: yarn test:unit
+    command: yarn chain
+    openMode: split-right
+  - name: Deployment
+    init: gp sync-await install
+    command: yarn deploy
     openMode: split-right
 ports:
   - port: 3000

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  SvgIcon,
   Button,
   Typography,
   Box,
@@ -10,16 +11,26 @@ import {
   useTheme,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { addresses, NETWORKS } from "src/constants";
 import { formatCurrency } from "src/helpers";
+import { RootState } from "src/store";
 import { NetworkId } from "src/constants";
+
+import { ReactComponent as MoreIcon } from "src/assets/icons/more.svg";
+import OhmImg from "src/assets/tokens/token_OHM.svg";
+import SOhmImg from "src/assets/tokens/token_sOHM.svg";
+import WsOhmImg from "src/assets/tokens/token_wsOHM.svg";
+import Token33tImg from "src/assets/tokens/token_33T.svg";
+import GOhmImg from "src/assets/tokens/gohm.png";
+
 import { segmentUA } from "src/helpers/userAnalyticHelpers";
 import { t } from "@lingui/macro";
+
 import { useQuery } from "react-query";
 import { fetchCrossChainBalances } from "src/lib/fetchBalances";
-import { Token as TokenSVG, Icon, OHMTokenProps } from "@olympusdao/component-library";
 
 const Accordion = withStyles({
   root: {
@@ -60,7 +71,7 @@ export interface IToken {
   symbol: string;
   address: string;
   decimals: number;
-  icon: OHMTokenProps["name"];
+  icon: string;
   balance: string;
   price: number;
   crossChainBalances?: { balances: Record<NetworkId, string>; isLoading: boolean };
@@ -166,9 +177,9 @@ export const Token = ({
 
   return (
     <Accordion expanded={expanded} onChange={onChangeExpanded}>
-      <AccordionSummary expandIcon={<Icon name="more" color="disabled" />}>
+      <AccordionSummary expandIcon={<SvgIcon component={MoreIcon} color="disabled" />}>
         <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-          <TokenSVG name={icon} style={{ fontSize: 28, marginRight: theme.spacing(1) }} />
+          <img src={icon} style={{ height: "28px", width: "28px", marginRight: theme.spacing(1) }} />
           <Typography>{symbol}</Typography>
         </Box>
         <BalanceValue
@@ -224,7 +235,7 @@ export const MigrateToken = ({ symbol, icon, balance = "0.0", price = 0 }: IToke
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
       <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-        <TokenSVG name={icon} style={{ fontSize: 28, marginRight: theme.spacing(1) }} />
+        <img src={icon} style={{ height: "28px", width: "28px", marginRight: theme.spacing(1) }} />
         <Typography>{symbol}</Typography>
       </Box>
       {/* <Button variant="contained" color="primary" size="small" onClick={() => true}>
@@ -273,7 +284,7 @@ export const useWallet = (
       address: addresses[networkId].OHM_ADDRESS,
       balance: connectedChainBalances.ohmV1,
       price: ohmPrice || 0,
-      icon: "OHM",
+      icon: OhmImg,
       decimals: 9,
     },
     sohmV1: {
@@ -281,7 +292,7 @@ export const useWallet = (
       address: addresses[networkId].SOHM_ADDRESS,
       balance: connectedChainBalances.sohmV1,
       price: ohmPrice || 0,
-      icon: "sOHM",
+      icon: SOhmImg,
       decimals: 9,
     },
     ohm: {
@@ -289,7 +300,7 @@ export const useWallet = (
       address: addresses[networkId].OHM_V2,
       balance: connectedChainBalances.ohm,
       price: ohmPrice || 0,
-      icon: "OHM",
+      icon: OhmImg,
       decimals: 9,
     },
     sohm: {
@@ -300,7 +311,7 @@ export const useWallet = (
       vaultBalances: {
         "Fuse Olympus Pool Party": connectedChainBalances.fsohm,
       },
-      icon: "sOHM",
+      icon: SOhmImg,
       decimals: 9,
     },
     wsohm: {
@@ -309,7 +320,7 @@ export const useWallet = (
       balance: connectedChainBalances.wsohm,
       price: (ohmPrice || 0) * Number(currentIndex || 0),
       crossChainBalances: { balances: wsohm, isLoading },
-      icon: "wsOHM",
+      icon: WsOhmImg,
       decimals: 18,
     },
     pool: {
@@ -317,7 +328,7 @@ export const useWallet = (
       address: addresses[networkId].PT_TOKEN_ADDRESS,
       balance: connectedChainBalances.pool,
       price: ohmPrice || 0,
-      icon: "33T",
+      icon: Token33tImg,
       decimals: 9,
     },
     gohm: {
@@ -329,7 +340,7 @@ export const useWallet = (
       vaultBalances: {
         "Fuse Olympus Pool Party": connectedChainBalances.fgohm,
       },
-      icon: "wsOHM",
+      icon: GOhmImg,
       decimals: 18,
     },
   } as Record<string, Omit<IToken, "totalBalance">>;

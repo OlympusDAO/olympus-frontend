@@ -89,7 +89,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
     <>
       <Zoom in={true}>
         <Paper className="ohm-card claim-bonds-card">
-          <CardHeader title="Your Bonds" />
+          <CardHeader title="Your Bonds (1,1)" />
           <Box
             display="flex"
             flexDirection="column"
@@ -108,8 +108,8 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
               aria-label="payout token tabs"
               className="payout-token-tabs"
             >
-              <Tab label={`sOHM`} {...a11yProps(0)} className="payout-token-tab" />
-              <Tab label={`gOHM`} {...a11yProps(1)} className="payout-token-tab" />
+              <Tab label={t`sOHM`} {...a11yProps(0)} className="payout-token-tab" />
+              <Tab label={t`gOHM`} {...a11yProps(1)} className="payout-token-tab" />
             </Tabs>
           </Box>
 

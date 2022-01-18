@@ -1,8 +1,18 @@
-import { Box, Typography } from "@material-ui/core";
+import { Box, Button, Container, Grid, Icon, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { ReactComponent as sOhmTokenImg } from "../assets/tokens/token_sOHM.svg";
+import { ReactComponent as yieldImg } from "../assets/icons/yield.svg";
+import { ReactComponent as vaultLockImg } from "../assets/icons/vault-lock.svg";
+import { ReactComponent as arrowRightImg } from "../assets/icons/arrow-right.svg";
+import { shorten } from "src/helpers";
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, Token } from "@olympusdao/component-library";
+
+const viewBox = "0 0 100 100";
+// The sOHM SVG is 100x100px, whereas the others are 50x50px
+const smallViewBox = "0 0 50 50";
+const iconStyle = { height: "64px", width: "64px", margin: "auto" };
+const smallIconStyle = { height: "32px", width: "32px", margin: "auto" };
 
 type EducationGraphicProps = {
   quantity: string;
@@ -23,7 +33,7 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" m={2}>
-        <Token name="sOHM" style={{ fontSize: 64 }} />
+        <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
@@ -48,7 +58,7 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <Token name="sOHM" />
+          <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={smallIconStyle} />
         </Box>
         <Box
           display="flex"
@@ -86,7 +96,7 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <Token name="sOHM" />
+          <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={smallIconStyle} />
         </Box>
         <Box
           display="flex"
@@ -124,7 +134,7 @@ export function VaultGraphic({ quantity, verb = "deposited", isLoading }: Educat
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <Icon name="vault-lock" htmlColor="#fff" style={{ fontSize: 60 }} />
+        <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
@@ -155,7 +165,7 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <Icon name="vault-lock" htmlColor="#fff" fontSize="large" />
+          <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={smallIconStyle} />
         </Box>
         <Box
           display="flex"
@@ -199,7 +209,7 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <Icon name="vault-lock" htmlColor="#fff" fontSize="large" />
+          <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={smallIconStyle} />
         </Box>
         <Box
           display="flex"
@@ -236,8 +246,16 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
           <Trans>Recipient</Trans>
         </Typography>
       </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" alignContent="center" m={2}>
-        <Icon name="yield" htmlColor="#fff" style={{ fontSize: 60 }} />
+      <Box
+        className="yield-graphic"
+        display="flex"
+        flex="1"
+        alignItems="center"
+        justifyContent="center"
+        alignContent="center"
+        m={2}
+      >
+        <SvgIcon component={yieldImg} viewBox={smallViewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
@@ -256,8 +274,16 @@ export function RedeemGraphic({ quantity, isLoading }: EducationGraphicProps) {
           <Trans>You</Trans>
         </Typography>
       </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" alignContent="center" m={2}>
-        <Icon name="yield" htmlColor="#fff" style={{ fontSize: 60 }} />
+      <Box
+        display="flex"
+        flex="1"
+        alignItems="center"
+        justifyContent="center"
+        alignContent="center"
+        m={2}
+        className="yield-graphic"
+      >
+        <SvgIcon component={yieldImg} viewBox={smallViewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
@@ -282,7 +308,7 @@ export function ReceivesYield({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <Icon name="yield" htmlColor="#fff" fontSize="large" />
+          <SvgIcon component={yieldImg} viewBox={smallViewBox} style={smallIconStyle} className="receives-yield-icon" />
         </Box>
         <Box
           display="flex"
@@ -320,7 +346,7 @@ export function ReceivesYield({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <Icon name="yield" htmlColor="#fff" fontSize="large" />
+          <SvgIcon component={yieldImg} viewBox={smallViewBox} style={smallIconStyle} className="receives-yield-icon" />
         </Box>
         <Box
           display="flex"
@@ -358,7 +384,7 @@ export function CurrPositionGraphic({ quantity }: EducationGraphicProps) {
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <Token name="sOHM" style={{ fontSize: 64 }} />
+        <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
@@ -378,7 +404,7 @@ export function NewPositionGraphic({ quantity }: EducationGraphicProps) {
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <Token name="sOHM" style={{ fontSize: 64 }} />
+        <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
@@ -390,10 +416,11 @@ export function NewPositionGraphic({ quantity }: EducationGraphicProps) {
 }
 
 export function ArrowGraphic() {
+  const arrowViewBox = "0 0 57 24";
   return (
     <Box className="sect" minWidth={"2%"} style={{ marginTop: "0px", marginBottom: "0px" }}>
       <Box className="arrow-graphic" display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <Icon name="arrow-right" style={{ fontSize: 70 }} opacity={0.6} />
+        <SvgIcon component={arrowRightImg} viewBox={arrowViewBox} style={iconStyle} />
       </Box>
     </Box>
   );

@@ -223,7 +223,7 @@ export const getBalances = createAsyncThunk(
       handleContractError(e);
     }
     /*
-      Needed a sOHM contract on testnet that could easily
+      Needed a sOHM contract on testnet that could easily 
       be manually rebased to test redeem features
     */
     if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {
@@ -379,10 +379,6 @@ export const getMockRedemptionBalances = createAsyncThunk(
 );
 
 interface IUserAccountDetails {
-  staking: {
-    ohmStake: number;
-    ohmUnstake: number;
-  };
   wrapping: {
     sohmWrap: number;
     wsohmUnwrap: number;
@@ -516,13 +512,10 @@ export const loadAccountDetails = createAsyncThunk(
 
 export interface IUserBondDetails {
   // bond: string;
-  readonly bond: string;
-  readonly balance: string;
-  readonly displayName: string;
-  readonly allowance: number;
-  readonly interestDue: number;
-  readonly bondMaturationBlock: number;
-  readonly pendingPayout: string; //Payout formatted in gwei.
+  allowance: number;
+  interestDue: number;
+  bondMaturationBlock: number;
+  pendingPayout: string; //Payout formatted in gwei.
 }
 export const calculateUserBondDetails = createAsyncThunk(
   "account/calculateUserBondDetails",

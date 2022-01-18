@@ -1,8 +1,9 @@
 import { memo } from "react";
 import "./treasury-dashboard.scss";
-import { Grid, Box, Zoom, Container, useMediaQuery, Typography } from "@material-ui/core";
+import { Paper, Grid, Box, Zoom, Container, useMediaQuery, Typography, SvgIcon } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
+import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 
 import {
   TotalValueDepositedGraph,
@@ -12,8 +13,7 @@ import {
   OHMStakedGraph,
   RunwayAvailableGraph,
 } from "./components/Graph/Graph";
-import { Icon, MetricCollection, Paper } from "@olympusdao/component-library";
-import { Trans } from "@lingui/macro";
+import { MetricCollection } from "@olympusdao/component-library";
 const TreasuryDashboard = memo(() => {
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
@@ -47,13 +47,11 @@ const TreasuryDashboard = memo(() => {
             style={{ wordBreak: "break-word" }}
           >
             <Box alignItems={"center"} display={"flex"}>
-              <Icon name={"info-fill"} />
+              <SvgIcon component={InfoIcon} />
               <Box width={10} />
               <Typography>
-                <Trans>
-                  Olympus is currently migrating to improved contracts. Please note that during this time, frontend
-                  metrics may be inaccurate.
-                </Trans>
+                Olympus is currently migrating to improved contracts. Please note that during this time, frontend
+                metrics may be inaccurate.
               </Typography>
             </Box>
           </Alert>
@@ -98,7 +96,7 @@ const TreasuryDashboard = memo(() => {
                   bulletpointColors={bulletpoints.holder}
                   itemNames={tooltipItems.holder}
                   itemType={undefined}
-                  infoTooltipMessage={tooltipInfoMessages().holder}
+                  infoTooltipMessage={tooltipInfoMessages.holder}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
                   scale={undefined}
                   color={undefined}

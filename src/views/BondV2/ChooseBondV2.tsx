@@ -52,9 +52,17 @@ function ChooseBondV2() {
     return state.app.marketPrice;
   });
 
-  const treasuryBalance = useAppSelector(state => state.app.treasuryMarketValue);
-
-  const isBondsLoading = useAppSelector(state => state.bondingV2.loading ?? true);
+  const treasuryBalance: number | undefined = useAppSelector(state => {
+    if (state.bonding.loading == false) {
+      let tokenBalances = 0;
+      for (const bond in allBondsMap) {
+        if (state.bonding[bond]) {
+          tokenBalances += state.bonding[bond].purchased;
+        }
+      }
+      return tokenBalances;
+    }
+  });
 
   const formattedTreasuryBalance = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -89,7 +97,7 @@ function ChooseBondV2() {
         <Paper className="ohm-card">
           <Box className="card-header">
             <Typography variant="h5" data-testid="t">
-              <Trans>Bond</Trans> (4,4)
+              <Trans>Bond</Trans> (1,1)
             </Typography>
 
             <ButtonBase>
@@ -121,13 +129,7 @@ function ChooseBondV2() {
             />
           </MetricCollection>
 
-          {bondsV2.length == 0 && !isBondsLoading && (
-            <Box display="flex" justifyContent="center" marginY="24px">
-              <Typography variant="h4">No active bonds</Typography>
-            </Box>
-          )}
-
-          {!isSmallScreen && bondsV2.length != 0 && (
+          {!isSmallScreen && (
             <Grid container item>
               <TableContainer>
                 <Table aria-label="Available bonds">
@@ -159,8 +161,8 @@ function ChooseBondV2() {
           <div className="help-text">
             <em>
               <Typography variant="body2">
-                Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim
-                as sOHM or gOHM at the end of the term.
+                Important: New bonds are auto-staked and no longer vest linearly. Simply claim as sOHM or gOHM at the
+                end of the term.
               </Typography>
             </em>
           </div>

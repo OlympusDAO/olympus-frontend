@@ -6,13 +6,11 @@ function BondLogo({ bond }) {
   const { networkId } = useWeb3Context();
   let viewBox = "0 0 32 32";
   let style = { height: "32px", width: "32px" };
-  let width = "32px";
 
   // Need more space if its an LP token
   if (bond.isLP) {
     viewBox = "0 0 64 32";
     style = { height: "32px", width: "62px" };
-    width = "64px";
   }
 
   let bondIconSvg;
@@ -22,11 +20,10 @@ function BondLogo({ bond }) {
     // look it up for V2 bonds
     const details = v2BondDetails[networkId][bond.quoteToken];
     bondIconSvg = details && details.bondIconSvg;
-    if (details && details.bondIconViewBox) viewBox = details.bondIconViewBox;
   }
 
   return (
-    <Box display="flex" alignItems="center" justifyContent="center" width={width}>
+    <Box display="flex" alignItems="center" justifyContent="center" width={"64px"}>
       <SvgIcon component={bondIconSvg} viewBox={viewBox} style={style} />
     </Box>
   );

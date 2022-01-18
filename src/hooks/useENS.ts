@@ -1,8 +1,6 @@
 import { useQuery } from "react-query";
-import { NetworkId } from "src/constants";
 import { queryAssertion } from "src/helpers";
 import { useAddress } from "./useAddress";
-import { useNetwork } from "./useNetwork";
 import { useWeb3Context } from "./useWeb3Context";
 
 export const useEnsKey = (address?: string) => [address, "useEns"];
@@ -10,9 +8,6 @@ export const useEnsKey = (address?: string) => [address, "useEns"];
 export const useEns = () => {
   const { provider } = useWeb3Context();
   const { data: address } = useAddress();
-  const { data: networkId } = useNetwork();
-
-  const isEnsSupported = networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY;
 
   return useQuery<{ name: string | null; avatar: string | null }, Error>(
     useEnsKey(address),
@@ -25,6 +20,6 @@ export const useEns = () => {
       return { name, avatar };
     },
 
-    { enabled: !!address && isEnsSupported },
+    { enabled: !!address },
   );
 };
