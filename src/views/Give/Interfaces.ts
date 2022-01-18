@@ -11,11 +11,6 @@ export interface CancelCallback {
   (): void;
 }
 
-export interface RecipientTotalDeposited {
-  recipient: string;
-  total: string;
-}
-
 export interface DonationInfoState {
   account: IAccountSlice;
   pendingTransactions: IPendingTxn[];

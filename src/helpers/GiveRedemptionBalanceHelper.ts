@@ -1,7 +1,6 @@
 import { ethers, BigNumber } from "ethers";
 import { addresses } from "../constants";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "../slices/interfaces";
 
 interface IUserRecipientInfo {

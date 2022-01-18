@@ -11,6 +11,7 @@ import { Skeleton } from "@material-ui/lab";
 const viewBox = "0 0 100 100";
 // The sOHM SVG is 100x100px, whereas the others are 50x50px
 const smallViewBox = "0 0 50 50";
+const verySmallViewBox = "0 0 32 32";
 const iconStyle = { height: "64px", width: "64px", margin: "auto" };
 const smallIconStyle = { height: "32px", width: "32px", margin: "auto" };
 
@@ -37,7 +38,7 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
-          {quantity} sOHM {verb}
+          {parseFloat(quantity).toFixed(2)} sOHM {verb}
         </Typography>
       </Box>
     </Box>
@@ -99,7 +100,7 @@ export function VaultGraphic({ quantity, verb = "deposited", isLoading }: Educat
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
-          {isLoading ? <Skeleton width={120} /> : `${quantity} sOHM ${verb}`}
+          {isLoading ? <Skeleton width={120} /> : `${parseFloat(quantity).toFixed(2)} sOHM ${verb}`}
         </Typography>
       </Box>
     </Box>
@@ -171,11 +172,11 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
         alignContent="center"
         m={2}
       >
-        <SvgIcon component={yieldImg} viewBox={smallViewBox} style={iconStyle} />
+        <SvgIcon component={yieldImg} viewBox={verySmallViewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
-          {`${t`Receives yield from`} ${quantity} sOHM`}
+          {`${t`Receives yield from`} ${parseFloat(quantity).toFixed(2)} sOHM`}
         </Typography>
       </Box>
     </Box>
@@ -203,7 +204,7 @@ export function RedeemGraphic({ quantity, isLoading }: EducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          {isLoading ? <Skeleton width={120} /> : `${t`Redeem`} ${quantity} ${`sOHM in yield`}`}
+          {isLoading ? <Skeleton width={120} /> : `${t`Redeem`} ${parseFloat(quantity).toFixed(2)} ${`sOHM in yield`}`}
         </Typography>
       </Box>
     </Box>
@@ -272,7 +273,7 @@ export function CurrPositionGraphic({ quantity }: EducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          {quantity} sOHM
+          {parseFloat(quantity).toFixed(2)} sOHM
         </Typography>
       </Box>
     </Box>
@@ -292,7 +293,7 @@ export function NewPositionGraphic({ quantity }: EducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
-          {quantity} sOHM
+          {parseFloat(quantity).toFixed(2)} sOHM
         </Typography>
       </Box>
     </Box>
