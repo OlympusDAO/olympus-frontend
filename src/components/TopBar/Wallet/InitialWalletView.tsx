@@ -1,4 +1,4 @@
-import { Component, ReactElement, useState } from "react";
+import { ReactElement, useState } from "react";
 import {
   useTheme,
   useMediaQuery,
@@ -12,32 +12,24 @@ import {
   Paper,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { ReactComponent as CloseIcon } from "src/assets/icons/x.svg";
 import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
-import { ReactComponent as wethTokenImg } from "src/assets/tokens/wETH.svg";
-import { ReactComponent as fraxTokenImg } from "src/assets/tokens/FRAX.svg";
-import { ReactComponent as daiTokenImg } from "src/assets/tokens/DAI.svg";
-import { ReactComponent as wsOhmTokenImg } from "src/assets/tokens/token_wsOHM.svg";
-import { ReactComponent as arrowDown } from "src/assets/icons/arrow-down.svg";
 import { formatCurrency } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import useCurrentTheme from "src/hooks/useTheme";
-
 import { dai, frax } from "src/helpers/AllBonds";
-
-import { IToken, Tokens, useWallet } from "./Token";
+import { Tokens, useWallet } from "./Token";
 import { Trans } from "@lingui/macro";
 import WalletAddressEns from "./WalletAddressEns";
 import { addresses } from "src/constants";
-
+import { TokenStack, Icon, Token, OHMTokenProps, OHMTokenStackProps } from "@olympusdao/component-library";
 const Borrow = ({
   Icon1,
   borrowableTokensIcons,
   borrowOn,
   href,
 }: {
-  Icon1: typeof Component;
-  borrowableTokensIcons: typeof Component[];
+  Icon1: OHMTokenProps["name"];
+  borrowableTokensIcons: OHMTokenStackProps["tokens"];
   borrowOn: string;
   href: string;
 }) => {
@@ -45,16 +37,13 @@ const Borrow = ({
   return (
     <ExternalLink href={href}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row-reverse", justifyContent: "flex-end" }}>
-          {borrowableTokensIcons.map((Icon, i, arr) => (
-            <Icon style={{ height: "24px", width: "24px", ...(arr.length !== i + 1 && { marginLeft: "-8px" }) }} />
-          ))}
-          <SvgIcon
-            component={arrowDown}
-            viewBox="-12 -12 48 48"
-            style={{ height: "24px", width: "24px", transform: "rotate(270deg)" }}
+        <Box sx={{ display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "flex-start" }}>
+          <Token name={Icon1} style={{ fontSize: 26 }} />
+          <Icon
+            name="arrow-down"
+            style={{ fontSize: 15, transform: "rotate(270deg)", marginLeft: 5, marginRight: 5 }}
           />
-          <Icon1 style={{ height: "24px", width: "24px" }} />
+          <TokenStack style={{ fontSize: 26 }} tokens={borrowableTokensIcons} />
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", marginTop: theme.spacing(1) }}>
           <Box sx={{ display: "flex", flexDirection: "column", textAlign: "right", marginRight: theme.spacing(0.5) }}>
@@ -166,7 +155,7 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
         <Box sx={{ display: "flex", justifyContent: "space-between", padding: theme.spacing(3, 0) }}>
           <WalletTotalValue />
           <CloseButton size="small" onClick={onClose} aria-label="close wallet">
-            <SvgIcon component={CloseIcon} color="primary" style={{ width: "15px", height: "15px" }} />
+            <Icon name="x" />
           </CloseButton>
         </Box>
 
@@ -205,8 +194,8 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
           <Borrow
             href={`https://app.rari.capital/fuse/pool/18`}
             borrowOn="Rari Capital"
-            borrowableTokensIcons={[wethTokenImg, daiTokenImg, fraxTokenImg]}
-            Icon1={wsOhmTokenImg}
+            borrowableTokensIcons={["wETH", "DAI", "FRAX"]}
+            Icon1="wsOHM"
           />
           <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(1.5) }}>
             <ExternalLink href={`https://dune.xyz/0xrusowsky/Olympus-Wallet-History`}>
