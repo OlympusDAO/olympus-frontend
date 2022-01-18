@@ -66,8 +66,6 @@ export async function getV1MarketPrice() {
 export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
   let tokenPrice: number = 0;
   try {
-    // replacing direct coingecko call with ohm API middleware
-    // resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
     const ohmResp = (await axios.get(`https://api.olympusdao.finance/api/rest/coingecko_name/${tokenId}`)) as {
       data: { coingeckoTicker: { value: number } };
     };
