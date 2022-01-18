@@ -119,6 +119,7 @@
     "hardhat": "^2.6.7",
     "jest": "26.6.0",
     "jest-puppeteer": "^6.0.0",
+    "jest-when": "^3.5.0",
     "less-plugin-npm-import": "^2.1.0",
     "msw": "^0.36.4",
     "pptr-testing-library": "^0.6.5",

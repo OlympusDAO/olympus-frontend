@@ -11630,6 +11630,11 @@ jest-watcher@^26.3.0, jest-watcher@^26.6.2:
     jest-util "^26.6.2"
     string-length "^4.0.1"
 
+jest-when@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/jest-when/-/jest-when-3.5.0.tgz#364ab8dc149a5d683f9cc14e44d73d03b84b0d97"
+  integrity sha512-/IkPkG5lo2tyXH3a+VraYe7t/ma6UK9VPQko7hr6YgEtjoHyfAPpLXzyhnSNxxKRzNQDrw8YoGPCOkdTLR4mHA==
+
 jest-worker@^24.9.0:
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-24.9.0.tgz#5dbfdb5b2d322e98567898238a9697bcce67b3e5"

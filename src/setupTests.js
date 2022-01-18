@@ -43,7 +43,13 @@ const server = setupServer(...handlers);
 beforeAll(() => server.listen({ onUnhandledRequest: "bypass" }));
 
 // Reset any runtime request handlers we may add during the tests.
-afterEach(() => server.resetHandlers());
+beforeEach(() => {});
+
+// Reset any runtime request handlers we may add during the tests.
+afterEach(() => {
+  server.resetHandlers();
+  jest.resetAllMocks();
+});
 
 // Disable API mocking after the tests are done.
 afterAll(() => server.close());

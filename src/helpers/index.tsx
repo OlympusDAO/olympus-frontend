@@ -64,18 +64,33 @@ export async function getV1MarketPrice() {
  * @returns INTEGER usd value
  */
 export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
+  let tokenPrice: number = 0;
   try {
     // replacing direct coingecko call with ohm API middleware
     // resp = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`);
-    const resp = (await axios.get(`https://api.olympusdao.finance/api/rest/coingecko_name/${tokenId}`)) as {
+    const ohmResp = (await axios.get(`https://api.olympusdao.finance/api/rest/coingecko_name/${tokenId}`)) as {
       data: { coingeckoTicker: { value: number } };
     };
-    let tokenPrice: number = resp.data.coingeckoTicker.value;
-    return tokenPrice;
+    tokenPrice = ohmResp.data.coingeckoTicker.value;
   } catch (e) {
-    // console.log("coingecko api error: ", e);
-    return 0;
+    // fallback to coingecko
+    try {
+      const testResp = await axios.get(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`,
+      );
+      const cgResp = (await axios.get(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`,
+      )) as {
+        data: { [id: string]: { usd: number } };
+      };
+      tokenPrice = cgResp.data[tokenId].usd;
+    } catch (e2) {
+      //
+    }
+  } finally {
+    return tokenPrice;
   }
+  console.error("4. THIS LINE WAS ALSO CALLED @@@@@@+++++++>>>>>>><<<<<<<", { tokenPrice });
 }
 
 /**
