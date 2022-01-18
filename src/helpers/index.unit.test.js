@@ -27,6 +27,13 @@ test("getTokenPrice returns 0 on remote call exceptions", async () => {
 });
 
 test("getTokenPrice via api.olympusdao.finance (real)", async () => {
+  const theSpiedMethod = jest.spyOn(axios, "get");
+  when(theSpiedMethod)
+    .calledWith(expect.stringMatching("https://api.coingecko.com"))
+    .mockImplementation(async () => {
+      throw Error("Should not reach this API call if OHM API works.");
+    });
+
   let price = await getTokenPrice("olympus");
   expect(price).toBeGreaterThan(1);
 });
@@ -35,6 +42,11 @@ test("getTokenPrice via api.olympusdao.finance (mock)", async () => {
   const resp = { data: { coingeckoTicker: { value: 356 } } };
   const theSpiedMethod = jest.spyOn(axios, "get");
   when(theSpiedMethod).calledWith(expect.stringMatching("https://api.olympusdao.finance")).mockReturnValue(resp);
+  when(theSpiedMethod)
+    .calledWith(expect.stringMatching("https://api.coingecko.com"))
+    .mockImplementation(async () => {
+      throw Error("Should not reach this API call if OHM API works.");
+    });
   let price = await getTokenPrice("olympus");
   expect(price).toEqual(356);
 });
