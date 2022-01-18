@@ -518,6 +518,9 @@
   transform: translate(-50.048%, -50.048%);
 
   &.smaller {
+    top: 70%;
+    overflow-y: scroll;
+
     .give-confirmation-details .details-row {
       flex-direction: column;
       align-items: flex-start;
@@ -644,14 +647,14 @@
     }
   }
 
+  .details-header .MuiTypography-h5 {
+    font-weight: 600;
+    margin-bottom: 30px
+  }
+
   .details-container {
     display: flex;
     flex-direction: column;
-
-    .details-header .MuiTypography-h5 {
-      font-weight: 600;
-      padding-bottom: 18px;
-    }
 
     .details-row {
       display: flex;
@@ -662,6 +665,30 @@
       .row-title {
         color: #999999;
       }
+    }
+  }
+
+  .details-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .MuiTypography-body1 {
+      color: #999999;
+      margin-bottom: 10px;
+    }
+
+    .sohm-allocation-col {
+      width: 30%;
+    }
+
+    .recipient-address-col {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      align-content: flex-end;
     }
   }
 

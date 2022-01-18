@@ -442,7 +442,7 @@ export function RecipientModal({
     <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
       <Paper className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`} onClick={handleModalInsideClick}>
         <div className="yield-header">
-          {isAmountSet ? (
+          {isAmountSet || !isCreateMode() ? (
             <Link onClick={() => handleGoBack()}>
               <SvgIcon color="primary" component={ChevronLeft} />
             </Link>

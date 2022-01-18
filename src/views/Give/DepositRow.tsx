@@ -103,6 +103,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
 
   const handleEditModalCancel = () => {
     setIsEditModalOpen(false);
+    setIsManageModalOpen(true);
   };
 
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, depositAmount) => {
@@ -176,6 +177,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
 
       <ManageDonationModal
         isModalOpen={isManageModalOpen}
+        submitEdit={handleEditModalSubmit}
         cancelFunc={handleManageModalCancel}
         switchToEdit={switchToEditModal}
         switchToWithdraw={switchToWithdrawModal}
