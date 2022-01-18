@@ -73,9 +73,6 @@ export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
   } catch (e) {
     // fallback to coingecko
     try {
-      const testResp = await axios.get(
-        `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`,
-      );
       const cgResp = (await axios.get(
         `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`,
       )) as {
