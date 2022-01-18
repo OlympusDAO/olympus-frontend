@@ -460,7 +460,7 @@ export function ManageDonationModal({
                     <Trans>New sOHM deposit</Trans>
                   </Typography>
                   <Typography variant="h6">
-                    <strong>{isWithdrawing ? 0 : depositAmount.toFixed(2)} sOHM</strong>
+                    {isWithdrawing ? 0 : depositAmount.toFixed(2)} sOHM
                   </Typography>
                 </div>
               </div>
