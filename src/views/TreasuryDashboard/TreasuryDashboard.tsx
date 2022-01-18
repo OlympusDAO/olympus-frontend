@@ -12,7 +12,7 @@ import {
   OHMStakedGraph,
   RunwayAvailableGraph,
 } from "./components/Graph/Graph";
-import {DefaultNotification, Icon, MetricCollection, Paper } from "@olympusdao/component-library";
+import { DefaultNotification, Icon, MetricCollection, Paper } from "@olympusdao/component-library";
 import { Trans } from "@lingui/macro";
 const TreasuryDashboard = memo(() => {
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
