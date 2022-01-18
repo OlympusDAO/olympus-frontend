@@ -15,6 +15,7 @@ import {
   PENDING_TXN_GIVE,
   PENDING_TXN_EDIT_GIVE,
   PENDING_TXN_GIVE_APPROVAL,
+  PENDING_TXN_WITHDRAW,
 } from "src/slices/GiveThunk";
 import { IPendingTxn, txnButtonText, isPendingTxn } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
@@ -44,9 +45,14 @@ import { ChevronLeft } from "@material-ui/icons";
 import MarkdownIt from "markdown-it";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 
+type WithdrawSubmitCallback = {
+  (walletAddress: string, depositAmount: BigNumber): void;
+};
+
 type ManageModalProps = {
   isModalOpen: boolean;
   submitEdit: SubmitCallback;
+  submitWithdraw: WithdrawSubmitCallback;
   cancelFunc: CancelCallback;
   switchToEdit: SwitchModal;
   switchToWithdraw: SwitchModal;
@@ -66,6 +72,7 @@ type State = {
 export function ManageDonationModal({
   isModalOpen,
   submitEdit,
+  submitWithdraw,
   cancelFunc,
   switchToEdit,
   switchToWithdraw,
@@ -150,10 +157,16 @@ export function ManageDonationModal({
     return state.pendingTransactions;
   });
 
-  const handleSubmit = () => {
+  const handleEditSubmit = () => {
     const depositAmountBig = new BigNumber(depositAmount);
 
     submitEdit(getWalletAddress(), depositAmountBig, getDepositAmountDiff());
+  };
+
+  const handleWithdrawSubmit = () => {
+    const depositAmountBig = new BigNumber(depositAmount);
+
+    submitWithdraw(getWalletAddress(), depositAmountBig);
   };
 
   const canSubmit = (): boolean => {
@@ -167,6 +180,13 @@ export function ManageDonationModal({
     if (!address) return false;
     if (hasPendingGiveTxn(pendingTransactions)) return false;
     if (getDepositAmountDiff().isEqualTo(0)) return false;
+
+    return true;
+  };
+
+  const canWithdraw = () => {
+    if (!address) return false;
+    if (hasPendingGiveTxn(pendingTransactions)) return false;
 
     return true;
   };
@@ -300,6 +320,8 @@ export function ManageDonationModal({
       setIsAmountSet(false);
     } else if (isEditing) {
       setIsEditing(false);
+    } else if (isWithdrawing) {
+      setIsWithdrawing(false);
     }
   };
 
@@ -320,7 +342,7 @@ export function ManageDonationModal({
     <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
       <Paper className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`} onClick={handleModalInsideClick}>
         <div className="yield-header">
-          {isAmountSet || isEditing ? (
+          {isAmountSet || isEditing || isWithdrawing ? (
             <Link onClick={() => handleGoBack()}>
               <SvgIcon color="primary" component={ChevronLeft} />
             </Link>
@@ -401,7 +423,7 @@ export function ManageDonationModal({
                 Donation Details
               </Typography>
             </div>
-            {!isEditing ? (
+            {!isEditing && !isWithdrawing ? (
               <div className="details-container">
                 <div className="details-row">
                   <Typography variant="h6" className="row-title">
@@ -428,7 +450,7 @@ export function ManageDonationModal({
                   <Typography variant="h6">{yieldSent} sOHM</Typography>
                 </div>
               </div>
-            ) : isAmountSet ? (
+            ) : isAmountSet || isWithdrawing ? (
               <div className="details-row">
                 <div className="sohm-allocation-col">
                   <Typography variant="body1">
@@ -442,7 +464,7 @@ export function ManageDonationModal({
                     <Trans>New sOHM deposit</Trans>
                   </Typography>
                   <Typography variant="h6">
-                    <strong>{depositAmount.toFixed(2)} sOHM</strong>
+                    <strong>{isWithdrawing ? 0 : depositAmount.toFixed(2)} sOHM</strong>
                   </Typography>
                 </div>
               </div>
@@ -495,33 +517,52 @@ export function ManageDonationModal({
             )}
           </Box>
         </div>
-        {!isEditing ? (
-          <div className="manage-buttons">
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginBottom: "20px" }}
-              onClick={() => setIsEditing(true)}
-            >
-              <Typography variant="h6">Edit Donation</Typography>
-            </Button>
-            <Button variant="outlined" color="primary" onClick={switchToWithdraw}>
-              <Typography variant="h6">Stop Donation</Typography>
-            </Button>
-          </div>
-        ) : !isAmountSet ? (
-          <FormControl className="ohm-modal-submit">
+        <div className="manage-buttons">
+          {!isEditing && !isWithdrawing ? (
+            <>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginBottom: "20px" }}
+                onClick={() => setIsEditing(true)}
+              >
+                <Typography variant="h6">Edit Donation</Typography>
+              </Button>
+              <Button variant="outlined" color="primary" onClick={() => setIsWithdrawing(true)}>
+                <Typography variant="h6">Stop Donation</Typography>
+              </Button>
+            </>
+          ) : isWithdrawing ? (
+            <>
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={!canWithdraw()}
+                onClick={handleWithdrawSubmit}
+                style={{ marginBottom: "20px" }}
+              >
+                <Typography variant="h6">
+                  {txnButtonText(pendingTransactions, PENDING_TXN_WITHDRAW, t`Withdraw`)}
+                </Typography>
+              </Button>
+              <Button variant="outlined" color="primary" onClick={() => setIsWithdrawing(false)}>
+                <Typography variant="h6">Cancel</Typography>
+              </Button>
+            </>
+          ) : !isAmountSet ? (
             <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={() => setIsAmountSet(true)}>
-              <Trans>Continue</Trans>
+              <Typography variant="h6">
+                <Trans>Continue</Trans>
+              </Typography>
             </Button>
-          </FormControl>
-        ) : (
-          <FormControl className="ohm-modal-submit">
-            <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-              {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Confirm New sOHM`)}
+          ) : (
+            <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleEditSubmit}>
+              <Typography variant="h6">
+                {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Confirm New sOHM`)}
+              </Typography>
             </Button>
-          </FormControl>
-        )}
+          )}
+        </div>
       </Paper>
     </Modal>
   );

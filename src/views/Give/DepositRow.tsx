@@ -178,6 +178,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       <ManageDonationModal
         isModalOpen={isManageModalOpen}
         submitEdit={handleEditModalSubmit}
+        submitWithdraw={handleWithdrawModalSubmit}
         cancelFunc={handleManageModalCancel}
         switchToEdit={switchToEditModal}
         switchToWithdraw={switchToWithdrawModal}
@@ -187,26 +188,6 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         yieldSent={depositObject.yieldDonated}
         project={projectMap.get(depositObject.recipient)}
         key={"manage-modal-" + depositObject.recipient}
-      />
-
-      <RecipientModal
-        isModalOpen={isEditModalOpen}
-        callbackFunc={handleEditModalSubmit}
-        cancelFunc={handleEditModalCancel}
-        currentWalletAddress={depositObject.recipient}
-        currentDepositAmount={new BigNumber(depositObject.deposit)}
-        project={projectMap.get(depositObject.recipient)}
-        key={"edit-modal-" + depositObject.recipient}
-      />
-
-      <WithdrawDepositModal
-        isModalOpen={isWithdrawModalOpen}
-        callbackFunc={handleWithdrawModalSubmit}
-        cancelFunc={handleWithdrawModalCancel}
-        walletAddress={depositObject.recipient}
-        depositAmount={new BigNumber(depositObject.deposit)}
-        project={projectMap.get(depositObject.recipient)}
-        key={"withdraw-modal-" + depositObject.recipient}
       />
     </Box>
   );
