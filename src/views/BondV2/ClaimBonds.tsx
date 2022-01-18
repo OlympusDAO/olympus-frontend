@@ -89,7 +89,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
     <>
       <Zoom in={true}>
         <Paper className="ohm-card claim-bonds-card">
-          <CardHeader title="Your Bonds (1,1)" />
+          <CardHeader title="Your Bonds" />
           <Box
             display="flex"
             flexDirection="column"

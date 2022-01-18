@@ -54,6 +54,8 @@ function ChooseBondV2() {
 
   const treasuryBalance = useAppSelector(state => state.app.treasuryMarketValue);
 
+  const isBondsLoading = useAppSelector(state => state.bondingV2.loading ?? true);
+
   const formattedTreasuryBalance = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -119,7 +121,13 @@ function ChooseBondV2() {
             />
           </MetricCollection>
 
-          {!isSmallScreen && (
+          {bondsV2.length == 0 && !isBondsLoading && (
+            <Box display="flex" justifyContent="center" marginY="24px">
+              <Typography variant="h4">No active bonds</Typography>
+            </Box>
+          )}
+
+          {!isSmallScreen && bondsV2.length != 0 && (
             <Grid container item>
               <TableContainer>
                 <Table aria-label="Available bonds">

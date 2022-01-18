@@ -10,14 +10,7 @@ const sharedProps = {
 
 export const MarketCap = () => {
   const marketCap = useSelector(state => state.app.marketCap || 0);
-  return (
-    <Metric
-      label={t`Market Cap`}
-      metric={formatCurrency(marketCap, 0)}
-      isLoading={marketCap ? false : true}
-      {...sharedProps}
-    />
-  );
+  return <Metric label={t`Market Cap`} metric={formatCurrency(marketCap, 0)} isLoading={!marketCap} {...sharedProps} />;
 };
 
 export const OHMPrice = () => {
@@ -26,7 +19,7 @@ export const OHMPrice = () => {
     <Metric
       label={t`OHM Price`}
       metric={marketPrice && formatCurrency(marketPrice, 2)}
-      isLoading={marketPrice ? false : true}
+      isLoading={!marketPrice}
       {...sharedProps}
     />
   );
@@ -40,7 +33,7 @@ export const CircSupply = () => {
     <Metric
       label={t`Circulating Supply (total)`}
       metric={isDataLoaded && parseInt(circSupply) + " / " + parseInt(totalSupply)}
-      isLoading={isDataLoaded ? false : true}
+      isLoading={!isDataLoaded}
       {...sharedProps}
     />
   );
@@ -52,7 +45,7 @@ export const BackingPerOHM = () => {
     <Metric
       label={t`Backing per OHM`}
       metric={!isNaN(backingPerOhm) && formatCurrency(backingPerOhm, 2)}
-      isLoading={backingPerOhm ? false : true}
+      isLoading={!backingPerOhm}
       {...sharedProps}
     />
   );
@@ -64,9 +57,9 @@ export const CurrentIndex = () => {
     <Metric
       label={t`Current Index`}
       metric={currentIndex && trim(currentIndex, 2) + " sOHM"}
-      isLoading={currentIndex ? false : true}
+      isLoading={!currentIndex}
       {...sharedProps}
-      tooltip="The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held a single OHM from day 1."
+      tooltip={t`The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held a single OHM from day 1.`}
     />
   );
 };
@@ -78,9 +71,13 @@ export const GOHMPrice = () => {
       className="metric wsoprice"
       label={t`gOHM Price`}
       metric={gOhmPrice && formatCurrency(gOhmPrice, 2)}
-      isLoading={gOhmPrice ? false : true}
+      isLoading={!gOhmPrice}
       {...sharedProps}
-      tooltip={`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of OHM multiplied by the current index`}
+      tooltip={
+        t`gOHM = sOHM * index` +
+        "\n\n" +
+        t`The price of gOHM is equal to the price of OHM multiplied by the current index`
+      }
     />
   );
 };
