@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -20,30 +20,19 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { RecipientModal } from "src/views/Give/RecipientModal";
-import { SubmitCallback } from "src/views/Give/Interfaces";
+import { SubmitCallback, DonationInfoState } from "src/views/Give/Interfaces";
 import { WithdrawDepositModal, WithdrawSubmitCallback, WithdrawCancelCallback } from "./WithdrawDepositModal";
 import { shorten } from "src/helpers";
 import { BigNumber } from "bignumber.js";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IAppData } from "src/slices/AppSlice";
-import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { error } from "../../slices/MessagesSlice";
 import data from "./projects.json";
 import { Project } from "src/components/GiveProject/project.type";
-import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { NetworkId } from "src/constants";
 import { DepositTableRow } from "./DepositRow";
-
-// TODO consider shifting this into interfaces.ts
-type State = {
-  account: IAccountSlice;
-  pendingTransactions: IPendingTxn[];
-  app: IAppData;
-};
 
 export default function YieldRecipients() {
   const location = useLocation();
@@ -57,7 +46,7 @@ export default function YieldRecipients() {
 
   // TODO fix typing of state.app.loading
   const isAppLoading = useSelector((state: any) => state.app.loading);
-  const donationInfo = useSelector((state: State) => {
+  const donationInfo = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
@@ -161,9 +150,9 @@ export default function YieldRecipients() {
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
 
-  const getRecipientTitle = (address: string): string => {
-    const project = projectMap.get(address);
-    if (!project) return shorten(address);
+  const getRecipientTitle = (recipient: string): string => {
+    const project = projectMap.get(recipient);
+    if (!project) return shorten(recipient);
 
     if (!project.owner) return project.title;
 

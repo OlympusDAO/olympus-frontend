@@ -37,7 +37,7 @@ import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
-import { SubmitCallback, CancelCallback, SwitchModal } from "./Interfaces";
+import { SubmitCallback, CancelCallback } from "./Interfaces";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ConnectButton from "../../components/ConnectButton";
 import { NetworkId } from "src/constants";
@@ -54,8 +54,6 @@ type ManageModalProps = {
   submitEdit: SubmitCallback;
   submitWithdraw: WithdrawSubmitCallback;
   cancelFunc: CancelCallback;
-  switchToEdit: SwitchModal;
-  switchToWithdraw: SwitchModal;
   project?: Project;
   currentWalletAddress: string;
   currentDepositAmount: BigNumber; // As per IUserDonationInfo
@@ -74,8 +72,6 @@ export function ManageDonationModal({
   submitEdit,
   submitWithdraw,
   cancelFunc,
-  switchToEdit,
-  switchToWithdraw,
   project,
   currentWalletAddress,
   currentDepositAmount,

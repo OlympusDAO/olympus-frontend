@@ -52,16 +52,6 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
     setIsManageModalOpen(false);
   };
 
-  const switchToEditModal = () => {
-    setIsManageModalOpen(false);
-    setIsEditModalOpen(true);
-  };
-
-  const switchToWithdrawModal = () => {
-    setIsManageModalOpen(false);
-    setIsWithdrawModalOpen(true);
-  };
-
   const handleEditModalSubmit: SubmitCallback = async (walletAddress, depositAmount, depositAmountDiff) => {
     if (!depositAmountDiff) {
       return dispatch(error(t`Please enter a value!`));
@@ -180,8 +170,6 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         submitEdit={handleEditModalSubmit}
         submitWithdraw={handleWithdrawModalSubmit}
         cancelFunc={handleManageModalCancel}
-        switchToEdit={switchToEditModal}
-        switchToWithdraw={switchToWithdrawModal}
         currentWalletAddress={depositObject.recipient}
         currentDepositAmount={new BigNumber(depositObject.deposit)}
         depositDate={depositObject.date}
