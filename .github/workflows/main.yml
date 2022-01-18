@@ -15,7 +15,7 @@ jobs:
       run: |
           yarn install --frozen-lockfile
           yarn lint
-          yarn build
+          CI=false yarn build
       env:
           CI: true
     - name: Run unit tests
