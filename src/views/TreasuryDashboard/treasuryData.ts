@@ -1,4 +1,6 @@
 // TODO: add paramaterization
+import { t } from "@lingui/macro";
+
 export const treasuryDataQuery = `
 query {
   protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
@@ -164,24 +166,26 @@ export const bulletpoints = {
 };
 
 export const tooltipItems = {
-  tvl: ["Total Value Deposited"],
+  tvl: [t`Total Value Deposited`],
   coin: ["DAI", "FRAX", "ETH", "LUSD", "Other"],
   rfv: ["DAI", "FRAX", "LUSD"],
   holder: ["OHMies"],
   apy: ["APY"],
-  runway: ["Current", "7.5K APY", "5K APY", "2.5K APY"],
-  pol: ["SLP Treasury", "Market SLP"],
+  runway: [t`Current`, "7.5K APY", "5K APY", "2.5K APY"],
+  pol: [t`SLP Treasury`, t`Market SLP`],
 };
 
-export const tooltipInfoMessages = {
-  tvl: "Total Value Deposited, is the dollar amount of all OHM staked in the protocol. This metric is often used as growth or health indicator in DeFi projects.",
-  mvt: "Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury.",
-  rfv: "Risk Free Value, is the amount of funds the treasury guarantees to use for backing OHM.",
-  pol: "Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.",
-  holder: "Holders, represents the total number of Ohmies (sOHM holders)",
-  staked: "OHM Staked, is the ratio of sOHM to OHM (staked vs unstaked)",
-  apy: "Annual Percentage Yield, is the normalized representation of an interest rate, based on a compounding period over one year. Note that APYs provided are rather ballpark level indicators and not so much precise future results.",
-  runway: "Runway, is the number of days sOHM emissions can be sustained at a given rate. Lower APY = longer runway",
+export const tooltipInfoMessages = () => {
+  return {
+    tvl: t`Total Value Deposited, is the dollar amount of all OHM staked in the protocol. This metric is often used as growth or health indicator in DeFi projects.`,
+    mvt: t`Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury.`,
+    rfv: t`Risk Free Value, is the amount of funds the treasury guarantees to use for backing OHM.`,
+    pol: t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`,
+    holder: t`Holders, represents the total number of Ohmies (sOHM holders)`,
+    staked: t`OHM Staked, is the ratio of sOHM to OHM (staked vs unstaked)`,
+    apy: t`Annual Percentage Yield, is the normalized representation of an interest rate, based on a compounding period over one year. Note that APYs provided are rather ballpark level indicators and not so much precise future results.`,
+    runway: t`Runway, is the number of days sOHM emissions can be sustained at a given rate. Lower APY = longer runway`,
+  };
 };
 
 export const itemType = {

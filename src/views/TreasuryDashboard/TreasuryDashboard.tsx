@@ -1,9 +1,8 @@
 import { memo } from "react";
 import "./treasury-dashboard.scss";
-import { Paper, Grid, Box, Zoom, Container, useMediaQuery, Typography, SvgIcon } from "@material-ui/core";
+import { Grid, Box, Zoom, Container, useMediaQuery, Typography } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
-import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 
 import {
   TotalValueDepositedGraph,
@@ -13,7 +12,7 @@ import {
   OHMStakedGraph,
   RunwayAvailableGraph,
 } from "./components/Graph/Graph";
-import { DefaultNotification, MetricCollection } from "@olympusdao/component-library";
+import {DefaultNotification, Icon, MetricCollection, Paper } from "@olympusdao/component-library";
 import { Trans } from "@lingui/macro";
 const TreasuryDashboard = memo(() => {
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
@@ -87,7 +86,7 @@ const TreasuryDashboard = memo(() => {
                   bulletpointColors={bulletpoints.holder}
                   itemNames={tooltipItems.holder}
                   itemType={undefined}
-                  infoTooltipMessage={tooltipInfoMessages.holder}
+                  infoTooltipMessage={tooltipInfoMessages().holder}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
                   scale={undefined}
                   color={undefined}
