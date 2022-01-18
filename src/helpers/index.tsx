@@ -10,10 +10,10 @@ import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
 import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
 import { addresses, BLOCK_RATE_SECONDS, EPOCH_INTERVAL, NetworkId } from "../constants";
-import { EnvHelper } from "../helpers/Environment";
-import { NodeHelper } from "../helpers/NodeHelper";
 import { PairContract, RedeemHelper } from "../typechain";
 import { ohm_dai, ohm_daiOld, ohm_weth } from "./AllBonds";
+import { EnvHelper } from "./Environment";
+import { NodeHelper } from "./NodeHelper";
 
 /**
  * gets marketPrice from Ohm-DAI v2
@@ -26,9 +26,7 @@ export async function getMarketPrice() {
   const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
   const reserves = await pairContract.getReserves();
 
-  const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
-
-  return marketPrice;
+  return Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
 }
 
 export async function getMarketPriceFromWeth() {
@@ -42,8 +40,7 @@ export async function getMarketPriceFromWeth() {
   // since we're using OHM/WETH... also need to multiply by weth price;
   const wethPriceBN: BigNumber = await wethBondContract.assetPrice();
   const wethPrice = Number(wethPriceBN.toString()) / Math.pow(10, 8);
-  const marketPrice = (Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9) * wethPrice;
-  return marketPrice;
+  return (Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9) * wethPrice;
 }
 
 export async function getV1MarketPrice() {
@@ -52,8 +49,7 @@ export async function getV1MarketPrice() {
   const ohm_dai_address = ohm_daiOld.getAddressForReserve(NetworkId.MAINNET);
   const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
   const reserves = await pairContract.getReserves();
-  const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
-  return marketPrice;
+  return Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
 }
 
 /**

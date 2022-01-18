@@ -21,12 +21,11 @@ import TopBar from "./components/TopBar/TopBar";
 import { NetworkId } from "./constants";
 import { shouldTriggerSafetyCheck } from "./helpers";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
-import { useAppSelector } from "./hooks";
+import { useAppSelector, useWeb3Context } from "./hooks";
 import useBonds, { IAllBondData } from "./hooks/Bonds";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import useTheme from "./hooks/useTheme";
-import { useWeb3Context } from "./hooks/web3Context";
 import { calculateUserBondDetails, getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { calcBondDetails } from "./slices/BondSlice";
@@ -104,7 +103,7 @@ function App() {
   useGoogleAnalytics();
   const location = useLocation();
   const dispatch = useDispatch();
-  const [theme, toggleTheme, mounted] = useTheme();
+  const [theme, toggleTheme] = useTheme();
   const currentPath = location.pathname + location.hash + location.search;
   const trimmedPath = location.pathname + location.hash;
   const classes = useStyles();
@@ -114,9 +113,6 @@ function App() {
   const { address, connect, hasCachedProvider, provider, connected, networkId, providerInitialized } = useWeb3Context();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
-  const migModalOpen = () => {
-    setMigrationModalOpen(true);
-  };
   const migModalClose = () => {
     dispatch(loadAccountDetails({ networkID: networkId, address, provider }));
     setMigrationModalOpen(false);
