@@ -35,14 +35,11 @@ import { ReactComponent as DonatedIcon } from "../../assets/icons/donated.svg";
 import { ReactComponent as GoalIcon } from "../../assets/icons/goal.svg";
 import MarkdownIt from "markdown-it";
 import { t, Trans } from "@lingui/macro";
-import { useAppSelector } from "src/hooks";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IPendingTxn } from "src/slices/PendingTxnsSlice";
-import { IAppData } from "src/slices/AppSlice";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "./GiveHeader";
 import { NetworkId } from "src/constants";
+import { State } from "src/slices/interfaces";
 
 type CountdownProps = {
   total: number;
@@ -68,12 +65,6 @@ export enum ProjectDetailsMode {
 type ProjectDetailsProps = {
   project: Project;
   mode: ProjectDetailsMode;
-};
-
-type State = {
-  account: IAccountSlice;
-  pendingTransactions: IPendingTxn[];
-  app: IAppData;
 };
 
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {

@@ -1,6 +1,9 @@
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { Bond } from "src/lib/Bond";
 import { NetworkId } from "src/constants";
+import { IAccountSlice } from "./AccountSlice";
+import { IPendingTxn } from "./PendingTxnsSlice";
+import { IAppData } from "src/slices/AppSlice";
 
 export interface IJsonRPCError {
   readonly message: string;
@@ -92,3 +95,9 @@ export interface IRedeemAllBondsAsyncThunk extends IBaseAsyncThunk {
   readonly address: string;
   readonly autostake: boolean;
 }
+
+export type State = {
+  account: IAccountSlice;
+  pendingTransactions: IPendingTxn[];
+  app: IAppData;
+};
