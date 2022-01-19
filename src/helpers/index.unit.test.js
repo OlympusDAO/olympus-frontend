@@ -4,7 +4,7 @@ import { resetAllWhenMocks, when } from "jest-when";
 import { getTokenPrice } from "./index";
 
 beforeEach(() => {
-  resetAllWhenMocks();
+  resetAllWhenMocks(); //
 });
 
 test("getTokenPrice returns expected value", async () => {
