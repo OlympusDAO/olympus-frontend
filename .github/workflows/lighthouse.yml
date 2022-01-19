@@ -19,7 +19,7 @@ jobs:
           yarn build
       env:
           CI: false
-    - name: Run Lighthouse PWA check against local production build
+    - name: Run Lighthouse PWA check against local static files.
       uses: treosh/lighthouse-ci-action@v8
       with:
           # no urls needed, since it uses local folder to scan .html files
@@ -27,20 +27,8 @@ jobs:
           configPath: '.github/lighthouse/lighthouserc-static-dist-dir.yml'
           uploadArtifacts: true # save results as github action artifacts
           temporaryPublicStorage: true # upload lighthouse report to the temporary storage
-
-  lighthouse-local-deploy:
-    runs-on: ubuntu-latest
-    name: Run Lighthouse against a local test deployment.
-    steps:
-    - uses: actions/checkout@v2
-#    - name: Deploy test site
-#      id: deploy
-#      uses: fleekhq/action-deploy@v1
-#      with:
-#        apiKey: ${{ secrets.FLEEK_API_KEY }}
-#    - name: Get the output url
-#      run: echo "Fleek test deploy url is ${{ steps.deploy.outputs.deployUrl }}"
-    - name: Run Lighthouse PWA check against Fleek test site deployment
+    - name: Run Lighthouse against a local test deployment.
+      run: yarn start
       uses: treosh/lighthouse-ci-action@v8
       with:
         urls: |
@@ -50,6 +38,18 @@ jobs:
         temporaryPublicStorage: true # upload lighthouse report to the temporary storage
        # budgetPath: '.github/lighthouse/budget.json' # performance budgets
         configPath: '.github/lighthouse/lighthouserc-local-deploy.json' # PWA checks
+
+
+# The section below is commented out until we have FLEEK_API_KEY in github env vars
+#    - name: Preview Deployment
+#      id: deploy
+#      uses: fleekhq/action-deploy@v1
+#      with:
+#        apiKey: ${{ secrets.FLEEK_API_KEY }}
+#    - name: Get the output url
+#      run: echo "Fleek test deploy url is ${{ steps.deploy.outputs.deployUrl }}"
+#    - name: Run Lighthouse PWA check against Fleek test site deployment
+
 
   lighthouse-prod-deploy:
     runs-on: ubuntu-latest
