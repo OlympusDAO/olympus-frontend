@@ -6,12 +6,7 @@ import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./Pending
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { error, info } from "../slices/MessagesSlice";
-import {
-  IActionValueAsyncThunk,
-  IChangeApprovalAsyncThunk,
-  IChangeApprovalWithVersionAsyncThunk,
-  IJsonRPCError,
-} from "./interfaces";
+import { IActionValueAsyncThunk, IChangeApprovalWithVersionAsyncThunk, IJsonRPCError } from "./interfaces";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { IERC20, OlympusStakingv2__factory, OlympusStaking__factory, StakingHelper } from "src/typechain";
 import ReactGA from "react-ga";
@@ -60,6 +55,9 @@ export const changeApproval = createAsyncThunk(
       return;
     }
     const signer = provider.getSigner();
+    // NOTE (jem): Partial workaround for #1271
+    // V1 contracts do not exist apart from on Ethereum mainnet and rinkeby.
+    // We check if the contracts exist first
     const ohmContract = addresses[networkID].OHM_ADDRESS
       ? (new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20)
       : null;
@@ -106,6 +104,8 @@ export const changeApproval = createAsyncThunk(
           );
         }
       } else {
+        // NOTE (jem): Partial workaround for #1271
+        // ohmContract and sohmContract (V1) are not guaranteed to exist
         if (token === "ohm" && ohmContract) {
           approveTx = await ohmContract.approve(
             addresses[networkID].STAKING_ADDRESS,
