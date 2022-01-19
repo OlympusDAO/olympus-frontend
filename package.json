@@ -29,7 +29,7 @@
       }
     },
     "coverageReporters": [
-      "text"
+      "text", "text-summary"
     ]
   },
   "dependencies": {
