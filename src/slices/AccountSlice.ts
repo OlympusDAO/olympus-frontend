@@ -71,7 +71,7 @@ const balanceOf = async (
   try {
     const provider = NodeHelper.getAnynetStaticProvider(networkId);
     const contract = IERC20__factory.connect(addresses[networkId][contractKeyInAddresses], provider);
-    return contract.balanceOf(userAddress);
+    return await contract.balanceOf(userAddress);
   } catch (e) {
     handleContractError(e);
     return BigNumber.from(0);
@@ -198,7 +198,7 @@ export const getBalances = createAsyncThunk(
         fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
         fgohm: ethers.utils.formatEther(fgohmBalance),
         fgOHMAsfsOHM: ethers.utils.formatUnits(fgOHMAsfsOHMBalance, "gwei"),
-        wsohm: ethers.utils.formatEther(wsOhmBalances[networkID] || "0.0"),
+        wsohm: ethers.utils.formatEther(wsOhmBalances[networkID] || "0"),
         wsOhmBalances: formatBalances(wsOhmBalances, "ether"),
         fiatDaowsohm: ethers.utils.formatEther(fiatDaowsohmBalance),
         pool: ethers.utils.formatUnits(poolBalance, "gwei"),
