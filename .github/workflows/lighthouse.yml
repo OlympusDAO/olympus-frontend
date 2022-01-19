@@ -8,9 +8,8 @@ on:
 
 #
 jobs:
-  lighthouse-local:
+  lighthouse-local-static:
     runs-on: ubuntu-latest
-    name: Run lighthouse check on local machine
     steps:
     - uses: actions/checkout@v2
     - name: Build PWA distribution for production
@@ -38,6 +37,24 @@ jobs:
        # budgetPath: '.github/lighthouse/budget.json' # performance budgets
         configPath: '.github/lighthouse/lighthouserc-local-deploy.json' # PWA checks
 
+
+  lighthouse-local-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install local app
+      run: |
+          yarn install --frozen-lockfile
+    - name: Run Lighthouse against a local app deployment.
+      uses: treosh/lighthouse-ci-action@v8
+      with:
+        urls: |
+          http://localhost:3000
+#         ${{ steps.deploy.outputs.deployUrl }}
+        uploadArtifacts: true # save results as an action artifacts
+        temporaryPublicStorage: true # upload lighthouse report to the temporary storage
+       # budgetPath: '.github/lighthouse/budget.json' # performance budgets
+        configPath: '.github/lighthouse/lighthouserc-local-deploy.json' # PWA checks
 
 # The section below is commented out until we have FLEEK_API_KEY in github env vars
 #    - name: Preview Deployment
