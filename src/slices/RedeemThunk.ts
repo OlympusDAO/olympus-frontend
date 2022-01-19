@@ -1,14 +1,14 @@
-import { ethers } from "ethers";
-import { addresses } from "../constants";
-import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
-import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchAccountSuccess, getBalances, getRedemptionBalances, getMockRedemptionBalances } from "./AccountSlice";
-import { error } from "../slices/MessagesSlice";
-import { IBaseAddressAsyncThunk, IJsonRPCError } from "./interfaces";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { t } from "@lingui/macro";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { ethers } from "ethers";
+
+import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
+import { addresses } from "../constants";
+import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { error } from "../slices/MessagesSlice";
+import { getBalances, getMockRedemptionBalances, getRedemptionBalances } from "./AccountSlice";
+import { IBaseAddressAsyncThunk, IJsonRPCError } from "./interfaces";
+import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 
 interface IUAData {
   address: string;
@@ -31,7 +31,7 @@ export const redeemBalance = createAsyncThunk(
     const redeemableBalance = await giving.redeemableBalance(address);
     let redeemTx;
 
-    let uaData: IUAData = {
+    const uaData: IUAData = {
       address: address,
       value: redeemableBalance,
       approved: true,
@@ -85,7 +85,7 @@ export const redeemMockBalance = createAsyncThunk(
     const redeemableBalance = await giving.redeemableBalance(address);
     let redeemTx;
 
-    let uaData: IUAData = {
+    const uaData: IUAData = {
       address: address,
       value: redeemableBalance,
       approved: true,

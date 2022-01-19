@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { t, Trans } from "@lingui/macro";
 import { Box, Button, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import { useWeb3Context, useAppSelector } from "src/hooks";
+import { DataRow } from "@olympusdao/component-library";
+import { useEffect, useState } from "react";
 import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { poolTogetherUILinks } from "src/helpers/33Together";
-import { t, Trans } from "@lingui/macro";
-import { DataRow } from "@olympusdao/component-library";
+import { useAppSelector, useWeb3Context } from "src/hooks";
 
 interface PoolInfoProps {
   graphLoading: boolean;
