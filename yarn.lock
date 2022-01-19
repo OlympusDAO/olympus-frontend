@@ -7696,11 +7696,6 @@ es6-weak-map@^2.0.1:
     es6-iterator "^2.0.3"
     es6-symbol "^3.1.1"
 
-esbuild@^0.12.2:
-  version "0.12.29"
-  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.12.29.tgz#be602db7c4dc78944a9dbde0d1ea19d36c1f882d"
-  integrity sha512-w/XuoBCSwepyiZtIRsKsetiLDUVGPVw1E/R3VTFSecIy8UR7Cq3SOtwKHJMFoVqqVG36aGkzh4e8BvpO1Fdc7g==
-
 escalade@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/escalade/-/escalade-3.1.1.tgz#d8cfdc7000965c5a0174b4a82eaa5c0552742e40"
@@ -15174,13 +15169,12 @@ postcss@^8.1.0, postcss@^8.4.5:
     picocolors "^1.0.0"
     source-map-js "^1.0.1"
 
-pptr-testing-library@^0.6.5:
-  version "0.6.5"
-  resolved "https://registry.yarnpkg.com/pptr-testing-library/-/pptr-testing-library-0.6.5.tgz#8421920b6be568b28cc0113b42b99b1e74a631a5"
-  integrity sha512-0F7g2pSv3fgdjMlUT4GLdcPOivm/g3na1IM6rqjBWUApeu7gS5uOAdnEr3N4EgSUT2bBVMlqrs6jUWBF78NKlQ==
+pptr-testing-library@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/pptr-testing-library/-/pptr-testing-library-0.7.0.tgz#5676a4394df3958cc2ee5722a3c4fa72520369a8"
+  integrity sha512-NYt6XQzAoWCC/WKkBWW40Uth+MBRKmdYr+3NdrF4gTgBeK31zNQN6gFvmTubjZY5mUVdHmPns60jTs7PZuwg2A==
   dependencies:
     "@testing-library/dom" "^7.31.0"
-    esbuild "^0.12.2"
     wait-for-expect "^3.0.2"
 
 preact@10.4.1:

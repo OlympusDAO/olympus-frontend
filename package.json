@@ -125,7 +125,7 @@
     "jest-puppeteer": "^6.0.0",
     "less-plugin-npm-import": "^2.1.0",
     "msw": "^0.36.3",
-    "pptr-testing-library": "^0.6.5",
+    "pptr-testing-library": "^0.7.0",
     "prettier": "^2.0.5",
     "puppeteer": "^11.0.0",
     "shelljs": "^0.8.5",
