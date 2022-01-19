@@ -1,9 +1,10 @@
-import { Box, Button, Paper, Typography, Grid, SvgIcon, Link } from "@material-ui/core";
 import "./zap.scss";
-import { NavLink } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+
 import { Trans } from "@lingui/macro";
+import { Box, Button, Grid, Link, Paper, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import { TokenStack } from "@olympusdao/component-library";
+import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   subHeader: {

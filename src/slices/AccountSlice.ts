@@ -1,35 +1,24 @@
+import { OHMTokenStackProps } from "@olympusdao/component-library";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { BigNumber, BigNumberish, ethers } from "ethers";
-import { addresses, NetworkId } from "../constants";
-import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import { abi as fuseProxy } from "../abi/FuseProxy.json";
-import { abi as wsOHM } from "../abi/wsOHM.json";
-import { abi as fiatDAO } from "../abi/FiatDAOContract.json";
+import { EnvHelper } from "src/helpers/Environment";
+import { NodeHelper } from "src/helpers/NodeHelper";
+import { RootState } from "src/store";
+import { FiatDAOContract, FuseProxy, IERC20, IERC20__factory, SOhmv2, WsOHM } from "src/typechain";
+import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
-import { setAll, handleContractError } from "../helpers";
+import { abi as fiatDAO } from "../abi/FiatDAOContract.json";
+import { abi as fuseProxy } from "../abi/FuseProxy.json";
+import { abi as ierc20Abi } from "../abi/IERC20.json";
+import { abi as MockSohm } from "../abi/MockSohm.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
-import { abi as MockSohm } from "../abi/MockSohm.json";
-
-import { getRedemptionBalancesAsync, getMockRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
-import { NodeHelper } from "src/helpers/NodeHelper";
-import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "src/store";
-import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk, IJsonRPCError } from "./interfaces";
-import {
-  FiatDAOContract,
-  FuseProxy,
-  IERC20,
-  IERC20__factory,
-  SOhmv2,
-  WsOHM,
-  OlympusStakingv2__factory,
-} from "src/typechain";
-import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
-import { useLocation } from "react-router-dom";
-import { EnvHelper } from "src/helpers/Environment";
-import { IUserNote } from "./BondSliceV2";
-import { OHMTokenStackProps } from "@olympusdao/component-library";
+import { abi as sOHMv2 } from "../abi/sOhmv2.json";
+import { abi as wsOHM } from "../abi/wsOHM.json";
+import { addresses, NetworkId } from "../constants";
+import { handleContractError, setAll } from "../helpers";
+import { getMockRedemptionBalancesAsync, getRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
+import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 
 interface IUserBalances {
   balances: {
@@ -197,7 +186,7 @@ export const getBalances = createAsyncThunk(
             fuseProxy,
             provider.getSigner(),
           ) as FuseProxy;
-          let balanceOfUnderlying = await fsohmContract.callStatic.balanceOfUnderlying(address);
+          const balanceOfUnderlying = await fsohmContract.callStatic.balanceOfUnderlying(address);
           const underlying = await fsohmContract.callStatic.underlying();
           if (underlying == addresses[networkID].GOHM_ADDRESS) {
             fgohmBalance = balanceOfUnderlying.add(fgohmBalance);
@@ -273,7 +262,7 @@ export const getDonationBalances = createAsyncThunk(
   "account/getDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     let giveAllowance = 0;
-    let donationInfo: IUserDonationInfo = {};
+    const donationInfo: IUserDonationInfo = {};
 
     if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
       const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider);
@@ -286,7 +275,7 @@ export const getDonationBalances = createAsyncThunk(
 
       try {
         // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
-        let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
+        const allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
         for (let i = 0; i < allDeposits[0].length; i++) {
           if (allDeposits[1][i].eq(0)) continue;
 
@@ -323,7 +312,7 @@ export const getMockDonationBalances = createAsyncThunk(
   "account/getMockDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     let giveAllowance = 0;
-    let donationInfo: IUserDonationInfo = {};
+    const donationInfo: IUserDonationInfo = {};
 
     if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {
       const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
@@ -336,7 +325,7 @@ export const getMockDonationBalances = createAsyncThunk(
 
       try {
         // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
-        let allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
+        const allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
         for (let i = 0; i < allDeposits[0].length; i++) {
           if (allDeposits[1][i] !== BigNumber.from(0)) {
             // Store as a formatted string
@@ -458,7 +447,7 @@ export const loadAccountDetails = createAsyncThunk(
     let wrapAllowance = BigNumber.from("0");
     let gOhmUnwrapAllowance = BigNumber.from("0");
     let poolAllowance = BigNumber.from("0");
-    let ohmToGohmAllowance = BigNumber.from("0");
+    const ohmToGohmAllowance = BigNumber.from("0");
     let wsOhmMigrateAllowance = BigNumber.from("0");
 
     try {
@@ -547,17 +536,13 @@ export const calculateUserBondDetails = createAsyncThunk(
     // Calculate bond details.
     const bondContract = bond.getContractForBond(networkID, provider);
     const reserveContract = bond.getContractForReserve(networkID, provider);
-
-    let pendingPayout, bondMaturationBlock;
-
     const bondDetails = await bondContract.bondInfo(address);
-    let interestDue: BigNumberish = Number(bondDetails.payout.toString()) / Math.pow(10, 9);
-    bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
-    pendingPayout = await bondContract.pendingPayoutFor(address);
+    const interestDue: BigNumberish = Number(bondDetails.payout.toString()) / Math.pow(10, 9);
+    const bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
+    const pendingPayout = await bondContract.pendingPayoutFor(address);
 
-    let allowance,
-      balance = BigNumber.from(0);
-    allowance = await reserveContract.allowance(address, bond.getAddressForBond(networkID) || "");
+    let balance = BigNumber.from(0);
+    const allowance = await reserveContract.allowance(address, bond.getAddressForBond(networkID) || "");
     balance = await reserveContract.balanceOf(address);
     // formatEthers takes BigNumber => String
     const balanceVal = ethers.utils.formatEther(balance);
