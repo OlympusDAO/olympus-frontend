@@ -43,6 +43,8 @@ interface IUserBalances {
     gOhmOnPolygonAsSohm: string;
     gOhmOnFantom: string;
     gOhmOnFantomAsSohm: string;
+    gOhmOnTokemak: string;
+    gOhmOnTokemakAsSohm: string;
     ohm: string;
     ohmV1: string;
     sohm: string;
@@ -89,6 +91,8 @@ export const getBalances = createAsyncThunk(
     let gOhmOnPolygonAsSohm = BigNumber.from("0");
     let gOhmOnFantom = BigNumber.from("0");
     let gOhmOnFantomAsSohm = BigNumber.from("0");
+    let gOhmOnTokemak = BigNumber.from("0");
+    let gOhmOnTokemakAsSohm = BigNumber.from("0");
     let ohmBalance = BigNumber.from("0");
     let sohmBalance = BigNumber.from("0");
     let mockSohmBalance = BigNumber.from("0");
@@ -137,6 +141,17 @@ export const getBalances = createAsyncThunk(
       const gOhmFantomContract = GOHM__factory.connect(addresses[NetworkId.FANTOM].GOHM_ADDRESS, fantomProvider);
       gOhmOnFantom = await gOhmFantomContract.balanceOf(address);
       gOhmOnFantomAsSohm = await gOhmContract.balanceFrom(gOhmOnFantom.toString());
+    } catch (e) {
+      handleContractError(e);
+    }
+
+    try {
+      const tokemakProvider = NodeHelper.getAnynetStaticProvider(NetworkId.MAINNET);
+      const gOhmTokemakContract = GOHM__factory.connect(addresses[NetworkId.MAINNET].TOKEMAK_GOHM, tokemakProvider);
+      gOhmOnTokemak = await gOhmTokemakContract.balanceOf(address);
+      console.log("test123");
+      console.log(gOhmOnTokemak);
+      gOhmOnTokemakAsSohm = await gOhmContract.balanceFrom(gOhmOnTokemak.toString());
     } catch (e) {
       handleContractError(e);
     }
@@ -250,6 +265,8 @@ export const getBalances = createAsyncThunk(
         gOhmOnPolygonAsSohm: ethers.utils.formatUnits(gOhmOnPolygonAsSohm, "gwei"),
         gOhmOnFantom: ethers.utils.formatEther(gOhmOnFantom),
         gOhmOnFantomAsSohm: ethers.utils.formatUnits(gOhmOnFantomAsSohm, "gwei"),
+        gOhmOnTokemak: ethers.utils.formatEther(gOhmOnTokemak),
+        gOhmOnTokemakAsSohm: ethers.utils.formatUnits(gOhmOnTokemakAsSohm, "gwei"),
         ohmV1: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohmV1: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
@@ -593,6 +610,8 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
     gOhmOnPolygonAsSohm: string;
     gOhmOnFantom: string;
     gOhmOnFantomAsSohm: string;
+    gOhmOnTokemak: string;
+    gOhmOnTokemakAsSohm: string;
     ohmV1: string;
     ohm: string;
     sohm: string;
@@ -640,6 +659,8 @@ const initialState: IAccountSlice = {
     gOhmOnPolygonAsSohm: "",
     gOhmOnFantom: "",
     gOhmOnFantomAsSohm: "",
+    gOhmOnTokemak: "",
+    gOhmOnTokemakAsSohm: "",
     ohmV1: "",
     ohm: "",
     sohm: "",
