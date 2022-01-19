@@ -63,7 +63,7 @@ function Stake() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
-    return state.app.currentIndex ?? "1";
+    return state.app.currentIndex;
   });
   const fiveDayRate = useAppSelector(state => {
     return state.app.fiveDayRate;

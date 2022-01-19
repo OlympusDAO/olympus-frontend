@@ -52,7 +52,6 @@ import { useAppSelector } from "./hooks";
 import { Project } from "src/components/GiveProject/project.type";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import projectData from "src/views/Give/projects.json";
-import Announcement from "./components/Announcement/Announcement";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
@@ -159,10 +158,13 @@ function App() {
   const loadApp = useCallback(
     loadProvider => {
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
-      // NOTE (appleseed) - tech debt - better network filtering for active bonds
       if (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) {
         bonds.map(bond => {
-          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+          // NOTE (appleseed): getBondability & getLOLability control which bonds are active in the view for Bonds V1
+          // ... getClaimability is the analogue for claiming bonds
+          if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
+            dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+          }
         });
         dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
       }
@@ -341,8 +343,6 @@ function App() {
               !hasActiveV1Bonds &&
               trimmedPath.indexOf("dashboard") === -1 &&
               oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
-
-            {trimmedPath.indexOf("dashboard") === -1 && <Announcement />}
 
             <Switch>
               <Route exact path="/dashboard">

@@ -1,10 +1,8 @@
 name: Lighthouse PWA Test
 
 on:
-  # Netlify pre-deploy only works on pull_request
-  pull_request:
-  #  branches:
-  #    - master
+  push:
+    branches: [ master, develop ]
 
 jobs:
   lighthouse-local:
