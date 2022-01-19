@@ -21,3 +21,26 @@ jobs:
     - name: Run Unit Tests
       run: |
           yarn test:unit
+
+
+  lighthouse-test-deploy:
+    runs-on: ubuntu-latest
+    name: Run Lighthouse against a test deployment.
+    steps:
+    - uses: actions/checkout@v2
+    - name: Deploy test site
+      id: deploy
+      uses: fleekhq/action-deploy@v1
+      with:
+        apiKey: ${{ secrets.FLEEK_API_KEY }}
+    - name: Get the output url
+      run: echo "Fleek test deploy url is ${{ steps.deploy.outputs.deployUrl }}"
+    - name: Run Lighthouse PWA check against Fleek test site deployment
+      uses: treosh/lighthouse-ci-action@v8
+      with:
+        urls: |
+          ${{ steps.deploy.outputs.deployUrl }}
+        uploadArtifacts: true # save results as an action artifacts
+        temporaryPublicStorage: true # upload lighthouse report to the temporary storage
+        # budgetPath: '.github/lighthouse/budget.json' # performance budgets
+        configPath: '.github/lighthouse/lighthouserc-test-deploy.json' # PWA checks
