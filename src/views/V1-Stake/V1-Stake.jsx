@@ -33,7 +33,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
-import TabPanel from "../../components/TabPanel";
+import TabPanel from "../../components/TabPanel/TabPanel";
 import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";

@@ -13,7 +13,7 @@ import { getPoolValues, getRNGStatus } from "src/slices/PoolThunk";
 import { Prize, PrizePool } from "src/typechain/pooltogether";
 
 import CardHeader from "../../components/CardHeader/CardHeader";
-import TabPanel from "../../components/TabPanel";
+import TabPanel from "../../components/TabPanel/TabPanel";
 import { poolDataQuery, yourAwardsQuery } from "./poolData";
 import { PoolInfo } from "./PoolInfo";
 import { PoolPrize } from "./PoolPrize";

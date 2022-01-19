@@ -10,7 +10,7 @@ import { IAllBondData } from "src/hooks/Bonds";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useWeb3Context } from "src/hooks/web3Context";
 
-import TabPanel from "../../components/TabPanel";
+import TabPanel from "../../components/TabPanel/TabPanel";
 import { formatCurrency, trim } from "../../helpers";
 import BondHeader from "./BondHeader";
 import BondPurchase from "./BondPurchase";

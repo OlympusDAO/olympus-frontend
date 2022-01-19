@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TabPanel/> should render component 1`] = `
+<div>
+  <div
+    aria-labelledby="simple-tab-0"
+    id="simple-tabpanel-0"
+    role="tabpanel"
+    style="overflow: hidden;"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-1"
+    >
+      Tab Panel Content
+    </div>
+  </div>
+</div>
+`;
