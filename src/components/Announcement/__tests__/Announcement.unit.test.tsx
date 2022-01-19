@@ -1,5 +1,5 @@
 import { render } from "../../../testUtils";
-import Announcement from "../Announcement.jsx";
+import Announcement from "../Announcement";
 
 describe("<Announcement/>", () => {
   it("should render component", () => {
