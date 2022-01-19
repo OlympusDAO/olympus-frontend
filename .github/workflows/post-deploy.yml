@@ -17,7 +17,7 @@ jobs:
           ref: ${{ github.ref }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           running-workflow-name: wait-for-check-regexp
-          check-regexp: "*"
+          check-regexp: "Run unit tests"
           wait-interval: 30
       - name: print github env vars
         env:
