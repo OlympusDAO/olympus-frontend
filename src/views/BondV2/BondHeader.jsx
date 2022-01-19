@@ -1,12 +1,13 @@
+import { t } from "@lingui/macro";
+import { IconButton, Link, SvgIcon, Typography } from "@material-ui/core";
+import { TokenStack } from "@olympusdao/component-library";
 import { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import AdvancedSettings from "./AdvancedSettings";
-import { Typography, IconButton, SvgIcon, Link } from "@material-ui/core";
-import { t } from "@lingui/macro";
+
 import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import useEscape from "../../hooks/useEscape";
-import { TokenStack } from "@olympusdao/component-library";
+import AdvancedSettings from "./AdvancedSettings";
 
 function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange, onSlippageChange }) {
   const [open, setOpen] = useState(false);

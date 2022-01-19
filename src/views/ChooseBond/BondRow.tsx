@@ -1,15 +1,17 @@
-import { DisplayBondPrice, DisplayBondDiscount } from "../Bond/Bond";
-import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
+
 import { t, Trans } from "@lingui/macro";
+import { Button, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { IAllBondData } from "src/hooks/Bonds";
-import { useWeb3Context } from "../../hooks/web3Context";
-import { Bond, CustomBond, LPBond } from "src/lib/Bond";
-import { NetworkId } from "src/constants";
 import { TokenStack } from "@olympusdao/component-library";
+import { NavLink } from "react-router-dom";
+import { NetworkId } from "src/constants";
+import { IAllBondData } from "src/hooks/Bonds";
+import { Bond, CustomBond, LPBond } from "src/lib/Bond";
+
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { useWeb3Context } from "../../hooks";
+import { DisplayBondDiscount, DisplayBondPrice } from "../Bond/Bond";
 
 type BondUnion = CustomBond | LPBond;
 

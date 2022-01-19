@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { t } from "@lingui/macro";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import { ACTION_GIVE, ACTION_GIVE_EDIT } from "./GiveThunk";
 
 export interface IPendingTxn {

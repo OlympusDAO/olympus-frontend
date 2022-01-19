@@ -1,4 +1,5 @@
 import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
+
 import fonts from "./fonts";
 import commonSettings, { handleBackdropFilter } from "./global.js";
 
