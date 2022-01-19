@@ -11,10 +11,6 @@ import {
   launchXvfb,
 } from "../../testHelpers";
 
-// TODO deploy contracts on temporary network
-// TODO add eth to wallet
-// TODO close Chromium after test case
-
 var STAKE_AMOUNT = 0.1;
 
 describe("staking", () => {
@@ -36,9 +32,10 @@ describe("staking", () => {
     const { page } = dapp;
 
     // Connect button should be available
-    expect(await selectorExists(page, "#stake-connect-wallet")).toBeTruthy();
+    await page.screenshot({ path: "stake-unconnected-wallet.png" });
+    expect(await getSelectorTextContent(page, "#ohm-menu-button")).toEqual("Connect Wallet");
 
-    // Stake button not visible
+    // Stake button not visible, as the "Connect Wallet" button is present
     expect(await selectorExists(page, "#stake-button")).toBeFalsy();
   });
 
@@ -46,14 +43,16 @@ describe("staking", () => {
     const { page, metamask } = dapp;
 
     // Connect button should be available
-    expect(await selectorExists(page, "#stake-connect-wallet")).toBeTruthy();
+    expect(await selectorExists(page, "#ohm-menu-button")).toBeTruthy();
 
     await connectWallet(page, metamask);
 
     // Connect button should be replaced by "Approve"
     await page.bringToFront();
     expect(await waitSelectorExists(page, "#approve-stake-button")).toBeTruthy();
-    expect(await selectorExists(page, "#stake-connect-wallet")).toBeFalsy();
+
+    // Wallet button has changed
+    expect(await getSelectorTextContent(page, "#ohm-menu-button")).toEqual("Wallet");
   });
 
   test("approves staking", async () => {
@@ -61,15 +60,14 @@ describe("staking", () => {
 
     await connectWallet(page, metamask);
 
-    // NOTE: we may want to re-enable this when moving onto a single-use testnet, as the approval status won't persist
     // *** Approve the staking function
-    // await page.bringToFront();
+    await page.bringToFront();
     // Stake button (named "Approve")
-    // await clickElement(page, "#approve-stake-button");
+    await clickElement(page, "#approve-stake-button");
     // Bring Metamask front with the transaction modal
-    // await metamask.confirmTransaction();
+    await metamask.confirmTransaction();
     // Approve the transaction
-    // await metamask.approve();
+    await metamask.approve();
 
     // Button should be replaced by "Stake"
     expect(await waitSelectorExists(page, "#stake-button")).toBeTruthy();

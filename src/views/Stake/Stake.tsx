@@ -412,6 +412,7 @@ function Stake() {
                             ) : address && hasAllowance("ohm") ? (
                               <Button
                                 className="stake-button"
+                                id="stake-button"
                                 variant="contained"
                                 color="primary"
                                 disabled={isPendingTxn(pendingTransactions, "staking")}
@@ -424,6 +425,7 @@ function Stake() {
                             ) : (
                               <Button
                                 className="stake-button"
+                                id="approve-stake-button"
                                 variant="contained"
                                 color="primary"
                                 disabled={isPendingTxn(pendingTransactions, "approve_staking")}
@@ -445,6 +447,7 @@ function Stake() {
                               (hasAllowance("gohm") && confirmation) ? (
                               <Button
                                 className="stake-button"
+                                id="unstake-button"
                                 variant="contained"
                                 color="primary"
                                 disabled={isPendingTxn(pendingTransactions, "unstaking")}
@@ -457,6 +460,7 @@ function Stake() {
                             ) : (
                               <Button
                                 className="stake-button"
+                                id="approve-unstake-button"
                                 variant="contained"
                                 color="primary"
                                 disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
