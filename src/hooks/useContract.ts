@@ -1,10 +1,11 @@
 import { Contract } from "ethers";
-import { useWeb3Context } from ".";
+import { useWeb3Context } from "./web3Context";
 import { useNetwork } from "./useNetwork";
 import STAKING_ABI from "src/abi/OlympusStakingv2.json";
+import { abi as IERC20_ABI } from "src/abi/IERC20.json";
 import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
 import { AddressMap, STAKING_ADDRESSES } from "src/constants/addresses";
-import { OlympusStakingv2, PairContract } from "src/typechain";
+import { IERC20, OlympusStakingv2, PairContract } from "src/typechain";
 import { useMemo } from "react";
 import { NetworkId } from "src/constants";
 import { ohm_dai } from "src/helpers/AllBonds";
@@ -44,4 +45,8 @@ export const useOhmDaiReserveContract = () => {
   assert(address, "Contract should exist for NetworkId.MAINNET");
 
   return usePairContract(address);
+};
+
+export const useTokenContract = (addressMap: AddressMap) => {
+  return useContract<IERC20>(addressMap, IERC20_ABI);
 };
