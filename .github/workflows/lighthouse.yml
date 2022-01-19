@@ -26,17 +26,6 @@ jobs:
           configPath: '.github/lighthouse/lighthouserc-static-dist-dir.yml'
           uploadArtifacts: true # save results as github action artifacts
           temporaryPublicStorage: true # upload lighthouse report to the temporary storage
-    - name: Run Lighthouse against a local app deployment.
-      uses: treosh/lighthouse-ci-action@v8
-      with:
-        urls: |
-          http://localhost:3000
-#         ${{ steps.deploy.outputs.deployUrl }}
-        uploadArtifacts: true # save results as an action artifacts
-        temporaryPublicStorage: true # upload lighthouse report to the temporary storage
-       # budgetPath: '.github/lighthouse/budget.json' # performance budgets
-        configPath: '.github/lighthouse/lighthouserc-local-deploy.json' # PWA checks
-
 
   lighthouse-local-deploy:
     runs-on: ubuntu-latest
