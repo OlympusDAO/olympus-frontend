@@ -302,9 +302,6 @@ export const light = responsiveFontSizes(
               color: lightTheme.textHighlightColor,
             },
           },
-          "&.grid-button-text": {
-            color: "#FFFFFF",
-          },
         },
         MuiTypography: {
           root: {
