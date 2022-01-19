@@ -1,23 +1,13 @@
 name: Test Deployment Preview
 
 on:
-  push:
-    branches: [ master, develop ]
-  pull_request:
-    types: [ opened, synchronize, reopened ]
+  repository_dispatch:
 
 jobs:
   test-deployment-preview:
     name: Test Deployment Preview
     runs-on: ubuntu-latest
     steps:
-      - name: Wait for tests to succeed
-        uses: lewagon/wait-on-check-action@v1.1.1
-        with:
-          ref: ${{ github.ref }}
-          running-workflow-name: 'Test Deployment Preview'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
       - name: print github env vars
         env:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
