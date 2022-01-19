@@ -31,23 +31,14 @@ jobs:
     name: Run Lighthouse against a test deployment.
     steps:
     - uses: actions/checkout@v2
-    - uses: SFDigitalServices/wait-for-deployment-action@v1
-      id: deployment
+    - name: Deploy test site
+      id: deploy
+      uses: fleekhq/action-deploy@v1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        environment: Preview
+        apiKey: ${{ secrets.FLEEK_API_KEY }}
     - name: Get the output url
-      run: |
-        echo "Fleek test deploy url is ${{ steps.deploy.outputs.deployUrl }}"
-        echo "Deployed to: ${{ steps.deployment.outputs.url }}"
-#    - name: Deploy test site
-#      id: deploy
-#      uses: fleekhq/action-deploy@v1
-#      with:
-#        apiKey: ${{ secrets.FLEEK_API_KEY }}
-#    - name: Get the output url
-#      run: echo "Fleek test deploy url is ${{ steps.deploy.outputs.deployUrl }}"
-    - name: Run Lighthouse PWA check against Netlify PR Preview
+      run: echo "Fleek test deploy url is ${{ steps.deploy.outputs.deployUrl }}"
+    - name: Run Lighthouse PWA check against Fleek test site deployment
       uses: treosh/lighthouse-ci-action@v8
       with:
         urls: |
@@ -56,6 +47,11 @@ jobs:
         temporaryPublicStorage: true # upload lighthouse report to the temporary storage
         # budgetPath: '.github/lighthouse/budget.json' # performance budgets
         configPath: '.github/lighthouse/lighthouserc-test-deploy.json' # PWA checks
+
+  lighthouse-prod-deploy:
+    runs-on: ubuntu-latest
+    name: Run Lighthouse against prod deployment.
+    steps:
     - name: Run Lighthouse PWA sanity check against the existing Fleek production deployment
       uses: treosh/lighthouse-ci-action@v8
       with:
