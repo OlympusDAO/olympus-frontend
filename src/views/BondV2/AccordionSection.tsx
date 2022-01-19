@@ -1,21 +1,21 @@
+import "./choosebond.scss";
+
 import { t, Trans } from "@lingui/macro";
-import { ClaimBondCardData, ClaimBondTableData } from "./ClaimRow";
-import { ExpandMore } from "@material-ui/icons";
 import {
   Accordion,
-  AccordionSummary,
   AccordionDetails,
+  AccordionSummary,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Typography,
 } from "@material-ui/core";
-
-import "./choosebond.scss";
+import { ExpandMore } from "@material-ui/icons";
 import { IUserNote } from "src/slices/BondSliceV2";
+
+import { ClaimBondCardData, ClaimBondTableData } from "./ClaimRow";
 
 const AccordionSection = ({
   bonds,

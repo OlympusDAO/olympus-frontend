@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useQuery } from "react-query";
-import { Box, Typography, Zoom, useTheme, makeStyles } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
+import { Box, makeStyles, Typography, useTheme, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useWeb3Context } from "src/hooks/web3Context";
-import allPools, { fetchPoolData } from "src/helpers/AllExternalPools";
-import { ExternalPoolwBalance } from "src/lib/ExternalPool";
 import { Skeleton } from "@material-ui/lab";
-import { SecondaryButton, TokenStack, Paper } from "@olympusdao/component-library";
+import { Paper, SecondaryButton, TokenStack } from "@olympusdao/component-library";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { useDispatch } from "react-redux";
+import allPools, { fetchPoolData } from "src/helpers/AllExternalPools";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { ExternalPoolwBalance } from "src/lib/ExternalPool";
 
 export const useExternalPools = (address: string) => {
   const { isLoading, data } = useQuery(["externalPools", address], () => fetchPoolData(address), {
@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading: Boolean }) => {
+const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading: boolean }) => {
   const styles = useStyles();
   const { connected } = useWeb3Context();
   return (
@@ -82,7 +82,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
   );
 };
 
-const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading: Boolean }) => {
+const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading: boolean }) => {
   const theme = useTheme();
   const styles = useStyles();
   const { connected } = useWeb3Context();

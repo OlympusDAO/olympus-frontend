@@ -1,4 +1,5 @@
 import { Dappeteer, launch } from "@chainsafe/dappeteer";
+// @ts-ignore
 import puppeteer, { Browser, ElementHandle, Page } from "puppeteer";
 import * as dappeteer from "@chainsafe/dappeteer";
 import { getDocument, queries } from "pptr-testing-library";

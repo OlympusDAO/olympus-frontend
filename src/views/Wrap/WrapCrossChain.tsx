@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import "../Stake/stake.scss";
+
+import { t } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -11,31 +12,24 @@ import {
   Link,
   OutlinedInput,
   Paper,
-  Tab,
-  Tabs,
+  SvgIcon,
   Typography,
   Zoom,
-  SvgIcon,
-  makeStyles,
-  Select,
-  MenuItem,
 } from "@material-ui/core";
-import { InfoTooltip } from "@olympusdao/component-library";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-
-import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
-import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
-import { migrateWithType, migrateCrossChainWSOHM, changeMigrationApproval } from "../../slices/MigrateThunk";
-import { switchNetwork } from "../../helpers/NetworkHelper";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
-import { NETWORKS } from "../../constants";
-import "../Stake/stake.scss";
-import { useAppSelector } from "src/hooks/index";
-import { getBalances, loadAccountDetails } from "src/slices/AccountSlice";
-import { t } from "@lingui/macro";
+import { InfoTooltip } from "@olympusdao/component-library";
 import { DataRow } from "@olympusdao/component-library";
+import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "src/hooks/index";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
+
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { NETWORKS } from "../../constants";
+import { formatCurrency, trim } from "../../helpers";
+import { switchNetwork } from "../../helpers/NetworkHelper";
+import { changeMigrationApproval, migrateCrossChainWSOHM } from "../../slices/MigrateThunk";
 
 function WrapCrossChain() {
   const dispatch = useDispatch();
@@ -90,7 +84,7 @@ function WrapCrossChain() {
 
   const isDataLoading = useAppSelector(state => state.account.loading);
 
-  let modalButton = [];
+  const modalButton = [];
 
   modalButton.push(
     <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>

@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Announcement/> should render component 1`] = `
+<div>
+  <div
+    class="announcement-banner ohm-card"
+  >
+    <div
+      class="MuiPaper-root new-network MuiPaper-elevation0 MuiPaper-rounded"
+      style="width: 100%;"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-1"
+        style="width: 2%;"
+      />
+      <div
+        class="MuiBox-root MuiBox-root-2"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-3 new-network-box"
+          style="margin-right: 10px;"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+            focusable="false"
+            viewBox="0 0 20 20"
+          >
+            info-fill.svg
+          </svg>
+        </div>
+        <div
+          class="MuiBox-root MuiBox-root-4 new-network-box"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            Treasury stats may be inaccurate during the migration. Please check discord if you have any questions.
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-5"
+      >
+        <button
+          class="MuiButtonBase-root MuiIconButton-root"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiIconButton-label"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall"
+              focusable="false"
+              viewBox="0 0 20 20"
+            >
+              x.svg
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

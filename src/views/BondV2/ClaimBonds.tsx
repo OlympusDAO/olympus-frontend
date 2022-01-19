@@ -1,42 +1,37 @@
-import { useEffect, useState } from "react";
-import { t, Trans } from "@lingui/macro";
-import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
-import { isPendingTxn, txnButtonText, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
-import { redeemAllBonds } from "src/slices/BondSlice";
-import CardHeader from "../../components/CardHeader/CardHeader";
-import AccordionSection from "./AccordionSection";
-import { useWeb3Context } from "src/hooks/web3Context";
-import useBonds from "src/hooks/Bonds";
+import "./choosebond.scss";
+
+import { t } from "@lingui/macro";
 import {
-  Box,
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Zoom,
-  Typography,
-  Tabs,
-  Tab,
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
+  Button,
+  Paper,
+  Tab,
+  Table,
+  TableBody,
+  TableContainer,
+  Tabs,
+  Typography,
+  Zoom,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "./choosebond.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { ContactSupportOutlined, ExpandMore } from "@material-ui/icons";
-import { useAppSelector } from "src/hooks";
-import { claimAllNotes, IUserNote } from "src/slices/BondSliceV2";
-import { CurrentIndex } from "../TreasuryDashboard/components/Metric/Metric";
-import { trim } from "src/helpers";
-import { IUserBondDetails } from "src/slices/AccountSlice";
-import { ClaimBondsSubComponent } from "../ChooseBond/ClaimBonds";
-import title from "material-ui/svg-icons/editor/title";
+import { ExpandMore } from "@material-ui/icons";
 import { isEmpty } from "lodash";
+import title from "material-ui/svg-icons/editor/title";
+import { ChangeEvent, useState } from "react";
+import { useDispatch } from "react-redux";
+import { trim } from "src/helpers";
+import { useAppSelector } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { IUserBondDetails } from "src/slices/AccountSlice";
+import { claimAllNotes, IUserNote } from "src/slices/BondSliceV2";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+
+import CardHeader from "../../components/CardHeader/CardHeader";
+import { ClaimBondsSubComponent } from "../ChooseBond/ClaimBonds";
+import AccordionSection from "./AccordionSection";
 
 function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   const dispatch = useDispatch();
@@ -71,7 +66,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
-  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 

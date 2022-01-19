@@ -1,8 +1,10 @@
-import CustomTooltip from "./CustomTooltip";
+import "./chart.scss";
+
+import { Box, CircularProgress, SvgIcon, Typography } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip } from "@olympusdao/component-library";
-import ExpandedChart from "./ExpandedChart";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { ReactComponent as Fullscreen } from "../../assets/icons/fullscreen.svg";
 import {
   Area,
   AreaChart,
@@ -16,11 +18,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Box, CircularProgress, SvgIcon, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+
+import { ReactComponent as Fullscreen } from "../../assets/icons/fullscreen.svg";
 import { trim } from "../../helpers";
-import { format } from "date-fns";
-import "./chart.scss";
+import CustomTooltip from "./CustomTooltip";
+import ExpandedChart from "./ExpandedChart";
 
 const formatCurrency = c => {
   return new Intl.NumberFormat("en-US", {
