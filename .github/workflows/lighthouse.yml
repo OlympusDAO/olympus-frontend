@@ -8,9 +8,9 @@ on:
 
 #
 jobs:
-  lighthouse-local-static-pages:
+  lighthouse-local:
     runs-on: ubuntu-latest
-    name: Run lighthouse check against static files
+    name: Run lighthouse check on local machine
     steps:
     - uses: actions/checkout@v2
     - name: Build PWA distribution for production
@@ -27,7 +27,7 @@ jobs:
           configPath: '.github/lighthouse/lighthouserc-static-dist-dir.yml'
           uploadArtifacts: true # save results as github action artifacts
           temporaryPublicStorage: true # upload lighthouse report to the temporary storage
-    - name: Run Lighthouse against a local test deployment.
+    - name: Run Lighthouse against a local app deployment.
       uses: treosh/lighthouse-ci-action@v8
       with:
         urls: |
