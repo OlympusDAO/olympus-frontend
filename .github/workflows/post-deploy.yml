@@ -1,8 +1,8 @@
 name: Test Deployment Preview
 
 on:
-  check_suite:
-    types: [completed]
+  check_run:
+    types: [rerequested, completed]
 
 jobs:
   test-deployment-preview:
