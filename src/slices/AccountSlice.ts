@@ -44,6 +44,7 @@ interface IUserBalances {
     gOhmOnFantom: string;
     gOhmOnFantomAsSohm: string;
     gOhmOnTokemak: string;
+    gOhmOnTokemakAsSohm: string;
     ohm: string;
     ohmV1: string;
     sohm: string;
@@ -91,6 +92,7 @@ export const getBalances = createAsyncThunk(
     let gOhmOnFantom = BigNumber.from("0");
     let gOhmOnFantomAsSohm = BigNumber.from("0");
     let gOhmOnTokemak = BigNumber.from("0");
+    let gOhmOnTokemakAsSohm = BigNumber.from("0");
     let ohmBalance = BigNumber.from("0");
     let sohmBalance = BigNumber.from("0");
     let mockSohmBalance = BigNumber.from("0");
@@ -147,6 +149,7 @@ export const getBalances = createAsyncThunk(
       const tokemakProvider = NodeHelper.getAnynetStaticProvider(NetworkId.MAINNET);
       const gOhmTokemakContract = GOHM__factory.connect(addresses[NetworkId.MAINNET].TOKEMAK_GOHM, tokemakProvider);
       gOhmOnTokemak = await gOhmTokemakContract.balanceOf(address);
+      gOhmOnTokemakAsSohm = await gOhmContract.balanceFrom(gOhmOnTokemak.toString());
     } catch (e) {
       handleContractError(e);
     }
@@ -261,6 +264,7 @@ export const getBalances = createAsyncThunk(
         gOhmOnFantom: ethers.utils.formatEther(gOhmOnFantom),
         gOhmOnFantomAsSohm: ethers.utils.formatUnits(gOhmOnFantomAsSohm, "gwei"),
         gOhmOnTokemak: ethers.utils.formatEther(gOhmOnTokemak),
+        gOhmOnTokemakAsSohm: ethers.utils.formatUnits(gOhmOnTokemakAsSohm, "gwei"),
         ohmV1: ethers.utils.formatUnits(ohmBalance, "gwei"),
         sohmV1: ethers.utils.formatUnits(sohmBalance, "gwei"),
         fsohm: ethers.utils.formatUnits(fsohmBalance, "gwei"),
@@ -605,6 +609,7 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
     gOhmOnFantom: string;
     gOhmOnFantomAsSohm: string;
     gOhmOnTokemak: string;
+    gOhmOnTokemakAsSohm: string;
     ohmV1: string;
     ohm: string;
     sohm: string;
@@ -653,6 +658,7 @@ const initialState: IAccountSlice = {
     gOhmOnFantom: "",
     gOhmOnFantomAsSohm: "",
     gOhmOnTokemak: "",
+    gOhmOnTokemakAsSohm: "",
     ohmV1: "",
     ohm: "",
     sohm: "",
