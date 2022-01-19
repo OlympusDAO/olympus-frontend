@@ -182,6 +182,7 @@ const OhmFaucetButton = () => {
         size="large"
         color="secondary"
         disabled={isPendingTxn(pendingTransactions, FAUCET_PENDING_TYPE)}
+        id="ohm-faucet"
       >
         {txnButtonText(pendingTransactions, FAUCET_PENDING_TYPE, t`OHM Faucet`)}
       </Button>

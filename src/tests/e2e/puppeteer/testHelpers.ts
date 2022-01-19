@@ -53,6 +53,23 @@ export const connectWallet = async (page: Page, metamask: Dappeteer) => {
   await metamask.approve();
 };
 
+/**
+ * Runs the OHM faucet to give the user's wallet 1 OHM.
+ *
+ * @param page the current puppeteer page
+ * @param metamask instance of Dappeteer
+ */
+export const ohmFaucet = async (page: Page, metamask: Dappeteer) => {
+  // Wallet menu button
+  await clickElement(page, "#ohm-menu-button");
+
+  // OHM faucet button
+  await clickElement(page, "#ohm-faucet");
+
+  // Metamask will then display a transaction approval screen
+  await metamask.approve();
+};
+
 export const getByTestId = async (page: Page, testId: string): Promise<ElementHandle> => {
   const document = await getDocument(page);
   return queries.getByTestId(document, testId);
