@@ -1,0 +1,18 @@
+{
+  "ci": {
+    "collect": {
+      "numberOfRuns": 3
+    },
+    "assert": {
+      "preset": "lighthouse:recommended",
+      "assertions": {
+        "first-contentful-paint": ["warn", { "minScore": 0.6 }],
+        "font-display": "off",
+        "unused-css-rules": "off",
+        "uses-rel-preconnect": "off",
+        "csp-xss": ["warn", { "minScore": 0 }],
+        "unused-javascript": ["warn", { "maxLength": 3 }]
+      }
+    }
+  }
+}
