@@ -1,8 +1,8 @@
-import { InfoTooltip } from "@olympusdao/component-library";
-import { Box, Typography } from "@material-ui/core";
-import { ResponsiveContainer } from "recharts";
-import { Modal } from "@olympusdao/component-library";
 import { Trans } from "@lingui/macro";
+import { Box, Typography } from "@material-ui/core";
+import { InfoTooltip } from "@olympusdao/component-library";
+import { Modal } from "@olympusdao/component-library";
+import { ResponsiveContainer } from "recharts";
 
 function ExpandedChart({
   open,

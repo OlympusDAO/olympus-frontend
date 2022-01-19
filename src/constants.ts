@@ -1,13 +1,13 @@
-import { NodeHelper } from "./helpers/NodeHelper";
-import { EnvHelper } from "./helpers/Environment";
-import ethereum from "./assets/tokens/wETH.svg";
+import { OHMTokenStackProps } from "@olympusdao/component-library";
+import { ethers } from "ethers";
+
 import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
 import polygon from "./assets/tokens/matic.svg";
-import { OHMTokenStackProps } from "@olympusdao/component-library";
-
+import ethereum from "./assets/tokens/wETH.svg";
 import { getTokenByContract, getTokenPrice } from "./helpers";
-import { ethers } from "ethers";
+import { EnvHelper } from "./helpers/Environment";
+import { NodeHelper } from "./helpers/NodeHelper";
 import { IERC20__factory, UniswapV2Lp__factory } from "./typechain";
 
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-protocol-metrics";

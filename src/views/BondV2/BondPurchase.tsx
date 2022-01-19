@@ -1,5 +1,3 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
@@ -11,19 +9,21 @@ import {
   Slide,
   Typography,
 } from "@material-ui/core";
-import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
-import useDebounce from "../../hooks/Debounce";
+import { InfoTooltip } from "@olympusdao/component-library";
+import { ethers } from "ethers";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { changeApproval, getSingleBond, IBondV2, purchaseBond } from "src/slices/BondSliceV2";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { AppDispatch } from "src/store";
+
+import ConnectButton from "../../components/ConnectButton";
+import { shorten, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./BondV2";
-import ConnectButton from "../../components/ConnectButton";
-import { useAppSelector } from "src/hooks";
-import { changeApproval, getSingleBond, IBondV2, IBondV2Balance, purchaseBond } from "src/slices/BondSliceV2";
-import { BigNumber, ethers } from "ethers";
-import { AppDispatch } from "src/store";
-import { InfoTooltip } from "@olympusdao/component-library";
 
 function BondPurchase({
   bond,
