@@ -5,7 +5,6 @@ import store from "../../store";
 import { LinearProgress, Snackbar, makeStyles } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
-import "./ConsoleInterceptor.js";
 
 const useStyles = makeStyles({
   root: {
