@@ -1,6 +1,7 @@
-import { getTokenPrice } from "./index";
 import axios from "axios";
-import { when, resetAllWhenMocks } from "jest-when";
+import { resetAllWhenMocks, when } from "jest-when";
+
+import { getTokenPrice } from "./index";
 
 beforeEach(() => {
   resetAllWhenMocks();
@@ -41,7 +42,6 @@ test.skip("getTokenPrice via api.olympusdao.finance (real)", async () => {
   let price = await getTokenPrice("olympus");
   expect(price).toBeGreaterThan(1);
 });
-
 
 test("getTokenPrice via api.olympusdao.finance (mock)", async () => {
   const resp = { data: { coingeckoTicker: { value: 356 } } };
