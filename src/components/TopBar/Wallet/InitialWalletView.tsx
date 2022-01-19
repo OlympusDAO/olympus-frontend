@@ -29,7 +29,7 @@ import { dai, frax } from "src/helpers/AllBonds";
 import { Tokens, useWallet } from "./Token";
 import { t, Trans } from "@lingui/macro";
 import WalletAddressEns from "./WalletAddressEns";
-import { addresses } from "src/constants";
+import { addresses, NetworkId } from "src/constants";
 import { FAUCET_PENDING_TYPE, getOhm } from "src/helpers/OhmFaucet";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { State } from "src/slices/interfaces";
@@ -170,6 +170,9 @@ const OhmFaucetButton = () => {
   const runOhmFaucet = async () => {
     dispatch(getOhm({ address, provider, networkID: networkId }));
   };
+
+  // Enabled only on localhost
+  if (networkId !== NetworkId.Localhost) return <></>;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(1.5) }}>
