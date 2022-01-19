@@ -181,7 +181,7 @@ export const bulletpoints = {
 };
 
 export const tooltipItems = {
-  tvl: ["Total Value Deposited"],
+  tvl: [t`Total Value Deposited`],
   coin: ["DAI", "FRAX", "ETH", "LUSD", "BTC", "UST", "Other"],
   rfv: ["DAI", "FRAX", "LUSD", "UST"],
   holder: ["OHMies"],
