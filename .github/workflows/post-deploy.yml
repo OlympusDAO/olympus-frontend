@@ -14,7 +14,7 @@ jobs:
       - name: Wait for Deployment Preview
         uses: lewagon/wait-on-check-action@v1.1.1
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ github.ref }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           running-workflow-name: wait-for-check-regexp
           check-regexp: ".*"
