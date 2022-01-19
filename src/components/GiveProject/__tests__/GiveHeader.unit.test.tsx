@@ -1,6 +1,7 @@
+import { BigNumber } from "bignumber.js";
+
 import { render } from "../../../testUtils";
 import { GiveHeader } from "../GiveHeader";
-import { BigNumber } from "bignumber.js";
 
 describe("<GiveHeader/>", () => {
   it("should render component", () => {

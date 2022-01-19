@@ -1,7 +1,9 @@
 import "@testing-library/jest-dom/extend-expect";
-import { setupServer } from "msw/node";
-import handlers from "./testHandlers";
+
 import { i18n } from "@lingui/core";
+import { setupServer } from "msw/node";
+
+import handlers from "./testHandlers";
 
 global.CSS = { supports: jest.fn() };
 
