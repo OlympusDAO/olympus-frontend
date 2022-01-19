@@ -8,7 +8,7 @@ import {
   selectorExists,
   typeValue,
   waitSelectorExists,
-} from "../../../tests/e2e/testHelpers";
+} from "../../../../tests/e2e/testHelpers";
 
 // TODO deploy contracts on temporary network
 // TODO add eth to wallet
@@ -16,7 +16,7 @@ import {
 
 const STAKE_AMOUNT = 0.1;
 
-describe.skip("staking", () => {
+describe.skip("Staking", () => {
   it("cannot stake without connected wallet", async () => {
     const { page } = dapp;
 

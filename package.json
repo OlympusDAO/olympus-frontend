@@ -14,7 +14,6 @@
     ]
   },
   "jest": {
-    "displayName": "OlympusDAO Front End Tests",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
@@ -30,9 +29,7 @@
       }
     },
     "coverageReporters": [
-      "lcov",
-      "json",
-      "text"
+      "text", "text-summary"
     ]
   },
   "dependencies": {
@@ -142,8 +139,8 @@
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "test": "react-scripts test",
-    "test:unit": "react-scripts test --testPathPattern=\"(\\.|/|-)unit\\.(test|spec)\\.[jt]sx?$\" --runInBand --watchAll=false --detectOpenHandles --bail --ci --coverage --no-cache",
-    "test:e2e": "react-scripts test --testPathPattern=\"(\\.|/|-)e2e\\.(test|spec)\\.[jt]sx?$\" --testTimeout=30000 --runInBand --watchAll=false --detectOpenHandles",
+    "test:unit": "react-scripts test --testPathPattern=\"(\\.|/|-)unit\\.(test|spec)\\.[jt]sx?$\" --watchAll=false --bail --ci --coverage --maxWorkers=50%",
+    "test:e2e": "react-scripts test --testPathPattern=\"(\\.|/|-)e2e\\.(test|spec)\\.[jt]sx?$\" --watchAll=false --bail --ci",
     "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
     "lint:fix": "prettier --write ./src/ & yarn lint --fix",
     "surge": "surge ./build",
