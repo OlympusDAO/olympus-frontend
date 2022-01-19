@@ -134,9 +134,6 @@ function Stake() {
   const gOhmOnTokemak = useAppSelector(state => {
     return state.account.balances && state.account.balances.gOhmOnTokemak;
   });
-  const gOhmOnTokemakAsSohm = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnTokemakAsSohm;
-  });
 
   const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
@@ -266,7 +263,6 @@ function Stake() {
       gOhmOnAvaxAsSohm,
       gOhmOnPolygonAsSohm,
       gOhmOnFantomAsSohm,
-      gOhmOnTokemakAsSohm,
       sohmV1Balance,
       wsohmAsSohm,
       fiatDaoAsSohm,
