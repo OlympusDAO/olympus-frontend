@@ -31,13 +31,22 @@ jobs:
     name: Run Lighthouse against a test deployment.
     steps:
     - uses: actions/checkout@v2
-    - name: Deploy test site
-      id: deploy
-      uses: fleekhq/action-deploy@v1
+    - uses: SFDigitalServices/wait-for-deployment-action@v1
+      id: deployment
       with:
-        apiKey: ${{ secrets.FLEEK_API_KEY }}
+        token: ${{ github.token }}
+        environment: Preview
     - name: Get the output url
-      run: echo "Fleek test deploy url is ${{ steps.deploy.outputs.deployUrl }}"
+      run: |
+        echo "Fleek test deploy url is ${{ steps.deploy.outputs.deployUrl }}"
+        echo "Deployed to: ${{ steps.deployment.outputs.url }}"
+#    - name: Deploy test site
+#      id: deploy
+#      uses: fleekhq/action-deploy@v1
+#      with:
+#        apiKey: ${{ secrets.FLEEK_API_KEY }}
+#    - name: Get the output url
+#      run: echo "Fleek test deploy url is ${{ steps.deploy.outputs.deployUrl }}"
     - name: Run Lighthouse PWA check against Netlify PR Preview
       uses: treosh/lighthouse-ci-action@v8
       with:
