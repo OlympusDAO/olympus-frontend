@@ -1,15 +1,16 @@
-import { Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/core";
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import { FormControl } from "@material-ui/core";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { txnButtonText } from "../../slices/PendingTxnsSlice";
-import { useSelector } from "react-redux";
-import { VaultGraphic, ArrowGraphic, RedeemGraphic } from "../../components/EducationCard";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IPendingTxn, isPendingTxn } from "../../slices/PendingTxnsSlice";
-import { BigNumber } from "bignumber.js";
 import { t, Trans } from "@lingui/macro";
+import { Button, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { FormControl } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { BigNumber } from "bignumber.js";
+import { useSelector } from "react-redux";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { IAccountSlice } from "src/slices/AccountSlice";
+
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
+import { ArrowGraphic, RedeemGraphic, VaultGraphic } from "../../components/EducationCard";
+import { txnButtonText } from "../../slices/PendingTxnsSlice";
+import { IPendingTxn, isPendingTxn } from "../../slices/PendingTxnsSlice";
 
 export interface RedeemSubmitCallback {
   (): void;

@@ -1,36 +1,22 @@
-import { StableBond, LPBond, CustomBond, BondType } from "src/lib/Bond";
-import { addresses, NetworkId } from "src/constants";
-
-import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
-import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
-import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
-import { ReactComponent as OhmFraxImg } from "src/assets/tokens/OHM-FRAX.svg";
-import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
-import { ReactComponent as OhmEthImg } from "src/assets/tokens/OHM-WETH.svg";
-import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
-import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
-import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
-
-import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
-import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
-import { abi as BondOhmLusdContract } from "src/abi/bonds/OhmLusdContract.json";
-import { abi as BondOhmEthContract } from "src/abi/bonds/OhmEthContract.json";
-
+import { BigNumberish } from "ethers";
+import { abi as CvxBondContract } from "src/abi/bonds/CvxContract.json";
 import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
-import { abi as ReserveOhmLusdContract } from "src/abi/reserves/OhmLusd.json";
-import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
-import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
-import { abi as ReserveOhmEthContract } from "src/abi/reserves/OhmEth.json";
-
+import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
 import { abi as FraxBondContract } from "src/abi/bonds/FraxContract.json";
 import { abi as LusdBondContract } from "src/abi/bonds/LusdContract.json";
-import { abi as EthBondContract } from "src/abi/bonds/EthContract.json";
-import { abi as CvxBondContract } from "src/abi/bonds/CvxContract.json";
-
+import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
+import { abi as BondOhmEthContract } from "src/abi/bonds/OhmEthContract.json";
+import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
+import { abi as BondOhmLusdContract } from "src/abi/bonds/OhmLusdContract.json";
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
-import { getBondCalculator } from "src/helpers/BondCalculator";
-import { BigNumberish } from "ethers";
+import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
+import { abi as ReserveOhmEthContract } from "src/abi/reserves/OhmEth.json";
+import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
+import { abi as ReserveOhmLusdContract } from "src/abi/reserves/OhmLusd.json";
+import { addresses, NetworkId } from "src/constants";
 import { getTokenPrice } from "src/helpers";
+import { getBondCalculator } from "src/helpers/BondCalculator";
+import { BondType, CustomBond, LPBond, StableBond } from "src/lib/Bond";
 
 // TODO(zx): Further modularize by splitting up reserveAssets into vendor token definitions
 //   and include that in the definition of a bond
@@ -40,7 +26,7 @@ export const dai = new StableBond({
   bondToken: "DAI",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: DaiImg,
+  bondIconSvg: ["DAI"],
   bondContractABI: DaiBondContract,
   isBondable: {
     [NetworkId.MAINNET]: false,
@@ -89,7 +75,7 @@ export const fraxOld = new StableBond({
   bondToken: "FRAX",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: FraxImg,
+  bondIconSvg: ["FRAX"],
   bondContractABI: FraxBondContract,
   isBondable: {
     [NetworkId.MAINNET]: false,
@@ -134,7 +120,7 @@ export const frax = new StableBond({
   bondToken: "FRAX",
   payoutToken: "OHM",
   v2Bond: true,
-  bondIconSvg: FraxImg,
+  bondIconSvg: ["FRAX"],
   bondContractABI: FraxBondContract,
   isBondable: {
     [NetworkId.MAINNET]: true,
@@ -183,7 +169,7 @@ export const lusd = new StableBond({
   bondToken: "LUSD",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: LusdImg,
+  bondIconSvg: ["LUSD"],
   bondContractABI: LusdBondContract,
   isBondable: {
     [NetworkId.MAINNET]: false,
@@ -235,7 +221,7 @@ export const eth = new CustomBond({
   bondToken: "wETH",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: wETHImg,
+  bondIconSvg: ["wETH"],
   bondContractABI: EthBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
   isBondable: {
@@ -297,7 +283,7 @@ export const cvx = new CustomBond({
   bondToken: "CVX",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: CvxImg,
+  bondIconSvg: ["CVX"],
   bondContractABI: CvxBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
   isBondable: {
@@ -337,7 +323,7 @@ export const cvx = new CustomBond({
     },
   },
   customTreasuryBalanceFunc: async function (this: CustomBond, NetworkId, provider) {
-    let cvxPrice: number = await getTokenPrice("convex-finance");
+    const cvxPrice: number = await getTokenPrice("convex-finance");
     const token = this.getContractForReserve(NetworkId, provider);
     let cvxAmount: BigNumberish = await token.balanceOf(addresses[NetworkId].TREASURY_ADDRESS);
     cvxAmount = Number(cvxAmount.toString()) / Math.pow(10, 18);
@@ -354,7 +340,7 @@ export const cvx_expired = new CustomBond({
   bondToken: "CVX",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: CvxImg,
+  bondIconSvg: ["CVX"],
   bondContractABI: CvxBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
   isBondable: {
@@ -399,7 +385,7 @@ export const cvx_expired = new CustomBond({
     },
   },
   customTreasuryBalanceFunc: async function (this: CustomBond, NetworkId, provider) {
-    let cvxPrice: number = await getTokenPrice("convex-finance");
+    const cvxPrice: number = await getTokenPrice("convex-finance");
     const token = this.getContractForReserve(NetworkId, provider);
     let cvxAmount: BigNumberish = await token.balanceOf(addresses[NetworkId].TREASURY_ADDRESS);
     cvxAmount = Number(cvxAmount.toString()) / Math.pow(10, 18);
@@ -413,7 +399,7 @@ export const ohm_dai = new LPBond({
   bondToken: "DAI",
   payoutToken: "OHM",
   v2Bond: true,
-  bondIconSvg: OhmDaiImg,
+  bondIconSvg: ["OHM", "DAI"],
   bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
   isBondable: {
@@ -462,7 +448,7 @@ export const ohm_daiOld = new LPBond({
   bondToken: "DAI",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: OhmDaiImg,
+  bondIconSvg: ["OHM", "DAI"],
   bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
   isBondable: {
@@ -515,7 +501,7 @@ export const ohm_frax = new LPBond({
   bondToken: "FRAX",
   payoutToken: "OHM",
   v2Bond: true,
-  bondIconSvg: OhmFraxImg,
+  bondIconSvg: ["OHM", "FRAX"],
   bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
   isBondable: {
@@ -563,7 +549,7 @@ export const ohm_fraxOld = new LPBond({
   bondToken: "FRAX",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: OhmFraxImg,
+  bondIconSvg: ["OHM", "FRAX"],
   bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
   isBondable: {
@@ -616,7 +602,7 @@ export const ohm_lusd = new LPBond({
   bondToken: "LUSD",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: OhmLusdImg,
+  bondIconSvg: ["OHM", "LUSD"],
   bondContractABI: BondOhmLusdContract,
   reserveContract: ReserveOhmLusdContract,
   isBondable: {
@@ -670,7 +656,7 @@ export const ohm_weth = new CustomBond({
   bondToken: "WETH",
   payoutToken: "OHM",
   v2Bond: true,
-  bondIconSvg: OhmEthImg,
+  bondIconSvg: ["OHM", "wETH"],
   bondContractABI: BondOhmEthContract,
   reserveContract: ReserveOhmEthContract,
   isBondable: {
@@ -724,7 +710,7 @@ export const ohm_weth = new CustomBond({
       const tokenAmount = await token.balanceOf(addresses[networkId].TREASURY_V2);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
-      let tokenUSD =
+      const tokenUSD =
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD * Number(ethPrice.toString());
     } else {
@@ -735,7 +721,7 @@ export const ohm_weth = new CustomBond({
       const tokenAmount = await token.balanceOf(addresses[networkId].TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
-      let tokenUSD =
+      const tokenUSD =
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD;
     }
@@ -748,7 +734,7 @@ export const ohm_wethOld = new CustomBond({
   bondToken: "WETH",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: OhmEthImg,
+  bondIconSvg: ["OHM", "wETH"],
   bondContractABI: BondOhmEthContract,
   reserveContract: ReserveOhmEthContract,
   isBondable: {
@@ -806,7 +792,7 @@ export const ohm_wethOld = new CustomBond({
       const tokenAmount = await token.balanceOf(addresses[networkId].TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
-      let tokenUSD =
+      const tokenUSD =
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD * Number(ethPrice.toString());
     } else {
@@ -817,7 +803,7 @@ export const ohm_wethOld = new CustomBond({
       const tokenAmount = await token.balanceOf(addresses[networkId].TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
-      let tokenUSD =
+      const tokenUSD =
         (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
       return tokenUSD;
     }
