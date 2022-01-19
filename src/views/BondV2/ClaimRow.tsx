@@ -1,15 +1,15 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { t, Trans } from "@lingui/macro";
-import { shorten, trim, prettyVestingPeriod } from "../../helpers";
-import { redeemBond } from "../../slices/BondSlice";
-import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
 import "./choosebond.scss";
+
+import { t } from "@lingui/macro";
+import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { useAppSelector, useBonds, useWeb3Context } from "src/hooks";
-import { isPendingTxn, txnButtonText, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
-import { IUserNote, claimSingleNote } from "src/slices/BondSliceV2";
 import { TokenStack } from "@olympusdao/component-library";
+import { useDispatch } from "react-redux";
+import { useAppSelector, useWeb3Context } from "src/hooks";
+import { claimSingleNote, IUserNote } from "src/slices/BondSliceV2";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+
+import { trim } from "../../helpers";
 
 export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gOHM: boolean }) {
   const dispatch = useDispatch();

@@ -105,36 +105,37 @@
     "@typescript-eslint/eslint-plugin": "^5.9.1",
     "@typescript-eslint/parser": "^5.9.1",
     "autoprefixer": "^10.2.4",
-    "eslint": "^7.31.0",
-    "eslint-config-airbnb": "^18.2.0",
-    "eslint-config-prettier": "^6.11.0",
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-babel": "^5.3.1",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "gulp": "^4.0.2",
     "gulp-csso": "^4.0.1",
     "gulp-debug": "^4.0.0",
     "gulp-less": "^5.0.0",
     "gulp-postcss": "^9.0.0",
     "hardhat": "^2.6.7",
+    "husky": "^7.0.4",
     "history": "^5.2.0",
     "jest": "26.6.0",
     "jest-puppeteer": "^6.0.0",
     "less-plugin-npm-import": "^2.1.0",
+    "lint-staged": "^12.1.7",
     "msw": "^0.36.3",
     "pptr-testing-library": "^0.7.0",
-    "prettier": "^2.0.5",
-    "puppeteer": "^13.1.1",
+    "prettier": "^2.5.1",
+    "puppeteer": "^11.0.0",
     "shelljs": "^0.8.5",
     "surge": "^0.21.5",
     "type-graphql": "^1.1.1",
     "typechain": "^6.0.2"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "scripts": {
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
@@ -143,7 +144,8 @@
     "test": "react-scripts test",
     "test:unit": "react-scripts test --testPathPattern=\"(\\.|/|-)unit\\.(test|spec)\\.[jt]sx?$\" --runInBand --watchAll=false --detectOpenHandles --bail --ci --coverage --no-cache",
     "test:e2e": "react-scripts test --testPathPattern=\"(\\.|/|-)e2e\\.(test|spec)\\.[jt]sx?$\" --testTimeout=30000 --runInBand --watchAll=false --detectOpenHandles",
-    "lint": "eslint --config ./.eslintrc.js --ignore-path ./.eslintignore ./src/",
+    "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
+    "lint:fix": "prettier --write ./src/ & yarn lint --fix",
     "surge": "surge ./build",
     "ship": "yarn surge",
     "theme": "npx gulp less",
@@ -161,7 +163,8 @@
     "lingui:fetch": "git submodule update --init --remote src/locales/translations",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "preinstall": "[ ! -e src/locales/translations/.git ] && yarn lingui:fetch || exit 0",
-    "postinstall": "yarn typechain:build && yarn lingui:compile"
+    "postinstall": "yarn typechain:build && yarn lingui:compile",
+    "prepare": "husky install"
   },
   "resolutions": {
     "**/immer": "9.0.6",
@@ -177,5 +180,15 @@
     "**/ejs": "3.1.6",
     "**/ansi-html": "https://registry.yarnpkg.com/ansi-html-community/-/ansi-html-community-0.0.8.tgz",
     "react-error-overlay": "6.0.9"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "!(src/locales)src/**/*.{ts,tsx,js,jsx}": [
+      "yarn lint --fix"
+    ]
   }
 }

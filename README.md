@@ -29,6 +29,9 @@ $ cp .env.example .env
 # fill in your own values in .env, then =>
 $ yarn
 $ yarn start
+
+# Set up Husky (for pre-commit hooks) by running:
+$ yarn prepare
 ```
 
 The site is now running at `http://localhost:3000`!
@@ -171,6 +174,15 @@ cd ../../..
 git add src/locales/translations
 git commit
 ```
+
+## ESLint
+We use ESLint to find/automatically fix problems.
+- react-app and react-hooks/recommended are important with react stuff.
+- @typescript-eslint/recommended and @typescript-eslint/eslint-recommended as recommended defaults.
+- unused-imports to automatically remove unused imports.
+- simple-import-sort to automatically sort imports alphabetically. This is opinionated, but useful because it helps avoid merge conflicts with imports (and who doesn't like neat alphabetically sorted imports anyway).
+- @typescript-eslint/explicit-function-return-type and @typescript-eslint/explicit-module-boundary-types are turned off to prioritise inferred return types over explicit return types. This is opinionated, but often times the inference Typescript makes is good enough, and sometimes help prevents type mismatches that are a pain to debug.
+- @typescript-eslint/ban-ts-comment and @typescript-eslint/ban-ts-ignore are also turned off. This could possibly be temporary, but the ability to use @ts-ignore-like directives is certainly handy as an escape hatch as we encounter errors during the migration to TS.
 
 ## 🚀 Deployment
 

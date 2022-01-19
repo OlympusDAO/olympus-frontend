@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { close, handle_obsolete } from "../../slices/MessagesSlice";
-import store from "../../store";
-import { LinearProgress, Snackbar, makeStyles } from "@material-ui/core";
+import "./ConsoleInterceptor.js";
+
+import { LinearProgress, makeStyles, Snackbar } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
-import "./ConsoleInterceptor.js";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { close, handle_obsolete } from "../../slices/MessagesSlice";
+import store from "../../store";
 
 const useStyles = makeStyles({
   root: {
@@ -78,7 +80,6 @@ function Messages() {
       </div>
     </div>
   );
-  return res;
 }
 // Invoke repetedly obsolete messages deletion (should be in slice file but I cannot find a way to access the store from there)
 window.setInterval(() => {

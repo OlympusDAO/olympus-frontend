@@ -1,8 +1,9 @@
-import { useSelector } from "react-redux";
-import { Box, Typography, Button, SvgIcon } from "@material-ui/core";
-import { t, Trans } from "@lingui/macro";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import "./calltoaction.scss";
+
+import { t, Trans } from "@lingui/macro";
+import { Box, Button, SvgIcon, Typography } from "@material-ui/core";
+
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 
 export const LearnMoreButton = () => {
   return (
