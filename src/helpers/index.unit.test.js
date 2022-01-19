@@ -26,7 +26,11 @@ test("getTokenPrice returns 0 on remote call exceptions", async () => {
   expect(price).toEqual(0);
 });
 
-test("getTokenPrice via api.olympusdao.finance (real)", async () => {
+/**
+ * Enable this test when api.olympusdao.finance allows anon hits.
+ * Otherwise it throws a CORS access error and the test fails.
+ */
+test.skip("getTokenPrice via api.olympusdao.finance (real)", async () => {
   const theSpiedMethod = jest.spyOn(axios, "get");
   when(theSpiedMethod)
     .calledWith(expect.stringMatching("https://api.coingecko.com"))
@@ -37,6 +41,7 @@ test("getTokenPrice via api.olympusdao.finance (real)", async () => {
   let price = await getTokenPrice("olympus");
   expect(price).toBeGreaterThan(1);
 });
+
 
 test("getTokenPrice via api.olympusdao.finance (mock)", async () => {
   const resp = { data: { coingeckoTicker: { value: 356 } } };
