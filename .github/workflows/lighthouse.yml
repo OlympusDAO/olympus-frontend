@@ -34,7 +34,7 @@ jobs:
     - uses: SFDigitalServices/wait-for-deployment-action@v1
       id: deployment
       with:
-        token: ${{ github.token }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         environment: Preview
     - name: Get the output url
       run: |
