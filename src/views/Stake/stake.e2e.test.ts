@@ -15,7 +15,7 @@ import {
 
 const STAKE_AMOUNT = 0.1;
 
-describe.skip("staking", () => {
+describe.skip("Staking", () => {
   it("cannot stake without connected wallet", async () => {
     const { page } = dapp;
 
