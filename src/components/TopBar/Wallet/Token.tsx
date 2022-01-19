@@ -298,6 +298,7 @@ export const useWallet = (
       balance: connectedChainBalances.sohm,
       price: ohmPrice || 0,
       vaultBalances: {
+        "gOHM on Tokemak": connectedChainBalances.gOhmOnTokemakAsSohm,
         "Fuse Olympus Pool Party": connectedChainBalances.fsohm,
       },
       icon: "sOHM",
@@ -327,6 +328,7 @@ export const useWallet = (
       price: (ohmPrice || 0) * Number(currentIndex || 0),
       crossChainBalances: { balances: gohm, isLoading },
       vaultBalances: {
+        "gOHM on Tokemak": connectedChainBalances.gOhmOnTokemak,
         "Fuse Olympus Pool Party": connectedChainBalances.fgohm,
       },
       icon: "wsOHM",

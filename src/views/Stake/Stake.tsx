@@ -128,6 +128,13 @@ function Stake() {
     return state.account.balances && state.account.balances.gOhmOnFantomAsSohm;
   });
 
+  const gOhmOnTokemak = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnTokemak;
+  });
+  const gOhmOnTokemakAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnTokemakAsSohm;
+  });
+
   const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
   const stakeAllowance = useAppSelector(state => {
@@ -540,6 +547,14 @@ function Stake() {
                             balance={`${trim(Number(gOhmOnFantom), 4)} gOHM`}
                             indented
                             {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(gOhmOnTokemak) > 0.00009 && (
+                          <DataRow
+                            title={`${t`gOHM (Tokemak)`}`}
+                            balance={`${trim(Number(gOhmOnTokemak), 4)} gOHM`}
+                            indented
+                            isLoading={isAppLoading}
                           />
                         )}
                         {Number(fgohmBalance) > 0.00009 && (
