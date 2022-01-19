@@ -1,7 +1,8 @@
 {
   "ci": {
     "collect": {
-      "numberOfRuns": 3
+      "numberOfRuns": 3,
+      "startServerCommand": "yarn start"
     },
     "assert": {
       "preset": "lighthouse:recommended",
