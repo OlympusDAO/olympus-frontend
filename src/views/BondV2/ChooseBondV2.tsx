@@ -42,7 +42,7 @@ function ChooseBondV2() {
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
   const bondsV2 = useAppSelector(state => {
-    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
+    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]).sort((a, b) => b.discount - a.discount);
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
