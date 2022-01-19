@@ -1,12 +1,13 @@
 import "@testing-library/jest-dom";
+
 import {
-  dapp,
   clickElement,
   connectWallet,
-  selectorExists,
-  waitSelectorExists,
+  dapp,
   getSelectorTextContent,
+  selectorExists,
   typeValue,
+  waitSelectorExists,
 } from "../../../tests/e2e/testHelpers";
 
 // TODO deploy contracts on temporary network

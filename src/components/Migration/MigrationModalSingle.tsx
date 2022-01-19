@@ -1,30 +1,29 @@
+import "./migration-modal.scss";
+
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
   Button,
-  SvgIcon,
+  Tab,
   Table,
+  TableBody,
   TableCell,
   TableHead,
   TableRow,
-  TableBody,
-  Typography,
-  Tab,
   Tabs,
+  Typography,
 } from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch } from "react-redux";
-import { changeMigrationApproval, migrateSingle, TokenType } from "src/slices/MigrateThunk";
-import { useWeb3Context } from "src/hooks";
-import { useMemo, useState } from "react";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { InfoTooltip, Modal } from "@olympusdao/component-library";
-import "./migration-modal.scss";
-import { useAppSelector } from "src/hooks";
+import { ChangeEvent, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
-import { t, Trans } from "@lingui/macro";
+import { useWeb3Context } from "src/hooks";
+import { useAppSelector } from "src/hooks";
+import { changeMigrationApproval, migrateSingle, TokenType } from "src/slices/MigrateThunk";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+
 const formatCurrency = (c: number) => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -47,7 +46,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
   const { provider, address, networkId } = useWeb3Context();
 
   const [view, setView] = useState(0);
-  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import "../Stake/stake.scss";
+
+import { t } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -9,37 +10,29 @@ import {
   InputAdornment,
   InputLabel,
   Link,
+  MenuItem,
   OutlinedInput,
   Paper,
-  Tab,
-  Tabs,
+  Select,
+  SvgIcon,
   Typography,
   Zoom,
-  SvgIcon,
-  makeStyles,
-  Select,
-  MenuItem,
 } from "@material-ui/core";
-import { InfoTooltip } from "@olympusdao/component-library";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-
-import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
-import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
-import { migrateWithType, migrateCrossChainWSOHM } from "../../slices/MigrateThunk";
-import { switchNetwork } from "../../helpers/NetworkHelper";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
-import { error } from "../../slices/MessagesSlice";
-import { NETWORKS } from "../../constants";
-import { ethers } from "ethers";
-import "../Stake/stake.scss";
 import { Metric, MetricCollection } from "@olympusdao/component-library";
-import { t } from "@lingui/macro";
-import { useAppSelector } from "src/hooks";
-import WrapCrossChain from "./WrapCrossChain";
-import { loadAccountDetails } from "src/slices/AccountSlice";
 import { DataRow } from "@olympusdao/component-library";
+import { useCallback, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
+
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { NETWORKS } from "../../constants";
+import { formatCurrency, trim } from "../../helpers";
+import { switchNetwork } from "../../helpers/NetworkHelper";
+import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
+import WrapCrossChain from "./WrapCrossChain";
 
 function Wrap() {
   const dispatch = useDispatch();

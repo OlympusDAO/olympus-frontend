@@ -1,5 +1,5 @@
-import { Box, Grid, Typography, useMediaQuery } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
+import { Box, Grid, Typography, useMediaQuery } from "@material-ui/core";
 import { Token, TokenStack } from "@olympusdao/component-library";
 
 export default function ZapStakeHeader({ images }) {
