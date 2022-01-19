@@ -17,7 +17,7 @@ jobs:
           ref: ${{ github.ref }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           running-workflow-name: wait-for-check-regexp
-          check-regexp: ".*"
+          check-regexp: "*"
       - name: print github env vars
         env:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
