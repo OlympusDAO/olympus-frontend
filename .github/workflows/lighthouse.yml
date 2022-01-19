@@ -3,8 +3,6 @@ name: Lighthouse PWA Test
 on:
   push:
     branches: [ master, develop ]
-  pull_request:
-    branches: [ master, develop ]
 
 jobs:
   lighthouse-local:
