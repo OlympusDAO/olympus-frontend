@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [ master, develop ]
 
+#
 jobs:
   lighthouse-local:
     runs-on: ubuntu-latest
