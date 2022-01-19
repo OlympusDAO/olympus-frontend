@@ -14,7 +14,6 @@
     ]
   },
   "jest": {
-    "displayName": "OlympusDAO Front End Tests",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
