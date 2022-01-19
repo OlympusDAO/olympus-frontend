@@ -17,7 +17,7 @@ jobs:
           ref: ${{ github.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           running-workflow-name: wait-for-check-regexp
-          check-regexp: ".*Preview ready.*"
+          check-regexp: ".*"
       - name: print github env vars
         env:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
