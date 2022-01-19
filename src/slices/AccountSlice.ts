@@ -149,8 +149,6 @@ export const getBalances = createAsyncThunk(
       const tokemakProvider = NodeHelper.getAnynetStaticProvider(NetworkId.MAINNET);
       const gOhmTokemakContract = GOHM__factory.connect(addresses[NetworkId.MAINNET].TOKEMAK_GOHM, tokemakProvider);
       gOhmOnTokemak = await gOhmTokemakContract.balanceOf(address);
-      console.log("test123");
-      console.log(gOhmOnTokemak);
       gOhmOnTokemakAsSohm = await gOhmContract.balanceFrom(gOhmOnTokemak.toString());
     } catch (e) {
       handleContractError(e);
