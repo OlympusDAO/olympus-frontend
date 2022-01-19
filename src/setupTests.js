@@ -9,9 +9,9 @@ import { i18n } from "@lingui/core";
 import { setupServer } from "msw/node";
 
 import handlers from "./testHandlers";
-
 i18n.activate("en");
-
+import { fetchLocale } from "./locales";
+const DEFAULT_LOCALE = "en";
 // import { launchDApp, launchNode } from "./e2e/puppeteer/testHelpers";
 
 // TODO add jest-puppeteer preset
@@ -41,8 +41,13 @@ jest.mock("react-router-dom", () => {
 
 const server = setupServer(...handlers);
 
-// Enable API mocking before tests.
-beforeAll(() => server.listen({ onUnhandledRequest: "bypass" }));
+fetchLocale(DEFAULT_LOCALE);
+
+beforeAll(() => {
+  // Enable API mocking before tests.
+  server.listen({ onUnhandledRequest: "bypass" });
+  i18n.activate(DEFAULT_LOCALE);
+});
 
 // Reset any runtime request handlers we may add during the tests.
 afterEach(() => server.resetHandlers());

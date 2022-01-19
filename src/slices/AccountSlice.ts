@@ -1,3 +1,4 @@
+import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { BigNumber, BigNumberish, ethers } from "ethers";
 import { EnvHelper } from "src/helpers/Environment";
@@ -512,6 +513,7 @@ export interface IUserBondDetails {
   readonly interestDue: number;
   readonly bondMaturationBlock: number;
   readonly pendingPayout: string; //Payout formatted in gwei.
+  readonly bondIconSvg: OHMTokenStackProps["tokens"]; //Payout formatted in gwei.
 }
 export const calculateUserBondDetails = createAsyncThunk(
   "account/calculateUserBondDetails",
@@ -520,7 +522,7 @@ export const calculateUserBondDetails = createAsyncThunk(
       return {
         bond: "",
         displayName: "",
-        bondIconSvg: "",
+        bondIconSvg: [],
         isLP: false,
         allowance: 0,
         balance: "0",

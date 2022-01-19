@@ -1,11 +1,11 @@
 import { t } from "@lingui/macro";
 import { IconButton, Link, SvgIcon, Typography } from "@material-ui/core";
+import { TokenStack } from "@olympusdao/component-library";
 import { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 
 import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import BondLogo from "../../components/BondLogo";
 import useEscape from "../../hooks/useEscape";
 import AdvancedSettings from "./AdvancedSettings";
 
@@ -35,7 +35,7 @@ function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange
         </Link>
 
         <div className="bond-header-logo">
-          <BondLogo bond={bond} />
+          <TokenStack tokens={bond.bondIconSvg} />
           <div className="bond-header-name">
             <Typography variant="h5">{bond.displayName}</Typography>
           </div>

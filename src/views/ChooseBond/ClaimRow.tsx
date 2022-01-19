@@ -3,12 +3,12 @@ import "./choosebond.scss";
 import { t } from "@lingui/macro";
 import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { TokenStack } from "@olympusdao/component-library";
 import { useDispatch } from "react-redux";
 import { useAppSelector, useBonds, useWeb3Context } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
-import BondLogo from "../../components/BondLogo";
 import { prettyVestingPeriod, trim } from "../../helpers";
 import { redeemBond } from "../../slices/BondSlice";
 
@@ -43,7 +43,7 @@ export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondD
   return (
     <TableRow id={`${bondName}--claim`}>
       <TableCell align="left" className="bond-name-cell">
-        <BondLogo bond={bond} />
+        <TokenStack tokens={bond.bondIconSvg} />
         <div className="bond-name">
           <Typography variant="body1">
             {/* 0xdavinchee: we were previously trimmming the bond display name-I don't think this was the intent */}
@@ -107,7 +107,7 @@ export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDe
   return (
     <Box id={`${bondName}--claim`} className="claim-bond-data-card bond-data-card" style={{ marginTop: "10px" }}>
       <Box className="bond-pair">
-        <BondLogo bond={bond} />
+        <TokenStack tokens={bond.bondIconSvg} />
         <Box className="bond-name">
           <Typography>{bond.displayName ? trim(bond.displayName as any, 4) : <Skeleton width={100} />}</Typography>
         </Box>

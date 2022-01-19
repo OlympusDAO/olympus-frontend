@@ -1,9 +1,7 @@
 import "./treasury-dashboard.scss";
 
-import { Trans } from "@lingui/macro";
-import { Box, Container, Grid, Typography, useMediaQuery, Zoom } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
-import { Icon, MetricCollection, Paper } from "@olympusdao/component-library";
+import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
+import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { memo } from "react";
 
 import {
@@ -38,26 +36,6 @@ const TreasuryDashboard = memo(() => {
               <CurrentIndex />
             </MetricCollection>
           </Paper>
-        </Box>
-        <Box className="hero-metrics" style={{ marginTop: "20px" }}>
-          <Alert
-            variant="filled"
-            icon={false}
-            severity={`info`}
-            // NOTE (appleseed): mui includes overflow-wrap: "break-word", but word-break: "break-word" is needed for webKit browsers
-            style={{ wordBreak: "break-word" }}
-          >
-            <Box alignItems={"center"} display={"flex"}>
-              <Icon name={"info-fill"} />
-              <Box width={10} />
-              <Typography>
-                <Trans>
-                  Olympus is currently migrating to improved contracts. Please note that during this time, frontend
-                  metrics may be inaccurate.
-                </Trans>
-              </Typography>
-            </Box>
-          </Alert>
         </Box>
 
         <Zoom in={true}>

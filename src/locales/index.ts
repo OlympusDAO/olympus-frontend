@@ -1,9 +1,10 @@
 import { i18n } from "@lingui/core";
+import { OHMLocaleSwitcherProps } from "@olympusdao/component-library";
 import { ar, en, es, fr, ko, tr, vi, zh } from "make-plural/plurals";
 
 // Declare locales
 interface ILocale {
-  flag: string;
+  flag: OHMLocaleSwitcherProps["locales"]["locale"]["flag"];
   plurals: (n: number | string, ord?: boolean) => "zero" | "one" | "two" | "few" | "many" | "other";
   direction: "inherit" | "rtl";
 }
@@ -30,7 +31,7 @@ for (const [key, locale] of Object.entries(locales)) {
   i18n.loadLocaleData(key, { plurals: locale.plurals });
 }
 
-async function fetchLocale(locale = "en") {
+export async function fetchLocale(locale = "en") {
   const { messages } = await import(
     /* webpackChunkName: "[request]" */ `../locales/translations/olympus-frontend/${locale}/messages`
   );

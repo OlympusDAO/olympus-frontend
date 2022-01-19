@@ -1,13 +1,5 @@
+import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { ethers } from "ethers";
-import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
-import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
-import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
-import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
-import { ReactComponent as OhmEthImg } from "src/assets/tokens/OHM-WETH.svg";
-import { ReactComponent as OhmImg } from "src/assets/tokens/token_OHM.svg";
-import { ReactComponent as UstImg } from "src/assets/tokens/UST.svg";
-import { ReactComponent as wBTCImg } from "src/assets/tokens/wBTC.svg";
-import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
 
 import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
@@ -439,8 +431,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
 // ... stuck on the wrong view
 export interface V2BondDetails {
   name: string;
-  bondIconSvg: SVGImageElement;
-  bondIconViewBox?: string;
+  bondIconSvg: OHMTokenStackProps["tokens"];
   pricingFunction(provider: ethers.providers.JsonRpcProvider, quoteToken: string): Promise<number>;
   isLP: boolean;
   lpUrl: { [key: number]: string };
@@ -448,7 +439,7 @@ export interface V2BondDetails {
 
 const DaiDetails: V2BondDetails = {
   name: "DAI",
-  bondIconSvg: DaiImg,
+  bondIconSvg: ["DAI"],
   pricingFunction: async () => {
     return getTokenPrice("dai");
   },
@@ -458,7 +449,7 @@ const DaiDetails: V2BondDetails = {
 
 const FraxDetails: V2BondDetails = {
   name: "FRAX",
-  bondIconSvg: FraxImg,
+  bondIconSvg: ["FRAX"],
   pricingFunction: async () => {
     return 1.0;
   },
@@ -468,7 +459,7 @@ const FraxDetails: V2BondDetails = {
 
 const EthDetails: V2BondDetails = {
   name: "ETH",
-  bondIconSvg: wETHImg,
+  bondIconSvg: ["wETH"],
   pricingFunction: async () => {
     return getTokenPrice("ethereum");
   },
@@ -478,7 +469,7 @@ const EthDetails: V2BondDetails = {
 
 const CvxDetails: V2BondDetails = {
   name: "CVX",
-  bondIconSvg: CvxImg,
+  bondIconSvg: ["CVX"],
   pricingFunction: async () => {
     return getTokenPrice("convex-finance");
   },
@@ -488,8 +479,7 @@ const CvxDetails: V2BondDetails = {
 
 const UstDetails: V2BondDetails = {
   name: "UST",
-  bondIconSvg: UstImg,
-  bondIconViewBox: "0 0 80 80",
+  bondIconSvg: ["UST"],
   pricingFunction: async () => {
     return getTokenByContract("0xa693b19d2931d498c5b318df961919bb4aee87a5");
   },
@@ -499,8 +489,7 @@ const UstDetails: V2BondDetails = {
 
 const WbtcDetails: V2BondDetails = {
   name: "wBTC",
-  bondIconSvg: wBTCImg,
-  bondIconViewBox: "0 0 109 109",
+  bondIconSvg: ["wBTC"],
   pricingFunction: async () => {
     return getTokenByContract("0x2260fac5e5542a773aa44fbcfedf7c193bc2c599");
   },
@@ -510,7 +499,7 @@ const WbtcDetails: V2BondDetails = {
 
 const OhmDaiDetails: V2BondDetails = {
   name: "OHM-DAI LP",
-  bondIconSvg: OhmDaiImg,
+  bondIconSvg: ["OHM", "DAI"],
   async pricingFunction(provider, quoteToken) {
     return pricingFunctionHelper(provider, quoteToken, "olympus", "dai");
   },
@@ -525,7 +514,7 @@ const OhmDaiDetails: V2BondDetails = {
 
 const OhmEthDetails: V2BondDetails = {
   name: "OHM-ETH LP",
-  bondIconSvg: OhmEthImg,
+  bondIconSvg: ["OHM", "wETH"],
   async pricingFunction(provider, quoteToken) {
     return pricingFunctionHelper(provider, quoteToken, "olympus", "ethereum");
   },
@@ -564,7 +553,7 @@ const pricingFunctionHelper = async (
 
 export const UnknownDetails: V2BondDetails = {
   name: "unknown",
-  bondIconSvg: OhmImg,
+  bondIconSvg: ["OHM"],
   pricingFunction: async () => {
     return 1;
   },

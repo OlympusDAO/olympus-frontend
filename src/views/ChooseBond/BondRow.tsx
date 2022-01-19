@@ -3,18 +3,17 @@ import "./choosebond.scss";
 import { t, Trans } from "@lingui/macro";
 import { Button, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { IAllBondData } from "src/hooks/Bonds";
 import { Bond, CustomBond, LPBond } from "src/lib/Bond";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import BondLogo from "../../components/BondLogo";
-import { useWeb3Context } from "../../hooks/web3Context";
+import { useWeb3Context } from "../../hooks";
 import { DisplayBondDiscount, DisplayBondPrice } from "../Bond/Bond";
 
 type BondUnion = CustomBond | LPBond;
-type OnChainProvider = ReturnType<typeof useWeb3Context>;
 
 export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
   const { networkId } = useWeb3Context();
@@ -27,7 +26,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
     <Slide direction="up" in={true}>
       <Paper id={`${bond.name}--bond`} className="bond-data-card ohm-card">
         <div className="bond-pair">
-          <BondLogo bond={bond} />
+          <TokenStack tokens={bond.bondIconSvg} />
           <div className="bond-name">
             <Typography>{bond.displayName}</Typography>
             {bond.isLP && (
@@ -111,7 +110,7 @@ export function BondTableData({ bond }: { bond: Bond }) {
   return (
     <TableRow id={`${bond.name}--bond`}>
       <TableCell align="left" className="bond-name-cell">
-        <BondLogo bond={bond} />
+        <TokenStack tokens={bond.bondIconSvg} />
         <div className="bond-name">
           <Typography variant="body1">{allBondData.displayName}</Typography>
           {bond.isLP && (

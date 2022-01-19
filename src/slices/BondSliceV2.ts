@@ -1,3 +1,4 @@
+import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
 import { addresses, NetworkId, UnknownDetails, V2BondDetails, v2BondDetails } from "src/constants";
@@ -41,6 +42,7 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   maxPayoutInQuoteToken: string;
   maxPayoutOrCapacityInQuote: string;
   maxPayoutOrCapacityInBase: string;
+  bondIconSvg: OHMTokenStackProps["tokens"];
 }
 
 export interface IBondV2Balance {
@@ -98,6 +100,7 @@ export interface IUserNote {
   claimed: boolean;
   displayName: string;
   quoteToken: string;
+  bondIconSvg: OHMTokenStackProps["tokens"];
   index: number;
 }
 
@@ -290,6 +293,7 @@ async function processBond(
     soldOut,
     maxPayoutOrCapacityInQuote,
     maxPayoutOrCapacityInBase,
+    bondIconSvg: v2BondDetail.bondIconSvg,
   };
 }
 
@@ -307,14 +311,19 @@ export const getAllBonds = createAsyncThunk(
 
     for (let i = 0; i < liveBondIndexes.length; i++) {
       const bondIndex = +liveBondIndexes[i];
-      const bond: IBondV2Core = await liveBondPromises[i];
-      const bondMetadata: IBondV2Meta = await liveBondMetadataPromises[i];
-      const bondTerms: IBondV2Terms = await liveBondTermsPromises[i];
-      const finalBond = await processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
-      liveBonds.push(finalBond);
+      try {
+        const bond: IBondV2Core = await liveBondPromises[i];
+        const bondMetadata: IBondV2Meta = await liveBondMetadataPromises[i];
+        const bondTerms: IBondV2Terms = await liveBondTermsPromises[i];
+        const finalBond = await processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
+        liveBonds.push(finalBond);
 
-      if (address) {
-        dispatch(getTokenBalance({ provider, networkID, address, value: finalBond.quoteToken }));
+        if (address) {
+          dispatch(getTokenBalance({ provider, networkID, address, value: finalBond.quoteToken }));
+        }
+      } catch (e) {
+        console.log("getAllBonds Error for Bond Index: ", bondIndex);
+        console.log(e);
       }
     }
     return liveBonds;
@@ -379,6 +388,7 @@ export const getUserNotes = createAsyncThunk(
         displayName: bond?.displayName,
         quoteToken: bond.quoteToken.toLowerCase(),
         index: +userNoteIndexes[i],
+        bondIconSvg: bond?.bondIconSvg,
       };
       notes.push(note);
     }
