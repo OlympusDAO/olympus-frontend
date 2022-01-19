@@ -128,16 +128,10 @@
     "jest-puppeteer": "^6.0.0",
     "jest-when": "^3.5.0",
     "less-plugin-npm-import": "^2.1.0",
-<<<<<<< HEAD
     "msw": "^0.36.4",
-    "pptr-testing-library": "^0.6.5",
-    "prettier": "^2.0.5",
-=======
     "lint-staged": "^12.1.7",
-    "msw": "^0.36.3",
     "pptr-testing-library": "^0.7.0",
     "prettier": "^2.5.1",
->>>>>>> 2b69877c95da1462fa154ba34a3116c851da58be
     "puppeteer": "^11.0.0",
     "shelljs": "^0.8.5",
     "surge": "^0.21.5",
