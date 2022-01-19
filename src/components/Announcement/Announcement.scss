@@ -1,0 +1,31 @@
+.announcement-banner {
+  z-index: 5;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.9rem auto;
+  width: 100%;
+  .new-network {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .MuiPaper-root {
+    border-radius: 10px;
+  }
+
+  @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .new-network {
+      background: linear-gradient(90deg, #3a4148ee 1.58%, #333847ff 99%) !important;
+    }
+  }
+}
+
+.mobile .announcement-banner {
+  top: unset;
+  bottom: 0 !important;
+  margin: 0;
+  left: 0;
+  right: 0;
+  max-width: 100%;
+  position: fixed;
+}
