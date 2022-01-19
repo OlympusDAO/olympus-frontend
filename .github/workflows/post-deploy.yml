@@ -1,14 +1,23 @@
 name: Test Deployment Preview
 
 on:
-  check_run:
-    types: [rerequested, completed]
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    types: [ opened, synchronize, reopened ]
 
 jobs:
   test-deployment-preview:
     name: Test Deployment Preview
     runs-on: ubuntu-latest
     steps:
+      - name: Wait for Deployment Preview
+        uses: lewagon/wait-on-check-action@v1.1.1
+        with:
+          ref: ${{ github.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          running-workflow-name: wait-for-check-regexp
+          check-regexp: ".*Preview ready.*"
       - name: print github env vars
         env:
           EVENT_CONTEXT: ${{ toJSON(github.event) }}
