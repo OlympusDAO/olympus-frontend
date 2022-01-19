@@ -42,12 +42,13 @@ function BondPurchase({
   });
 
   const [quantity, setQuantity] = useState("");
-  const [maxBondable, setMaxBondable] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
 
   const isBondLoading = useAppSelector(state => state.bondingV2.loading ?? true);
 
   const balance = useAppSelector(state => state.bondingV2.balances[bond.quoteToken]);
+
+  const maxBondable = +bond.maxPayoutOrCapacityInQuote;
 
   const balanceNumber: number = useMemo(
     () => (balance ? +balance.balance / Math.pow(10, bond.quoteDecimals) : 0),
@@ -61,7 +62,7 @@ function BondPurchase({
   async function onBond() {
     if (quantity === "" || Number(quantity) <= 0) {
       dispatch(error(t`Please enter a value!`));
-    } else if (Number(quantity) > +maxBondable) {
+    } else if (Number(quantity) > maxBondable) {
       dispatch(
         error(
           t`Max capacity is ${maxBondable} ${bond.displayName} for ${trim(
@@ -94,7 +95,7 @@ function BondPurchase({
 
   const setMax = () => {
     let maxQ: string;
-    const maxBondableNumber = +maxBondable * 0.999;
+    const maxBondableNumber = maxBondable * 0.999;
     if (balanceNumber > maxBondableNumber) {
       maxQ = maxBondableNumber.toString();
     } else {
@@ -102,11 +103,6 @@ function BondPurchase({
     }
     setQuantity(maxQ);
   };
-
-  // set maxPayout
-  useEffect(() => {
-    setMaxBondable(bond.maxPayoutOrCapacityInQuote);
-  }, [bond.maxPayoutOrCapacityInQuote]);
 
   useEffect(() => {
     let interval: NodeJS.Timer | undefined;
