@@ -13,11 +13,12 @@ import {
 } from "./interfaces";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
 import { addresses, NetworkId, V2BondDetails, v2BondDetails, UnknownDetails } from "src/constants";
-import { getTokenIdByContract, getTokenPrice, prettifySeconds } from "src/helpers";
+import { prettifySeconds } from "src/helpers";
 import { findOrLoadMarketPrice } from "./AppSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { error, info } from "./MessagesSlice";
 import { getBalances } from "./AccountSlice";
+import { OHMTokenStackProps } from "@olympusdao/component-library";
 
 const BASE_TOKEN_DECIMALS: number = 9;
 
@@ -33,6 +34,14 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   isLP: boolean;
   lpUrl: string;
   marketPrice: number;
+  soldOut: boolean;
+  capacityInBaseToken: string;
+  capacityInQuoteToken: string;
+  maxPayoutInBaseToken: string;
+  maxPayoutInQuoteToken: string;
+  maxPayoutOrCapacityInQuote: string;
+  maxPayoutOrCapacityInBase: string;
+  bondIconSvg: OHMTokenStackProps["tokens"];
 }
 
 export interface IBondV2Balance {
@@ -90,6 +99,7 @@ export interface IUserNote {
   claimed: boolean;
   displayName: string;
   quoteToken: string;
+  bondIconSvg: OHMTokenStackProps["tokens"];
   index: number;
 }
 
@@ -217,6 +227,29 @@ async function processBond(
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
   const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;
 
+  let maxPayoutInBaseToken: string,
+    maxPayoutInQuoteToken: string,
+    capacityInBaseToken: string,
+    capacityInQuoteToken: string;
+  if (bond.capacityInQuote) {
+    capacityInBaseToken = ethers.utils.formatUnits(
+      bond.capacity.mul(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)).div(bondPriceBigNumber),
+      BASE_TOKEN_DECIMALS,
+    );
+    capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, metadata.quoteDecimals);
+  } else {
+    capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, BASE_TOKEN_DECIMALS);
+    capacityInQuoteToken = ethers.utils.formatUnits(
+      bond.capacity.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
+      metadata.quoteDecimals,
+    );
+  }
+  maxPayoutInBaseToken = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
+  maxPayoutInQuoteToken = ethers.utils.formatUnits(
+    bond.maxPayout.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
+    metadata.quoteDecimals,
+  );
+
   let seconds = 0;
   if (terms.fixedTerm) {
     const vestingTime = currentTime + terms.vesting;
@@ -231,6 +264,13 @@ async function processBond(
   } else {
     duration = prettifySeconds(seconds);
   }
+
+  // SAFETY CHECKs
+  // 1. check sold out
+  let soldOut = false;
+  if (+capacityInBaseToken < 1 || +maxPayoutInBaseToken < 1) soldOut = true;
+  const maxPayoutOrCapacityInQuote = bond.maxPayout.gt(bond.capacity) ? capacityInQuoteToken : maxPayoutInQuoteToken;
+  const maxPayoutOrCapacityInBase = bond.maxPayout.gt(bond.capacity) ? capacityInBaseToken : maxPayoutInBaseToken;
 
   return {
     ...bond,
@@ -248,6 +288,14 @@ async function processBond(
     lpUrl: v2BondDetail.isLP ? v2BondDetail.lpUrl[networkID] : "",
     marketPrice: ohmPrice,
     quoteToken: bond.quoteToken.toLowerCase(),
+    maxPayoutInQuoteToken,
+    maxPayoutInBaseToken,
+    capacityInQuoteToken,
+    capacityInBaseToken,
+    soldOut,
+    maxPayoutOrCapacityInQuote,
+    maxPayoutOrCapacityInBase,
+    bondIconSvg: v2BondDetail.bondIconSvg,
   };
 }
 
@@ -265,14 +313,19 @@ export const getAllBonds = createAsyncThunk(
 
     for (let i = 0; i < liveBondIndexes.length; i++) {
       const bondIndex = +liveBondIndexes[i];
-      const bond: IBondV2Core = await liveBondPromises[i];
-      const bondMetadata: IBondV2Meta = await liveBondMetadataPromises[i];
-      const bondTerms: IBondV2Terms = await liveBondTermsPromises[i];
-      const finalBond = await processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
-      liveBonds.push(finalBond);
+      try {
+        const bond: IBondV2Core = await liveBondPromises[i];
+        const bondMetadata: IBondV2Meta = await liveBondMetadataPromises[i];
+        const bondTerms: IBondV2Terms = await liveBondTermsPromises[i];
+        const finalBond = await processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
+        liveBonds.push(finalBond);
 
-      if (address) {
-        dispatch(getTokenBalance({ provider, networkID, address, value: finalBond.quoteToken }));
+        if (address) {
+          dispatch(getTokenBalance({ provider, networkID, address, value: finalBond.quoteToken }));
+        }
+      } catch (e) {
+        console.log("getAllBonds Error for Bond Index: ", bondIndex);
+        console.log(e);
       }
     }
     return liveBonds;
@@ -337,6 +390,7 @@ export const getUserNotes = createAsyncThunk(
         displayName: bond?.displayName,
         quoteToken: bond.quoteToken.toLowerCase(),
         index: +userNoteIndexes[i],
+        bondIconSvg: bond?.bondIconSvg,
       };
       notes.push(note);
     }
@@ -406,7 +460,7 @@ export const claimSingleNote = createAsyncThunk(
 // Note(zx): this is a barebones interface for the state. Update to be more accurate
 interface IBondSlice {
   loading: boolean;
-  balanceLoading: boolean;
+  balanceLoading: { [key: string]: boolean };
   notesLoading: boolean;
   indexes: number[];
   balances: { [key: string]: IBondV2Balance };
@@ -416,7 +470,7 @@ interface IBondSlice {
 
 const initialState: IBondSlice = {
   loading: false,
-  balanceLoading: false,
+  balanceLoading: {},
   notesLoading: false,
   indexes: [],
   balances: {},
@@ -453,15 +507,15 @@ const bondingSliceV2 = createSlice({
         state.loading = false;
         console.error(error.message);
       })
-      .addCase(getTokenBalance.pending, state => {
-        state.balanceLoading = true;
+      .addCase(getTokenBalance.pending, (state, action) => {
+        state.balanceLoading[action.meta.arg.value] = true;
       })
       .addCase(getTokenBalance.fulfilled, (state, action) => {
         state.balances[action.payload.tokenAddress] = action.payload;
-        state.balanceLoading = false;
+        state.balanceLoading[action.meta.arg.value] = false;
       })
-      .addCase(getTokenBalance.rejected, (state, { error }) => {
-        state.balanceLoading = false;
+      .addCase(getTokenBalance.rejected, (state, { error, meta }) => {
+        state.balanceLoading[meta.arg.value] = false;
         console.error(error.message);
       })
       .addCase(getUserNotes.pending, state => {

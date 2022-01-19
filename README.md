@@ -2,7 +2,6 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 [![OHM Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/gGZUMVDuhQ)
 
-
 # [Ω Olympus Frontend](https://app.olympusdao.finance/)
 
 This is the front-end repo for Olympus that allows users to be part of the future of _Meta Greece_.
@@ -20,8 +19,8 @@ Required:
 - [Git](https://git-scm.com/downloads)
 
 ```bash
-$ git clone https://github.com/OlympusDAO/olympusdao.git
-$ cd olympusdao
+$ git clone https://github.com/OlympusDAO/olympus-frontend.git
+$ cd olympus-frontend
 
 # set up your environment variables
 # read the comments in the .env files for what is required/optional
@@ -36,6 +35,31 @@ The site is now running at `http://localhost:3000`!
 Open the source code and start editing!
 
 If you would like to run the frontend in a Docker image (e.g. to isolate dependencies and the nodejs version), run `yarn docker-start`.
+
+## Unit Testing
+
+Unit tests are co-located with source code with naming convention `*.unit.test.js`.
+Jest is the test driver. Unit tests are isolated from integration dependencies via mocks; including Web3 RPC APIs and smart contract interactions.
+No local blockchain node is expected to run for unit testing. Hard Hat is not required.
+
+To run all unit test and see coverage report:
+
+```
+yarn test:unit
+```
+
+We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
+When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
+`yarn snapshot`.
+
+## End-to-end testing
+
+Puppeteer (with the Dappeteer addition) is used to do browser-based end-to-end testing.
+
+To run the tests:
+
+- Run the frontend, using `yarn start`
+- In another terminal, run the tests, using `yarn test:e2e`
 
 ## Rinkeby Testing
 

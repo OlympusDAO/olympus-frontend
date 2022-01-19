@@ -24,7 +24,7 @@ import { InfoTooltip } from "@olympusdao/component-library";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 
 import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
-import { changeApproval, changeWrap, changeWrapV2 } from "../../slices/WrapThunk";
+import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
 import { migrateWithType, migrateCrossChainWSOHM } from "../../slices/MigrateThunk";
 import { switchNetwork } from "../../helpers/NetworkHelper";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -36,16 +36,10 @@ import { ethers } from "ethers";
 import "../Stake/stake.scss";
 import { Metric, MetricCollection } from "@olympusdao/component-library";
 import { t } from "@lingui/macro";
-import { useAppSelector } from "src/hooks/index.ts";
-import WrapCrossChain from "./WrapCrossChain.tsx";
+import { useAppSelector } from "src/hooks";
+import WrapCrossChain from "./WrapCrossChain";
 import { loadAccountDetails } from "src/slices/AccountSlice";
 import { DataRow } from "@olympusdao/component-library";
-
-const useStyles = makeStyles(theme => ({
-  textHighlight: {
-    color: theme.palette.highlight,
-  },
-}));
 
 function Wrap() {
   const dispatch = useDispatch();
@@ -62,8 +56,6 @@ function Wrap() {
     return "Transform";
   };
   const currentAction = chooseCurrentAction();
-
-  const classes = useStyles();
 
   const isAppLoading = useSelector(state => state.app.loading);
   const isAccountLoading = useSelector(state => state.account.loading);
@@ -145,14 +137,12 @@ function Wrap() {
     </Button>,
   );
 
-  const changeAssetFrom = event => {
-    setQuantity("");
-    setAssetFrom(event.target.value);
-  };
+  let temporaryStore = assetTo;
 
-  const changeAssetTo = event => {
+  const changeAsset = () => {
     setQuantity("");
-    setAssetTo(event.target.value);
+    setAssetTo(assetFrom);
+    setAssetFrom(temporaryStore);
   };
 
   const approveWrap = token => {
@@ -328,7 +318,7 @@ function Wrap() {
                               id="asset-select"
                               value={assetFrom}
                               label="Asset"
-                              onChange={changeAssetFrom}
+                              onChange={changeAsset}
                               disableUnderline
                             >
                               <MenuItem value={"sOHM"}>sOHM</MenuItem>
@@ -353,7 +343,7 @@ function Wrap() {
                               id="asset-select"
                               value={assetTo}
                               label="Asset"
-                              onChange={changeAssetTo}
+                              onChange={changeAsset}
                               disableUnderline
                             >
                               <MenuItem value={"gOHM"}>gOHM</MenuItem>

@@ -42,7 +42,7 @@ function ChooseBondV2() {
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
   const bondsV2 = useAppSelector(state => {
-    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
+    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]).sort((a, b) => b.discount - a.discount);
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
@@ -52,17 +52,9 @@ function ChooseBondV2() {
     return state.app.marketPrice;
   });
 
-  const treasuryBalance: number | undefined = useAppSelector(state => {
-    if (state.bonding.loading == false) {
-      let tokenBalances = 0;
-      for (const bond in allBondsMap) {
-        if (state.bonding[bond]) {
-          tokenBalances += state.bonding[bond].purchased;
-        }
-      }
-      return tokenBalances;
-    }
-  });
+  const treasuryBalance = useAppSelector(state => state.app.treasuryMarketValue);
+
+  const isBondsLoading = useAppSelector(state => state.bondingV2.loading ?? true);
 
   const formattedTreasuryBalance = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -129,7 +121,13 @@ function ChooseBondV2() {
             />
           </MetricCollection>
 
-          {!isSmallScreen && (
+          {bondsV2.length == 0 && !isBondsLoading && (
+            <Box display="flex" justifyContent="center" marginY="24px">
+              <Typography variant="h4">No active bonds</Typography>
+            </Box>
+          )}
+
+          {!isSmallScreen && bondsV2.length != 0 && (
             <Grid container item>
               <TableContainer>
                 <Table aria-label="Available bonds">

@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CallToAction/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-1 call-to-action ohm-card"
+  >
+    <h5
+      class="MuiTypography-root MuiTypography-h5"
+      style="font-size: 20px; font-weight: 600;"
+    >
+      You have assets ready to migrate to v2
+    </h5>
+    <div
+      class="actionable"
+    >
+      <a
+        aria-disabled="false"
+        class="MuiButtonBase-root MuiButton-root MuiButton-outlined learn-more-button MuiButton-outlinedSecondary MuiButton-disableElevation"
+        href="https://docs.olympusdao.finance/main/basics/migration"
+        tabindex="0"
+        target="_blank"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1"
+          >
+            Learn More
+          </p>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall"
+            focusable="false"
+            viewBox="0 0 20 20"
+          >
+            arrow-up.svg
+          </svg>
+        </span>
+      </a>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained migrate-button MuiButton-containedPrimary MuiButton-disableElevation"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          Get Started
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;

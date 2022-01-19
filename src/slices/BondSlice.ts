@@ -65,16 +65,17 @@ export const changeApproval = createAsyncThunk(
 );
 
 export interface IBondDetails {
-  bond: string;
-  bondDiscount: number;
-  debtRatio: number;
-  bondQuote: number;
-  purchased: number;
-  vestingTerm: number;
-  maxBondPrice: number;
-  bondPrice: number;
-  marketPrice: number;
+  readonly bond: string;
+  readonly bondDiscount: number;
+  readonly debtRatio: number;
+  readonly bondQuote: number;
+  readonly purchased: number;
+  readonly vestingTerm?: number;
+  readonly maxBondPrice: number;
+  readonly bondPrice: number;
+  readonly marketPrice: number;
 }
+
 export const calcBondDetails = createAsyncThunk(
   "bonding/calcBondDetails",
   async ({ bond, value, provider, networkID }: ICalcBondDetailsAsyncThunk, { dispatch }): Promise<IBondDetails> => {
@@ -246,10 +247,10 @@ export const bondAsset = createAsyncThunk(
         ReactGA.event({
           category: "Bonds",
           action: uaData.type ?? "unknown",
-          value: parseFloat(uaData.value),
           label: uaData.bondName,
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
+          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(bondTx.hash));
       }

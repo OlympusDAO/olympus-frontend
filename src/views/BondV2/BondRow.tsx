@@ -1,6 +1,5 @@
-import BondLogo from "../../components/BondLogo";
 import { DisplayBondPrice, DisplayBondDiscount } from "./BondV2";
-import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
+import { Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
@@ -8,6 +7,7 @@ import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
 import { IBondV2 } from "src/slices/BondSliceV2";
 import { useAppSelector } from "src/hooks";
+import { TokenStack } from "@olympusdao/component-library";
 
 export function BondDataCard({ bond }: { bond: IBondV2 }) {
   const isBondLoading = useAppSelector(state => state.bondingV2.loading);
@@ -16,7 +16,7 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
     <Slide direction="up" in={true}>
       <Paper id={`${bond.index}--bond`} className="bond-data-card ohm-card">
         <div className="bond-pair">
-          <BondLogo bond={bond} />
+          <TokenStack tokens={bond.bondIconSvg} />
           <div className="bond-name">
             <Typography>{bond.displayName}</Typography>
             {bond.isLP && (
@@ -72,12 +72,8 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
           </Typography>
         </div> */}
         <Link component={NavLink} to={`/bonds/${bond.index}`}>
-          <Button variant="outlined" color="primary" fullWidth>
-            <Typography variant="h5">
-              {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
-              {/* {!bond.isBondable[networkId] ? t`Sold Out` : t`Bond ${bond.displayName}`} */}
-              {t`Bond ${bond.displayName}`}
-            </Typography>
+          <Button variant="outlined" color="primary" fullWidth disabled={bond.soldOut}>
+            <Typography variant="h5">{bond.soldOut ? t`Sold Out` : t`Bond ${bond.displayName}`}</Typography>
           </Button>
         </Link>
       </Paper>
@@ -93,7 +89,7 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
   return (
     <TableRow id={`${bond.index}--bond`}>
       <TableCell align="left" className="bond-name-cell">
-        <BondLogo bond={bond} />
+        <TokenStack tokens={bond.bondIconSvg} />
         <div className="bond-name">
           <Typography variant="body1">{bond.displayName}</Typography>
           {bond.isLP && (
@@ -118,10 +114,8 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
       <TableCell align="left">{isBondLoading ? <Skeleton /> : bond.duration}</TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.index}`}>
-          <Button variant="outlined" color="primary" style={{ width: "100%" }}>
-            {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
-            {/* <Typography variant="h6">{!bond.isBondable[networkId] ? t`Sold Out` : t`do_bond`}</Typography> */}
-            <Typography variant="h6">{t`do_bond`}</Typography>
+          <Button variant="outlined" color="primary" style={{ width: "100%" }} disabled={bond.soldOut}>
+            <Typography variant="h6">{bond.soldOut ? t`Sold Out` : t`do_bond`}</Typography>
           </Button>
         </Link>
       </TableCell>
