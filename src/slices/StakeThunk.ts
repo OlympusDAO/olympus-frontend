@@ -223,10 +223,10 @@ export const changeStake = createAsyncThunk(
         ReactGA.event({
           category: "Staking",
           action: uaData.type ?? "unknown",
-          value: parseFloat(uaData.value),
           label: uaData.txHash ?? "unknown",
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
+          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(stakeTx.hash));
       }

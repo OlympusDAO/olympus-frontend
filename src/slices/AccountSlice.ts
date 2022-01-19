@@ -29,6 +29,7 @@ import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { IUserNote } from "./BondSliceV2";
+import { OHMTokenStackProps } from "@olympusdao/component-library";
 
 interface IUserBalances {
   balances: {
@@ -223,7 +224,7 @@ export const getBalances = createAsyncThunk(
       handleContractError(e);
     }
     /*
-      Needed a sOHM contract on testnet that could easily 
+      Needed a sOHM contract on testnet that could easily
       be manually rebased to test redeem features
     */
     if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {
@@ -379,6 +380,10 @@ export const getMockRedemptionBalances = createAsyncThunk(
 );
 
 interface IUserAccountDetails {
+  staking: {
+    ohmStake: number;
+    ohmUnstake: number;
+  };
   wrapping: {
     sohmWrap: number;
     wsohmUnwrap: number;
@@ -512,10 +517,14 @@ export const loadAccountDetails = createAsyncThunk(
 
 export interface IUserBondDetails {
   // bond: string;
-  allowance: number;
-  interestDue: number;
-  bondMaturationBlock: number;
-  pendingPayout: string; //Payout formatted in gwei.
+  readonly bond: string;
+  readonly balance: string;
+  readonly displayName: string;
+  readonly allowance: number;
+  readonly interestDue: number;
+  readonly bondMaturationBlock: number;
+  readonly pendingPayout: string; //Payout formatted in gwei.
+  readonly bondIconSvg: OHMTokenStackProps["tokens"]; //Payout formatted in gwei.
 }
 export const calculateUserBondDetails = createAsyncThunk(
   "account/calculateUserBondDetails",
@@ -524,7 +533,7 @@ export const calculateUserBondDetails = createAsyncThunk(
       return {
         bond: "",
         displayName: "",
-        bondIconSvg: "",
+        bondIconSvg: [],
         isLP: false,
         allowance: 0,
         balance: "0",

@@ -1,16 +1,6 @@
 import { StableBond, LPBond, CustomBond, BondType } from "src/lib/Bond";
 import { addresses, NetworkId } from "src/constants";
 
-import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
-import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
-import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
-import { ReactComponent as OhmFraxImg } from "src/assets/tokens/OHM-FRAX.svg";
-import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
-import { ReactComponent as OhmEthImg } from "src/assets/tokens/OHM-WETH.svg";
-import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
-import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
-import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
-
 import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
 import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
 import { abi as BondOhmLusdContract } from "src/abi/bonds/OhmLusdContract.json";
@@ -40,7 +30,7 @@ export const dai = new StableBond({
   bondToken: "DAI",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: DaiImg,
+  bondIconSvg: ["DAI"],
   bondContractABI: DaiBondContract,
   isBondable: {
     [NetworkId.MAINNET]: false,
@@ -76,6 +66,10 @@ export const dai = new StableBond({
       bondAddress: "0xDea5668E815dAF058e3ecB30F645b04ad26374Cf",
       reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C",
     },
+    [NetworkId.Localhost]: {
+      bondAddress: "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
+      reserveAddress: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    },
   },
 });
 
@@ -85,7 +79,7 @@ export const fraxOld = new StableBond({
   bondToken: "FRAX",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: FraxImg,
+  bondIconSvg: ["FRAX"],
   bondContractABI: FraxBondContract,
   isBondable: {
     [NetworkId.MAINNET]: false,
@@ -130,7 +124,7 @@ export const frax = new StableBond({
   bondToken: "FRAX",
   payoutToken: "OHM",
   v2Bond: true,
-  bondIconSvg: FraxImg,
+  bondIconSvg: ["FRAX"],
   bondContractABI: FraxBondContract,
   isBondable: {
     [NetworkId.MAINNET]: true,
@@ -166,6 +160,10 @@ export const frax = new StableBond({
       bondAddress: "0xF651283543fB9D61A91f318b78385d187D300738",
       reserveAddress: "0x2F7249cb599139e560f0c81c269Ab9b04799E453",
     },
+    [NetworkId.Localhost]: {
+      bondAddress: "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
+      reserveAddress: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+    },
   },
 });
 
@@ -175,7 +173,7 @@ export const lusd = new StableBond({
   bondToken: "LUSD",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: LusdImg,
+  bondIconSvg: ["LUSD"],
   bondContractABI: LusdBondContract,
   isBondable: {
     [NetworkId.MAINNET]: false,
@@ -211,6 +209,11 @@ export const lusd = new StableBond({
       bondAddress: "0x3aD02C4E4D1234590E87A1f9a73B8E0fd8CF8CCa",
       reserveAddress: "0x45754dF05AA6305114004358eCf8D04FF3B84e26",
     },
+    // FIXME
+    [NetworkId.Localhost]: {
+      bondAddress: "0x3aD02C4E4D1234590E87A1f9a73B8E0fd8CF8CCa",
+      reserveAddress: "0x45754dF05AA6305114004358eCf8D04FF3B84e26",
+    },
   },
 });
 
@@ -222,7 +225,7 @@ export const eth = new CustomBond({
   bondToken: "wETH",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: wETHImg,
+  bondIconSvg: ["wETH"],
   bondContractABI: EthBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
   isBondable: {
@@ -259,6 +262,11 @@ export const eth = new CustomBond({
       bondAddress: "0xca7b90f8158A4FAA606952c023596EE6d322bcf0",
       reserveAddress: "0xc778417e063141139fce010982780140aa0cd5ab",
     },
+    // FIXME
+    [NetworkId.Localhost]: {
+      bondAddress: "0xca7b90f8158A4FAA606952c023596EE6d322bcf0",
+      reserveAddress: "0xc778417e063141139fce010982780140aa0cd5ab",
+    },
   },
   customTreasuryBalanceFunc: async function (this: CustomBond, NetworkId, provider) {
     const ethBondContract = this.getContractForBond(NetworkId, provider);
@@ -279,7 +287,7 @@ export const cvx = new CustomBond({
   bondToken: "CVX",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: CvxImg,
+  bondIconSvg: ["CVX"],
   bondContractABI: CvxBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
   isBondable: {
@@ -336,7 +344,7 @@ export const cvx_expired = new CustomBond({
   bondToken: "CVX",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: CvxImg,
+  bondIconSvg: ["CVX"],
   bondContractABI: CvxBondContract,
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
   isBondable: {
@@ -374,6 +382,11 @@ export const cvx_expired = new CustomBond({
       reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C", // using DAI per `principal` address
       // reserveAddress: "0x6761Cb314E39082e08e1e697eEa23B6D1A77A34b", // guessed
     },
+    // FIXME
+    [NetworkId.Localhost]: {
+      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
   },
   customTreasuryBalanceFunc: async function (this: CustomBond, NetworkId, provider) {
     let cvxPrice: number = await getTokenPrice("convex-finance");
@@ -390,7 +403,7 @@ export const ohm_dai = new LPBond({
   bondToken: "DAI",
   payoutToken: "OHM",
   v2Bond: true,
-  bondIconSvg: OhmDaiImg,
+  bondIconSvg: ["OHM", "DAI"],
   bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
   isBondable: {
@@ -439,7 +452,7 @@ export const ohm_daiOld = new LPBond({
   bondToken: "DAI",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: OhmDaiImg,
+  bondIconSvg: ["OHM", "DAI"],
   bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
   isBondable: {
@@ -476,6 +489,11 @@ export const ohm_daiOld = new LPBond({
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
+    // FIXME
+    [NetworkId.Localhost]: {
+      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
   },
   lpUrl:
     "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f",
@@ -487,7 +505,7 @@ export const ohm_frax = new LPBond({
   bondToken: "FRAX",
   payoutToken: "OHM",
   v2Bond: true,
-  bondIconSvg: OhmFraxImg,
+  bondIconSvg: ["OHM", "FRAX"],
   bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
   isBondable: {
@@ -535,7 +553,7 @@ export const ohm_fraxOld = new LPBond({
   bondToken: "FRAX",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: OhmFraxImg,
+  bondIconSvg: ["OHM", "FRAX"],
   bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
   isBondable: {
@@ -572,6 +590,11 @@ export const ohm_fraxOld = new LPBond({
       bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
       reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
     },
+    // FIXME
+    [NetworkId.Localhost]: {
+      bondAddress: "0x7BB53Ef5088AEF2Bb073D9C01DCa3a1D484FD1d2",
+      reserveAddress: "0x11BE404d7853BDE29A3e73237c952EcDCbBA031E",
+    },
   },
   lpUrl:
     "https://app.uniswap.org/#/add/v2/0x853d955acef822db058eb8505911ed77f175b99e/0x383518188c0c6d7730d91b2c03a03c837814a899",
@@ -583,7 +606,7 @@ export const ohm_lusd = new LPBond({
   bondToken: "LUSD",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: OhmLusdImg,
+  bondIconSvg: ["OHM", "LUSD"],
   bondContractABI: BondOhmLusdContract,
   reserveContract: ReserveOhmLusdContract,
   isBondable: {
@@ -621,6 +644,11 @@ export const ohm_lusd = new LPBond({
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
+    // FIXME
+    [NetworkId.Localhost]: {
+      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
   },
   lpUrl:
     "https://app.sushi.com/add/0x383518188C0C6d7730D91b2c03a03C837814a899/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
@@ -632,7 +660,7 @@ export const ohm_weth = new CustomBond({
   bondToken: "WETH",
   payoutToken: "OHM",
   v2Bond: true,
-  bondIconSvg: OhmEthImg,
+  bondIconSvg: ["OHM", "wETH"],
   bondContractABI: BondOhmEthContract,
   reserveContract: ReserveOhmEthContract,
   isBondable: {
@@ -710,7 +738,7 @@ export const ohm_wethOld = new CustomBond({
   bondToken: "WETH",
   payoutToken: "OHM",
   v2Bond: false,
-  bondIconSvg: OhmEthImg,
+  bondIconSvg: ["OHM", "wETH"],
   bondContractABI: BondOhmEthContract,
   reserveContract: ReserveOhmEthContract,
   isBondable: {
@@ -745,6 +773,11 @@ export const ohm_wethOld = new CustomBond({
     },
     [NetworkId.TESTNET_RINKEBY]: {
       // NOTE (unbanksy): using ohm-dai rinkeby contracts
+      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
+      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+    },
+    [NetworkId.Localhost]: {
+      // FIXME
       bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
       reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
     },
