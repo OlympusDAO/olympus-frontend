@@ -22,6 +22,7 @@ import {
   AccordionDetails,
 } from "@material-ui/core";
 import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
+import { DisplayBondDiscount } from "src/views/BondV2/BondV2";
 import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
 import { useDispatch } from "react-redux";
@@ -107,7 +108,7 @@ function NavContent({ handleDrawerToggle }) {
                                 <Typography variant="body2">
                                   {bond.displayName}
                                   <span className="bond-pair-roi">
-                                    {`${bond.discount && trim(bond.discount * 100, 2)}%`}
+                                    <DisplayBondDiscount key={bond.index} bond={bond}></DisplayBondDiscount>
                                   </span>
                                 </Typography>
                               </Link>

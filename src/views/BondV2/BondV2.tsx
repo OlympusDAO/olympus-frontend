@@ -120,7 +120,15 @@ export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement =
   if (typeof bond.discount === undefined || bond.soldOut) {
     return <Fragment>--</Fragment>;
   }
+  const [clazz, setClazz] = useState<string>("bond_discount_positive");
+  useEffect(() => {
+    setClazz(bond.discount >= 0 ? "bond_discount_positive" : "bond_discount_negative");
+  }, [bond]);
 
-  return <Fragment>{bond.discount && trim(bond.discount * 100, 2)}%</Fragment>;
+  return (
+    <Fragment>
+      <span className={clazz}>{bond.discount && trim(bond.discount * 100, 2)}%</span>
+    </Fragment>
+  );
 };
 export default BondV2;
