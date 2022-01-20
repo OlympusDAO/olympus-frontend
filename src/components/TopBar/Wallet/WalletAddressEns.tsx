@@ -1,7 +1,7 @@
-import { useEns } from "src/hooks/useENS";
-import { shorten } from "src/helpers";
 import { Link } from "@material-ui/core";
+import { shorten } from "src/helpers";
 import { useAddress } from "src/hooks/useAddress";
+import { useEns } from "src/hooks/useENS";
 
 export default function WalletAddressEns() {
   const { data: ens } = useEns();

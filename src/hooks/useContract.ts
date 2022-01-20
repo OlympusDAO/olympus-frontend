@@ -1,15 +1,16 @@
 import { Contract } from "ethers";
-import { useWeb3Context } from "./web3Context";
-import { useNetwork } from "./useNetwork";
-import STAKING_ABI from "src/abi/OlympusStakingv2.json";
-import { abi as IERC20_ABI } from "src/abi/IERC20.json";
-import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
-import { AddressMap, STAKING_ADDRESSES } from "src/constants/addresses";
-import { IERC20, OlympusStakingv2, PairContract } from "src/typechain";
 import { useMemo } from "react";
+import { abi as IERC20_ABI } from "src/abi/IERC20.json";
+import STAKING_ABI from "src/abi/OlympusStakingv2.json";
+import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
 import { NetworkId } from "src/constants";
-import { ohm_dai } from "src/helpers/AllBonds";
+import { AddressMap, STAKING_ADDRESSES } from "src/constants/addresses";
 import { assert } from "src/helpers";
+import { ohm_dai } from "src/helpers/AllBonds";
+import { IERC20, OlympusStakingv2, PairContract } from "src/typechain";
+
+import { useNetwork } from "./useNetwork";
+import { useWeb3Context } from "./web3Context";
 
 export function useContract<TContract extends Contract>(addressOrMap: string, ABI: any): TContract;
 export function useContract<TContract extends Contract>(addressOrMap: AddressMap, ABI: any): TContract | null;

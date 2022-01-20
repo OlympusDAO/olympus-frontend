@@ -9,11 +9,12 @@ import {
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
 import { queryAssertion } from "src/helpers";
+
 import { useAddress } from "./useAddress";
 import { useTokenContract } from "./useContract";
 import { useNetwork } from "./useNetwork";
 
-export const useContractAllowanceKey = (networkId?: NetworkId, address?: string) => [
+export const contractAllowanceQueryKey = (networkId?: NetworkId, address?: string) => [
   "useContractAllowances",
   networkId,
   address,
@@ -25,9 +26,9 @@ export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressM
   const token = useTokenContract(tokenMap);
 
   return useQuery<BigNumber, Error>(
-    useContractAllowanceKey(networkId, address),
+    contractAllowanceQueryKey(networkId, address),
     async () => {
-      queryAssertion(address && networkId, useContractAllowanceKey(networkId, address));
+      queryAssertion(address && networkId, contractAllowanceQueryKey(networkId, address));
 
       const contractAddress = contractMap[networkId];
 

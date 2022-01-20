@@ -3,10 +3,11 @@ import { NetworkId } from "src/constants";
 import { queryAssertion } from "src/helpers";
 import { covalent } from "src/lib/covalent";
 import { CovalentTransaction } from "src/lib/covalent.types";
+
 import { useAddress } from "./useAddress";
 import { useNetwork } from "./useNetwork";
 
-export const usePendingTransactionsKey = (address?: string, networkId?: NetworkId) => [
+export const pendingTransactionsQueryKey = (address?: string, networkId?: NetworkId) => [
   "usePendingTransactions",
   address,
   networkId,
@@ -17,9 +18,9 @@ export const usePendingTransactions = () => {
   const { data: networkId } = useNetwork();
 
   return useQuery<CovalentTransaction[], Error>(
-    usePendingTransactionsKey(address, networkId),
+    pendingTransactionsQueryKey(address, networkId),
     async () => {
-      queryAssertion(address && networkId, usePendingTransactionsKey(address));
+      queryAssertion(address && networkId, pendingTransactionsQueryKey(address));
 
       if (!covalent.isSupportedNetwork(networkId)) return [];
 

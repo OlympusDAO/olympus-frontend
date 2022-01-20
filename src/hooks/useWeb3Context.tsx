@@ -1,11 +1,12 @@
-import React, { useCallback, useContext, useMemo, useReducer, useState } from "react";
-import Web3Modal from "web3modal";
-import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import WalletConnectProvider from "@walletconnect/web3-provider";
+import { Web3Provider } from "@ethersproject/providers";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
-import { NodeHelper } from "src/helpers/NodeHelper";
-import { NetworkId, NETWORKS } from "../constants";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import React, { useCallback, useContext, useMemo, useReducer, useState } from "react";
 import { isIFrame } from "src/helpers";
+import { NodeHelper } from "src/helpers/NodeHelper";
+import Web3Modal from "web3modal";
+
+import { NetworkId, NETWORKS } from "../constants";
 
 const modal = new Web3Modal({
   cacheProvider: true,

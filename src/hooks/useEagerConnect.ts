@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { segmentUA } from "src/helpers/userAnalyticHelpers";
+import { useEffect, useState } from "react";
+
 import { useWeb3Context } from "./useWeb3Context";
 
 export const useEagerConnect = () => {

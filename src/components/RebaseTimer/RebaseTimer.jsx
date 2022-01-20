@@ -1,12 +1,14 @@
-import { useSelector, useDispatch } from "react-redux";
-import { getRebaseBlock, secondsUntilBlock, prettifySeconds } from "../../helpers";
-import { Box, Typography } from "@material-ui/core";
 import "./rebasetimer.scss";
+
+import { Trans } from "@lingui/macro";
+import { Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { useEffect, useMemo, useState } from "react";
-import { loadAppDetails } from "../../slices/AppSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getRebaseBlock, prettifySeconds, secondsUntilBlock } from "../../helpers";
 import { useWeb3Context } from "../../hooks/web3Context";
-import { Trans } from "@lingui/macro";
+import { loadAppDetails } from "../../slices/AppSlice";
 
 function RebaseTimer() {
   const dispatch = useDispatch();

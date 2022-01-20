@@ -1,6 +1,8 @@
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
+
 import { CovalentResponse, CovalentTokenBalance, CovalentTransaction } from "./covalent.types";
+
 export class Covalent {
   public SUPPORTED_NETWORKS = {
     [NetworkId.FANTOM]: true,

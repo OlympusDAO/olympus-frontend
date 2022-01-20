@@ -1,8 +1,9 @@
 import { useMutation } from "react-query";
 import { NetworkId } from "src/constants";
 import { networkIdToHexString } from "src/helpers";
-import { useWeb3Context } from "./useWeb3Context";
+
 import { useAddNetwork } from "./useAddNetwork";
+import { useWeb3Context } from "./useWeb3Context";
 
 /**
  * Switches the wallets currently active network.

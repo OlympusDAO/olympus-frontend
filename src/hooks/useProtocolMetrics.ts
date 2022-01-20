@@ -29,11 +29,11 @@ interface ProtocolMetrics {
   readonly sOhmCirculatingSupply: string;
 }
 
-export const useProtocolMetricsKey = () => ["useProtocolMetrics"];
+export const protocolMetricsQueryKey = () => ["useProtocolMetrics"];
 
 export const useProtocolMetrics = <TSelectData = unknown>(select: (data: ProtocolMetrics) => TSelectData) => {
   return useQuery<ProtocolMetrics, Error, TSelectData>(
-    useProtocolMetricsKey(),
+    protocolMetricsQueryKey(),
     async () => {
       const response = await apollo<{ protocolMetrics: ProtocolMetrics[] }>(query);
 

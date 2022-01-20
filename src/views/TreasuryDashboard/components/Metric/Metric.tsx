@@ -1,15 +1,15 @@
-import { formatCurrency } from "src/helpers";
-import { Metric } from "@olympusdao/component-library";
+import { formatUnits } from "@ethersproject/units";
 import { t } from "@lingui/macro";
+import { Metric } from "@olympusdao/component-library";
+import { formatCurrency } from "src/helpers";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
+import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
   useMarketCap,
   useOhmCirculatingSupply,
   useTotalSupply,
   useTreasuryMarketValue,
 } from "src/hooks/useProtocolMetrics";
-import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
-import { formatUnits } from "@ethersproject/units";
 
 type MetricProps = PropsOf<typeof Metric>;
 

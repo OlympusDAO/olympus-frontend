@@ -1,19 +1,20 @@
 import { useCallback, useEffect } from "react";
 import { useQueryClient } from "react-query";
+
+import { addressQueryKey } from "./useAddress";
+import { networkQueryKey } from "./useNetwork";
 import { useWeb3Context } from "./useWeb3Context";
-import { useAddressKey } from "./useAddress";
-import { useNetworkKey } from "./useNetwork";
 
 export const useProviderEventListeners = () => {
   const client = useQueryClient();
   const { provider, isConnected } = useWeb3Context();
 
   const handleAccountChanged = useCallback(() => {
-    client.refetchQueries(useAddressKey());
+    client.refetchQueries(addressQueryKey());
   }, [client]);
 
   const handleChainChanged = useCallback(() => {
-    client.refetchQueries(useNetworkKey(isConnected));
+    client.refetchQueries(networkQueryKey(isConnected));
   }, [client, isConnected]);
 
   useEffect(() => {

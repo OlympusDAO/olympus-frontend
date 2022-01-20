@@ -1,4 +1,7 @@
+import { BigNumber } from "@ethersproject/bignumber";
+import { parseUnits } from "@ethersproject/units";
 import { useQuery } from "react-query";
+import { NetworkId } from "src/constants";
 import {
   AddressMap,
   GOHM_ADDRESSES,
@@ -8,27 +11,25 @@ import {
   V1_SOHM_ADDRESSES,
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
-import { useAddress } from "./useAddress";
 import { assert, queryAssertion } from "src/helpers";
 import { covalent } from "src/lib/covalent";
 import { CovalentTokenBalance } from "src/lib/covalent.types";
-import { BigNumber } from "@ethersproject/bignumber";
-import { parseUnits } from "@ethersproject/units";
-import { NetworkId } from "src/constants";
+
+import { useAddress } from "./useAddress";
 
 const unstable_Object = Object as unstable_ObjectConstructor;
 
 type Balances = Record<keyof typeof covalent.SUPPORTED_NETWORKS, CovalentTokenBalance[]>;
 
-export const useBalancesKey = (address?: string) => ["useBalances", address];
+export const balancesQueryKey = (address?: string) => ["useBalances", address];
 
 export const useBalances = <TSelectData = unknown>(select: (data: Balances) => TSelectData) => {
   const { data: address } = useAddress();
 
   return useQuery<Balances, Error, TSelectData>(
-    useBalancesKey(address),
+    balancesQueryKey(address),
     async () => {
-      queryAssertion(address, useBalancesKey());
+      queryAssertion(address, balancesQueryKey());
 
       // Map all networkId's to a promise that resolves to a list of all token balances
       const promises = unstable_Object
