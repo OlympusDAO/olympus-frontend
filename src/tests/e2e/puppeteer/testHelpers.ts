@@ -131,10 +131,10 @@ export const dapp = {} as {
 export async function launchDApp(network = "localhost") {
   console.log("Starting metamask with network " + network);
   const browser = await launch(puppeteer, {
-    metamaskVersion: "v10.1.1",
+    metamaskVersion: "v10.8.1",
     headless: false,
     defaultViewport: null, // otherwise defaults to 800x600
-    args: ["--no-sandbox", "--start-fullscreen", ...(isXvfbEnabled() ? ["--display=" + dapp.xvfb._display] : [])],
+    args: ["--no-sandbox", ...(isXvfbEnabled() ? ["--display=" + dapp.xvfb._display] : [])],
   });
   const metamask = await setupMetamask(browser, { network: network });
 
@@ -169,6 +169,8 @@ export async function launchXvfb() {
 }
 
 export async function closeXvfb() {
+  if (!isXvfbEnabled()) return;
+
   await dapp.xvfb.stop();
 }
 
