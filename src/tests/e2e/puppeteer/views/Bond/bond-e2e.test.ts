@@ -10,7 +10,7 @@ import {
   dapp,
 } from "../../testHelpers";
 
-describe("bonding", () => {
+xdescribe("bonding", () => {
   beforeAll(async () => {
     await launchXvfb();
     await launchDApp();
