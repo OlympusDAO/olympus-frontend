@@ -123,7 +123,7 @@ export async function launchDApp(network: string = "localhost") {
     metamaskVersion: "v10.1.1",
     headless: false,
     defaultViewport: null, // otherwise defaults to 800x600
-    args: ["--no-sandbox", "--start-fullscreen", "--display=" + dapp.xvfb._display],
+    args: ["--no-sandbox", "--start-fullscreen", ...(isXvfbEnabled() ? ["--display=" + dapp.xvfb._display] : [])],
   });
   const metamask = await setupMetamask(browser, { network: network });
 
@@ -141,6 +141,12 @@ export const typeValue = async (page: Page, selector: string, value: string) => 
 };
 
 export async function launchXvfb() {
+  // Xvfb is disabled by default, and will typically only be used in a CI setting
+  if (!isXvfbEnabled()) {
+    console.debug("Not enabling Xvfb, due to the REACT_APP_XVFB_ENABLED environment variable.");
+    return;
+  }
+
   var xvfb = new Xvfb({
     silent: true,
     xvfb_args: ["-screen", "0", "1280x720x24", "-ac"],
@@ -150,3 +156,13 @@ export async function launchXvfb() {
 
   dapp.xvfb = xvfb;
 }
+
+export async function closeXvfb() {
+  await dapp.xvfb.stop();
+}
+
+export const isXvfbEnabled = (): boolean => {
+  if (process.env.REACT_APP_XVFB_ENABLED) return true;
+
+  return false;
+};
