@@ -5,7 +5,6 @@ import {
   Box,
   ButtonBase,
   Grid,
-  Paper,
   SvgIcon,
   Table,
   TableBody,
@@ -17,7 +16,7 @@ import {
   Zoom,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Metric, MetricCollection } from "@olympusdao/component-library";
+import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import isEmpty from "lodash/isEmpty";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -80,33 +79,28 @@ function ChooseBondV2() {
     return withInterestDue;
   });
 
+  const topRightCTA = (
+    <ButtonBase>
+      <Typography style={{ lineHeight: "33px" }}>
+        <b>
+          <Link to="/bonds-v1" style={{ textDecoration: "none", color: "inherit" }}>
+            <Trans>v1 Bonds</Trans>
+            <SvgIcon
+              style={{ margin: "0 0 0 5px", verticalAlign: "text-bottom" }}
+              component={ArrowUp}
+              color="primary"
+            />
+          </Link>
+        </b>
+      </Typography>
+    </ButtonBase>
+  );
   return (
     <div id="choose-bond-view">
       {(!isEmpty(accountNotes) || !isEmpty(v1AccountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
 
       <Zoom in={true}>
-        <Paper className="ohm-card">
-          <Box className="card-header">
-            <Typography variant="h5" data-testid="t">
-              <Trans>Bond</Trans> (4,4)
-            </Typography>
-
-            <ButtonBase>
-              <Typography style={{ lineHeight: "33px" }}>
-                <b>
-                  <Link to="/bonds-v1" style={{ textDecoration: "none", color: "inherit" }}>
-                    <Trans>v1 Bonds</Trans>
-                    <SvgIcon
-                      style={{ margin: "0 0 0 5px", verticalAlign: "text-bottom" }}
-                      component={ArrowUp}
-                      color="primary"
-                    />
-                  </Link>
-                </b>
-              </Typography>
-            </ButtonBase>
-          </Box>
-
+        <Paper headerText={`${t`Bond`} (4,4)`} topRight={topRightCTA}>
           <MetricCollection>
             <Metric
               label={t`Treasury Balance`}
