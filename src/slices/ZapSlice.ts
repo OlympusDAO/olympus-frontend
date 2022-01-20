@@ -24,7 +24,7 @@ interface IUADataZap {
 }
 export const getZapTokenAllowance = createAsyncThunk(
   "zap/getZapTokenAllowance",
-  async ({ address, value, action }: IActionValueAsyncThunk, { dispatch }) => {
+  async ({ address, value, action, provider, networkID }: IActionValueAsyncThunk, { dispatch }) => {
     try {
       const result = await ZapHelper.getZapTokenAllowanceHelper(value, address);
       return Object.fromEntries([[action, result]]);
@@ -45,7 +45,7 @@ export const zapNetworkCheck = createAsyncThunk(
 
 export const changeZapTokenAllowance = createAsyncThunk(
   "zap/changeZapTokenAllowance",
-  async ({ address, value, provider, action }: IActionValueAsyncThunk, { dispatch }) => {
+  async ({ address, value, provider, action, networkID }: IActionValueAsyncThunk, { dispatch }) => {
     try {
       const gasPrice = await provider.getGasPrice();
       const rawTransactionData = await ZapHelper.changeZapTokenAllowanceHelper(value, address, +gasPrice);
