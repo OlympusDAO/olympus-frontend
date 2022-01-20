@@ -130,7 +130,6 @@
     "prettier": "^2.5.1",
     "puppeteer": "^11.0.0",
     "shelljs": "^0.8.5",
-    "surge": "^0.21.5",
     "type-graphql": "^1.1.1",
     "typechain": "^6.0.2"
   },
@@ -143,8 +142,6 @@
     "test:e2e": "react-scripts test --testPathPattern=\"(\\.|/|-)e2e\\.(test|spec)\\.[jt]sx?$\" --watchAll=false --bail --ci",
     "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
     "lint:fix": "prettier --write ./src/ & yarn lint --fix",
-    "surge": "surge ./build",
-    "ship": "yarn surge",
     "theme": "npx gulp less",
     "watch": "node ./scripts/watch.js",
     "snapshot": "react-scripts test --updateSnapshot",
