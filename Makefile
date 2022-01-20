@@ -48,10 +48,13 @@ test_e2e_run:
 	yarn run react-scripts test --testPathPattern="(\\.|/|-)e2e\\.(test|spec)\\.[jt]sx?" --testTimeout=30000 --runInBand --watchAll=false --detectOpenHandles --forceExit
 
 ### end-to-end docker stack
-test_e2e_stack_start:
-	@echo "*** Starting e2e stack in Docker"
+test_e2e_stack_start: test_e2e_stack_stop
+	@echo "*** Setting up e2e stack in Docker"
 	@echo "Image tag for olympus-contracts is: ${CONTRACTS_DOCKER_TAG}"
-	CONTRACTS_DOCKER_TAG=${CONTRACTS_DOCKER_TAG} docker-compose $(STACK_FILE_ARGS) pull && docker-compose $(STACK_FILE_ARGS) up $(STACK_UP_ARGS)
+	@CONTRACTS_DOCKER_TAG=${CONTRACTS_DOCKER_TAG} docker-compose $(STACK_FILE_ARGS) pull
+	@echo "*** Starting e2e stack in Docker"
+	@CONTRACTS_DOCKER_TAG=${CONTRACTS_DOCKER_TAG} docker-compose $(STACK_FILE_ARGS) up $(STACK_UP_ARGS)
 
 test_e2e_stack_stop:
-	docker-compose $(STACK_FILE_ARGS) rm --stop --force
+	@echo "*** Stopping e2e stack in Docker"
+	@docker-compose $(STACK_FILE_ARGS) rm --stop --force
