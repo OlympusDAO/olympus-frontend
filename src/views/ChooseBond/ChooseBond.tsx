@@ -98,7 +98,7 @@ function ChooseBond() {
   return (
     <div id="choose-bond-view">
       {(!isEmpty(accountNotes) || !isEmpty(accountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
-
+      <ClaimBonds activeNotes={accountNotes} />
       <Zoom in={true}>
         <Paper headerText={`${t`Bond`} (1,1)`} topRight={topRightCTA}>
           <MetricCollection>
