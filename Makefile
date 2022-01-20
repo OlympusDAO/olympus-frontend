@@ -20,21 +20,6 @@ STACK_FILE_ARGS=-f tests/docker-compose.yml
 STACK_UP_ARGS=--abort-on-container-exit --build
 CONTRACTS_DOCKER_TAG?=main # Sets to main by default
 
-### Translations
-translations_fetch:
-	[ ! -e src/locales/translations/.git ] && git submodule update --init --remote src/locales/translations || exit 0
-
-translations_prepare: translations_fetch
-	yarn lingui:compile
-
-### Contracts
-contracts_prepare:
-	yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json
-
-### Frontend
-start: translations_prepare contracts_prepare
-	yarn run react-scripts start
-
 ### end-to-end testing
 test_e2e_build_docker:
 	@echo "*** Building Docker image $(TEST_IMAGE) with tag $(TEST_TAG)"

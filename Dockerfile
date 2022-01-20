@@ -23,9 +23,6 @@ RUN yarn install --network-timeout 1000000
 
 COPY tsconfig.json .
 COPY babel.config.js .
-COPY .eslintignore .
-COPY .eslintrc.js .
-COPY .prettierrc .
 COPY scripts .
 COPY gulpfile.js .
 # This image is not pushed to a registry, so there shouldn't be an issue with this
@@ -38,4 +35,4 @@ EXPOSE 3000
 HEALTHCHECK --interval=10s --timeout=15s --start-period=10s --retries=3 CMD curl -f http://localhost:3000/ || exit 1
 
 # Run the frontend by default
-ENTRYPOINT make start
+ENTRYPOINT yarn run start
