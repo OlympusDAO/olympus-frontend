@@ -7,6 +7,7 @@ import {
   getSelectorTextContent,
   launchDApp,
   launchXvfb,
+  closeXvfb,
   dapp,
 } from "../../testHelpers";
 
@@ -22,7 +23,7 @@ xdescribe("bonding", () => {
 
   afterAll(async () => {
     dapp.browser.close();
-    dapp.xvfb.stop();
+    await closeXvfb();
   });
 
   test("cannot bond without connected wallet", async () => {

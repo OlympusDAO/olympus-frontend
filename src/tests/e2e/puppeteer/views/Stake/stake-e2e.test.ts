@@ -10,6 +10,7 @@ import {
   launchDApp,
   launchXvfb,
   takeScreenshot,
+  closeXvfb,
 } from "../../testHelpers";
 
 var STAKE_AMOUNT = 0.1;
@@ -26,7 +27,7 @@ describe("staking", () => {
 
   afterAll(async () => {
     dapp.browser.close();
-    dapp.xvfb.stop();
+    await closeXvfb();
   });
 
   test("cannot stake without connected wallet", async () => {

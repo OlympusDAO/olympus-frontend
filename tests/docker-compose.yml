@@ -7,6 +7,7 @@ services:
     environment:
       - PRIVATE_KEY=${CONTRACT_NODE_PRIVATE_KEY}
       - ALCHEMY_API_KEY=${CONTRACT_NODE_ALCHEMY_API_KEY}
+      - REACT_APP_XVFB_ENABLED=true
     # But the .env file is more likely for local development
     env_file:
       - .env
