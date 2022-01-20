@@ -1,7 +1,8 @@
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { BigNumber, BigNumberish } from "ethers";
-import { Bond } from "src/lib/Bond";
 import { NetworkId } from "src/constants";
+import { Bond } from "src/lib/Bond";
+
 import { IBondV2 } from "./BondSliceV2";
 
 export interface IJsonRPCError {

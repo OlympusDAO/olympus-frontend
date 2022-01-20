@@ -1,10 +1,11 @@
-import { ExternalPool } from "src/lib/ExternalPool";
-import { addresses, NetworkId } from "src/constants";
-import { NodeHelper } from "./NodeHelper";
 import { BigNumber, ethers } from "ethers";
 import { abi as PairContractABI } from "src/abi/PairContract.json";
-import { OlympusStakingv2__factory, PairContract } from "src/typechain";
+import { addresses, NetworkId } from "src/constants";
 import { formatCurrency, getMarketPrice, getTokenPrice } from "src/helpers";
+import { ExternalPool } from "src/lib/ExternalPool";
+import { OlympusStakingv2__factory, PairContract } from "src/typechain";
+
+import { NodeHelper } from "./NodeHelper";
 
 export const tj_gohm_wavax = new ExternalPool({
   poolName: "gOHM-AVAX",
@@ -77,8 +78,8 @@ export const fetchPoolData = async (address: string) => {
       if (address) {
         userBalance = await poolContract.balanceOf(address);
       }
-      let stakedBalanceAsLp = Number((await poolContract.balanceOf(pool.masterchef)).toString()) / 10 ** 18;
-      let poolTokenSupply = Number((await poolContract.totalSupply()).toString()) / 10 ** 18;
+      const stakedBalanceAsLp = Number((await poolContract.balanceOf(pool.masterchef)).toString()) / 10 ** 18;
+      const poolTokenSupply = Number((await poolContract.totalSupply()).toString()) / 10 ** 18;
       const { reserve0, reserve1 } = await poolContract.getReserves();
       let reserve0Price = 0;
       let reserve1Price = 0;
@@ -91,7 +92,7 @@ export const fetchPoolData = async (address: string) => {
       );
       const currentIndex = await stakingContract.index();
       const gOhmPrice = ohmPrice * Number(ethers.utils.formatUnits(currentIndex, "gwei"));
-      let token2Price: number = await getTokenPrice(pool.pairGecko);
+      const token2Price: number = await getTokenPrice(pool.pairGecko);
       if (token0.toLowerCase() === addresses[pool.networkID].GOHM_ADDRESS.toLowerCase()) {
         reserve0Price = gOhmPrice;
         reserve1Price = token2Price;

@@ -1,5 +1,5 @@
-import { Box, Typography } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
+import { Box, Typography } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Token } from "@olympusdao/component-library";

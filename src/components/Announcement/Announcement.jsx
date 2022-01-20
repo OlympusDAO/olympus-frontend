@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { Box, IconButton, Paper, SvgIcon, Typography } from "@material-ui/core";
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 import "./Announcement.scss";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+
 import { Trans } from "@lingui/macro";
+import { Box, IconButton, Paper, SvgIcon, Typography } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useState } from "react";
+
+import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
 function Announcement() {
   const [newNetworkVisible, setNewNetworkVisible] = useState(true);

@@ -1,7 +1,7 @@
+import { Link } from "@material-ui/core";
+import { shorten } from "src/helpers";
 import useENS from "src/hooks/useENS";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { shorten } from "src/helpers";
-import { Link } from "@material-ui/core";
 export default function WalletAddressEns() {
   const { address } = useWeb3Context();
   const { ensName, ensAvatar } = useENS(address);

@@ -1,14 +1,14 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Button, Typography, Box, Slide } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
-import { redeemBond } from "../../slices/BondSlice";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { prettifySeconds, prettyVestingPeriod, secondsUntilBlock, trim } from "../../helpers";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { Box, Button, Slide, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { DisplayBondDiscount } from "./BondV2";
+import { useDispatch, useSelector } from "react-redux";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+
 import ConnectButton from "../../components/ConnectButton";
+import { prettifySeconds, prettyVestingPeriod, secondsUntilBlock, trim } from "../../helpers";
+import { redeemBond } from "../../slices/BondSlice";
+import { DisplayBondDiscount } from "./BondV2";
 
 function BondRedeem({ bond }) {
   // const { bond: bondName } = bond;

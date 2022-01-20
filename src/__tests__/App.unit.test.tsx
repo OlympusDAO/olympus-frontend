@@ -1,7 +1,7 @@
-import { renderRoute, screen } from "./testUtils";
+import { renderRoute, screen } from "../testUtils";
 
 describe("<App/>", () => {
-  it("renders without crashing", () => {
+  it("should render component", () => {
     renderRoute("/");
     expect(screen.getByText("Connect your wallet to stake OHM")).toBeInTheDocument();
   });

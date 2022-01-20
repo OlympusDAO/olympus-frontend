@@ -1,5 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -10,17 +9,18 @@ import {
   Typography,
   useMediaQuery,
 } from "@material-ui/core";
-import { t, Trans } from "@lingui/macro";
-import ConnectButton from "../../components/ConnectButton";
-import { useAppSelector, useWeb3Context } from "../../hooks";
+import { DataRow } from "@olympusdao/component-library";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { getTokenImage } from "src/helpers";
 import { calculateOdds, trimOdds } from "src/helpers/33Together";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { changeApproval, poolDeposit } from "src/slices/PoolThunk";
-import { Skeleton } from "@material-ui/lab";
+
+import ConnectButton from "../../components/ConnectButton";
+import { useAppSelector, useWeb3Context } from "../../hooks";
 import { error } from "../../slices/MessagesSlice";
 import { ConfirmationModal } from "./ConfirmationModal";
-import { DataRow } from "@olympusdao/component-library";
 
 const sohmImg = getTokenImage("sohm");
 

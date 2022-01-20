@@ -1,5 +1,5 @@
 import { render } from "../../../testUtils";
-import CallToAction from "../CallToAction.jsx";
+import CallToAction from "../CallToAction";
 
 describe("<CallToAction/>", () => {
   it("should render component", () => {

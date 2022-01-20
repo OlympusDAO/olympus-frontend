@@ -1,6 +1,7 @@
-import { Typography, Box, FormControl, OutlinedInput, InputLabel, InputAdornment } from "@material-ui/core";
-import { Trans } from "@lingui/macro";
 import "./bondSettings.scss";
+
+import { Trans } from "@lingui/macro";
+import { Box, FormControl, InputAdornment, InputLabel, OutlinedInput, Typography } from "@material-ui/core";
 import { Modal } from "@olympusdao/component-library";
 
 function AdvancedSettings({

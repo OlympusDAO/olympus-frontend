@@ -1,13 +1,13 @@
-import { NodeHelper } from "./helpers/NodeHelper";
-import { EnvHelper } from "./helpers/Environment";
-import ethereum from "./assets/tokens/wETH.svg";
+import { OHMTokenStackProps } from "@olympusdao/component-library";
+import { ethers } from "ethers";
+
 import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
 import polygon from "./assets/tokens/matic.svg";
-import { OHMTokenStackProps } from "@olympusdao/component-library";
-
+import ethereum from "./assets/tokens/wETH.svg";
 import { getTokenByContract, getTokenPrice } from "./helpers";
-import { ethers } from "ethers";
+import { EnvHelper } from "./helpers/Environment";
+import { NodeHelper } from "./helpers/NodeHelper";
 import { IERC20__factory, UniswapV2Lp__factory } from "./typechain";
 
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-protocol-metrics";
@@ -116,6 +116,7 @@ export const addresses: IAddresses = {
     GIVING_ADDRESS: "0x2604170762A1dD22BB4F96C963043Cd4FC358f18",
     BOND_DEPOSITORY: "0x9025046c6fb25Fb39e720d97a8FD881ED69a1Ef6", // updated
     DAO_TREASURY: "0xee1520f94f304e8d551cbf310fe214212e3ca34a",
+    TOKEMAK_GOHM: "0x41f6a95bacf9bc43704c4a4902ba5473a8b00263",
   },
   [NetworkId.ARBITRUM]: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate

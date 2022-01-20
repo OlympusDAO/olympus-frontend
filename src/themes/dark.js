@@ -1,4 +1,5 @@
 import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
+
 import fonts from "./fonts";
 import commonSettings, { handleBackdropFilter } from "./global.js";
 
@@ -291,9 +292,6 @@ export const dark = responsiveFontSizes(
             "&:hover": {
               color: darkTheme.textHighlightColor,
             },
-          },
-          "&.grid-button-text": {
-            color: "#FFFFFF",
           },
         },
         MuiTypography: {

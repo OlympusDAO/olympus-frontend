@@ -1,20 +1,18 @@
-import { ChangeEvent, Fragment, ReactNode, ReactElement, useEffect, useState } from "react";
-import { useHistory } from "react-router";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import { t, Trans } from "@lingui/macro";
-import { formatCurrency, trim } from "../../helpers";
-import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
-import TabPanel from "../../components/TabPanel";
-import BondHeader from "./BondHeader";
-import BondRedeem from "./BondRedeem";
-import BondPurchase from "./BondPurchase";
 import "./bond.scss";
-import { useWeb3Context } from "src/hooks/web3Context";
+
+import { t, Trans } from "@lingui/macro";
+import { Backdrop, Box, Fade, Grid, Paper, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { ChangeEvent, Fragment, ReactElement, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import { useAppSelector } from "src/hooks";
-import { getAllBonds, getUserNotes, IBondV2 } from "src/slices/BondSliceV2";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "src/store";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { IBondV2 } from "src/slices/BondSliceV2";
+
+import { formatCurrency, trim } from "../../helpers";
+import BondHeader from "./BondHeader";
+import BondPurchase from "./BondPurchase";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -117,14 +115,13 @@ export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
 };
 
 export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement => {
-  if (typeof bond.discount === undefined || bond.soldOut) {
-    return <Fragment>--</Fragment>;
-  }
   const [clazz, setClazz] = useState<string>("bond_discount_positive");
   useEffect(() => {
     setClazz(bond.discount >= 0 ? "bond_discount_positive" : "bond_discount_negative");
   }, [bond]);
-
+  if (typeof bond.discount === undefined || bond.soldOut) {
+    return <Fragment>--</Fragment>;
+  }
   return (
     <Fragment>
       <span className={clazz}>{bond.discount && trim(bond.discount * 100, 2)}%</span>

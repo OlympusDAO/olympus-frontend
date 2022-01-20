@@ -1,14 +1,16 @@
-import { useDispatch } from "react-redux";
-import { t } from "@lingui/macro";
-import { trim, prettyVestingPeriod } from "../../helpers";
-import { redeemBond } from "../../slices/BondSlice";
-import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
 import "./choosebond.scss";
+
+import { t } from "@lingui/macro";
+import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { useWeb3Context, useBonds, useAppSelector } from "src/hooks";
-import { IUserBondDetails } from "src/slices/AccountSlice";
-import { isPendingTxn, txnButtonText, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
 import { TokenStack } from "@olympusdao/component-library";
+import { useDispatch } from "react-redux";
+import { useAppSelector, useBonds, useWeb3Context } from "src/hooks";
+import { IUserBondDetails } from "src/slices/AccountSlice";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+
+import { prettyVestingPeriod, trim } from "../../helpers";
+import { redeemBond } from "../../slices/BondSlice";
 
 export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondDetails] }) {
   const dispatch = useDispatch();
@@ -34,7 +36,7 @@ export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondD
 
   async function onRedeem({ autostake }: { autostake: boolean }) {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-    let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
+    const currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
     await dispatch(redeemBond({ address, bond: currentBond!, networkID: networkId, provider, autostake }));
   }
 
@@ -98,7 +100,7 @@ export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDe
 
   async function onRedeem({ autostake }: { autostake: boolean }) {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-    let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
+    const currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
     await dispatch(redeemBond({ address, bond: currentBond!, networkID: networkId, provider, autostake }));
   }
 
