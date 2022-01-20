@@ -1,7 +1,8 @@
+/*eslint-disable*/
 import "./bond.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
+import { Backdrop, Box, Fade, Grid, Paper, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { ChangeEvent, Fragment, ReactElement, useEffect, useState } from "react";
 import { useHistory } from "react-router";
@@ -10,20 +11,13 @@ import { IAllBondData } from "src/hooks/Bonds";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useWeb3Context } from "src/hooks/web3Context";
 
-import TabPanel from "../../components/TabPanel";
+import { Tabs, Tab, TabPanel } from "@olympusdao/component-library";
 import { formatCurrency, trim } from "../../helpers";
 import BondHeader from "./BondHeader";
 import BondPurchase from "./BondPurchase";
 import BondRedeem from "./BondRedeem";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
 
 const Bond = ({ bond }: { bond: IAllBondData }) => {
   const history = useHistory();
@@ -57,7 +51,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
 
-  const changeView = (event: ChangeEvent<any>, value: string | number): void => {
+  const changeView: any = (event: ChangeEvent<any>, value: string | number): void => {
     setView(Number(value));
   };
 
@@ -108,9 +102,8 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
                     id: "do_bond",
                     comment: "The action of bonding (verb)",
                   })}
-                  {...a11yProps(0)}
                 />
-                <Tab aria-label="redeem-tab-button" label={t`Redeem`} {...a11yProps(1)} />
+                <Tab aria-label="redeem-tab-button" label={t`Redeem`} />
               </Tabs>
 
               <TabPanel value={view} index={0}>

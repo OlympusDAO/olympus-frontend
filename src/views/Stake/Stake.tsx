@@ -14,14 +14,13 @@ import {
   InputLabel,
   OutlinedInput,
   Paper,
-  Tab,
-  Tabs,
   Typography,
   Zoom,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, Metric, MetricCollection } from "@olympusdao/component-library";
+import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -32,7 +31,6 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
-import TabPanel from "../../components/TabPanel";
 import { getGohmBalFromSohm, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
@@ -40,14 +38,7 @@ import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
 import { ConfirmDialog } from "./ConfirmDialog";
 import ExternalStakePool from "./ExternalStakePool";
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-function Stake() {
+const Stake: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { provider, address, connect, networkId } = useWeb3Context();
@@ -247,7 +238,7 @@ function Stake() {
     </Button>,
   );
 
-  const changeView = (_event: ChangeEvent<any>, newView: number) => {
+  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 
@@ -348,13 +339,13 @@ function Stake() {
                       TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
                     >
                       <Tab
+                        aria-label="stake-button"
                         label={t({
                           id: "do_stake",
                           comment: "The action of staking (verb)",
                         })}
-                        {...a11yProps(0)}
                       />
-                      <Tab label={t`Unstake`} {...a11yProps(1)} />
+                      <Tab aria-label="unstake-button" label={t`Unstake`} />
                     </Tabs>
                     <Grid container className="stake-action-row">
                       <Grid item xs={12} sm={8} className="stake-grid-item">
@@ -407,7 +398,7 @@ function Stake() {
                         )}
                       </Grid>
                       <Grid item xs={12} sm={4} className="stake-grid-item">
-                        <TabPanel value={view} index={0} className="stake-tab-panel">
+                        <TabPanel value={view} index={0}>
                           <Box m={-2}>
                             {isAllowanceDataLoading ? (
                               <Skeleton />
@@ -443,7 +434,7 @@ function Stake() {
                           </Box>
                         </TabPanel>
 
-                        <TabPanel value={view} index={1} className="stake-tab-panel">
+                        <TabPanel value={view} index={1}>
                           <Box m={-2}>
                             {isAllowanceDataLoading ? (
                               <Skeleton />
@@ -627,6 +618,6 @@ function Stake() {
       <ExternalStakePool />
     </div>
   );
-}
+};
 
 export default Stake;
