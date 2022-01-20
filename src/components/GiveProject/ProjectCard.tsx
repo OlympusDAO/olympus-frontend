@@ -25,10 +25,8 @@ import { EnvHelper } from "src/helpers/Environment";
 import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IAppData } from "src/slices/AppSlice";
 import { ACTION_GIVE, changeGive, changeMockGive, isSupportedChain } from "src/slices/GiveThunk";
-import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { State } from "src/slices/interfaces";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
@@ -36,7 +34,6 @@ import { error } from "../../slices/MessagesSlice";
 import { GiveHeader } from "./GiveHeader";
 import { Project } from "./project.type";
 import { countDecimals, roundToDecimal, toInteger } from "./utils";
-import { State } from "src/slices/interfaces";
 
 type CountdownProps = {
   total: number;

@@ -29,7 +29,8 @@
       }
     },
     "coverageReporters": [
-      "text", "text-summary"
+      "text",
+      "text-summary"
     ]
   },
   "dependencies": {

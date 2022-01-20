@@ -1,16 +1,17 @@
-import React from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider } from "@material-ui/core/styles";
 import { render } from "@testing-library/react";
+import { createMemoryHistory } from "history";
+import { setupServer } from "msw/node";
+import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { light as lightTheme } from "../../src/themes/light.js";
+import { Router } from "react-router-dom";
+
+import App from "../../src/App";
 import { Web3ContextProvider } from "../../src/hooks/web3Context";
 import store from "../../src/store.ts";
-import { setupServer } from "msw/node";
-import { Router } from "react-router-dom";
-import { createMemoryHistory } from "history";
-import App from "../../src/App";
+import { light as lightTheme } from "../../src/themes/light.js";
 import handlers from "./handlers";
 
 const AllTheProviders = ({ children }) => {

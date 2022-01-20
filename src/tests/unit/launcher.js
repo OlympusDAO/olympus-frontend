@@ -1,5 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require("dotenv").config();
-const { spawn } = require("child_process");
+import { spawn } from "child_process";
 
 const NODE_PORT = 8545;
 const NODE_HOST = "127.0.0.1";

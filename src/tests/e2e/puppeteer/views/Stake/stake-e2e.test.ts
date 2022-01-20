@@ -1,19 +1,20 @@
 import "@testing-library/jest-dom";
+
 import {
-  dapp,
   clickElement,
+  closeXvfb,
   connectWallet,
-  selectorExists,
-  waitSelectorExists,
+  dapp,
   getSelectorTextContent,
-  typeValue,
   launchDApp,
   launchXvfb,
+  selectorExists,
   takeScreenshot,
-  closeXvfb,
+  typeValue,
+  waitSelectorExists,
 } from "../../testHelpers";
 
-var STAKE_AMOUNT = 0.1;
+const STAKE_AMOUNT = 0.1;
 
 describe("staking", () => {
   beforeAll(async () => {

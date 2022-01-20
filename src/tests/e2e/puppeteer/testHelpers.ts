@@ -1,10 +1,10 @@
 import { Dappeteer, launch } from "@chainsafe/dappeteer";
-import puppeteer, { Browser, ElementHandle, Page } from "puppeteer";
 import * as dappeteer from "@chainsafe/dappeteer";
 import { getDocument, queries } from "pptr-testing-library";
+import puppeteer, { Browser, ElementHandle, Page } from "puppeteer";
 // NOTE: I (jem) was unable to get the typings for this working. Resorting to ignoring the typescript error.
 // @ts-ignore
-var Xvfb = require("xvfb");
+import Xvfb from "xvfb";
 
 export const getTestName = (): string => {
   return expect.getState().currentTestName;
@@ -12,7 +12,9 @@ export const getTestName = (): string => {
 
 export const takeScreenshot = (page: Page, title: string) => {
   const compatibleTestName = getTestName().replace(/\ /g, "-");
-  page.screenshot({ path: compatibleTestName + "-" + title + ".png" }).then(() => {});
+  page.screenshot({ path: compatibleTestName + "-" + title + ".png" }).then(() => {
+    console.log("Took screenshot");
+  });
 };
 
 export const setupLogging = (page: Page) => {
@@ -126,7 +128,7 @@ export const dapp = {} as {
   xvfb: typeof Xvfb;
 };
 
-export async function launchDApp(network: string = "localhost") {
+export async function launchDApp(network = "localhost") {
   console.log("Starting metamask with network " + network);
   const browser = await launch(puppeteer, {
     metamaskVersion: "v10.1.1",
@@ -156,7 +158,7 @@ export async function launchXvfb() {
     return;
   }
 
-  var xvfb = new Xvfb({
+  const xvfb = new Xvfb({
     silent: true,
     xvfb_args: ["-screen", "0", "1280x720x24", "-ac"],
   });

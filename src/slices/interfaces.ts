@@ -1,12 +1,12 @@
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { BigNumber, BigNumberish } from "ethers";
 import { NetworkId } from "src/constants";
-import { IAccountSlice } from "./AccountSlice";
-import { IPendingTxn } from "./PendingTxnsSlice";
-import { IAppData } from "src/slices/AppSlice";
 import { Bond } from "src/lib/Bond";
+import { IAppData } from "src/slices/AppSlice";
 
+import { IAccountSlice } from "./AccountSlice";
 import { IBondV2 } from "./BondSliceV2";
+import { IPendingTxn } from "./PendingTxnsSlice";
 
 export interface IJsonRPCError {
   readonly message: string;

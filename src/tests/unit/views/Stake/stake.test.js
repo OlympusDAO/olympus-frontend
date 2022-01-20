@@ -1,6 +1,6 @@
-import { renderRoute, screen, waitFor, setup } from "../../utils";
 import "@testing-library/jest-dom";
-import { getByTestId } from "@testing-library/dom";
+
+import { renderRoute, screen, setup, waitFor } from "../../utils";
 
 setup();
 test("the stake page APY, TVL, and Index", async () => {

@@ -14,19 +14,19 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import { Icon, OHMTokenProps, OHMTokenStackProps, Token, TokenStack } from "@olympusdao/component-library";
 import { ReactElement, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
 import { addresses, NetworkId } from "src/constants";
 import { formatCurrency } from "src/helpers";
 import { dai, frax } from "src/helpers/AllBonds";
+import { FAUCET_PENDING_TYPE, getOhm } from "src/helpers/OhmFaucet";
 import { useAppSelector, useWeb3Context } from "src/hooks";
-import { useDispatch, useSelector } from "react-redux";
 import useCurrentTheme from "src/hooks/useTheme";
+import { State } from "src/slices/interfaces";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+
 import { Tokens, useWallet } from "./Token";
 import WalletAddressEns from "./WalletAddressEns";
-import { FAUCET_PENDING_TYPE, getOhm } from "src/helpers/OhmFaucet";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { State } from "src/slices/interfaces";
-
 
 const Borrow = ({
   Icon1,

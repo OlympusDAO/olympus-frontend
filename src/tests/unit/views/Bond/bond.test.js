@@ -1,5 +1,6 @@
-import { renderRoute, setup, screen, waitFor } from "../../utils";
 import "@testing-library/jest-dom";
+
+import { renderRoute, screen, setup, waitFor } from "../../utils";
 
 setup();
 

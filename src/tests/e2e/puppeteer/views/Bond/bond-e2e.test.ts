@@ -1,14 +1,14 @@
 import "@testing-library/jest-dom";
+
 import {
-  clickElement,
+  closeXvfb,
   connectWallet,
-  selectorExists,
-  waitSelectorExists,
+  dapp,
   getSelectorTextContent,
   launchDApp,
   launchXvfb,
-  closeXvfb,
-  dapp,
+  selectorExists,
+  waitSelectorExists,
 } from "../../testHelpers";
 
 xdescribe("bonding", () => {

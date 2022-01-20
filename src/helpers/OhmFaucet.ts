@@ -1,9 +1,10 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { addresses, NetworkId } from "src/constants";
 import { IBaseAddressAsyncThunk, IJsonRPCError } from "src/slices/interfaces";
-import { error, info } from "../slices/MessagesSlice";
-import { OhmFaucet__factory } from "src/typechain";
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import { clearPendingTxn, fetchPendingTxns } from "src/slices/PendingTxnsSlice";
+import { OhmFaucet__factory } from "src/typechain";
+
+import { error, info } from "../slices/MessagesSlice";
 
 export const FAUCET_PENDING_TEXT = "Pending";
 export const FAUCET_PENDING_TYPE = "faucet_dispense";
