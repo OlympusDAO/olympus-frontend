@@ -46,7 +46,7 @@ export const setupMetamask = async (browser: Browser, options: { network?: strin
 
 export const connectWallet = async (page: Page, metamask: Dappeteer) => {
   // Connect button
-  await clickElement(page, ".connect-button");
+  await clickElement(page, "#ohm-menu-button");
   // Metamask/Wallet Connect modal window
   await clickElement(page, ".web3modal-provider-wrapper");
   // Approve connecting the wallet
