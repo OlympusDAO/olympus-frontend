@@ -436,6 +436,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     threeTogether: true,
     bonds: true,
     network: true,
+    bondsV2: true,
   },
   [NetworkId.ARBITRUM]: {
     dashboard: true,
