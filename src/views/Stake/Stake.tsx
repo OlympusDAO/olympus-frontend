@@ -354,7 +354,7 @@ function Stake() {
                           (!hasAllowance("ohm") && view === 0) ||
                           (!hasAllowance("sohm") && view === 1 && !confirmation) ||
                           (!hasAllowance("gohm") && view === 1 && confirmation) ? (
-                            <Box className="help-text">
+                            <Box mt={"10px"}>
                               <Typography variant="body1" className="stake-note" color="textSecondary">
                                 {view === 0 ? (
                                   <>
