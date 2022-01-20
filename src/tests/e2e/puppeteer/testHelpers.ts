@@ -6,6 +6,15 @@ import { getDocument, queries } from "pptr-testing-library";
 // @ts-ignore
 var Xvfb = require("xvfb");
 
+export const getTestName = (): string => {
+  return expect.getState().currentTestName;
+};
+
+export const takeScreenshot = (page: Page, title: string) => {
+  const compatibleTestName = getTestName().replace(/\ /g, "-");
+  page.screenshot({ path: compatibleTestName + "-" + title + ".png" }).then(() => {});
+};
+
 export const setupLogging = (page: Page) => {
   page
     .on("console", message => console.log(`${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
