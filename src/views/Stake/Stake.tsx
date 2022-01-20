@@ -1,48 +1,44 @@
-import { useCallback, useState, useEffect, ChangeEvent, ChangeEventHandler } from "react";
-import { useDispatch } from "react-redux";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import { useHistory } from "react-router";
+import "./stake.scss";
+
+import { t, Trans } from "@lingui/macro";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
+  Divider,
   FormControl,
   Grid,
   InputAdornment,
   InputLabel,
-  Link,
   OutlinedInput,
   Paper,
   Tab,
   Tabs,
   Typography,
   Zoom,
-  Divider,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from "@material-ui/core";
-import { t, Trans } from "@lingui/macro";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import { ExpandMore } from "@material-ui/icons";
+import { Skeleton } from "@material-ui/lab";
+import { DataRow, Metric, MetricCollection } from "@olympusdao/component-library";
+import { ethers } from "ethers";
+import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+import { useAppSelector } from "src/hooks";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import { getGohmBalFromSohm, trim } from "../../helpers";
+import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
-import "./stake.scss";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { Skeleton } from "@material-ui/lab";
-import ExternalStakePool from "./ExternalStakePool";
-import { error } from "../../slices/MessagesSlice";
-import { ethers } from "ethers";
-import ZapCta from "../Zap/ZapCta";
-import { useAppSelector } from "src/hooks";
-import { ExpandMore } from "@material-ui/icons";
-import StakeRow from "./StakeRow";
-import { Metric, MetricCollection } from "../../components/Metric";
 import { ConfirmDialog } from "./ConfirmDialog";
+import ExternalStakePool from "./ExternalStakePool";
 
 function a11yProps(index: number) {
   return {
@@ -64,7 +60,7 @@ function Stake() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
-    return state.app.currentIndex ?? "1";
+    return state.app.currentIndex;
   });
   const fiveDayRate = useAppSelector(state => {
     return state.app.fiveDayRate;
@@ -132,6 +128,13 @@ function Stake() {
     return state.account.balances && state.account.balances.gOhmOnFantomAsSohm;
   });
 
+  const gOhmOnTokemak = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnTokemak;
+  });
+  const gOhmOnTokemakAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnTokemakAsSohm;
+  });
+
   const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
   const stakeAllowance = useAppSelector(state => {
@@ -185,7 +188,7 @@ function Stake() {
     }
 
     // 1st catch if quantity > balance
-    let gweiValue = ethers.utils.parseUnits(quantity.toString(), "gwei");
+    const gweiValue = ethers.utils.parseUnits(quantity.toString(), "gwei");
     if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
       return dispatch(error(t`You cannot stake more than your OHM balance.`));
     }
@@ -236,7 +239,7 @@ function Stake() {
 
   const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
 
-  let modalButton = [];
+  const modalButton = [];
 
   modalButton.push(
     <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
@@ -244,7 +247,7 @@ function Stake() {
     </Button>,
   );
 
-  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 
@@ -319,7 +322,6 @@ function Stake() {
                 />
               </MetricCollection>
             </Grid>
-
             <div className="staking-area">
               {!address ? (
                 <div className="stake-wallet-notification">
@@ -371,10 +373,10 @@ function Stake() {
                                   </>
                                 ) : (
                                   <>
-                                    <Trans>First time unstaking</Trans> <b>sOHM</b>?
+                                    <Trans>First time unstaking</Trans> <b>{confirmation ? "gOHM" : "sOHM"}</b>?
                                     <br />
-                                    <Trans>Please approve Olympus Dao to use your</Trans> <b>sOHM</b>{" "}
-                                    <Trans>for unstaking</Trans>.
+                                    <Trans>Please approve Olympus Dao to use your</Trans>{" "}
+                                    <b>{confirmation ? "gOHM" : "sOHM"}</b> <Trans>for unstaking</Trans>.
                                   </>
                                 )}
                               </Typography>
@@ -420,7 +422,11 @@ function Stake() {
                                   onChangeStake("stake");
                                 }}
                               >
-                                {txnButtonText(pendingTransactions, "staking", t`Stake OHM`)}
+                                {txnButtonText(
+                                  pendingTransactions,
+                                  "staking",
+                                  `${t`Stake to`} ${confirmation ? " gOHM" : " sOHM"}`,
+                                )}
                               </Button>
                             ) : (
                               <Button
@@ -455,7 +461,11 @@ function Stake() {
                                   onChangeStake("unstake");
                                 }}
                               >
-                                {txnButtonText(pendingTransactions, "unstaking", t`Unstake`)}
+                                {txnButtonText(
+                                  pendingTransactions,
+                                  "unstaking",
+                                  `${t`Unstake from`} ${confirmation ? " gOHM" : " sOHM"}`,
+                                )}
                               </Button>
                             ) : (
                               <Button
@@ -483,119 +493,131 @@ function Stake() {
                     onConfirm={setConfirmation}
                   />
                   <div className="stake-user-data">
-                    <StakeRow
+                    <DataRow
                       title={t`Unstaked Balance`}
                       id="user-balance"
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                     <Accordion className="stake-accordion" square defaultExpanded>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
-                        <StakeRow
-                          title={t`Staked Balance`}
+                        <DataRow
+                          title={t`Total Staked Balance`}
                           id="user-staked-balance"
                           balance={`${trimmedBalance} sOHM`}
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                       </AccordionSummary>
                       <AccordionDetails>
-                        <StakeRow
-                          title={t`Single Staking`}
+                        <DataRow
+                          title={t`sOHM Balance`}
                           balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
-                        <StakeRow
-                          title={`${t`Wrapped Balance`}`}
+                        <DataRow
+                          title={`${t`gOHM Balance`}`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                         {Number(gOhmOnArbitrum) > 0.00009 && (
-                          <StakeRow
-                            title={`${t`Wrapped (Arbitrum)`}`}
+                          <DataRow
+                            title={`${t`gOHM (Arbitrum)`}`}
                             balance={`${trim(Number(gOhmOnArbitrum), 4)} gOHM`}
                             indented
                             {...{ isAppLoading }}
                           />
                         )}
                         {Number(gOhmOnAvax) > 0.00009 && (
-                          <StakeRow
-                            title={`${t`Wrapped (Avalanche)`}`}
+                          <DataRow
+                            title={`${t`gOHM (Avalanche)`}`}
                             balance={`${trim(Number(gOhmOnAvax), 4)} gOHM`}
                             indented
                             {...{ isAppLoading }}
                           />
                         )}
                         {Number(gOhmOnPolygon) > 0.00009 && (
-                          <StakeRow
-                            title={`${t`Wrapped (Polygon)`}`}
+                          <DataRow
+                            title={`${t`gOHM (Polygon)`}`}
                             balance={`${trim(Number(gOhmOnPolygon), 4)} gOHM`}
                             indented
                             {...{ isAppLoading }}
                           />
                         )}
                         {Number(gOhmOnFantom) > 0.00009 && (
-                          <StakeRow
-                            title={`${t`Wrapped (Fantom)`}`}
+                          <DataRow
+                            title={`${t`gOHM (Fantom)`}`}
                             balance={`${trim(Number(gOhmOnFantom), 4)} gOHM`}
                             indented
                             {...{ isAppLoading }}
                           />
                         )}
+                        {Number(gOhmOnTokemak) > 0.00009 && (
+                          <DataRow
+                            title={`${t`gOHM (Tokemak)`}`}
+                            balance={`${trim(Number(gOhmOnTokemak), 4)} gOHM`}
+                            indented
+                            isLoading={isAppLoading}
+                          />
+                        )}
                         {Number(fgohmBalance) > 0.00009 && (
-                          <StakeRow
-                            title={`${t`Wrapped Balance in Fuse`}`}
+                          <DataRow
+                            title={`${t`gOHM Balance in Fuse`}`}
                             balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
                             indented
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                           />
                         )}
                         {Number(sohmV1Balance) > 0.00009 && (
-                          <StakeRow
-                            title={`${t`Single Staking`} (v1)`}
+                          <DataRow
+                            title={`${t`sOHM Balance`} (v1)`}
                             balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
                             indented
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                           />
                         )}
                         {Number(wsohmBalance) > 0.00009 && (
-                          <StakeRow
-                            title={`${t`Wrapped Balance`} (v1)`}
+                          <DataRow
+                            title={`${t`wsOHM Balance`} (v1)`}
                             balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                             indented
                           />
                         )}
                         {Number(fiatDaowsohmBalance) > 0.00009 && (
-                          <StakeRow
-                            title={t`Wrapped Balance in FiatDAO`}
+                          <DataRow
+                            title={t`wsOHM Balance in FiatDAO (v1)`}
                             balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                             indented
                           />
                         )}
                         {Number(fsohmBalance) > 0.00009 && (
-                          <StakeRow
-                            title={t`Staked Balance in Fuse`}
+                          <DataRow
+                            title={t`sOHM Balance in Fuse (v1)`}
                             balance={`${trim(Number(fsohmBalance), 4)} sOHM (v1)`}
                             indented
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                           />
                         )}
                       </AccordionDetails>
                     </Accordion>
                     <Divider color="secondary" />
-                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
-                    <StakeRow
+                    <DataRow
+                      title={t`Next Reward Amount`}
+                      balance={`${nextRewardValue} sOHM`}
+                      isLoading={isAppLoading}
+                    />
+                    <DataRow
                       title={t`Next Reward Yield`}
                       balance={`${stakingRebasePercentage}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
-                    <StakeRow
+                    <DataRow
                       title={t`ROI (5-Day Rate)`}
                       balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                   </div>
                 </>
@@ -604,7 +626,8 @@ function Stake() {
           </Grid>
         </Paper>
       </Zoom>
-      <ZapCta />
+      {/* NOTE (appleseed-olyzaps) olyzaps disabled until v2 contracts */}
+      {/* <ZapCta /> */}
       <ExternalStakePool />
     </div>
   );

@@ -1,12 +1,13 @@
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
+import { ethers } from "ethers";
+import { NetworkId } from "src/constants";
 import { setAll } from "src/helpers";
 import { ZapHelper } from "src/helpers/ZapHelper";
+
+import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IZapAsyncThunk } from "./interfaces";
-import { NetworkId } from "src/constants";
 import { error, info } from "./MessagesSlice";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { ethers } from "ethers";
 interface IUAData {
   address: string;
   value: string;
@@ -57,7 +58,7 @@ export const changeZapTokenAllowance = createAsyncThunk(
       const tx = await signer.sendTransaction(transactionData);
       await tx.wait();
 
-      let uaData: IUAData = {
+      const uaData: IUAData = {
         address: address,
         value: value,
         approved: true,
@@ -68,7 +69,7 @@ export const changeZapTokenAllowance = createAsyncThunk(
       return Object.fromEntries([[action, true]]);
     } catch (e: unknown) {
       const rpcError = e as any;
-      let uaData: IUAData = {
+      const uaData: IUAData = {
         address: address,
         value: value,
         approved: false,
@@ -126,7 +127,7 @@ export const executeZap = createAsyncThunk(
       const tx = await signer.sendTransaction(transactionData);
       await tx.wait();
 
-      let uaData: IUADataZap = {
+      const uaData: IUADataZap = {
         address: address,
         value: sellAmount.toString(),
         token: tokenAddress,
@@ -137,7 +138,7 @@ export const executeZap = createAsyncThunk(
       segmentUA(uaData);
       dispatch(info("Successful Zap!"));
     } catch (e: unknown) {
-      let uaData: IUADataZap = {
+      const uaData: IUADataZap = {
         address: address,
         value: sellAmount.toString(),
         token: tokenAddress,
@@ -217,6 +218,7 @@ const zapTokenBalancesSlice = createSlice({
         console.error("Handled error");
         console.error(error.message);
       })
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       .addCase(getZapTokenAllowance.pending, state => {})
       .addCase(getZapTokenAllowance.fulfilled, (state, action) => {
         if (!action.payload) return;

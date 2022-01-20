@@ -1,0 +1,18 @@
+#hades {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .helper-text {
+    margin: 8px 0 20px 0;
+  }
+  h3 {
+    align-self: center;
+    justify-self: center;
+    width: 75%;
+    text-align: center;
+  }
+  label {
+    margin: 10px 0 10px;
+  }
+}

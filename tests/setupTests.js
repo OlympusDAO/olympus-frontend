@@ -1,9 +1,25 @@
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom/extend-expect";
 
-// TODO add jest-puppeteer preset
+import { i18n } from "@lingui/core";
+import { setupServer } from "msw/node";
 
-jest.setTimeout(60000);
+import handlers from "./testHandlers";
+
+global.CSS = { supports: jest.fn() };
+
+const server = setupServer(...handlers);
+
+beforeAll(() => {
+  // Enable API mocking before tests.
+  server.listen({ onUnhandledRequest: "bypass" });
+  i18n.load("en", {});
+  i18n.activate("en");
+});
+
+afterEach(() => {
+  server.resetHandlers();
+});
+
+afterAll(() => {
+  server.close();
+});

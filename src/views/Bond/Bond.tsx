@@ -1,18 +1,20 @@
-import { ChangeEvent, Fragment, ReactNode, ReactElement, useEffect, useState } from "react";
-import { useHistory } from "react-router";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import { t, Trans } from "@lingui/macro";
-import { formatCurrency, trim } from "../../helpers";
-import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
-import TabPanel from "../../components/TabPanel";
-import BondHeader from "./BondHeader";
-import BondRedeem from "./BondRedeem";
-import BondPurchase from "./BondPurchase";
 import "./bond.scss";
-import { useWeb3Context } from "src/hooks/web3Context";
+
+import { t, Trans } from "@lingui/macro";
+import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { ChangeEvent, Fragment, ReactElement, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import { useAppSelector } from "src/hooks";
 import { IAllBondData } from "src/hooks/Bonds";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useWeb3Context } from "src/hooks/web3Context";
+
+import TabPanel from "../../components/TabPanel";
+import { formatCurrency, trim } from "../../helpers";
+import BondHeader from "./BondHeader";
+import BondPurchase from "./BondPurchase";
+import BondRedeem from "./BondRedeem";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -28,7 +30,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   const { provider, address, networkId } = useWeb3Context();
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
-  const [slippage, setSlippage] = useState<number>(0.5);
+  const [slippage, setSlippage] = useState<string>("0.5");
   const [recipientAddress, setRecipientAddress] = useState<string>(address);
 
   const [view, setView] = useState<number>(0);
@@ -41,7 +43,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   };
 
   const onSlippageChange = (e: InputEvent): void => {
-    return setSlippage(Number(e.target.value));
+    return setSlippage(e.target.value);
   };
 
   const onClickAway = (): void => {
@@ -55,7 +57,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
 
-  const changeView = (event: ChangeEvent<{}>, value: string | number): void => {
+  const changeView = (event: ChangeEvent<any>, value: string | number): void => {
     setView(Number(value));
   };
 
@@ -145,7 +147,7 @@ export const DisplayBondPrice = ({ bond }: { bond: IAllBondData }): ReactElement
   );
 };
 
-export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactNode => {
+export const DisplayBondDiscount = ({ bond }: { bond: IAllBondData }): ReactElement => {
   const { networkId } = useWeb3Context();
 
   if (typeof bond.bondDiscount === undefined || !bond.getBondability(networkId)) {

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import { History } from "history";
+import { useEffect } from "react";
 import { NetworkId, VIEWS_FOR_NETWORK } from "src/constants";
 
 /**
@@ -21,6 +21,13 @@ export function usePathForNetwork({
     switch (pathName) {
       case "stake":
         if (VIEWS_FOR_NETWORK[networkID] && VIEWS_FOR_NETWORK[networkID].stake) {
+          break;
+        } else {
+          history.push("/wrap");
+          break;
+        }
+      case "bonds-v1":
+        if (VIEWS_FOR_NETWORK[networkID] && VIEWS_FOR_NETWORK[networkID].bonds) {
           break;
         } else {
           history.push("/wrap");

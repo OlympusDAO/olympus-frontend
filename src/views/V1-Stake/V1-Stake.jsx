@@ -1,45 +1,43 @@
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import "../Stake/stake.scss";
+import "./v1stake.scss";
+
+import { t, Trans } from "@lingui/macro";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
+  Divider,
   FormControl,
   Grid,
   InputAdornment,
   InputLabel,
-  Link,
   OutlinedInput,
   Paper,
   Tab,
   Tabs,
   Typography,
   Zoom,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Divider,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
-import { t, Trans } from "@lingui/macro";
-import NewReleases from "@material-ui/icons/NewReleases";
-import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
-import TabPanel from "../../components/TabPanel";
-import { MigrateButton, LearnMoreButton } from "src/components/CallToAction/CallToAction";
-import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
-import { changeApproval, changeStake } from "../../slices/StakeThunk";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "../Stake/stake.scss";
-import "./v1stake.scss";
-import StakeRow from "../Stake/StakeRow";
+import { Skeleton } from "@material-ui/lab";
+import { DataRow, Metric, MetricCollection } from "@olympusdao/component-library";
+import { ethers } from "ethers";
+import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
+import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { Skeleton } from "@material-ui/lab";
-import ExternalStakePool from "../Stake/ExternalStakePool";
+
+import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
+import TabPanel from "../../components/TabPanel";
+import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
-import { ethers } from "ethers";
-import { getMigrationAllowances } from "src/slices/AccountSlice";
-import { useAppSelector } from "src/hooks";
-import { useHistory } from "react-router-dom";
+import { changeApproval, changeStake } from "../../slices/StakeThunk";
+import ExternalStakePool from "../Stake/ExternalStakePool";
 
 function a11yProps(index) {
   return {
@@ -190,9 +188,18 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   };
 
   const goToBonds = () => {
-    history.push("/bonds");
+    // v1 bonds for v1 stake
+    history.push("/bonds-v1");
   };
 
+  const formattedTrimmedStakingAPY = new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY));
+  const formattedStakingTVL = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(stakingTVL);
+  const formattedCurrentIndex = trim(currentIndex, 1);
   return (
     <div id="v1-stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
@@ -208,55 +215,26 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
             </Grid>
 
             <Grid item>
-              <div className="stake-top-metrics">
-                <Grid container spacing={2} alignItems="flex-end">
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-apy">
-                      <Typography variant="h5" color="textSecondary">
-                        <Trans>APY</Trans> (v1)
-                      </Typography>
-                      <Typography variant="h4">
-                        {stakingAPY ? (
-                          <>{new Intl.NumberFormat("en-US").format(trimmedStakingAPY)}%</>
-                        ) : (
-                          <Skeleton width="150px" />
-                        )}
-                      </Typography>
-                    </div>
-                  </Grid>
-
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-tvl">
-                      <Typography variant="h5" color="textSecondary">
-                        <Trans>TVL</Trans> (v1)
-                      </Typography>
-                      <Typography variant="h4">
-                        {stakingTVL ? (
-                          new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                            maximumFractionDigits: 0,
-                            minimumFractionDigits: 0,
-                          }).format(stakingTVL)
-                        ) : (
-                          <Skeleton width="150px" />
-                        )}
-                      </Typography>
-                    </div>
-                  </Grid>
-
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
-                    <div className="stake-index">
-                      <Typography variant="h5" color="textSecondary">
-                        <Trans>Current Index</Trans> (v1)
-                      </Typography>
-                      <Typography variant="h4">
-                        {currentIndex ? <>{trim(currentIndex, 1)} OHM</> : <Skeleton width="150px" />}
-                      </Typography>
-                    </div>
-                  </Grid>
-                </Grid>
-              </div>
+              <MetricCollection>
+                <Metric
+                  className="stake-apy"
+                  label={`${t`APY`} (v1)`}
+                  metric={`${formattedTrimmedStakingAPY}%`}
+                  isLoading={stakingAPY ? false : true}
+                />
+                <Metric
+                  className="stake-tvl"
+                  label={`${t`TVL`} (v1)`}
+                  metric={formattedStakingTVL}
+                  isLoading={stakingTVL ? false : true}
+                />
+                <Metric
+                  className="stake-index"
+                  label={`${t`Current Index`} (v1)`}
+                  metric={`${formattedCurrentIndex} OHM`}
+                  isLoading={currentIndex ? false : true}
+                />
+              </MetricCollection>
             </Grid>
 
             <div className="staking-area">
@@ -414,77 +392,81 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                     </Box>
                   </Box>
                   <div className="stake-user-data">
-                    <StakeRow
+                    <DataRow
                       title={`${t`Unstaked Balance`} (v1)`}
                       id="user-balance"
                       balance={`${trim(Number(ohmBalance), 4)} OHM`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                     <Accordion className="stake-accordion" square>
                       <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
-                        <StakeRow
-                          title={t`Staked Balance`}
+                        <DataRow
+                          title={t`Total Staked Balance`}
                           id="user-staked-balance"
                           balance={`${trimmedBalance} sOHM`}
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                       </AccordionSummary>
                       <AccordionDetails>
-                        <StakeRow
-                          title={`${t`Single Staking`} (v1)`}
+                        <DataRow
+                          title={`${t`sOHM Balance`} (v1)`}
                           balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                         {Number(fsohmBalance) > 0.00009 && (
-                          <StakeRow
-                            title={`${t`Staked Balance in Fuse`} (v2)`}
-                            balance={`${trim(Number(fsohmBalance), 4)} fsOHM`}
+                          <DataRow
+                            title={`${t`gOHM Balance in Fuse`}`}
+                            balance={`${trim(Number(fsohmBalance), 4)} gOHM`}
                             indented
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                           />
                         )}
                         {Number(wsohmBalance) > 0.0 && (
-                          <StakeRow
-                            title={`${t`Wrapped Balance`} (v1)`}
+                          <DataRow
+                            title={`${t`wsOHM Balance`} (v1)`}
                             balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                             indented
                           />
                         )}
                         {Number(fiatDaowsohmBalance) > 0.00009 && (
-                          <StakeRow
-                            title={`${t`Wrapped Balance in FiatDAO`} (v1)`}
+                          <DataRow
+                            title={`${t`wsOHM Balance in FiatDAO`} (v1)`}
                             balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
-                            {...{ isAppLoading }}
+                            isLoading={isAppLoading}
                             indented
                           />
                         )}
-                        <StakeRow
-                          title={`${t`Single Staking`} (v2)`}
+                        <DataRow
+                          title={`${t`sOHM Balance`} (v2)`}
                           balance={`${trim(Number(sohmV2Balance), 4)} sOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
-                        <StakeRow
-                          title={`${t`Wrapped Balance`} (v2)`}
+                        <DataRow
+                          title={`${t`gOHM Balance`} (v2)`}
                           balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
                           indented
-                          {...{ isAppLoading }}
+                          isLoading={isAppLoading}
                         />
                       </AccordionDetails>
                     </Accordion>
                     <Divider color="secondary" />
-                    <StakeRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} {...{ isAppLoading }} />
-                    <StakeRow
+                    <DataRow
+                      title={t`Next Reward Amount`}
+                      balance={`${nextRewardValue} sOHM`}
+                      isLoading={isAppLoading}
+                    />
+                    <DataRow
                       title={t`Next Reward Yield`}
                       balance={`${stakingRebasePercentage}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
-                    <StakeRow
+                    <DataRow
                       title={t`ROI (5-Day Rate)`}
                       balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
-                      {...{ isAppLoading }}
+                      isLoading={isAppLoading}
                     />
                   </div>
                 </>

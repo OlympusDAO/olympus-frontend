@@ -1,8 +1,9 @@
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import SvgIcon from "@material-ui/core/SvgIcon";
-import { ReactComponent as SunIcon } from "../../assets/icons/sun.svg";
-import { ReactComponent as MoonIcon } from "../../assets/icons/moon.svg";
 import { t } from "@lingui/macro";
+import SvgIcon from "@material-ui/core/SvgIcon";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+
+import { ReactComponent as MoonIcon } from "../../assets/icons/moon.svg";
+import { ReactComponent as SunIcon } from "../../assets/icons/sun.svg";
 
 function ThemeSwitcher({ theme, toggleTheme }) {
   return (

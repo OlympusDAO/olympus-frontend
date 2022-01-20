@@ -1,35 +1,24 @@
-import { useState } from "react";
+import { t } from "@lingui/macro";
 import {
-  SvgIcon,
+  Accordion as MuiAccordion,
+  AccordionDetails,
+  AccordionSummary as MuiAccordionSummary,
+  Box,
   Button,
   Typography,
-  Box,
-  Accordion as MuiAccordion,
-  AccordionSummary as MuiAccordionSummary,
-  AccordionDetails,
-  withStyles,
   useTheme,
+  withStyles,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-
+import { Icon, OHMTokenProps, Token as TokenSVG } from "@olympusdao/component-library";
+import { ChangeEvent, useState } from "react";
+import { useQuery } from "react-query";
+import { addresses, NETWORKS } from "src/constants";
+import { NetworkId } from "src/constants";
+import { formatCurrency } from "src/helpers";
+import { segmentUA } from "src/helpers/userAnalyticHelpers";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { addresses, NETWORKS } from "src/constants";
-import { formatCurrency } from "src/helpers";
-import { RootState } from "src/store";
-import { NetworkId } from "src/constants";
-
-import { ReactComponent as MoreIcon } from "src/assets/icons/more.svg";
-import OhmImg from "src/assets/tokens/token_OHM.svg";
-import SOhmImg from "src/assets/tokens/token_sOHM.svg";
-import WsOhmImg from "src/assets/tokens/token_wsOHM.svg";
-import Token33tImg from "src/assets/tokens/token_33T.svg";
-import GOhmImg from "src/assets/tokens/gohm.png";
-
-import { segmentUA } from "src/helpers/userAnalyticHelpers";
-import { t } from "@lingui/macro";
-
-import { useQuery } from "react-query";
 import { fetchCrossChainBalances } from "src/lib/fetchBalances";
 
 const Accordion = withStyles({
@@ -71,7 +60,7 @@ export interface IToken {
   symbol: string;
   address: string;
   decimals: number;
-  icon: string;
+  icon: OHMTokenProps["name"];
   balance: string;
   price: number;
   crossChainBalances?: { balances: Record<NetworkId, string>; isLoading: boolean };
@@ -107,7 +96,7 @@ const addTokenToWallet = async (token: IToken, userAddress: string) => {
 
 interface TokenProps extends IToken {
   expanded: boolean;
-  onChangeExpanded: (event: React.ChangeEvent<{}>, isExpanded: boolean) => void;
+  onChangeExpanded: (event: ChangeEvent<any>, isExpanded: boolean) => void;
   onAddTokenToWallet: () => void;
   decimals: number;
 }
@@ -177,9 +166,9 @@ export const Token = ({
 
   return (
     <Accordion expanded={expanded} onChange={onChangeExpanded}>
-      <AccordionSummary expandIcon={<SvgIcon component={MoreIcon} color="disabled" />}>
+      <AccordionSummary expandIcon={<Icon name="more" color="disabled" />}>
         <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-          <img src={icon} style={{ height: "28px", width: "28px", marginRight: theme.spacing(1) }} />
+          <TokenSVG name={icon} style={{ fontSize: 28, marginRight: theme.spacing(1) }} />
           <Typography>{symbol}</Typography>
         </Box>
         <BalanceValue
@@ -235,7 +224,7 @@ export const MigrateToken = ({ symbol, icon, balance = "0.0", price = 0 }: IToke
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
       <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-        <img src={icon} style={{ height: "28px", width: "28px", marginRight: theme.spacing(1) }} />
+        <TokenSVG name={icon} style={{ fontSize: 28, marginRight: theme.spacing(1) }} />
         <Typography>{symbol}</Typography>
       </Box>
       {/* <Button variant="contained" color="primary" size="small" onClick={() => true}>
@@ -267,7 +256,7 @@ const sumObjValues = (obj: Record<string, string> = {}) =>
 export const useWallet = (
   userAddress: string,
   chainId: NetworkId,
-  providerInitialized: Boolean,
+  providerInitialized: boolean,
 ): Record<string, IToken> => {
   // default to mainnet while not initialized
   const networkId = providerInitialized ? chainId : NetworkId.MAINNET;
@@ -284,7 +273,7 @@ export const useWallet = (
       address: addresses[networkId].OHM_ADDRESS,
       balance: connectedChainBalances.ohmV1,
       price: ohmPrice || 0,
-      icon: OhmImg,
+      icon: "OHM",
       decimals: 9,
     },
     sohmV1: {
@@ -292,7 +281,7 @@ export const useWallet = (
       address: addresses[networkId].SOHM_ADDRESS,
       balance: connectedChainBalances.sohmV1,
       price: ohmPrice || 0,
-      icon: SOhmImg,
+      icon: "sOHM",
       decimals: 9,
     },
     ohm: {
@@ -300,7 +289,7 @@ export const useWallet = (
       address: addresses[networkId].OHM_V2,
       balance: connectedChainBalances.ohm,
       price: ohmPrice || 0,
-      icon: OhmImg,
+      icon: "OHM",
       decimals: 9,
     },
     sohm: {
@@ -309,9 +298,10 @@ export const useWallet = (
       balance: connectedChainBalances.sohm,
       price: ohmPrice || 0,
       vaultBalances: {
+        "gOHM on Tokemak": connectedChainBalances.gOhmOnTokemakAsSohm,
         "Fuse Olympus Pool Party": connectedChainBalances.fsohm,
       },
-      icon: SOhmImg,
+      icon: "sOHM",
       decimals: 9,
     },
     wsohm: {
@@ -320,7 +310,7 @@ export const useWallet = (
       balance: connectedChainBalances.wsohm,
       price: (ohmPrice || 0) * Number(currentIndex || 0),
       crossChainBalances: { balances: wsohm, isLoading },
-      icon: WsOhmImg,
+      icon: "wsOHM",
       decimals: 18,
     },
     pool: {
@@ -328,7 +318,7 @@ export const useWallet = (
       address: addresses[networkId].PT_TOKEN_ADDRESS,
       balance: connectedChainBalances.pool,
       price: ohmPrice || 0,
-      icon: Token33tImg,
+      icon: "33T",
       decimals: 9,
     },
     gohm: {
@@ -338,9 +328,10 @@ export const useWallet = (
       price: (ohmPrice || 0) * Number(currentIndex || 0),
       crossChainBalances: { balances: gohm, isLoading },
       vaultBalances: {
+        "gOHM on Tokemak": connectedChainBalances.gOhmOnTokemak,
         "Fuse Olympus Pool Party": connectedChainBalances.fgohm,
       },
-      icon: GOhmImg,
+      icon: "wsOHM",
       decimals: 18,
     },
   } as Record<string, Omit<IToken, "totalBalance">>;

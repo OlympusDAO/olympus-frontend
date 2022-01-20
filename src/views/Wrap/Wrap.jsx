@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import "../Stake/stake.scss";
+
+import { t } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -9,42 +10,29 @@ import {
   InputAdornment,
   InputLabel,
   Link,
+  MenuItem,
   OutlinedInput,
   Paper,
-  Tab,
-  Tabs,
+  Select,
+  SvgIcon,
   Typography,
   Zoom,
-  SvgIcon,
-  makeStyles,
-  Select,
-  MenuItem,
 } from "@material-ui/core";
-import InfoTooltip from "../../components/InfoTooltip/InfoTooltip.jsx";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-
-import { getOhmTokenImage, getTokenImage, trim, formatCurrency } from "../../helpers";
-import { changeApproval, changeWrap, changeWrapV2 } from "../../slices/WrapThunk";
-import { migrateWithType, migrateCrossChainWSOHM } from "../../slices/MigrateThunk";
-import { switchNetwork } from "../../helpers/NetworkHelper";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
-import { error } from "../../slices/MessagesSlice";
-import { NETWORKS } from "../../constants";
-import { ethers } from "ethers";
-import "../Stake/stake.scss";
-import { Metric, MetricCollection } from "src/components/Metric";
-import { t } from "@lingui/macro";
-import { useAppSelector } from "src/hooks/index.ts";
-import WrapCrossChain from "./WrapCrossChain.tsx";
-import { loadAccountDetails } from "src/slices/AccountSlice";
+import { Metric, MetricCollection } from "@olympusdao/component-library";
+import { DataRow } from "@olympusdao/component-library";
+import { useCallback, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 
-const useStyles = makeStyles(theme => ({
-  textHighlight: {
-    color: theme.palette.highlight,
-  },
-}));
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { NETWORKS } from "../../constants";
+import { formatCurrency, trim } from "../../helpers";
+import { switchNetwork } from "../../helpers/NetworkHelper";
+import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
+import WrapCrossChain from "./WrapCrossChain";
 
 function Wrap() {
   const dispatch = useDispatch();
@@ -61,8 +49,6 @@ function Wrap() {
     return "Transform";
   };
   const currentAction = chooseCurrentAction();
-
-  const classes = useStyles();
 
   const isAppLoading = useSelector(state => state.app.loading);
   const isAccountLoading = useSelector(state => state.account.loading);
@@ -144,14 +130,12 @@ function Wrap() {
     </Button>,
   );
 
-  const changeAssetFrom = event => {
-    setQuantity("");
-    setAssetFrom(event.target.value);
-  };
+  let temporaryStore = assetTo;
 
-  const changeAssetTo = event => {
+  const changeAsset = () => {
     setQuantity("");
-    setAssetTo(event.target.value);
+    setAssetTo(assetFrom);
+    setAssetFrom(temporaryStore);
   };
 
   const approveWrap = token => {
@@ -327,7 +311,7 @@ function Wrap() {
                               id="asset-select"
                               value={assetFrom}
                               label="Asset"
-                              onChange={changeAssetFrom}
+                              onChange={changeAsset}
                               disableUnderline
                             >
                               <MenuItem value={"sOHM"}>sOHM</MenuItem>
@@ -352,7 +336,7 @@ function Wrap() {
                               id="asset-select"
                               value={assetTo}
                               label="Asset"
-                              onChange={changeAssetTo}
+                              onChange={changeAsset}
                               disableUnderline
                             >
                               <MenuItem value={"gOHM"}>gOHM</MenuItem>
@@ -370,19 +354,16 @@ function Wrap() {
                     </Box>
                     <div className={`stake-user-data`}>
                       <>
-                        <div className="data-row">
-                          <Typography variant="body1">sOHM Balance</Typography>
-                          <Typography variant="body1">
-                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(sohmBalance, 4)} sOHM</>}
-                          </Typography>
-                        </div>
-                        <div className="data-row">
-                          <Typography variant="body1">gOHM Balance</Typography>
-                          <Typography variant="body1">
-                            {isAppLoading ? <Skeleton width="80px" /> : <>{trim(gohmBalance, 4)} gOHM</>}
-                          </Typography>
-                        </div>
-
+                        <DataRow
+                          title={t`sOHM Balance`}
+                          balance={`${trim(sohmBalance, 4)} sOHM`}
+                          isLoading={isAppLoading}
+                        />
+                        <DataRow
+                          title={t`gOHM Balance`}
+                          balance={`${trim(gohmBalance, 4)} gOHM`}
+                          isLoading={isAppLoading}
+                        />
                         <Divider />
                         <Box width="100%" align="center" p={1}>
                           <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>

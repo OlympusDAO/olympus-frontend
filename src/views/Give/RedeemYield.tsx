@@ -1,35 +1,23 @@
+import { t, Trans } from "@lingui/macro";
+import { Box, Button, Container, Paper, Typography, Zoom } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { InfoTooltip } from "@olympusdao/component-library";
+import { DataRow } from "@olympusdao/component-library";
+import { BigNumber } from "bignumber.js";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Paper,
-  Typography,
-  Button,
-  Zoom,
-  TableCell,
-  TableBody,
-  Table,
-  TableRow,
-  TableContainer,
-  Container,
-  Box,
-} from "@material-ui/core";
 import { useLocation } from "react-router-dom";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
-import { Skeleton } from "@material-ui/lab";
-import { IAccountSlice, loadAccountDetails } from "src/slices/AccountSlice";
-import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { IAppData } from "src/slices/AppSlice";
-import { BigNumber } from "bignumber.js";
-import { t, Trans } from "@lingui/macro";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
-import { VaultGraphic, ArrowGraphic, RedeemGraphic } from "../../components/EducationCard";
-import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
-import { useAppSelector } from "src/hooks";
-import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 import { NetworkId } from "src/constants";
+import { EnvHelper } from "src/helpers/Environment";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { IAccountSlice, loadAccountDetails } from "src/slices/AccountSlice";
+import { IAppData } from "src/slices/AppSlice";
+import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+
+import { ArrowGraphic, RedeemGraphic, VaultGraphic } from "../../components/EducationCard";
+import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
+import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -203,75 +191,44 @@ export default function RedeemYield() {
                   <RedeemGraphic quantity={redeemableBalanceNumber.toFixed(2)} isLoading={isRecipientInfoLoading} />
                 </div>
               </div>
-              <TableContainer className="redeem-table">
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>
-                        <Trans>Donated sOHM Generating Yield</Trans>
-                      </TableCell>
-                      <TableCell className={getTableCellClass(isRecipientInfoLoading)}>
-                        {isRecipientInfoLoading ? <Skeleton /> : getTrimmedBigNumber(totalDeposit) + " " + t` sOHM`}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <Trans>Redeemable Amount</Trans>
-                      </TableCell>
-                      <TableCell className={getTableCellClass(isRecipientInfoLoading)}>
-                        {" "}
-                        {isRecipientInfoLoading ? (
-                          <Skeleton />
-                        ) : (
-                          getTrimmedBigNumber(redeemableBalanceNumber) + " " + t` sOHM`
-                        )}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <Trans>Next Reward Amount</Trans>
-                      </TableCell>
-                      <TableCell className={getTableCellClass(isAppLoading)}>
-                        {" "}
-                        {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(nextRewardValue) + " " + t` sOHM`}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <Trans>Next Reward Yield</Trans>
-                      </TableCell>
-                      <TableCell className={getTableCellClass(isAppLoading)}>
-                        {" "}
-                        {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(stakingRebasePercentage) + "%"}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <Trans>ROI (5-Day Rate)</Trans>
-                      </TableCell>
-                      <TableCell className={getTableCellClass(isAppLoading)}>
-                        {" "}
-                        {isAppLoading ? <Skeleton /> : getTrimmedBigNumber(fiveDayRateValue) + "%"}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell align="left" className="cell-align-end">
-                        {" "}
-                        <Button
-                          variant="outlined"
-                          color="secondary"
-                          className="redeem-button"
-                          onClick={() => handleRedeemButtonClick()}
-                          disabled={!canRedeem()}
-                        >
-                          {txnButtonText(pendingTransactions, "redeeming", t`Redeem`)}
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              <Box>
+                <DataRow
+                  title={t`Donated sOHM Generating Yield`}
+                  balance={`${getTrimmedBigNumber(totalDeposit)} ${t`sOHM`}`}
+                  isLoading={isRecipientInfoLoading}
+                />
+                <DataRow
+                  title={t`Redeemable Amount`}
+                  balance={`${getTrimmedBigNumber(redeemableBalanceNumber)} ${t`sOHM`}`}
+                  isLoading={isRecipientInfoLoading}
+                />
+                <DataRow
+                  title={t`Next Reward Amount`}
+                  balance={`${getTrimmedBigNumber(nextRewardValue)} ${t`sOHM`}`}
+                  isLoading={isAppLoading}
+                />
+                <DataRow
+                  title={t`Next Reward Yield`}
+                  balance={`${getTrimmedBigNumber(stakingRebasePercentage)}%`}
+                  isLoading={isAppLoading}
+                />
+                <DataRow
+                  title={t`ROI (5-Day Rate)`}
+                  balance={`${getTrimmedBigNumber(fiveDayRateValue)}%`}
+                  isLoading={isAppLoading}
+                />
+                <Box display="flex" justifyContent="flex-end">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    className="redeem-button"
+                    onClick={() => handleRedeemButtonClick()}
+                    disabled={!canRedeem()}
+                  >
+                    {txnButtonText(pendingTransactions, "redeeming", t`Redeem`)}
+                  </Button>
+                </Box>
+              </Box>
               <RedeemYieldModal
                 isModalOpen={isRedeemYieldModalOpen}
                 callbackFunc={handleRedeemYieldModalSubmit}

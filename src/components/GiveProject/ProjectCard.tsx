@@ -1,44 +1,41 @@
+import { t, Trans } from "@lingui/macro";
 import {
+  Box,
   Button,
-  Typography,
+  Container,
   Grid,
+  LinearProgress,
+  Link,
   Paper,
   Tooltip,
-  Link,
-  LinearProgress,
+  Typography,
   useMediaQuery,
-  Container,
-  Box,
-  SvgIcon,
 } from "@material-ui/core";
-import Countdown from "react-countdown";
-import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
-import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
-import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
-import { ReactComponent as DonorsIcon } from "../../assets/icons/donors.svg";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useTheme } from "@material-ui/core/styles";
-import { useAppDispatch } from "src/hooks";
-import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
+import { Icon } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
+import MarkdownIt from "markdown-it";
+import { useEffect, useState } from "react";
+import Countdown from "react-countdown";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { NetworkId } from "src/constants";
+import { EnvHelper } from "src/helpers/Environment";
+import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
+import { useAppDispatch } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { IAccountSlice } from "src/slices/AccountSlice";
+import { IAppData } from "src/slices/AppSlice";
+import { ACTION_GIVE, changeGive, changeMockGive, isSupportedChain } from "src/slices/GiveThunk";
+import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
-import { SubmitCallback, CancelCallback } from "src/views/Give/Interfaces";
-import { changeGive, changeMockGive, ACTION_GIVE, isSupportedChain } from "src/slices/GiveThunk";
+
 import { error } from "../../slices/MessagesSlice";
+import { GiveHeader } from "./GiveHeader";
 import { Project } from "./project.type";
 import { countDecimals, roundToDecimal, toInteger } from "./utils";
-import { ReactComponent as WebsiteIcon } from "../../assets/icons/website.svg";
-import { ReactComponent as DonatedIcon } from "../../assets/icons/donated.svg";
-import { ReactComponent as GoalIcon } from "../../assets/icons/goal.svg";
-import MarkdownIt from "markdown-it";
-import { t, Trans } from "@lingui/macro";
-import { useLocation } from "react-router-dom";
-import { EnvHelper } from "src/helpers/Environment";
-import { GiveHeader } from "./GiveHeader";
-import { NetworkId } from "src/constants";
 import { State } from "src/slices/interfaces";
 
 type CountdownProps = {
@@ -101,9 +98,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
 
   useEffect(() => {
-    let items = document.getElementsByClassName("project-container");
+    const items = document.getElementsByClassName("project-container");
     if (items.length > 0) {
       items[0].scrollIntoView();
+      window.scrollTo(0, 0);
     }
   }, [location.pathname]);
 
@@ -139,49 +137,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
-  const countdownRenderer = ({ completed, formatted }: CountdownProps) => {
-    if (completed)
-      return (
-        <>
-          <div className="cause-info-icon">
-            <SvgIcon component={ClockIcon} fill={svgFillColour} />
-          </div>
-          <div>
-            <div className="cause-info-main-text">
-              <strong>00:00:00</strong>
-            </div>
-            <span className="cause-info-bottom-text">
-              <Trans>Completed</Trans>
-            </span>
-          </div>
-        </>
-      );
-
-    return (
-      <>
-        <div className="cause-info-icon">
-          <SvgIcon component={ClockIcon} fill={svgFillColour} />
-        </div>
-        <div>
-          <Tooltip
-            title={!finishDateObject ? "" : t`Finishes at ` + finishDateObject.toLocaleString() + t` in your timezone`}
-            arrow
-          >
-            <div>
-              <div className="cause-info-main-text">
-                <strong>
-                  {formatted.days}:{formatted.hours}:{formatted.minutes}
-                </strong>
-              </div>
-              <span className="cause-info-bottom-text">
-                <Trans>Remaining</Trans>
-              </span>
-            </div>
-          </Tooltip>
-        </div>
-      </>
-    );
-  };
 
   // Removed for now. Will leave this function in for when we re-add this feature
   const countdownRendererDetailed = ({ completed, formatted }: CountdownProps) => {
@@ -190,7 +145,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         <>
           <Grid container className="countdown-container">
             <Grid item xs={3}>
-              <SvgIcon component={ClockIcon} fill={svgFillColour} />
+              <Icon name="clock" />
             </Grid>
             <Grid item xs={9} className="project-countdown-text">
               <div>
@@ -218,7 +173,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             >
               <Grid item xs={12} className="countdown-object">
                 <div>
-                  <SvgIcon component={ClockIcon} fill={svgFillColour} />
+                  <Icon name="clock" />
                 </div>
                 <div className="project-countdown-text">
                   <div>
@@ -259,7 +214,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     return (
       <>
         <div className="cause-info-icon">
-          <SvgIcon component={CheckIcon} fill={svgFillColour} />
+          <Icon name="check-circle" style={{ marginRight: "0.33rem" }} />
         </div>
         <div>
           <Tooltip
@@ -293,12 +248,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         <Grid container className="project-goal">
           <Grid item xs={4} className="project-donated">
             <div className="project-donated-icon">
-              <SvgIcon
-                component={DonatedIcon}
-                viewBox={"0 0 16 12"}
-                style={{ marginRight: "0.33rem" }}
-                fill={svgFillColour}
-              />
+              <Icon name="donated" style={{ marginRight: "0.33rem" }} />
               <Typography variant="h6">
                 <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedTotalDebt}</strong>
               </Typography>
@@ -310,12 +260,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Grid item xs={4} />
           <Grid item xs={4} className="project-completion">
             <div className="project-completion-icon">
-              <SvgIcon
-                component={GoalIcon}
-                viewBox={"0 0 16 12"}
-                style={{ marginRight: "0.33rem" }}
-                fill={svgFillColour}
-              />
+              <Icon name="goal" style={{ marginRight: "0.33rem" }} />
               <Typography variant="h6">
                 <strong>{new BigNumber(depositGoal).toFormat()}</strong>
               </Typography>
@@ -432,12 +377,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Typography variant="body1">
                       <Trans>View Details</Trans>
                     </Typography>
-                    <SvgIcon
-                      component={ArrowRight}
-                      style={{ width: "30px", marginLeft: "0.33em" }}
-                      viewBox={"0 0 57 24"}
-                      fill={svgFillColour}
-                    />
+                    <Icon name="arrow-right" opacity={0.6} fontSize="large" style={{ marginLeft: "0.33em" }} />
                   </Link>
                 </Grid>
               </Grid>
@@ -447,7 +387,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 </Typography>
               </div>
               <Grid container direction="column" className="cause-misc-info">
-                <Grid item xs={6}>
+                <Grid item xs={6} sm={12} md={6}>
                   {renderGoalCompletion()}
                 </Grid>
                 <Grid item xs={6} sm={12} md={6} className="give-button-grid">
@@ -535,7 +475,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         </Grid>
                         <Grid item className="project-link">
                           <Link href={project.website} target="_blank">
-                            <SvgIcon component={WebsiteIcon} fill={svgFillColour} />
+                            <Icon name="website" />
                           </Link>
                         </Grid>
                       </Grid>
@@ -575,7 +515,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         <Grid item xs={12} md={4} className="project-goal">
                           <Grid container className="project-donated-icon">
                             <Grid item xs={1} md={2}>
-                              <SvgIcon component={DonorsIcon} viewBox={"0 0 18 13"} fill={svgFillColour} />
+                              <Icon name="donors" />
                             </Grid>
                             <Grid item xs={4}>
                               <Typography variant="h6">

@@ -1,5 +1,5 @@
 # Docker image for the frontend
-FROM --platform=amd64 node:14.18.2-bullseye-slim
+FROM --platform=amd64 node:14.18.3-bullseye-slim
 
 ### Dependency Installation
 # Install this separately, so puppeteer does not install it
