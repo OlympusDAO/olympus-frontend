@@ -8,13 +8,14 @@ import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import useEscape from "../../hooks/useEscape";
 import { BondOpts } from "../../lib/Bond";
 import { IBondDetails } from "../../slices/BondSlice";
+import { IBondV2 } from "../../slices/BondSliceV2";
 import AdvancedSettings from "../BondV2/AdvancedSettings";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
 interface IBondHeaderProps {
-  bond: IBondDetails & BondOpts;
-  slippage: string;
+  bond: (IBondDetails & BondOpts) | IBondV2;
+  slippage: number;
   recipientAddress: string;
   onRecipientAddressChange(e: InputEvent): void;
   onSlippageChange(e: InputEvent): void;

@@ -20,7 +20,7 @@ import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 interface IAdvancedSettingsProps {
   readonly open: boolean;
   readonly recipientAddress: string;
-  readonly slippage: string;
+  readonly slippage: number;
   readonly handleClose: () => void;
   readonly onRecipientAddressChange: (e: ChangeEvent<HTMLInputElement>) => void;
   readonly onSlippageChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -28,7 +28,7 @@ interface IAdvancedSettingsProps {
 
 function AdvancedSettings(props: IAdvancedSettingsProps) {
   return (
-    <Modal id="hades" open={props.open} onClose={props.handleClose} hideBackdrop>
+    <Modal id="hades" open={props.open} onClose={props.handleClose}>
       <Paper className="ohm-card ohm-popover">
         <Box display="flex">
           <IconButton onClick={props.handleClose}>
