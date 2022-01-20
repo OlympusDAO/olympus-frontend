@@ -18,7 +18,7 @@ TEST_PORT_ARGS=--network=host
 #### e2e stack variables
 STACK_FILE_ARGS=-f tests/docker-compose.yml
 STACK_UP_ARGS=--abort-on-container-exit --build
-CONTRACTS_DOCKER_TAG ?= "main" # Sets to main by default
+CONTRACTS_DOCKER_TAG?=main # Sets to main by default
 
 ### Translations
 translations_fetch:
@@ -51,7 +51,7 @@ test_e2e_run:
 test_e2e_stack_start:
 	@echo "*** Starting e2e stack in Docker"
 	@echo "Image tag for olympus-contracts is: ${CONTRACTS_DOCKER_TAG}"
-	docker-compose $(STACK_FILE_ARGS) pull && docker-compose $(STACK_FILE_ARGS) up $(STACK_UP_ARGS)
+	CONTRACTS_DOCKER_TAG=${CONTRACTS_DOCKER_TAG} docker-compose $(STACK_FILE_ARGS) pull && docker-compose $(STACK_FILE_ARGS) up $(STACK_UP_ARGS)
 
 test_e2e_stack_stop:
 	docker-compose $(STACK_FILE_ARGS) rm --stop --force

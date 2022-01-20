@@ -2,8 +2,7 @@ version: "3.2"
 services:
   # Runs the Hardhat node on an ongoing basis
   contract_node:
-    # TODO shift to official repo
-    image: ghcr.io/0xjem/olympus-contracts:${CONTRACTS_DOCKER_TAG}
+    image: ghcr.io/olympusdao/olympus-contracts:${CONTRACTS_DOCKER_TAG}
     # When running using CI, we are likely to define these values through environment variables
     environment:
       - PRIVATE_KEY=${CONTRACT_NODE_PRIVATE_KEY}
