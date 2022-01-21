@@ -128,7 +128,7 @@ export const changeWrapV2 = createAsyncThunk(
         await wrapTx.wait();
         trackSegmentEvent(uaData);
         trackGAEvent({
-          category: "WrapThunk",
+          category: "Wrap",
           action: uaData.type,
           label: uaData.value ?? "unknown",
         });

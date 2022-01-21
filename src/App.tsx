@@ -262,7 +262,7 @@ function App() {
         trackGAEvent({
           category: "App",
           action: "connect",
-          label: provider ?? "unknown",
+          label: String(provider) ?? "unknown",
         });
       });
     } else {

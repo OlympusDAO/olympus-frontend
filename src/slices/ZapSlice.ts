@@ -66,7 +66,7 @@ export const changeZapTokenAllowance = createAsyncThunk(
       };
       trackSegmentEvent(uaData);
       trackGAEvent({
-        category: "ZapSlice",
+        category: "OlyZaps",
         action: uaData.type,
         label: uaData.value ?? "unknown",
       });
@@ -82,7 +82,7 @@ export const changeZapTokenAllowance = createAsyncThunk(
       };
       trackSegmentEvent(uaData);
       trackGAEvent({
-        category: "ZapSlice",
+        category: "OlyZaps",
         action: uaData.type,
         label: uaData.address ?? "unknown",
       });
@@ -147,7 +147,7 @@ export const executeZap = createAsyncThunk(
       };
       trackSegmentEvent(uaData);
       trackGAEvent({
-        category: "ZapSlice",
+        category: "OlyZaps",
         action: uaData.type,
         label: uaData.token ?? "unknown",
       });
@@ -163,7 +163,7 @@ export const executeZap = createAsyncThunk(
       };
       trackSegmentEvent(uaData);
       trackGAEvent({
-        category: "ZapSlice",
+        category: "OlyZaps",
         action: uaData.type,
         label: uaData.token ?? "unknown",
       });

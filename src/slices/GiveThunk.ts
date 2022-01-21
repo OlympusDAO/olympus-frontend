@@ -278,7 +278,7 @@ export const changeMockGive = createAsyncThunk(
       if (giveTx) {
         trackSegmentEvent(uaData);
         trackGAEvent({
-          category: "GiveThunk",
+          category: "Olympus Give",
           action: uaData.type,
           label: uaData.value ?? "unknown",
         });

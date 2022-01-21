@@ -63,7 +63,7 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
     };
     trackSegmentEvent(uaData);
     trackGAEvent({
-      category: "ZapStakeAction",
+      category: "OlyZaps",
       action: uaData.type,
       label: uaData.address ?? "unknown",
     });

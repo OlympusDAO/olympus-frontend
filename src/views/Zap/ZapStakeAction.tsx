@@ -73,7 +73,7 @@ const ZapStakeAction: React.FC = () => {
     };
     trackSegmentEvent(uaData);
     trackGAEvent({
-      category: "ZapStakeAction",
+      category: "OlyZaps",
       action: uaData.type,
       label: uaData.token ?? "unknown",
     });

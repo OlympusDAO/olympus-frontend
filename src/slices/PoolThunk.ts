@@ -184,7 +184,7 @@ export const poolDeposit = createAsyncThunk(
         uaData.approved = true;
         trackSegmentEvent(uaData);
         trackGAEvent({
-          category: "PoolThunk",
+          category: "Pool",
           action: uaData.type,
           label: uaData.value ?? "unknown",
         });
@@ -304,7 +304,7 @@ export const poolWithdraw = createAsyncThunk(
     uaData.approved = true;
     trackSegmentEvent(uaData);
     trackGAEvent({
-      category: "PoolThunk",
+      category: "Pool",
       action: uaData.type,
       label: uaData.value ?? "unknown",
     });

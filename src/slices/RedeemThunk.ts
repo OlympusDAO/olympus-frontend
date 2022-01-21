@@ -59,7 +59,7 @@ export const redeemBalance = createAsyncThunk(
       if (redeemTx) {
         trackSegmentEvent(uaData);
         trackGAEvent({
-          category: "RedeemThunk",
+          category: "Redeem",
           action: uaData.type,
           label: uaData.value ?? "unknown",
         });
@@ -117,7 +117,7 @@ export const redeemMockBalance = createAsyncThunk(
       if (redeemTx) {
         trackSegmentEvent(uaData);
         trackGAEvent({
-          category: "RedeemThunk",
+          category: "Redeem",
           action: uaData.type,
           label: uaData.value ?? "unknown",
         });
