@@ -17,7 +17,7 @@ jobs:
           yarn lint
           yarn build
       env:
-          CI: true
-    - name: Run Unit Tests
+          CI: false
+    - name: Run unit tests
       run: |
           yarn test:unit

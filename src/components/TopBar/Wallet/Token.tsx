@@ -1,25 +1,25 @@
-import { useState } from "react";
+import { t } from "@lingui/macro";
 import {
+  Accordion as MuiAccordion,
+  AccordionDetails,
+  AccordionSummary as MuiAccordionSummary,
+  Box,
   Button,
   Typography,
-  Box,
-  Accordion as MuiAccordion,
-  AccordionSummary as MuiAccordionSummary,
-  AccordionDetails,
-  withStyles,
   useTheme,
+  withStyles,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { Icon, OHMTokenProps, Token as TokenSVG } from "@olympusdao/component-library";
+import { ChangeEvent, useState } from "react";
+import { useQuery } from "react-query";
+import { addresses, NETWORKS } from "src/constants";
+import { NetworkId } from "src/constants";
+import { formatCurrency } from "src/helpers";
+import { segmentUA } from "src/helpers/userAnalyticHelpers";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { addresses, NETWORKS } from "src/constants";
-import { formatCurrency } from "src/helpers";
-import { NetworkId } from "src/constants";
-import { segmentUA } from "src/helpers/userAnalyticHelpers";
-import { t } from "@lingui/macro";
-import { useQuery } from "react-query";
 import { fetchCrossChainBalances } from "src/lib/fetchBalances";
-import { Token as TokenSVG, Icon, OHMTokenProps } from "@olympusdao/component-library";
 
 const Accordion = withStyles({
   root: {
@@ -96,7 +96,7 @@ const addTokenToWallet = async (token: IToken, userAddress: string) => {
 
 interface TokenProps extends IToken {
   expanded: boolean;
-  onChangeExpanded: (event: React.ChangeEvent<{}>, isExpanded: boolean) => void;
+  onChangeExpanded: (event: ChangeEvent<any>, isExpanded: boolean) => void;
   onAddTokenToWallet: () => void;
   decimals: number;
 }
@@ -256,7 +256,7 @@ const sumObjValues = (obj: Record<string, string> = {}) =>
 export const useWallet = (
   userAddress: string,
   chainId: NetworkId,
-  providerInitialized: Boolean,
+  providerInitialized: boolean,
 ): Record<string, IToken> => {
   // default to mainnet while not initialized
   const networkId = providerInitialized ? chainId : NetworkId.MAINNET;
@@ -298,6 +298,7 @@ export const useWallet = (
       balance: connectedChainBalances.sohm,
       price: ohmPrice || 0,
       vaultBalances: {
+        "gOHM on Tokemak": connectedChainBalances.gOhmOnTokemakAsSohm,
         "Fuse Olympus Pool Party": connectedChainBalances.fsohm,
       },
       icon: "sOHM",
@@ -327,6 +328,7 @@ export const useWallet = (
       price: (ohmPrice || 0) * Number(currentIndex || 0),
       crossChainBalances: { balances: gohm, isLoading },
       vaultBalances: {
+        "gOHM on Tokemak": connectedChainBalances.gOhmOnTokemak,
         "Fuse Olympus Pool Party": connectedChainBalances.fgohm,
       },
       icon: "wsOHM",

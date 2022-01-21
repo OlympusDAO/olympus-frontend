@@ -1,6 +1,8 @@
-import { Drawer } from "@material-ui/core";
-import NavContent from "./NavContent.jsx";
 import "./sidebar.scss";
+
+import { Drawer } from "@material-ui/core";
+
+import NavContent from "./NavContent.jsx";
 
 function Sidebar() {
   return (

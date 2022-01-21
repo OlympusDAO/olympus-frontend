@@ -1,19 +1,18 @@
-import { memo } from "react";
 import "./treasury-dashboard.scss";
-import { Grid, Box, Zoom, Container, useMediaQuery, Typography } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
-import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
+
+import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
+import { MetricCollection, Paper } from "@olympusdao/component-library";
+import { memo } from "react";
 
 import {
-  TotalValueDepositedGraph,
   MarketValueGraph,
-  RiskFreeValueGraph,
-  ProtocolOwnedLiquidityGraph,
   OHMStakedGraph,
+  ProtocolOwnedLiquidityGraph,
+  RiskFreeValueGraph,
   RunwayAvailableGraph,
+  TotalValueDepositedGraph,
 } from "./components/Graph/Graph";
-import { Icon, MetricCollection, Paper } from "@olympusdao/component-library";
-import { Trans } from "@lingui/macro";
+import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
 const TreasuryDashboard = memo(() => {
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
