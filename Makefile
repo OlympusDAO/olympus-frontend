@@ -31,8 +31,7 @@ CONTRACTS_DOCKER_TAG?=main # Sets to main by default
 ### frontend
 build_docker:
 	@echo "*** Building Docker image $(FRONTEND_IMAGE) with tag $(FRONTEND_TAG)"
-	docker pull $(FRONTEND_IMAGE):$(FRONTEND_TAG)
-	docker build -t $(FRONTEND_IMAGE):$(FRONTEND_TAG) -f Dockerfile .
+	docker build --pull --cache-from $(FRONTEND_IMAGE):$(FRONTEND_TAG) -t $(FRONTEND_IMAGE):$(FRONTEND_TAG) -f Dockerfile .
 
 run_docker: build_docker
 	@echo "*** Running Docker image $(FRONTEND_IMAGE) with tag $(FRONTEND_TAG)"
