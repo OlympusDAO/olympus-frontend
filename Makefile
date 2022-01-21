@@ -23,10 +23,10 @@ TEST_VOLUME_ARGS=--volume $(shell pwd):/usr/src/app
 TEST_PORT_ARGS=--network=host
 
 #### e2e stack variables
-STACK_ENV_ARGS=-e FRONTEND_DOCKER_TAG=$(FRONTEND_TAG)
 STACK_FILE_ARGS=-f tests/docker-compose.yml
 STACK_UP_ARGS=--abort-on-container-exit --build
 CONTRACTS_DOCKER_TAG?=main # Sets to main by default
+STACK_ENV_ARGS=FRONTEND_DOCKER_TAG=$(FRONTEND_TAG) CONTRACTS_DOCKER_TAG=${CONTRACTS_DOCKER_TAG}
 
 ### frontend
 build_docker:
@@ -53,9 +53,10 @@ test_e2e_run:
 test_e2e_stack_start: test_e2e_stack_stop
 	@echo "*** Setting up e2e stack in Docker"
 	@echo "Image tag for olympus-contracts is: ${CONTRACTS_DOCKER_TAG}"
-	@CONTRACTS_DOCKER_TAG=${CONTRACTS_DOCKER_TAG} docker-compose $(STACK_FILE_ARGS) $(STACK_ENV_ARGS) pull
+	@echo "Image tag for olympus-frontend is: ${FRONTEND_TAG}"
+	$(STACK_ENV_ARGS) docker-compose $(STACK_FILE_ARGS) pull
 	@echo "*** Starting e2e stack in Docker"
-	@CONTRACTS_DOCKER_TAG=${CONTRACTS_DOCKER_TAG} docker-compose $(STACK_FILE_ARGS) $(STACK_ENV_ARGS) up $(STACK_UP_ARGS)
+	$(STACK_ENV_ARGS) docker-compose $(STACK_FILE_ARGS) up $(STACK_UP_ARGS)
 
 test_e2e_stack_stop:
 	@echo "*** Stopping e2e stack in Docker"
