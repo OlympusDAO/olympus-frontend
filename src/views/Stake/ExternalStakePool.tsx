@@ -45,7 +45,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
   const styles = useStyles();
   const { connected } = useWeb3Context();
   return (
-    <Paper id={`${pool.poolName}--pool`} className="bond-data-card ohm-card">
+    <Paper>
       <div className={styles.poolPair}>
         <TokenStack tokens={pool.icons} />
         <div className={styles.poolName}>

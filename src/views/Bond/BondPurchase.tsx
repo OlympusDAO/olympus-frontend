@@ -19,7 +19,7 @@ import { IAllBondData } from "src/hooks/Bonds";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
-import ConnectButton from "../../components/ConnectButton";
+import ConnectButton from "../../components/ConnectButton/ConnectButton";
 import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
 import useDebounce from "../../hooks/Debounce";
 import { bondAsset, calcBondDetails, changeApproval } from "../../slices/BondSlice";

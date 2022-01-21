@@ -8,7 +8,7 @@ import { IAllBondData } from "src/hooks/Bonds";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
-import ConnectButton from "../../components/ConnectButton";
+import ConnectButton from "../../components/ConnectButton/ConnectButton";
 import { prettifySeconds, prettyVestingPeriod, secondsUntilBlock, trim } from "../../helpers";
 import { redeemBond } from "../../slices/BondSlice";
 import { DisplayBondDiscount } from "./Bond";

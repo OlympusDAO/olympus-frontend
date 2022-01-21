@@ -17,7 +17,7 @@ import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { getTokenImage } from "src/helpers";
 import { trim } from "src/helpers";
 
-import ConnectButton from "../../components/ConnectButton";
+import ConnectButton from "../../components/ConnectButton/ConnectButton";
 import { calculateOdds } from "../../helpers/33Together";
 import { useAppDispatch, useAppSelector, useWeb3Context } from "../../hooks";
 import { error } from "../../slices/MessagesSlice";
