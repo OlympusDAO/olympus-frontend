@@ -13,7 +13,7 @@ export const getTestName = (): string => {
 export const takeScreenshot = (page: Page, title: string) => {
   const compatibleTestName = getTestName().replace(/\ /g, "-");
   page.screenshot({ path: compatibleTestName + "-" + title + ".png" }).then(() => {
-    console.log("Took screenshot");
+    console.log("Took screenshot with title: " + title);
   });
 };
 
@@ -49,7 +49,11 @@ export const setupMetamask = async (browser: Browser, options: { network?: strin
   const privateKey = getMetamaskPrivateKey();
 
   const metamask = await dappeteer.setupMetamask(browser, seedPhrase ? { seed: seedPhrase } : {});
+  metamask.page.screenshot({ path: "metamask-setup.png" });
+
   await metamask.switchNetwork(options.network ?? "rinkeby");
+  metamask.page.screenshot({ path: "metamask-network.png" });
+
   if (privateKey) await metamask.importPK(privateKey);
 
   return metamask;
@@ -131,7 +135,7 @@ export const dapp = {} as {
 export async function launchDApp(network = "localhost") {
   console.log("Starting metamask with network " + network);
   const browser = await launch(puppeteer, {
-    metamaskVersion: "v10.8.1",
+    metamaskVersion: "v10.1.1",
     headless: false,
     defaultViewport: null, // otherwise defaults to 800x600
     args: ["--no-sandbox", ...(isXvfbEnabled() ? ["--display=" + dapp.xvfb._display] : [])],
@@ -178,4 +182,30 @@ export const isXvfbEnabled = (): boolean => {
   if (process.env.REACT_APP_XVFB_ENABLED) return true;
 
   return false;
+};
+
+// *** Ripped from TradeTrust/tradetrust-website#518
+
+// manually dismiss banner!
+// news popup keeps re-appearing AFTER some metamask actions
+// clue (dasanra's fork) -> dasanra/dappeteer@3656360e4f891a3e7d1e80e77a40b2cfb83af2c8
+export const checkAndCloseNewsPopOver = async (metamask: Dappeteer) => {
+  await metamask.page.waitFor(1000);
+  const isPopOverOpen = await metamask.page.evaluate(() => {
+    return document.querySelector(".whats-new-popup__popover") !== null;
+  });
+
+  if (isPopOverOpen) {
+    const closePopOverButton = await metamask.page.waitForSelector(".popover-header__button");
+    closePopOverButton && (await closePopOverButton.click());
+  }
+  await metamask.page.waitFor(1000);
+};
+
+// ChainSafe/dappeteer#67
+export const confirmTransaction = async (metamask: Dappeteer) => {
+  await metamask.confirmTransaction();
+  await metamask.page.waitForSelector(".btn-primary:not([disabled])", { visible: true });
+  await metamask.page.click(".btn-primary:not([disabled])");
+  await checkAndCloseNewsPopOver(metamask);
 };
