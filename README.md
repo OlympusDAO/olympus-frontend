@@ -61,25 +61,8 @@ Puppeteer (with the Dappeteer addition) is used to do browser-based end-to-end t
 
 To run the tests:
 
-- Run the frontend, using `yarn start`
-- In another terminal, run the tests, using `yarn test:e2e`
-
-## Rinkeby Testing
-
-**Rinkeby faucet for sOHM:**
-[Lives here](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract), to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
-
-Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
-
-## End-to-end testing
-
-Puppeteer (with the Dappeteer addition) is used to do browser-based end-to-end testing.
-
-To run the tests:
-
 - Ensure that the values in the `tests/.env` file are defined (refer to `tests/.env.sample`) or set them through environment variables.
 - In a terminal, run the testnet node and frontend, using `yarn test:e2e-stack`. This will build/pull Docker images as necessary and launch the entire stack, without the need for configuration.
-- In another terminal, run the tests, using `yarn test:e2e`.
 - In another terminal, run the tests, using `yarn test:e2e`.
 
 To interact with the frontend:
@@ -93,6 +76,21 @@ To interact with the frontend:
 
 By default, the Docker image corresponding to the `main` branch in the olympus-contracts repository will be used. To override this, set the `DOCKER_IMAGE` environment variable to the image tag/version.
 
+End-to-end tests are also run using GitHub Actions with a local testnet, so that any test failures are highlighted. This requires the definition of the following environment variables in GitHub Actions:
+
+- `CONTRACT_NODE_PRIVATE_KEY`: a valid wallet private key, used for contract deployment.
+- `CONTRACT_NODE_ALCHEMY_API_KEY`: a valid API key for Alchemy.
+- `REACT_APP_PRIVATE_KEY`: a valid wallet private key, used for the client metamask wallet. This should ideally be one of the wallets that is setup by `hardhat node` and that receives a 1000 ETH deposit upon startup, such as `ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`.
+
+## Testnets
+
+### Testing on Rinkeby
+
+**Rinkeby faucet for sOHM:**
+[Lives here](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract), to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
+
+Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
+
 **Rinkeby faucet for WETH:**
 [Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
 
@@ -102,10 +100,20 @@ By default, the Docker image corresponding to the `main` branch in the olympus-c
 2. Then copy the rinkeby `reserveAddress` for the applicable bond & navigate to that contract on rinkeby etherscan.
 3. On Rinkeby etherscan use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
 
-## Avax Fuji Testnet
+### Avax Fuji Testnet
 
 1. [avax faucet](https://faucet.avax-test.network/)
 2. [explorer](https://explorer.avax-test.network/)
+
+### Local testnet
+
+A local testnet is available using `hardhat node`. This offers the following advantages over running on rinkeby:
+
+- predictable state of the blockchain, including wallet balance
+- an OHM faucet (1 OHM per call) is available (accessible via the wallet menu)
+- dodgy contract deployment? you can reset the state of the blockchain by tearing down the node (`make test_e2e_stack_stop`)
+
+To run a local testnet and frontend, run the `yarn test:e2e-stack`. See the [end-to-end testing](#end-to-end-testing) section for more information.
 
 ## Architecture/Layout
 
@@ -198,7 +206,9 @@ git commit
 ```
 
 ## ESLint
+
 We use ESLint to find/automatically fix problems.
+
 - react-app and react-hooks/recommended are important with react stuff.
 - @typescript-eslint/recommended and @typescript-eslint/eslint-recommended as recommended defaults.
 - unused-imports to automatically remove unused imports.
