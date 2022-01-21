@@ -23,7 +23,12 @@ export const LearnMoreButton = () => {
   );
 };
 
-export const MigrateButton = ({ setMigrationModalOpen, btnText }) => {
+export interface MigrationButtonProps {
+  setMigrationModalOpen: (state: boolean) => void;
+  btnText: string;
+}
+
+export const MigrateButton = ({ setMigrationModalOpen, btnText }: MigrationButtonProps) => {
   return (
     <Button
       className="migrate-button"
@@ -38,7 +43,11 @@ export const MigrateButton = ({ setMigrationModalOpen, btnText }) => {
   );
 };
 
-const CallToAction = ({ setMigrationModalOpen }) => {
+export interface CallToActionProps {
+  setMigrationModalOpen: (state: boolean) => void;
+}
+
+const CallToAction = ({ setMigrationModalOpen }: CallToActionProps) => {
   return (
     <Box className="call-to-action ohm-card">
       <Typography style={{ fontSize: "20px", fontWeight: "600" }} variant="h5">
