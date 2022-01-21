@@ -15,11 +15,9 @@ type SegmentEvent = {
 
 export const trackSegmentEvent = (event: SegmentEvent) => {
   try {
-    // Send event to Segment
     if (process.env.REACT_APP_SEGMENT_API_KEY && window.analytics) {
       window.analytics.track(event.type, event, { context: { ip: "0.0.0.0" } });
     }
-    // Send event to Google Analytics 4
     // NOTE: We do not send Segment events -> Google Analytics
   } catch (e) {
     console.log("trackSegmentEvent", e);
