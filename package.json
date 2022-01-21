@@ -18,7 +18,8 @@
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
       "!src/locales/translations/**",
-      "!src/typechain/**"
+      "!src/typechain/**",
+      "!src/testHandlers.js"
     ],
     "coverageThreshold": {
       "global": {
