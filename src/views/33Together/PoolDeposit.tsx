@@ -17,7 +17,7 @@ import { calculateOdds, trimOdds } from "src/helpers/33Together";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { changeApproval, poolDeposit } from "src/slices/PoolThunk";
 
-import ConnectButton from "../../components/ConnectButton";
+import ConnectButton from "../../components/ConnectButton/ConnectButton";
 import { useAppSelector, useWeb3Context } from "../../hooks";
 import { error } from "../../slices/MessagesSlice";
 import { ConfirmationModal } from "./ConfirmationModal";
