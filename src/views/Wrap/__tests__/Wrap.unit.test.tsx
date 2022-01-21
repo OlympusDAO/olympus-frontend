@@ -1,7 +1,7 @@
 import { render } from "../../../testUtils";
-import Wrap from "../Wrap.jsx";
+import Wrap from "../Wrap";
 
-describe("<Zap/>", () => {
+describe("<Wrap/>", () => {
   it("should render component", () => {
     const { container } = render(<Wrap />);
     expect(container).toMatchSnapshot();
