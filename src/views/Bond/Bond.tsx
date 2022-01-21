@@ -52,10 +52,6 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
     history.push(`/bonds-v1`);
   };
 
-  const onClickModal = (e: any): void => {
-    e.stopPropagation();
-  };
-
   useEffect(() => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
@@ -100,7 +96,6 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
         <Modal
           minHeight="auto"
           id="bond-view"
-          onClick={onClickModal}
           open={true}
           onClose={onClickAway}
           closePosition="left"
