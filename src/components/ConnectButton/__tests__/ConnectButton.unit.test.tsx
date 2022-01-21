@@ -1,9 +1,9 @@
 import { render } from "../../../testUtils";
-import Wrap from "../Wrap";
+import ConnectButton from "../ConnectButton";
 
-describe("<Wrap/>", () => {
+describe("<ConnectButton/>", () => {
   it("should render component", () => {
-    const { container } = render(<Wrap />);
+    const { container } = render(<ConnectButton />);
     expect(container).toMatchSnapshot();
   });
 });

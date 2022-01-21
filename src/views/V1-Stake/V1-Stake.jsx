@@ -14,14 +14,13 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  Paper,
   Typography,
   Zoom,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { DataRow, Metric, MetricCollection } from "@olympusdao/component-library";
 import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
+import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -194,17 +193,8 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   return (
     <div id="v1-stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
-        <Paper className={`ohm-card`}>
+        <Paper headerText={`${t`Single Stake`} (3, 3)`} subHeader={<RebaseTimer />}>
           <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <div className="card-header">
-                <Typography variant="h5">
-                  <Trans>Single Stake</Trans> (3, 3)
-                </Typography>
-                <RebaseTimer />
-              </div>
-            </Grid>
-
             <Grid item>
               <MetricCollection>
                 <Metric
@@ -255,7 +245,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                       <Tab aria-label="unstake-button" label={t`Unstake`} />
                     </Tabs>
 
-                    <Box className="help-text">
+                    <Box mt={"10px"}>
                       <Typography variant="body1" className="stake-note" color="textSecondary">
                         {view === 0 ? (
                           <>
@@ -274,7 +264,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                     <Box className="stake-action-row v1-row " display="flex" alignItems="center">
                       {address && !isAllowanceDataLoading ? (
                         !hasAllowance("sohm") && view === 1 ? (
-                          <Box className="help-text">
+                          <Box mt={"10px"}>
                             <Typography variant="body1" className="stake-note" color="textSecondary">
                               <>
                                 <Trans>First time unstaking</Trans> <b>sOHM</b>?
