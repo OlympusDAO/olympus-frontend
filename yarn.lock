@@ -2550,10 +2550,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@olympusdao/component-library@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.5.1.tgz#30ac7d29c977e7a720b0ffa6d2b7738395f70746"
-  integrity sha512-skAyTThTHEX0Q+Xc5tF0FyEs/nKEjO89dCxjEQvGd8yBuEkCbJAFxK+fw21OAmjRJxUgMJC1IsXFGwjaBZnc+w==
+"@olympusdao/component-library@^1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.5.2.tgz#e293fd9106532f45c15614af8065c22745726331"
+  integrity sha512-ayw5gQ5PwhuAQvc3WkDqgqL6aao9EnWcqkbnSOPIwOYSjHdfhQAtnydcVbemfyOy4VGCMos9WZ8hyObFjoRkfw==
 
 "@open-draft/until@^1.0.3":
   version "1.0.3"
@@ -16753,10 +16753,10 @@ sass-loader@^10.0.5:
     schema-utils "^3.0.0"
     semver "^7.3.2"
 
-sass@^1.48.0:
-  version "1.48.0"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.48.0.tgz#b53cfccc1b8ab4be375cc54f306fda9d4711162c"
-  integrity sha512-hQi5g4DcfjcipotoHZ80l7GNJHGqQS5LwMBjVYB/TaT0vcSSpbgM8Ad7cgfsB2M0MinbkEQQPO9+sjjSiwxqmw==
+sass@^1.49.0:
+  version "1.49.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.49.0.tgz#65ec1b1d9a6bc1bae8d2c9d4b392c13f5d32c078"
+  integrity sha512-TVwVdNDj6p6b4QymJtNtRS2YtLJ/CqZriGg0eIAbAKMlN8Xy6kbv33FsEZSF7FufFFM705SQviHjjThfaQ4VNw==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"
