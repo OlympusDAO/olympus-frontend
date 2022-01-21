@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Box, Button, Typography, TableRow, TableCell, Divider } from "@material-ui/core";
+import { Box, Button, Typography, TableRow, TableCell, Divider, Tooltip } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import { shorten } from "src/helpers";
 import data from "./projects.json";
@@ -41,7 +41,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
 
   const getRecipientTitle = (address: string): string => {
     const project = projectMap.get(address);
-    if (!project) return shorten(address);
+    if (!project) return "Custom Recipient";
 
     if (!project.owner) return project.title;
 
@@ -91,11 +91,6 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
     setIsEditModalOpen(false);
   };
 
-  const handleEditModalCancel = () => {
-    setIsEditModalOpen(false);
-    setIsManageModalOpen(true);
-  };
-
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, depositAmount) => {
     // Issue withdrawal from smart contract
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
@@ -129,30 +124,28 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
     setIsWithdrawModalOpen(false);
   };
 
-  const handleWithdrawModalCancel: WithdrawCancelCallback = () => {
-    setIsWithdrawModalOpen(false);
-  };
-
   return (
     <Box>
       <TableRow>
         {!isSmallScreen && (
           <TableCell align="left" className="deposit-date-cell">
-            <Typography variant="body1">{depositObject.date}</Typography>
+            <Typography variant="h6">{depositObject.date}</Typography>
           </TableCell>
         )}
         <TableCell align="left" className="deposit-recipient-cell">
-          <Typography variant="body1">{getRecipientTitle(depositObject.recipient)}</Typography>
+          <Tooltip title={depositObject.recipient} arrow>
+            <Typography variant="h6">{getRecipientTitle(depositObject.recipient)}</Typography>
+          </Tooltip>
         </TableCell>
         {!isSmallScreen && (
-          <TableCell align="left" className="deposit-deposited-cell">
-            <Typography variant="body1">{parseFloat(depositObject.deposit).toFixed(2)}</Typography>
+          <TableCell align="right" className="deposit-deposited-cell">
+            <Typography variant="h6">{parseFloat(depositObject.deposit).toFixed(2)}</Typography>
           </TableCell>
         )}
-        <TableCell align="left" className="deposit-yield-cell">
-          <Typography variant="body1">{parseFloat(depositObject.yieldDonated).toFixed(2)}</Typography>
+        <TableCell align="right" className="deposit-yield-cell">
+          <Typography variant="h6">{parseFloat(depositObject.yieldDonated).toFixed(2)}</Typography>
         </TableCell>
-        <TableCell align="left" className="deposit-manage-cell">
+        <TableCell align="right" className="deposit-manage-cell">
           <Button
             variant="outlined"
             color="secondary"

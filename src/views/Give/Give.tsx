@@ -35,6 +35,10 @@ function Give() {
     setView(newView);
   };
 
+  const buttonChangeView = (newView: number) => {
+    setView(newView);
+  };
+
   return (
     <>
       <div
@@ -76,7 +80,7 @@ function Give() {
               <CausesDashboard />
             </TabPanel>
             <TabPanel value={view} index={1} className="donations-tab-panel">
-              <YieldRecipients />
+              <YieldRecipients changeView={buttonChangeView} />
             </TabPanel>
             <TabPanel value={view} index={2} className="redeem-tab-panel">
               <RedeemYield />

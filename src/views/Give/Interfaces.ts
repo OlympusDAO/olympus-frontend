@@ -16,3 +16,7 @@ export interface DonationInfoState {
   pendingTransactions: IPendingTxn[];
   app: IAppData;
 }
+
+export interface IButtonChangeView {
+  (newView: number): void;
+}

@@ -5,6 +5,7 @@ import {
   Typography,
   Button,
   Grid,
+  Box,
   Divider,
   Table,
   TableBody,
@@ -20,7 +21,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { RecipientModal } from "src/views/Give/RecipientModal";
-import { SubmitCallback, DonationInfoState } from "src/views/Give/Interfaces";
+import { SubmitCallback, DonationInfoState, IButtonChangeView } from "src/views/Give/Interfaces";
 import { WithdrawDepositModal, WithdrawSubmitCallback, WithdrawCancelCallback } from "./WithdrawDepositModal";
 import { shorten } from "src/helpers";
 import { BigNumber } from "bignumber.js";
@@ -34,7 +35,11 @@ import { EnvHelper } from "src/helpers/Environment";
 import { NetworkId } from "src/constants";
 import { DepositTableRow } from "./DepositRow";
 
-export default function YieldRecipients() {
+type RecipientModalProps = {
+  changeView: IButtonChangeView;
+};
+
+export default function YieldRecipients({ changeView }: RecipientModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
@@ -165,20 +170,19 @@ export default function YieldRecipients() {
 
   if (!donationInfo || donationInfo.length == 0) {
     return (
-      <>
-        <Grid container className="yield-recipients-empty">
-          <Grid item sm={10} md={8}>
-            <Typography variant="h6">
-              <Trans>It looks like you haven't donated any yield. Let's fix that!</Trans>
-            </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Button component={NavLink} to="/give" variant="contained" color="primary">
-              <Trans>Donate Yield</Trans>
-            </Button>
-          </Grid>
-        </Grid>
-      </>
+      <Box
+        className="no-donations"
+        style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px 40px 20px 40px" }}
+      >
+        <Typography variant="body1">
+          <Trans>Looks like you haven’t made any donations yet</Trans>
+        </Typography>
+        <Button variant="outlined" color="primary" onClick={() => changeView(0)}>
+          <Typography variant="body1">
+            <Trans>Donate to a cause</Trans>
+          </Typography>
+        </Button>
+      </Box>
     );
   }
 
@@ -190,21 +194,29 @@ export default function YieldRecipients() {
             <TableRow>
               {!isSmallScreen && (
                 <TableCell align="left">
-                  <Trans>DATE</Trans>
+                  <Typography variant="body1">
+                    <Trans>DATE</Trans>
+                  </Typography>
                 </TableCell>
               )}
               <TableCell align="left">
-                <Trans>RECIPIENT</Trans>
+                <Typography variant="body1">
+                  <Trans>RECIPIENT</Trans>
+                </Typography>
               </TableCell>
               {!isSmallScreen && (
-                <TableCell align="left">
-                  <Trans>DEPOSITED</Trans>
+                <TableCell align="right">
+                  <Typography variant="body1">
+                    <Trans>DEPOSITED</Trans>
+                  </Typography>
                 </TableCell>
               )}
-              <TableCell align="left">
-                <Trans>YIELD SENT</Trans>
+              <TableCell align="right">
+                <Typography variant="body1">
+                  <Trans>YIELD SENT</Trans>
+                </Typography>
               </TableCell>
-              <TableCell align="left"></TableCell>
+              <TableCell align="right" className="manage-cell"></TableCell>
             </TableRow>
           </TableHead>
           <Divider className="table-head-divider" />
@@ -219,46 +231,6 @@ export default function YieldRecipients() {
           </TableBody>
         </Table>
       </TableContainer>
-
-      {isLoading ? (
-        <Skeleton />
-      ) : (
-        donationInfo.map(donation => {
-          return (
-            donation.recipient === selectedRecipientForEdit && (
-              <RecipientModal
-                isModalOpen={isEditModalOpen}
-                callbackFunc={handleEditModalSubmit}
-                cancelFunc={handleEditModalCancel}
-                currentWalletAddress={donation.recipient}
-                currentDepositAmount={new BigNumber(donation.deposit)}
-                project={projectMap.get(donation.recipient)}
-                key={"edit-modal-" + donation.recipient}
-              />
-            )
-          );
-        })
-      )}
-
-      {isLoading ? (
-        <Skeleton />
-      ) : (
-        donationInfo.map(donation => {
-          return (
-            donation.recipient === selectedRecipientForWithdraw && (
-              <WithdrawDepositModal
-                isModalOpen={isWithdrawModalOpen}
-                callbackFunc={handleWithdrawModalSubmit}
-                cancelFunc={handleWithdrawModalCancel}
-                walletAddress={donation.recipient}
-                depositAmount={new BigNumber(donation.deposit)}
-                project={projectMap.get(donation.recipient)}
-                key={"withdraw-modal-" + donation.recipient}
-              />
-            )
-          );
-        })
-      )}
     </Grid>
   );
 }

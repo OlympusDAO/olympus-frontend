@@ -18,6 +18,21 @@
       height: auto;
     }
 
+    .MuiBox-root .no-donations {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .MuiTypography-body1 {
+        margin-bottom: 30px;
+      }
+
+      .MuiButtonBase-root .MuiTypography-body1 {
+        margin-bottom: 0px;
+      }
+    }
+
     overflow-y: scrollable;
     .cell-align-end {
       display: flex;
@@ -233,12 +248,7 @@
     margin: 10px 0px;
 
     .MuiTableCell-root {
-      p {
-        margin: 0 !important;
-        display: flex !important;
-        align-items: center;
-        // justify-content: flex-start;
-      }
+      padding: 28px 0px 28px 0px;
     }
 
     .MuiTableRow-root {
@@ -250,15 +260,32 @@
       margin-left: 5px !important;
     }
 
+    .MuiTableHead-root .MuiTableRow-head .MuiTableCell-alignRight {
+      width: 20%;
+      margin-left: 5px !important;
+
+      &.manage-cell {
+        margin-left: 40px !important;
+      }
+    }
+
     .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
       display: flex;
       align-items: center;
       width: 20%;
       margin-left: 5px !important;
       text-align: left;
-      p {
-        margin-bottom: unset !important;
-        line-height: 140% !important;
+    }
+
+    .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignRight {
+      display: flex;
+      align-items: center;
+      width: 20%;
+      margin-left: 5px !important;
+      text-align: left;
+
+      &.deposit-manage-cell {
+        margin-left: 40px !important;
       }
     }
   }
@@ -387,7 +414,16 @@
       width: 33%;
     }
 
+    .MuiTableHead-root .MuiTableRow-head .MuiTableCell-alignRight {
+      font-size: 12px;
+      width: 33%;
+    }    
+
     .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
+      width: 33%;
+    }
+
+    .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignRight {
       width: 33%;
 
       &.deposit-manage-cell {
@@ -937,9 +973,11 @@
   }
 
   .project-give-button {
+    display: flex;
     padding-top: 1.5rem;
 
     button {
+      display: flex;
       width: 100%;
     }
   }
