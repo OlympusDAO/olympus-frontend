@@ -124,7 +124,7 @@
     "jest": "26.6.0",
     "jest-puppeteer": "^6.0.0",
     "less-plugin-npm-import": "^2.1.0",
-    "lint-staged": "^12.1.7",
+    "lint-staged": "^12.2.2",
     "msw": "^0.36.3",
     "pptr-testing-library": "^0.7.0",
     "prettier": "^2.5.1",
