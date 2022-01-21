@@ -3,11 +3,13 @@ import "@testing-library/jest-dom";
 import {
   clickElement,
   closeXvfb,
+  confirmTransaction,
   connectWallet,
   dapp,
   getSelectorTextContent,
   launchDApp,
   launchXvfb,
+  ohmFaucet,
   selectorExists,
   takeScreenshot,
   typeValue,
@@ -35,7 +37,7 @@ describe("staking", () => {
     const { page } = dapp;
 
     // Connect button should be available
-    await page.screenshot({ path: "stake-unconnected-wallet.png" });
+    takeScreenshot(page, "wallet not connected");
     expect(await getSelectorTextContent(page, "#ohm-menu-button")).toEqual("Connect Wallet");
 
     // Stake button not visible, as the "Connect Wallet" button is present
@@ -56,33 +58,27 @@ describe("staking", () => {
 
     // Wallet button has changed
     expect(await getSelectorTextContent(page, "#ohm-menu-button")).toEqual("Wallet");
-    await page.screenshot({ path: "stake-connects-wallet-final.png" });
+    takeScreenshot(page, "after wallet connected");
   });
 
   test("approves staking", async () => {
     const { page, metamask } = dapp;
 
-    console.log("connect");
     await connectWallet(page, metamask);
+    takeScreenshot(page, "after wallet connected");
 
     // *** Approve the staking function
-    await page.bringToFront();
     // Stake button (named "Approve")
-    console.log("before approve click");
     await clickElement(page, "#approve-stake-button");
-    // Bring Metamask front with the transaction modal
-    console.log("before confirm");
-    await metamask.page.screenshot({ path: "stake-approve-staking-pre-confirm.png" });
-    await metamask.confirmTransaction();
-    await metamask.page.screenshot({ path: "stake-approve-staking-post-confirm.png" });
+    // Approve the staking contract
+    takeScreenshot(page, "after click approve stake");
+    takeScreenshot(metamask.page, "after click approve stake metamask");
+    confirmTransaction(metamask);
+    takeScreenshot(page, "after confirm approve stake");
+    takeScreenshot(metamask.page, "after confirm approve stake metamask");
 
     // Button should be replaced by "Stake"
-    console.log("before wait stake");
-    await page.screenshot({ path: "post-confirm1.png" });
-    await page.waitForTimeout(1000);
-    await page.screenshot({ path: "post-confirm2.png" });
     expect(await waitSelectorExists(page, "#stake-button")).toBeTruthy();
-    console.log("before exists approve stake");
     expect(await selectorExists(page, "#approve-stake-button")).toBeFalsy();
   });
 
@@ -92,26 +88,19 @@ describe("staking", () => {
     await connectWallet(page, metamask);
 
     // *** Approve the unstaking function
-    await page.bringToFront();
     // Switch to the "Unstake" tab
     await clickElement(page, "#simple-tab-1");
     // Unstake button (named "Approve")
     await clickElement(page, "#approve-unstake-button");
-    // Bring Metamask front with the transaction modal
-    console.log("before confirm");
-    await metamask.page.screenshot({ path: "stake-approve-staking-pre-confirm.png" });
-    await metamask.confirmTransaction();
-    await metamask.page.screenshot({ path: "stake-approve-staking-post-confirm.png" });
+    // Approve the unstaking contract
+    takeScreenshot(page, "after click approve unstake");
+    takeScreenshot(metamask.page, "after click approve unstake metamask");
+    confirmTransaction(metamask);
+    takeScreenshot(page, "after confirm approve unstake");
+    takeScreenshot(metamask.page, "after confirm approve stake unmetamask");
 
     // Button should be replaced by "Unstake"
-    console.log("before wait stake");
-    takeScreenshot(page, "post-confirm");
-    takeScreenshot(metamask.page, "post-confirm-metamask");
-    await page.waitForTimeout(5000);
-    takeScreenshot(page, "post-confirm-timeout");
-    takeScreenshot(metamask.page, "post-confirm-timeout-metamask");
     expect(await waitSelectorExists(page, "#unstake-button")).toBeTruthy();
-    console.log("before exists approve stake");
     expect(await selectorExists(page, "#approve-unstake-button")).toBeFalsy();
   });
 
@@ -120,15 +109,20 @@ describe("staking", () => {
 
     await connectWallet(page, metamask);
 
+    // Approve staking
+    await clickElement(page, "#approve-stake-button");
+    confirmTransaction(metamask);
+
+    // Get OHM from the faucet
+    await ohmFaucet(page, metamask);
+
     // Perform staking
     await typeValue(page, "#amount-input", STAKE_AMOUNT.toString());
     await clickElement(page, "#stake-button");
-    await metamask.confirmTransaction();
+    confirmTransaction(metamask);
 
     // Staked balance should be written as 0.1 sOHM
     expect(await getSelectorTextContent(page, "#user-staked-balance")).toEqual("0.1 sOHM");
-    expect(await waitSelectorExists(page, "#unstake-button")).toBeTruthy();
-    expect(await selectorExists(page, "#stake-button")).toBeFalsy();
   });
 
   test("unstaking", async () => {
@@ -136,15 +130,29 @@ describe("staking", () => {
 
     await connectWallet(page, metamask);
 
+    // Approve staking
+    await clickElement(page, "#approve-stake-button");
+    confirmTransaction(metamask);
+
+    // Get OHM from the faucet
+    await ohmFaucet(page, metamask);
+
     // Perform staking
     await typeValue(page, "#amount-input", STAKE_AMOUNT.toString());
     await clickElement(page, "#stake-button");
-    await metamask.confirmTransaction();
+    confirmTransaction(metamask);
+
+    // Switch to the "Unstake" tab
+    await clickElement(page, "#simple-tab-1");
+    // Unstake button (named "Approve")
+    await clickElement(page, "#approve-unstake-button");
+    // Approve the unstaking contract
+    confirmTransaction(metamask);
 
     // Perform unstaking
     await typeValue(page, "#amount-input", STAKE_AMOUNT.toString());
     await clickElement(page, "#unstake-button");
-    await metamask.confirmTransaction();
+    confirmTransaction(metamask);
 
     // Staked balance should be written as 0.0 sOHM
     expect(await getSelectorTextContent(page, "#user-staked-balance")).toEqual("0 sOHM");

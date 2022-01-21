@@ -82,7 +82,7 @@ export const ohmFaucet = async (page: Page, metamask: Dappeteer) => {
   await clickElement(page, "#ohm-faucet");
 
   // Metamask will then display a transaction approval screen
-  await metamask.approve();
+  confirmTransaction(metamask);
 };
 
 export const getByTestId = async (page: Page, testId: string): Promise<ElementHandle> => {
@@ -204,6 +204,7 @@ export const checkAndCloseNewsPopOver = async (metamask: Dappeteer) => {
 
 // ChainSafe/dappeteer#67
 export const confirmTransaction = async (metamask: Dappeteer) => {
+  await checkAndCloseNewsPopOver(metamask);
   await metamask.confirmTransaction();
   await metamask.page.waitForSelector(".btn-primary:not([disabled])", { visible: true });
   await metamask.page.click(".btn-primary:not([disabled])");
