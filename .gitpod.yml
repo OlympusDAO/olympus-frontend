@@ -1,16 +1,16 @@
 tasks:
-  - name: App
-    init: >
-      yarn &&
-      gp sync-done install
-    command: REACT_APP_PROVIDER=$(gp url 8545) yarn start
-  - name: Test
-    init: gp sync-await install
-    command: yarn test:unit
-    openMode: split-right
+  # - name: App
+  #   init: >
+  #     yarn &&
+  #     gp sync-done install
+  #   command: REACT_APP_PROVIDER=$(gp url 8545) yarn start
+  # - name: Test
+  #   init: gp sync-await install
+  #   command: yarn test:unit
+  #   openMode: split-right
 ports:
   - port: 3000
-    onOpen: open-preview
+    onOpen: ignore
   - port: 8545
     onOpen: ignore
 github:
