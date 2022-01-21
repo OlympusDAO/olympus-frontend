@@ -13,7 +13,7 @@ services:
     # We use the host mode so that "localhost" can be accessed
     network_mode: host
   frontend:
-    image: ghcr.io/olympusdao/olympus-frontend:${GITHUB_SHA}
+    image: ghcr.io/olympusdao/olympus-frontend:sha-${GITHUB_SHA}
     depends_on:
       - contract_node
     volumes:
