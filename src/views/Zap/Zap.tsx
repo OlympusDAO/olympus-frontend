@@ -1,8 +1,8 @@
-import "./zap.scss";
+import "./Zap.scss";
 
 import { Trans } from "@lingui/macro";
 import { Box, Button, Paper, Typography, Zoom } from "@material-ui/core";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { useHistory } from "react-router";
 import { useAppSelector } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
@@ -11,7 +11,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import ZapInfo from "./ZapInfo";
 import ZapStakeAction from "./ZapStakeAction";
 
-function Zap() {
+const Zap: React.FC = () => {
   const { address, connect, networkId } = useWeb3Context();
   const history = useHistory();
   usePathForNetwork({ pathName: "zap", networkID: networkId, history });
@@ -43,12 +43,10 @@ function Zap() {
                 </Typography>
               </div>
             ) : (
-              <>
-                <Box className="stake-action-area">
-                  <Box alignSelf="center" minWidth="420px" width="80%"></Box>
-                  <ZapStakeAction />
-                </Box>
-              </>
+              <Box className="stake-action-area">
+                <Box alignSelf="center" minWidth="420px" width="80%"></Box>
+                <ZapStakeAction />
+              </Box>
             )}
           </div>
         </Paper>
@@ -58,6 +56,6 @@ function Zap() {
       </Zoom>
     </div>
   );
-}
+};
 
 export default Zap;

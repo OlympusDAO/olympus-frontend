@@ -1,8 +1,13 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Grid, Typography, useMediaQuery } from "@material-ui/core";
 import { Token, TokenStack } from "@olympusdao/component-library";
+import React from "react";
 
-export default function ZapStakeHeader({ images }) {
+type ZapStakeHeaderProps = {
+  images: Array<string>;
+};
+
+const ZapStakeHeader: React.FC<ZapStakeHeaderProps> = ({ images }) => {
   const isSmallScreen = useMediaQuery("(max-width: 680px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 325px)");
   if (isVerySmallScreen) {
@@ -17,7 +22,7 @@ export default function ZapStakeHeader({ images }) {
       paddingX={isSmallScreen ? 0 : 8}
       width="100%"
     >
-      <Grid container direction="row" wrap>
+      <Grid container direction="row">
         <Grid item xs={6} sm={4}>
           <Box alignItems="center" display="flex" flexDirection="column">
             <TokenStack images={images} tokens={["more"]} style={{ marginBottom: "16px" }} />
@@ -38,6 +43,7 @@ export default function ZapStakeHeader({ images }) {
           <>
             <Grid item xs={12} sm={4}>
               <Box alignItems="center" display="flex" flexDirection="column" marginX={1}>
+                {/* @ts-ignore - (keith) add style prop & types to Token Component */}
                 <Token name="zap" style={{ marginBottom: "16px" }} />
                 <Typography color="textSecondary">
                   <Trans>Swap for OHM</Trans>
@@ -46,6 +52,7 @@ export default function ZapStakeHeader({ images }) {
             </Grid>
             <Grid item xs={12} sm={4}>
               <Box alignItems="center" display="flex" flexDirection="column" marginX={1}>
+                {/* @ts-ignore - (keith) add style prop & types to Token Component */}
                 <Token name="sOHM" style={{ marginBottom: "16px" }} />
                 <Typography color="textSecondary">
                   <Trans>Auto staked for sOHM</Trans>
@@ -57,4 +64,6 @@ export default function ZapStakeHeader({ images }) {
       </Grid>
     </Box>
   );
-}
+};
+
+export default ZapStakeHeader;
