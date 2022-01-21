@@ -34,7 +34,7 @@ import { ReactComponent as FirstStepIcon } from "../../assets/icons/step-1.svg";
 import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg";
 import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import { segmentUA } from "../../helpers/userAnalyticHelpers";
+import { trackGAEvent, trackSegmentEvent } from "../../helpers/analytics";
 import ZapStakeHeader from "./ZapStakeHeader";
 
 const DISABLE_ZAPS = true;
@@ -71,7 +71,12 @@ const ZapStakeAction: React.FC = () => {
       token: token,
       address: address,
     };
-    segmentUA(uaData);
+    trackSegmentEvent(uaData);
+    trackGAEvent({
+      category: "ZapStakeAction",
+      action: uaData.type,
+      label: uaData.token ?? "unknown",
+    });
     setZapToken(token);
     handleClose();
   };
@@ -101,7 +106,12 @@ const ZapStakeAction: React.FC = () => {
       token: zapToken,
       minOutput: outputQuantity,
     };
-    segmentUA(uaData);
+    trackSegmentEvent(uaData);
+    trackGAEvent({
+      category: "OlyZaps",
+      action: uaData.type ?? "unknown",
+      label: zapToken ?? "unknown",
+    });
   };
 
   const ohmMarketPrice = useAppSelector(state => state.app.marketPrice || 0);

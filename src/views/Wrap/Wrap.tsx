@@ -21,7 +21,7 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import { Metric, MetricCollection } from "@olympusdao/component-library";
 import { DataRow } from "@olympusdao/component-library";
-import { useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -34,7 +34,7 @@ import { switchNetwork } from "../../helpers/NetworkHelper";
 import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
 import WrapCrossChain from "./WrapCrossChain";
 
-const Wrap: React.FC = () => {
+const Wrap: FC = () => {
   const dispatch = useDispatch();
   const { provider, address, connect, networkId } = useWeb3Context();
 

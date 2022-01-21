@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { BigNumber, BigNumberish, ethers } from "ethers";
-import ReactGA from "react-ga";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { RootState } from "src/store";
 
 import { contractForRedeemHelper } from "../helpers";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
 import { calculateUserBondDetails, getBalances } from "./AccountSlice";
 import { findOrLoadMarketPrice } from "./AppSlice";
 import {
@@ -244,8 +243,8 @@ export const bondAsset = createAsyncThunk(
       } else dispatch(error(rpcError.message));
     } finally {
       if (bondTx) {
-        segmentUA(uaData);
-        ReactGA.event({
+        trackSegmentEvent(uaData);
+        trackGAEvent({
           category: "Bonds",
           action: uaData.type ?? "unknown",
           label: uaData.bondName,
@@ -296,8 +295,8 @@ export const redeemBond = createAsyncThunk(
       dispatch(error((e as IJsonRPCError).message));
     } finally {
       if (redeemTx) {
-        segmentUA(uaData);
-        ReactGA.event({
+        trackSegmentEvent(uaData);
+        trackGAEvent({
           category: "Bonds",
           action: uaData.type ?? "unknown",
           label: uaData.bondName,

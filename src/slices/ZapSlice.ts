@@ -4,7 +4,7 @@ import { NetworkId } from "src/constants";
 import { setAll } from "src/helpers";
 import { ZapHelper } from "src/helpers/ZapHelper";
 
-import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
 import { getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IZapAsyncThunk } from "./interfaces";
 import { error, info } from "./MessagesSlice";
@@ -12,7 +12,7 @@ interface IUAData {
   address: string;
   value: string;
   approved: boolean;
-  type: string | null;
+  type: string;
 }
 interface IUADataZap {
   address: string;
@@ -64,7 +64,12 @@ export const changeZapTokenAllowance = createAsyncThunk(
         approved: true,
         type: "Zap Approval Request Success",
       };
-      segmentUA(uaData);
+      trackSegmentEvent(uaData);
+      trackGAEvent({
+        category: "ZapSlice",
+        action: uaData.type,
+        label: uaData.value ?? "unknown",
+      });
       dispatch(info("Successfully approved token!"));
       return Object.fromEntries([[action, true]]);
     } catch (e: unknown) {
@@ -75,7 +80,12 @@ export const changeZapTokenAllowance = createAsyncThunk(
         approved: false,
         type: "Zap Approval Request Failure",
       };
-      segmentUA(uaData);
+      trackSegmentEvent(uaData);
+      trackGAEvent({
+        category: "ZapSlice",
+        action: uaData.type,
+        label: uaData.address ?? "unknown",
+      });
       console.error(e);
       dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
       throw e;
@@ -135,7 +145,12 @@ export const executeZap = createAsyncThunk(
         slippage: slippage,
         approved: true,
       };
-      segmentUA(uaData);
+      trackSegmentEvent(uaData);
+      trackGAEvent({
+        category: "ZapSlice",
+        action: uaData.type,
+        label: uaData.token ?? "unknown",
+      });
       dispatch(info("Successful Zap!"));
     } catch (e: unknown) {
       const uaData: IUADataZap = {
@@ -146,7 +161,12 @@ export const executeZap = createAsyncThunk(
         slippage: slippage,
         approved: false,
       };
-      segmentUA(uaData);
+      trackSegmentEvent(uaData);
+      trackGAEvent({
+        category: "ZapSlice",
+        action: uaData.type,
+        label: uaData.token ?? "unknown",
+      });
       console.error(e);
       const rpcError = e as any;
       dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
