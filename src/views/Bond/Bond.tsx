@@ -1,8 +1,9 @@
 import "./bond.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
+import { Box, Fade, Grid, Tab, Tabs, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { Icon, Modal, TokenStack } from "@olympusdao/component-library";
 import { ChangeEvent, Fragment, ReactElement, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { useAppSelector } from "src/hooks";
@@ -12,7 +13,8 @@ import { useWeb3Context } from "src/hooks/web3Context";
 
 import TabPanel from "../../components/TabPanel";
 import { formatCurrency, trim } from "../../helpers";
-import BondHeader from "./BondHeader";
+import AdvancedSettings from "../BondV2/AdvancedSettings";
+// import BondHeader from "./BondHeader";
 import BondPurchase from "./BondPurchase";
 import BondRedeem from "./BondRedeem";
 
@@ -47,7 +49,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   };
 
   const onClickAway = (): void => {
-    history.goBack();
+    history.push(`/bonds-v1`);
   };
 
   const onClickModal = (e: any): void => {
@@ -61,68 +63,91 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
     setView(Number(value));
   };
 
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Fade in={true} mountOnEnter unmountOnExit>
-      <Grid container id="bond-view">
-        <Backdrop open={true} onClick={onClickAway}>
-          <Fade in={true}>
-            <Paper className="ohm-card ohm-modal" onClick={onClickModal}>
-              <BondHeader
-                bond={bond}
+      <Grid container>
+        <Modal
+          minHeight="auto"
+          id="bond-view"
+          onClick={onClickModal}
+          open={true}
+          onClose={onClickAway}
+          closePosition="left"
+          headerContent={
+            <Box display="flex" flexDirection="row">
+              <TokenStack tokens={bond.bondIconSvg} />
+              <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
+                <Typography variant="h5">{`${bond.displayName} (v1 Bond)`}</Typography>
+              </Box>
+            </Box>
+          }
+          topRight={
+            <div className="bond-settings">
+              <Icon name="settings" onClick={handleOpen} />
+              <AdvancedSettings
+                open={open}
+                handleClose={handleClose}
                 slippage={slippage}
                 recipientAddress={recipientAddress}
-                onSlippageChange={onSlippageChange}
                 onRecipientAddressChange={onRecipientAddressChange}
+                onSlippageChange={onSlippageChange}
               />
+            </div>
+          }
+        >
+          <>
+            <Box display="flex" flexDirection="row" className="bond-price-data-row">
+              <div className="bond-price-data">
+                <Typography variant="h5" color="textSecondary">
+                  <Trans>Bond Price</Trans>
+                </Typography>
+                <Typography variant="h3" className="price" color="primary">
+                  <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
+                </Typography>
+              </div>
+              <div className="bond-price-data">
+                <Typography variant="h5" color="textSecondary">
+                  <Trans>Market Price</Trans>
+                </Typography>
+                <Typography variant="h3" color="primary" className="price">
+                  {isBondLoading ? <Skeleton /> : formatCurrency(bond.marketPrice, 2)}
+                </Typography>
+              </div>
+            </Box>
 
-              <Box display="flex" flexDirection="row" className="bond-price-data-row">
-                <div className="bond-price-data">
-                  <Typography variant="h5" color="textSecondary">
-                    <Trans>Bond Price</Trans>
-                  </Typography>
-                  <Typography variant="h3" className="price" color="primary">
-                    <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.name} bond={bond} />}</>
-                  </Typography>
-                </div>
-                <div className="bond-price-data">
-                  <Typography variant="h5" color="textSecondary">
-                    <Trans>Market Price</Trans>
-                  </Typography>
-                  <Typography variant="h3" color="primary" className="price">
-                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.marketPrice, 2)}
-                  </Typography>
-                </div>
-              </Box>
+            <Tabs
+              centered
+              value={view}
+              textColor="primary"
+              indicatorColor="primary"
+              onChange={changeView}
+              aria-label="bond tabs"
+            >
+              <Tab
+                aria-label="bond-tab-button"
+                label={t({
+                  id: "do_bond",
+                  comment: "The action of bonding (verb)",
+                })}
+                {...a11yProps(0)}
+              />
+              <Tab aria-label="redeem-tab-button" label={t`Redeem`} {...a11yProps(1)} />
+            </Tabs>
 
-              <Tabs
-                centered
-                value={view}
-                textColor="primary"
-                indicatorColor="primary"
-                onChange={changeView}
-                aria-label="bond tabs"
-              >
-                <Tab
-                  aria-label="bond-tab-button"
-                  label={t({
-                    id: "do_bond",
-                    comment: "The action of bonding (verb)",
-                  })}
-                  {...a11yProps(0)}
-                />
-                <Tab aria-label="redeem-tab-button" label={t`Redeem`} {...a11yProps(1)} />
-              </Tabs>
+            <TabPanel value={view} index={0}>
+              <BondPurchase bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
+            </TabPanel>
 
-              <TabPanel value={view} index={0}>
-                <BondPurchase bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
-              </TabPanel>
-
-              <TabPanel value={view} index={1}>
-                <BondRedeem bond={bond} />
-              </TabPanel>
-            </Paper>
-          </Fade>
-        </Backdrop>
+            <TabPanel value={view} index={1}>
+              <BondRedeem bond={bond} />
+            </TabPanel>
+          </>
+        </Modal>
       </Grid>
     </Fade>
   );

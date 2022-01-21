@@ -1,5 +1,4 @@
-import { IconButton, Link, SvgIcon, Typography } from "@material-ui/core";
-import { TokenStack } from "@olympusdao/component-library";
+import { IconButton, Link, SvgIcon } from "@material-ui/core";
 import { ChangeEvent, useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 
@@ -43,13 +42,6 @@ function BondHeader({
       <Link component={NavLink} to="/bonds-v1" className="cancel-bond">
         <SvgIcon color="primary" component={XIcon} />
       </Link>
-
-      <div className="bond-header-logo">
-        <TokenStack tokens={bond.bondIconSvg} />
-        <div className="bond-header-name">
-          <Typography variant="h5">{`${bond.displayName} (v1 Bond)`}</Typography>
-        </div>
-      </div>
 
       <div className="bond-settings">
         <IconButton onClick={handleOpen}>
