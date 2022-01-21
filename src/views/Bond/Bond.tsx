@@ -13,8 +13,8 @@ import { useWeb3Context } from "src/hooks/web3Context";
 
 import TabPanel from "../../components/TabPanel";
 import { formatCurrency, trim } from "../../helpers";
+import useEscape from "../../hooks/useEscape";
 import AdvancedSettings from "../BondV2/AdvancedSettings";
-// import BondHeader from "./BondHeader";
 import BondPurchase from "./BondPurchase";
 import BondRedeem from "./BondRedeem";
 
@@ -63,11 +63,35 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
     setView(Number(value));
   };
 
-  const [open, setOpen] = useState<boolean>(false);
+  const [advOpen, setadvOpen] = useState<boolean>(false);
+  const handleAdvOpen = () => setadvOpen(true);
+  const handleAdvClose = () => setadvOpen(false);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+  const advSettings = (
+    <>
+      <Icon name="settings" style={{ cursor: "pointer" }} onClick={handleAdvOpen} />
+      <AdvancedSettings
+        open={advOpen}
+        handleClose={handleAdvClose}
+        slippage={slippage}
+        recipientAddress={recipientAddress}
+        onRecipientAddressChange={onRecipientAddressChange}
+        onSlippageChange={onSlippageChange}
+      />
+    </>
+  );
+  const headerContent = (
+    <Box display="flex" flexDirection="row">
+      <TokenStack tokens={bond.bondIconSvg} />
+      <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
+        <Typography variant="h5">{`${bond.displayName} (v1 Bond)`}</Typography>
+      </Box>
+    </Box>
+  );
+  useEscape(() => {
+    if (advOpen) handleAdvClose;
+    else history.push(`/bonds-v1`);
+  });
   return (
     <Fade in={true} mountOnEnter unmountOnExit>
       <Grid container>
@@ -78,27 +102,8 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
           open={true}
           onClose={onClickAway}
           closePosition="left"
-          headerContent={
-            <Box display="flex" flexDirection="row">
-              <TokenStack tokens={bond.bondIconSvg} />
-              <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
-                <Typography variant="h5">{`${bond.displayName} (v1 Bond)`}</Typography>
-              </Box>
-            </Box>
-          }
-          topRight={
-            <div className="bond-settings">
-              <Icon name="settings" onClick={handleOpen} />
-              <AdvancedSettings
-                open={open}
-                handleClose={handleClose}
-                slippage={slippage}
-                recipientAddress={recipientAddress}
-                onRecipientAddressChange={onRecipientAddressChange}
-                onSlippageChange={onSlippageChange}
-              />
-            </div>
-          }
+          headerContent={headerContent}
+          topRight={advSettings}
         >
           <>
             <Box display="flex" flexDirection="row" className="bond-price-data-row">
