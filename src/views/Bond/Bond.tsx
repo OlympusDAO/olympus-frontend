@@ -1,9 +1,9 @@
-/*eslint-disable*/
 import "./bond.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Backdrop, Box, Fade, Grid, Paper, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { ChangeEvent, Fragment, ReactElement, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { useAppSelector } from "src/hooks";
@@ -11,7 +11,6 @@ import { IAllBondData } from "src/hooks/Bonds";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useWeb3Context } from "src/hooks/web3Context";
 
-import { Tabs, Tab, TabPanel } from "@olympusdao/component-library";
 import { formatCurrency, trim } from "../../helpers";
 import BondHeader from "./BondHeader";
 import BondPurchase from "./BondPurchase";
