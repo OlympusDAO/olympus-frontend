@@ -32,7 +32,10 @@ jobs:
         with:
           tags: |
             type=sha,format=long
-            type=ref
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
           # owner/repository
           # the action also takes care of making it docker-compatible
           images: ${{ env.REGISTRY }}/${{ github.repository }}
