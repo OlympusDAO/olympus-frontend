@@ -30,6 +30,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
+          tags: |
+            type=sha,format=long
+            type=ref
           # owner/repository
           # the action also takes care of making it docker-compatible
           images: ${{ env.REGISTRY }}/${{ github.repository }}
