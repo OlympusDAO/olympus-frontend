@@ -70,6 +70,12 @@ export const allPools = [tj_gohm_wavax, sushi_arb_gohm_weth, sushi_poly_gohm_wet
  * @param address
  */
 export const fetchPoolData = async (address: string) => {
+  if (!address) {
+    // If we don't have the user address,
+    // maybe because the user is anonymous and is not connected to a wallet,
+    // then we can't calculate their liquidity pool ownership data.
+    return allPools;
+  }
   try {
     const results = allPools.map(async pool => {
       const provider = NodeHelper.getAnynetStaticProvider(pool.networkID);

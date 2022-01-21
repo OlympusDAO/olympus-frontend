@@ -5,11 +5,11 @@ import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
 import polygon from "./assets/tokens/matic.svg";
 import ethereum from "./assets/tokens/wETH.svg";
+import { NetworkId } from "./baseTypes";
 import { getTokenByContract, getTokenPrice } from "./helpers";
 import { EnvHelper } from "./helpers/Environment";
 import { NodeHelper } from "./helpers/NodeHelper";
 import { IERC20__factory, UniswapV2Lp__factory } from "./typechain";
-
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-protocol-metrics";
 export const EPOCH_INTERVAL = 2200;
 
@@ -26,25 +26,6 @@ export const POOL_GRAPH_URLS: IPoolGraphURLS = {
   4: "https://api.thegraph.com/subgraphs/name/pooltogether/rinkeby-v3_4_3",
   1: "https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-v3_4_3",
 };
-
-export enum NetworkId {
-  MAINNET = 1,
-  TESTNET_RINKEBY = 4,
-
-  ARBITRUM = 42161,
-  ARBITRUM_TESTNET = 421611,
-
-  AVALANCHE = 43114,
-  AVALANCHE_TESTNET = 43113,
-
-  POLYGON = 137,
-  POLYGON_TESTNET = 80001,
-
-  FANTOM = 250,
-  FANTOM_TESTNET = 4002,
-
-  Localhost = 1337,
-}
 
 interface IAddresses {
   [key: number]: { [key: string]: string };
@@ -585,3 +566,5 @@ export const v2BondDetails: { [key: number]: { [key: string]: V2BondDetails } } 
     ["0x055475920a8c93cffb64d039a8205f7acc7722d3"]: OhmDaiDetails,
   },
 };
+
+export * from "./baseTypes";
