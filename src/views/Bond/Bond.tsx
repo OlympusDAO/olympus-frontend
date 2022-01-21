@@ -36,7 +36,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   const [recipientAddress, setRecipientAddress] = useState<string>(address);
 
   const [view, setView] = useState<number>(0);
-  const [quantity, setQuantity] = useState<number | undefined>();
+  const [quantity] = useState<number | undefined>();
 
   const isBondLoading = useAppSelector<boolean>(state => state.bonding.loading ?? true);
 
@@ -55,9 +55,15 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   const onClickModal = (e: any): void => {
     e.stopPropagation();
   };
+
   useEffect(() => {
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
+
+  useEscape(() => {
+    if (advOpen) handleAdvClose;
+    else history.push(`/bonds-v1`);
+  });
 
   const changeView = (event: ChangeEvent<any>, value: string | number): void => {
     setView(Number(value));
@@ -88,10 +94,6 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
       </Box>
     </Box>
   );
-  useEscape(() => {
-    if (advOpen) handleAdvClose;
-    else history.push(`/bonds-v1`);
-  });
   return (
     <Fade in={true} mountOnEnter unmountOnExit>
       <Grid container>
