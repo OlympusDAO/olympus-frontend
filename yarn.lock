@@ -2550,10 +2550,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@olympusdao/component-library@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.5.1.tgz#30ac7d29c977e7a720b0ffa6d2b7738395f70746"
-  integrity sha512-skAyTThTHEX0Q+Xc5tF0FyEs/nKEjO89dCxjEQvGd8yBuEkCbJAFxK+fw21OAmjRJxUgMJC1IsXFGwjaBZnc+w==
+"@olympusdao/component-library@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.5.3.tgz#832a0c55e28016c914a155a24e5927c2ceba7001"
+  integrity sha512-CxXmscPqzfvF61avWh7RgMI76ylBFKeMNV/1Bkb3IKq0YVGnmk/tKhPK9AG/m4x4Bq32C70/zlYgLS59iimZzQ==
 
 "@open-draft/until@^1.0.3":
   version "1.0.3"
