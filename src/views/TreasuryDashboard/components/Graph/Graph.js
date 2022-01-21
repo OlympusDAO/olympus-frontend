@@ -42,14 +42,18 @@ export const MarketValueGraph = () => {
         "treasuryFraxMarketValue",
         "treasuryWETHMarketValue",
         "treasuryLusdMarketValue",
+        "treasuryWBTCMarketValue",
+        "treasuryUstMarketValue",
         "treasuryOtherMarketValue",
       ]}
       stopColor={[
-        ["#F5AC37", "#EA9276"],
-        ["#768299", "#98B3E9"],
-        ["#DC30EB", "#EA98F1"],
-        ["#8BFF4D", "#4C8C2A"],
-        ["#ff758f", "#c9184a"],
+        ["#F5AC37", "#F5AC37"],
+        ["#768299", "#768299"],
+        ["#DC30EB", "#DC30EB"],
+        ["#8BFF4D", "#8BFF4D"],
+        ["#ff758f", "#ff758f"],
+        ["#4E1F71", "#4E1F71"],
+        ["#8AECCD", "#8AECCD"],
       ]}
       headerText={t`Market Value of Treasury Assets`}
       headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
@@ -71,11 +75,18 @@ export const RiskFreeValueGraph = () => {
       type="stack"
       data={data}
       format="currency"
-      dataKey={["treasuryDaiRiskFreeValue", "treasuryFraxRiskFreeValue", "treasuryLusdRiskFreeValue"]}
+      dataKey={[
+        "treasuryDaiRiskFreeValue",
+        "treasuryFraxRiskFreeValue",
+        "treasuryLusdRiskFreeValue",
+        "treasuryUstMarketValue",
+      ]}
       stopColor={[
-        ["#F5AC37", "#EA9276"],
-        ["#768299", "#98B3E9"],
-        ["#ff758f", "#c9184a"],
+        ["#F5AC37", "#F5AC37"],
+        ["#768299", "#768299"],
+        ["#ff758f", "#ff758f"],
+        ["#4E1F71", "#4E1F71"],
+        ["#000", "#fff"],
         ["#000", "#fff"],
         ["#000", "#fff"],
       ]}

@@ -20,7 +20,7 @@ import { changeApproval, getSingleBond, IBondV2, purchaseBond } from "src/slices
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { AppDispatch } from "src/store";
 
-import ConnectButton from "../../components/ConnectButton";
+import ConnectButton from "../../components/ConnectButton/ConnectButton";
 import { shorten, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./BondV2";

@@ -348,9 +348,11 @@ export const getUserNotes = createAsyncThunk(
       marketID: number;
     }[] = await Promise.all(userNotePromises);
     const bonds = await Promise.all(
-      Array.from(new Set(userNotes.map(note => note.marketID))).map(
-        async id => await dispatch(getSingleBond({ address, provider, networkID, bondIndex: id })).unwrap(),
-      ),
+      Array.from(new Set(userNotes.map(note => note.marketID))).map(async id => {
+        const bond = await depositoryContract.markets(id);
+        const bondDetail = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
+        return { index: id, quoteToken: bond.quoteToken, ...bondDetail };
+      }),
     ).then(result => Object.fromEntries(result.map(bond => [bond.index, bond])));
     const notes: IUserNote[] = [];
     for (let i = 0; i < userNotes.length; i++) {
@@ -361,7 +363,7 @@ export const getUserNotes = createAsyncThunk(
         redeemed: number;
         marketID: number;
       } = userNotes[i];
-      const bond: IBondV2 = bonds[rawNote.marketID];
+      const bond = bonds[rawNote.marketID];
       const originalDurationSeconds = Math.max(rawNote.matured - rawNote.created, 0);
       const seconds = Math.max(rawNote.matured - currentTime, 0);
       let duration = "";
@@ -387,7 +389,7 @@ export const getUserNotes = createAsyncThunk(
         remainingDurationSeconds: seconds,
         originalDuration: originalDuration,
         timeLeft: duration,
-        displayName: bond?.displayName,
+        displayName: bond?.name,
         quoteToken: bond.quoteToken.toLowerCase(),
         index: +userNoteIndexes[i],
         bondIconSvg: bond?.bondIconSvg,

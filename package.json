@@ -14,7 +14,6 @@
     ]
   },
   "jest": {
-    "displayName": "OlympusDAO Front End Tests",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
@@ -30,9 +29,7 @@
       }
     },
     "coverageReporters": [
-      "lcov",
-      "json",
-      "text"
+      "text", "text-summary"
     ]
   },
   "dependencies": {
@@ -54,7 +51,7 @@
     "axios": "^0.24.0",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-transform-imports": "^2.0.0",
-    "bignumber.js": "^9.0.1",
+    "bignumber.js": "^9.0.2",
     "date-fns": "^2.28.0",
     "ethers": "^5.4.0",
     "graphql": "^15.8.0",
@@ -75,7 +72,7 @@
     "react-scripts": "^4.0.3",
     "react-uid": "^2.3.1",
     "recharts": "^2.0.10",
-    "sass": "^1.48.0",
+    "sass": "^1.49.0",
     "typescript": "^4.5.4",
     "web3modal": "^1.9.1"
   },
@@ -99,11 +96,11 @@
     "@types/puppeteer": "^5.4.4",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.11",
-    "@types/react-router-dom": "^5.1.7",
+    "@types/react-router-dom": "^5.3.3",
     "@types/shelljs": "^0.8.9",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^5.9.1",
-    "@typescript-eslint/parser": "^5.9.1",
+    "@typescript-eslint/parser": "^5.10.0",
     "autoprefixer": "^10.2.4",
     "eslint": "^7.11.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -127,13 +124,12 @@
     "jest": "26.6.0",
     "jest-puppeteer": "^6.0.0",
     "less-plugin-npm-import": "^2.1.0",
-    "lint-staged": "^12.1.7",
+    "lint-staged": "^12.2.2",
     "msw": "^0.36.3",
     "pptr-testing-library": "^0.7.0",
     "prettier": "^2.5.1",
     "puppeteer": "^11.0.0",
     "shelljs": "^0.8.5",
-    "surge": "^0.21.5",
     "type-graphql": "^1.1.1",
     "typechain": "^6.0.2"
   },
@@ -142,12 +138,10 @@
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "test": "react-scripts test",
-    "test:unit": "react-scripts test --testPathPattern=\"(\\.|/|-)unit\\.(test|spec)\\.[jt]sx?$\" --runInBand --watchAll=false --detectOpenHandles --bail --ci --coverage --no-cache",
-    "test:e2e": "react-scripts test --testPathPattern=\"(\\.|/|-)e2e\\.(test|spec)\\.[jt]sx?$\" --testTimeout=30000 --runInBand --watchAll=false --detectOpenHandles",
+    "test:unit": "react-scripts test --testPathPattern=\"(\\.|/|-)unit\\.(test|spec)\\.[jt]sx?$\" --watchAll=false --bail --ci --coverage --maxWorkers=50%",
+    "test:e2e": "react-scripts test --testPathPattern=\"(\\.|/|-)e2e\\.(test|spec)\\.[jt]sx?$\" --watchAll=false --bail --ci",
     "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
     "lint:fix": "prettier --write ./src/ & yarn lint --fix",
-    "surge": "surge ./build",
-    "ship": "yarn surge",
     "theme": "npx gulp less",
     "watch": "node ./scripts/watch.js",
     "snapshot": "react-scripts test --updateSnapshot",

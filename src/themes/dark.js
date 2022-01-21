@@ -293,9 +293,6 @@ export const dark = responsiveFontSizes(
               color: darkTheme.textHighlightColor,
             },
           },
-          "&.grid-button-text": {
-            color: "#FFFFFF",
-          },
         },
         MuiTypography: {
           root: {

@@ -25,6 +25,8 @@ query {
     treasuryLusdRiskFreeValue
     treasuryLusdMarketValue
     treasuryOtherMarketValue
+    treasuryWBTCMarketValue
+    treasuryUstMarketValue
     currentAPY
     runway10k
     runway20k
@@ -61,44 +63,59 @@ export const bulletpoints = {
     {
       right: 15,
       top: -12,
-      background: "linear-gradient(180deg, #F5AC37 -10%, #EA9276 100%)",
+      background: "#F5AC37",
     },
     {
       right: 25,
       top: -12,
-      background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
+      background: "#768299",
     },
     {
       right: 29,
       top: -12,
-      background: "linear-gradient(180deg, #DC30EB -10%, #EA98F1 100%)",
+      background: "#DC30EB",
     },
     {
       right: 29,
       top: -12,
-      background: "linear-gradient(180deg, #4C8C2A -10%, #8BFF4D 100%)",
+      background: "#4C8C2A",
     },
     {
       right: 29,
       top: -12,
-      background: "linear-gradient(180deg, #c9184a -10%, #ff758f 100%)",
+      background: "#c9184a",
+    },
+    {
+      right: 29,
+      top: -12,
+      background: "#4E1F71",
+    },
+    {
+      right: 29,
+      top: -12,
+      background: "#8AECCD",
     },
   ],
   rfv: [
     {
       right: 15,
       top: -12,
-      background: "linear-gradient(180deg, #F5AC37 -10%, #EA9276 100%)",
+      background: "#F5AC37",
     },
     {
       right: 25,
       top: -12,
-      background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
+      background: "#768299",
     },
     {
       right: 29,
       top: -12,
-      background: "linear-gradient(180deg, #c9184a -10%, #ff758f 100%)",
+      background: "#c9184a",
+    },
+    {
+      right: 29,
+      top: -12,
+      background: "#4E1F71",
     },
   ],
   holder: [
@@ -167,8 +184,8 @@ export const bulletpoints = {
 
 export const tooltipItems = {
   tvl: [t`Total Value Deposited`],
-  coin: ["DAI", "FRAX", "ETH", "LUSD", "Other"],
-  rfv: ["DAI", "FRAX", "LUSD"],
+  coin: ["DAI", "FRAX", "ETH", "LUSD", "BTC", "UST", "Other"],
+  rfv: ["DAI", "FRAX", "LUSD", "UST"],
   holder: ["OHMies"],
   apy: ["APY"],
   runway: [t`Current`, "7.5K APY", "5K APY", "2.5K APY"],
