@@ -11,14 +11,13 @@ import {
 } from "@material-ui/core";
 import { DataRow } from "@olympusdao/component-library";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { getTokenImage } from "src/helpers";
 import { calculateOdds, trimOdds } from "src/helpers/33Together";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { changeApproval, poolDeposit } from "src/slices/PoolThunk";
 
 import ConnectButton from "../../components/ConnectButton/ConnectButton";
-import { useAppSelector, useWeb3Context } from "../../hooks";
+import { useAppDispatch, useAppSelector, useWeb3Context } from "../../hooks";
 import { error } from "../../slices/MessagesSlice";
 import { ConfirmationModal } from "./ConfirmationModal";
 
@@ -31,7 +30,7 @@ interface PoolDepositProps {
 }
 
 export const PoolDeposit = (props: PoolDepositProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { provider, address, networkId } = useWeb3Context();
   const isAppLoading = useAppSelector(state => state.app.loading);
   const [quantity, setQuantity] = useState(0);

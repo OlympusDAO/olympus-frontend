@@ -4,7 +4,6 @@ import { t } from "@lingui/macro";
 import { Box, Paper, Tab, Tabs } from "@material-ui/core";
 import { InfoTooltipMulti } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { addresses, POOL_GRAPH_URLS } from "src/constants";
 import { calculateOdds, trimOdds } from "src/helpers/33Together";
 import { useAppSelector, useWeb3Context } from "src/hooks";
@@ -14,6 +13,7 @@ import { Prize, PrizePool } from "src/typechain/pooltogether";
 
 import CardHeader from "../../components/CardHeader/CardHeader";
 import TabPanel from "../../components/TabPanel";
+import { useAppDispatch } from "../../hooks";
 import { poolDataQuery, yourAwardsQuery } from "./poolData";
 import { PoolInfo } from "./PoolInfo";
 import { PoolPrize } from "./PoolPrize";
@@ -43,7 +43,7 @@ const PoolTogether = () => {
   // NOTE (appleseed): these calcs were previously in PoolInfo, however would be need in PoolPrize, too, if...
   // ... we ever were to implement other types of awards
   const { connect, address, provider, hasCachedProvider, networkId, providerInitialized } = useWeb3Context();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[1]);
   const [poolData, setPoolData] = useState(null);
   const [poolDataError, setPoolDataError] = useState(null);

@@ -4,15 +4,15 @@ import { t } from "@lingui/macro";
 import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { TokenStack } from "@olympusdao/component-library";
-import { useDispatch } from "react-redux";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { claimSingleNote, IUserNote } from "src/slices/BondSliceV2";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import { trim } from "../../helpers";
+import { useAppDispatch } from "../../hooks";
 
 export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gOHM: boolean }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { address, provider, networkId } = useWeb3Context();
   const currentIndex = useAppSelector(state => state.app.currentIndex);
 
@@ -77,7 +77,7 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
 }
 
 export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOHM: boolean }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { address, provider, networkId } = useWeb3Context();
   const currentIndex = useAppSelector(state => state.app.currentIndex);
 

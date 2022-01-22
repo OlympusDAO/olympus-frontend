@@ -21,7 +21,6 @@ import { ExpandMore } from "@material-ui/icons";
 import { isEmpty } from "lodash";
 import title from "material-ui/svg-icons/editor/title";
 import { ChangeEvent, useState } from "react";
-import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -30,11 +29,12 @@ import { claimAllNotes, IUserNote } from "src/slices/BondSliceV2";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import CardHeader from "../../components/CardHeader/CardHeader";
+import { useAppDispatch } from "../../hooks";
 import { ClaimBondsSubComponent } from "../ChooseBond/ClaimBonds";
 import AccordionSection from "./AccordionSection";
 
 function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { provider, address, networkId } = useWeb3Context();
 
   const currentIndex = useAppSelector(state => {

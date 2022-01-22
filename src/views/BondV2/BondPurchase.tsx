@@ -13,15 +13,14 @@ import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { changeApproval, getSingleBond, IBondV2, purchaseBond } from "src/slices/BondSliceV2";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { AppDispatch } from "src/store";
 
 import ConnectButton from "../../components/ConnectButton/ConnectButton";
 import { shorten, trim } from "../../helpers";
+import { useAppDispatch } from "../../hooks";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./BondV2";
 
@@ -35,7 +34,7 @@ function BondPurchase({
   recipientAddress: string;
 }) {
   const SECONDS_TO_REFRESH = 60;
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const { provider, address, networkId } = useWeb3Context();
   const currentIndex = useAppSelector(state => {
     return state.app.currentIndex ?? "1";

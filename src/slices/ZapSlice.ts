@@ -5,6 +5,7 @@ import { setAll } from "src/helpers";
 import { ZapHelper } from "src/helpers/ZapHelper";
 
 import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { RootState } from "../store";
 import { getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IZapAsyncThunk } from "./interfaces";
 import { error, info } from "./MessagesSlice";
@@ -242,7 +243,7 @@ const zapTokenBalancesSlice = createSlice({
 
 export default zapTokenBalancesSlice.reducer;
 
-const baseInfo = (state: any) => state.zap;
+const baseInfo = (state: RootState) => state.zap;
 
 export const { fetchZapTokensSuccess } = zapTokenBalancesSlice.actions;
 

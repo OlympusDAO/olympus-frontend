@@ -5,9 +5,8 @@ import Alert, { Color } from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import { useEffect, useState } from "react";
 import React from "react";
-import { useDispatch } from "react-redux";
 
-import { useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { close, handle_obsolete, Message } from "../../slices/MessagesSlice";
 import store from "../../store";
 
@@ -24,7 +23,7 @@ type LinearProps = {
 
 const Linear: React.FC<LinearProps> = ({ message }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [progress, setProgress] = useState<number>(100);
 
   useEffect(() => {
@@ -54,7 +53,7 @@ const Linear: React.FC<LinearProps> = ({ message }) => {
 
 // A component that displays error messages
 const Messages: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const messages = useAppSelector(state => state.messages);
 
   // Returns a function that can closes a message

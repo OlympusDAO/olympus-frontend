@@ -6,7 +6,7 @@ import { OutlinedInput } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Project } from "src/components/GiveProject/project.type";
 import { useWeb3Context } from "src/hooks/web3Context";
 import {
@@ -39,6 +39,7 @@ import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { EnvHelper } from "src/helpers/Environment";
 
+import { useAppDispatch } from "../../hooks";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
@@ -65,7 +66,7 @@ export function RecipientModal({
   currentDepositAmount,
 }: RecipientModalProps) {
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { provider, address, connect, networkId } = useWeb3Context();
 
   const _initialDepositAmount = 0;

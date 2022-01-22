@@ -5,7 +5,7 @@ import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Project } from "src/components/GiveProject/project.type";
@@ -19,6 +19,7 @@ import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
+import { useAppDispatch } from "../../hooks";
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
 import data from "./projects.json";
@@ -33,7 +34,7 @@ type State = {
 
 export default function YieldRecipients() {
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { provider, address, networkId } = useWeb3Context();
   const [selectedRecipientForEdit, setSelectedRecipientForEdit] = useState("");
   const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState("");
@@ -42,14 +43,14 @@ export default function YieldRecipients() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   // TODO fix typing of state.app.loading
-  const isAppLoading = useSelector((state: any) => state.app.loading);
+  const isAppLoading = useSelector((state: State) => state.app.loading);
   const donationInfo = useSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
 
-  const isDonationInfoLoading = useSelector((state: any) => state.account.loading);
+  const isDonationInfoLoading = useSelector((state: State) => state.account.loading);
   const isLoading = isAppLoading || isDonationInfoLoading;
 
   // *** Edit modal

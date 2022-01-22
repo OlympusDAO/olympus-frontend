@@ -4,17 +4,16 @@ import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import React, { useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
 
 import { getRebaseBlock, prettifySeconds } from "../../helpers";
-import { useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useWeb3Context } from "../../hooks/web3Context";
 import { loadAppDetails } from "../../slices/AppSlice";
 
 const SECONDS_TO_REFRESH = 60;
 
 const RebaseTimer: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { provider, networkId } = useWeb3Context();
 
   const [secondsToRebase, setSecondsToRebase] = useState<number>(0);

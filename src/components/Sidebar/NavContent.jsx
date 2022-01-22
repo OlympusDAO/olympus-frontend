@@ -15,12 +15,11 @@ import {
 import { ExpandMore } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { NavItem } from "@olympusdao/component-library";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
-import { useAppSelector } from "src/hooks";
+import { useAppDispatch, useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
 
@@ -32,11 +31,10 @@ import externalUrls from "./externalUrls";
 import Social from "./Social";
 
 function NavContent({ handleDrawerToggle }) {
-  const [isActive] = useState();
   const { networkId, address, provider } = useWeb3Context();
   const { bonds } = useBonds(networkId);
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const bondsV2 = useAppSelector(state => {
     return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);

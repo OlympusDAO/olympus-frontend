@@ -1,18 +1,19 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, Slide, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import ConnectButton from "../../components/ConnectButton/ConnectButton";
 import { prettifySeconds, prettyVestingPeriod, secondsUntilBlock, trim } from "../../helpers";
+import { useAppDispatch } from "../../hooks";
 import { redeemBond } from "../../slices/BondSlice";
 import { DisplayBondDiscount } from "./BondV2";
 
 function BondRedeem({ bond }) {
   // const { bond: bondName } = bond;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { provider, address, networkId } = useWeb3Context();
 
   const isBondLoading = useSelector(state => state.bonding.loading ?? true);

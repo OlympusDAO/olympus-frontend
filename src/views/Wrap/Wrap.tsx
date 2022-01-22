@@ -22,7 +22,6 @@ import { Skeleton } from "@material-ui/lab";
 import { Metric, MetricCollection } from "@olympusdao/component-library";
 import { DataRow } from "@olympusdao/component-library";
 import { useCallback, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
@@ -31,11 +30,12 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NETWORKS } from "../../constants";
 import { formatCurrency, trim } from "../../helpers";
 import { switchNetwork } from "../../helpers/NetworkHelper";
+import { useAppDispatch } from "../../hooks";
 import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
 import WrapCrossChain from "./WrapCrossChain";
 
 const Wrap: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { provider, address, connect, networkId } = useWeb3Context();
 
   const [, setZoomed] = useState<boolean>(false);

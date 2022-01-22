@@ -23,7 +23,6 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { changeZapTokenAllowance, executeZap, getZapTokenAllowance, zapNetworkCheck } from "src/slices/ZapSlice";
@@ -35,6 +34,7 @@ import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg"
 import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
+import { useAppDispatch } from "../../hooks";
 import ZapStakeHeader from "./ZapStakeHeader";
 
 const DISABLE_ZAPS = true;
@@ -57,7 +57,7 @@ type ZapQuantity = string | number | null;
 const ZapStakeAction: React.FC = () => {
   const { address, provider, networkId } = useWeb3Context();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const classes = useStyles();
   const tokens = useAppSelector(state => state.zap.balances);
   const isTokensLoading = useAppSelector(state => state.zap.balancesLoading);

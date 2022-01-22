@@ -20,7 +20,6 @@ import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { DataRow } from "@olympusdao/component-library";
 import { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks/index";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
@@ -29,10 +28,11 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NETWORKS } from "../../constants";
 import { formatCurrency, trim } from "../../helpers";
 import { switchNetwork } from "../../helpers/NetworkHelper";
+import { useAppDispatch } from "../../hooks";
 import { changeMigrationApproval, migrateCrossChainWSOHM } from "../../slices/MigrateThunk";
 
 function WrapCrossChain() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { provider, address, networkId, networkName, connect } = useWeb3Context();
   const [quantity, setQuantity] = useState("");
   const assetFrom = "wsOHM";

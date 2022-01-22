@@ -12,7 +12,6 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import { DataRow } from "@olympusdao/component-library";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { NetworkId } from "src/constants";
 import { useAppSelector } from "src/hooks";
 import { IAllBondData } from "src/hooks/Bonds";
@@ -21,6 +20,7 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import ConnectButton from "../../components/ConnectButton/ConnectButton";
 import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
+import { useAppDispatch } from "../../hooks";
 import useDebounce from "../../hooks/Debounce";
 import { bondAsset, calcBondDetails, changeApproval } from "../../slices/BondSlice";
 import { error } from "../../slices/MessagesSlice";
@@ -34,7 +34,7 @@ interface IBondPurchaseProps {
 
 function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) {
   const SECONDS_TO_REFRESH = 60;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { provider, address, networkId } = useWeb3Context();
 
   const [quantity, setQuantity] = useState("");

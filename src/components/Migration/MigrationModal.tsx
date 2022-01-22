@@ -17,7 +17,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { InfoTooltip, Modal } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
 import { NetworkId } from "src/constants";
 import { trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
@@ -25,6 +24,8 @@ import { useAppSelector } from "src/hooks";
 import { info } from "src/slices/MessagesSlice";
 import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+
+import { useAppDispatch } from "../../hooks";
 const formatCurrency = (c: number) => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -41,7 +42,7 @@ const useStyles = makeStyles({
 });
 
 function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const classes = useStyles();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const { provider, address, networkId } = useWeb3Context();

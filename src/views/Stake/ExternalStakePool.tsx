@@ -5,7 +5,6 @@ import { Skeleton } from "@material-ui/lab";
 import { Paper, SecondaryButton, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { useDispatch } from "react-redux";
 import allPools, { fetchPoolData } from "src/helpers/AllExternalPools";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ExternalPoolwBalance } from "src/lib/ExternalPool";
@@ -116,7 +115,6 @@ const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading:
 };
 
 export default function ExternalStakePool() {
-  const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connect, connected, networkId, providerInitialized } = useWeb3Context();
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 705px)");

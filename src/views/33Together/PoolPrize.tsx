@@ -2,10 +2,9 @@ import { Trans } from "@lingui/macro";
 import { Box, Paper, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
 import { subtractDates, trim } from "src/helpers";
 
-import { useAppSelector, useWeb3Context } from "../../hooks";
+import { useAppDispatch, useAppSelector, useWeb3Context } from "../../hooks";
 import { getPoolValues, getRNGStatus } from "../../slices/PoolThunk";
 
 export interface Timer {
@@ -17,7 +16,7 @@ export interface Timer {
 
 export const PoolPrize = () => {
   const { provider, networkId } = useWeb3Context();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [timer, setTimer] = useState<Timer | null>(null);
   const [showAwardStart, setShowAwardStart] = useState(false);

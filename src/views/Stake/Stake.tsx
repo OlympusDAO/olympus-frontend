@@ -23,9 +23,8 @@ import { Skeleton } from "@material-ui/lab";
 import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { useAppSelector } from "src/hooks";
+import { useAppDispatch, useAppSelector } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -47,7 +46,7 @@ function a11yProps(index: number) {
 }
 
 function Stake() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const { provider, address, connect, networkId } = useWeb3Context();
   usePathForNetwork({ pathName: "stake", networkID: networkId, history });
@@ -298,19 +297,19 @@ function Stake() {
                   className="stake-apy"
                   label={t`APY`}
                   metric={`${formattedTrimmedStakingAPY}%`}
-                  isLoading={stakingAPY ? false : true}
+                  isLoading={!stakingAPY}
                 />
                 <Metric
                   className="stake-tvl"
                   label={t`Total Value Deposited`}
                   metric={formattedStakingTVL}
-                  isLoading={stakingTVL ? false : true}
+                  isLoading={!stakingTVL}
                 />
                 <Metric
                   className="stake-index"
                   label={t`Current Index`}
                   metric={`${formattedCurrentIndex} sOHM`}
-                  isLoading={currentIndex ? false : true}
+                  isLoading={!currentIndex}
                 />
               </MetricCollection>
             </Grid>
@@ -336,7 +335,7 @@ function Stake() {
                       className="stake-tab-buttons"
                       onChange={changeView}
                       aria-label="stake tabs"
-                      //hides the tab underline sliding animation in while <Zoom> is loading
+                      // hides the tab underline sliding animation in while <Zoom> is loading
                       TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
                     >
                       <Tab
@@ -375,7 +374,7 @@ function Stake() {
                             </Box>
                           ) : (
                             <FormControl className="ohm-input" variant="outlined" color="primary">
-                              <InputLabel htmlFor="amount-input"></InputLabel>
+                              <InputLabel htmlFor="amount-input" />
                               <OutlinedInput
                                 id="amount-input"
                                 type="number"

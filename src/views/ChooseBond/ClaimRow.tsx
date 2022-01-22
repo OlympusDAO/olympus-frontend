@@ -4,16 +4,16 @@ import { t } from "@lingui/macro";
 import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { TokenStack } from "@olympusdao/component-library";
-import { useDispatch } from "react-redux";
 import { useAppSelector, useBonds, useWeb3Context } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import { prettyVestingPeriod, trim } from "../../helpers";
+import { useAppDispatch } from "../../hooks";
 import { redeemBond } from "../../slices/BondSlice";
 
 export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondDetails] }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { address, provider, networkId } = useWeb3Context();
   const { bonds, expiredBonds } = useBonds(networkId);
 
@@ -79,7 +79,7 @@ export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondD
 }
 
 export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDetails] }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { address, provider, networkId } = useWeb3Context();
   const { bonds, expiredBonds } = useBonds(networkId);
 

@@ -24,10 +24,10 @@ import { Skeleton } from "@material-ui/lab";
 import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
-import { useAppSelector } from "src/hooks";
+import { useAppDispatch, useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
@@ -49,7 +49,7 @@ const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
 
 function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const { provider, address, connect, networkId } = useWeb3Context();
 

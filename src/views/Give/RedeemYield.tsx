@@ -5,7 +5,7 @@ import { InfoTooltip } from "@olympusdao/component-library";
 import { DataRow } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 import { NetworkId } from "src/constants";
@@ -16,6 +16,7 @@ import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import { ArrowGraphic, RedeemGraphic, VaultGraphic } from "../../components/EducationCard";
+import { useAppDispatch } from "../../hooks";
 import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
 import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 
@@ -28,14 +29,14 @@ type State = {
 
 export default function RedeemYield() {
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { provider, hasCachedProvider, address, connected, connect, networkId } = useWeb3Context();
   const [isRedeemYieldModalOpen, setIsRedeemYieldModalOpen] = useState(false);
   const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   // TODO fix typing of state.app.loading
-  const isAppLoading = useSelector((state: any) => state.app.loading);
+  const isAppLoading = useSelector((state: State) => state.app.loading);
 
   const donationInfo = useSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
