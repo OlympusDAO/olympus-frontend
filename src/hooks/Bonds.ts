@@ -22,15 +22,13 @@ interface IBondingStateView {
 // Smash all the interfaces together to get the BondData Type
 export interface IAllBondData extends Bond, IBondDetails, IUserBondDetails {}
 
-const initialBondArray = allBonds;
-const initialExpiredArray = allExpiredBonds;
 // Slaps together bond data within the account & bonding states
 function useBonds(networkId: NetworkId) {
   const bondLoading = useAppSelector(state => !state.bonding.loading);
   const bondState = useAppSelector(state => state.bonding);
   const accountBondsState = useAppSelector(state => state.account.bonds);
-  const [bonds, setBonds] = useAppSelector(initialBondArray);
-  const [expiredBonds, setExpiredBonds] = useState<Bond[] | IAllBondData[]>(initialExpiredArray);
+  const [bonds, setBonds] = useState<Bond[] | IAllBondData[]>(allBonds);
+  const [expiredBonds, setExpiredBonds] = useState<Bond[] | IAllBondData[]>(allExpiredBonds);
 
   useEffect(() => {
     const bondDetails: IAllBondData[] = allBonds
