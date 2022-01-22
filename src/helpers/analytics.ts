@@ -7,9 +7,7 @@ const GA_API_KEY = EnvHelper.getGaKey();
 
 declare global {
   interface Window {
-    analytics: {
-      track: any;
-    };
+    analytics: any;
   }
 }
 

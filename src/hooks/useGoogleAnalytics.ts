@@ -10,12 +10,15 @@ const useGoogleAnalytics = () => {
   const location = useLocation();
 
   useEffect(() => {
+    const path = location.pathname + location.hash + location.search;
     if (GA_API_KEY && GA_API_KEY.length > 1) {
       ReactGA.initialize(GA_API_KEY, {
-        gaOptions: { cookieFlags: "secure;samesite=strict" },
+        gaOptions: {
+          cookieFlags: "SameSite=Strict; Secure",
+        },
       });
       ReactGA.set({ anonymizeIp: true });
-      ReactGA.pageview(location.pathname + location.hash + location.search);
+      ReactGA.pageview(path);
     }
   }, [location]);
 };
