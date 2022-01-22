@@ -1,13 +1,12 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, Slide, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { useSelector } from "react-redux";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import ConnectButton from "../../components/ConnectButton/ConnectButton";
 import { prettifySeconds, prettyVestingPeriod, secondsUntilBlock, trim } from "../../helpers";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { redeemBond } from "../../slices/BondSlice";
 import { DisplayBondDiscount } from "./BondV2";
 
@@ -16,18 +15,18 @@ function BondRedeem({ bond }) {
   const dispatch = useAppDispatch();
   const { provider, address, networkId } = useWeb3Context();
 
-  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
+  const isBondLoading = useAppSelector(state => state.bonding.loading ?? true);
 
-  const currentBlock = useSelector(state => {
+  const currentBlock = useAppSelector(state => {
     return state.app.currentBlock;
   });
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
-  const bondingState = useSelector(state => {
+  const bondingState = useAppSelector(state => {
     return state.bonding && state.bonding[bond.name];
   });
-  const bondDetails = useSelector(state => {
+  const bondDetails = useAppSelector(state => {
     return state.account.bonds && state.account.bonds[bond.name];
   });
 

@@ -6,7 +6,6 @@ import { OutlinedInput } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Project } from "src/components/GiveProject/project.type";
 import { useWeb3Context } from "src/hooks/web3Context";
 import {
@@ -39,7 +38,7 @@ import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { EnvHelper } from "src/helpers/Environment";
 
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
@@ -120,29 +119,29 @@ export function RecipientModal({
    *
    * TODO consider extracting this into a helper file
    */
-  const sohmBalance: string = useSelector((state: State) => {
+  const sohmBalance: string = useAppSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.balances && state.account.balances.mockSohm
       : state.account.balances && state.account.balances.sohm;
   });
 
-  const giveAllowance: number = useSelector((state: State) => {
+  const giveAllowance: number = useAppSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.sohmGive
       : state.account.giving && state.account.giving.sohmGive;
   });
 
-  const isAccountLoading: boolean = useSelector((state: State) => {
+  const isAccountLoading: boolean = useAppSelector((state: State) => {
     return state.account.loading;
   });
 
-  const isGiveLoading: boolean = useSelector((state: State) => {
+  const isGiveLoading: boolean = useAppSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving.loading
       : state.account.giving.loading;
   });
 
-  const pendingTransactions: IPendingTxn[] = useSelector((state: State) => {
+  const pendingTransactions: IPendingTxn[] = useAppSelector((state: State) => {
     return state.pendingTransactions;
   });
 

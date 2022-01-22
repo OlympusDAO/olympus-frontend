@@ -2,7 +2,6 @@ import { t, Trans } from "@lingui/macro";
 import { Button, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { FormControl } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
-import { useSelector } from "react-redux";
 import { Project } from "src/components/GiveProject/project.type";
 import { shorten } from "src/helpers";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -11,6 +10,7 @@ import { hasPendingGiveTxn, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ArrowGraphic, VaultGraphic, WalletGraphic } from "../../components/EducationCard";
+import { useAppSelector } from "../../hooks";
 import { txnButtonText } from "../../slices/PendingTxnsSlice";
 import { IPendingTxn } from "../../slices/PendingTxnsSlice";
 
@@ -46,7 +46,7 @@ export function WithdrawDepositModal({
   project,
 }: WithdrawModalProps) {
   const { address } = useWeb3Context();
-  const pendingTransactions = useSelector((state: State) => {
+  const pendingTransactions = useAppSelector((state: State) => {
     return state.pendingTransactions;
   });
 

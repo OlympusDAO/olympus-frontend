@@ -5,7 +5,6 @@ import { Box, Button, Container, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { BigNumber } from "bignumber.js";
 import { useMemo, useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useUIDSeed } from "react-uid";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
@@ -21,6 +20,7 @@ import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
+import { useAppSelector } from "../../hooks";
 import { error } from "../../slices/MessagesSlice";
 import { GiveInfo } from "./GiveInfo";
 import data from "./projects.json";
@@ -43,13 +43,13 @@ export default function CausesDashboard() {
   const dispatch = useAppDispatch();
   const seed = useUIDSeed();
 
-  const donationInfo = useSelector((state: State) => {
+  const donationInfo = useAppSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
 
-  const totalDebt = useSelector((state: State) => {
+  const totalDebt = useAppSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
       : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;

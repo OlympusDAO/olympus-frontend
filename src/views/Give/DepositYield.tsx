@@ -3,7 +3,6 @@ import { Box, Container, Paper, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 import { NetworkId } from "src/constants";
@@ -13,6 +12,7 @@ import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 
+import { useAppSelector } from "../../hooks";
 import YieldRecipients from "./YieldRecipients";
 
 type State = {
@@ -26,7 +26,7 @@ export default function DepositYield() {
   const { networkId } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const totalDebt = useSelector((state: State) => {
+  const totalDebt = useAppSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
       : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { NetworkId } from "src/constants";
 import allBonds, { allExpiredBonds } from "src/helpers/AllBonds";
 import { Bond } from "src/lib/Bond";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { IBondDetails } from "src/slices/BondSlice";
+
+import { useAppSelector } from "./index";
 
 interface IBondingStateView {
   account: {
@@ -25,10 +26,10 @@ const initialBondArray = allBonds;
 const initialExpiredArray = allExpiredBonds;
 // Slaps together bond data within the account & bonding states
 function useBonds(networkId: NetworkId) {
-  const bondLoading = useSelector((state: IBondingStateView) => !state.bonding.loading);
-  const bondState = useSelector((state: IBondingStateView) => state.bonding);
-  const accountBondsState = useSelector((state: IBondingStateView) => state.account.bonds);
-  const [bonds, setBonds] = useState<Bond[] | IAllBondData[]>(initialBondArray);
+  const bondLoading = useAppSelector(state => !state.bonding.loading);
+  const bondState = useAppSelector(state => state.bonding);
+  const accountBondsState = useAppSelector(state => state.account.bonds);
+  const [bonds, setBonds] = useAppSelector(initialBondArray);
   const [expiredBonds, setExpiredBonds] = useState<Bond[] | IAllBondData[]>(initialExpiredArray);
 
   useEffect(() => {

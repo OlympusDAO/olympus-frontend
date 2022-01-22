@@ -5,7 +5,6 @@ import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Project } from "src/components/GiveProject/project.type";
@@ -19,7 +18,7 @@ import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
 import data from "./projects.json";
@@ -42,15 +41,14 @@ export default function YieldRecipients() {
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  // TODO fix typing of state.app.loading
-  const isAppLoading = useSelector((state: State) => state.app.loading);
-  const donationInfo = useSelector((state: State) => {
+  const isAppLoading = useAppSelector(state => state.app.loading);
+  const donationInfo = useAppSelector(state => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
 
-  const isDonationInfoLoading = useSelector((state: State) => state.account.loading);
+  const isDonationInfoLoading = useAppSelector((state: State) => state.account.loading);
   const isLoading = isAppLoading || isDonationInfoLoading;
 
   // *** Edit modal

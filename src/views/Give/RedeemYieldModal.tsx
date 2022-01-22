@@ -3,12 +3,12 @@ import { Button, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/co
 import { FormControl } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { BigNumber } from "bignumber.js";
-import { useSelector } from "react-redux";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ArrowGraphic, RedeemGraphic, VaultGraphic } from "../../components/EducationCard";
+import { useAppSelector } from "../../hooks";
 import { txnButtonText } from "../../slices/PendingTxnsSlice";
 import { IPendingTxn, isPendingTxn } from "../../slices/PendingTxnsSlice";
 
@@ -42,7 +42,7 @@ export function RedeemYieldModal({
   redeemableBalance,
 }: RedeemModalProps) {
   const { address } = useWeb3Context();
-  const pendingTransactions = useSelector((state: State) => {
+  const pendingTransactions = useAppSelector((state: State) => {
     return state.pendingTransactions;
   });
   const isSmallScreen = useMediaQuery("(max-width: 600px)");

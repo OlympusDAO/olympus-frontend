@@ -5,7 +5,6 @@ import { InfoTooltip } from "@olympusdao/component-library";
 import { DataRow } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 import { NetworkId } from "src/constants";
@@ -16,7 +15,7 @@ import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import { ArrowGraphic, RedeemGraphic, VaultGraphic } from "../../components/EducationCard";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
 import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 
@@ -36,43 +35,43 @@ export default function RedeemYield() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   // TODO fix typing of state.app.loading
-  const isAppLoading = useSelector((state: State) => state.app.loading);
+  const isAppLoading = useAppSelector((state: State) => state.app.loading);
 
-  const donationInfo = useSelector((state: State) => {
+  const donationInfo = useAppSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
 
-  const redeemableBalance = useSelector((state: State) => {
+  const redeemableBalance = useAppSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
       : state.account.redeeming && state.account.redeeming.sohmRedeemable;
   });
 
-  const totalDebt = useSelector((state: State) => {
+  const totalDebt = useAppSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
       : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
 
-  const stakingAPY = useSelector((state: State) => {
+  const stakingAPY = useAppSelector((state: State) => {
     return state.app.stakingAPY;
   });
 
-  const recipientInfo = useSelector((state: State) => {
+  const recipientInfo = useAppSelector((state: State) => {
     return state.account.redeeming && state.account.redeeming.recipientInfo;
   });
 
-  const stakingRebase = useSelector((state: State) => {
+  const stakingRebase = useAppSelector((state: State) => {
     return state.app.stakingRebase;
   });
 
-  const fiveDayRate = useSelector((state: State) => {
+  const fiveDayRate = useAppSelector((state: State) => {
     return state.app.fiveDayRate;
   });
 
-  const pendingTransactions = useSelector((state: State) => {
+  const pendingTransactions = useAppSelector((state: State) => {
     return state.pendingTransactions;
   });
 

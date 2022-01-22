@@ -24,7 +24,6 @@ import { Skeleton } from "@material-ui/lab";
 import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
 import { useAppDispatch, useAppSelector } from "src/hooks";
@@ -57,42 +56,42 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState("");
 
-  const isAppLoading = useSelector(state => state.app.loading);
-  const currentIndex = useSelector(state => {
+  const isAppLoading = useAppSelector(state => state.app.loading);
+  const currentIndex = useAppSelector(state => {
     return state.app.currentIndex;
   });
-  const fiveDayRate = useSelector(state => {
+  const fiveDayRate = useAppSelector(state => {
     return state.app.fiveDayRate;
   });
-  const ohmBalance = useSelector(state => {
+  const ohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.ohmV1;
   });
-  const sohmBalance = useSelector(state => {
+  const sohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.sohmV1;
   });
-  const fsohmBalance = useSelector(state => {
+  const fsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.fsohm;
   });
-  const wsohmBalance = useSelector(state => {
+  const wsohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
   });
-  const stakeAllowance = useSelector(state => {
+  const stakeAllowance = useAppSelector(state => {
     return state.account.staking && state.account.staking.ohmStakeV1;
   });
-  const unstakeAllowance = useSelector(state => {
+  const unstakeAllowance = useAppSelector(state => {
     return state.account.staking && state.account.staking.ohmUnstakeV1;
   });
-  const stakingRebase = useSelector(state => {
+  const stakingRebase = useAppSelector(state => {
     return state.app.stakingRebase;
   });
-  const stakingAPY = useSelector(state => {
+  const stakingAPY = useAppSelector(state => {
     return state.app.stakingAPY;
   });
-  const stakingTVL = useSelector(state => {
+  const stakingTVL = useAppSelector(state => {
     return state.app.stakingTVL;
   });
 
-  const pendingTransactions = useSelector(state => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 
@@ -103,7 +102,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   const gOhmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.gohm;
   });
-  const sohmV2Balance = useSelector(state => {
+  const sohmV2Balance = useAppSelector(state => {
     return state.account.balances && state.account.balances.sohm;
   });
 
