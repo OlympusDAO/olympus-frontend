@@ -15,11 +15,14 @@ import {
 import { ExpandMore } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { NavItem } from "@olympusdao/component-library";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import { trim } from "../../helpers";
@@ -29,14 +32,23 @@ import externalUrls from "./externalUrls";
 import Social from "./Social";
 
 function NavContent({ handleDrawerToggle }) {
-  const { networkId } = useWeb3Context();
+  const [isActive] = useState();
+  const { networkId, address, provider } = useWeb3Context();
   const { bonds } = useBonds(networkId);
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const bondsV2 = useAppSelector(state => {
     return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
   });
 
+  useEffect(() => {
+    const interval = setTimeout(() => {
+      dispatch(getAllBonds({ address, networkID: networkId, provider }));
+      dispatch(getUserNotes({ address, networkID: networkId, provider }));
+    }, 60000);
+    return () => clearTimeout(interval);
+  });
   const sortedBonds = bondsV2
     .filter(bond => bond.soldOut === false)
     .sort((a, b) => {
