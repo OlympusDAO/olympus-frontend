@@ -76,7 +76,6 @@ const ZapStakeAction: React.FC = () => {
       category: "OlyZaps",
       action: uaData.type,
       label: uaData.token ?? "unknown",
-      metric1: parseFloat(uaData.value),
     });
     setZapToken(token);
     handleClose();
@@ -112,7 +111,6 @@ const ZapStakeAction: React.FC = () => {
       category: "OlyZaps",
       action: uaData.type ?? "unknown",
       label: zapToken ?? "unknown",
-      metric1: parseFloat(uaData.value),
     });
   };
 

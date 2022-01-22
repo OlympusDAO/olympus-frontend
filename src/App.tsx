@@ -253,16 +253,15 @@ function App() {
     if (hasCachedProvider()) {
       // then user DOES have a wallet
       connect().then(() => {
+        console.log(provider);
         setWalletChecked(true);
         trackSegmentEvent({
           type: "connect",
-          provider: provider,
           context: currentPath,
         });
         trackGAEvent({
           category: "App",
           action: "connect",
-          label: String(provider) ?? "unknown",
         });
       });
     } else {

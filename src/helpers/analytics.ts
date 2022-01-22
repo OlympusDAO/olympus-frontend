@@ -28,6 +28,7 @@ export const trackSegmentEvent = (event: SegmentEvent) => {
 };
 
 export const trackGAEvent = (event: ReactGA.EventArgs) => {
+  console.log(event);
   try {
     if (GA_API_KEY && ReactGA) {
       ReactGA.event(event);
