@@ -1,9 +1,10 @@
 import { isAddress } from "@ethersproject/address";
-import { Box, Button, Divider, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Button, Divider, Typography } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { Modal } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +19,6 @@ import {
   PENDING_TXN_GIVE_APPROVAL,
 } from "src/slices/GiveThunk";
 
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import {
   ArrowGraphic,
   CurrPositionGraphic,
@@ -246,15 +246,11 @@ export function RecipientModal({
    * @returns boolean
    */
   const isCreateMode = (): boolean => {
-    if (currentWalletAddress) return false;
-
-    return true;
+    return !currentWalletAddress;
   };
 
   const isProjectMode = (): boolean => {
-    if (project) return true;
-
-    return false;
+    return !!project;
   };
 
   const getTitle = (): string => {
@@ -285,9 +281,7 @@ export function RecipientModal({
 
     if (!address) return false;
     if (hasPendingGiveTxn(pendingTransactions)) return false;
-    if (!isCreateMode() && getDepositAmountDiff().isEqualTo(0)) return false;
-
-    return true;
+    return !(!isCreateMode() && getDepositAmountDiff().isEqualTo(0));
   };
 
   /**
@@ -398,7 +392,7 @@ export function RecipientModal({
           />
         </div>
         <FormControl className="modal-input" variant="outlined" color="primary">
-          <InputLabel htmlFor="wallet-input"></InputLabel>
+          <InputLabel htmlFor="wallet-input" />
           <OutlinedInput
             id="wallet-input"
             type="text"
@@ -438,23 +432,16 @@ export function RecipientModal({
 
   return (
     /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
-    <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
-      <Paper
-        className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`}
-        onClick={handleModalInsideClick}
-        style={{
-          top: hasAllowance() && isSmallScreen ? "0%" : "50%",
-          transform: hasAllowance() && isSmallScreen ? "translate(-50.048%, 0%)" : "translate(-50.048%, -50.048%)",
-        }}
-      >
-        <div className="yield-header">
-          <Link onClick={() => cancelFunc()}>
-            <SvgIcon color="primary" component={XIcon} />
-          </Link>
-          <Typography variant="h4">
-            <strong>{getTitle()}</strong>
-          </Typography>
-        </div>
+    <Modal
+      headerText={getTitle()}
+      closePosition={"left"}
+      className="modal-container"
+      maxWidth={"750px"}
+      open={isModalOpen}
+      onClose={cancelFunc}
+      onClick={cancelFunc}
+    >
+      <div className={`ohm-card ohm-modal`} onClick={handleModalInsideClick}>
         {!address ? (
           <>
             <FormHelperText>
@@ -537,7 +524,7 @@ export function RecipientModal({
               />
             </div>
             <FormControl className="modal-input" variant="outlined" color="primary">
-              <InputLabel htmlFor="amount-input"></InputLabel>
+              <InputLabel htmlFor="amount-input" />
               <OutlinedInput
                 id="amount-input"
                 type="number"
@@ -655,7 +642,7 @@ export function RecipientModal({
             </FormControl>
           </>
         )}
-      </Paper>
+      </div>
     </Modal>
   );
 }
