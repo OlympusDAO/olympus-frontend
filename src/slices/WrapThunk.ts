@@ -1,14 +1,14 @@
-import { ethers, BigNumber } from "ethers";
-import { addresses } from "../constants";
-import { abi as ierc20ABI } from "../abi/IERC20.json";
-import { abi as v2sOHM } from "../abi/v2sOhmNew.json";
-import { clearPendingTxn, fetchPendingTxns, getWrappingTypeText } from "./PendingTxnsSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchAccountSuccess, getBalances } from "./AccountSlice";
-import { error, info } from "../slices/MessagesSlice";
-import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { ethers } from "ethers";
 import { IERC20, OlympusStakingv2__factory } from "src/typechain";
+
+import { abi as ierc20ABI } from "../abi/IERC20.json";
+import { addresses } from "../constants";
+import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { error, info } from "../slices/MessagesSlice";
+import { fetchAccountSuccess, getBalances } from "./AccountSlice";
+import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
+import { clearPendingTxn, fetchPendingTxns, getWrappingTypeText } from "./PendingTxnsSlice";
 
 interface IUAData {
   address: string;
@@ -91,7 +91,7 @@ export const changeWrapV2 = createAsyncThunk(
     const stakingContract = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, signer);
 
     let wrapTx;
-    let uaData: IUAData = {
+    const uaData: IUAData = {
       address: address,
       value: value,
       approved: true,

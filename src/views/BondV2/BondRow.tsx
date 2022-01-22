@@ -1,15 +1,17 @@
-import BondLogo from "../../components/BondLogo";
-import { DisplayBondPrice, DisplayBondDiscount } from "./BondV2";
-import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { NavLink } from "react-router-dom";
 import "./choosebond.scss";
+
 import { t, Trans } from "@lingui/macro";
+import { Button, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { IBondV2 } from "src/slices/BondSliceV2";
-import { useAppSelector } from "src/hooks";
+import { TokenStack } from "@olympusdao/component-library";
+import { NavLink } from "react-router-dom";
 import I18nOrdering from "src/components/I18nOrdering";
-import { left, right } from "../../locales";
+import { useAppSelector } from "src/hooks";
+import { IBondV2 } from "src/slices/BondSliceV2";
+
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { left } from "../../locales";
+import { DisplayBondDiscount, DisplayBondPrice } from "./BondV2";
 
 export function BondDataCard({ bond }: { bond: IBondV2 }) {
   const isBondLoading = useAppSelector(state => state.bondingV2.loading);
@@ -18,7 +20,7 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
     <Slide direction="up" in={true}>
       <Paper id={`${bond.index}--bond`} className="bond-data-card ohm-card">
         <div className="bond-pair">
-          <BondLogo bond={bond} />
+          <TokenStack tokens={bond.bondIconSvg} />
           <div className="bond-name">
             <Typography>{bond.displayName}</Typography>
             {bond.isLP && (
@@ -91,10 +93,8 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
   return (
     <TableRow id={`${bond.index}--bond`}>
       <I18nOrdering>
-        <TableCell align={left()}>
-          <BondLogo bond={bond} />
-        </TableCell>
         <TableCell align={left()} className="bond-name-cell">
+          <TokenStack tokens={bond.bondIconSvg} />
           <div className="bond-name">
             <Typography variant="body1">{bond.displayName}</Typography>
             {bond.isLP && (

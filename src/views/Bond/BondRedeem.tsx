@@ -1,17 +1,17 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Button, Typography, Box, Slide } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
-import { redeemBond } from "../../slices/BondSlice";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { prettifySeconds, prettyVestingPeriod, secondsUntilBlock, trim } from "../../helpers";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { Box, Button, Slide, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { DisplayBondDiscount } from "./Bond";
-import ConnectButton from "../../components/ConnectButton";
-import { IAllBondData } from "src/hooks/Bonds";
-import { useAppSelector } from "src/hooks";
 import { DataRow } from "@olympusdao/component-library";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "src/hooks";
+import { IAllBondData } from "src/hooks/Bonds";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+
+import ConnectButton from "../../components/ConnectButton/ConnectButton";
+import { prettifySeconds, prettyVestingPeriod, secondsUntilBlock, trim } from "../../helpers";
+import { redeemBond } from "../../slices/BondSlice";
+import { DisplayBondDiscount } from "./Bond";
 
 function BondRedeem({ bond }: { bond: IAllBondData }) {
   const dispatch = useDispatch();

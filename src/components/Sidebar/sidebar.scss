@@ -68,61 +68,13 @@
   height: 40vh;
   min-height: 30vh;
 }
+.dapp-menu-data.discounts {
+  display: flex;
+}
 
 .dapp-menu-links {
   min-height: 35vh;
-  display: flex;
   align-items: center;
-}
-.dapp-nav a {
-  margin-top: 0.7rem;
-  margin-left: 33px;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  svg {
-    width: 20px;
-    height: 20px;
-    margin-right: 12px;
-    vertical-align: -4px;
-  }
-}
-
-.dapp-menu-external-links {
-  display: flex;
-  flex-flow: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin-left: 33px;
-  h6 {
-    display: flex;
-    align-self: center;
-  }
-  a {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  a svg {
-    width: 20px;
-    height: 20px;
-    margin-right: 12px;
-    vertical-align: middle;
-  }
-}
-
-.external-site-link {
-  .external-site-link-icon {
-    opacity: 0;
-  }
-}
-.external-site-link:hover {
-  .external-site-link-icon {
-    opacity: 1;
-    width: 20px;
-    height: 20px;
-    margin-left: 8px;
-  }
 }
 
 .bond-discounts {
@@ -130,6 +82,12 @@
   color: #999999;
   padding-left: 33px;
   margin-top: 8px;
+  a {
+    margin-top: 0.7rem;
+    margin-left: 33px;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
 
   .discounts-accordion {
     backdrop-filter: none;
@@ -224,26 +182,6 @@
   .dapp-menu-links {
     flex-flow: row !important;
     justify-content: center !important;
-  }
-  .dapp-menu-external-links {
-    padding-top: 3em;
-    line-height: 200% !important;
-    justify-content: center;
-  }
-  .dapp-nav,
-  .dapp-menu-external-links {
-    flex-flow: column !important;
-    justify-content: flex-start;
-    margin: auto;
-    a {
-      padding: 0;
-      svg {
-        align-self: center;
-      }
-    }
-  }
-  .dapp-menu-external-links a {
-    justify-content: left;
   }
   .dapp-nav {
     .dapp-menu-data.discounts {
