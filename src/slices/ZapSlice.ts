@@ -68,7 +68,7 @@ export const changeZapTokenAllowance = createAsyncThunk(
       trackGAEvent({
         category: "OlyZaps",
         action: uaData.type,
-        label: uaData.value ?? "unknown",
+        metric1: parseFloat(uaData.value),
       });
       dispatch(info("Successfully approved token!"));
       return Object.fromEntries([[action, true]]);
@@ -84,7 +84,7 @@ export const changeZapTokenAllowance = createAsyncThunk(
       trackGAEvent({
         category: "OlyZaps",
         action: uaData.type,
-        label: uaData.address ?? "unknown",
+        metric1: parseFloat(uaData.value),
       });
       console.error(e);
       dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
@@ -149,7 +149,7 @@ export const executeZap = createAsyncThunk(
       trackGAEvent({
         category: "OlyZaps",
         action: uaData.type,
-        label: uaData.token ?? "unknown",
+        metric1: parseFloat(uaData.value),
       });
       dispatch(info("Successful Zap!"));
     } catch (e: unknown) {
@@ -165,7 +165,7 @@ export const executeZap = createAsyncThunk(
       trackGAEvent({
         category: "OlyZaps",
         action: uaData.type,
-        label: uaData.token ?? "unknown",
+        metric1: parseFloat(uaData.value),
       });
       console.error(e);
       const rpcError = e as any;

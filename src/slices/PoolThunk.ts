@@ -186,7 +186,7 @@ export const poolDeposit = createAsyncThunk(
         trackGAEvent({
           category: "Pool",
           action: uaData.type,
-          label: uaData.value ?? "unknown",
+          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(poolTx.hash));
       }
@@ -306,7 +306,7 @@ export const poolWithdraw = createAsyncThunk(
     trackGAEvent({
       category: "Pool",
       action: uaData.type,
-      label: uaData.value ?? "unknown",
+      metric1: parseFloat(uaData.value),
     });
     dispatch(getBalances({ address, networkID, provider }));
   },

@@ -65,7 +65,6 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
     trackGAEvent({
       category: "OlyZaps",
       action: uaData.type,
-      label: uaData.address ?? "unknown",
     });
   };
   return (

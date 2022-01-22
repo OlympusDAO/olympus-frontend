@@ -61,7 +61,7 @@ export const redeemBalance = createAsyncThunk(
         trackGAEvent({
           category: "Redeem",
           action: uaData.type,
-          label: uaData.value ?? "unknown",
+          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(redeemTx.hash));
       }
@@ -119,7 +119,7 @@ export const redeemMockBalance = createAsyncThunk(
         trackGAEvent({
           category: "Redeem",
           action: uaData.type,
-          label: uaData.value ?? "unknown",
+          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(redeemTx.hash));
       }

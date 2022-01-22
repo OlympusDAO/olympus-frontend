@@ -130,7 +130,7 @@ export const changeWrapV2 = createAsyncThunk(
         trackGAEvent({
           category: "Wrap",
           action: uaData.type,
-          label: uaData.value ?? "unknown",
+          metric1: parseFloat(uaData.value),
         });
         dispatch(getBalances({ address, networkID, provider }));
         dispatch(clearPendingTxn(wrapTx.hash));

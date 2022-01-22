@@ -280,7 +280,7 @@ export const changeMockGive = createAsyncThunk(
         trackGAEvent({
           category: "Olympus Give",
           action: uaData.type,
-          label: uaData.value ?? "unknown",
+          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(giveTx.hash));
       }
