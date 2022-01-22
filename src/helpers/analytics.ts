@@ -31,10 +31,11 @@ export const trackSegmentEvent = (event: SegmentEvent) => {
 
 export const trackGAEvent = (event: ReactGA.EventArgs) => {
   try {
+    // Universal GA (using react-ga)
     if (GA_API_KEY && ReactGA) {
       ReactGA.event(event);
     }
-    // GA4 is loaded with GTM
+    // GA 4 (added to head)
     if (GA_4_API_KEY && window.gtag) {
       window.gtag("event", event.action, {
         event_category: event.category,
