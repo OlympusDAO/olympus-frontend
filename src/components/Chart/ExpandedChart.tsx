@@ -2,6 +2,7 @@ import { Trans } from "@lingui/macro";
 import { Box, Typography } from "@material-ui/core";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { Modal } from "@olympusdao/component-library";
+import React from "react";
 import { ResponsiveContainer } from "recharts";
 
 function ExpandedChart({
@@ -13,6 +14,15 @@ function ExpandedChart({
   headerText,
   headerSubText,
   runwayExtraInfo,
+}: {
+  open: boolean;
+  handleClose: () => void;
+  renderChart: React.ReactElement;
+  data: any[];
+  infoTooltipMessage: string;
+  headerText: string;
+  headerSubText: string;
+  runwayExtraInfo?: string;
 }) {
   return (
     <Modal
@@ -51,16 +61,18 @@ function ExpandedChart({
         </div>
       }
     >
-      <Box minWidth={300} width="100%">
-        {data && data.length > 0 && (
-          <ResponsiveContainer minHeight={260} minWidth={300}>
-            {renderChart}
-          </ResponsiveContainer>
-        )}
-      </Box>
-      <Box display="flex" style={{ width: "100%", margin: "15px" }}>
-        <Typography variant="h6">{infoTooltipMessage}</Typography>
-      </Box>
+      <div>
+        <Box minWidth={300} width="100%">
+          {data && data.length > 0 && (
+            <ResponsiveContainer minHeight={260} minWidth={300}>
+              {renderChart}
+            </ResponsiveContainer>
+          )}
+        </Box>
+        <Box display="flex" style={{ width: "100%", margin: "15px" }}>
+          <Typography variant="h6">{infoTooltipMessage}</Typography>
+        </Box>
+      </div>
     </Modal>
   );
 }

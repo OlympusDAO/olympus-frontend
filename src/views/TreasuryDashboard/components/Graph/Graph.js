@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@material-ui/core/styles";
-import Chart from "src/components/Chart/Chart.jsx";
+import Chart from "src/components/Chart/Chart.tsx";
 
 import { formatCurrency, trim } from "../../../../helpers";
 import { useTreasuryMetrics } from "../../hooks/useTreasuryMetrics";

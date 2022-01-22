@@ -4,7 +4,7 @@ import { Box, CircularProgress, SvgIcon, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { format } from "date-fns";
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -24,7 +24,7 @@ import { trim } from "../../helpers";
 import CustomTooltip from "./CustomTooltip";
 import ExpandedChart from "./ExpandedChart";
 
-const formatCurrency = c => {
+const formatCurrency = (c: number) => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -36,23 +36,23 @@ const formatCurrency = c => {
 const tickCount = 3;
 const expandedTickCount = 5;
 
-const renderExpandedChartStroke = (isExpanded, color) => {
+const renderExpandedChartStroke = (isExpanded: boolean, color: string) => {
   return isExpanded ? <CartesianGrid vertical={false} stroke={color} /> : "";
 };
 
 const renderAreaChart = (
-  data,
-  dataKey,
-  stopColor,
-  stroke,
-  dataFormat,
-  bulletpointColors,
-  itemNames,
-  itemType,
-  isStaked,
-  isExpanded,
-  expandedGraphStrokeColor,
-  isPOL,
+  data: any[],
+  dataKey: string[],
+  stopColor: string[][],
+  stroke: string[],
+  dataFormat: string,
+  bulletpointColors: CSSProperties[],
+  itemNames: string[],
+  itemType: string,
+  isStaked: boolean,
+  isExpanded: boolean,
+  expandedGraphStrokeColor: string,
+  isPOL: boolean,
 ) => (
   <AreaChart data={data}>
     <defs>
@@ -68,7 +68,6 @@ const renderAreaChart = (
       tickLine={false}
       tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
       reversed={true}
-      connectNulls={true}
       padding={{ right: 20 }}
     />
     <YAxis
@@ -85,7 +84,6 @@ const renderAreaChart = (
       }
       domain={[0, "auto"]}
       dx={3}
-      connectNulls={true}
       allowDataOverflow={false}
     />
     <Tooltip
@@ -105,16 +103,16 @@ const renderAreaChart = (
 );
 
 const renderStackedAreaChart = (
-  data,
-  dataKey,
-  stopColor,
-  stroke,
-  dataFormat,
-  bulletpointColors,
-  itemNames,
-  itemType,
-  isExpanded,
-  expandedGraphStrokeColor,
+  data: any[],
+  dataKey: string[],
+  stopColor: string[][],
+  stroke: string[],
+  dataFormat: string,
+  bulletpointColors: CSSProperties[],
+  itemNames: string[],
+  itemType: string,
+  isExpanded: boolean,
+  expandedGraphStrokeColor: string,
 ) => (
   <AreaChart data={data}>
     <defs>
@@ -154,7 +152,6 @@ const renderStackedAreaChart = (
       tickLine={false}
       tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
       reversed={true}
-      connectNulls={true}
       padding={{ right: 20 }}
     />
     <YAxis
@@ -172,11 +169,10 @@ const renderStackedAreaChart = (
         return "";
       }}
       domain={[0, "auto"]}
-      connectNulls={true}
       allowDataOverflow={false}
     />
     <Tooltip
-      formatter={value => trim(parseFloat(value), 2)}
+      formatter={(value: string) => trim(parseFloat(value), 2)}
       content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
     />
     <Area
@@ -233,17 +229,17 @@ const renderStackedAreaChart = (
 );
 
 const renderLineChart = (
-  data,
-  dataKey,
-  stroke,
-  color,
-  dataFormat,
-  bulletpointColors,
-  itemNames,
-  itemType,
-  isExpanded,
-  expandedGraphStrokeColor,
-  scale,
+  data: any[],
+  dataKey: string[],
+  stroke: string[],
+  color: string,
+  dataFormat: string,
+  bulletpointColors: CSSProperties[],
+  itemNames: string[],
+  itemType: string,
+  isExpanded: boolean,
+  expandedGraphStrokeColor: string,
+  scale: string,
 ) => (
   <LineChart data={data}>
     <XAxis
@@ -253,7 +249,6 @@ const renderLineChart = (
       tickCount={3}
       tickLine={false}
       reversed={true}
-      connectNulls={true}
       tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
       padding={{ right: 20 }}
     />
@@ -262,33 +257,32 @@ const renderLineChart = (
       axisLine={false}
       tickLine={false}
       width={32}
-      scale={scale}
+      scale={() => scale}
       tickFormatter={number =>
         number !== 0 ? (dataFormat !== "percent" ? `${number}` : `${parseFloat(number) / 1000}k`) : ""
       }
       domain={[scale == "log" ? "dataMin" : 0, "auto"]}
-      connectNulls={true}
       allowDataOverflow={false}
     />
     <Tooltip
       content={<CustomTooltip bulletpointColors={bulletpointColors} itemNames={itemNames} itemType={itemType} />}
     />
-    <Line type="monotone" dataKey={dataKey[0]} stroke={stroke ? stroke : "none"} color={color} dot={false} />;
+    <Line type="monotone" dataKey={dataKey[0]} stroke={stroke ? stroke[0] : "none"} color={color} dot={false} />;
     {renderExpandedChartStroke(isExpanded, expandedGraphStrokeColor)}
   </LineChart>
 );
 
 const renderMultiLineChart = (
-  data,
-  dataKey,
-  color,
-  stroke,
-  dataFormat,
-  bulletpointColors,
-  itemNames,
-  itemType,
-  isExpanded,
-  expandedGraphStrokeColor,
+  data: any[],
+  dataKey: string[],
+  stroke: string[],
+  color: string,
+  dataFormat: string,
+  bulletpointColors: CSSProperties[],
+  itemNames: string[],
+  itemType: string,
+  isExpanded: boolean,
+  expandedGraphStrokeColor: string,
 ) => (
   <LineChart data={data}>
     <XAxis
@@ -298,7 +292,6 @@ const renderMultiLineChart = (
       tickCount={3}
       tickLine={false}
       reversed={true}
-      connectNulls={true}
       tickFormatter={str => format(new Date(str * 1000), "MMM dd")}
       padding={{ right: 20 }}
     />
@@ -309,7 +302,6 @@ const renderMultiLineChart = (
       width={25}
       tickFormatter={number => (number !== 0 ? `${trim(parseFloat(number), 2)}` : "")}
       domain={[0, "auto"]}
-      connectNulls={true}
       allowDataOverflow={false}
     />
     <Tooltip
@@ -325,15 +317,15 @@ const renderMultiLineChart = (
 
 // JTBD: Bar chart for Holders
 const renderBarChart = (
-  data,
-  dataKey,
-  stroke,
-  dataFormat,
-  bulletpointColors,
-  itemNames,
-  itemType,
-  isExpanded,
-  expandedGraphStrokeColor,
+  data: any[],
+  dataKey: string[],
+  stroke: string[],
+  dataFormat: string,
+  bulletpointColors: CSSProperties[],
+  itemNames: string[],
+  itemType: string,
+  isExpanded: boolean,
+  expandedGraphStrokeColor: string,
 ) => (
   <BarChart data={data}>
     <XAxis
@@ -381,6 +373,24 @@ function Chart({
   infoTooltipMessage,
   expandedGraphStrokeColor,
   isPOL,
+}: {
+  type: string;
+  data: any[];
+  scale: string;
+  dataKey: string[];
+  color: string;
+  stopColor: string[][];
+  stroke: string[];
+  headerText: string;
+  dataFormat: string;
+  headerSubText: string;
+  bulletpointColors: CSSProperties[];
+  itemNames: string[];
+  itemType: string;
+  isStaked: boolean;
+  infoTooltipMessage: string;
+  expandedGraphStrokeColor: string;
+  isPOL: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -393,13 +403,13 @@ function Chart({
     setOpen(false);
   };
 
-  const renderChart = (type, isExpanded) => {
+  const renderChart = (type: string, isExpanded: boolean) => {
     if (type === "line")
       return renderLineChart(
         data,
         dataKey,
-        color,
         stroke,
+        color,
         dataFormat,
         bulletpointColors,
         itemNames,
@@ -440,8 +450,8 @@ function Chart({
       return renderMultiLineChart(
         data,
         dataKey,
-        color,
         stroke,
+        color,
         dataFormat,
         bulletpointColors,
         itemNames,
@@ -462,6 +472,7 @@ function Chart({
         isExpanded,
         expandedGraphStrokeColor,
       );
+    return <></>;
   };
 
   useEffect(() => {
@@ -506,7 +517,6 @@ function Chart({
             open={open}
             handleClose={handleClose}
             renderChart={renderChart(type, true)}
-            uid={dataKey}
             data={data}
             infoTooltipMessage={infoTooltipMessage}
             headerText={headerText}
