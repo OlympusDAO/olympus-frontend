@@ -46,7 +46,7 @@ export function WithdrawDepositModal({
   project,
 }: WithdrawModalProps) {
   const { address } = useWeb3Context();
-  const pendingTransactions = useAppSelector((state: State) => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 

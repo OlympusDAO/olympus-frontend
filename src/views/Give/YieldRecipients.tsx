@@ -48,7 +48,7 @@ export default function YieldRecipients() {
       : state.account.giving && state.account.giving.donationInfo;
   });
 
-  const isDonationInfoLoading = useAppSelector((state: State) => state.account.loading);
+  const isDonationInfoLoading = useAppSelector(state => state.account.loading);
   const isLoading = isAppLoading || isDonationInfoLoading;
 
   // *** Edit modal

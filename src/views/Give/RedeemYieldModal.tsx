@@ -42,7 +42,7 @@ export function RedeemYieldModal({
   redeemableBalance,
 }: RedeemModalProps) {
   const { address } = useWeb3Context();
-  const pendingTransactions = useAppSelector((state: State) => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
   const isSmallScreen = useMediaQuery("(max-width: 600px)");

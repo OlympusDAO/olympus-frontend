@@ -119,29 +119,29 @@ export function RecipientModal({
    *
    * TODO consider extracting this into a helper file
    */
-  const sohmBalance: string = useAppSelector((state: State) => {
+  const sohmBalance: string = useAppSelector(state => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.balances && state.account.balances.mockSohm
       : state.account.balances && state.account.balances.sohm;
   });
 
-  const giveAllowance: number = useAppSelector((state: State) => {
+  const giveAllowance: number = useAppSelector(state => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.sohmGive
       : state.account.giving && state.account.giving.sohmGive;
   });
 
-  const isAccountLoading: boolean = useAppSelector((state: State) => {
+  const isAccountLoading: boolean = useAppSelector(state => {
     return state.account.loading;
   });
 
-  const isGiveLoading: boolean = useAppSelector((state: State) => {
+  const isGiveLoading: boolean = useAppSelector(state => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving.loading
       : state.account.giving.loading;
   });
 
-  const pendingTransactions: IPendingTxn[] = useAppSelector((state: State) => {
+  const pendingTransactions: IPendingTxn[] = useAppSelector(state => {
     return state.pendingTransactions;
   });
 

@@ -35,43 +35,43 @@ export default function RedeemYield() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   // TODO fix typing of state.app.loading
-  const isAppLoading = useAppSelector((state: State) => state.app.loading);
+  const isAppLoading = useAppSelector(state => state.app.loading);
 
-  const donationInfo = useAppSelector((state: State) => {
+  const donationInfo = useAppSelector(state => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
 
-  const redeemableBalance = useAppSelector((state: State) => {
+  const redeemableBalance = useAppSelector(state => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
       : state.account.redeeming && state.account.redeeming.sohmRedeemable;
   });
 
-  const totalDebt = useAppSelector((state: State) => {
+  const totalDebt = useAppSelector(state => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
       : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
 
-  const stakingAPY = useAppSelector((state: State) => {
+  const stakingAPY = useAppSelector(state => {
     return state.app.stakingAPY;
   });
 
-  const recipientInfo = useAppSelector((state: State) => {
+  const recipientInfo = useAppSelector(state => {
     return state.account.redeeming && state.account.redeeming.recipientInfo;
   });
 
-  const stakingRebase = useAppSelector((state: State) => {
+  const stakingRebase = useAppSelector(state => {
     return state.app.stakingRebase;
   });
 
-  const fiveDayRate = useAppSelector((state: State) => {
+  const fiveDayRate = useAppSelector(state => {
     return state.app.fiveDayRate;
   });
 
-  const pendingTransactions = useAppSelector((state: State) => {
+  const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
 

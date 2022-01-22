@@ -43,13 +43,13 @@ export default function CausesDashboard() {
   const dispatch = useAppDispatch();
   const seed = useUIDSeed();
 
-  const donationInfo = useAppSelector((state: State) => {
+  const donationInfo = useAppSelector(state => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
 
-  const totalDebt = useAppSelector((state: State) => {
+  const totalDebt = useAppSelector(state => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
       : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
