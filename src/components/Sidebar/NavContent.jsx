@@ -26,7 +26,7 @@ import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import { trim } from "../../helpers";
-import useBonds from "../../hooks/Bonds";
+import useBonds from "../../hooks/useBonds";
 import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
 import externalUrls from "./externalUrls";
 import Social from "./Social";
