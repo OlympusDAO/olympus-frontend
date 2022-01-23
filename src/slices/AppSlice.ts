@@ -204,8 +204,8 @@ export interface IAppData {
 }
 
 const initialState: IAppData = {
-  loading: false,
-  loadingMarketPrice: false,
+  loading: true,
+  loadingMarketPrice: true,
 };
 
 const appSlice = createSlice({

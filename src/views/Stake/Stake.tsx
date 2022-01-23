@@ -23,9 +23,8 @@ import { Skeleton } from "@material-ui/lab";
 import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { useAppSelector } from "src/hooks";
+import { useAppDispatch, useAppSelector } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -47,7 +46,7 @@ function a11yProps(index: number) {
 }
 
 function Stake() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const { provider, address, connect, networkId } = useWeb3Context();
   usePathForNetwork({ pathName: "stake", networkID: networkId, history });
@@ -58,6 +57,9 @@ function Stake() {
   const [confirmation, setConfirmation] = useState(false);
 
   const isAppLoading = useAppSelector(state => state.app.loading);
+  const isBalanceLoading = useAppSelector(state => state.account.loadingBalance);
+  const isAccountDetailsLoading = useAppSelector(state => state.account.loadingAccountDetails);
+
   const currentIndex = useAppSelector(state => {
     return state.app.currentIndex;
   });
@@ -226,24 +228,14 @@ function Stake() {
     );
   };
 
-  const hasAllowance = useCallback(
+  const hasAllowance: (token: string) => boolean = useCallback(
     token => {
       if (token === "ohm") return stakeAllowance > 0;
       if (token === "sohm") return unstakeAllowance > 0;
       if (token === "gohm") return directUnstakeAllowance > 0;
-      return 0;
+      return false;
     },
     [stakeAllowance, unstakeAllowance, directUnstakeAllowance],
-  );
-
-  const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
-
-  const modalButton = [];
-
-  modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-      <Trans>Connect Wallet</Trans>
-    </Button>,
   );
 
   const changeView = (_event: ChangeEvent<any>, newView: number) => {
@@ -298,33 +290,38 @@ function Stake() {
                   className="stake-apy"
                   label={t`APY`}
                   metric={`${formattedTrimmedStakingAPY}%`}
-                  isLoading={stakingAPY ? false : true}
+                  isLoading={!stakingAPY}
                 />
                 <Metric
                   className="stake-tvl"
                   label={t`Total Value Deposited`}
                   metric={formattedStakingTVL}
-                  isLoading={stakingTVL ? false : true}
+                  isLoading={!stakingTVL}
                 />
                 <Metric
                   className="stake-index"
                   label={t`Current Index`}
                   metric={`${formattedCurrentIndex} sOHM`}
-                  isLoading={currentIndex ? false : true}
+                  isLoading={!currentIndex}
                 />
               </MetricCollection>
             </Grid>
             <div className="staking-area">
-              {!address ? (
+              {!address && !isBalanceLoading && (
                 <div className="stake-wallet-notification">
                   <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
+                    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+                      <Trans>Connect Wallet</Trans>
+                    </Button>
+                    ,
                   </div>
                   <Typography variant="h6">
                     <Trans>Connect your wallet to stake OHM</Trans>
                   </Typography>
                 </div>
-              ) : (
+              )}
+              {address && isBalanceLoading && <Skeleton height={30} />}
+              {address && !isBalanceLoading && !isAccountDetailsLoading && (
                 <>
                   <Box className="stake-action-area">
                     <Tabs
@@ -336,7 +333,7 @@ function Stake() {
                       className="stake-tab-buttons"
                       onChange={changeView}
                       aria-label="stake tabs"
-                      //hides the tab underline sliding animation in while <Zoom> is loading
+                      // hides the tab underline sliding animation in while <Zoom> is loading
                       TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
                     >
                       <Tab
@@ -350,60 +347,54 @@ function Stake() {
                     </Tabs>
                     <Grid container className="stake-action-row">
                       <Grid item xs={12} sm={8} className="stake-grid-item">
-                        {address && !isAllowanceDataLoading ? (
-                          (!hasAllowance("ohm") && view === 0) ||
-                          (!hasAllowance("sohm") && view === 1 && !confirmation) ||
-                          (!hasAllowance("gohm") && view === 1 && confirmation) ? (
-                            <Box mt={"10px"}>
-                              <Typography variant="body1" className="stake-note" color="textSecondary">
-                                {view === 0 ? (
-                                  <>
-                                    <Trans>First time staking</Trans> <b>OHM</b>?
-                                    <br />
-                                    <Trans>Please approve Olympus Dao to use your</Trans> <b>OHM</b>{" "}
-                                    <Trans>for staking</Trans>.
-                                  </>
-                                ) : (
-                                  <>
-                                    <Trans>First time unstaking</Trans> <b>{confirmation ? "gOHM" : "sOHM"}</b>?
-                                    <br />
-                                    <Trans>Please approve Olympus Dao to use your</Trans>{" "}
-                                    <b>{confirmation ? "gOHM" : "sOHM"}</b> <Trans>for unstaking</Trans>.
-                                  </>
-                                )}
-                              </Typography>
-                            </Box>
-                          ) : (
-                            <FormControl className="ohm-input" variant="outlined" color="primary">
-                              <InputLabel htmlFor="amount-input"></InputLabel>
-                              <OutlinedInput
-                                id="amount-input"
-                                type="number"
-                                placeholder="Enter an amount"
-                                className="stake-input"
-                                value={quantity}
-                                onChange={handleChangeQuantity}
-                                labelWidth={0}
-                                endAdornment={
-                                  <InputAdornment position="end">
-                                    <Button variant="text" onClick={setMax} color="inherit">
-                                      Max
-                                    </Button>
-                                  </InputAdornment>
-                                }
-                              />
-                            </FormControl>
-                          )
+                        {(!hasAllowance("ohm") && view === 0) ||
+                        (!hasAllowance("sohm") && view === 1 && !confirmation) ||
+                        (!hasAllowance("gohm") && view === 1 && confirmation) ? (
+                          <Box mt={"10px"}>
+                            <Typography variant="body1" className="stake-note" color="textSecondary">
+                              {view === 0 ? (
+                                <>
+                                  <Trans>First time staking</Trans> <b>OHM</b>?
+                                  <br />
+                                  <Trans>Please approve Olympus Dao to use your</Trans> <b>OHM</b>{" "}
+                                  <Trans>for staking</Trans>.
+                                </>
+                              ) : (
+                                <>
+                                  <Trans>First time unstaking</Trans> <b>{confirmation ? "gOHM" : "sOHM"}</b>?
+                                  <br />
+                                  <Trans>Please approve Olympus Dao to use your</Trans>{" "}
+                                  <b>{confirmation ? "gOHM" : "sOHM"}</b> <Trans>for unstaking</Trans>.
+                                </>
+                              )}
+                            </Typography>
+                          </Box>
                         ) : (
-                          <Skeleton width="150px" />
+                          <FormControl className="ohm-input" variant="outlined" color="primary">
+                            <InputLabel htmlFor="amount-input" />
+                            <OutlinedInput
+                              id="amount-input"
+                              type="number"
+                              placeholder="Enter an amount"
+                              className="stake-input"
+                              value={quantity}
+                              onChange={handleChangeQuantity}
+                              labelWidth={0}
+                              endAdornment={
+                                <InputAdornment position="end">
+                                  <Button variant="text" onClick={setMax} color="inherit">
+                                    Max
+                                  </Button>
+                                </InputAdornment>
+                              }
+                            />
+                          </FormControl>
                         )}
                       </Grid>
                       <Grid item xs={12} sm={4} className="stake-grid-item">
                         <TabPanel value={view} index={0} className="stake-tab-panel">
                           <Box m={-2}>
-                            {isAllowanceDataLoading ? (
-                              <Skeleton />
-                            ) : address && hasAllowance("ohm") ? (
+                            {address && hasAllowance("ohm") ? (
                               <Button
                                 className="stake-button"
                                 variant="contained"
@@ -437,10 +428,8 @@ function Stake() {
 
                         <TabPanel value={view} index={1} className="stake-tab-panel">
                           <Box m={-2}>
-                            {isAllowanceDataLoading ? (
-                              <Skeleton />
-                            ) : (address && hasAllowance("sohm") && !confirmation) ||
-                              (hasAllowance("gohm") && confirmation) ? (
+                            {(address && hasAllowance("sohm") && !confirmation) ||
+                            (hasAllowance("gohm") && confirmation) ? (
                               <Button
                                 className="stake-button"
                                 variant="contained"
@@ -474,142 +463,143 @@ function Stake() {
                       </Grid>
                     </Grid>
                   </Box>
-                  <ConfirmDialog
-                    quantity={quantity}
-                    currentIndex={currentIndex}
-                    view={view}
-                    onConfirm={setConfirmation}
-                  />
-                  <div className="stake-user-data">
-                    <DataRow
-                      title={t`Unstaked Balance`}
-                      id="user-balance"
-                      balance={`${trim(Number(ohmBalance), 4)} OHM`}
-                      isLoading={isAppLoading}
-                    />
-                    <Accordion className="stake-accordion" square defaultExpanded>
-                      <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
-                        <DataRow
-                          title={t`Total Staked Balance`}
-                          id="user-staked-balance"
-                          balance={`${trimmedBalance} sOHM`}
-                          isLoading={isAppLoading}
-                        />
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <DataRow
-                          title={t`sOHM Balance`}
-                          balance={`${trim(Number(sohmBalance), 4)} sOHM`}
-                          indented
-                          isLoading={isAppLoading}
-                        />
-                        <DataRow
-                          title={`${t`gOHM Balance`}`}
-                          balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
-                          indented
-                          isLoading={isAppLoading}
-                        />
-                        {Number(gOhmOnArbitrum) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM (Arbitrum)`}`}
-                            balance={`${trim(Number(gOhmOnArbitrum), 4)} gOHM`}
-                            indented
-                            {...{ isAppLoading }}
-                          />
-                        )}
-                        {Number(gOhmOnAvax) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM (Avalanche)`}`}
-                            balance={`${trim(Number(gOhmOnAvax), 4)} gOHM`}
-                            indented
-                            {...{ isAppLoading }}
-                          />
-                        )}
-                        {Number(gOhmOnPolygon) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM (Polygon)`}`}
-                            balance={`${trim(Number(gOhmOnPolygon), 4)} gOHM`}
-                            indented
-                            {...{ isAppLoading }}
-                          />
-                        )}
-                        {Number(gOhmOnFantom) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM (Fantom)`}`}
-                            balance={`${trim(Number(gOhmOnFantom), 4)} gOHM`}
-                            indented
-                            {...{ isAppLoading }}
-                          />
-                        )}
-                        {Number(gOhmOnTokemak) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM (Tokemak)`}`}
-                            balance={`${trim(Number(gOhmOnTokemak), 4)} gOHM`}
-                            indented
-                            isLoading={isAppLoading}
-                          />
-                        )}
-                        {Number(fgohmBalance) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM Balance in Fuse`}`}
-                            balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
-                            indented
-                            isLoading={isAppLoading}
-                          />
-                        )}
-                        {Number(sohmV1Balance) > 0.00009 && (
-                          <DataRow
-                            title={`${t`sOHM Balance`} (v1)`}
-                            balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
-                            indented
-                            isLoading={isAppLoading}
-                          />
-                        )}
-                        {Number(wsohmBalance) > 0.00009 && (
-                          <DataRow
-                            title={`${t`wsOHM Balance`} (v1)`}
-                            balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
-                            isLoading={isAppLoading}
-                            indented
-                          />
-                        )}
-                        {Number(fiatDaowsohmBalance) > 0.00009 && (
-                          <DataRow
-                            title={t`wsOHM Balance in FiatDAO (v1)`}
-                            balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
-                            isLoading={isAppLoading}
-                            indented
-                          />
-                        )}
-                        {Number(fsohmBalance) > 0.00009 && (
-                          <DataRow
-                            title={t`sOHM Balance in Fuse (v1)`}
-                            balance={`${trim(Number(fsohmBalance), 4)} sOHM (v1)`}
-                            indented
-                            isLoading={isAppLoading}
-                          />
-                        )}
-                      </AccordionDetails>
-                    </Accordion>
-                    <Divider color="secondary" />
-                    <DataRow
-                      title={t`Next Reward Amount`}
-                      balance={`${nextRewardValue} sOHM`}
-                      isLoading={isAppLoading}
-                    />
-                    <DataRow
-                      title={t`Next Reward Yield`}
-                      balance={`${stakingRebasePercentage}%`}
-                      isLoading={isAppLoading}
-                    />
-                    <DataRow
-                      title={t`ROI (5-Day Rate)`}
-                      balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
-                      isLoading={isAppLoading}
-                    />
-                  </div>
                 </>
               )}
+              <ConfirmDialog
+                quantity={quantity}
+                isLoading={isBalanceLoading && isAccountDetailsLoading}
+                currentIndex={currentIndex}
+                view={view}
+                onConfirm={setConfirmation}
+              />
+              <div className="stake-user-data">
+                <DataRow
+                  title={t`Unstaked Balance`}
+                  id="user-balance"
+                  balance={`${trim(Number(ohmBalance), 4)} OHM`}
+                  isLoading={isBalanceLoading}
+                />
+                <Accordion className="stake-accordion" square defaultExpanded>
+                  <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
+                    <DataRow
+                      title={t`Total Staked Balance`}
+                      id="user-staked-balance"
+                      balance={`${trimmedBalance} sOHM`}
+                      isLoading={isBalanceLoading}
+                    />
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <DataRow
+                      title={t`sOHM Balance`}
+                      balance={`${trim(Number(sohmBalance), 4)} sOHM`}
+                      indented
+                      isLoading={isBalanceLoading}
+                    />
+                    <DataRow
+                      title={`${t`gOHM Balance`}`}
+                      balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
+                      indented
+                      isLoading={isBalanceLoading}
+                    />
+                    {Number(gOhmOnArbitrum) > 0.00009 && (
+                      <DataRow
+                        title={`${t`gOHM (Arbitrum)`}`}
+                        balance={`${trim(Number(gOhmOnArbitrum), 4)} gOHM`}
+                        indented
+                        isLoading={isBalanceLoading}
+                      />
+                    )}
+                    {Number(gOhmOnAvax) > 0.00009 && (
+                      <DataRow
+                        title={`${t`gOHM (Avalanche)`}`}
+                        balance={`${trim(Number(gOhmOnAvax), 4)} gOHM`}
+                        indented
+                        isLoading={isBalanceLoading}
+                      />
+                    )}
+                    {Number(gOhmOnPolygon) > 0.00009 && (
+                      <DataRow
+                        title={`${t`gOHM (Polygon)`}`}
+                        balance={`${trim(Number(gOhmOnPolygon), 4)} gOHM`}
+                        indented
+                        isLoading={isBalanceLoading}
+                      />
+                    )}
+                    {Number(gOhmOnFantom) > 0.00009 && (
+                      <DataRow
+                        title={`${t`gOHM (Fantom)`}`}
+                        balance={`${trim(Number(gOhmOnFantom), 4)} gOHM`}
+                        indented
+                        isLoading={isBalanceLoading}
+                      />
+                    )}
+                    {Number(gOhmOnTokemak) > 0.00009 && (
+                      <DataRow
+                        title={`${t`gOHM (Tokemak)`}`}
+                        balance={`${trim(Number(gOhmOnTokemak), 4)} gOHM`}
+                        indented
+                        isLoading={isBalanceLoading}
+                      />
+                    )}
+                    {Number(fgohmBalance) > 0.00009 && (
+                      <DataRow
+                        title={`${t`gOHM Balance in Fuse`}`}
+                        balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
+                        indented
+                        isLoading={isBalanceLoading}
+                      />
+                    )}
+                    {Number(sohmV1Balance) > 0.00009 && (
+                      <DataRow
+                        title={`${t`sOHM Balance`} (v1)`}
+                        balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
+                        indented
+                        isLoading={isBalanceLoading}
+                      />
+                    )}
+                    {Number(wsohmBalance) > 0.00009 && (
+                      <DataRow
+                        title={`${t`wsOHM Balance`} (v1)`}
+                        balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
+                        isLoading={isAppLoading}
+                        indented
+                      />
+                    )}
+                    {Number(fiatDaowsohmBalance) > 0.00009 && (
+                      <DataRow
+                        title={t`wsOHM Balance in FiatDAO (v1)`}
+                        balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
+                        isLoading={isBalanceLoading}
+                        indented
+                      />
+                    )}
+                    {Number(fsohmBalance) > 0.00009 && (
+                      <DataRow
+                        title={t`sOHM Balance in Fuse (v1)`}
+                        balance={`${trim(Number(fsohmBalance), 4)} sOHM (v1)`}
+                        isLoading={isBalanceLoading}
+                        indented
+                      />
+                    )}
+                  </AccordionDetails>
+                </Accordion>
+                <Divider color="secondary" />
+                <DataRow
+                  title={t`Next Reward Amount`}
+                  balance={`${nextRewardValue} sOHM`}
+                  isLoading={isAppLoading || isBalanceLoading}
+                />
+                <DataRow
+                  title={t`Next Reward Yield`}
+                  balance={`${stakingRebasePercentage}%`}
+                  isLoading={isAppLoading}
+                />
+                <DataRow
+                  title={t`ROI (5-Day Rate)`}
+                  balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
+                  isLoading={isAppLoading}
+                />
+              </div>
             </div>
           </Grid>
         </Paper>

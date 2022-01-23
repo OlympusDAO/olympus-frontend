@@ -9,7 +9,6 @@ import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
 import { addresses, NetworkId } from "../constants";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { error } from "../slices/MessagesSlice";
 import { fetchAccountSuccess, getBalances, getDonationBalances, getMockDonationBalances } from "./AccountSlice";
 import {
   IActionValueRecipientAsyncThunk,
@@ -17,6 +16,7 @@ import {
   IChangeApprovalAsyncThunk,
   IJsonRPCError,
 } from "./interfaces";
+import { error } from "./MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns, getGivingTypeText, IPendingTxn, isPendingTxn } from "./PendingTxnsSlice";
 
 interface IUAData {
@@ -317,6 +317,6 @@ export const getTestTokens = createAsyncThunk(
         dispatch(clearPendingTxn(getTx.hash));
       }
     }
-    dispatch(getBalances({ address, networkID, provider }));
+    // dispatch(getBalances({ address, networkID, provider }));
   },
 );

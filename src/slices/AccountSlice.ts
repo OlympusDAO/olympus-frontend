@@ -610,6 +610,8 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
     mockSohm: string;
   };
   loading: boolean;
+  loadingBalance: boolean;
+  loadingAccountDetails: boolean;
   staking: {
     ohmStakeV1: number;
     ohmUnstakeV1: number;
@@ -629,7 +631,9 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
 }
 
 const initialState: IAccountSlice = {
-  loading: false,
+  loading: true,
+  loadingBalance: true,
+  loadingAccountDetails: true,
   bonds: {},
   balances: {
     gohm: "",
@@ -696,25 +700,25 @@ const accountSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(loadAccountDetails.pending, state => {
-        state.loading = true;
+        state.loadingAccountDetails = true;
       })
       .addCase(loadAccountDetails.fulfilled, (state, action) => {
         setAll(state, action.payload);
-        state.loading = false;
+        state.loadingAccountDetails = false;
       })
       .addCase(loadAccountDetails.rejected, (state, { error }) => {
-        state.loading = false;
+        state.loadingAccountDetails = false;
         console.log(error);
       })
       .addCase(getBalances.pending, state => {
-        state.loading = true;
+        state.loadingBalance = true;
       })
       .addCase(getBalances.fulfilled, (state, action) => {
         setAll(state, action.payload);
-        state.loading = false;
+        state.loadingBalance = false;
       })
       .addCase(getBalances.rejected, (state, { error }) => {
-        state.loading = false;
+        state.loadingBalance = false;
         console.log(error);
       })
       .addCase(getDonationBalances.pending, state => {
@@ -775,6 +779,7 @@ const accountSlice = createSlice({
         console.log(error);
       })
       .addCase(getMigrationAllowances.fulfilled, (state, action) => {
+        state.loading = false;
         setAll(state, action.payload);
       })
       .addCase(getMigrationAllowances.rejected, (state, { error }) => {
