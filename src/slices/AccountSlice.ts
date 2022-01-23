@@ -106,14 +106,11 @@ export const getBalances = createAsyncThunk(
     let fgOHMAsfsOHMBalance = BigNumber.from(0);
     let fiatDaowsohmBalance = BigNumber.from("0");
 
-    const ethProvider = NodeHelper.getAnynetStaticProvider(NetworkId.MAINNET);
-    const gohmContract = GOHM__factory.connect(addresses[NetworkId.MAINNET].GOHM_ADDRESS, ethProvider);
+    const ethNetwork = networkID === NetworkId.TESTNET_RINKEBY ? NetworkId.TESTNET_RINKEBY : NetworkId.MAINNET;
+    const ethProvider = NodeHelper.getAnynetStaticProvider(ethNetwork);
+    const gohmContract = GOHM__factory.connect(addresses[ethNetwork].GOHM_ADDRESS, ethProvider);
 
-    const gOhmBalances = await multichainBalanceOf(
-      [NetworkId.MAINNET, NetworkId.ARBITRUM, NetworkId.AVALANCHE, NetworkId.POLYGON, NetworkId.FANTOM],
-      "GOHM_ADDRESS",
-      address,
-    );
+    const gOhmBalances = await multichainBalanceOf(Object.values(NetworkId) as NetworkId[], "GOHM_ADDRESS", address);
 
     const gOhmAsSohmBalances = await Object.entries(gOhmBalances).reduce(
       async (acc, [n, b]) => ({
@@ -127,16 +124,18 @@ export const getBalances = createAsyncThunk(
     );
 
     const wsOhmBalances = await multichainBalanceOf(
-      [NetworkId.MAINNET, NetworkId.ARBITRUM, NetworkId.AVALANCHE],
+      [ethNetwork, NetworkId.ARBITRUM, NetworkId.ARBITRUM_TESTNET, NetworkId.AVALANCHE, NetworkId.AVALANCHE_TESTNET],
       "WSOHM_ADDRESS",
       address,
     );
 
-    const ohmBalance = await balanceOf(address, "OHM_ADDRESS", NetworkId.MAINNET);
-    const sohmBalance = await balanceOf(address, "SOHM_ADDRESS", NetworkId.MAINNET);
-    const ohmV2Balance = await balanceOf(address, "OHM_V2", NetworkId.MAINNET);
-    const sohmV2Balance = await balanceOf(address, "SOHM_V2", NetworkId.MAINNET);
-    const poolBalance = await balanceOf(address, "PT_TOKEN_ADDRESS", NetworkId.MAINNET);
+    const [ohmBalance, sohmBalance, ohmV2Balance, sohmV2Balance, poolBalance] = await Promise.all([
+      balanceOf(address, "OHM_ADDRESS", ethNetwork),
+      balanceOf(address, "SOHM_ADDRESS", ethNetwork),
+      balanceOf(address, "OHM_V2", ethNetwork),
+      balanceOf(address, "SOHM_V2", ethNetwork),
+      balanceOf(address, "PT_TOKEN_ADDRESS", ethNetwork),
+    ]);
 
     try {
       for (const fuseAddressKey of ["FUSE_6_SOHM", "FUSE_18_SOHM", "FUSE_36_SOHM"]) {
