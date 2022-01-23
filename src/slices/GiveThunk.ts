@@ -317,6 +317,6 @@ export const getTestTokens = createAsyncThunk(
         dispatch(clearPendingTxn(getTx.hash));
       }
     }
-    // dispatch(getBalances({ address, networkID, provider }));
+    dispatch(getBalances({ address, networkID, provider }));
   },
 );
