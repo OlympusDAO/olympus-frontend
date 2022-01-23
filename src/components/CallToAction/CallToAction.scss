@@ -1,0 +1,63 @@
+.call-to-action {
+  display: flex;
+  @media (max-width: 500px) {
+    flex-direction: column;
+    & .actionable {
+      margin-top: 10px;
+      width: 100%;
+    }
+  }
+  align-items: center;
+  justify-content: space-between;
+  width: 97%;
+  border-radius: 10px;
+  margin: 0.9rem auto;
+  padding: 30px;
+
+  .learn-more-button {
+    margin-right: 15px;
+
+    p {
+      margin-right: 5px;
+    }
+  }
+
+  .migrate-button {
+    font-size: 0.875rem;
+    height: 33px;
+    padding: 9px 20px;
+  }
+}
+
+.dark {
+  .call-to-action {
+    background-color: #f8cc82;
+    color: #253449;
+
+    .migrate-button {
+      background-color: #253449;
+      color: white;
+    }
+
+    .learn-more-button {
+      color: #253449;
+      border: 1px solid #768299;
+      .MuiSvgIcon-root {
+        color: #768299;
+      }
+    }
+  }
+}
+
+.light {
+  .call-to-action {
+    background-color: #ffe5b4;
+  }
+  .migrate-button {
+    background-color: #768299;
+  }
+
+  .learn-more-button {
+    border: 1px solid #768299;
+  }
+}
