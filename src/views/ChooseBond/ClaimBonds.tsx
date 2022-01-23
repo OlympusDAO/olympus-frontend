@@ -6,7 +6,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks";
-import useBonds from "src/hooks/Bonds";
+import useBonds from "src/hooks/useBonds";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { isPendingTxn } from "src/slices/PendingTxnsSlice";

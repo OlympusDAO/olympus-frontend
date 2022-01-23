@@ -1,3 +1,5 @@
+declare const window: CustomWindow;
+
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -7,11 +9,6 @@ import { EnvHelper } from "../helpers/Environment";
 import { getParameterByName } from "../helpers/QueryParameterHelper";
 
 const SEGMENT_API_KEY = EnvHelper.getSegmentKey();
-
-declare const window: Window & {
-  analytics: any;
-  console: any;
-};
 
 type Utm = {
   utmSource: string | null;

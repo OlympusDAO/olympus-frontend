@@ -1,57 +1,55 @@
-// eslint-disable-next-line simple-import-sort/imports
 import "./style.scss";
 
+import { useMediaQuery } from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@material-ui/core/styles";
-import { useEffect, useState, useCallback } from "react";
-import { Route, Redirect, Switch, useLocation } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import { useCallback, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { useDispatch } from "react-redux";
-import { useMediaQuery } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import useTheme from "./hooks/useTheme";
-import useBonds, { IAllBondData } from "./hooks/Bonds";
-import { useWeb3Context, useAppSelector } from "./hooks";
-import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
-import { segmentUA } from "./helpers/userAnalyticHelpers";
-import { shouldTriggerSafetyCheck } from "./helpers";
+import { Redirect, Route, Switch, useLocation } from "react-router-dom";
+import MigrationModal from "src/components/Migration/MigrationModal";
+import projectData from "src/views/Give/projects.json";
 
-import { calcBondDetails } from "./slices/BondSlice";
-import { loadAppDetails } from "./slices/AppSlice";
-import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
-import { getZapTokenBalances } from "./slices/ZapSlice";
-import { info } from "./slices/MessagesSlice";
-
-import {
-  Stake,
-  ChooseBond,
-  Bond,
-  TreasuryDashboard,
-  Zap,
-  Wrap,
-  V1Stake,
-  CausesDashboard,
-  DepositYield,
-  RedeemYield,
-  BondV2,
-  ChooseBondV2,
-} from "./views";
+import CallToAction from "./components/CallToAction/CallToAction";
+import Messages from "./components/Messages/Messages";
+import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
+import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar";
-import CallToAction from "./components/CallToAction/CallToAction";
-import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
-import Messages from "./components/Messages/Messages";
-import NotFound from "./views/404/NotFound";
-import MigrationModal from "src/components/Migration/MigrationModal";
-import { dark as darkTheme } from "./themes/dark.js";
-import { light as lightTheme } from "./themes/light.js";
-import { girth as gTheme } from "./themes/girth.js";
-import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import ProjectInfo from "./views/Give/ProjectInfo";
-import projectData from "src/views/Give/projects.json";
-import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
-import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
+import { shouldTriggerSafetyCheck } from "./helpers";
+import { segmentUA } from "./helpers/userAnalyticHelpers";
+import { useAppSelector, useWeb3Context } from "./hooks";
+import useBonds, { IAllBondData } from "./hooks/useBonds";
+import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
+import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
+import useTheme from "./hooks/useTheme";
+import { calculateUserBondDetails, getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
+import { loadAppDetails } from "./slices/AppSlice";
+import { calcBondDetails } from "./slices/BondSlice";
+import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
+import { info } from "./slices/MessagesSlice";
+import { getZapTokenBalances } from "./slices/ZapSlice";
+import { dark as darkTheme } from "./themes/dark.js";
+import { girth as gTheme } from "./themes/girth.js";
+import { light as lightTheme } from "./themes/light.js";
+import {
+  Bond,
+  BondV2,
+  CausesDashboard,
+  ChooseBond,
+  ChooseBondV2,
+  DepositYield,
+  RedeemYield,
+  Stake,
+  TreasuryDashboard,
+  V1Stake,
+  Wrap,
+  Zap,
+} from "./views";
+import NotFound from "./views/404/NotFound";
+import ProjectInfo from "./views/Give/ProjectInfo";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
