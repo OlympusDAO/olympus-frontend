@@ -262,6 +262,7 @@ function Stake() {
       gOhmOnAvaxAsSohm,
       gOhmOnPolygonAsSohm,
       gOhmOnFantomAsSohm,
+      gOhmOnTokemak,
       sohmV1Balance,
       wsohmAsSohm,
       fiatDaoAsSohm,
