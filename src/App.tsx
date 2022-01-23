@@ -39,7 +39,7 @@ import {
 import Sidebar from "./components/Sidebar/Sidebar";
 import TopBar from "./components/TopBar/TopBar";
 import CallToAction from "./components/CallToAction/CallToAction";
-import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
+import NavDrawer from "./components/Sidebar/NavDrawer";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
 import MigrationModal from "src/components/Migration/MigrationModal";

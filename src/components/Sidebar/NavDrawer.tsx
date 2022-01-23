@@ -18,15 +18,21 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function NavDrawer({ mobileOpen, handleDrawerToggle }) {
+type NavDrawerProps = {
+  mobileOpen: boolean;
+  handleDrawerToggle: () => void;
+};
+
+const NavDrawer: React.FC<NavDrawerProps> = ({ mobileOpen, handleDrawerToggle }) => {
   const classes = useStyles();
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   return (
     <SwipeableDrawer
       variant="temporary"
-      anchor={"left"}
+      anchor="left"
       open={mobileOpen}
+      onOpen={handleDrawerToggle}
       onClose={handleDrawerToggle}
       classes={{
         paper: classes.drawerPaper,
@@ -40,6 +46,6 @@ function NavDrawer({ mobileOpen, handleDrawerToggle }) {
       <NavContent handleDrawerToggle={handleDrawerToggle} />
     </SwipeableDrawer>
   );
-}
+};
 
 export default NavDrawer;

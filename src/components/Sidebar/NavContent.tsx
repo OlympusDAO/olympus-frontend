@@ -1,3 +1,4 @@
+/* eslint-disable */
 import "./Sidebar.scss";
 
 import { t, Trans } from "@lingui/macro";
@@ -15,7 +16,7 @@ import {
 import { ExpandMore } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { NavItem } from "@olympusdao/component-library";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
@@ -41,6 +42,7 @@ type CustomBond = Bond & Partial<IBondDetails>;
 
 const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
   const { networkId, address, provider } = useWeb3Context();
+  const [isMounted, setIsMounted] = useState<boolean>(false);
   const { bonds } = useBonds(networkId);
   const location = useLocation();
   const dispatch = useDispatch();
@@ -48,7 +50,11 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
   const bondsV2 = useAppSelector(state => state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]));
 
   useEffect(() => {
-    if (handleDrawerToggle) {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted && handleDrawerToggle) {
       handleDrawerToggle();
     }
   }, [location]);
