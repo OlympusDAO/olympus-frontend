@@ -1,13 +1,11 @@
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { ethers, BigNumber } from "ethers";
-
+import { OHMTokenStackProps } from "@olympusdao/component-library";
+import { BigNumber, ethers } from "ethers";
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
+import { addresses, NetworkId } from "src/constants";
 import { getTokenPrice } from "src/helpers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { EthContract, PairContract } from "src/typechain";
-import { addresses, NetworkId } from "src/constants";
-import React from "react";
-import { OHMTokenStackProps } from "@olympusdao/component-library";
 
 export enum BondType {
   StableAsset,
@@ -57,7 +55,7 @@ export abstract class Bond {
   readonly v2Bond: boolean;
 
   // The following two fields will differ on how they are set depending on bond type
-  abstract isLP: Boolean;
+  abstract isLP: boolean;
   abstract reserveContract: ethers.ContractInterface; // Token ABI
   abstract displayUnits: string;
 
@@ -156,14 +154,15 @@ export class LPBond extends Bond {
     const tokenAmount = tokenAmountV1.add(tokenAmountV2);
     const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
     const markdown = await bondCalculator.markdown(tokenAddress || "");
-    let tokenUSD = (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
+    const tokenUSD =
+      (Number(valuation.toString()) / Math.pow(10, 9)) * (Number(markdown.toString()) / Math.pow(10, 18));
     return Number(tokenUSD.toString());
   }
 }
 
 // Generic BondClass we should be using everywhere
 // Assumes the token being deposited follows the standard ERC20 spec
-export interface StableBondOpts extends BondOpts {}
+export type StableBondOpts = BondOpts;
 export class StableBond extends Bond {
   readonly isLP = false;
   readonly reserveContract: ethers.ContractInterface;
@@ -177,8 +176,8 @@ export class StableBond extends Bond {
   }
 
   async getTreasuryBalance(NetworkId: NetworkId, provider: StaticJsonRpcProvider) {
-    let token = this.getContractForReserve(NetworkId, provider);
-    let tokenAmountV1 = await token.balanceOf(addresses[NetworkId].TREASURY_ADDRESS);
+    const token = this.getContractForReserve(NetworkId, provider);
+    const tokenAmountV1 = await token.balanceOf(addresses[NetworkId].TREASURY_ADDRESS);
     let tokenAmountV2 = BigNumber.from("0");
     try {
       tokenAmountV2 = await token.balanceOf(addresses[NetworkId].TREASURY_V2);
@@ -203,7 +202,7 @@ export interface CustomBondOpts extends BondOpts {
   ) => Promise<number>;
 }
 export class CustomBond extends Bond {
-  readonly isLP: Boolean;
+  readonly isLP: boolean;
   getTreasuryBalance(NetworkId: NetworkId, provider: StaticJsonRpcProvider): Promise<number> {
     throw new Error("Method not implemented.");
   }

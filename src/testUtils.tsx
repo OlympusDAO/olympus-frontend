@@ -1,22 +1,23 @@
+import { i18n } from "@lingui/core";
+import { I18nProvider } from "@lingui/react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider } from "@material-ui/core/styles";
 import { render, RenderOptions, RenderResult } from "@testing-library/react";
+import { createMemoryHistory } from "history";
+import React, { ReactElement, ReactNode } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { light as lightTheme } from "./themes/light.js";
+
+import App from "./App";
 import { Web3ContextProvider } from "./hooks/web3Context";
 import store from "./store";
-import { createMemoryHistory } from "history";
-import App from "./App";
-import { I18nProvider } from "@lingui/react";
-import { i18n } from "@lingui/core";
-import { ReactElement, ReactNode } from "react";
+import { light as lightTheme } from "./themes/light.js";
 
 const ProviderWrapper = ({ children }: { children?: ReactNode }) => (
   <Web3ContextProvider>
     <Provider store={store}>
       <I18nProvider i18n={i18n}>
-        <BrowserRouter basename={"/"}>
+        <BrowserRouter basename={"/#"}>
           <ThemeProvider theme={lightTheme}>
             <CssBaseline />
             {children}

@@ -1,4 +1,5 @@
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
+
 import { THE_GRAPH_URL } from "../constants";
 
 const client = () =>

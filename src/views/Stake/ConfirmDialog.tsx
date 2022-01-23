@@ -1,6 +1,6 @@
-import { Box, Grid, Switch, Typography, Paper } from "@material-ui/core";
-import { ChangeEvent, useMemo, useState } from "react";
+import { Box, Grid, Paper, Switch, Typography } from "@material-ui/core";
 import { InfoTooltip } from "@olympusdao/component-library";
+import { ChangeEvent, useMemo, useState } from "react";
 
 export interface ConfirmDialogProps {
   quantity: string;

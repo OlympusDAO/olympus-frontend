@@ -1,13 +1,15 @@
-import { AppBar, Toolbar, Box, Button, SvgIcon } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
-import ThemeSwitcher from "./ThemeSwitch";
-import { LocaleSwitcher } from "@olympusdao/component-library";
-import { locales, selectLocale } from "../../locales";
 import "./topbar.scss";
-import Wallet from "./Wallet";
-import { t } from "@lingui/macro";
+
 import { i18n } from "@lingui/core";
+import { t } from "@lingui/macro";
+import { AppBar, Box, Button, SvgIcon, Toolbar } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { LocaleSwitcher } from "@olympusdao/component-library";
+
+import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
+import { locales, selectLocale } from "../../locales";
+import ThemeSwitcher from "./ThemeSwitch";
+import Wallet from "./Wallet";
 
 const useStyles = makeStyles(theme => ({
   appBar: {

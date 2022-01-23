@@ -1,24 +1,24 @@
-import { useState } from "react";
+import { t } from "@lingui/macro";
 import {
+  Accordion as MuiAccordion,
+  AccordionDetails,
+  AccordionSummary as MuiAccordionSummary,
+  Box,
   Button,
   Typography,
-  Box,
-  Accordion as MuiAccordion,
-  AccordionSummary as MuiAccordionSummary,
-  AccordionDetails,
-  withStyles,
   useTheme,
+  withStyles,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { Icon, OHMTokenProps, Token as TokenSVG } from "@olympusdao/component-library";
+import { ChangeEvent, useState } from "react";
+import { addresses, NETWORKS } from "src/constants";
+import { NetworkId } from "src/constants";
+import { formatCurrency } from "src/helpers";
+import { segmentUA } from "src/helpers/userAnalyticHelpers";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { addresses, NETWORKS } from "src/constants";
-import { formatCurrency } from "src/helpers";
-import { NetworkId } from "src/constants";
-import { segmentUA } from "src/helpers/userAnalyticHelpers";
-import { t } from "@lingui/macro";
 import { MultiChainBalances } from "src/slices/AccountSlice";
-import { Token as TokenSVG, Icon, OHMTokenProps } from "@olympusdao/component-library";
 
 const Accordion = withStyles({
   root: {
@@ -94,7 +94,7 @@ const addTokenToWallet = async (token: IToken, userAddress: string) => {
 
 interface TokenProps extends IToken {
   expanded: boolean;
-  onChangeExpanded: (event: React.ChangeEvent<{}>, isExpanded: boolean) => void;
+  onChangeExpanded: (event: ChangeEvent<any>, isExpanded: boolean) => void;
   onAddTokenToWallet: () => void;
   decimals: number;
 }
@@ -246,7 +246,7 @@ export const MigrateToken = ({ symbol, icon, balances, price = 0 }: IToken) => {
 const sumObjValues = (obj: Record<string, string> = {}) =>
   Object.values(obj).reduce((sum, b = "0.0") => sum + (parseFloat(b) || 0), 0);
 
-export const useWallet = (chainId: NetworkId, providerInitialized: Boolean): Record<string, IToken> => {
+export const useWallet = (chainId: NetworkId, providerInitialized: boolean): Record<string, IToken> => {
   // default to mainnet while not initialized
   const networkId = providerInitialized ? chainId : NetworkId.MAINNET;
 

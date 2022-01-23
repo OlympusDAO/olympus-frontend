@@ -1,7 +1,8 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { useWeb3Context } from "./web3Context";
+
 import { NetworkId } from "../constants";
+import { useWeb3Context } from "./web3Context";
 
 const useENS = (address: string) => {
   const { provider, networkId, providerInitialized } = useWeb3Context();
@@ -13,8 +14,8 @@ const useENS = (address: string) => {
     const resolveENS = async () => {
       if (providerInitialized && ensSupport && ethers.utils.isAddress(address)) {
         try {
-          let ensName = await provider.lookupAddress(address);
-          let avatar = ensName ? await provider.getAvatar(ensName) : null;
+          const ensName = await provider.lookupAddress(address);
+          const avatar = ensName ? await provider.getAvatar(ensName) : null;
           setENSName(ensName);
           setENSAvatar(avatar);
         } catch (e) {

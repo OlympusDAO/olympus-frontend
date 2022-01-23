@@ -1,6 +1,5 @@
-import { ElementType } from "react";
-import { NetworkId } from "src/constants";
 import { OHMTokenStackProps } from "@olympusdao/component-library";
+import { NetworkId } from "src/constants";
 
 /**
  * an External Staking Pool
