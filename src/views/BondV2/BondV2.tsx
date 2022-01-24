@@ -89,6 +89,12 @@ const BondV2 = ({ index }: { index: number }) => {
           topRight={advSettings}
         >
           <>
+            <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+              <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography>
+              <Typography style={{ marginTop: "3px" }}>
+                {bond.fixedTerm ? `${bond.duration}` : `${bond.expiration}`}
+              </Typography>
+            </Box>
             <Box display="flex" flexDirection="row" className="bond-price-data-row">
               <div className="bond-price-data">
                 <Typography variant="h5" color="textSecondary">
