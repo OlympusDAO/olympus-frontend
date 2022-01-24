@@ -1,5 +1,3 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
@@ -11,19 +9,21 @@ import {
   Slide,
   Typography,
 } from "@material-ui/core";
-import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
-import useDebounce from "../../hooks/Debounce";
+import { InfoTooltip } from "@olympusdao/component-library";
+import { ethers } from "ethers";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { changeApproval, getSingleBond, IBondV2, purchaseBond } from "src/slices/BondSliceV2";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { AppDispatch } from "src/store";
+
+import ConnectButton from "../../components/ConnectButton/ConnectButton";
+import { shorten, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./BondV2";
-import ConnectButton from "../../components/ConnectButton";
-import { useAppSelector } from "src/hooks";
-import { changeApproval, getSingleBond, IBondV2, IBondV2Balance, purchaseBond } from "src/slices/BondSliceV2";
-import { BigNumber, ethers } from "ethers";
-import { AppDispatch } from "src/store";
-import { InfoTooltip } from "@olympusdao/component-library";
 
 function BondPurchase({
   bond,
@@ -48,6 +48,8 @@ function BondPurchase({
 
   const balance = useAppSelector(state => state.bondingV2.balances[bond.quoteToken]);
 
+  const maxBondable = +bond.maxPayoutOrCapacityInQuote;
+
   const balanceNumber: number = useMemo(
     () => (balance ? +balance.balance / Math.pow(10, bond.quoteDecimals) : 0),
     [balance],
@@ -58,8 +60,17 @@ function BondPurchase({
   });
 
   async function onBond() {
-    if (quantity === "") {
+    if (quantity === "" || Number(quantity) <= 0) {
       dispatch(error(t`Please enter a value!`));
+    } else if (Number(quantity) > maxBondable) {
+      dispatch(
+        error(
+          t`Max capacity is ${maxBondable} ${bond.displayName} for ${trim(
+            +bond.maxPayoutOrCapacityInBase,
+            4,
+          )} sOHM. Click Max to autocomplete.`,
+        ),
+      );
     } else {
       dispatch(
         purchaseBond({
@@ -84,9 +95,9 @@ function BondPurchase({
 
   const setMax = () => {
     let maxQ: string;
-    const maxPayout = (bond.priceToken * +bond.maxPayout) / Math.pow(10, 9);
-    if (balanceNumber > maxPayout) {
-      maxQ = (maxPayout * 0.999).toString();
+    const maxBondableNumber = maxBondable * 0.999;
+    if (balanceNumber > maxBondableNumber) {
+      maxQ = maxBondableNumber.toString();
     } else {
       maxQ = ethers.utils.formatUnits(balance.balance, bond.quoteDecimals);
     }
@@ -113,7 +124,7 @@ function BondPurchase({
 
   // const displayUnits = bond.displayUnits;
 
-  const isAllowanceDataLoading = useAppSelector(state => state.bondingV2.balanceLoading);
+  const isAllowanceDataLoading = useAppSelector(state => state.bondingV2.balanceLoading[bond.quoteToken]);
 
   return (
     <Box display="flex" flexDirection="column">
@@ -158,7 +169,17 @@ function BondPurchase({
                     />
                   </FormControl>
                 )}
-                {balance ? (
+                {bond.soldOut ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    id="bond-btn"
+                    className="transaction-button"
+                    disabled={true}
+                  >
+                    <Trans>Sold Out</Trans>
+                  </Button>
+                ) : balance ? (
                   hasAllowance() ? (
                     <Button
                       variant="contained"
@@ -224,7 +245,13 @@ function BondPurchase({
               <Trans>Max You Can Buy</Trans>
             </Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(+bond.maxPayout / 10 ** 9, 1) || "0"} ` + `sOHM`}
+              {isBondLoading ? (
+                <Skeleton width="100px" />
+              ) : (
+                `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
+                  trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
+                } ${bond.displayName})`
+              )}
             </Typography>
           </div>
 

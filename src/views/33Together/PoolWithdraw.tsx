@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -12,16 +12,17 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { t, Trans } from "@lingui/macro";
-import ConnectButton from "../../components/ConnectButton";
-import { useAppDispatch, useAppSelector, useWeb3Context } from "../../hooks";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { getTokenImage } from "src/helpers";
 import { trim } from "src/helpers";
+
+import ConnectButton from "../../components/ConnectButton/ConnectButton";
+import { calculateOdds } from "../../helpers/33Together";
+import { useAppDispatch, useAppSelector, useWeb3Context } from "../../hooks";
+import { error } from "../../slices/MessagesSlice";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getEarlyExitFee, IEarlyExitFeePayload, poolWithdraw } from "../../slices/PoolThunk";
-import { calculateOdds } from "../../helpers/33Together";
-import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
-import { error } from "../../slices/MessagesSlice";
 
 const sohmImg = getTokenImage("sohm");
 
@@ -80,8 +81,12 @@ export const PoolWithdraw = (props: IPoolWithdrawProps) => {
       getEarlyExitFee({ value: quantity.toString(), provider, address, networkID: networkId }),
     );
     if (result.payload) {
-      let userBalanceAfterWithdraw = poolBalance - quantity;
-      let userOdds = calculateOdds(userBalanceAfterWithdraw.toString(), props.totalPoolDeposits, Number(props.winners));
+      const userBalanceAfterWithdraw = poolBalance - quantity;
+      const userOdds = calculateOdds(
+        userBalanceAfterWithdraw.toString(),
+        props.totalPoolDeposits,
+        Number(props.winners),
+      );
       setNewOdds(Number(trim(Number(userOdds), 4)));
       setExitFee(Number((result.payload as IEarlyExitFeePayload).withdraw.stringExitFee));
     } else {

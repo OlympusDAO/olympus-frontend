@@ -1,22 +1,13 @@
-import { NodeHelper } from "./helpers/NodeHelper";
-import { EnvHelper } from "./helpers/Environment";
-import ethereum from "./assets/tokens/wETH.svg";
+import { OHMTokenStackProps } from "@olympusdao/component-library";
+import { ethers } from "ethers";
+
 import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
 import polygon from "./assets/tokens/matic.svg";
-import { ReactComponent as OhmImg } from "src/assets/tokens/token_OHM.svg";
-import { ReactComponent as DaiImg } from "src/assets/tokens/DAI.svg";
-import { ReactComponent as OhmDaiImg } from "src/assets/tokens/OHM-DAI.svg";
-import { ReactComponent as FraxImg } from "src/assets/tokens/FRAX.svg";
-import { ReactComponent as OhmFraxImg } from "src/assets/tokens/OHM-FRAX.svg";
-import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
-import { ReactComponent as OhmEthImg } from "src/assets/tokens/OHM-WETH.svg";
-import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
-import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
-import { ReactComponent as CvxImg } from "src/assets/tokens/CVX.svg";
-
-import { getTokenPrice } from "./helpers";
-import { ethers } from "ethers";
+import ethereum from "./assets/tokens/wETH.svg";
+import { getTokenByContract, getTokenPrice } from "./helpers";
+import { EnvHelper } from "./helpers/Environment";
+import { NodeHelper } from "./helpers/NodeHelper";
 import { IERC20__factory, UniswapV2Lp__factory } from "./typechain";
 
 export const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-protocol-metrics";
@@ -51,6 +42,8 @@ export enum NetworkId {
 
   FANTOM = 250,
   FANTOM_TESTNET = 4002,
+
+  Localhost = 1337,
 }
 
 interface IAddresses {
@@ -123,6 +116,7 @@ export const addresses: IAddresses = {
     GIVING_ADDRESS: "0x2604170762A1dD22BB4F96C963043Cd4FC358f18",
     BOND_DEPOSITORY: "0x9025046c6fb25Fb39e720d97a8FD881ED69a1Ef6", // updated
     DAO_TREASURY: "0xee1520f94f304e8d551cbf310fe214212e3ca34a",
+    TOKEMAK_GOHM: "0x41f6a95bacf9bc43704c4a4902ba5473a8b00263",
   },
   [NetworkId.ARBITRUM]: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
@@ -438,7 +432,7 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
 // ... stuck on the wrong view
 export interface V2BondDetails {
   name: string;
-  bondIconSvg: SVGImageElement;
+  bondIconSvg: OHMTokenStackProps["tokens"];
   pricingFunction(provider: ethers.providers.JsonRpcProvider, quoteToken: string): Promise<number>;
   isLP: boolean;
   lpUrl: { [key: number]: string };
@@ -446,7 +440,7 @@ export interface V2BondDetails {
 
 const DaiDetails: V2BondDetails = {
   name: "DAI",
-  bondIconSvg: DaiImg,
+  bondIconSvg: ["DAI"],
   pricingFunction: async () => {
     return getTokenPrice("dai");
   },
@@ -456,7 +450,7 @@ const DaiDetails: V2BondDetails = {
 
 const FraxDetails: V2BondDetails = {
   name: "FRAX",
-  bondIconSvg: FraxImg,
+  bondIconSvg: ["FRAX"],
   pricingFunction: async () => {
     return 1.0;
   },
@@ -466,7 +460,7 @@ const FraxDetails: V2BondDetails = {
 
 const EthDetails: V2BondDetails = {
   name: "ETH",
-  bondIconSvg: wETHImg,
+  bondIconSvg: ["wETH"],
   pricingFunction: async () => {
     return getTokenPrice("ethereum");
   },
@@ -476,7 +470,7 @@ const EthDetails: V2BondDetails = {
 
 const CvxDetails: V2BondDetails = {
   name: "CVX",
-  bondIconSvg: CvxImg,
+  bondIconSvg: ["CVX"],
   pricingFunction: async () => {
     return getTokenPrice("convex-finance");
   },
@@ -484,9 +478,29 @@ const CvxDetails: V2BondDetails = {
   lpUrl: {},
 };
 
+const UstDetails: V2BondDetails = {
+  name: "UST",
+  bondIconSvg: ["UST"],
+  pricingFunction: async () => {
+    return getTokenByContract("0xa693b19d2931d498c5b318df961919bb4aee87a5");
+  },
+  isLP: false,
+  lpUrl: {},
+};
+
+const WbtcDetails: V2BondDetails = {
+  name: "wBTC",
+  bondIconSvg: ["wBTC"],
+  pricingFunction: async () => {
+    return getTokenByContract("0x2260fac5e5542a773aa44fbcfedf7c193bc2c599");
+  },
+  isLP: false,
+  lpUrl: {},
+};
+
 const OhmDaiDetails: V2BondDetails = {
   name: "OHM-DAI LP",
-  bondIconSvg: OhmDaiImg,
+  bondIconSvg: ["OHM", "DAI"],
   async pricingFunction(provider, quoteToken) {
     return pricingFunctionHelper(provider, quoteToken, "olympus", "dai");
   },
@@ -494,12 +508,14 @@ const OhmDaiDetails: V2BondDetails = {
   lpUrl: {
     [NetworkId.TESTNET_RINKEBY]:
       "https://app.sushi.com/add/0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C/0x1e630a578967968eb02EF182a50931307efDa7CF",
+    [NetworkId.MAINNET]:
+      "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x6b175474e89094c44da98b954eedeac495271d0f",
   },
 };
 
 const OhmEthDetails: V2BondDetails = {
   name: "OHM-ETH LP",
-  bondIconSvg: OhmEthImg,
+  bondIconSvg: ["OHM", "wETH"],
   async pricingFunction(provider, quoteToken) {
     return pricingFunctionHelper(provider, quoteToken, "olympus", "ethereum");
   },
@@ -538,7 +554,7 @@ const pricingFunctionHelper = async (
 
 export const UnknownDetails: V2BondDetails = {
   name: "unknown",
-  bondIconSvg: OhmImg,
+  bondIconSvg: ["OHM"],
   pricingFunction: async () => {
     return 1;
   },
@@ -561,8 +577,11 @@ export const v2BondDetails: { [key: number]: { [key: string]: V2BondDetails } } 
   [NetworkId.MAINNET]: {
     ["0x6b175474e89094c44da98b954eedeac495271d0f"]: DaiDetails,
     ["0x853d955acef822db058eb8505911ed77f175b99e"]: FraxDetails,
+    ["0xa693b19d2931d498c5b318df961919bb4aee87a5"]: UstDetails,
+    ["0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"]: WbtcDetails,
     ["0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"]: EthDetails,
     ["0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b"]: CvxDetails,
     ["0x69b81152c5a8d35a67b32a4d3772795d96cae4da"]: OhmEthDetails,
+    ["0x055475920a8c93cffb64d039a8205f7acc7722d3"]: OhmDaiDetails,
   },
 };

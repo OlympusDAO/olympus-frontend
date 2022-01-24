@@ -1,12 +1,13 @@
-import { useState } from "react";
 import "./give.scss";
+
+import { Trans } from "@lingui/macro";
+import { Paper, Typography, Zoom } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import ConnectButton from "src/components/ConnectButton/ConnectButton";
+import { useWeb3Context } from "src/hooks/web3Context";
+
 import DepositYield from "./DepositYield";
 import RedeemYield from "./RedeemYield";
-import { Paper, Typography, Zoom } from "@material-ui/core";
-import { useWeb3Context } from "src/hooks/web3Context";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { t, Trans } from "@lingui/macro";
-import ConnectButton from "src/components/ConnectButton";
 
 function Give() {
   const { address, connect } = useWeb3Context();

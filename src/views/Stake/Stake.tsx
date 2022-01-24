@@ -1,48 +1,44 @@
-import { useCallback, useState, useEffect, ChangeEvent, ChangeEventHandler } from "react";
-import { useDispatch } from "react-redux";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import { useHistory } from "react-router";
+import "./stake.scss";
+
+import { t, Trans } from "@lingui/macro";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
+  Divider,
   FormControl,
   Grid,
   InputAdornment,
   InputLabel,
-  Link,
   OutlinedInput,
-  Paper,
   Tab,
   Tabs,
   Typography,
   Zoom,
-  Divider,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from "@material-ui/core";
-import { t, Trans } from "@lingui/macro";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import { ExpandMore } from "@material-ui/icons";
+import { Skeleton } from "@material-ui/lab";
+import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
+import { ethers } from "ethers";
+import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+import ConnectButton from "src/components/ConnectButton/ConnectButton";
+import { useAppSelector } from "src/hooks";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import TabPanel from "../../components/TabPanel";
 import { getGohmBalFromSohm, trim } from "../../helpers";
+import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
-import "./stake.scss";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { Skeleton } from "@material-ui/lab";
-import ExternalStakePool from "./ExternalStakePool";
-import { error } from "../../slices/MessagesSlice";
-import { ethers } from "ethers";
-import ZapCta from "../Zap/ZapCta";
-import { useAppSelector } from "src/hooks";
-import { ExpandMore } from "@material-ui/icons";
-import { Metric, MetricCollection, DataRow } from "@olympusdao/component-library";
 import { ConfirmDialog } from "./ConfirmDialog";
-import ConnectButton from "src/components/ConnectButton";
+import ExternalStakePool from "./ExternalStakePool";
 
 function a11yProps(index: number) {
   return {
@@ -64,7 +60,7 @@ function Stake() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
-    return state.app.currentIndex ?? "1";
+    return state.app.currentIndex;
   });
   const fiveDayRate = useAppSelector(state => {
     return state.app.fiveDayRate;
@@ -132,6 +128,13 @@ function Stake() {
     return state.account.balances && state.account.balances.gOhmOnFantomAsSohm;
   });
 
+  const gOhmOnTokemak = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnTokemak;
+  });
+  const gOhmOnTokemakAsSohm = useAppSelector(state => {
+    return state.account.balances && state.account.balances.gOhmOnTokemakAsSohm;
+  });
+
   const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
   const stakeAllowance = useAppSelector(state => {
@@ -185,7 +188,7 @@ function Stake() {
     }
 
     // 1st catch if quantity > balance
-    let gweiValue = ethers.utils.parseUnits(quantity.toString(), "gwei");
+    const gweiValue = ethers.utils.parseUnits(quantity.toString(), "gwei");
     if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
       return dispatch(error(t`You cannot stake more than your OHM balance.`));
     }
@@ -236,7 +239,7 @@ function Stake() {
 
   const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
 
-  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 
@@ -280,15 +283,8 @@ function Stake() {
   return (
     <div id="stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
-        <Paper className={`ohm-card`}>
+        <Paper headerText={t`Single Stake (3, 3)`} subHeader={<RebaseTimer />}>
           <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <div className="card-header">
-                <Typography variant="h5">Single Stake (3, 3)</Typography>
-                <RebaseTimer />
-              </div>
-            </Grid>
-
             <Grid item>
               <MetricCollection>
                 <Metric
@@ -351,7 +347,7 @@ function Stake() {
                           (!hasAllowance("ohm") && view === 0) ||
                           (!hasAllowance("sohm") && view === 1 && !confirmation) ||
                           (!hasAllowance("gohm") && view === 1 && confirmation) ? (
-                            <Box className="help-text">
+                            <Box mt={"10px"}>
                               <Typography variant="body1" className="stake-note" color="textSecondary">
                                 {view === 0 ? (
                                   <>
@@ -536,6 +532,14 @@ function Stake() {
                             balance={`${trim(Number(gOhmOnFantom), 4)} gOHM`}
                             indented
                             {...{ isAppLoading }}
+                          />
+                        )}
+                        {Number(gOhmOnTokemak) > 0.00009 && (
+                          <DataRow
+                            title={`${t`gOHM (Tokemak)`}`}
+                            balance={`${trim(Number(gOhmOnTokemak), 4)} gOHM`}
+                            indented
+                            isLoading={isAppLoading}
                           />
                         )}
                         {Number(fgohmBalance) > 0.00009 && (

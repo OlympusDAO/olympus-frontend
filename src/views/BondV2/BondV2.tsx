@@ -1,20 +1,18 @@
-import { ChangeEvent, Fragment, ReactNode, ReactElement, useEffect, useState } from "react";
-import { useHistory } from "react-router";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import { t, Trans } from "@lingui/macro";
-import { formatCurrency, trim } from "../../helpers";
-import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
-import TabPanel from "../../components/TabPanel";
-import BondHeader from "./BondHeader";
-import BondRedeem from "./BondRedeem";
-import BondPurchase from "./BondPurchase";
 import "./bond.scss";
-import { useWeb3Context } from "src/hooks/web3Context";
+
+import { t, Trans } from "@lingui/macro";
+import { Backdrop, Box, Fade, Grid, Paper, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { ChangeEvent, Fragment, ReactElement, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import { useAppSelector } from "src/hooks";
-import { getAllBonds, getUserNotes, IBondV2 } from "src/slices/BondSliceV2";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "src/store";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { IBondV2 } from "src/slices/BondSliceV2";
+
+import { formatCurrency, trim } from "../../helpers";
+import BondHeader from "./BondHeader";
+import BondPurchase from "./BondPurchase";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -69,7 +67,15 @@ const BondV2 = ({ index }: { index: number }) => {
                     <Trans>Bond Price</Trans>
                   </Typography>
                   <Typography variant="h3" className="price" color="primary">
-                    <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.index} bond={bond} />}</>
+                    <>
+                      {bond.soldOut ? (
+                        t`--`
+                      ) : isBondLoading ? (
+                        <Skeleton width="50px" />
+                      ) : (
+                        <DisplayBondPrice key={bond.index} bond={bond} />
+                      )}
+                    </>
                   </Typography>
                 </div>
                 <div className="bond-price-data">
@@ -82,32 +88,7 @@ const BondV2 = ({ index }: { index: number }) => {
                 </div>
               </Box>
 
-              {/* <Tabs
-                centered
-                value={view}
-                textColor="primary"
-                indicatorColor="primary"
-                onChange={changeView}
-                aria-label="bond tabs"
-              >
-                <Tab
-                  aria-label="bond-tab-button"
-                  label={t({
-                    id: "do_bond",
-                    comment: "The action of bonding (verb)",
-                  })}
-                  {...a11yProps(0)}
-                />
-                <Tab aria-label="redeem-tab-button" label={t`Redeem`} {...a11yProps(1)} />
-              </Tabs> */}
-
-              {/* <TabPanel value={view} index={0}> */}
               <BondPurchase bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
-              {/* </TabPanel> */}
-
-              {/* <TabPanel value={view} index={1}>
-                <BondRedeem bond={bond} />
-              </TabPanel> */}
             </Paper>
           </Fade>
         </Backdrop>
@@ -117,7 +98,7 @@ const BondV2 = ({ index }: { index: number }) => {
 };
 
 export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
-  if (typeof bond.priceUSD === undefined) {
+  if (typeof bond.priceUSD === undefined || bond.soldOut) {
     return <Fragment>--</Fragment>;
   }
 
@@ -134,7 +115,7 @@ export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
 };
 
 export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement => {
-  if (typeof bond.discount === undefined) {
+  if (typeof bond.discount === undefined || bond.soldOut) {
     return <Fragment>--</Fragment>;
   }
 

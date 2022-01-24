@@ -1,6 +1,8 @@
-import OlympusLogo from "../../assets/Olympus Logo.svg";
 import "./notfound.scss";
+
 import { Trans } from "@lingui/macro";
+
+import OlympusLogo from "../../assets/Olympus Logo.svg";
 
 export default function NotFound() {
   return (

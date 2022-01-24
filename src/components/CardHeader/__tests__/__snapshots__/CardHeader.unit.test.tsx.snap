@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardHeader/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-1 card-header"
+  >
+    <h5
+      class="MuiTypography-root MuiTypography-h5"
+    >
+      Card Header Title
+    </h5>
+  </div>
+</div>
+`;
