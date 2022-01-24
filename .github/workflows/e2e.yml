@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install make
-        run: apt-get install -y make
+        run: sudo apt-get install -y make
       - name: Run e2e tests
         # We don't want to kill the build if the tests fail (yet)
         run: make test_e2e_run_docker || exit 0
