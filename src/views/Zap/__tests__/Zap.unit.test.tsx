@@ -1,5 +1,5 @@
 import { render } from "../../../testUtils";
-import Zap from "../Zap.jsx";
+import Zap from "../Zap";
 
 describe("<Zap/>", () => {
   it("should render component", () => {

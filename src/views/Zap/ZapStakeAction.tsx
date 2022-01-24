@@ -22,7 +22,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { ethers } from "ethers";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
@@ -52,7 +52,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ZapStakeAction(props) {
+type ZapQuantity = string | number | null;
+
+const ZapStakeAction: React.FC = () => {
   const { address, provider, networkId } = useWeb3Context();
 
   const dispatch = useDispatch();
@@ -61,9 +63,9 @@ function ZapStakeAction(props) {
   const isTokensLoading = useAppSelector(state => state.zap.balancesLoading);
   const isChangeAllowanceLoading = useAppSelector(state => state.zap.changeAllowanceLoading);
   const isExecuteZapLoading = useAppSelector(state => state.zap.stakeLoading);
-  const isAppLoading = useAppSelector(state => state.app.loading);
-  const [zapToken, setZapToken] = useState(null);
-  const handleSelectZapToken = token => {
+  const [zapToken, setZapToken] = useState<string | null>(null);
+
+  const handleSelectZapToken = (token: string) => {
     const uaData = {
       type: "OlyZaps Token Select",
       token: token,
@@ -75,7 +77,7 @@ function ZapStakeAction(props) {
   };
 
   useEffect(() => {
-    if (!tokens[zapToken]) {
+    if (zapToken == null || !tokens[zapToken]) {
       setZapToken(null);
     }
   }, [zapToken]);
@@ -84,16 +86,16 @@ function ZapStakeAction(props) {
     dispatch(zapNetworkCheck({ networkID: networkId }));
   }, []);
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const handleOpen = () => {
     setModalOpen(true);
   };
   const handleClose = () => setModalOpen(false);
 
-  const [inputQuantity, setInputQuantity] = useState("");
-  const [outputQuantity, setOutputQuantity] = useState("");
+  const [inputQuantity, setInputQuantity] = useState<Partial<string | number>>("");
+  const [outputQuantity, setOutputQuantity] = useState<Partial<string | number>>("");
 
-  const olyZapsSwapOfferDisplay = (amount, outPutQuantity) => {
+  const olyZapsSwapOfferDisplay = (outputQuantity: Partial<string | number>) => {
     const uaData = {
       type: "OlyZaps Offer Display",
       token: zapToken,
@@ -102,15 +104,13 @@ function ZapStakeAction(props) {
     segmentUA(uaData);
   };
 
-  const ohmMarketPrice = useAppSelector(state => {
-    return state.app.marketPrice;
-  });
+  const ohmMarketPrice = useAppSelector(state => state.app.marketPrice || 0);
 
   const sOhmBalance = useAppSelector(state => Number(state.account?.balances?.sohm ?? 0.0));
 
-  const exchangeRate = ohmMarketPrice / tokens[zapToken]?.price;
+  const exchangeRate = zapToken ? ohmMarketPrice / tokens[zapToken]?.price : 0;
 
-  const setZapTokenQuantity = q => {
+  const setZapTokenQuantity = (q: ZapQuantity) => {
     if (q == null || q === "") {
       setInputQuantity("");
       setOutputQuantity("");
@@ -120,11 +120,11 @@ function ZapStakeAction(props) {
     setInputQuantity(amount);
     setOutputQuantity(amount / exchangeRate);
     if (outputQuantity) {
-      olyZapsSwapOfferDisplay(amount, outputQuantity);
+      olyZapsSwapOfferDisplay(outputQuantity);
     }
   };
 
-  const setOutputTokenQuantity = q => {
+  const setOutputTokenQuantity = (q: ZapQuantity) => {
     if (q == null || q === "") {
       setInputQuantity("");
       setOutputQuantity("");
@@ -146,11 +146,13 @@ function ZapStakeAction(props) {
         .slice(0, 3),
     [tokens],
   );
-  const currentTokenAllowance = useAppSelector(state => state.zap.allowances[zapToken]);
-  const checkTokenAllowance = (tokenAddress, tokenSymbol) => {
+  const currentTokenAllowance = useAppSelector(state => zapToken && state.zap.allowances[zapToken]);
+  const checkTokenAllowance = (tokenAddress: string, tokenSymbol: string) => {
     if (tokenAddress && tokenSymbol) {
       if (currentTokenAllowance == null) {
-        dispatch(getZapTokenAllowance({ value: tokenAddress, address, action: tokenSymbol }));
+        dispatch(
+          getZapTokenAllowance({ value: tokenAddress, address, action: tokenSymbol, networkID: networkId, provider }),
+        );
       } else {
         return currentTokenAllowance;
       }
@@ -160,23 +162,28 @@ function ZapStakeAction(props) {
   };
 
   const isTokenAllowanceFetched = currentTokenAllowance != null;
-  const initialTokenAllowance = useMemo(
-    () => checkTokenAllowance(tokens[zapToken]?.address, zapToken),
-    [zapToken, isTokenAllowanceFetched],
-  );
+
+  const initialTokenAllowance = useMemo(() => {
+    if (zapToken) {
+      return checkTokenAllowance(tokens[zapToken]?.address, zapToken);
+    }
+  }, [zapToken, isTokenAllowanceFetched]);
 
   const isAllowanceTxSuccess =
     initialTokenAllowance != currentTokenAllowance && initialTokenAllowance != null && currentTokenAllowance != null;
 
   const onSeekApproval = async () => {
-    dispatch(
-      changeZapTokenAllowance({
-        address,
-        value: tokens[zapToken]?.address,
-        provider,
-        action: zapToken,
-      }),
-    );
+    if (zapToken) {
+      dispatch(
+        changeZapTokenAllowance({
+          address,
+          value: tokens[zapToken]?.address,
+          provider,
+          action: zapToken,
+          networkID: networkId,
+        }),
+      );
+    }
   };
 
   const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
@@ -187,20 +194,23 @@ function ZapStakeAction(props) {
     </Box>
   );
 
-  const [isCustomSlippage, setUseCustomSlippage] = useState(false);
-  const [customSlippage, setCustomSlippage] = useState("0.01");
+  const [isCustomSlippage, setUseCustomSlippage] = useState<boolean>(false);
+  const [customSlippage, setCustomSlippage] = useState<string>("0.01");
 
-  const onZap = async () =>
-    dispatch(
-      executeZap({
-        address,
-        provider,
-        slippage: customSlippage,
-        sellAmount: ethers.utils.parseUnits(inputQuantity.toString(), tokens[zapToken]?.decimals),
-        tokenAddress: tokens[zapToken]?.address,
-        networkID: networkId,
-      }),
-    );
+  const onZap = async () => {
+    if (zapToken) {
+      dispatch(
+        executeZap({
+          address,
+          provider,
+          slippage: customSlippage,
+          sellAmount: ethers.utils.parseUnits(inputQuantity.toString(), tokens[zapToken]?.decimals),
+          tokenAddress: tokens[zapToken]?.address,
+          networkID: networkId,
+        }),
+      );
+    }
+  };
 
   return (
     <>
@@ -487,7 +497,7 @@ function ZapStakeAction(props) {
             </Box>
           ) : (
             <Paper style={{ maxHeight: 300, overflow: "auto", borderRadius: 10 }}>
-              <List style={{ pt: 0 }}>
+              <List>
                 {Object.entries(tokens)
                   .filter(token => !token[1].hide)
                   .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
@@ -499,7 +509,6 @@ function ZapStakeAction(props) {
                       <ListItemText primary={token[1].symbol} />
                       <Box flexGrow={10} />
                       <ListItemText
-                        style={{ primary: { justify: "center" } }}
                         primary={`$${trim(token[1].balanceUSD, 2)}`}
                         secondary={trim(token[1].balance, 4)}
                       />
@@ -513,6 +522,6 @@ function ZapStakeAction(props) {
       </Dialog>
     </>
   );
-}
+};
 
 export default ZapStakeAction;

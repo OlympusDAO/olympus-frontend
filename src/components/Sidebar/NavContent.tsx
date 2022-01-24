@@ -26,6 +26,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { Bond } from "src/lib/Bond";
 import { IBondDetails } from "src/slices/BondSlice";
 import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
+import { DisplayBondDiscount } from "src/views/BondV2/BondV2";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import { trim } from "../../helpers";
@@ -110,22 +111,24 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                          {sortedBonds.map((bond, i) => (
-                            <Link
-                              component={NavLink}
-                              to={`/bonds/${bond.index}`}
-                              key={i}
-                              className={"bond"}
-                              onClick={handleDrawerToggle}
-                            >
-                              <Typography variant="body2">
-                                {bond.displayName}
-                                <span className="bond-pair-roi">
-                                  {`${bond.discount && trim(bond.discount * 100, 2)}%`}
-                                </span>
-                              </Typography>
-                            </Link>
-                          ))}
+                          {sortedBonds.map((bond, i) => {
+                            return (
+                              <Link
+                                component={NavLink}
+                                to={`/bonds/${bond.index}`}
+                                key={i}
+                                className={"bond"}
+                                onClick={handleDrawerToggle}
+                              >
+                                <Typography variant="body2">
+                                  {bond.displayName}
+                                  <span className="bond-pair-roi">
+                                    <DisplayBondDiscount key={bond.index} bond={bond} />
+                                  </span>
+                                </Typography>
+                              </Link>
+                            );
+                          })}
                           {sortedBonds.length > 0 && (
                             <Box className="menu-divider">
                               <Divider />

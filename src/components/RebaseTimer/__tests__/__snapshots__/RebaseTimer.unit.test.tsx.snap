@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Messages/> should render component 1`] = `
+exports[`<RebaseTimer/> should render component 1`] = `
 <div>
   <div
     class="MuiBox-root MuiBox-root-1 rebase-timer"

@@ -92,7 +92,7 @@ export interface IActionValueRecipientAsyncThunk extends IActionValueAsyncThunk 
 
 export interface IZapAsyncThunk extends IBaseAddressAsyncThunk {
   readonly tokenAddress: string;
-  readonly sellAmount: number;
+  readonly sellAmount: BigNumber;
   readonly slippage: string;
 }
 

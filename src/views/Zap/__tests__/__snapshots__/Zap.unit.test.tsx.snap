@@ -52,7 +52,6 @@ exports[`<Zap/> should render component 1`] = `
         >
           <div
             class="MuiBox-root MuiBox-root-5 makeStyles-infoHeader-3 oly-info-header-box"
-            classes="[object Object]"
           >
             <div
               class="MuiBox-root MuiBox-root-6"
@@ -134,7 +133,6 @@ exports[`<Zap/> should render component 1`] = `
           </div>
           <div
             class="MuiBox-root MuiBox-root-9 makeStyles-infoBody-4"
-            classes="[object Object]"
           >
             <p
               class="MuiTypography-root oly-info-body-header MuiTypography-body1"
@@ -153,7 +151,6 @@ exports[`<Zap/> should render component 1`] = `
         >
           <div
             class="MuiBox-root MuiBox-root-10 makeStyles-infoHeader-3 oly-info-header-box"
-            classes="[object Object]"
           >
             <svg
               aria-hidden="true"
@@ -183,7 +180,6 @@ exports[`<Zap/> should render component 1`] = `
           </div>
           <div
             class="MuiBox-root MuiBox-root-11 makeStyles-infoBody-4"
-            classes="[object Object]"
           >
             <p
               class="MuiTypography-root oly-info-body-header MuiTypography-body1"
@@ -202,7 +198,6 @@ exports[`<Zap/> should render component 1`] = `
         >
           <div
             class="MuiBox-root MuiBox-root-12 makeStyles-infoHeader-3 oly-info-header-box"
-            classes="[object Object]"
           >
             <svg
               aria-hidden="true"
@@ -256,7 +251,6 @@ exports[`<Zap/> should render component 1`] = `
           </div>
           <div
             class="MuiBox-root MuiBox-root-13 makeStyles-infoBody-4"
-            classes="[object Object]"
           >
             <p
               class="MuiTypography-root oly-info-body-header MuiTypography-body1"
