@@ -1,12 +1,11 @@
 import "./Zap.scss";
 
 import { Trans } from "@lingui/macro";
-import { Box, Button, Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Button, Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Token, TokenStack } from "@olympusdao/component-library";
+import { Icon, Token, TokenStack } from "@olympusdao/component-library";
 import React from "react";
 
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
 
 const useStyles = makeStyles(theme => ({
@@ -152,7 +151,7 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
           }}
         >
           <Typography variant="body1">Learn More</Typography>
-          <SvgIcon component={ArrowUp} color="primary" />
+          <Icon name="arrow-up" color="primary" />
         </Button>
       </Box>
     </Paper>

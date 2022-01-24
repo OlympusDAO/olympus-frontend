@@ -21,6 +21,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { Icon } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -28,19 +29,17 @@ import { trim } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { changeZapTokenAllowance, executeZap, getZapTokenAllowance, zapNetworkCheck } from "src/slices/ZapSlice";
 
-import { ReactComponent as DownIcon } from "../../assets/icons/arrow-down.svg";
 import { ReactComponent as ZapperIcon } from "../../assets/icons/powered-by-zapper.svg";
 import { ReactComponent as FirstStepIcon } from "../../assets/icons/step-1.svg";
 import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg";
 import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { segmentUA } from "../../helpers/userAnalyticHelpers";
 import ZapStakeHeader from "./ZapStakeHeader";
 
 const DISABLE_ZAPS = true;
 
 const iconStyle = { height: "24px", width: "24px", zIndex: 1 };
-const viewBox = "-8 -12 48 48";
+const viewBox = "-14 -16 48 48";
 const buttonIconStyle = { height: "16px", width: "16px", marginInline: "6px" };
 
 const useStyles = makeStyles(theme => ({
@@ -186,7 +185,7 @@ const ZapStakeAction: React.FC = () => {
     }
   };
 
-  const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
+  const downIcon = <Icon name="arrow-down" viewBox={viewBox} style={iconStyle} />;
 
   const zapperCredit = (
     <Box display="flex" alignItems="center" justifyContent="center" paddingTop="32px" width="100%">
@@ -470,7 +469,7 @@ const ZapStakeAction: React.FC = () => {
         <DialogTitle>
           <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
             <Button onClick={handleClose}>
-              <SvgIcon component={XIcon} color="primary" />
+              <Icon color="primary" name="x" />
             </Button>
             <Box paddingRight={6}>
               <Typography id="migration-modal-title" variant="h6" component="h2">

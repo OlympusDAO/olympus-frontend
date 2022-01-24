@@ -1,9 +1,8 @@
 import "./calltoaction.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, SvgIcon, Typography } from "@material-ui/core";
-
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { Box, Button, Typography } from "@material-ui/core";
+import { Icon } from "@olympusdao/component-library";
 
 export const LearnMoreButton = () => {
   return (
@@ -18,7 +17,7 @@ export const LearnMoreButton = () => {
         <Trans>Learn More</Trans>
       </Typography>
 
-      <SvgIcon component={ArrowUp} color="primary" />
+      <Icon color="primary" name="arrow-up" />
     </Button>
   );
 };

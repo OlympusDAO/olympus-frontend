@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Button, Grid, Paper, Typography } from "@material-ui/core";
+import { Icon } from "@olympusdao/component-library";
 
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { DepositSohm, LockInVault, ReceivesYield } from "../../components/EducationCard";
 
 export function GiveInfo() {
@@ -30,7 +30,7 @@ export function GiveInfo() {
             <Typography variant="body1">
               <Trans>Learn More</Trans>
             </Typography>
-            <SvgIcon component={ArrowUp} color="primary" />
+            <Icon name="arrow-up" color="primary" />
           </Button>
         </Box>
       </Paper>
