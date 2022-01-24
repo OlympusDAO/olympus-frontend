@@ -8,7 +8,9 @@ RUN apt-get update && \
     # lingui compilation
     git \
     # Required by the sleep package
-    python3 g++ make
+    python3 g++ make \
+    # Required for healthcheck
+    curl
 
 WORKDIR /usr/src/app
 
@@ -26,7 +28,7 @@ COPY index.d.ts .
 
 EXPOSE 3000
 
-HEALTHCHECK --interval=10s --timeout=15s --start-period=10s --retries=3 CMD curl -f http://localhost:3000/ || exit 1
+HEALTHCHECK --interval=10s --timeout=15s --start-period=30s --retries=6 CMD curl -f http://localhost:3000/ || exit 1
 
 # Run the frontend by default
 # NOTE: this requires the root directory to be mounted when the Docker image runs
