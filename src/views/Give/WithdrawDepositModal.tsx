@@ -1,7 +1,6 @@
 import { t, Trans } from "@lingui/macro";
-import { Button, Link, Modal, Paper, Typography } from "@material-ui/core";
+import { Button, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { FormControl } from "@material-ui/core";
-import { Icon } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useSelector } from "react-redux";
 import { Project } from "src/components/GiveProject/project.type";
@@ -10,6 +9,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { hasPendingGiveTxn, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ArrowGraphic, VaultGraphic, WalletGraphic } from "../../components/EducationCard";
 import { txnButtonText } from "../../slices/PendingTxnsSlice";
 import { IPendingTxn } from "../../slices/PendingTxnsSlice";
@@ -83,7 +83,7 @@ export function WithdrawDepositModal({
       <Paper className="ohm-card ohm-modal" onClick={handleModalInsideClick}>
         <div className="yield-header">
           <Link onClick={() => cancelFunc()}>
-            <Icon color="primary" name="x" />
+            <SvgIcon color="primary" component={XIcon} />
           </Link>
           <Typography variant="h4">
             <Trans>Withdraw Deposit?</Trans>

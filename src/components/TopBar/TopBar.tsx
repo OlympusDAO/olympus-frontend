@@ -2,10 +2,11 @@ import "./topbar.scss";
 
 import { i18n } from "@lingui/core";
 import { t } from "@lingui/macro";
-import { AppBar, Box, Button, Toolbar } from "@material-ui/core";
+import { AppBar, Box, Button, SvgIcon, Toolbar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Icon, LocaleSwitcher } from "@olympusdao/component-library";
+import { LocaleSwitcher } from "@olympusdao/component-library";
 
+import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
 import { locales, selectLocale } from "../../locales";
 import ThemeSwitcher from "./ThemeSwitch";
 import Wallet from "./Wallet";
@@ -51,7 +52,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
           onClick={handleDrawerToggle}
           className={classes.menuButton}
         >
-          <Icon name="hamburger" />
+          <SvgIcon component={MenuIcon} />
         </Button>
         <Box display="flex">
           <Wallet />

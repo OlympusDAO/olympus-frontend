@@ -1,10 +1,9 @@
 import { isAddress } from "@ethersproject/address";
-import { Box, Button, Divider, Link, Modal, Paper, Typography } from "@material-ui/core";
+import { Box, Button, Divider, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Icon } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +18,7 @@ import {
   PENDING_TXN_GIVE_APPROVAL,
 } from "src/slices/GiveThunk";
 
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import {
   ArrowGraphic,
   CurrPositionGraphic,
@@ -449,7 +449,7 @@ export function RecipientModal({
       >
         <div className="yield-header">
           <Link onClick={() => cancelFunc()}>
-            <Icon color="primary" name="x" />
+            <SvgIcon color="primary" component={XIcon} />
           </Link>
           <Typography variant="h4">
             <strong>{getTitle()}</strong>

@@ -1,7 +1,7 @@
 import { Backdrop, Box, Button, Fade, Modal, Paper, SvgIcon, Typography, useTheme } from "@material-ui/core";
 import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
-import { Icon } from "@olympusdao/component-library";
 
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ReactComponent as t33TokenImg } from "../../assets/tokens/token_33T.svg";
 import { ReactComponent as sOhmTokenImg } from "../../assets/tokens/token_sOHM.svg";
 
@@ -20,7 +20,7 @@ export const ConfirmationModal = (props: IConfirmationModalProps) => {
         <Backdrop open>
           <Paper className="ohm-card ohm-modal" style={{ maxWidth: "450px" }}>
             <Button style={{ alignSelf: "flex-start" }}>
-              <Icon color="primary" name="x" onClick={props.onClose} />
+              <SvgIcon component={XIcon} color="primary" onClick={props.onClose} />
             </Button>
             <Box className="card-content pool-deposit-confirmation">
               <Typography variant="h4">Confirm Deposit</Typography>

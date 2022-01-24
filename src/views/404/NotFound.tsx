@@ -2,7 +2,7 @@ import "./notfound.scss";
 
 import { Trans } from "@lingui/macro";
 
-import OlympusLogo from "../../assets/tokens/olympus-logo.svg";
+import OlympusLogo from "../../assets/Olympus Logo.svg";
 
 export default function NotFound() {
   return (

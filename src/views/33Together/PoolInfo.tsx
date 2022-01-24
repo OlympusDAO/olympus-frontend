@@ -1,7 +1,8 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Divider, Paper, Typography, Zoom } from "@material-ui/core";
-import { DataRow, Icon } from "@olympusdao/component-library";
+import { Box, Button, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
+import { DataRow } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
+import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { poolTogetherUILinks } from "src/helpers/33Together";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 
@@ -115,7 +116,7 @@ export const PoolInfo = (props: PoolInfoProps) => {
               <Typography variant="body1">
                 <Trans>sOHM Prize Pool</Trans>&nbsp;
               </Typography>
-              <Icon color="primary" name="arrow-up" />
+              <SvgIcon component={ArrowUp} color="primary" />
             </Button>
           </div>
           <div className="marginedBtn">
@@ -123,7 +124,7 @@ export const PoolInfo = (props: PoolInfoProps) => {
               <Typography variant="body1">
                 <Trans>sOHM Pool Details</Trans>&nbsp;
               </Typography>
-              <Icon color="primary" name="arrow-up" />
+              <SvgIcon component={ArrowUp} color="primary" />
             </Button>
           </div>
         </div>

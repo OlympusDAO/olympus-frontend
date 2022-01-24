@@ -5,6 +5,7 @@ import {
   Divider,
   IconButton,
   Paper,
+  SvgIcon,
   Typography,
   useMediaQuery,
   useTheme,
@@ -13,6 +14,7 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import { Icon, OHMTokenProps, OHMTokenStackProps, Token, TokenStack } from "@olympusdao/component-library";
 import { ReactElement, useState } from "react";
+import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
 import { addresses } from "src/constants";
 import { formatCurrency } from "src/helpers";
 import { dai, frax } from "src/helpers/AllBonds";
@@ -79,8 +81,8 @@ const ExternalLink = ({ href, children, color }: { href: string; children: React
       >
         <Box sx={{ width: "100%" }}>{children}</Box>
         <Box sx={{ display: "flex", alignSelf: "start" }}>
-          <Icon
-            name="arrow-up"
+          <SvgIcon
+            component={ArrowUpIcon}
             htmlColor={color === "textSecondary" ? theme.palette.text.secondary : ""}
             style={{
               position: "absolute",

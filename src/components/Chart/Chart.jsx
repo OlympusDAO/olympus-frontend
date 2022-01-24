@@ -495,6 +495,7 @@ function Chart({
             <InfoTooltip message={infoTooltipMessage} />
           </Box>
           {/* could make this svgbutton */}
+
           <SvgIcon
             component={Fullscreen}
             color="primary"

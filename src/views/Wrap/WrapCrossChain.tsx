@@ -12,11 +12,12 @@ import {
   Link,
   OutlinedInput,
   Paper,
+  SvgIcon,
   Typography,
   Zoom,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, InfoTooltip } from "@olympusdao/component-library";
+import { InfoTooltip } from "@olympusdao/component-library";
 import { DataRow } from "@olympusdao/component-library";
 import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -24,6 +25,7 @@ import { useAppSelector } from "src/hooks/index";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NETWORKS } from "../../constants";
 import { formatCurrency, trim } from "../../helpers";
 import { switchNetwork } from "../../helpers/NetworkHelper";
@@ -195,7 +197,7 @@ function WrapCrossChain() {
                   target="_blank"
                 >
                   <Typography>gOHM</Typography>{" "}
-                  <Icon name="arrow-up" color="primary" style={{ marginLeft: "5px", width: ".8em" }} />
+                  <SvgIcon component={ArrowUp} color="primary" style={{ marginLeft: "5px", width: ".8em" }} />
                 </Link>
               </div>
             </Grid>

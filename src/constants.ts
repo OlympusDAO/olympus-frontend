@@ -1,8 +1,8 @@
 import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 
-import arbitrum from "./assets/tokens/arbitrum.png";
-import avalanche from "./assets/tokens/avax.svg";
+import arbitrum from "./assets/arbitrum.png";
+import avalanche from "./assets/tokens/AVAX.svg";
 import polygon from "./assets/tokens/matic.svg";
 import ethereum from "./assets/tokens/wETH.svg";
 import { getTokenByContract, getTokenPrice } from "./helpers";

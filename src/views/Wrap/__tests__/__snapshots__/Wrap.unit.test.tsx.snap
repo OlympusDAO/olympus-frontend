@@ -44,9 +44,7 @@ exports[`<Wrap/> should render component 1`] = `
                 style="margin-left: 5px; width: .8em;"
                 viewBox="0 0 20 20"
               >
-                <path
-                  d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
-                />
+                arrow-up.svg
               </svg>
             </a>
           </div>
@@ -55,7 +53,7 @@ exports[`<Wrap/> should render component 1`] = `
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-2"
+            class="MuiBox-root MuiBox-root-1"
           >
             <div
               class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
@@ -64,10 +62,10 @@ exports[`<Wrap/> should render component 1`] = `
                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
               >
                 <div
-                  class="makeStyles-root-3 "
+                  class="makeStyles-root-2 "
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-4"
+                    class="MuiBox-root MuiBox-root-3"
                   >
                     <h5
                       class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
@@ -90,10 +88,10 @@ exports[`<Wrap/> should render component 1`] = `
                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
               >
                 <div
-                  class="makeStyles-root-3 "
+                  class="makeStyles-root-2 "
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-5"
+                    class="MuiBox-root MuiBox-root-4"
                   >
                     <h5
                       class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
@@ -116,17 +114,17 @@ exports[`<Wrap/> should render component 1`] = `
                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
               >
                 <div
-                  class="makeStyles-root-3 "
+                  class="makeStyles-root-2 "
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-6"
+                    class="MuiBox-root MuiBox-root-5"
                   >
                     <h5
                       class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
                     >
                       gOHM Price
                       <div
-                        class="MuiBox-root MuiBox-root-7"
+                        class="MuiBox-root MuiBox-root-6"
                         style="display: inline-flex; justify-content: center; align-self: center;"
                       >
                         <svg

@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
-import { Button, SwipeableDrawer, Typography, useTheme, withStyles } from "@material-ui/core";
-import { Icon } from "@olympusdao/component-library";
+import { Button, SvgIcon, SwipeableDrawer, Typography, useTheme, withStyles } from "@material-ui/core";
 import { useState } from "react";
+import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
 
 import InitialWalletView from "./InitialWalletView";
@@ -13,7 +13,7 @@ const WalletButton = ({ openWallet }: { openWallet: () => void }) => {
   const theme = useTheme();
   return (
     <Button id="ohm-menu-button" variant="contained" color="secondary" onClick={onClick}>
-      <Icon name="wallet" style={{ marginRight: theme.spacing(1) }} />
+      <SvgIcon component={WalletIcon} style={{ marginRight: theme.spacing(1) }} />
       <Typography>{label}</Typography>
     </Button>
   );
