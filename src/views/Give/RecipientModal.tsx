@@ -1,44 +1,45 @@
-import { Box, Modal, Paper, Typography, SvgIcon, Link, Button, Divider } from "@material-ui/core";
+import { isAddress } from "@ethersproject/address";
+import { Box, Button, Divider, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
+import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import { isAddress } from "@ethersproject/address";
+import { Project } from "src/components/GiveProject/project.type";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { Skeleton } from "@material-ui/lab";
 import {
   changeApproval,
   changeMockApproval,
   hasPendingGiveTxn,
-  PENDING_TXN_GIVE,
   PENDING_TXN_EDIT_GIVE,
+  PENDING_TXN_GIVE,
   PENDING_TXN_GIVE_APPROVAL,
 } from "src/slices/GiveThunk";
-import { IPendingTxn, txnButtonText, isPendingTxn } from "../../slices/PendingTxnsSlice";
-import { getTokenImage } from "../../helpers";
-import { BigNumber } from "bignumber.js";
+
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import {
-  WalletGraphic,
-  VaultGraphic,
-  YieldGraphic,
+  ArrowGraphic,
   CurrPositionGraphic,
   NewPositionGraphic,
-  ArrowGraphic,
+  VaultGraphic,
+  WalletGraphic,
+  YieldGraphic,
 } from "../../components/EducationCard";
+import { getTokenImage } from "../../helpers";
 import { IAccountSlice } from "../../slices/AccountSlice";
-import { Project } from "src/components/GiveProject/project.type";
+import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 const sOhmImg = getTokenImage("sohm");
-import { shorten } from "src/helpers";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
-import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
-import { useLocation } from "react-router-dom";
-import { EnvHelper } from "src/helpers/Environment";
-import { CancelCallback, SubmitCallback } from "./Interfaces";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import ConnectButton from "../../components/ConnectButton";
+import { InfoTooltip } from "@olympusdao/component-library";
+import { useLocation } from "react-router-dom";
+import { NetworkId } from "src/constants";
+import { shorten } from "src/helpers";
+import { EnvHelper } from "src/helpers/Environment";
+
+import { CancelCallback, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -65,8 +66,7 @@ export function RecipientModal({
 }: RecipientModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, address, connect } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, connect, networkId } = useWeb3Context();
 
   const _initialDepositAmount = 0;
   const _initialWalletAddress = "";
@@ -120,13 +120,13 @@ export function RecipientModal({
    * TODO consider extracting this into a helper file
    */
   const sohmBalance: string = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.balances && state.account.balances.mockSohm
       : state.account.balances && state.account.balances.sohm;
   });
 
   const giveAllowance: number = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.sohmGive
       : state.account.giving && state.account.giving.sohmGive;
   });
@@ -136,7 +136,7 @@ export function RecipientModal({
   });
 
   const isGiveLoading: boolean = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving.loading
       : state.account.giving.loading;
   });
@@ -146,7 +146,7 @@ export function RecipientModal({
   });
 
   const onSeekApproval = async () => {
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(changeMockApproval({ address, token: "sohm", provider, networkID: networkId }));
     } else {
       await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));

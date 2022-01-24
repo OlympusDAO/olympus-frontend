@@ -1,17 +1,19 @@
-import { useSelector } from "react-redux";
-import { useAppSelector } from "src/hooks";
-import { useLocation } from "react-router-dom";
-import { Paper, Typography, Zoom, Container, Box } from "@material-ui/core";
-import { BigNumber } from "bignumber.js";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
-import YieldRecipients from "./YieldRecipients";
 import { t, Trans } from "@lingui/macro";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IPendingTxn } from "src/slices/PendingTxnsSlice";
-import { IAppData } from "src/slices/AppSlice";
-import { EnvHelper } from "src/helpers/Environment";
+import { Box, Container, Paper, Typography, Zoom } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { InfoTooltip } from "@olympusdao/component-library";
+import { BigNumber } from "bignumber.js";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { GiveHeader } from "src/components/GiveProject/GiveHeader";
+import { NetworkId } from "src/constants";
+import { EnvHelper } from "src/helpers/Environment";
+import { useWeb3Context } from "src/hooks";
+import { IAccountSlice } from "src/slices/AccountSlice";
+import { IAppData } from "src/slices/AppSlice";
+import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+
+import YieldRecipients from "./YieldRecipients";
 
 type State = {
   account: IAccountSlice;
@@ -21,11 +23,11 @@ type State = {
 
 export default function DepositYield() {
   const location = useLocation();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { networkId } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const totalDebt = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
       : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });

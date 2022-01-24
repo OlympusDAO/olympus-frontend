@@ -1,22 +1,23 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import "./33together.scss";
+
 import { t } from "@lingui/macro";
-import { Paper, Tab, Tabs, Box } from "@material-ui/core";
-import InfoTooltipMulti from "../../components/InfoTooltip/InfoTooltipMulti";
+import { Box, Paper, Tab, Tabs } from "@material-ui/core";
+import { InfoTooltipMulti } from "@olympusdao/component-library";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addresses, POOL_GRAPH_URLS } from "src/constants";
+import { calculateOdds, trimOdds } from "src/helpers/33Together";
+import { useAppSelector, useWeb3Context } from "src/hooks";
+import { apolloExt } from "src/lib/apolloClient";
+import { getPoolValues, getRNGStatus } from "src/slices/PoolThunk";
 import { Prize, PrizePool } from "src/typechain/pooltogether";
-import TabPanel from "../../components/TabPanel";
+
 import CardHeader from "../../components/CardHeader/CardHeader";
-import { PoolDeposit } from "./PoolDeposit";
-import { PoolWithdraw } from "./PoolWithdraw";
+import TabPanel from "../../components/TabPanel";
+import { poolDataQuery, yourAwardsQuery } from "./poolData";
 import { PoolInfo } from "./PoolInfo";
 import { PoolPrize } from "./PoolPrize";
-import "./33together.scss";
-import { addresses, POOL_GRAPH_URLS } from "src/constants";
-import { useWeb3Context, useAppSelector } from "src/hooks";
-import { apolloExt } from "src/lib/apolloClient";
-import { poolDataQuery, yourAwardsQuery } from "./poolData";
-import { calculateOdds, trimOdds } from "src/helpers/33Together";
-import { getPoolValues, getRNGStatus } from "src/slices/PoolThunk";
+import { PoolWithdraw } from "./PoolWithdraw";
 
 function a11yProps(index: number) {
   return {
@@ -35,14 +36,13 @@ const PoolTogether = () => {
   const [view, setView] = useState(0);
   const [zoomed, setZoomed] = useState(false);
 
-  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 
   // NOTE (appleseed): these calcs were previously in PoolInfo, however would be need in PoolPrize, too, if...
   // ... we ever were to implement other types of awards
-  const { connect, address, provider, hasCachedProvider } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { connect, address, provider, hasCachedProvider, networkId, providerInitialized } = useWeb3Context();
   const dispatch = useDispatch();
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[1]);
   const [poolData, setPoolData] = useState(null);
@@ -71,7 +71,7 @@ const PoolTogether = () => {
 
   // query correct pool subgraph depending on current chain
   useEffect(() => {
-    if (networkId === -1) {
+    if (!providerInitialized) {
       setGraphUrl(POOL_GRAPH_URLS[1]);
     } else {
       setGraphUrl(POOL_GRAPH_URLS[networkId]);
@@ -81,7 +81,7 @@ const PoolTogether = () => {
   useEffect(() => {
     console.log("apollo", networkId);
     let apolloUrl: string;
-    if (networkId === -1) {
+    if (!providerInitialized) {
       apolloUrl = poolDataQuery(addresses[1].PT_PRIZE_POOL_ADDRESS);
     } else {
       apolloUrl = poolDataQuery(addresses[networkId].PT_PRIZE_POOL_ADDRESS);

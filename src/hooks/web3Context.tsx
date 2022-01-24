@@ -1,11 +1,11 @@
-import React, { ReactElement, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import Web3Modal from "web3modal";
-import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import WalletConnectProvider from "@walletconnect/web3-provider";
+import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
-import { EnvHelper } from "../helpers/Environment";
-import store from "../store";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import React, { ReactElement, useCallback, useContext, useMemo, useState } from "react";
+import { idFromHexString, initNetworkFunc } from "src/helpers/NetworkHelper";
 import { NodeHelper } from "src/helpers/NodeHelper";
+import Web3Modal from "web3modal";
+
 import { NETWORKS } from "../constants";
 
 /**
@@ -26,8 +26,10 @@ type onChainProvider = {
   connected: boolean;
   provider: JsonRpcProvider;
   web3Modal: Web3Modal;
-  chainChanged: Boolean;
-  onChainChangeComplete: () => void;
+  networkId: number;
+  networkName: string;
+  providerUri: string;
+  providerInitialized: boolean;
 };
 
 export type Web3ContextData = {
@@ -79,7 +81,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [address, setAddress] = useState("");
   // NOTE (appleseed): loading eth mainnet as default rpc provider for a non-connected wallet
   const [provider, setProvider] = useState<JsonRpcProvider>(NodeHelper.getMainnetStaticProvider());
-  const [chainChanged, setChainChanged] = useState(true);
+  const [networkId, setNetworkId] = useState(1);
+  const [networkName, setNetworkName] = useState("");
+  const [providerUri, setProviderUri] = useState("");
+  const [providerInitialized, setProviderInitialized] = useState(false);
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(initModal);
 
@@ -87,10 +92,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     if (!web3Modal) return false;
     if (!web3Modal.cachedProvider) return false;
     return true;
-  };
-
-  const onChainChangeComplete = () => {
-    setChainChanged(false);
   };
 
   // NOTE (appleseed): none of these listeners are needed for Backend API Providers
@@ -105,12 +106,15 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
         setTimeout(() => window.location.reload(), 1);
       });
 
-      rawProvider.on("chainChanged", async () => {
-        setChainChanged(true);
-      });
-
-      rawProvider.on("networkChanged", async () => {
-        setChainChanged(true);
+      rawProvider.on("chainChanged", async (_chainId: string) => {
+        const newChainId = idFromHexString(_chainId);
+        const networkHash = await initNetworkFunc({ provider });
+        if (newChainId !== networkHash.networkId) {
+          // then provider is out of sync, reload per metamask recommendation
+          setTimeout(() => window.location.reload(), 1);
+        } else {
+          setNetworkId(networkHash.networkId);
+        }
       });
     },
     [provider],
@@ -137,7 +141,12 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     // Save everything after we've validated the right network.
     // Eventually we'll be fine without doing network validations.
     setAddress(connectedAddress);
-
+    const networkHash = await initNetworkFunc({ provider: connectedProvider });
+    console.log("networkHash", networkHash);
+    setNetworkId(networkHash.networkId);
+    setNetworkName(networkHash.networkName);
+    setProviderUri(networkHash.uri);
+    setProviderInitialized(networkHash.initialized);
     // Keep this at the bottom of the method, to ensure any repaints have the data we need
     setConnected(true);
 
@@ -162,8 +171,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       connected,
       address,
       web3Modal,
-      chainChanged,
-      onChainChangeComplete,
+      networkId,
+      networkName,
+      providerUri,
+      providerInitialized,
     }),
     [
       connect,
@@ -173,8 +184,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       connected,
       address,
       web3Modal,
-      chainChanged,
-      onChainChangeComplete,
+      networkId,
+      networkName,
+      providerUri,
+      providerInitialized,
     ],
   );
 

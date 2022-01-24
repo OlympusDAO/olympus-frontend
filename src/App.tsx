@@ -1,14 +1,17 @@
+// eslint-disable-next-line simple-import-sort/imports
+import "./style.scss";
+
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import useBonds, { IAllBondData } from "./hooks/Bonds";
-import { useAddress, useWeb3Context } from "./hooks/web3Context";
+import { useWeb3Context, useAppSelector } from "./hooks";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
 import { shouldTriggerSafetyCheck } from "./helpers";
@@ -24,34 +27,31 @@ import {
   ChooseBond,
   Bond,
   TreasuryDashboard,
-  PoolTogether,
   Zap,
   Wrap,
   V1Stake,
   CausesDashboard,
   DepositYield,
   RedeemYield,
+  BondV2,
+  ChooseBondV2,
 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
-import TopBar from "./components/TopBar/TopBar.jsx";
+import TopBar from "./components/TopBar/TopBar";
 import CallToAction from "./components/CallToAction/CallToAction";
 import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
 import MigrationModal from "src/components/Migration/MigrationModal";
-import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
-import { v4 as uuidv4 } from "uuid";
-import "./style.scss";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import { initializeNetwork } from "./slices/NetworkSlice";
-import { useAppSelector } from "./hooks";
-import { Project } from "src/components/GiveProject/project.type";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import projectData from "src/views/Give/projects.json";
-import Announcement from "./components/Announcement/Announcement";
+import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
+import { NetworkId } from "./constants";
+import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -103,20 +103,16 @@ function App() {
   useGoogleAnalytics();
   const location = useLocation();
   const dispatch = useDispatch();
-  const [theme, toggleTheme, mounted] = useTheme();
+  const [theme, toggleTheme] = useTheme();
   const currentPath = location.pathname + location.hash + location.search;
   const trimmedPath = location.pathname + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const { connect, hasCachedProvider, provider, connected, chainChanged, onChainChangeComplete } = useWeb3Context();
-  const address = useAddress();
+  const { address, connect, hasCachedProvider, provider, connected, networkId, providerInitialized } = useWeb3Context();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
-  const migModalOpen = () => {
-    setMigrationModalOpen(true);
-  };
   const migModalClose = () => {
     dispatch(loadAccountDetails({ networkID: networkId, address, provider }));
     setMigrationModalOpen(false);
@@ -126,12 +122,13 @@ function App() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const [walletChecked, setWalletChecked] = useState(false);
-  const networkId = useAppSelector(state => state.network.networkId);
 
   const { projects } = projectData;
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
   const { bonds, expiredBonds } = useBonds(networkId);
+
+  const bondIndexes = useAppSelector(state => state.bondingV2.indexes);
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -140,14 +137,10 @@ function App() {
     // address lookup on the wrong chain which then throws the error. To properly resolve this,
     // we shouldn't be initializing to networkID=1 in web3Context without first listening for the
     // network. To actually test rinkeby, change setnetworkID equal to 4 before testing.
-    let loadProvider = provider;
+    const loadProvider = provider;
 
     if (whichDetails === "app") {
       loadApp(loadProvider);
-    }
-
-    if (whichDetails === "network") {
-      initNetwork(loadProvider);
     }
 
     // don't run unless provider is a Wallet...
@@ -156,31 +149,29 @@ function App() {
     }
   }
 
-  const initNetwork = useCallback(loadProvider => {
-    dispatch(initializeNetwork({ provider: loadProvider }));
-  }, []);
-
   const loadApp = useCallback(
     loadProvider => {
-      if (networkId == -1) {
-        return;
-      }
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
-      // NOTE (appleseed) - tech debt - better network filtering for active bonds
-      if (networkId === 1 || networkId === 4) {
+      if (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) {
         bonds.map(bond => {
-          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+          // NOTE (appleseed): getBondability & getLOLability control which bonds are active in the view for Bonds V1
+          // ... getClaimability is the analogue for claiming bonds
+          if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
+            dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+          }
         });
+        dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
       }
     },
-    [networkId],
+    [networkId, address],
   );
 
   const loadAccount = useCallback(
     loadProvider => {
-      if (networkId == -1) {
+      if (!providerInitialized) {
         return;
       }
+      dispatch(getUserNotes({ networkID: networkId, address, provider: loadProvider }));
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
       dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
       bonds.map(bond => {
@@ -196,11 +187,11 @@ function App() {
         }
       });
     },
-    [networkId, address],
+    [networkId, address, providerInitialized],
   );
 
   const oldAssetsDetected = useAppSelector(state => {
-    if (networkId && (networkId === 1 || networkId === 4)) {
+    if (networkId && (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY)) {
       return (
         state.account.balances &&
         (Number(state.account.balances.sohmV1) ||
@@ -222,6 +213,25 @@ function App() {
     const allAssetsBalance =
       Number(state.account.balances.sohmV1) + Number(state.account.balances.ohmV1) + wrappedBalance;
     return state.app.marketPrice * allAssetsBalance >= 10;
+  });
+
+  const hasDust = useAppSelector(state => {
+    if (!state.app.currentIndex || !state.app.marketPrice) {
+      return true;
+    }
+    const wrappedBalance = Number(state.account.balances.wsohm) * Number(state.app.currentIndex!);
+    const ohmBalance = Number(state.account.balances.ohmV1);
+    const sOhmbalance = Number(state.account.balances.sohmV1);
+    if (ohmBalance > 0 && ohmBalance * state.app.marketPrice < 10) {
+      return true;
+    }
+    if (sOhmbalance > 0 && sOhmbalance * state.app.marketPrice < 10) {
+      return true;
+    }
+    if (wrappedBalance > 0 && wrappedBalance * state.app.marketPrice < 10) {
+      return true;
+    }
+    return false;
   });
 
   const newAssetsDetected = useAppSelector(state => {
@@ -263,24 +273,20 @@ function App() {
   useEffect(() => {
     // don't load ANY details until wallet is Checked
     if (walletChecked) {
-      loadDetails("network").then(() => {
-        if (networkId !== -1) {
-          loadDetails("account");
-          loadDetails("app");
-        }
-      });
-      onChainChangeComplete();
+      if (networkId !== -1) {
+        loadDetails("account");
+        loadDetails("app");
+      }
     }
-  }, [walletChecked, chainChanged, networkId]);
+  }, [walletChecked, networkId]);
 
   // this useEffect picks up any time a user Connects via the button
   useEffect(() => {
     // don't load ANY details until wallet is Connected
-    if (connected && networkId !== -1) {
+    if (connected && providerInitialized) {
       loadDetails("account");
-      initNetwork(provider);
     }
-  }, [connected, networkId]);
+  }, [connected, networkId, providerInitialized]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -315,11 +321,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={themeMode}>
         <CssBaseline />
-        {/* {isAppLoading && <LoadingSplash />} */}
         <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
           <Messages />
           <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
-          <Announcement />
           <nav className={classes.drawer}>
             {isSmallerScreen ? (
               <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
@@ -407,10 +411,10 @@ function App() {
               <PoolTogether />
             </Route> */}
 
-              <Route path="/bonds">
+              <Route path="/bonds-v1">
                 {(bonds as IAllBondData[]).map(bond => {
                   return (
-                    <Route exact key={bond.name} path={`/bonds/${bond.name}`}>
+                    <Route exact key={bond.name} path={`/bonds-v1/${bond.name}`}>
                       <Bond bond={bond} />
                     </Route>
                   );
@@ -418,15 +422,24 @@ function App() {
                 <ChooseBond />
               </Route>
 
-              <Route path="/network">
-                <ChangeNetwork />
+              <Route path="/bonds">
+                {bondIndexes.map(index => {
+                  return (
+                    <Route exact key={index} path={`/bonds/${index}`}>
+                      <BondV2 index={index} />
+                    </Route>
+                  );
+                })}
+                <ChooseBondV2 />
               </Route>
-
               <Route component={NotFound} />
             </Switch>
           </div>
-
-          <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
+          {hasDust ? (
+            <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
+          ) : (
+            <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
+          )}
         </div>
       </ThemeProvider>
     </QueryClientProvider>

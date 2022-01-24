@@ -1,11 +1,13 @@
-import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
+import { ethers } from "ethers";
+import { NetworkId } from "src/constants";
 import { setAll } from "src/helpers";
 import { ZapHelper } from "src/helpers/ZapHelper";
+
+import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IZapAsyncThunk } from "./interfaces";
 import { error, info } from "./MessagesSlice";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { ethers } from "ethers";
 interface IUAData {
   address: string;
   value: string;
@@ -22,7 +24,7 @@ interface IUADataZap {
 }
 export const getZapTokenAllowance = createAsyncThunk(
   "zap/getZapTokenAllowance",
-  async ({ address, value, action }: IActionValueAsyncThunk, { dispatch }) => {
+  async ({ address, value, action, provider, networkID }: IActionValueAsyncThunk, { dispatch }) => {
     try {
       const result = await ZapHelper.getZapTokenAllowanceHelper(value, address);
       return Object.fromEntries([[action, result]]);
@@ -34,9 +36,16 @@ export const getZapTokenAllowance = createAsyncThunk(
   },
 );
 
+export const zapNetworkCheck = createAsyncThunk(
+  "zap/zapNetworkCheck",
+  async ({ networkID }: { networkID: NetworkId }, { dispatch }) => {
+    zapNetworkAvailable(networkID, dispatch);
+  },
+);
+
 export const changeZapTokenAllowance = createAsyncThunk(
   "zap/changeZapTokenAllowance",
-  async ({ address, value, provider, action }: IActionValueAsyncThunk, { dispatch }) => {
+  async ({ address, value, provider, action, networkID }: IActionValueAsyncThunk, { dispatch }) => {
     try {
       const gasPrice = await provider.getGasPrice();
       const rawTransactionData = await ZapHelper.changeZapTokenAllowanceHelper(value, address, +gasPrice);
@@ -49,7 +58,7 @@ export const changeZapTokenAllowance = createAsyncThunk(
       const tx = await signer.sendTransaction(transactionData);
       await tx.wait();
 
-      let uaData: IUAData = {
+      const uaData: IUAData = {
         address: address,
         value: value,
         approved: true,
@@ -60,7 +69,7 @@ export const changeZapTokenAllowance = createAsyncThunk(
       return Object.fromEntries([[action, true]]);
     } catch (e: unknown) {
       const rpcError = e as any;
-      let uaData: IUAData = {
+      const uaData: IUAData = {
         address: address,
         value: value,
         approved: false,
@@ -96,6 +105,7 @@ export const getZapTokenBalances = createAsyncThunk(
 export const executeZap = createAsyncThunk(
   "zap/executeZap",
   async ({ provider, address, sellAmount, slippage, tokenAddress, networkID }: IZapAsyncThunk, { dispatch }) => {
+    if (!zapNetworkAvailable(networkID, dispatch)) return;
     try {
       const gasPrice = await provider.getGasPrice();
       const rawTransactionData = await ZapHelper.executeZapHelper(
@@ -104,6 +114,7 @@ export const executeZap = createAsyncThunk(
         tokenAddress,
         slippage,
         +gasPrice,
+        networkID,
       );
       const transactionData = {
         data: rawTransactionData.data,
@@ -116,7 +127,7 @@ export const executeZap = createAsyncThunk(
       const tx = await signer.sendTransaction(transactionData);
       await tx.wait();
 
-      let uaData: IUADataZap = {
+      const uaData: IUADataZap = {
         address: address,
         value: sellAmount.toString(),
         token: tokenAddress,
@@ -127,7 +138,7 @@ export const executeZap = createAsyncThunk(
       segmentUA(uaData);
       dispatch(info("Successful Zap!"));
     } catch (e: unknown) {
-      let uaData: IUADataZap = {
+      const uaData: IUADataZap = {
         address: address,
         value: sellAmount.toString(),
         token: tokenAddress,
@@ -145,6 +156,15 @@ export const executeZap = createAsyncThunk(
     dispatch(getZapTokenBalances({ address, provider, networkID }));
   },
 );
+
+const zapNetworkAvailable = (networkID: NetworkId, dispatch: ThunkDispatch<unknown, unknown, AnyAction>) => {
+  if (Number(networkID) === 1) {
+    return true;
+  } else {
+    dispatch(info("Zaps are only available on Mainnet"));
+    return false;
+  }
+};
 
 export interface IZapSlice {
   balances: { [key: string]: any };
@@ -198,6 +218,7 @@ const zapTokenBalancesSlice = createSlice({
         console.error("Handled error");
         console.error(error.message);
       })
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       .addCase(getZapTokenAllowance.pending, state => {})
       .addCase(getZapTokenAllowance.fulfilled, (state, action) => {
         if (!action.payload) return;
