@@ -5,7 +5,8 @@ services:
       context: ..
       dockerfile: tests/Dockerfile
     # When running using CI, we are likely to define these values through environment variables
-    # environment:
+    environment:
+      - REACT_APP_XVFB_ENABLED=true
     #   - PRIVATE_KEY=${CONTRACT_NODE_PRIVATE_KEY}
     #   - ALCHEMY_API_KEY=${CONTRACT_NODE_ALCHEMY_API_KEY}
     # But the .env file is more likely for local development
@@ -13,6 +14,7 @@ services:
     #   - .env
     # We use the host mode so that "localhost" can be accessed
     network_mode: host
+    # TODO add dependency on contract_node after the healthcheck is merged
     depends_on:
       frontend:
         condition: service_healthy
