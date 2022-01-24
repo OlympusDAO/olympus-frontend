@@ -18,20 +18,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { ReactComponent as Fullscreen } from "src/assets/icons/fullscreen.svg";
+import { formatCurrency, trim } from "src/helpers";
 
-import { ReactComponent as Fullscreen } from "../../assets/icons/fullscreen.svg";
-import { trim } from "../../helpers";
 import CustomTooltip from "./CustomTooltip";
 import ExpandedChart from "./ExpandedChart";
-
-const formatCurrency = (c: number) => {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-    minimumFractionDigits: 0,
-  }).format(c);
-};
 
 const tickCount = 3;
 const expandedTickCount = 5;
