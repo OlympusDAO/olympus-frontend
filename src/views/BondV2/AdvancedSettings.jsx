@@ -1,4 +1,4 @@
-import "./bondSettings.scss";
+import "./BondSettings.scss";
 
 import { Trans } from "@lingui/macro";
 import { Box, FormControl, InputAdornment, InputLabel, OutlinedInput, Typography } from "@material-ui/core";

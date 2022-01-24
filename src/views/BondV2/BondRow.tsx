@@ -1,4 +1,4 @@
-import "./choosebond.scss";
+import "./ChooseBond.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Button, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
