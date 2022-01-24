@@ -8,7 +8,7 @@ RUN apt-get update && \
     # lingui compilation
     git \
     # Required by the sleep package
-    python3 g++
+    python3 g++ make
 
 WORKDIR /usr/src/app
 
