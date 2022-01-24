@@ -72,7 +72,7 @@ const BondV2 = ({ index }: { index: number }) => {
     <Box display="flex" flexDirection="row">
       <TokenStack tokens={bond.bondIconSvg} />
       <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
-        <Typography variant="h5">{`${bond.displayName} (v1 Bond)`}</Typography>
+        <Typography variant="h5">{`${bond.displayName}`}</Typography>
       </Box>
     </Box>
   );
@@ -148,10 +148,17 @@ export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
 };
 
 export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement => {
+  const [clazz, setClazz] = useState<string>("bond_discount_positive");
+  useEffect(() => {
+    setClazz(bond.discount >= 0 ? "bond_discount_positive" : "bond_discount_negative");
+  }, [bond]);
   if (typeof bond.discount === undefined || bond.soldOut) {
     return <Fragment>--</Fragment>;
   }
-
-  return <Fragment>{bond.discount && trim(bond.discount * 100, 2)}%</Fragment>;
+  return (
+    <Fragment>
+      <span className={clazz}>{bond.discount && trim(bond.discount * 100, 2)}%</span>
+    </Fragment>
+  );
 };
 export default BondV2;

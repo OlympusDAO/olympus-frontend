@@ -23,6 +23,7 @@ import { EnvHelper } from "src/helpers/Environment";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
+import { DisplayBondDiscount } from "src/views/BondV2/BondV2";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import { trim } from "../../helpers";
@@ -109,7 +110,7 @@ function NavContent({ handleDrawerToggle }) {
                                 <Typography variant="body2">
                                   {bond.displayName}
                                   <span className="bond-pair-roi">
-                                    {`${bond.discount && trim(bond.discount * 100, 2)}%`}
+                                    <DisplayBondDiscount key={bond.index} bond={bond} />
                                   </span>
                                 </Typography>
                               </Link>
