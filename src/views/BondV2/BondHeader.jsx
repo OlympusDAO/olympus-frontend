@@ -1,11 +1,9 @@
 import { t } from "@lingui/macro";
-import { IconButton, Link, SvgIcon, Typography } from "@material-ui/core";
-import { TokenStack } from "@olympusdao/component-library";
+import { IconButton, Link, Typography } from "@material-ui/core";
+import { Icon, TokenStack } from "@olympusdao/component-library";
 import { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 
-import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg";
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import useEscape from "../../hooks/useEscape";
 import AdvancedSettings from "./AdvancedSettings";
 
@@ -31,7 +29,7 @@ function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange
     <>
       <div className="bond-header">
         <Link component={NavLink} to="/bonds" className="cancel-bond">
-          <SvgIcon color="primary" component={XIcon} />
+          <Icon color="primary" name="x" />
         </Link>
 
         <div className="bond-header-logo">
@@ -42,7 +40,7 @@ function BondHeader({ bond, slippage, recipientAddress, onRecipientAddressChange
         </div>
         <div className="bond-settings">
           <IconButton onClick={handleOpen}>
-            <SvgIcon color="primary" component={SettingsIcon} />
+            <Icon color="primary" name="settings" />
           </IconButton>
           <AdvancedSettings
             open={open}

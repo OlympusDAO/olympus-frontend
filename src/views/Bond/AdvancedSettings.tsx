@@ -10,12 +10,10 @@ import {
   Modal,
   OutlinedInput,
   Paper,
-  SvgIcon,
   Typography,
 } from "@material-ui/core";
+import { Icon } from "@olympusdao/component-library";
 import { ChangeEvent } from "react";
-
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
 interface IAdvancedSettingsProps {
   readonly open: boolean;
@@ -32,7 +30,7 @@ function AdvancedSettings(props: IAdvancedSettingsProps) {
       <Paper className="ohm-card ohm-popover">
         <Box display="flex">
           <IconButton onClick={props.handleClose}>
-            <SvgIcon color="primary" component={XIcon} />
+            <Icon color="primary" name="x" />
           </IconButton>
           <Typography variant="h3">Settings</Typography>
         </Box>

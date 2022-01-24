@@ -15,7 +15,7 @@ exports[`<NotFound/> should render component 1`] = `
         <img
           alt="OlympusDAO"
           class="branding-header-icon"
-          src="Olympus Logo.svg"
+          src="olympus-logo.svg"
         />
       </a>
       <h4>

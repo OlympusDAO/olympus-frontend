@@ -1,13 +1,13 @@
 import { t, Trans } from "@lingui/macro";
-import { Button, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Button, Link, Modal, Paper, Typography } from "@material-ui/core";
 import { FormControl } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Icon } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useSelector } from "react-redux";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ArrowGraphic, RedeemGraphic, VaultGraphic } from "../../components/EducationCard";
 import { txnButtonText } from "../../slices/PendingTxnsSlice";
 import { IPendingTxn, isPendingTxn } from "../../slices/PendingTxnsSlice";
@@ -72,7 +72,7 @@ export function RedeemYieldModal({
       <Paper className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`} onClick={handleModalInsideClick}>
         <div className="yield-header">
           <Link onClick={() => cancelFunc()}>
-            <SvgIcon color="primary" component={XIcon} />
+            <Icon color="primary" name="x" />
           </Link>
           <Typography variant="h4">
             <strong>

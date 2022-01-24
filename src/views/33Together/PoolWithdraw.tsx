@@ -7,13 +7,12 @@ import {
   InputLabel,
   Link,
   OutlinedInput,
-  SvgIcon,
   Typography,
   useMediaQuery,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { Icon } from "@olympusdao/component-library";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { getTokenImage } from "src/helpers";
 import { trim } from "src/helpers";
 
@@ -204,7 +203,7 @@ export const PoolWithdraw = (props: IPoolWithdrawProps) => {
                   >
                     <br />
                     <Trans>Read more about Fairness</Trans>{" "}
-                    <SvgIcon component={ArrowUp} style={{ fontSize: "1rem", verticalAlign: "middle" }} />
+                    <Icon name="arrow-up" style={{ fontSize: "1rem", verticalAlign: "middle" }} />
                   </Link>
                 </Typography>
               </Box>
