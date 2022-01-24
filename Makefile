@@ -24,7 +24,7 @@ TEST_PORT_ARGS=--network=host
 
 #### e2e stack variables
 STACK_FILE_ARGS=-f tests/docker-compose.yml
-STACK_UP_ARGS=--abort-on-container-exit --build
+STACK_UP_ARGS=--abort-on-container-exit --build --remove-orphans
 CONTRACTS_DOCKER_TAG?=main # Sets to main by default
 STACK_ENV_ARGS=FRONTEND_DOCKER_TAG=$(FRONTEND_TAG) CONTRACTS_DOCKER_TAG=${CONTRACTS_DOCKER_TAG}
 
