@@ -1,8 +1,8 @@
 import "./chart.scss";
 
-import { Box, CircularProgress, Typography } from "@material-ui/core";
+import { Box, CircularProgress, SvgIcon, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, InfoTooltip } from "@olympusdao/component-library";
+import { InfoTooltip } from "@olympusdao/component-library";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import {
@@ -19,7 +19,7 @@ import {
   YAxis,
 } from "recharts";
 
-// import { ReactComponent as Fullscr÷een÷ } from "../../assets/icons/fullscreen.svg";
+import { ReactComponent as Fullscreen } from "../../assets/icons/fullscreen.svg";
 import { trim } from "../../helpers";
 import CustomTooltip from "./CustomTooltip";
 import ExpandedChart from "./ExpandedChart";
@@ -495,13 +495,11 @@ function Chart({
             <InfoTooltip message={infoTooltipMessage} />
           </Box>
           {/* could make this svgbutton */}
-
-          <Icon
-            name="fullscreen"
+          <SvgIcon
+            component={Fullscreen}
             color="primary"
             onClick={handleOpen}
-            style={{ width: "17px", height: "17px", fontSize: "1rem", cursor: "pointer" }}
-            // style={{ fontSize: "1rem", cursor: "pointer" }}
+            style={{ fontSize: "1rem", cursor: "pointer" }}
           />
           <ExpandedChart
             open={open}
