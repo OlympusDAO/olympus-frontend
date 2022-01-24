@@ -42,9 +42,8 @@ test_e2e_build_docker:
 	@echo "*** Building Docker image $(TEST_IMAGE) with tag $(TEST_TAG)"
 	docker build -t $(TEST_IMAGE):$(TEST_TAG) -f tests/Dockerfile .
 
-test_e2e_run_docker: test_e2e_build_docker
-	@echo "*** Running Docker image $(TEST_IMAGE) with tag $(TEST_TAG)"
-	@docker run -it --rm $(TEST_ENV_ARGS) $(TEST_VOLUME_ARGS) $(TEST_PORT_ARGS) $(TEST_IMAGE):$(TEST_TAG)
+test_e2e_run_docker:
+	$(STACK_ENV_ARGS) docker-compose -f tests/docker-compose.yml -f tests/docker-compose.e2e.yml up --abort-on-container-exit --build
 
 test_e2e_run:
 	mkdir -p tests/screenshots

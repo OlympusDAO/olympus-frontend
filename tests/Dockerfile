@@ -5,7 +5,7 @@ FROM --platform=amd64 node:14.18.2-bullseye-slim
 RUN apt-get update && \
     apt-get install -y \
     chromium \
-    cmake \
+    make \
     xvfb \
     git \
     # Puppeteer dependencies

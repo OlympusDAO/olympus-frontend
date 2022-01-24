@@ -2,7 +2,8 @@ version: "3.2"
 services:
   tests:
     build:
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: tests/Dockerfile
     # When running using CI, we are likely to define these values through environment variables
     # environment:
     #   - PRIVATE_KEY=${CONTRACT_NODE_PRIVATE_KEY}
