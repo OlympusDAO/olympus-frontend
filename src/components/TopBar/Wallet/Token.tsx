@@ -299,6 +299,7 @@ export const useWallet = (
       price: ohmPrice || 0,
       vaultBalances: {
         "Fuse Olympus Pool Party": connectedChainBalances.fsohm,
+        "gOHM on Tokemak": connectedChainBalances.gOhmOnTokemakAsSohm,
       },
       icon: "sOHM",
       decimals: 9,
