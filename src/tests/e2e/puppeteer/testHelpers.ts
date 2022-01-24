@@ -6,13 +6,15 @@ import puppeteer, { Browser, ElementHandle, Page } from "puppeteer";
 // @ts-ignore
 import Xvfb from "xvfb";
 
+const SCREENSHOT_PATH_PREFIX = "tests/screenshots/";
+
 export const getTestName = (): string => {
   return expect.getState().currentTestName;
 };
 
 export const takeScreenshot = (page: Page, title: string) => {
-  const compatibleTestName = getTestName().replace(/\ /g, "-");
-  page.screenshot({ path: compatibleTestName + "-" + title + ".png" }).then(() => {
+  const compatibleTestName = getTestName() ? getTestName().replace(/\ /g, "-") + "-" : "";
+  page.screenshot({ path: SCREENSHOT_PATH_PREFIX + compatibleTestName + title + ".png" }).then(() => {
     console.log("Took screenshot with title: " + title);
   });
 };
@@ -49,10 +51,10 @@ export const setupMetamask = async (browser: Browser, options: { network?: strin
   const privateKey = getMetamaskPrivateKey();
 
   const metamask = await dappeteer.setupMetamask(browser, seedPhrase ? { seed: seedPhrase } : {});
-  metamask.page.screenshot({ path: "metamask-setup.png" });
+  takeScreenshot(metamask.page, "metamask-setup.png");
 
   await metamask.switchNetwork(options.network ?? "rinkeby");
-  metamask.page.screenshot({ path: "metamask-network.png" });
+  takeScreenshot(metamask.page, "metamask-network.png");
 
   if (privateKey) await metamask.importPK(privateKey);
 

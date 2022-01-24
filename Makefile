@@ -47,6 +47,7 @@ test_e2e_run_docker: test_e2e_build_docker
 	@docker run -it --rm $(TEST_ENV_ARGS) $(TEST_VOLUME_ARGS) $(TEST_PORT_ARGS) $(TEST_IMAGE):$(TEST_TAG)
 
 test_e2e_run:
+	mkdir -p tests/screenshots
 	yarn run react-scripts test --testPathPattern="(\\.|/|-)e2e\\.(test|spec)\\.[jt]sx?" --testTimeout=30000 --runInBand --watchAll=false --detectOpenHandles --forceExit
 
 ### end-to-end docker stack
