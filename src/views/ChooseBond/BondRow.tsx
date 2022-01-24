@@ -1,14 +1,15 @@
 import "./choosebond.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Button, Link, Paper, Slide, TableCell, TableRow, Typography } from "@material-ui/core";
+import { Button, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, TokenStack } from "@olympusdao/component-library";
+import { TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { IAllBondData } from "src/hooks/Bonds";
 import { Bond, CustomBond, LPBond } from "src/lib/Bond";
 
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { useWeb3Context } from "../../hooks";
 import { DisplayBondDiscount, DisplayBondPrice } from "../Bond/Bond";
 
@@ -33,7 +34,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
                 <Link href={uBond?.lpUrl} target="_blank">
                   <Typography variant="body1">
                     <Trans>Deposit LP</Trans>
-                    <Icon name="arrow-up" htmlColor="#A3A3A3" />
+                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
                   </Typography>
                 </Link>
               </div>
@@ -116,7 +117,7 @@ export function BondTableData({ bond }: { bond: Bond }) {
             <Link color="primary" href={uBond.lpUrl} target="_blank">
               <Typography variant="body1">
                 <Trans>Deposit LP</Trans>
-                <Icon name="arrow-up" htmlColor="#A3A3A3" />
+                <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
               </Typography>
             </Link>
           )}

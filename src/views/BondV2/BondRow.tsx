@@ -1,13 +1,14 @@
 import "./choosebond.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Button, Link, Paper, Slide, TableCell, TableRow, Typography } from "@material-ui/core";
+import { Button, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, TokenStack } from "@olympusdao/component-library";
+import { TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
 import { useAppSelector } from "src/hooks";
 import { IBondV2 } from "src/slices/BondSliceV2";
 
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { DisplayBondDiscount, DisplayBondPrice } from "./BondV2";
 
 export function BondDataCard({ bond }: { bond: IBondV2 }) {
@@ -25,7 +26,7 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
                 <Link href={bond.lpUrl} target="_blank">
                   <Typography variant="body1">
                     <Trans>Get LP</Trans>
-                    <Icon name="arrow-up" htmlColor="#A3A3A3" />
+                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
                   </Typography>
                 </Link>
               </div>
@@ -97,7 +98,7 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
             <Link color="primary" href={bond.lpUrl} target="_blank">
               <Typography variant="body1">
                 <Trans>Get LP</Trans>
-                <Icon name="arrow-up" htmlColor="#A3A3A3" />
+                <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
               </Typography>
             </Link>
           )}

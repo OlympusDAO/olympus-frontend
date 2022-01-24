@@ -6,6 +6,7 @@ import {
   ButtonBase,
   Grid,
   Paper,
+  SvgIcon,
   Table,
   TableBody,
   TableCell,
@@ -16,7 +17,7 @@ import {
   Zoom,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Icon, Metric, MetricCollection } from "@olympusdao/component-library";
+import { Metric, MetricCollection } from "@olympusdao/component-library";
 import isEmpty from "lodash/isEmpty";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
@@ -27,6 +28,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { IUserNote } from "src/slices/BondSliceV2";
 
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { formatCurrency } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 import ClaimBonds from "../BondV2/ClaimBonds";
@@ -94,9 +96,9 @@ function ChooseBond() {
                 <b>
                   <Link to="/bonds" style={{ textDecoration: "none", color: "inherit" }}>
                     <Trans>v2 bonds</Trans>
-                    <Icon
+                    <SvgIcon
                       style={{ margin: "0 0 0 5px", verticalAlign: "text-bottom" }}
-                      name="arrow-up"
+                      component={ArrowUp}
                       color="primary"
                     />
                   </Link>
