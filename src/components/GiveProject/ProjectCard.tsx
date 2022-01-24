@@ -16,7 +16,7 @@ import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
 import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
 import { ReactComponent as DonorsIcon } from "../../assets/icons/donors.svg";
-import { ReactComponent as SohmToken } from "../../assets/tokens/token_sOHM.svg";
+import { ReactComponent as SohmToken } from "../../assets/icons/give_sohm.svg";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useTheme } from "@material-ui/core/styles";
@@ -342,7 +342,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             <div className="project-donated-icon">
               <SvgIcon
                 component={SohmToken}
-                viewBox={"0 0 100 100"}
+                viewBox={"0 0 18 18"}
                 style={{ marginRight: "0.33rem" }}
                 fill={svgFillColour}
               />
@@ -402,7 +402,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             <div className="project-data-icon">
               <SvgIcon
                 component={SohmToken}
-                viewBox={"0 0 100 100"}
+                viewBox={"0 0 18 18"}
                 style={{ marginRight: "0.33rem" }}
                 fill={svgFillColour}
               />
@@ -688,15 +688,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getPageContent = () => {
     return (
       <>
-        <Container
-          style={{
-            paddingLeft: isSmallScreen || isVerySmallScreen ? 0 : "3.3rem",
-            paddingRight: isSmallScreen || isVerySmallScreen ? 0 : "3.3rem",
-            display: "flex",
-            justifyContent: "center",
-          }}
-          className="project-container"
-        >
+        <Container style={{ display: "flex", justifyContent: "center" }} className="project-container">
           <div
             className={`${isMediumScreen && "medium"}
             ${isSmallScreen && "smaller"}
