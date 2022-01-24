@@ -837,14 +837,24 @@
       padding-bottom: 35px;
     }
 
-    .project-goal .project-donated-icon {
+    .project-top-data {
+      margin-bottom: 30px;
+
+      .project-deposits {
+        text-align: right;
+
+        .project-data-icon {
+          justify-content: flex-end;
+        }
+      }
+    }
+
+    .project-data-icon {
+      display: flex;
       flex-direction: row;
+      align-items: center;
       flex-wrap: nowrap;
       margin-bottom: 6px;
-
-      .subtext {
-        color: #999999;
-      }
 
       h6 {
         line-height: 1rem;
@@ -854,6 +864,10 @@
         max-width: 20px;
         margin-right: 10px;
       }
+    }
+
+    .subtext {
+      color: #999999;
     }
 
     .project-countdown .countdown-container {
@@ -937,6 +951,7 @@
     .project-donated-icon {
       display: inline-flex;
       align-items: center;
+      margin-bottom: 6px;
 
       h6 {
         line-height: 1rem;
@@ -968,7 +983,7 @@
   }
 
   .project-goal-progress {
-    padding-top: 0.5rem;
+    padding-top: 0.65rem;
     padding-bottom: 1.5rem;
   }
 

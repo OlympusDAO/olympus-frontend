@@ -16,11 +16,13 @@ import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
 import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
 import { ReactComponent as DonorsIcon } from "../../assets/icons/donors.svg";
+import { ReactComponent as SohmToken } from "../../assets/tokens/token_sOHM.svg";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useTheme } from "@material-ui/core/styles";
 import { useAppDispatch } from "src/hooks";
 import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
+import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { BigNumber } from "bignumber.js";
@@ -96,6 +98,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
+  const [totalDonated, setTotalDonated] = useState("");
   const [donorCount, setDonorCount] = useState(0);
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(0);
@@ -152,6 +155,16 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       .then(resultAction => {
         setDonorCount(!resultAction ? 0 : resultAction.length);
         setDonorCountIsLoading(false);
+      })
+      .catch(e => console.log(e));
+
+    getTotalDonated({
+      networkID: networkId,
+      provider: provider,
+      address: wallet,
+    })
+      .then(donatedAmount => {
+        setTotalDonated(donatedAmount);
       })
       .catch(e => console.log(e));
   }, [connected, networkId, isGiveModalOpen]);
@@ -273,11 +286,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getGoalCompletion = (): string => {
     if (!depositGoal) return "0";
     if (recipientInfoIsLoading) return "0"; // This shouldn't be needed, but just to be sure...
-    if (!totalDebt) return "0";
+    if (!totalDonated) return "0";
 
-    const totalDebtNumber = new BigNumber(totalDebt);
+    const totalDonatedNumber = new BigNumber(totalDonated);
 
-    return totalDebtNumber.div(depositGoal).multipliedBy(100).toFixed();
+    return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed();
   };
 
   const renderGoalCompletion = (): JSX.Element => {
@@ -300,7 +313,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             title={
               !address
                 ? t`Connect your wallet to view the fundraising progress`
-                : `${totalDebt} of ${depositGoal} sOHM raised`
+                : `${totalDonated} of ${depositGoal} sOHM raised`
             }
             arrow
           >
@@ -320,7 +333,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
     const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
-    const formattedTotalDebt = new BigNumber(parseFloat(totalDebt).toFixed(2)).toFormat();
+    const formattedTotalDonated = new BigNumber(parseFloat(totalDonated).toFixed(2)).toFormat();
 
     return (
       <>
@@ -328,13 +341,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Grid item xs={5} className="project-donated">
             <div className="project-donated-icon">
               <SvgIcon
-                component={DonatedIcon}
-                viewBox={"0 0 16 12"}
+                component={SohmToken}
+                viewBox={"0 0 100 100"}
                 style={{ marginRight: "0.33rem" }}
                 fill={svgFillColour}
               />
               <Typography variant="h6">
-                <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedTotalDebt}</strong>
+                <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedTotalDonated}</strong>
               </Typography>
             </div>
             <div className="subtext">
@@ -362,6 +375,46 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         <div className="project-goal-progress">
           <LinearProgress variant="determinate" value={goalProgress} />
         </div>
+      </>
+    );
+  };
+
+  const renderDepositData = (): JSX.Element => {
+    return (
+      <>
+        <Grid container className="project-top-data">
+          <Grid item xs={5} className="project-donors">
+            <div className="project-data-icon">
+              <SvgIcon
+                component={DonorsIcon}
+                viewBox={"0 0 18 13"}
+                style={{ marginRight: "0.33rem" }}
+                fill={svgFillColour}
+              />
+              <Typography variant="h6">{donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}</Typography>
+            </div>
+            <div className="subtext">
+              <Trans>Donors</Trans>
+            </div>
+          </Grid>
+          <Grid item xs={2} />
+          <Grid item xs={5} className="project-deposits">
+            <div className="project-data-icon">
+              <SvgIcon
+                component={SohmToken}
+                viewBox={"0 0 100 100"}
+                style={{ marginRight: "0.33rem" }}
+                fill={svgFillColour}
+              />
+              <Typography variant="h6">
+                {recipientInfoIsLoading ? <Skeleton /> : <strong>{parseFloat(totalDebt).toFixed(2)}</strong>}
+              </Typography>
+            </div>
+            <div className="subtext">
+              <Trans>Total sOHM Donated</Trans>
+            </div>
+          </Grid>
+        </Grid>
       </>
     );
   };
@@ -678,6 +731,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Grid item className="project-visual-info">
                       {getProjectImage()}
                       <Grid item className="goal-graphics">
+                        {renderDepositData()}
                         {renderGoalCompletionDetailed()}
 
                         <div className="visual-info-bottom">
@@ -717,32 +771,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             )}
                           </div>
                         </div>
-                      </Grid>
-                    </Grid>
-                  </Paper>
-                  <Paper className="project-sidebar">
-                    <Grid container direction="column">
-                      <Grid item className="donors-title">
-                        <Typography variant="h5">
-                          <strong>
-                            <Trans>Donations</Trans>
-                          </strong>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={4} className="project-goal">
-                        <Grid container className="project-donated-icon">
-                          <Grid item xs={1} md={2}>
-                            <SvgIcon component={DonorsIcon} viewBox={"0 0 18 13"} fill={svgFillColour} />
-                          </Grid>
-                          <Grid item xs={4}>
-                            <Typography variant="h6">
-                              {donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}
-                            </Typography>
-                            <div className="subtext">
-                              <Trans>Donors</Trans>
-                            </div>
-                          </Grid>
-                        </Grid>
                       </Grid>
                     </Grid>
                   </Paper>
