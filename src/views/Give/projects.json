@@ -40,13 +40,13 @@
       "website": "https://gitcoin.co/"
     },
     {
-      "title": "Kollektivo",
+      "title": "Kolektivo",
       "owner": "",
-      "slug": "kollektivo",
+      "slug": "kolektivo",
       "shortDescription": "Kolektivo enables local communities to create and manage their own regenerative economy to fuel prosperity.",
       "details": "Kolektivo enables local communities to create and manage their own regenerative economy to fuel prosperity. The first version of Kolektivo is being piloted on Curaçao, a small Caribbean island.\n\nWhat started as a small grant-giving DAO in 2019 (prev called CuraDAO) has grown to a community of 100s of changemakers actively creating regenerative development on the island. Projects range from creating food forests that feed dozens of families to supporting the rehabilitation of disabled people to bring them back on their feet. Meanwhile, the learnings from the developments on Curacao are being used to improve the MVP of Kolektivo - aiming to become a toolkit for creating local regenerative economies that scale.",
       "finishDate": "",
-      "photos": ["/assets/images/give/kollektivo/kollektivo-logo.svg"],
+      "photos": ["/assets/images/give/kolektivo/kolektivo-logo.svg"],
       "category": "Environment",
       "wallet": "0xc2F578304931B42D6Ac9adb6523450C7eB36B03E",
       "depositGoal": 200,

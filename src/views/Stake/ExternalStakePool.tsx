@@ -52,7 +52,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
           <Typography>{pool.poolName}</Typography>
         </div>
       </div>
-      <div className="data-row">
+      <div className="data-row" style={{ display: "flex", justifyContent: "space-between" }}>
         <Typography>
           <Trans>TVL</Trans>
         </Typography>
@@ -60,7 +60,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
           <>{!pool.tvl ? <Skeleton width={30} /> : pool.tvl}</>
         </Typography>
       </div>
-      <div className="data-row">
+      <div className="data-row" style={{ display: "flex", justifyContent: "space-between" }}>
         <Typography>{connected && t`Balance`}</Typography>
         <Typography>
           {!pool.userBalance && connected ? (
