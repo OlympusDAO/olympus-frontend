@@ -297,7 +297,7 @@ export function ManageDonationModal({
 
   const getRenderedDetails = () => {
     return {
-      __html: MarkdownIt({ html: true }).render(project ? project.shortDescription : ""),
+      __html: MarkdownIt({ html: true }).renderInline(project ? project.shortDescription : ""),
     };
   };
 
