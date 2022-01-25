@@ -3,9 +3,7 @@ import "./choosebond.scss";
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
-  ButtonBase,
   Grid,
-  SvgIcon,
   Table,
   TableBody,
   TableCell,
@@ -21,14 +19,12 @@ import isEmpty from "lodash/isEmpty";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { getAllBonds, getUserNotes, IUserNote } from "src/slices/BondSliceV2";
 import { AppDispatch } from "src/store";
 
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { formatCurrency } from "../../helpers";
 import { BondDataCard, BondTableData } from "./BondRow";
 import ClaimBonds from "./ClaimBonds";
@@ -79,28 +75,12 @@ function ChooseBondV2() {
     return withInterestDue;
   });
 
-  const topRightCTA = (
-    <ButtonBase>
-      <Typography style={{ lineHeight: "33px" }}>
-        <b>
-          <Link to="/bonds-v1" style={{ textDecoration: "none", color: "inherit" }}>
-            <Trans>v1 Bonds</Trans>
-            <SvgIcon
-              style={{ margin: "0 0 0 5px", verticalAlign: "text-bottom" }}
-              component={ArrowUp}
-              color="primary"
-            />
-          </Link>
-        </b>
-      </Typography>
-    </ButtonBase>
-  );
   return (
     <div id="choose-bond-view">
       {(!isEmpty(accountNotes) || !isEmpty(v1AccountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
 
       <Zoom in={true}>
-        <Paper headerText={`${t`Bond`} (4,4)`} topRight={topRightCTA}>
+        <Paper headerText={`${t`Bond`} (4,4)`}>
           <MetricCollection>
             <Metric
               label={t`Treasury Balance`}
