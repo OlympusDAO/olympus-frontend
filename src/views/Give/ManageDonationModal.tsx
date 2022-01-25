@@ -521,12 +521,17 @@ export function ManageDonationModal({
               <Button
                 variant="contained"
                 color="primary"
-                style={{ marginBottom: "20px" }}
+                style={{ marginBottom: "20px", height: "40px" }}
                 onClick={() => setIsEditing(true)}
               >
                 <Typography variant="h6">Edit Donation</Typography>
               </Button>
-              <Button variant="outlined" color="primary" onClick={() => setIsWithdrawing(true)}>
+              <Button
+                variant="outlined"
+                color="primary"
+                style={{ height: "40px" }}
+                onClick={() => setIsWithdrawing(true)}
+              >
                 <Typography variant="h6">Stop Donation</Typography>
               </Button>
             </>
