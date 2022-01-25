@@ -6,7 +6,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
   Tab,
   Table,
   TableBody,
@@ -17,7 +16,7 @@ import {
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ExpandMore } from "@material-ui/icons";
-import { Paper } from "@olympusdao/component-library";
+import { Paper, PrimaryButton } from "@olympusdao/component-library";
 import { isEmpty } from "lodash";
 import title from "material-ui/svg-icons/editor/title";
 import { ChangeEvent, useState } from "react";
@@ -124,9 +123,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                         {view === 0 ? `${trim(totalClaimable, 4)} sOHM` : `${trim(totalClaimable, 4)} gOHM`}
                       </Typography>
 
-                      <Button
-                        variant="contained"
-                        color="primary"
+                      <PrimaryButton
                         className="transaction-button"
                         fullWidth
                         disabled={
@@ -136,7 +133,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                         onClick={onRedeemAll}
                       >
                         {txnButtonText(pendingTransactions, "redeem_all_notes", t`Claim all`)}
-                      </Button>
+                      </PrimaryButton>
                     </Box>
                     {!isEmpty(fullyVestedBonds) && (
                       <AccordionSection
@@ -190,9 +187,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                     {view === 0 ? `${trim(totalClaimable, 4)} sOHM` : `${trim(totalClaimable, 4)} gOHM`}
                   </Typography>
 
-                  <Button
-                    variant="contained"
-                    color="primary"
+                  <PrimaryButton
                     className="transaction-button"
                     fullWidth
                     disabled={
@@ -202,7 +197,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                     onClick={onRedeemAll}
                   >
                     {txnButtonText(pendingTransactions, "redeem_all_notes", t`Claim all`)}
-                  </Button>
+                  </PrimaryButton>
                 </Box>
                 {!isEmpty(fullyVestedBonds) && (
                   <AccordionSection

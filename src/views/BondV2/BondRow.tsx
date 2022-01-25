@@ -1,9 +1,9 @@
 import "./choosebond.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Button, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
+import { Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { TokenStack } from "@olympusdao/component-library";
+import { TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
 import { useAppSelector } from "src/hooks";
 import { IBondV2 } from "src/slices/BondSliceV2";
@@ -74,9 +74,9 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
           </Typography>
         </div> */}
         <Link component={NavLink} to={`/bonds/${bond.index}`}>
-          <Button variant="outlined" color="primary" fullWidth disabled={bond.soldOut}>
-            <Typography variant="h5">{bond.soldOut ? t`Sold Out` : t`Bond ${bond.displayName}`}</Typography>
-          </Button>
+          <TertiaryButton fullWidth disabled={bond.soldOut}>
+            {bond.soldOut ? t`Sold Out` : t`Bond ${bond.displayName}`}
+          </TertiaryButton>
         </Link>
       </Paper>
     </Slide>
@@ -116,9 +116,9 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
       <TableCell align="left">{isBondLoading ? <Skeleton /> : bond.duration}</TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.index}`}>
-          <Button variant="outlined" color="primary" style={{ width: "100%" }} disabled={bond.soldOut}>
-            <Typography variant="h6">{bond.soldOut ? t`Sold Out` : t`do_bond`}</Typography>
-          </Button>
+          <TertiaryButton fullWidth disabled={bond.soldOut}>
+            {bond.soldOut ? t`Sold Out` : t`do_bond`}
+          </TertiaryButton>
         </Link>
       </TableCell>
     </TableRow>
