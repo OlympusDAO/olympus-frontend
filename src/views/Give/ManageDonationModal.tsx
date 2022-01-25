@@ -374,10 +374,14 @@ export function ManageDonationModal({
             </div>
           ) : (
             <div className="project">
-              <Typography variant="h6">Custom Recipient</Typography>
-              <Typography variant="body1" className="project-description">
-                {walletAddress}
-              </Typography>
+              <div className="cause-content">
+                <Grid container className="cause-header">
+                  <Typography variant="h6">Custom Recipient</Typography>
+                </Grid>
+                <Grid item className="cause-body">
+                  <Typography variant="body2">{walletAddress}</Typography>
+                </Grid>
+              </div>
             </div>
           )}
         </div>
