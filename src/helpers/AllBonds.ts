@@ -123,7 +123,7 @@ export const frax = new StableBond({
   bondIconSvg: ["FRAX"],
   bondContractABI: FraxBondContract,
   isBondable: {
-    [NetworkId.MAINNET]: true,
+    [NetworkId.MAINNET]: false,
     [NetworkId.TESTNET_RINKEBY]: false,
     [NetworkId.ARBITRUM]: false,
     [NetworkId.ARBITRUM_TESTNET]: false,
@@ -141,7 +141,7 @@ export const frax = new StableBond({
   LOLmessage: "",
   isClaimable: {
     [NetworkId.MAINNET]: true,
-    [NetworkId.TESTNET_RINKEBY]: true,
+    [NetworkId.TESTNET_RINKEBY]: false,
     [NetworkId.ARBITRUM]: false,
     [NetworkId.ARBITRUM_TESTNET]: false,
     [NetworkId.AVALANCHE]: false,
@@ -226,7 +226,7 @@ export const eth = new CustomBond({
   reserveContract: ierc20Abi, // The Standard ierc20Abi since they're normal tokens
   isBondable: {
     [NetworkId.MAINNET]: false,
-    [NetworkId.TESTNET_RINKEBY]: true,
+    [NetworkId.TESTNET_RINKEBY]: false,
     [NetworkId.ARBITRUM]: false,
     [NetworkId.ARBITRUM_TESTNET]: false,
     [NetworkId.AVALANCHE]: false,
@@ -505,7 +505,7 @@ export const ohm_frax = new LPBond({
   bondContractABI: FraxOhmBondContract,
   reserveContract: ReserveOhmFraxContract,
   isBondable: {
-    [NetworkId.MAINNET]: true,
+    [NetworkId.MAINNET]: false,
     [NetworkId.TESTNET_RINKEBY]: false,
     [NetworkId.ARBITRUM]: false,
     [NetworkId.ARBITRUM_TESTNET]: false,
@@ -523,7 +523,7 @@ export const ohm_frax = new LPBond({
   LOLmessage: "Out of Office",
   isClaimable: {
     [NetworkId.MAINNET]: true,
-    [NetworkId.TESTNET_RINKEBY]: true,
+    [NetworkId.TESTNET_RINKEBY]: false,
     [NetworkId.ARBITRUM]: false,
     [NetworkId.ARBITRUM_TESTNET]: false,
     [NetworkId.AVALANCHE]: false,
