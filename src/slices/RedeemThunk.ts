@@ -1,15 +1,15 @@
 import { t } from "@lingui/macro";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
+import ReactGA from "react-ga";
 
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { addresses } from "../constants";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { error } from "../slices/MessagesSlice";
 import { getBalances, getMockRedemptionBalances, getRedemptionBalances } from "./AccountSlice";
-import { IRedeemAsyncThunk, IJsonRPCError } from "./interfaces";
+import { IJsonRPCError, IRedeemAsyncThunk } from "./interfaces";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
-import ReactGA from "react-ga";
 
 interface IUAData {
   address: string;

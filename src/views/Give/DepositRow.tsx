@@ -1,19 +1,21 @@
+import "./give.scss";
+
+import { t } from "@lingui/macro";
+import { Box, Button, Divider, TableCell, TableRow, Tooltip, Typography } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { BigNumber } from "bignumber.js";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Box, Button, Typography, TableRow, TableCell, Divider, Tooltip } from "@material-ui/core";
-import { BigNumber } from "bignumber.js";
-import data from "./projects.json";
-import { Project } from "../../components/GiveProject/project.type";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ManageDonationModal, WithdrawSubmitCallback } from "./ManageDonationModal";
-import { SubmitCallback } from "src/views/Give/Interfaces";
-import { error } from "../../slices/MessagesSlice";
-import { t } from "@lingui/macro";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { SubmitCallback } from "src/views/Give/Interfaces";
+
+import { Project } from "../../components/GiveProject/project.type";
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
-import "./give.scss";
+import { error } from "../../slices/MessagesSlice";
+import { ManageDonationModal, WithdrawSubmitCallback } from "./ManageDonationModal";
+import data from "./projects.json";
 
 interface IUserDonationInfo {
   date: string;

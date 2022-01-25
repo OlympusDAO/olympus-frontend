@@ -1,26 +1,27 @@
 import "./give.scss";
-import { useLocation } from "react-router-dom";
-import { Button, Paper, Typography, Zoom, Box } from "@material-ui/core";
-import { useWeb3Context } from "src/hooks/web3Context";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
-import data from "./projects.json";
-import { RecipientModal } from "src/views/Give/RecipientModal";
-import { SubmitCallback, CancelCallback } from "src/views/Give/Interfaces";
-import { BigNumber } from "bignumber.js";
-import { error } from "../../slices/MessagesSlice";
-import { useAppDispatch } from "src/hooks";
-import { changeGive, changeMockGive, ACTION_GIVE, isSupportedChain } from "src/slices/GiveThunk";
-import { useUIDSeed } from "react-uid";
-import { useSelector } from "react-redux";
+
 import { t, Trans } from "@lingui/macro";
+import { Box, Button, Paper, Typography, Zoom } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { BigNumber } from "bignumber.js";
 import { useMemo, useState } from "react";
-import { GiveHeader } from "src/components/GiveProject/GiveHeader";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { useUIDSeed } from "react-uid";
+import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
+import { NetworkId } from "src/constants";
+import { EnvHelper } from "src/helpers/Environment";
+import { useAppDispatch } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
+import { ACTION_GIVE, changeGive, changeMockGive, isSupportedChain } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
-import { EnvHelper } from "src/helpers/Environment";
-import { NetworkId } from "src/constants";
+import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
+import { RecipientModal } from "src/views/Give/RecipientModal";
+
+import { error } from "../../slices/MessagesSlice";
+import data from "./projects.json";
 
 type State = {
   account: IAccountSlice;

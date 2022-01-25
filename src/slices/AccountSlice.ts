@@ -17,9 +17,9 @@ import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
 import { addresses, NetworkId } from "../constants";
 import { handleContractError, setAll } from "../helpers";
+import { GetDonationDate } from "../helpers/GetDonationDate";
 import { getMockRedemptionBalancesAsync, getRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
-import { GetDonationDate } from "../helpers/GetDonationDate";
 
 interface IUserBalances {
   balances: {

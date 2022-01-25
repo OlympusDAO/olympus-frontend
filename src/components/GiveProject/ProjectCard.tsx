@@ -12,18 +12,20 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
+import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { Icon } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
+import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
-import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
+import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
@@ -38,16 +40,13 @@ import {
 } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
-import { RecipientModal } from "src/views/Give/RecipientModal";
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
+import { RecipientModal } from "src/views/Give/RecipientModal";
+import { WithdrawSubmitCallback } from "src/views/Give/WithdrawDepositModal";
 
 import { error } from "../../slices/MessagesSlice";
-import { GiveHeader } from "./GiveHeader";
-import { ChevronLeft } from "@material-ui/icons";
 import { Project } from "./project.type";
 import { countDecimals, roundToDecimal, toInteger } from "./utils";
-import { WithdrawSubmitCallback } from "src/views/Give/WithdrawDepositModal";
-import ReactGA from "react-ga";
 
 type CountdownProps = {
   total: number;

@@ -1,10 +1,11 @@
-import { Box, Modal, Paper, Grid, Typography, SvgIcon, Link, Button } from "@material-ui/core";
+import { Box, Button, Grid, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
+import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
+import { Project } from "src/components/GiveProject/project.type";
 import { useWeb3Context } from "src/hooks/web3Context";
 import {
   changeApproval,
@@ -13,24 +14,25 @@ import {
   PENDING_TXN_EDIT_GIVE,
   PENDING_TXN_WITHDRAW,
 } from "src/slices/GiveThunk";
-import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
-import { getTokenImage } from "../../helpers";
-import { BigNumber } from "bignumber.js";
+
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ArrowGraphic } from "../../components/EducationCard";
+import { getTokenImage } from "../../helpers";
 import { IAccountSlice } from "../../slices/AccountSlice";
-import { Project } from "src/components/GiveProject/project.type";
+import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 const sOhmImg = getTokenImage("sohm");
-import { shorten } from "src/helpers";
-import { InfoTooltip } from "@olympusdao/component-library";
 import { t, Trans } from "@lingui/macro";
-import { useLocation } from "react-router-dom";
-import { EnvHelper } from "src/helpers/Environment";
-import { SubmitCallback, CancelCallback } from "./Interfaces";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { NetworkId } from "src/constants";
 import { ChevronLeft } from "@material-ui/icons";
+import { InfoTooltip } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
+import { useLocation } from "react-router-dom";
+import { NetworkId } from "src/constants";
+import { shorten } from "src/helpers";
+import { EnvHelper } from "src/helpers/Environment";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
+
+import { CancelCallback, SubmitCallback } from "./Interfaces";
 
 export type WithdrawSubmitCallback = {
   (walletAddress: string, eventSource: string, depositAmount: BigNumber): void;

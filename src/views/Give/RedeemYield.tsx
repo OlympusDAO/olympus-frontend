@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Container, Paper, Typography, Zoom } from "@material-ui/core";
+import { Box, Button, Container, Typography } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { DataRow } from "@olympusdao/component-library";
@@ -7,7 +7,6 @@ import { BigNumber } from "bignumber.js";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";

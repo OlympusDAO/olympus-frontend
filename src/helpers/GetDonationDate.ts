@@ -1,7 +1,6 @@
-import { ethers, BigNumber } from "ethers";
+import { ethers } from "ethers";
+
 import { addresses } from "../constants";
-import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IBaseAddressRecipientAsyncThunk } from "../slices/interfaces";
 
 export const GetDonationDate = async ({ address, recipient, networkID, provider }: IBaseAddressRecipientAsyncThunk) => {

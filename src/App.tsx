@@ -22,16 +22,7 @@ import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } 
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import {
-  Stake,
-  TreasuryDashboard,
-  Zap,
-  Wrap,
-  V1Stake,
-  Give,
-  BondV2,
-  ChooseBondV2,
-} from "./views";
+import { Stake, TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar";
 import CallToAction from "./components/CallToAction/CallToAction";

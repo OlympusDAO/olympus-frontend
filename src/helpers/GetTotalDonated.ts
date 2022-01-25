@@ -1,7 +1,7 @@
-import { ethers, BigNumber } from "ethers";
-import { addresses } from "../constants";
+import { BigNumber, ethers } from "ethers";
+
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { addresses } from "../constants";
 import { IBaseAddressAsyncThunk } from "../slices/interfaces";
 
 export const getTotalDonated = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
@@ -17,7 +17,7 @@ export const getTotalDonated = async ({ address, networkID, provider }: IBaseAdd
 
     const events = await provider.getLogs(filter);
 
-    var totalRedeemed = BigNumber.from("0");
+    let totalRedeemed = BigNumber.from("0");
 
     for (let i = 0; i < events.length; i++) {
       totalRedeemed = totalRedeemed.add(events[i].data);

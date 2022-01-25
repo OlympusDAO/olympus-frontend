@@ -14,28 +14,22 @@ import {
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
-import { InfoTooltip } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Project } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { EnvHelper } from "src/helpers/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IAppData } from "src/slices/AppSlice";
-import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { DonationInfoState, IButtonChangeView, SubmitCallback } from "src/views/Give/Interfaces";
-import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
 import { DepositTableRow } from "./DepositRow";
 import data from "./projects.json";
-import { WithdrawCancelCallback, WithdrawDepositModal, WithdrawSubmitCallback } from "./WithdrawDepositModal";
+import { WithdrawCancelCallback, WithdrawSubmitCallback } from "./WithdrawDepositModal";
 
 type RecipientModalProps = {
   changeView: IButtonChangeView;

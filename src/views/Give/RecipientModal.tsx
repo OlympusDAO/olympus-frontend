@@ -1,5 +1,5 @@
 import { isAddress } from "@ethersproject/address";
-import { Box, Button, Divider, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Button, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
