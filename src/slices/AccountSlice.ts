@@ -281,7 +281,7 @@ export const getDonationBalances = createAsyncThunk(
   "account/getDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     let giveAllowance = 0;
-    const donationInfo: IUserDonationInfo = { date: "", deposit: "", recipient: "", yieldDonated: "" };
+    const donationInfo: IUserDonationInfo[] = [];
 
     if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
       const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider);
@@ -311,10 +311,12 @@ export const getDonationBalances = createAsyncThunk(
             networkID === 1 ? await givingContract.donatedTo(address, recipient) : BigNumber.from("0");
           const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
 
-          donationInfo.date = firstDonationDate;
-          donationInfo.deposit = depositAmount;
-          donationInfo.recipient = recipient;
-          donationInfo.yieldDonated = formattedYieldSent;
+          donationInfo.push({
+            date: firstDonationDate,
+            deposit: depositAmount,
+            recipient: recipient,
+            yieldDonated: formattedYieldSent,
+          });
         }
       } catch (e: unknown) {
         console.log(
@@ -346,7 +348,7 @@ export const getMockDonationBalances = createAsyncThunk(
   "account/getMockDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     let giveAllowance = 0;
-    const donationInfo: IUserDonationInfo = { date: "", deposit: "", recipient: "", yieldDonated: "" };
+    const donationInfo: IUserDonationInfo[] = [];
 
     if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {
       const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
@@ -373,10 +375,12 @@ export const getMockDonationBalances = createAsyncThunk(
             const yieldSent: BigNumber = await givingContract.donatedTo(address, recipient);
             const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
 
-            donationInfo.date = firstDonationDate;
-            donationInfo.deposit = depositAmount;
-            donationInfo.recipient = recipient;
-            donationInfo.yieldDonated = formattedYieldSent;
+            donationInfo.push({
+              date: firstDonationDate,
+              deposit: depositAmount,
+              recipient: recipient,
+              yieldDonated: formattedYieldSent,
+            });
           }
         }
       } catch (e: unknown) {
