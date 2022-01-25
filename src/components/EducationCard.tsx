@@ -94,7 +94,7 @@ export function VaultGraphic({ quantity, verb = "deposited", isLoading }: Educat
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={iconStyle} />
+        <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={smallIconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
@@ -198,7 +198,7 @@ export function RedeemGraphic({ quantity, isLoading }: EducationGraphicProps) {
         m={2}
         className="yield-graphic"
       >
-        <SvgIcon component={yieldImg} viewBox={smallViewBox} style={iconStyle} />
+        <SvgIcon component={yieldImg} viewBox={verySmallViewBox} style={smallIconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
