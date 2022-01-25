@@ -139,11 +139,11 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         </TableCell>
         {!isSmallScreen && (
           <TableCell align="right" className="deposit-deposited-cell">
-            <Typography variant="h6">{parseFloat(depositObject.deposit).toFixed(2)}</Typography>
+            <Typography variant="h6">{parseFloat(depositObject.deposit).toFixed(2)} sOHM</Typography>
           </TableCell>
         )}
         <TableCell align="right" className="deposit-yield-cell">
-          <Typography variant="h6">{parseFloat(depositObject.yieldDonated).toFixed(2)}</Typography>
+          <Typography variant="h6">{parseFloat(depositObject.yieldDonated).toFixed(2)} sOHM</Typography>
         </TableCell>
         <TableCell align="right" className="deposit-manage-cell">
           <Button
