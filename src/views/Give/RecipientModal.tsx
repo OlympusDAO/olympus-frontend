@@ -1,4 +1,4 @@
-import { Box, Modal, Paper, Typography, SvgIcon, Link, Button, Divider } from "@material-ui/core";
+import { Box, Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
@@ -32,13 +32,11 @@ import { Project } from "src/components/GiveProject/project.type";
 const sOhmImg = getTokenImage("sohm");
 import { shorten } from "src/helpers";
 import { InfoTooltip } from "@olympusdao/component-library";
-import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import ConnectButton from "../../components/ConnectButton";
 import { NetworkId } from "src/constants";
 import { ChevronLeft } from "@material-ui/icons";
 
@@ -444,7 +442,7 @@ export function RecipientModal({
     <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
       <Paper className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`} onClick={handleModalInsideClick}>
         <div className="yield-header">
-          {isAmountSet ? (
+          {isAmountSet || !isCreateMode() ? (
             <Link onClick={() => handleGoBack()}>
               <SvgIcon color="primary" component={ChevronLeft} />
             </Link>
@@ -539,7 +537,7 @@ export function RecipientModal({
               <FormHelperText>{isDepositAmountValidError}</FormHelperText>
               <div className="give-staked-balance">
                 <Typography variant="body2" align="left">
-                  <Trans>Your current Staked Balance {getSOhmBalance().toFixed(4)} sOHM</Trans>
+                  <Trans>Your current Staked Balance is {getSOhmBalance().toFixed(2)} sOHM</Trans>
                 </Typography>
               </div>
             </FormControl>
@@ -549,7 +547,7 @@ export function RecipientModal({
                 <div className={`give-education-graphics ${isSmallScreen && "smaller"}`}>
                   <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
                   {!isSmallScreen && <ArrowGraphic />}
-                  <VaultGraphic quantity={getDepositAmount().toFixed()} />
+                  <VaultGraphic quantity={getDepositAmount().toFixed()} small={false} />
                   {!isSmallScreen && <ArrowGraphic />}
                   <YieldGraphic quantity={getDepositAmount().toFixed()} />
                 </div>

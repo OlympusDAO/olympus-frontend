@@ -61,6 +61,10 @@ export interface IBaseAddressAsyncThunk extends IBaseAsyncThunk {
   readonly address: string;
 }
 
+export interface IBaseAddressRecipientAsyncThunk extends IBaseAddressAsyncThunk {
+  readonly recipient: string;
+}
+
 export interface IBaseBondV2ClaimAsyncThunk extends IBaseAddressAsyncThunk {
   readonly gOHM: boolean;
 }

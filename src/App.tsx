@@ -29,8 +29,6 @@ import {
   Wrap,
   V1Stake,
   Give,
-  DepositYield,
-  RedeemYield,
   BondV2,
   ChooseBondV2,
 } from "./views";
@@ -372,14 +370,6 @@ function App() {
                     </Route>
                   );
                 })}
-              </Route>
-
-              <Route exact path="/give/donations">
-                <DepositYield />
-              </Route>
-
-              <Route exact path="/give/redeem">
-                <RedeemYield />
               </Route>
 
               <Route path="/wrap">

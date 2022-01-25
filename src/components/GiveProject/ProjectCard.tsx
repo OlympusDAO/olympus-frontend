@@ -16,17 +16,28 @@ import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as CheckIcon } from "../../assets/icons/check-circle.svg";
 import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
 import { ReactComponent as DonorsIcon } from "../../assets/icons/donors.svg";
+import { ReactComponent as SohmToken } from "../../assets/icons/give_sohm.svg";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useTheme } from "@material-ui/core/styles";
 import { useAppDispatch } from "src/hooks";
 import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
+import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Skeleton } from "@material-ui/lab";
 import { BigNumber } from "bignumber.js";
 import { RecipientModal } from "src/views/Give/RecipientModal";
+import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { SubmitCallback, CancelCallback } from "src/views/Give/Interfaces";
-import { changeGive, changeMockGive, ACTION_GIVE, isSupportedChain } from "src/slices/GiveThunk";
+import { WithdrawSubmitCallback } from "src/views/Give/WithdrawDepositModal";
+import {
+  changeGive,
+  changeMockGive,
+  ACTION_GIVE,
+  ACTION_GIVE_EDIT,
+  ACTION_GIVE_WITHDRAW,
+  isSupportedChain,
+} from "src/slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
 import { countDecimals, roundToDecimal, toInteger } from "./utils";
@@ -83,14 +94,18 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
   const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 600px)") && !isSmallScreen;
-  const { provider, address, connected, networkId, providerInitialized } = useWeb3Context();
+  const { provider, address, connected, connect, networkId, providerInitialized } = useWeb3Context();
   const { title, owner, shortDescription, details, finishDate, photos, category, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
+  const [totalDonated, setTotalDonated] = useState("");
   const [donorCount, setDonorCount] = useState(0);
+  const [isUserDonating, setIsUserDonating] = useState(false);
+  const [donationId, setDonationId] = useState(0);
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
+  const [isManageModalOpen, setIsManageModalOpen] = useState(false);
 
   const donationInfo = useSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
@@ -143,7 +158,27 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         setDonorCountIsLoading(false);
       })
       .catch(e => console.log(e));
+
+    getTotalDonated({
+      networkID: networkId,
+      provider: provider,
+      address: wallet,
+    })
+      .then(donatedAmount => {
+        setTotalDonated(donatedAmount);
+      })
+      .catch(e => console.log(e));
   }, [connected, networkId, isGiveModalOpen]);
+
+  useEffect(() => {
+    for (let i = 0; i < donationInfo.length; i++) {
+      if (donationInfo[i].recipient.toLowerCase() === wallet.toLowerCase()) {
+        setIsUserDonating(true);
+        setDonationId(i);
+        break;
+      }
+    }
+  }, [donationInfo]);
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
@@ -252,11 +287,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getGoalCompletion = (): string => {
     if (!depositGoal) return "0";
     if (recipientInfoIsLoading) return "0"; // This shouldn't be needed, but just to be sure...
-    if (!totalDebt) return "0";
+    if (!totalDonated) return "0";
 
-    const totalDebtNumber = new BigNumber(totalDebt);
+    const totalDonatedNumber = new BigNumber(totalDonated);
 
-    return totalDebtNumber.div(depositGoal).multipliedBy(100).toFixed();
+    return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed();
   };
 
   const renderGoalCompletion = (): JSX.Element => {
@@ -279,7 +314,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             title={
               !address
                 ? t`Connect your wallet to view the fundraising progress`
-                : `${totalDebt} of ${depositGoal} sOHM raised`
+                : `${totalDonated} of ${depositGoal} sOHM raised`
             }
             arrow
           >
@@ -299,7 +334,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
     const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
-    const formattedTotalDebt = new BigNumber(parseFloat(totalDebt).toFixed(2)).toFormat();
+    const formattedTotalDonated = new BigNumber(parseFloat(totalDonated).toFixed(2)).toFormat();
 
     return (
       <>
@@ -307,13 +342,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Grid item xs={5} className="project-donated">
             <div className="project-donated-icon">
               <SvgIcon
-                component={DonatedIcon}
-                viewBox={"0 0 16 12"}
+                component={SohmToken}
+                viewBox={"0 0 18 18"}
                 style={{ marginRight: "0.33rem" }}
                 fill={svgFillColour}
               />
               <Typography variant="h6">
-                <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedTotalDebt}</strong>
+                <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedTotalDonated}</strong>
               </Typography>
             </div>
             <div className="subtext">
@@ -345,6 +380,46 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     );
   };
 
+  const renderDepositData = (): JSX.Element => {
+    return (
+      <>
+        <Grid container className="project-top-data">
+          <Grid item xs={5} className="project-donors">
+            <div className="project-data-icon">
+              <SvgIcon
+                component={DonorsIcon}
+                viewBox={"0 0 18 13"}
+                style={{ marginRight: "0.33rem" }}
+                fill={svgFillColour}
+              />
+              <Typography variant="h6">{donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}</Typography>
+            </div>
+            <div className="subtext">
+              <Trans>Donors</Trans>
+            </div>
+          </Grid>
+          <Grid item xs={2} />
+          <Grid item xs={5} className="project-deposits">
+            <div className="project-data-icon">
+              <SvgIcon
+                component={SohmToken}
+                viewBox={"0 0 18 18"}
+                style={{ marginRight: "0.33rem" }}
+                fill={svgFillColour}
+              />
+              <Typography variant="h6">
+                {recipientInfoIsLoading ? <Skeleton /> : <strong>{parseFloat(totalDebt).toFixed(2)}</strong>}
+              </Typography>
+            </div>
+            <div className="subtext">
+              <Trans>Total sOHM Donated</Trans>
+            </div>
+          </Grid>
+        </Grid>
+      </>
+    );
+  };
+
   const getProjectImage = (): JSX.Element => {
     // We return an empty image with a set width, so that the spacing remains the same.
     if (!photos || photos.length < 1)
@@ -366,6 +441,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const handleGiveButtonClick = () => {
     setIsGiveModalOpen(true);
+  };
+
+  const handleEditButtonClick = () => {
+    setIsManageModalOpen(true);
   };
 
   const handleGiveModalSubmit: SubmitCallback = async (
@@ -414,6 +493,91 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const handleGiveModalCancel: CancelCallback = () => {
     setIsGiveModalOpen(false);
+  };
+
+  const handleEditModalSubmit: SubmitCallback = async (
+    walletAddress,
+    eventSource,
+    depositAmount,
+    depositAmountDiff,
+  ) => {
+    if (!depositAmountDiff) {
+      return dispatch(error(t`Please enter a value!`));
+    }
+
+    if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
+
+    // If reducing the amount of deposit, withdraw
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+      await dispatch(
+        changeMockGive({
+          action: ACTION_GIVE_EDIT,
+          value: depositAmountDiff.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+          eventSource,
+        }),
+      );
+    } else {
+      await dispatch(
+        changeGive({
+          action: ACTION_GIVE_EDIT,
+          value: depositAmountDiff.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+          eventSource,
+        }),
+      );
+    }
+
+    setIsManageModalOpen(false);
+  };
+
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
+    // Issue withdrawal from smart contract
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+      await dispatch(
+        changeMockGive({
+          action: ACTION_GIVE_WITHDRAW,
+          value: depositAmount.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+          eventSource,
+        }),
+      );
+    } else {
+      await dispatch(
+        changeGive({
+          action: ACTION_GIVE_WITHDRAW,
+          value: depositAmount.toFixed(),
+          recipient: walletAddress,
+          provider,
+          address,
+          networkID: networkId,
+          version2: false,
+          rebase: false,
+          eventSource,
+        }),
+      );
+    }
+
+    setIsManageModalOpen(false);
+  };
+
+  const handleManageModalCancel = () => {
+    setIsManageModalOpen(false);
   };
 
   const getTitle = () => {
@@ -567,15 +731,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getPageContent = () => {
     return (
       <>
-        <Container
-          style={{
-            paddingLeft: isSmallScreen || isVerySmallScreen ? 0 : "3.3rem",
-            paddingRight: isSmallScreen || isVerySmallScreen ? 0 : "3.3rem",
-            display: "flex",
-            justifyContent: "center",
-          }}
-          className="project-container"
-        >
+        <Container style={{ display: "flex", justifyContent: "center" }} className="project-container">
           <div
             className={`${isMediumScreen && "medium"}
             ${isSmallScreen && "smaller"}
@@ -610,50 +766,46 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Grid item className="project-visual-info">
                       {getProjectImage()}
                       <Grid item className="goal-graphics">
+                        {renderDepositData()}
                         {renderGoalCompletionDetailed()}
 
                         <div className="visual-info-bottom">
                           {renderCountdownDetailed()}
 
                           <div className="project-give-button">
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => handleGiveButtonClick()}
-                              disabled={!isSupportedChain(networkId)}
-                            >
-                              <Typography variant="h6">
-                                <Trans>Donate Yield</Trans>
-                              </Typography>
-                            </Button>
+                            {connected ? (
+                              isUserDonating ? (
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => handleEditButtonClick()}
+                                  disabled={!isSupportedChain(networkId)}
+                                >
+                                  <Typography variant="h6">
+                                    <Trans>Edit Donation</Trans>
+                                  </Typography>
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => handleGiveButtonClick()}
+                                  disabled={!isSupportedChain(networkId)}
+                                >
+                                  <Typography variant="h6">
+                                    <Trans>Donate Yield</Trans>
+                                  </Typography>
+                                </Button>
+                              )
+                            ) : (
+                              <Button variant="contained" color="primary" onClick={connect}>
+                                <Typography variant="h6">
+                                  <Trans>Connect wallet</Trans>
+                                </Typography>
+                              </Button>
+                            )}
                           </div>
                         </div>
-                      </Grid>
-                    </Grid>
-                  </Paper>
-                  <Paper className="project-sidebar">
-                    <Grid container direction="column">
-                      <Grid item className="donors-title">
-                        <Typography variant="h5">
-                          <strong>
-                            <Trans>Donations</Trans>
-                          </strong>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={4} className="project-goal">
-                        <Grid container className="project-donated-icon">
-                          <Grid item xs={1} md={2}>
-                            <SvgIcon component={DonorsIcon} viewBox={"0 0 18 13"} fill={svgFillColour} />
-                          </Grid>
-                          <Grid item xs={4}>
-                            <Typography variant="h6">
-                              {donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}
-                            </Typography>
-                            <div className="subtext">
-                              <Trans>Donors</Trans>
-                            </div>
-                          </Grid>
-                        </Grid>
                       </Grid>
                     </Grid>
                   </Paper>
@@ -696,6 +848,24 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           project={project}
           key={title}
         />
+
+        {isUserDonating ? (
+          <ManageDonationModal
+            isModalOpen={isManageModalOpen}
+            eventSource={"Project Details"}
+            submitEdit={handleEditModalSubmit}
+            submitWithdraw={handleWithdrawModalSubmit}
+            cancelFunc={handleManageModalCancel}
+            currentWalletAddress={donationInfo[donationId].recipient}
+            currentDepositAmount={new BigNumber(donationInfo[donationId].deposit)}
+            depositDate={donationInfo[donationId].date}
+            yieldSent={donationInfo[donationId].yieldDonated}
+            project={project}
+            key={"manage-modal-" + donationInfo[donationId].recipient}
+          />
+        ) : (
+          <></>
+        )}
       </>
     );
   };

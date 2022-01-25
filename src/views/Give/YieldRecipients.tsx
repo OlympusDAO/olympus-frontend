@@ -1,39 +1,42 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Typography, Button, Grid, Divider } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
+import {
+  Typography,
+  Button,
+  Grid,
+  Box,
+  Divider,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
-import { InfoTooltip } from "@olympusdao/component-library";
-import { RecipientModal } from "src/views/Give/RecipientModal";
-import { SubmitCallback } from "src/views/Give/Interfaces";
-import { WithdrawDepositModal, WithdrawSubmitCallback, WithdrawCancelCallback } from "./WithdrawDepositModal";
+import { SubmitCallback, DonationInfoState, IButtonChangeView } from "src/views/Give/Interfaces";
+import { WithdrawSubmitCallback, WithdrawCancelCallback } from "./WithdrawDepositModal";
 import { shorten } from "src/helpers";
 import { BigNumber } from "bignumber.js";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IAppData } from "src/slices/AppSlice";
-import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { error } from "../../slices/MessagesSlice";
 import data from "./projects.json";
 import { Project } from "src/components/GiveProject/project.type";
-import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { NetworkId } from "src/constants";
+import { DepositTableRow } from "./DepositRow";
 
-// TODO consider shifting this into interfaces.ts
-type State = {
-  account: IAccountSlice;
-  pendingTransactions: IPendingTxn[];
-  app: IAppData;
+type RecipientModalProps = {
+  changeView: IButtonChangeView;
 };
 
-export default function YieldRecipients() {
+export default function YieldRecipients({ changeView }: RecipientModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
@@ -45,7 +48,7 @@ export default function YieldRecipients() {
 
   // TODO fix typing of state.app.loading
   const isAppLoading = useSelector((state: any) => state.app.loading);
-  const donationInfo = useSelector((state: State) => {
+  const donationInfo = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
@@ -158,9 +161,9 @@ export default function YieldRecipients() {
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
 
-  const getRecipientTitle = (address: string): string => {
-    const project = projectMap.get(address);
-    if (!project) return shorten(address);
+  const getRecipientTitle = (recipient: string): string => {
+    const project = projectMap.get(recipient);
+    if (!project) return shorten(recipient);
 
     if (!project.owner) return project.title;
 
@@ -171,123 +174,69 @@ export default function YieldRecipients() {
     return <Skeleton />;
   }
 
-  if (!donationInfo || Object.keys(donationInfo).length == 0) {
+  if (!donationInfo || donationInfo.length == 0) {
     return (
-      <>
-        <Grid container className="yield-recipients-empty">
-          <Grid item sm={10} md={8}>
-            <Typography variant="h6">
-              <Trans>It looks like you haven't donated any yield. Let's fix that!</Trans>
-            </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Button component={NavLink} to="/give" variant="contained" color="primary">
-              <Trans>Donate Yield</Trans>
-            </Button>
-          </Grid>
-        </Grid>
-      </>
+      <Box
+        className="no-donations"
+        style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px 40px 20px 40px" }}
+      >
+        <Typography variant="body1">
+          <Trans>Looks like you haven’t made any donations yet</Trans>
+        </Typography>
+        <Button variant="outlined" color="primary" onClick={() => changeView(0)}>
+          <Typography variant="body1">
+            <Trans>Donate to a cause</Trans>
+          </Typography>
+        </Button>
+      </Box>
     );
   }
 
   return (
-    <div className="card-content">
-      <Grid container className={`donation-table ${isSmallScreen && "smaller"}`}>
-        <Grid item xs={12} sm={6} style={{ width: "100%", display: "flex", marginBottom: "1rem" }}>
-          <Typography variant="h6">
-            <Trans>Recipient</Trans>
-          </Typography>
-          <Typography variant="h6">
-            <Trans>Deposit</Trans>
-            <InfoTooltip message={t`The amount of sOHM deposited`} children={null} />
-          </Typography>
-        </Grid>
-        {isLoading ? (
-          <Skeleton />
-        ) : (
-          Object.keys(donationInfo).map(recipient => {
-            return (
-              <Grid container className="donation-row">
-                <Grid item xs={12} sm={6} className="donation-info" style={{ display: "flex" }}>
-                  <Typography variant="body1" align="left">
-                    {getRecipientTitle(recipient)}
+    <Grid container item className="card-content">
+      <TableContainer>
+        <Table className="donation-table">
+          <TableHead>
+            <TableRow>
+              {!isSmallScreen && (
+                <TableCell align="left">
+                  <Typography variant="body1">
+                    <Trans>DATE</Trans>
                   </Typography>
-                  <Typography variant="body1" align="left">
-                    {donationInfo[recipient]}
+                </TableCell>
+              )}
+              <TableCell align="left">
+                <Typography variant="body1">
+                  <Trans>RECIPIENT</Trans>
+                </Typography>
+              </TableCell>
+              {!isSmallScreen && (
+                <TableCell align="right">
+                  <Typography variant="body1">
+                    <Trans>DEPOSITED</Trans>
                   </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} className="donation-buttons">
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    className="donation-lp-button"
-                    onClick={() => handleEditButtonClick(recipient)}
-                    disabled={!address}
-                    key={"edit-" + recipient}
-                  >
-                    <Trans>Edit</Trans>
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    className="donation-lp-button"
-                    onClick={() => handleWithdrawButtonClick(recipient)}
-                    disabled={!address}
-                    key={"withdraw-" + recipient}
-                  >
-                    <Trans>Withdraw</Trans>
-                  </Button>
-                </Grid>
-                <Grid item xs={12} className="recipient-divider">
-                  <Divider />
-                </Grid>
-              </Grid>
-            );
-          })
-        )}
-      </Grid>
-
-      {isLoading ? (
-        <Skeleton />
-      ) : (
-        Object.keys(donationInfo).map(recipient => {
-          return (
-            recipient === selectedRecipientForEdit && (
-              <RecipientModal
-                isModalOpen={isEditModalOpen}
-                eventSource="My Donations"
-                callbackFunc={handleEditModalSubmit}
-                cancelFunc={handleEditModalCancel}
-                currentWalletAddress={recipient}
-                currentDepositAmount={new BigNumber(donationInfo[recipient])}
-                project={projectMap.get(recipient)}
-                key={"edit-modal-" + recipient}
-              />
-            )
-          );
-        })
-      )}
-
-      {isLoading ? (
-        <Skeleton />
-      ) : (
-        Object.keys(donationInfo).map(recipient => {
-          return (
-            recipient === selectedRecipientForWithdraw && (
-              <WithdrawDepositModal
-                isModalOpen={isWithdrawModalOpen}
-                eventSource="My Donations"
-                callbackFunc={handleWithdrawModalSubmit}
-                cancelFunc={handleWithdrawModalCancel}
-                walletAddress={recipient}
-                depositAmount={new BigNumber(donationInfo[recipient])}
-                project={projectMap.get(recipient)}
-                key={"withdraw-modal-" + recipient}
-              />
-            )
-          );
-        })
-      )}
-    </div>
+                </TableCell>
+              )}
+              <TableCell align="right">
+                <Typography variant="body1">
+                  <Trans>YIELD SENT</Trans>
+                </Typography>
+              </TableCell>
+              <TableCell align="right" className="manage-cell"></TableCell>
+            </TableRow>
+          </TableHead>
+          <Divider className="table-head-divider" />
+          <TableBody>
+            {isLoading ? (
+              <Skeleton />
+            ) : (
+              donationInfo.map(donation => {
+                return <DepositTableRow depositObject={donation} key={donation.recipient} />;
+              })
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Grid>
   );
 }
