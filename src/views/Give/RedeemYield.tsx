@@ -139,9 +139,9 @@ export default function RedeemYield() {
 
   const handleRedeemYieldModalSubmit = async () => {
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
-      await dispatch(redeemMockBalance({ address, provider, networkID: networkId }));
+      await dispatch(redeemMockBalance({ address, provider, networkID: networkId, eventSource: "Redeem" }));
     } else {
-      await dispatch(redeemBalance({ address, provider, networkID: networkId }));
+      await dispatch(redeemBalance({ address, provider, networkID: networkId, eventSource: "Redeem" }));
     }
     setIsRedeemYieldModalOpen(false);
   };

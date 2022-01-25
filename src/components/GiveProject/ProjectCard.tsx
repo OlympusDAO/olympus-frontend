@@ -55,6 +55,7 @@ import { EnvHelper } from "src/helpers/Environment";
 import { GiveHeader } from "./GiveHeader";
 import { NetworkId } from "src/constants";
 import { ChevronLeft } from "@material-ui/icons";
+import ReactGA from "react-ga";
 
 type CountdownProps = {
   total: number;
@@ -431,7 +432,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     // For the moment, we only display the first photo
     return (
       <div className="cause-image">
-        <Link href={`#/give/projects/${project.slug}`}>
+        <Link href={`#/give/projects/${project.slug}`} onClick={() => handleProjectDetailsButtonClick("Image")}>
           <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
         </Link>
       </div>
@@ -448,6 +449,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const handleGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
+    eventSource: string,
     depositAmount: BigNumber,
     depositAmountDiff?: BigNumber,
   ) => {
@@ -467,6 +469,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource: eventSource,
         }),
       );
     } else {
@@ -480,6 +483,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource: eventSource,
         }),
       );
     }
@@ -579,6 +583,21 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     };
   };
 
+  /**
+   * Handles the onClick event for the project details button.
+   *
+   * Primarily, this will record the event in Google Analytics.
+   */
+  const handleProjectDetailsButtonClick = (source: string) => {
+    ReactGA.event({
+      category: "Olympus Give",
+      action: "View Project",
+      label: title,
+      dimension1: address ?? "unknown",
+      dimension2: source,
+    });
+  };
+
   const getCardContent = () => {
     return (
       <>
@@ -589,7 +608,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               <div className="cause-content">
                 <Grid container className="cause-header">
                   <Grid item className="cause-title">
-                    <Link href={`#/give/projects/${project.slug}`}>
+                    <Link
+                      href={`#/give/projects/${project.slug}`}
+                      onClick={() => handleProjectDetailsButtonClick("Title Link")}
+                    >
                       <Typography variant="h4">
                         <strong>{getTitle()}</strong>
                       </Typography>
@@ -606,7 +628,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     {renderGoalCompletion()}
                   </Grid>
                   <Grid item xs={6} sm={12} md={6} className="give-button-grid" style={{ justifyContent: "flex-end" }}>
-                    <Link href={`#/give/projects/${project.slug}`} className="cause-link">
+                    <Link
+                      href={`#/give/projects/${project.slug}`}
+                      className="cause-link"
+                      onClick={() => handleProjectDetailsButtonClick("View Details Button")}
+                    >
                       <Button variant="contained" color="primary" className="cause-give-button">
                         <Typography variant="h6">
                           <Trans>View Details</Trans>
@@ -626,7 +652,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             >
               <Grid container className="cause-header">
                 <Grid item className="cause-title">
-                  <Link href={`#/give/projects/${project.slug}`}>
+                  <Link
+                    href={`#/give/projects/${project.slug}`}
+                    onClick={() => handleProjectDetailsButtonClick("Title Link")}
+                  >
                     <Typography variant="h4">
                       <strong>{getTitle()}</strong>
                     </Typography>
@@ -646,7 +675,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                       {renderGoalCompletion()}
                     </Grid>
                     <Grid item xs={12} md={6} className="give-button-grid" style={{ justifyContent: "flex-end" }}>
-                      <Link href={`#/give/projects/${project.slug}`} className="cause-link">
+                      <Link
+                        href={`#/give/projects/${project.slug}`}
+                        className="cause-link"
+                        onClick={() => handleProjectDetailsButtonClick("View Details Button")}
+                      >
                         <Button variant="contained" color="primary" className="cause-give-button">
                           <Typography variant="h6">
                             <Trans>View Details</Trans>
@@ -662,6 +695,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         </Box>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
+          eventSource="Project List"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
           project={project}
@@ -799,6 +833,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         </Container>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
+          eventSource="Project Details"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
           project={project}

@@ -4,7 +4,7 @@ import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 
 export interface SubmitCallback {
-  (walletAddress: string, depositAmount: BigNumber, depositAmountDiff?: BigNumber): void;
+  (walletAddress: string, eventSource: string, depositAmount: BigNumber, depositAmountDiff?: BigNumber): void;
 }
 
 export interface CancelCallback {
