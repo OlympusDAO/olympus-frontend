@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./give.scss";
 import YieldRecipients from "./YieldRecipients";
 import RedeemYield from "./RedeemYield";
@@ -10,6 +9,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { t, Trans } from "@lingui/macro";
 import CausesDashboard from "./CausesDashboard";
 import { GiveInfo } from "./GiveInfo";
+import { useState } from "react";
 
 function a11yProps(index: number) {
   return {
@@ -19,7 +19,7 @@ function a11yProps(index: number) {
 }
 
 function Give() {
-  const { provider, address, networkId, connect } = useWeb3Context();
+  const { networkId, connect } = useWeb3Context();
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");

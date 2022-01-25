@@ -1,0 +1,23 @@
+name: Main CI
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build UI for production
+      run: |
+          yarn install --frozen-lockfile
+          yarn lint
+          yarn build
+      env:
+          CI: false
+    - name: Run unit tests
+      run: |
+          yarn test:unit

@@ -41,6 +41,13 @@ yarn-error.log*
 # Integrated development environnements
 .idea
 *.sublime-*
+
+# Hardhat
+cache
+
 .vscode
 
 src/typechain
+
+# We use Yarn - prevent this file from being committed to avoid confusion
+package-lock.json

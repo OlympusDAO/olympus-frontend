@@ -1,4 +1,6 @@
 // TODO: add paramaterization
+import { t } from "@lingui/macro";
+
 export const treasuryDataQuery = `
 query {
   protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
@@ -22,6 +24,9 @@ query {
     treasuryWETHMarketValue
     treasuryLusdRiskFreeValue
     treasuryLusdMarketValue
+    treasuryOtherMarketValue
+    treasuryWBTCMarketValue
+    treasuryUstMarketValue
     currentAPY
     runway10k
     runway20k
@@ -58,44 +63,59 @@ export const bulletpoints = {
     {
       right: 15,
       top: -12,
-      background: "linear-gradient(180deg, #F5AC37 -10%, #EA9276 100%)",
+      background: "#F5AC37",
     },
     {
       right: 25,
       top: -12,
-      background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
+      background: "#768299",
     },
     {
       right: 29,
       top: -12,
-      background: "linear-gradient(180deg, #DC30EB -10%, #EA98F1 100%)",
+      background: "#DC30EB",
     },
     {
       right: 29,
       top: -12,
-      background: "linear-gradient(180deg, #4C8C2A -10%, #8BFF4D 100%)",
+      background: "#4C8C2A",
     },
     {
       right: 29,
       top: -12,
-      background: "linear-gradient(180deg, #c9184a -10%, #ff758f 100%)",
+      background: "#c9184a",
+    },
+    {
+      right: 29,
+      top: -12,
+      background: "#4E1F71",
+    },
+    {
+      right: 29,
+      top: -12,
+      background: "#8AECCD",
     },
   ],
   rfv: [
     {
       right: 15,
       top: -12,
-      background: "linear-gradient(180deg, #F5AC37 -10%, #EA9276 100%)",
+      background: "#F5AC37",
     },
     {
       right: 25,
       top: -12,
-      background: "linear-gradient(180deg, #768299 -10%, #98B3E9 100%)",
+      background: "#768299",
     },
     {
       right: 29,
       top: -12,
-      background: "linear-gradient(180deg, #c9184a -10%, #ff758f 100%)",
+      background: "#c9184a",
+    },
+    {
+      right: 29,
+      top: -12,
+      background: "#4E1F71",
     },
   ],
   holder: [
@@ -163,24 +183,26 @@ export const bulletpoints = {
 };
 
 export const tooltipItems = {
-  tvl: ["Total Value Deposited"],
-  coin: ["DAI", "FRAX", "ETH", "SUSHI", "LUSD"],
-  rfv: ["DAI", "FRAX", "LUSD"],
+  tvl: [t`Total Value Deposited`],
+  coin: ["DAI", "FRAX", "ETH", "LUSD", "BTC", "UST", "Other"],
+  rfv: ["DAI", "FRAX", "LUSD", "UST"],
   holder: ["OHMies"],
   apy: ["APY"],
-  runway: ["Current", "7.5K APY", "5K APY", "2.5K APY"],
-  pol: ["SLP Treasury", "Market SLP"],
+  runway: [t`Current`, "7.5K APY", "5K APY", "2.5K APY"],
+  pol: [t`SLP Treasury`, t`Market SLP`],
 };
 
-export const tooltipInfoMessages = {
-  tvl: "Total Value Deposited, is the dollar amount of all OHM staked in the protocol. This metric is often used as growth or health indicator in DeFi projects.",
-  mvt: "Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury.",
-  rfv: "Risk Free Value, is the amount of funds the treasury guarantees to use for backing OHM.",
-  pol: "Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.",
-  holder: "Holders, represents the total number of Ohmies (sOHM holders)",
-  staked: "OHM Staked, is the ratio of sOHM to OHM (staked vs unstaked)",
-  apy: "Annual Percentage Yield, is the normalized representation of an interest rate, based on a compounding period over one year. Note that APYs provided are rather ballpark level indicators and not so much precise future results.",
-  runway: "Runway, is the number of days sOHM emissions can be sustained at a given rate. Lower APY = longer runway",
+export const tooltipInfoMessages = () => {
+  return {
+    tvl: t`Total Value Deposited, is the dollar amount of all OHM staked in the protocol. This metric is often used as growth or health indicator in DeFi projects.`,
+    mvt: t`Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury.`,
+    rfv: t`Risk Free Value, is the amount of funds the treasury guarantees to use for backing OHM.`,
+    pol: t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`,
+    holder: t`Holders, represents the total number of Ohmies (sOHM holders)`,
+    staked: t`OHM Staked, is the ratio of sOHM to OHM (staked vs unstaked)`,
+    apy: t`Annual Percentage Yield, is the normalized representation of an interest rate, based on a compounding period over one year. Note that APYs provided are rather ballpark level indicators and not so much precise future results.`,
+    runway: t`Runway, is the number of days sOHM emissions can be sustained at a given rate. Lower APY = longer runway`,
+  };
 };
 
 export const itemType = {

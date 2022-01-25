@@ -1,7 +1,8 @@
-import { useDispatch, useSelector } from "react-redux";
+import "./choosebond.scss";
+
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
-  ButtonBase,
   Grid,
   Paper,
   Table,
@@ -12,28 +13,22 @@ import {
   TableRow,
   Typography,
   Zoom,
-  SvgIcon,
 } from "@material-ui/core";
-import { t, Trans } from "@lingui/macro";
-import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { formatCurrency } from "../../helpers";
-import useBonds from "../../hooks/Bonds";
-import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import "./choosebond.scss";
-import { Skeleton } from "@material-ui/lab";
-import ClaimBonds from "./ClaimBonds";
-import isEmpty from "lodash/isEmpty";
-import { allBondsMap } from "src/helpers/AllBonds";
-import { useAppSelector, useWeb3Context } from "src/hooks";
-import { IUserBondDetails } from "src/slices/AccountSlice";
 import { Metric, MetricCollection } from "@olympusdao/component-library";
-import { getAllBonds, getUserNotes, IBondV2, IUserNote } from "src/slices/BondSliceV2";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { useEffect, useState } from "react";
+import isEmpty from "lodash/isEmpty";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+import { useAppSelector, useWeb3Context } from "src/hooks";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { IUserBondDetails } from "src/slices/AccountSlice";
+import { getAllBonds, getUserNotes, IUserNote } from "src/slices/BondSliceV2";
 import { AppDispatch } from "src/store";
+
+import { formatCurrency } from "../../helpers";
+import { BondDataCard, BondTableData } from "./BondRow";
+import ClaimBonds from "./ClaimBonds";
 
 function ChooseBondV2() {
   const { networkId, address, provider } = useWeb3Context();
@@ -42,7 +37,7 @@ function ChooseBondV2() {
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
   const bondsV2 = useAppSelector(state => {
-    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
+    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]).sort((a, b) => b.discount - a.discount);
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
@@ -52,17 +47,9 @@ function ChooseBondV2() {
     return state.app.marketPrice;
   });
 
-  const treasuryBalance: number | undefined = useAppSelector(state => {
-    if (state.bonding.loading == false) {
-      let tokenBalances = 0;
-      for (const bond in allBondsMap) {
-        if (state.bonding[bond]) {
-          tokenBalances += state.bonding[bond].purchased;
-        }
-      }
-      return tokenBalances;
-    }
-  });
+  const treasuryBalance = useAppSelector(state => state.app.treasuryMarketValue);
+
+  const isBondsLoading = useAppSelector(state => state.bondingV2.loading ?? true);
 
   const formattedTreasuryBalance = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -99,21 +86,6 @@ function ChooseBondV2() {
             <Typography variant="h5" data-testid="t">
               <Trans>Bond</Trans> (4,4)
             </Typography>
-
-            <ButtonBase>
-              <Typography style={{ lineHeight: "33px" }}>
-                <b>
-                  <Link to="/bonds-v1" style={{ textDecoration: "none", color: "inherit" }}>
-                    <Trans>v1 Bonds</Trans>
-                    <SvgIcon
-                      style={{ margin: "0 0 0 5px", verticalAlign: "text-bottom" }}
-                      component={ArrowUp}
-                      color="primary"
-                    />
-                  </Link>
-                </b>
-              </Typography>
-            </ButtonBase>
           </Box>
 
           <MetricCollection>
@@ -129,7 +101,13 @@ function ChooseBondV2() {
             />
           </MetricCollection>
 
-          {!isSmallScreen && (
+          {bondsV2.length == 0 && !isBondsLoading && (
+            <Box display="flex" justifyContent="center" marginY="24px">
+              <Typography variant="h4">No active bonds</Typography>
+            </Box>
+          )}
+
+          {!isSmallScreen && bondsV2.length != 0 && (
             <Grid container item>
               <TableContainer>
                 <Table aria-label="Available bonds">

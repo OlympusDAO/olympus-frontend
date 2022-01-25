@@ -1,13 +1,9 @@
 import { Box, SvgIcon, Typography } from "@material-ui/core";
-import { ReactComponent as sOhmTokenImg } from "../assets/tokens/token_sOHM.svg";
-import { ReactComponent as yieldImg } from "../assets/icons/yield.svg";
 import { ReactComponent as vaultLockImg } from "../assets/icons/vault-lock.svg";
-import { ReactComponent as arrowRightImg } from "../assets/icons/arrow-right.svg";
 import { t, Trans } from "@lingui/macro";
 import { Skeleton } from "@material-ui/lab";
+import { Icon, Token } from "@olympusdao/component-library";
 
-const viewBox = "0 0 100 100";
-// The sOHM SVG is 100x100px, whereas the others are 50x50px
 const smallViewBox = "0 0 50 50";
 const verySmallViewBox = "0 0 32 32";
 const iconStyle = { height: "64px", width: "64px", margin: "auto" };
@@ -33,7 +29,7 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" m={2}>
-        <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={iconStyle} />
+        <Token name="sOHM" style={{ fontSize: 64 }} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
@@ -57,7 +53,7 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={smallIconStyle} />
+          <Token name="sOHM" />
         </Box>
         <Box
           display="flex"
@@ -125,7 +121,7 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={smallIconStyle} />
+          <Icon name="vault-lock" htmlColor="#fff" fontSize="large" />
         </Box>
         <Box
           display="flex"
@@ -171,7 +167,7 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
         alignContent="center"
         m={2}
       >
-        <SvgIcon component={yieldImg} viewBox={verySmallViewBox} style={iconStyle} />
+        <Icon name="yield" viewBox={verySmallViewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
@@ -268,7 +264,7 @@ export function CurrPositionGraphic({ quantity }: EducationGraphicProps) {
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={iconStyle} />
+        <Token name="sOHM" style={{ fontSize: 64 }} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
@@ -288,7 +284,7 @@ export function NewPositionGraphic({ quantity }: EducationGraphicProps) {
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <SvgIcon component={sOhmTokenImg} viewBox={viewBox} style={iconStyle} />
+        <Token name="sOHM" style={{ fontSize: 64 }} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
@@ -300,11 +296,10 @@ export function NewPositionGraphic({ quantity }: EducationGraphicProps) {
 }
 
 export function ArrowGraphic() {
-  const arrowViewBox = "0 0 57 24";
   return (
     <Box className="sect" minWidth={"2%"} style={{ marginTop: "0px", marginBottom: "0px" }}>
       <Box className="arrow-graphic" display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <SvgIcon component={arrowRightImg} viewBox={arrowViewBox} style={iconStyle} />
+        <Icon name="arrow-right" style={{ fontSize: 70 }} opacity={0.6} />
       </Box>
     </Box>
   );

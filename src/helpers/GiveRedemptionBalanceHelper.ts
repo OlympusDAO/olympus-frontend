@@ -1,7 +1,8 @@
-import { ethers, BigNumber } from "ethers";
-import { addresses } from "../constants";
+import { BigNumber, ethers } from "ethers";
+
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
-import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "../slices/interfaces";
+import { addresses } from "../constants";
+import { IBaseAddressAsyncThunk } from "../slices/interfaces";
 
 interface IUserRecipientInfo {
   totalDebt: string;
@@ -16,7 +17,7 @@ interface IDonorAddresses {
 
 export const getRedemptionBalancesAsync = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
   let redeemableBalance = 0;
-  let recipientInfo: IUserRecipientInfo = {
+  const recipientInfo: IUserRecipientInfo = {
     totalDebt: "",
     carry: "",
     agnosticDebt: "",
@@ -28,7 +29,7 @@ export const getRedemptionBalancesAsync = async ({ address, networkID, provider 
     redeemableBalance = await givingContract.redeemableBalance(address);
 
     try {
-      let recipientInfoData = await givingContract.recipientInfo(address);
+      const recipientInfoData = await givingContract.recipientInfo(address);
       recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
       recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
       recipientInfo.agnosticDebt = ethers.utils.formatUnits(recipientInfoData.agnosticDebt.toNumber(), "gwei");
@@ -53,7 +54,7 @@ export const getRedemptionBalancesAsync = async ({ address, networkID, provider 
 
 export const getMockRedemptionBalancesAsync = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
   let redeemableBalance = 0;
-  let recipientInfo: IUserRecipientInfo = {
+  const recipientInfo: IUserRecipientInfo = {
     totalDebt: "",
     carry: "",
     agnosticDebt: "",
@@ -69,7 +70,7 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
     redeemableBalance = await givingContract.redeemableBalance(address);
 
     try {
-      let recipientInfoData = await givingContract.recipientInfo(address);
+      const recipientInfoData = await givingContract.recipientInfo(address);
       recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
       recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
       recipientInfo.agnosticDebt = ethers.utils.formatUnits(recipientInfoData.agnosticDebt.toNumber(), "gwei");
@@ -112,8 +113,8 @@ export const getDonorNumbers = async ({ address, networkID, provider }: IBaseAdd
   // using the filter, get all events
   const events = await provider.getLogs(filter);
 
-  let donorAddresses: IDonorAddresses = {};
-  let donationsToAddress = [];
+  const donorAddresses: IDonorAddresses = {};
+  const donationsToAddress = [];
   for (let i = 0; i < events.length; i++) {
     const event = events[i];
 

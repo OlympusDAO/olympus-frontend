@@ -1,4 +1,3 @@
-import { useMemo, useState } from "react";
 import "./give.scss";
 import { useLocation } from "react-router-dom";
 import { Button, Paper, Typography, Zoom, Box } from "@material-ui/core";
@@ -15,6 +14,8 @@ import { changeGive, changeMockGive, ACTION_GIVE, isSupportedChain } from "src/s
 import { useUIDSeed } from "react-uid";
 import { useSelector } from "react-redux";
 import { t, Trans } from "@lingui/macro";
+import { useMemo, useState } from "react";
+import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";

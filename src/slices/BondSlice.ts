@@ -1,12 +1,13 @@
-import { ethers, BigNumber, BigNumberish } from "ethers";
-import { contractForRedeemHelper } from "../helpers";
-import { calculateUserBondDetails, getBalances } from "./AccountSlice";
-import { findOrLoadMarketPrice } from "./AppSlice";
-import { error, info } from "./MessagesSlice";
-import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+import { BigNumber, BigNumberish, ethers } from "ethers";
+import ReactGA from "react-ga";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { RootState } from "src/store";
+
+import { contractForRedeemHelper } from "../helpers";
+import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { calculateUserBondDetails, getBalances } from "./AccountSlice";
+import { findOrLoadMarketPrice } from "./AppSlice";
 import {
   IApproveBondAsyncThunk,
   IBondAssetAsyncThunk,
@@ -15,8 +16,8 @@ import {
   IRedeemAllBondsAsyncThunk,
   IRedeemBondAsyncThunk,
 } from "./interfaces";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
-import ReactGA from "react-ga";
+import { error, info } from "./MessagesSlice";
+import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 
 export const changeApproval = createAsyncThunk(
   "bonding/changeApproval",
@@ -31,7 +32,7 @@ export const changeApproval = createAsyncThunk(
     const bondAddr = bond.getAddressForBond(networkID);
 
     let approveTx;
-    let bondAllowance = await reserveContract.allowance(address, bondAddr || "");
+    const bondAllowance = await reserveContract.allowance(address, bondAddr || "");
 
     // return early if approval already exists
     if (bondAllowance.gt(BigNumber.from("0"))) {
@@ -65,16 +66,17 @@ export const changeApproval = createAsyncThunk(
 );
 
 export interface IBondDetails {
-  bond: string;
-  bondDiscount: number;
-  debtRatio: number;
-  bondQuote: number;
-  purchased: number;
-  vestingTerm: number;
-  maxBondPrice: number;
-  bondPrice: number;
-  marketPrice: number;
+  readonly bond: string;
+  readonly bondDiscount: number;
+  readonly debtRatio: number;
+  readonly bondQuote: number;
+  readonly purchased: number;
+  readonly vestingTerm?: number;
+  readonly maxBondPrice: number;
+  readonly bondPrice: number;
+  readonly marketPrice: number;
 }
+
 export const calcBondDetails = createAsyncThunk(
   "bonding/calcBondDetails",
   async ({ bond, value, provider, networkID }: ICalcBondDetailsAsyncThunk, { dispatch }): Promise<IBondDetails> => {
@@ -105,7 +107,7 @@ export const calcBondDetails = createAsyncThunk(
       debtRatio = BigNumber.from("0");
     }
 
-    let marketPrice: number = 0;
+    let marketPrice = 0;
     try {
       const originalPromiseResult = await dispatch(
         findOrLoadMarketPrice({ networkID: networkID, provider: provider }),
@@ -119,9 +121,9 @@ export const calcBondDetails = createAsyncThunk(
     try {
       // TODO (appleseed): improve this logic
       if (bond.name === "cvx") {
-        let bondPriceRaw = await bondContract.bondPrice();
-        let assetPriceUSD = await bond.getBondReservePrice(networkID, provider);
-        let assetPriceBN = ethers.utils.parseUnits(assetPriceUSD.toString(), 14);
+        const bondPriceRaw = await bondContract.bondPrice();
+        const assetPriceUSD = await bond.getBondReservePrice(networkID, provider);
+        const assetPriceBN = ethers.utils.parseUnits(assetPriceUSD.toString(), 14);
         // bondPriceRaw has 4 extra decimals, so add 14 to assetPrice, for 18 total
         bondPrice = bondPriceRaw.mul(assetPriceBN);
       } else {
@@ -134,7 +136,7 @@ export const calcBondDetails = createAsyncThunk(
       }
     } catch (e) {
       console.log("error getting bondPriceInUSD", bond.name, e);
-      let preliminaryBondPrice = marketPrice * Math.pow(10, 18);
+      const preliminaryBondPrice = marketPrice * Math.pow(10, 18);
       bondPrice = ethers.utils.parseUnits(preliminaryBondPrice.toString(), "0");
       bondDiscount = 0;
     }
@@ -181,7 +183,7 @@ export const calcBondDetails = createAsyncThunk(
     }
 
     // Calculate bonds purchased
-    let purchased = await bond.getTreasuryBalance(networkID, provider);
+    const purchased = await bond.getTreasuryBalance(networkID, provider);
 
     return {
       bond: bond.name,
@@ -214,7 +216,7 @@ export const bondAsset = createAsyncThunk(
 
     // Deposit the bond
     let bondTx;
-    let uaData = {
+    const uaData = {
       address: address,
       value: value,
       type: "Bond",
@@ -246,10 +248,10 @@ export const bondAsset = createAsyncThunk(
         ReactGA.event({
           category: "Bonds",
           action: uaData.type ?? "unknown",
-          value: parseFloat(uaData.value),
           label: uaData.bondName,
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
+          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(bondTx.hash));
       }
@@ -269,7 +271,7 @@ export const redeemBond = createAsyncThunk(
     const bondContract = bond.getContractForBond(networkID, signer);
 
     let redeemTx;
-    let uaData = {
+    const uaData = {
       address: address,
       type: "Redeem",
       bondName: bond.displayName,
