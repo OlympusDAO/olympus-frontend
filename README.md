@@ -2,7 +2,6 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 [![OHM Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/gGZUMVDuhQ)
 
-
 # [Ω Olympus Frontend](https://app.olympusdao.finance/)
 
 This is the front-end repo for Olympus that allows users to be part of the future of _Meta Greece_.
@@ -30,6 +29,9 @@ $ cp .env.example .env
 # fill in your own values in .env, then =>
 $ yarn
 $ yarn start
+
+# Set up Husky (for pre-commit hooks) by running:
+$ yarn prepare
 ```
 
 The site is now running at `http://localhost:3000`!
@@ -49,12 +51,9 @@ To run all unit test and see coverage report:
 yarn test:unit
 ```
 
-## Rinkeby Testing
-
-**Rinkeby faucet for sOHM:**
-[Lives here](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract), to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
-
-Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
+We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
+When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
+`yarn snapshot`.
 
 ## End-to-end testing
 
@@ -64,6 +63,13 @@ To run the tests:
 
 - Run the frontend, using `yarn start`
 - In another terminal, run the tests, using `yarn test:e2e`
+
+## Rinkeby Testing
+
+**Rinkeby faucet for sOHM:**
+[Lives here](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract), to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
+
+Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 
 **Rinkeby faucet for WETH:**
 [Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
@@ -169,7 +175,24 @@ git add src/locales/translations
 git commit
 ```
 
-## 🚀 Deployment
+## ESLint
+We use ESLint to find/automatically fix problems.
+- react-app and react-hooks/recommended are important with react stuff.
+- @typescript-eslint/recommended and @typescript-eslint/eslint-recommended as recommended defaults.
+- unused-imports to automatically remove unused imports.
+- simple-import-sort to automatically sort imports alphabetically. This is opinionated, but useful because it helps avoid merge conflicts with imports (and who doesn't like neat alphabetically sorted imports anyway).
+- @typescript-eslint/explicit-function-return-type and @typescript-eslint/explicit-module-boundary-types are turned off to prioritise inferred return types over explicit return types. This is opinionated, but often times the inference Typescript makes is good enough, and sometimes help prevents type mismatches that are a pain to debug.
+- @typescript-eslint/ban-ts-comment and @typescript-eslint/ban-ts-ignore are also turned off. This could possibly be temporary, but the ability to use @ts-ignore-like directives is certainly handy as an escape hatch as we encounter errors during the migration to TS.
+
+## Reusable Components (Component Library) 
+ Our codebase uses a custom component library extended from Material UI to make common UI patterns easy to implement on the frontend. 
+ An up-to-date list of available components, implementation examples as well as documentation is available here:
+ 
+ [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://master--61c4d644c064da004aebdd97.chromatic.com/)
+ 
+ Contributions are welcome and encouraged to our Component Library. If you see repeated UI patterns not represented in the library, or would like to enhance functionality (such as adding assets to our Icon or Token components), you're welcome to [submit a PR to the component-library project](https://github.com/OlympusDAO/component-library). Please fully review component documentation in Storybook before submitting a PR. 
+ 
+ ## 🚀 Deployment
 
 Auto deployed on [Fleek.co](http://fleek.co/) fronted by [Cloudflare](https://www.cloudflare.com/). Since it is hosted via IPFS there is no running "server" component and we don't have server sided business logic. Users are served an `index.html` and javascript to run our applications.
 

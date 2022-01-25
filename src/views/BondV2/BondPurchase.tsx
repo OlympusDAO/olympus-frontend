@@ -1,5 +1,3 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
@@ -11,19 +9,21 @@ import {
   Slide,
   Typography,
 } from "@material-ui/core";
-import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { Skeleton } from "@material-ui/lab";
-import useDebounce from "../../hooks/Debounce";
+import { DataRow, InfoTooltip } from "@olympusdao/component-library";
+import { ethers } from "ethers";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { changeApproval, getSingleBond, IBondV2, purchaseBond } from "src/slices/BondSliceV2";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { AppDispatch } from "src/store";
+
+import ConnectButton from "../../components/ConnectButton/ConnectButton";
+import { shorten, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./BondV2";
-import ConnectButton from "../../components/ConnectButton";
-import { useAppSelector } from "src/hooks";
-import { changeApproval, getSingleBond, IBondV2, IBondV2Balance, purchaseBond } from "src/slices/BondSliceV2";
-import { BigNumber, ethers } from "ethers";
-import { AppDispatch } from "src/store";
-import { InfoTooltip } from "@olympusdao/component-library";
 
 function BondPurchase({
   bond,
@@ -42,12 +42,13 @@ function BondPurchase({
   });
 
   const [quantity, setQuantity] = useState("");
-  const [maxBondable, setMaxBondable] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
 
   const isBondLoading = useAppSelector(state => state.bondingV2.loading ?? true);
 
   const balance = useAppSelector(state => state.bondingV2.balances[bond.quoteToken]);
+
+  const maxBondable = +bond.maxPayoutOrCapacityInQuote;
 
   const balanceNumber: number = useMemo(
     () => (balance ? +balance.balance / Math.pow(10, bond.quoteDecimals) : 0),
@@ -61,7 +62,7 @@ function BondPurchase({
   async function onBond() {
     if (quantity === "" || Number(quantity) <= 0) {
       dispatch(error(t`Please enter a value!`));
-    } else if (Number(quantity) > +maxBondable) {
+    } else if (Number(quantity) > maxBondable) {
       dispatch(
         error(
           t`Max capacity is ${maxBondable} ${bond.displayName} for ${trim(
@@ -94,7 +95,7 @@ function BondPurchase({
 
   const setMax = () => {
     let maxQ: string;
-    const maxBondableNumber = +maxBondable * 0.999;
+    const maxBondableNumber = maxBondable * 0.999;
     if (balanceNumber > maxBondableNumber) {
       maxQ = maxBondableNumber.toString();
     } else {
@@ -102,11 +103,6 @@ function BondPurchase({
     }
     setQuantity(maxQ);
   };
-
-  // set maxPayout
-  useEffect(() => {
-    setMaxBondable(bond.maxPayoutOrCapacityInQuote);
-  }, [bond.maxPayoutOrCapacityInQuote]);
 
   useEffect(() => {
     let interval: NodeJS.Timer | undefined;
@@ -218,16 +214,13 @@ function BondPurchase({
 
       <Slide direction="left" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
-          <div className="data-row">
-            <Typography>
-              <Trans>Your Balance</Trans>
-            </Typography>{" "}
-            <Typography id="bond-balance">
-              {isBondLoading ? <Skeleton width="100px" /> : <>{`${trim(balanceNumber, 4)} ${bond.displayName}`}</>}
-            </Typography>
-          </div>
+          <DataRow
+            title={t`Your Balance`}
+            balance={`${trim(balanceNumber, 4)} ${bond.displayName}`}
+            isLoading={isBondLoading}
+          />
 
-          <div className={`data-row`}>
+          <Box display="flex" flexDirection="row" justifyContent="space-between">
             <Box display="flex" flexDirection="row">
               <Typography>
                 <Trans>You Will Get</Trans>
@@ -242,44 +235,26 @@ function BondPurchase({
                 `sOHM (≈${trim(+quantity / bond.priceToken / +currentIndex, 4) || "0"} gOHM)`
               )}
             </Typography>
-          </div>
-
-          <div className={`data-row`}>
-            <Typography>
-              <Trans>Max You Can Buy</Trans>
-            </Typography>
-            <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} ` + `sOHM`
-              )}
-            </Typography>
-          </div>
-
-          <div className="data-row">
+          </Box>
+          <DataRow
+            title={t`Max You Can Buy`}
+            balance={`${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
+              trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
+            } ${bond.displayName})`}
+            isLoading={isBondLoading}
+          />
+          <Box display="flex" flexDirection="row" justifyContent="space-between">
             <Typography>
               <Trans>ROI</Trans>
             </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.displayName} bond={bond} />}
             </Typography>
-          </div>
+          </Box>
 
-          <div className="data-row">
-            <Typography>
-              <Trans>Duration</Trans>
-            </Typography>
-            <Typography>{isBondLoading ? <Skeleton width="100px" /> : bond.duration}</Typography>
-          </div>
-
+          <DataRow title={t`Duration`} balance={bond.duration} isLoading={isBondLoading} />
           {recipientAddress !== address && (
-            <div className="data-row">
-              <Typography>
-                <Trans>Recipient</Trans>{" "}
-              </Typography>
-              <Typography>{isBondLoading ? <Skeleton width="100px" /> : shorten(recipientAddress)}</Typography>
-            </div>
+            <DataRow title={t`Recipient`} balance={shorten(recipientAddress)} isLoading={isBondLoading} />
           )}
         </Box>
       </Slide>

@@ -1,14 +1,17 @@
+// eslint-disable-next-line simple-import-sort/imports
+import "./style.scss";
+
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
-import useBonds, { IAllBondData } from "./hooks/Bonds";
-import { useWeb3Context } from "./hooks/web3Context";
+import useBonds from "./hooks/Bonds";
+import { useWeb3Context, useAppSelector } from "./hooks";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
 import { shouldTriggerSafetyCheck } from "./helpers";
@@ -21,10 +24,7 @@ import { info } from "./slices/MessagesSlice";
 
 import {
   Stake,
-  ChooseBond,
-  Bond,
   TreasuryDashboard,
-  PoolTogether,
   Zap,
   Wrap,
   V1Stake,
@@ -41,18 +41,12 @@ import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
 import MigrationModal from "src/components/Migration/MigrationModal";
-import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
-import { v4 as uuidv4 } from "uuid";
-import "./style.scss";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import { useAppSelector } from "./hooks";
-import { Project } from "src/components/GiveProject/project.type";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import projectData from "src/views/Give/projects.json";
-import Announcement from "./components/Announcement/Announcement";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
@@ -107,7 +101,7 @@ function App() {
   useGoogleAnalytics();
   const location = useLocation();
   const dispatch = useDispatch();
-  const [theme, toggleTheme, mounted] = useTheme();
+  const [theme, toggleTheme] = useTheme();
   const currentPath = location.pathname + location.hash + location.search;
   const trimmedPath = location.pathname + location.hash;
   const classes = useStyles();
@@ -117,9 +111,6 @@ function App() {
   const { address, connect, hasCachedProvider, provider, connected, networkId, providerInitialized } = useWeb3Context();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
-  const migModalOpen = () => {
-    setMigrationModalOpen(true);
-  };
   const migModalClose = () => {
     dispatch(loadAccountDetails({ networkID: networkId, address, provider }));
     setMigrationModalOpen(false);
@@ -144,7 +135,7 @@ function App() {
     // address lookup on the wrong chain which then throws the error. To properly resolve this,
     // we shouldn't be initializing to networkID=1 in web3Context without first listening for the
     // network. To actually test rinkeby, change setnetworkID equal to 4 before testing.
-    let loadProvider = provider;
+    const loadProvider = provider;
 
     if (whichDetails === "app") {
       loadApp(loadProvider);
@@ -159,10 +150,13 @@ function App() {
   const loadApp = useCallback(
     loadProvider => {
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
-      // NOTE (appleseed) - tech debt - better network filtering for active bonds
       if (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) {
         bonds.map(bond => {
-          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+          // NOTE (appleseed): getBondability & getLOLability control which bonds are active in the view for Bonds V1
+          // ... getClaimability is the analogue for claiming bonds
+          if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
+            dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+          }
         });
         dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
       }
@@ -342,8 +336,6 @@ function App() {
               trimmedPath.indexOf("dashboard") === -1 &&
               oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
-            {trimmedPath.indexOf("dashboard") === -1 && <Announcement />}
-
             <Switch>
               <Route exact path="/dashboard">
                 <TreasuryDashboard />
@@ -417,16 +409,7 @@ function App() {
               <PoolTogether />
             </Route> */}
 
-              <Route path="/bonds-v1">
-                {(bonds as IAllBondData[]).map(bond => {
-                  return (
-                    <Route exact key={bond.name} path={`/bonds-v1/${bond.name}`}>
-                      <Bond bond={bond} />
-                    </Route>
-                  );
-                })}
-                <ChooseBond />
-              </Route>
+              <Redirect from="/bonds-v1" to="/bonds" />
 
               <Route path="/bonds">
                 {bondIndexes.map(index => {
@@ -438,11 +421,6 @@ function App() {
                 })}
                 <ChooseBondV2 />
               </Route>
-
-              <Route path="/network">
-                <ChangeNetwork />
-              </Route>
-
               <Route component={NotFound} />
             </Switch>
           </div>

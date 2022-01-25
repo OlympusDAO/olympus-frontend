@@ -1,4 +1,5 @@
 import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
+
 import fonts from "./fonts";
 import commonSettings, { handleBackdropFilter } from "./global.js";
 
@@ -115,9 +116,6 @@ export const light = responsiveFontSizes(
           paper: {
             backgroundColor: lightTheme.backdropBg,
             zIndex: 7,
-            "@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none))": {
-              backgroundColor: "rgba(255, 255, 255, 0.98)",
-            },
           },
         },
         MuiBackdrop: {
@@ -301,9 +299,6 @@ export const light = responsiveFontSizes(
             "&:hover": {
               color: lightTheme.textHighlightColor,
             },
-          },
-          "&.grid-button-text": {
-            color: "#FFFFFF",
           },
         },
         MuiTypography: {

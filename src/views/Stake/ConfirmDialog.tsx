@@ -1,10 +1,10 @@
-import { Box, Grid, Switch, Typography, Paper } from "@material-ui/core";
-import { ChangeEvent, useMemo, useState } from "react";
+import { Box, Grid, Paper, Switch, Typography } from "@material-ui/core";
 import { InfoTooltip } from "@olympusdao/component-library";
+import { ChangeEvent, useMemo, useState } from "react";
 
 export interface ConfirmDialogProps {
   quantity: string;
-  currentIndex: string;
+  currentIndex: string | undefined;
   view: number;
   onConfirm: (value: boolean) => void;
 }
@@ -17,7 +17,7 @@ export function ConfirmDialog({ quantity, currentIndex, view, onConfirm }: Confi
     onConfirm(value);
   };
   const gohmQuantity = useMemo(
-    () => (quantity ? Number((Number(quantity) / Number(currentIndex)).toFixed(4)) : ""),
+    () => (quantity && currentIndex ? Number((Number(quantity) / Number(currentIndex)).toFixed(4)) : ""),
     [quantity, currentIndex],
   );
   const ohmQuantity = useMemo(() => (quantity ? Number(Number(quantity).toFixed(4)) : ""), [quantity]);

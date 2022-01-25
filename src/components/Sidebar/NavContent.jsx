@@ -1,33 +1,34 @@
-import { useState, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import Social from "./Social";
-import externalUrls from "./externalUrls";
-import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
-import { t, Trans } from "@lingui/macro";
-import { trim } from "../../helpers";
-import { useWeb3Context } from "src/hooks/web3Context";
-import useBonds from "../../hooks/Bonds";
-import { EnvHelper } from "src/helpers/Environment";
-import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
-import { NetworkId } from "src/constants";
-import {
-  Paper,
-  Link,
-  Box,
-  Typography,
-  SvgIcon,
-  Divider,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from "@material-ui/core";
-import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
-import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
-import { useDispatch } from "react-redux";
+
+import { t, Trans } from "@lingui/macro";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Divider,
+  Link,
+  Paper,
+  SvgIcon,
+  Typography,
+} from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
-import { useAppSelector } from "src/hooks";
 import { NavItem } from "@olympusdao/component-library";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { NavLink, useLocation } from "react-router-dom";
+import { NetworkId } from "src/constants";
+import { EnvHelper } from "src/helpers/Environment";
+import { useAppSelector } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
+import { DisplayBondDiscount } from "src/views/BondV2/BondV2";
+
+import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
+import useBonds from "../../hooks/Bonds";
+import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
+import externalUrls from "./externalUrls";
+import Social from "./Social";
 
 function NavContent({ handleDrawerToggle }) {
   const [isActive] = useState();
@@ -107,48 +108,11 @@ function NavContent({ handleDrawerToggle }) {
                                 <Typography variant="body2">
                                   {bond.displayName}
                                   <span className="bond-pair-roi">
-                                    {`${bond.discount && trim(bond.discount * 100, 2)}%`}
+                                    <DisplayBondDiscount key={bond.index} bond={bond} />
                                   </span>
                                 </Typography>
                               </Link>
                             );
-                          })}
-                          {sortedBonds.length > 0 && (
-                            <Box className="menu-divider">
-                              <Divider />
-                            </Box>
-                          )}
-                          {bonds.map((bond, i) => {
-                            if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
-                              return (
-                                <Link
-                                  component={NavLink}
-                                  to={`/bonds-v1/${bond.name}`}
-                                  key={i}
-                                  className={"bond"}
-                                  onClick={handleDrawerToggle}
-                                >
-                                  {!bond.bondDiscount ? (
-                                    <Skeleton variant="text" width={"150px"} />
-                                  ) : (
-                                    <Typography variant="body2">
-                                      {`${bond.displayName} (v1)`}
-
-                                      <span className="bond-pair-roi">
-                                        {bond.isLOLable[networkId]
-                                          ? "--"
-                                          : !bond.isBondable[networkId]
-                                          ? "Sold Out"
-                                          : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
-                                        {/* {!bond.isBondable[networkId]
-                                              ? "Sold Out"
-                                              : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`} */}
-                                      </span>
-                                    </Typography>
-                                  )}
-                                </Link>
-                              );
-                            }
                           })}
                         </AccordionDetails>
                       </Accordion>

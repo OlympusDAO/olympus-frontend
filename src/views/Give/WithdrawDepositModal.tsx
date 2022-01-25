@@ -1,17 +1,18 @@
-import { Modal, Paper, Typography, SvgIcon, Link, Button } from "@material-ui/core";
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import { FormControl } from "@material-ui/core";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { txnButtonText } from "../../slices/PendingTxnsSlice";
-import { useSelector } from "react-redux";
-import { WalletGraphic, VaultGraphic, ArrowGraphic } from "../../components/EducationCard";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IPendingTxn } from "../../slices/PendingTxnsSlice";
-import { BigNumber } from "bignumber.js";
-import { Project } from "src/components/GiveProject/project.type";
-import { hasPendingGiveTxn, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 import { t, Trans } from "@lingui/macro";
+import { Button, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { FormControl } from "@material-ui/core";
+import { BigNumber } from "bignumber.js";
+import { useSelector } from "react-redux";
+import { Project } from "src/components/GiveProject/project.type";
 import { shorten } from "src/helpers";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { IAccountSlice } from "src/slices/AccountSlice";
+import { hasPendingGiveTxn, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
+
+import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
+import { ArrowGraphic, VaultGraphic, WalletGraphic } from "../../components/EducationCard";
+import { txnButtonText } from "../../slices/PendingTxnsSlice";
+import { IPendingTxn } from "../../slices/PendingTxnsSlice";
 
 export interface WithdrawSubmitCallback {
   (walletAddress: string, depositAmount: BigNumber): void;
