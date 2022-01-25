@@ -1,6 +1,6 @@
 import { i18n } from "@lingui/core";
 import { OHMLocaleSwitcherProps } from "@olympusdao/component-library";
-import { ar, en, es, fr, ko, tr, vi, zh } from "make-plural/plurals";
+import { ar, de, en, es, fr, ko, tr, vi, zh } from "make-plural/plurals";
 
 // Declare locales
 interface ILocale {
@@ -20,6 +20,7 @@ export const locales: ILocales = {
   ar: { flag: "ae", plurals: ar, direction: "rtl" },
   es: { flag: "es", plurals: es, direction: "inherit" },
   vi: { flag: "vn", plurals: vi, direction: "inherit" },
+  de: { flag: "de", plurals: de, direction: "inherit" },
 };
 // Create translations style element
 const translations_style_dom = document.createElement("style");
