@@ -7,7 +7,6 @@ import {
   AccordionSummary,
   Box,
   Button,
-  Paper,
   Table,
   TableBody,
   TableContainer,
@@ -16,7 +15,7 @@ import {
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ExpandMore } from "@material-ui/icons";
-import { Tab, Tabs } from "@olympusdao/component-library";
+import { Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { isEmpty } from "lodash";
 import title from "material-ui/svg-icons/editor/title";
 import { ChangeEvent, useState } from "react";
@@ -28,7 +27,6 @@ import { IUserBondDetails } from "src/slices/AccountSlice";
 import { claimAllNotes, IUserNote } from "src/slices/BondSliceV2";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
-import CardHeader from "../../components/CardHeader/CardHeader";
 import { ClaimBondsSubComponent } from "../ChooseBond/ClaimBonds";
 import AccordionSection from "./AccordionSection";
 
@@ -77,8 +75,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   return (
     <>
       <Zoom in={true}>
-        <Paper className="ohm-card claim-bonds-card">
-          <CardHeader title="Your Bonds" />
+        <Paper headerText="Your Bonds">
           <Box
             display="flex"
             flexDirection="column"

@@ -253,6 +253,7 @@ const Stake: React.FC = () => {
       gOhmOnAvaxAsSohm,
       gOhmOnPolygonAsSohm,
       gOhmOnFantomAsSohm,
+      gOhmOnTokemakAsSohm,
       sohmV1Balance,
       wsohmAsSohm,
       fiatDaoAsSohm,
