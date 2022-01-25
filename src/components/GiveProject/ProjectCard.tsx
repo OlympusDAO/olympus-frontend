@@ -85,8 +85,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
   const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 600px)") && !isSmallScreen;
-  const { provider, address, connected, connect, networkId, providerInitialized } = useWeb3Context();
-  const { title, owner, shortDescription, details, finishDate, photos, category, wallet, depositGoal } = project;
+  const { provider, address, connected, connect, networkId } = useWeb3Context();
+  const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
@@ -102,12 +102,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
-  });
-
-  const userTotalDebt = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
-      : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
 
   const theme = useTheme();
@@ -375,7 +369,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     walletAddress: string,
     eventSource: string,
     depositAmount: BigNumber,
-    depositAmountDiff?: BigNumber,
   ) => {
     if (depositAmount.isEqualTo(new BigNumber(0))) {
       return dispatch(error(t`Please enter a value!`));

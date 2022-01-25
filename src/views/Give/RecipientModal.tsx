@@ -33,6 +33,7 @@ import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTx
 const sOhmImg = getTokenImage("sohm");
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { ChevronLeft } from "@material-ui/icons";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";

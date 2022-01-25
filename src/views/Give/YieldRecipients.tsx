@@ -1,4 +1,4 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import {
   Box,
   Button,
@@ -14,22 +14,15 @@ import {
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
-import { BigNumber } from "bignumber.js";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { Project } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
-import { shorten } from "src/helpers";
 import { EnvHelper } from "src/helpers/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { DonationInfoState, IButtonChangeView, SubmitCallback } from "src/views/Give/Interfaces";
+import { DonationInfoState, IButtonChangeView } from "src/views/Give/Interfaces";
 
-import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
-import { error } from "../../slices/MessagesSlice";
 import { DepositTableRow } from "./DepositRow";
 import data from "./projects.json";
-import { WithdrawCancelCallback, WithdrawSubmitCallback } from "./WithdrawDepositModal";
 
 type RecipientModalProps = {
   changeView: IButtonChangeView;
@@ -37,12 +30,7 @@ type RecipientModalProps = {
 
 export default function YieldRecipients({ changeView }: RecipientModalProps) {
   const location = useLocation();
-  const dispatch = useDispatch();
-  const { provider, address, networkId } = useWeb3Context();
-  const [selectedRecipientForEdit, setSelectedRecipientForEdit] = useState("");
-  const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState("");
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+  const { networkId } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   // TODO fix typing of state.app.loading
@@ -56,118 +44,7 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
   const isDonationInfoLoading = useSelector((state: any) => state.account.loading);
   const isLoading = isAppLoading || isDonationInfoLoading;
 
-  // *** Edit modal
-  const handleEditButtonClick = (walletAddress: string) => {
-    setSelectedRecipientForEdit(walletAddress);
-    setIsEditModalOpen(true);
-  };
-
-  const handleEditModalSubmit: SubmitCallback = async (
-    walletAddress,
-    eventSource,
-    depositAmount,
-    depositAmountDiff,
-  ) => {
-    if (!depositAmountDiff) {
-      return dispatch(error(t`Please enter a value!`));
-    }
-
-    if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
-
-    // If reducing the amount of deposit, withdraw
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource: eventSource,
-        }),
-      );
-    } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource: eventSource,
-        }),
-      );
-    }
-
-    setIsEditModalOpen(false);
-  };
-
-  const handleEditModalCancel = () => {
-    setIsEditModalOpen(false);
-  };
-
-  // *** Withdraw modal
-  const handleWithdrawButtonClick = (walletAddress: string) => {
-    setSelectedRecipientForWithdraw(walletAddress);
-    setIsWithdrawModalOpen(true);
-  };
-
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
-    // Issue withdrawal from smart contract
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
-    } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
-    }
-
-    setIsWithdrawModalOpen(false);
-  };
-
-  const handleWithdrawModalCancel: WithdrawCancelCallback = () => {
-    setIsWithdrawModalOpen(false);
-  };
-
   const { projects } = data;
-  const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
-
-  const getRecipientTitle = (recipient: string): string => {
-    const project = projectMap.get(recipient);
-    if (!project) return shorten(recipient);
-
-    if (!project.owner) return project.title;
-
-    return project.owner + " - " + project.title;
-  };
 
   if (isLoading) {
     return <Skeleton />;

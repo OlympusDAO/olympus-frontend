@@ -16,6 +16,7 @@ import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxns
 
 import { ArrowGraphic, RedeemGraphic, VaultGraphic } from "../../components/EducationCard";
 import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
+import { DonationInfoState } from "./Interfaces";
 import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 
 // TODO consider shifting this into interfaces.ts
@@ -30,32 +31,14 @@ export default function RedeemYield() {
   const dispatch = useDispatch();
   const { provider, hasCachedProvider, address, connected, connect, networkId } = useWeb3Context();
   const [isRedeemYieldModalOpen, setIsRedeemYieldModalOpen] = useState(false);
-  const [walletChecked, setWalletChecked] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  // TODO fix typing of state.app.loading
-  const isAppLoading = useSelector((state: any) => state.app.loading);
-
-  const donationInfo = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving && state.account.mockGiving.donationInfo
-      : state.account.giving && state.account.giving.donationInfo;
-  });
+  const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
 
   const redeemableBalance = useSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
       : state.account.redeeming && state.account.redeeming.sohmRedeemable;
-  });
-
-  const totalDebt = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
-      : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
-  });
-
-  const stakingAPY = useSelector((state: State) => {
-    return state.app.stakingAPY;
   });
 
   const recipientInfo = useSelector((state: State) => {
@@ -96,18 +79,6 @@ export default function RedeemYield() {
 
   const isRecipientInfoLoading = recipientInfo.totalDebt == "";
 
-  useEffect(() => {
-    if (hasCachedProvider()) {
-      // then user DOES have a wallet
-      connect().then(() => {
-        setWalletChecked(true);
-      });
-    } else {
-      // then user DOES NOT have a wallet
-      setWalletChecked(true);
-    }
-  }, []);
-
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
   useEffect(() => {
     // don't load ANY details until wallet is Checked
@@ -115,10 +86,6 @@ export default function RedeemYield() {
       loadAccountDetails({ networkID: networkId, provider, address });
     }
   }, [connected]);
-
-  const getTableCellClass = (condition: boolean): string => {
-    return condition ? "" : "cell-align-end";
-  };
 
   const canRedeem = () => {
     if (!address) return false;

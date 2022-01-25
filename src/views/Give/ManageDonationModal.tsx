@@ -3,17 +3,11 @@ import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Project } from "src/components/GiveProject/project.type";
 import { useWeb3Context } from "src/hooks/web3Context";
-import {
-  changeApproval,
-  changeMockApproval,
-  hasPendingGiveTxn,
-  PENDING_TXN_EDIT_GIVE,
-  PENDING_TXN_WITHDRAW,
-} from "src/slices/GiveThunk";
+import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ArrowGraphic } from "../../components/EducationCard";
@@ -98,7 +92,6 @@ export function ManageDonationModal({
   const _initialDepositAmountValid = false;
   const _initialDepositAmountValidError = "";
   const _initialWalletAddressValid = false;
-  const _initialWalletAddressValidError = "";
   const _initialIsAmountSet = false;
 
   const getInitialDepositAmount = () => {
@@ -113,7 +106,6 @@ export function ManageDonationModal({
   };
   const [walletAddress, setWalletAddress] = useState(getInitialWalletAddress());
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(_initialWalletAddressValid);
-  const [isWalletAddressValidError, setIsWalletAddressValidError] = useState(_initialWalletAddressValidError);
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
@@ -178,18 +170,6 @@ export function ManageDonationModal({
     return true;
   };
 
-  const onSeekApproval = async () => {
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
-      await dispatch(changeMockApproval({ address, token: "sohm", provider, networkID: networkId }));
-    } else {
-      await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));
-    }
-  };
-
-  const hasAllowance = useCallback(() => {
-    return giveAllowance > 0;
-  }, [giveAllowance]);
-
   const getSOhmBalance = (): BigNumber => {
     return new BigNumber(sohmBalance);
   };
@@ -202,11 +182,6 @@ export function ManageDonationModal({
 
   const getMaximumDepositAmount = (): BigNumber => {
     return new BigNumber(sohmBalance).plus(currentDepositAmount ? currentDepositAmount : 0);
-  };
-
-  const getRetainedAmountDiff = (): BigNumber => {
-    const tempDepositAmount: BigNumber = getDepositAmountDiff();
-    return new BigNumber(sohmBalance).minus(tempDepositAmount);
   };
 
   const getDepositAmountDiff = (): BigNumber => {

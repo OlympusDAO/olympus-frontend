@@ -5,7 +5,6 @@ import { Box, Button, Paper, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { BigNumber } from "bignumber.js";
 import { useMemo, useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useUIDSeed } from "react-uid";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
@@ -35,24 +34,11 @@ export default function CausesDashboard() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
   const { projects } = data;
-  const [zoomed, setZoomed] = useState(false);
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
   const seed = useUIDSeed();
-
-  const donationInfo = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving && state.account.mockGiving.donationInfo
-      : state.account.giving && state.account.giving.donationInfo;
-  });
-
-  const totalDebt = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
-      : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
-  });
 
   const renderProjects = useMemo(() => {
     return projects.map(project => {
@@ -68,7 +54,6 @@ export default function CausesDashboard() {
     walletAddress: string,
     eventSource: string,
     depositAmount: BigNumber,
-    depositAmountDiff?: BigNumber,
   ) => {
     if (depositAmount.isEqualTo(new BigNumber(0))) {
       return dispatch(error(t`Please enter a value!`));

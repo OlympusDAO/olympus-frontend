@@ -55,7 +55,7 @@ export const hasPendingGiveTxn = (pendingTransactions: IPendingTxn[]): boolean =
 // This is approving the recipient to spend, not the contract
 export const changeApproval = createAsyncThunk(
   "give/changeApproval",
-  async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet`));
       return;
@@ -96,7 +96,7 @@ export const changeApproval = createAsyncThunk(
 
 export const changeMockApproval = createAsyncThunk(
   "give/changeMockApproval",
-  async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet`));
       return;
