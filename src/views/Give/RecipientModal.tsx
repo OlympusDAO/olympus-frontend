@@ -537,7 +537,7 @@ export function RecipientModal({
               <FormHelperText>{isDepositAmountValidError}</FormHelperText>
               <div className="give-staked-balance">
                 <Typography variant="body2" align="left">
-                  <Trans>Your current Staked Balance {getSOhmBalance().toFixed(4)} sOHM</Trans>
+                  <Trans>Your current Staked Balance is {getSOhmBalance().toFixed(2)} sOHM</Trans>
                 </Typography>
               </div>
             </FormControl>
