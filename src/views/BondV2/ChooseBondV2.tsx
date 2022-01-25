@@ -4,7 +4,6 @@ import { t, Trans } from "@lingui/macro";
 import {
   Box,
   Grid,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -15,7 +14,7 @@ import {
   Zoom,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Metric, MetricCollection } from "@olympusdao/component-library";
+import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import isEmpty from "lodash/isEmpty";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -81,13 +80,7 @@ function ChooseBondV2() {
       {(!isEmpty(accountNotes) || !isEmpty(v1AccountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
 
       <Zoom in={true}>
-        <Paper className="ohm-card">
-          <Box className="card-header">
-            <Typography variant="h5" data-testid="t">
-              <Trans>Bond</Trans> (4,4)
-            </Typography>
-          </Box>
-
+        <Paper headerText={`${t`Bond`} (4,4)`}>
           <MetricCollection>
             <Metric
               label={t`Treasury Balance`}

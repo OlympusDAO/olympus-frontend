@@ -28,7 +28,7 @@ const BondV2 = ({ index }: { index: number }) => {
   const [slippage, setSlippage] = useState<number>(0.5);
   const [recipientAddress, setRecipientAddress] = useState<string>(address);
 
-  const isBondLoading = useAppSelector<boolean>(state => state.bonding.loading ?? true);
+  const isBondLoading = useAppSelector<boolean>(state => state.bondingV2.loading ?? true);
 
   const onRecipientAddressChange = (e: InputEvent): void => {
     return setRecipientAddress(e.target.value);
