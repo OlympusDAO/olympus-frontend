@@ -12,22 +12,18 @@ import {
   Link,
   MenuItem,
   OutlinedInput,
-  // Paper,
   Select,
-  SvgIcon,
   Typography,
   Zoom,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
-import { DataRow } from "@olympusdao/component-library";
+import { DataRow, Icon, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NETWORKS } from "../../constants";
 import { formatCurrency, trim } from "../../helpers";
 import { switchNetwork } from "../../helpers/NetworkHelper";
@@ -218,8 +214,7 @@ const Wrap: React.FC = () => {
       <div id="stake-view" className="wrapper">
         <Zoom in={true} onEntered={() => setZoomed(true)}>
           <Paper
-            className="ohm-card"
-            headerText="Wrap / Unwrap"
+            headerText={t`Wrap / Unwrap`}
             topRight={
               <Link
                 className="migrate-sohm-button"
@@ -232,8 +227,7 @@ const Wrap: React.FC = () => {
                 aria-label="wsohm-wut"
                 target="_blank"
               >
-                <Typography>gOHM</Typography>{" "}
-                <SvgIcon component={ArrowUp} color="primary" style={{ marginLeft: "5px", width: ".8em" }} />
+                <Typography>gOHM</Typography> <Icon style={{ marginLeft: "5px" }} name="arrow-up" />
               </Link>
             }
           >
