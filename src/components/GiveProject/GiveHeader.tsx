@@ -1,5 +1,6 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Link, Typography, useTheme } from "@material-ui/core";
+import { Box, Link, Typography } from "@material-ui/core";
+import { SecondaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { NavLink, useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
@@ -14,7 +15,6 @@ type GiveHeaderProps = {
 
 export function GiveHeader({ isSmallScreen, isVerySmallScreen, totalDebt, networkId }: GiveHeaderProps) {
   const location = useLocation();
-  const theme = useTheme();
   const isDonationsTabActive = location.pathname.replace("/", "") == "give/donations";
   const isGiveTabActive =
     location.pathname.replace("/", "") == "give" || location.pathname.replace("/", "").includes("give/projects");
@@ -27,11 +27,11 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, totalDebt, networ
         to="/give"
         className={`give-option ${isGiveTabActive ? "give-active" : ""}`}
       >
-        <Button color="secondary">
+        <SecondaryButton>
           <Typography variant="h6">
             <Trans>Give</Trans>
           </Typography>
-        </Button>
+        </SecondaryButton>
       </Link>
       <Link
         component={NavLink}
@@ -39,11 +39,11 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, totalDebt, networ
         to="/give/donations"
         className={`give-option ${isDonationsTabActive ? "give-active" : ""}`}
       >
-        <Button color="secondary">
+        <SecondaryButton>
           <Typography variant="h6">
             <Trans>My Donations</Trans>
           </Typography>
-        </Button>
+        </SecondaryButton>
       </Link>
       {new BigNumber(totalDebt).gt(new BigNumber(0)) && isSupportedChain(networkId) ? (
         <Link
@@ -52,11 +52,11 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, totalDebt, networ
           to="/give/redeem"
           className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "give-active" : ""}`}
         >
-          <Button color="secondary">
+          <SecondaryButton>
             <Typography variant="h6">
               <Trans>Redeem</Trans>
             </Typography>
-          </Button>
+          </SecondaryButton>
         </Link>
       ) : (
         <></>

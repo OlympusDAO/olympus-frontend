@@ -1,7 +1,6 @@
 import { Trans } from "@lingui/macro";
 import {
   Box,
-  Button,
   Divider,
   IconButton,
   Paper,
@@ -12,7 +11,15 @@ import {
   withStyles,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, OHMTokenProps, OHMTokenStackProps, Token, TokenStack } from "@olympusdao/component-library";
+import {
+  Icon,
+  OHMTokenProps,
+  OHMTokenStackProps,
+  PrimaryButton,
+  SecondaryButton,
+  Token,
+  TokenStack,
+} from "@olympusdao/component-library";
 import { ReactElement, useState } from "react";
 import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
 import { addresses } from "src/constants";
@@ -61,7 +68,7 @@ const Borrow = ({
 const ExternalLink = ({ href, children, color }: { href: string; children: ReactElement; color?: any }) => {
   const theme = useTheme();
   return (
-    <Button
+    <PrimaryButton
       href={href}
       color={color}
       variant="outlined"
@@ -95,16 +102,16 @@ const ExternalLink = ({ href, children, color }: { href: string; children: React
           />
         </Box>
       </Box>
-    </Button>
+    </PrimaryButton>
   );
 };
 
 const DisconnectButton = () => {
   const { disconnect } = useWeb3Context();
   return (
-    <Button onClick={disconnect} variant="contained" size="large" color="secondary">
+    <SecondaryButton onClick={disconnect} variant="contained" size="large">
       <Trans>Disconnect</Trans>
-    </Button>
+    </SecondaryButton>
   );
 };
 

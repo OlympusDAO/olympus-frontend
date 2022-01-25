@@ -4,13 +4,12 @@ import {
   AccordionDetails,
   AccordionSummary as MuiAccordionSummary,
   Box,
-  Button,
   Typography,
   useTheme,
   withStyles,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, OHMTokenProps, Token as TokenSVG } from "@olympusdao/component-library";
+import { Icon, OHMTokenProps, SecondaryButton, Token as TokenSVG } from "@olympusdao/component-library";
 import { ChangeEvent, useState } from "react";
 import { useQuery } from "react-query";
 import { addresses, NETWORKS } from "src/constants";
@@ -208,9 +207,9 @@ export const Token = ({
                 ),
             )}
           <Box className="ohm-pairs" style={{ width: "100%" }}>
-            <Button variant="contained" color="secondary" fullWidth onClick={onAddTokenToWallet}>
+            <SecondaryButton variant="contained" fullWidth onClick={onAddTokenToWallet}>
               <Typography>{t`Add to Wallet`}</Typography>
-            </Button>
+            </SecondaryButton>
           </Box>
         </Box>
       </AccordionDetails>

@@ -1,7 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
-  Button,
   Container,
   Grid,
   LinearProgress,
@@ -13,6 +12,7 @@ import {
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { Skeleton } from "@material-ui/lab";
+import { PrimaryButton } from "@olympusdao/component-library";
 import { Icon } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import MarkdownIt from "markdown-it";
@@ -396,16 +396,15 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   {renderGoalCompletion()}
                 </Grid>
                 <Grid item xs={6} sm={12} md={6} className="give-button-grid">
-                  <Button
+                  <PrimaryButton
                     variant="contained"
-                    color="primary"
                     className="cause-give-button"
                     onClick={() => handleGiveButtonClick()}
                   >
                     <Typography variant="h6">
                       <Trans>Donate Yield</Trans>
                     </Typography>
-                  </Button>
+                  </PrimaryButton>
                 </Grid>
               </Grid>
             </div>
@@ -493,16 +492,15 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             {renderCountdownDetailed()}
 
                             <div className="project-give-button">
-                              <Button
+                              <PrimaryButton
                                 variant="contained"
-                                color="primary"
                                 onClick={() => handleGiveButtonClick()}
                                 disabled={!address || !isSupportedChain(networkId)}
                               >
                                 <Typography variant="h6">
                                   <Trans>Donate Yield</Trans>
                                 </Typography>
-                              </Button>
+                              </PrimaryButton>
                             </div>
                           </div>
                         </Grid>

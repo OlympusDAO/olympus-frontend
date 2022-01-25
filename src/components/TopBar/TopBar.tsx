@@ -2,9 +2,9 @@ import "./topbar.scss";
 
 import { i18n } from "@lingui/core";
 import { t } from "@lingui/macro";
-import { AppBar, Box, Button, SvgIcon, Toolbar } from "@material-ui/core";
+import { AppBar, Box, SvgIcon, Toolbar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { LocaleSwitcher } from "@olympusdao/component-library";
+import { LocaleSwitcher, SecondaryButton } from "@olympusdao/component-library";
 
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
 import { locales, selectLocale } from "../../locales";
@@ -43,7 +43,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
   return (
     <AppBar position="sticky" className={classes.appBar} elevation={0}>
       <Toolbar disableGutters className="dapp-topbar">
-        <Button
+        <SecondaryButton
           id="hamburger"
           aria-label="open drawer"
           size="large"
@@ -53,7 +53,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
           className={classes.menuButton}
         >
           <SvgIcon component={MenuIcon} />
-        </Button>
+        </SecondaryButton>
         <Box display="flex">
           <Wallet />
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />

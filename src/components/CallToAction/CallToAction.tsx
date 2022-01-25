@@ -1,15 +1,15 @@
 import "./calltoaction.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, SvgIcon, Typography } from "@material-ui/core";
+import { Box, SvgIcon, Typography } from "@material-ui/core";
+import { PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 
 export const LearnMoreButton = () => {
   return (
-    <Button
+    <SecondaryButton
       variant="outlined"
-      color="secondary"
       href="https://docs.olympusdao.finance/main/basics/migration"
       target="_blank"
       className="learn-more-button"
@@ -19,7 +19,7 @@ export const LearnMoreButton = () => {
       </Typography>
 
       <SvgIcon component={ArrowUp} color="primary" />
-    </Button>
+    </SecondaryButton>
   );
 };
 
@@ -30,16 +30,15 @@ export interface MigrationButtonProps {
 
 export const MigrateButton = ({ setMigrationModalOpen, btnText }: MigrationButtonProps) => {
   return (
-    <Button
+    <PrimaryButton
       className="migrate-button"
       variant="contained"
-      color="primary"
       onClick={() => {
         setMigrationModalOpen(true);
       }}
     >
       {btnText}
-    </Button>
+    </PrimaryButton>
   );
 };
 

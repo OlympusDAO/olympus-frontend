@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
-import { Button, SvgIcon, SwipeableDrawer, Typography, useTheme, withStyles } from "@material-ui/core";
+import { SvgIcon, SwipeableDrawer, Typography, useTheme, withStyles } from "@material-ui/core";
+import { SecondaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -12,10 +13,10 @@ const WalletButton = ({ openWallet }: { openWallet: () => void }) => {
   const label = connected ? t`Wallet` : t`Connect Wallet`;
   const theme = useTheme();
   return (
-    <Button id="ohm-menu-button" variant="contained" color="secondary" onClick={onClick}>
+    <SecondaryButton id="ohm-menu-button" variant="contained" onClick={onClick}>
       <SvgIcon component={WalletIcon} style={{ marginRight: theme.spacing(1) }} />
       <Typography>{label}</Typography>
-    </Button>
+    </SecondaryButton>
   );
 };
 
