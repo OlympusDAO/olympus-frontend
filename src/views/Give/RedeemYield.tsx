@@ -10,50 +10,42 @@ import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { IAccountSlice, loadAccountDetails } from "src/slices/AccountSlice";
-import { IAppData } from "src/slices/AppSlice";
-import { IPendingTxn, isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { loadAccountDetails } from "src/slices/AccountSlice";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import { ArrowGraphic, RedeemGraphic, VaultGraphic } from "../../components/EducationCard";
 import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
 import { DonationInfoState } from "./Interfaces";
 import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 
-// TODO consider shifting this into interfaces.ts
-type State = {
-  account: IAccountSlice;
-  pendingTransactions: IPendingTxn[];
-  app: IAppData;
-};
-
 export default function RedeemYield() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connected, connect, networkId } = useWeb3Context();
+  const { provider, address, connected, networkId } = useWeb3Context();
   const [isRedeemYieldModalOpen, setIsRedeemYieldModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
 
-  const redeemableBalance = useSelector((state: State) => {
+  const redeemableBalance = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
       : state.account.redeeming && state.account.redeeming.sohmRedeemable;
   });
 
-  const recipientInfo = useSelector((state: State) => {
+  const recipientInfo = useSelector((state: DonationInfoState) => {
     return state.account.redeeming && state.account.redeeming.recipientInfo;
   });
 
-  const stakingRebase = useSelector((state: State) => {
+  const stakingRebase = useSelector((state: DonationInfoState) => {
     return state.app.stakingRebase;
   });
 
-  const fiveDayRate = useSelector((state: State) => {
+  const fiveDayRate = useSelector((state: DonationInfoState) => {
     return state.app.fiveDayRate;
   });
 
-  const pendingTransactions = useSelector((state: State) => {
+  const pendingTransactions = useSelector((state: DonationInfoState) => {
     return state.pendingTransactions;
   });
 

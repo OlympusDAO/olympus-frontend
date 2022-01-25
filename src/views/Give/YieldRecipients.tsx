@@ -22,7 +22,6 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { DonationInfoState, IButtonChangeView } from "src/views/Give/Interfaces";
 
 import { DepositTableRow } from "./DepositRow";
-import data from "./projects.json";
 
 type RecipientModalProps = {
   changeView: IButtonChangeView;
@@ -33,8 +32,7 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
   const { networkId } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  // TODO fix typing of state.app.loading
-  const isAppLoading = useSelector((state: any) => state.app.loading);
+  const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
   const donationInfo = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
@@ -43,8 +41,6 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
 
   const isDonationInfoLoading = useSelector((state: any) => state.account.loading);
   const isLoading = isAppLoading || isDonationInfoLoading;
-
-  const { projects } = data;
 
   if (isLoading) {
     return <Skeleton />;
