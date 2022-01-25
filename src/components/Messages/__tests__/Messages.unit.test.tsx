@@ -1,9 +1,9 @@
 import { render } from "../../../testUtils";
-import Wrap from "../Wrap";
+import Messages from "../Messages";
 
-describe("<Wrap/>", () => {
+describe("<Messages/>", () => {
   it("should render component", () => {
-    const { container } = render(<Wrap />);
+    const { container } = render(<Messages />);
     expect(container).toMatchSnapshot();
   });
 });

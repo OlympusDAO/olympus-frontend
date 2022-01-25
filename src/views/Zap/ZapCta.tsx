@@ -1,9 +1,10 @@
-import "./zap.scss";
+import "./Zap.scss";
 
 import { Trans } from "@lingui/macro";
 import { Box, Button, Grid, Link, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { TokenStack } from "@olympusdao/component-library";
+import React from "react";
 import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
@@ -25,12 +26,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ZapCta() {
+const ZapCta: React.FC = () => {
   const classes = useStyles();
   return (
     <>
       <Paper className="ohm-card" id="olyzaps-cta">
-        <Grid container display="flex" className="cta-box" wrap>
+        <Grid container className="cta-box">
           <Grid item xs={5} sm={3} className="icons-box">
             <TokenStack tokens={["DAI", "wETH"]} />
           </Grid>
@@ -64,6 +65,6 @@ function ZapCta() {
       </Paper>
     </>
   );
-}
+};
 
 export default ZapCta;

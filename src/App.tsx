@@ -43,7 +43,6 @@ import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
 import MigrationModal from "src/components/Migration/MigrationModal";
-import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
@@ -433,11 +432,6 @@ function App() {
                 })}
                 <ChooseBondV2 />
               </Route>
-
-              <Route path="/network">
-                <ChangeNetwork />
-              </Route>
-
               <Route component={NotFound} />
             </Switch>
           </div>

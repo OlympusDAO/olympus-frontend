@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Zap/> should render component 1`] = `
+exports[`<Wrap/> should render component 1`] = `
 <div>
   <div
     class="wrapper"
