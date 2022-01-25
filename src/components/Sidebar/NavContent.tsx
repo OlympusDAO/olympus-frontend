@@ -14,7 +14,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
-import { Skeleton } from "@material-ui/lab";
 import { NavItem } from "@olympusdao/component-library";
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
@@ -29,7 +28,6 @@ import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
 import { DisplayBondDiscount } from "src/views/BondV2/BondV2";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
-import { trim } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
 import externalUrls from "./externalUrls";
@@ -128,43 +126,6 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                                 </Typography>
                               </Link>
                             );
-                          })}
-                          {sortedBonds.length > 0 && (
-                            <Box className="menu-divider">
-                              <Divider />
-                            </Box>
-                          )}
-                          {bonds.map((bond: CustomBond, i: number) => {
-                            if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
-                              return (
-                                <Link
-                                  component={NavLink}
-                                  to={`/bonds-v1/${bond.name}`}
-                                  key={i}
-                                  className={"bond"}
-                                  onClick={handleDrawerToggle}
-                                >
-                                  {!bond.bondDiscount ? (
-                                    <Skeleton variant="text" width={"150px"} />
-                                  ) : (
-                                    <Typography variant="body2">
-                                      {`${bond.displayName} (v1)`}
-
-                                      <span className="bond-pair-roi">
-                                        {bond.isLOLable[networkId]
-                                          ? "--"
-                                          : !bond.isBondable[networkId]
-                                          ? "Sold Out"
-                                          : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
-                                        {/* {!bond.isBondable[networkId]
-                                              ? "Sold Out"
-                                              : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`} */}
-                                      </span>
-                                    </Typography>
-                                  )}
-                                </Link>
-                              );
-                            }
                           })}
                         </AccordionDetails>
                       </Accordion>
