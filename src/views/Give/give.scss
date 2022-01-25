@@ -327,7 +327,6 @@
       width: 55%;
     }
 
-
     .cause-misc-info {
       .cause-give-button {
         width: 100%;
@@ -359,7 +358,7 @@
   margin-bottom: 100px;
 
   .give-tab-buttons .MuiTab-wrapper {
-      font-size: 16px;
+    font-size: 16px;
   }
 
   .cause-title {
@@ -417,7 +416,7 @@
     .MuiTableHead-root .MuiTableRow-head .MuiTableCell-alignRight {
       font-size: 12px;
       width: 33%;
-    }    
+    }
 
     .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
       width: 33%;
@@ -554,7 +553,7 @@
   transform: translate(-50.048%, -50.048%);
 
   &.smaller {
-    top: 70%;
+    top: 50%;
     overflow-y: scroll;
 
     .give-confirmation-details .details-row {
@@ -685,7 +684,7 @@
 
   .details-header .MuiTypography-h5 {
     font-weight: 600;
-    margin-bottom: 30px
+    margin-bottom: 30px;
   }
 
   .details-container {
@@ -1054,7 +1053,7 @@
 
         .project-give-button {
           padding-top: 0px;
-          width: 100%
+          width: 100%;
         }
 
         .project-countdown {
