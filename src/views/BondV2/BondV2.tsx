@@ -153,8 +153,7 @@ export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement =
   }
   return (
     <Fragment>
-      {/* NOTE (appleseed): temporarily hiding bond_discount styling until further review from designers */}
-      {/* <span className={bond.discount >= 0 ? "bond_discount_positive" : "bond_discount_negative"}> */}
+      {/* <span className={bond.discount >= 0 ? "bond_discount_positive" : ""}> */}
       <span>{bond.discount && trim(bond.discount * 100, 2)}%</span>
     </Fragment>
   );
