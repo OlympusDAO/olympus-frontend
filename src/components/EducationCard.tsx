@@ -4,6 +4,7 @@ import { Skeleton } from "@material-ui/lab";
 import { Icon, Token } from "@olympusdao/component-library";
 
 import { ReactComponent as vaultLockImg } from "../assets/icons/vault-lock.svg";
+import { ReactComponent as yieldImg } from "../assets/icons/yield.svg";
 
 const smallViewBox = "0 0 50 50";
 const verySmallViewBox = "0 0 32 32";
@@ -168,7 +169,7 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
         alignContent="center"
         m={2}
       >
-        <Icon name="yield" viewBox={verySmallViewBox} style={iconStyle} />
+        <SvgIcon component={yieldImg} viewBox={verySmallViewBox} style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
@@ -196,7 +197,7 @@ export function RedeemGraphic({ quantity, isLoading }: EducationGraphicProps) {
         m={2}
         className="yield-graphic"
       >
-        <Icon name="yield" viewBox={verySmallViewBox} style={smallIconStyle} />
+        <SvgIcon component={yieldImg} viewBox={verySmallViewBox} style={smallIconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
@@ -220,7 +221,7 @@ export function ReceivesYield({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <Icon name="yield" viewBox="0 0 30 30" style={smallIconStyle} className="receives-yield-icon" />
+          <SvgIcon component={yieldImg} viewBox="0 0 30 30" style={smallIconStyle} className="receives-yield-icon" />
         </Box>
         <Box
           display="flex"
