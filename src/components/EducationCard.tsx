@@ -17,6 +17,7 @@ type EducationGraphicProps = {
   quantity: string;
   verb?: string;
   isLoading?: boolean;
+  small?: boolean;
 };
 
 type GenericEducationGraphicProps = {
@@ -85,7 +86,7 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
   );
 }
 
-export function VaultGraphic({ quantity, verb = "deposited", isLoading }: EducationGraphicProps) {
+export function VaultGraphic({ quantity, verb = "deposited", isLoading, small = true }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
@@ -94,7 +95,7 @@ export function VaultGraphic({ quantity, verb = "deposited", isLoading }: Educat
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={smallIconStyle} />
+        <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={small ? smallIconStyle : iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">

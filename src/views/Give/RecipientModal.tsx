@@ -547,7 +547,7 @@ export function RecipientModal({
                 <div className={`give-education-graphics ${isSmallScreen && "smaller"}`}>
                   <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
                   {!isSmallScreen && <ArrowGraphic />}
-                  <VaultGraphic quantity={getDepositAmount().toFixed()} />
+                  <VaultGraphic quantity={getDepositAmount().toFixed()} small={false} />
                   {!isSmallScreen && <ArrowGraphic />}
                   <YieldGraphic quantity={getDepositAmount().toFixed()} />
                 </div>
