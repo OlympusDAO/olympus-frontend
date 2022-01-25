@@ -301,7 +301,7 @@ export function ManageDonationModal({
     };
   };
 
-  const getModaltitle = (): string => {
+  const getModalTitle = (): string => {
     if (isEditing) {
       return "Edit";
     } else if (isWithdrawing) {
@@ -348,7 +348,7 @@ export function ManageDonationModal({
             </Link>
           )}
           <Typography variant="h4">
-            <strong>{getModaltitle()} Donation</strong>
+            <strong>{getModalTitle()} Donation</strong>
           </Typography>
         </div>
         <div className="manage-project-info">
