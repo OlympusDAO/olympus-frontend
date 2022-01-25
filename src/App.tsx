@@ -10,7 +10,7 @@ import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
-import useBonds, { IAllBondData } from "./hooks/Bonds";
+import useBonds from "./hooks/Bonds";
 import { useWeb3Context, useAppSelector } from "./hooks";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
@@ -24,8 +24,6 @@ import { info } from "./slices/MessagesSlice";
 
 import {
   Stake,
-  ChooseBond,
-  Bond,
   TreasuryDashboard,
   Zap,
   Wrap,
@@ -411,16 +409,7 @@ function App() {
               <PoolTogether />
             </Route> */}
 
-              <Route path="/bonds-v1">
-                {(bonds as IAllBondData[]).map(bond => {
-                  return (
-                    <Route exact key={bond.name} path={`/bonds-v1/${bond.name}`}>
-                      <Bond bond={bond} />
-                    </Route>
-                  );
-                })}
-                <ChooseBond />
-              </Route>
+              <Redirect from="/bonds-v1" to="/bonds" />
 
               <Route path="/bonds">
                 {bondIndexes.map(index => {

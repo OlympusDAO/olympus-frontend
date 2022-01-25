@@ -171,26 +171,7 @@ exports[`<Sidebar/> should render component 1`] = `
                               >
                                 <div
                                   class="MuiAccordionDetails-root"
-                                >
-                                  <a
-                                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone bond MuiTypography-colorPrimary"
-                                    href="/#/bonds-v1/frax"
-                                  >
-                                    <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                      style="width: 150px;"
-                                    />
-                                  </a>
-                                  <a
-                                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone bond MuiTypography-colorPrimary"
-                                    href="/#/bonds-v1/ohm_frax_lp"
-                                  >
-                                    <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                      style="width: 150px;"
-                                    />
-                                  </a>
-                                </div>
+                                />
                               </div>
                             </div>
                           </div>
