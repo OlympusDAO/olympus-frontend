@@ -82,6 +82,7 @@ To run the tests:
 [Lives here](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract), to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
 
 Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
+Note: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sOHM, OHM, gOHM), you will first need to use the migration steps in the UI to convert from sOHM v1 to sOHM v2.
 
 **Rinkeby faucet for WETH:**
 [Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
