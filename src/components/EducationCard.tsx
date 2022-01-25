@@ -124,7 +124,7 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <SvgIcon component={vaultLockImg} viewBox={"0 0 16 21"} style={smallIconStyle} />
+          <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={smallIconStyle} />
         </Box>
         <Box
           display="flex"
