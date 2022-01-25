@@ -5,8 +5,7 @@ import { BigNumber } from "bignumber.js";
 import data from "./projects.json";
 import { Project } from "../../components/GiveProject/project.type";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ManageDonationModal } from "./ManageDonationModal";
-import { WithdrawSubmitCallback } from "./WithdrawDepositModal";
+import { ManageDonationModal, WithdrawSubmitCallback } from "./ManageDonationModal";
 import { SubmitCallback } from "src/views/Give/Interfaces";
 import { error } from "../../slices/MessagesSlice";
 import { t } from "@lingui/macro";
@@ -50,7 +49,12 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
     setIsManageModalOpen(false);
   };
 
-  const handleEditModalSubmit: SubmitCallback = async (walletAddress, depositAmount, depositAmountDiff) => {
+  const handleEditModalSubmit: SubmitCallback = async (
+    walletAddress,
+    eventSource,
+    depositAmount,
+    depositAmountDiff,
+  ) => {
     if (!depositAmountDiff) {
       return dispatch(error(t`Please enter a value!`));
     }
@@ -69,6 +73,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource,
         }),
       );
     } else {
@@ -82,6 +87,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource,
         }),
       );
     }
@@ -89,7 +95,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
     setIsEditModalOpen(false);
   };
 
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, depositAmount) => {
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
     // Issue withdrawal from smart contract
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
@@ -102,6 +108,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource,
         }),
       );
     } else {
@@ -115,6 +122,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource,
         }),
       );
     }
@@ -167,6 +175,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         yieldSent={depositObject.yieldDonated}
         project={projectMap.get(depositObject.recipient)}
         key={"manage-modal-" + depositObject.recipient}
+        eventSource={"My Donations"}
       />
     </Box>
   );

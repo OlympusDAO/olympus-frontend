@@ -495,7 +495,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     setIsGiveModalOpen(false);
   };
 
-  const handleEditModalSubmit: SubmitCallback = async (walletAddress, depositAmount, depositAmountDiff) => {
+  const handleEditModalSubmit: SubmitCallback = async (
+    walletAddress,
+    eventSource,
+    depositAmount,
+    depositAmountDiff,
+  ) => {
     if (!depositAmountDiff) {
       return dispatch(error(t`Please enter a value!`));
     }
@@ -514,6 +519,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource,
         }),
       );
     } else {
@@ -527,6 +533,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource,
         }),
       );
     }
@@ -534,7 +541,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     setIsManageModalOpen(false);
   };
 
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, depositAmount) => {
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
     // Issue withdrawal from smart contract
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
@@ -547,6 +554,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource,
         }),
       );
     } else {
@@ -560,6 +568,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource,
         }),
       );
     }
@@ -843,6 +852,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         {isUserDonating ? (
           <ManageDonationModal
             isModalOpen={isManageModalOpen}
+            eventSource={"Project Details"}
             submitEdit={handleEditModalSubmit}
             submitWithdraw={handleWithdrawModalSubmit}
             cancelFunc={handleManageModalCancel}

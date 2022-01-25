@@ -32,12 +32,13 @@ import { ChevronLeft } from "@material-ui/icons";
 import MarkdownIt from "markdown-it";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 
-type WithdrawSubmitCallback = {
-  (walletAddress: string, depositAmount: BigNumber): void;
+export type WithdrawSubmitCallback = {
+  (walletAddress: string, eventSource: string, depositAmount: BigNumber): void;
 };
 
 type ManageModalProps = {
   isModalOpen: boolean;
+  eventSource: string;
   submitEdit: SubmitCallback;
   submitWithdraw: WithdrawSubmitCallback;
   cancelFunc: CancelCallback;
@@ -56,6 +57,7 @@ type State = {
 
 export function ManageDonationModal({
   isModalOpen,
+  eventSource,
   submitEdit,
   submitWithdraw,
   cancelFunc,
@@ -143,13 +145,13 @@ export function ManageDonationModal({
   const handleEditSubmit = () => {
     const depositAmountBig = new BigNumber(depositAmount);
 
-    submitEdit(getWalletAddress(), depositAmountBig, getDepositAmountDiff());
+    submitEdit(getWalletAddress(), eventSource, depositAmountBig, getDepositAmountDiff());
   };
 
   const handleWithdrawSubmit = () => {
     const depositAmountBig = new BigNumber(depositAmount);
 
-    submitWithdraw(getWalletAddress(), depositAmountBig);
+    submitWithdraw(getWalletAddress(), eventSource, depositAmountBig);
   };
 
   const canSubmit = (): boolean => {
