@@ -44,7 +44,7 @@ const BondV2 = ({ index }: { index: number }) => {
 
   useEscape(() => {
     if (advOpen) handleAdvClose;
-    else history.push(`/bonds-v1`);
+    else history.push(`/bonds`);
   });
 
   useEffect(() => {
