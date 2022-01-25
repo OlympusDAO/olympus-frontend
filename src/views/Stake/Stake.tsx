@@ -13,7 +13,6 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  Paper,
   Tab,
   Tabs,
   Typography,
@@ -21,7 +20,7 @@ import {
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { DataRow, Metric, MetricCollection } from "@olympusdao/component-library";
+import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -263,6 +262,7 @@ function Stake() {
       gOhmOnAvaxAsSohm,
       gOhmOnPolygonAsSohm,
       gOhmOnFantomAsSohm,
+      gOhmOnTokemakAsSohm,
       sohmV1Balance,
       wsohmAsSohm,
       fiatDaoAsSohm,
@@ -291,15 +291,8 @@ function Stake() {
   return (
     <div id="stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
-        <Paper className={`ohm-card`}>
+        <Paper headerText={t`Single Stake (3, 3)`} subHeader={<RebaseTimer />}>
           <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <div className="card-header">
-                <Typography variant="h5">Single Stake (3, 3)</Typography>
-                <RebaseTimer />
-              </div>
-            </Grid>
-
             <Grid item>
               <MetricCollection>
                 <Metric
@@ -362,7 +355,7 @@ function Stake() {
                           (!hasAllowance("ohm") && view === 0) ||
                           (!hasAllowance("sohm") && view === 1 && !confirmation) ||
                           (!hasAllowance("gohm") && view === 1 && confirmation) ? (
-                            <Box className="help-text">
+                            <Box mt={"10px"}>
                               <Typography variant="body1" className="stake-note" color="textSecondary">
                                 {view === 0 ? (
                                   <>

@@ -45,14 +45,14 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
   const styles = useStyles();
   const { connected } = useWeb3Context();
   return (
-    <Paper id={`${pool.poolName}--pool`} className="bond-data-card ohm-card">
+    <Paper>
       <div className={styles.poolPair}>
         <TokenStack tokens={pool.icons} />
         <div className={styles.poolName}>
           <Typography>{pool.poolName}</Typography>
         </div>
       </div>
-      <div className="data-row">
+      <div className="data-row" style={{ display: "flex", justifyContent: "space-between" }}>
         <Typography>
           <Trans>TVL</Trans>
         </Typography>
@@ -60,7 +60,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
           <>{!pool.tvl ? <Skeleton width={30} /> : pool.tvl}</>
         </Typography>
       </div>
-      <div className="data-row">
+      <div className="data-row" style={{ display: "flex", justifyContent: "space-between" }}>
         <Typography>{connected && t`Balance`}</Typography>
         <Typography>
           {!pool.userBalance && connected ? (
