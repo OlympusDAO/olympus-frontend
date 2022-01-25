@@ -1,45 +1,32 @@
-import { Box, Modal, Paper, Grid, Typography, SvgIcon, Link, Button, Divider } from "@material-ui/core";
+import { Box, Modal, Paper, Grid, Typography, SvgIcon, Link, Button } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import { isAddress } from "@ethersproject/address";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { Skeleton } from "@material-ui/lab";
 import {
   changeApproval,
   changeMockApproval,
   hasPendingGiveTxn,
-  PENDING_TXN_GIVE,
   PENDING_TXN_EDIT_GIVE,
-  PENDING_TXN_GIVE_APPROVAL,
   PENDING_TXN_WITHDRAW,
 } from "src/slices/GiveThunk";
-import { IPendingTxn, txnButtonText, isPendingTxn } from "../../slices/PendingTxnsSlice";
+import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getTokenImage } from "../../helpers";
 import { BigNumber } from "bignumber.js";
-import {
-  WalletGraphic,
-  VaultGraphic,
-  YieldGraphic,
-  CurrPositionGraphic,
-  NewPositionGraphic,
-  ArrowGraphic,
-} from "../../components/EducationCard";
+import { ArrowGraphic } from "../../components/EducationCard";
 import { IAccountSlice } from "../../slices/AccountSlice";
 import { Project } from "src/components/GiveProject/project.type";
 const sOhmImg = getTokenImage("sohm");
 import { shorten } from "src/helpers";
 import { InfoTooltip } from "@olympusdao/component-library";
-import { useAppSelector } from "src/hooks";
 import { t, Trans } from "@lingui/macro";
 import { useLocation } from "react-router-dom";
 import { EnvHelper } from "src/helpers/Environment";
 import { SubmitCallback, CancelCallback } from "./Interfaces";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import ConnectButton from "../../components/ConnectButton";
 import { NetworkId } from "src/constants";
 import { ChevronLeft } from "@material-ui/icons";
 import MarkdownIt from "markdown-it";

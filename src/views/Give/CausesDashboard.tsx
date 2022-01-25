@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import "./give.scss";
 import { useLocation } from "react-router-dom";
-import { Button, Paper, Typography, Zoom, Grid, Container, Box, Tabs } from "@material-ui/core";
+import { Button, Paper, Typography, Zoom, Box } from "@material-ui/core";
 import { useWeb3Context } from "src/hooks/web3Context";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
@@ -10,9 +10,8 @@ import { RecipientModal } from "src/views/Give/RecipientModal";
 import { SubmitCallback, CancelCallback } from "src/views/Give/Interfaces";
 import { BigNumber } from "bignumber.js";
 import { error } from "../../slices/MessagesSlice";
-import { useAppDispatch, useAppSelector } from "src/hooks";
+import { useAppDispatch } from "src/hooks";
 import { changeGive, changeMockGive, ACTION_GIVE, isSupportedChain } from "src/slices/GiveThunk";
-import { GiveInfo } from "./GiveInfo";
 import { useUIDSeed } from "react-uid";
 import { useSelector } from "react-redux";
 import { t, Trans } from "@lingui/macro";
@@ -20,7 +19,6 @@ import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { EnvHelper } from "src/helpers/Environment";
-import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 import { NetworkId } from "src/constants";
 
 type State = {

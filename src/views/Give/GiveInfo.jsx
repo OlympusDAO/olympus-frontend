@@ -1,5 +1,5 @@
 import { Paper, Grid, Box, Button, Typography, SvgIcon } from "@material-ui/core";
-import { DepositSohm, LockInVault, ReceivesYield, ArrowGraphic } from "../../components/EducationCard";
+import { DepositSohm, LockInVault, ReceivesYield } from "../../components/EducationCard";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { t, Trans } from "@lingui/macro";
 
