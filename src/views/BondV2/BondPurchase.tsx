@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { InfoTooltip } from "@olympusdao/component-library";
+import { DataRow, InfoTooltip } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -214,16 +214,13 @@ function BondPurchase({
 
       <Slide direction="left" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
-          <div className="data-row">
-            <Typography>
-              <Trans>Your Balance</Trans>
-            </Typography>{" "}
-            <Typography id="bond-balance">
-              {isBondLoading ? <Skeleton width="100px" /> : <>{`${trim(balanceNumber, 4)} ${bond.displayName}`}</>}
-            </Typography>
-          </div>
+          <DataRow
+            title={t`Your Balance`}
+            balance={`${trim(balanceNumber, 4)} ${bond.displayName}`}
+            isLoading={isBondLoading}
+          />
 
-          <div className={`data-row`}>
+          <Box display="flex" flexDirection="row" justifyContent="space-between">
             <Box display="flex" flexDirection="row">
               <Typography>
                 <Trans>You Will Get</Trans>
@@ -238,46 +235,26 @@ function BondPurchase({
                 `sOHM (≈${trim(+quantity / bond.priceToken / +currentIndex, 4) || "0"} gOHM)`
               )}
             </Typography>
-          </div>
-
-          <div className={`data-row`}>
-            <Typography>
-              <Trans>Max You Can Buy</Trans>
-            </Typography>
-            <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
-                  trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
-                } ${bond.displayName})`
-              )}
-            </Typography>
-          </div>
-
-          <div className="data-row">
+          </Box>
+          <DataRow
+            title={t`Max You Can Buy`}
+            balance={`${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
+              trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
+            } ${bond.displayName})`}
+            isLoading={isBondLoading}
+          />
+          <Box display="flex" flexDirection="row" justifyContent="space-between">
             <Typography>
               <Trans>ROI</Trans>
             </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.displayName} bond={bond} />}
             </Typography>
-          </div>
+          </Box>
 
-          <div className="data-row">
-            <Typography>
-              <Trans>Duration</Trans>
-            </Typography>
-            <Typography>{isBondLoading ? <Skeleton width="100px" /> : bond.duration}</Typography>
-          </div>
-
+          <DataRow title={t`Duration`} balance={bond.duration} isLoading={isBondLoading} />
           {recipientAddress !== address && (
-            <div className="data-row">
-              <Typography>
-                <Trans>Recipient</Trans>{" "}
-              </Typography>
-              <Typography>{isBondLoading ? <Skeleton width="100px" /> : shorten(recipientAddress)}</Typography>
-            </div>
+            <DataRow title={t`Recipient`} balance={shorten(recipientAddress)} isLoading={isBondLoading} />
           )}
         </Box>
       </Slide>
