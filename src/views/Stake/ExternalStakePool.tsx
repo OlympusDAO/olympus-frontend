@@ -54,7 +54,7 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
       </div>
       <DataRow title={`TVL`} balance={pool.tvl} isLoading={pool.tvl ? false : true} />
       {connected && (
-        <DataRow title={t`Balance`} balance={pool.userBalance} isLoading={pool.userBalance ? false : true} />
+        <DataRow title={t`Balance`} balance={`${pool.userBalance} LP`} isLoading={pool.userBalance ? false : true} />
       )}
       {/* Pool Staking Linkouts */}
       <SecondaryButton href={pool.href} fullWidth>
@@ -68,6 +68,7 @@ const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading:
   const theme = useTheme();
   const styles = useStyles();
   const { connected } = useWeb3Context();
+
   return (
     <Box style={{ gap: theme.spacing(1.5) }} className={styles.stakePoolsWrapper}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
