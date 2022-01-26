@@ -42,15 +42,28 @@ If you would like to run the frontend in a Docker image (e.g. to isolate depende
 ## Unit Testing
 
 Unit tests are co-located with source code with naming convention `*.unit.test.js`.
-Jest is the test driver. Unit tests are isolated from integration dependencies via mocks; including Web3 RPC APIs and smart contract interactions.
-No local blockchain node is expected to run for unit testing. Hard Hat is not required.
 
-To run all unit test and see coverage report:
+We use the [React Jest](https://jestjs.io/docs/tutorial-react) test driver.
+
+
+To run all unit test and see a coverage report:
 
 ```
 yarn test:unit
 ```
 
+Note that the focus of unit testing is to exercise all paths through the code hosted in this repo and **only** code hosted in this repo. To the extent possible, unit tests should abstract out dependencies such as remote API calls as well as crypto wallet APIs via [`mock functions`](https://jestjs.io/docs/mock-functions).
+
+Coverage thresholds are enforced via CI checks. If a new PR introduces regression in code coverage, the CI will fail. The goal is to keep us at a minimum level of test automation coverage as we introduce new code into the repo. To see the current coverage thresholds, see the `coverageThreshold` in [`package.json`](package.json).
+
+For integration testing automation that runs browser and remote API code as well as our own code, see the End-to-end (E2E) testing section below.
+
+## Rinkeby Testing
+
+**Rinkeby faucet for sOHM:**
+[Lives here](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract), to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
+
+Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
 When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
 `yarn snapshot`.
@@ -66,19 +79,25 @@ To run the tests:
 
 ## Rinkeby Testing
 
-**Rinkeby faucet for sOHM:**
-[Lives here](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract), to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
+### sOHM Faucet
+- [0x800B3d87b77361F0D1d903246cA1F51b5acb43c9](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract)
+- to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. 
+- After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
 
 Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 
-**Rinkeby faucet for WETH:**
+### wETH Faucet
 [Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
 
-**Rinkeby faucets for LUSD, FRAX & DAI can be taken from rinkeby etherscan:**
+### DAI Faucets
+- [0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c](https://rinkeby.etherscan.io/address/0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c#writeContract)
+- [0x5ed8bd53b0c3fa3deabd345430b1a3a6a4e8bd7c](https://rinkeby.etherscan.io/address/0x5ed8bd53b0c3fa3deabd345430b1a3a6a4e8bd7c#writeContract)
+-  use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
 
-1. Go to `src/helpers/AllBonds.ts`
-2. Then copy the rinkeby `reserveAddress` for the applicable bond & navigate to that contract on rinkeby etherscan.
-3. On Rinkeby etherscan use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
+### FRAX Faucet
+- [0x2f7249cb599139e560f0c81c269ab9b04799e453](https://rinkeby.etherscan.io/address/0x2f7249cb599139e560f0c81c269ab9b04799e453#writeContract)
+-  use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
+
 
 ## Avax Fuji Testnet
 
