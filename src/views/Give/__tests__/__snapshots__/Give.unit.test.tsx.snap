@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Give/> should render component 1`] = `
+<div>
+  <div
+    class="give-view"
+  >
+    <div
+      class="MuiPaper-root ohm-card secondary false MuiPaper-elevation0 MuiPaper-rounded"
+      style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="stake-wallet-notification"
+      >
+        <div
+          class="wallet-menu"
+          id="wallet-menu"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained connect-button MuiButton-containedPrimary MuiButton-disableElevation"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              Connect Wallet
+            </span>
+          </button>
+        </div>
+        <h6
+          class="MuiTypography-root MuiTypography-h6"
+        >
+          Connect your wallet to give or redeem OHM
+        </h6>
+      </div>
+    </div>
+  </div>
+</div>
+`;
