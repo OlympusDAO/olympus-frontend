@@ -59,7 +59,6 @@
     "lodash": "^4.17.21",
     "markdown-it": "^12.3.2",
     "material-ui": "^0.20.2",
-    "node-sass": "^7.0.1",
     "node-watch": "^0.7.1",
     "postcss": "^8.4.5",
     "react": "17.0.0",
@@ -130,6 +129,8 @@
     "pptr-testing-library": "^0.7.0",
     "prettier": "^2.5.1",
     "puppeteer": "^11.0.0",
+    "sass": "^1.49.0",
+    "surge": "^0.21.5",
     "shelljs": "^0.8.5",
     "type-graphql": "^1.1.1",
     "typechain": "^6.0.2"
