@@ -375,10 +375,20 @@ export function RecipientModal({
     if (isProjectMode()) {
       return (
         <>
-          <Typography variant="body1">
-            <Trans>Recipient</Trans>
-          </Typography>
-          <Typography variant="h6">{getRecipientTitle()}</Typography>
+          <div className="project-modal-top">
+            <Typography variant="body1">
+              <Trans>Recipient</Trans>
+            </Typography>
+          </div>
+          <FormControl className="modal-input" variant="outlined" color="primary">
+            <OutlinedInput
+              id="wallet-input"
+              type="text"
+              className="stake-input"
+              value={getRecipientTitle()}
+              disabled={true}
+            />
+          </FormControl>{" "}
         </>
       );
     }

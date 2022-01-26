@@ -603,12 +603,16 @@
     flex-direction: row;
   }
 
+  .project-modal-top {
+    margin-bottom: 1rem;
+  }
+
   .give-modal-alloc-tip {
     display: flex;
     flex-direction: row;
 
     .MuiBox-root {
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
     }
   }
 
