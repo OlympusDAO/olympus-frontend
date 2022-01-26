@@ -312,7 +312,6 @@ function Stake() {
         );
       }
     }
-
     //If Unstaking Tab
     if (view === 1) {
       if ((address && hasAllowance("sohm") && !confirmation) || (hasAllowance("gohm") && confirmation)) {
