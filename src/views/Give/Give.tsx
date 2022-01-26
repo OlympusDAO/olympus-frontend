@@ -72,6 +72,8 @@ function Give() {
               aria-label="stake tabs"
               //hides the tab underline sliding animation in while <Zoom> is loading
               TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
+              // Restrict the height of the tab bar, so the indicator is 4px away
+              style={{ height: "40px" }}
             >
               <Tab label={t`Causes`} {...a11yProps(0)} />
               <Tab label={t`My Donations`} {...a11yProps(1)} />
