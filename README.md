@@ -42,15 +42,28 @@ If you would like to run the frontend in a Docker image (e.g. to isolate depende
 ## Unit Testing
 
 Unit tests are co-located with source code with naming convention `*.unit.test.js`.
-Jest is the test driver. Unit tests are isolated from integration dependencies via mocks; including Web3 RPC APIs and smart contract interactions.
-No local blockchain node is expected to run for unit testing. Hard Hat is not required.
 
-To run all unit test and see coverage report:
+We use the [React Jest](https://jestjs.io/docs/tutorial-react) test driver.
+
+
+To run all unit test and see a coverage report:
 
 ```
 yarn test:unit
 ```
 
+Note that the focus of unit testing is to exercise all paths through the code hosted in this repo and **only** code hosted in this repo. To the extent possible, unit tests should abstract out dependencies such as remote API calls as well as crypto wallet APIs via [`mock functions`](https://jestjs.io/docs/mock-functions).
+
+Coverage thresholds are enforced via CI checks. If a new PR introduces regression in code coverage, the CI will fail. The goal is to keep us at a minimum level of test automation coverage as we introduce new code into the repo. To see the current coverage thresholds, see the `coverageThreshold` in [`package.json`](package.json).
+
+For integration testing automation that runs browser and remote API code as well as our own code, see the End-to-end (E2E) testing section below.
+
+## Rinkeby Testing
+
+**Rinkeby faucet for sOHM:**
+[Lives here](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract), to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
+
+Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
 When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
 `yarn snapshot`.
