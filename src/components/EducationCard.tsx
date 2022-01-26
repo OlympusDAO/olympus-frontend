@@ -1,13 +1,8 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Token } from "@olympusdao/component-library";
 
-import { ReactComponent as vaultLockImg } from "../assets/icons/vault-lock.svg";
-import { ReactComponent as yieldImg } from "../assets/icons/yield.svg";
-
-const smallViewBox = "0 0 50 50";
-const verySmallViewBox = "0 0 32 32";
 const iconStyle = { height: "64px", width: "64px", margin: "auto" };
 const smallIconStyle = { height: "32px", width: "32px", margin: "auto" };
 
@@ -93,7 +88,7 @@ export function VaultGraphic({ quantity, verb = "deposited", isLoading, small = 
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <SvgIcon component={vaultLockImg} viewBox={smallViewBox} style={small ? smallIconStyle : iconStyle} />
+        <Icon name="vault-lock" htmlColor="#fff" style={small ? smallIconStyle : iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
@@ -169,7 +164,7 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
         alignContent="center"
         m={2}
       >
-        <SvgIcon component={yieldImg} viewBox={verySmallViewBox} style={iconStyle} />
+        <Icon name="yield" style={iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
@@ -197,7 +192,7 @@ export function RedeemGraphic({ quantity, isLoading }: EducationGraphicProps) {
         m={2}
         className="yield-graphic"
       >
-        <SvgIcon component={yieldImg} viewBox={verySmallViewBox} style={smallIconStyle} />
+        <Icon name="yield" style={smallIconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
@@ -221,7 +216,7 @@ export function ReceivesYield({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <SvgIcon component={yieldImg} viewBox="0 0 30 30" style={smallIconStyle} className="receives-yield-icon" />
+          <Icon name="yield" style={smallIconStyle} className="receives-yield-icon" />
         </Box>
         <Box
           display="flex"
