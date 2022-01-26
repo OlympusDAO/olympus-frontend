@@ -1,5 +1,6 @@
 import "./chart.scss";
 
+import { t } from "@lingui/macro";
 import { Box, CircularProgress, SvgIcon, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip } from "@olympusdao/component-library";
@@ -522,7 +523,7 @@ function Chart({
               {headerSubText}
             </Typography>
             <Typography variant="h4" color="textSecondary" style={{ fontWeight: 400 }}>
-              {type !== "multi" && "Today"}
+              {type !== "multi" && t`Today`}
             </Typography>
           </Box>
         )}
