@@ -295,7 +295,15 @@ export function NewPositionGraphic({ quantity }: EducationGraphicProps) {
 export function ArrowGraphic() {
   return (
     <Box className="sect" minWidth={"2%"} style={{ marginTop: "0px", marginBottom: "0px" }}>
-      <Box className="arrow-graphic" display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
+      <Box
+        className="arrow-graphic"
+        display="flex"
+        flex="1"
+        alignItems="center"
+        justifyContent="center"
+        m={2}
+        style={{ marginTop: "0px", marginBottom: "0px", height: "20px" }}
+      >
         <Icon name="arrow-right" style={{ fontSize: 70 }} opacity={0.6} />
       </Box>
     </Box>
