@@ -45,10 +45,9 @@ Unit tests are co-located with source code with naming convention `*.unit.test.j
 
 We use the [React Jest](https://jestjs.io/docs/tutorial-react) test driver.
 
-
 To run all unit test and see a coverage report:
 
-```
+```bash
 yarn test:unit
 ```
 
@@ -58,12 +57,6 @@ Coverage thresholds are enforced via CI checks. If a new PR introduces regressio
 
 For integration testing automation that runs browser and remote API code as well as our own code, see the End-to-end (E2E) testing section below.
 
-## Rinkeby Testing
-
-**Rinkeby faucet for sOHM:**
-[Lives here](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract), to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
-
-Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
 When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
 `yarn snapshot`.
@@ -80,6 +73,7 @@ To run the tests:
 ## Rinkeby Testing
 
 ### sOHM Faucet
+
 - [0x800B3d87b77361F0D1d903246cA1F51b5acb43c9](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract)
 - to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`.
 - After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
@@ -87,24 +81,26 @@ To run the tests:
 Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 
 ### wETH Faucet
+
 [Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
 
 ### DAI Faucets
+
 - [0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c](https://rinkeby.etherscan.io/address/0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c#writeContract)
 - [0x5ed8bd53b0c3fa3deabd345430b1a3a6a4e8bd7c](https://rinkeby.etherscan.io/address/0x5ed8bd53b0c3fa3deabd345430b1a3a6a4e8bd7c#writeContract)
--  use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
+- use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
 
 ### FRAX Faucet
+
 - [0x2f7249cb599139e560f0c81c269ab9b04799e453](https://rinkeby.etherscan.io/address/0x2f7249cb599139e560f0c81c269ab9b04799e453#writeContract)
--  use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
+- use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
 
-
-## Avax Fuji Testnet
+### Avax Fuji Testnet
 
 1. [avax faucet](https://faucet.avax-test.network/)
 2. [explorer](https://explorer.avax-test.network/)
 
-## Gitpod Continuous Dev Environment
+## Gitpod Continuous Dev Environment (optional)
 
 This repo is configured to work with Gitpod.
 
