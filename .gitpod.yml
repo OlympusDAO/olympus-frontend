@@ -2,7 +2,7 @@ tasks:
   - name: App
     init: |
       #  create a default .env file if none present
-      if [! -f /tmp/.npm-lock ]; do cp .env.test .env; done
+      if [ ! -f .env ]; then cp ".env.test" ".env"; fi
       yarn && \
       gp sync-done install
     command: REACT_APP_PROVIDER=$(gp url 8545) yarn start
