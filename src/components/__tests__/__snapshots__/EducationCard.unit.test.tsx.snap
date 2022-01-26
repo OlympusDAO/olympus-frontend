@@ -1,0 +1,629 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ArrowGraphic/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-1 sect"
+    style="margin-top: 0px; margin-bottom: 0px;"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-2 arrow-graphic"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+        focusable="false"
+        opacity="0.6"
+        style="font-size: 70px;"
+        viewBox="0 0 20 20"
+      >
+        <path
+          d="M 19.844 10.376 C 20.052 10.168 20.052 9.832 19.844 9.625 L 16.465 6.246 C 16.259 6.038 15.922 6.038 15.714 6.246 C 15.508 6.453 15.508 6.789 15.714 6.997 L 18.719 10 L 15.714 13.004 C 15.508 13.211 15.508 13.548 15.714 13.755 C 15.922 13.962 16.259 13.962 16.465 13.755 L 19.844 10.376 Z M 0 10.531 L 19.469 10.531 L 19.469 9.469 L 0 9.469 L 0 10.531 Z"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<CurrPositionGraphic/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-9 sect"
+    style="margin-top: 16px; margin-bottom: 16px;"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-10 text"
+    >
+      <h6
+        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+      >
+        Current Deposit
+      </h6>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-11"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+        focusable="false"
+        style="font-size: 64px;"
+        viewBox="0 0 32 32"
+      >
+        <defs>
+          <lineargradient
+            gradientTransform="matrix(0.319996, 0, 0, 0.319996, -0.000007, -1.775952)"
+            gradientUnits="userSpaceOnUse"
+            id="paint0_linear"
+            x1="-83.5339"
+            x2="189.059"
+            y1="50"
+            y2="50"
+          >
+            <stop
+              stop-color="#708B96"
+            />
+            <stop
+              offset="1"
+              stop-color="#F7FBE7"
+            />
+          </lineargradient>
+        </defs>
+        <path
+          clip-rule="evenodd"
+          d="M 15.982 28.228 C 23.688 28.228 29.934 21.982 29.934 14.276 C 29.934 12.658 29.658 11.104 29.152 9.659 L 29.152 5.11 C 30.947 7.696 32 10.837 32 14.224 C 32 23.06 24.836 30.224 16 30.224 C 7.163 30.224 0 23.06 0 14.224 C 0 10.817 1.065 7.659 2.88 5.064 L 2.88 9.472 C 2.331 10.97 2.031 12.588 2.031 14.276 C 2.031 21.982 8.276 28.228 15.982 28.228 Z"
+          fill="url(#paint0_linear)"
+          fill-rule="evenodd"
+        />
+        <path
+          d="M 3.552 14.224 C 3.552 7.349 9.125 1.776 16 1.776 C 22.875 1.776 28.448 7.349 28.448 14.224 C 28.448 21.099 22.875 26.671 16 26.671 C 9.125 26.671 3.552 21.099 3.552 14.224 Z"
+          fill="#708B96"
+        />
+        <path
+          clip-rule="evenodd"
+          d="M 17.195 19.176 C 17.195 19.176 17.195 19.176 17.195 19.176 L 17.195 19.726 L 21.477 19.726 L 21.477 18.181 L 19.363 18.181 C 20.634 17.219 21.451 15.72 21.451 14.037 C 21.451 11.129 19.011 8.772 16 8.772 C 12.989 8.772 10.548 11.129 10.548 14.037 C 10.548 15.72 11.365 17.219 12.637 18.181 L 10.523 18.181 L 10.523 19.726 L 14.805 19.726 L 14.805 19.176 L 14.805 17.652 C 13.245 17.16 12.116 15.733 12.116 14.05 C 12.116 11.96 13.855 10.266 16 10.266 C 18.145 10.266 19.884 11.96 19.884 14.05 C 19.884 15.733 18.755 17.16 17.195 17.652 L 17.195 19.176 Z"
+          fill="white"
+          fill-rule="evenodd"
+        />
+      </svg>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-13 text"
+    >
+      <h6
+        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+      >
+        1
+         sOHM
+      </h6>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<DepositSohm/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-35 sect"
+    style="margin-top: 16px; margin-bottom: 16px;"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-36 graphic"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-37"
+        style="margin-bottom: 8px;"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+          focusable="false"
+          viewBox="0 0 32 32"
+        >
+          <defs>
+            <lineargradient
+              gradientTransform="matrix(0.319996, 0, 0, 0.319996, -0.000007, -1.775952)"
+              gradientUnits="userSpaceOnUse"
+              id="paint0_linear"
+              x1="-83.5339"
+              x2="189.059"
+              y1="50"
+              y2="50"
+            >
+              <stop
+                stop-color="#708B96"
+              />
+              <stop
+                offset="1"
+                stop-color="#F7FBE7"
+              />
+            </lineargradient>
+          </defs>
+          <path
+            clip-rule="evenodd"
+            d="M 15.982 28.228 C 23.688 28.228 29.934 21.982 29.934 14.276 C 29.934 12.658 29.658 11.104 29.152 9.659 L 29.152 5.11 C 30.947 7.696 32 10.837 32 14.224 C 32 23.06 24.836 30.224 16 30.224 C 7.163 30.224 0 23.06 0 14.224 C 0 10.817 1.065 7.659 2.88 5.064 L 2.88 9.472 C 2.331 10.97 2.031 12.588 2.031 14.276 C 2.031 21.982 8.276 28.228 15.982 28.228 Z"
+            fill="url(#paint0_linear)"
+            fill-rule="evenodd"
+          />
+          <path
+            d="M 3.552 14.224 C 3.552 7.349 9.125 1.776 16 1.776 C 22.875 1.776 28.448 7.349 28.448 14.224 C 28.448 21.099 22.875 26.671 16 26.671 C 9.125 26.671 3.552 21.099 3.552 14.224 Z"
+            fill="#708B96"
+          />
+          <path
+            clip-rule="evenodd"
+            d="M 17.195 19.176 C 17.195 19.176 17.195 19.176 17.195 19.176 L 17.195 19.726 L 21.477 19.726 L 21.477 18.181 L 19.363 18.181 C 20.634 17.219 21.451 15.72 21.451 14.037 C 21.451 11.129 19.011 8.772 16 8.772 C 12.989 8.772 10.548 11.129 10.548 14.037 C 10.548 15.72 11.365 17.219 12.637 18.181 L 10.523 18.181 L 10.523 19.726 L 14.805 19.726 L 14.805 19.176 L 14.805 17.652 C 13.245 17.16 12.116 15.733 12.116 14.05 C 12.116 11.96 13.855 10.266 16 10.266 C 18.145 10.266 19.884 11.96 19.884 14.05 C 19.884 15.733 18.755 17.16 17.195 17.652 L 17.195 19.176 Z"
+            fill="white"
+            fill-rule="evenodd"
+          />
+        </svg>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-39"
+        style="margin-bottom: 16px; color: rgb(153, 153, 153);"
+      >
+        <p
+          class="MuiTypography-root subtext MuiTypography-body1"
+        >
+          Wallet
+        </p>
+      </div>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-40 text"
+    >
+      <p
+        class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignLeft"
+        style="padding-bottom: 0.33rem;"
+      >
+        test123
+      </p>
+      <p
+        class="MuiTypography-root education-message MuiTypography-body2 MuiTypography-alignLeft"
+        style="line-height: 16px;"
+      >
+        Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step is depositing your sOHM and specifying a recipient.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<LockInVault/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-41 sect"
+    style="margin-top: 16px; margin-bottom: 16px;"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-42"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-43"
+        style="margin-bottom: 8px;"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+          color="#fff"
+          focusable="false"
+          viewBox="0 0 20 20"
+        >
+          <rect
+            fill="#708B96"
+            height="20"
+            rx="25"
+            width="20"
+          />
+          <path
+            d="M 12.4 8.4 L 12 8.4 L 12 7.6 C 12 6.496 11.104 5.6 10 5.6 C 8.896 5.6 8 6.496 8 7.6 L 8 8.4 L 7.6 8.4 C 7.16 8.4 6.8 8.76 6.8 9.2 L 6.8 13.2 C 6.8 13.64 7.16 14 7.6 14 L 12.4 14 C 12.84 14 13.2 13.64 13.2 13.2 L 13.2 9.2 C 13.2 8.76 12.84 8.4 12.4 8.4 Z M 10 12 C 9.56 12 9.2 11.64 9.2 11.2 C 9.2 10.76 9.56 10.4 10 10.4 C 10.44 10.4 10.8 10.76 10.8 11.2 C 10.8 11.64 10.44 12 10 12 Z M 11.24 8.4 L 8.76 8.4 L 8.76 7.6 C 8.76 6.916 9.316 6.36 10 6.36 C 10.684 6.36 11.24 6.916 11.24 7.6 L 11.24 8.4 Z"
+          />
+        </svg>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-45"
+        style="margin-bottom: 16px; color: rgb(153, 153, 153);"
+      >
+        <p
+          class="MuiTypography-root subtext MuiTypography-body1"
+        >
+          Vault
+        </p>
+      </div>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-46 text"
+    >
+      <p
+        class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignLeft"
+        style="padding-bottom: 0.33rem;"
+      >
+        test123
+      </p>
+      <p
+        class="MuiTypography-root education-message MuiTypography-body2 MuiTypography-alignLeft"
+        style="line-height: 16px;"
+      >
+        Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient. You can withdraw or edit your principal sOHM amount at any time.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<NewPositionGraphic/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-4 sect"
+    style="margin-top: 16px; margin-bottom: 16px;"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-5 text"
+    >
+      <h6
+        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+      >
+        Updated Deposit
+      </h6>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-6"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+        focusable="false"
+        style="font-size: 64px;"
+        viewBox="0 0 32 32"
+      >
+        <defs>
+          <lineargradient
+            gradientTransform="matrix(0.319996, 0, 0, 0.319996, -0.000007, -1.775952)"
+            gradientUnits="userSpaceOnUse"
+            id="paint0_linear"
+            x1="-83.5339"
+            x2="189.059"
+            y1="50"
+            y2="50"
+          >
+            <stop
+              stop-color="#708B96"
+            />
+            <stop
+              offset="1"
+              stop-color="#F7FBE7"
+            />
+          </lineargradient>
+        </defs>
+        <path
+          clip-rule="evenodd"
+          d="M 15.982 28.228 C 23.688 28.228 29.934 21.982 29.934 14.276 C 29.934 12.658 29.658 11.104 29.152 9.659 L 29.152 5.11 C 30.947 7.696 32 10.837 32 14.224 C 32 23.06 24.836 30.224 16 30.224 C 7.163 30.224 0 23.06 0 14.224 C 0 10.817 1.065 7.659 2.88 5.064 L 2.88 9.472 C 2.331 10.97 2.031 12.588 2.031 14.276 C 2.031 21.982 8.276 28.228 15.982 28.228 Z"
+          fill="url(#paint0_linear)"
+          fill-rule="evenodd"
+        />
+        <path
+          d="M 3.552 14.224 C 3.552 7.349 9.125 1.776 16 1.776 C 22.875 1.776 28.448 7.349 28.448 14.224 C 28.448 21.099 22.875 26.671 16 26.671 C 9.125 26.671 3.552 21.099 3.552 14.224 Z"
+          fill="#708B96"
+        />
+        <path
+          clip-rule="evenodd"
+          d="M 17.195 19.176 C 17.195 19.176 17.195 19.176 17.195 19.176 L 17.195 19.726 L 21.477 19.726 L 21.477 18.181 L 19.363 18.181 C 20.634 17.219 21.451 15.72 21.451 14.037 C 21.451 11.129 19.011 8.772 16 8.772 C 12.989 8.772 10.548 11.129 10.548 14.037 C 10.548 15.72 11.365 17.219 12.637 18.181 L 10.523 18.181 L 10.523 19.726 L 14.805 19.726 L 14.805 19.176 L 14.805 17.652 C 13.245 17.16 12.116 15.733 12.116 14.05 C 12.116 11.96 13.855 10.266 16 10.266 C 18.145 10.266 19.884 11.96 19.884 14.05 C 19.884 15.733 18.755 17.16 17.195 17.652 L 17.195 19.176 Z"
+          fill="white"
+          fill-rule="evenodd"
+        />
+      </svg>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-8 text"
+    >
+      <h6
+        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+      >
+        1
+         sOHM
+      </h6>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<ReceivesYield/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-14 sect"
+    style="margin-top: 16px; margin-bottom: 16px;"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-15"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-16"
+        style="margin-bottom: 8px;"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+          color="#fff"
+          focusable="false"
+          viewBox="0 0 20 20"
+        >
+          <rect
+            fill="#708B96"
+            height="20"
+            rx="25"
+            stroke-width="0.5px"
+            width="20"
+          />
+          <path
+            clip-rule="evenodd"
+            d="M 7.112 12.461 C 8.73 12.23 10.143 13.566 10.004 15.194 L 9.988 15.339 C 8.37 15.57 6.956 14.234 7.095 12.606 L 7.112 12.461 Z M 7.112 9.586 C 8.73 9.354 10.143 10.689 10.004 12.318 L 9.988 12.461 C 8.37 12.693 6.956 11.358 7.095 9.728 L 7.112 9.586 Z M 7.112 6.708 C 8.73 6.477 10.143 7.812 10.004 9.441 L 9.988 9.586 C 8.37 9.817 6.956 8.481 7.095 6.852 L 7.112 6.709 Z M 12.864 6.708 C 13.096 8.328 11.761 9.741 10.132 9.601 L 9.988 9.586 C 9.757 7.966 11.092 6.553 12.721 6.692 L 12.864 6.708 Z M 12.864 9.586 C 13.096 11.204 11.761 12.617 10.132 12.478 L 9.988 12.461 C 9.757 10.843 11.092 9.43 12.721 9.569 L 12.864 9.585 Z M 12.864 12.461 C 13.096 14.08 11.761 15.493 10.132 15.354 L 9.988 15.339 C 9.757 13.719 11.092 12.306 12.721 12.446 L 12.865 12.461 Z M 9.988 3.237 C 11.297 4.217 11.352 6.161 10.101 7.214 L 9.988 7.304 C 8.632 6.288 8.632 4.253 9.988 3.237 Z"
+            stroke-linecap="round"
+            stroke-width="0.5px"
+          />
+        </svg>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-18"
+        style="margin-bottom: 16px; color: rgb(153, 153, 153);"
+      >
+        <p
+          class="MuiTypography-root subtext MuiTypography-body1"
+        >
+          Recipient
+        </p>
+      </div>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-19 text"
+    >
+      <p
+        class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignLeft"
+        style="padding-bottom: 0.33rem;"
+      >
+        test123
+      </p>
+      <p
+        class="MuiTypography-root education-message MuiTypography-body2 MuiTypography-alignLeft"
+        style="line-height: 16px;"
+      >
+        The recipient you specified, or the project you selected, will then receive the rebases associated with your sOHM deposit until you withdraw your sOHM principal from the vault.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<RedeemGraphic/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-20 sect"
+    style="margin-top: 16px; margin-bottom: 16px;"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-21 text"
+    >
+      <h6
+        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+      >
+        You
+      </h6>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-22"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+        color="#fff"
+        focusable="false"
+        style="font-size: 60px;"
+        viewBox="0 0 20 20"
+      >
+        <rect
+          fill="#708B96"
+          height="20"
+          rx="25"
+          stroke-width="0.5px"
+          width="20"
+        />
+        <path
+          clip-rule="evenodd"
+          d="M 7.112 12.461 C 8.73 12.23 10.143 13.566 10.004 15.194 L 9.988 15.339 C 8.37 15.57 6.956 14.234 7.095 12.606 L 7.112 12.461 Z M 7.112 9.586 C 8.73 9.354 10.143 10.689 10.004 12.318 L 9.988 12.461 C 8.37 12.693 6.956 11.358 7.095 9.728 L 7.112 9.586 Z M 7.112 6.708 C 8.73 6.477 10.143 7.812 10.004 9.441 L 9.988 9.586 C 8.37 9.817 6.956 8.481 7.095 6.852 L 7.112 6.709 Z M 12.864 6.708 C 13.096 8.328 11.761 9.741 10.132 9.601 L 9.988 9.586 C 9.757 7.966 11.092 6.553 12.721 6.692 L 12.864 6.708 Z M 12.864 9.586 C 13.096 11.204 11.761 12.617 10.132 12.478 L 9.988 12.461 C 9.757 10.843 11.092 9.43 12.721 9.569 L 12.864 9.585 Z M 12.864 12.461 C 13.096 14.08 11.761 15.493 10.132 15.354 L 9.988 15.339 C 9.757 13.719 11.092 12.306 12.721 12.446 L 12.865 12.461 Z M 9.988 3.237 C 11.297 4.217 11.352 6.161 10.101 7.214 L 9.988 7.304 C 8.632 6.288 8.632 4.253 9.988 3.237 Z"
+          stroke-linecap="round"
+          stroke-width="0.5px"
+        />
+      </svg>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-24 text"
+    >
+      <h6
+        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+      >
+        Redeem 1 sOHM in yield
+      </h6>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<VaultGraphic/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-30 sect"
+    style="margin-top: 16px; margin-bottom: 16px;"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-31 text"
+    >
+      <h6
+        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+      >
+        Vault
+      </h6>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-32"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+        color="#fff"
+        focusable="false"
+        style="font-size: 60px;"
+        viewBox="0 0 20 20"
+      >
+        <rect
+          fill="#708B96"
+          height="20"
+          rx="25"
+          width="20"
+        />
+        <path
+          d="M 12.4 8.4 L 12 8.4 L 12 7.6 C 12 6.496 11.104 5.6 10 5.6 C 8.896 5.6 8 6.496 8 7.6 L 8 8.4 L 7.6 8.4 C 7.16 8.4 6.8 8.76 6.8 9.2 L 6.8 13.2 C 6.8 13.64 7.16 14 7.6 14 L 12.4 14 C 12.84 14 13.2 13.64 13.2 13.2 L 13.2 9.2 C 13.2 8.76 12.84 8.4 12.4 8.4 Z M 10 12 C 9.56 12 9.2 11.64 9.2 11.2 C 9.2 10.76 9.56 10.4 10 10.4 C 10.44 10.4 10.8 10.76 10.8 11.2 C 10.8 11.64 10.44 12 10 12 Z M 11.24 8.4 L 8.76 8.4 L 8.76 7.6 C 8.76 6.916 9.316 6.36 10 6.36 C 10.684 6.36 11.24 6.916 11.24 7.6 L 11.24 8.4 Z"
+        />
+      </svg>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-34 text"
+    >
+      <h6
+        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+      >
+        1 sOHM deposited
+      </h6>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<WalletGraphic/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-47 sect"
+    style="margin-top: 16px; margin-bottom: 16px;"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-48 text"
+    >
+      <h6
+        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+      >
+        Wallet
+      </h6>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-49"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+        focusable="false"
+        style="font-size: 64px;"
+        viewBox="0 0 32 32"
+      >
+        <defs>
+          <lineargradient
+            gradientTransform="matrix(0.319996, 0, 0, 0.319996, -0.000007, -1.775952)"
+            gradientUnits="userSpaceOnUse"
+            id="paint0_linear"
+            x1="-83.5339"
+            x2="189.059"
+            y1="50"
+            y2="50"
+          >
+            <stop
+              stop-color="#708B96"
+            />
+            <stop
+              offset="1"
+              stop-color="#F7FBE7"
+            />
+          </lineargradient>
+        </defs>
+        <path
+          clip-rule="evenodd"
+          d="M 15.982 28.228 C 23.688 28.228 29.934 21.982 29.934 14.276 C 29.934 12.658 29.658 11.104 29.152 9.659 L 29.152 5.11 C 30.947 7.696 32 10.837 32 14.224 C 32 23.06 24.836 30.224 16 30.224 C 7.163 30.224 0 23.06 0 14.224 C 0 10.817 1.065 7.659 2.88 5.064 L 2.88 9.472 C 2.331 10.97 2.031 12.588 2.031 14.276 C 2.031 21.982 8.276 28.228 15.982 28.228 Z"
+          fill="url(#paint0_linear)"
+          fill-rule="evenodd"
+        />
+        <path
+          d="M 3.552 14.224 C 3.552 7.349 9.125 1.776 16 1.776 C 22.875 1.776 28.448 7.349 28.448 14.224 C 28.448 21.099 22.875 26.671 16 26.671 C 9.125 26.671 3.552 21.099 3.552 14.224 Z"
+          fill="#708B96"
+        />
+        <path
+          clip-rule="evenodd"
+          d="M 17.195 19.176 C 17.195 19.176 17.195 19.176 17.195 19.176 L 17.195 19.726 L 21.477 19.726 L 21.477 18.181 L 19.363 18.181 C 20.634 17.219 21.451 15.72 21.451 14.037 C 21.451 11.129 19.011 8.772 16 8.772 C 12.989 8.772 10.548 11.129 10.548 14.037 C 10.548 15.72 11.365 17.219 12.637 18.181 L 10.523 18.181 L 10.523 19.726 L 14.805 19.726 L 14.805 19.176 L 14.805 17.652 C 13.245 17.16 12.116 15.733 12.116 14.05 C 12.116 11.96 13.855 10.266 16 10.266 C 18.145 10.266 19.884 11.96 19.884 14.05 C 19.884 15.733 18.755 17.16 17.195 17.652 L 17.195 19.176 Z"
+          fill="white"
+          fill-rule="evenodd"
+        />
+      </svg>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-51 text"
+    >
+      <h6
+        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+      >
+        1
+         sOHM 
+        retained
+      </h6>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<YieldGraphic/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-25 sect"
+    style="margin-top: 16px; margin-bottom: 16px;"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-26 text"
+    >
+      <h6
+        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+      >
+        Recipient
+      </h6>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-27"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+        color="#fff"
+        focusable="false"
+        style="font-size: 60px;"
+        viewBox="0 0 20 20"
+      >
+        <rect
+          fill="#708B96"
+          height="20"
+          rx="25"
+          stroke-width="0.5px"
+          width="20"
+        />
+        <path
+          clip-rule="evenodd"
+          d="M 7.112 12.461 C 8.73 12.23 10.143 13.566 10.004 15.194 L 9.988 15.339 C 8.37 15.57 6.956 14.234 7.095 12.606 L 7.112 12.461 Z M 7.112 9.586 C 8.73 9.354 10.143 10.689 10.004 12.318 L 9.988 12.461 C 8.37 12.693 6.956 11.358 7.095 9.728 L 7.112 9.586 Z M 7.112 6.708 C 8.73 6.477 10.143 7.812 10.004 9.441 L 9.988 9.586 C 8.37 9.817 6.956 8.481 7.095 6.852 L 7.112 6.709 Z M 12.864 6.708 C 13.096 8.328 11.761 9.741 10.132 9.601 L 9.988 9.586 C 9.757 7.966 11.092 6.553 12.721 6.692 L 12.864 6.708 Z M 12.864 9.586 C 13.096 11.204 11.761 12.617 10.132 12.478 L 9.988 12.461 C 9.757 10.843 11.092 9.43 12.721 9.569 L 12.864 9.585 Z M 12.864 12.461 C 13.096 14.08 11.761 15.493 10.132 15.354 L 9.988 15.339 C 9.757 13.719 11.092 12.306 12.721 12.446 L 12.865 12.461 Z M 9.988 3.237 C 11.297 4.217 11.352 6.161 10.101 7.214 L 9.988 7.304 C 8.632 6.288 8.632 4.253 9.988 3.237 Z"
+          stroke-linecap="round"
+          stroke-width="0.5px"
+        />
+      </svg>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-29 text"
+    >
+      <h6
+        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+      >
+        Receives yield from 1 sOHM
+      </h6>
+    </div>
+  </div>
+</div>
+`;
