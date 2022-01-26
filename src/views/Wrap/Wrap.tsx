@@ -85,16 +85,6 @@ const Wrap: React.FC = () => {
 
   // @ts-ignore
   const isAllowanceDataLoading = currentAction === "Unwrap";
-  // const convertedQuantity = 0;
-  // const convertedQuantity = useMemo(() => {
-  //   if (assetFrom === "sOHM") {
-  //     return +quantity / currentIndex;
-  //   } else if (assetTo === "sOHM") {
-  //     return +quantity * currentIndex;
-  //   } else {
-  //     return quantity;
-  //   }
-  // }, [quantity]);
 
   const modalButton = [];
 
