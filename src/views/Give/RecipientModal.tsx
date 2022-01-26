@@ -439,6 +439,9 @@ export function RecipientModal({
 
   // TODO re-arrange the below output to be around the state: approval, custom recipient, project recipient, editing
 
+  const sOhmBalance = getSOhmBalance().toFixed(2);
+  const depositAmountFixed = getDepositAmount().toFixed(2);
+
   return (
     /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
     <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
@@ -539,7 +542,7 @@ export function RecipientModal({
               <FormHelperText>{isDepositAmountValidError}</FormHelperText>
               <div className="give-staked-balance">
                 <Typography variant="body2" align="left">
-                  <Trans>Your current Staked Balance is {getSOhmBalance().toFixed(2)} sOHM</Trans>
+                  <Trans>Your current Staked Balance is {sOhmBalance} sOHM</Trans>
                 </Typography>
               </div>
             </FormControl>
@@ -581,11 +584,7 @@ export function RecipientModal({
             <>
               <FormControl className="ohm-modal-submit">
                 <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-                  {txnButtonText(
-                    pendingTransactions,
-                    PENDING_TXN_GIVE,
-                    t`Confirm ${getDepositAmount().toFixed(2)} sOHM`,
-                  )}
+                  {txnButtonText(pendingTransactions, PENDING_TXN_GIVE, t`Confirm ${depositAmountFixed} sOHM`)}
                 </Button>
               </FormControl>
             </>
