@@ -2,6 +2,7 @@ import "./customtooltip.scss";
 
 import { Box, Paper, Typography } from "@material-ui/core";
 import { CSSProperties } from "react";
+
 interface TooltipPayloadItem {
   value: number;
   payload: {
