@@ -87,7 +87,8 @@ const Wrap: React.FC = () => {
     return 0;
   }, [unwrapGohmAllowance, wrapSohmAllowance, assetTo, assetFrom, sohmBalance, gohmBalance]);
 
-  const isAllowanceDataLoading = currentAction === "Unwrap from";
+  // @ts-ignore
+  const isAllowanceDataLoading = currentAction === "Unwrap";
   // const convertedQuantity = 0;
   const convertedQuantity = useMemo(() => {
     if (assetFrom === "sOHM") {
