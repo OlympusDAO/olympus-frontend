@@ -94,7 +94,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       );
     }
 
-    setIsEditModalOpen(false);
+    setIsManageModalOpen(false);
   };
 
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
@@ -129,7 +129,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       );
     }
 
-    setIsWithdrawModalOpen(false);
+    setIsManageModalOpen(false);
   };
 
   return (
