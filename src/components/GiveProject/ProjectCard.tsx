@@ -285,7 +285,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               </Typography>
             </div>
             <div className="subtext">
-              <Trans>sOHM Donated</Trans>
+              <Trans>sOHM Yield</Trans>
             </div>
           </Grid>
           <Grid item xs={2} />
@@ -297,7 +297,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               </Typography>
             </div>
             <div className="subtext">
-              <Trans>Goal</Trans>
+              <Trans>sOHM Yield Goal</Trans>
             </div>
           </Grid>
         </Grid>
@@ -330,7 +330,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               </Typography>
             </div>
             <div className="subtext">
-              <Trans>Total sOHM Donated</Trans>
+              <Trans>Total Active sOHM</Trans>
             </div>
           </Grid>
         </Grid>
