@@ -89,11 +89,6 @@
     justify-content: center;
     width: 100%;
 
-    .MuiGrid-root.MuiGrid-item {
-      display: flex;
-      justify-self: center !important;
-    }
-
     .data-grid {
       justify-content: center;
       align-items: center;
@@ -101,12 +96,10 @@
     }
 
     .cause-card {
-      height: auto;
       &.very-small {
         min-width: 200px;
       }
       // max-width: 773px;
-      width: auto;
       // box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.03);
       // background-color: #ffffff0e;
       // backdrop-filter: blur(60px);
@@ -114,6 +107,7 @@
       border-radius: 10px !important;
       display: flex;
       flex-direction: row;
+      flex: 0 0 auto;
       justify-content: flex-start;
       align-items: flex-start;
       margin-bottom: 60px;
@@ -121,6 +115,11 @@
       .cause-title {
         padding-left: 0rem;
         padding-bottom: 0rem;
+        margin-bottom: 10px;
+      }
+
+      .cause-title.smaller-size {
+        margin-bottom: 20px;
       }
 
       .cause-title:hover {
@@ -149,12 +148,6 @@
 
         .MuiTypography-body2 {
           margin-top: 0.5rem;
-        }
-
-        .cause-header {
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 5px;
         }
 
         .cause-body {
@@ -200,7 +193,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-end;
         margin-top: 16px;
 
         .cause-info-main-text {
@@ -218,6 +211,7 @@
       }
 
       .cause-misc-info .MuiGrid-item {
+        display: flex;
         padding-left: 0px;
         align-items: flex-end;
         justify-content: flex-start;

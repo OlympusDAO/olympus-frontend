@@ -530,10 +530,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         <Box style={{ width: "100%", borderRadius: "10px" }}>
           {!isMediumScreen && !isSmallScreen && !isVerySmallScreen ? (
             <Grid item className={isVerySmallScreen ? "cause-card very-small" : "cause-card"} key={title}>
-              {getProjectImage()}
-              <div className="cause-content">
-                <Grid container className="cause-header">
-                  <Grid item className="cause-title">
+              <div style={{ display: "flex", width: "100%" }}>
+                {getProjectImage()}
+                <div className="cause-content">
+                  <div className="cause-title">
                     <Link
                       href={`#/give/projects/${project.slug}`}
                       onClick={() => handleProjectDetailsButtonClick("Title Link")}
@@ -542,31 +542,38 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         <strong>{getTitle()}</strong>
                       </Typography>
                     </Link>
-                  </Grid>
-                </Grid>
-                <div className="cause-body">
-                  <Typography variant="body1" style={{ lineHeight: "20px" }}>
-                    <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
-                  </Typography>
-                </div>
-                <Grid container direction="column" className="cause-misc-info">
-                  <Grid item xs={6} sm={12} md={6}>
-                    {renderGoalCompletion()}
-                  </Grid>
-                  <Grid item xs={6} sm={12} md={6} className="give-button-grid" style={{ justifyContent: "flex-end" }}>
-                    <Link
-                      href={`#/give/projects/${project.slug}`}
-                      className="cause-link"
-                      onClick={() => handleProjectDetailsButtonClick("View Details Button")}
+                  </div>
+                  <div className="cause-body">
+                    <Typography variant="body1" style={{ lineHeight: "20px" }}>
+                      <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
+                    </Typography>
+                  </div>
+                  <Grid container direction="column" className="cause-misc-info">
+                    <Grid item xs={6} sm={12} md={6}>
+                      {renderGoalCompletion()}
+                    </Grid>
+                    <Grid
+                      item
+                      xs={6}
+                      sm={12}
+                      md={6}
+                      className="give-button-grid"
+                      style={{ justifyContent: "flex-end" }}
                     >
-                      <Button variant="contained" color="primary" className="cause-give-button">
-                        <Typography variant="h6">
-                          <Trans>View Details</Trans>
-                        </Typography>
-                      </Button>
-                    </Link>
+                      <Link
+                        href={`#/give/projects/${project.slug}`}
+                        className="cause-link"
+                        onClick={() => handleProjectDetailsButtonClick("View Details Button")}
+                      >
+                        <Button variant="contained" color="primary" className="cause-give-button">
+                          <Typography variant="h6">
+                            <Trans>View Details</Trans>
+                          </Typography>
+                        </Button>
+                      </Link>
+                    </Grid>
                   </Grid>
-                </Grid>
+                </div>
               </div>
             </Grid>
           ) : (
@@ -577,7 +584,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               style={{ flexDirection: "column" }}
             >
               <Grid container className="cause-header">
-                <Grid item className="cause-title">
+                <Grid item className="cause-title smaller-size">
                   <Link
                     href={`#/give/projects/${project.slug}`}
                     onClick={() => handleProjectDetailsButtonClick("Title Link")}
