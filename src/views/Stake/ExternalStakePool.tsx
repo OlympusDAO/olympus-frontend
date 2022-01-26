@@ -57,11 +57,9 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
         <DataRow title={t`Balance`} balance={pool.userBalance} isLoading={pool.userBalance ? false : true} />
       )}
       {/* Pool Staking Linkouts */}
-      <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
-        <SecondaryButton href={pool.href} fullWidth>
-          {`${t`Stake on`} ${pool.stakeOn}`}
-        </SecondaryButton>
-      </Box>
+      <SecondaryButton href={pool.href} fullWidth>
+        {`${t`Stake on`} ${pool.stakeOn}`}
+      </SecondaryButton>
     </Paper>
   );
 };
