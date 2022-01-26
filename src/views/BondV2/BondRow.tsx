@@ -3,7 +3,7 @@ import "./choosebond.scss";
 import { t, Trans } from "@lingui/macro";
 import { Button, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { TokenStack } from "@olympusdao/component-library";
+import { InfoTooltip, TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
 import { useAppSelector } from "src/hooks";
 import { IBondV2 } from "src/slices/BondSliceV2";
@@ -86,6 +86,7 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
 export function BondTableData({ bond }: { bond: IBondV2 }) {
   // Use BondPrice as indicator of loading.
   const isBondLoading = !bond.priceUSD ?? true;
+  console.log(bond);
   // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
 
   return (
@@ -93,14 +94,27 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
       <TableCell align="left" className="bond-name-cell">
         <TokenStack tokens={bond.bondIconSvg} />
         <div className="bond-name">
-          <Typography variant="body1">{bond.displayName}</Typography>
-          {bond.isLP && (
-            <Link color="primary" href={bond.lpUrl} target="_blank">
-              <Typography variant="body1">
-                <Trans>Get LP</Trans>
-                <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-              </Typography>
-            </Link>
+          {bond && bond.isLP ? (
+            <>
+              <Typography variant="body1">{bond.displayName}</Typography>
+              <Link color="primary" href={bond.lpUrl} target="_blank">
+                <Typography variant="body1">
+                  <Trans>Get LP</Trans>
+                  <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                </Typography>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Typography variant="body1">{bond.displayName}</Typography>
+              <InfoTooltip message={`Address: ${bond.quoteToken}`} />
+              <Link color="primary" href={`https://etherscan.io/address/${bond.quoteToken}`} target="_blank">
+                <Typography variant="body1">
+                  <Trans>View Asset</Trans>
+                  <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                </Typography>
+              </Link>
+            </>
           )}
           {/* <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography> */}
         </div>
