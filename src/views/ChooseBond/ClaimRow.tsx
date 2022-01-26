@@ -126,6 +126,7 @@ export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDe
       </div>
       <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">
         <TertiaryButton
+          fullWidth
           disabled={
             isPendingTxn(pendingTransactions, "redeem_bond_" + bond.displayName) ||
             isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
@@ -136,6 +137,7 @@ export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDe
           {txnButtonText(pendingTransactions, "redeem_bond_" + bond.displayName, t`Claim`)}
         </TertiaryButton>
         <TertiaryButton
+          fullWidth
           disabled={
             isPendingTxn(pendingTransactions, "redeem_bond_" + bond.displayName) ||
             isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
