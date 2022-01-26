@@ -8,7 +8,7 @@ exports[`<CardHeader/> should render component 1`] = `
     <h5
       class="MuiTypography-root MuiTypography-h5"
     >
-      Test
+      Card Header Title
     </h5>
   </div>
 </div>
