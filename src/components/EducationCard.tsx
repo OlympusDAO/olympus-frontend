@@ -88,7 +88,7 @@ export function VaultGraphic({ quantity, verb = "deposited", isLoading, small = 
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <Icon name="vault-lock" style={small ? smallIconStyle : iconStyle} />
+        <Icon name="vault-lock" htmlColor="#fff" style={small ? smallIconStyle : iconStyle} />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
