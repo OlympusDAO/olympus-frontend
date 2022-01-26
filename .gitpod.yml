@@ -1,7 +1,9 @@
 tasks:
   - name: App
-    init: >
-      yarn &&
+    init: |
+      #  create a default .env file if none present
+      if [ ! -f .env ]; then cp ".env.test" ".env"; fi
+      yarn && \
       gp sync-done install
     command: REACT_APP_PROVIDER=$(gp url 8545) yarn start
   - name: Test
@@ -21,4 +23,3 @@ vscode:
   extensions:
     - dbaeumer.vscode-eslint
     - esbenp.prettier-vscode
-    - juanblanco.solidity
