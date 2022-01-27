@@ -152,8 +152,8 @@ export default function RedeemYield() {
           </Typography>
         </div>
         <Button
-          variant="outlined"
-          color="secondary"
+          variant="contained"
+          color="primary"
           className="redeem-button"
           onClick={() => handleRedeemButtonClick()}
           disabled={!canRedeem()}
