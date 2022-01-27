@@ -42,7 +42,7 @@ exports[`<PoolTogether/> should render component 1`] = `
             class="MuiBox-root MuiBox-root-6 pool-timer"
           >
             <div
-              class="MuiBox-root MuiBox-root-20 pool-timer-unit"
+              class="MuiBox-root MuiBox-root-21 pool-timer-unit"
             >
               <h3
                 class="MuiTypography-root MuiTypography-h3"
@@ -59,7 +59,7 @@ exports[`<PoolTogether/> should render component 1`] = `
               </p>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-21 pool-timer-unit"
+              class="MuiBox-root MuiBox-root-22 pool-timer-unit"
             >
               <h3
                 class="MuiTypography-root MuiTypography-h3"
@@ -76,7 +76,7 @@ exports[`<PoolTogether/> should render component 1`] = `
               </p>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-22 pool-timer-unit"
+              class="MuiBox-root MuiBox-root-23 pool-timer-unit"
             >
               <h3
                 class="MuiTypography-root MuiTypography-h3"
@@ -93,7 +93,7 @@ exports[`<PoolTogether/> should render component 1`] = `
               </p>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-23 pool-timer-unit"
+              class="MuiBox-root MuiBox-root-24 pool-timer-unit"
             >
               <h3
                 class="MuiTypography-root MuiTypography-h3"
@@ -145,7 +145,7 @@ exports[`<PoolTogether/> should render component 1`] = `
         </div>
       </div>
       <div
-        class="MuiTabs-root pt-tabs"
+        class="MuiTabs-root makeStyles-root-11 pt-tabs"
       >
         <div
           class="MuiTabs-scroller MuiTabs-fixed"
@@ -157,10 +157,11 @@ exports[`<PoolTogether/> should render component 1`] = `
             role="tablist"
           >
             <button
-              aria-controls="pool-tabpanel-0"
+              aria-controls="simple-tabpanel-0"
+              aria-label="pool-withdraw-button"
               aria-selected="true"
               class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected"
-              id="pool-tab-0"
+              id="simple-tab-0"
               role="tab"
               tabindex="0"
               type="button"
@@ -173,7 +174,7 @@ exports[`<PoolTogether/> should render component 1`] = `
             </button>
           </div>
           <span
-            class="PrivateTabIndicator-root-11 PrivateTabIndicator-colorPrimary-12 MuiTabs-indicator"
+            class="PrivateTabIndicator-root-12 PrivateTabIndicator-colorPrimary-13 MuiTabs-indicator"
             style="left: 0px; width: 0px;"
           />
         </div>
@@ -185,7 +186,7 @@ exports[`<PoolTogether/> should render component 1`] = `
         style="overflow: hidden;"
       >
         <div
-          class="MuiBox-root MuiBox-root-15"
+          class="MuiBox-root MuiBox-root-16"
         >
           <p
             class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
@@ -200,7 +201,7 @@ exports[`<PoolTogether/> should render component 1`] = `
             (The 6-day early exit fee has been waived. Network fees apply.)
           </p>
           <div
-            class="MuiBox-root MuiBox-root-16 pool-deposit-ui"
+            class="MuiBox-root MuiBox-root-17 pool-deposit-ui"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-contained connect-button MuiButton-containedPrimary MuiButton-disableElevation"
@@ -232,10 +233,10 @@ exports[`<PoolTogether/> should render component 1`] = `
       </div>
       
       <div
-        class="MuiBox-root MuiBox-root-17 pool-data"
+        class="MuiBox-root MuiBox-root-18 pool-data"
       >
         <div
-          class="makeStyles-root-18 data-row"
+          class="makeStyles-root-19 data-row"
         >
           <p
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -252,7 +253,7 @@ exports[`<PoolTogether/> should render component 1`] = `
           </p>
         </div>
         <div
-          class="makeStyles-root-18 data-row"
+          class="makeStyles-root-19 data-row"
         >
           <p
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -269,7 +270,7 @@ exports[`<PoolTogether/> should render component 1`] = `
           </p>
         </div>
         <div
-          class="makeStyles-root-18 data-row"
+          class="makeStyles-root-19 data-row"
         >
           <p
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -286,7 +287,7 @@ exports[`<PoolTogether/> should render component 1`] = `
           </p>
         </div>
         <div
-          class="makeStyles-root-18 data-row"
+          class="makeStyles-root-19 data-row"
         >
           <p
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -300,7 +301,7 @@ exports[`<PoolTogether/> should render component 1`] = `
           </p>
         </div>
         <div
-          class="makeStyles-root-18 data-row"
+          class="makeStyles-root-19 data-row"
         >
           <p
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -318,7 +319,7 @@ exports[`<PoolTogether/> should render component 1`] = `
           color="secondary"
         />
         <div
-          class="makeStyles-root-18 data-row"
+          class="makeStyles-root-19 data-row"
         >
           <p
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -335,7 +336,7 @@ exports[`<PoolTogether/> should render component 1`] = `
           </p>
         </div>
         <div
-          class="makeStyles-root-18 data-row"
+          class="makeStyles-root-19 data-row"
         >
           <p
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
