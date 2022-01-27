@@ -42,7 +42,7 @@ const AccordionSection = ({
         <Table aria-label={title}>
           <TableHead>
             <TableRow>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Trans>Bond</Trans>
               </TableCell>
               <TableCell align="center">{`Duration`}</TableCell>
