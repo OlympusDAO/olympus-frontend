@@ -337,7 +337,16 @@
     }
   }
 
+  .ohm-card {
+    // On smaller screens, stack vertically and center
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .give-info {
+    width: 315px;
+
     .give-info-deposit-box {
       margin-right: 0px;
     }
@@ -399,7 +408,7 @@
   }
 
   .give-info {
-    width: 315px;
+    width: 220px;
 
     .give-info-deposit-box {
       margin-right: 0px;
