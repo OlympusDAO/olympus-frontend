@@ -994,12 +994,12 @@
 
   .project-goal-progress {
     padding-top: 0.65rem;
-    padding-bottom: 1.5rem;
+    padding-bottom: 30px;
   }
 
   .project-give-button {
     display: flex;
-    padding-top: 1.5rem;
+    padding-top: 30px;
 
     button {
       display: flex;
@@ -1034,7 +1034,6 @@
       flex-direction: column;
 
       .project-give-button {
-        padding-top: 1.5rem;
         width: 100%;
       }
     }
@@ -1063,7 +1062,6 @@
         align-items: center;
 
         .project-give-button {
-          padding-top: 0px;
           width: 100%;
         }
 
