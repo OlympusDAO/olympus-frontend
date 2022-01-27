@@ -1,7 +1,7 @@
 import "./bond.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Fade, Grid, Typography, useTheme } from "@material-ui/core";
+import { Box, Fade, Grid, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Modal, TokenStack } from "@olympusdao/component-library";
 import { ChangeEvent, Fragment, ReactElement, useEffect, useState } from "react";
@@ -148,21 +148,15 @@ export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
 };
 
 export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement => {
-  const theme = useTheme();
-
-  const getBondColor = (bond: IBondV2) => {
-    if (bond.discount > 0) {
-      return theme.palette.type === "dark" ? "#F8CC82" : "#65C879";
-    }
-  };
-
   if (typeof bond.discount === undefined || bond.soldOut) {
     return <Fragment>--</Fragment>;
   }
   return (
     <Fragment>
       {/* <span className={bond.discount >= 0 ? "bond_discount_positive" : ""}> */}
-      <span style={{ color: getBondColor(bond) }}>{bond.discount && trim(bond.discount * 100, 2)}%</span>
+      <span style={bond.discount > 0 ? { color: "#65C879" } : {}}>
+        {bond.discount && trim(bond.discount * 100, 2)}%
+      </span>
     </Fragment>
   );
 };
