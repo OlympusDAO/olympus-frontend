@@ -295,6 +295,72 @@
       }
     }
   }
+
+  .redeemable-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin-bottom: 40px;
+
+    .redeemable-balance {
+      text-align: center;
+      margin-bottom: 30px;
+
+      h3 {
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
+      .subtext {
+        color: #999999;
+      }
+    }
+
+    .redeem-button {
+      height: 40px;
+      width: 100%;
+    }
+  }
+
+  .projects-redeemable-data {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+    margin-bottom: 20px;
+    text-align: center;
+
+    .projects-redeemable-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #999999;
+      padding: 20px 20px 20px 20px;
+      border-radius: 10px;
+      width: 30%;
+
+      h5 {
+        font-weight: 600;
+      }
+
+      .subtext {
+        color: #999999;
+      }
+    }
+  }
+
+  .main-redeemable-box {
+    border: 1px solid #999999;
+    padding: 20px 20px 20px 20px;
+    border-radius: 10px;
+    width: 80%;
+
+    p:first-of-type {
+      color: #999999;
+    }
+  }
 }
 
 #give-view.medium {
@@ -471,6 +537,18 @@
         width: 40%;
       }
     }
+  }
+
+  .redeemable-container {
+    width: 100%;
+  }
+
+  .projects-redeemable-data {
+    width: 100%;
+  }
+
+  .main-redeemable-box {
+    width: 100%;
   }
 }
 
