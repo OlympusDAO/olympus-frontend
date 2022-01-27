@@ -1,7 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { formatUnits } from "@ethersproject/units";
 import { useQuery } from "react-query";
-import { queryAssertion } from "src/helpers";
+import { OHM_DAI_RESERVE_CONTRACT_DECIMALS, STAKING_CONTRACT_DECIMALS } from "src/constants/decimals";
+import { parseBigNumber, queryAssertion } from "src/helpers";
 
 import { useOhmDaiReserveContract } from "./useContract";
 import { useCurrentIndex } from "./useCurrentIndex";
@@ -17,7 +17,7 @@ export const useOhmPrice = () => {
   return useQuery<number, Error>(ohmPriceQueryKey(), async () => {
     const [ohm, dai] = await reserveContract.getReserves();
 
-    return parseFloat(formatUnits(dai.div(ohm), 9));
+    return parseBigNumber(dai.div(ohm), OHM_DAI_RESERVE_CONTRACT_DECIMALS);
   });
 };
 
@@ -39,7 +39,7 @@ export const useGohmPrice = () => {
     async () => {
       queryAssertion(ohmPrice && currentIndex, gohmPriceQueryKey(ohmPrice, currentIndex));
 
-      return parseFloat(formatUnits(currentIndex, 9)) * ohmPrice;
+      return parseBigNumber(currentIndex, STAKING_CONTRACT_DECIMALS) * ohmPrice;
     },
     { enabled: !!ohmPrice && !!currentIndex },
   );

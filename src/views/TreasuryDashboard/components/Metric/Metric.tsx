@@ -1,7 +1,7 @@
-import { formatUnits } from "@ethersproject/units";
 import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
-import { formatCurrency } from "src/helpers";
+import { STAKING_CONTRACT_DECIMALS } from "src/constants/decimals";
+import { formatCurrency, parseBigNumber } from "src/helpers";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
@@ -85,7 +85,7 @@ export const CurrentIndex = () => {
     tooltip: t`The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held 1 OHM from launch.`,
   };
 
-  if (currentIndex) props.metric = `${parseFloat(formatUnits(currentIndex, 9)).toFixed(2)} sOHM`;
+  if (currentIndex) props.metric = `${parseBigNumber(currentIndex, STAKING_CONTRACT_DECIMALS).toFixed(2)} sOHM`;
   else props.isLoading = true;
 
   return <Metric {...props} />;
