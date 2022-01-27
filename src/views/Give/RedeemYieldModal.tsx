@@ -63,7 +63,7 @@ export function RedeemYieldModal({
   return (
     /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
     <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
-      <Paper className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`} onClick={handleModalInsideClick}>
+      <Paper className={`ohm-card ohm-modal ${isSmallScreen ? "smaller" : ""}`} onClick={handleModalInsideClick}>
         <div className="yield-header">
           <Link onClick={() => cancelFunc()}>
             <SvgIcon color="primary" component={XIcon} />
@@ -74,7 +74,7 @@ export function RedeemYieldModal({
             </strong>
           </Typography>
         </div>
-        <div className={`give-education-graphics ${isSmallScreen && "smaller"}`}>
+        <div className={`give-education-graphics ${isSmallScreen ? "smaller" : ""}`}>
           <VaultGraphic quantity={deposit.toFixed(2)} verb={t`in deposits remains`} />
           {!isSmallScreen && <ArrowGraphic />}
           <RedeemGraphic quantity={redeemableBalance.toFixed(2)} />

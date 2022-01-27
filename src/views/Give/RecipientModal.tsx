@@ -445,7 +445,7 @@ export function RecipientModal({
   return (
     /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
     <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
-      <Paper className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`} onClick={handleModalInsideClick}>
+      <Paper className={`ohm-card ohm-modal ${isSmallScreen ? "smaller" : ""}`} onClick={handleModalInsideClick}>
         <div className="yield-header">
           {isAmountSet || !isCreateMode() ? (
             <Link onClick={() => handleGoBack()}>
@@ -549,7 +549,7 @@ export function RecipientModal({
             {getRecipientElements()}
             {!isSmallScreen ? (
               isCreateMode() ? (
-                <div className={`give-education-graphics ${isSmallScreen && "smaller"}`}>
+                <div className={`give-education-graphics ${isSmallScreen ? "smaller" : ""}`}>
                   <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
                   {!isSmallScreen && <ArrowGraphic />}
                   <VaultGraphic quantity={getDepositAmount().toFixed()} small={false} />

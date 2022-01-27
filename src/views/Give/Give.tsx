@@ -45,8 +45,8 @@ function Give() {
     <>
       <div
         id="give-view"
-        className={`${isMediumScreen && "medium"}
-        ${isSmallScreen && "smaller"}`}
+        className={`${isMediumScreen ? "medium" : ""}
+        ${isSmallScreen ? "smaller" : ""}`}
       >
         <Zoom in={true} onEntered={() => setZoomed(true)}>
           <Paper className={`ohm-card secondary causes-container`}>

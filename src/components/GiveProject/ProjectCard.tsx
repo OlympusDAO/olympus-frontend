@@ -657,9 +657,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       <>
         <Container style={{ display: "flex", justifyContent: "center" }} className="project-container">
           <div
-            className={`${isMediumScreen && "medium"}
-            ${isSmallScreen && "smaller"}
-            ${isVerySmallScreen && "very-small"}`}
+            className={`${isMediumScreen ? "medium" : ""}
+            ${isSmallScreen ? "smaller" : ""}
+            ${isVerySmallScreen ? "very-small" : ""}`}
           >
             <Box className="project-content-container">
               <Grid container className="project">

@@ -92,8 +92,8 @@ export default function CausesDashboard() {
   return (
     <div
       id="give-view"
-      className={`${isMediumScreen && "medium"}
-      ${isSmallScreen && "smaller"}`}
+      className={`${isMediumScreen ? "medium" : ""}
+      ${isSmallScreen ? "smaller" : ""}}`}
     >
       <Zoom in={true}>
         <Box className={`ohm-card secondary causes-container`}>
