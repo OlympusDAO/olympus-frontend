@@ -343,7 +343,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     if (!photos || photos.length < 1)
       return (
         <div className="cause-image">
-          <img width="100%" src="" />
+          <img height="100%" src="" />
         </div>
       );
 
