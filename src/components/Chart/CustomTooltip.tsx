@@ -1,8 +1,15 @@
 import "./customtooltip.scss";
 
 import { Box, Paper, Typography } from "@material-ui/core";
+import { CSSProperties } from "react";
 
-const renderDate = (index, payload, item) => {
+interface TooltipPayloadItem {
+  value: number;
+  payload: {
+    timestamp: number;
+  };
+}
+const renderDate = (index: number, payload: TooltipPayloadItem[], item: TooltipPayloadItem) => {
   return index === payload.length - 1 ? (
     <div className="tooltip-date">
       {new Date(item.payload.timestamp * 1000).toLocaleString("default", { month: "long" }).charAt(0).toUpperCase()}
@@ -15,7 +22,7 @@ const renderDate = (index, payload, item) => {
   );
 };
 
-const renderItem = (type, item) => {
+const renderItem = (type: string, item: number) => {
   return type === "$" ? (
     <Typography variant="body2">{`${type}${Math.round(item).toLocaleString("en-US")}`}</Typography>
   ) : (
@@ -23,7 +30,14 @@ const renderItem = (type, item) => {
   );
 };
 
-const renderTooltipItems = (payload, bulletpointColors, itemNames, itemType, isStaked = false, isPOL = false) => {
+const renderTooltipItems = (
+  payload: TooltipPayloadItem[],
+  bulletpointColors: CSSProperties[],
+  itemNames: string[],
+  itemType: string,
+  isStaked = false,
+  isPOL = false,
+) => {
   return isStaked ? (
     <Box>
       <Box className="item" display="flex" justifyContent="space-between">
@@ -77,8 +91,23 @@ const renderTooltipItems = (payload, bulletpointColors, itemNames, itemType, isS
     ))
   );
 };
-
-function CustomTooltip({ active, payload, bulletpointColors, itemNames, itemType, isStaked, isPOL }) {
+function CustomTooltip({
+  active,
+  payload,
+  bulletpointColors,
+  itemNames,
+  itemType,
+  isStaked,
+  isPOL,
+}: {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  bulletpointColors: CSSProperties[];
+  itemNames: string[];
+  itemType: string;
+  isStaked?: boolean;
+  isPOL?: boolean;
+}) {
   if (active && payload && payload.length) {
     return (
       <Paper className={`ohm-card tooltip-container`}>
