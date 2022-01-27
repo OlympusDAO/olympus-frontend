@@ -9,17 +9,15 @@ import { assert } from "src/helpers";
 import { ohm_dai } from "src/helpers/AllBonds";
 import { IERC20, OlympusStakingv2, PairContract } from "src/typechain";
 
-import { useNetwork } from "./useNetwork";
-import { useWeb3Context } from "./web3Context";
+import { useWeb3Context } from ".";
 
 export function useContract<TContract extends Contract>(addressOrMap: string, ABI: any): TContract;
 export function useContract<TContract extends Contract>(addressOrMap: AddressMap, ABI: any): TContract | null;
 export function useContract<TContract extends Contract>(addressOrMap: string | AddressMap, ABI: any): TContract | null {
-  const { provider } = useWeb3Context();
-  const { data: networkId } = useNetwork();
+  const { provider, networkId } = useWeb3Context();
 
   return useMemo(() => {
-    const address = typeof addressOrMap === "string" ? addressOrMap : addressOrMap[networkId!];
+    const address = typeof addressOrMap === "string" ? addressOrMap : addressOrMap[networkId as NetworkId];
     if (!address) return null;
 
     try {

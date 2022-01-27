@@ -7,7 +7,6 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
-import { Web3ContextProvider as NewWeb3ContextProvider } from "./hooks/useWeb3Context";
 import { Web3ContextProvider } from "./hooks/web3Context";
 import { queryClient } from "./lib/react-query";
 import { initLocale } from "./locales";
@@ -20,17 +19,15 @@ const Root: FC = () => {
 
   return (
     <Web3ContextProvider>
-      <NewWeb3ContextProvider>
-        <QueryClientProvider client={queryClient}>
-          <Provider store={store}>
-            <I18nProvider i18n={i18n}>
-              <BrowserRouter basename={"/#"}>
-                <App />
-              </BrowserRouter>
-            </I18nProvider>
-          </Provider>
-        </QueryClientProvider>
-      </NewWeb3ContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <I18nProvider i18n={i18n}>
+            <BrowserRouter basename={"/#"}>
+              <App />
+            </BrowserRouter>
+          </I18nProvider>
+        </Provider>
+      </QueryClientProvider>
     </Web3ContextProvider>
   );
 };

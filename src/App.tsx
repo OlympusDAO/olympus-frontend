@@ -49,8 +49,6 @@ import projectData from "src/views/Give/projects.json";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
-import { useEagerConnect } from "./hooks/useEagerConnect";
-import { useProviderEventListeners } from "./hooks/useProviderEventListeners";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -96,8 +94,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function App() {
-  useEagerConnect();
-  useProviderEventListeners();
   useSegmentAnalytics();
   useGoogleAnalytics();
   const location = useLocation();

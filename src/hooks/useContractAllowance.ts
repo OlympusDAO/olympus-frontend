@@ -10,9 +10,8 @@ import {
 } from "src/constants/addresses";
 import { queryAssertion } from "src/helpers";
 
-import { useAddress } from "./useAddress";
+import { useWeb3Context } from ".";
 import { useTokenContract } from "./useContract";
-import { useNetwork } from "./useNetwork";
 
 export const contractAllowanceQueryKey = (networkId?: NetworkId, address?: string) => [
   "useContractAllowances",
@@ -21,8 +20,7 @@ export const contractAllowanceQueryKey = (networkId?: NetworkId, address?: strin
 ];
 
 export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressMap) => {
-  const { data: address } = useAddress();
-  const { data: networkId } = useNetwork();
+  const { address, networkId } = useWeb3Context();
   const token = useTokenContract(tokenMap);
 
   return useQuery<BigNumber, Error>(
@@ -30,7 +28,7 @@ export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressM
     async () => {
       queryAssertion(address && networkId, contractAllowanceQueryKey(networkId, address));
 
-      const contractAddress = contractMap[networkId];
+      const contractAddress = contractMap[networkId as NetworkId];
 
       if (!token) throw new Error("Token doesn't exist on current network");
       if (!contractAddress) throw new Error("Contract doesn't exist on current network");

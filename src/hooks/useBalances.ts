@@ -15,7 +15,7 @@ import { assert, queryAssertion } from "src/helpers";
 import { covalent } from "src/lib/covalent";
 import { CovalentTokenBalance } from "src/lib/covalent.types";
 
-import { useAddress } from "./useAddress";
+import { useWeb3Context } from ".";
 
 const unstable_Object = Object as unstable_ObjectConstructor;
 
@@ -24,7 +24,7 @@ type Balances = Record<keyof typeof covalent.SUPPORTED_NETWORKS, CovalentTokenBa
 export const balancesQueryKey = (address?: string) => ["useBalances", address];
 
 export const useBalances = <TSelectData = unknown>(select: (data: Balances) => TSelectData) => {
-  const { data: address } = useAddress();
+  const { address } = useWeb3Context();
 
   return useQuery<Balances, Error, TSelectData>(
     balancesQueryKey(address),

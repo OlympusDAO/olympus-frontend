@@ -2,8 +2,8 @@ import { useMutation } from "react-query";
 import { NetworkId, NETWORKS } from "src/constants";
 import { networkIdToHexString } from "src/helpers";
 
+import { useWeb3Context } from ".";
 import { useSwitchNetwork } from "./useSwitchNetwork";
-import { useWeb3Context } from "./useWeb3Context";
 
 /**
  * Creates a new network in the wallet.
