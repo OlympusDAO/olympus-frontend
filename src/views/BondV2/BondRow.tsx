@@ -3,12 +3,13 @@ import "./choosebond.scss";
 import { t, Trans } from "@lingui/macro";
 import { Button, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { InfoTooltip, TokenStack } from "@olympusdao/component-library";
+import { TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
 import { useAppSelector } from "src/hooks";
 import { IBondV2 } from "src/slices/BondSliceV2";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { NetworkId } from "../../constants";
 import { DisplayBondDiscount, DisplayBondPrice } from "./BondV2";
 
 export function BondDataCard({ bond }: { bond: IBondV2 }) {
@@ -83,11 +84,16 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
   );
 }
 
-export function BondTableData({ bond }: { bond: IBondV2 }) {
+export function BondTableData({ bond, networkId }: { bond: IBondV2; networkId: NetworkId }) {
   // Use BondPrice as indicator of loading.
   const isBondLoading = !bond.priceUSD ?? true;
-  console.log(bond);
-  // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
+
+  const getEtherscanUrl = (bond: IBondV2) => {
+    if (networkId === NetworkId.TESTNET_RINKEBY) {
+      return `https://rinkeby.etherscan.io/address/${bond.quoteToken}`;
+    }
+    return `https://etherscan.io/address/${bond.quoteToken}`;
+  };
 
   return (
     <TableRow id={`${bond.index}--bond`}>
@@ -96,7 +102,6 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
         <div className="bond-name">
           {bond && bond.isLP ? (
             <>
-              <Typography variant="body1">{bond.displayName}</Typography>
               <Link color="primary" href={bond.lpUrl} target="_blank">
                 <Typography variant="body1">
                   <Trans>Get LP</Trans>
@@ -107,8 +112,7 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
           ) : (
             <>
               <Typography variant="body1">{bond.displayName}</Typography>
-              <InfoTooltip message={`Address: ${bond.quoteToken}`} />
-              <Link color="primary" href={`https://etherscan.io/address/${bond.quoteToken}`} target="_blank">
+              <Link color="primary" href={getEtherscanUrl(bond)} target="_blank">
                 <Typography variant="body1">
                   <Trans>View Asset</Trans>
                   <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />

@@ -45,10 +45,9 @@ Unit tests are co-located with source code with naming convention `*.unit.test.j
 
 We use the [React Jest](https://jestjs.io/docs/tutorial-react) test driver.
 
-
 To run all unit test and see a coverage report:
 
-```
+```bash
 yarn test:unit
 ```
 
@@ -58,12 +57,6 @@ Coverage thresholds are enforced via CI checks. If a new PR introduces regressio
 
 For integration testing automation that runs browser and remote API code as well as our own code, see the End-to-end (E2E) testing section below.
 
-## Rinkeby Testing
-
-**Rinkeby faucet for sOHM:**
-[Lives here](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract), to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
-
-Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
 When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
 `yarn snapshot`.
@@ -80,29 +73,56 @@ To run the tests:
 ## Rinkeby Testing
 
 ### sOHM Faucet
+
 - [0x800B3d87b77361F0D1d903246cA1F51b5acb43c9](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract)
-- to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. 
+- to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`.
 - After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
 
 Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 
 ### wETH Faucet
+
 [Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
 
 ### DAI Faucets
+
 - [0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c](https://rinkeby.etherscan.io/address/0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c#writeContract)
 - [0x5ed8bd53b0c3fa3deabd345430b1a3a6a4e8bd7c](https://rinkeby.etherscan.io/address/0x5ed8bd53b0c3fa3deabd345430b1a3a6a4e8bd7c#writeContract)
--  use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
+- use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
 
 ### FRAX Faucet
+
 - [0x2f7249cb599139e560f0c81c269ab9b04799e453](https://rinkeby.etherscan.io/address/0x2f7249cb599139e560f0c81c269ab9b04799e453#writeContract)
--  use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
+- use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
 
-
-## Avax Fuji Testnet
+### Avax Fuji Testnet
 
 1. [avax faucet](https://faucet.avax-test.network/)
 2. [explorer](https://explorer.avax-test.network/)
+
+## Gitpod Continuous Dev Environment (optional)
+
+This repo is configured to work with Gitpod.
+
+### New Contributors
+
+If you are a new contributor, you can fork the repo and start a pre-configured gitpod environment by prefixing your fork URL with `gitpod.io/#`. For example:
+
+`https://gitpod.io/#https://github.com/.../...`
+
+Then follow the standard [Github fork & PR workflow](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
+
+### Permissioned Contributors
+
+If you are an established contributor with access rights to create and push to branches in this repo, you can use a simpler flow.
+
+1. Obtain a Personal Access Token from your github UI.
+2. In your gitpod dashboard, set a new variable named `GITHUB_OHM_PERSONAL_ACCESS_TOKEN` to the value of the access token.
+3. Use the button below to start a pre-configured gidpod environment.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/OlympusDAO/olympus-frontend)
+
+4. Follow the simplified [Github Flow](https://docs.github.com/en/get-started/quickstart/github-flow) to create new branches in the repo and submit PRs.
 
 ## Architecture/Layout
 
@@ -203,14 +223,14 @@ We use ESLint to find/automatically fix problems.
 - @typescript-eslint/explicit-function-return-type and @typescript-eslint/explicit-module-boundary-types are turned off to prioritise inferred return types over explicit return types. This is opinionated, but often times the inference Typescript makes is good enough, and sometimes help prevents type mismatches that are a pain to debug.
 - @typescript-eslint/ban-ts-comment and @typescript-eslint/ban-ts-ignore are also turned off. This could possibly be temporary, but the ability to use @ts-ignore-like directives is certainly handy as an escape hatch as we encounter errors during the migration to TS.
 
-## Reusable Components (Component Library) 
- Our codebase uses a custom component library extended from Material UI to make common UI patterns easy to implement on the frontend. 
+## Reusable Components (Component Library)
+ Our codebase uses a custom component library extended from Material UI to make common UI patterns easy to implement on the frontend.
  An up-to-date list of available components, implementation examples as well as documentation is available here:
- 
+
  [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://master--61c4d644c064da004aebdd97.chromatic.com/)
- 
- Contributions are welcome and encouraged to our Component Library. If you see repeated UI patterns not represented in the library, or would like to enhance functionality (such as adding assets to our Icon or Token components), you're welcome to [submit a PR to the component-library project](https://github.com/OlympusDAO/component-library). Please fully review component documentation in Storybook before submitting a PR. 
- 
+
+ Contributions are welcome and encouraged to our Component Library. If you see repeated UI patterns not represented in the library, or would like to enhance functionality (such as adding assets to our Icon or Token components), you're welcome to [submit a PR to the component-library project](https://github.com/OlympusDAO/component-library). Please fully review component documentation in Storybook before submitting a PR.
+
  ## 🚀 Deployment
 
 Auto deployed on [Fleek.co](http://fleek.co/) fronted by [Cloudflare](https://www.cloudflare.com/). Since it is hosted via IPFS there is no running "server" component and we don't have server sided business logic. Users are served an `index.html` and javascript to run our applications.

@@ -122,21 +122,22 @@ function ChooseBondV2() {
                   </TableHead>
                   <TableBody>
                     {bondsV2.map(bond => {
-                      if (bond.displayName !== "unknown") return <BondTableData key={bond.index} bond={bond} />;
+                      if (bond.displayName !== "unknown")
+                        return <BondTableData networkId={networkId} key={bond.index} bond={bond} />;
                     })}
                   </TableBody>
                 </Table>
               </TableContainer>
             </Grid>
           )}
-          <div className="help-text">
+          <Box mt={2} className="help-text">
             <em>
               <Typography variant="body2">
                 Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim
                 as sOHM or gOHM at the end of the term.
               </Typography>
             </em>
-          </div>
+          </Box>
         </Paper>
       </Zoom>
 
