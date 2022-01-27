@@ -12,10 +12,10 @@ import { NETWORKS } from "../constants";
 /**
  *  Coinbase wallet init
  */
-const walletLink = new WalletLink({
-  appName: "coinbase",
-});
-const walletLinkProvider = walletLink.makeWeb3Provider(NETWORKS[1].uri(), 1);
+// const walletLink = new WalletLink({
+//   appName: "coinbase",
+// });
+// const walletLinkProvider = walletLink.makeWeb3Provider(NETWORKS[1].uri(), 1);
 
 /**
  * determine if in IFrame for Ledger Live
