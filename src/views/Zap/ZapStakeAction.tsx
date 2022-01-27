@@ -6,6 +6,7 @@ import {
   ButtonBase,
   FormControl,
   Grid,
+  IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
@@ -13,6 +14,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { Icon } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -113,9 +115,8 @@ const ZapStakeAction: React.FC = () => {
       setOutputQuantity("");
       return;
     }
-    const amount = Number(q);
-    setInputQuantity(amount);
-    setOutputQuantity(amount / exchangeRate);
+    setInputQuantity(q.toString());
+    setOutputQuantity((+q / exchangeRate).toString());
     if (outputQuantity) {
       olyZapsSwapOfferDisplay(outputQuantity);
     }
@@ -128,8 +129,8 @@ const ZapStakeAction: React.FC = () => {
       return;
     }
     const amount = Number(q);
-    setOutputQuantity(amount);
-    setInputQuantity(amount * exchangeRate);
+    setOutputQuantity(q.toString());
+    setInputQuantity((+q * exchangeRate).toString());
   };
 
   useEffect(() => setZapTokenQuantity(null), [zapToken]);
@@ -367,7 +368,7 @@ const ZapStakeAction: React.FC = () => {
             <Typography>{customSlippage}%</Typography>
             <Box width="8px" />
             <IconButton style={{ margin: 0, padding: 0 }} onClick={handleSlippageModalOpen}>
-              <SvgIcon color="primary" component={SettingsIcon} />
+              <Icon name="settings" />
             </IconButton>
           </Box>
         )}
