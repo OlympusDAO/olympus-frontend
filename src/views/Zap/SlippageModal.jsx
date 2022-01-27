@@ -2,16 +2,17 @@ import { Trans } from "@lingui/macro";
 import {
   Box,
   Button,
-  DialogTitle,
-  Typography,
   Dialog,
-  SvgIcon,
+  DialogTitle,
   FormControl,
-  OutlinedInput,
   InputAdornment,
+  OutlinedInput,
+  SvgIcon,
+  Typography,
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { trim } from "src/helpers";
+
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
 function SlippageModal(handleClose, modalOpen, currentSlippage, setCustomSlippage, zapperCredit) {

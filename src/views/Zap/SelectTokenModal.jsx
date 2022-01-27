@@ -1,20 +1,21 @@
 import { Trans } from "@lingui/macro";
 import {
+  Avatar,
   Box,
   Button,
+  CircularProgress,
+  Dialog,
   DialogTitle,
+  List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Typography,
-  Avatar,
-  CircularProgress,
-  Dialog,
-  List,
   Paper,
   SvgIcon,
+  Typography,
 } from "@material-ui/core";
 import { trim } from "src/helpers";
+
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
 function SelectTokenModal(handleClose, modalOpen, isTokensLoading, tokens, handleSelectZapToken, zapperCredit) {
