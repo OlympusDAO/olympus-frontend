@@ -17,7 +17,7 @@ const ProviderWrapper = ({ children }: { children?: ReactNode }) => (
   <Web3ContextProvider>
     <Provider store={store}>
       <I18nProvider i18n={i18n}>
-        <BrowserRouter basename={"/"}>
+        <BrowserRouter basename={"/#"}>
           <ThemeProvider theme={lightTheme}>
             <CssBaseline />
             {children}

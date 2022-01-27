@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GiveHeader/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-1 give-subnav "
+  >
+    <a
+      class="MuiTypography-root MuiLink-root MuiLink-underlineNone give-option  MuiTypography-colorPrimary"
+      href="/#/give"
+      id="give-sub-dash"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-disableElevation"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-h6"
+          >
+            Give
+          </h6>
+        </span>
+      </button>
+    </a>
+    <a
+      class="MuiTypography-root MuiLink-root MuiLink-underlineNone give-option  MuiTypography-colorPrimary"
+      href="/#/give/donations"
+      id="give-sub-donations"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-disableElevation"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-h6"
+          >
+            My Donations
+          </h6>
+        </span>
+      </button>
+    </a>
+    <a
+      class="MuiTypography-root MuiLink-root MuiLink-underlineNone give-option  MuiTypography-colorPrimary"
+      href="/#/give/redeem"
+      id="give-sub-redeem"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-disableElevation"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-h6"
+          >
+            Redeem
+          </h6>
+        </span>
+      </button>
+    </a>
+  </div>
+</div>
+`;
