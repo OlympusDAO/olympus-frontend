@@ -1,8 +1,8 @@
 import { BigNumber, ethers } from "ethers";
 import { abi as PairContractABI } from "src/abi/PairContract.json";
-import { addresses, NetworkId } from "src/constants";
 import { formatCurrency, getMarketPrice, getTokenPrice } from "src/helpers";
 import { ExternalPool } from "src/lib/ExternalPool";
+import { addresses, NetworkId } from "src/networkDetails";
 import { OlympusStakingv2__factory, PairContract } from "src/typechain";
 
 import { NodeHelper } from "./NodeHelper";
