@@ -102,6 +102,7 @@ export function BondTableData({ bond, networkId }: { bond: IBondV2; networkId: N
         <div className="bond-name">
           {bond && bond.isLP ? (
             <>
+              <Typography variant="body1">{bond.displayName}</Typography>
               <Link color="primary" href={bond.lpUrl} target="_blank">
                 <Typography variant="body1">
                   <Trans>Get LP</Trans>
