@@ -1,6 +1,7 @@
 import { BigNumber, ethers } from "ethers";
-import { addresses } from "../constants";
 import { trim } from "src/helpers";
+
+import { addresses, NetworkId } from "../constants";
 
 /**
  * Calculates user's odds of winning based on their pool balance
@@ -61,11 +62,11 @@ export const secondsToDaysForInput = (seconds: number) => {
  * @param networkId
  * @returns [PrizePoolURI, PoolDetailsURI]
  */
-export const poolTogetherUILinks = (networkId: number): Array<string> => {
-  if (networkId === -1) networkId = 1;
+export const poolTogetherUILinks = (networkId: NetworkId): Array<string> => {
+  // if (networkId === -1) networkId = 1;
   const contractAddress = addresses[networkId].PT_PRIZE_POOL_ADDRESS;
 
-  if (networkId === 4) {
+  if (networkId === NetworkId.TESTNET_RINKEBY) {
     return [
       `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/home`,
       `https://community.pooltogether.com/pools/rinkeby/${contractAddress}/manage#stats`,
@@ -84,5 +85,5 @@ export const poolTogetherUILinks = (networkId: number): Array<string> => {
  * @param odds current odds as number or a string representing 0 odds
  * @param precision the amount of decimal places to display, defaults to 4
  */
-export const trimOdds = (odds: number | string, precision: number = 4) =>
+export const trimOdds = (odds: number | string, precision = 4) =>
   typeof odds === "string" ? odds : trim(odds, precision);

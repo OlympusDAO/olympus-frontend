@@ -4,6 +4,11 @@
   justify-content: center;
   flex-direction: column;
   overflow: hidden;
+
+  .ohm-card-container {
+    width: 100%;
+  }
+  
   .ohm-card .bond-hero h4 {
     font-weight: 600 !important;
 

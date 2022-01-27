@@ -1,0 +1,65 @@
+name: Lighthouse PWA Test
+
+on:
+  pull_request:
+  #  branches:
+  #    - master
+  push:
+    branches: [ master, develop ]
+
+jobs:
+  lighthouse-local:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build PWA distribution for production
+      run: |
+          yarn install --frozen-lockfile
+          yarn build
+      env:
+          CI: false
+    - name: Run Lighthouse PWA check against local production build
+      uses: treosh/lighthouse-ci-action@v8
+      with:
+          # no urls needed, since it uses local folder to scan .html files
+          # budgetPath: '.github/lighthouse/budget.json' # uncommment if we want custom performance budgets
+          configPath: '.github/lighthouse/lighthouserc-static-dist-dir.yml'
+          uploadArtifacts: true # save results as github action artifacts
+          temporaryPublicStorage: true # upload lighthouse report to the temporary storage
+
+  #
+  # Does OlympusDAO App use a pre-deploy service?
+  #
+  # If so and it works similar to NETLIFY, then we can run lighthouse test against it on each PR.
+  #
+  # TODO: Update script below to use proper env vars for pre-deploy servce
+  #
+  # lighthouse-deploy-preview:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #  - uses: actions/checkout@v2
+  #  - name: Wait for Netlify preview deployment of this git branch
+  #    if: github.repository_owner == 'ambianic'
+  #    uses: jakepartusch/wait-for-netlify-action@v1
+  #    id: get-netlify-url
+  #    with:
+  #      site_name: "ambianic-pwa-dist"
+  #      max_timeout: 180
+  #  - name: Run Lighthouse PWA check against Netlify PR Preview
+  #    uses: treosh/lighthouse-ci-action@v8
+  #    with:
+  #      urls: |
+  #        ${{ steps.get-netlify-url.outputs.url }}
+  #      uploadArtifacts: true # save results as an action artifacts
+  #      temporaryPublicStorage: true # upload lighthouse report to the temporary storage
+  #      # budgetPath: '.github/lighthouse/budget.json' # performance budgets
+  #      configPath: '.github/lighthouse/lighthouserc-netlify-preview.json' # PWA checks
+  #  - name: Run Lighthouse PWA sanity check against the existing Netlify production deployment
+  #    uses: treosh/lighthouse-ci-action@v8
+  #    with:
+  #      urls: |
+  #        https://ui.ambianic.ai
+  #      uploadArtifacts: true # save results as an action artifacts
+  #      temporaryPublicStorage: true # upload lighthouse report to the temporary storage
+  #      # budgetPath: '.github/lighthouse/budget.json' # performance budgets
+  #      configPath: '.github/lighthouse/lighthouserc-netlify-prod.json' # PWA checks

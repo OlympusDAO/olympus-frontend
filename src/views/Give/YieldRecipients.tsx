@@ -1,29 +1,28 @@
+import { t, Trans } from "@lingui/macro";
+import { Button, Divider, Grid, Typography } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Skeleton } from "@material-ui/lab";
+import { InfoTooltip } from "@olympusdao/component-library";
+import { BigNumber } from "bignumber.js";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { Typography, Button, Grid, Divider } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
-
-import { Skeleton } from "@material-ui/lab";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
-import InfoTooltip from "src/components/InfoTooltip/InfoTooltip";
-import { RecipientModal } from "src/views/Give/RecipientModal";
-import { SubmitCallback } from "src/views/Give/Interfaces";
-import { WithdrawDepositModal, WithdrawSubmitCallback, WithdrawCancelCallback } from "./WithdrawDepositModal";
+import { useLocation } from "react-router-dom";
+import { Project } from "src/components/GiveProject/project.type";
+import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
-import { BigNumber } from "bignumber.js";
+import { EnvHelper } from "src/helpers/Environment";
+import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { SubmitCallback } from "src/views/Give/Interfaces";
+import { RecipientModal } from "src/views/Give/RecipientModal";
+
+import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
 import data from "./projects.json";
-import { Project } from "src/components/GiveProject/project.type";
-import { useAppSelector } from "src/hooks";
-import { t, Trans } from "@lingui/macro";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useLocation } from "react-router-dom";
-import { EnvHelper } from "src/helpers/Environment";
+import { WithdrawCancelCallback, WithdrawDepositModal, WithdrawSubmitCallback } from "./WithdrawDepositModal";
 
 // TODO consider shifting this into interfaces.ts
 type State = {
@@ -35,8 +34,7 @@ type State = {
 export default function YieldRecipients() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, address } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
   const [selectedRecipientForEdit, setSelectedRecipientForEdit] = useState("");
   const [selectedRecipientForWithdraw, setSelectedRecipientForWithdraw] = useState("");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -46,7 +44,7 @@ export default function YieldRecipients() {
   // TODO fix typing of state.app.loading
   const isAppLoading = useSelector((state: any) => state.app.loading);
   const donationInfo = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
@@ -68,7 +66,7 @@ export default function YieldRecipients() {
     if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
 
     // If reducing the amount of deposit, withdraw
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_EDIT,
@@ -111,7 +109,7 @@ export default function YieldRecipients() {
 
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, depositAmount) => {
     // Issue withdrawal from smart contract
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_WITHDRAW,
@@ -172,7 +170,7 @@ export default function YieldRecipients() {
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <Button component={NavLink} to="/give" variant="contained" color="primary" style={{ marginTop: "1rem" }}>
+            <Button component={NavLink} to="/give" variant="contained" color="primary">
               <Trans>Donate Yield</Trans>
             </Button>
           </Grid>

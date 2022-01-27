@@ -12,7 +12,7 @@
   }
 
   .stake-to-ohm-checkbox {
-    svg{
+    svg {
       font-size: 0.8em;
     }
   }
@@ -43,6 +43,11 @@
   .ohm-card.secondary .card-header {
     min-height: 33px !important;
     height: 20px;
+  }
+  .confirm-dialog {
+    margin-bottom: 0.8rem;
+    width: 100%;
+    padding: 12px 12px;
   }
   .stake-note {
     text-align: center;
@@ -79,12 +84,12 @@
       padding-top: 0;
       padding-bottom: 0;
       position: absolute;
-      left: 100px;
+      left: 130px;
       top: -3px;
       transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, top 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
         transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
       &.Mui-expanded {
-        left: 104px;
+        left: 134px;
         top: 1px;
       }
     }
@@ -97,9 +102,6 @@
 }
 
 .migrate-sohm-button {
-  position: absolute;
-  right: 0px;
-  top: 0px;
   font-size: 1em;
   display: flex;
   align-items: center;
@@ -301,7 +303,7 @@
   }
 
   .pool-data {
-    margin-top: 15px;
+    // margin-top: 15px;
     width: 100%;
     .pool-data-row {
       display: flex;

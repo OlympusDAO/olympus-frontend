@@ -1,37 +1,25 @@
-import { useState } from "react";
+import { t } from "@lingui/macro";
 import {
-  SvgIcon,
+  Accordion as MuiAccordion,
+  AccordionDetails,
+  AccordionSummary as MuiAccordionSummary,
+  Box,
   Button,
   Typography,
-  Box,
-  Accordion as MuiAccordion,
-  AccordionSummary as MuiAccordionSummary,
-  AccordionDetails,
-  withStyles,
   useTheme,
+  withStyles,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-
+import { Icon, OHMTokenProps, Token as TokenSVG } from "@olympusdao/component-library";
+import { ChangeEvent, useState } from "react";
+import { useQuery } from "react-query";
+import { addresses, NETWORKS } from "src/constants";
+import { NetworkId } from "src/constants";
+import { formatCurrency } from "src/helpers";
+import { segmentUA } from "src/helpers/userAnalyticHelpers";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { addresses, NETWORKS } from "src/constants";
-import { formatCurrency } from "src/helpers";
-import { RootState } from "src/store";
-import { NetworkID } from "src/lib/Bond";
-
-import { ReactComponent as MoreIcon } from "src/assets/icons/more.svg";
-import OhmImg from "src/assets/tokens/token_OHM.svg";
-import SOhmImg from "src/assets/tokens/token_sOHM.svg";
-import WsOhmImg from "src/assets/tokens/token_wsOHM.svg";
-import Token33tImg from "src/assets/tokens/token_33T.svg";
-import GOhmImg from "src/assets/tokens/gohm.png";
-
-import { segmentUA } from "src/helpers/userAnalyticHelpers";
-import { t } from "@lingui/macro";
-
-import { useQuery } from "react-query";
 import { fetchCrossChainBalances } from "src/lib/fetchBalances";
-import { BigNumber } from "ethers";
 
 const Accordion = withStyles({
   root: {
@@ -72,10 +60,12 @@ export interface IToken {
   symbol: string;
   address: string;
   decimals: number;
-  icon: string;
+  icon: OHMTokenProps["name"];
   balance: string;
   price: number;
-  crossChainBalances?: { balances: Record<NetworkID, string>; isLoading: boolean };
+  crossChainBalances?: { balances: Record<NetworkId, string>; isLoading: boolean };
+  vaultBalances?: { [vaultName: string]: string };
+  totalBalance: string;
 }
 
 const addTokenToWallet = async (token: IToken, userAddress: string) => {
@@ -106,9 +96,9 @@ const addTokenToWallet = async (token: IToken, userAddress: string) => {
 
 interface TokenProps extends IToken {
   expanded: boolean;
-  onChangeExpanded: (event: React.ChangeEvent<{}>, isExpanded: boolean) => void;
+  onChangeExpanded: (event: ChangeEvent<any>, isExpanded: boolean) => void;
   onAddTokenToWallet: () => void;
-  tDecimals: number;
+  decimals: number;
 }
 
 const BalanceValue = ({
@@ -127,41 +117,58 @@ const BalanceValue = ({
       {!isLoading ? balance.substring(0, sigFigs) : <Skeleton variant="text" width={50} />}
     </Typography>
     <Typography variant="body2" color="textSecondary">
-      {!isLoading ? formatCurrency(balanceValueUSD, 2) : <Skeleton variant="text" width={50} />}
+      {!isLoading ? (
+        formatCurrency(balanceValueUSD === NaN ? 0 : balanceValueUSD, 2)
+      ) : (
+        <Skeleton variant="text" width={50} />
+      )}
     </Typography>
   </Box>
 );
 
-const sumAllChainsBalances = (crossChainBalances: IToken["crossChainBalances"]) =>
-  crossChainBalances?.balances &&
-  Object.values(crossChainBalances.balances)
-    .reduce((sum, b = "0") => sum + parseFloat(b), 0)
-    .toString();
+const TokenBalance = ({
+  balanceLabel,
+  balance,
+  balanceValueUSD,
+  sigFigs,
+}: {
+  balanceLabel: string;
+  balance: string;
+  balanceValueUSD: number;
+  sigFigs: number;
+}) => (
+  <Box display="flex" flexDirection="row" justifyContent="space-between" key={balanceLabel}>
+    <Typography color="textSecondary">{balanceLabel}</Typography>
+    <Typography color="textSecondary">
+      <BalanceValue balance={balance} sigFigs={sigFigs} balanceValueUSD={balanceValueUSD} />
+    </Typography>
+  </Box>
+);
 
 export const Token = ({
   symbol,
-  tDecimals,
+  decimals,
   icon,
-  balance = "0.0",
   price = 0,
   crossChainBalances,
+  vaultBalances,
+  totalBalance,
   onAddTokenToWallet,
   expanded,
   onChangeExpanded,
 }: TokenProps) => {
   const theme = useTheme();
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
-  const allChainsBalance = sumAllChainsBalances(crossChainBalances);
-  const totalBalance = allChainsBalance || balance;
   const balanceValue = parseFloat(totalBalance) * price;
+
   // cleanedDecimals provides up to 7 sigFigs on an 18 decimal token (gOHM) & 5 sigFigs on 9 decimal Token
-  const sigFigs = tDecimals === 18 ? 7 : 5;
+  const sigFigs = decimals === 18 ? 7 : 5;
 
   return (
     <Accordion expanded={expanded} onChange={onChangeExpanded}>
-      <AccordionSummary expandIcon={<SvgIcon component={MoreIcon} color="disabled" />}>
+      <AccordionSummary expandIcon={<Icon name="more" color="disabled" />}>
         <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-          <img src={icon} style={{ height: "28px", width: "28px", marginRight: theme.spacing(1) }} />
+          <TokenSVG name={icon} style={{ fontSize: 28, marginRight: theme.spacing(1) }} />
           <Typography>{symbol}</Typography>
         </Box>
         <BalanceValue
@@ -180,14 +187,24 @@ export const Token = ({
             Object.entries(crossChainBalances.balances).map(
               ([networkId, balance]) =>
                 parseFloat(balance) > 0.01 && (
-                  <Box display="flex" flexDirection="row" justifyContent="space-between">
-                    <Typography color="textSecondary" key={`${symbol}-${networkId}-chain`}>
-                      {NETWORKS[networkId as any].chainName}:
-                    </Typography>
-                    <Typography color="textSecondary" key={`${symbol}-${networkId}-balance`}>
-                      <BalanceValue balance={balance} sigFigs={sigFigs} balanceValueUSD={parseFloat(balance) * price} />
-                    </Typography>
-                  </Box>
+                  <TokenBalance
+                    balanceLabel={`${NETWORKS[networkId as any].chainName}:`}
+                    balance={balance}
+                    balanceValueUSD={parseFloat(balance) * price}
+                    sigFigs={sigFigs}
+                  />
+                ),
+            )}
+          {!!vaultBalances &&
+            Object.entries(vaultBalances).map(
+              ([vaultName, balance]) =>
+                parseFloat(balance) > 0.01 && (
+                  <TokenBalance
+                    balanceLabel={`${vaultName}:`}
+                    balance={balance}
+                    balanceValueUSD={parseFloat(balance) * price}
+                    sigFigs={sigFigs}
+                  />
                 ),
             )}
           <Box className="ohm-pairs" style={{ width: "100%" }}>
@@ -207,7 +224,7 @@ export const MigrateToken = ({ symbol, icon, balance = "0.0", price = 0 }: IToke
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
       <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-        <img src={icon} style={{ height: "28px", width: "28px", marginRight: theme.spacing(1) }} />
+        <TokenSVG name={icon} style={{ fontSize: 28, marginRight: theme.spacing(1) }} />
         <Typography>{symbol}</Typography>
       </Box>
       {/* <Button variant="contained" color="primary" size="small" onClick={() => true}>
@@ -233,84 +250,103 @@ export const MigrateToken = ({ symbol, icon, balance = "0.0", price = 0 }: IToke
   );
 };
 
-const tokensSelector = (state: RootState) => {
+const sumObjValues = (obj: Record<string, string> = {}) =>
+  Object.values(obj).reduce((sum, b = "0.0") => sum + (parseFloat(b) || 0), 0);
+
+export const useWallet = (
+  userAddress: string,
+  chainId: NetworkId,
+  providerInitialized: boolean,
+): Record<string, IToken> => {
   // default to mainnet while not initialized
-  const networkId = state.network.initialized ? state.network.networkId : NetworkID.Mainnet;
-  return {
+  const networkId = providerInitialized ? chainId : NetworkId.MAINNET;
+
+  const connectedChainBalances = useAppSelector(s => s.account.balances);
+  const ohmPrice = useAppSelector(s => s.app.marketPrice);
+  const currentIndex = useAppSelector(s => s.app.currentIndex);
+
+  const { gohm, wsohm, isLoading } = useCrossChainBalances(userAddress);
+
+  const tokens = {
     ohmV1: {
       symbol: "OHM V1",
       address: addresses[networkId].OHM_ADDRESS,
-      balance: state.account.balances.ohmV1,
-      price: state.app.marketPrice || 0,
-      icon: OhmImg,
+      balance: connectedChainBalances.ohmV1,
+      price: ohmPrice || 0,
+      icon: "OHM",
       decimals: 9,
     },
     sohmV1: {
       symbol: "sOHM V1",
       address: addresses[networkId].SOHM_ADDRESS,
-      balance: state.account.balances.sohmV1,
-      price: state.app.marketPrice || 0,
-      icon: SOhmImg,
+      balance: connectedChainBalances.sohmV1,
+      price: ohmPrice || 0,
+      icon: "sOHM",
       decimals: 9,
     },
     ohm: {
       symbol: "OHM",
       address: addresses[networkId].OHM_V2,
-      balance: state.account.balances.ohm,
-      price: state.app.marketPrice || 0,
-      icon: OhmImg,
+      balance: connectedChainBalances.ohm,
+      price: ohmPrice || 0,
+      icon: "OHM",
       decimals: 9,
     },
     sohm: {
       symbol: "sOHM",
       address: addresses[networkId].SOHM_V2,
-      balance: state.account.balances.sohm,
-      price: state.app.marketPrice || 0,
-      icon: SOhmImg,
+      balance: connectedChainBalances.sohm,
+      price: ohmPrice || 0,
+      vaultBalances: {
+        "Fuse Olympus Pool Party": connectedChainBalances.fsohm,
+      },
+      icon: "sOHM",
       decimals: 9,
     },
     wsohm: {
       symbol: "wsOHM",
       address: addresses[networkId].WSOHM_ADDRESS,
-      balance: state.account.balances.wsohm,
-      price: (state.app.marketPrice || 0) * Number(state.app.currentIndex),
-      icon: WsOhmImg,
+      balance: connectedChainBalances.wsohm,
+      price: (ohmPrice || 0) * Number(currentIndex || 0),
+      crossChainBalances: { balances: wsohm, isLoading },
+      icon: "wsOHM",
       decimals: 18,
     },
     pool: {
       symbol: "33T",
       address: addresses[networkId].PT_TOKEN_ADDRESS,
-      balance: state.account.balances.pool,
-      price: state.app.marketPrice || 0,
-      icon: Token33tImg,
+      balance: connectedChainBalances.pool,
+      price: ohmPrice || 0,
+      icon: "33T",
       decimals: 9,
     },
     gohm: {
       symbol: "gOHM",
       address: addresses[networkId].GOHM_ADDRESS,
-      balance: state.account.balances.gohm,
-      price: (state.app.marketPrice || 0) * Number(state.app.currentIndex),
-      icon: GOhmImg,
+      balance: connectedChainBalances.gohm,
+      price: (ohmPrice || 0) * Number(currentIndex || 0),
+      crossChainBalances: { balances: gohm, isLoading },
+      vaultBalances: {
+        "gOHM on Tokemak": connectedChainBalances.gOhmOnTokemak,
+        "Fuse Olympus Pool Party": connectedChainBalances.fgohm,
+      },
+      icon: "wsOHM",
       decimals: 18,
     },
-  };
-};
+  } as Record<string, Omit<IToken, "totalBalance">>;
 
-export const useWallet = () => {
-  const { address: userAddress } = useWeb3Context();
-  const tokens = useAppSelector(tokensSelector);
-  const { gohm, wsohm, isLoading } = useCrossChainBalances(userAddress);
-  return {
-    ...tokens,
-    gohm: {
-      ...tokens.gohm,
-      crossChainBalances: { balances: gohm, isLoading },
-    },
-    wsohm: {
-      ...tokens.wsohm,
-      crossChainBalances: { balances: wsohm, isLoading },
-    },
-  } as { [key: string]: IToken };
+  return Object.entries(tokens).reduce((wallet, [key, token]) => {
+    const crossChainBalances = sumObjValues(token.crossChainBalances?.balances);
+    const vaultBalances = sumObjValues(token.vaultBalances);
+    const balance = crossChainBalances || parseFloat(token.balance) || 0;
+    return {
+      ...wallet,
+      [key]: {
+        ...token,
+        totalBalance: (balance + vaultBalances).toString(),
+      } as IToken,
+    };
+  }, {});
 };
 
 export const useCrossChainBalances = (address: string) => {
@@ -322,8 +358,8 @@ export const useCrossChainBalances = (address: string) => {
 };
 
 export const Tokens = () => {
-  const { address: userAddress } = useWeb3Context();
-  const tokens = useWallet();
+  const { address: userAddress, networkId, providerInitialized } = useWeb3Context();
+  const tokens = useWallet(userAddress, networkId, providerInitialized);
   const isLoading = useAppSelector(s => s.account.loading || s.app.loadingMarketPrice || s.app.loading);
   const [expanded, setExpanded] = useState<string | null>(null);
 
@@ -341,17 +377,14 @@ export const Tokens = () => {
   return (
     <>
       {alwaysShowTokens.map(token => (
-        <Token key={token.symbol} tDecimals={token.decimals} {...tokenProps(token)} />
+        <Token key={token.symbol} {...tokenProps(token)} />
       ))}
       {!isLoading &&
         onlyShowWhenBalanceTokens.map(
-          token =>
-            parseFloat(token.balance) > 0.01 && (
-              <Token key={token.symbol} tDecimals={token.decimals} {...tokenProps(token)} />
-            ),
+          token => parseFloat(token.totalBalance) > 0.01 && <Token key={token.symbol} {...tokenProps(token)} />,
         )}
       {!isLoading &&
-        v1Tokens.map(token => parseFloat(token.balance) > 0.01 && <MigrateToken {...token} key={token.symbol} />)}
+        v1Tokens.map(token => parseFloat(token.totalBalance) > 0.01 && <MigrateToken {...token} key={token.symbol} />)}
     </>
   );
 };

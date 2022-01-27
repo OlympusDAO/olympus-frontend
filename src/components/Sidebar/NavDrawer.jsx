@@ -1,5 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
 import { SwipeableDrawer } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
 import NavContent from "./NavContent.jsx";
 
 const drawerWidth = 280;
@@ -27,7 +28,6 @@ function NavDrawer({ mobileOpen, handleDrawerToggle }) {
       anchor={"left"}
       open={mobileOpen}
       onClose={handleDrawerToggle}
-      onClick={handleDrawerToggle}
       classes={{
         paper: classes.drawerPaper,
       }}
@@ -37,7 +37,7 @@ function NavDrawer({ mobileOpen, handleDrawerToggle }) {
       disableBackdropTransition={!isIOS}
       disableDiscovery={isIOS}
     >
-      <NavContent />
+      <NavContent handleDrawerToggle={handleDrawerToggle} />
     </SwipeableDrawer>
   );
 }

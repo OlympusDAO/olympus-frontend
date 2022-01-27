@@ -1,23 +1,23 @@
+import { t } from "@lingui/macro";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
-import { addresses } from "../constants";
+import ReactGA from "react-ga";
+
 import { abi as ierc20Abi } from "../abi/IERC20.json";
+import { abi as MockSohm } from "../abi/MockSohm.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
-import { abi as MockSohm } from "../abi/MockSohm.json";
-import { clearPendingTxn, fetchPendingTxns, getGivingTypeText, isPendingTxn, IPendingTxn } from "./PendingTxnsSlice";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchAccountSuccess, getBalances, getDonationBalances, getMockDonationBalances } from "./AccountSlice";
+import { addresses, NetworkId } from "../constants";
+import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { error } from "../slices/MessagesSlice";
+import { fetchAccountSuccess, getBalances, getDonationBalances, getMockDonationBalances } from "./AccountSlice";
 import {
   IActionValueRecipientAsyncThunk,
+  IBaseAddressAsyncThunk,
   IChangeApprovalAsyncThunk,
   IJsonRPCError,
-  IBaseAddressAsyncThunk,
 } from "./interfaces";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { t } from "@lingui/macro";
-import { useLocation } from "react-router-dom";
-import { EnvHelper } from "src/helpers/Environment";
+import { clearPendingTxn, fetchPendingTxns, getGivingTypeText, IPendingTxn, isPendingTxn } from "./PendingTxnsSlice";
 
 interface IUAData {
   address: string;
@@ -37,9 +37,9 @@ export const ACTION_GIVE = "give";
 export const ACTION_GIVE_EDIT = "editGive";
 export const ACTION_GIVE_WITHDRAW = "endGive";
 
-export const isSupportedChain = (chainID: number): boolean => {
+export const isSupportedChain = (chainID: NetworkId): boolean => {
   // Give is only supported on Ethereum mainnet (1) and rinkeby (4) for the moment.
-  if (chainID === 1 || chainID === 4) return true;
+  if (chainID === NetworkId.MAINNET || chainID === NetworkId.TESTNET_RINKEBY) return true;
 
   return false;
 };
@@ -82,7 +82,7 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    let giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+    const giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({
@@ -133,7 +133,7 @@ export const changeMockApproval = createAsyncThunk(
       The pseudo-sOHM contract used on testnet does not have a functional allowance
       mapping. Instead approval calls write allowaces to a mapping title _allowedValue
     */
-    let giveAllowance = await sohmContract._allowedValue(address, addresses[networkID].MOCK_GIVING_ADDRESS);
+    const giveAllowance = await sohmContract._allowedValue(address, addresses[networkID].MOCK_GIVING_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({
@@ -157,7 +157,7 @@ export const changeGive = createAsyncThunk(
     const giving = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, signer);
     let giveTx;
 
-    let uaData: IUAData = {
+    const uaData: IUAData = {
       address: address,
       value: value,
       recipient: recipient,
@@ -178,7 +178,7 @@ export const changeGive = createAsyncThunk(
         if (parseFloat(value) > 0) {
           giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
         } else if (parseFloat(value) < 0) {
-          let reductionAmount = (-1 * parseFloat(value)).toString();
+          const reductionAmount = (-1 * parseFloat(value)).toString();
           giveTx = await giving.withdraw(ethers.utils.parseUnits(reductionAmount, "gwei"), recipient);
         }
       } else if (action === ACTION_GIVE_WITHDRAW) {
@@ -204,6 +204,15 @@ export const changeGive = createAsyncThunk(
       if (giveTx) {
         segmentUA(uaData);
 
+        ReactGA.event({
+          category: "Olympus Give",
+          action: uaData.type ?? "unknown",
+          label: uaData.txHash ?? "unknown",
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
+          metric1: parseFloat(uaData.value),
+        });
+
         dispatch(clearPendingTxn(giveTx.hash));
       }
     }
@@ -224,7 +233,7 @@ export const changeMockGive = createAsyncThunk(
     const giving = new ethers.Contract(addresses[networkID].MOCK_GIVING_ADDRESS as string, OlympusMockGiving, signer);
     let giveTx;
 
-    let uaData: IUAData = {
+    const uaData: IUAData = {
       address: address,
       value: value,
       recipient: recipient,
@@ -245,7 +254,7 @@ export const changeMockGive = createAsyncThunk(
         if (parseFloat(value) > 0) {
           giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
         } else if (parseFloat(value) < 0) {
-          let reductionAmount = (-1 * parseFloat(value)).toString();
+          const reductionAmount = (-1 * parseFloat(value)).toString();
           giveTx = await giving.withdraw(ethers.utils.parseUnits(reductionAmount, "gwei"), recipient);
         }
       } else if (action === ACTION_GIVE_WITHDRAW) {
@@ -293,7 +302,7 @@ export const getTestTokens = createAsyncThunk(
 
     const signer = provider.getSigner();
     const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
-    let pendingTxnType = "drip";
+    const pendingTxnType = "drip";
     let getTx;
     try {
       getTx = await mockSohmContract.drip();

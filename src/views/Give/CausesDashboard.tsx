@@ -1,26 +1,29 @@
-import { useMemo, useState } from "react";
 import "./give.scss";
-import { useLocation } from "react-router-dom";
-import { Button, Paper, Typography, Zoom, Grid, Container, Box } from "@material-ui/core";
-import { useWeb3Context } from "src/hooks/web3Context";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
-import data from "./projects.json";
-import { RecipientModal } from "src/views/Give/RecipientModal";
-import { SubmitCallback, CancelCallback } from "src/views/Give/Interfaces";
-import { BigNumber } from "bignumber.js";
-import { error } from "../../slices/MessagesSlice";
-import { useAppDispatch, useAppSelector } from "src/hooks";
-import { changeGive, changeMockGive, ACTION_GIVE, isSupportedChain } from "src/slices/GiveThunk";
-import { GiveInfo } from "./GiveInfo";
-import { useUIDSeed } from "react-uid";
-import { useSelector } from "react-redux";
+
 import { t, Trans } from "@lingui/macro";
+import { Box, Button, Container, Typography, Zoom } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { BigNumber } from "bignumber.js";
+import { useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { useUIDSeed } from "react-uid";
+import { GiveHeader } from "src/components/GiveProject/GiveHeader";
+import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
+import { NetworkId } from "src/constants";
+import { EnvHelper } from "src/helpers/Environment";
+import { useAppDispatch } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
+import { ACTION_GIVE, changeGive, changeMockGive, isSupportedChain } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
-import { EnvHelper } from "src/helpers/Environment";
-import { GiveHeader } from "src/components/GiveProject/GiveHeader";
+import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
+import { RecipientModal } from "src/views/Give/RecipientModal";
+
+import { error } from "../../slices/MessagesSlice";
+import { GiveInfo } from "./GiveInfo";
+import data from "./projects.json";
 
 type State = {
   account: IAccountSlice;
@@ -29,8 +32,7 @@ type State = {
 };
 export default function CausesDashboard() {
   const location = useLocation();
-  const { provider, address } = useWeb3Context();
-  const networkId = useAppSelector(state => state.network.networkId);
+  const { provider, address, networkId } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
@@ -42,13 +44,13 @@ export default function CausesDashboard() {
   const seed = useUIDSeed();
 
   const donationInfo = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
 
   const totalDebt = useSelector((state: State) => {
-    return networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
       : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
   });
@@ -73,7 +75,7 @@ export default function CausesDashboard() {
     }
 
     // If reducing the amount of deposit, withdraw
-    if (networkId === 4 && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE,

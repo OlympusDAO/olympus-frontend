@@ -1,4 +1,5 @@
 import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
+
 import fonts from "./fonts";
 import commonSettings, { handleBackdropFilter } from "./global.js";
 
@@ -34,6 +35,7 @@ const lightTheme = {
   graphStrokeColor: "rgba(37, 52, 73, .2)",
   gridButtonHoverBackground: "rgba(118, 130, 153, 0.2)",
   gridButtonActiveBackground: "rgba(118, 130, 153, 0.7)",
+  switchBg: "#FCFCFC",
 };
 
 export const light = responsiveFontSizes(
@@ -66,6 +68,22 @@ export const light = responsiveFontSizes(
         fontFamily: "Square",
       },
       overrides: {
+        MuiSwitch: {
+          colorPrimary: {
+            color: lightTheme.color,
+            "&$checked": {
+              color: lightTheme.switchBg,
+              "& + $track": {
+                backgroundColor: lightTheme.color,
+                borderColor: lightTheme.color,
+              },
+            },
+          },
+          track: {
+            border: `1px solid ${lightTheme.color}`,
+            backgroundColor: lightTheme.switchBg,
+          },
+        },
         MuiCssBaseline: {
           "@global": {
             "@font-face": fonts,
@@ -98,9 +116,6 @@ export const light = responsiveFontSizes(
           paper: {
             backgroundColor: lightTheme.backdropBg,
             zIndex: 7,
-            "@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none))": {
-              backgroundColor: "rgba(255, 255, 255, 0.98)",
-            },
           },
         },
         MuiBackdrop: {
@@ -284,9 +299,6 @@ export const light = responsiveFontSizes(
             "&:hover": {
               color: lightTheme.textHighlightColor,
             },
-          },
-          "&.grid-button-text": {
-            color: "#FFFFFF",
           },
         },
         MuiTypography: {

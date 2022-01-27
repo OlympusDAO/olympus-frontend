@@ -1,83 +1,60 @@
-import { useCallback, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import Social from "./Social";
-import externalUrls from "./externalUrls";
-import { ReactComponent as StakeIcon } from "../../assets/icons/stake.svg";
-import { ReactComponent as BondIcon } from "../../assets/icons/bond.svg";
-import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
-import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
-import { ReactComponent as PoolTogetherIcon } from "../../assets/icons/33-together.svg";
-import { ReactComponent as GiveIcon } from "../../assets/icons/give.svg";
-import { ReactComponent as ZapIcon } from "../../assets/icons/zap.svg";
-import { ReactComponent as NewIcon } from "../../assets/icons/new-icon.svg";
-import { ReactComponent as WrapIcon } from "../../assets/icons/wrap.svg";
-import { ReactComponent as BridgeIcon } from "../../assets/icons/bridge.svg";
-import { ReactComponent as ArrowUpIcon } from "../../assets/icons/arrow-up.svg";
-import { ReactComponent as ProIcon } from "../../assets/Olympus Logo.svg";
-import { Trans } from "@lingui/macro";
-import { trim, shorten } from "../../helpers";
-import { useAddress } from "src/hooks/web3Context";
-import useBonds from "../../hooks/Bonds";
-import useENS from "../../hooks/useENS";
-import {
-  Paper,
-  Link,
-  Box,
-  Typography,
-  SvgIcon,
-  Divider,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
 import "./sidebar.scss";
-import { useSelector } from "react-redux";
-import { EnvHelper } from "src/helpers/Environment";
+
+import { t, Trans } from "@lingui/macro";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Divider,
+  Link,
+  Paper,
+  SvgIcon,
+  Typography,
+} from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
+import { NavItem } from "@olympusdao/component-library";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { NavLink, useLocation } from "react-router-dom";
+import { NetworkId } from "src/constants";
+import { EnvHelper } from "src/helpers/Environment";
+import { useAppSelector } from "src/hooks";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
+import { DisplayBondDiscount } from "src/views/BondV2/BondV2";
 
-function NavContent() {
+import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
+import useBonds from "../../hooks/Bonds";
+import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
+import externalUrls from "./externalUrls";
+import Social from "./Social";
+
+function NavContent({ handleDrawerToggle }) {
   const [isActive] = useState();
-  const address = useAddress();
-  const networkId = useSelector(state => state.network.networkId);
+  const { networkId, address, provider } = useWeb3Context();
   const { bonds } = useBonds(networkId);
-  const { ensName } = useENS(address);
   const location = useLocation();
+  const dispatch = useDispatch();
 
-  const checkPage = useCallback((match, location, page) => {
-    const currentPath = location.pathname.replace("/", "");
-    if (currentPath.indexOf("dashboard") >= 0 && page === "dashboard") {
-      return true;
-    }
-    if (currentPath.indexOf("zap") >= 0 && page === "zap") {
-      return true;
-    }
-    if (currentPath.indexOf("stake") >= 0 && page === "stake") {
-      return true;
-    }
-    if (currentPath.indexOf("wrap") >= 0 && page === "wrap") {
-      return true;
-    }
-    if (currentPath.indexOf("give") >= 0 && page == "give") {
-      return true;
-    }
-    if (currentPath.indexOf("givedonations") >= 0 && page == "give/donations") {
-      return true;
-    }
-    if (currentPath.indexOf("giveredeem") >= 0 && page == "give/redeem") {
-      return true;
-    }
-    if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
-      return true;
-    }
-    if (currentPath.indexOf("33-together") >= 0 && page === "33-together") {
-      return true;
-    }
-    if (currentPath.indexOf("33-together") >= 0 && page === "33-together") {
-      return true;
-    }
-    return false;
-  }, []);
+  const bondsV2 = useAppSelector(state => {
+    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
+  });
+
+  useEffect(() => {
+    const interval = setTimeout(() => {
+      dispatch(getAllBonds({ address, networkID: networkId, provider }));
+      dispatch(getUserNotes({ address, networkID: networkId, provider }));
+    }, 60000);
+    return () => clearTimeout(interval);
+  });
+  const sortedBonds = bondsV2
+    .filter(bond => bond.soldOut === false)
+    .sort((a, b) => {
+      return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
+    });
+
+  bonds.sort((a, b) => b.bondDiscount - a.bondDiscount);
 
   return (
     <Paper className="dapp-sidebar">
@@ -93,49 +70,15 @@ function NavContent() {
               />
             </Link>
 
-            {address && (
-              <div className="wallet-link">
-                <Link href={`https://etherscan.io/address/${address}`} target="_blank">
-                  {ensName || shorten(address)}
-                </Link>
-              </div>
-            )}
+            <WalletAddressEns />
           </Box>
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              {networkId === 1 || networkId === 4 ? (
+              {networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY ? (
                 <>
-                  <Link
-                    component={NavLink}
-                    id="dash-nav"
-                    to="/dashboard"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "dashboard");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                  >
-                    <Typography variant="h6">
-                      <SvgIcon color="primary" component={DashboardIcon} />
-                      <Trans>Dashboard</Trans>
-                    </Typography>
-                  </Link>
-
-                  <Link
-                    component={NavLink}
-                    id="bond-nav"
-                    to="/bonds"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "bonds");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                  >
-                    <Typography variant="h6">
-                      <SvgIcon color="primary" component={BondIcon} />
-                      <Trans>Bond</Trans>
-                    </Typography>
-                  </Link>
-
+                  <NavItem to="/dashboard" icon={"dashboard"} label={t`Dashboard`} onClick={handleDrawerToggle} />
+                  <NavItem to="/bonds" icon="bond" label={t`Bond`} onClick={handleDrawerToggle} />
                   <div className="dapp-menu-data discounts">
                     <div className="bond-discounts">
                       <Accordion className="discounts-accordion" square defaultExpanded="true">
@@ -149,208 +92,87 @@ function NavContent() {
                           }
                         >
                           <Typography variant="body2">
-                            <Trans>Bond discounts</Trans>
+                            <Trans>Highest ROI</Trans>
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                          {bonds.map((bond, i) => {
-                            // NOTE (appleseed): temporary for ONHOLD MIGRATION
-                            // if (bond.getBondability(networkId)) {
-                            if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
-                              return (
-                                <Link component={NavLink} to={`/bonds/${bond.name}`} key={i} className={"bond"}>
-                                  {!bond.bondDiscount ? (
-                                    <Skeleton variant="text" width={"150px"} />
-                                  ) : (
-                                    <Typography variant="body2">
-                                      {bond.displayName}
-
-                                      <span className="bond-pair-roi">
-                                        {bond.isLOLable[networkId]
-                                          ? "--"
-                                          : !bond.isBondable[networkId]
-                                          ? "Sold Out"
-                                          : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`}
-                                        {/* {!bond.isBondable[networkId]
-                                          ? "Sold Out"
-                                          : `${bond.bondDiscount && trim(bond.bondDiscount * 100, 2)}%`} */}
-                                      </span>
-                                    </Typography>
-                                  )}
-                                </Link>
-                              );
-                            }
+                          {sortedBonds.map((bond, i) => {
+                            return (
+                              <Link
+                                component={NavLink}
+                                to={`/bonds/${bond.index}`}
+                                key={i}
+                                className={"bond"}
+                                onClick={handleDrawerToggle}
+                              >
+                                <Typography variant="body2">
+                                  {bond.displayName}
+                                  <span className="bond-pair-roi">
+                                    <DisplayBondDiscount key={bond.index} bond={bond} />
+                                  </span>
+                                </Typography>
+                              </Link>
+                            );
                           })}
                         </AccordionDetails>
                       </Accordion>
                     </div>
                   </div>
+                  <NavItem to="/stake" icon="stake" label={t`Stake`} onClick={handleDrawerToggle} />
 
-                  <Link
-                    component={NavLink}
-                    id="stake-nav"
-                    to="/"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "stake");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                  >
-                    <Typography variant="h6">
-                      <SvgIcon color="primary" component={StakeIcon} />
-                      <Trans>Stake</Trans>
-                    </Typography>
-                  </Link>
+                  {/* NOTE (appleseed-olyzaps): OlyZaps disabled until v2 contracts */}
+                  {/*<NavItem to="/zap" icon="zap" label={t`Zap`} /> */}
 
-                  <Link
-                    component={NavLink}
-                    id="zap-nav"
-                    to="/zap"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "zap");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                  >
-                    <Box display="flex" alignItems="center">
-                      <SvgIcon component={ZapIcon} color="primary" />
-                      <Typography variant="h6">OlyZaps</Typography>
-                      {/* <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
-                    </Box>
-                  </Link>
-
-                  {EnvHelper.isGiveEnabled(location.search) ? (
-                    <>
-                      <Link
-                        component={NavLink}
-                        id="give-nav"
-                        to="/give"
-                        isActive={(match, location) => {
-                          return checkPage(match, location, "give");
-                        }}
-                        className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                      >
-                        <Typography variant="h6">
-                          <SvgIcon color="primary" component={GiveIcon} />
-                          <Trans>Give</Trans>
-                          <SvgIcon component={NewIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} />
-                        </Typography>
-                      </Link>
-                    </>
-                  ) : (
-                    <></>
+                  {EnvHelper.isGiveEnabled(location.search) && (
+                    <NavItem to="/give" icon="give" label={t`Give`} chip={t`New`} onClick={handleDrawerToggle} />
                   )}
-
-                  <Link
-                    component={NavLink}
-                    id="wrap-nav"
-                    to="/wrap"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "wrap");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                  >
-                    <Box display="flex" alignItems="center">
-                      <SvgIcon component={WrapIcon} color="primary" viewBox="1 0 20 22" />
-                      {/* <WrapIcon /> */}
-                      <Typography variant="h6">Wrap</Typography>
-                      {/* <SvgIcon component={WrapIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
-                    </Box>
-                  </Link>
-
-                  <Link
+                  <NavItem to="/wrap" icon="wrap" label={t`Wrap`} onClick={handleDrawerToggle} />
+                  <NavItem
                     href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}
-                    target="_blank"
-                    className="external-site-link"
-                  >
-                    <Typography variant="h6">
-                      <BridgeIcon />
-                      <Trans>Bridge</Trans>
-                      <SvgIcon
-                        style={{ marginLeft: "5px" }}
-                        component={ArrowUpIcon}
-                        className="external-site-link-icon"
-                      />
-                    </Typography>
-                  </Link>
-
+                    icon="bridge"
+                    label={t`Bridge`}
+                    onClick={handleDrawerToggle}
+                  />
                   <Box className="menu-divider">
                     <Divider />
                   </Box>
-
-                  <Link href="https://pro.olympusdao.finance/" target="_blank" className="external-site-link">
-                    <Box display="flex" alignItems="center">
-                      <SvgIcon component={ProIcon} color="primary" color="primary" viewBox="0 0 50 50" />
-                      <Typography variant="h6">Olympus Pro</Typography>
-                      <SvgIcon component={ArrowUpIcon} className="external-site-link-icon" />
-                    </Box>
-                  </Link>
-
-                  {/* <Link
-                    component={NavLink}
-                    id="33-together-nav"
-                    to="/33-together"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "33-together");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                  >
-                    <Typography variant="h6">
-                      <SvgIcon color="primary" component={PoolTogetherIcon} />
-                      3,3 Together
-                    </Typography>
-                  </Link> */}
+                  <NavItem
+                    href="https://pro.olympusdao.finance/"
+                    icon="olympus"
+                    label={t`Olympus Pro`}
+                    onClick={handleDrawerToggle}
+                  />
+                  {/* <NavItem to="/33-together" icon="33-together" label={t`3,3 Together`} /> */}
                   <Box className="menu-divider">
                     <Divider />
                   </Box>
                 </>
               ) : (
                 <>
-                  <Link
-                    component={NavLink}
-                    id="wrap-nav"
-                    to="/wrap"
-                    isActive={(match, location) => {
-                      return checkPage(match, location, "wrap");
-                    }}
-                    className={`button-dapp-menu ${isActive ? "active" : ""}`}
-                  >
-                    <Box display="flex" alignItems="center">
-                      <SvgIcon component={WrapIcon} color="primary" viewBox="1 0 20 22" />
-                      {/* <WrapIcon /> */}
-                      <Typography variant="h6">Wrap</Typography>
-                      {/* <SvgIcon component={WrapIcon} viewBox="21 -2 20 20" style={{ width: "80px" }} /> */}
-                    </Box>
-                  </Link>
-
-                  <Link
-                    href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}
-                    target="_blank"
-                  >
-                    <Typography variant="h6">
-                      <BridgeIcon />
-                      <Trans>Bridge</Trans>
-                      <SvgIcon style={{ marginLeft: "5px" }} component={ArrowUpIcon} />
-                    </Typography>
-                  </Link>
+                  <NavItem to="/wrap" icon="wrap" label={t`Wrap`} onClick={handleDrawerToggle} />
+                  <NavItem
+                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
+                    icon="bridge"
+                    label={t`Bridge`}
+                    onClick={handleDrawerToggle}
+                  />
                 </>
               )}
+              {Object.keys(externalUrls).map((link, i) => {
+                return (
+                  <NavItem
+                    href={`${externalUrls[link].url}`}
+                    icon={externalUrls[link].icon}
+                    label={externalUrls[link].title}
+                    onClick={handleDrawerToggle}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
-        <Box className="dapp-menu-bottom" display="flex" justifyContent="space-between" flexDirection="column">
-          <div className="dapp-menu-external-links">
-            {Object.keys(externalUrls).map((link, i) => {
-              return (
-                <Link key={i} href={`${externalUrls[link].url}`} target="_blank" className="external-site-link">
-                  <Typography variant="h6">{externalUrls[link].icon}</Typography>
-                  <Typography variant="h6">{externalUrls[link].title}</Typography>
-                  <SvgIcon component={ArrowUpIcon} className="external-site-link-icon" />
-                </Link>
-              );
-            })}
-          </div>
-          <div className="dapp-menu-social">
-            <Social />
-          </div>
+        <Box className="dapp-menu-social" display="flex" justifyContent="space-between" flexDirection="column">
+          <Social />
         </Box>
       </Box>
     </Paper>

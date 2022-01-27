@@ -1,4 +1,5 @@
 import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
+
 import fonts from "./fonts";
 import commonSettings, { handleBackdropFilter } from "./global.js";
 
@@ -41,6 +42,7 @@ const darkTheme = {
   graphStrokeColor: "rgba(255, 255, 255, .1)",
   gridButtonHoverBackground: "rgba(255, 255, 255, 0.6)",
   gridButtonActiveBackground: "#00000038",
+  switchBg: "#333333",
 };
 
 export const dark = responsiveFontSizes(
@@ -74,6 +76,22 @@ export const dark = responsiveFontSizes(
         fontFamily: "Square",
       },
       overrides: {
+        MuiSwitch: {
+          colorPrimary: {
+            color: darkTheme.color,
+            "&$checked": {
+              color: darkTheme.switchBg,
+              "& + $track": {
+                backgroundColor: darkTheme.color,
+                borderColor: darkTheme.color,
+              },
+            },
+          },
+          track: {
+            border: `1px solid ${darkTheme.color}`,
+            backgroundColor: darkTheme.switchBg,
+          },
+        },
         MuiCssBaseline: {
           "@global": {
             "@font-face": fonts,
@@ -86,9 +104,6 @@ export const dark = responsiveFontSizes(
           paper: {
             backgroundColor: darkTheme.paperBg,
             zIndex: 7,
-            "@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none))": {
-              backgroundColor: "rgba(54, 56, 64, 0.98)",
-            },
           },
         },
         MuiSelect: {
@@ -274,9 +289,6 @@ export const dark = responsiveFontSizes(
             "&:hover": {
               color: darkTheme.textHighlightColor,
             },
-          },
-          "&.grid-button-text": {
-            color: "#FFFFFF",
           },
         },
         MuiTypography: {
