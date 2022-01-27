@@ -10,18 +10,24 @@ import {
   SvgIcon,
   Typography,
 } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { trim } from "src/helpers";
 
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
-function SlippageModal(handleClose, modalOpen, currentSlippage, setCustomSlippage, zapperCredit) {
+function SlippageModal(
+  handleClose: () => void,
+  modalOpen: boolean,
+  currentSlippage: string,
+  setCustomSlippage: { (value: SetStateAction<string>): void; (arg0: string): void },
+  zapperCredit: JSX.Element,
+) {
   const [proposedSlippage, setProposedSlippage] = useState(currentSlippage);
-  const [errorState, setErrorState] = useState(null);
-  const handleChangeProposedSlippage = slippage => {
+  const [errorState, setErrorState] = useState<string | null>(null);
+  const handleChangeProposedSlippage = (slippage: string) => {
     try {
       const slippageNumber = Number(slippage);
-      if (100 > slippageNumber > 0) {
+      if (100 > slippageNumber && slippageNumber > 0) {
         setProposedSlippage(slippage);
         if (slippageNumber < 1) {
           setErrorState("Lower slippage than recommended may cause transaction to fail");
@@ -67,7 +73,7 @@ function SlippageModal(handleClose, modalOpen, currentSlippage, setCustomSlippag
       </Box>
       <Box paddingX="64px" paddingBottom="16px">
         {/* <Paper style={{ maxHeight: 300, overflow: "auto", borderRadius: 10 }}> */}
-        <FormControl className="slippage-input" variant="outlined" color="primary" size="sm">
+        <FormControl className="slippage-input" variant="outlined" color="primary" size="small">
           <OutlinedInput
             id="zap-amount-input"
             type="number"
@@ -86,7 +92,7 @@ function SlippageModal(handleClose, modalOpen, currentSlippage, setCustomSlippag
             </Button>
           ))}
         </Box>
-        <Box paddingY="16px">{errorState ? <Typography color="red">{errorState}</Typography> : null}</Box>
+        <Box paddingY="16px">{errorState ? <Typography color="error">{errorState}</Typography> : null}</Box>
         <Box display="flex" justifyContent={"center"}>
           <Button
             variant="contained"
@@ -96,7 +102,7 @@ function SlippageModal(handleClose, modalOpen, currentSlippage, setCustomSlippag
               if (errorState != null) {
                 return;
               }
-              setCustomSlippage(trim(proposedSlippage, 1));
+              setCustomSlippage(trim(+proposedSlippage, 1));
               handleClose();
             }}
           >

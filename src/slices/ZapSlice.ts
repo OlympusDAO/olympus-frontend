@@ -1,8 +1,8 @@
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { NetworkId } from "src/constants";
 import { setAll } from "src/helpers";
-import { ZapHelper } from "src/helpers/ZapHelper";
+import { ZapHelper, ZapperToken } from "src/helpers/ZapHelper";
 
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { getBalances } from "./AccountSlice";
@@ -92,6 +92,14 @@ export const getZapTokenBalances = createAsyncThunk(
         if (result.balances["ohm"]) {
           result.balances["ohm"].hide = true;
         }
+
+        for (const key in result.balances) {
+          const balance = result.balances[key];
+          const balanceRaw = balance.balanceRaw;
+          const balanceBigNumber = BigNumber.from(balanceRaw);
+          balance.balanceRaw = ethers.utils.formatUnits(balanceBigNumber, balance.decimals);
+        }
+
         return result;
       } catch (e: unknown) {
         console.error(e);
@@ -167,7 +175,7 @@ const zapNetworkAvailable = (networkID: NetworkId, dispatch: ThunkDispatch<unkno
 };
 
 export interface IZapSlice {
-  balances: { [key: string]: any };
+  balances: { [key: string]: ZapperToken };
   balancesLoading: boolean;
   changeAllowanceLoading: boolean;
   stakeLoading: boolean;

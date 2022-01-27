@@ -193,7 +193,7 @@ const ZapStakeAction: React.FC = () => {
   );
 
   const [isCustomSlippage, setUseCustomSlippage] = useState<boolean>(false);
-  const [customSlippage, setCustomSlippage] = useState<string>("0.01");
+  const [customSlippage, setCustomSlippage] = useState<string>("0.5");
 
   const onZap = async () => {
     if (zapToken) {
@@ -213,9 +213,7 @@ const ZapStakeAction: React.FC = () => {
   return (
     <>
       <div className="card-header">
-        <Typography variant="h5">
-          OlyZaps <b>(Currently disabled for upcoming migration)</b>
-        </Typography>
+        <Typography variant="h5">OlyZaps</Typography>
       </div>
 
       <ZapStakeHeader images={inputTokenImages} />
@@ -270,7 +268,7 @@ const ZapStakeAction: React.FC = () => {
                       <Box flexDirection="row" display="flex" alignItems="center">
                         <Typography color="textSecondary">{`Balance ${trim(tokens[zapToken]?.balance, 2)}`}</Typography>
                         <Box width="10px" />
-                        <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken]?.balance)}>
+                        <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken]?.balanceRaw)}>
                           <Typography>
                             <b>Max</b>
                           </Typography>

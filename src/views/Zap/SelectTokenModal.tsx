@@ -15,10 +15,18 @@ import {
   Typography,
 } from "@material-ui/core";
 import { trim } from "src/helpers";
+import { ZapperToken } from "src/helpers/ZapHelper";
 
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
-function SelectTokenModal(handleClose, modalOpen, isTokensLoading, tokens, handleSelectZapToken, zapperCredit) {
+function SelectTokenModal(
+  handleClose: () => void,
+  modalOpen: boolean,
+  isTokensLoading: boolean,
+  tokens: { [key: string]: ZapperToken },
+  handleSelectZapToken: { (token: string): void; (arg0: string): void },
+  zapperCredit: JSX.Element,
+) {
   return (
     <Dialog
       onClose={handleClose}
@@ -59,7 +67,7 @@ function SelectTokenModal(handleClose, modalOpen, isTokensLoading, tokens, handl
           </Box>
         ) : (
           <Paper style={{ maxHeight: 300, overflow: "auto", borderRadius: 10 }}>
-            <List style={{ pt: 0 }}>
+            <List>
               {Object.entries(tokens)
                 .filter(token => !token[1].hide)
                 .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
@@ -71,7 +79,7 @@ function SelectTokenModal(handleClose, modalOpen, isTokensLoading, tokens, handl
                     <ListItemText primary={token[1].symbol} />
                     <Box flexGrow={10} />
                     <ListItemText
-                      style={{ primary: { justify: "center" } }}
+                      // style={{ primary: { justify: "center" } }}
                       primary={`$${trim(token[1].balanceUSD, 2)}`}
                       secondary={trim(token[1].balance, 4)}
                     />

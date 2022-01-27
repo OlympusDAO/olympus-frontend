@@ -21,7 +21,7 @@ const Zap: React.FC = () => {
     () =>
       Object.entries(tokens)
         .filter(token => token[0] !== "sohm")
-        .map(token => token[1].img)
+        .map(token => token[1].tokenImageUrl)
         .slice(0, 3),
     [tokens],
   );

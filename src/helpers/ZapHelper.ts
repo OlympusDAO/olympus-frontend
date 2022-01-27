@@ -19,14 +19,17 @@ interface ZapperAsset {
   tokens: [ZapperToken];
 }
 
-interface ZapperToken {
+export interface ZapperToken {
   address: string;
   decimals: number;
   hide: boolean;
-  img: string;
+  tokenImageUrl: string;
   symbol: string;
   price: number;
   network: string;
+  balance: number;
+  balanceRaw: string;
+  balanceUSD: number;
 }
 
 interface ZapHelperBalancesResponse {
