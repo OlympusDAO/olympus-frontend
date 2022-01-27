@@ -1,5 +1,3 @@
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
@@ -11,19 +9,22 @@ import {
   Slide,
   Typography,
 } from "@material-ui/core";
-import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
-import { bondAsset, calcBondDetails, changeApproval } from "../../slices/BondSlice";
+import { Skeleton } from "@material-ui/lab";
+import { DataRow } from "@olympusdao/component-library";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { NetworkId } from "src/constants";
+import { useAppSelector } from "src/hooks";
+import { IAllBondData } from "src/hooks/Bonds";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { Skeleton } from "@material-ui/lab";
+
+import ConnectButton from "../../components/ConnectButton/ConnectButton";
+import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
 import useDebounce from "../../hooks/Debounce";
+import { bondAsset, calcBondDetails, changeApproval } from "../../slices/BondSlice";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./Bond";
-import ConnectButton from "../../components/ConnectButton";
-import { IAllBondData } from "src/hooks/Bonds";
-import { useAppSelector } from "src/hooks";
-import { NetworkId } from "src/constants";
-import { DataRow } from "@olympusdao/component-library";
 
 interface IBondPurchaseProps {
   readonly bond: IAllBondData;
@@ -118,7 +119,7 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
   }, [bondDetailsDebounce]);
 
   useEffect(() => {
-    let interval: number = 0;
+    let interval = 0;
     if (secondsToRefresh > 0) {
       interval = window.setInterval(() => {
         setSecondsToRefresh(secondsToRefresh => secondsToRefresh - 1);
@@ -248,14 +249,14 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
             balance={<DisplayBondDiscount key={bond.name} bond={bond} />}
             isLoading={isBondLoading}
           /> */}
-          <div className="data-row">
+          <Box display="flex" flexDirection="row" justifyContent="space-between">
             <Typography>
               <Trans>ROI</Trans>
             </Typography>
             <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
+              {isBondLoading ? <Skeleton width="80px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
             </Typography>
-          </div>
+          </Box>
           <DataRow title={t`Debt Ratio`} balance={`${trim(bond.debtRatio / 10000000, 2)}%`} isLoading={isBondLoading} />
           <DataRow title={t`Vesting Term`} balance={vestingPeriod()} isLoading={isBondLoading} />
           {recipientAddress !== address && (

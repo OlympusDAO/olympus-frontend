@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { t, Trans } from "@lingui/macro";
-import { useAppSelector, useWeb3Context } from "../../hooks";
-import { awardProcess, getRNGStatus, getPoolValues } from "../../slices/PoolThunk";
-
-import { Paper, Box, Typography, Button } from "@material-ui/core";
+import { Trans } from "@lingui/macro";
+import { Box, Paper, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { trim, subtractDates } from "src/helpers";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { subtractDates, trim } from "src/helpers";
+
+import { useAppSelector, useWeb3Context } from "../../hooks";
+import { getPoolValues, getRNGStatus } from "../../slices/PoolThunk";
 
 export interface Timer {
   days: number;
@@ -48,7 +48,7 @@ export const PoolPrize = () => {
     return state.poolData && state.poolData.rngRequestCompleted;
   });
 
-  let timerInterval = useRef<NodeJS.Timeout>();
+  const timerInterval = useRef<NodeJS.Timeout>();
 
   // handleAward not used yet
   const handleAward = (action: string) => {

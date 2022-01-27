@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useQuery } from "react-query";
-import { Box, Typography, Zoom, useTheme, makeStyles } from "@material-ui/core";
 import { t, Trans } from "@lingui/macro";
+import { Box, makeStyles, Typography, useTheme, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useWeb3Context } from "src/hooks/web3Context";
-import allPools, { fetchPoolData } from "src/helpers/AllExternalPools";
-import { ExternalPoolwBalance } from "src/lib/ExternalPool";
 import { Skeleton } from "@material-ui/lab";
-import { SecondaryButton, TokenStack, Paper } from "@olympusdao/component-library";
+import { DataRow, Paper, SecondaryButton, TokenStack } from "@olympusdao/component-library";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { useDispatch } from "react-redux";
+import allPools, { fetchPoolData } from "src/helpers/AllExternalPools";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { ExternalPoolwBalance } from "src/lib/ExternalPool";
 
 export const useExternalPools = (address: string) => {
   const { isLoading, data } = useQuery(["externalPools", address], () => fetchPoolData(address), {
@@ -41,51 +41,34 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading: Boolean }) => {
+const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading: boolean }) => {
   const styles = useStyles();
   const { connected } = useWeb3Context();
   return (
-    <Paper id={`${pool.poolName}--pool`} className="bond-data-card ohm-card">
+    <Paper>
       <div className={styles.poolPair}>
         <TokenStack tokens={pool.icons} />
         <div className={styles.poolName}>
           <Typography>{pool.poolName}</Typography>
         </div>
       </div>
-      <div className="data-row">
-        <Typography>
-          <Trans>TVL</Trans>
-        </Typography>
-        <Typography>
-          <>{!pool.tvl ? <Skeleton width={30} /> : pool.tvl}</>
-        </Typography>
-      </div>
-      <div className="data-row">
-        <Typography>{connected && t`Balance`}</Typography>
-        <Typography>
-          {!pool.userBalance && connected ? (
-            <Skeleton width={30} />
-          ) : connected && pool.userBalance ? (
-            `${pool.userBalance} LP`
-          ) : (
-            ""
-          )}
-        </Typography>
-      </div>
+      <DataRow title={`TVL`} balance={pool.tvl} isLoading={pool.tvl ? false : true} />
+      {connected && (
+        <DataRow title={t`Balance`} balance={`${pool.userBalance} LP`} isLoading={pool.userBalance ? false : true} />
+      )}
       {/* Pool Staking Linkouts */}
-      <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
-        <SecondaryButton href={pool.href} fullWidth>
-          {`${t`Stake on`} ${pool.stakeOn}`}
-        </SecondaryButton>
-      </Box>
+      <SecondaryButton href={pool.href} fullWidth>
+        {`${t`Stake on`} ${pool.stakeOn}`}
+      </SecondaryButton>
     </Paper>
   );
 };
 
-const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading: Boolean }) => {
+const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading: boolean }) => {
   const theme = useTheme();
   const styles = useStyles();
   const { connected } = useWeb3Context();
+
   return (
     <Box style={{ gap: theme.spacing(1.5) }} className={styles.stakePoolsWrapper}>
       <Box sx={{ display: "flex", alignItems: "center" }}>

@@ -1,0 +1,300 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Zap/> should render component 1`] = `
+<div>
+  <div
+    id="zap-view"
+  >
+    <div
+      class="MuiPaper-root ohm-card MuiPaper-elevation0 MuiPaper-rounded"
+      style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="staking-area"
+      >
+        <div
+          class="stake-wallet-notification"
+        >
+          <div
+            class="wallet-menu"
+            id="wallet-menu"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained connect-button MuiButton-containedPrimary MuiButton-disableElevation"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                Connect Wallet
+              </span>
+            </button>
+          </div>
+          <h6
+            class="MuiTypography-root MuiTypography-h6"
+          >
+            Connect your wallet to use Zap
+          </h6>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root ohm-card MuiPaper-elevation0 MuiPaper-rounded"
+      id="olyzaps-info"
+      style="webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4"
+      >
+        <div
+          class="MuiGrid-root makeStyles-infoBox-1 MuiGrid-item makeStyles-infoBoxItem-2 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-5 makeStyles-infoHeader-3 oly-info-header-box"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-6"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-7"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+                  focusable="false"
+                  style="z-index: 1; margin-bottom: 16px;"
+                  viewBox="0 0 32 32"
+                >
+                  <circle
+                    cx="16"
+                    cy="16"
+                    fill="#F5AC37"
+                    r="16"
+                  />
+                  <path
+                    d="M16.59 17.13h6.08c.13 0 .19 0 .2-.17.05-.619.05-1.24 0-1.86 0-.12-.06-.17-.19-.17h-12.1c-.15 0-.19.05-.19.19v1.78c0 .23 0 .23.24.23h5.96Zm5.6-4.28a.195.195 0 0 0 0-.14 3.96 3.96 0 0 0-.36-.63 5.103 5.103 0 0 0-.74-.93 2.451 2.451 0 0 0-.461-.45 7.187 7.187 0 0 0-3-1.52 7.458 7.458 0 0 0-1.7-.18h-5.37c-.15 0-.17.06-.17.19v3.55c0 .15 0 .19.19.19h11.54s.1-.02.12-.08h-.049Zm0 6.36a2.336 2.336 0 0 0-.51 0H10.59c-.15 0-.2 0-.2.2v3.47c0 .16 0 .2.2.2h5.12c.245.02.49.002.73-.049a7.626 7.626 0 0 0 2.17-.48c.253-.088.498-.203.73-.34h.07a6.496 6.496 0 0 0 2.79-2.809s.07-.151-.01-.19v-.002ZM8.38 24.88v-5.53c0-.13 0-.15-.16-.15H6.05c-.12 0-.17 0-.17-.16v-1.9H8.2c.13 0 .18 0 .18-.17v-1.88c0-.12 0-.149-.16-.149H6.05c-.12 0-.17 0-.17-.16v-1.76c0-.11 0-.14.16-.14h2.15c.15 0 .19 0 .19-.19v-5.39c0-.16 0-.2.2-.2h7.5c.544.022 1.085.082 1.62.18a9.775 9.775 0 0 1 3.13 1.16 8.82 8.82 0 0 1 1.76 1.36c.396.412.753.857 1.07 1.33.314.48.575.994.78 1.53a.26.26 0 0 0 .3.21h1.79c.23 0 .23 0 .24.221v1.64c0 .16-.06.2-.221.2h-1.38c-.14 0-.18 0-.17.18.054.61.054 1.22 0 1.83 0 .17 0 .19.19.19h1.58c.07.09 0 .18 0 .27.01.117.01.234 0 .35v1.21c0 .17-.05.22-.2.22h-1.89a.25.25 0 0 0-.29.19 7.997 7.997 0 0 1-2.101 3.06c-.34.307-.697.595-1.07.86-.4.23-.79.47-1.2.66-.756.34-1.548.591-2.36.75a12.3 12.3 0 0 1-2.34.19h-6.94v-.01l.002-.002Z"
+                    fill="#FEFEFD"
+                  />
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+                  focusable="false"
+                  style="margin-left: -6px; z-index: 1; margin-bottom: 16px;"
+                  viewBox="0 0 32 32"
+                >
+                  <circle
+                    cx="16"
+                    cy="16"
+                    fill="#fff"
+                    r="15"
+                    stroke="url(#wETH_svg__a)"
+                    stroke-width="2"
+                  />
+                  <path
+                    clip-rule="evenodd"
+                    d="M16.25 20.976 10 17.349 16.25 26V26l6.253-8.65-6.253 3.626Z"
+                    fill="#708B96"
+                    fill-rule="evenodd"
+                  />
+                  <path
+                    clip-rule="evenodd"
+                    d="m16.25 6 6.248 10.186-6.248-2.793L10 16.186 16.25 6Zm0 7.395L10 16.185l6.25 3.629 6.248-3.628-6.248-2.791Z"
+                    fill="#424242"
+                    fill-rule="evenodd"
+                  />
+                  <defs>
+                    <lineargradient
+                      gradientUnits="userSpaceOnUse"
+                      id="wETH_svg__a"
+                      x1="16"
+                      x2="16"
+                      y1="0"
+                      y2="32"
+                    >
+                      <stop
+                        stop-color="#444243"
+                      />
+                      <stop
+                        offset="1"
+                        stop-color="#708B96"
+                      />
+                    </lineargradient>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+            >
+              You Give
+            </p>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-9 makeStyles-infoBody-4"
+          >
+            <p
+              class="MuiTypography-root oly-info-body-header MuiTypography-body1"
+            >
+              Zap is a swap
+            </p>
+            <p
+              class="MuiTypography-root oly-info-body MuiTypography-body2 MuiTypography-alignLeft"
+            >
+              A zap swap is a series of smart contracts that deploys one asset to another protocol to handle a trusted transaction.
+            </p>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root makeStyles-infoBox-1 MuiGrid-item makeStyles-infoBoxItem-2 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-10 makeStyles-infoHeader-3 oly-info-header-box"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+              focusable="false"
+              style="margin-bottom: 16px;"
+              viewBox="0 0 32 32"
+            >
+              <circle
+                cx="16"
+                cy="16"
+                fill="#8977F5"
+                r="16"
+              />
+              <path
+                clip-rule="evenodd"
+                d="M 24.041 13.382 C 24.39 13.382 24.652 13.556 24.826 13.905 C 25.001 14.167 24.913 14.516 24.739 14.778 L 16.02 25.251 C 15.845 25.513 15.584 25.6 15.322 25.6 C 15.235 25.6 15.06 25.6 14.973 25.513 C 14.624 25.425 14.363 24.989 14.45 24.64 L 15.235 18.618 L 8.346 18.618 C 7.998 18.618 7.736 18.444 7.562 18.182 C 7.387 17.833 7.475 17.484 7.649 17.222 L 16.368 6.749 C 16.63 6.4 17.066 6.313 17.415 6.487 C 17.763 6.575 18.025 7.011 17.938 7.36 L 17.153 13.382 L 24.041 13.382 Z M 17.066 17.832 L 16.543 21.847 L 22.123 15.127 L 16.107 15.127 C 15.932 15.127 15.671 15.039 15.496 14.865 C 15.409 14.69 15.322 14.428 15.322 14.167 L 15.758 10.152 L 10.178 16.872 L 16.194 16.872 C 16.455 16.872 16.717 16.959 16.892 17.134 C 16.979 17.308 17.066 17.57 17.066 17.832 Z"
+                fill="white"
+                fill-rule="evenodd"
+              />
+            </svg>
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+            >
+              All-in-one zap contracts
+            </p>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-11 makeStyles-infoBody-4"
+          >
+            <p
+              class="MuiTypography-root oly-info-body-header MuiTypography-body1"
+            >
+              All-in-one easy staking
+            </p>
+            <p
+              class="MuiTypography-root oly-info-body MuiTypography-body2 MuiTypography-alignLeft"
+            >
+              OlyZap reduces complexity, saves you time and keeps you here on Olympus.
+            </p>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root makeStyles-infoBox-1 MuiGrid-item makeStyles-infoBoxItem-2 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-12 makeStyles-infoHeader-3 oly-info-header-box"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+              focusable="false"
+              style="margin-bottom: 16px;"
+              viewBox="0 0 32 32"
+            >
+              <defs>
+                <lineargradient
+                  gradientTransform="matrix(0.319996, 0, 0, 0.319996, -0.000007, -1.775952)"
+                  gradientUnits="userSpaceOnUse"
+                  id="paint0_linear"
+                  x1="-83.5339"
+                  x2="189.059"
+                  y1="50"
+                  y2="50"
+                >
+                  <stop
+                    stop-color="#708B96"
+                  />
+                  <stop
+                    offset="1"
+                    stop-color="#F7FBE7"
+                  />
+                </lineargradient>
+              </defs>
+              <path
+                clip-rule="evenodd"
+                d="M 15.982 28.228 C 23.688 28.228 29.934 21.982 29.934 14.276 C 29.934 12.658 29.658 11.104 29.152 9.659 L 29.152 5.11 C 30.947 7.696 32 10.837 32 14.224 C 32 23.06 24.836 30.224 16 30.224 C 7.163 30.224 0 23.06 0 14.224 C 0 10.817 1.065 7.659 2.88 5.064 L 2.88 9.472 C 2.331 10.97 2.031 12.588 2.031 14.276 C 2.031 21.982 8.276 28.228 15.982 28.228 Z"
+                fill="url(#paint0_linear)"
+                fill-rule="evenodd"
+              />
+              <path
+                d="M 3.552 14.224 C 3.552 7.349 9.125 1.776 16 1.776 C 22.875 1.776 28.448 7.349 28.448 14.224 C 28.448 21.099 22.875 26.671 16 26.671 C 9.125 26.671 3.552 21.099 3.552 14.224 Z"
+                fill="#708B96"
+              />
+              <path
+                clip-rule="evenodd"
+                d="M 17.195 19.176 C 17.195 19.176 17.195 19.176 17.195 19.176 L 17.195 19.726 L 21.477 19.726 L 21.477 18.181 L 19.363 18.181 C 20.634 17.219 21.451 15.72 21.451 14.037 C 21.451 11.129 19.011 8.772 16 8.772 C 12.989 8.772 10.548 11.129 10.548 14.037 C 10.548 15.72 11.365 17.219 12.637 18.181 L 10.523 18.181 L 10.523 19.726 L 14.805 19.726 L 14.805 19.176 L 14.805 17.652 C 13.245 17.16 12.116 15.733 12.116 14.05 C 12.116 11.96 13.855 10.266 16 10.266 C 18.145 10.266 19.884 11.96 19.884 14.05 C 19.884 15.733 18.755 17.16 17.195 17.652 L 17.195 19.176 Z"
+                fill="white"
+                fill-rule="evenodd"
+              />
+            </svg>
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+            >
+              You Get sOHM
+               
+            </p>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-13 makeStyles-infoBody-4"
+          >
+            <p
+              class="MuiTypography-root oly-info-body-header MuiTypography-body1"
+            >
+              Staking
+            </p>
+            <p
+              class="MuiTypography-root oly-info-body MuiTypography-body2 MuiTypography-alignLeft"
+            >
+              Staking is the primary value accrual strategy of Olympus. When you stake, you lock OHM and receive an equal amount of sOHM.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-14 button-box"
+      >
+        <a
+          aria-disabled="false"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined learn-more-button MuiButton-outlinedSecondary MuiButton-disableElevation"
+          href="https://docs.olympusdao.finance/main/using-the-website/olyzaps"
+          tabindex="0"
+          target="_blank"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1"
+            >
+              Learn More
+            </p>
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall"
+              focusable="false"
+              viewBox="0 0 20 20"
+            >
+              arrow-up.svg
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,9 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
+import "./ChooseBond.scss";
+
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
-  ButtonBase,
   Grid,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -12,28 +12,22 @@ import {
   TableRow,
   Typography,
   Zoom,
-  SvgIcon,
 } from "@material-ui/core";
-import { t, Trans } from "@lingui/macro";
-import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { formatCurrency } from "../../helpers";
-import useBonds from "../../hooks/Bonds";
-import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import "./choosebond.scss";
-import { Skeleton } from "@material-ui/lab";
-import ClaimBonds from "./ClaimBonds";
+import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import isEmpty from "lodash/isEmpty";
-import { allBondsMap } from "src/helpers/AllBonds";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import { useAppSelector, useWeb3Context } from "src/hooks";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { IUserBondDetails } from "src/slices/AccountSlice";
-import { Metric, MetricCollection } from "@olympusdao/component-library";
-import { getAllBonds, getUserNotes, IBondV2, IUserNote } from "src/slices/BondSliceV2";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { useEffect, useState } from "react";
+import { getAllBonds, getUserNotes, IUserNote } from "src/slices/BondSliceV2";
 import { AppDispatch } from "src/store";
+
+import { formatCurrency } from "../../helpers";
+import { BondDataCard, BondTableData } from "./BondRow";
+import ClaimBonds from "./ClaimBonds";
 
 function ChooseBondV2() {
   const { networkId, address, provider } = useWeb3Context();
@@ -42,7 +36,7 @@ function ChooseBondV2() {
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
   const bondsV2 = useAppSelector(state => {
-    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
+    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]).sort((a, b) => b.discount - a.discount);
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
@@ -86,28 +80,7 @@ function ChooseBondV2() {
       {(!isEmpty(accountNotes) || !isEmpty(v1AccountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
 
       <Zoom in={true}>
-        <Paper className="ohm-card">
-          <Box className="card-header">
-            <Typography variant="h5" data-testid="t">
-              <Trans>Bond</Trans> (4,4)
-            </Typography>
-
-            <ButtonBase>
-              <Typography style={{ lineHeight: "33px" }}>
-                <b>
-                  <Link to="/bonds-v1" style={{ textDecoration: "none", color: "inherit" }}>
-                    <Trans>v1 Bonds</Trans>
-                    <SvgIcon
-                      style={{ margin: "0 0 0 5px", verticalAlign: "text-bottom" }}
-                      component={ArrowUp}
-                      color="primary"
-                    />
-                  </Link>
-                </b>
-              </Typography>
-            </ButtonBase>
-          </Box>
-
+        <Paper headerText={`${t`Bond`} (4,4)`}>
           <MetricCollection>
             <Metric
               label={t`Treasury Balance`}
@@ -156,14 +129,14 @@ function ChooseBondV2() {
               </TableContainer>
             </Grid>
           )}
-          <div className="help-text">
+          <Box mt={2} className="help-text">
             <em>
               <Typography variant="body2">
                 Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim
                 as sOHM or gOHM at the end of the term.
               </Typography>
             </em>
-          </div>
+          </Box>
         </Paper>
       </Zoom>
 

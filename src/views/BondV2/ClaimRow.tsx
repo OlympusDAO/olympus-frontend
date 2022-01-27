@@ -1,15 +1,15 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { t, Trans } from "@lingui/macro";
-import { shorten, trim, prettyVestingPeriod } from "../../helpers";
-import { redeemBond } from "../../slices/BondSlice";
-import BondLogo from "../../components/BondLogo";
+import "./ChooseBond.scss";
+
+import { t } from "@lingui/macro";
 import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
-import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
-import { useAppSelector, useBonds, useWeb3Context } from "src/hooks";
-import { isPendingTxn, txnButtonText, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
-import { IUserNote, claimSingleNote } from "src/slices/BondSliceV2";
+import { TokenStack } from "@olympusdao/component-library";
+import { useDispatch } from "react-redux";
+import { useAppSelector, useWeb3Context } from "src/hooks";
+import { claimSingleNote, IUserNote } from "src/slices/BondSliceV2";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+
+import { trim } from "../../helpers";
 
 export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gOHM: boolean }) {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
     <TableRow id={`${bondName}--claim`}>
       {/* Name */}
       <TableCell align="left" className="bond-name-cell">
-        <BondLogo bond={note} />
+        <TokenStack tokens={note.bondIconSvg} />
         <div className="bond-name">
           <Typography variant="body1">{bondName ? bondName : <Skeleton width={100} />}</Typography>
         </div>
@@ -97,13 +97,13 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
   return (
     <Box id={`${bondName}--claim`} className="claim-bond-data-card bond-data-card" style={{ marginBottom: "30px" }}>
       <Box className="bond-pair">
-        <BondLogo bond={note} />
+        <TokenStack tokens={note.bondIconSvg} />
         <Box className="bond-name">
           <Typography>{bondName}</Typography>
         </Box>
       </Box>
 
-      <div className="data-row">
+      <Box display="flex" flexDirection="row" justifyContent="space-between" className="data-row">
         <Typography>Claimable</Typography>
         <Typography>
           {note.payout && currentIndex ? (
@@ -112,12 +112,12 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
             <Skeleton width={100} />
           )}
         </Typography>
-      </div>
+      </Box>
 
-      <div className="data-row" style={{ marginBottom: "20px" }}>
+      <Box display="flex" flexDirection="row" justifyContent="space-between" mb={"20px"}>
         <Typography>Remaining Duration</Typography>
         <Typography>{vestingPeriod()}</Typography>
-      </div>
+      </Box>
       {note.fullyMatured && (
         <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">
           <Button

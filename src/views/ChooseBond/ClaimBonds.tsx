@@ -1,98 +1,19 @@
-import { useEffect, useState } from "react";
-import { t, Trans } from "@lingui/macro";
-import { ClaimBondTableData, ClaimBondCardData } from "./ClaimRow";
-import { isPendingTxn, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
-import { redeemAllBonds } from "src/slices/BondSlice";
-import CardHeader from "../../components/CardHeader/CardHeader";
-import { useWeb3Context } from "src/hooks/web3Context";
-import useBonds from "src/hooks/Bonds";
-import {
-  Box,
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Zoom,
-} from "@material-ui/core";
+import "./ChooseBond.scss";
+
+import { Trans } from "@lingui/macro";
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "./choosebond.scss";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import { IUserBondDetails } from "src/slices/AccountSlice";
-import { useAppSelector } from "src/hooks";
 
-function ClaimBonds({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
-  const dispatch = useDispatch();
-  const { provider, address, networkId } = useWeb3Context();
-  const { bonds } = useBonds(networkId);
-
-  const [numberOfBonds, setNumberOfBonds] = useState(0);
-  const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
-
-  const pendingTransactions = useAppSelector(state => {
-    return state.pendingTransactions;
-  });
-
-  const pendingClaim = () => {
-    if (
-      isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
-      isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
-    ) {
-      return true;
-    }
-
-    return false;
-  };
-
-  useEffect(() => {
-    let bondCount = Object.keys(activeBonds).length;
-    setNumberOfBonds(bondCount);
-  }, [activeBonds]);
-
-  return (
-    <>
-      {numberOfBonds > 0 && (
-        <Zoom in={true}>
-          <Paper className="ohm-card claim-bonds-card">
-            <CardHeader title="Your Bonds (1,1)" />
-            <ClaimBondsSubComponent activeBonds={activeBonds} />
-          </Paper>
-        </Zoom>
-      )}
-    </>
-  );
-}
-
-export default ClaimBonds;
+import { ClaimBondCardData, ClaimBondTableData } from "./ClaimRow";
 
 export function ClaimBondsSubComponent({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
-  const dispatch = useDispatch();
-  const { provider, address, networkId } = useWeb3Context();
-  const { bonds } = useBonds(networkId);
-
-  const [numberOfBonds, setNumberOfBonds] = useState(0);
+  const [, setNumberOfBonds] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
 
-  const pendingTransactions = useAppSelector(state => {
-    return state.pendingTransactions;
-  });
-
-  const pendingClaim = () => {
-    if (
-      isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
-      isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
-    ) {
-      return true;
-    }
-
-    return false;
-  };
-
   useEffect(() => {
-    let bondCount = activeBonds.length;
+    const bondCount = activeBonds.length;
     setNumberOfBonds(bondCount);
   }, [activeBonds]);
 

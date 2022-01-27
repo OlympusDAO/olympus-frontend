@@ -1,10 +1,10 @@
 name: Main CI
 
 on:
-  # push:
+  push:
+    branches: [ master, develop ]
   pull_request:
-  #  branches:
-  #    - master
+    types: [ opened, synchronize, reopened ]
 
 jobs:
   test:
@@ -17,7 +17,7 @@ jobs:
           yarn lint
           yarn build
       env:
-          CI: true
+          CI: false
     - name: Run unit tests
       run: |
           yarn test:unit

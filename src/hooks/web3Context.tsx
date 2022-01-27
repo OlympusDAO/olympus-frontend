@@ -1,12 +1,13 @@
-import React, { ReactElement, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import Web3Modal from "web3modal";
-import { JsonRpcProvider, StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
-import WalletConnectProvider from "@walletconnect/web3-provider";
-import WalletLink from "walletlink";
+import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import React, { ReactElement, useCallback, useContext, useMemo, useState } from "react";
+import { idFromHexString, initNetworkFunc } from "src/helpers/NetworkHelper";
 import { NodeHelper } from "src/helpers/NodeHelper";
+import WalletLink from "walletlink";
+import Web3Modal from "web3modal";
+
 import { NETWORKS } from "../constants";
-import { initNetworkFunc, idFromHexString } from "src/helpers/NetworkHelper";
 
 /**
  *  Coinbase wallet init
@@ -37,7 +38,7 @@ type onChainProvider = {
   networkId: number;
   networkName: string;
   providerUri: string;
-  providerInitialized: Boolean;
+  providerInitialized: boolean;
 };
 
 export type Web3ContextData = {
@@ -159,7 +160,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     // Save everything after we've validated the right network.
     // Eventually we'll be fine without doing network validations.
     setAddress(connectedAddress);
-    let networkHash = await initNetworkFunc({ provider: connectedProvider });
+    const networkHash = await initNetworkFunc({ provider: connectedProvider });
     console.log("networkHash", networkHash);
     setNetworkId(networkHash.networkId);
     setNetworkName(networkHash.networkName);
