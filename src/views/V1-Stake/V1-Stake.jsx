@@ -1,5 +1,5 @@
-import "../Stake/stake.scss";
-import "./v1stake.scss";
+import "../Stake/Stake.scss";
+import "./V1-Stake.scss";
 
 import { t, Trans } from "@lingui/macro";
 import {

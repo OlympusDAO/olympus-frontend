@@ -62,8 +62,13 @@ yarn test:unit
 ```
 
 Note that the focus of unit testing is to exercise all paths through the code hosted in this repo and **only** code hosted in this repo. To the extent possible, unit tests should abstract out dependencies such as remote API calls as well as crypto wallet APIs via [`mock functions`](https://jestjs.io/docs/mock-functions).
+For integration testing automation that runs browser and remote API code as well as our own code, see the End-to-end (E2E) testing section below.
 
 Coverage thresholds are enforced via CI checks. If a new PR introduces regression in code coverage, the CI will fail. The goal is to keep us at a minimum level of test automation coverage as we introduce new code into the repo. To see the current coverage thresholds, see the `coverageThreshold` in [`package.json`](package.json).
+
+We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
+When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
+`yarn snapshot`.
 
 For integration testing automation that runs browser and remote API code as well as our own code, see the End-to-end (E2E) testing section below.
 
@@ -78,25 +83,58 @@ To run the tests:
 
 ### Rinkeby Testing
 
-**Rinkeby faucet for sOHM:**
-[Lives here](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract), to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`. After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
+### sOHM Faucet
+
+- [0x800B3d87b77361F0D1d903246cA1F51b5acb43c9](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract)
+- to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`.
+- After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
 
 Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
 Note: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sOHM, OHM, gOHM), you will first need to use the migration steps in the UI to convert from sOHM v1 to sOHM v2.
 
-**Rinkeby faucet for WETH:**
+### wETH Faucet
+
 [Wrap rinkeby eth on rinkeby uniswap](https://app.uniswap.org/#/swap)
 
-**Rinkeby faucets for LUSD, FRAX & DAI can be taken from rinkeby etherscan:**
+### DAI Faucets
 
-1. Go to `src/helpers/AllBonds.ts`
-2. Then copy the rinkeby `reserveAddress` for the applicable bond & navigate to that contract on rinkeby etherscan.
-3. On Rinkeby etherscan use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
+- [0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c](https://rinkeby.etherscan.io/address/0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c#writeContract)
+- [0x5ed8bd53b0c3fa3deabd345430b1a3a6a4e8bd7c](https://rinkeby.etherscan.io/address/0x5ed8bd53b0c3fa3deabd345430b1a3a6a4e8bd7c#writeContract)
+- use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
+
+### FRAX Faucet
+
+- [0x2f7249cb599139e560f0c81c269ab9b04799e453](https://rinkeby.etherscan.io/address/0x2f7249cb599139e560f0c81c269ab9b04799e453#writeContract)
+- use the `mint` function. You can use the number helper for 10^18 & then add four more zeros for 10,000 units of whichever reserve you are minting.
 
 ### Avax Fuji Testnet
 
 1. [avax faucet](https://faucet.avax-test.network/)
 2. [explorer](https://explorer.avax-test.network/)
+
+## Gitpod Continuous Dev Environment (optional)
+
+This repo is configured to work with Gitpod.
+
+### New Contributors
+
+If you are a new contributor, you can fork the repo and start a pre-configured gitpod environment by prefixing your fork URL with `gitpod.io/#`. For example:
+
+`https://gitpod.io/#https://github.com/.../...`
+
+Then follow the standard [Github fork & PR workflow](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
+
+### Permissioned Contributors
+
+If you are an established contributor with access rights to create and push to branches in this repo, you can use a simpler flow.
+
+1. Obtain a Personal Access Token from your github UI.
+2. In your gitpod dashboard, set a new variable named `GITHUB_OHM_PERSONAL_ACCESS_TOKEN` to the value of the access token.
+3. Use the button below to start a pre-configured gidpod environment.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/OlympusDAO/olympus-frontend)
+
+4. Follow the simplified [Github Flow](https://docs.github.com/en/get-started/quickstart/github-flow) to create new branches in the repo and submit PRs.
 
 ## Architecture/Layout
 
