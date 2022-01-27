@@ -104,9 +104,6 @@ export const dark = responsiveFontSizes(
           paper: {
             backgroundColor: darkTheme.paperBg,
             zIndex: 7,
-            "@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none))": {
-              backgroundColor: "rgba(54, 56, 64, 0.98)",
-            },
           },
         },
         MuiSelect: {

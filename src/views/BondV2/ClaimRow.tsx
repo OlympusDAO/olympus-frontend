@@ -103,7 +103,7 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
         </Box>
       </Box>
 
-      <div className="data-row">
+      <Box display="flex" flexDirection="row" justifyContent="space-between" className="data-row">
         <Typography>Claimable</Typography>
         <Typography>
           {note.payout && currentIndex ? (
@@ -112,12 +112,12 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
             <Skeleton width={100} />
           )}
         </Typography>
-      </div>
+      </Box>
 
-      <div className="data-row" style={{ marginBottom: "20px" }}>
+      <Box display="flex" flexDirection="row" justifyContent="space-between" mb={"20px"}>
         <Typography>Remaining Duration</Typography>
         <Typography>{vestingPeriod()}</Typography>
-      </div>
+      </Box>
       {note.fullyMatured && (
         <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">
           <Button
