@@ -10,7 +10,7 @@ import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
-import useBonds, { IAllBondData } from "./hooks/Bonds";
+import useBonds from "./hooks/Bonds";
 import { useWeb3Context, useAppSelector } from "./hooks";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
@@ -24,8 +24,6 @@ import { info } from "./slices/MessagesSlice";
 
 import {
   Stake,
-  ChooseBond,
-  Bond,
   TreasuryDashboard,
   Zap,
   Wrap,
@@ -36,14 +34,13 @@ import {
   BondV2,
   ChooseBondV2,
 } from "./views";
-import Sidebar from "./components/Sidebar/Sidebar.jsx";
+import Sidebar from "./components/Sidebar/Sidebar";
 import TopBar from "./components/TopBar/TopBar";
 import CallToAction from "./components/CallToAction/CallToAction";
-import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
+import NavDrawer from "./components/Sidebar/NavDrawer";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
 import MigrationModal from "src/components/Migration/MigrationModal";
-import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
@@ -412,16 +409,7 @@ function App() {
               <PoolTogether />
             </Route> */}
 
-              <Route path="/bonds-v1">
-                {(bonds as IAllBondData[]).map(bond => {
-                  return (
-                    <Route exact key={bond.name} path={`/bonds-v1/${bond.name}`}>
-                      <Bond bond={bond} />
-                    </Route>
-                  );
-                })}
-                <ChooseBond />
-              </Route>
+              <Redirect from="/bonds-v1" to="/bonds" />
 
               <Route path="/bonds">
                 {bondIndexes.map(index => {
@@ -433,11 +421,6 @@ function App() {
                 })}
                 <ChooseBondV2 />
               </Route>
-
-              <Route path="/network">
-                <ChangeNetwork />
-              </Route>
-
               <Route component={NotFound} />
             </Switch>
           </div>

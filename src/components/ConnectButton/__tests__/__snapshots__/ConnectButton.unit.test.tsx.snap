@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ConnectButton/> should render component 1`] = `
+<div>
+  <button
+    class="MuiButtonBase-root MuiButton-root MuiButton-contained connect-button MuiButton-containedPrimary MuiButton-disableElevation"
+    tabindex="0"
+    type="button"
+  >
+    <span
+      class="MuiButton-label"
+    >
+      Connect Wallet
+    </span>
+  </button>
+</div>
+`;
