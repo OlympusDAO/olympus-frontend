@@ -1,4 +1,4 @@
-import "./notfound.scss";
+import "./NotFound.scss";
 
 import { Trans } from "@lingui/macro";
 

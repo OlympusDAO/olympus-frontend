@@ -1,8 +1,8 @@
 import { t } from "@lingui/macro";
 import { useTheme } from "@material-ui/core/styles";
-import Chart from "src/components/Chart/Chart.jsx";
+import Chart from "src/components/Chart/Chart";
+import { formatCurrency, trim } from "src/helpers";
 
-import { formatCurrency, trim } from "../../../../helpers";
 import { useTreasuryMetrics } from "../../hooks/useTreasuryMetrics";
 import { bulletpoints, itemType, tooltipInfoMessages, tooltipItems } from "../../treasuryData";
 

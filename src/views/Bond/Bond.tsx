@@ -1,4 +1,4 @@
-import "./bond.scss";
+import "./Bond.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Box, Fade, Grid, Tab, Tabs, Typography } from "@material-ui/core";
