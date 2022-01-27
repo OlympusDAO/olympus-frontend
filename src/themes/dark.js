@@ -120,6 +120,9 @@ export const dark = responsiveFontSizes(
             "&.ohm-modal": {
               backgroundColor: darkTheme.modalBg,
             },
+            "&.MuiPaper-root.tooltip-container": {
+              backgroundColor: darkTheme.paperBg,
+            },
             "&.ohm-menu": {
               backgroundColor: darkTheme.menuBg,
               backdropFilter: "blur(33px)",
