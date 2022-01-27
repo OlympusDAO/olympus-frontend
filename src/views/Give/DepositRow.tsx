@@ -34,8 +34,6 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const getRecipientTitle = (address: string): string => {

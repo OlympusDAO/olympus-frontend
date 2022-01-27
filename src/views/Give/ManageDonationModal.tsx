@@ -4,7 +4,7 @@ import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Project } from "src/components/GiveProject/project.type";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
@@ -12,7 +12,6 @@ import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ArrowGraphic } from "../../components/EducationCard";
 import { getTokenImage } from "../../helpers";
-import { IAccountSlice } from "../../slices/AccountSlice";
 import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 const sOhmImg = getTokenImage("sohm");
 import { t, Trans } from "@lingui/macro";
@@ -26,7 +25,7 @@ import { shorten } from "src/helpers";
 import { EnvHelper } from "src/helpers/Environment";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 
-import { CancelCallback, SubmitCallback } from "./Interfaces";
+import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
 
 export type WithdrawSubmitCallback = {
   (walletAddress: string, eventSource: string, depositAmount: BigNumber): void;
@@ -45,12 +44,6 @@ type ManageModalProps = {
   yieldSent: string;
 };
 
-// TODO consider shifting this into interfaces.ts
-type State = {
-  account: IAccountSlice;
-  pendingTransactions: IPendingTxn[];
-};
-
 export function ManageDonationModal({
   isModalOpen,
   eventSource,
@@ -64,7 +57,6 @@ export function ManageDonationModal({
   yieldSent,
 }: ManageModalProps) {
   const location = useLocation();
-  const dispatch = useDispatch();
   const { provider, address, connected, networkId } = useWeb3Context();
   const [totalDebt, setTotalDebt] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -104,35 +96,29 @@ export function ManageDonationModal({
   const getInitialWalletAddress = () => {
     return currentWalletAddress ? currentWalletAddress : _initialWalletAddress;
   };
-  const [walletAddress, setWalletAddress] = useState(getInitialWalletAddress());
-  const [isWalletAddressValid, setIsWalletAddressValid] = useState(_initialWalletAddressValid);
+  const [walletAddress] = useState(getInitialWalletAddress());
+  const [isWalletAddressValid] = useState(_initialWalletAddressValid);
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
-  const sohmBalance: string = useSelector((state: State) => {
+  const sohmBalance: string = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.balances && state.account.balances.mockSohm
       : state.account.balances && state.account.balances.sohm;
   });
 
-  const giveAllowance: number = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving && state.account.mockGiving.sohmGive
-      : state.account.giving && state.account.giving.sohmGive;
-  });
-
-  const isAccountLoading: boolean = useSelector((state: State) => {
+  const isAccountLoading: boolean = useSelector((state: DonationInfoState) => {
     return state.account.loading;
   });
 
-  const isGiveLoading: boolean = useSelector((state: State) => {
+  const isGiveLoading: boolean = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving.loading
       : state.account.giving.loading;
   });
 
-  const pendingTransactions: IPendingTxn[] = useSelector((state: State) => {
+  const pendingTransactions: IPendingTxn[] = useSelector((state: DonationInfoState) => {
     return state.pendingTransactions;
   });
 
@@ -190,7 +176,7 @@ export function ManageDonationModal({
     return depositAmountBig.minus(getCurrentDepositAmount());
   };
 
-  const handleModalInsideClick = (e: any): void => {
+  const handleModalInsideClick = (e: React.MouseEvent): void => {
     // When the user clicks within the modal window, we do not want to pass the event up the tree
     e.stopPropagation();
   };

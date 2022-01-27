@@ -28,7 +28,6 @@ import {
   YieldGraphic,
 } from "../../components/EducationCard";
 import { getTokenImage } from "../../helpers";
-import { IAccountSlice } from "../../slices/AccountSlice";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 const sOhmImg = getTokenImage("sohm");
 import { t, Trans } from "@lingui/macro";
@@ -40,7 +39,7 @@ import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { EnvHelper } from "src/helpers/Environment";
 
-import { CancelCallback, SubmitCallback } from "./Interfaces";
+import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -50,12 +49,6 @@ type RecipientModalProps = {
   project?: Project;
   currentWalletAddress?: string;
   currentDepositAmount?: BigNumber; // As per IUserDonationInfo
-};
-
-// TODO consider shifting this into interfaces.ts
-type State = {
-  account: IAccountSlice;
-  pendingTransactions: IPendingTxn[];
 };
 
 export function RecipientModal({
@@ -110,7 +103,7 @@ export function RecipientModal({
     }
   }, [isModalOpen]);
 
-  const handleModalInsideClick = (e: any): void => {
+  const handleModalInsideClick = (e: React.MouseEvent): void => {
     // When the user clicks within the modal window, we do not want to pass the event up the tree
     e.stopPropagation();
   };
@@ -122,29 +115,29 @@ export function RecipientModal({
    *
    * TODO consider extracting this into a helper file
    */
-  const sohmBalance: string = useSelector((state: State) => {
+  const sohmBalance: string = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.balances && state.account.balances.mockSohm
       : state.account.balances && state.account.balances.sohm;
   });
 
-  const giveAllowance: number = useSelector((state: State) => {
+  const giveAllowance: number = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.sohmGive
       : state.account.giving && state.account.giving.sohmGive;
   });
 
-  const isAccountLoading: boolean = useSelector((state: State) => {
+  const isAccountLoading: boolean = useSelector((state: DonationInfoState) => {
     return state.account.loading;
   });
 
-  const isGiveLoading: boolean = useSelector((state: State) => {
+  const isGiveLoading: boolean = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving.loading
       : state.account.giving.loading;
   });
 
-  const pendingTransactions: IPendingTxn[] = useSelector((state: State) => {
+  const pendingTransactions: IPendingTxn[] = useSelector((state: DonationInfoState) => {
     return state.pendingTransactions;
   });
 
