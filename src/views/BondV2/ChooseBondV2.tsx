@@ -122,7 +122,8 @@ function ChooseBondV2() {
                   </TableHead>
                   <TableBody>
                     {bondsV2.map(bond => {
-                      if (bond.displayName !== "unknown") return <BondTableData key={bond.index} bond={bond} />;
+                      if (bond.displayName !== "unknown")
+                        return <BondTableData networkId={networkId} key={bond.index} bond={bond} />;
                     })}
                   </TableBody>
                 </Table>
