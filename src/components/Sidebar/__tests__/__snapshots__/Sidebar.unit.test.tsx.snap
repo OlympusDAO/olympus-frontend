@@ -39,7 +39,6 @@ exports[`<Sidebar/> should render component 1`] = `
                     olympus-nav-header.svg
                   </svg>
                 </a>
-                <div />
               </div>
               <div
                 class="dapp-menu-links"
