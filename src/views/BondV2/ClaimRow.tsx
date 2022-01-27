@@ -34,11 +34,13 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
   return (
     <TableRow id={`${bondName}--claim`}>
       {/* Name */}
-      <TableCell align="left" className="bond-name-cell">
-        <TokenStack tokens={note.bondIconSvg} />
-        <div className="bond-name">
-          <Typography variant="body1">{bondName ? bondName : <Skeleton width={100} />}</Typography>
-        </div>
+      <TableCell align="left">
+        <Box display="flex" alignItems="center">
+          <TokenStack tokens={note.bondIconSvg} />
+          <div className="bond-name" style={{ marginLeft: "10px" }}>
+            <Typography variant="body1">{bondName ? bondName : <Skeleton width={100} />}</Typography>
+          </div>
+        </Box>
       </TableCell>
       {/* Remaining Duration */}
       <TableCell align="center">{note.originalDuration}</TableCell>

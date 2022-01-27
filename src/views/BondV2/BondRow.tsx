@@ -1,7 +1,7 @@
 import "./ChooseBond.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
+import { Box, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
@@ -90,20 +90,22 @@ export function BondTableData({ bond }: { bond: IBondV2 }) {
 
   return (
     <TableRow id={`${bond.index}--bond`}>
-      <TableCell align="left" className="bond-name-cell">
-        <TokenStack tokens={bond.bondIconSvg} />
-        <div className="bond-name">
-          <Typography variant="body1">{bond.displayName}</Typography>
-          {bond.isLP && (
-            <Link color="primary" href={bond.lpUrl} target="_blank">
-              <Typography variant="body1">
-                <Trans>Get LP</Trans>
-                <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-              </Typography>
-            </Link>
-          )}
-          {/* <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography> */}
-        </div>
+      <TableCell align="left">
+        <Box display="flex" alignItems="center">
+          <TokenStack tokens={bond.bondIconSvg} />
+          <div className="bond-name" style={{ marginLeft: "10px" }}>
+            <Typography variant="body1">{bond.displayName}</Typography>
+            {bond.isLP && (
+              <Link color="primary" href={bond.lpUrl} target="_blank">
+                <Typography variant="body1">
+                  <Trans>Get LP</Trans>
+                  <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                </Typography>
+              </Link>
+            )}
+            {/* <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography> */}
+          </div>
+        </Box>
       </TableCell>
       <TableCell align="left">
         <Typography>
