@@ -1,4 +1,4 @@
-import "./migration-modal.scss";
+import "./MigrationModal.scss";
 
 import { t, Trans } from "@lingui/macro";
 import {

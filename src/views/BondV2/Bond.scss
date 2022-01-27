@@ -1,0 +1,88 @@
+#bond-view {
+  .bond-data {
+    margin: 10px 0 0 0;
+  }
+
+  .bond-price-data-row {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin: 23px;
+    h4 {
+      margin-bottom: 0;
+    }
+    h3.price {
+      font-weight: 600 !important;
+    }
+  }
+
+  .ohm-input {
+    min-width: 50%;
+    max-width: 408px;
+    margin: 5px;
+  }
+}
+
+.transaction-button {
+  min-width: 185px !important;
+  max-width: 408px;
+  width: 100%;
+  margin: 5px !important;
+}
+
+.payout-token-tabs {
+  font-size: 1rem !important;
+  width: 100%;
+}
+
+.payout-token-tab {
+  font-size: 1rem !important;
+}
+.payout-options-header {
+  color: #768299;
+  font-size: 1.44rem;
+}
+
+.claimable-balance {
+  margin-top: 30px !important;
+  color: #768299;
+  font-size: 1.2rem !important;
+}
+
+.mobile #bond-view {
+  .ohm-card {
+    .card-content {
+      justify-content: space-evenly !important;
+      .bond-toggle-row {
+        justify-content: space-evenly !important;
+      }
+      .input-row {
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        .input-group.ohm-input-group {
+          margin: 10px !important;
+          width: 75%;
+          height: 50px;
+        }
+        div.stake-button {
+          width: 75%;
+          margin-left: 0;
+          margin-top: 15px;
+          height: 50px;
+          font-size: 1.3em !important;
+        }
+      }
+    }
+  }
+}
+
+.web3modal-modal-lightbox {
+  z-index: 70 !important;
+}
+
+.bond_discount_positive {
+  color: green;
+}
