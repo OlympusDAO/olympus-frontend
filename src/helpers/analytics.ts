@@ -40,9 +40,6 @@ export const trackGAEvent = (event: ReactGA.EventArgs) => {
       window.gtag("event", event.action, {
         event_category: event.category,
         event_label: event?.label,
-        dimension1: event?.dimension1,
-        dimension2: event?.dimension2,
-        metric1: event?.metric1,
       });
     }
   } catch (e) {
