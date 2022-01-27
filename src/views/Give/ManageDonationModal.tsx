@@ -473,7 +473,7 @@ export function ManageDonationModal({
                   <FormHelperText>{isDepositAmountValidError}</FormHelperText>
                   <div className="give-staked-balance">
                     <Typography variant="body2" align="left">
-                      <Trans>Your current deposit is {currentDepositAmount.toFixed(2)} sOHM</Trans>
+                      {`${t`Your current deposit is `} ${currentDepositAmount.toFixed(2)} sOHM`}
                     </Typography>
                   </div>
                 </FormControl>
