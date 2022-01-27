@@ -154,7 +154,6 @@ export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement =
     if (bond.discount > 0) {
       return theme.palette.type === "dark" ? "#F8CC82" : "#65C879";
     }
-    return theme.palette.type === "dark" ? "#FFFFFF" : "#253449";
   };
 
   if (typeof bond.discount === undefined || bond.soldOut) {
