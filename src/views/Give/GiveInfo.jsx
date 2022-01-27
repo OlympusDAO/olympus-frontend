@@ -1,14 +1,17 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Button, Grid, Paper, SvgIcon, Typography, useMediaQuery } from "@material-ui/core";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { DepositSohm, LockInVault, ReceivesYield } from "../../components/EducationCard";
 
 export function GiveInfo() {
+  // TODO shift to using breakpoints
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+
   return (
     <>
       <Paper className={"ohm-card secondary"}>
-        <Grid container className="give-info">
+        <Grid container className={`give-info ${isSmallScreen ? "smaller" : ""}`}>
           <Grid item sm={8} md={3} className="give-info-deposit-box">
             <DepositSohm message={t`Deposit sOHM from wallet`} />
           </Grid>
