@@ -1,7 +1,7 @@
 import "./ChooseBond.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
+import { Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
@@ -100,34 +100,32 @@ export function BondTableData({ bond, networkId }: { bond: IBondV2; networkId: N
 
   return (
     <TableRow id={`${bond.index}--bond`}>
-      <TableCell align="left">
-        <Box display="flex" alignItems="center">
-          <TokenStack tokens={bond.bondIconSvg} />
-          <div className="bond-name" style={{ marginLeft: "10px" }}>
-            {bond && bond.isLP ? (
-              <>
-                <Typography variant="body1">{bond.displayName}</Typography>
-                <Link color="primary" href={bond.lpUrl} target="_blank">
-                  <Typography variant="body1">
-                    <Trans>Get LP</Trans>
-                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-                  </Typography>
-                </Link>
-              </>
-            ) : (
-              <>
-                <Typography variant="body1">{bond.displayName}</Typography>
-                <Link color="primary" href={getEtherscanUrl({ bond, networkId })} target="_blank">
-                  <Typography variant="body1">
-                    <Trans>View Asset</Trans>
-                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-                  </Typography>
-                </Link>
-              </>
-            )}
-            {/* <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography> */}
-          </div>
-        </Box>
+      <TableCell align="left" className="bond-name-cell">
+        <TokenStack tokens={bond.bondIconSvg} />
+        <div className="bond-name">
+          {bond && bond.isLP ? (
+            <>
+              <Typography variant="body1">{bond.displayName}</Typography>
+              <Link color="primary" href={bond.lpUrl} target="_blank">
+                <Typography variant="body1">
+                  <Trans>Get LP</Trans>
+                  <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                </Typography>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Typography variant="body1">{bond.displayName}</Typography>
+              <Link color="primary" href={getEtherscanUrl({ bond, networkId })} target="_blank">
+                <Typography variant="body1">
+                  <Trans>View Asset</Trans>
+                  <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                </Typography>
+              </Link>
+            </>
+          )}
+          {/* <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography> */}
+        </div>
       </TableCell>
       <TableCell align="left">
         <Typography>
