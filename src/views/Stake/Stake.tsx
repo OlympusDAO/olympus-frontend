@@ -9,14 +9,21 @@ import {
   Button,
   Divider,
   Grid,
-  Tab,
-  Tabs,
   Typography,
   Zoom,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { DataRow, InputWrapper, Metric, MetricCollection, Paper, PrimaryButton } from "@olympusdao/component-library";
+import {
+  DataRow,
+  InputWrapper,
+  Metric,
+  MetricCollection,
+  Paper,
+  PrimaryButton,
+  Tab,
+  Tabs,
+} from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -34,14 +41,7 @@ import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
 import { ConfirmDialog } from "./ConfirmDialog";
 import ExternalStakePool from "./ExternalStakePool";
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-function Stake() {
+const Stake: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { provider, address, connect, networkId } = useWeb3Context();
@@ -241,7 +241,7 @@ function Stake() {
     </Button>,
   );
 
-  const changeView = (_event: ChangeEvent<any>, newView: number) => {
+  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 
@@ -379,13 +379,13 @@ function Stake() {
                       TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
                     >
                       <Tab
+                        aria-label="stake-button"
                         label={t({
                           id: "do_stake",
                           comment: "The action of staking (verb)",
                         })}
-                        {...a11yProps(0)}
                       />
-                      <Tab label={t`Unstake`} {...a11yProps(1)} />
+                      <Tab aria-label="unstake-button" label={t`Unstake`} />
                     </Tabs>
                     <Grid container className="stake-action-row">
                       {address && !isAllowanceDataLoading ? (
@@ -592,6 +592,6 @@ function Stake() {
       <ExternalStakePool />
     </div>
   );
-}
+};
 
 export default Stake;

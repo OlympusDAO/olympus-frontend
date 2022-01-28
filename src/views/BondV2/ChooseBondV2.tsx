@@ -147,7 +147,7 @@ function ChooseBondV2() {
             {bondsV2.map(bond => {
               return (
                 <Grid item xs={12} key={bond.index}>
-                  <BondDataCard key={bond.index} bond={bond} />
+                  <BondDataCard key={bond.index} bond={bond} networkId={networkId} />
                 </Grid>
               );
             })}
