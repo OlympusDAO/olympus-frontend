@@ -71,8 +71,11 @@ export interface IToken {
 const addTokenToWallet = async (token: IToken, userAddress: string) => {
   if (!window.ethereum) return;
   const host = window.location.origin;
+
   try {
-    await window.ethereum.request({
+    if (window.ethereum.isCoinbaseWallet) return;
+
+    await (window.ethereum as any).request({
       method: "wallet_watchAsset",
       params: {
         type: "ERC20",
