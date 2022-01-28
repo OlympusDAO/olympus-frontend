@@ -4,6 +4,7 @@ import { formatUnits } from "@ethersproject/units";
 import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
 import { ethers } from "ethers";
+import { IBondV2 } from "src/slices/BondSliceV2";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
@@ -107,6 +108,13 @@ export async function getTokenIdByContract(contractAddress: string): Promise<str
     return "";
   }
 }
+
+export const getEtherscanUrl = ({ bond, networkId }: { bond: IBondV2; networkId: NetworkId }) => {
+  if (networkId === NetworkId.TESTNET_RINKEBY) {
+    return `https://rinkeby.etherscan.io/address/${bond.quoteToken}`;
+  }
+  return `https://etherscan.io/address/${bond.quoteToken}`;
+};
 
 export function shorten(str: string) {
   if (str.length < 10) return str;

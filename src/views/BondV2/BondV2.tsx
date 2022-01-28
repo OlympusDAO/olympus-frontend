@@ -1,4 +1,4 @@
-import "./bond.scss";
+import "./Bond.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Box, Fade, Grid, Typography } from "@material-ui/core";
@@ -154,7 +154,9 @@ export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement =
   return (
     <Fragment>
       {/* <span className={bond.discount >= 0 ? "bond_discount_positive" : ""}> */}
-      <span>{bond.discount && trim(bond.discount * 100, 2)}%</span>
+      <span style={bond.discount > 0 ? { color: "#65C879" } : {}}>
+        {bond.discount && trim(bond.discount * 100, 2)}%
+      </span>
     </Fragment>
   );
 };
