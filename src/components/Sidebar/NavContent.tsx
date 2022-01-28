@@ -1,4 +1,5 @@
-import "./sidebar.scss";
+/* eslint-disable */
+import "./Sidebar.scss";
 
 import { t, Trans } from "@lingui/macro";
 import {
@@ -14,13 +15,15 @@ import {
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { NavItem } from "@olympusdao/component-library";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { Bond } from "src/lib/Bond";
+import { IBondDetails } from "src/slices/BondSlice";
 import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
 import { DisplayBondDiscount } from "src/views/BondV2/BondV2";
 
@@ -30,16 +33,30 @@ import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
 import externalUrls from "./externalUrls";
 import Social from "./Social";
 
-function NavContent({ handleDrawerToggle }) {
-  const [isActive] = useState();
+type NavContentProps = {
+  handleDrawerToggle?: () => void;
+};
+
+type CustomBond = Bond & Partial<IBondDetails>;
+
+const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
   const { networkId, address, provider } = useWeb3Context();
+  const [isMounted, setIsMounted] = useState<boolean>(false);
   const { bonds } = useBonds(networkId);
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const bondsV2 = useAppSelector(state => {
-    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]);
-  });
+  const bondsV2 = useAppSelector(state => state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]));
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted && handleDrawerToggle) {
+      handleDrawerToggle();
+    }
+  }, [location]);
 
   useEffect(() => {
     const interval = setTimeout(() => {
@@ -48,13 +65,14 @@ function NavContent({ handleDrawerToggle }) {
     }, 60000);
     return () => clearTimeout(interval);
   });
+
   const sortedBonds = bondsV2
     .filter(bond => bond.soldOut === false)
     .sort((a, b) => {
       return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
     });
 
-  bonds.sort((a, b) => b.bondDiscount - a.bondDiscount);
+  bonds.sort((a: CustomBond, b: CustomBond) => b.bondDiscount! - a.bondDiscount!);
 
   return (
     <Paper className="dapp-sidebar">
@@ -66,10 +84,9 @@ function NavContent({ handleDrawerToggle }) {
                 color="primary"
                 component={OlympusIcon}
                 viewBox="0 0 151 100"
-                style={{ minWdth: "151px", minHeight: "98px", width: "151px" }}
+                style={{ minWidth: "151px", minHeight: "98px", width: "151px" }}
               />
             </Link>
-
             <WalletAddressEns />
           </Box>
 
@@ -77,18 +94,14 @@ function NavContent({ handleDrawerToggle }) {
             <div className="dapp-nav" id="navbarNav">
               {networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY ? (
                 <>
-                  <NavItem to="/dashboard" icon={"dashboard"} label={t`Dashboard`} onClick={handleDrawerToggle} />
-                  <NavItem to="/bonds" icon="bond" label={t`Bond`} onClick={handleDrawerToggle} />
+                  <NavItem to="/dashboard" icon={"dashboard"} label={t`Dashboard`} />
+                  <NavItem to="/bonds" icon="bond" label={t`Bond`} />
                   <div className="dapp-menu-data discounts">
                     <div className="bond-discounts">
-                      <Accordion className="discounts-accordion" square defaultExpanded="true">
+                      <Accordion className="discounts-accordion" square defaultExpanded={true}>
                         <AccordionSummary
                           expandIcon={
-                            <ExpandMore
-                              className="discounts-expand"
-                              viewbox="0 0 12 12"
-                              style={{ width: "18px", height: "18px" }}
-                            />
+                            <ExpandMore className="discounts-expand" style={{ width: "18px", height: "18px" }} />
                           }
                         >
                           <Typography variant="body2">
@@ -118,30 +131,24 @@ function NavContent({ handleDrawerToggle }) {
                       </Accordion>
                     </div>
                   </div>
-                  <NavItem to="/stake" icon="stake" label={t`Stake`} onClick={handleDrawerToggle} />
+                  <NavItem to="/stake" icon="stake" label={t`Stake`} />
 
                   {/* NOTE (appleseed-olyzaps): OlyZaps disabled until v2 contracts */}
                   {/*<NavItem to="/zap" icon="zap" label={t`Zap`} /> */}
 
                   {EnvHelper.isGiveEnabled(location.search) && (
-                    <NavItem to="/give" icon="give" label={t`Give`} chip={t`New`} onClick={handleDrawerToggle} />
+                    <NavItem to="/give" icon="give" label={t`Give`} chip={t`New`} />
                   )}
-                  <NavItem to="/wrap" icon="wrap" label={t`Wrap`} onClick={handleDrawerToggle} />
+                  <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
                   <NavItem
                     href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}
                     icon="bridge"
                     label={t`Bridge`}
-                    onClick={handleDrawerToggle}
                   />
                   <Box className="menu-divider">
                     <Divider />
                   </Box>
-                  <NavItem
-                    href="https://pro.olympusdao.finance/"
-                    icon="olympus"
-                    label={t`Olympus Pro`}
-                    onClick={handleDrawerToggle}
-                  />
+                  <NavItem href="https://pro.olympusdao.finance/" icon="olympus" label={t`Olympus Pro`} />
                   {/* <NavItem to="/33-together" icon="33-together" label={t`3,3 Together`} /> */}
                   <Box className="menu-divider">
                     <Divider />
@@ -149,25 +156,23 @@ function NavContent({ handleDrawerToggle }) {
                 </>
               ) : (
                 <>
-                  <NavItem to="/wrap" icon="wrap" label={t`Wrap`} onClick={handleDrawerToggle} />
+                  <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
                   <NavItem
                     href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
                     icon="bridge"
                     label={t`Bridge`}
-                    onClick={handleDrawerToggle}
                   />
                 </>
               )}
-              {Object.keys(externalUrls).map((link, i) => {
-                return (
-                  <NavItem
-                    href={`${externalUrls[link].url}`}
-                    icon={externalUrls[link].icon}
-                    label={externalUrls[link].title}
-                    onClick={handleDrawerToggle}
-                  />
-                );
-              })}
+              {}
+              {Object.keys(externalUrls).map((link: any, i: number) => (
+                <NavItem
+                  key={i}
+                  href={`${externalUrls[link].url}`}
+                  icon={externalUrls[link].icon as any}
+                  label={externalUrls[link].title as any}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -177,6 +182,6 @@ function NavContent({ handleDrawerToggle }) {
       </Box>
     </Paper>
   );
-}
+};
 
 export default NavContent;
