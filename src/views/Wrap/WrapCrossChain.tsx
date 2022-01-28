@@ -1,24 +1,10 @@
 import "../Stake/Stake.scss";
 
 import { t } from "@lingui/macro";
-import {
-  Box,
-  Button,
-  Divider,
-  FormControl,
-  Grid,
-  InputAdornment,
-  InputLabel,
-  Link,
-  OutlinedInput,
-  Paper,
-  SvgIcon,
-  Typography,
-  Zoom,
-} from "@material-ui/core";
+import { Box, Button, Divider, Grid, Link, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip } from "@olympusdao/component-library";
-import { DataRow } from "@olympusdao/component-library";
+import { DataRow, InputWrapper } from "@olympusdao/component-library";
 import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks/index";
@@ -127,25 +113,19 @@ function WrapCrossChain() {
       );
 
     return (
-      <FormControl className="ohm-input" variant="outlined" color="primary">
-        <InputLabel htmlFor="amount-input"></InputLabel>
-        <OutlinedInput
-          id="amount-input"
-          type="number"
-          placeholder="Enter an amount"
-          className="stake-input"
-          value={quantity}
-          onChange={e => setQuantity(e.target.value)}
-          labelWidth={0}
-          endAdornment={
-            <InputAdornment position="end">
-              <Button variant="text" onClick={setMax} color="inherit">
-                Max
-              </Button>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
+      <InputWrapper
+        id="amount-input"
+        type="number"
+        placeholder={t`Enter an amount`}
+        value={quantity}
+        onChange={e => setQuantity(e.target.value)}
+        labelWidth={0}
+        endString={t`Max`}
+        endStringOnClick={setMax}
+        disabled={isPendingTxn(pendingTransactions, "wrapping") || isPendingTxn(pendingTransactions, "migrate")}
+        buttonOnClick={migrateToGohm}
+        buttonText={txnButtonTextMultiType(pendingTransactions, ["wrapping", "migrate"], wrapButtonText)}
+      />
     );
   };
 
@@ -164,19 +144,6 @@ function WrapCrossChain() {
           onClick={approveWrap}
         >
           {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Approve")}
-        </Button>
-      );
-
-    if (hasCorrectAllowance())
-      return (
-        <Button
-          className="stake-button wrap-page"
-          variant="contained"
-          color="primary"
-          disabled={isPendingTxn(pendingTransactions, "wrapping") || isPendingTxn(pendingTransactions, "migrate")}
-          onClick={migrateToGohm}
-        >
-          {txnButtonTextMultiType(pendingTransactions, ["wrapping", "migrate"], wrapButtonText)}
         </Button>
       );
   };
