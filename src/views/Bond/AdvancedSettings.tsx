@@ -1,4 +1,4 @@
-import "./bondSettings.scss";
+import "../BondV2/BondSettings.scss";
 
 import { Trans } from "@lingui/macro";
 import {

@@ -479,7 +479,7 @@ const CvxDetails: V2BondDetails = {
 };
 
 const UstDetails: V2BondDetails = {
-  name: "UST",
+  name: "UST (Wormhole)",
   bondIconSvg: ["UST"],
   pricingFunction: async () => {
     return getTokenByContract("0xa693b19d2931d498c5b318df961919bb4aee87a5");
