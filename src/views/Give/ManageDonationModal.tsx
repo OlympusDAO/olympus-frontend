@@ -257,7 +257,7 @@ export function ManageDonationModal({
     if (isEditing) {
       return "Edit";
     } else if (isWithdrawing) {
-      return "Withdraw";
+      return "Stop";
     } else {
       return "Manage";
     }
