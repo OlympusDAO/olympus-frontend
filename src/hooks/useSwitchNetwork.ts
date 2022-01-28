@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
 import { NetworkId } from "src/constants";
-import { networkIdToHexString } from "src/helpers";
+import { idToHexString } from "src/helpers/NetworkHelper";
 
 import { useWeb3Context } from ".";
 import { useAddNetwork } from "./useAddNetwork";
@@ -14,7 +14,7 @@ export const useSwitchNetwork = () => {
 
   return useMutation<void, Error, NetworkId>(
     async networkId => {
-      await provider.send("wallet_switchEthereumChain", [{ chainId: networkIdToHexString(networkId) }]);
+      await provider.send("wallet_switchEthereumChain", [{ chainId: idToHexString(networkId) }]);
     },
     {
       // (sam-potter)

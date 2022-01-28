@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
 import { NetworkId, NETWORKS } from "src/constants";
-import { networkIdToHexString } from "src/helpers";
+import { idToHexString } from "src/helpers/NetworkHelper";
 
 import { useWeb3Context } from ".";
 import { useSwitchNetwork } from "./useSwitchNetwork";
@@ -18,7 +18,7 @@ export const useAddNetwork = () => {
 
       await provider.send("wallet_addEthereumChain", [
         {
-          chainId: networkIdToHexString(networkId),
+          chainId: idToHexString(networkId),
           chainName: network["chainName"],
           nativeCurrency: network["nativeCurrency"],
           rpcUrls: network["rpcUrls"],
