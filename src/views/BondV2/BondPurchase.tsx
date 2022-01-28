@@ -1,16 +1,7 @@
 import { t, Trans } from "@lingui/macro";
-import {
-  Box,
-  Button,
-  FormControl,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Slide,
-  Typography,
-} from "@material-ui/core";
+import { Box, Button, FormControl, Slide, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { DataRow, InfoTooltip } from "@olympusdao/component-library";
+import { DataRow, InfoTooltip, Input } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -148,24 +139,16 @@ function BondPurchase({
                     </em>
                   </div>
                 ) : (
-                  <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
-                    <InputLabel htmlFor="outlined-adornment-amount">
-                      <Trans>Amount</Trans>
-                    </InputLabel>
-                    <OutlinedInput
+                  <FormControl className="ohm-input" fullWidth>
+                    <Input
+                      endString={t`Max`}
                       id="outlined-adornment-amount"
                       type="number"
                       value={quantity}
                       onChange={e => setQuantity(e.target.value)}
-                      // startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                      label={t`Amount`}
+                      endStringOnClick={setMax}
                       labelWidth={55}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <Button variant="text" onClick={setMax}>
-                            <Trans>Max</Trans>
-                          </Button>
-                        </InputAdornment>
-                      }
                     />
                   </FormControl>
                 )}

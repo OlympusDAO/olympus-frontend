@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ConfirmDialog/> should render component 1`] = `
+<div>
+  <div
+    class="MuiPaper-root ohm-card confirm-dialog MuiPaper-elevation0 MuiPaper-rounded"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-1 dialog-container"
+    >
+      <label
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item"
+        >
+          sOHM
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item"
+        >
+          <span
+            class="MuiSwitch-root stake-to-ohm-checkbox"
+          >
+            <span
+              aria-disabled="false"
+              class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-2 MuiSwitch-switchBase MuiSwitch-colorPrimary"
+            >
+              <span
+                class="MuiIconButton-label"
+              >
+                <input
+                  aria-label="stake to gohm"
+                  class="PrivateSwitchBase-input-5 MuiSwitch-input"
+                  type="checkbox"
+                  value=""
+                />
+                <span
+                  class="MuiSwitch-thumb"
+                />
+              </span>
+            </span>
+            <span
+              class="MuiSwitch-track"
+            />
+          </span>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item"
+        >
+          gOHM
+          <div
+            class="MuiBox-root MuiBox-root-6"
+            style="display: inline-flex; justify-content: center; align-self: center;"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+              focusable="false"
+              style="margin: 0px 5px; font-size: 1em;"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+              />
+            </svg>
+          </div>
+        </div>
+      </label>
+    </div>
+  </div>
+</div>
+`;

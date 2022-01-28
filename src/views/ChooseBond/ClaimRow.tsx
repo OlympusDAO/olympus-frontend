@@ -1,4 +1,4 @@
-import "./choosebond.scss";
+import "./ChooseBond.scss";
 
 import { t } from "@lingui/macro";
 import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
@@ -113,17 +113,17 @@ export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDe
         </Box>
       </Box>
 
-      <div className="data-row">
+      <div className="data-row" style={{ display: "flex", justifyContent: "space-between" }}>
         <Typography>Claimable</Typography>
         <Typography>{bond.pendingPayout ? trim(Number(bond.pendingPayout), 4) : <Skeleton width={100} />}</Typography>
       </div>
 
-      <div className="data-row">
+      <div className="data-row" style={{ display: "flex", justifyContent: "space-between" }}>
         <Typography>Pending</Typography>
         <Typography>{bond.interestDue ? trim(bond.interestDue, 4) : <Skeleton width={100} />}</Typography>
       </div>
 
-      <div className="data-row" style={{ marginBottom: "20px" }}>
+      <div className="data-row" style={{ marginBottom: "20px", display: "flex", justifyContent: "space-between" }}>
         <Typography>Fully Vested</Typography>
         <Typography>{vestingPeriod()}</Typography>
       </div>

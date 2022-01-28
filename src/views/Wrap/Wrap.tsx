@@ -1,4 +1,4 @@
-import "../Stake/stake.scss";
+import "../Stake/Stake.scss";
 
 import { t } from "@lingui/macro";
 import {
@@ -12,22 +12,18 @@ import {
   Link,
   MenuItem,
   OutlinedInput,
-  Paper,
   Select,
-  SvgIcon,
   Typography,
   Zoom,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Metric, MetricCollection } from "@olympusdao/component-library";
-import { DataRow } from "@olympusdao/component-library";
+import { DataRow, Icon, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NETWORKS } from "../../constants";
 import { formatCurrency, trim } from "../../helpers";
 import { switchNetwork } from "../../helpers/NetworkHelper";
@@ -89,16 +85,6 @@ const Wrap: React.FC = () => {
 
   // @ts-ignore
   const isAllowanceDataLoading = currentAction === "Unwrap";
-  // const convertedQuantity = 0;
-  const convertedQuantity = useMemo(() => {
-    if (assetFrom === "sOHM") {
-      return +quantity / currentIndex;
-    } else if (assetTo === "sOHM") {
-      return +quantity * currentIndex;
-    } else {
-      return quantity;
-    }
-  }, [quantity]);
 
   const modalButton = [];
 
@@ -218,155 +204,153 @@ const Wrap: React.FC = () => {
     return (
       <div id="stake-view" className="wrapper">
         <Zoom in={true} onEntered={() => setZoomed(true)}>
-          <Paper className={`ohm-card`}>
-            <Grid container direction="column" spacing={2}>
-              <Grid item>
-                <div className="card-header">
-                  <Typography variant="h5">Wrap / Unwrap</Typography>
-                  <Link
-                    className="migrate-sohm-button"
-                    style={{ textDecoration: "none" }}
-                    href={
-                      assetTo === "wsOHM"
-                        ? "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
-                        : "https://docs.olympusdao.finance/main/contracts/tokens#gohm"
-                    }
-                    aria-label="wsohm-wut"
-                    target="_blank"
-                  >
-                    <Typography>gOHM</Typography>{" "}
-                    <SvgIcon component={ArrowUp} color="primary" style={{ marginLeft: "5px", width: ".8em" }} />
-                  </Link>
-                </div>
-              </Grid>
-              <Grid item>
-                <MetricCollection>
-                  <Metric
-                    label={`sOHM ${t`Price`}`}
-                    metric={formatCurrency(sOhmPrice, 2)}
-                    isLoading={sOhmPrice ? false : true}
-                  />
-                  <Metric
-                    label={t`Current Index`}
-                    metric={trim(currentIndex, 1)}
-                    isLoading={currentIndex ? false : true}
-                  />
-                  <Metric
-                    label={`gOHM ${t`Price`}`}
-                    metric={formatCurrency(gOhmPrice, 2)}
-                    isLoading={gOhmPrice ? false : true}
-                    tooltip={`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of sOHM multiplied by the current index`}
-                  />
-                </MetricCollection>
-              </Grid>
-              <div className="staking-area">
-                {!address ? (
-                  <div className="stake-wallet-notification">
-                    <div className="wallet-menu" id="wallet-menu">
-                      {modalButton}
-                    </div>
-                    <Typography variant="h6">Connect your wallet</Typography>
-                  </div>
-                ) : (
-                  <>
-                    <Box className="stake-action-area">
-                      <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                        <>
-                          <Typography>
-                            <span className="asset-select-label">{currentAction}</span>
-                          </Typography>
-                          <FormControl
-                            style={{
-                              display: "flex",
-                              flexDirection: "row",
-                              alignItems: "center",
-                              margin: "0 10px",
-                              height: "33px",
-                              minWidth: "69px",
-                            }}
-                          >
-                            <Select
-                              id="asset-select"
-                              value={assetFrom}
-                              label="Asset"
-                              onChange={changeAsset}
-                              disableUnderline
-                            >
-                              <MenuItem value={"sOHM"}>sOHM</MenuItem>
-                              <MenuItem value={"gOHM"}>gOHM</MenuItem>
-                            </Select>
-                          </FormControl>
-
-                          <Typography>
-                            <span className="asset-select-label"> to </span>
-                          </Typography>
-                          <FormControl
-                            style={{
-                              display: "flex",
-                              flexDirection: "row",
-                              alignItems: "center",
-                              margin: "0 10px",
-                              height: "33px",
-                              minWidth: "69px",
-                            }}
-                          >
-                            <Select
-                              id="asset-select"
-                              value={assetTo}
-                              label="Asset"
-                              onChange={changeAsset}
-                              disableUnderline
-                            >
-                              <MenuItem value={"gOHM"}>gOHM</MenuItem>
-                              <MenuItem value={"sOHM"}>sOHM</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </>
-                      </Box>
-                      <Box display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
-                        <div className="stake-tab-panel wrap-page">
-                          {chooseInputArea()}
-                          {chooseButtonArea()}
-                        </div>
-                      </Box>
-                    </Box>
-                    <div className={`stake-user-data`}>
-                      <>
-                        <DataRow
-                          title={t`sOHM Balance`}
-                          balance={`${trim(+sohmBalance, 4)} sOHM`}
-                          isLoading={isAppLoading}
-                        />
-                        <DataRow
-                          title={t`gOHM Balance`}
-                          balance={`${trim(+gohmBalance, 4)} gOHM`}
-                          isLoading={isAppLoading}
-                        />
-                        <Divider />
-                        <Box width="100%" p={1} sx={{ textAlign: "center" }}>
-                          <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
-                            Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no
-                            bridge required!)
-                          </Typography>
-                          <Button onClick={handleSwitchChain(43114)} variant="outlined" style={{ margin: "0.3rem" }}>
-                            <img height="28px" width="28px" src={String(avax.image)} alt={avax.imageAltText} />
-                            <Typography variant="h6" style={{ marginLeft: "8px" }}>
-                              {avax.chainName}
-                            </Typography>
-                          </Button>
-                          <Button onClick={handleSwitchChain(42161)} variant="outlined" style={{ margin: "0.3rem" }}>
-                            <img height="28px" width="28px" src={String(arbitrum.image)} alt={arbitrum.imageAltText} />
-                            <Typography variant="h6" style={{ marginLeft: "8px" }}>
-                              {arbitrum.chainName}
-                            </Typography>
-                          </Button>
-                        </Box>
-                      </>
-                    </div>
-                  </>
-                )}
-              </div>
+          <Paper
+            headerText={t`Wrap / Unwrap`}
+            topRight={
+              <Link
+                className="migrate-sohm-button"
+                style={{ textDecoration: "none" }}
+                href={
+                  assetTo === "wsOHM"
+                    ? "https://docs.olympusdao.finance/main/contracts/tokens#wsohm"
+                    : "https://docs.olympusdao.finance/main/contracts/tokens#gohm"
+                }
+                aria-label="wsohm-wut"
+                target="_blank"
+              >
+                <Typography>gOHM</Typography> <Icon style={{ marginLeft: "5px" }} name="arrow-up" />
+              </Link>
+            }
+          >
+            <Grid item style={{ padding: "0 0 2rem 0" }}>
+              <MetricCollection>
+                <Metric
+                  label={`sOHM ${t`Price`}`}
+                  metric={formatCurrency(sOhmPrice, 2)}
+                  isLoading={sOhmPrice ? false : true}
+                />
+                <Metric
+                  label={t`Current Index`}
+                  metric={trim(currentIndex, 1)}
+                  isLoading={currentIndex ? false : true}
+                />
+                <Metric
+                  label={`gOHM ${t`Price`}`}
+                  metric={formatCurrency(gOhmPrice, 2)}
+                  isLoading={gOhmPrice ? false : true}
+                  tooltip={`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of sOHM multiplied by the current index`}
+                />
+              </MetricCollection>
             </Grid>
+            <div className="staking-area">
+              {!address ? (
+                <div className="stake-wallet-notification">
+                  <div className="wallet-menu" id="wallet-menu">
+                    {modalButton}
+                  </div>
+                  <Typography variant="h6">Connect your wallet</Typography>
+                </div>
+              ) : (
+                <>
+                  <Box className="stake-action-area">
+                    <Box style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                      <>
+                        <Typography>
+                          <span className="asset-select-label" style={{ whiteSpace: "nowrap" }}>
+                            {currentAction}
+                          </span>
+                        </Typography>
+                        <FormControl
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            margin: "0 10px",
+                            height: "33px",
+                            minWidth: "69px",
+                          }}
+                        >
+                          <Select
+                            id="asset-select"
+                            value={assetFrom}
+                            label="Asset"
+                            onChange={changeAsset}
+                            disableUnderline
+                          >
+                            <MenuItem value={"sOHM"}>sOHM</MenuItem>
+                            <MenuItem value={"gOHM"}>gOHM</MenuItem>
+                          </Select>
+                        </FormControl>
+
+                        <Typography>
+                          <span className="asset-select-label"> to </span>
+                        </Typography>
+                        <FormControl
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            margin: "0 10px",
+                            height: "33px",
+                            minWidth: "69px",
+                          }}
+                        >
+                          <Select
+                            id="asset-select"
+                            value={assetTo}
+                            label="Asset"
+                            onChange={changeAsset}
+                            disableUnderline
+                          >
+                            <MenuItem value={"gOHM"}>gOHM</MenuItem>
+                            <MenuItem value={"sOHM"}>sOHM</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </>
+                    </Box>
+                    <Box display="flex" alignItems="center" style={{ paddingBottom: 0 }}>
+                      <div className="stake-tab-panel wrap-page">
+                        {chooseInputArea()}
+                        {chooseButtonArea()}
+                      </div>
+                    </Box>
+                  </Box>
+                  <div className={`stake-user-data`}>
+                    <>
+                      <DataRow
+                        title={t`sOHM Balance`}
+                        balance={`${trim(+sohmBalance, 4)} sOHM`}
+                        isLoading={isAppLoading}
+                      />
+                      <DataRow
+                        title={t`gOHM Balance`}
+                        balance={`${trim(+gohmBalance, 4)} gOHM`}
+                        isLoading={isAppLoading}
+                      />
+                      <Divider />
+                      <Box width="100%" p={1} sx={{ textAlign: "center" }}>
+                        <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
+                          Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no
+                          bridge required!)
+                        </Typography>
+                        <Button onClick={handleSwitchChain(43114)} variant="outlined" style={{ margin: "0.3rem" }}>
+                          <img height="28px" width="28px" src={String(avax.image)} alt={avax.imageAltText} />
+                          <Typography variant="h6" style={{ marginLeft: "8px" }}>
+                            {avax.chainName}
+                          </Typography>
+                        </Button>
+                        <Button onClick={handleSwitchChain(42161)} variant="outlined" style={{ margin: "0.3rem" }}>
+                          <img height="28px" width="28px" src={String(arbitrum.image)} alt={arbitrum.imageAltText} />
+                          <Typography variant="h6" style={{ marginLeft: "8px" }}>
+                            {arbitrum.chainName}
+                          </Typography>
+                        </Button>
+                      </Box>
+                    </>
+                  </div>
+                </>
+              )}
+            </div>
           </Paper>
         </Zoom>
       </div>
