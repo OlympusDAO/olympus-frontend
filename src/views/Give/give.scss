@@ -877,7 +877,7 @@
     }
 
     .project-top-data {
-      margin-bottom: 30px;
+      padding-bottom: 30px;
 
       .project-deposits {
         text-align: right;
@@ -913,6 +913,7 @@
       display: flex;
       flex-direction: row;
       justify-content: center;
+      flex-wrap: nowrap;
 
       .countdown-object {
         display: flex;
@@ -920,20 +921,24 @@
         align-items: center;
         justify-content: center;
 
-        svg {
-          padding-right: 0.3rem;
-        }
+        padding-left: 3px;
+        padding-right: 3px;
       }
 
       .project-countdown-text {
         display: flex;
         align-content: center;
         justify-content: center;
-        padding-top: 0.3rem;
+        padding-left: 3px;
+        padding-right: 3px;
+      }
 
-        .cause-info-bottom-text {
-          color: #999999;
-        }
+      .cause-info-bottom-text {
+        padding-left: 3px;
+        padding-right: 3px;
+        display: flex;
+        align-items: center;
+        color: #999999;
       }
     }
 
@@ -1021,14 +1026,17 @@
     }
   }
 
+  .project-goal {
+    padding-bottom: 10px;
+  }
+
   .project-goal-progress {
-    padding-top: 0.65rem;
     padding-bottom: 30px;
   }
 
   .project-give-button {
     display: flex;
-    padding-top: 30px;
+    padding-bottom: 30px;
 
     button {
       display: flex;
@@ -1094,20 +1102,6 @@
 
       .goal-graphics {
         width: 100%;
-      }
-
-      .visual-info-bottom {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        .project-give-button {
-          width: 100%;
-        }
-
-        .project-countdown {
-          width: 50%;
-        }
       }
     }
   }
