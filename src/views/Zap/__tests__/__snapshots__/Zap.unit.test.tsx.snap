@@ -6,36 +6,44 @@ exports[`<Zap/> should render component 1`] = `
     id="zap-view"
   >
     <div
-      class="MuiPaper-root ohm-card MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-2  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
-        class="staking-area"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
       >
         <div
-          class="stake-wallet-notification"
+          class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="wallet-menu"
-            id="wallet-menu"
+            class="staking-area"
           >
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained connect-button MuiButton-containedPrimary MuiButton-disableElevation"
-              tabindex="0"
-              type="button"
+            <div
+              class="stake-wallet-notification"
             >
-              <span
-                class="MuiButton-label"
+              <div
+                class="wallet-menu"
+                id="wallet-menu"
               >
-                Connect Wallet
-              </span>
-            </button>
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained connect-button MuiButton-containedPrimary MuiButton-disableElevation"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label"
+                  >
+                    Connect Wallet
+                  </span>
+                </button>
+              </div>
+              <h6
+                class="MuiTypography-root MuiTypography-h6"
+              >
+                Connect your wallet to use Zap
+              </h6>
+            </div>
           </div>
-          <h6
-            class="MuiTypography-root MuiTypography-h6"
-          >
-            Connect your wallet to use Zap
-          </h6>
         </div>
       </div>
     </div>
@@ -48,16 +56,16 @@ exports[`<Zap/> should render component 1`] = `
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4"
       >
         <div
-          class="MuiGrid-root makeStyles-infoBox-1 MuiGrid-item makeStyles-infoBoxItem-2 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
+          class="MuiGrid-root makeStyles-infoBox-3 MuiGrid-item makeStyles-infoBoxItem-4 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-5 makeStyles-infoHeader-3 oly-info-header-box"
+            class="MuiBox-root MuiBox-root-7 makeStyles-infoHeader-5 oly-info-header-box"
           >
             <div
-              class="MuiBox-root MuiBox-root-6"
+              class="MuiBox-root MuiBox-root-8"
             >
               <div
-                class="MuiBox-root MuiBox-root-7"
+                class="MuiBox-root MuiBox-root-9"
               >
                 <svg
                   aria-hidden="true"
@@ -132,7 +140,7 @@ exports[`<Zap/> should render component 1`] = `
             </p>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-9 makeStyles-infoBody-4"
+            class="MuiBox-root MuiBox-root-11 makeStyles-infoBody-6"
           >
             <p
               class="MuiTypography-root oly-info-body-header MuiTypography-body1"
@@ -147,10 +155,10 @@ exports[`<Zap/> should render component 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root makeStyles-infoBox-1 MuiGrid-item makeStyles-infoBoxItem-2 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
+          class="MuiGrid-root makeStyles-infoBox-3 MuiGrid-item makeStyles-infoBoxItem-4 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-10 makeStyles-infoHeader-3 oly-info-header-box"
+            class="MuiBox-root MuiBox-root-12 makeStyles-infoHeader-5 oly-info-header-box"
           >
             <svg
               aria-hidden="true"
@@ -179,7 +187,7 @@ exports[`<Zap/> should render component 1`] = `
             </p>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-11 makeStyles-infoBody-4"
+            class="MuiBox-root MuiBox-root-13 makeStyles-infoBody-6"
           >
             <p
               class="MuiTypography-root oly-info-body-header MuiTypography-body1"
@@ -194,10 +202,10 @@ exports[`<Zap/> should render component 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root makeStyles-infoBox-1 MuiGrid-item makeStyles-infoBoxItem-2 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
+          class="MuiGrid-root makeStyles-infoBox-3 MuiGrid-item makeStyles-infoBoxItem-4 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-12 makeStyles-infoHeader-3 oly-info-header-box"
+            class="MuiBox-root MuiBox-root-14 makeStyles-infoHeader-5 oly-info-header-box"
           >
             <svg
               aria-hidden="true"
@@ -250,7 +258,7 @@ exports[`<Zap/> should render component 1`] = `
             </p>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-13 makeStyles-infoBody-4"
+            class="MuiBox-root MuiBox-root-15 makeStyles-infoBody-6"
           >
             <p
               class="MuiTypography-root oly-info-body-header MuiTypography-body1"
@@ -266,7 +274,7 @@ exports[`<Zap/> should render component 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-14 button-box"
+        class="MuiBox-root MuiBox-root-16 button-box"
       >
         <a
           aria-disabled="false"
