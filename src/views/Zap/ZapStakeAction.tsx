@@ -192,8 +192,7 @@ const ZapStakeAction: React.FC = () => {
     </Box>
   );
 
-  const [isCustomSlippage, setUseCustomSlippage] = useState<boolean>(false);
-  const [customSlippage, setCustomSlippage] = useState<string>("0.5");
+  const [customSlippage, setCustomSlippage] = useState<string>("1.0");
 
   const onZap = async () => {
     if (zapToken) {
@@ -350,26 +349,13 @@ const ZapStakeAction: React.FC = () => {
         <Typography>
           <Trans>Slippage Tolerance</Trans>
         </Typography>
-        {isCustomSlippage ? (
-          <FormControl variant="outlined" color="primary">
-            <InputLabel htmlFor="amount-input"></InputLabel>
-            <OutlinedInput
-              id="zap-amount-output"
-              type="number"
-              placeholder="Enter Slippage"
-              value={customSlippage}
-              onChange={e => setCustomSlippage(e.target.value)}
-            />
-          </FormControl>
-        ) : (
-          <Box display="flex" alignItems="center">
-            <Typography>{customSlippage}%</Typography>
-            <Box width="8px" />
-            <IconButton style={{ margin: 0, padding: 0 }} onClick={handleSlippageModalOpen}>
-              <Icon name="settings" />
-            </IconButton>
-          </Box>
-        )}
+        <Box display="flex" alignItems="center">
+          <Typography>{customSlippage}%</Typography>
+          <Box width="8px" />
+          <IconButton style={{ margin: 0, padding: 0 }} onClick={handleSlippageModalOpen}>
+            <Icon name="settings" />
+          </IconButton>
+        </Box>
       </Box>
       <Box justifyContent="space-between" flexDirection="row" display="flex" width="100%" marginY="12px">
         <Typography>
