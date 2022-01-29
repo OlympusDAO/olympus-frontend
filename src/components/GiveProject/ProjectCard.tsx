@@ -7,6 +7,7 @@ import {
   LinearProgress,
   Link,
   Paper,
+  SvgIcon,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -22,6 +23,7 @@ import Countdown from "react-countdown";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { ReactComponent as GiveSohm } from "src/assets/icons/give_sohm.svg";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
@@ -276,7 +278,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         <Grid container className="project-goal">
           <Grid item xs={5} className="project-donated">
             <div className="project-donated-icon">
-              <Icon name="donated" style={{ marginRight: "0.33rem" }} />
+              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
               <Typography variant="h6">
                 <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedTotalDonated}</strong>
               </Typography>
@@ -298,7 +300,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             </div>
           </Grid>
         </Grid>
-        <div className="project-goal-progress">
+        <div className={`project-goal-progress ${isUserDonating && "donating"}`}>
           <LinearProgress variant="determinate" value={goalProgress} />
         </div>
       </>
@@ -321,7 +323,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Grid item xs={2} />
           <Grid item xs={5} className="project-deposits">
             <div className="project-data-icon">
-              <Icon name="donated" style={{ marginRight: "0.33rem" }} />
+              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
               <Typography variant="h6">
                 {recipientInfoIsLoading ? <Skeleton /> : <strong>{parseFloat(totalDebt).toFixed(2)}</strong>}
               </Typography>
@@ -346,7 +348,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     // For the moment, we only display the first photo
     return (
-      <div className="cause-image">
+      <div className={`cause-image ${isUserDonating && "donating"}`}>
         <Link href={`#/give/projects/${project.slug}`} onClick={() => handleProjectDetailsButtonClick("Image")}>
           <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
         </Link>
@@ -685,16 +687,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         <div className="project-give-button">
                           {connected ? (
                             isUserDonating ? (
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={() => handleEditButtonClick()}
-                                disabled={!isSupportedChain(networkId)}
-                              >
-                                <Typography variant="h6">
-                                  <Trans>Edit Donation</Trans>
-                                </Typography>
-                              </Button>
+                              <></>
                             ) : (
                               <Button
                                 variant="contained"
@@ -719,6 +712,51 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                       </Grid>
                     </Grid>
                   </Paper>
+                  {isUserDonating ? (
+                    <Paper className="project-sidebar">
+                      <div className="project-sidebar-header">
+                        <Typography variant="h5">
+                          <strong>
+                            <Trans>Your Donations</Trans>
+                          </strong>
+                        </Typography>
+                      </div>
+                      <div className="project-donations">
+                        <div className="project-donation-data">
+                          <div className="project-deposited">
+                            <Typography variant="h6">
+                              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
+                              <strong>{parseFloat(donationInfo[donationId].deposit).toFixed(2)} sOHM</strong>
+                            </Typography>
+                            <Typography variant="body1" className="subtext">
+                              Deposited
+                            </Typography>
+                          </div>
+                          <div className="project-yield-sent">
+                            <Typography variant="h6" align="right">
+                              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
+                              <strong>{parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)} sOHM</strong>
+                            </Typography>
+                            <Typography variant="body1" align="right" className="subtext">
+                              Yield Sent
+                            </Typography>
+                          </div>
+                        </div>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => handleEditButtonClick()}
+                          disabled={!isSupportedChain(networkId)}
+                        >
+                          <Typography variant="h6">
+                            <Trans>Edit Donation</Trans>
+                          </Typography>
+                        </Button>
+                      </div>
+                    </Paper>
+                  ) : (
+                    <></>
+                  )}
                 </Grid>
                 <Grid
                   item

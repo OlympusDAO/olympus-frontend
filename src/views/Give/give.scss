@@ -872,6 +872,10 @@
     padding: 20px 30px 40px 30px;
     margin-bottom: 1rem;
 
+    .project-sidebar-header {
+      margin-bottom: 30px;
+    }
+
     .cause-image {
       padding-bottom: 35px;
     }
@@ -944,6 +948,30 @@
 
     .donors-title {
       padding-bottom: 30px;
+    }
+
+    .project-donations {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      .project-donation-data {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 30px;
+
+        h6 {
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      button {
+        width: 100%;
+      }
     }
   }
 
@@ -1032,6 +1060,10 @@
 
   .project-goal-progress {
     padding-bottom: 30px;
+
+    &.donating {
+      padding-bottom: 0px;
+    }
   }
 
   .project-give-button {
@@ -1130,9 +1162,29 @@
         align-items: center;
         justify-content: center;
         border-radius: 16px;
+
+        a {
+          width: 100%;
+        }
+
+        &.donating {
+          max-height: 123px;
+        }
       }
 
       .goal-graphics {
+        width: 50%;
+      }
+    }
+
+    .project-donations {
+      flex-direction: row;
+
+      .project-yield-sent {
+        padding-right: 67px;
+      }
+
+      button {
         width: 50%;
       }
     }
