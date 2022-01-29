@@ -1,21 +1,10 @@
-import "./migration-modal.scss";
+import "./MigrationModal.scss";
 
 import { t, Trans } from "@lingui/macro";
-import {
-  Box,
-  Button,
-  Tab,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Tabs,
-  Typography,
-} from "@material-ui/core";
+import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { InfoTooltip, Modal } from "@olympusdao/component-library";
+import { InfoTooltip, Modal, Tab, Tabs } from "@olympusdao/component-library";
 import { ChangeEvent, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
@@ -46,7 +35,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
   const { provider, address, networkId } = useWeb3Context();
 
   const [view, setView] = useState(0);
-  const changeView = (_event: ChangeEvent<any>, newView: number) => {
+  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 
@@ -195,8 +184,8 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
             aria-label="payout token tabs"
             className="payout-token-tabs"
           >
-            <Tab label={`sOHM`} className="payout-token-tab" />
-            <Tab label={`gOHM`} className="payout-token-tab" />
+            <Tab aria-label="payout-sohm-button" label="sOHM" className="payout-token-tab" />
+            <Tab aria-label="payout-sohm-button" label="gOHM" className="payout-token-tab" />
           </Tabs>
           {isMobileScreen ? (
             <Box id="mobile-container-migration">
