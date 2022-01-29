@@ -390,7 +390,7 @@ const ZapStakeAction: React.FC = () => {
         <Typography>
           <Trans>Minimum You Get</Trans>
         </Typography>
-        <Typography>{trim(Number(outputQuantity) * 0.98, 2)} sOHM</Typography>
+        <Typography>{trim(Number(outputQuantity) * (1 - +customSlippage / 100), 2)} sOHM</Typography>
       </Box>
       {initialTokenAllowance ? (
         <Button

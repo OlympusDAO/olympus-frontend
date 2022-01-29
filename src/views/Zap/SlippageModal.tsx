@@ -27,8 +27,8 @@ function SlippageModal(
   const handleChangeProposedSlippage = (slippage: string) => {
     try {
       const slippageNumber = Number(slippage);
+      setProposedSlippage(slippage);
       if (100 > slippageNumber && slippageNumber > 0) {
-        setProposedSlippage(slippage);
         if (slippageNumber < 1) {
           setErrorState("Lower slippage than recommended may cause transaction to fail");
         } else {
@@ -68,7 +68,7 @@ function SlippageModal(
       </DialogTitle>
       <Box paddingX="36px" paddingBottom="36px">
         <Typography color="textSecondary">
-          <Trans>Important: Recommended slippage is 2-3% to avoid a failed transaction.</Trans>
+          <Trans>Important: Recommended slippage is 1-3% to avoid a failed transaction.</Trans>
         </Typography>
       </Box>
       <Box paddingX="64px" paddingBottom="16px">
