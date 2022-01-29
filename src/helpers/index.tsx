@@ -1,7 +1,9 @@
+import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
+import { formatUnits } from "@ethersproject/units";
 import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import { IBondV2 } from "src/slices/BondSliceV2";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
@@ -312,6 +314,48 @@ export const bnToNum = (bigNum: BigNumber) => {
 
 export const handleContractError = (e: any) => {
   if (EnvHelper.env.NODE_ENV !== "production") console.warn("caught error in slices; usually network related", e);
+};
+
+/**
+ * Determines if app is viewed within an <iframe></iframe>
+ */
+export const isIFrame = () => window.location !== window.parent.location;
+
+/**
+ * Assertion function helpful for asserting `enabled`
+ * values from within a `react-query` function.
+ * @param value The value(s) to assert
+ * @param queryKey Key of current query
+ */
+export function queryAssertion(value: unknown, queryKey: any = "not specified"): asserts value {
+  if (!value) throw new Error(`Failed react-query assertion for key: ${queryKey}`);
+}
+
+/**
+ * Assertion function
+ */
+export function assert(value: unknown, message: string | Error): asserts value {
+  if (!value) throw message instanceof Error ? message : new Error(message);
+}
+
+/**
+ * Converts gOHM to OHM. Mimics `balanceFrom()` gOHM contract function.
+ * @returns Formatted string representation of OHM equivalent.
+ */
+export const convertGohmToOhm = (amount: BigNumber, index: BigNumber): string => {
+  return formatUnits(amount.div(10 ** 9).mul(index), 36);
+};
+
+/**
+ * Converts OHM to gOHM. Mimics `balanceTo()` gOHM contract function.
+ * @returns Formatted string representation of gOHM equivalent.
+ */
+export const convertOhmToGohm = (amount: BigNumber, index: BigNumber): string => {
+  return formatUnits(amount.mul(10 ** 9).div(index), 18);
+};
+
+export const parseBigNumber = (value: BigNumber, units: BigNumberish = 9) => {
+  return parseFloat(formatUnits(value, units));
 };
 
 interface ICheckBalance extends IBaseAsyncThunk {
