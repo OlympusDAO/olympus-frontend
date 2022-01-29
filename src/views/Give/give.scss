@@ -1036,7 +1036,6 @@
 
   .project-give-button {
     display: flex;
-    padding-bottom: 30px;
 
     button {
       display: flex;
@@ -1049,7 +1048,7 @@
   }
 
   .MuiLinearProgress-determinate {
-    height: 1rem;
+    height: 10px;
     border-radius: 3px;
   }
 
@@ -1125,6 +1124,12 @@
       .cause-image {
         width: 50%;
         margin-right: 30px;
+        display: flex;
+        max-height: 193px;
+        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
       }
 
       .goal-graphics {
