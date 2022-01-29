@@ -1,12 +1,13 @@
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
-import { NetworkId } from "src/constants";
+import { addresses, NetworkId } from "src/constants";
 import { setAll } from "src/helpers";
 import { ZapHelper, ZapperToken } from "src/helpers/ZapHelper";
+import { IERC20__factory, Zap__factory } from "src/typechain";
 
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { getBalances } from "./AccountSlice";
-import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IZapAsyncThunk } from "./interfaces";
+import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IValueAsyncThunk, IZapAsyncThunk } from "./interfaces";
 import { error, info } from "./MessagesSlice";
 interface IUAData {
   address: string;
@@ -24,10 +25,14 @@ interface IUADataZap {
 }
 export const getZapTokenAllowance = createAsyncThunk(
   "zap/getZapTokenAllowance",
-  async ({ address, value, action, provider, networkID }: IActionValueAsyncThunk, { dispatch }) => {
+  async ({ address, value, provider, networkID }: IValueAsyncThunk, { dispatch }) => {
     try {
-      const result = await ZapHelper.getZapTokenAllowanceHelper(value, address);
-      return Object.fromEntries([[action, result]]);
+      const tokenContract = IERC20__factory.connect(value, provider);
+      const allowance = await tokenContract.allowance(address, addresses[networkID].ZAP);
+      const decimals = await tokenContract.decimals();
+      const result = +ethers.utils.formatUnits(allowance, decimals);
+      const symbol = await tokenContract.symbol();
+      return Object.fromEntries([[symbol, result]]);
     } catch (e: unknown) {
       console.error(e);
       dispatch(error("An error has occurred when fetching token allowance."));
@@ -47,15 +52,9 @@ export const changeZapTokenAllowance = createAsyncThunk(
   "zap/changeZapTokenAllowance",
   async ({ address, value, provider, action, networkID }: IActionValueAsyncThunk, { dispatch }) => {
     try {
-      const gasPrice = await provider.getGasPrice();
-      const rawTransactionData = await ZapHelper.changeZapTokenAllowanceHelper(value, address, +gasPrice);
-      const transactionData = {
-        data: rawTransactionData.data,
-        to: rawTransactionData.to,
-        from: rawTransactionData.from,
-      };
       const signer = provider.getSigner();
-      const tx = await signer.sendTransaction(transactionData);
+      const tokenContract = IERC20__factory.connect(value, signer);
+      const tx = await tokenContract.approve(addresses[networkID].ZAP, Number.MAX_SAFE_INTEGER);
       await tx.wait();
 
       const uaData: IUAData = {
@@ -115,24 +114,21 @@ export const executeZap = createAsyncThunk(
   async ({ provider, address, sellAmount, slippage, tokenAddress, networkID }: IZapAsyncThunk, { dispatch }) => {
     if (!zapNetworkAvailable(networkID, dispatch)) return;
     try {
-      const gasPrice = await provider.getGasPrice();
-      const rawTransactionData = await ZapHelper.executeZapHelper(
-        sellAmount,
-        address,
-        tokenAddress,
-        slippage,
-        +gasPrice,
-        networkID,
-      );
-      const transactionData = {
-        data: rawTransactionData.data,
-        from: rawTransactionData.from,
-        to: rawTransactionData.to,
-        value: rawTransactionData.value,
-        gasLimit: ethers.utils.hexlify(Number(rawTransactionData.gas)),
-      };
       const signer = provider.getSigner();
-      const tx = await signer.sendTransaction(transactionData);
+      const rawTransactionData = await ZapHelper.executeZapHelper(sellAmount, address, tokenAddress, +slippage / 100);
+      const buyAmount = BigNumber.from(rawTransactionData.buyAmount);
+      const minimumAmount = buyAmount.mul(1000 - +slippage * 10).div(1000);
+
+      const zapContract = Zap__factory.connect(addresses[networkID].ZAP, signer);
+      const tx = await zapContract.ZapStake(
+        tokenAddress,
+        sellAmount,
+        addresses[networkID].SOHM_V2,
+        minimumAmount,
+        rawTransactionData.to,
+        rawTransactionData.data,
+        "",
+      );
       await tx.wait();
 
       const uaData: IUADataZap = {

@@ -148,9 +148,7 @@ const ZapStakeAction: React.FC = () => {
   const checkTokenAllowance = (tokenAddress: string, tokenSymbol: string) => {
     if (tokenAddress && tokenSymbol) {
       if (currentTokenAllowance == null) {
-        dispatch(
-          getZapTokenAllowance({ value: tokenAddress, address, action: tokenSymbol, networkID: networkId, provider }),
-        );
+        dispatch(getZapTokenAllowance({ value: tokenAddress, address, networkID: networkId, provider }));
       } else {
         return currentTokenAllowance;
       }
