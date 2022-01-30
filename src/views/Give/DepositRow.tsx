@@ -35,12 +35,13 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
 
   const getRecipientTitle = (address: string): string => {
     const project = projectMap.get(address);
-    if (!project) return "Custom Recipient";
+    if (!project) return isMediumScreen || isSmallScreen ? "Custom" : "Custom Recipient";
 
-    if (!project.owner) return project.title;
+    if (!project.owner) return isSmallScreen ? project.title.substring(0, 9) + "..." : project.title;
 
     return project.owner + " - " + project.title;
   };
@@ -140,7 +141,9 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         )}
         <TableCell align="left" className="deposit-recipient-cell">
           <Tooltip title={depositObject.recipient} arrow>
-            <Typography variant="h6">{getRecipientTitle(depositObject.recipient)}</Typography>
+            <Typography variant={isSmallScreen ? "body1" : "h6"}>
+              {getRecipientTitle(depositObject.recipient)}
+            </Typography>
           </Tooltip>
         </TableCell>
         {!isSmallScreen && (
@@ -149,7 +152,9 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
           </TableCell>
         )}
         <TableCell align="right" className="deposit-yield-cell">
-          <Typography variant="h6">{parseFloat(depositObject.yieldDonated).toFixed(2)} sOHM</Typography>
+          <Typography variant={isSmallScreen ? "body1" : "h6"}>
+            {parseFloat(depositObject.yieldDonated).toFixed(2)} sOHM
+          </Typography>
         </TableCell>
         <TableCell align="right" className="deposit-manage-cell">
           <Button

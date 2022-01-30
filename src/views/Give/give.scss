@@ -5,6 +5,18 @@
   align-items: center;
   overflow: hidden;
 
+  #simple-tabpanel-0 {
+    width: 100%;
+  }
+
+  #simple-tabpanel-1 {
+    width: 100%;
+  }
+
+  #simple-tabpanel-2 {
+    width: 100%;
+  }
+
   .MuiBox-root {
     padding: 0px;
   }
@@ -286,20 +298,6 @@
 }
 
 #give-view.medium {
-  .donation-table {
-    .table-head-divider {
-      max-width: 90%;
-    }
-
-    .MuiTableHead-root {
-      max-width: 90%;
-    }
-
-    .MuiTableBody-root {
-      max-width: 90%;
-    }
-  }
-
   .cause-title {
     margin-bottom: 1rem;
   }
@@ -364,6 +362,13 @@
 
     .give-info-vault-box {
       margin-right: 0px;
+    }
+  }
+  .donation-table {
+    .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignRight {
+      &.deposit-manage-cell {
+        margin-left: 20px !important;
+      }
     }
   }
 }
@@ -462,6 +467,7 @@
       width: 33%;
 
       &.deposit-manage-cell {
+        margin-left: 20px !important;
         width: 40%;
       }
     }
