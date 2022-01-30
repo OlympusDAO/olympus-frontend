@@ -366,10 +366,7 @@ export function ManageDonationModal({
           </div>
         </div>
         <div className="manage-donation-details">
-          <Box
-            className="donation-details"
-            style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px 40px 20px 40px" }}
-          >
+          <Box className="donation-details">
             <div className="details-header">
               <Typography variant="h5" style={isAmountSet ? { marginBottom: "0px" } : {}}>
                 Donation Details

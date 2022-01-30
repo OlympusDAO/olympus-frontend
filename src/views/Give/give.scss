@@ -621,6 +621,10 @@
         }
       }
     }
+
+    .manage-donation-details .donation-details {
+      padding: 30px 20px 30px 20px;
+    }
   }
 
   .yield-header {
@@ -776,6 +780,12 @@
     .MuiButton-root {
       width: 75%;
     }
+  }
+
+  .manage-donation-details .donation-details {
+    border: 1px solid #999999;
+    border-radius: 10px;
+    padding: 30px;
   }
 }
 
