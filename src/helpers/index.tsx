@@ -354,8 +354,21 @@ export const convertOhmToGohm = (amount: BigNumber, index: BigNumber): string =>
   return formatUnits(amount.mul(10 ** 9).div(index), 18);
 };
 
+/**
+ * Converts a BigNumber to a number
+ */
 export const parseBigNumber = (value: BigNumber, units: BigNumberish = 9) => {
   return parseFloat(formatUnits(value, units));
+};
+
+/**
+ * Formats a number to a specified amount of decimals
+ */
+export const formatNumber = (number: number, precision = 0) => {
+  return new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: precision,
+    maximumFractionDigits: precision,
+  }).format(number);
 };
 
 interface ICheckBalance extends IBaseAsyncThunk {

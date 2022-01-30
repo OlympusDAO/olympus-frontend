@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
 import { STAKING_CONTRACT_DECIMALS } from "src/constants/decimals";
-import { formatCurrency, parseBigNumber } from "src/helpers";
+import { formatCurrency, formatNumber, parseBigNumber } from "src/helpers";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
@@ -53,7 +53,7 @@ export const CircSupply: React.FC<AbstractedMetricProps> = props => {
     label: t`Circulating Supply (total)`,
   };
 
-  if (circSupply && totalSupply) _props.metric = `${circSupply.toFixed()} / ${totalSupply.toFixed()}`;
+  if (circSupply && totalSupply) _props.metric = `${formatNumber(circSupply)} / ${formatNumber(totalSupply)}`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;
@@ -131,7 +131,7 @@ export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
 
   if (rebaseRate) {
     const apy = (Math.pow(1 + rebaseRate, 365 * 3) - 1) * 100;
-    const formatted = new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 }).format(apy);
+    const formatted = formatNumber(apy, 1);
 
     _props.metric = `${formatted}%`;
   } else _props.isLoading = true;
