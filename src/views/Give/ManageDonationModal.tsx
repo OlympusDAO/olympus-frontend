@@ -81,8 +81,6 @@ export function ManageDonationModal({
   }, [connected, networkId]);
 
   useEffect(() => {
-    console.log(isWalletAddressValid);
-    console.log(pendingTransactions);
     checkIsWalletAddressValid(getWalletAddress());
   }, []);
 
