@@ -1,4 +1,4 @@
-import "./give.scss";
+import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, Container, Typography, Zoom } from "@material-ui/core";
