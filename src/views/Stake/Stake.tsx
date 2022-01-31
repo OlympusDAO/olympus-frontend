@@ -14,20 +14,11 @@ import {
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import {
-  DataRow,
-  InputWrapper,
-  Metric,
-  MetricCollection,
-  Paper,
-  PrimaryButton,
-  Tab,
-  Tabs,
-} from "@olympusdao/component-library";
+import { DataRow, Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
 import { useHistory } from "react-router";
-import { useAppDispatch, useAppSelector } from "src/hooks";
+import { useAppSelector } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -385,7 +376,6 @@ const Stake: React.FC = () => {
                       <Tab aria-label="unstake-button" label={t`Unstake`} />
                     </Tabs>
                     <Grid container className="stake-action-row">
-
                       <Grid item xs={12} sm={8} className="stake-grid-item">
                         {(!hasAllowance("ohm") && view === 0) ||
                         (!hasAllowance("sohm") && view === 1 && !confirmation) ||
