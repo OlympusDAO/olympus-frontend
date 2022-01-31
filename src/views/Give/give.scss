@@ -298,6 +298,11 @@
     }
   }
 
+  .causes-container {
+    padding-left: 115px;
+    padding-right: 115px;
+  }
+
   .redeemable-container {
     display: flex;
     flex-direction: column;
@@ -329,7 +334,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 80%;
+    width: 100%;
     margin-bottom: 20px;
     text-align: center;
 
@@ -355,9 +360,12 @@
 
   .main-redeemable-box {
     border: 1px solid #999999;
-    padding: 20px 20px 20px 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     border-radius: 10px;
-    width: 80%;
+    width: 100%;
 
     p:first-of-type {
       color: #999999;
@@ -438,6 +446,11 @@
         margin-left: 20px !important;
       }
     }
+  }
+
+  .causes-container {
+    padding-left: 65px;
+    padding-right: 65px;
   }
 }
 
@@ -539,6 +552,11 @@
         width: 40%;
       }
     }
+  }
+
+  .causes-container {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .redeemable-container {
