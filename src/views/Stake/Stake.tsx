@@ -17,7 +17,6 @@ import { Skeleton } from "@material-ui/lab";
 import {
   DataRow,
   InputWrapper,
-  Metric,
   MetricCollection,
   Paper,
   PrimaryButton,
@@ -38,6 +37,7 @@ import { getGohmBalFromSohm, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
+import { CurrentIndex, StakingAPY, TotalValueDeposited } from "../TreasuryDashboard/components/Metric/Metric";
 import { ConfirmDialog } from "./ConfirmDialog";
 import ExternalStakePool from "./ExternalStakePool";
 
@@ -144,12 +144,6 @@ const Stake: React.FC = () => {
 
   const stakingRebase = useAppSelector(state => {
     return state.app.stakingRebase || 0;
-  });
-  const stakingAPY = useAppSelector(state => {
-    return state.app.stakingAPY || 0;
-  });
-  const stakingTVL = useAppSelector(state => {
-    return state.app.stakingTVL || 0;
   });
 
   const pendingTransactions = useAppSelector(state => {
@@ -269,19 +263,9 @@ const Stake: React.FC = () => {
       .reduce((a, b) => a + b, 0)
       .toFixed(4),
   );
-  const trimmedStakingAPY = trim(stakingAPY * 100, 1);
 
   const stakingRebasePercentage = trim(stakingRebase * 100, 4);
   const nextRewardValue = trim((Number(stakingRebasePercentage) / 100) * trimmedBalance, 4);
-
-  const formattedTrimmedStakingAPY = new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY));
-  const formattedStakingTVL = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-    minimumFractionDigits: 0,
-  }).format(stakingTVL);
-  const formattedCurrentIndex = trim(Number(currentIndex), 1);
 
   let stakeOnClick: () => Promise<{ payload: string; type: string } | undefined | void>;
   let stakeDisabled: boolean;
@@ -333,24 +317,9 @@ const Stake: React.FC = () => {
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <MetricCollection>
-                <Metric
-                  className="stake-apy"
-                  label={t`APY`}
-                  metric={`${formattedTrimmedStakingAPY}%`}
-                  isLoading={stakingAPY ? false : true}
-                />
-                <Metric
-                  className="stake-tvl"
-                  label={t`Total Value Deposited`}
-                  metric={formattedStakingTVL}
-                  isLoading={stakingTVL ? false : true}
-                />
-                <Metric
-                  className="stake-index"
-                  label={t`Current Index`}
-                  metric={`${formattedCurrentIndex} sOHM`}
-                  isLoading={currentIndex ? false : true}
-                />
+                <StakingAPY className="stake-apy" />
+                <TotalValueDeposited className="stake-tvl" />
+                <CurrentIndex className="stake-index" />
               </MetricCollection>
             </Grid>
             <div className="staking-area">
