@@ -203,9 +203,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             </Grid>
             <Grid item className="project-countdown-text">
               <Tooltip
-                title={
-                  !finishDateObject ? "" : t`Finishes at ` + finishDateObject.toLocaleString() + t` in your timezone`
-                }
+                title={!finishDateObject ? "" : t`Finishes at ${finishDateObject.toLocaleString()} in your timezone`}
                 arrow
               >
                 <Typography variant="h6">
