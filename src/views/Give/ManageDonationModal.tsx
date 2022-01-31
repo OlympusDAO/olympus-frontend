@@ -24,6 +24,7 @@ import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { EnvHelper } from "src/helpers/Environment";
+import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
@@ -60,6 +61,7 @@ export function ManageDonationModal({
   const location = useLocation();
   const { provider, address, connected, networkId } = useWeb3Context();
   const [totalDebt, setTotalDebt] = useState("");
+  const [totalDonated, setTotalDonated] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
@@ -75,6 +77,16 @@ export function ManageDonationModal({
       })
         .then(resultAction => {
           setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
+        })
+        .catch(e => console.log(e));
+
+      getTotalDonated({
+        networkID: networkId,
+        provider: provider,
+        address: project.wallet,
+      })
+        .then(donatedAmount => {
+          setTotalDonated(donatedAmount);
         })
         .catch(e => console.log(e));
     }
@@ -314,7 +326,7 @@ export function ManageDonationModal({
     /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
     <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
       <Paper
-        className={`ohm-card ohm-modal ${isSmallScreen ? "smaller" : ""}`}
+        className={`ohm-card ohm-modal ${isMediumScreen ? "medium" : isSmallScreen ? "smaller" : ""}`}
         onClick={handleModalInsideClick}
         style={paperSize}
       >
@@ -373,61 +385,63 @@ export function ManageDonationModal({
                 {project ? project.depositGoal.toFixed(2) : "N/A"}
               </Typography>
               <Typography variant="body1" align="center" className="subtext">
-                Goal
+                {isSmallScreen ? "Goal" : "sOHM Goal"}
               </Typography>
             </Box>
-            <Box className="project-stats-box" style={{ marginLeft: "20px", marginRight: "20px" }}>
+            <Box className="project-stats-box center-item">
               <Typography variant="h5" align="center" className="project-stat-top">
                 {project ? parseFloat(totalDebt).toFixed(2) : "N/A"}
               </Typography>
               <Typography variant="body1" align="center" className="subtext">
-                Total Raised
+                {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
               </Typography>
             </Box>
             <Box className="project-stats-box">
               <Typography variant="h5" align="center" className="project-stat-top">
-                {project ? ((parseFloat(totalDebt) / project.depositGoal) * 100).toFixed(1) + "%" : "N/A"}
+                {project ? ((parseFloat(totalDonated) / project.depositGoal) * 100).toFixed(1) + "%" : "N/A"}
               </Typography>
               <Typography variant="body1" align="center" className="subtext">
-                of Goal
+                {isSmallScreen ? "of Goal" : "of sOHM Goal"}
               </Typography>
             </Box>
           </div>
         </div>
         <div className="manage-donation-details">
           <Box className="donation-details">
-            <div className="details-header">
-              <Typography variant="h5" style={isAmountSet ? { marginBottom: "0px" } : {}}>
-                Donation Details
-              </Typography>
-            </div>
             {!isEditing && !isWithdrawing ? (
-              <div className="details-container">
-                <div className="details-row">
-                  <Typography variant="h6" className="row-title">
-                    Date
+              <>
+                <div className="details-header">
+                  <Typography variant="h5" style={isAmountSet ? { marginBottom: "0px" } : {}}>
+                    Donation Details
                   </Typography>
-                  <Typography variant="h6">{depositDate}</Typography>
                 </div>
-                <div className="details-row">
-                  <Typography variant="h6" className="row-title">
-                    Recipient
-                  </Typography>
-                  <Typography variant="h6">{getRecipientTitle()}</Typography>
+                <div className="details-container">
+                  <div className="details-row">
+                    <Typography variant="h6" className="row-title">
+                      Date
+                    </Typography>
+                    <Typography variant="h6">{depositDate}</Typography>
+                  </div>
+                  <div className="details-row">
+                    <Typography variant="h6" className="row-title">
+                      Recipient
+                    </Typography>
+                    <Typography variant="h6">{getRecipientTitle()}</Typography>
+                  </div>
+                  <div className="details-row">
+                    <Typography variant="h6" className="row-title">
+                      Deposited
+                    </Typography>
+                    <Typography variant="h6">{depositAmount} sOHM</Typography>
+                  </div>
+                  <div className="details-row">
+                    <Typography variant="h6" className="row-title">
+                      Yield Sent
+                    </Typography>
+                    <Typography variant="h6">{yieldSent} sOHM</Typography>
+                  </div>
                 </div>
-                <div className="details-row">
-                  <Typography variant="h6" className="row-title">
-                    Deposited
-                  </Typography>
-                  <Typography variant="h6">{depositAmount} sOHM</Typography>
-                </div>
-                <div className="details-row">
-                  <Typography variant="h6" className="row-title">
-                    Yield Sent
-                  </Typography>
-                  <Typography variant="h6">{yieldSent} sOHM</Typography>
-                </div>
-              </div>
+              </>
             ) : isAmountSet || isWithdrawing ? (
               <div className="details-row">
                 <div className="sohm-allocation-col">
