@@ -54,7 +54,7 @@ export const changeZapTokenAllowance = createAsyncThunk(
     try {
       const signer = provider.getSigner();
       const tokenContract = IERC20__factory.connect(value, signer);
-      const tx = await tokenContract.approve(addresses[networkID].ZAP, Number.MAX_SAFE_INTEGER);
+      const tx = await tokenContract.approve(addresses[networkID].ZAP, ethers.constants.MaxUint256);
       await tx.wait();
 
       const uaData: IUAData = {
