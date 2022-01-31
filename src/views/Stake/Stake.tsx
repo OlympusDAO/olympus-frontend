@@ -27,13 +27,16 @@ import { ethers } from "ethers";
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import { NetworkId } from "src/constants";
 import { useAppSelector } from "src/hooks";
+import { useSohmBalance } from "src/hooks/useBalances";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
-import { getGohmBalFromSohm, trim } from "../../helpers";
+import { formatNumber, getGohmBalFromSohm, parseBigNumber, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
@@ -56,9 +59,7 @@ const Stake: React.FC = () => {
   const currentIndex = useAppSelector(state => {
     return state.app.currentIndex;
   });
-  const fiveDayRate = useAppSelector(state => {
-    return state.app.fiveDayRate;
-  });
+
   const ohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.ohm;
   });
@@ -140,10 +141,6 @@ const Stake: React.FC = () => {
 
   const directUnstakeAllowance = useAppSelector(state => {
     return (state.account.wrapping && state.account.wrapping.gOhmUnwrap) || 0;
-  });
-
-  const stakingRebase = useAppSelector(state => {
-    return state.app.stakingRebase || 0;
   });
 
   const pendingTransactions = useAppSelector(state => {
@@ -263,9 +260,6 @@ const Stake: React.FC = () => {
       .reduce((a, b) => a + b, 0)
       .toFixed(4),
   );
-
-  const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-  const nextRewardValue = trim((Number(stakingRebasePercentage) / 100) * trimmedBalance, 4);
 
   let stakeOnClick: () => Promise<{ payload: string; type: string } | undefined | void>;
   let stakeDisabled: boolean;
@@ -533,22 +527,14 @@ const Stake: React.FC = () => {
                         )}
                       </AccordionDetails>
                     </Accordion>
+
                     <Divider color="secondary" />
-                    <DataRow
-                      title={t`Next Reward Amount`}
-                      balance={`${nextRewardValue} sOHM`}
-                      isLoading={isAppLoading}
-                    />
-                    <DataRow
-                      title={t`Next Reward Yield`}
-                      balance={`${stakingRebasePercentage}%`}
-                      isLoading={isAppLoading}
-                    />
-                    <DataRow
-                      title={t`ROI (5-Day Rate)`}
-                      balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
-                      isLoading={isAppLoading}
-                    />
+
+                    <NextRewardAmount />
+
+                    <NextRewardYield />
+
+                    <FiveDayRate />
                   </div>
                 </>
               )}
@@ -556,11 +542,51 @@ const Stake: React.FC = () => {
           </Grid>
         </Paper>
       </Zoom>
+
       {/* NOTE (appleseed-olyzaps) olyzaps disabled until v2 contracts */}
       {/* <ZapCta /> */}
+
       <ExternalStakePool />
     </div>
   );
+};
+
+const NextRewardAmount = () => {
+  const { data: sohmBalance } = useSohmBalance();
+  const { data: rebaseRate } = useStakingRebaseRate();
+
+  const props: PropsOf<typeof DataRow> = { title: t`Next Reward Amount` };
+
+  if (rebaseRate && sohmBalance) {
+    const nextRewardAmount = rebaseRate * parseBigNumber(sohmBalance[NetworkId.MAINNET]);
+    props.balance = `${formatNumber(nextRewardAmount, 4)} sOHM`;
+  } else props.isLoading = true;
+
+  return <DataRow {...props} />;
+};
+
+const FiveDayRate = () => {
+  const { data: rebaseRate } = useStakingRebaseRate();
+
+  const props: PropsOf<typeof DataRow> = { title: t`ROI (5-Day Rate)` };
+
+  if (rebaseRate) {
+    const fiveDayRate = (Math.pow(1 + rebaseRate, 5 * 3) - 1) * 100;
+    props.balance = `${formatNumber(fiveDayRate, 4)}%`;
+  } else props.isLoading = true;
+
+  return <DataRow {...props} />;
+};
+
+const NextRewardYield = () => {
+  const { data: rebaseRate } = useStakingRebaseRate();
+
+  const props: PropsOf<typeof DataRow> = { title: t`Next Reward Yield` };
+
+  if (rebaseRate) props.balance = `${formatNumber(rebaseRate * 100, 4)}%`;
+  else props.isLoading = true;
+
+  return <DataRow {...props} />;
 };
 
 export default Stake;

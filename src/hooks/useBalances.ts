@@ -1,5 +1,4 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { parseUnits } from "@ethersproject/units";
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import {
@@ -58,9 +57,7 @@ const getBalance = (balances: Balances, addressMap: AddressMap, networkId: Netwo
 
   const token = covalentTokens.find(token => token.contract_address.toLowerCase() === tokenAddress.toLowerCase());
 
-  if (!token) return BigNumber.from(0);
-
-  return parseUnits(token.balance, token.contract_decimals);
+  return BigNumber.from(token ? token.balance : 0);
 };
 
 /**
