@@ -102,6 +102,8 @@
     align-content: center;
     justify-content: center;
     width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
 
     .data-grid {
       justify-content: center;
@@ -298,77 +300,81 @@
     }
   }
 
-  .causes-container {
-    padding-left: 115px;
-    padding-right: 115px;
-  }
-
-  .redeemable-container {
+  .redeem-view {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
-    margin-bottom: 40px;
-
-    .redeemable-balance {
-      text-align: center;
-      margin-bottom: 30px;
-
-      h3 {
-        font-weight: 600;
-        margin-bottom: 6px;
-      }
-
-      .subtext {
-        color: #999999;
-      }
-    }
-
-    .redeem-button {
-      height: 40px;
-      width: 100%;
-    }
-  }
-
-  .projects-redeemable-data {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    padding-left: 85px;
+    padding-right: 85px;
     width: 100%;
-    margin-bottom: 20px;
-    text-align: center;
 
-    .projects-redeemable-box {
+    .redeemable-container {
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      border: 1px solid #999999;
-      padding: 20px 20px 20px 20px;
-      border-radius: 10px;
-      width: 30%;
+      width: 50%;
+      margin-bottom: 40px;
 
-      h5 {
-        font-weight: 600;
+      .redeemable-balance {
+        text-align: center;
+        margin-bottom: 30px;
+
+        h3 {
+          font-weight: 600;
+          margin-bottom: 6px;
+        }
+
+        .subtext {
+          color: #999999;
+        }
       }
 
-      .subtext {
-        color: #999999;
+      .redeem-button {
+        height: 40px;
+        width: 100%;
       }
     }
-  }
 
-  .main-redeemable-box {
-    border: 1px solid #999999;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    border-radius: 10px;
-    width: 100%;
+    .projects-redeemable-data {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 20px;
+      text-align: center;
 
-    p:first-of-type {
-      color: #999999;
+      .projects-redeemable-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #999999;
+        padding: 20px 20px 20px 20px;
+        border-radius: 10px;
+        width: 30%;
+
+        h5 {
+          font-weight: 600;
+        }
+
+        .subtext {
+          color: #999999;
+        }
+      }
+    }
+
+    .main-redeemable-box {
+      border: 1px solid #999999;
+      padding-left: 30px;
+      padding-right: 30px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      border-radius: 10px;
+      width: 100%;
+
+      p:first-of-type {
+        color: #999999;
+      }
     }
   }
 }
@@ -379,6 +385,9 @@
   }
 
   .causes-body {
+    padding-left: 0px;
+    padding-right: 0px;
+
     .cause-card {
       margin-bottom: 30px;
     }
@@ -448,9 +457,17 @@
     }
   }
 
-  .causes-container {
-    padding-left: 65px;
-    padding-right: 65px;
+  .redeem-view {
+    padding-left: 35px;
+    padding-right: 35px;
+
+    .redeemable-container {
+      width: 65%;
+    }
+
+    .projects-redeemable-data {
+      width: 100%;
+    }
   }
 }
 
@@ -463,6 +480,15 @@
 
   .cause-title {
     margin-bottom: 1rem;
+  }
+
+  .causes-body {
+    padding-left: 0px;
+    padding-right: 0px;
+
+    .cause-card {
+      flex-direction: column;
+    }
   }
 
   .small-screen-cause {
@@ -485,12 +511,6 @@
     .cause-content {
       padding-top: 0px;
       width: 100%;
-
-      .causes-body {
-        .cause-card {
-          flex-direction: column;
-        }
-      }
 
       .cause-misc-info .give-button-grid {
         margin-top: 20px;
@@ -554,21 +574,17 @@
     }
   }
 
-  .causes-container {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
+  .redeem-view {
+    padding-left: 0px;
+    padding-right: 0px;
 
-  .redeemable-container {
-    width: 100%;
-  }
+    .redeemable-container {
+      width: 100%;
+    }
 
-  .projects-redeemable-data {
-    width: 100%;
-  }
-
-  .main-redeemable-box {
-    width: 100%;
+    .projects-redeemable-data .projects-redeemable-box {
+      padding: 20px 10px 20px 10px;
+    }
   }
 }
 
