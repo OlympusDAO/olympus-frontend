@@ -141,86 +141,84 @@ export default function RedeemYield() {
   };
 
   return (
-    <div id="give-view">
-      <div className="redeem-view">
-        <div className="redeemable-container">
-          <div className="redeemable-balance">
-            <Typography variant="h3">
-              {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toFixed(2)} sOHM
-            </Typography>
-            <Typography variant="body1" className="subtext">
-              Redeemable Yield
-            </Typography>
-          </div>
-          <Button
-            variant="contained"
-            color="primary"
-            className="redeem-button"
-            onClick={() => handleRedeemButtonClick()}
-            disabled={!canRedeem()}
-          >
-            {txnButtonText(pendingTransactions, "redeeming", t`Redeem Yield`)}
-          </Button>
+    <div className="redeem-view">
+      <div className="redeemable-container">
+        <div className="redeemable-balance">
+          <Typography variant="h3">
+            {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toFixed(2)} sOHM
+          </Typography>
+          <Typography variant="body1" className="subtext">
+            Redeemable Yield
+          </Typography>
         </div>
-        {isProject ? (
-          <div className="projects-redeemable-data">
-            <Box className="projects-redeemable-box">
-              <Typography variant="h5">{getRecipientGoal(address)}</Typography>
-              <Typography variant="body1" className="subtext">
-                sOHM Goal
-              </Typography>
-            </Box>
-            <Box className="projects-redeemable-box">
-              <Typography variant="h5">{getRecipientDonated(address)}</Typography>
-              <Typography variant="body1" className="subtext">
-                {isSmallScreen ? "Total Donated" : "Total sOHM Donated"}
-              </Typography>
-            </Box>
-            <Box className="projects-redeemable-box">
-              <Typography variant="h5">{getRecipientDonated(address) / getRecipientGoal(address)}%</Typography>
-              <Typography variant="body1" className="subtext">
-                of sOHM Goal
-              </Typography>
-            </Box>
-          </div>
-        ) : (
-          <></>
-        )}
-        <Box className="main-redeemable-box">
-          <DataRow
-            title={t`Deposited sOHM`}
-            balance={`${getTrimmedBigNumber(totalDeposit)} ${t`sOHM`}`}
-            isLoading={isRecipientInfoLoading}
-          />
-          <DataRow
-            title={t`Redeemable Amount`}
-            balance={`${getTrimmedBigNumber(redeemableBalanceNumber)} ${t`sOHM`}`}
-            isLoading={isRecipientInfoLoading}
-          />
-          <DataRow
-            title={t`Next Reward Amount`}
-            balance={`${getTrimmedBigNumber(nextRewardValue)} ${t`sOHM`}`}
-            isLoading={isAppLoading}
-          />
-          <DataRow
-            title={t`Next Reward Yield`}
-            balance={`${getTrimmedBigNumber(stakingRebasePercentage)}%`}
-            isLoading={isAppLoading}
-          />
-          <DataRow
-            title={t`ROI (5-Day Rate)`}
-            balance={`${getTrimmedBigNumber(fiveDayRateValue)}%`}
-            isLoading={isAppLoading}
-          />
-        </Box>
-        <RedeemYieldModal
-          isModalOpen={isRedeemYieldModalOpen}
-          callbackFunc={handleRedeemYieldModalSubmit}
-          cancelFunc={handleRedeemYieldModalCancel}
-          deposit={totalDeposit}
-          redeemableBalance={redeemableBalanceNumber}
-        />
+        <Button
+          variant="contained"
+          color="primary"
+          className="redeem-button"
+          onClick={() => handleRedeemButtonClick()}
+          disabled={!canRedeem()}
+        >
+          {txnButtonText(pendingTransactions, "redeeming", t`Redeem Yield`)}
+        </Button>
       </div>
+      {isProject ? (
+        <div className="projects-redeemable-data">
+          <Box className="projects-redeemable-box">
+            <Typography variant="h5">{getRecipientGoal(address)}</Typography>
+            <Typography variant="body1" className="subtext">
+              sOHM Goal
+            </Typography>
+          </Box>
+          <Box className="projects-redeemable-box">
+            <Typography variant="h5">{getRecipientDonated(address)}</Typography>
+            <Typography variant="body1" className="subtext">
+              {isSmallScreen ? "Total Donated" : "Total sOHM Donated"}
+            </Typography>
+          </Box>
+          <Box className="projects-redeemable-box">
+            <Typography variant="h5">{getRecipientDonated(address) / getRecipientGoal(address)}%</Typography>
+            <Typography variant="body1" className="subtext">
+              of sOHM Goal
+            </Typography>
+          </Box>
+        </div>
+      ) : (
+        <></>
+      )}
+      <Box className="main-redeemable-box">
+        <DataRow
+          title={t`Deposited sOHM`}
+          balance={`${getTrimmedBigNumber(totalDeposit)} ${t`sOHM`}`}
+          isLoading={isRecipientInfoLoading}
+        />
+        <DataRow
+          title={t`Redeemable Amount`}
+          balance={`${getTrimmedBigNumber(redeemableBalanceNumber)} ${t`sOHM`}`}
+          isLoading={isRecipientInfoLoading}
+        />
+        <DataRow
+          title={t`Next Reward Amount`}
+          balance={`${getTrimmedBigNumber(nextRewardValue)} ${t`sOHM`}`}
+          isLoading={isAppLoading}
+        />
+        <DataRow
+          title={t`Next Reward Yield`}
+          balance={`${getTrimmedBigNumber(stakingRebasePercentage)}%`}
+          isLoading={isAppLoading}
+        />
+        <DataRow
+          title={t`ROI (5-Day Rate)`}
+          balance={`${getTrimmedBigNumber(fiveDayRateValue)}%`}
+          isLoading={isAppLoading}
+        />
+      </Box>
+      <RedeemYieldModal
+        isModalOpen={isRedeemYieldModalOpen}
+        callbackFunc={handleRedeemYieldModalSubmit}
+        cancelFunc={handleRedeemYieldModalCancel}
+        deposit={totalDeposit}
+        redeemableBalance={redeemableBalanceNumber}
+      />
     </div>
   );
 }
