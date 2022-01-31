@@ -3,6 +3,7 @@ import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { formatUnits } from "@ethersproject/units";
 import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { ethers } from "ethers";
 import { IBondV2 } from "src/slices/BondSliceV2";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
@@ -370,6 +371,8 @@ export const formatNumber = (number: number, precision = 0) => {
     maximumFractionDigits: precision,
   }).format(number);
 };
+
+export const timeToDate = (date: Date): string => formatDistanceToNow(date, { addSuffix: true });
 
 interface ICheckBalance extends IBaseAsyncThunk {
   readonly sOHMbalance: string;
