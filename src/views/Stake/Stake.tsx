@@ -35,12 +35,12 @@ import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
-import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import { formatNumber, getGohmBalFromSohm, parseBigNumber, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
 import { CurrentIndex, StakingAPY, TotalValueDeposited } from "../TreasuryDashboard/components/Metric/Metric";
+import RebaseTimer from "./components/RebaseTimer/RebaseTimer";
 import { ConfirmDialog } from "./ConfirmDialog";
 import ExternalStakePool from "./ExternalStakePool";
 
