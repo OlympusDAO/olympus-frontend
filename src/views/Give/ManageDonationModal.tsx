@@ -1,3 +1,4 @@
+import { isAddress } from "@ethersproject/address";
 import { Box, Button, Grid, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
@@ -79,6 +80,12 @@ export function ManageDonationModal({
     }
   }, [connected, networkId]);
 
+  useEffect(() => {
+    console.log(isWalletAddressValid);
+    console.log(pendingTransactions);
+    checkIsWalletAddressValid(getWalletAddress());
+  }, []);
+
   const _initialDepositAmount = 0;
   const _initialWalletAddress = "";
   const _initialDepositAmountValid = false;
@@ -97,7 +104,7 @@ export function ManageDonationModal({
     return currentWalletAddress ? currentWalletAddress : _initialWalletAddress;
   };
   const [walletAddress] = useState(getInitialWalletAddress());
-  const [isWalletAddressValid] = useState(_initialWalletAddressValid);
+  const [isWalletAddressValid, setIsWalletAddressValid] = useState(_initialWalletAddressValid);
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
@@ -121,6 +128,20 @@ export function ManageDonationModal({
   const pendingTransactions: IPendingTxn[] = useSelector((state: DonationInfoState) => {
     return state.pendingTransactions;
   });
+
+  const checkIsWalletAddressValid = (value: string) => {
+    if (!isAddress(value)) {
+      setIsWalletAddressValid(false);
+      return;
+    }
+
+    if (value == address) {
+      setIsWalletAddressValid(false);
+      return;
+    }
+
+    setIsWalletAddressValid(true);
+  };
 
   const handleEditSubmit = () => {
     const depositAmountBig = new BigNumber(depositAmount);
