@@ -108,6 +108,8 @@ export function ManageDonationModal({
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const isMediumScreen = useMediaQuery("(max-width: 960px)") && !isSmallScreen;
+  const isLargeScreen = !isSmallScreen && !isMediumScreen;
 
   const sohmBalance: string = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
@@ -306,10 +308,18 @@ export function ManageDonationModal({
 
   // TODO re-arrange the below output to be around the state: approval, custom recipient, project recipient, editing
 
+  const paperSize = {
+    width: isSmallScreen ? "374px" : isMediumScreen ? "628px" : "692px",
+  };
+
   return (
     /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
     <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
-      <Paper className={`ohm-card ohm-modal ${isSmallScreen ? "smaller" : ""}`} onClick={handleModalInsideClick}>
+      <Paper
+        className={`ohm-card ohm-modal ${isSmallScreen ? "smaller" : ""}`}
+        onClick={handleModalInsideClick}
+        style={paperSize}
+      >
         <div className="yield-header">
           {isAmountSet || isEditing || isWithdrawing ? (
             <Link onClick={() => handleGoBack()}>
