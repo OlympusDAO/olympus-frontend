@@ -1,6 +1,9 @@
 name: Lighthouse PWA Test
 
 on:
+  pull_request:
+  #  branches:
+  #    - master
   push:
     branches: [ master, develop ]
 

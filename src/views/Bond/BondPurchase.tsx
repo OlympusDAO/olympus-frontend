@@ -28,7 +28,7 @@ import { DisplayBondDiscount } from "./Bond";
 
 interface IBondPurchaseProps {
   readonly bond: IAllBondData;
-  readonly slippage: string;
+  readonly slippage: number;
   readonly recipientAddress: string;
 }
 

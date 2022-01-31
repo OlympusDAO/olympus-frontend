@@ -1,8 +1,9 @@
 import "./33together.scss";
 
 import { t } from "@lingui/macro";
-import { Box, Paper, Tab, Tabs } from "@material-ui/core";
+import { Box, Paper } from "@material-ui/core";
 import { InfoTooltipMulti } from "@olympusdao/component-library";
+import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addresses, POOL_GRAPH_URLS } from "src/constants";
@@ -13,18 +14,10 @@ import { getPoolValues, getRNGStatus } from "src/slices/PoolThunk";
 import { Prize, PrizePool } from "src/typechain/pooltogether";
 
 import CardHeader from "../../components/CardHeader/CardHeader";
-import TabPanel from "../../components/TabPanel";
 import { poolDataQuery, yourAwardsQuery } from "./poolData";
 import { PoolInfo } from "./PoolInfo";
 import { PoolPrize } from "./PoolPrize";
 import { PoolWithdraw } from "./PoolWithdraw";
-
-function a11yProps(index: number) {
-  return {
-    id: `pool-tab-${index}`,
-    "aria-controls": `pool-tabpanel-${index}`,
-  };
-}
 
 interface AwardItem {
   awardedTimestamp: number;
@@ -36,7 +29,7 @@ const PoolTogether = () => {
   const [view, setView] = useState(0);
   const [zoomed, setZoomed] = useState(false);
 
-  const changeView = (_event: ChangeEvent<any>, newView: number) => {
+  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 
@@ -176,18 +169,18 @@ const PoolTogether = () => {
           className="pt-tabs"
           aria-label="pool tabs"
         >
-          {/* <Tab label={t`Deposit`} {...a11yProps(0)} /> */}
-          <Tab label={t`Withdraw`} {...a11yProps(0)} />
+          {/* <Tab aria-label="pool-deposit-button" label={t`Deposit`} /> */}
+          <Tab aria-label="pool-withdraw-button" label={t`Withdraw`} />
         </Tabs>
 
-        {/* <TabPanel value={view} index={0} className="pool-tab">
+        {/* <TabPanel value={view} index={0}>
           <PoolDeposit
             totalPoolDeposits={totalDeposits}
             winners={winners}
             setInfoTooltipMessage={setInfoTooltipMessage}
           />
         </TabPanel> */}
-        <TabPanel value={view} index={0} className="pool-tab">
+        <TabPanel value={view} index={0}>
           <PoolWithdraw
             totalPoolDeposits={totalDeposits}
             winners={winners}

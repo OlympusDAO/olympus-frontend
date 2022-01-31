@@ -1,21 +1,21 @@
 import { Link } from "@material-ui/core";
 import { shorten } from "src/helpers";
-import useENS from "src/hooks/useENS";
-import { useWeb3Context } from "src/hooks/web3Context";
+import { useWeb3Context } from "src/hooks";
+import { useEns } from "src/hooks/useENS";
+
 export default function WalletAddressEns() {
+  const { data: ens } = useEns();
   const { address } = useWeb3Context();
-  const { ensName, ensAvatar } = useENS(address);
+
+  if (!address) return null;
 
   return (
-    <div>
-      {address && (
-        <div className="wallet-link">
-          {ensAvatar && <img className="avatar" src={ensAvatar} alt={address} />}
-          <Link href={`https://etherscan.io/address/${address}`} target="_blank">
-            {ensName || shorten(address)}
-          </Link>
-        </div>
-      )}
+    <div className="wallet-link">
+      {ens?.avatar && <img className="avatar" src={ens.avatar} alt={address} />}
+
+      <Link href={`https://etherscan.io/address/${address}`} target="_blank">
+        {ens?.name || shorten(address)}
+      </Link>
     </div>
   );
 }
