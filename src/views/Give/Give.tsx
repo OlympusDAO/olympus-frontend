@@ -1,13 +1,13 @@
-import "./give.scss";
+import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Button, Paper, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { TabPanel } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isSupportedChain } from "src/slices/GiveThunk";
 
-import TabPanel from "../../components/TabPanel";
 import CausesDashboard from "./CausesDashboard";
 import { GiveInfo } from "./GiveInfo";
 import RedeemYield from "./RedeemYield";
@@ -80,13 +80,13 @@ function Give() {
               <Tab label={t`Redeem`} {...a11yProps(2)} />
             </Tabs>
 
-            <TabPanel value={view} index={0} className="stake-tab-panel">
+            <TabPanel value={view} index={0}>
               <CausesDashboard />
             </TabPanel>
-            <TabPanel value={view} index={1} className="donations-tab-panel">
+            <TabPanel value={view} index={1}>
               <YieldRecipients changeView={buttonChangeView} />
             </TabPanel>
-            <TabPanel value={view} index={2} className="redeem-tab-panel">
+            <TabPanel value={view} index={2}>
               <RedeemYield />
             </TabPanel>
           </Paper>

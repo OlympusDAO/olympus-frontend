@@ -1,4 +1,4 @@
-import "./stake.scss";
+import "./Stake.scss";
 
 import { t, Trans } from "@lingui/macro";
 import {
@@ -8,19 +8,22 @@ import {
   Box,
   Button,
   Divider,
-  FormControl,
   Grid,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Tab,
-  Tabs,
   Typography,
   Zoom,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
+import {
+  DataRow,
+  InputWrapper,
+  Metric,
+  MetricCollection,
+  Paper,
+  PrimaryButton,
+  Tab,
+  Tabs,
+} from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -31,7 +34,6 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
-import TabPanel from "../../components/TabPanel";
 import { getGohmBalFromSohm, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
@@ -39,14 +41,7 @@ import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
 import { ConfirmDialog } from "./ConfirmDialog";
 import ExternalStakePool from "./ExternalStakePool";
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-function Stake() {
+const Stake: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { provider, address, connect, networkId } = useWeb3Context();
@@ -246,7 +241,7 @@ function Stake() {
     </Button>,
   );
 
-  const changeView = (_event: ChangeEvent<any>, newView: number) => {
+  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 
@@ -287,6 +282,49 @@ function Stake() {
     minimumFractionDigits: 0,
   }).format(stakingTVL);
   const formattedCurrentIndex = trim(Number(currentIndex), 1);
+
+  let stakeOnClick: () => Promise<{ payload: string; type: string } | undefined | void>;
+  let stakeDisabled: boolean;
+  let stakeButtonText: string;
+
+  //set defaults. if unstake tab selected else use staking tab as default
+  if (view === 1) {
+    stakeDisabled = isPendingTxn(pendingTransactions, "approve_unstaking");
+    stakeOnClick = () => onSeekApproval(confirmation ? "gohm" : "sohm");
+    stakeButtonText = txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`);
+  } else {
+    stakeDisabled = isPendingTxn(pendingTransactions, "approve_staking");
+    stakeOnClick = () => onSeekApproval("ohm");
+    stakeButtonText = txnButtonText(pendingTransactions, "approve_staking", t`Approve`);
+  }
+
+  //evaluate if data allowance data is finished loading
+  if (!isAllowanceDataLoading) {
+    //If Staking Tab
+    if (view === 0) {
+      if (address && hasAllowance("ohm")) {
+        stakeDisabled = isPendingTxn(pendingTransactions, "staking");
+        stakeOnClick = () => onChangeStake("stake");
+        stakeButtonText = txnButtonText(
+          pendingTransactions,
+          "staking",
+          `${t`Stake to`} ${confirmation ? " gOHM" : " sOHM"}`,
+        );
+      }
+    }
+    //If Unstaking Tab
+    if (view === 1) {
+      if ((address && hasAllowance("sohm") && !confirmation) || (hasAllowance("gohm") && confirmation)) {
+        stakeDisabled = isPendingTxn(pendingTransactions, "unstaking");
+        stakeOnClick = () => onChangeStake("unstake");
+        stakeButtonText = txnButtonText(
+          pendingTransactions,
+          "unstaking",
+          `${t`Unstake from`} ${confirmation ? " gOHM" : " sOHM"}`,
+        );
+      }
+    }
+  }
 
   return (
     <div id="stake-view">
@@ -341,138 +379,72 @@ function Stake() {
                       TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
                     >
                       <Tab
+                        aria-label="stake-button"
                         label={t({
                           id: "do_stake",
                           comment: "The action of staking (verb)",
                         })}
-                        {...a11yProps(0)}
                       />
-                      <Tab label={t`Unstake`} {...a11yProps(1)} />
+                      <Tab aria-label="unstake-button" label={t`Unstake`} />
                     </Tabs>
                     <Grid container className="stake-action-row">
-                      <Grid item xs={12} sm={8} className="stake-grid-item">
-                        {address && !isAllowanceDataLoading ? (
-                          (!hasAllowance("ohm") && view === 0) ||
-                          (!hasAllowance("sohm") && view === 1 && !confirmation) ||
-                          (!hasAllowance("gohm") && view === 1 && confirmation) ? (
-                            <Box mt={"10px"}>
-                              <Typography variant="body1" className="stake-note" color="textSecondary">
-                                {view === 0 ? (
-                                  <>
-                                    <Trans>First time staking</Trans> <b>OHM</b>?
-                                    <br />
-                                    <Trans>Please approve Olympus Dao to use your</Trans> <b>OHM</b>{" "}
-                                    <Trans>for staking</Trans>.
-                                  </>
-                                ) : (
-                                  <>
-                                    <Trans>First time unstaking</Trans> <b>{confirmation ? "gOHM" : "sOHM"}</b>?
-                                    <br />
-                                    <Trans>Please approve Olympus Dao to use your</Trans>{" "}
-                                    <b>{confirmation ? "gOHM" : "sOHM"}</b> <Trans>for unstaking</Trans>.
-                                  </>
-                                )}
-                              </Typography>
-                            </Box>
-                          ) : (
-                            <FormControl className="ohm-input" variant="outlined" color="primary">
-                              <InputLabel htmlFor="amount-input"></InputLabel>
-                              <OutlinedInput
-                                id="amount-input"
-                                type="number"
-                                placeholder="Enter an amount"
-                                className="stake-input"
-                                value={quantity}
-                                onChange={handleChangeQuantity}
-                                labelWidth={0}
-                                endAdornment={
-                                  <InputAdornment position="end">
-                                    <Button variant="text" onClick={setMax} color="inherit">
-                                      Max
-                                    </Button>
-                                  </InputAdornment>
-                                }
-                              />
-                            </FormControl>
-                          )
+                      {address && !isAllowanceDataLoading ? (
+                        (!hasAllowance("ohm") && view === 0) ||
+                        (!hasAllowance("sohm") && view === 1 && !confirmation) ||
+                        (!hasAllowance("gohm") && view === 1 && confirmation) ? (
+                          <>
+                            <Grid item xs={12} sm={8} className="stake-grid-item">
+                              <Box mt={"10px"}>
+                                <Typography variant="body1" className="stake-note" color="textSecondary">
+                                  {view === 0 ? (
+                                    <>
+                                      <Trans>First time staking</Trans> <b>OHM</b>?
+                                      <br />
+                                      <Trans>Please approve Olympus Dao to use your</Trans> <b>OHM</b>{" "}
+                                      <Trans>for staking</Trans>.
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Trans>First time unstaking</Trans> <b>{confirmation ? "gOHM" : "sOHM"}</b>?
+                                      <br />
+                                      <Trans>Please approve Olympus Dao to use your</Trans>{" "}
+                                      <b>{confirmation ? "gOHM" : "sOHM"}</b> <Trans>for unstaking</Trans>.
+                                    </>
+                                  )}
+                                </Typography>
+                              </Box>
+                            </Grid>
+                            <Grid item xs={12} sm={4} className="stake-grid-item">
+                              <Box mt={1}>
+                                <PrimaryButton
+                                  fullWidth
+                                  className="stake-button"
+                                  disabled={stakeDisabled}
+                                  onClick={stakeOnClick}
+                                >
+                                  {stakeButtonText}
+                                </PrimaryButton>
+                              </Box>
+                            </Grid>
+                          </>
                         ) : (
-                          <Skeleton width="150px" />
-                        )}
-                      </Grid>
-                      <Grid item xs={12} sm={4} className="stake-grid-item">
-                        <TabPanel value={view} index={0} className="stake-tab-panel">
-                          <Box m={-2}>
-                            {isAllowanceDataLoading ? (
-                              <Skeleton />
-                            ) : address && hasAllowance("ohm") ? (
-                              <Button
-                                className="stake-button"
-                                variant="contained"
-                                color="primary"
-                                disabled={isPendingTxn(pendingTransactions, "staking")}
-                                onClick={() => {
-                                  onChangeStake("stake");
-                                }}
-                              >
-                                {txnButtonText(
-                                  pendingTransactions,
-                                  "staking",
-                                  `${t`Stake to`} ${confirmation ? " gOHM" : " sOHM"}`,
-                                )}
-                              </Button>
-                            ) : (
-                              <Button
-                                className="stake-button"
-                                variant="contained"
-                                color="primary"
-                                disabled={isPendingTxn(pendingTransactions, "approve_staking")}
-                                onClick={() => {
-                                  onSeekApproval("ohm");
-                                }}
-                              >
-                                {txnButtonText(pendingTransactions, "approve_staking", t`Approve`)}
-                              </Button>
-                            )}
-                          </Box>
-                        </TabPanel>
-
-                        <TabPanel value={view} index={1} className="stake-tab-panel">
-                          <Box m={-2}>
-                            {isAllowanceDataLoading ? (
-                              <Skeleton />
-                            ) : (address && hasAllowance("sohm") && !confirmation) ||
-                              (hasAllowance("gohm") && confirmation) ? (
-                              <Button
-                                className="stake-button"
-                                variant="contained"
-                                color="primary"
-                                disabled={isPendingTxn(pendingTransactions, "unstaking")}
-                                onClick={() => {
-                                  onChangeStake("unstake");
-                                }}
-                              >
-                                {txnButtonText(
-                                  pendingTransactions,
-                                  "unstaking",
-                                  `${t`Unstake from`} ${confirmation ? " gOHM" : " sOHM"}`,
-                                )}
-                              </Button>
-                            ) : (
-                              <Button
-                                className="stake-button"
-                                variant="contained"
-                                color="primary"
-                                disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
-                                onClick={() => {
-                                  onSeekApproval(confirmation ? "gohm" : "sohm");
-                                }}
-                              >
-                                {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
-                              </Button>
-                            )}
-                          </Box>
-                        </TabPanel>
-                      </Grid>
+                          <InputWrapper
+                            id="amount-input"
+                            type="number"
+                            label={t`Enter an amount`}
+                            value={quantity}
+                            onChange={handleChangeQuantity}
+                            labelWidth={0}
+                            endString={t`Max`}
+                            endStringOnClick={setMax}
+                            buttonText={stakeButtonText}
+                            buttonOnClick={stakeOnClick}
+                            disabled={stakeDisabled}
+                          />
+                        )
+                      ) : (
+                        <Skeleton width="150px" />
+                      )}
                     </Grid>
                   </Box>
                   <ConfirmDialog
@@ -620,6 +592,6 @@ function Stake() {
       <ExternalStakePool />
     </div>
   );
-}
+};
 
 export default Stake;

@@ -1,11 +1,10 @@
-import "./choosebond.scss";
+import "./ChooseBond.scss";
 
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
   ButtonBase,
   Grid,
-  Paper,
   SvgIcon,
   Table,
   TableBody,
@@ -17,7 +16,7 @@ import {
   Zoom,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Metric, MetricCollection } from "@olympusdao/component-library";
+import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import isEmpty from "lodash/isEmpty";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
@@ -80,33 +79,27 @@ function ChooseBond() {
     minimumFractionDigits: 0,
   }).format(Number(treasuryBalance));
 
+  const topRightCTA = (
+    <ButtonBase>
+      <Typography style={{ lineHeight: "33px" }}>
+        <b>
+          <Link to="/bonds" style={{ textDecoration: "none", color: "inherit" }}>
+            <Trans>v2 bonds</Trans>
+            <SvgIcon
+              style={{ margin: "0 0 0 5px", verticalAlign: "text-bottom" }}
+              component={ArrowUp}
+              color="primary"
+            />
+          </Link>
+        </b>
+      </Typography>
+    </ButtonBase>
+  );
   return (
     <div id="choose-bond-view">
       {(!isEmpty(accountNotes) || !isEmpty(accountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
-
       <Zoom in={true}>
-        <Paper className="ohm-card">
-          <Box className="card-header">
-            <Typography variant="h5" data-testid="t">
-              <Trans>Bond</Trans> (1,1)
-            </Typography>
-
-            <ButtonBase>
-              <Typography style={{ lineHeight: "33px" }}>
-                <b>
-                  <Link to="/bonds" style={{ textDecoration: "none", color: "inherit" }}>
-                    <Trans>v2 bonds</Trans>
-                    <SvgIcon
-                      style={{ margin: "0 0 0 5px", verticalAlign: "text-bottom" }}
-                      component={ArrowUp}
-                      color="primary"
-                    />
-                  </Link>
-                </b>
-              </Typography>
-            </ButtonBase>
-          </Box>
-
+        <Paper headerText={`${t`Bond`} (1,1)`} topRight={topRightCTA}>
           <MetricCollection>
             <Metric
               label={t`Treasury Balance`}

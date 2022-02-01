@@ -1,4 +1,4 @@
-import "./choosebond.scss";
+import "./ChooseBond.scss";
 
 import { t, Trans } from "@lingui/macro";
 import {

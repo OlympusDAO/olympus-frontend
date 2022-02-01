@@ -1,12 +1,27 @@
 tasks:
   - name: App
-    init: >
-      yarn &&
+    init: |
+      # bring in secret access tokens from gitpod user dashboard
+      eval $(gp env -e)
+      # OlmypusDAO front end contributors with access permissions to the main repo
+      # should set GITHUB_OHM_PERSONAL_ACCESS_TOKEN in their gitpod UI Settings panel
+      if [ -z ${GITHUB_OHM_PERSONAL_ACCESS_TOKEN+x} ];
+      then
+        echo "var is unset";
+      else
+        echo "Setting git origin push URL for OlympusDAO/olympus-frontend";
+        git remote set-url --push origin https://${GITHUB_OHM_PERSONAL_ACCESS_TOKEN}@github.com/OlympusDAO/olympus-frontend.git;
+      fi
+      #  create a default .env file if none present
+      if [ ! -f .env ]; then cp ".env.test" ".env"; fi
+      yarn && \
       gp sync-done install
     command: REACT_APP_PROVIDER=$(gp url 8545) yarn start
   - name: Test
     init: gp sync-await install
-    command: yarn test:unit
+    command: |
+      yarn test --clearCache
+      yarn test:unit
     openMode: split-right
 ports:
   - port: 3000
@@ -21,4 +36,3 @@ vscode:
   extensions:
     - dbaeumer.vscode-eslint
     - esbenp.prettier-vscode
-    - juanblanco.solidity
