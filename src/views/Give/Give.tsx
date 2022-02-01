@@ -5,6 +5,7 @@ import { Button, Paper, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { TabPanel } from "@olympusdao/component-library";
 import { useState } from "react";
+import { useHistory } from "react-router";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isSupportedChain } from "src/slices/GiveThunk";
 
@@ -20,13 +21,26 @@ function a11yProps(index: number) {
   };
 }
 
-function Give() {
+/**
+ * selectedIndex values:
+ *
+ * 0: project list
+ * 1: my donations
+ * 2: redeem
+ */
+type GiveProps = {
+  selectedIndex?: number;
+};
+
+function Give({ selectedIndex }: GiveProps) {
   const { networkId, connect } = useWeb3Context();
   const [zoomed, setZoomed] = useState(false);
-  const [view, setView] = useState(0);
+  const [view, setView] = useState(selectedIndex || 0);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
   const connectButton = [];
+  const history = useHistory();
+
   connectButton.push(
     <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
       <Trans>Connect Wallet</Trans>
@@ -35,10 +49,26 @@ function Give() {
 
   const changeView = (_event: React.ChangeEvent<unknown>, newView: number) => {
     setView(newView);
+
+    if (newView === 0) {
+      history.push("/give/");
+    } else if (newView === 1) {
+      history.push("/give/donations/");
+    } else {
+      history.push("/give/redeem/");
+    }
   };
 
   const buttonChangeView = (newView: number) => {
     setView(newView);
+
+    if (newView === 0) {
+      history.push("/give/");
+    } else if (newView === 1) {
+      history.push("/give/donations/");
+    } else {
+      history.push("/give/redeem/");
+    }
   };
 
   return (

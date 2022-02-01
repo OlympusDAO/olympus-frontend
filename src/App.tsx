@@ -37,6 +37,7 @@ import projectData from "src/views/Give/projects.json";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
+import ProjectInfo from "./views/Give/ProjectInfo";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -358,7 +359,8 @@ function App() {
             <Redirect from="/olygive" to="/give" />
             <Redirect from="/olympusdaogive" to="/give" />
             <Redirect from="/ohmgive" to="/give" />
-            {/* <Route path="/give/projects">
+
+            <Route path="/give/projects">
               {projects.map(project => {
                 return (
                   <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
@@ -369,12 +371,12 @@ function App() {
             </Route>
 
             <Route exact path="/give/donations">
-              <DepositYield />
+              <Give selectedIndex={1} />
             </Route>
 
             <Route exact path="/give/redeem">
-              <RedeemYield />
-            </Route> */}
+              <Give selectedIndex={2} />
+            </Route>
 
             <Route path="/wrap">
               <Route exact path={`/wrap`}>
