@@ -48,17 +48,14 @@ function Give({ selectedIndex }: GiveProps) {
   );
 
   const changeView = (_event: React.ChangeEvent<unknown>, newView: number) => {
-    setView(newView);
-
-    if (newView === 0) {
-      history.push("/give/");
-    } else if (newView === 1) {
-      history.push("/give/donations/");
-    } else {
-      history.push("/give/redeem/");
-    }
+    buttonChangeView(newView);
   };
 
+  /**
+   * Handler for changing the selected tab
+   *
+   * @param newView the index of the newly-selected tab
+   */
   const buttonChangeView = (newView: number) => {
     setView(newView);
 
@@ -114,6 +111,7 @@ function Give({ selectedIndex }: GiveProps) {
               <CausesDashboard />
             </TabPanel>
             <TabPanel value={view} index={1}>
+              {/* We have a button to switch tabs in this child component, so need to pass the handler. */}
               <YieldRecipients changeView={buttonChangeView} />
             </TabPanel>
             <TabPanel value={view} index={2}>
