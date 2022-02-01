@@ -98,6 +98,9 @@ export const light = responsiveFontSizes(
             "&.ohm-card": {
               backgroundColor: lightTheme.paperBg,
             },
+            "&.MuiPaper-root.tooltip-container": {
+              backgroundColor: lightTheme.paperBg,
+            },
             "&.ohm-modal": {
               backgroundColor: lightTheme.modalBg,
             },
@@ -116,9 +119,6 @@ export const light = responsiveFontSizes(
           paper: {
             backgroundColor: lightTheme.backdropBg,
             zIndex: 7,
-            "@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none))": {
-              backgroundColor: "rgba(255, 255, 255, 0.98)",
-            },
           },
         },
         MuiBackdrop: {
@@ -302,9 +302,6 @@ export const light = responsiveFontSizes(
             "&:hover": {
               color: lightTheme.textHighlightColor,
             },
-          },
-          "&.grid-button-text": {
-            color: "#FFFFFF",
           },
         },
         MuiTypography: {

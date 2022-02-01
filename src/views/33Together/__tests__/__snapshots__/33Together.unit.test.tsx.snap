@@ -1,0 +1,436 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PoolTogether/> should render component 1`] = `
+<div>
+  <div
+    id="pool-together-view"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-1 pool-prize-card"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-2 vegas-container"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-3 vegas"
+        />
+      </div>
+      <div
+        class="MuiPaper-root ohm-card MuiPaper-elevation0 MuiPaper-rounded"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-4"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-5"
+          >
+            <h3
+              class="MuiTypography-root MuiTypography-h3"
+            >
+              Pool Award Balance is currently 0.
+            </h3>
+            <h4
+              class="MuiTypography-root MuiTypography-h4"
+            >
+              Award Balance will grow at 1st rebase.
+            </h4>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1"
+          />
+          <div
+            class="MuiBox-root MuiBox-root-6 pool-timer"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-21 pool-timer-unit"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-h3"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  style="width: 20px;"
+                />
+              </h3>
+              <p
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                day
+              </p>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-22 pool-timer-unit"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-h3"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  style="width: 20px;"
+                />
+              </h3>
+              <p
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                hrs
+              </p>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-23 pool-timer-unit"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-h3"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  style="width: 20px;"
+                />
+              </h3>
+              <p
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                min
+              </p>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-24 pool-timer-unit"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-h3"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  style="width: 20px;"
+                />
+              </h3>
+              <p
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                sec
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root ohm-card MuiPaper-elevation0 MuiPaper-rounded"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-7"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-8 card-header"
+        >
+          <h5
+            class="MuiTypography-root MuiTypography-h5"
+          >
+            3, 3 Together
+          </h5>
+        </div>
+        <div
+          class="MuiBox-root MuiBox-root-9"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+            focusable="false"
+            style="margin: 0px 5px; font-size: 16px;"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+            />
+          </svg>
+        </div>
+      </div>
+      <div
+        class="MuiTabs-root makeStyles-root-11 pt-tabs"
+      >
+        <div
+          class="MuiTabs-scroller MuiTabs-fixed"
+          style="overflow: hidden;"
+        >
+          <div
+            aria-label="pool tabs"
+            class="MuiTabs-flexContainer MuiTabs-centered"
+            role="tablist"
+          >
+            <button
+              aria-controls="simple-tabpanel-0"
+              aria-label="pool-withdraw-button"
+              aria-selected="true"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected"
+              id="simple-tab-0"
+              role="tab"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiTab-wrapper"
+              >
+                Withdraw
+              </span>
+            </button>
+          </div>
+          <span
+            class="PrivateTabIndicator-root-12 PrivateTabIndicator-colorPrimary-13 MuiTabs-indicator"
+            style="left: 0px; width: 0px;"
+          />
+        </div>
+      </div>
+      <div
+        aria-labelledby="simple-tab-0"
+        id="simple-tabpanel-0"
+        role="tabpanel"
+        style="overflow: hidden;"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-16"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
+            style="margin: 0.5rem;"
+          >
+            The pool has been temporarily disabled for V2 Migration. Please withdraw your 33T
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
+            style="margin: 0.5rem;"
+          >
+            (The 6-day early exit fee has been waived. Network fees apply.)
+          </p>
+          <div
+            class="MuiBox-root MuiBox-root-17 pool-deposit-ui"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained connect-button MuiButton-containedPrimary MuiButton-disableElevation"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                Connect Wallet
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root ohm-card MuiPaper-elevation0 MuiPaper-rounded"
+      style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="card-header"
+      >
+        <h5
+          class="MuiTypography-root MuiTypography-h5"
+        >
+          Prize Pool Info
+        </h5>
+      </div>
+      
+      <div
+        class="MuiBox-root MuiBox-root-18 pool-data"
+      >
+        <div
+          class="makeStyles-root-19 data-row"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            Winners / prize period
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+              style="width: 80px;"
+            />
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-19 data-row"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            Total Deposits
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+              style="width: 80px;"
+            />
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-19 data-row"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            Total Sponsorship
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+              style="width: 80px;"
+            />
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-19 data-row"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            Yield Source
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            sOHM
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-19 data-row"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            Pool owner
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            OlympusDAO
+          </p>
+        </div>
+        <hr
+          class="MuiDivider-root"
+          color="secondary"
+        />
+        <div
+          class="makeStyles-root-19 data-row"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            Early Exit Fee
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+              style="width: 80px;"
+            />
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-19 data-row"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            Exit Fee Decay Time
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+              style="width: 80px;"
+            />
+          </p>
+        </div>
+      </div>
+      <hr
+        class="MuiDivider-root"
+        color="secondary"
+      />
+      <div
+        class="data-row-centered"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1"
+        >
+          Something not right, fren? Check Pool Together's UI below.
+        </p>
+      </div>
+      <div
+        class="data-row-centered"
+      >
+        <div
+          class="marginedBtn"
+        >
+          <a
+            aria-disabled="false"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-disableElevation"
+            href="https://app.pooltogether.com/pools/mainnet/sOHM"
+            tabindex="0"
+            target="_blank"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                sOHM Prize Pool
+                 
+              </p>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall"
+                focusable="false"
+                viewBox="0 0 20 20"
+              >
+                arrow-up.svg
+              </svg>
+            </span>
+          </a>
+        </div>
+        <div
+          class="marginedBtn"
+        >
+          <a
+            aria-disabled="false"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-disableElevation"
+            href="https://community.pooltogether.com/pools/mainnet/0xEaB695A8F5a44f583003A8bC97d677880D528248/manage#stats"
+            tabindex="0"
+            target="_blank"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                sOHM Pool Details
+                 
+              </p>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall"
+                focusable="false"
+                viewBox="0 0 20 20"
+              >
+                arrow-up.svg
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

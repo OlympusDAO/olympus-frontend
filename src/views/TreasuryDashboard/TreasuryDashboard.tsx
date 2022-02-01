@@ -1,4 +1,4 @@
-import "./treasury-dashboard.scss";
+import "./TreasuryDashboard.scss";
 
 import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
 import { MetricCollection, Paper } from "@olympusdao/component-library";

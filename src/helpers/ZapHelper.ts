@@ -1,3 +1,5 @@
+import { BigNumber } from "ethers";
+
 import { addresses } from "../constants";
 
 interface ZapperResponse {
@@ -125,7 +127,7 @@ export class ZapHelper {
   }
 
   static executeZapHelper = async (
-    sellAmount: number,
+    sellAmount: BigNumber,
     ownerAddress: string,
     tokenAddress: string,
     slippagePercentage: string,
