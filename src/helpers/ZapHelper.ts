@@ -1,4 +1,4 @@
-import { BigNumber, ethers } from "ethers";
+import { BigNumber } from "ethers";
 
 import { addresses, NetworkId } from "../constants";
 
@@ -91,18 +91,16 @@ export class ZapHelper {
   }
 
   static executeZapHelper = async (
+    address: string,
     sellAmount: BigNumber,
     tokenAddress: string,
     slippageDecimal: number,
     networkId: NetworkId,
   ): Promise<ZapTransactionResponse> => {
     tokenAddress = tokenAddress.toLowerCase();
-    if (tokenAddress === ethers.constants.AddressZero) {
-      tokenAddress = addresses[networkId].WETH_ADDRESS.toLowerCase();
-    }
     const apiKey = ZapHelper.getZapperAPIKey();
     const response = await fetch(
-      `https://api.zapper.fi/v1/exchange/quote?sellTokenAddress=${tokenAddress}&buyTokenAddress=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5&sellAmount=${sellAmount}&slippagePercentage=${slippageDecimal}&network=ethereum&api_key=${apiKey}`,
+      `https://api.zapper.fi/v1/exchange/quote?sellTokenAddress=${tokenAddress}&buyTokenAddress=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5&sellAmount=${sellAmount}&slippagePercentage=${slippageDecimal}&network=ethereum&api_key=${apiKey}&ownerAddress=${address}`,
     );
     const responseJson = await response.json();
     console.log(responseJson);

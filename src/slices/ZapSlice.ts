@@ -116,7 +116,13 @@ export const executeZap = createAsyncThunk(
     if (!zapNetworkAvailable(networkID, dispatch)) return;
     try {
       const signer = provider.getSigner();
-      const rawTransactionData = await ZapHelper.executeZapHelper(sellAmount, tokenAddress, +slippage / 100, networkID);
+      const rawTransactionData = await ZapHelper.executeZapHelper(
+        address,
+        sellAmount,
+        tokenAddress,
+        +slippage / 100,
+        networkID,
+      );
       const buyAmount = BigNumber.from(rawTransactionData.buyAmount);
       const minimumAmount = buyAmount.mul(1000 - +slippage * 10).div(1000);
       const zapContract = Zap__factory.connect(addresses[networkID].ZAP, signer);
