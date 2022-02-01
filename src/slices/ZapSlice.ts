@@ -26,7 +26,7 @@ interface IUADataZap {
 export const getZapTokenAllowance = createAsyncThunk(
   "zap/getZapTokenAllowance",
   async ({ address, value, provider, networkID }: IValueAsyncThunk, { dispatch }) => {
-    if (value === "0x0000000000000000000000000000000000000000") {
+    if (value === ethers.constants.AddressZero) {
       return { eth: ethers.constants.MaxUint256 };
     }
     try {
@@ -116,20 +116,33 @@ export const executeZap = createAsyncThunk(
     if (!zapNetworkAvailable(networkID, dispatch)) return;
     try {
       const signer = provider.getSigner();
-      const rawTransactionData = await ZapHelper.executeZapHelper(sellAmount, address, tokenAddress, +slippage / 100);
+      const rawTransactionData = await ZapHelper.executeZapHelper(sellAmount, tokenAddress, +slippage / 100, networkID);
       const buyAmount = BigNumber.from(rawTransactionData.buyAmount);
       const minimumAmount = buyAmount.mul(1000 - +slippage * 10).div(1000);
-
       const zapContract = Zap__factory.connect(addresses[networkID].ZAP, signer);
-      const tx = await zapContract.ZapStake(
-        tokenAddress,
-        sellAmount,
-        addresses[networkID].SOHM_V2,
-        minimumAmount,
-        rawTransactionData.to,
-        rawTransactionData.data,
-        address,
-      );
+      let tx: ethers.ContractTransaction;
+      if (tokenAddress === ethers.constants.AddressZero) {
+        tx = await zapContract.ZapStake(
+          tokenAddress,
+          sellAmount,
+          addresses[networkID].SOHM_V2,
+          minimumAmount,
+          rawTransactionData.to,
+          rawTransactionData.data,
+          address,
+          { value: sellAmount },
+        );
+      } else {
+        tx = await zapContract.ZapStake(
+          tokenAddress,
+          sellAmount,
+          addresses[networkID].SOHM_V2,
+          minimumAmount,
+          rawTransactionData.to,
+          rawTransactionData.data,
+          address,
+        );
+      }
       await tx.wait();
 
       const uaData: IUADataZap = {

@@ -1,6 +1,6 @@
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 
-import { addresses } from "../constants";
+import { addresses, NetworkId } from "../constants";
 
 interface ZapperResponse {
   [key: string]: ZapperAddress;
@@ -41,13 +41,6 @@ interface ZapTransactionResponse {
   data: string;
   estimatedGas: string;
   buyAmount: string;
-}
-
-interface ZapHelperChangeAllowanceTransaction {
-  data: string;
-  from: string;
-  gasPrice: string;
-  to: string;
 }
 
 export class ZapHelper {
@@ -99,17 +92,20 @@ export class ZapHelper {
 
   static executeZapHelper = async (
     sellAmount: BigNumber,
-    ownerAddress: string,
     tokenAddress: string,
     slippageDecimal: number,
+    networkId: NetworkId,
   ): Promise<ZapTransactionResponse> => {
     tokenAddress = tokenAddress.toLowerCase();
-    ownerAddress = ownerAddress.toLowerCase();
+    if (tokenAddress === ethers.constants.AddressZero) {
+      tokenAddress = addresses[networkId].WETH_ADDRESS.toLowerCase();
+    }
     const apiKey = ZapHelper.getZapperAPIKey();
     const response = await fetch(
       `https://api.zapper.fi/v1/exchange/quote?sellTokenAddress=${tokenAddress}&buyTokenAddress=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5&sellAmount=${sellAmount}&slippagePercentage=${slippageDecimal}&network=ethereum&api_key=${apiKey}`,
     );
     const responseJson = await response.json();
+    console.log(responseJson);
     if (response.ok) {
       return responseJson;
     } else {
