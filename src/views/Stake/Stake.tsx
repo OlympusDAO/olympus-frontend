@@ -27,20 +27,20 @@ import { ethers } from "ethers";
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { NetworkId } from "src/constants";
 import { useAppSelector } from "src/hooks";
-import { useSohmBalance } from "src/hooks/useBalances";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
-import { formatNumber, getGohmBalFromSohm, parseBigNumber, trim } from "../../helpers";
+import { getGohmBalFromSohm, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
 import { CurrentIndex, StakingAPY, TotalValueDeposited } from "../TreasuryDashboard/components/Metric/Metric";
 import RebaseTimer from "./components/RebaseTimer/RebaseTimer";
+import { StakeFiveDayYield } from "./components/StakeFiveDayYield";
+import { StakeNextRebaseAmount } from "./components/StakeNextRebaseAmount";
+import { StakeRebaseYield } from "./components/StakeRebaseYield";
 import { ConfirmDialog } from "./ConfirmDialog";
 import ExternalStakePool from "./ExternalStakePool";
 
@@ -530,11 +530,11 @@ const Stake: React.FC = () => {
 
                     <Divider color="secondary" />
 
-                    <NextRewardAmount />
+                    <StakeNextRebaseAmount />
 
-                    <NextRewardYield />
+                    <StakeRebaseYield />
 
-                    <FiveDayRate />
+                    <StakeFiveDayYield />
                   </div>
                 </>
               )}
@@ -549,44 +549,6 @@ const Stake: React.FC = () => {
       <ExternalStakePool />
     </div>
   );
-};
-
-const NextRewardAmount = () => {
-  const { data: sohmBalance } = useSohmBalance();
-  const { data: rebaseRate } = useStakingRebaseRate();
-
-  const props: PropsOf<typeof DataRow> = { title: t`Next Reward Amount` };
-
-  if (rebaseRate && sohmBalance) {
-    const nextRewardAmount = rebaseRate * parseBigNumber(sohmBalance[NetworkId.MAINNET]);
-    props.balance = `${formatNumber(nextRewardAmount, 4)} sOHM`;
-  } else props.isLoading = true;
-
-  return <DataRow {...props} />;
-};
-
-const FiveDayRate = () => {
-  const { data: rebaseRate } = useStakingRebaseRate();
-
-  const props: PropsOf<typeof DataRow> = { title: t`ROI (5-Day Rate)` };
-
-  if (rebaseRate) {
-    const fiveDayRate = (Math.pow(1 + rebaseRate, 5 * 3) - 1) * 100;
-    props.balance = `${formatNumber(fiveDayRate, 4)}%`;
-  } else props.isLoading = true;
-
-  return <DataRow {...props} />;
-};
-
-const NextRewardYield = () => {
-  const { data: rebaseRate } = useStakingRebaseRate();
-
-  const props: PropsOf<typeof DataRow> = { title: t`Next Reward Yield` };
-
-  if (rebaseRate) props.balance = `${formatNumber(rebaseRate * 100, 4)}%`;
-  else props.isLoading = true;
-
-  return <DataRow {...props} />;
 };
 
 export default Stake;
