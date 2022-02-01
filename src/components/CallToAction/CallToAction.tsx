@@ -9,15 +9,11 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 export const LearnMoreButton = () => {
   return (
     <SecondaryButton
-      variant="outlined"
       href="https://docs.olympusdao.finance/main/basics/migration"
       target="_blank"
       className="learn-more-button"
     >
-      <Typography variant="body1">
-        <Trans>Learn More</Trans>
-      </Typography>
-
+      Learn More
       <SvgIcon component={ArrowUp} color="primary" />
     </SecondaryButton>
   );
@@ -32,7 +28,6 @@ export const MigrateButton = ({ setMigrationModalOpen, btnText }: MigrationButto
   return (
     <PrimaryButton
       className="migrate-button"
-      variant="contained"
       onClick={() => {
         setMigrationModalOpen(true);
       }}

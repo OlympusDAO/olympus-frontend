@@ -1,6 +1,5 @@
-import { Trans } from "@lingui/macro";
-import { Box, Link, Typography } from "@material-ui/core";
-import { SecondaryButton } from "@olympusdao/component-library";
+import { Box, Link } from "@material-ui/core";
+import { TextButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { NavLink, useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
@@ -27,11 +26,7 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, totalDebt, networ
         to="/give"
         className={`give-option ${isGiveTabActive ? "give-active" : ""}`}
       >
-        <SecondaryButton>
-          <Typography variant="h6">
-            <Trans>Give</Trans>
-          </Typography>
-        </SecondaryButton>
+        <TextButton>Give</TextButton>
       </Link>
       <Link
         component={NavLink}
@@ -39,11 +34,7 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, totalDebt, networ
         to="/give/donations"
         className={`give-option ${isDonationsTabActive ? "give-active" : ""}`}
       >
-        <SecondaryButton>
-          <Typography variant="h6">
-            <Trans>My Donations</Trans>
-          </Typography>
-        </SecondaryButton>
+        <TextButton>My Donations</TextButton>
       </Link>
       {new BigNumber(totalDebt).gt(new BigNumber(0)) && isSupportedChain(networkId) ? (
         <Link
@@ -52,11 +43,7 @@ export function GiveHeader({ isSmallScreen, isVerySmallScreen, totalDebt, networ
           to="/give/redeem"
           className={`give-option ${location.pathname.replace("/", "") == "give/redeem" ? "give-active" : ""}`}
         >
-          <SecondaryButton>
-            <Typography variant="h6">
-              <Trans>Redeem</Trans>
-            </Typography>
-          </SecondaryButton>
+          <TextButton>Redeem</TextButton>
         </Link>
       ) : (
         <></>

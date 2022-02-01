@@ -396,11 +396,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   {renderGoalCompletion()}
                 </Grid>
                 <Grid item xs={6} sm={12} md={6} className="give-button-grid">
-                  <PrimaryButton
-                    variant="contained"
-                    className="cause-give-button"
-                    onClick={() => handleGiveButtonClick()}
-                  >
+                  <PrimaryButton className="cause-give-button" onClick={() => handleGiveButtonClick()}>
                     <Typography variant="h6">
                       <Trans>Donate Yield</Trans>
                     </Typography>
@@ -493,7 +489,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
                             <div className="project-give-button">
                               <PrimaryButton
-                                variant="contained"
                                 onClick={() => handleGiveButtonClick()}
                                 disabled={!address || !isSupportedChain(networkId)}
                               >

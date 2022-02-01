@@ -4,7 +4,7 @@ import { t, Trans } from "@lingui/macro";
 import { Box, Tab, Table, TableBody, TableCell, TableHead, TableRow, Tabs, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { InfoTooltip, Modal, PrimaryButton, TextButton } from "@olympusdao/component-library";
+import { InfoTooltip, Modal, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NetworkId } from "src/constants";
@@ -226,8 +226,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                           <Trans>Approved</Trans>
                         </Typography>
                       ) : (
-                        <TextButton
-                          variant="outlined"
+                        <SecondaryButton
                           onClick={() => onSeekApproval(row.initialAsset)}
                           disabled={isPendingTxn(
                             pendingTransactions,
@@ -241,7 +240,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                               t`Approve`,
                             )}
                           </Typography>
-                        </TextButton>
+                        </SecondaryButton>
                       )}
                     </Box>
                   </Box>
@@ -323,8 +322,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                             <Trans>Approved</Trans>
                           </Typography>
                         ) : (
-                          <TextButton
-                            variant="outlined"
+                          <SecondaryButton
                             onClick={() => onSeekApproval(row.initialAsset)}
                             disabled={isPendingTxn(
                               pendingTransactions,
@@ -338,7 +336,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                                 t`Approve`,
                               )}
                             </Typography>
-                          </TextButton>
+                          </SecondaryButton>
                         )}
                       </TableCell>
                     </TableRow>
@@ -349,7 +347,6 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
 
           <Box display="flex" flexDirection="row" justifyContent="center">
             <PrimaryButton
-              variant="contained"
               disabled={!isAllApproved || isPendingTxn(pendingTransactions, "migrate_all")}
               onClick={isMigrationComplete || !oldAssetsDetected ? handleClose : onMigrate}
               fullWidth={isMobileScreen}
