@@ -317,7 +317,7 @@ export function ManageDonationModal({
 
   // TODO re-arrange the below output to be around the state: approval, custom recipient, project recipient, editing
 
-  const paperSize = {
+  const ohmModalStyle = {
     width: isSmallScreen ? "374px" : isMediumScreen ? "628px" : "692px",
   };
 
@@ -327,7 +327,7 @@ export function ManageDonationModal({
       <Paper
         className={`ohm-card ohm-modal ${isMediumScreen ? "medium" : isSmallScreen ? "smaller" : ""}`}
         onClick={handleModalInsideClick}
-        style={paperSize}
+        style={ohmModalStyle}
       >
         <div className="yield-header">
           {isAmountSet || isEditing || isWithdrawing ? (
