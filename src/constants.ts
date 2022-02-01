@@ -118,7 +118,6 @@ export const addresses: IAddresses = {
     DAO_TREASURY: "0xee1520f94f304e8d551cbf310fe214212e3ca34a",
     TOKEMAK_GOHM: "0x41f6a95bacf9bc43704c4a4902ba5473a8b00263",
     ZAP: "0xC1Faf9Ad8A5A7d0C328F1F395A150faB293e8Bbd",
-    WETH_ADDRESS: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
   },
   [NetworkId.ARBITRUM]: {
     DAI_ADDRESS: "0x6b175474e89094c44da98b954eedeac495271d0f", // duplicate
