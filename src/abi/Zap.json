@@ -2,46 +2,11 @@
   "abi": [
     {
       "inputs": [
-        {
-          "internalType": "address",
-          "name": "_olympusDAO",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_depo",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_staking",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_OHM",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_sOHM",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_gOHM",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_goodwill",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_affiliateSplit",
-          "type": "uint256"
-        }
+        { "internalType": "address", "name": "_depo", "type": "address" },
+        { "internalType": "address", "name": "_staking", "type": "address" },
+        { "internalType": "address", "name": "_OHM", "type": "address" },
+        { "internalType": "address", "name": "_sOHM", "type": "address" },
+        { "internalType": "address", "name": "_gOHM", "type": "address" }
       ],
       "stateMutability": "nonpayable",
       "type": "constructor"
@@ -49,18 +14,8 @@
     {
       "anonymous": false,
       "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "previousOwner",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
+        { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" },
+        { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }
       ],
       "name": "OwnershipTransferred",
       "type": "event"
@@ -68,30 +23,10 @@
     {
       "anonymous": false,
       "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "sender",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "token",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "tokensRec",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "affiliate",
-          "type": "address"
-        }
+        { "indexed": false, "internalType": "address", "name": "sender", "type": "address" },
+        { "indexed": false, "internalType": "address", "name": "token", "type": "address" },
+        { "indexed": false, "internalType": "uint256", "name": "tokensRec", "type": "uint256" },
+        { "indexed": false, "internalType": "address", "name": "referral", "type": "address" }
       ],
       "name": "zapBond",
       "type": "event"
@@ -99,396 +34,130 @@
     {
       "anonymous": false,
       "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "sender",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "token",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "tokensRec",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "affiliate",
-          "type": "address"
-        }
+        { "indexed": false, "internalType": "address", "name": "sender", "type": "address" },
+        { "indexed": false, "internalType": "address", "name": "token", "type": "address" },
+        { "indexed": false, "internalType": "uint256", "name": "tokensRec", "type": "uint256" },
+        { "indexed": false, "internalType": "address", "name": "referral", "type": "address" }
       ],
-      "name": "zapIn",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "sender",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "token",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "tokensRec",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "affiliate",
-          "type": "address"
-        }
-      ],
-      "name": "zapOut",
+      "name": "zapStake",
       "type": "event"
     },
     {
       "inputs": [],
       "name": "OHM",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        {
-          "internalType": "address",
-          "name": "fromToken",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amountIn",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "principal",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "swapTarget",
-          "type": "address"
-        },
-        {
-          "internalType": "bytes",
-          "name": "swapData",
-          "type": "bytes"
-        },
-        {
-          "internalType": "address",
-          "name": "affiliate",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "maxPrice",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "bondId",
-          "type": "uint256"
-        }
+        { "internalType": "address", "name": "fromToken", "type": "address" },
+        { "internalType": "uint256", "name": "amountIn", "type": "uint256" },
+        { "internalType": "address", "name": "principal", "type": "address" },
+        { "internalType": "address", "name": "swapTarget", "type": "address" },
+        { "internalType": "bytes", "name": "swapData", "type": "bytes" },
+        { "internalType": "address", "name": "referral", "type": "address" },
+        { "internalType": "uint256", "name": "maxPrice", "type": "uint256" },
+        { "internalType": "uint256", "name": "bondId", "type": "uint256" }
       ],
       "name": "ZapBond",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "OHMRec",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "OHMRec", "type": "uint256" }],
       "stateMutability": "payable",
       "type": "function"
     },
     {
       "inputs": [
-        {
-          "internalType": "address",
-          "name": "fromToken",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amountIn",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "toToken",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "minToToken",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "swapTarget",
-          "type": "address"
-        },
-        {
-          "internalType": "bytes",
-          "name": "swapData",
-          "type": "bytes"
-        },
-        {
-          "internalType": "address",
-          "name": "affiliate",
-          "type": "address"
-        }
+        { "internalType": "address", "name": "fromToken", "type": "address" },
+        { "internalType": "uint256", "name": "amountIn", "type": "uint256" },
+        { "internalType": "address", "name": "toToken", "type": "address" },
+        { "internalType": "uint256", "name": "minToToken", "type": "uint256" },
+        { "internalType": "address", "name": "swapTarget", "type": "address" },
+        { "internalType": "bytes", "name": "swapData", "type": "bytes" },
+        { "internalType": "address", "name": "referral", "type": "address" }
       ],
       "name": "ZapStake",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "OHMRec",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "OHMRec", "type": "uint256" }],
       "stateMutability": "payable",
       "type": "function"
     },
     {
       "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
+        { "internalType": "address", "name": "", "type": "address" },
+        { "internalType": "address", "name": "", "type": "address" }
       ],
       "name": "affiliateBalance",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "name": "affiliates",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address[]",
-          "name": "tokens",
-          "type": "address[]"
-        }
-      ],
+      "inputs": [{ "internalType": "address[]", "name": "tokens", "type": "address[]" }],
       "name": "affilliateWithdraw",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "name": "approvedTargets",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "depo",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "name": "feeWhitelist",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "gOHM",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "goodwill",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "olympusDAO",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "fromToken",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "fromAmount",
-          "type": "uint256"
-        }
-      ],
-      "name": "removeLiquidityReturn",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "ohmAmount",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "renounceOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
+    { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
     {
       "inputs": [],
       "name": "sOHM",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
-        {
-          "internalType": "address[]",
-          "name": "targets",
-          "type": "address[]"
-        },
-        {
-          "internalType": "bool[]",
-          "name": "isApproved",
-          "type": "bool[]"
-        }
+        { "internalType": "address[]", "name": "targets", "type": "address[]" },
+        { "internalType": "bool[]", "name": "isApproved", "type": "bool[]" }
       ],
       "name": "setApprovedTargets",
       "outputs": [],
@@ -497,16 +166,8 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "address",
-          "name": "_affiliate",
-          "type": "address"
-        },
-        {
-          "internalType": "bool",
-          "name": "_status",
-          "type": "bool"
-        }
+        { "internalType": "address", "name": "_affiliate", "type": "address" },
+        { "internalType": "bool", "name": "_status", "type": "bool" }
       ],
       "name": "set_affiliate",
       "outputs": [],
@@ -515,16 +176,8 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "address",
-          "name": "zapAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "bool",
-          "name": "status",
-          "type": "bool"
-        }
+        { "internalType": "address", "name": "zapAddress", "type": "address" },
+        { "internalType": "bool", "name": "status", "type": "bool" }
       ],
       "name": "set_feeWhitelist",
       "outputs": [],
@@ -532,26 +185,14 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_new_affiliateSplit",
-          "type": "uint256"
-        }
-      ],
+      "inputs": [{ "internalType": "uint256", "name": "_new_affiliateSplit", "type": "uint256" }],
       "name": "set_new_affiliateSplit",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_new_goodwill",
-          "type": "uint256"
-        }
-      ],
+      "inputs": [{ "internalType": "uint256", "name": "_new_goodwill", "type": "uint256" }],
       "name": "set_new_goodwill",
       "outputs": [],
       "stateMutability": "nonpayable",
@@ -560,26 +201,14 @@
     {
       "inputs": [],
       "name": "staking",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "stopped",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -591,110 +220,40 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
+      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
       "name": "totalAffiliateBalance",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
+      "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
       "name": "transferOwnership",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_depo",
-          "type": "address"
-        }
-      ],
+      "inputs": [{ "internalType": "address", "name": "_depo", "type": "address" }],
       "name": "update_Depo",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_olympusDAO",
-          "type": "address"
-        }
-      ],
-      "name": "update_OlympusDAO",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_staking",
-          "type": "address"
-        }
-      ],
+      "inputs": [{ "internalType": "address", "name": "_staking", "type": "address" }],
       "name": "update_Staking",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "contract IERC20[]",
-          "name": "_tokens",
-          "type": "address[]"
-        },
-        {
-          "internalType": "address",
-          "name": "_target",
-          "type": "address"
-        }
-      ],
-      "name": "update_approvals",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address[]",
-          "name": "tokens",
-          "type": "address[]"
-        }
-      ],
+      "inputs": [{ "internalType": "address[]", "name": "tokens", "type": "address[]" }],
       "name": "withdrawTokens",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
-    {
-      "stateMutability": "payable",
-      "type": "receive"
-    }
+    { "stateMutability": "payable", "type": "receive" }
   ]
 }

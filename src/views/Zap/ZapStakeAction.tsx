@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Icon } from "@olympusdao/component-library";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
@@ -144,7 +144,7 @@ const ZapStakeAction: React.FC = () => {
         .slice(0, 3),
     [tokens],
   );
-  const currentTokenAllowance = useAppSelector(state => zapToken && state.zap.allowances[zapToken]);
+  const currentTokenAllowance = useAppSelector(state => state.zap.allowances[zapToken ?? ""]?.gt(BigNumber.from(0)));
   const checkTokenAllowance = (tokenAddress: string, tokenSymbol: string) => {
     if (tokenAddress && tokenSymbol) {
       if (currentTokenAllowance == null) {
@@ -434,7 +434,6 @@ const ZapStakeAction: React.FC = () => {
               variant="contained"
               color="primary"
               disabled={!currentTokenAllowance || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS}
-              // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
               onClick={onZap}
             >
               {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}

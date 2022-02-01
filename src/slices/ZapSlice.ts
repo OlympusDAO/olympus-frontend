@@ -26,13 +26,14 @@ interface IUADataZap {
 export const getZapTokenAllowance = createAsyncThunk(
   "zap/getZapTokenAllowance",
   async ({ address, value, provider, networkID }: IValueAsyncThunk, { dispatch }) => {
+    if (value === "0x0000000000000000000000000000000000000000") {
+      return { eth: ethers.constants.MaxUint256 };
+    }
     try {
       const tokenContract = IERC20__factory.connect(value, provider);
       const allowance = await tokenContract.allowance(address, addresses[networkID].ZAP);
-      const decimals = await tokenContract.decimals();
-      const result = +ethers.utils.formatUnits(allowance, decimals);
       const symbol = await tokenContract.symbol();
-      return Object.fromEntries([[symbol, result]]);
+      return Object.fromEntries([[symbol.toLowerCase(), allowance]]);
     } catch (e: unknown) {
       console.error(e);
       dispatch(error("An error has occurred when fetching token allowance."));
@@ -127,7 +128,7 @@ export const executeZap = createAsyncThunk(
         minimumAmount,
         rawTransactionData.to,
         rawTransactionData.data,
-        "",
+        address,
       );
       await tx.wait();
 
@@ -175,7 +176,7 @@ export interface IZapSlice {
   balancesLoading: boolean;
   changeAllowanceLoading: boolean;
   stakeLoading: boolean;
-  allowances: { [key: string]: number };
+  allowances: { [key: string]: BigNumber };
 }
 
 const initialState: IZapSlice = {
