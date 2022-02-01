@@ -85,6 +85,7 @@ export default function RedeemYield() {
     }
   }, [connected]);
 
+  // Get project sOHM yield goal and return as a number
   const getRecipientGoal = (address: string): number => {
     const project = projectMap.get(address);
     if (project) return parseFloat(project.depositGoal.toFixed(2));
@@ -92,6 +93,7 @@ export default function RedeemYield() {
     return 0;
   };
 
+  // Get the amount of sOHM yield donated by the current user and return as a number
   const getRecipientDonated = (address: string): number => {
     const project = projectMap.get(address);
     if (project) {
@@ -109,6 +111,7 @@ export default function RedeemYield() {
     return 0;
   };
 
+  // Checks that the current user can redeem some quantity of sOHM
   const canRedeem = () => {
     if (!address) return false;
 

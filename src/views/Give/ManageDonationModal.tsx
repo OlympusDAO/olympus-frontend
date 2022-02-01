@@ -96,6 +96,14 @@ export function ManageDonationModal({
     checkIsWalletAddressValid(getWalletAddress());
   }, []);
 
+  useEffect(() => {
+    if (!isModalOpen) {
+      // When we close the modal, we ensure button click states are reset
+      setIsEditing(false);
+      setIsWithdrawing(false);
+    }
+  }, [isModalOpen]);
+
   const _initialDepositAmount = 0;
   const _initialWalletAddress = "";
   const _initialDepositAmountValid = false;
@@ -113,7 +121,7 @@ export function ManageDonationModal({
   const getInitialWalletAddress = () => {
     return currentWalletAddress ? currentWalletAddress : _initialWalletAddress;
   };
-  const [walletAddress] = useState(getInitialWalletAddress());
+  const [walletAddress, setWalletAddress] = useState(getInitialWalletAddress());
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(_initialWalletAddressValid);
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
@@ -140,6 +148,15 @@ export function ManageDonationModal({
     return state.pendingTransactions;
   });
 
+  /**
+   * Checks if the provided wallet address is valid.
+   *
+   * This will return false if:
+   * - it is an invalid Ethereum address
+   * - it is the same as the sender address
+   *
+   * @param {string} value the proposed value for the wallet address
+   */
   const checkIsWalletAddressValid = (value: string) => {
     if (!isAddress(value)) {
       setIsWalletAddressValid(false);
@@ -166,6 +183,18 @@ export function ManageDonationModal({
     submitWithdraw(getWalletAddress(), eventSource, depositAmountBig);
   };
 
+  /**
+   * Indicates whether the form can be submitted.
+   *
+   * This will return false if:
+   * - the deposit amount is invalid
+   * - the wallet address is invalid
+   * - there is no sender address
+   * - an add/edit transaction is pending
+   * - it is not in create mode and there is no difference in the amount
+   *
+   * @returns boolean
+   */
   const canSubmit = (): boolean => {
     if (!isDepositAmountValid) return false;
 
@@ -198,6 +227,13 @@ export function ManageDonationModal({
     return new BigNumber(currentDepositAmount);
   };
 
+  /**
+   * Returns the maximum deposit that can be directed to the recipient.
+   *
+   * This is equal to the current wallet balance and the current deposit amount (in the vault).
+   *
+   * @returns BigNumber
+   */
   const getMaximumDepositAmount = (): BigNumber => {
     return new BigNumber(sohmBalance).plus(currentDepositAmount ? currentDepositAmount : 0);
   };
@@ -213,6 +249,11 @@ export function ManageDonationModal({
     e.stopPropagation();
   };
 
+  /**
+   * Ensures that the depositAmount returned is a valid number.
+   *
+   * @returns
+   */
   const getDepositAmount = (): BigNumber => {
     if (!depositAmount) return new BigNumber(0);
 

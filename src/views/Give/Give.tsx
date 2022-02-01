@@ -52,7 +52,7 @@ function Give({ selectedIndex }: GiveProps) {
   };
 
   /**
-   * Handler for changing the selected tab
+   * Handler for changing the selected tab from other files
    *
    * @param newView the index of the newly-selected tab
    */

@@ -371,7 +371,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    // If reducing the amount of deposit, withdraw
+    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
+    // Else use standard call
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
@@ -421,7 +422,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
 
-    // If reducing the amount of deposit, withdraw
+    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
+    // Else use standard call
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
@@ -456,7 +458,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
-    // Issue withdrawal from smart contract
+    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
+    // Else use standard call
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
