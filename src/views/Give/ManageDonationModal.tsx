@@ -119,7 +119,6 @@ export function ManageDonationModal({
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const isMediumScreen = useMediaQuery("(max-width: 960px)") && !isSmallScreen;
-  const isLargeScreen = !isSmallScreen && !isMediumScreen;
 
   const sohmBalance: string = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)

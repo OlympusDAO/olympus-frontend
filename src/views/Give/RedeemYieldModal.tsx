@@ -29,13 +29,7 @@ type RedeemModalProps = {
   redeemableBalance: BigNumber;
 };
 
-export function RedeemYieldModal({
-  isModalOpen,
-  callbackFunc,
-  cancelFunc,
-  deposit,
-  redeemableBalance,
-}: RedeemModalProps) {
+export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeemableBalance }: RedeemModalProps) {
   const { address } = useWeb3Context();
   const pendingTransactions = useSelector((state: DonationInfoState) => {
     return state.pendingTransactions;
