@@ -19,7 +19,7 @@ type GenericEducationGraphicProps = {
 
 export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicProps) {
   return (
-    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+    <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
           <Trans>Wallet</Trans>
@@ -39,7 +39,7 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
 
 export function DepositSohm({ message }: GenericEducationGraphicProps) {
   return (
-    <Box display="flex" flexDirection="column" className="sect" style={{ marginTop: "16px", marginBottom: "16px" }}>
+    <Box display="flex" flexDirection="column" className="sect" style={{ marginBottom: "16px" }}>
       <Box className="graphic">
         <Box
           display="flex"
@@ -81,7 +81,7 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
 
 export function VaultGraphic({ quantity, verb = "deposited", isLoading, small = true }: EducationGraphicProps) {
   return (
-    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+    <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
           <Trans>Vault</Trans>
@@ -101,13 +101,7 @@ export function VaultGraphic({ quantity, verb = "deposited", isLoading, small = 
 
 export function LockInVault({ message }: GenericEducationGraphicProps) {
   return (
-    <Box
-      className="sect"
-      display="flex"
-      flexDirection="column"
-      minWidth={"33%"}
-      style={{ marginTop: "16px", marginBottom: "16px" }}
-    >
+    <Box className="sect" display="flex" flexDirection="column" minWidth={"33%"} style={{ marginBottom: "16px" }}>
       <Box>
         <Box
           display="flex"
@@ -149,7 +143,7 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
 
 export function YieldGraphic({ quantity }: EducationGraphicProps) {
   return (
-    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+    <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
           <Trans>Recipient</Trans>
@@ -175,9 +169,10 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
   );
 }
 
+// TODO this is currently unused. Remove?
 export function RedeemGraphic({ quantity, isLoading }: EducationGraphicProps) {
   return (
-    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+    <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
           <Trans>You</Trans>
@@ -205,7 +200,7 @@ export function RedeemGraphic({ quantity, isLoading }: EducationGraphicProps) {
 
 export function ReceivesYield({ message }: GenericEducationGraphicProps) {
   return (
-    <Box className="sect" display="flex" flexDirection="column" style={{ marginTop: "16px", marginBottom: "16px" }}>
+    <Box className="sect" display="flex" flexDirection="column" style={{ marginBottom: "16px" }}>
       <Box>
         <Box
           display="flex"
@@ -254,7 +249,7 @@ export function ReceivesYield({ message }: GenericEducationGraphicProps) {
 
 export function CurrPositionGraphic({ quantity }: EducationGraphicProps) {
   return (
-    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+    <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
           <Trans>Current Deposit</Trans>
@@ -274,7 +269,7 @@ export function CurrPositionGraphic({ quantity }: EducationGraphicProps) {
 
 export function NewPositionGraphic({ quantity }: EducationGraphicProps) {
   return (
-    <Box className="sect" minWidth={"33%"} style={{ marginTop: "16px", marginBottom: "16px" }}>
+    <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="cta-text">
           <Trans>Updated Deposit</Trans>
