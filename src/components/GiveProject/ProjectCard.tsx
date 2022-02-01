@@ -298,7 +298,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             </div>
           </Grid>
         </Grid>
-        <div className={`project-goal-progress ${isUserDonating && "donating"}`}>
+        <div className={`project-goal-progress ${isUserDonating ? "donating" : ""}`}>
           <LinearProgress variant="determinate" value={goalProgress} />
         </div>
       </>
@@ -346,7 +346,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     // For the moment, we only display the first photo
     return (
-      <div className={`cause-image ${isUserDonating && "donating"}`}>
+      <div className={`cause-image ${isUserDonating ? "donating" : ""}`}>
         <Link href={`#/give/projects/${project.slug}`} onClick={() => handleProjectDetailsButtonClick("Image")}>
           <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
         </Link>
