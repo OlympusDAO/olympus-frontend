@@ -14,6 +14,8 @@ import { OlympusStakingv2, PairContract, SOhmv2 } from "src/typechain";
 
 import { useWeb3Context } from ".";
 
+const provider = NodeHelper.getMainnetStaticProvider();
+
 /**
  * Hook for fetching a contract.
  *
@@ -51,8 +53,6 @@ export function useContract<TContract extends Contract = Contract>(
 }
 
 export const useMainnetContract = <TContract extends Contract = Contract>(address: string, ABI: ContractInterface) => {
-  const provider = NodeHelper.getMainnetStaticProvider();
-
   return useContract<TContract>(address, ABI, provider);
 };
 
