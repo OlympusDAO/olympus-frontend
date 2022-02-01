@@ -30,10 +30,10 @@ import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
-import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
+import RebaseTimer from "../Stake/components/RebaseTimer/RebaseTimer";
 import ExternalStakePool from "../Stake/ExternalStakePool";
 
 const sOhmImg = getTokenImage("sohm");
