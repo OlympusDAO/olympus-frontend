@@ -32,6 +32,7 @@ import {
   RedeemYield,
   BondV2,
   ChooseBondV2,
+  Tender,
 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar";
 import TopBar from "./components/TopBar/TopBar";
@@ -49,6 +50,7 @@ import projectData from "src/views/Give/projects.json";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
+import TenderCTA from "./views/Tender/TenderCTA";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -331,7 +333,7 @@ function App() {
             !hasActiveV1Bonds &&
             trimmedPath.indexOf("dashboard") === -1 &&
             oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
-
+          {networkId !== NetworkId.FANTOM && <TenderCTA walletAddress={address} />}
           <Switch>
             <Route exact path="/dashboard">
               <TreasuryDashboard />
@@ -416,6 +418,9 @@ function App() {
                 );
               })}
               <ChooseBondV2 />
+            </Route>
+            <Route path="/tender">
+              <Tender />
             </Route>
             <Route component={NotFound} />
           </Switch>

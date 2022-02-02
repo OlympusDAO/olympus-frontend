@@ -92,6 +92,9 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
+              {(networkId === NetworkId.FANTOM || networkId === NetworkId.FANTOM_TESTNET) && (
+                <NavItem to="/tender" icon="wallet" label={t`Chicken Tender Offer`} />
+              )}
               {networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY ? (
                 <>
                   <NavItem to="/dashboard" icon={"dashboard"} label={t`Dashboard`} />
@@ -164,7 +167,6 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                   />
                 </>
               )}
-              {}
               {Object.keys(externalUrls).map((link: any, i: number) => (
                 <NavItem
                   key={i}
