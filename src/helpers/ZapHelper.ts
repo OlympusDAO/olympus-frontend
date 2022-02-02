@@ -100,7 +100,7 @@ export class ZapHelper {
     tokenAddress = tokenAddress.toLowerCase();
     const apiKey = ZapHelper.getZapperAPIKey();
     const response = await fetch(
-      `https://api.zapper.fi/v1/exchange/quote?sellTokenAddress=${tokenAddress}&buyTokenAddress=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5&sellAmount=${sellAmount}&slippagePercentage=${slippageDecimal}&network=ethereum&api_key=${apiKey}&ownerAddress=${address}`,
+      `https://api.zapper.fi/v1/exchange/quote?sellTokenAddress=${tokenAddress}&buyTokenAddress=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5&sellAmount=${sellAmount}&slippagePercentage=${slippageDecimal}&network=ethereum&api_key=${apiKey}&ownerAddress=${address}&isZap=true`,
     );
     const responseJson = await response.json();
     console.log(responseJson);
