@@ -8,7 +8,7 @@ import {
   useMarketCap,
   useOhmCirculatingSupply,
   useTotalSupply,
-  useTreasuryMarketValue,
+  useTreasuryTotalBacking,
 } from "src/hooks/useProtocolMetrics";
 
 type MetricProps = PropsOf<typeof Metric>;
@@ -63,7 +63,7 @@ export const CircSupply = () => {
 
 export const BackingPerOHM = () => {
   const { data: circSupply } = useOhmCirculatingSupply();
-  const { data: treasuryValue } = useTreasuryMarketValue();
+  const { data: treasuryValue } = useTreasuryTotalBacking();
 
   const props: MetricProps = {
     ...sharedProps,
