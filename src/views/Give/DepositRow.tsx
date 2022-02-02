@@ -1,4 +1,4 @@
-import "./give.scss";
+import "./Give.scss";
 
 import { t } from "@lingui/macro";
 import { Box, Button, Divider, TableCell, TableRow, Tooltip, Typography } from "@material-ui/core";
@@ -64,7 +64,8 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
 
     if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
 
-    // If reducing the amount of deposit, withdraw
+    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
+    // Else use standard call
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
@@ -98,6 +99,8 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
     setIsManageModalOpen(false);
   };
 
+  // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
+  // Else use standard call
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
     // Issue withdrawal from smart contract
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {

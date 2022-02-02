@@ -1,9 +1,9 @@
-import "./bond.scss";
+import "./Bond.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Fade, Grid, Tab, Tabs, Typography } from "@material-ui/core";
+import { Box, Fade, Grid, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, Modal, TokenStack } from "@olympusdao/component-library";
+import { Icon, Modal, Tab, TabPanel, Tabs, TokenStack } from "@olympusdao/component-library";
 import { ChangeEvent, Fragment, ReactElement, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { useAppSelector } from "src/hooks";
@@ -11,7 +11,6 @@ import { IAllBondData } from "src/hooks/Bonds";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useWeb3Context } from "src/hooks/web3Context";
 
-import TabPanel from "../../components/TabPanel";
 import { formatCurrency, trim } from "../../helpers";
 import useEscape from "../../hooks/useEscape";
 import AdvancedSettings from "../BondV2/AdvancedSettings";
@@ -20,19 +19,12 @@ import BondRedeem from "./BondRedeem";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
 const Bond = ({ bond }: { bond: IAllBondData }) => {
   const history = useHistory();
   const { provider, address, networkId } = useWeb3Context();
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
-  const [slippage, setSlippage] = useState<string>("0.5");
+  const [slippage, setSlippage] = useState<number>(0.5);
   const [recipientAddress, setRecipientAddress] = useState<string>(address);
 
   const [view, setView] = useState<number>(0);
@@ -45,7 +37,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
   };
 
   const onSlippageChange = (e: InputEvent): void => {
-    return setSlippage(e.target.value);
+    return setSlippage(Number(e.target.value));
   };
 
   const onClickAway = (): void => {
@@ -61,7 +53,7 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
     else history.push(`/bonds-v1`);
   });
 
-  const changeView = (event: ChangeEvent<any>, value: string | number): void => {
+  const changeView: any = (event: ChangeEvent<any>, value: string | number): void => {
     setView(Number(value));
   };
 
@@ -136,9 +128,8 @@ const Bond = ({ bond }: { bond: IAllBondData }) => {
                   id: "do_bond",
                   comment: "The action of bonding (verb)",
                 })}
-                {...a11yProps(0)}
               />
-              <Tab aria-label="redeem-tab-button" label={t`Redeem`} {...a11yProps(1)} />
+              <Tab aria-label="redeem-tab-button" label={t`Redeem`} />
             </Tabs>
 
             <TabPanel value={view} index={0}>

@@ -12,7 +12,7 @@ export const getTotalDonated = async ({ address, networkID, provider }: IBaseAdd
       address: addresses[networkID].GIVING_ADDRESS,
       fromBlock: 1,
       toBlock: "latest",
-      topics: [ethers.utils.id("Redeemed(address,uint256)"), zeroPadAddress], // hash identifying Deposited event
+      topics: [ethers.utils.id("Redeemed(address,uint256)"), zeroPadAddress], // hash identifying Redeemed event
     };
 
     const events = await provider.getLogs(filter);

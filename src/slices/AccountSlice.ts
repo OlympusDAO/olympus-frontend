@@ -49,14 +49,6 @@ interface IUserBalances {
   };
 }
 
-/**
- * Stores the user donation information in a map.
- * - Key: recipient wallet address
- * - Value: amount deposited by the sender
- *
- * We store the amount as a string, since numbers in Javascript are inaccurate.
- * We later parse the string into BigNumber for performing arithmetic.
- */
 interface IUserDonationInfo {
   date: string;
   deposit: string;
@@ -341,7 +333,7 @@ export const getDonationBalances = createAsyncThunk(
 /**
  * Provides the details of deposits/donations provided by a specific wallet.
  *
- * This differs from the standard `getDonationBalances` function because it uses a alternative
+ * This differs from the standard `getDonationBalances` function because it uses an alternative
  * sOHM contract that allows for manual rebases, which is helpful during testing of the 'Give' functionality.
  */
 export const getMockDonationBalances = createAsyncThunk(

@@ -1,0 +1,490 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TreasuryDashboard/> should render component 1`] = `
+<div>
+  <div
+    class="false false"
+    id="treasury-dashboard-view"
+  >
+    <div
+      class="MuiContainer-root MuiContainer-maxWidthLg"
+      style="padding-left: 3.3rem; padding-right: 3.3rem;"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-1 hero-metrics"
+      >
+        <div
+          class="MuiPaper-root makeStyles-root-2 makeStyles-root-3 ohm-card MuiPaper-elevation0 MuiPaper-rounded"
+          style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-4"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                  >
+                    <div
+                      class="makeStyles-root-5 "
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-6"
+                      >
+                        <h6
+                          class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
+                        >
+                          Market Cap
+                        </h6>
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5"
+                          style="width: 100%;"
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                  >
+                    <div
+                      class="makeStyles-root-5 "
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-7"
+                      >
+                        <h6
+                          class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
+                        >
+                          OHM Price
+                        </h6>
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5"
+                          style="width: 100%;"
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                  >
+                    <div
+                      class="makeStyles-root-5 wsoprice"
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-8"
+                      >
+                        <h6
+                          class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
+                        >
+                          gOHM Price
+                          <div
+                            class="MuiBox-root MuiBox-root-9"
+                            style="font-size: 16px;"
+                          >
+                            <div
+                              class="MuiBox-root MuiBox-root-10"
+                              style="display: inline-flex; justify-content: center; align-self: center;"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                focusable="false"
+                                style="margin: 0px 5px; font-size: 1em;"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </h6>
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5"
+                          style="width: 100%;"
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                  >
+                    <div
+                      class="makeStyles-root-5 "
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-12"
+                      >
+                        <h6
+                          class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
+                        >
+                          Circulating Supply (total)
+                        </h6>
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5"
+                          style="width: 100%;"
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                  >
+                    <div
+                      class="makeStyles-root-5 "
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-13"
+                      >
+                        <h6
+                          class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
+                        >
+                          Backing per OHM
+                        </h6>
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5"
+                          style="width: 100%;"
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                  >
+                    <div
+                      class="makeStyles-root-5 "
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-14"
+                      >
+                        <h6
+                          class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
+                        >
+                          Current Index
+                          <div
+                            class="MuiBox-root MuiBox-root-15"
+                            style="font-size: 16px;"
+                          >
+                            <div
+                              class="MuiBox-root MuiBox-root-16"
+                              style="display: inline-flex; justify-content: center; align-self: center;"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                focusable="false"
+                                style="margin: 0px 5px; font-size: 1em;"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </h6>
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5"
+                          style="width: 100%;"
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root data-grid MuiGrid-container MuiGrid-spacing-xs-2"
+        style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
+        >
+          <div
+            class="MuiPaper-root makeStyles-root-2 makeStyles-root-17 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
+            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-18"
+                  style="display: flex; align-items: center; justify-content: center;"
+                >
+                  <div
+                    class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                    role="progressbar"
+                    style="width: 40px; height: 40px;"
+                  >
+                    <svg
+                      class="MuiCircularProgress-svg"
+                      viewBox="22 22 44 44"
+                    >
+                      <circle
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                        cx="44"
+                        cy="44"
+                        fill="none"
+                        r="20.2"
+                        stroke-width="3.6"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
+        >
+          <div
+            class="MuiPaper-root makeStyles-root-2 makeStyles-root-19 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
+            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-20"
+                  style="display: flex; align-items: center; justify-content: center;"
+                >
+                  <div
+                    class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                    role="progressbar"
+                    style="width: 40px; height: 40px;"
+                  >
+                    <svg
+                      class="MuiCircularProgress-svg"
+                      viewBox="22 22 44 44"
+                    >
+                      <circle
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                        cx="44"
+                        cy="44"
+                        fill="none"
+                        r="20.2"
+                        stroke-width="3.6"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
+        >
+          <div
+            class="MuiPaper-root makeStyles-root-2 makeStyles-root-21 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
+            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-22"
+                  style="display: flex; align-items: center; justify-content: center;"
+                >
+                  <div
+                    class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                    role="progressbar"
+                    style="width: 40px; height: 40px;"
+                  >
+                    <svg
+                      class="MuiCircularProgress-svg"
+                      viewBox="22 22 44 44"
+                    >
+                      <circle
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                        cx="44"
+                        cy="44"
+                        fill="none"
+                        r="20.2"
+                        stroke-width="3.6"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
+        >
+          <div
+            class="MuiPaper-root makeStyles-root-2 makeStyles-root-23 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
+            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-24"
+                  style="display: flex; align-items: center; justify-content: center;"
+                >
+                  <div
+                    class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                    role="progressbar"
+                    style="width: 40px; height: 40px;"
+                  >
+                    <svg
+                      class="MuiCircularProgress-svg"
+                      viewBox="22 22 44 44"
+                    >
+                      <circle
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                        cx="44"
+                        cy="44"
+                        fill="none"
+                        r="20.2"
+                        stroke-width="3.6"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
+        >
+          <div
+            class="MuiPaper-root makeStyles-root-2 makeStyles-root-25 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
+            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-26"
+                  style="display: flex; align-items: center; justify-content: center;"
+                >
+                  <div
+                    class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                    role="progressbar"
+                    style="width: 40px; height: 40px;"
+                  >
+                    <svg
+                      class="MuiCircularProgress-svg"
+                      viewBox="22 22 44 44"
+                    >
+                      <circle
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                        cx="44"
+                        cy="44"
+                        fill="none"
+                        r="20.2"
+                        stroke-width="3.6"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
+        >
+          <div
+            class="MuiPaper-root makeStyles-root-2 makeStyles-root-27 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
+            style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-28"
+                  style="display: flex; align-items: center; justify-content: center;"
+                >
+                  <div
+                    class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                    role="progressbar"
+                    style="width: 40px; height: 40px;"
+                  >
+                    <svg
+                      class="MuiCircularProgress-svg"
+                      viewBox="22 22 44 44"
+                    >
+                      <circle
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                        cx="44"
+                        cy="44"
+                        fill="none"
+                        r="20.2"
+                        stroke-width="3.6"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

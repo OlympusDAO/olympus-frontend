@@ -1,4 +1,4 @@
-import "./give.scss";
+import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, Paper, Typography, Zoom } from "@material-ui/core";
@@ -51,7 +51,8 @@ export default function CausesDashboard() {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    // If reducing the amount of deposit, withdraw
+    // If on Rinkeby and using Mock Sohm, use the changeMockGive async thunk
+    // Else use standard call
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({

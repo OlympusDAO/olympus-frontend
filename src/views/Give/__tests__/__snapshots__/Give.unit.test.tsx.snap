@@ -1,0 +1,1086 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Give/> should render component 1`] = `
+<div>
+  <div
+    class="
+        "
+    id="give-view"
+  >
+    <div
+      class="MuiPaper-root ohm-card secondary causes-container MuiPaper-elevation0 MuiPaper-rounded"
+      style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="card-header"
+      >
+        <h5
+          class="MuiTypography-root MuiTypography-h5"
+        >
+          Give
+        </h5>
+      </div>
+      <div
+        class="MuiTabs-root give-tab-buttons"
+        style="height: 40px;"
+      >
+        <div
+          class="MuiTabs-scroller MuiTabs-fixed"
+          style="overflow: hidden;"
+        >
+          <div
+            aria-label="stake tabs"
+            class="MuiTabs-flexContainer MuiTabs-centered"
+            role="tablist"
+          >
+            <button
+              aria-controls="simple-tabpanel-0"
+              aria-selected="true"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected"
+              id="simple-tab-0"
+              role="tab"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiTab-wrapper"
+              >
+                Causes
+              </span>
+            </button>
+            <button
+              aria-controls="simple-tabpanel-1"
+              aria-selected="false"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
+              id="simple-tab-1"
+              role="tab"
+              tabindex="-1"
+              type="button"
+            >
+              <span
+                class="MuiTab-wrapper"
+              >
+                My Donations
+              </span>
+            </button>
+            <button
+              aria-controls="simple-tabpanel-2"
+              aria-selected="false"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
+              id="simple-tab-2"
+              role="tab"
+              tabindex="-1"
+              type="button"
+            >
+              <span
+                class="MuiTab-wrapper"
+              >
+                Redeem
+              </span>
+            </button>
+          </div>
+          <span
+            class="PrivateTabIndicator-root-1 PrivateTabIndicator-colorPrimary-2 MuiTabs-indicator"
+            style="left: 0px; width: 0px; display: none;"
+          />
+        </div>
+      </div>
+      <div
+        aria-labelledby="simple-tab-0"
+        id="simple-tabpanel-0"
+        role="tabpanel"
+        style="overflow: hidden;"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-5"
+        >
+          <div
+            class="
+      }"
+            id="give-view"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-6 ohm-card secondary causes-container"
+              style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+            >
+              <div
+                class="causes-body"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-7 data-grid"
+                >
+                  <div
+                    class="MuiBox-root MuiBox-root-8"
+                    style="width: 100%; border-radius: 10px;"
+                  >
+                    <div
+                      class="MuiGrid-root cause-card MuiGrid-item"
+                    >
+                      <div
+                        style="display: flex; width: 100%;"
+                      >
+                        <div
+                          class="cause-image "
+                        >
+                          <a
+                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                            href="#/give/projects/impact-market"
+                          >
+                            <img
+                              src="/assets/images/give/impact-market/impact-market-logo.svg"
+                              width="100%"
+                            />
+                          </a>
+                        </div>
+                        <div
+                          class="cause-content"
+                        >
+                          <div
+                            class="cause-title"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/impact-market"
+                            >
+                              <h4
+                                class="MuiTypography-root MuiTypography-h4"
+                              >
+                                <strong>
+                                  Impact Market
+                                </strong>
+                              </h4>
+                            </a>
+                          </div>
+                          <div
+                            class="cause-body"
+                          >
+                            <p
+                              class="MuiTypography-root MuiTypography-body1"
+                              style="line-height: 20px;"
+                            >
+                              <div>
+                                <p>
+                                  Enables any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income.
+                                </p>
+                                
+
+                              </div>
+                            </p>
+                          </div>
+                          <div
+                            class="MuiGrid-root cause-misc-info MuiGrid-container MuiGrid-direction-xs-column"
+                          >
+                            <div
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-12 MuiGrid-grid-md-6"
+                            >
+                              <div
+                                class="cause-info-icon"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  focusable="false"
+                                  style="margin-right: 0.33rem;"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    d="M 18 10 C 18 14.418 14.418 18 10 18 C 5.582 18 2 14.418 2 10 C 2 5.582 5.582 2 10 2 C 10.76 2 11.5 2.11 12.2 2.31 L 13.77 0.74 C 12.61 0.26 11.34 0 10 0 C 4.477 0 0 4.477 0 10 C 0 15.523 4.477 20 10 20 C 15.523 20 20 15.523 20 10 M 5.91 8.08 L 4.5 9.5 L 9 14 L 19 4 L 17.59 2.58 L 9 11.17 L 5.91 8.08 Z"
+                                  />
+                                </svg>
+                              </div>
+                              <div>
+                                <div
+                                  class=""
+                                  title="Connect your wallet to view the fundraising progress"
+                                >
+                                  <div
+                                    class="cause-info-main-text"
+                                  >
+                                    <p
+                                      class="MuiTypography-root MuiTypography-body1"
+                                    >
+                                      <strong>
+                                        <span
+                                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                        />
+                                        % 
+                                      </strong>
+                                      of goal
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="MuiGrid-root give-button-grid MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-12 MuiGrid-grid-md-6"
+                              style="justify-content: flex-end;"
+                            >
+                              <a
+                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone cause-link MuiTypography-colorPrimary"
+                                href="#/give/projects/impact-market"
+                              >
+                                <button
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-contained cause-give-button MuiButton-containedPrimary MuiButton-disableElevation"
+                                  tabindex="0"
+                                  type="button"
+                                >
+                                  <span
+                                    class="MuiButton-label"
+                                  >
+                                    <h6
+                                      class="MuiTypography-root MuiTypography-h6"
+                                    >
+                                      View Details
+                                    </h6>
+                                  </span>
+                                </button>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root MuiBox-root-10"
+                    style="width: 100%; border-radius: 10px;"
+                  >
+                    <div
+                      class="MuiGrid-root cause-card MuiGrid-item"
+                    >
+                      <div
+                        style="display: flex; width: 100%;"
+                      >
+                        <div
+                          class="cause-image "
+                        >
+                          <a
+                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                            href="#/give/projects/angel-protocol"
+                          >
+                            <img
+                              src="/assets/images/give/angel-protocol/angel-protocol-logo.svg"
+                              width="100%"
+                            />
+                          </a>
+                        </div>
+                        <div
+                          class="cause-content"
+                        >
+                          <div
+                            class="cause-title"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/angel-protocol"
+                            >
+                              <h4
+                                class="MuiTypography-root MuiTypography-h4"
+                              >
+                                <strong>
+                                  Angel Protocol
+                                </strong>
+                              </h4>
+                            </a>
+                          </div>
+                          <div
+                            class="cause-body"
+                          >
+                            <p
+                              class="MuiTypography-root MuiTypography-body1"
+                              style="line-height: 20px;"
+                            >
+                              <div>
+                                <p>
+                                  Enables charities to create an endowment that makes better use of decentralized finance.
+                                </p>
+                                
+
+                              </div>
+                            </p>
+                          </div>
+                          <div
+                            class="MuiGrid-root cause-misc-info MuiGrid-container MuiGrid-direction-xs-column"
+                          >
+                            <div
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-12 MuiGrid-grid-md-6"
+                            >
+                              <div
+                                class="cause-info-icon"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  focusable="false"
+                                  style="margin-right: 0.33rem;"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    d="M 18 10 C 18 14.418 14.418 18 10 18 C 5.582 18 2 14.418 2 10 C 2 5.582 5.582 2 10 2 C 10.76 2 11.5 2.11 12.2 2.31 L 13.77 0.74 C 12.61 0.26 11.34 0 10 0 C 4.477 0 0 4.477 0 10 C 0 15.523 4.477 20 10 20 C 15.523 20 20 15.523 20 10 M 5.91 8.08 L 4.5 9.5 L 9 14 L 19 4 L 17.59 2.58 L 9 11.17 L 5.91 8.08 Z"
+                                  />
+                                </svg>
+                              </div>
+                              <div>
+                                <div
+                                  class=""
+                                  title="Connect your wallet to view the fundraising progress"
+                                >
+                                  <div
+                                    class="cause-info-main-text"
+                                  >
+                                    <p
+                                      class="MuiTypography-root MuiTypography-body1"
+                                    >
+                                      <strong>
+                                        <span
+                                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                        />
+                                        % 
+                                      </strong>
+                                      of goal
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="MuiGrid-root give-button-grid MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-12 MuiGrid-grid-md-6"
+                              style="justify-content: flex-end;"
+                            >
+                              <a
+                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone cause-link MuiTypography-colorPrimary"
+                                href="#/give/projects/angel-protocol"
+                              >
+                                <button
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-contained cause-give-button MuiButton-containedPrimary MuiButton-disableElevation"
+                                  tabindex="0"
+                                  type="button"
+                                >
+                                  <span
+                                    class="MuiButton-label"
+                                  >
+                                    <h6
+                                      class="MuiTypography-root MuiTypography-h6"
+                                    >
+                                      View Details
+                                    </h6>
+                                  </span>
+                                </button>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root MuiBox-root-11"
+                    style="width: 100%; border-radius: 10px;"
+                  >
+                    <div
+                      class="MuiGrid-root cause-card MuiGrid-item"
+                    >
+                      <div
+                        style="display: flex; width: 100%;"
+                      >
+                        <div
+                          class="cause-image "
+                        >
+                          <a
+                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                            href="#/give/projects/gitcoin"
+                          >
+                            <img
+                              src="/assets/images/give/gitcoin/gitcoin-logo.svg"
+                              width="100%"
+                            />
+                          </a>
+                        </div>
+                        <div
+                          class="cause-content"
+                        >
+                          <div
+                            class="cause-title"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/gitcoin"
+                            >
+                              <h4
+                                class="MuiTypography-root MuiTypography-h4"
+                              >
+                                <strong>
+                                  Gitcoin
+                                </strong>
+                              </h4>
+                            </a>
+                          </div>
+                          <div
+                            class="cause-body"
+                          >
+                            <p
+                              class="MuiTypography-root MuiTypography-body1"
+                              style="line-height: 20px;"
+                            >
+                              <div>
+                                <p>
+                                  Gitcoin Grants uses quadratic funding, ensuring that projects doing the greatest public good get the most support.
+                                </p>
+                                
+
+                              </div>
+                            </p>
+                          </div>
+                          <div
+                            class="MuiGrid-root cause-misc-info MuiGrid-container MuiGrid-direction-xs-column"
+                          >
+                            <div
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-12 MuiGrid-grid-md-6"
+                            >
+                              <div
+                                class="cause-info-icon"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  focusable="false"
+                                  style="margin-right: 0.33rem;"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    d="M 18 10 C 18 14.418 14.418 18 10 18 C 5.582 18 2 14.418 2 10 C 2 5.582 5.582 2 10 2 C 10.76 2 11.5 2.11 12.2 2.31 L 13.77 0.74 C 12.61 0.26 11.34 0 10 0 C 4.477 0 0 4.477 0 10 C 0 15.523 4.477 20 10 20 C 15.523 20 20 15.523 20 10 M 5.91 8.08 L 4.5 9.5 L 9 14 L 19 4 L 17.59 2.58 L 9 11.17 L 5.91 8.08 Z"
+                                  />
+                                </svg>
+                              </div>
+                              <div>
+                                <div
+                                  class=""
+                                  title="Connect your wallet to view the fundraising progress"
+                                >
+                                  <div
+                                    class="cause-info-main-text"
+                                  >
+                                    <p
+                                      class="MuiTypography-root MuiTypography-body1"
+                                    >
+                                      <strong>
+                                        <span
+                                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                        />
+                                        % 
+                                      </strong>
+                                      of goal
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="MuiGrid-root give-button-grid MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-12 MuiGrid-grid-md-6"
+                              style="justify-content: flex-end;"
+                            >
+                              <a
+                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone cause-link MuiTypography-colorPrimary"
+                                href="#/give/projects/gitcoin"
+                              >
+                                <button
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-contained cause-give-button MuiButton-containedPrimary MuiButton-disableElevation"
+                                  tabindex="0"
+                                  type="button"
+                                >
+                                  <span
+                                    class="MuiButton-label"
+                                  >
+                                    <h6
+                                      class="MuiTypography-root MuiTypography-h6"
+                                    >
+                                      View Details
+                                    </h6>
+                                  </span>
+                                </button>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root MuiBox-root-12"
+                    style="width: 100%; border-radius: 10px;"
+                  >
+                    <div
+                      class="MuiGrid-root cause-card MuiGrid-item"
+                    >
+                      <div
+                        style="display: flex; width: 100%;"
+                      >
+                        <div
+                          class="cause-image "
+                        >
+                          <a
+                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                            href="#/give/projects/kolektivo"
+                          >
+                            <img
+                              src="/assets/images/give/kolektivo/kolektivo-logo.svg"
+                              width="100%"
+                            />
+                          </a>
+                        </div>
+                        <div
+                          class="cause-content"
+                        >
+                          <div
+                            class="cause-title"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/kolektivo"
+                            >
+                              <h4
+                                class="MuiTypography-root MuiTypography-h4"
+                              >
+                                <strong>
+                                  Kolektivo
+                                </strong>
+                              </h4>
+                            </a>
+                          </div>
+                          <div
+                            class="cause-body"
+                          >
+                            <p
+                              class="MuiTypography-root MuiTypography-body1"
+                              style="line-height: 20px;"
+                            >
+                              <div>
+                                <p>
+                                  Kolektivo enables local communities to create and manage their own regenerative economy to fuel prosperity.
+                                </p>
+                                
+
+                              </div>
+                            </p>
+                          </div>
+                          <div
+                            class="MuiGrid-root cause-misc-info MuiGrid-container MuiGrid-direction-xs-column"
+                          >
+                            <div
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-12 MuiGrid-grid-md-6"
+                            >
+                              <div
+                                class="cause-info-icon"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  focusable="false"
+                                  style="margin-right: 0.33rem;"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    d="M 18 10 C 18 14.418 14.418 18 10 18 C 5.582 18 2 14.418 2 10 C 2 5.582 5.582 2 10 2 C 10.76 2 11.5 2.11 12.2 2.31 L 13.77 0.74 C 12.61 0.26 11.34 0 10 0 C 4.477 0 0 4.477 0 10 C 0 15.523 4.477 20 10 20 C 15.523 20 20 15.523 20 10 M 5.91 8.08 L 4.5 9.5 L 9 14 L 19 4 L 17.59 2.58 L 9 11.17 L 5.91 8.08 Z"
+                                  />
+                                </svg>
+                              </div>
+                              <div>
+                                <div
+                                  class=""
+                                  title="Connect your wallet to view the fundraising progress"
+                                >
+                                  <div
+                                    class="cause-info-main-text"
+                                  >
+                                    <p
+                                      class="MuiTypography-root MuiTypography-body1"
+                                    >
+                                      <strong>
+                                        <span
+                                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                        />
+                                        % 
+                                      </strong>
+                                      of goal
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="MuiGrid-root give-button-grid MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-12 MuiGrid-grid-md-6"
+                              style="justify-content: flex-end;"
+                            >
+                              <a
+                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone cause-link MuiTypography-colorPrimary"
+                                href="#/give/projects/kolektivo"
+                              >
+                                <button
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-contained cause-give-button MuiButton-containedPrimary MuiButton-disableElevation"
+                                  tabindex="0"
+                                  type="button"
+                                >
+                                  <span
+                                    class="MuiButton-label"
+                                  >
+                                    <h6
+                                      class="MuiTypography-root MuiTypography-h6"
+                                    >
+                                      View Details
+                                    </h6>
+                                  </span>
+                                </button>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root MuiBox-root-13"
+                    style="width: 100%; border-radius: 10px;"
+                  >
+                    <div
+                      class="MuiGrid-root cause-card MuiGrid-item"
+                    >
+                      <div
+                        style="display: flex; width: 100%;"
+                      >
+                        <div
+                          class="cause-image "
+                        >
+                          <a
+                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                            href="#/give/projects/popcorndao"
+                          >
+                            <img
+                              src="/assets/images/give/popcorndao/popcorndao-logo.svg"
+                              width="100%"
+                            />
+                          </a>
+                        </div>
+                        <div
+                          class="cause-content"
+                        >
+                          <div
+                            class="cause-title"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/popcorndao"
+                            >
+                              <h4
+                                class="MuiTypography-root MuiTypography-h4"
+                              >
+                                <strong>
+                                  PopcornDAO
+                                </strong>
+                              </h4>
+                            </a>
+                          </div>
+                          <div
+                            class="cause-body"
+                          >
+                            <p
+                              class="MuiTypography-root MuiTypography-body1"
+                              style="line-height: 20px;"
+                            >
+                              <div>
+                                <p>
+                                  DAO whose mission is to redirect funds to social impact orgs
+                                </p>
+                                
+
+                              </div>
+                            </p>
+                          </div>
+                          <div
+                            class="MuiGrid-root cause-misc-info MuiGrid-container MuiGrid-direction-xs-column"
+                          >
+                            <div
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-12 MuiGrid-grid-md-6"
+                            >
+                              <div
+                                class="cause-info-icon"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  focusable="false"
+                                  style="margin-right: 0.33rem;"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    d="M 18 10 C 18 14.418 14.418 18 10 18 C 5.582 18 2 14.418 2 10 C 2 5.582 5.582 2 10 2 C 10.76 2 11.5 2.11 12.2 2.31 L 13.77 0.74 C 12.61 0.26 11.34 0 10 0 C 4.477 0 0 4.477 0 10 C 0 15.523 4.477 20 10 20 C 15.523 20 20 15.523 20 10 M 5.91 8.08 L 4.5 9.5 L 9 14 L 19 4 L 17.59 2.58 L 9 11.17 L 5.91 8.08 Z"
+                                  />
+                                </svg>
+                              </div>
+                              <div>
+                                <div
+                                  class=""
+                                  title="Connect your wallet to view the fundraising progress"
+                                >
+                                  <div
+                                    class="cause-info-main-text"
+                                  >
+                                    <p
+                                      class="MuiTypography-root MuiTypography-body1"
+                                    >
+                                      <strong>
+                                        <span
+                                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                        />
+                                        % 
+                                      </strong>
+                                      of goal
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="MuiGrid-root give-button-grid MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-12 MuiGrid-grid-md-6"
+                              style="justify-content: flex-end;"
+                            >
+                              <a
+                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone cause-link MuiTypography-colorPrimary"
+                                href="#/give/projects/popcorndao"
+                              >
+                                <button
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-contained cause-give-button MuiButton-containedPrimary MuiButton-disableElevation"
+                                  tabindex="0"
+                                  type="button"
+                                >
+                                  <span
+                                    class="MuiButton-label"
+                                  >
+                                    <h6
+                                      class="MuiTypography-root MuiTypography-h6"
+                                    >
+                                      View Details
+                                    </h6>
+                                  </span>
+                                </button>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiPaper-root custom-recipient MuiPaper-elevation0 MuiPaper-rounded"
+                style="border-radius: 10px;"
+              >
+                <h4
+                  class="MuiTypography-root custom-recipient-headline MuiTypography-h4 MuiTypography-alignCenter"
+                >
+                  Want to give to a different cause?
+                </h4>
+                <p
+                  class="MuiTypography-root custom-recipient-body MuiTypography-body1 MuiTypography-alignCenter"
+                  style="margin-bottom: 30px;"
+                >
+                  You can direct your yield to a recipient of your choice
+                </p>
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined custom-give-button MuiButton-outlinedPrimary MuiButton-disableElevation Mui-disabled Mui-disabled"
+                  disabled=""
+                  tabindex="-1"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1"
+                      style="margin-bottom: 0px;"
+                    >
+                      Custom Recipient
+                    </p>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        aria-labelledby="simple-tab-1"
+        hidden=""
+        id="simple-tabpanel-1"
+        role="tabpanel"
+        style="overflow: hidden;"
+      />
+      <div
+        aria-labelledby="simple-tab-2"
+        hidden=""
+        id="simple-tabpanel-2"
+        role="tabpanel"
+        style="overflow: hidden;"
+      />
+    </div>
+    <div
+      class="MuiPaper-root ohm-card secondary MuiPaper-elevation0 MuiPaper-rounded"
+      style="webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="MuiGrid-root give-info MuiGrid-container"
+      >
+        <div
+          class="MuiGrid-root give-info-deposit-box MuiGrid-item"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-14 sect"
+            style="margin-bottom: 16px;"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-15 graphic"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-16"
+                style="margin-bottom: 8px;"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+                  focusable="false"
+                  viewBox="0 0 32 32"
+                >
+                  <defs>
+                    <lineargradient
+                      gradientTransform="matrix(0.319996, 0, 0, 0.319996, -0.000007, -1.775952)"
+                      gradientUnits="userSpaceOnUse"
+                      id="paint0_linear"
+                      x1="-83.5339"
+                      x2="189.059"
+                      y1="50"
+                      y2="50"
+                    >
+                      <stop
+                        stop-color="#708B96"
+                      />
+                      <stop
+                        offset="1"
+                        stop-color="#F7FBE7"
+                      />
+                    </lineargradient>
+                  </defs>
+                  <path
+                    clip-rule="evenodd"
+                    d="M 15.982 28.228 C 23.688 28.228 29.934 21.982 29.934 14.276 C 29.934 12.658 29.658 11.104 29.152 9.659 L 29.152 5.11 C 30.947 7.696 32 10.837 32 14.224 C 32 23.06 24.836 30.224 16 30.224 C 7.163 30.224 0 23.06 0 14.224 C 0 10.817 1.065 7.659 2.88 5.064 L 2.88 9.472 C 2.331 10.97 2.031 12.588 2.031 14.276 C 2.031 21.982 8.276 28.228 15.982 28.228 Z"
+                    fill="url(#paint0_linear)"
+                    fill-rule="evenodd"
+                  />
+                  <path
+                    d="M 3.552 14.224 C 3.552 7.349 9.125 1.776 16 1.776 C 22.875 1.776 28.448 7.349 28.448 14.224 C 28.448 21.099 22.875 26.671 16 26.671 C 9.125 26.671 3.552 21.099 3.552 14.224 Z"
+                    fill="#708B96"
+                  />
+                  <path
+                    clip-rule="evenodd"
+                    d="M 17.195 19.176 C 17.195 19.176 17.195 19.176 17.195 19.176 L 17.195 19.726 L 21.477 19.726 L 21.477 18.181 L 19.363 18.181 C 20.634 17.219 21.451 15.72 21.451 14.037 C 21.451 11.129 19.011 8.772 16 8.772 C 12.989 8.772 10.548 11.129 10.548 14.037 C 10.548 15.72 11.365 17.219 12.637 18.181 L 10.523 18.181 L 10.523 19.726 L 14.805 19.726 L 14.805 19.176 L 14.805 17.652 C 13.245 17.16 12.116 15.733 12.116 14.05 C 12.116 11.96 13.855 10.266 16 10.266 C 18.145 10.266 19.884 11.96 19.884 14.05 C 19.884 15.733 18.755 17.16 17.195 17.652 L 17.195 19.176 Z"
+                    fill="white"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-18"
+                style="margin-bottom: 16px; color: rgb(153, 153, 153);"
+              >
+                <p
+                  class="MuiTypography-root subtext MuiTypography-body1"
+                >
+                  Wallet
+                </p>
+              </div>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-19 text"
+            >
+              <p
+                class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignCenter"
+                style="padding-bottom: 0.33rem;"
+              >
+                Deposit sOHM from wallet
+              </p>
+              <p
+                class="MuiTypography-root education-message MuiTypography-body2 MuiTypography-alignCenter"
+                style="line-height: 16px;"
+              >
+                Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step is depositing your sOHM and specifying a recipient.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root give-info-vault-box MuiGrid-item"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-20 sect"
+            style="margin-bottom: 16px;"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-21"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-22"
+                style="margin-bottom: 8px;"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+                  color="#fff"
+                  focusable="false"
+                  viewBox="0 0 20 20"
+                >
+                  <rect
+                    fill="#708B96"
+                    height="20"
+                    rx="25"
+                    width="20"
+                  />
+                  <path
+                    d="M 12.4 8.4 L 12 8.4 L 12 7.6 C 12 6.496 11.104 5.6 10 5.6 C 8.896 5.6 8 6.496 8 7.6 L 8 8.4 L 7.6 8.4 C 7.16 8.4 6.8 8.76 6.8 9.2 L 6.8 13.2 C 6.8 13.64 7.16 14 7.6 14 L 12.4 14 C 12.84 14 13.2 13.64 13.2 13.2 L 13.2 9.2 C 13.2 8.76 12.84 8.4 12.4 8.4 Z M 10 12 C 9.56 12 9.2 11.64 9.2 11.2 C 9.2 10.76 9.56 10.4 10 10.4 C 10.44 10.4 10.8 10.76 10.8 11.2 C 10.8 11.64 10.44 12 10 12 Z M 11.24 8.4 L 8.76 8.4 L 8.76 7.6 C 8.76 6.916 9.316 6.36 10 6.36 C 10.684 6.36 11.24 6.916 11.24 7.6 L 11.24 8.4 Z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-23"
+                style="margin-bottom: 16px; color: rgb(153, 153, 153);"
+              >
+                <p
+                  class="MuiTypography-root subtext MuiTypography-body1"
+                >
+                  Vault
+                </p>
+              </div>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-24 text"
+            >
+              <p
+                class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignCenter"
+                style="padding-bottom: 0.33rem;"
+              >
+                Lock sOHM in vault
+              </p>
+              <p
+                class="MuiTypography-root education-message MuiTypography-body2 MuiTypography-alignCenter"
+                style="line-height: 16px;"
+              >
+                Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient. You can withdraw or edit your principal sOHM amount at any time.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root give-info-yield-box MuiGrid-item"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-25 sect"
+            style="margin-bottom: 16px;"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-26"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-27"
+                style="margin-bottom: 8px;"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root receives-yield-icon MuiSvgIcon-fontSizeSmall"
+                  focusable="false"
+                  style="height: 32px; width: 32px; margin: auto;"
+                  viewBox="0 0 20 20"
+                >
+                  <svg
+                    fill="none"
+                    viewBox="0 0 30 30"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      fill="#708B96"
+                      height="30"
+                      rx="15"
+                      width="30"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M10.6683 18.6923C12.7535 18.3945 14.6853 19.8434 14.9831 21.9285C15.024 22.2147 15.0322 22.5043 15.0076 22.7919L14.9831 23.0071C12.898 23.3049 10.9662 21.856 10.6683 19.7709C10.6274 19.4847 10.6193 19.1951 10.6438 18.9075L10.6683 18.6923ZM10.6682 14.3776C12.7534 14.0797 14.6852 15.5286 14.983 17.6138C15.0239 17.9 15.0321 18.1896 15.0076 18.4772L14.983 18.6924C12.8979 18.9902 10.9661 17.5413 10.6682 15.4562C10.6274 15.17 10.6192 14.8803 10.6437 14.5928L10.6682 14.3776ZM10.6682 10.0629C12.7533 9.76503 14.6851 11.2139 14.9829 13.2991C15.0238 13.5852 15.032 13.8749 15.0075 14.1625L14.9829 14.3777C12.8978 14.6755 10.966 13.2266 10.6682 11.1415C10.6273 10.8553 10.6191 10.5656 10.6436 10.2781L10.6682 10.0629ZM19.2976 10.063C19.5955 12.148 18.1467 14.0798 16.0617 14.3777C15.7755 14.4186 15.4858 14.4267 15.1982 14.4022L14.9829 14.3777C14.6851 12.2926 16.1338 10.3609 18.2188 10.063C18.505 10.0221 18.7947 10.014 19.0824 10.0385L19.2976 10.063ZM19.2977 14.3777C19.5956 16.4628 18.1468 18.3945 16.0618 18.6924C15.7756 18.7333 15.4859 18.7414 15.1983 18.7169L14.983 18.6924C14.6851 16.6074 16.1339 14.6756 18.2189 14.3777C18.5051 14.3368 18.7948 14.3287 19.0824 14.3532L19.2977 14.3777ZM19.2977 18.6925C19.5956 20.7775 18.1469 22.7092 16.0619 23.0071C15.7757 23.048 15.486 23.0562 15.1983 23.0316L14.9831 23.0071C14.6852 20.9221 16.134 18.9903 18.219 18.6925C18.5052 18.6516 18.7949 18.6434 19.0825 18.6679L19.2977 18.6925ZM14.9828 4.85464C16.6679 6.11848 17.0094 8.50887 15.7456 10.1938C15.5722 10.4251 15.3731 10.6357 15.1524 10.8217L14.9828 10.9565C13.2978 9.69272 12.9563 7.30232 14.22 5.61736C14.4369 5.32827 14.6937 5.07146 14.9828 4.85464Z"
+                      fill-rule="evenodd"
+                      stroke="white"
+                      stroke-linecap="round"
+                      stroke-width="1.14"
+                    />
+                  </svg>
+                </svg>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-28"
+                style="margin-bottom: 16px; color: rgb(153, 153, 153);"
+              >
+                <p
+                  class="MuiTypography-root subtext MuiTypography-body1"
+                >
+                  Recipient
+                </p>
+              </div>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-29 text"
+            >
+              <p
+                class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignCenter"
+                style="padding-bottom: 0.33rem;"
+              >
+                Recipient earns sOHM rebases
+              </p>
+              <p
+                class="MuiTypography-root education-message MuiTypography-body2 MuiTypography-alignCenter"
+                style="line-height: 16px;"
+              >
+                The recipient you specified, or the project you selected, will then receive the rebases associated with your sOHM deposit until you withdraw your sOHM principal from the vault.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-30 button-box"
+      >
+        <a
+          aria-disabled="false"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined learn-more-button MuiButton-outlinedPrimary MuiButton-disableElevation"
+          href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
+          tabindex="0"
+          target="_blank"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1"
+            >
+              Learn More
+            </p>
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+              focusable="false"
+              path="secondary"
+              viewBox="0 0 20 20"
+            >
+              arrow-up.svg
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;

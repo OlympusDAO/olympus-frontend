@@ -199,7 +199,7 @@ export const tooltipInfoMessages = () => {
     rfv: t`Risk Free Value, is the amount of funds the treasury guarantees to use for backing OHM.`,
     pol: t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`,
     holder: t`Holders, represents the total number of Ohmies (sOHM holders)`,
-    staked: t`OHM Staked, is the ratio of sOHM to OHM (staked vs unstaked)`,
+    staked: t`OHM Staked is the ratio of sOHM to circulating supply of OHM (staked vs total)`,
     apy: t`Annual Percentage Yield, is the normalized representation of an interest rate, based on a compounding period over one year. Note that APYs provided are rather ballpark level indicators and not so much precise future results.`,
     runway: t`Runway, is the number of days sOHM emissions can be sustained at a given rate. Lower APY = longer runway`,
   };
