@@ -19,6 +19,7 @@ interface IUAData {
   type: string | null;
 }
 
+// Redeems a user's redeemable balance from the Give contract
 export const redeemBalance = createAsyncThunk(
   "redeem/redeemBalance",
   async ({ provider, address, networkID, eventSource }: IRedeemAsyncThunk, { dispatch }) => {
@@ -78,6 +79,7 @@ export const redeemBalance = createAsyncThunk(
   },
 );
 
+// Redeem a user's redeemable balance from the MockGive contract on Rinkeby
 export const redeemMockBalance = createAsyncThunk(
   "redeem/redeemMockBalance",
   async ({ provider, address, networkID, eventSource }: IRedeemAsyncThunk, { dispatch }) => {
