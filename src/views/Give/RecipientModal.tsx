@@ -13,20 +13,12 @@ import {
   changeApproval,
   changeMockApproval,
   hasPendingGiveTxn,
-  PENDING_TXN_EDIT_GIVE,
   PENDING_TXN_GIVE,
   PENDING_TXN_GIVE_APPROVAL,
 } from "src/slices/GiveThunk";
 
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import {
-  ArrowGraphic,
-  CurrPositionGraphic,
-  NewPositionGraphic,
-  VaultGraphic,
-  WalletGraphic,
-  YieldGraphic,
-} from "../../components/EducationCard";
+import { ArrowGraphic, VaultGraphic, WalletGraphic, YieldGraphic } from "../../components/EducationCard";
 import { getTokenImage } from "../../helpers";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 const sOhmImg = getTokenImage("sohm");
@@ -47,19 +39,9 @@ type RecipientModalProps = {
   callbackFunc: SubmitCallback;
   cancelFunc: CancelCallback;
   project?: Project;
-  currentWalletAddress?: string;
-  currentDepositAmount?: BigNumber; // As per IUserDonationInfo
 };
 
-export function RecipientModal({
-  isModalOpen,
-  eventSource,
-  callbackFunc,
-  cancelFunc,
-  project,
-  currentWalletAddress,
-  currentDepositAmount,
-}: RecipientModalProps) {
+export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelFunc, project }: RecipientModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
   const { provider, address, connect, networkId } = useWeb3Context();
@@ -73,14 +55,14 @@ export function RecipientModal({
   const _initialIsAmountSet = false;
 
   const getInitialDepositAmount = () => {
-    return currentDepositAmount ? currentDepositAmount.toNumber() : _initialDepositAmount;
+    return _initialDepositAmount;
   };
   const [depositAmount, setDepositAmount] = useState(getInitialDepositAmount());
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(_initialDepositAmountValid);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState(_initialDepositAmountValidError);
 
   const getInitialWalletAddress = () => {
-    return currentWalletAddress ? currentWalletAddress : _initialWalletAddress;
+    return _initialWalletAddress;
   };
   const [walletAddress, setWalletAddress] = useState(getInitialWalletAddress());
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(_initialWalletAddressValid);
@@ -160,12 +142,12 @@ export function RecipientModal({
   /**
    * Returns the maximum deposit that can be directed to the recipient.
    *
-   * This is equal to the current wallet balance and the current deposit amount (in the vault).
+   * This is equal to the current wallet balance.
    *
    * @returns BigNumber
    */
   const getMaximumDepositAmount = (): BigNumber => {
-    return new BigNumber(sohmBalance).plus(currentDepositAmount ? currentDepositAmount : 0);
+    return new BigNumber(sohmBalance);
   };
 
   const handleSetDepositAmount = (value: string) => {
@@ -235,18 +217,6 @@ export function RecipientModal({
     setIsWalletAddressValidError("");
   };
 
-  /**
-   * Determines if an existing recipient entry is being edited (false)
-   * or if a new entry is being added (true).
-   *
-   * @returns boolean
-   */
-  const isCreateMode = (): boolean => {
-    if (currentWalletAddress) return false;
-
-    return true;
-  };
-
   const isProjectMode = (): boolean => {
     if (project) return true;
 
@@ -254,8 +224,6 @@ export function RecipientModal({
   };
 
   const getTitle = (): string => {
-    if (!isCreateMode()) return t`Edit Yield`;
-
     return t`Donate Yield`;
   };
 
@@ -267,7 +235,6 @@ export function RecipientModal({
    * - the wallet address is invalid
    * - there is no sender address
    * - an add/edit transaction is pending
-   * - it is not in create mode and there is no difference in the amount
    *
    * @returns boolean
    */
@@ -281,7 +248,6 @@ export function RecipientModal({
 
     if (!address) return false;
     if (hasPendingGiveTxn(pendingTransactions)) return false;
-    if (!isCreateMode() && getDepositAmountDiff().isEqualTo(0)) return false;
 
     return true;
   };
@@ -290,19 +256,11 @@ export function RecipientModal({
    * Indicates the amount retained in the user's wallet after a deposit to the vault.
    *
    * If a yield direction is being created, it returns the current sOHM balance minus the entered deposit.
-   * If a yield direction is being edited, it returns the current sOHM balance minus the difference in the entered deposit.
    *
    * @returns BigNumber instance
    */
   const getRetainedAmountDiff = (): BigNumber => {
-    const tempDepositAmount: BigNumber = !isCreateMode() ? getDepositAmountDiff() : getDepositAmount();
-    return new BigNumber(sohmBalance).minus(tempDepositAmount);
-  };
-
-  const getDepositAmountDiff = (): BigNumber => {
-    // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
-    const depositAmountBig = new BigNumber(depositAmount);
-    return depositAmountBig.minus(getCurrentDepositAmount());
+    return new BigNumber(sohmBalance).minus(getDepositAmount());
   };
 
   /**
@@ -314,12 +272,6 @@ export function RecipientModal({
     if (!depositAmount) return new BigNumber(0);
 
     return new BigNumber(depositAmount);
-  };
-
-  const getCurrentDepositAmount = (): BigNumber => {
-    if (!currentDepositAmount) return new BigNumber(0);
-
-    return new BigNumber(currentDepositAmount);
   };
 
   /**
@@ -360,7 +312,7 @@ export function RecipientModal({
   const handleSubmit = () => {
     const depositAmountBig = new BigNumber(depositAmount);
 
-    callbackFunc(getWalletAddress(), eventSource, depositAmountBig, getDepositAmountDiff());
+    callbackFunc(getWalletAddress(), eventSource, depositAmountBig, getDepositAmount());
   };
 
   const getRecipientElements = () => {
@@ -386,11 +338,6 @@ export function RecipientModal({
       );
     }
 
-    // If not in create mode, don't display the recipient wallet address
-    if (!isCreateMode()) {
-      return <></>;
-    }
-
     return (
       <>
         <div className="give-modal-alloc-tip">
@@ -414,7 +361,6 @@ export function RecipientModal({
             error={!isWalletAddressValid}
             onChange={e => handleSetWallet(e.target.value)}
             labelWidth={0}
-            disabled={!isCreateMode()}
           />
           <FormHelperText>{isWalletAddressValidError}</FormHelperText>
         </FormControl>{" "}
@@ -447,7 +393,7 @@ export function RecipientModal({
     <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
       <Paper className={`ohm-card ohm-modal ${isSmallScreen ? "smaller" : ""}`} onClick={handleModalInsideClick}>
         <div className="yield-header">
-          {isAmountSet || !isCreateMode() ? (
+          {isAmountSet ? (
             <Link onClick={() => handleGoBack()}>
               <SvgIcon color="primary" component={ChevronLeft} />
             </Link>
@@ -548,86 +494,53 @@ export function RecipientModal({
             </FormControl>
             {getRecipientElements()}
             {!isSmallScreen ? (
-              isCreateMode() ? (
-                <div className={`give-education-graphics ${isSmallScreen ? "smaller" : ""}`}>
-                  <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
-                  {!isSmallScreen && <ArrowGraphic />}
-                  <VaultGraphic quantity={getDepositAmount().toFixed()} small={false} />
-                  {!isSmallScreen && <ArrowGraphic />}
-                  <YieldGraphic quantity={getDepositAmount().toFixed()} />
-                </div>
-              ) : (
-                <div className="give-education-graphics">
-                  <CurrPositionGraphic quantity={getCurrentDepositAmount().toFixed()} />
-                  <NewPositionGraphic quantity={getDepositAmount().toFixed()} />
-                </div>
-              )
+              <div className={`give-education-graphics ${isSmallScreen ? "smaller" : ""}`}>
+                <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
+                {!isSmallScreen && <ArrowGraphic />}
+                <VaultGraphic quantity={getDepositAmount().toFixed()} small={false} />
+                {!isSmallScreen && <ArrowGraphic />}
+                <YieldGraphic quantity={getDepositAmount().toFixed()} />
+              </div>
             ) : (
               <></>
             )}
           </>
         )}
-        {isCreateMode() ? (
-          !address ? (
-            <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" className="connect-button" onClick={handleConnect}>
-                <Trans>Connect Wallet</Trans>
-              </Button>
-            </FormControl>
-          ) : address && (hasAllowance() || isGiveLoading) && !isAmountSet ? (
-            <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
-                <Trans>Continue</Trans>
-              </Button>
-            </FormControl>
-          ) : isAmountSet ? (
-            <>
-              <FormControl className="ohm-modal-submit">
-                <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-                  {txnButtonText(
-                    pendingTransactions,
-                    PENDING_TXN_GIVE,
-                    `${t`Confirm `} ${getDepositAmount().toFixed(2)} sOHM`,
-                  )}
-                </Button>
-              </FormControl>
-            </>
-          ) : (
-            <FormControl className="ohm-modal-submit">
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading}
-                onClick={onSeekApproval}
-              >
-                {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, t`Approve`)}
-              </Button>
-            </FormControl>
-          )
-        ) : !isAmountSet ? (
+        {!address ? (
+          <FormControl className="ohm-modal-submit">
+            <Button variant="contained" color="primary" className="connect-button" onClick={handleConnect}>
+              <Trans>Connect Wallet</Trans>
+            </Button>
+          </FormControl>
+        ) : address && (hasAllowance() || isGiveLoading) && !isAmountSet ? (
           <FormControl className="ohm-modal-submit">
             <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
               <Trans>Continue</Trans>
             </Button>
           </FormControl>
-        ) : (
+        ) : isAmountSet ? (
           <>
             <FormControl className="ohm-modal-submit">
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={hasPendingGiveTxn(pendingTransactions)}
-                onClick={handleGoBack}
-              >
-                {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Go Back`)}
-              </Button>
-            </FormControl>
-            <FormControl className="ohm-modal-submit">
               <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
-                {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Edit Give Amount`)}
+                {txnButtonText(
+                  pendingTransactions,
+                  PENDING_TXN_GIVE,
+                  `${t`Confirm `} ${getDepositAmount().toFixed(2)} sOHM`,
+                )}
               </Button>
             </FormControl>
           </>
+        ) : (
+          <FormControl className="ohm-modal-submit">
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading}
+              onClick={onSeekApproval}
+            >
+              {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, t`Approve`)}
+            </Button>
+          </FormControl>
         )}
       </Paper>
     </Modal>
