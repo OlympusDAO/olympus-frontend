@@ -66,7 +66,7 @@ export const changeZapTokenAllowance = createAsyncThunk(
       };
       segmentUA(uaData);
       dispatch(info("Successfully approved token!"));
-      return Object.fromEntries([[action, true]]);
+      return Object.fromEntries([[action, BigNumber.from(ethers.constants.MaxUint256)]]);
     } catch (e: unknown) {
       const rpcError = e as any;
       const uaData: IUAData = {
