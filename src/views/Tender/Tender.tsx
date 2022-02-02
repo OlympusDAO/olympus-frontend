@@ -10,6 +10,9 @@ const Tender = (props: { walletAddress: string }) => {
   const [view, setView] = useState(0);
   const [redeemToken, setRedeemToken] = useState(false);
   const [tokenBalance, setTokenBalance] = useState("0.00");
+  const [quantity, setQuantity] = useState("");
+  const [daiValue, setDaiValue] = useState(0);
+  const [gOhmValue, setgOHMValue] = useState(0);
 
   const useStyles = makeStyles<Theme>(() => ({
     progress: {
@@ -42,13 +45,24 @@ const Tender = (props: { walletAddress: string }) => {
 
   //TEMP Hardcoded
 
-  const stakeDisabled = false;
+  const buttonDisabled = false;
+  const currentgOHMPrice = 5000;
   const stakeOnClick = () => console.log("Stake onClick");
-  const stakeButtonText = "Deposit";
-  const quantity = "123";
-  const handleChangeQuantity = (event: any) => console.log("handleChangeQuantity", event);
-  const setMax = () => console.log("setMax");
+
+  const setDeposit = (amount: string) => {
+    setQuantity(amount);
+    setDaiValue(parseInt(amount) * 50);
+    //ToDo: Need to display gOHM value. (Token Qty * 55 / currentgOHMUSDPrice)
+    //Where does current gOHMUSDPrice come from?
+    setgOHMValue((parseInt(amount) * 55) / currentgOHMPrice);
+  };
+
   const classes = useStyles();
+
+  //Currency formatters for the token balances
+  const usdValue = quantity ? new Intl.NumberFormat("en-US").format(parseInt(quantity) * 55) : 0;
+  const gOhm = new Intl.NumberFormat("en-US").format(gOhmValue);
+  const dai = new Intl.NumberFormat("en-US").format(daiValue);
   return (
     <Box display="flex" alignItems="center" justifyContent="center" alignContent="center">
       <Box display="flex" flexDirection="column">
@@ -108,13 +122,13 @@ const Tender = (props: { walletAddress: string }) => {
                     type="number"
                     label={t`Enter an amount`}
                     value={quantity}
-                    onChange={handleChangeQuantity}
+                    onChange={e => setDeposit(e.target.value)}
                     labelWidth={0}
                     endString={t`Max`}
-                    endStringOnClick={setMax}
-                    buttonText={stakeButtonText}
+                    endStringOnClick={() => setDeposit(tokenBalance)}
+                    buttonText={t`Deposit`}
                     buttonOnClick={stakeOnClick}
-                    disabled={stakeDisabled}
+                    disabled={buttonDisabled}
                   />
                   <Box
                     display="flex"
@@ -123,7 +137,9 @@ const Tender = (props: { walletAddress: string }) => {
                     justifyContent="space-between"
                     marginTop={"15px"}
                   >
-                    <Typography>Deposit Chicken for: $55 gOHM</Typography>
+                    <Typography>
+                      Deposit Chicken for: {gOhm} gOHM (~${usdValue})
+                    </Typography>
                     <Switch
                       checked={redeemToken}
                       onChange={() => setRedeemToken(!redeemToken)}
@@ -131,7 +147,7 @@ const Tender = (props: { walletAddress: string }) => {
                       className={classes.switch}
                       inputProps={{ "aria-label": "stake to gohm" }}
                     />
-                    <Typography> Deposit Chicken for: $50 DAI</Typography>
+                    <Typography> Deposit Chicken for: ${dai} DAI</Typography>
                   </Box>
                 </Grid>
                 <Grid item>
