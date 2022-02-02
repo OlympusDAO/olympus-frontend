@@ -13,6 +13,8 @@ import { IERC20, OlympusStakingv2, PairContract } from "src/typechain";
 
 import { useWeb3Context } from ".";
 
+const provider = NodeHelper.getMainnetStaticProvider();
+
 /**
  * Hook for fetching a contract.
  *
@@ -55,7 +57,6 @@ const usePairContract = (address: string) => {
 
 export const useStakingContract = () => {
   const address = STAKING_ADDRESSES[NetworkId.MAINNET];
-  const provider = NodeHelper.getMainnetStaticProvider();
 
   return useContract<OlympusStakingv2>(address, STAKING_ABI, provider);
 };
