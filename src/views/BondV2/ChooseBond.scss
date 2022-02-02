@@ -1,0 +1,162 @@
+#choose-bond-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+  .ohm-card .bond-hero h4 {
+    font-weight: 600 !important;
+
+    .MuiSkeleton-root {
+      margin: auto;
+    }
+  }
+
+  .claim-bonds-card {
+    .global-claim-buttons {
+      width: 100%;
+      margin: 0px;
+      button {
+        max-width: 233px;
+      }
+    }
+    .small.global-claim-buttons {
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      button {
+        max-width: unset;
+        width: 90%;
+      }
+    }
+
+    .accordion-root {
+      background-color: transparent;
+      backdrop-filter: none;
+      .MuiAccordionSummary-root {
+        justify-content: flex-start;
+        .MuiAccordionSummary-content {
+          flex-grow: 0;
+        }
+      }
+      .MuiAccordionDetails-root {
+        padding: 0px 16px 16px;
+      }
+    }
+  }
+
+  .bond-data-card {
+    margin: auto;
+    .ohm-pairs {
+      display: flex;
+      margin-right: 15px;
+    }
+    .bond-pair {
+      display: flex !important;
+      align-items: center;
+      justify-content: left;
+      margin-bottom: 15px;
+      .MuiBox-root {
+        margin-right: 10px;
+      }
+      .bond-name {
+        svg {
+          margin-left: 5px;
+          vertical-align: middle;
+          font-size: 15px;
+        }
+      }
+    }
+    .data-row {
+      margin-bottom: 13px;
+
+      .bond-price {
+        display: flex;
+        align-items: center;
+
+        svg {
+          margin-right: 5px;
+        }
+      }
+    }
+    .bond-link {
+      margin-top: 10px;
+      text-align: center;
+      a {
+        width: 96%;
+      }
+    }
+  }
+
+  .currency-icon {
+    display: inline-block;
+    min-width: 15px;
+  }
+
+  .MuiTable-root {
+    margin: 0px;
+  }
+
+  .claim-bond-card-buttons {
+    flex-wrap: wrap;
+    width: 100%;
+    button {
+      min-width: 48%;
+      margin: 5px 0px;
+    }
+  }
+
+  .MuiTableCell-root {
+    p {
+      margin: 0 !important;
+      display: flex !important;
+      align-items: center;
+      // justify-content: flex-start;
+      white-space: nowrap;
+      img {
+        margin-right: 3px;
+      }
+    }
+  }
+
+  .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft.bond-name-cell {
+    justify-content: space-between;
+    display: flex;
+    div.bond-name {
+      width: 60%;
+      margin-left: 5px !important;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+      align-items: flex-start;
+      p {
+        margin-bottom: unset !important;
+        line-height: 140% !important;
+      }
+      svg {
+        margin-left: 3px !important;
+        font-size: 1.2em !important;
+      }
+    }
+  }
+}
+
+.tablet #choose-bond-view {
+  .claim-bond-card-buttons {
+    button {
+      width: 40%;
+    }
+  }
+}
+
+.mobile #choose-bond-view {
+  .claim-bond-card-buttons {
+    flex-direction: column;
+    button {
+      width: 100%;
+    }
+  }
+}

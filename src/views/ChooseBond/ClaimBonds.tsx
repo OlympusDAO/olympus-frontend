@@ -1,85 +1,16 @@
-import "./choosebond.scss";
+import "./ChooseBond.scss";
 
 import { Trans } from "@lingui/macro";
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Zoom } from "@material-ui/core";
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "src/hooks";
-import useBonds from "src/hooks/Bonds";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { IUserBondDetails } from "src/slices/AccountSlice";
-import { isPendingTxn } from "src/slices/PendingTxnsSlice";
 
-import CardHeader from "../../components/CardHeader/CardHeader";
 import { ClaimBondCardData, ClaimBondTableData } from "./ClaimRow";
 
-function ClaimBonds({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
-  const dispatch = useDispatch();
-  const { provider, address, networkId } = useWeb3Context();
-  const { bonds } = useBonds(networkId);
-
-  const [numberOfBonds, setNumberOfBonds] = useState(0);
-  const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
-
-  const pendingTransactions = useAppSelector(state => {
-    return state.pendingTransactions;
-  });
-
-  const pendingClaim = () => {
-    if (
-      isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
-      isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
-    ) {
-      return true;
-    }
-
-    return false;
-  };
-
-  useEffect(() => {
-    const bondCount = Object.keys(activeBonds).length;
-    setNumberOfBonds(bondCount);
-  }, [activeBonds]);
-
-  return (
-    <>
-      {numberOfBonds > 0 && (
-        <Zoom in={true}>
-          <Paper className="ohm-card claim-bonds-card">
-            <CardHeader title="Your Bonds (1,1)" />
-            <ClaimBondsSubComponent activeBonds={activeBonds} />
-          </Paper>
-        </Zoom>
-      )}
-    </>
-  );
-}
-
-export default ClaimBonds;
-
 export function ClaimBondsSubComponent({ activeBonds }: { activeBonds: IUserBondDetails[] }) {
-  const dispatch = useDispatch();
-  const { provider, address, networkId } = useWeb3Context();
-  const { bonds } = useBonds(networkId);
-
-  const [numberOfBonds, setNumberOfBonds] = useState(0);
+  const [, setNumberOfBonds] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
-
-  const pendingTransactions = useAppSelector(state => {
-    return state.pendingTransactions;
-  });
-
-  const pendingClaim = () => {
-    if (
-      isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
-      isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake")
-    ) {
-      return true;
-    }
-
-    return false;
-  };
 
   useEffect(() => {
     const bondCount = activeBonds.length;

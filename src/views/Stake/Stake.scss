@@ -1,0 +1,351 @@
+#stake-view,
+#v1-stake-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  .rebase-timer {
+    margin: 0 !important;
+    line-height: 110% !important;
+  }
+
+  .stake-to-ohm-checkbox {
+    svg {
+      font-size: 0.8em;
+    }
+  }
+
+  .stake-tab-buttons {
+    margin-bottom: 0.25rem;
+  }
+
+  .stake-table-panel,
+  .stake-tab-panel > div.MuiBox-root {
+    width: 100%;
+    padding: 0;
+  }
+
+  .stake-tab-panel.wrap-page {
+    display: flex;
+    // padding: 30px 0;
+    padding-bottom: 16px;
+    width: 100%;
+  }
+
+  .ohm-card .card-header {
+    position: relative;
+  }
+  .ohm-card .header {
+    min-height: 3em;
+  }
+  .ohm-card.secondary .card-header {
+    min-height: 33px !important;
+    height: 20px;
+  }
+  .confirm-dialog {
+    margin-bottom: 0.8rem;
+    width: 100%;
+    padding: 12px 12px;
+  }
+  .stake-note {
+    text-align: center;
+    font-style: italic;
+  }
+
+  .stake-accordion {
+    backdrop-filter: none;
+    background-color: inherit;
+    margin: 12px 0;
+
+    &:before {
+      display: none;
+    }
+
+    .MuiAccordionSummary-root {
+      padding: 0;
+      justify-content: space-between;
+      min-height: auto;
+    }
+
+    .MuiAccordionSummary-content {
+      display: block;
+      margin: 0;
+
+      .data-row {
+        margin: 0;
+      }
+    }
+
+    .MuiAccordionSummary-expandIcon {
+      color: inherit;
+      height: inherit;
+      padding-top: 0;
+      padding-bottom: 0;
+      position: absolute;
+      left: 130px;
+      top: -3px;
+      transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, top 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+      &.Mui-expanded {
+        left: 134px;
+        top: 1px;
+      }
+    }
+
+    .MuiAccordionDetails-root {
+      padding: 0;
+      display: block;
+    }
+  }
+}
+
+.migrate-sohm-button {
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  color: #f08080;
+  line-height: 30px;
+  svg {
+    margin-right: 8px;
+    color: inherit;
+  }
+}
+
+.migrate-sohm-button.complete {
+  color: #35ee66 !important;
+}
+
+.stake-top-metrics {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  text-align: center;
+  margin-top: 10px;
+  h5 {
+    font-weight: 400;
+  }
+  h4 {
+    font-weight: 500;
+  }
+  .stake-apy,
+  .stake-tvl,
+  .stake-index {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-overflow: ellipsis;
+    // white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+.mobile .stake-top-metrics {
+  .stake-apy,
+  .stake-tvl,
+  .stake-index {
+    align-items: flex-start;
+  }
+  text-align: left;
+}
+
+.ohm-logo-tiny {
+  height: 14px;
+  width: 14px;
+  vertical-align: middle;
+  background-color: transparent;
+  align-self: center;
+  justify-self: center;
+}
+
+.logo-holder {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  background: none;
+  border: 0 !important;
+  border-radius: inherit;
+  color: #555;
+}
+
+.stake-action-area {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-around;
+  margin-top: -30px;
+}
+
+.mobile .stake-action-area {
+  margin-top: 20px;
+}
+
+.stake-action-row {
+  justify-content: space-around;
+  align-items: center;
+  height: auto;
+  padding-bottom: 1rem;
+}
+
+.mobile .stake-action-row {
+  justify-content: center;
+}
+
+.stake-action-row [role="tabpanel"] {
+  width: 100%;
+  min-width: 162px;
+  max-width: initial;
+  margin: 5px;
+}
+
+.mobile .stake-action-row {
+  flex-direction: column;
+  [role="tabpanel"] {
+    max-width: 100%;
+    width: 100% !important;
+  }
+}
+
+.ohm-input {
+  max-width: 542px;
+  width: 100%;
+  margin: 4px !important;
+}
+
+.stake-button {
+  align-self: center;
+  width: 100%;
+  min-width: 163px !important;
+  max-width: 542px !important;
+  height: 43px !important;
+  &.wrap-page {
+    // margin-left: 2%;
+    width: 40%;
+  }
+}
+
+.no-input-visible {
+  width: 100%;
+  line-height: 1.2em;
+  padding: 5px 0;
+}
+
+.v2-migration-link {
+  color: inherit;
+}
+
+#asset-select {
+  // color: #f8cc82;
+  input {
+    height: 33px !important;
+  }
+}
+
+.Muilnput-underline {
+  display: none !important;
+}
+
+.mobile .stake-button {
+  width: 100% !important;
+  max-width: 542px;
+  align-self: center;
+  justify-self: center;
+}
+
+.stake-grid-item {
+  width: 100%;
+  padding-right: 10px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+}
+
+.staking-area {
+  margin: 13px 10px 13px 10px;
+}
+
+.stake-lp-button {
+  text-align: center !important;
+  display: flex !important;
+  justify-content: center !important;
+  svg {
+    margin-left: 4px;
+    vertical-align: middle;
+    font-size: 1.1em;
+  }
+  &:hover {
+    svg {
+      color: inherit;
+    }
+  }
+}
+
+.stake-user-data {
+  justify-content: center;
+  margin: auto;
+  padding: 0 5px;
+}
+
+.tablet .stake-pool,
+.mobile .stake-pool {
+  .pool-card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    .ohm-pairs p {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  .pool-data {
+    // margin-top: 15px;
+    width: 100%;
+    .pool-data-row {
+      display: flex;
+      justify-content: space-between;
+      line-height: 225%;
+    }
+  }
+  .stake-lp-button {
+    margin-top: 10px;
+    svg {
+      margin-left: 10px !important;
+    }
+  }
+}
+
+.stake-wallet-notification {
+  text-align: center;
+  .wallet-menu {
+    text-align: center;
+    .connect-button {
+      max-width: 300px !important;
+      min-width: 240px !important;
+      margin-bottom: 15px;
+    }
+  }
+}
+.MuiSelect-select.MuiSelect-select {
+  padding-right: 10px !important;
+}
+
+.asset-select-label + .MuiInput-root.MuiInputBase-formControl {
+  margin-right: 3px;
+}
+
+.mobile .stake-tab-panel,
+.mobile .stake-tab-panel > div.MuiBox-root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+}
+
+.mobile .stake-tab-panel.wrap-page {
+  align-items: center;
+}

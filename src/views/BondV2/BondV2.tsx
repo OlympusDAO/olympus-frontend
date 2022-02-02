@@ -1,4 +1,4 @@
-import "./bond.scss";
+import "./Bond.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Box, Fade, Grid, Typography } from "@material-ui/core";
@@ -28,7 +28,7 @@ const BondV2 = ({ index }: { index: number }) => {
   const [slippage, setSlippage] = useState<number>(0.5);
   const [recipientAddress, setRecipientAddress] = useState<string>(address);
 
-  const isBondLoading = useAppSelector<boolean>(state => state.bonding.loading ?? true);
+  const isBondLoading = useAppSelector<boolean>(state => state.bondingV2.loading ?? true);
 
   const onRecipientAddressChange = (e: InputEvent): void => {
     return setRecipientAddress(e.target.value);
@@ -153,8 +153,9 @@ export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement =
   }
   return (
     <Fragment>
-      {/* <span className={bond.discount >= 0 ? "bond_discount_positive" : ""}> */}
-      <span>{bond.discount && trim(bond.discount * 100, 2)}%</span>
+      <span style={bond.discount > 0.003 ? { color: "#3ba56c" } : {}}>
+        {bond.discount && trim(bond.discount * 100, 2)}%
+      </span>
     </Fragment>
   );
 };
