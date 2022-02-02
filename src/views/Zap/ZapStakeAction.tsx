@@ -199,9 +199,10 @@ const ZapStakeAction: React.FC = () => {
           address,
           provider,
           slippage: customSlippage,
-          sellAmount: ethers.utils.parseUnits(inputQuantity.toString(), tokens[zapToken]?.decimals),
+          sellAmount: ethers.utils.parseUnits(inputQuantity, tokens[zapToken]?.decimals),
           tokenAddress: tokens[zapToken]?.address,
           networkID: networkId,
+          minimumAmount: trim(+outputQuantity * (1 - +customSlippage / 100), 2),
         }),
       );
     }
@@ -382,15 +383,19 @@ const ZapStakeAction: React.FC = () => {
           className="zap-stake-button"
           variant="contained"
           color="primary"
-          disabled={zapToken == null || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS}
+          disabled={
+            zapToken == null || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS || +outputQuantity < 0.5
+          }
           onClick={onZap}
         >
           {isExecuteZapLoading ? (
             <Trans>Pending...</Trans>
           ) : outputQuantity === "" ? (
             <Trans>Enter Amount</Trans>
-          ) : (
+          ) : +outputQuantity >= 0.5 ? (
             <Trans>Zap-Stake</Trans>
+          ) : (
+            <Trans>Minimum Output Amount: 0.5</Trans>
           )}
         </Button>
       ) : (
@@ -433,15 +438,25 @@ const ZapStakeAction: React.FC = () => {
               className="zap-stake-button"
               variant="contained"
               color="primary"
-              disabled={!currentTokenAllowance || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS}
+              disabled={
+                !currentTokenAllowance ||
+                isExecuteZapLoading ||
+                outputQuantity === "" ||
+                +outputQuantity < 0.5 ||
+                DISABLE_ZAPS
+              }
               onClick={onZap}
             >
-              {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
               <Box display="flex" flexDirection="row" alignItems="center">
                 <SvgIcon component={SecondStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
-
                 <Typography>
-                  {outputQuantity === "" ? <Trans>Enter Amount</Trans> : <Trans>Zap-Stake</Trans>}
+                  {outputQuantity === "" ? (
+                    <Trans>Enter Amount</Trans>
+                  ) : +outputQuantity >= 0.5 ? (
+                    <Trans>Zap-Stake</Trans>
+                  ) : (
+                    <Trans>Minimum Output Amount: 0.5</Trans>
+                  )}
                 </Typography>
               </Box>
             </Button>

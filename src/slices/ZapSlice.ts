@@ -112,7 +112,10 @@ export const getZapTokenBalances = createAsyncThunk(
 
 export const executeZap = createAsyncThunk(
   "zap/executeZap",
-  async ({ provider, address, sellAmount, slippage, tokenAddress, networkID }: IZapAsyncThunk, { dispatch }) => {
+  async (
+    { provider, address, sellAmount, slippage, tokenAddress, networkID, minimumAmount }: IZapAsyncThunk,
+    { dispatch },
+  ) => {
     if (!zapNetworkAvailable(networkID, dispatch)) return;
     try {
       const signer = provider.getSigner();
@@ -123,8 +126,6 @@ export const executeZap = createAsyncThunk(
         +slippage / 100,
         networkID,
       );
-      const buyAmount = BigNumber.from(rawTransactionData.buyAmount);
-      const minimumAmount = buyAmount.mul(1000 - +slippage * 10).div(1000);
       const zapContract = Zap__factory.connect(addresses[networkID].ZAP, signer);
       let tx: ethers.ContractTransaction;
       if (tokenAddress === ethers.constants.AddressZero) {
@@ -132,7 +133,7 @@ export const executeZap = createAsyncThunk(
           tokenAddress,
           sellAmount,
           addresses[networkID].SOHM_V2,
-          minimumAmount,
+          ethers.utils.parseUnits(minimumAmount, 9),
           rawTransactionData.to,
           rawTransactionData.data,
           address,
@@ -143,7 +144,7 @@ export const executeZap = createAsyncThunk(
           tokenAddress,
           sellAmount,
           addresses[networkID].SOHM_V2,
-          minimumAmount,
+          ethers.utils.parseUnits(minimumAmount, 9),
           rawTransactionData.to,
           rawTransactionData.data,
           address,
@@ -173,7 +174,11 @@ export const executeZap = createAsyncThunk(
       segmentUA(uaData);
       console.error(e);
       const rpcError = e as any;
-      dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
+      if (rpcError.message.indexOf("High Slippage") > 0) {
+        dispatch(error(`Transaction would fail due to slippage. Please use a higher slippage tolerance value.`));
+      } else {
+        dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
+      }
       throw e;
     }
     dispatch(getBalances({ address, provider, networkID }));
