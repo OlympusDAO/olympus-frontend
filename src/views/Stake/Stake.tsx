@@ -25,7 +25,7 @@ import {
   Tabs,
 } from "@olympusdao/component-library";
 import { ethers } from "ethers";
-import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, memo, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useAppSelector } from "src/hooks";
@@ -594,4 +594,4 @@ const Stake: React.FC = () => {
   );
 };
 
-export default Stake;
+export default memo(Stake);
