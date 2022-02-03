@@ -8,12 +8,16 @@ import {
   Box,
   Button,
   Divider,
+  FormControl,
   Grid,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   Typography,
   Zoom,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton, TabPanel } from "@material-ui/lab";
 import { DataRow, Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
@@ -226,7 +230,13 @@ const Stake: React.FC = () => {
     [stakeAllowance, unstakeAllowance, directUnstakeAllowance],
   );
 
-  const changeView = (_event: ChangeEvent<unknown>, newView: number) => {
+  /*
+    Borrows from MigrationModal.tsx
+    There's an issue with MUI 4.x that results in a compilation error if
+    we deviate from these parameter and return types.
+    mui-org/material-ui#17454
+  */
+  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 
