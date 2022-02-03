@@ -75,6 +75,7 @@ export const changeApproval = createAsyncThunk(
             ohmUnstakeV1: +unstakeAllowance,
             ohmStake: +stakeAllowanceV2,
             ohmUnstake: +unstakeAllowanceV2,
+            loading: false,
           },
         }),
       );
@@ -136,6 +137,7 @@ export const changeApproval = createAsyncThunk(
           ohmUnstakeV1: +unstakeAllowance,
           ohmStake: +stakeAllowanceV2,
           ohmUnstake: +unstakeAllowanceV2,
+          loading: false,
         },
       }),
     );

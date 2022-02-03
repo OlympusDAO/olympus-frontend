@@ -617,6 +617,7 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
     ohmUnstakeV1: number;
     ohmStake: number;
     ohmUnstake: number;
+    loading: boolean;
   };
   migration: {
     ohm: number;
@@ -682,7 +683,7 @@ const initialState: IAccountSlice = {
       indexAtLastChange: "",
     },
   },
-  staking: { ohmStakeV1: 0, ohmUnstakeV1: 0, ohmStake: 0, ohmUnstake: 0 },
+  staking: { ohmStakeV1: 0, ohmUnstakeV1: 0, ohmStake: 0, ohmUnstake: 0, loading: true },
   wrapping: { sohmWrap: 0, wsohmUnwrap: 0, gOhmUnwrap: 0, wsOhmMigrate: 0 },
   pooling: { sohmPool: 0 },
   migration: { ohm: 0, sohm: 0, wsohm: 0, gohm: 0 },

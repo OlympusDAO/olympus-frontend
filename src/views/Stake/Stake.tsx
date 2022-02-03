@@ -17,6 +17,7 @@ import { Skeleton } from "@material-ui/lab";
 import { DataRow, Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useAppSelector } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
@@ -45,6 +46,7 @@ const Stake: React.FC = () => {
   const isAppLoading = useAppSelector(state => state.app.loading);
   const isBalanceLoading = useAppSelector(state => state.account.loadingBalance);
   const isAccountDetailsLoading = useAppSelector(state => state.account.loadingAccountDetails);
+  const isAllowanceDataLoading = useAppSelector(state => state.account.staking.loading);
 
   const currentIndex = useAppSelector(state => {
     return state.app.currentIndex;
