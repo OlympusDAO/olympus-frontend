@@ -434,7 +434,7 @@ const Stake: React.FC = () => {
                         )}
                       </Grid>
                       <Grid item xs={12} sm={4} className="stake-grid-item">
-                        <TabPanel value={view} index={0} className="stake-tab-panel">
+                        <TabPanel value={view.toString()} className="stake-tab-panel">
                           <Box m={-2}>
                             {address && hasAllowance("ohm") ? (
                               <Button
@@ -468,7 +468,7 @@ const Stake: React.FC = () => {
                           </Box>
                         </TabPanel>
 
-                        <TabPanel value={view} index={1} className="stake-tab-panel">
+                        <TabPanel value={view.toString()} className="stake-tab-panel">
                           <Box m={-2}>
                             {(address && hasAllowance("sohm") && !confirmation) ||
                             (hasAllowance("gohm") && confirmation) ? (
