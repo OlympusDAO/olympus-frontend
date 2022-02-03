@@ -18,12 +18,14 @@ const TenderCTA = (props: { walletAddress: string }) => {
 
   //Only make a new balance request check when the walletAddress changes instead of every rerender.
   useEffect(() => {
-    balancesOf(props.walletAddress, NetworkId.FANTOM).then(res => {
-      const chicken = res.find(address => address.contractAddress === process.env.REACT_APP_TENDER_BALANCE_ADDRESS);
-      if (chicken && parseInt(chicken.balance) > 0) {
-        setHasBalance(true);
-      }
-    });
+    if (props.walletAddress) {
+      balancesOf(props.walletAddress, NetworkId.FANTOM).then(res => {
+        const chicken = res.find(address => address.contractAddress === process.env.REACT_APP_TENDER_BALANCE_ADDRESS);
+        if (chicken && parseInt(chicken.balance) > 0) {
+          setHasBalance(true);
+        }
+      });
+    }
   }, [props.walletAddress]);
   return hasBalance ? (
     <Box className="call-to-action ohm-card">

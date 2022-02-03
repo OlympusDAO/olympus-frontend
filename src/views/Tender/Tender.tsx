@@ -41,12 +41,14 @@ const Tender = (props: { walletAddress: string }) => {
   }));
 
   useEffect(() => {
-    balancesOf(props.walletAddress, NetworkId.FANTOM).then(res => {
-      const token = res.find(address => address.contractAddress === process.env.REACT_APP_TENDER_BALANCE_ADDRESS);
-      if (token && token.balance) {
-        setTokenBalance(token.balance);
-      }
-    });
+    if (props.walletAddress) {
+      balancesOf(props.walletAddress, NetworkId.FANTOM).then(res => {
+        const token = res.find(address => address.contractAddress === process.env.REACT_APP_TENDER_BALANCE_ADDRESS);
+        if (token && token.balance) {
+          setTokenBalance(token.balance);
+        }
+      });
+    }
 
     //TODO: Contract call for Querying Deposited Balance
     setDepositedBalance("10.00");
