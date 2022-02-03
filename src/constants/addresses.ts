@@ -45,3 +45,7 @@ export const MIGRATOR_ADDRESSES = {
   [NetworkId.ARBITRUM]: "0x1e7902a8b0adbf81042b5e30bdfa281f0b928d6d",
   [NetworkId.AVALANCHE]: "0xB10209BFbb37d38EC1B5F0c964e489564e223ea7",
 };
+
+export const TENDER_ADDRESSES = {
+  [NetworkId.FANTOM]: process.env.REACT_APP_TENDER_BALANCE_ADDRESS,
+};
