@@ -59,14 +59,13 @@ export const DaiExchangeRate = () => {
 };
 
 //TODO: Replace with deposits Contract Call
-//Call deposit. Should return amount of Token Deposited.
 export const Deposits = (address: string) => {
   const { data } = useQuery(["deposits", address], () => {
     return {
-      amount: 0, // amount of tender tokens (18 decimals)
+      amount: 10, // amount of tender tokens (18 decimals)
       index: 77, // OHM index
       ohmPrice: 62, // OHM / USD price
-      choice: 1, // 0 - DAI, 1 - gOHM
+      choice: 0, // 0 - DAI, 1 - gOHM
       didRedeem: false,
     };
   });
@@ -105,7 +104,7 @@ export const Withdraw = () => {
   return data;
 };
 
-//TODO: Replace with withdraw Contract Call
+//TODO: Replace with Redeem Contract Call
 export const Redeem = () => {
   const { data } = useQuery(["RedeemCall"], () => {
     return "";
@@ -113,7 +112,7 @@ export const Redeem = () => {
   return data;
 };
 
-//TODO: Replace with Deposits Contract Call
+//TODO: Replace with Deposit Contract Call
 export const Deposit = (quantity: number, redemptionToken: number) => {
   const { data } = useQuery(["DepositsCall"], () => {
     return "";

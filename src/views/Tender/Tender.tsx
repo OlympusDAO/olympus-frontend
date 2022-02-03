@@ -40,7 +40,7 @@ const Tender = () => {
   const tokenBalance = Balance(address);
   const gOhmExchangeRate = GOhmExchangeRate();
   const daiExchangeRate = DaiExchangeRate();
-  const { amount: depositedBalance, choice } = Deposits(address);
+  const { amount: depositedBalance, choice, index, ohmPrice } = Deposits(address);
   const totalDeposits = TotalDeposits();
   const maxDeposits = MaxDeposits();
   const escrowState = EscrowState();
@@ -57,15 +57,16 @@ const Tender = () => {
   }));
 
   useEffect(() => {
+    //mapping this to state so choice and redeemToken are always the same
     if (choice === 0 || choice === 1) {
       setRedeemToken(choice);
     }
   }, [choice]);
 
+  //Updates quantity of deposit and display values of gOHM and DAI
   const setDeposit = (amount: number) => {
     setQuantity(amount);
     daiExchangeRate && setDaiValue(amount * daiExchangeRate);
-
     //Sets gOHM USD Equivalent value.
     gOhmPrice && gOhmExchangeRate && setgOHMValue((Number(amount) * gOhmExchangeRate) / gOhmPrice);
   };
@@ -92,12 +93,14 @@ const Tender = () => {
   const usdValue = quantity ? new Intl.NumberFormat("en-US").format(Number(quantity) * 55) : 0;
   const gOhm = new Intl.NumberFormat("en-US").format(gOhmValue);
   const dai = new Intl.NumberFormat("en-US").format(daiValue);
+  const totalDepositsFormatted = totalDeposits && new Intl.NumberFormat("en-US").format(totalDeposits);
+  const maxDepositsFormatted = maxDeposits && new Intl.NumberFormat("en-US").format(maxDeposits);
 
   //If both exchange rates are positive and havent yet deposited, allow choice.
   const allowChoice =
     daiExchangeRate && daiExchangeRate > 0 && gOhmExchangeRate && gOhmExchangeRate > 0 && !depositedBalance;
 
-  //Set Strings for choice numbers
+  //Set Strings from 0 or 1
   const redemptionToken = () => {
     if (allowChoice) {
       return redeemToken ? "gOHM" : "DAI";
@@ -107,16 +110,27 @@ const Tender = () => {
       return gOhmExchangeRate && gOhmExchangeRate > 0 ? "gOHM" : "DAI";
     }
   };
-  const totalDepositsFormatted = totalDeposits && new Intl.NumberFormat("en-US").format(totalDeposits);
-  const maxDepositsFormatted = maxDeposits && new Intl.NumberFormat("en-US").format(maxDeposits);
+
+  //exchange rate of gOhm from Deposit
+  const gOhmDepositExchangeRate =
+    gOhmExchangeRate && index && ohmPrice && (gOhmExchangeRate * 1e17) / (index * ohmPrice);
+
+  //amount displayed on the redeem page
+  const claimAmount =
+    choice === 1
+      ? depositedBalance &&
+        gOhmExchangeRate &&
+        gOhmDepositExchangeRate &&
+        (depositedBalance * gOhmDepositExchangeRate) / 1e18
+      : choice === 0 && depositedBalance && daiExchangeRate && depositedBalance * daiExchangeRate;
 
   const progressValue = totalDeposits && maxDeposits ? (totalDeposits / maxDeposits) * 100 : 0;
-
   const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
+
   const classes = useStyles();
-  console.log("switch", redeemToken);
+
   return (
     <div id="stake-view">
       <Box width="97%" maxWidth="833px">
@@ -195,14 +209,16 @@ const Tender = () => {
 
               <Grid item>
                 <DataRow title={t`Current Chicken Balance`} balance={`${trim(Number(tokenBalance), 4)} Chicken`} />
-                <DataRow title={t`Deposited Balance`} balance={`${depositedBalance} Chicken`} />
+                <DataRow title={t`Deposited Balance`} balance={`${depositedBalance} Chicken `} />
               </Grid>
             </>
           ) : (
             view === 1 && (
               <Box display="flex" justifyContent={"center"} mt={"10px"}>
                 <Box display="flex" flexDirection="column">
-                  <Typography>Redeem for {choice ? "gOHM" : "DAI"}</Typography>
+                  <Typography>
+                    Redeem for {claimAmount} {choice ? "gOHM" : "DAI"}
+                  </Typography>
                   <PrimaryButton disabled={redeemButtonDisabled} onClick={redeemButtonOnClick}>
                     {redeemButtonText}
                   </PrimaryButton>
