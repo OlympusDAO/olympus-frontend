@@ -9,11 +9,10 @@ import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NetworkId } from "src/constants";
 import { trim } from "src/helpers";
-import { changeMigrationApproval, migrateAll, migrateSingle, TokenType } from "src/slices/MigrateThunk";
 import { useWeb3Context } from "src/hooks";
 import { useAppSelector } from "src/hooks";
 import { info } from "src/slices/MessagesSlice";
-import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
+import { changeMigrationApproval, migrateAll, migrateSingle, TokenType } from "src/slices/MigrateThunk";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 const formatCurrency = (c: number) => {
   return new Intl.NumberFormat("en-US", {
@@ -30,7 +29,7 @@ const useStyles = makeStyles({
   },
 });
 
-function MigrationModal({ open, handleClose, hasDust }: { open: boolean; handleClose: any; hasDust: boolean }) {
+function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any }) {
   const dispatch = useDispatch();
   const classes = useStyles();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
@@ -88,14 +87,19 @@ function MigrationModal({ open, handleClose, hasDust }: { open: boolean; handleC
     return state.app.marketPrice;
   });
 
+  const hasDust =
+    !currentIndex ||
+    !marketPrice ||
+    (+currentOhmBalance > 0 && +currentOhmBalance * marketPrice < 10) ||
+    (+currentSOhmBalance > 0 && +currentSOhmBalance * marketPrice < 10) ||
+    (+currentWSOhmBalance * currentIndex > 0 && +currentWSOhmBalance * currentIndex * marketPrice < 10);
+
   const approvedOhmBalance = useAppSelector(state => Number(state.account.migration.ohm));
   const approvedSOhmBalance = useAppSelector(state => Number(state.account.migration.sohm));
   const approvedWSOhmBalance = useAppSelector(state => Number(state.account.migration.wsohm));
   const ohmFullApproval = approvedOhmBalance >= +currentOhmBalance;
   const sOhmFullApproval = approvedSOhmBalance >= +currentSOhmBalance;
-  const wsOhmFullApproval = hasDust
-    ? approvedWSOhmBalance >= +currentWSOhmBalance
-    : +approvedWSOhmBalance >= +currentWSOhmBalance;
+  const wsOhmFullApproval = approvedWSOhmBalance >= +currentWSOhmBalance;
   const isAllApproved = !hasDust && ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
   const ohmAsgOHM = +currentOhmBalance / currentIndex;
@@ -262,10 +266,17 @@ function MigrationModal({ open, handleClose, hasDust }: { open: boolean; handleC
                         <Button
                           variant="outlined"
                           onClick={() => onSeekApproval(row.initialAsset)}
-                          disabled={isPendingTxn(pendingTransactions, pendingTransactionDispatchType(row))}
+                          disabled={isPendingTxn(
+                            pendingTransactions,
+                            `approve_migration_${row.initialAsset.toLowerCase()}`,
+                          )}
                         >
                           <Typography>
-                            {txnButtonText(pendingTransactions, pendingTransactionDispatchType(row), t`Approve`)}
+                            {txnButtonText(
+                              pendingTransactions,
+                              `approve_migration_${row.initialAsset.toLowerCase()}`,
+                              t`Approve`,
+                            )}
                           </Typography>
                         </Button>
                       )}
