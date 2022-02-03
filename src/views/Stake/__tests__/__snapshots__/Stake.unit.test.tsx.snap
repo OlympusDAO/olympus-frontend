@@ -341,7 +341,7 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                  style="width: 30px;"
+                  style="width: 80px;"
                 />
               </p>
               <p
@@ -361,7 +361,9 @@ exports[`<Stake/> should render component 1`] = `
                   <span
                     class="MuiButton-label"
                   >
-                    Stake on Trader Joe
+                    Stake on
+                     
+                    Trader Joe (Avalanche)
                     <span
                       class="MuiButton-endIcon MuiButton-iconSizeMedium"
                     >
@@ -499,7 +501,7 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                  style="width: 30px;"
+                  style="width: 80px;"
                 />
               </p>
               <p
@@ -519,7 +521,9 @@ exports[`<Stake/> should render component 1`] = `
                   <span
                     class="MuiButton-label"
                   >
-                    Stake on Sushi (Arbitrum)
+                    Stake on
+                     
+                    Sushi (Arbitrum)
                     <span
                       class="MuiButton-endIcon MuiButton-iconSizeMedium"
                     >
@@ -657,7 +661,7 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                  style="width: 30px;"
+                  style="width: 80px;"
                 />
               </p>
               <p
@@ -677,7 +681,9 @@ exports[`<Stake/> should render component 1`] = `
                   <span
                     class="MuiButton-label"
                   >
-                    Stake on Sushi (Polygon)
+                    Stake on
+                     
+                    Sushi (Polygon)
                     <span
                       class="MuiButton-endIcon MuiButton-iconSizeMedium"
                     >
@@ -817,7 +823,7 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                  style="width: 30px;"
+                  style="width: 80px;"
                 />
               </p>
               <p
@@ -837,7 +843,9 @@ exports[`<Stake/> should render component 1`] = `
                   <span
                     class="MuiButton-label"
                   >
-                    Stake on Spirit (Fantom)
+                    Stake on
+                     
+                    Spirit (Fantom)
                     <span
                       class="MuiButton-endIcon MuiButton-iconSizeMedium"
                     >

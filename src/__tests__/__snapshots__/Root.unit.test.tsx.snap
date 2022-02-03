@@ -1161,7 +1161,7 @@ exports[`<Root/> should render component 1`] = `
                   >
                     <span
                       class="MuiSkeleton-root-596 MuiSkeleton-text-597 MuiSkeleton-pulse-600"
-                      style="width: 30px;"
+                      style="width: 80px;"
                     />
                   </p>
                   <p
@@ -1181,7 +1181,9 @@ exports[`<Root/> should render component 1`] = `
                       <span
                         class="MuiButton-label-363"
                       >
-                        Stake on Trader Joe
+                        Stake on
+                         
+                        Trader Joe (Avalanche)
                         <span
                           class="MuiButton-endIcon-385 MuiButton-iconSizeMedium-387"
                         >
@@ -1319,7 +1321,7 @@ exports[`<Root/> should render component 1`] = `
                   >
                     <span
                       class="MuiSkeleton-root-596 MuiSkeleton-text-597 MuiSkeleton-pulse-600"
-                      style="width: 30px;"
+                      style="width: 80px;"
                     />
                   </p>
                   <p
@@ -1339,7 +1341,9 @@ exports[`<Root/> should render component 1`] = `
                       <span
                         class="MuiButton-label-363"
                       >
-                        Stake on Sushi (Arbitrum)
+                        Stake on
+                         
+                        Sushi (Arbitrum)
                         <span
                           class="MuiButton-endIcon-385 MuiButton-iconSizeMedium-387"
                         >
@@ -1477,7 +1481,7 @@ exports[`<Root/> should render component 1`] = `
                   >
                     <span
                       class="MuiSkeleton-root-596 MuiSkeleton-text-597 MuiSkeleton-pulse-600"
-                      style="width: 30px;"
+                      style="width: 80px;"
                     />
                   </p>
                   <p
@@ -1497,7 +1501,9 @@ exports[`<Root/> should render component 1`] = `
                       <span
                         class="MuiButton-label-363"
                       >
-                        Stake on Sushi (Polygon)
+                        Stake on
+                         
+                        Sushi (Polygon)
                         <span
                           class="MuiButton-endIcon-385 MuiButton-iconSizeMedium-387"
                         >
@@ -1637,7 +1643,7 @@ exports[`<Root/> should render component 1`] = `
                   >
                     <span
                       class="MuiSkeleton-root-596 MuiSkeleton-text-597 MuiSkeleton-pulse-600"
-                      style="width: 30px;"
+                      style="width: 80px;"
                     />
                   </p>
                   <p
@@ -1657,7 +1663,9 @@ exports[`<Root/> should render component 1`] = `
                       <span
                         class="MuiButton-label-363"
                       >
-                        Stake on Spirit (Fantom)
+                        Stake on
+                         
+                        Spirit (Fantom)
                         <span
                           class="MuiButton-endIcon-385 MuiButton-iconSizeMedium-387"
                         >
