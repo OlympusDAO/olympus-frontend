@@ -37,7 +37,7 @@ import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
 import { CurrentIndex, StakingAPY, TotalValueDeposited } from "../TreasuryDashboard/components/Metric/Metric";
-import ExternalStakePool from "./components/ExternalStakePool";
+import ExternalStakePools from "./components/ExternalStakePools/ExternalStakePools";
 import RebaseTimer from "./components/RebaseTimer/RebaseTimer";
 import { StakeFiveDayYield } from "./components/StakeFiveDayYield";
 import { StakeNextRebaseAmount } from "./components/StakeNextRebaseAmount";
@@ -546,7 +546,7 @@ const Stake: React.FC = () => {
       {/* NOTE (appleseed-olyzaps) olyzaps disabled until v2 contracts */}
       {/* <ZapCta /> */}
 
-      <ExternalStakePool />
+      <ExternalStakePools />
     </div>
   );
 };

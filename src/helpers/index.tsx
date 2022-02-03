@@ -4,6 +4,7 @@ import { formatUnits } from "@ethersproject/units";
 import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
 import { ethers } from "ethers";
+import { QueryKey, useQuery } from "react-query";
 import { IBondV2 } from "src/slices/BondSliceV2";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
@@ -369,6 +370,17 @@ export const formatNumber = (number: number, precision = 0) => {
     minimumFractionDigits: precision,
     maximumFractionDigits: precision,
   }).format(number);
+};
+
+/**
+ * Used to build a dependent `useQuery` function
+ *
+ * Please refer to the `useStakePoolTVL` function for an example on why this function is handy.
+ */
+export const dependentQueryBuilder = (baseQueryKey: QueryKey) => {
+  return <TData,>(key: string, fn: () => Promise<TData>, enabled?: boolean) => {
+    return useQuery([baseQueryKey, key].filter(Boolean), fn, { enabled }).data;
+  };
 };
 
 interface ICheckBalance extends IBaseAsyncThunk {

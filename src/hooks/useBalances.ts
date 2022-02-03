@@ -64,7 +64,7 @@ const getBalance = (balances: Balances, addressMap: AddressMap, networkId: Netwo
  * Returns a balance.
  * @param addressMap Address map of the token you want the balance of.
  */
-const useBalance = <TAddressMap extends AddressMap = AddressMap>(addressMap: TAddressMap) => {
+export const useBalance = <TAddressMap extends AddressMap = AddressMap>(addressMap: TAddressMap) => {
   return useBalances<Record<keyof typeof addressMap, BigNumber>>(balances => {
     return unstable_Object
       .keys(addressMap)

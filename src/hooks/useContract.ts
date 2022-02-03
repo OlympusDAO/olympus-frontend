@@ -9,12 +9,10 @@ import { NetworkId } from "src/constants";
 import { AddressMap, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { assert } from "src/helpers";
 import { ohm_dai } from "src/helpers/AllBonds";
-import { NodeHelper } from "src/helpers/NodeHelper";
-import { OlympusStakingv2, PairContract, SOhmv2 } from "src/typechain";
+import { IERC20, OlympusStakingv2, PairContract, SOhmv2 } from "src/typechain";
 
 import { useWeb3Context } from ".";
-
-const provider = NodeHelper.getMainnetStaticProvider();
+import { useStaticProvider } from "./useStaticProvider";
 
 /**
  * Hook for fetching a contract.
@@ -53,11 +51,13 @@ export function useContract<TContract extends Contract = Contract>(
 }
 
 export const useMainnetContract = <TContract extends Contract = Contract>(address: string, ABI: ContractInterface) => {
+  const provider = useStaticProvider(NetworkId.MAINNET);
+
   return useContract<TContract>(address, ABI, provider);
 };
 
 export const useTokenContract = (addressMap: AddressMap) => {
-  return useContract(addressMap, IERC20_ABI);
+  return useContract<IERC20>(addressMap, IERC20_ABI);
 };
 
 export const useStakingContract = () => {
@@ -73,4 +73,8 @@ export const useOhmDaiReserveContract = () => {
 
 export const useSohmContract = () => {
   return useMainnetContract<SOhmv2>(SOHM_ADDRESSES[NetworkId.MAINNET], sOHMv2);
+};
+
+export const usePairContract = (address: string, provider?: StaticJsonRpcProvider) => {
+  return useContract<PairContract>(address, PAIR_CONTRACT_ABI, provider);
 };
