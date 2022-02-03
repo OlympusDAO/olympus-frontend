@@ -155,6 +155,7 @@ const Tender = (props: { walletAddress: string }) => {
                 justifyContent="space-between"
                 marginTop="15px"
                 marginBottom="25px"
+                textAlign="center"
               >
                 <Typography>
                   Deposit {quantity} Chicken for {gOhm} gOHM (~${usdValue})
