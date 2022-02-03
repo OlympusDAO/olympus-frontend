@@ -11,7 +11,6 @@ import {
   TextButton,
 } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useState } from "react";
-//import { NetworkId } from "src/constants";
 import { trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { useGohmPrice } from "src/hooks/usePrices";
