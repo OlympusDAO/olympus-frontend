@@ -67,7 +67,7 @@ export const BackingPerOHM = () => {
 
   const props: MetricProps = {
     ...sharedProps,
-    label: t`Backing per OHM`,
+    label: t`Liquid Backing per OHM`,
   };
 
   if (treasuryValue && circSupply) props.metric = formatCurrency(treasuryValue / circSupply, 2);
