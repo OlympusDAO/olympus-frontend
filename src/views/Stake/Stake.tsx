@@ -42,7 +42,6 @@ import { ConfirmDialog } from "./ConfirmDialog";
 import ExternalStakePool from "./ExternalStakePool";
 
 const Stake: React.FC = () => {
-  console.log("rerender");
   const dispatch = useDispatch();
   const history = useHistory();
   const { provider, address, connect, networkId } = useWeb3Context();

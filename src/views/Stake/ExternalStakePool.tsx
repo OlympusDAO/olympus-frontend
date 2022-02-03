@@ -103,7 +103,6 @@ export default function ExternalStakePool() {
   const theme = useTheme();
   const styles = useStyles();
   const allStakePools = useExternalPools(address);
-  console.log("compo", allStakePools);
   return (
     <Zoom in={true}>
       {isSmallScreen ? (
