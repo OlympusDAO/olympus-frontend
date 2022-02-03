@@ -33,8 +33,8 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
+import ExternalStakePool from "../Stake/components/ExternalStakePool";
 import RebaseTimer from "../Stake/components/RebaseTimer/RebaseTimer";
-import ExternalStakePool from "../Stake/ExternalStakePool";
 
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
