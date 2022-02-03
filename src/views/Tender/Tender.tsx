@@ -18,7 +18,7 @@ import { balancesOf } from "src/lib/fetchBalances";
 
 const Tender = (props: { walletAddress: string }) => {
   const [view, setView] = useState(0);
-  const [redeemToken, setRedeemToken] = useState(false);
+  const [redeemToken, setRedeemToken] = useState(true);
   const [tokenBalance, setTokenBalance] = useState("0.00");
   const [quantity, setQuantity] = useState("");
   const [daiValue, setDaiValue] = useState(0);
@@ -107,7 +107,7 @@ const Tender = (props: { walletAddress: string }) => {
   const gOhm = new Intl.NumberFormat("en-US").format(gOhmValue);
   const dai = new Intl.NumberFormat("en-US").format(daiValue);
   //if false gOHM, if true DAI
-  const redemptionToken = redeemToken ? "DAI" : "gOHM";
+  const redemptionToken = redeemToken ? "gOHM" : "DAI";
   const contractBalanceFormatted = new Intl.NumberFormat("en-US").format(contractBalance);
   //TODO: Is contract cap retrieved from the contract?
   const progressValue = (contractBalance / 970000) * 100;
@@ -174,11 +174,12 @@ const Tender = (props: { walletAddress: string }) => {
                 textAlign="center"
               >
                 <Typography>
-                  Deposit {quantity} Chicken for {gOhm} gOHM (~${usdValue})
+                  Deposit {quantity} Chicken for ${dai} DAI
                 </Typography>
+
                 <Switch checked={redeemToken} onChange={() => setRedeemToken(!redeemToken)} color="default" />
                 <Typography>
-                  Deposit {quantity} Chicken for ${dai} DAI
+                  Deposit {quantity} Chicken for {gOhm} gOHM (~${usdValue})
                 </Typography>
               </Box>
 
