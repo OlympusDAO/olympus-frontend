@@ -1,20 +1,9 @@
 import { t, Trans } from "@lingui/macro";
-import {
-  Box,
-  Button,
-  FormControl,
-  InputAdornment,
-  InputLabel,
-  Link,
-  OutlinedInput,
-  SvgIcon,
-  Typography,
-  useMediaQuery,
-} from "@material-ui/core";
+import { Box, Link, SvgIcon, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { InputWrapper } from "@olympusdao/component-library";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
-import { getTokenImage } from "src/helpers";
 import { trim } from "src/helpers";
 
 import ConnectButton from "../../components/ConnectButton/ConnectButton";
@@ -23,8 +12,6 @@ import { useAppDispatch, useAppSelector, useWeb3Context } from "../../hooks";
 import { error } from "../../slices/MessagesSlice";
 import { isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { getEarlyExitFee, IEarlyExitFeePayload, poolWithdraw } from "../../slices/PoolThunk";
-
-const sohmImg = getTokenImage("sohm");
 
 interface IPoolWithdrawProps {
   readonly totalPoolDeposits: number;
@@ -39,7 +26,6 @@ export const PoolWithdraw = (props: IPoolWithdrawProps) => {
   const [exitFee, setExitFee] = useState(0);
   const [newOdds, setNewOdds] = useState(0);
   const isPoolLoading = useAppSelector(state => state.poolData.loading);
-  const isMobileScreen = useMediaQuery("(max-width: 513px)");
 
   const poolBalance = useAppSelector(state => {
     return state.account.balances && parseFloat(state.account.balances.pool);
@@ -143,45 +129,24 @@ export const PoolWithdraw = (props: IPoolWithdrawProps) => {
           <ConnectButton />
         ) : (
           <Box className="withdrawal-container">
-            <Box display="flex" alignItems="center" flexDirection={`${isMobileScreen ? "column" : "row"}`}>
-              <FormControl className="ohm-input" variant="outlined" color="primary">
-                <InputLabel htmlFor="amount-input"></InputLabel>
-                <OutlinedInput
-                  id="amount-input"
-                  type="number"
-                  placeholder="Enter an amount"
-                  className="pool-input"
-                  value={quantity}
-                  onChange={e => setQuantity(parseFloat(e.target.value))}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <div className="logo-holder">{sohmImg}</div>
-                    </InputAdornment>
-                  }
-                  labelWidth={0}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <Button variant="text" onClick={setMax}>
-                        <Trans>Max</Trans>
-                      </Button>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-              <Button
-                className="pool-withdraw-button"
-                variant="contained"
-                color="primary"
-                disabled={isPendingTxn(pendingTransactions, "pool_withdraw")}
-                onClick={() => onWithdraw("withdraw")}
-                style={{ margin: "5px" }}
-              >
-                {exitFee > 0
+            <InputWrapper
+              id="amount-input"
+              type="number"
+              placeholder="Enter an amount"
+              value={quantity}
+              onChange={e => setQuantity(parseFloat(e.target.value))}
+              startAdornment="sOHM"
+              labelWidth={0}
+              endString={t`Max`}
+              endStringOnClick={setMax}
+              buttonText={
+                exitFee > 0
                   ? txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw Early & pay` + exitFee + " sOHM")
-                  : txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw sOHM`)}
-                {/* Withdraw sOHM */}
-              </Button>
-            </Box>
+                  : txnButtonText(pendingTransactions, "pool_withdraw", t`Withdraw sOHM`)
+              }
+              disabled={isPendingTxn(pendingTransactions, "pool_withdraw")}
+              buttonOnClick={() => onWithdraw("withdraw")}
+            />
             {newOdds > 0 && quantity > 0 && (
               <Box padding={1}>
                 <Typography color="error" variant="body2">
