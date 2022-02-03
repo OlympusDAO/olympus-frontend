@@ -92,6 +92,7 @@ const Tender = (props: { walletAddress: string }) => {
   const progressValue = (contractBalance / 970000) * 100;
 
   const classes = useStyles();
+
   return (
     <div id="stake-view">
       <Box width="97%" maxWidth="833px">
@@ -112,29 +113,18 @@ const Tender = (props: { walletAddress: string }) => {
           </TextButton>
         </InfoNotification>
       </Box>
-
       <Paper headerText={t`Chicken Tender Offer`}>
         <Box display="flex" justifyContent={"center"} mb={"10px"}>
           <Typography>{contractBalanceFormatted}/970,000 Chickens Deposited</Typography>
         </Box>
-
         <Box style={{ width: "50%", margin: "0 25%" }}>
           <LinearProgress className={classes.progress} variant="determinate" value={progressValue} />
         </Box>
-
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-          alignContent="center"
-          width="50%"
-        ></Box>
         <Box className="stake-action-area">
           <Tabs centered value={view} onChange={changeView} aria-label="stake tabs">
             <Tab label={t`Deposit`} />
             <Tab label={t`Redeem`} />
           </Tabs>
-
           {props.walletAddress && view === 0 ? (
             <>
               <InputWrapper
