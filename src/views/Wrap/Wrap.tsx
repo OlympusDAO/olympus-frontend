@@ -6,6 +6,7 @@ import { Skeleton } from "@material-ui/lab";
 import { DataRow, Icon, InputWrapper, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
+import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
@@ -71,14 +72,6 @@ const Wrap: React.FC = () => {
 
   // @ts-ignore
   const isAllowanceDataLoading = currentAction === "Unwrap";
-
-  const modalButton = [];
-
-  modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-      Connect Wallet
-    </Button>,
-  );
 
   const temporaryStore = assetTo;
 
@@ -213,7 +206,7 @@ const Wrap: React.FC = () => {
               {!address ? (
                 <div className="stake-wallet-notification">
                   <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
+                    <ConnectButton />
                   </div>
                   <Typography variant="h6">Connect your wallet</Typography>
                 </div>

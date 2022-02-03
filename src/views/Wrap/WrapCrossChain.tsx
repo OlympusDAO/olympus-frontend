@@ -7,6 +7,7 @@ import { Icon, Metric, MetricCollection, Paper } from "@olympusdao/component-lib
 import { DataRow, InputWrapper } from "@olympusdao/component-library";
 import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
+import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import { useAppSelector } from "src/hooks/index";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
@@ -68,14 +69,6 @@ function WrapCrossChain() {
   }, [wsOhmBalance, wsOhmAllowance]);
 
   const isDataLoading = useAppSelector(state => state.account.loading);
-
-  const modalButton = [];
-
-  modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-      Connect Wallet
-    </Button>,
-  );
 
   const migrateToGohm = () =>
     dispatch(
@@ -190,7 +183,7 @@ function WrapCrossChain() {
               {!address ? (
                 <div className="stake-wallet-notification">
                   <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
+                    <ConnectButton />
                   </div>
                   <Typography variant="h6">Connect your wallet</Typography>
                 </div>

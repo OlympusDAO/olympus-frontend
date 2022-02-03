@@ -26,7 +26,8 @@ exports[`<Zap/> should render component 1`] = `
                 id="wallet-menu"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-contained connect-button MuiButton-containedPrimary MuiButton-disableElevation"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-3 makeStyles-root-4 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+                  style="font-size: 1.2857rem;"
                   tabindex="0"
                   type="button"
                 >
@@ -56,16 +57,16 @@ exports[`<Zap/> should render component 1`] = `
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4"
       >
         <div
-          class="MuiGrid-root makeStyles-infoBox-3 MuiGrid-item makeStyles-infoBoxItem-4 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
+          class="MuiGrid-root makeStyles-infoBox-5 MuiGrid-item makeStyles-infoBoxItem-6 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-7 makeStyles-infoHeader-5 oly-info-header-box"
+            class="MuiBox-root MuiBox-root-9 makeStyles-infoHeader-7 oly-info-header-box"
           >
             <div
-              class="MuiBox-root MuiBox-root-8"
+              class="MuiBox-root MuiBox-root-10"
             >
               <div
-                class="MuiBox-root MuiBox-root-9"
+                class="MuiBox-root MuiBox-root-11"
               >
                 <svg
                   aria-hidden="true"
@@ -140,7 +141,7 @@ exports[`<Zap/> should render component 1`] = `
             </p>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-11 makeStyles-infoBody-6"
+            class="MuiBox-root MuiBox-root-13 makeStyles-infoBody-8"
           >
             <p
               class="MuiTypography-root oly-info-body-header MuiTypography-body1"
@@ -155,10 +156,10 @@ exports[`<Zap/> should render component 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root makeStyles-infoBox-3 MuiGrid-item makeStyles-infoBoxItem-4 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
+          class="MuiGrid-root makeStyles-infoBox-5 MuiGrid-item makeStyles-infoBoxItem-6 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-12 makeStyles-infoHeader-5 oly-info-header-box"
+            class="MuiBox-root MuiBox-root-14 makeStyles-infoHeader-7 oly-info-header-box"
           >
             <svg
               aria-hidden="true"
@@ -187,7 +188,7 @@ exports[`<Zap/> should render component 1`] = `
             </p>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-13 makeStyles-infoBody-6"
+            class="MuiBox-root MuiBox-root-15 makeStyles-infoBody-8"
           >
             <p
               class="MuiTypography-root oly-info-body-header MuiTypography-body1"
@@ -202,10 +203,10 @@ exports[`<Zap/> should render component 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root makeStyles-infoBox-3 MuiGrid-item makeStyles-infoBoxItem-4 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
+          class="MuiGrid-root makeStyles-infoBox-5 MuiGrid-item makeStyles-infoBoxItem-6 MuiGrid-grid-sm-12 MuiGrid-grid-md-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-14 makeStyles-infoHeader-5 oly-info-header-box"
+            class="MuiBox-root MuiBox-root-16 makeStyles-infoHeader-7 oly-info-header-box"
           >
             <svg
               aria-hidden="true"
@@ -258,7 +259,7 @@ exports[`<Zap/> should render component 1`] = `
             </p>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-15 makeStyles-infoBody-6"
+            class="MuiBox-root MuiBox-root-17 makeStyles-infoBody-8"
           >
             <p
               class="MuiTypography-root oly-info-body-header MuiTypography-body1"
@@ -274,7 +275,7 @@ exports[`<Zap/> should render component 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-16 button-box"
+        class="MuiBox-root MuiBox-root-18 button-box"
       >
         <a
           aria-disabled="false"

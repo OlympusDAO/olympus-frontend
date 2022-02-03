@@ -187,7 +187,8 @@ exports[`<WrapCrossChain/> should render component 1`] = `
                   id="wallet-menu"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained connect-button MuiButton-containedPrimary MuiButton-disableElevation"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-13 makeStyles-root-14 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+                    style="font-size: 1.2857rem;"
                     tabindex="0"
                     type="button"
                   >
