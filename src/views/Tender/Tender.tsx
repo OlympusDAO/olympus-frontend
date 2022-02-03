@@ -24,7 +24,7 @@ const Tender = (props: { walletAddress: string }) => {
   const [daiValue, setDaiValue] = useState(0);
   const [gOhmValue, setgOHMValue] = useState(0);
   const [depositedBalance, setDepositedBalance] = useState("0.00");
-  const [claimableBalance, setRedeemableBalance] = useState("0.00");
+  const [redeemableBalance, setRedeemableBalance] = useState("0.00");
   const [contractBalance, setContractBalance] = useState(0);
   const { data: gOhmPrice } = useGohmPrice();
 
@@ -51,12 +51,15 @@ const Tender = (props: { walletAddress: string }) => {
     }
 
     //TODO: Contract call for Querying Deposited Balance
+    //Call deposits. Should return amount of Token Deposited.
     setDepositedBalance("10.00");
 
     //TODO: Contract call for Querying Redeemable Balance
+    //How much of which token can I claim? Which Function?
     setRedeemableBalance("00.00");
 
     //TODO: Contract Call for Contract Balance
+    //Call totalDeposits
     setContractBalance(500000);
   }, [props.walletAddress]);
 
@@ -68,18 +71,36 @@ const Tender = (props: { walletAddress: string }) => {
   };
 
   //TODO: Contract call for Deposit Tokens
+  //call deposit. 0 = DAI, 1 = gOHM
   const deposit = () => console.log("Make the Contract Call for Deposit");
 
   //TODO: Contract call for Redeem Tokens
+  //Call Redeem function.
   const redeem = () => console.log("Make the Contract Call for Redeem");
 
-  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
-    setView(newView);
-  };
+  //TODO: Contract call for Withdraw
+  //call withdraw if state=FAILED
+  const withdraw = () => console.log("Make the Contract Call for Withdraw");
+
+  //TODO: Check the Escrow State
+  // call State
+  // if PENDING allow deposit
+  // If FAILED allow withdraw
+  // If SUCCESS allow redeemDAI or redeemGOHM
+
+  /* TODO: Accept Offer .
+   * Does User Have Tokens in wallet (tokenBalance > 0)?
+   * Does State === Passed
+   * If Yes, Redeem Button Text === Accept Offer.
+   *  - Redeem Button OnClick = AcceptOffer Contract Call.
+   *
+   * Can the user select a redemption token? Or is it always gOHM at this point?
+   * How to check accept offer period is open or closed?
+   * */
 
   //disabled button if no token balance
   const depositButtonDisabled = parseInt(tokenBalance) > 0 ? false : true;
-  const redeemButtonDisabled = parseInt(claimableBalance) > 0 ? false : true;
+  const redeemButtonDisabled = parseInt(redeemableBalance) > 0 ? false : true;
 
   //Currency formatters for the token balances
   const usdValue = quantity ? new Intl.NumberFormat("en-US").format(parseInt(quantity) * 55) : 0;
@@ -91,6 +112,9 @@ const Tender = (props: { walletAddress: string }) => {
   //TODO: Is contract cap retrieved from the contract?
   const progressValue = (contractBalance / 970000) * 100;
 
+  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
+    setView(newView);
+  };
   const classes = useStyles();
 
   return (
