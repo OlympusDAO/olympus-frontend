@@ -22,6 +22,8 @@ const Tender = (props: { walletAddress: string }) => {
   const [tokenBalance, setTokenBalance] = useState("0.00");
   const [quantity, setQuantity] = useState("");
   const [daiValue, setDaiValue] = useState(0);
+  const [gOhmExchangeRate, setgOhmExchangeRate] = useState(0);
+  const [daiExchangeRate, setDaiExchangeRate] = useState(0);
   const [gOhmValue, setgOHMValue] = useState(0);
   const [depositedBalance, setDepositedBalance] = useState("0.00");
   const [redeemableBalance, setRedeemableBalance] = useState("0.00");
@@ -49,6 +51,11 @@ const Tender = (props: { walletAddress: string }) => {
         }
       });
     }
+
+    //Contract Call for DAI and gOHM Exchange Rates
+    //If one returns zero. Don't show the toggle and only allow deposit for the other.
+    setgOhmExchangeRate(55);
+    setDaiExchangeRate(55);
 
     //TODO: Contract call for Querying Deposited Balance
     //Call deposits. Should return amount of Token Deposited.
@@ -106,8 +113,16 @@ const Tender = (props: { walletAddress: string }) => {
   const usdValue = quantity ? new Intl.NumberFormat("en-US").format(parseInt(quantity) * 55) : 0;
   const gOhm = new Intl.NumberFormat("en-US").format(gOhmValue);
   const dai = new Intl.NumberFormat("en-US").format(daiValue);
-  //if false gOHM, if true DAI
-  const redemptionToken = redeemToken ? "gOHM" : "DAI";
+  const allowChoice = daiExchangeRate > 0 && gOhmExchangeRate > 0;
+
+  //If both exchange rates are positive. allow choice. Else default to the rate that is positive.
+  const redemptionToken = () => {
+    if (allowChoice) {
+      return redeemToken ? "gOHM" : "DAI";
+    } else {
+      return gOhmExchangeRate > 0 ? "gOHM" : "DAI";
+    }
+  };
   const contractBalanceFormatted = new Intl.NumberFormat("en-US").format(contractBalance);
   //TODO: Is contract cap retrieved from the contract?
   const progressValue = (contractBalance / 970000) * 100;
@@ -164,27 +179,31 @@ const Tender = (props: { walletAddress: string }) => {
                 buttonOnClick={() => deposit()}
                 disabled={depositButtonDisabled}
               />
-              <Box
-                display="flex"
-                flexDirection="row"
-                alignItems="center"
-                justifyContent="space-between"
-                marginTop="15px"
-                marginBottom="25px"
-                textAlign="center"
-              >
-                <Typography>
-                  Deposit {quantity} Chicken for ${dai} DAI
-                </Typography>
+              {allowChoice && (
+                <>
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    marginTop="15px"
+                    marginBottom="25px"
+                    textAlign="center"
+                  >
+                    <Typography>
+                      Deposit {quantity} Chicken for ${dai} DAI
+                    </Typography>
 
-                <Switch checked={redeemToken} onChange={() => setRedeemToken(!redeemToken)} color="default" />
-                <Typography>
-                  Deposit {quantity} Chicken for {gOhm} gOHM (~${usdValue})
-                </Typography>
-              </Box>
+                    <Switch checked={redeemToken} onChange={() => setRedeemToken(!redeemToken)} color="default" />
+                    <Typography>
+                      Deposit {quantity} Chicken for {gOhm} gOHM (~${usdValue})
+                    </Typography>
+                  </Box>
+                  <Divider color="secondary" />
+                </>
+              )}
 
               <Grid item>
-                <Divider color="secondary" />
                 <DataRow title={t`Current Chicken Balance`} balance={`${trim(Number(tokenBalance), 4)} Chicken`} />
                 <DataRow title={t`Deposited Balance`} balance={`${depositedBalance} Chicken`} />
               </Grid>
