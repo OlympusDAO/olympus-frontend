@@ -1,30 +1,20 @@
-import {
-  Box,
-  Button,
-  Table,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableBody,
-  Typography,
-  Tab,
-  Tabs,
-} from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { InfoTooltip, Modal } from "@olympusdao/component-library";
+import "./MigrationModal.scss";
 
+import { t, Trans } from "@lingui/macro";
+import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { InfoTooltip, Modal, Tab, Tabs } from "@olympusdao/component-library";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
+import { NetworkId } from "src/constants";
+import { trim } from "src/helpers";
 import { changeMigrationApproval, migrateAll, migrateSingle, TokenType } from "src/slices/MigrateThunk";
 import { useWeb3Context } from "src/hooks";
-import { useEffect, useMemo, useState } from "react";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { info } from "src/slices/MessagesSlice";
-import "./migration-modal.scss";
 import { useAppSelector } from "src/hooks";
-import { trim } from "src/helpers";
-import { t, Trans } from "@lingui/macro";
-import { NetworkId } from "src/constants";
+import { info } from "src/slices/MessagesSlice";
+import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 const formatCurrency = (c: number) => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -47,7 +37,7 @@ function MigrationModal({ open, handleClose, hasDust }: { open: boolean; handleC
   const { provider, address, networkId } = useWeb3Context();
 
   const [view, setView] = useState(0);
-  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 
@@ -67,7 +57,7 @@ function MigrationModal({ open, handleClose, hasDust }: { open: boolean; handleC
   });
 
   let rows = [];
-  let isMigrationComplete = useAppSelector(state => state.account.isMigrationComplete);
+  const isMigrationComplete = useAppSelector(state => state.account.isMigrationComplete);
 
   const onSeekApproval = (token: string) => {
     dispatch(
@@ -126,7 +116,7 @@ function MigrationModal({ open, handleClose, hasDust }: { open: boolean; handleC
       dispatch(info("All approvals complete. You may now migrate."));
     }
   }, [isAllApproved]);
-  const isGOHM = view === 0;
+  const isGOHM = view === 1;
   const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM (v2)"), [view]);
   const targetMultiplier = useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
 
@@ -240,8 +230,8 @@ function MigrationModal({ open, handleClose, hasDust }: { open: boolean; handleC
             aria-label="payout token tabs"
             className="payout-token-tabs"
           >
-            <Tab label={`gOHM`} className="payout-token-tab" />
-            <Tab label={`sOHM`} className="payout-token-tab" />
+            <Tab aria-label="payout-sohm-button" label="sOHM" className="payout-token-tab" />
+            <Tab aria-label="payout-gohm-button" label="gOHM" className="payout-token-tab" />
           </Tabs>
           {isMobileScreen ? (
             <Box id="mobile-container-migration">

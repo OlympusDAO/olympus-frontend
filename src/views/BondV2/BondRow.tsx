@@ -1,29 +1,42 @@
-import BondLogo from "../../components/BondLogo";
-import { DisplayBondPrice, DisplayBondDiscount } from "./BondV2";
-import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { NavLink } from "react-router-dom";
-import "./choosebond.scss";
-import { t, Trans } from "@lingui/macro";
-import { Skeleton } from "@material-ui/lab";
-import { IBondV2 } from "src/slices/BondSliceV2";
-import { useAppSelector } from "src/hooks";
+import "./ChooseBond.scss";
 
-export function BondDataCard({ bond }: { bond: IBondV2 }) {
+import { t, Trans } from "@lingui/macro";
+import { Button, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
+import { TokenStack } from "@olympusdao/component-library";
+import { NavLink } from "react-router-dom";
+import { getEtherscanUrl } from "src/helpers";
+import { useAppSelector } from "src/hooks";
+import { IBondV2 } from "src/slices/BondSliceV2";
+
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { NetworkId } from "../../constants";
+import { DisplayBondDiscount, DisplayBondPrice } from "./BondV2";
+
+export function BondDataCard({ bond, networkId }: { bond: IBondV2; networkId: NetworkId }) {
   const isBondLoading = useAppSelector(state => state.bondingV2.loading);
 
   return (
     <Slide direction="up" in={true}>
       <Paper id={`${bond.index}--bond`} className="bond-data-card ohm-card">
         <div className="bond-pair">
-          <BondLogo bond={bond} />
+          <TokenStack tokens={bond.bondIconSvg} />
           <div className="bond-name">
             <Typography>{bond.displayName}</Typography>
-            {bond.isLP && (
+            {bond && bond.isLP ? (
               <div>
                 <Link href={bond.lpUrl} target="_blank">
                   <Typography variant="body1">
                     <Trans>Get LP</Trans>
+                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                  </Typography>
+                </Link>
+              </div>
+            ) : (
+              <div>
+                <Link href={getEtherscanUrl({ bond, networkId })} target="_blank">
+                  <Typography variant="body1">
+                    <Trans>View Asset</Trans>
                     <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
                   </Typography>
                 </Link>
@@ -81,24 +94,35 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
   );
 }
 
-export function BondTableData({ bond }: { bond: IBondV2 }) {
+export function BondTableData({ bond, networkId }: { bond: IBondV2; networkId: NetworkId }) {
   // Use BondPrice as indicator of loading.
   const isBondLoading = !bond.priceUSD ?? true;
-  // const isBondLoading = useSelector(state => !state.bonding[bond]?.bondPrice ?? true);
 
   return (
     <TableRow id={`${bond.index}--bond`}>
       <TableCell align="left" className="bond-name-cell">
-        <BondLogo bond={bond} />
+        <TokenStack tokens={bond.bondIconSvg} />
         <div className="bond-name">
-          <Typography variant="body1">{bond.displayName}</Typography>
-          {bond.isLP && (
-            <Link color="primary" href={bond.lpUrl} target="_blank">
-              <Typography variant="body1">
-                <Trans>Get LP</Trans>
-                <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-              </Typography>
-            </Link>
+          {bond && bond.isLP ? (
+            <>
+              <Typography variant="body1">{bond.displayName}</Typography>
+              <Link color="primary" href={bond.lpUrl} target="_blank">
+                <Typography variant="body1">
+                  <Trans>Get LP</Trans>
+                  <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                </Typography>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Typography variant="body1">{bond.displayName}</Typography>
+              <Link color="primary" href={getEtherscanUrl({ bond, networkId })} target="_blank">
+                <Typography variant="body1">
+                  <Trans>View Asset</Trans>
+                  <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                </Typography>
+              </Link>
+            </>
           )}
           {/* <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography> */}
         </div>

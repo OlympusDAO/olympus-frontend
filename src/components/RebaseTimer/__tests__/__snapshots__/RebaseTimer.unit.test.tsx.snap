@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RebaseTimer/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-1 rebase-timer"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body2"
+    >
+      <span
+        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+        style="width: 155px;"
+      />
+    </p>
+  </div>
+</div>
+`;

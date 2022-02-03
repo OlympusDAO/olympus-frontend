@@ -1,25 +1,27 @@
-import { ethers, BigNumber } from "ethers";
+import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
+import { BigNumber, ethers } from "ethers";
+import { addresses, NetworkId, UnknownDetails, V2BondDetails, v2BondDetails } from "src/constants";
+import { prettifySeconds } from "src/helpers";
 import { RootState } from "src/store";
+import { BondDepository__factory, IERC20__factory } from "src/typechain";
+
+import { getBalances } from "./AccountSlice";
+import { findOrLoadMarketPrice } from "./AppSlice";
 import {
   IBaseAddressAsyncThunk,
-  IBondV2AysncThunk,
-  IValueAsyncThunk,
-  IBondV2PurchaseAsyncThunk,
-  IJsonRPCError,
   IBaseBondV2ClaimAsyncThunk,
   IBaseBondV2SingleClaimAsyncThunk,
+  IBondV2AysncThunk,
   IBondV2IndexAsyncThunk,
+  IBondV2PurchaseAsyncThunk,
+  IJsonRPCError,
+  IValueAsyncThunk,
 } from "./interfaces";
-import { BondDepository__factory, IERC20__factory } from "src/typechain";
-import { addresses, NetworkId, V2BondDetails, v2BondDetails, UnknownDetails } from "src/constants";
-import { prettifySeconds } from "src/helpers";
-import { findOrLoadMarketPrice } from "./AppSlice";
-import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 import { error, info } from "./MessagesSlice";
-import { getBalances } from "./AccountSlice";
+import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 
-const BASE_TOKEN_DECIMALS: number = 9;
+const BASE_TOKEN_DECIMALS = 9;
 
 export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   index: number;
@@ -34,7 +36,13 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   lpUrl: string;
   marketPrice: number;
   soldOut: boolean;
-  maxPayoutOrCapacity: BigNumber;
+  capacityInBaseToken: string;
+  capacityInQuoteToken: string;
+  maxPayoutInBaseToken: string;
+  maxPayoutInQuoteToken: string;
+  maxPayoutOrCapacityInQuote: string;
+  maxPayoutOrCapacityInBase: string;
+  bondIconSvg: OHMTokenStackProps["tokens"];
 }
 
 export interface IBondV2Balance {
@@ -92,6 +100,7 @@ export interface IUserNote {
   claimed: boolean;
   displayName: string;
   quoteToken: string;
+  bondIconSvg: OHMTokenStackProps["tokens"];
   index: number;
 }
 
@@ -214,10 +223,30 @@ async function processBond(
   }
   const quoteTokenPrice = await v2BondDetail.pricingFunction(provider, bond.quoteToken);
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
-  let bondPrice = +bondPriceBigNumber / Math.pow(10, BASE_TOKEN_DECIMALS);
+  const bondPrice = +bondPriceBigNumber / Math.pow(10, BASE_TOKEN_DECIMALS);
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
   const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;
+
+  let capacityInBaseToken: string, capacityInQuoteToken: string;
+  if (bond.capacityInQuote) {
+    capacityInBaseToken = ethers.utils.formatUnits(
+      bond.capacity.mul(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)).div(bondPriceBigNumber),
+      BASE_TOKEN_DECIMALS,
+    );
+    capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, metadata.quoteDecimals);
+  } else {
+    capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, BASE_TOKEN_DECIMALS);
+    capacityInQuoteToken = ethers.utils.formatUnits(
+      bond.capacity.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
+      metadata.quoteDecimals,
+    );
+  }
+  const maxPayoutInBaseToken: string = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
+  const maxPayoutInQuoteToken: string = ethers.utils.formatUnits(
+    bond.maxPayout.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
+    metadata.quoteDecimals,
+  );
 
   let seconds = 0;
   if (terms.fixedTerm) {
@@ -237,10 +266,11 @@ async function processBond(
   // SAFETY CHECKs
   // 1. check sold out
   let soldOut = false;
-  if (+bond.capacity / Math.pow(10, 9) < 1) soldOut = true;
-  // 2. modify maxPayout to be <= capacity
-  let maxPayoutOrCapacity = bond.maxPayout;
-  if (bond.maxPayout.gt(bond.capacity)) maxPayoutOrCapacity = bond.capacity;
+  if (+capacityInBaseToken < 1 || +maxPayoutInBaseToken < 1) soldOut = true;
+  const maxPayoutOrCapacityInQuote =
+    +capacityInQuoteToken > +maxPayoutInQuoteToken ? maxPayoutInQuoteToken : capacityInQuoteToken;
+  const maxPayoutOrCapacityInBase =
+    +capacityInBaseToken > +maxPayoutInBaseToken ? maxPayoutInBaseToken : capacityInBaseToken;
 
   return {
     ...bond,
@@ -258,8 +288,14 @@ async function processBond(
     lpUrl: v2BondDetail.isLP ? v2BondDetail.lpUrl[networkID] : "",
     marketPrice: ohmPrice,
     quoteToken: bond.quoteToken.toLowerCase(),
+    maxPayoutInQuoteToken,
+    maxPayoutInBaseToken,
+    capacityInQuoteToken,
+    capacityInBaseToken,
     soldOut,
-    maxPayoutOrCapacity,
+    maxPayoutOrCapacityInQuote,
+    maxPayoutOrCapacityInBase,
+    bondIconSvg: v2BondDetail.bondIconSvg,
   };
 }
 
@@ -273,18 +309,23 @@ export const getAllBonds = createAsyncThunk(
     const liveBondPromises = liveBondIndexes.map(async index => await depositoryContract.markets(index));
     const liveBondMetadataPromises = liveBondIndexes.map(async index => await depositoryContract.metadata(index));
     const liveBondTermsPromises = liveBondIndexes.map(async index => await depositoryContract.terms(index));
-    let liveBonds: IBondV2[] = [];
+    const liveBonds: IBondV2[] = [];
 
     for (let i = 0; i < liveBondIndexes.length; i++) {
       const bondIndex = +liveBondIndexes[i];
-      const bond: IBondV2Core = await liveBondPromises[i];
-      const bondMetadata: IBondV2Meta = await liveBondMetadataPromises[i];
-      const bondTerms: IBondV2Terms = await liveBondTermsPromises[i];
-      const finalBond = await processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
-      liveBonds.push(finalBond);
+      try {
+        const bond: IBondV2Core = await liveBondPromises[i];
+        const bondMetadata: IBondV2Meta = await liveBondMetadataPromises[i];
+        const bondTerms: IBondV2Terms = await liveBondTermsPromises[i];
+        const finalBond = await processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
+        liveBonds.push(finalBond);
 
-      if (address) {
-        dispatch(getTokenBalance({ provider, networkID, address, value: finalBond.quoteToken }));
+        if (address) {
+          dispatch(getTokenBalance({ provider, networkID, address, value: finalBond.quoteToken }));
+        }
+      } catch (e) {
+        console.log("getAllBonds Error for Bond Index: ", bondIndex);
+        console.log(e);
       }
     }
     return liveBonds;
@@ -307,9 +348,11 @@ export const getUserNotes = createAsyncThunk(
       marketID: number;
     }[] = await Promise.all(userNotePromises);
     const bonds = await Promise.all(
-      Array.from(new Set(userNotes.map(note => note.marketID))).map(
-        async id => await dispatch(getSingleBond({ address, provider, networkID, bondIndex: id })).unwrap(),
-      ),
+      Array.from(new Set(userNotes.map(note => note.marketID))).map(async id => {
+        const bond = await depositoryContract.markets(id);
+        const bondDetail = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
+        return { index: id, quoteToken: bond.quoteToken, ...bondDetail };
+      }),
     ).then(result => Object.fromEntries(result.map(bond => [bond.index, bond])));
     const notes: IUserNote[] = [];
     for (let i = 0; i < userNotes.length; i++) {
@@ -320,9 +363,9 @@ export const getUserNotes = createAsyncThunk(
         redeemed: number;
         marketID: number;
       } = userNotes[i];
-      const bond: IBondV2 = bonds[rawNote.marketID];
-      let originalDurationSeconds = Math.max(rawNote.matured - rawNote.created, 0);
-      let seconds = Math.max(rawNote.matured - currentTime, 0);
+      const bond = bonds[rawNote.marketID];
+      const originalDurationSeconds = Math.max(rawNote.matured - rawNote.created, 0);
+      const seconds = Math.max(rawNote.matured - currentTime, 0);
       let duration = "";
       if (seconds > 86400) {
         duration = prettifySeconds(seconds, "day");
@@ -346,9 +389,10 @@ export const getUserNotes = createAsyncThunk(
         remainingDurationSeconds: seconds,
         originalDuration: originalDuration,
         timeLeft: duration,
-        displayName: bond?.displayName,
+        displayName: bond?.name,
         quoteToken: bond.quoteToken.toLowerCase(),
         index: +userNoteIndexes[i],
+        bondIconSvg: bond?.bondIconSvg,
       };
       notes.push(note);
     }
@@ -418,7 +462,7 @@ export const claimSingleNote = createAsyncThunk(
 // Note(zx): this is a barebones interface for the state. Update to be more accurate
 interface IBondSlice {
   loading: boolean;
-  balanceLoading: boolean;
+  balanceLoading: { [key: string]: boolean };
   notesLoading: boolean;
   indexes: number[];
   balances: { [key: string]: IBondV2Balance };
@@ -428,7 +472,7 @@ interface IBondSlice {
 
 const initialState: IBondSlice = {
   loading: false,
-  balanceLoading: false,
+  balanceLoading: {},
   notesLoading: false,
   indexes: [],
   balances: {},
@@ -465,15 +509,15 @@ const bondingSliceV2 = createSlice({
         state.loading = false;
         console.error(error.message);
       })
-      .addCase(getTokenBalance.pending, state => {
-        state.balanceLoading = true;
+      .addCase(getTokenBalance.pending, (state, action) => {
+        state.balanceLoading[action.meta.arg.value] = true;
       })
       .addCase(getTokenBalance.fulfilled, (state, action) => {
         state.balances[action.payload.tokenAddress] = action.payload;
-        state.balanceLoading = false;
+        state.balanceLoading[action.meta.arg.value] = false;
       })
-      .addCase(getTokenBalance.rejected, (state, { error }) => {
-        state.balanceLoading = false;
+      .addCase(getTokenBalance.rejected, (state, { error, meta }) => {
+        state.balanceLoading[meta.arg.value] = false;
         console.error(error.message);
       })
       .addCase(getUserNotes.pending, state => {

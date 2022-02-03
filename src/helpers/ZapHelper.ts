@@ -1,4 +1,5 @@
-import { EnvHelper } from "./Environment";
+import { BigNumber } from "ethers";
+
 import { addresses } from "../constants";
 
 interface ZapperResponse {
@@ -118,7 +119,7 @@ export class ZapHelper {
 
   static getZapperAPIKey() {
     // below is public key from Zapper, per: https://docs.zapper.fi/zapper-api/endpoints
-    let apiKey = "96e0cc51-a62e-42ca-acee-910ea7d2a241";
+    const apiKey = "96e0cc51-a62e-42ca-acee-910ea7d2a241";
     if (!apiKey) {
       console.warn("zaps won't work without REACT_APP_ZAPPER_API key");
     }
@@ -126,7 +127,7 @@ export class ZapHelper {
   }
 
   static executeZapHelper = async (
-    sellAmount: number,
+    sellAmount: BigNumber,
     ownerAddress: string,
     tokenAddress: string,
     slippagePercentage: string,

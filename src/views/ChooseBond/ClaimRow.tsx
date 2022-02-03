@@ -1,14 +1,16 @@
-import { useDispatch } from "react-redux";
+import "./ChooseBond.scss";
+
 import { t } from "@lingui/macro";
-import { trim, prettyVestingPeriod } from "../../helpers";
-import { redeemBond } from "../../slices/BondSlice";
-import BondLogo from "../../components/BondLogo";
 import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
-import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
-import { useWeb3Context, useBonds, useAppSelector } from "src/hooks";
+import { TokenStack } from "@olympusdao/component-library";
+import { useDispatch } from "react-redux";
+import { useAppSelector, useBonds, useWeb3Context } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
-import { isPendingTxn, txnButtonText, txnButtonTextGeneralPending } from "src/slices/PendingTxnsSlice";
+import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+
+import { prettyVestingPeriod, trim } from "../../helpers";
+import { redeemBond } from "../../slices/BondSlice";
 
 export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondDetails] }) {
   const dispatch = useDispatch();
@@ -34,14 +36,14 @@ export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondD
 
   async function onRedeem({ autostake }: { autostake: boolean }) {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-    let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
+    const currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
     await dispatch(redeemBond({ address, bond: currentBond!, networkID: networkId, provider, autostake }));
   }
 
   return (
     <TableRow id={`${bondName}--claim`}>
       <TableCell align="left" className="bond-name-cell">
-        <BondLogo bond={bond} />
+        <TokenStack tokens={bond.bondIconSvg} />
         <div className="bond-name">
           <Typography variant="body1">
             {/* 0xdavinchee: we were previously trimmming the bond display name-I don't think this was the intent */}
@@ -98,30 +100,30 @@ export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDe
 
   async function onRedeem({ autostake }: { autostake: boolean }) {
     // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-    let currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
+    const currentBond = [...bonds, ...expiredBonds].find(bnd => bnd.name === bondName);
     await dispatch(redeemBond({ address, bond: currentBond!, networkID: networkId, provider, autostake }));
   }
 
   return (
     <Box id={`${bondName}--claim`} className="claim-bond-data-card bond-data-card" style={{ marginTop: "10px" }}>
       <Box className="bond-pair">
-        <BondLogo bond={bond} />
+        <TokenStack tokens={bond.bondIconSvg} />
         <Box className="bond-name">
           <Typography>{bond.displayName ? trim(bond.displayName as any, 4) : <Skeleton width={100} />}</Typography>
         </Box>
       </Box>
 
-      <div className="data-row">
+      <div className="data-row" style={{ display: "flex", justifyContent: "space-between" }}>
         <Typography>Claimable</Typography>
         <Typography>{bond.pendingPayout ? trim(Number(bond.pendingPayout), 4) : <Skeleton width={100} />}</Typography>
       </div>
 
-      <div className="data-row">
+      <div className="data-row" style={{ display: "flex", justifyContent: "space-between" }}>
         <Typography>Pending</Typography>
         <Typography>{bond.interestDue ? trim(bond.interestDue, 4) : <Skeleton width={100} />}</Typography>
       </div>
 
-      <div className="data-row" style={{ marginBottom: "20px" }}>
+      <div className="data-row" style={{ marginBottom: "20px", display: "flex", justifyContent: "space-between" }}>
         <Typography>Fully Vested</Typography>
         <Typography>{vestingPeriod()}</Typography>
       </div>

@@ -1,4 +1,5 @@
 import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
+
 import fonts from "./fonts";
 import commonSettings, { handleBackdropFilter } from "./global.js";
 
@@ -103,9 +104,6 @@ export const dark = responsiveFontSizes(
           paper: {
             backgroundColor: darkTheme.paperBg,
             zIndex: 7,
-            "@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none))": {
-              backgroundColor: "rgba(54, 56, 64, 0.98)",
-            },
           },
         },
         MuiSelect: {
@@ -121,6 +119,9 @@ export const dark = responsiveFontSizes(
             },
             "&.ohm-modal": {
               backgroundColor: darkTheme.modalBg,
+            },
+            "&.MuiPaper-root.tooltip-container": {
+              backgroundColor: darkTheme.paperBg,
             },
             "&.ohm-menu": {
               backgroundColor: darkTheme.menuBg,
@@ -291,9 +292,6 @@ export const dark = responsiveFontSizes(
             "&:hover": {
               color: darkTheme.textHighlightColor,
             },
-          },
-          "&.grid-button-text": {
-            color: "#FFFFFF",
           },
         },
         MuiTypography: {

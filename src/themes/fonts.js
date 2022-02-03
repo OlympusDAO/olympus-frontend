@@ -1,9 +1,9 @@
-import SquareWOFF from "../assets/fonts/EuclidSquare-Regular.woff";
 import SquareBoldWOFF from "../assets/fonts/EuclidSquare-Bold.woff";
-import SquareSemiBoldWOFF from "../assets/fonts/EuclidSquare-SemiBold.woff";
 import SquareItalicWOFF from "../assets/fonts/EuclidSquare-Italic.woff";
 import SquareLightWOFF from "../assets/fonts/EuclidSquare-Light.woff";
 import SquareMediumWOFF from "../assets/fonts/EuclidSquare-Medium.woff";
+import SquareWOFF from "../assets/fonts/EuclidSquare-Regular.woff";
+import SquareSemiBoldWOFF from "../assets/fonts/EuclidSquare-SemiBold.woff";
 
 const square = {
   fontFamily: "Square",

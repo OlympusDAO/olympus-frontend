@@ -1,7 +1,8 @@
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
+
+import { NETWORKS } from "../constants";
 import { EnvHelper } from "../helpers/Environment";
 import { NodeHelper } from "../helpers/NodeHelper";
-import { NETWORKS } from "../constants";
 
 interface IGetCurrentNetwork {
   provider: StaticJsonRpcProvider | JsonRpcProvider;
@@ -11,7 +12,7 @@ export const initNetworkFunc = async ({ provider }: IGetCurrentNetwork) => {
   try {
     let networkName: string;
     let uri: string;
-    let supported: boolean = true;
+    let supported = true;
     const id: number = await provider.getNetwork().then(network => network.chainId);
     switch (id) {
       case 1:
@@ -96,7 +97,7 @@ export const switchNetwork = async ({ provider, networkId }: ISwitchNetwork) => 
   }
 };
 
-const idToHexString = (id: number) => {
+export const idToHexString = (id: number) => {
   return "0x" + id.toString(16);
 };
 

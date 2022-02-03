@@ -1,8 +1,11 @@
-import { useSelector } from "react-redux";
+import "./ChooseBond.scss";
+
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
+  ButtonBase,
   Grid,
-  Paper,
+  SvgIcon,
   Table,
   TableBody,
   TableCell,
@@ -11,28 +14,24 @@ import {
   TableRow,
   Typography,
   Zoom,
-  ButtonBase,
-  SvgIcon,
 } from "@material-ui/core";
-import { t, Trans } from "@lingui/macro";
-import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { formatCurrency } from "../../helpers";
-import useBonds from "../../hooks/Bonds";
-import { useHistory } from "react-router";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import "./choosebond.scss";
-import { Skeleton } from "@material-ui/lab";
-import { Link } from "react-router-dom";
+import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import isEmpty from "lodash/isEmpty";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import { allBondsMap } from "src/helpers/AllBonds";
 import { useAppSelector } from "src/hooks";
+import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IUserBondDetails } from "src/slices/AccountSlice";
-import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { Metric, MetricCollection } from "@olympusdao/component-library";
 import { IUserNote } from "src/slices/BondSliceV2";
+
+import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
+import { formatCurrency } from "../../helpers";
+import useBonds from "../../hooks/Bonds";
 import ClaimBonds from "../BondV2/ClaimBonds";
+import { BondDataCard, BondTableData } from "./BondRow";
 
 function ChooseBond() {
   const { networkId } = useWeb3Context();
@@ -80,33 +79,27 @@ function ChooseBond() {
     minimumFractionDigits: 0,
   }).format(Number(treasuryBalance));
 
+  const topRightCTA = (
+    <ButtonBase>
+      <Typography style={{ lineHeight: "33px" }}>
+        <b>
+          <Link to="/bonds" style={{ textDecoration: "none", color: "inherit" }}>
+            <Trans>v2 bonds</Trans>
+            <SvgIcon
+              style={{ margin: "0 0 0 5px", verticalAlign: "text-bottom" }}
+              component={ArrowUp}
+              color="primary"
+            />
+          </Link>
+        </b>
+      </Typography>
+    </ButtonBase>
+  );
   return (
     <div id="choose-bond-view">
       {(!isEmpty(accountNotes) || !isEmpty(accountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
-
       <Zoom in={true}>
-        <Paper className="ohm-card">
-          <Box className="card-header">
-            <Typography variant="h5" data-testid="t">
-              <Trans>Bond</Trans> (1,1)
-            </Typography>
-
-            <ButtonBase>
-              <Typography style={{ lineHeight: "33px" }}>
-                <b>
-                  <Link to="/bonds" style={{ textDecoration: "none", color: "inherit" }}>
-                    <Trans>v2 bonds</Trans>
-                    <SvgIcon
-                      style={{ margin: "0 0 0 5px", verticalAlign: "text-bottom" }}
-                      component={ArrowUp}
-                      color="primary"
-                    />
-                  </Link>
-                </b>
-              </Typography>
-            </ButtonBase>
-          </Box>
-
+        <Paper headerText={`${t`Bond`} (1,1)`} topRight={topRightCTA}>
           <MetricCollection>
             <Metric
               label={t`Treasury Balance`}

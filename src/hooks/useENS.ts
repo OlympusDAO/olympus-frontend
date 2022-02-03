@@ -1,31 +1,27 @@
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
-import { useWeb3Context } from "./web3Context";
-import { NetworkId } from "../constants";
+import { useQuery } from "react-query";
+import { NetworkId } from "src/constants";
+import { queryAssertion } from "src/helpers";
 
-const useENS = (address: string) => {
-  const { provider, networkId, providerInitialized } = useWeb3Context();
-  const [ensName, setENSName] = useState<string | null>(null);
-  const [ensAvatar, setENSAvatar] = useState<string | null>(null);
-  const ensSupport: boolean = networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY;
+import { useWeb3Context } from ".";
 
-  useEffect(() => {
-    const resolveENS = async () => {
-      if (providerInitialized && ensSupport && ethers.utils.isAddress(address)) {
-        try {
-          let ensName = await provider.lookupAddress(address);
-          let avatar = ensName ? await provider.getAvatar(ensName) : null;
-          setENSName(ensName);
-          setENSAvatar(avatar);
-        } catch (e) {
-          console.log("e", e);
-        }
-      }
-    };
-    resolveENS();
-  }, [address]);
+export const ensQueryKey = (address?: string) => [address, "useEns"];
 
-  return { ensName, ensAvatar };
+export const useEns = () => {
+  const { provider, address, networkId } = useWeb3Context();
+
+  const isEnsSupported = networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY;
+
+  return useQuery<{ name: string | null; avatar: string | null }, Error>(
+    ensQueryKey(address),
+    async () => {
+      queryAssertion(address, ensQueryKey(address));
+
+      const name = await provider.lookupAddress(address);
+      const avatar = name ? await provider.getAvatar(name) : null;
+
+      return { name, avatar };
+    },
+
+    { enabled: !!address && isEnsSupported },
+  );
 };
-
-export default useENS;

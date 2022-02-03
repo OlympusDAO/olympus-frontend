@@ -1,29 +1,23 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import "./33together.scss";
+
 import { t } from "@lingui/macro";
-import { Paper, Tab, Tabs, Box } from "@material-ui/core";
+import { Box, Paper } from "@material-ui/core";
 import { InfoTooltipMulti } from "@olympusdao/component-library";
+import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addresses, POOL_GRAPH_URLS } from "src/constants";
+import { calculateOdds, trimOdds } from "src/helpers/33Together";
+import { useAppSelector, useWeb3Context } from "src/hooks";
+import { apolloExt } from "src/lib/apolloClient";
+import { getPoolValues, getRNGStatus } from "src/slices/PoolThunk";
 import { Prize, PrizePool } from "src/typechain/pooltogether";
-import TabPanel from "../../components/TabPanel";
+
 import CardHeader from "../../components/CardHeader/CardHeader";
-import { PoolDeposit } from "./PoolDeposit";
-import { PoolWithdraw } from "./PoolWithdraw";
+import { poolDataQuery, yourAwardsQuery } from "./poolData";
 import { PoolInfo } from "./PoolInfo";
 import { PoolPrize } from "./PoolPrize";
-import "./33together.scss";
-import { addresses, POOL_GRAPH_URLS } from "src/constants";
-import { useWeb3Context, useAppSelector } from "src/hooks";
-import { apolloExt } from "src/lib/apolloClient";
-import { poolDataQuery, yourAwardsQuery } from "./poolData";
-import { calculateOdds, trimOdds } from "src/helpers/33Together";
-import { getPoolValues, getRNGStatus } from "src/slices/PoolThunk";
-
-function a11yProps(index: number) {
-  return {
-    id: `pool-tab-${index}`,
-    "aria-controls": `pool-tabpanel-${index}`,
-  };
-}
+import { PoolWithdraw } from "./PoolWithdraw";
 
 interface AwardItem {
   awardedTimestamp: number;
@@ -35,7 +29,7 @@ const PoolTogether = () => {
   const [view, setView] = useState(0);
   const [zoomed, setZoomed] = useState(false);
 
-  const changeView = (_event: React.ChangeEvent<{}>, newView: number) => {
+  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 
@@ -175,18 +169,18 @@ const PoolTogether = () => {
           className="pt-tabs"
           aria-label="pool tabs"
         >
-          {/* <Tab label={t`Deposit`} {...a11yProps(0)} /> */}
-          <Tab label={t`Withdraw`} {...a11yProps(0)} />
+          {/* <Tab aria-label="pool-deposit-button" label={t`Deposit`} /> */}
+          <Tab aria-label="pool-withdraw-button" label={t`Withdraw`} />
         </Tabs>
 
-        {/* <TabPanel value={view} index={0} className="pool-tab">
+        {/* <TabPanel value={view} index={0}>
           <PoolDeposit
             totalPoolDeposits={totalDeposits}
             winners={winners}
             setInfoTooltipMessage={setInfoTooltipMessage}
           />
         </TabPanel> */}
-        <TabPanel value={view} index={0} className="pool-tab">
+        <TabPanel value={view} index={0}>
           <PoolWithdraw
             totalPoolDeposits={totalDeposits}
             winners={winners}

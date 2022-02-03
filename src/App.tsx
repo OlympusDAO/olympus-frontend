@@ -1,14 +1,16 @@
+// eslint-disable-next-line simple-import-sort/imports
+import "./style.scss";
+
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
-import useBonds, { IAllBondData } from "./hooks/Bonds";
-import { useWeb3Context } from "./hooks/web3Context";
+import useBonds from "./hooks/Bonds";
+import { useWeb3Context, useAppSelector } from "./hooks";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
 import { shouldTriggerSafetyCheck } from "./helpers";
@@ -21,10 +23,7 @@ import { info } from "./slices/MessagesSlice";
 
 import {
   Stake,
-  ChooseBond,
-  Bond,
   TreasuryDashboard,
-  PoolTogether,
   Zap,
   Wrap,
   V1Stake,
@@ -34,25 +33,19 @@ import {
   BondV2,
   ChooseBondV2,
 } from "./views";
-import Sidebar from "./components/Sidebar/Sidebar.jsx";
+import Sidebar from "./components/Sidebar/Sidebar";
 import TopBar from "./components/TopBar/TopBar";
 import CallToAction from "./components/CallToAction/CallToAction";
-import NavDrawer from "./components/Sidebar/NavDrawer.jsx";
+import NavDrawer from "./components/Sidebar/NavDrawer";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
 import MigrationModal from "src/components/Migration/MigrationModal";
-import ChangeNetwork from "./views/ChangeNetwork/ChangeNetwork";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
-import { v4 as uuidv4 } from "uuid";
-import "./style.scss";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import { useAppSelector } from "./hooks";
-import { Project } from "src/components/GiveProject/project.type";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import projectData from "src/views/Give/projects.json";
-import Announcement from "./components/Announcement/Announcement";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 
@@ -63,8 +56,6 @@ const DEBUG = false;
 if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 // 🔭 block explorer URL
 // const blockExplorer = targetNetwork.blockExplorer;
-
-const queryClient = new QueryClient();
 
 const drawerWidth = 280;
 const transitionDuration = 969;
@@ -106,7 +97,7 @@ function App() {
   useGoogleAnalytics();
   const location = useLocation();
   const dispatch = useDispatch();
-  const [theme, toggleTheme, mounted] = useTheme();
+  const [theme, toggleTheme] = useTheme();
   const currentPath = location.pathname + location.hash + location.search;
   const trimmedPath = location.pathname + location.hash;
   const classes = useStyles();
@@ -116,9 +107,6 @@ function App() {
   const { address, connect, hasCachedProvider, provider, connected, networkId, providerInitialized } = useWeb3Context();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
-  const migModalOpen = () => {
-    setMigrationModalOpen(true);
-  };
   const migModalClose = () => {
     dispatch(loadAccountDetails({ networkID: networkId, address, provider }));
     setMigrationModalOpen(false);
@@ -143,7 +131,7 @@ function App() {
     // address lookup on the wrong chain which then throws the error. To properly resolve this,
     // we shouldn't be initializing to networkID=1 in web3Context without first listening for the
     // network. To actually test rinkeby, change setnetworkID equal to 4 before testing.
-    let loadProvider = provider;
+    const loadProvider = provider;
 
     if (whichDetails === "app") {
       loadApp(loadProvider);
@@ -158,10 +146,13 @@ function App() {
   const loadApp = useCallback(
     loadProvider => {
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
-      // NOTE (appleseed) - tech debt - better network filtering for active bonds
       if (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) {
         bonds.map(bond => {
-          dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+          // NOTE (appleseed): getBondability & getLOLability control which bonds are active in the view for Bonds V1
+          // ... getClaimability is the analogue for claiming bonds
+          if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
+            dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
+          }
         });
         dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
       }
@@ -322,134 +313,116 @@ function App() {
   const hasActiveV1Bonds = accountBonds.length > 0;
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={themeMode}>
-        <CssBaseline />
-        <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
-          <Messages />
-          <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
-          <nav className={classes.drawer}>
-            {isSmallerScreen ? (
-              <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-            ) : (
-              <Sidebar />
-            )}
-          </nav>
+    <ThemeProvider theme={themeMode}>
+      <CssBaseline />
+      <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+        <Messages />
+        <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+        <nav className={classes.drawer}>
+          {isSmallerScreen ? (
+            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+          ) : (
+            <Sidebar />
+          )}
+        </nav>
 
-          <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-            {oldAssetsDetected &&
-              !hasActiveV1Bonds &&
-              trimmedPath.indexOf("dashboard") === -1 &&
-              oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+        <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+          {oldAssetsDetected &&
+            !hasActiveV1Bonds &&
+            trimmedPath.indexOf("dashboard") === -1 &&
+            oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
-            {trimmedPath.indexOf("dashboard") === -1 && <Announcement />}
+          <Switch>
+            <Route exact path="/dashboard">
+              <TreasuryDashboard />
+            </Route>
 
-            <Switch>
-              <Route exact path="/dashboard">
-                <TreasuryDashboard />
-              </Route>
+            <Route exact path="/">
+              <Redirect to="/stake" />
+            </Route>
 
-              <Route exact path="/">
-                <Redirect to="/stake" />
-              </Route>
-
-              <Route path="/stake">
-                {/* if newAssets or 0 assets */}
-                {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
-                  <Stake />
-                ) : (
-                  <V1Stake
-                    hasActiveV1Bonds={hasActiveV1Bonds}
-                    oldAssetsDetected={oldAssetsDetected}
-                    setMigrationModalOpen={setMigrationModalOpen}
-                  />
-                )}
-              </Route>
-
-              <Route path="/v1-stake">
+            <Route path="/stake">
+              {/* if newAssets or 0 assets */}
+              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
+                <Stake />
+              ) : (
                 <V1Stake
                   hasActiveV1Bonds={hasActiveV1Bonds}
                   oldAssetsDetected={oldAssetsDetected}
                   setMigrationModalOpen={setMigrationModalOpen}
                 />
-              </Route>
+              )}
+            </Route>
 
-              <Route exact path="/give">
-                <CausesDashboard />
-              </Route>
-              <Redirect from="/olympusgive" to="/give" />
-              <Redirect from="/tyche" to="/give" />
-              <Redirect from="/olygive" to="/give" />
-              <Redirect from="/olympusdaogive" to="/give" />
-              <Redirect from="/ohmgive" to="/give" />
+            <Route path="/v1-stake">
+              <V1Stake
+                hasActiveV1Bonds={hasActiveV1Bonds}
+                oldAssetsDetected={oldAssetsDetected}
+                setMigrationModalOpen={setMigrationModalOpen}
+              />
+            </Route>
 
-              <Route path="/give/projects">
-                {projects.map(project => {
-                  return (
-                    <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
-                      <ProjectInfo project={project} />
-                    </Route>
-                  );
-                })}
-              </Route>
+            <Route exact path="/give">
+              <CausesDashboard />
+            </Route>
+            <Redirect from="/olympusgive" to="/give" />
+            <Redirect from="/tyche" to="/give" />
+            <Redirect from="/olygive" to="/give" />
+            <Redirect from="/olympusdaogive" to="/give" />
+            <Redirect from="/ohmgive" to="/give" />
 
-              <Route exact path="/give/donations">
-                <DepositYield />
-              </Route>
+            <Route path="/give/projects">
+              {projects.map(project => {
+                return (
+                  <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
+                    <ProjectInfo project={project} />
+                  </Route>
+                );
+              })}
+            </Route>
 
-              <Route exact path="/give/redeem">
-                <RedeemYield />
-              </Route>
+            <Route exact path="/give/donations">
+              <DepositYield />
+            </Route>
 
-              <Route path="/wrap">
-                <Route exact path={`/wrap`}>
-                  <Wrap />
-                </Route>
-              </Route>
+            <Route exact path="/give/redeem">
+              <RedeemYield />
+            </Route>
 
-              <Route path="/zap">
-                <Route exact path={`/zap`}>
-                  <Zap />
-                </Route>
+            <Route path="/wrap">
+              <Route exact path={`/wrap`}>
+                <Wrap />
               </Route>
+            </Route>
 
-              {/* <Route path="/33-together">
+            <Route path="/zap">
+              <Route exact path={`/zap`}>
+                <Zap />
+              </Route>
+            </Route>
+
+            {/* <Route path="/33-together">
               <PoolTogether />
             </Route> */}
 
-              <Route path="/bonds-v1">
-                {(bonds as IAllBondData[]).map(bond => {
-                  return (
-                    <Route exact key={bond.name} path={`/bonds-v1/${bond.name}`}>
-                      <Bond bond={bond} />
-                    </Route>
-                  );
-                })}
-                <ChooseBond />
-              </Route>
+            <Redirect from="/bonds-v1" to="/bonds" />
 
-              <Route path="/bonds">
-                {bondIndexes.map(index => {
-                  return (
-                    <Route exact key={index} path={`/bonds/${index}`}>
-                      <BondV2 index={index} />
-                    </Route>
-                  );
-                })}
-                <ChooseBondV2 />
-              </Route>
-
-              <Route path="/network">
-                <ChangeNetwork />
-              </Route>
-
-              <Route component={NotFound} />
-            </Switch>
-          </div>
-          <MigrationModal open={migrationModalOpen} handleClose={migModalClose} hasDust={hasDust} />
+            <Route path="/bonds">
+              {bondIndexes.map(index => {
+                return (
+                  <Route exact key={index} path={`/bonds/${index}`}>
+                    <BondV2 index={index} />
+                  </Route>
+                );
+              })}
+              <ChooseBondV2 />
+            </Route>
+            <Route component={NotFound} />
+          </Switch>
         </div>
-      </ThemeProvider>
-    </QueryClientProvider>
+          <MigrationModal open={migrationModalOpen} handleClose={migModalClose} hasDust={hasDust} />
+      </div>
+    </ThemeProvider>
   );
 }
 

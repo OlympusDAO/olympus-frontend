@@ -1,52 +1,40 @@
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import "../Stake/Stake.scss";
+import "./V1-Stake.scss";
+
+import { t, Trans } from "@lingui/macro";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
+  Divider,
   FormControl,
   Grid,
   InputAdornment,
   InputLabel,
-  Link,
   OutlinedInput,
-  Paper,
-  Tab,
-  Tabs,
   Typography,
   Zoom,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Divider,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
-import { t, Trans } from "@lingui/macro";
-import NewReleases from "@material-ui/icons/NewReleases";
-import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
-import TabPanel from "../../components/TabPanel";
-import { MigrateButton, LearnMoreButton } from "src/components/CallToAction/CallToAction";
-import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
-import { changeApproval, changeStake } from "../../slices/StakeThunk";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import "../Stake/stake.scss";
-import "./v1stake.scss";
+import { Skeleton } from "@material-ui/lab";
+import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
+import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
+import { ethers } from "ethers";
+import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
+import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-import { Skeleton } from "@material-ui/lab";
-import ExternalStakePool from "../Stake/ExternalStakePool";
-import { error } from "../../slices/MessagesSlice";
-import { ethers } from "ethers";
-import { getMigrationAllowances } from "src/slices/AccountSlice";
-import { useAppSelector } from "src/hooks";
-import { useHistory } from "react-router-dom";
-import { Metric, MetricCollection, DataRow } from "@olympusdao/component-library";
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
+import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
+import { error } from "../../slices/MessagesSlice";
+import { changeApproval, changeStake } from "../../slices/StakeThunk";
+import ExternalStakePool from "../Stake/ExternalStakePool";
 
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
@@ -205,17 +193,8 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   return (
     <div id="v1-stake-view">
       <Zoom in={true} onEntered={() => setZoomed(true)}>
-        <Paper className={`ohm-card`}>
+        <Paper headerText={`${t`Single Stake`} (3, 3)`} subHeader={<RebaseTimer />}>
           <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <div className="card-header">
-                <Typography variant="h5">
-                  <Trans>Single Stake</Trans> (3, 3)
-                </Typography>
-                <RebaseTimer />
-              </div>
-            </Grid>
-
             <Grid item>
               <MetricCollection>
                 <Metric
@@ -262,11 +241,11 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                       onChange={changeView}
                       aria-label="stake tabs"
                     >
-                      <Tab label={t`Stake`} {...a11yProps(0)} />
-                      <Tab label={t`Unstake`} {...a11yProps(1)} />
+                      <Tab aria-label="stake-button" label={t`Stake`} />
+                      <Tab aria-label="unstake-button" label={t`Unstake`} />
                     </Tabs>
 
-                    <Box className="help-text">
+                    <Box mt={"10px"}>
                       <Typography variant="body1" className="stake-note" color="textSecondary">
                         {view === 0 ? (
                           <>
@@ -285,7 +264,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                     <Box className="stake-action-row v1-row " display="flex" alignItems="center">
                       {address && !isAllowanceDataLoading ? (
                         !hasAllowance("sohm") && view === 1 ? (
-                          <Box className="help-text">
+                          <Box mt={"10px"}>
                             <Typography variant="body1" className="stake-note" color="textSecondary">
                               <>
                                 <Trans>First time unstaking</Trans> <b>sOHM</b>?
@@ -327,7 +306,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                       )}
 
                       {!hasActiveV1Bonds && oldAssetsDetected ? (
-                        <TabPanel value={view} index={0} className="stake-tab-panel">
+                        <TabPanel value={view} index={0}>
                           {isAllowanceDataLoading ? (
                             <Skeleton />
                           ) : (
@@ -335,7 +314,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           )}
                         </TabPanel>
                       ) : hasActiveV1Bonds ? (
-                        <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
+                        <TabPanel value={view} index={0}>
                           <Button
                             className="migrate-button"
                             variant="contained"
@@ -348,7 +327,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           </Button>
                         </TabPanel>
                       ) : (
-                        <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
+                        <TabPanel value={view} index={0}>
                           <Button
                             className="migrate-button"
                             variant="contained"
@@ -362,7 +341,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                         </TabPanel>
                       )}
 
-                      <TabPanel value={view} index={1} className="stake-tab-panel">
+                      <TabPanel value={view} index={1}>
                         {isAllowanceDataLoading ? (
                           <Skeleton />
                         ) : address && hasAllowance("sohm") ? (

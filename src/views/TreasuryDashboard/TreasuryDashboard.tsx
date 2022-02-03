@@ -1,19 +1,18 @@
+import "./TreasuryDashboard.scss";
+
+import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
+import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { memo } from "react";
-import "./treasury-dashboard.scss";
-import { Paper, Grid, Box, Zoom, Container, useMediaQuery, Typography, SvgIcon } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
-import { MarketCap, OHMPrice, GOHMPrice, CircSupply, BackingPerOHM, CurrentIndex } from "./components/Metric/Metric";
-import { ReactComponent as InfoIcon } from "../../assets/icons/info-fill.svg";
 
 import {
-  TotalValueDepositedGraph,
   MarketValueGraph,
-  RiskFreeValueGraph,
-  ProtocolOwnedLiquidityGraph,
   OHMStakedGraph,
+  ProtocolOwnedLiquidityGraph,
+  RiskFreeValueGraph,
   RunwayAvailableGraph,
+  TotalValueDepositedGraph,
 } from "./components/Graph/Graph";
-import { MetricCollection } from "@olympusdao/component-library";
+import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
 const TreasuryDashboard = memo(() => {
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
@@ -37,24 +36,6 @@ const TreasuryDashboard = memo(() => {
               <CurrentIndex />
             </MetricCollection>
           </Paper>
-        </Box>
-        <Box className="hero-metrics" style={{ marginTop: "20px" }}>
-          <Alert
-            variant="filled"
-            icon={false}
-            severity={`info`}
-            // NOTE (appleseed): mui includes overflow-wrap: "break-word", but word-break: "break-word" is needed for webKit browsers
-            style={{ wordBreak: "break-word" }}
-          >
-            <Box alignItems={"center"} display={"flex"}>
-              <SvgIcon component={InfoIcon} />
-              <Box width={10} />
-              <Typography>
-                Olympus is currently migrating to improved contracts. Please note that during this time, frontend
-                metrics may be inaccurate.
-              </Typography>
-            </Box>
-          </Alert>
         </Box>
 
         <Zoom in={true}>
@@ -96,7 +77,7 @@ const TreasuryDashboard = memo(() => {
                   bulletpointColors={bulletpoints.holder}
                   itemNames={tooltipItems.holder}
                   itemType={undefined}
-                  infoTooltipMessage={tooltipInfoMessages.holder}
+                  infoTooltipMessage={tooltipInfoMessages().holder}
                   expandedGraphStrokeColor={theme.palette.graphStrokeColor}
                   scale={undefined}
                   color={undefined}

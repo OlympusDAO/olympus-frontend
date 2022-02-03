@@ -1,21 +1,22 @@
-import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, addresses, NetworkId } from "../constants";
-import { BigNumber, ethers } from "ethers";
-import axios from "axios";
-import { abi as PairContractABI } from "../abi/PairContract.json";
-import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
-
-import { SvgIcon } from "@material-ui/core";
-import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
-import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
-
-import { ohm_dai, ohm_weth, ohm_daiOld } from "./AllBonds";
+import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
+import { formatUnits } from "@ethersproject/units";
+import { SvgIcon } from "@material-ui/core";
+import axios from "axios";
+import { ethers } from "ethers";
+import { IBondV2 } from "src/slices/BondSliceV2";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
-import { PairContract, RedeemHelper } from "../typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
-import { EnvHelper } from "../helpers/Environment";
-import { NodeHelper } from "../helpers/NodeHelper";
+import { abi as PairContractABI } from "../abi/PairContract.json";
+import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
+import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
+import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
+import { addresses, BLOCK_RATE_SECONDS, EPOCH_INTERVAL, NetworkId } from "../constants";
+import { PairContract, RedeemHelper } from "../typechain";
+import { ohm_dai, ohm_daiOld, ohm_weth } from "./AllBonds";
+import { EnvHelper } from "./Environment";
+import { NodeHelper } from "./NodeHelper";
 
 /**
  * gets marketPrice from Ohm-DAI v2
@@ -28,9 +29,7 @@ export async function getMarketPrice() {
   const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
   const reserves = await pairContract.getReserves();
 
-  const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
-
-  return marketPrice;
+  return Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
 }
 
 export async function getMarketPriceFromWeth() {
@@ -44,8 +43,7 @@ export async function getMarketPriceFromWeth() {
   // since we're using OHM/WETH... also need to multiply by weth price;
   const wethPriceBN: BigNumber = await wethBondContract.assetPrice();
   const wethPrice = Number(wethPriceBN.toString()) / Math.pow(10, 8);
-  const marketPrice = (Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9) * wethPrice;
-  return marketPrice;
+  return (Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9) * wethPrice;
 }
 
 export async function getV1MarketPrice() {
@@ -54,8 +52,7 @@ export async function getV1MarketPrice() {
   const ohm_dai_address = ohm_daiOld.getAddressForReserve(NetworkId.MAINNET);
   const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
   const reserves = await pairContract.getReserves();
-  const marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
-  return marketPrice;
+  return Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
 }
 
 /**
@@ -70,7 +67,7 @@ export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
     )) as {
       data: { [id: string]: { usd: number } };
     };
-    let tokenPrice: number = resp.data[tokenId].usd;
+    const tokenPrice: number = resp.data[tokenId].usd;
     return tokenPrice;
   } catch (e) {
     // console.log("coingecko api error: ", e);
@@ -92,7 +89,7 @@ export async function getTokenByContract(contractAddress: string): Promise<numbe
     )) as {
       data: { [address: string]: { usd: number } };
     };
-    let tokenPrice: number = resp.data[downcasedAddress].usd;
+    const tokenPrice: number = resp.data[downcasedAddress].usd;
     return tokenPrice;
   } catch (e) {
     // console.log("coingecko api error: ", e);
@@ -111,6 +108,13 @@ export async function getTokenIdByContract(contractAddress: string): Promise<str
     return "";
   }
 }
+
+export const getEtherscanUrl = ({ bond, networkId }: { bond: IBondV2; networkId: NetworkId }) => {
+  if (networkId === NetworkId.TESTNET_RINKEBY) {
+    return `https://rinkeby.etherscan.io/address/${bond.quoteToken}`;
+  }
+  return `https://etherscan.io/address/${bond.quoteToken}`;
+};
 
 export function shorten(str: string) {
   if (str.length < 10) return str;
@@ -265,30 +269,30 @@ export const minutesAgo = (x: number) => {
  * ... Math.trunc which accomplishes the same result as parseInt.
  */
 export const subtractDates = (dateA: Date, dateB: Date) => {
-  let msA: number = dateA.getTime();
-  let msB: number = dateB.getTime();
+  const msA: number = dateA.getTime();
+  const msB: number = dateB.getTime();
 
   let diff: number = msA - msB;
 
-  let days: number = 0;
+  let days = 0;
   if (diff >= 86400000) {
     days = Math.trunc(diff / 86400000);
     diff -= days * 86400000;
   }
 
-  let hours: number = 0;
+  let hours = 0;
   if (days || diff >= 3600000) {
     hours = Math.trunc(diff / 3600000);
     diff -= hours * 3600000;
   }
 
-  let minutes: number = 0;
+  let minutes = 0;
   if (hours || diff >= 60000) {
     minutes = Math.trunc(diff / 60000);
     diff -= minutes * 60000;
   }
 
-  let seconds: number = 0;
+  let seconds = 0;
   if (minutes || diff >= 1000) {
     seconds = Math.trunc(diff / 1000);
   }
@@ -310,6 +314,48 @@ export const bnToNum = (bigNum: BigNumber) => {
 
 export const handleContractError = (e: any) => {
   if (EnvHelper.env.NODE_ENV !== "production") console.warn("caught error in slices; usually network related", e);
+};
+
+/**
+ * Determines if app is viewed within an <iframe></iframe>
+ */
+export const isIFrame = () => window.location !== window.parent.location;
+
+/**
+ * Assertion function helpful for asserting `enabled`
+ * values from within a `react-query` function.
+ * @param value The value(s) to assert
+ * @param queryKey Key of current query
+ */
+export function queryAssertion(value: unknown, queryKey: any = "not specified"): asserts value {
+  if (!value) throw new Error(`Failed react-query assertion for key: ${queryKey}`);
+}
+
+/**
+ * Assertion function
+ */
+export function assert(value: unknown, message: string | Error): asserts value {
+  if (!value) throw message instanceof Error ? message : new Error(message);
+}
+
+/**
+ * Converts gOHM to OHM. Mimics `balanceFrom()` gOHM contract function.
+ * @returns Formatted string representation of OHM equivalent.
+ */
+export const convertGohmToOhm = (amount: BigNumber, index: BigNumber): string => {
+  return formatUnits(amount.div(10 ** 9).mul(index), 36);
+};
+
+/**
+ * Converts OHM to gOHM. Mimics `balanceTo()` gOHM contract function.
+ * @returns Formatted string representation of gOHM equivalent.
+ */
+export const convertOhmToGohm = (amount: BigNumber, index: BigNumber): string => {
+  return formatUnits(amount.mul(10 ** 9).div(index), 18);
+};
+
+export const parseBigNumber = (value: BigNumber, units: BigNumberish = 9) => {
+  return parseFloat(formatUnits(value, units));
 };
 
 interface ICheckBalance extends IBaseAsyncThunk {

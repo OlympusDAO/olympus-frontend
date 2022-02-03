@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import ReactGA from "react-ga";
+import { useLocation } from "react-router-dom";
+
 import { EnvHelper } from "../helpers/Environment";
 
 const GA_API_KEY = EnvHelper.getGaKey();
