@@ -26,6 +26,7 @@ import { Bond } from "src/lib/Bond";
 import { IBondDetails } from "src/slices/BondSlice";
 import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
 import { DisplayBondDiscount } from "src/views/BondV2/BondV2";
+import { Deposits as tenderEscrowDeposits, Balance as tenderBalance } from "src/views/Tender/queries";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import useBonds from "../../hooks/Bonds";
@@ -74,6 +75,8 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
 
   bonds.sort((a: CustomBond, b: CustomBond) => b.bondDiscount! - a.bondDiscount!);
 
+  const { amount: depositAmount } = tenderEscrowDeposits(address);
+  const tenderTokenBalance = tenderBalance(address);
   return (
     <Paper className="dapp-sidebar">
       <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
@@ -92,9 +95,10 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              {(networkId === NetworkId.FANTOM || networkId === NetworkId.FANTOM_TESTNET) && (
-                <NavItem to="/tender" icon="wallet" label={t`Chicken Tender Offer`} />
-              )}
+              {(networkId === NetworkId.FANTOM || networkId === NetworkId.FANTOM_TESTNET) &&
+                ((depositAmount && depositAmount > 0) || (tenderTokenBalance && tenderTokenBalance > 0)) && (
+                  <NavItem to="/tender" icon="wallet" label={t`Chicken Tender Offer`} />
+                )}
               {networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY ? (
                 <>
                   <NavItem to="/dashboard" icon={"dashboard"} label={t`Dashboard`} />
