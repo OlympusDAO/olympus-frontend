@@ -1,18 +1,8 @@
 import { t, Trans } from "@lingui/macro";
-import {
-  Box,
-  Button,
-  FormControl,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Typography,
-  useMediaQuery,
-} from "@material-ui/core";
-import { DataRow } from "@olympusdao/component-library";
+import { Box, Typography, useMediaQuery } from "@material-ui/core";
+import { DataRow, InputWrapper } from "@olympusdao/component-library";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getTokenImage } from "src/helpers";
 import { calculateOdds, trimOdds } from "src/helpers/33Together";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { changeApproval, poolDeposit } from "src/slices/PoolThunk";
@@ -21,8 +11,6 @@ import ConnectButton from "../../components/ConnectButton/ConnectButton";
 import { useAppSelector, useWeb3Context } from "../../hooks";
 import { error } from "../../slices/MessagesSlice";
 import { ConfirmationModal } from "./ConfirmationModal";
-
-const sohmImg = getTokenImage("sohm");
 
 interface PoolDepositProps {
   totalPoolDeposits: number;
@@ -137,64 +125,38 @@ export const PoolDeposit = (props: PoolDepositProps) => {
       </Box>
     );
   }
-
+  let inputWrapperOnClick: () => Promise<void>;
+  let inputWrapperDisabled: boolean;
+  let inputWrapperButtonText: string;
+  if (address && hasAllowance()) {
+    inputWrapperDisabled = isPendingTxn(pendingTransactions, "pool_deposit");
+    inputWrapperButtonText = txnButtonText(pendingTransactions, "pool_deposit", t`Deposit sOHM`);
+    inputWrapperOnClick = () => onDeposit("deposit");
+  } else {
+    inputWrapperDisabled = isPendingTxn(pendingTransactions, "approve_pool_together");
+    inputWrapperButtonText = txnButtonText(pendingTransactions, "approve_pool_together", t`Approve`);
+    inputWrapperOnClick = () => onSeekApproval("sohm");
+  }
   return (
     <Box display="flex" justifyContent="center" className="pool-deposit-ui">
       {!address ? (
         <ConnectButton />
       ) : (
         <Box className="deposit-container">
-          <Box display="flex" alignItems="center" flexDirection={`${isMobileScreen ? "column" : "row"}`}>
-            <FormControl className="ohm-input" variant="outlined" color="primary">
-              <InputLabel htmlFor="amount-input"></InputLabel>
-              <OutlinedInput
-                id="amount-input"
-                type="number"
-                placeholder={t`Enter an amount`}
-                className="pool-input"
-                value={quantity}
-                onChange={e => updateDepositQuantity(e)}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <div className="logo-holder">{sohmImg}</div>
-                  </InputAdornment>
-                }
-                labelWidth={0}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <Button variant="text" onClick={setMax}>
-                      <Trans>Max</Trans>
-                    </Button>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-
-            {address && hasAllowance() ? (
-              <Button
-                className="pool-deposit-button"
-                variant="contained"
-                color="primary"
-                disabled={isPendingTxn(pendingTransactions, "pool_deposit")}
-                onClick={() => onDeposit("deposit")}
-                fullWidth
-                style={{ margin: "5px" }}
-              >
-                {txnButtonText(pendingTransactions, "pool_deposit", t`Deposit sOHM`)}
-              </Button>
-            ) : (
-              <Button
-                className="pool-deposit-button"
-                variant="contained"
-                color="primary"
-                disabled={isPendingTxn(pendingTransactions, "approve_pool_together")}
-                onClick={() => onSeekApproval("sohm")}
-                style={{ margin: "5px" }}
-              >
-                {txnButtonText(pendingTransactions, "approve_pool_together", t`Approve`)}
-              </Button>
-            )}
-          </Box>
+          <InputWrapper
+            id="amount-input"
+            type="number"
+            placeholder={t`Enter an amount`}
+            value={quantity}
+            onChange={e => updateDepositQuantity(e)}
+            startAdornment="sOHM"
+            labelWidth={0}
+            endString={t`Max`}
+            endStringOnClick={setMax}
+            buttonText={inputWrapperButtonText}
+            disabled={inputWrapperDisabled}
+            buttonOnClick={inputWrapperOnClick}
+          />
           {newOdds > 0 && quantity > 0 && (
             <Box padding={1}>
               <Typography variant="body2" style={{ color: "#33BB33" }}>
