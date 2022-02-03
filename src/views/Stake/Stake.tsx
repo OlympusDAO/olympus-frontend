@@ -226,7 +226,7 @@ const Stake: React.FC = () => {
     [stakeAllowance, unstakeAllowance, directUnstakeAllowance],
   );
 
-  const changeView = (_event: ChangeEvent<any>, newView: number) => {
+  const changeView = (_event: ChangeEvent<unknown>, newView: number) => {
     setView(newView);
   };
 
