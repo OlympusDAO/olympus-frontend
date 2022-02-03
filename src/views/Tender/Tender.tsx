@@ -10,7 +10,7 @@ import {
   Tabs,
   TextButton,
 } from "@olympusdao/component-library";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 //import { NetworkId } from "src/constants";
 import { trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
@@ -53,11 +53,6 @@ const Tender = (props: { walletAddress: string }) => {
       },
     },
   }));
-
-  useEffect(() => {
-    //TODO: Contract Call for Contract Balance
-    //Call totalDeposits
-  }, [props.walletAddress]);
 
   const setDeposit = (amount: number) => {
     setQuantity(amount);
