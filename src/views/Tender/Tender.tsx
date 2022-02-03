@@ -10,7 +10,7 @@ import {
   Tabs,
   TextButton,
 } from "@olympusdao/component-library";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 //import { NetworkId } from "src/constants";
 import { trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
@@ -32,7 +32,7 @@ import {
 const Tender = () => {
   const { provider, address, connect } = useWeb3Context();
   const [view, setView] = useState(0);
-  const [redeemToken, setRedeemToken] = useState(true);
+  const [redeemToken, setRedeemToken] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [daiValue, setDaiValue] = useState(0);
   const [gOhmValue, setgOHMValue] = useState(0);
@@ -55,6 +55,12 @@ const Tender = () => {
       },
     },
   }));
+
+  useEffect(() => {
+    if (choice === 0 || choice === 1) {
+      setRedeemToken(choice);
+    }
+  }, [choice]);
 
   const setDeposit = (amount: number) => {
     setQuantity(amount);
@@ -86,12 +92,17 @@ const Tender = () => {
   const usdValue = quantity ? new Intl.NumberFormat("en-US").format(Number(quantity) * 55) : 0;
   const gOhm = new Intl.NumberFormat("en-US").format(gOhmValue);
   const dai = new Intl.NumberFormat("en-US").format(daiValue);
-  const allowChoice = daiExchangeRate && daiExchangeRate > 0 && gOhmExchangeRate && gOhmExchangeRate > 0;
 
-  //If both exchange rates are positive. allow choice. Else default to the rate that is positive.
+  //If both exchange rates are positive and havent yet deposited, allow choice.
+  const allowChoice =
+    daiExchangeRate && daiExchangeRate > 0 && gOhmExchangeRate && gOhmExchangeRate > 0 && !depositedBalance;
+
+  //Set Strings for choice numbers
   const redemptionToken = () => {
     if (allowChoice) {
       return redeemToken ? "gOHM" : "DAI";
+    } else if (depositedBalance) {
+      return choice ? "gOHM" : "DAI";
     } else {
       return gOhmExchangeRate && gOhmExchangeRate > 0 ? "gOHM" : "DAI";
     }
@@ -105,7 +116,7 @@ const Tender = () => {
     setView(newView);
   };
   const classes = useStyles();
-
+  console.log("switch", redeemToken);
   return (
     <div id="stake-view">
       <Box width="97%" maxWidth="833px">
@@ -169,8 +180,11 @@ const Tender = () => {
                     <Typography>
                       Deposit {quantity} Chicken for ${dai} DAI
                     </Typography>
-
-                    <Switch checked={redeemToken} onChange={() => setRedeemToken(!redeemToken)} color="default" />
+                    <Switch
+                      checked={redeemToken ? true : false}
+                      onChange={() => setRedeemToken(redeemToken ? 0 : 1)}
+                      color="default"
+                    />
                     <Typography>
                       Deposit {quantity} Chicken for {gOhm} gOHM (~${usdValue})
                     </Typography>

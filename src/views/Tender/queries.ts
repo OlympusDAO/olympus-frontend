@@ -63,7 +63,7 @@ export const DaiExchangeRate = () => {
 export const Deposits = (address: string) => {
   const { data } = useQuery(["deposits", address], () => {
     return {
-      amount: 10, // amount of tender tokens (18 decimals)
+      amount: 0, // amount of tender tokens (18 decimals)
       index: 77, // OHM index
       ohmPrice: 62, // OHM / USD price
       choice: 1, // 0 - DAI, 1 - gOHM
@@ -114,7 +114,7 @@ export const Redeem = () => {
 };
 
 //TODO: Replace with Deposits Contract Call
-export const Deposit = (quantity: number, redemptionToken: boolean) => {
+export const Deposit = (quantity: number, redemptionToken: number) => {
   const { data } = useQuery(["DepositsCall"], () => {
     return "";
   });
