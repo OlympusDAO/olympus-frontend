@@ -11,24 +11,36 @@ import {
   TextButton,
 } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useState } from "react";
-import { NetworkId } from "src/constants";
+//import { NetworkId } from "src/constants";
 import { trim } from "src/helpers";
+import { useWeb3Context } from "src/hooks";
 import { useGohmPrice } from "src/hooks/usePrices";
-import { balancesOf } from "src/lib/fetchBalances";
+
+import {
+  Balance,
+  DaiExchangeRate,
+  Deposits,
+  GOhmExchangeRate,
+  MaxDeposits,
+  RedeemableBalance,
+  TotalDeposits,
+} from "./queries";
 
 const Tender = (props: { walletAddress: string }) => {
+  const { provider, address, connect } = useWeb3Context();
   const [view, setView] = useState(0);
   const [redeemToken, setRedeemToken] = useState(true);
-  const [tokenBalance, setTokenBalance] = useState("0.00");
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState(0);
   const [daiValue, setDaiValue] = useState(0);
-  const [gOhmExchangeRate, setgOhmExchangeRate] = useState(0);
-  const [daiExchangeRate, setDaiExchangeRate] = useState(0);
   const [gOhmValue, setgOHMValue] = useState(0);
-  const [depositedBalance, setDepositedBalance] = useState("0.00");
-  const [redeemableBalance, setRedeemableBalance] = useState("0.00");
-  const [contractBalance, setContractBalance] = useState(0);
   const { data: gOhmPrice } = useGohmPrice();
+  const tokenBalance = Balance(props.walletAddress);
+  const gOhmExchangeRate = GOhmExchangeRate();
+  const daiExchangeRate = DaiExchangeRate();
+  const depositedBalance = Deposits(props.walletAddress);
+  const redeemableBalance = RedeemableBalance(props.walletAddress);
+  const totalDeposits = TotalDeposits();
+  const maxDeposits = MaxDeposits();
 
   const useStyles = makeStyles<Theme>(() => ({
     progress: {
@@ -43,38 +55,16 @@ const Tender = (props: { walletAddress: string }) => {
   }));
 
   useEffect(() => {
-    if (props.walletAddress) {
-      balancesOf(props.walletAddress, NetworkId.FANTOM).then(res => {
-        const token = res.find(address => address.contractAddress === process.env.REACT_APP_TENDER_BALANCE_ADDRESS);
-        if (token && token.balance) {
-          setTokenBalance(token.balance);
-        }
-      });
-    }
-
-    //Contract Call for DAI and gOHM Exchange Rates
-    //If one returns zero. Don't show the toggle and only allow deposit for the other.
-    setgOhmExchangeRate(55);
-    setDaiExchangeRate(55);
-
-    //TODO: Contract call for Querying Deposited Balance
-    //Call deposits. Should return amount of Token Deposited.
-    setDepositedBalance("10.00");
-
-    //TODO: Contract call for Querying Redeemable Balance
-    //How much of which token can I claim? Which Function?
-    setRedeemableBalance("00.00");
-
     //TODO: Contract Call for Contract Balance
     //Call totalDeposits
-    setContractBalance(500000);
   }, [props.walletAddress]);
 
-  const setDeposit = (amount: string) => {
+  const setDeposit = (amount: number) => {
     setQuantity(amount);
-    setDaiValue(Number(amount) * 50);
+    daiExchangeRate && setDaiValue(amount * daiExchangeRate);
+
     //Sets gOHM USD Equivalent value.
-    gOhmPrice && setgOHMValue((Number(amount) * 55) / gOhmPrice);
+    gOhmPrice && gOhmExchangeRate && setgOHMValue((Number(amount) * gOhmExchangeRate) / gOhmPrice);
   };
 
   //TODO: Contract call for Deposit Tokens
@@ -113,19 +103,20 @@ const Tender = (props: { walletAddress: string }) => {
   const usdValue = quantity ? new Intl.NumberFormat("en-US").format(Number(quantity) * 55) : 0;
   const gOhm = new Intl.NumberFormat("en-US").format(gOhmValue);
   const dai = new Intl.NumberFormat("en-US").format(daiValue);
-  const allowChoice = daiExchangeRate > 0 && gOhmExchangeRate > 0;
+  const allowChoice = daiExchangeRate && daiExchangeRate > 0 && gOhmExchangeRate && gOhmExchangeRate > 0;
 
   //If both exchange rates are positive. allow choice. Else default to the rate that is positive.
   const redemptionToken = () => {
     if (allowChoice) {
       return redeemToken ? "gOHM" : "DAI";
     } else {
-      return gOhmExchangeRate > 0 ? "gOHM" : "DAI";
+      return gOhmExchangeRate && gOhmExchangeRate > 0 ? "gOHM" : "DAI";
     }
   };
-  const contractBalanceFormatted = new Intl.NumberFormat("en-US").format(contractBalance);
-  //TODO: Is contract cap retrieved from the contract?
-  const progressValue = (contractBalance / 970000) * 100;
+  const totalDepositsFormatted = totalDeposits && new Intl.NumberFormat("en-US").format(totalDeposits);
+  const maxDepositsFormatted = maxDeposits && new Intl.NumberFormat("en-US").format(maxDeposits);
+
+  const progressValue = totalDeposits && maxDeposits ? (totalDeposits / maxDeposits) * 100 : 0;
 
   const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
@@ -154,7 +145,9 @@ const Tender = (props: { walletAddress: string }) => {
       </Box>
       <Paper headerText={t`Chicken Tender Offer`}>
         <Box display="flex" justifyContent={"center"} mb={"10px"}>
-          <Typography>{contractBalanceFormatted}/970,000 Chickens Deposited</Typography>
+          <Typography>
+            {totalDepositsFormatted}/{maxDepositsFormatted} Chickens Deposited
+          </Typography>
         </Box>
         <Box style={{ width: "50%", margin: "0 25%" }}>
           <LinearProgress className={classes.progress} variant="determinate" value={progressValue} />
@@ -171,10 +164,10 @@ const Tender = (props: { walletAddress: string }) => {
                 type="number"
                 label={t`Enter an amount`}
                 value={quantity}
-                onChange={e => setDeposit(e.target.value)}
+                onChange={e => e.target.value && setDeposit(Number(e.target.value))}
                 labelWidth={0}
                 endString={t`Max`}
-                endStringOnClick={() => setDeposit(tokenBalance)}
+                endStringOnClick={() => tokenBalance && setDeposit(tokenBalance)}
                 buttonText={t`Deposit for ${redemptionToken}`}
                 buttonOnClick={() => deposit()}
                 disabled={depositButtonDisabled}
