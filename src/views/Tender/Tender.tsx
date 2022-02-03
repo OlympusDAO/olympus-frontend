@@ -72,9 +72,9 @@ const Tender = (props: { walletAddress: string }) => {
 
   const setDeposit = (amount: string) => {
     setQuantity(amount);
-    setDaiValue(parseInt(amount) * 50);
+    setDaiValue(Number(amount) * 50);
     //Sets gOHM USD Equivalent value.
-    gOhmPrice && setgOHMValue((parseInt(amount) * 55) / gOhmPrice);
+    gOhmPrice && setgOHMValue((Number(amount) * 55) / gOhmPrice);
   };
 
   //TODO: Contract call for Deposit Tokens
@@ -106,11 +106,11 @@ const Tender = (props: { walletAddress: string }) => {
    * */
 
   //disabled button if no token balance
-  const depositButtonDisabled = parseInt(tokenBalance) > 0 ? false : true;
-  const redeemButtonDisabled = parseInt(redeemableBalance) > 0 ? false : true;
+  const depositButtonDisabled = Number(tokenBalance) > 0 ? false : true;
+  const redeemButtonDisabled = Number(redeemableBalance) > 0 ? false : true;
 
   //Currency formatters for the token balances
-  const usdValue = quantity ? new Intl.NumberFormat("en-US").format(parseInt(quantity) * 55) : 0;
+  const usdValue = quantity ? new Intl.NumberFormat("en-US").format(Number(quantity) * 55) : 0;
   const gOhm = new Intl.NumberFormat("en-US").format(gOhmValue);
   const dai = new Intl.NumberFormat("en-US").format(daiValue);
   const allowChoice = daiExchangeRate > 0 && gOhmExchangeRate > 0;
