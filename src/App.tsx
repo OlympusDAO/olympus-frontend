@@ -420,7 +420,7 @@ function App() {
               <ChooseBondV2 />
             </Route>
             <Route path="/tender">
-              <Tender />
+              <Tender walletAddress={address} />
             </Route>
             <Route component={NotFound} />
           </Switch>
