@@ -9,10 +9,10 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { switchNetwork } from "../../helpers/NetworkHelper";
 import { CrossChainBalanceCheck } from "./queries";
 
-const TenderCTA = (props: { walletAddress: string }) => {
-  const { provider } = useWeb3Context();
+const TenderCTA = () => {
+  const { provider, address } = useWeb3Context();
 
-  const balance = CrossChainBalanceCheck(props.walletAddress);
+  const balance = CrossChainBalanceCheck(address);
   return balance === true ? (
     <Box className="call-to-action ohm-card">
       <Typography style={{ fontSize: "20px", fontWeight: "600" }} variant="h5">

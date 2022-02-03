@@ -333,7 +333,7 @@ function App() {
             !hasActiveV1Bonds &&
             trimmedPath.indexOf("dashboard") === -1 &&
             oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
-          {networkId !== NetworkId.FANTOM && <TenderCTA walletAddress={address} />}
+          {networkId !== NetworkId.FANTOM && <TenderCTA />}
           <Switch>
             <Route exact path="/dashboard">
               <TreasuryDashboard />
@@ -420,7 +420,7 @@ function App() {
               <ChooseBondV2 />
             </Route>
             <Route path="/tender">
-              <Tender walletAddress={address} />
+              <Tender />
             </Route>
             <Route component={NotFound} />
           </Switch>

@@ -12,8 +12,8 @@ export const Balance = (address: string) => {
     ["tenderBalanceOf", address],
     async () => {
       if (tenderTokenContract) {
-        const testing = await tenderTokenContract.balanceOf(address);
-        return parseBigNumber(testing);
+        const balance = await tenderTokenContract.balanceOf(address);
+        return parseBigNumber(balance);
       }
     },
     { refetchOnWindowFocus: false, refetchOnReconnect: false },
@@ -25,12 +25,14 @@ export const CrossChainBalanceCheck = (address: string) => {
   const { data } = useQuery(
     ["CrossChainCheck", address],
     async () => {
-      const bal = await balancesOf(address, NetworkId.FANTOM);
-      const chicken = bal.find(address => address.contractAddress === TENDER_ADDRESSES[NetworkId.FANTOM]);
-      if (chicken && parseInt(chicken.balance) > 0) {
-        return true;
+      if (address) {
+        const bal = await balancesOf(address, NetworkId.FANTOM);
+        const chicken = bal.find(address => address.contractAddress === TENDER_ADDRESSES[NetworkId.FANTOM]);
+        if (chicken && parseInt(chicken.balance) > 0) {
+          return true;
+        }
+        return false;
       }
-      return false;
     },
     {
       refetchOnWindowFocus: false,
@@ -57,21 +59,18 @@ export const DaiExchangeRate = () => {
 };
 
 //TODO: Replace with deposits Contract Call
-//Call deposits. Should return amount of Token Deposited.
+//Call deposit. Should return amount of Token Deposited.
 export const Deposits = (address: string) => {
   const { data } = useQuery(["deposits", address], () => {
-    return 10;
+    return {
+      amount: 10, // amount of tender tokens (18 decimals)
+      index: 77, // OHM index
+      ohmPrice: 62, // OHM / USD price
+      choice: 1, // 0 - DAI, 1 - gOHM
+      didRedeem: false,
+    };
   });
-  return data;
-};
-
-//TODO: Replace with Redeemable Balance Contract Call
-//How much of which token can I claim? Which Function to use?
-export const RedeemableBalance = (address: string) => {
-  const { data } = useQuery(["redeemableBalance", address], () => {
-    return 0;
-  });
-  return data;
+  return { ...data };
 };
 
 //TODO: Replace with totalDeposits Contract Call
@@ -86,6 +85,38 @@ export const TotalDeposits = () => {
 export const MaxDeposits = () => {
   const { data } = useQuery(["maxDeposits"], () => {
     return 970000;
+  });
+  return data;
+};
+
+//TODO: Replace with daiExchangeRate Contract Call
+export const EscrowState = () => {
+  const { data } = useQuery(["escrowStateCall"], () => {
+    return "PENDING";
+  });
+  return data;
+};
+
+//TODO: Replace with withdraw Contract Call
+export const Withdraw = () => {
+  const { data } = useQuery(["withdrawCall"], () => {
+    return "";
+  });
+  return data;
+};
+
+//TODO: Replace with withdraw Contract Call
+export const Redeem = () => {
+  const { data } = useQuery(["RedeemCall"], () => {
+    return "";
+  });
+  return data;
+};
+
+//TODO: Replace with Deposits Contract Call
+export const Deposit = (quantity: number, redemptionToken: boolean) => {
+  const { data } = useQuery(["DepositsCall"], () => {
+    return "";
   });
   return data;
 };

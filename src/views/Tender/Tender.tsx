@@ -19,14 +19,17 @@ import { useGohmPrice } from "src/hooks/usePrices";
 import {
   Balance,
   DaiExchangeRate,
+  Deposit,
   Deposits,
+  EscrowState,
   GOhmExchangeRate,
   MaxDeposits,
-  RedeemableBalance,
+  Redeem,
   TotalDeposits,
+  Withdraw,
 } from "./queries";
 
-const Tender = (props: { walletAddress: string }) => {
+const Tender = () => {
   const { provider, address, connect } = useWeb3Context();
   const [view, setView] = useState(0);
   const [redeemToken, setRedeemToken] = useState(true);
@@ -34,14 +37,13 @@ const Tender = (props: { walletAddress: string }) => {
   const [daiValue, setDaiValue] = useState(0);
   const [gOhmValue, setgOHMValue] = useState(0);
   const { data: gOhmPrice } = useGohmPrice();
-  const tokenBalance = Balance(props.walletAddress);
+  const tokenBalance = Balance(address);
   const gOhmExchangeRate = GOhmExchangeRate();
   const daiExchangeRate = DaiExchangeRate();
-  const depositedBalance = Deposits(props.walletAddress);
-  const redeemableBalance = RedeemableBalance(props.walletAddress);
+  const { amount: depositedBalance, choice } = Deposits(address);
   const totalDeposits = TotalDeposits();
   const maxDeposits = MaxDeposits();
-
+  const escrowState = EscrowState();
   const useStyles = makeStyles<Theme>(() => ({
     progress: {
       backgroundColor: "#768299",
@@ -62,37 +64,23 @@ const Tender = (props: { walletAddress: string }) => {
     gOhmPrice && gOhmExchangeRate && setgOHMValue((Number(amount) * gOhmExchangeRate) / gOhmPrice);
   };
 
-  //TODO: Contract call for Deposit Tokens
-  //call deposit. 0 = DAI, 1 = gOHM
-  const deposit = () => console.log("Make the Contract Call for Deposit");
+  //Check escrow state and assign variables.
+  let redeemButtonText = "Redeem";
+  let redeemButtonOnClick = () => {
+    return;
+  };
+  if (escrowState === "FAILED") {
+    redeemButtonText = "Withdraw";
+    redeemButtonOnClick = () => Withdraw();
+  }
+  if (escrowState === "SUCCESS") {
+    redeemButtonOnClick = () => Redeem();
+  }
 
-  //TODO: Contract call for Redeem Tokens
-  //Call Redeem function.
-  const redeem = () => console.log("Make the Contract Call for Redeem");
-
-  //TODO: Contract call for Withdraw
-  //call withdraw if state=FAILED
-  const withdraw = () => console.log("Make the Contract Call for Withdraw");
-
-  //TODO: Check the Escrow State
-  // call State
-  // if PENDING allow deposit
-  // If FAILED allow withdraw
-  // If SUCCESS allow redeemDAI or redeemGOHM
-
-  /* TODO: Accept Offer .
-   * Does User Have Tokens in wallet (tokenBalance > 0)?
-   * Does State === Passed
-   * If Yes, Redeem Button Text === Accept Offer.
-   *  - Redeem Button OnClick = AcceptOffer Contract Call.
-   *
-   * Can the user select a redemption token? Or is it always gOHM at this point?
-   * How to check accept offer period is open or closed?
-   * */
-
-  //disabled button if no token balance
-  const depositButtonDisabled = Number(tokenBalance) > 0 ? false : true;
-  const redeemButtonDisabled = Number(redeemableBalance) > 0 ? false : true;
+  //disabled button if no token balance or contract failed state
+  const depositButtonDisabled = Number(tokenBalance) > 0 && escrowState != "FAILED" ? false : true;
+  //disable button if no token balance and state != PENDING
+  const redeemButtonDisabled = Number(depositedBalance) > 0 && escrowState === "PENDING" ? true : false;
 
   //Currency formatters for the token balances
   const usdValue = quantity ? new Intl.NumberFormat("en-US").format(Number(quantity) * 55) : 0;
@@ -152,7 +140,7 @@ const Tender = (props: { walletAddress: string }) => {
             <Tab label={t`Deposit`} />
             <Tab label={t`Redeem`} />
           </Tabs>
-          {props.walletAddress && view === 0 ? (
+          {address && view === 0 ? (
             <>
               <InputWrapper
                 id="amount-input"
@@ -164,7 +152,7 @@ const Tender = (props: { walletAddress: string }) => {
                 endString={t`Max`}
                 endStringOnClick={() => tokenBalance && setDeposit(tokenBalance)}
                 buttonText={t`Deposit for ${redemptionToken}`}
-                buttonOnClick={() => deposit()}
+                buttonOnClick={() => Deposit(quantity, redeemToken)}
                 disabled={depositButtonDisabled}
               />
               {allowChoice && (
@@ -199,9 +187,12 @@ const Tender = (props: { walletAddress: string }) => {
           ) : (
             view === 1 && (
               <Box display="flex" justifyContent={"center"} mt={"10px"}>
-                <PrimaryButton disabled={redeemButtonDisabled} onClick={() => redeem()}>
-                  Redeem
-                </PrimaryButton>
+                <Box display="flex" flexDirection="column">
+                  <Typography>Redeem for {choice ? "gOHM" : "DAI"}</Typography>
+                  <PrimaryButton disabled={redeemButtonDisabled} onClick={redeemButtonOnClick}>
+                    {redeemButtonText}
+                  </PrimaryButton>
+                </Box>
               </Box>
             )
           )}
