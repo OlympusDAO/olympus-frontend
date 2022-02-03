@@ -11,7 +11,7 @@ export const Balance = (address: string) => {
   const { isLoading, data } = useQuery(
     ["tenderBalanceOf", address],
     async () => {
-      if (tenderTokenContract) {
+      if (tenderTokenContract && address) {
         const balance = await tenderTokenContract.balanceOf(address);
         return parseBigNumber(balance);
       }
