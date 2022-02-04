@@ -76,9 +76,11 @@ const Tender = () => {
     daiExchangeRate && daiExchangeRate > 0 && gOhmExchangeRate && gOhmExchangeRate > 0 && !depositedBalance;
 
   //disabled button if no token balance or contract failed state
-  const depositButtonDisabled = Number(tokenBalance) > 0 && escrowState && escrowState != 1 ? false : true;
+  console.log(tokenBalance, "token balance");
+  console.log(escrowState, "escrow state");
+  const depositButtonDisabled = Number(tokenBalance) > 0 && escrowState != 1 ? false : true;
   //disable if no deposited balance or escrow State === PENDING
-  const redeemButtonDisabled = !Number(depositedBalance) || (escrowState && escrowState === 0) ? true : false;
+  const redeemButtonDisabled = !Number(depositedBalance) || escrowState === 0 ? true : false;
 
   //Currency formatters for the token balances
   const usdValue = quantity ? new Intl.NumberFormat("en-US").format(Number(quantity) * 55) : 0;
