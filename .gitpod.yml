@@ -1,11 +1,4 @@
 tasks:
-  - name: Shell
-    before: echo "Setting up SSH environment"; rm -rf ~/.ssh; mkdir -p /workspace/.ssh; ln -sf /workspace/.ssh ~/.ssh
-    # The ~/.ssh directory will be removed between workspace runs
-    # We store it on /workspace/ instead and link it
-    # We also ensure that ssh-agent is added
-    # Your own keys will need to be added through ssh-add or ~/.ssh/config
-    command: eval $(ssh-agent -s)
   - name: App
     init: |
       # bring in secret access tokens from gitpod user dashboard
@@ -30,6 +23,18 @@ tasks:
       yarn test --clearCache
       yarn test:unit
     openMode: split-right
+  - name: Shell
+    # The ~/.ssh directory will be removed between workspace runs
+    # We store it on /workspace/ instead and link it
+    # We also ensure that ssh-agent is added
+    # Your own keys will need to be added through ssh-add or ~/.ssh/config
+    before: |
+      echo "Setting up SSH environment"
+      rm -rf ~/.ssh
+      mkdir -p /workspace/.ssh
+      ln -sf /workspace/.ssh ~/.ssh
+    command: eval $(ssh-agent -s)
+    openMode: tab-after
 ports:
   - port: 3000
     onOpen: open-preview
