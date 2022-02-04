@@ -210,10 +210,6 @@ const ZapStakeAction: React.FC = () => {
 
   return (
     <>
-      <div className="card-header">
-        <Typography variant="h5">Zap</Typography>
-      </div>
-
       <ZapStakeHeader images={inputTokenImages} />
 
       <Typography>
