@@ -342,15 +342,28 @@ const Stake: React.FC = () => {
       );
     };
 
-    const getStakeAction = () => {
+    /**
+     * Returns the thunk action for staking, given the current state.
+     *
+     * @returns string
+     */
+    const getStakeAction = (): string => {
       if (hasApprovalStaking) return "staking";
 
+      // TODO confirm this is correct
       if (usingGOhm) return "approve_wrapping";
 
       return "approve_staking";
     };
 
-    const getStakeOnClickHandler = () => {
+    /**
+     * Handle the onClick event for a staking button.
+     *
+     * If approval is granted, it will perform the action.
+     *
+     * Otherwise it will seek approval.
+     */
+    const getStakeOnClickHandler = (): void => {
       if (hasApprovalStaking) {
         onChangeStake("stake");
         return;
@@ -359,7 +372,12 @@ const Stake: React.FC = () => {
       onSeekApproval("ohm");
     };
 
-    const getStakeButton = () => {
+    /**
+     * Provides the text for the staking button.
+     *
+     * @returns string
+     */
+    const getStakeButton = (): string => {
       if (hasApprovalStaking) {
         return txnButtonText(pendingTransactions, "staking", t`Stake to ${getTokenToUnstake()}`);
       }
@@ -367,7 +385,12 @@ const Stake: React.FC = () => {
       return txnButtonText(pendingTransactions, getStakeAction(), t`Approve`);
     };
 
-    const isStakeButtonDisabled = () => {
+    /**
+     * Determines if the staking button should be disabled.
+     *
+     * @returns boolean
+     */
+    const isStakeButtonDisabled = (): boolean => {
       if (isPendingTxn(pendingTransactions, getStakeAction())) return true;
 
       if (!quantity) return true;
@@ -375,7 +398,12 @@ const Stake: React.FC = () => {
       return false;
     };
 
-    const getUnstakeAction = () => {
+    /**
+     * Returns the thunk action for unstaking, given the current state.
+     *
+     * @returns string
+     */
+    const getUnstakeAction = (): string => {
       if (hasApprovalUnstaking) return "unstaking";
 
       if (usingGOhm) return "approve_unwrapping";
@@ -383,7 +411,14 @@ const Stake: React.FC = () => {
       return "approve_unstaking";
     };
 
-    const getUnstakeOnClickHandler = () => {
+    /**
+     * Handle the onClick event for an unstaking button.
+     *
+     * If approval is granted, it will perform the action.
+     *
+     * Otherwise it will seek approval.
+     */
+    const getUnstakeOnClickHandler = (): void => {
       if (hasApprovalUnstaking) {
         onChangeStake("unstake");
         return;
@@ -392,7 +427,12 @@ const Stake: React.FC = () => {
       onSeekApproval(getTokenToUnstake());
     };
 
-    const getUnstakeButton = () => {
+    /**
+     * Provides the text for the unstaking button.
+     *
+     * @returns string
+     */
+    const getUnstakeButton = (): string => {
       if (hasApprovalUnstaking) {
         return txnButtonText(pendingTransactions, "unstaking", t`Unstake from ${getTokenToUnstake()}`);
       }
@@ -400,7 +440,12 @@ const Stake: React.FC = () => {
       return txnButtonText(pendingTransactions, getUnstakeAction(), t`Approve`);
     };
 
-    const isUnstakeButtonDisabled = () => {
+    /**
+     * Determines if the unstaking button should be disabled.
+     *
+     * @returns boolean
+     */
+    const isUnstakeButtonDisabled = (): boolean => {
       if (isPendingTxn(pendingTransactions, getStakeAction())) return true;
 
       if (!quantity) return true;
