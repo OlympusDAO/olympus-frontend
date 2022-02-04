@@ -1,3 +1,4 @@
+import { t } from "@lingui/macro";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
 import ReactGA from "react-ga";
@@ -67,13 +68,13 @@ export const changeApproval = createAsyncThunk(
   "stake/changeApproval",
   async ({ token, provider, address, networkID, version2 }: IChangeApprovalWithVersionAsyncThunk, { dispatch }) => {
     if (!provider) {
-      dispatch(error("Please connect your wallet!"));
+      dispatch(error(t`Please connect your wallet!`));
       return;
     }
 
     if (!SUPPORTED_TOKENS.includes(token)) {
       dispatch(
-        error("The supplied token (" + token + ") is not one of the supported tokens: " + SUPPORTED_TOKENS.toString()),
+        error(t`The supplied token ${token} is not one of the supported tokens: ${SUPPORTED_TOKENS.toString()}`),
       );
       return;
     }
@@ -90,7 +91,7 @@ export const changeApproval = createAsyncThunk(
     let unstakeAllowanceV2 = await sohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
     // return early if approval has already happened
     if (alreadyApprovedToken(token, stakeAllowance, unstakeAllowance, stakeAllowanceV2, unstakeAllowanceV2, version2)) {
-      dispatch(info("Approval completed."));
+      dispatch(info(t`Approval completed`));
       return dispatch(
         fetchAccountSuccess({
           staking: {
@@ -171,15 +172,13 @@ export const changeStake = createAsyncThunk(
   "stake/changeStake",
   async ({ action, value, provider, address, networkID, version2, rebase }: IStakeAsyncThunk, { dispatch }) => {
     if (!provider) {
-      dispatch(error("Please connect your wallet!"));
+      dispatch(error(t`Please connect your wallet!`));
       return;
     }
 
     if (!SUPPORTED_ACTIONS.includes(action)) {
       dispatch(
-        error(
-          "The supplied action (" + action + ") is not one of the supported actions: " + SUPPORTED_ACTIONS.toString(),
-        ),
+        error(t`The supplied action ${action} is not one of the supported actions: ${SUPPORTED_ACTIONS.toString()}`),
       );
       return;
     }

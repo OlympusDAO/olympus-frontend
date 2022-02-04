@@ -177,14 +177,26 @@ const Stake: React.FC = () => {
     }
   };
 
-  const onSeekApproval = async (token: string) => {
-    if (token === TOKEN_GOHM) {
-      await dispatch(changeGohmApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
+  // TODO consider consolidating the approval functions into one
+  /**
+   * Requests approval to access the source token
+   *
+   * gOHM uses a different contract, so this function will handle the redirection
+   *
+   * @param sourceToken
+   */
+  const onSeekApproval = async (sourceToken: string) => {
+    if (sourceToken === TOKEN_GOHM) {
+      await dispatch(changeGohmApproval({ address, token: sourceToken.toLowerCase(), provider, networkID: networkId }));
     } else {
-      await dispatch(changeApproval({ address, token, provider, networkID: networkId, version2: true }));
+      await dispatch(changeApproval({ address, token: sourceToken, provider, networkID: networkId, version2: true }));
     }
   };
 
+  // TODO consider consolidating the stake/unstake functions into one, with from and to assets
+  /**
+   * Handles interaction with staking/unstaking contracts, and formats numbers.
+   */
   const onChangeStake = async (action: string) => {
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(Number(quantity)) || Number(quantity) === 0 || Number(quantity) < 0) {
@@ -205,7 +217,7 @@ const Stake: React.FC = () => {
     ) {
       return dispatch(
         error(
-          t`You do not have enough sOHM to complete this transaction.  To unstake from gOHM, please toggle the sohm-gohm switch.`,
+          t`You do not have enough sOHM to complete this transaction. To unstake from gOHM, please toggle the sohm-gohm switch.`,
         ),
       );
     }
@@ -223,6 +235,7 @@ const Stake: React.FC = () => {
       }
     };
 
+    // NOTE: the contracts handle unwrapping gOHM to OHM in the case of unstaking, so we don't need to worry about it here
     await dispatch(
       changeStake({
         address,
@@ -387,6 +400,7 @@ const Stake: React.FC = () => {
         return;
       }
 
+      // When staking, the only token that can be used is TOKEN_OHM, so we don't need to perform any checks
       onSeekApproval(TOKEN_OHM);
     };
 
@@ -396,11 +410,11 @@ const Stake: React.FC = () => {
      * @returns string
      */
     const getStakeButton = (): string => {
-      if (hasApprovalStaking) {
-        return txnButtonText(pendingTransactions, PENDING_TXN_STAKING, t`Stake to ${getTokenToUnstake()}`);
-      }
-
-      return txnButtonText(pendingTransactions, getStakePendingTxnType(), t`Approve`);
+      return txnButtonText(
+        pendingTransactions,
+        getStakePendingTxnType(),
+        hasApprovalStaking ? t`Stake to ${getTokenToUnstake()}` : t`Approve`,
+      );
     };
 
     /**
@@ -440,7 +454,7 @@ const Stake: React.FC = () => {
         return;
       }
 
-      onSeekApproval(getTokenToUnstake());
+      onSeekApproval(getTokenToUnstake().toLowerCase());
     };
 
     /**
@@ -449,11 +463,11 @@ const Stake: React.FC = () => {
      * @returns string
      */
     const getUnstakeButton = (): string => {
-      if (hasApprovalUnstaking) {
-        return txnButtonText(pendingTransactions, ACTION_UNSTAKE, t`Unstake from ${getTokenToUnstake()}`);
-      }
-
-      return txnButtonText(pendingTransactions, getUnstakePendingTxnType(), t`Approve`);
+      return txnButtonText(
+        pendingTransactions,
+        getUnstakePendingTxnType(),
+        hasApprovalUnstaking ? t`Unstake from ${getTokenToUnstake()}` : t`Approve`,
+      );
     };
 
     /**
