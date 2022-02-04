@@ -199,6 +199,9 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
             Icon1="wsOHM"
           />
           <Box sx={{ display: "flex", flexDirection: "column" }} style={{ gap: theme.spacing(1.5) }}>
+            <ExternalLink href={`https://dune.xyz/fluidsonic/Olympus-DAO`}>
+              <Typography>Fluidsonic's dashboard</Typography>
+            </ExternalLink>
             <ExternalLink href={`https://dune.xyz/0xrusowsky/Olympus-Wallet-History`}>
               <Typography>Rusowsky's dashboard</Typography>
             </ExternalLink>
