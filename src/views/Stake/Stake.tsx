@@ -31,7 +31,19 @@ import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import { getGohmBalFromSohm, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
-import { changeApproval, changeStake } from "../../slices/StakeThunk";
+import {
+  ACTION_STAKE,
+  ACTION_UNSTAKE,
+  changeApproval,
+  changeStake,
+  PENDING_TXN_STAKING,
+  PENDING_TXN_STAKING_APPROVE,
+  PENDING_TXN_UNSTAKING,
+  PENDING_TXN_UNSTAKING_APPROVE,
+  TOKEN_GOHM,
+  TOKEN_OHM,
+  TOKEN_SOHM,
+} from "../../slices/StakeThunk";
 import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
 import { ConfirmDialog } from "./ConfirmDialog";
 import ExternalStakePool from "./ExternalStakePool";
@@ -166,7 +178,7 @@ const Stake: React.FC = () => {
   };
 
   const onSeekApproval = async (token: string) => {
-    if (token === "gohm") {
+    if (token === TOKEN_GOHM) {
       await dispatch(changeGohmApproval({ address, token: token.toLowerCase(), provider, networkID: networkId }));
     } else {
       await dispatch(changeApproval({ address, token, provider, networkID: networkId, version2: true }));
@@ -182,11 +194,15 @@ const Stake: React.FC = () => {
 
     // 1st catch if quantity > balance
     const gweiValue = ethers.utils.parseUnits(quantity.toString(), "gwei");
-    if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
+    if (action === ACTION_STAKE && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
       return dispatch(error(t`You cannot stake more than your OHM balance.`));
     }
 
-    if (usingGOhm === false && action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
+    if (
+      usingGOhm === false &&
+      action === ACTION_UNSTAKE &&
+      gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))
+    ) {
       return dispatch(
         error(
           t`You do not have enough sOHM to complete this transaction.  To unstake from gOHM, please toggle the sohm-gohm switch.`,
@@ -222,9 +238,9 @@ const Stake: React.FC = () => {
 
   const hasAllowance: (token: string) => boolean = useCallback(
     token => {
-      if (token === "ohm") return stakeAllowance > 0;
-      if (token === "sohm") return unstakeAllowance > 0;
-      if (token === "gohm") return directUnstakeAllowance > 0;
+      if (token === TOKEN_OHM) return stakeAllowance > 0;
+      if (token === TOKEN_SOHM) return unstakeAllowance > 0;
+      if (token === TOKEN_GOHM) return directUnstakeAllowance > 0;
       return false;
     },
     [stakeAllowance, unstakeAllowance, directUnstakeAllowance],
@@ -312,12 +328,17 @@ const Stake: React.FC = () => {
       return <Skeleton height={30} />;
     }
 
-    const hasApprovalStaking = hasAllowance("ohm");
+    const hasApprovalStaking = hasAllowance(TOKEN_OHM);
     const requiresStakingApproval = view === 0 && !hasApprovalStaking;
-    const hasApprovalUnstaking = usingGOhm ? hasAllowance("gohm") : hasAllowance("sohm");
+    const hasApprovalUnstaking = usingGOhm ? hasAllowance(TOKEN_GOHM) : hasAllowance(TOKEN_SOHM);
     const requiresUnstakingApproval = view === 1 && !hasApprovalUnstaking;
 
-    const getTokenToUnstake = () => {
+    /**
+     * Returns the case-sensitive token name
+     *
+     * @returns string
+     */
+    const getTokenToUnstake = (): string => {
       return usingGOhm ? "gOHM" : "sOHM";
     };
 
@@ -343,17 +364,14 @@ const Stake: React.FC = () => {
     };
 
     /**
-     * Returns the thunk action for staking, given the current state.
+     * Returns the pending transaction type for staking, given the current state.
      *
      * @returns string
      */
-    const getStakeAction = (): string => {
-      if (hasApprovalStaking) return "staking";
+    const getStakePendingTxnType = (): string => {
+      if (hasApprovalStaking) return PENDING_TXN_STAKING;
 
-      // TODO confirm this is correct
-      if (usingGOhm) return "approve_wrapping";
-
-      return "approve_staking";
+      return PENDING_TXN_STAKING_APPROVE;
     };
 
     /**
@@ -365,11 +383,11 @@ const Stake: React.FC = () => {
      */
     const getStakeOnClickHandler = (): void => {
       if (hasApprovalStaking) {
-        onChangeStake("stake");
+        onChangeStake(ACTION_STAKE);
         return;
       }
 
-      onSeekApproval("ohm");
+      onSeekApproval(TOKEN_OHM);
     };
 
     /**
@@ -379,10 +397,10 @@ const Stake: React.FC = () => {
      */
     const getStakeButton = (): string => {
       if (hasApprovalStaking) {
-        return txnButtonText(pendingTransactions, "staking", t`Stake to ${getTokenToUnstake()}`);
+        return txnButtonText(pendingTransactions, PENDING_TXN_STAKING, t`Stake to ${getTokenToUnstake()}`);
       }
 
-      return txnButtonText(pendingTransactions, getStakeAction(), t`Approve`);
+      return txnButtonText(pendingTransactions, getStakePendingTxnType(), t`Approve`);
     };
 
     /**
@@ -391,7 +409,7 @@ const Stake: React.FC = () => {
      * @returns boolean
      */
     const isStakeButtonDisabled = (): boolean => {
-      if (isPendingTxn(pendingTransactions, getStakeAction())) return true;
+      if (isPendingTxn(pendingTransactions, getStakePendingTxnType())) return true;
 
       if (!quantity) return true;
 
@@ -399,17 +417,14 @@ const Stake: React.FC = () => {
     };
 
     /**
-     * Returns the thunk action for unstaking, given the current state.
+     * Returns the pending transaction type for unstaking, given the current state.
      *
      * @returns string
      */
-    const getUnstakeAction = (): string => {
-      if (hasApprovalUnstaking) return "unstaking";
+    const getUnstakePendingTxnType = (): string => {
+      if (hasApprovalUnstaking) return PENDING_TXN_UNSTAKING;
 
-      // TODO confirm this is correct
-      if (usingGOhm) return "approve_unwrapping";
-
-      return "approve_unstaking";
+      return PENDING_TXN_UNSTAKING_APPROVE;
     };
 
     /**
@@ -421,7 +436,7 @@ const Stake: React.FC = () => {
      */
     const getUnstakeOnClickHandler = (): void => {
       if (hasApprovalUnstaking) {
-        onChangeStake("unstake");
+        onChangeStake(ACTION_UNSTAKE);
         return;
       }
 
@@ -435,10 +450,10 @@ const Stake: React.FC = () => {
      */
     const getUnstakeButton = (): string => {
       if (hasApprovalUnstaking) {
-        return txnButtonText(pendingTransactions, "unstaking", t`Unstake from ${getTokenToUnstake()}`);
+        return txnButtonText(pendingTransactions, ACTION_UNSTAKE, t`Unstake from ${getTokenToUnstake()}`);
       }
 
-      return txnButtonText(pendingTransactions, getUnstakeAction(), t`Approve`);
+      return txnButtonText(pendingTransactions, getUnstakePendingTxnType(), t`Approve`);
     };
 
     /**
@@ -447,7 +462,7 @@ const Stake: React.FC = () => {
      * @returns boolean
      */
     const isUnstakeButtonDisabled = (): boolean => {
-      if (isPendingTxn(pendingTransactions, getStakeAction())) return true;
+      if (isPendingTxn(pendingTransactions, getStakePendingTxnType())) return true;
 
       if (!quantity) return true;
 
