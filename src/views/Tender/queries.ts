@@ -1,10 +1,9 @@
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
-import { TENDER_ADDRESSES } from "src/constants/addresses";
+import { TENDER_ADDRESSES, TENDER_ESCROW_ADDRESSES } from "src/constants/addresses";
 import { parseBigNumber } from "src/helpers";
-import { useTokenContract } from "src/hooks/useContract";
+import { useTenderEscrowContract, useTokenContract } from "src/hooks/useContract";
 import { balancesOf } from "src/lib/fetchBalances";
-//TODO Add tenderEscrowContract
 
 export const Balance = (address: string) => {
   const tenderTokenContract = useTokenContract(TENDER_ADDRESSES);
@@ -16,7 +15,7 @@ export const Balance = (address: string) => {
         return parseBigNumber(balance);
       }
     },
-    { refetchOnWindowFocus: false, refetchOnReconnect: false },
+    { refetchOnWindowFocus: false, refetchOnReconnect: false, enabled: !!tenderTokenContract },
   );
   return data;
 };
@@ -42,80 +41,143 @@ export const CrossChainBalanceCheck = (address: string) => {
   return data;
 };
 
-//TODO: Replace with gohmExchangeRate Contract Call
 export const GOhmExchangeRate = () => {
-  const { data } = useQuery(["gOhmExchangeRate"], () => {
-    return 55;
-  });
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
+  const { data } = useQuery(
+    ["gOhmExchangeRate"],
+    async () => {
+      if (tenderEscrowContract) {
+        const data = await tenderEscrowContract.gohmExchangeRate();
+        return parseBigNumber(data) / 1e9;
+      }
+    },
+    { enabled: !!tenderEscrowContract },
+  );
   return data;
 };
 
-//TODO: Replace with daiExchangeRate  Call
 export const DaiExchangeRate = () => {
-  const { data } = useQuery(["daiExchangeRate"], () => {
-    return 50;
-  });
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
+  const { data } = useQuery(
+    ["daiExchangeRate"],
+    async () => {
+      if (tenderEscrowContract) {
+        const data = await tenderEscrowContract.daiExchangeRate();
+        return parseBigNumber(data) / 1e9;
+      }
+    },
+    { enabled: !!tenderEscrowContract },
+  );
   return data;
 };
 
-//TODO: Replace with deposits Contract Call
 export const Deposits = (address: string) => {
-  const { data } = useQuery(["deposits", address], () => {
-    return {
-      amount: 10, // amount of tender tokens (18 decimals)
-      index: 77, // OHM index
-      ohmPrice: 62, // OHM / USD price
-      choice: 0, // 0 - DAI, 1 - gOHM
-      didRedeem: false,
-    };
-  });
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
+  const { data } = useQuery(
+    ["deposits", address],
+    async () => {
+      if (tenderEscrowContract && address) {
+        const data = await tenderEscrowContract.deposits(address);
+        console.log(data);
+        return {
+          ...data,
+          amount: parseBigNumber(data.amount),
+          index: parseBigNumber(data.index),
+          ohmPrice: parseBigNumber(data.ohmPrice),
+        };
+      }
+    },
+    { enabled: !!tenderEscrowContract },
+  );
   return { ...data };
 };
 
-//TODO: Replace with totalDeposits Contract Call
 export const TotalDeposits = () => {
-  const { data } = useQuery(["totalDeposits"], () => {
-    return 500000;
-  });
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
+  const { data } = useQuery(
+    ["totalDeposits"],
+    async () => {
+      if (tenderEscrowContract) {
+        const data = await tenderEscrowContract.totalDeposits();
+        return parseBigNumber(data);
+      }
+    },
+    { enabled: !!tenderEscrowContract },
+  );
   return data;
 };
 
-//TODO: Replace with maxDeposits Contract Call
 export const MaxDeposits = () => {
-  const { data } = useQuery(["maxDeposits"], () => {
-    return 970000;
-  });
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
+  const { data } = useQuery(
+    ["maxDeposits"],
+    async () => {
+      if (tenderEscrowContract) {
+        const data = await tenderEscrowContract.maxDeposits();
+        return parseBigNumber(data);
+      }
+    },
+    { enabled: !!tenderEscrowContract },
+  );
   return data;
 };
 
-//TODO: Replace with daiExchangeRate Contract Call
+//
+//0=PENDING
+//1=FAILED
+//2=PASSED
 export const EscrowState = () => {
-  const { data } = useQuery(["escrowStateCall"], () => {
-    return "PENDING";
-  });
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
+  const { data } = useQuery(
+    ["escrowStateCall"],
+    async () => {
+      if (tenderEscrowContract) {
+        const data = await tenderEscrowContract.state();
+        return data;
+      }
+    },
+    { enabled: !!tenderEscrowContract },
+  );
   return data;
 };
 
-//TODO: Replace with withdraw Contract Call
 export const Withdraw = () => {
-  const { data } = useQuery(["withdrawCall"], () => {
-    return "";
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
+  const { data } = useQuery(["withdrawCall"], async () => {
+    if (tenderEscrowContract) {
+      const data = await tenderEscrowContract.withdraw();
+      return data;
+    }
   });
   return data;
 };
 
-//TODO: Replace with Redeem Contract Call
 export const Redeem = () => {
-  const { data } = useQuery(["RedeemCall"], () => {
-    return "";
-  });
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
+  const { data } = useQuery(
+    ["RedeemCall"],
+    async () => {
+      if (tenderEscrowContract) {
+        const data = await tenderEscrowContract.redeem();
+        return data;
+      }
+    },
+    { enabled: !!tenderEscrowContract },
+  );
   return data;
 };
 
-//TODO: Replace with Deposit Contract Call
 export const Deposit = (quantity: number, redemptionToken: number) => {
-  const { data } = useQuery(["DepositsCall"], () => {
-    return "";
-  });
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
+  const { data } = useQuery(
+    ["DepositsCall"],
+    async () => {
+      if (tenderEscrowContract) {
+        const data = await tenderEscrowContract.deposit(quantity, redemptionToken);
+        return data;
+      }
+    },
+    { enabled: !!tenderEscrowContract },
+  );
   return data;
 };

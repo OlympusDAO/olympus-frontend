@@ -76,9 +76,9 @@ const Tender = () => {
     daiExchangeRate && daiExchangeRate > 0 && gOhmExchangeRate && gOhmExchangeRate > 0 && !depositedBalance;
 
   //disabled button if no token balance or contract failed state
-  const depositButtonDisabled = Number(tokenBalance) > 0 && escrowState != "FAILED" ? false : true;
+  const depositButtonDisabled = Number(tokenBalance) > 0 && escrowState && escrowState != 1 ? false : true;
   //disable if no deposited balance or escrow State === PENDING
-  const redeemButtonDisabled = !Number(depositedBalance) || escrowState === "PENDING" ? true : false;
+  const redeemButtonDisabled = !Number(depositedBalance) || (escrowState && escrowState === 0) ? true : false;
 
   //Currency formatters for the token balances
   const usdValue = quantity ? new Intl.NumberFormat("en-US").format(Number(quantity) * 55) : 0;
@@ -108,12 +108,14 @@ const Tender = () => {
     return;
   };
   let message = "";
-  if (escrowState === "FAILED") {
+  //Failed State
+  if (escrowState === 1) {
     redeemButtonText = `Withdraw for ${depositedBalance} Chicken`;
     redeemButtonOnClick = () => Withdraw();
     message = "The offer has not been accepted by the founders. Withdraw your tokens below.";
   }
-  if (escrowState === "SUCCESS") {
+  //Passed State
+  if (escrowState === 2) {
     redeemButtonOnClick = () => Redeem();
     message = "The offer has been accepted by the founders. Redeem your tokens below.";
   }
