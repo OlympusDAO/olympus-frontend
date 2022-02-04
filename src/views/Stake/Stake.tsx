@@ -406,6 +406,7 @@ const Stake: React.FC = () => {
     const getUnstakeAction = (): string => {
       if (hasApprovalUnstaking) return "unstaking";
 
+      // TODO confirm this is correct
       if (usingGOhm) return "approve_unwrapping";
 
       return "approve_unstaking";
