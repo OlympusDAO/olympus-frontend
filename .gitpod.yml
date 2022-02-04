@@ -43,3 +43,5 @@ vscode:
   extensions:
     - dbaeumer.vscode-eslint
     - esbenp.prettier-vscode
+    - mhutchie.git-graph
+    - bmuskalla.vscode-tldr
