@@ -1,8 +1,7 @@
 import "./33together.scss";
 
 import { t } from "@lingui/macro";
-import { Box, Paper } from "@material-ui/core";
-import { InfoTooltipMulti } from "@olympusdao/component-library";
+import { InfoTooltipMulti, Paper } from "@olympusdao/component-library";
 import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -13,7 +12,6 @@ import { apolloExt } from "src/lib/apolloClient";
 import { getPoolValues, getRNGStatus } from "src/slices/PoolThunk";
 import { Prize, PrizePool } from "src/typechain/pooltogether";
 
-import CardHeader from "../../components/CardHeader/CardHeader";
 import { poolDataQuery, yourAwardsQuery } from "./poolData";
 import { PoolInfo } from "./PoolInfo";
 import { PoolPrize } from "./PoolPrize";
@@ -155,11 +153,7 @@ const PoolTogether = () => {
     <div id="pool-together-view">
       <PoolPrize />
 
-      <Paper className="ohm-card">
-        <Box display="flex">
-          <CardHeader title={t`3, 3 Together`} />
-          <InfoTooltipMulti messagesArray={infoTooltipMessage} />
-        </Box>
+      <Paper headerText={t`3, 3 Together`} topRight={<InfoTooltipMulti messagesArray={infoTooltipMessage} />}>
         <Tabs
           centered
           value={view}
