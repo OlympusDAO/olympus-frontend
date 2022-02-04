@@ -278,49 +278,6 @@ const Stake: React.FC = () => {
   }).format(stakingTVL);
   const formattedCurrentIndex = trim(Number(currentIndex), 1);
 
-  let stakeOnClick: () => Promise<{ payload: string; type: string } | undefined | void>;
-  let stakeDisabled: boolean;
-  let stakeButtonText: string;
-
-  //set defaults. if unstake tab selected else use staking tab as default
-  if (view === 1) {
-    stakeDisabled = isPendingTxn(pendingTransactions, "approve_unstaking");
-    stakeOnClick = () => onSeekApproval(usingGOhm ? "gohm" : "sohm");
-    stakeButtonText = txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`);
-  } else {
-    stakeDisabled = isPendingTxn(pendingTransactions, "approve_staking");
-    stakeOnClick = () => onSeekApproval("ohm");
-    stakeButtonText = txnButtonText(pendingTransactions, "approve_staking", t`Approve`);
-  }
-
-  //evaluate if data allowance data is finished loading
-  if (!isAllowanceDataLoading) {
-    //If Staking Tab
-    if (view === 0) {
-      if (address && hasAllowance("ohm")) {
-        stakeDisabled = isPendingTxn(pendingTransactions, "staking");
-        stakeOnClick = () => onChangeStake("stake");
-        stakeButtonText = txnButtonText(
-          pendingTransactions,
-          "staking",
-          `${t`Stake to`} ${usingGOhm ? " gOHM" : " sOHM"}`,
-        );
-      }
-    }
-    //If Unstaking Tab
-    if (view === 1) {
-      if ((address && hasAllowance("sohm") && !usingGOhm) || (hasAllowance("gohm") && usingGOhm)) {
-        stakeDisabled = isPendingTxn(pendingTransactions, "unstaking");
-        stakeOnClick = () => onChangeStake("unstake");
-        stakeButtonText = txnButtonText(
-          pendingTransactions,
-          "unstaking",
-          `${t`Unstake from`} ${usingGOhm ? " gOHM" : " sOHM"}`,
-        );
-      }
-    }
-  }
-
   const isLoading = () => {
     return isBalanceLoading || isAccountDetailsLoading || isAllowanceDataLoading;
   };
@@ -360,7 +317,99 @@ const Stake: React.FC = () => {
     const hasApprovalUnstaking = usingGOhm ? hasAllowance("gohm") : hasAllowance("sohm");
     const requiresUnstakingApproval = view === 1 && !hasApprovalUnstaking;
 
+    const getTokenToUnstake = () => {
+      return usingGOhm ? "gOHM" : "sOHM";
+    };
+
+    const getApprovalElements = () => {
+      if (view === 0) {
+        return (
+          <>
+            <Trans>First time staking</Trans> <b>OHM</b>?
+            <br />
+            <Trans>Please approve Olympus Dao to use your</Trans> <b>OHM</b> <Trans>for staking</Trans>.
+          </>
+        );
+      }
+
+      return (
+        <>
+          <Trans>First time unstaking</Trans> <b>{getTokenToUnstake()}</b>?
+          <br />
+          <Trans>Please approve Olympus Dao to use your</Trans> <b>{getTokenToUnstake()}</b>{" "}
+          <Trans>for unstaking</Trans>.
+        </>
+      );
+    };
+
+    const getStakeAction = () => {
+      if (hasApprovalStaking) return "staking";
+
+      if (usingGOhm) return "approve_wrapping";
+
+      return "approve_staking";
+    };
+
+    const getStakeOnClickHandler = () => {
+      if (hasApprovalStaking) {
+        onChangeStake("stake");
+        return;
+      }
+
+      onSeekApproval("ohm");
+    };
+
+    const getStakeButton = () => {
+      if (hasApprovalStaking) {
+        return txnButtonText(pendingTransactions, "staking", t`Stake to ${getTokenToUnstake()}`);
+      }
+
+      return txnButtonText(pendingTransactions, getStakeAction(), t`Approve`);
+    };
+
+    const isStakeButtonDisabled = () => {
+      if (isPendingTxn(pendingTransactions, getStakeAction())) return true;
+
+      if (!quantity) return true;
+
+      return false;
+    };
+
+    const getUnstakeAction = () => {
+      if (hasApprovalUnstaking) return "unstaking";
+
+      if (usingGOhm) return "approve_unwrapping";
+
+      return "approve_unstaking";
+    };
+
+    const getUnstakeOnClickHandler = () => {
+      if (hasApprovalUnstaking) {
+        onChangeStake("unstake");
+        return;
+      }
+
+      onSeekApproval(getTokenToUnstake());
+    };
+
+    const getUnstakeButton = () => {
+      if (hasApprovalUnstaking) {
+        return txnButtonText(pendingTransactions, "unstaking", t`Unstake from ${getTokenToUnstake()}`);
+      }
+
+      return txnButtonText(pendingTransactions, getUnstakeAction(), t`Approve`);
+    };
+
+    const isUnstakeButtonDisabled = () => {
+      if (isPendingTxn(pendingTransactions, getStakeAction())) return true;
+
+      if (!quantity) return true;
+
+      return false;
+    };
+
     // TODO add balance warning
+    // TODO remember gOHM toggle post transaction
 
     return (
       <>
@@ -394,20 +443,7 @@ const Stake: React.FC = () => {
                 requiresStakingApproval || requiresUnstakingApproval ? (
                   <Box mt={"10px"}>
                     <Typography variant="body1" className="stake-note" color="textSecondary">
-                      {view === 0 ? (
-                        <>
-                          <Trans>First time staking</Trans> <b>OHM</b>?
-                          <br />
-                          <Trans>Please approve Olympus Dao to use your</Trans> <b>OHM</b> <Trans>for staking</Trans>.
-                        </>
-                      ) : (
-                        <>
-                          <Trans>First time unstaking</Trans> <b>{usingGOhm ? "gOHM" : "sOHM"}</b>?
-                          <br />
-                          <Trans>Please approve Olympus Dao to use your</Trans> <b>{usingGOhm ? "gOHM" : "sOHM"}</b>{" "}
-                          <Trans>for unstaking</Trans>.
-                        </>
-                      )}
+                      {getApprovalElements()}
                     </Typography>
                   </Box>
                 ) : (
@@ -436,73 +472,29 @@ const Stake: React.FC = () => {
             <Grid item xs={12} sm={4} className="stake-grid-item">
               <TabPanel value={view} index={0}>
                 <Box m={-2}>
-                  {hasApprovalStaking ? (
-                    <Button
-                      className="stake-button"
-                      variant="contained"
-                      color="primary"
-                      disabled={isPendingTxn(pendingTransactions, "staking")}
-                      onClick={() => {
-                        onChangeStake("stake");
-                      }}
-                    >
-                      {txnButtonText(pendingTransactions, "staking", `${t`Stake to`} ${usingGOhm ? " gOHM" : " sOHM"}`)}
-                    </Button>
-                  ) : (
-                    <Button
-                      className="stake-button"
-                      variant="contained"
-                      color="primary"
-                      disabled={isPendingTxn(pendingTransactions, "approve_staking")}
-                      onClick={() => {
-                        onSeekApproval("ohm");
-                      }}
-                    >
-                      {txnButtonText(
-                        pendingTransactions,
-                        usingGOhm ? "approve_wrapping" : "approve_staking",
-                        t`Approve`,
-                      )}
-                    </Button>
-                  )}
+                  <Button
+                    className="stake-button"
+                    variant="contained"
+                    color="primary"
+                    disabled={isStakeButtonDisabled()}
+                    onClick={getStakeOnClickHandler}
+                  >
+                    {getStakeButton()}
+                  </Button>
                 </Box>
               </TabPanel>
 
               <TabPanel value={view} index={1}>
                 <Box m={-2}>
-                  {hasApprovalUnstaking ? (
-                    <Button
-                      className="stake-button"
-                      variant="contained"
-                      color="primary"
-                      disabled={isPendingTxn(pendingTransactions, "unstaking")}
-                      onClick={() => {
-                        onChangeStake("unstake");
-                      }}
-                    >
-                      {txnButtonText(
-                        pendingTransactions,
-                        "unstaking",
-                        `${t`Unstake from`} ${usingGOhm ? " gOHM" : " sOHM"}`,
-                      )}
-                    </Button>
-                  ) : (
-                    <Button
-                      className="stake-button"
-                      variant="contained"
-                      color="primary"
-                      disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
-                      onClick={() => {
-                        onSeekApproval(usingGOhm ? "gohm" : "sohm");
-                      }}
-                    >
-                      {txnButtonText(
-                        pendingTransactions,
-                        usingGOhm ? "approve_unwrapping" : "approve_unstaking",
-                        t`Approve`,
-                      )}
-                    </Button>
-                  )}
+                  <Button
+                    className="stake-button"
+                    variant="contained"
+                    color="primary"
+                    disabled={isUnstakeButtonDisabled()}
+                    onClick={getUnstakeOnClickHandler}
+                  >
+                    {getUnstakeButton()}
+                  </Button>
                 </Box>
               </TabPanel>
             </Grid>
