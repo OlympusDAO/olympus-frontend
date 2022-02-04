@@ -168,6 +168,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     }
   }, [donationInfo]);
 
+  useEffect(() => {
+    setIsUserDonating(false);
+    setDonationId(0);
+  }, [networkId]);
+
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
 
