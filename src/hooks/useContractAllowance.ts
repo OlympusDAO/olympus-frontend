@@ -8,7 +8,7 @@ import {
   V1_SOHM_ADDRESSES,
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
-import { queryAssertion } from "src/helpers";
+import { assert, queryAssertion } from "src/helpers";
 
 import { useWeb3Context } from ".";
 import { useTokenContract } from "./useContract";
@@ -21,7 +21,11 @@ export const contractAllowanceQueryKey = (networkId?: NetworkId, address?: strin
 
 export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressMap) => {
   const { address, networkId } = useWeb3Context();
-  const token = useTokenContract(tokenMap);
+
+  const tokenAddress = tokenMap[networkId as NetworkId];
+  assert(tokenAddress, `Token doesn't exist for network: ${networkId}`);
+
+  const token = useTokenContract(tokenAddress, networkId);
 
   return useQuery<BigNumber, Error>(
     contractAllowanceQueryKey(networkId, address),
