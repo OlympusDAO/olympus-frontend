@@ -14,36 +14,28 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  Tab,
-  Tabs,
   Typography,
   Zoom,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
+import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
+import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
-import TabPanel from "../../components/TabPanel";
 import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import ExternalStakePool from "../Stake/ExternalStakePool";
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
 
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
@@ -159,14 +151,6 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
 
   const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
 
-  let modalButton = [];
-
-  modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-      Connect Wallet
-    </Button>,
-  );
-
   const changeView = (event, newView) => {
     setView(newView);
   };
@@ -231,7 +215,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
               {!address ? (
                 <div className="stake-wallet-notification">
                   <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
+                    <ConnectButton />
                   </div>
                   <Typography variant="h6">
                     <Trans>Connect your wallet to stake OHM</Trans>
@@ -250,8 +234,8 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                       onChange={changeView}
                       aria-label="stake tabs"
                     >
-                      <Tab label={t`Stake`} {...a11yProps(0)} />
-                      <Tab label={t`Unstake`} {...a11yProps(1)} />
+                      <Tab aria-label="stake-button" label={t`Stake`} />
+                      <Tab aria-label="unstake-button" label={t`Unstake`} />
                     </Tabs>
 
                     <Box mt={"10px"}>
@@ -315,7 +299,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                       )}
 
                       {!hasActiveV1Bonds && oldAssetsDetected ? (
-                        <TabPanel value={view} index={0} className="stake-tab-panel">
+                        <TabPanel value={view} index={0}>
                           {isAllowanceDataLoading ? (
                             <Skeleton />
                           ) : (
@@ -323,7 +307,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           )}
                         </TabPanel>
                       ) : hasActiveV1Bonds ? (
-                        <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
+                        <TabPanel value={view} index={0}>
                           <Button
                             className="migrate-button"
                             variant="contained"
@@ -336,7 +320,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           </Button>
                         </TabPanel>
                       ) : (
-                        <TabPanel value={view} index={0} className="stake-tab-panel call-to-action">
+                        <TabPanel value={view} index={0}>
                           <Button
                             className="migrate-button"
                             variant="contained"
@@ -350,7 +334,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                         </TabPanel>
                       )}
 
-                      <TabPanel value={view} index={1} className="stake-tab-panel">
+                      <TabPanel value={view} index={1}>
                         {isAllowanceDataLoading ? (
                           <Skeleton />
                         ) : address && hasAllowance("sohm") ? (

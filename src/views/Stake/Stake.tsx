@@ -1,26 +1,24 @@
 import "./Stake.scss";
 
 import { t, Trans } from "@lingui/macro";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Button,
-  Divider,
-  Grid,
-  Tab,
-  Tabs,
-  Typography,
-  Zoom,
-} from "@material-ui/core";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Divider, Grid, Typography, Zoom } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { DataRow, InputWrapper, Metric, MetricCollection, Paper, PrimaryButton } from "@olympusdao/component-library";
+import {
+  DataRow,
+  InputWrapper,
+  Metric,
+  MetricCollection,
+  Paper,
+  PrimaryButton,
+  Tab,
+  Tabs,
+} from "@olympusdao/component-library";
 import { ethers } from "ethers";
-import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, memo, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import { useAppSelector } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -34,14 +32,7 @@ import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
 import { ConfirmDialog } from "./ConfirmDialog";
 import ExternalStakePool from "./ExternalStakePool";
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-function Stake() {
+const Stake: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { provider, address, connect, networkId } = useWeb3Context();
@@ -233,15 +224,7 @@ function Stake() {
 
   const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
 
-  const modalButton = [];
-
-  modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-      <Trans>Connect Wallet</Trans>
-    </Button>,
-  );
-
-  const changeView = (_event: ChangeEvent<any>, newView: number) => {
+  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 
@@ -357,7 +340,7 @@ function Stake() {
               {!address ? (
                 <div className="stake-wallet-notification">
                   <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
+                    <ConnectButton />
                   </div>
                   <Typography variant="h6">
                     <Trans>Connect your wallet to stake OHM</Trans>
@@ -379,13 +362,13 @@ function Stake() {
                       TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
                     >
                       <Tab
+                        aria-label="stake-button"
                         label={t({
                           id: "do_stake",
                           comment: "The action of staking (verb)",
                         })}
-                        {...a11yProps(0)}
                       />
-                      <Tab label={t`Unstake`} {...a11yProps(1)} />
+                      <Tab aria-label="unstake-button" label={t`Unstake`} />
                     </Tabs>
                     <Grid container className="stake-action-row">
                       {address && !isAllowanceDataLoading ? (
@@ -592,6 +575,6 @@ function Stake() {
       <ExternalStakePool />
     </div>
   );
-}
+};
 
-export default Stake;
+export default memo(Stake);

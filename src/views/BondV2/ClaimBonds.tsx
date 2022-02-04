@@ -6,18 +6,15 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
-  Tab,
   Table,
   TableBody,
   TableContainer,
-  Tabs,
   Typography,
   Zoom,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ExpandMore } from "@material-ui/icons";
-import { Paper } from "@olympusdao/component-library";
+import { Paper, PrimaryButton, Tab, Tabs } from "@olympusdao/component-library";
 import { isEmpty } from "lodash";
 import title from "material-ui/svg-icons/editor/title";
 import { ChangeEvent, useState } from "react";
@@ -59,13 +56,8 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
   });
 
   const [view, setView] = useState(0);
-  function a11yProps(index: number) {
-    return {
-      id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`,
-    };
-  }
-  const changeView = (_event: ChangeEvent<any>, newView: number) => {
+
+  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
 
@@ -101,8 +93,8 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
               aria-label="payout token tabs"
               className="payout-token-tabs"
             >
-              <Tab label={`sOHM`} {...a11yProps(0)} className="payout-token-tab" />
-              <Tab label={`gOHM`} {...a11yProps(1)} className="payout-token-tab" />
+              <Tab aria-label="payout-sohm-button" label="sOHM" className="payout-token-tab" />
+              <Tab aria-label="payout-sohm-button" label="gOHM" className="payout-token-tab" />
             </Tabs>
           </Box>
 
@@ -124,9 +116,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                         {view === 0 ? `${trim(totalClaimable, 4)} sOHM` : `${trim(totalClaimable, 4)} gOHM`}
                       </Typography>
 
-                      <Button
-                        variant="contained"
-                        color="primary"
+                      <PrimaryButton
                         className="transaction-button"
                         fullWidth
                         disabled={
@@ -136,7 +126,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                         onClick={onRedeemAll}
                       >
                         {txnButtonText(pendingTransactions, "redeem_all_notes", t`Claim all`)}
-                      </Button>
+                      </PrimaryButton>
                     </Box>
                     {!isEmpty(fullyVestedBonds) && (
                       <AccordionSection
@@ -190,9 +180,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                     {view === 0 ? `${trim(totalClaimable, 4)} sOHM` : `${trim(totalClaimable, 4)} gOHM`}
                   </Typography>
 
-                  <Button
-                    variant="contained"
-                    color="primary"
+                  <PrimaryButton
                     className="transaction-button"
                     fullWidth
                     disabled={
@@ -202,7 +190,7 @@ function ClaimBonds({ activeNotes }: { activeNotes: IUserNote[] }) {
                     onClick={onRedeemAll}
                   >
                     {txnButtonText(pendingTransactions, "redeem_all_notes", t`Claim all`)}
-                  </Button>
+                  </PrimaryButton>
                 </Box>
                 {!isEmpty(fullyVestedBonds) && (
                   <AccordionSection

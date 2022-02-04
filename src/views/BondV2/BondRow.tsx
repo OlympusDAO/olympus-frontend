@@ -1,10 +1,11 @@
 import "./ChooseBond.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Button, Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
+import { Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { TokenStack } from "@olympusdao/component-library";
+import { TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
+import { getEtherscanUrl } from "src/helpers";
 import { useAppSelector } from "src/hooks";
 import { IBondV2 } from "src/slices/BondSliceV2";
 
@@ -12,7 +13,7 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NetworkId } from "../../constants";
 import { DisplayBondDiscount, DisplayBondPrice } from "./BondV2";
 
-export function BondDataCard({ bond }: { bond: IBondV2 }) {
+export function BondDataCard({ bond, networkId }: { bond: IBondV2; networkId: NetworkId }) {
   const isBondLoading = useAppSelector(state => state.bondingV2.loading);
 
   return (
@@ -22,11 +23,20 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
           <TokenStack tokens={bond.bondIconSvg} />
           <div className="bond-name">
             <Typography>{bond.displayName}</Typography>
-            {bond.isLP && (
+            {bond && bond.isLP ? (
               <div>
                 <Link href={bond.lpUrl} target="_blank">
                   <Typography variant="body1">
                     <Trans>Get LP</Trans>
+                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                  </Typography>
+                </Link>
+              </div>
+            ) : (
+              <div>
+                <Link href={getEtherscanUrl({ bond, networkId })} target="_blank">
+                  <Typography variant="body1">
+                    <Trans>View Asset</Trans>
                     <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
                   </Typography>
                 </Link>
@@ -75,9 +85,9 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
           </Typography>
         </div> */}
         <Link component={NavLink} to={`/bonds/${bond.index}`}>
-          <Button variant="outlined" color="primary" fullWidth disabled={bond.soldOut}>
-            <Typography variant="h5">{bond.soldOut ? t`Sold Out` : t`Bond ${bond.displayName}`}</Typography>
-          </Button>
+          <TertiaryButton fullWidth disabled={bond.soldOut}>
+            {bond.soldOut ? t`Sold Out` : t`Bond ${bond.displayName}`}
+          </TertiaryButton>
         </Link>
       </Paper>
     </Slide>
@@ -87,13 +97,6 @@ export function BondDataCard({ bond }: { bond: IBondV2 }) {
 export function BondTableData({ bond, networkId }: { bond: IBondV2; networkId: NetworkId }) {
   // Use BondPrice as indicator of loading.
   const isBondLoading = !bond.priceUSD ?? true;
-
-  const getEtherscanUrl = (bond: IBondV2) => {
-    if (networkId === NetworkId.TESTNET_RINKEBY) {
-      return `https://rinkeby.etherscan.io/address/${bond.quoteToken}`;
-    }
-    return `https://etherscan.io/address/${bond.quoteToken}`;
-  };
 
   return (
     <TableRow id={`${bond.index}--bond`}>
@@ -113,7 +116,7 @@ export function BondTableData({ bond, networkId }: { bond: IBondV2; networkId: N
           ) : (
             <>
               <Typography variant="body1">{bond.displayName}</Typography>
-              <Link color="primary" href={getEtherscanUrl(bond)} target="_blank">
+              <Link color="primary" href={getEtherscanUrl({ bond, networkId })} target="_blank">
                 <Typography variant="body1">
                   <Trans>View Asset</Trans>
                   <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
@@ -135,9 +138,9 @@ export function BondTableData({ bond, networkId }: { bond: IBondV2; networkId: N
       <TableCell align="left">{isBondLoading ? <Skeleton /> : bond.duration}</TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.index}`}>
-          <Button variant="outlined" color="primary" style={{ width: "100%" }} disabled={bond.soldOut}>
-            <Typography variant="h6">{bond.soldOut ? t`Sold Out` : t`do_bond`}</Typography>
-          </Button>
+          <TertiaryButton fullWidth disabled={bond.soldOut}>
+            {bond.soldOut ? t`Sold Out` : t`do_bond`}
+          </TertiaryButton>
         </Link>
       </TableCell>
     </TableRow>
