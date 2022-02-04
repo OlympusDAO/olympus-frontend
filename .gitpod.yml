@@ -1,6 +1,6 @@
 tasks:
   - name: Shell
-    before: echo "Setting up SSH environment"; rm -rf ~/.ssh; mkdir -p /workspace/.ssh; ln -sf /workspace.ssh ~/.ssh
+    before: echo "Setting up SSH environment"; rm -rf ~/.ssh; mkdir -p /workspace/.ssh; ln -sf /workspace/.ssh ~/.ssh
     # The ~/.ssh directory will be removed between workspace runs
     # We store it on /workspace/ instead and link it
     # We also ensure that ssh-agent is added
