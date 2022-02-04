@@ -126,7 +126,7 @@ function ChooseBond() {
                         <Trans>Price</Trans>
                       </TableCell>
                       <TableCell align="left">
-                        <Trans>ROI</Trans>
+                        <Trans>Discount</Trans>
                       </TableCell>
                       <TableCell align="right">
                         <Trans>Purchased</Trans>

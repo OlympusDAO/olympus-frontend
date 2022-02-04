@@ -57,7 +57,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
         </div>
         <div className="data-row">
           <Typography>
-            <Trans>ROI</Trans>
+            <Trans>Discount</Trans>
           </Typography>
           <Typography>
             {isBondLoading ? (

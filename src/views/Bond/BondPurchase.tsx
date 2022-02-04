@@ -251,7 +251,7 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
           /> */}
           <Box display="flex" flexDirection="row" justifyContent="space-between">
             <Typography>
-              <Trans>ROI</Trans>
+              <Trans>Discount</Trans>
             </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="80px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}

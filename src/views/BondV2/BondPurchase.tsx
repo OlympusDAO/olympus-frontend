@@ -218,7 +218,7 @@ function BondPurchase({
           />
           <Box display="flex" flexDirection="row" justifyContent="space-between">
             <Typography>
-              <Trans>ROI</Trans>
+              <Trans>Discount</Trans>
             </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.displayName} bond={bond} />}

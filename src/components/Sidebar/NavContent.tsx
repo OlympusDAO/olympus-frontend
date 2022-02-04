@@ -105,7 +105,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                           }
                         >
                           <Typography variant="body2">
-                            <Trans>Highest ROI</Trans>
+                            <Trans>Highest Discount</Trans>
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
