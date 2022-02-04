@@ -4,7 +4,7 @@ tasks:
     # The ~/.ssh directory will be removed between workspace runs
     # We store it on /workspace/ instead and link it
     # We also ensure that ssh-agent is added
-    # Your own keys will need to be added
+    # Your own keys will need to be added through ssh-add or ~/.ssh/config
     command: eval $(ssh-agent -s)
   - name: App
     init: |
