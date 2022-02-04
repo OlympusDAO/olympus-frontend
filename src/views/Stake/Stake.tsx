@@ -1,28 +1,9 @@
 import "./Stake.scss";
 
 import { t, Trans } from "@lingui/macro";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Button,
-  Divider,
-  Grid,
-  Typography,
-  Zoom,
-} from "@material-ui/core";
-import { ExpandMore } from "@material-ui/icons";
+import { Box, Button, Divider, Grid, Typography, Zoom } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import {
-  DataRow,
-  InputWrapper,
-  MetricCollection,
-  Paper,
-  PrimaryButton,
-  Tab,
-  Tabs,
-} from "@olympusdao/component-library";
+import { InputWrapper, MetricCollection, Paper, PrimaryButton, Tab, Tabs } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -32,13 +13,14 @@ import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
-import { getGohmBalFromSohm, trim } from "../../helpers";
+import { getGohmBalFromSohm } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import { changeApproval as changeGohmApproval } from "../../slices/WrapThunk";
 import { CurrentIndex, StakingAPY, TotalValueDeposited } from "../TreasuryDashboard/components/Metric/Metric";
 import ExternalStakePools from "./components/ExternalStakePools/ExternalStakePools";
 import RebaseTimer from "./components/RebaseTimer/RebaseTimer";
+import { StakeBalances } from "./components/StakeBalances";
 import { StakeFiveDayYield } from "./components/StakeFiveDayYield";
 import { StakeNextRebaseAmount } from "./components/StakeNextRebaseAmount";
 import { StakeRebaseYield } from "./components/StakeRebaseYield";
@@ -55,7 +37,6 @@ const Stake: React.FC = () => {
   const [quantity, setQuantity] = useState("");
   const [confirmation, setConfirmation] = useState(false);
 
-  const isAppLoading = useAppSelector(state => state.app.loading);
   const currentIndex = useAppSelector(state => {
     return state.app.currentIndex;
   });
@@ -66,71 +47,10 @@ const Stake: React.FC = () => {
   const sohmBalance = useAppSelector(state => {
     return state.account.balances && state.account.balances.sohm;
   });
-  const sohmV1Balance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.sohmV1;
-  });
-  const fsohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.fsohm;
-  });
-  const fgohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.fgohm;
-  });
-  const fgOHMAsfsOHMBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.fgOHMAsfsOHM;
-  });
-  const wsohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.wsohm;
-  });
-  const fiatDaowsohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.fiatDaowsohm;
-  });
-  const calculateWrappedAsSohm = (balance: string) => {
-    return Number(balance) * Number(currentIndex);
-  };
-  const fiatDaoAsSohm = calculateWrappedAsSohm(fiatDaowsohmBalance);
-  const gOhmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gohm;
-  });
+
   const gOhmAsSohm = useAppSelector(state => {
     return state.account.balances && state.account.balances.gOhmAsSohmBal;
   });
-
-  const gOhmOnArbitrum = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnArbitrum;
-  });
-  const gOhmOnArbAsSohm = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnArbAsSohm;
-  });
-
-  const gOhmOnAvax = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnAvax;
-  });
-  const gOhmOnAvaxAsSohm = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnAvaxAsSohm;
-  });
-
-  const gOhmOnPolygon = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnPolygon;
-  });
-  const gOhmOnPolygonAsSohm = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnPolygonAsSohm;
-  });
-
-  const gOhmOnFantom = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnFantom;
-  });
-  const gOhmOnFantomAsSohm = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnFantomAsSohm;
-  });
-
-  const gOhmOnTokemak = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnTokemak;
-  });
-  const gOhmOnTokemakAsSohm = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gOhmOnTokemakAsSohm;
-  });
-
-  const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
   const stakeAllowance = useAppSelector(state => {
     return (state.account.staking && state.account.staking.ohmStake) || 0;
@@ -240,27 +160,6 @@ const Stake: React.FC = () => {
     if (Number(e.target.value) >= 0) setQuantity(e.target.value);
   }, []);
 
-  const trimmedBalance = Number(
-    [
-      sohmBalance,
-      gOhmAsSohm,
-      gOhmOnArbAsSohm,
-      gOhmOnAvaxAsSohm,
-      gOhmOnPolygonAsSohm,
-      gOhmOnFantomAsSohm,
-      gOhmOnTokemakAsSohm,
-      sohmV1Balance,
-      wsohmAsSohm,
-      fiatDaoAsSohm,
-      fsohmBalance,
-      fgOHMAsfsOHMBalance,
-    ]
-      .filter(Boolean)
-      .map(balance => Number(balance))
-      .reduce((a, b) => a + b, 0)
-      .toFixed(4),
-  );
-
   let stakeOnClick: () => Promise<{ payload: string; type: string } | undefined | void>;
   let stakeDisabled: boolean;
   let stakeButtonText: string;
@@ -312,7 +211,9 @@ const Stake: React.FC = () => {
             <Grid item>
               <MetricCollection>
                 <StakingAPY className="stake-apy" />
+
                 <TotalValueDeposited className="stake-tvl" />
+
                 <CurrentIndex className="stake-index" />
               </MetricCollection>
             </Grid>
@@ -417,116 +318,7 @@ const Stake: React.FC = () => {
                     onConfirm={setConfirmation}
                   />
                   <div className="stake-user-data">
-                    <DataRow
-                      title={t`Unstaked Balance`}
-                      id="user-balance"
-                      balance={`${trim(Number(ohmBalance), 4)} OHM`}
-                      isLoading={isAppLoading}
-                    />
-                    <Accordion className="stake-accordion" square defaultExpanded>
-                      <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
-                        <DataRow
-                          title={t`Total Staked Balance`}
-                          id="user-staked-balance"
-                          balance={`${trimmedBalance} sOHM`}
-                          isLoading={isAppLoading}
-                        />
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <DataRow
-                          title={t`sOHM Balance`}
-                          balance={`${trim(Number(sohmBalance), 4)} sOHM`}
-                          indented
-                          isLoading={isAppLoading}
-                        />
-                        <DataRow
-                          title={`${t`gOHM Balance`}`}
-                          balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
-                          indented
-                          isLoading={isAppLoading}
-                        />
-                        {Number(gOhmOnArbitrum) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM (Arbitrum)`}`}
-                            balance={`${trim(Number(gOhmOnArbitrum), 4)} gOHM`}
-                            indented
-                            {...{ isAppLoading }}
-                          />
-                        )}
-                        {Number(gOhmOnAvax) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM (Avalanche)`}`}
-                            balance={`${trim(Number(gOhmOnAvax), 4)} gOHM`}
-                            indented
-                            {...{ isAppLoading }}
-                          />
-                        )}
-                        {Number(gOhmOnPolygon) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM (Polygon)`}`}
-                            balance={`${trim(Number(gOhmOnPolygon), 4)} gOHM`}
-                            indented
-                            {...{ isAppLoading }}
-                          />
-                        )}
-                        {Number(gOhmOnFantom) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM (Fantom)`}`}
-                            balance={`${trim(Number(gOhmOnFantom), 4)} gOHM`}
-                            indented
-                            {...{ isAppLoading }}
-                          />
-                        )}
-                        {Number(gOhmOnTokemak) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM (Tokemak)`}`}
-                            balance={`${trim(Number(gOhmOnTokemak), 4)} gOHM`}
-                            indented
-                            isLoading={isAppLoading}
-                          />
-                        )}
-                        {Number(fgohmBalance) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM Balance in Fuse`}`}
-                            balance={`${trim(Number(fgohmBalance), 4)} gOHM`}
-                            indented
-                            isLoading={isAppLoading}
-                          />
-                        )}
-                        {Number(sohmV1Balance) > 0.00009 && (
-                          <DataRow
-                            title={`${t`sOHM Balance`} (v1)`}
-                            balance={`${trim(Number(sohmV1Balance), 4)} sOHM (v1)`}
-                            indented
-                            isLoading={isAppLoading}
-                          />
-                        )}
-                        {Number(wsohmBalance) > 0.00009 && (
-                          <DataRow
-                            title={`${t`wsOHM Balance`} (v1)`}
-                            balance={`${trim(Number(wsohmBalance), 4)} wsOHM (v1)`}
-                            isLoading={isAppLoading}
-                            indented
-                          />
-                        )}
-                        {Number(fiatDaowsohmBalance) > 0.00009 && (
-                          <DataRow
-                            title={t`wsOHM Balance in FiatDAO (v1)`}
-                            balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM (v1)`}
-                            isLoading={isAppLoading}
-                            indented
-                          />
-                        )}
-                        {Number(fsohmBalance) > 0.00009 && (
-                          <DataRow
-                            title={t`sOHM Balance in Fuse (v1)`}
-                            balance={`${trim(Number(fsohmBalance), 4)} sOHM (v1)`}
-                            indented
-                            isLoading={isAppLoading}
-                          />
-                        )}
-                      </AccordionDetails>
-                    </Accordion>
+                    <StakeBalances />
 
                     <Divider color="secondary" />
 

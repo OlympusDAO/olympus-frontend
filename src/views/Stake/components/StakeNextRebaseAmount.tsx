@@ -12,7 +12,7 @@ export const StakeNextRebaseAmount = () => {
   const props: PropsOf<typeof DataRow> = { title: t`Next Reward Amount` };
 
   if (rebaseRate && sohmBalance) {
-    const nextRewardAmount = rebaseRate * parseBigNumber(sohmBalance[NetworkId.MAINNET]);
+    const nextRewardAmount = rebaseRate * parseBigNumber(sohmBalance[NetworkId.MAINNET], 18);
     props.balance = `${formatNumber(nextRewardAmount, 4)} sOHM`;
   } else props.isLoading = true;
 

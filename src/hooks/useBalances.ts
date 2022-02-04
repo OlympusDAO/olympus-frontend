@@ -1,9 +1,14 @@
 import { BigNumber } from "@ethersproject/bignumber";
+import { parseUnits } from "ethers/lib/utils";
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import {
   AddressMap,
+  FUSE_POOL_6_ADDRESSES,
+  FUSE_POOL_18_ADDRESSES,
+  FUSE_POOL_36_ADDRESSES,
   GOHM_ADDRESSES,
+  GOHM_TOKEMAK_ADDRESSES,
   OHM_ADDRESSES,
   SOHM_ADDRESSES,
   V1_OHM_ADDRESSES,
@@ -15,13 +20,13 @@ import { covalent } from "src/lib/covalent";
 import { CovalentTokenBalance } from "src/lib/covalent.types";
 
 import { useWeb3Context } from ".";
+import { useFuseContract } from "./useContract";
 
 const unstable_Object = Object as unstable_ObjectConstructor;
 
 type Balances = Record<keyof typeof covalent.SUPPORTED_NETWORKS, CovalentTokenBalance[]>;
 
 export const balancesQueryKey = (address?: string) => ["useBalances", address];
-
 export const useBalances = <TSelectData = unknown>(select: (data: Balances) => TSelectData) => {
   const { address } = useWeb3Context();
 
@@ -57,7 +62,7 @@ const getBalance = (balances: Balances, addressMap: AddressMap, networkId: Netwo
 
   const token = covalentTokens.find(token => token.contract_address.toLowerCase() === tokenAddress.toLowerCase());
 
-  return BigNumber.from(token ? token.balance : 0);
+  return token ? parseUnits(token.balance, token.contract_decimals) : BigNumber.from(0);
 };
 
 /**
@@ -81,3 +86,31 @@ export const useGohmBalance = () => useBalance(GOHM_ADDRESSES);
 export const useWsohmBalance = () => useBalance(WSOHM_ADDRESSES);
 export const useV1OhmBalance = () => useBalance(V1_OHM_ADDRESSES);
 export const useV1SohmBalance = () => useBalance(V1_SOHM_ADDRESSES);
+export const useGohmTokemakBalance = () => useBalance(GOHM_TOKEMAK_ADDRESSES);
+
+/**
+ * Returns gOHM balance in Fuse
+ */
+export const fuseBalanceQueryKey = (address: string) => ["useFuseBalance", address];
+export const useFuseBalance = () => {
+  const { address } = useWeb3Context();
+  const pool6Contract = useFuseContract(FUSE_POOL_6_ADDRESSES);
+  const pool18Contract = useFuseContract(FUSE_POOL_18_ADDRESSES);
+  const pool36Contract = useFuseContract(FUSE_POOL_36_ADDRESSES);
+
+  return useQuery<BigNumber, Error>(
+    fuseBalanceQueryKey(address),
+    async () => {
+      queryAssertion(address, fuseBalanceQueryKey(address));
+
+      const promises = [pool6Contract, pool18Contract, pool36Contract].map(async contract => {
+        return contract.callStatic.balanceOfUnderlying(address);
+      });
+
+      const results = await Promise.all(promises);
+
+      return results.reduce((prev, bal) => prev.add(bal), BigNumber.from(0));
+    },
+    { enabled: !!address },
+  );
+};

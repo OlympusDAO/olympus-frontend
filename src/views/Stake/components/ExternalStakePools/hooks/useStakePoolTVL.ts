@@ -45,9 +45,8 @@ export const useStakePoolTVL = (pool: ExternalPool) => {
       return totalValueLocked;
     },
     {
-      enabled: Boolean(
-        gohmPrice && stakedBalance && poolTokenSupply && reserves && nonGohmTokenPrice && firstTokenAddress,
-      ),
+      enabled:
+        !!gohmPrice && !!stakedBalance && !!poolTokenSupply && !!reserves && !!nonGohmTokenPrice && !!firstTokenAddress,
     },
   );
 };

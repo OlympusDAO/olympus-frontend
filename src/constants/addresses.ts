@@ -45,3 +45,19 @@ export const MIGRATOR_ADDRESSES = {
   [NetworkId.ARBITRUM]: "0x1e7902a8b0adbf81042b5e30bdfa281f0b928d6d",
   [NetworkId.AVALANCHE]: "0xB10209BFbb37d38EC1B5F0c964e489564e223ea7",
 };
+
+export const GOHM_TOKEMAK_ADDRESSES = {
+  [NetworkId.MAINNET]: "0x41f6a95bacf9bc43704c4a4902ba5473a8b00263",
+};
+
+export const FUSE_POOL_6_ADDRESSES = {
+  [NetworkId.MAINNET]: "0x59bd6774c22486d9f4fab2d448dce4f892a9ae25",
+};
+
+export const FUSE_POOL_18_ADDRESSES = {
+  [NetworkId.MAINNET]: "0x6eDa4b59BaC787933A4A21b65672539ceF6ec97b",
+};
+
+export const FUSE_POOL_36_ADDRESSES = {
+  [NetworkId.MAINNET]: "0x252d447c54F33e033AD04048baEAdE7628cB1274",
+};

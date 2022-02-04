@@ -341,18 +341,16 @@ export function assert(value: unknown, message: string | Error): asserts value {
 
 /**
  * Converts gOHM to OHM. Mimics `balanceFrom()` gOHM contract function.
- * @returns Formatted string representation of OHM equivalent.
  */
-export const convertGohmToOhm = (amount: BigNumber, index: BigNumber): string => {
-  return formatUnits(amount.div(10 ** 9).mul(index), 36);
+export const convertGohmToOhm = (amount: BigNumber, index: BigNumber) => {
+  return amount.div(10 ** 9).mul(index);
 };
 
 /**
  * Converts OHM to gOHM. Mimics `balanceTo()` gOHM contract function.
- * @returns Formatted string representation of gOHM equivalent.
  */
-export const convertOhmToGohm = (amount: BigNumber, index: BigNumber): string => {
-  return formatUnits(amount.mul(10 ** 9).div(index), 18);
+export const convertOhmToGohm = (amount: BigNumber, index: BigNumber) => {
+  return amount.mul(10 ** 9).div(index);
 };
 
 /**
