@@ -176,7 +176,8 @@ exports[`<Stake/> should render component 1`] = `
                   id="wallet-menu"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained connect-button MuiButton-containedPrimary MuiButton-disableElevation"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-15 makeStyles-root-16 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+                    style="font-size: 1.2857rem;"
                     tabindex="0"
                     type="button"
                   >
@@ -199,7 +200,7 @@ exports[`<Stake/> should render component 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root makeStyles-root-1 makeStyles-root-19  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-21  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -209,10 +210,10 @@ exports[`<Stake/> should render component 1`] = `
           class="MuiGrid-root card-header MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-20"
+            class="MuiBox-root MuiBox-root-22"
           >
             <div
-              class="MuiBox-root MuiBox-root-21"
+              class="MuiBox-root MuiBox-root-23"
             >
               <h5
                 class="MuiTypography-root header-text MuiTypography-h5"
@@ -229,38 +230,38 @@ exports[`<Stake/> should render component 1`] = `
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-22 makeStyles-stakePoolsWrapper-15"
+            class="MuiBox-root MuiBox-root-24 makeStyles-stakePoolsWrapper-17"
             style="gap: 12px; margin-bottom: 0.5rem;"
           >
             <p
-              class="MuiTypography-root makeStyles-stakePoolHeaderText-16 MuiTypography-body1"
+              class="MuiTypography-root makeStyles-stakePoolHeaderText-18 MuiTypography-body1"
               style="margin-left: 75px;"
             >
               Asset
             </p>
             <p
-              class="MuiTypography-root makeStyles-stakePoolHeaderText-16 MuiTypography-body1"
+              class="MuiTypography-root makeStyles-stakePoolHeaderText-18 MuiTypography-body1"
               style="padding-left: 3px;"
             >
               TVL
             </p>
             <p
-              class="MuiTypography-root makeStyles-stakePoolHeaderText-16 MuiTypography-body1"
+              class="MuiTypography-root makeStyles-stakePoolHeaderText-18 MuiTypography-body1"
             />
           </div>
           <div
-            class="MuiBox-root MuiBox-root-23"
+            class="MuiBox-root MuiBox-root-25"
             style="gap: 32px; padding: 16px 0px;"
           >
             <div
-              class="MuiBox-root MuiBox-root-24 makeStyles-stakePoolsWrapper-15"
+              class="MuiBox-root MuiBox-root-26 makeStyles-stakePoolsWrapper-17"
               style="gap: 12px;"
             >
               <div
-                class="MuiBox-root MuiBox-root-25"
+                class="MuiBox-root MuiBox-root-27"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-26"
+                  class="MuiBox-root MuiBox-root-28"
                 >
                   <svg
                     aria-hidden="true"
@@ -349,11 +350,11 @@ exports[`<Stake/> should render component 1`] = `
                 style="line-height: 1.4;"
               />
               <div
-                class="MuiBox-root MuiBox-root-28"
+                class="MuiBox-root MuiBox-root-30"
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-29 makeStyles-root-30 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-31 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://traderjoexyz.com/#/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                   tabindex="0"
                   target="_blank"
@@ -383,14 +384,14 @@ exports[`<Stake/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-31 makeStyles-stakePoolsWrapper-15"
+              class="MuiBox-root MuiBox-root-32 makeStyles-stakePoolsWrapper-17"
               style="gap: 12px;"
             >
               <div
-                class="MuiBox-root MuiBox-root-32"
+                class="MuiBox-root MuiBox-root-33"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-33"
+                  class="MuiBox-root MuiBox-root-34"
                 >
                   <svg
                     aria-hidden="true"
@@ -509,11 +510,11 @@ exports[`<Stake/> should render component 1`] = `
                 style="line-height: 1.4;"
               />
               <div
-                class="MuiBox-root MuiBox-root-34"
+                class="MuiBox-root MuiBox-root-35"
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-29 makeStyles-root-35 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-36 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://app.sushi.com/farm?filter=2x"
                   tabindex="0"
                   target="_blank"
@@ -543,14 +544,14 @@ exports[`<Stake/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-36 makeStyles-stakePoolsWrapper-15"
+              class="MuiBox-root MuiBox-root-37 makeStyles-stakePoolsWrapper-17"
               style="gap: 12px;"
             >
               <div
-                class="MuiBox-root MuiBox-root-37"
+                class="MuiBox-root MuiBox-root-38"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-38"
+                  class="MuiBox-root MuiBox-root-39"
                 >
                   <svg
                     aria-hidden="true"
@@ -669,11 +670,11 @@ exports[`<Stake/> should render component 1`] = `
                 style="line-height: 1.4;"
               />
               <div
-                class="MuiBox-root MuiBox-root-39"
+                class="MuiBox-root MuiBox-root-40"
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-29 makeStyles-root-40 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-41 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://app.sushi.com/farm?filter=2x"
                   tabindex="0"
                   target="_blank"
@@ -703,14 +704,14 @@ exports[`<Stake/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-41 makeStyles-stakePoolsWrapper-15"
+              class="MuiBox-root MuiBox-root-42 makeStyles-stakePoolsWrapper-17"
               style="gap: 12px;"
             >
               <div
-                class="MuiBox-root MuiBox-root-42"
+                class="MuiBox-root MuiBox-root-43"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-43"
+                  class="MuiBox-root MuiBox-root-44"
                 >
                   <svg
                     aria-hidden="true"
@@ -831,11 +832,11 @@ exports[`<Stake/> should render component 1`] = `
                 style="line-height: 1.4;"
               />
               <div
-                class="MuiBox-root MuiBox-root-44"
+                class="MuiBox-root MuiBox-root-45"
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-29 makeStyles-root-45 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-46 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://app.spiritswap.finance/#/boostedfarms"
                   tabindex="0"
                   target="_blank"

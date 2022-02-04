@@ -9,7 +9,7 @@ import {
   useOhmCirculatingSupply,
   useTotalSupply,
   useTotalValueDeposited,
-  useTreasuryMarketValue,
+  useTreasuryTotalBacking,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 
@@ -61,11 +61,11 @@ export const CircSupply: React.FC<AbstractedMetricProps> = props => {
 
 export const BackingPerOHM: React.FC<AbstractedMetricProps> = props => {
   const { data: circSupply } = useOhmCirculatingSupply();
-  const { data: treasuryValue } = useTreasuryMarketValue();
+  const { data: treasuryValue } = useTreasuryTotalBacking();
 
   const _props: MetricProps = {
     ...props,
-    label: t`Backing per OHM`,
+    label: t`Liquid Backing per OHM`,
   };
 
   if (treasuryValue && circSupply) _props.metric = formatCurrency(treasuryValue / circSupply, 2);

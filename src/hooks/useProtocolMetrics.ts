@@ -24,6 +24,7 @@ const query = `
       nextDistributedOhm
       treasuryMarketValue
       ohmCirculatingSupply
+      treasuryTotalBacking
       sOhmCirculatingSupply
       treasuryRiskFreeValue
       treasuryDaiMarketValue
@@ -62,6 +63,7 @@ interface ProtocolMetrics {
   nextDistributedOhm: string;
   treasuryMarketValue: string;
   ohmCirculatingSupply: string;
+  treasuryTotalBacking: string;
   sOhmCirculatingSupply: string;
   treasuryRiskFreeValue: string;
   treasuryDaiMarketValue: string;
@@ -104,5 +106,5 @@ export const useProtocolMetrics = <TSelectData = unknown>(select: (data: Protoco
 export const useMarketCap = () => useProtocolMetrics(metrics => metrics[0].marketCap);
 export const useTotalSupply = () => useProtocolMetrics(metrics => metrics[0].totalSupply);
 export const useTotalValueDeposited = () => useProtocolMetrics(metrics => metrics[0].totalValueLocked);
-export const useTreasuryMarketValue = () => useProtocolMetrics(metrics => metrics[0].treasuryMarketValue);
+export const useTreasuryTotalBacking = () => useProtocolMetrics(metrics => metrics[0].treasuryTotalBacking);
 export const useOhmCirculatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmCirculatingSupply);
