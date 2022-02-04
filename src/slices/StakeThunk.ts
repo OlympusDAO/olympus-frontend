@@ -132,7 +132,7 @@ export const changeApproval = createAsyncThunk(
         }
       }
 
-      const text = "Approve " + (token === TOKEN_OHM ? "Staking" : "Unstaking");
+      const text = token === TOKEN_OHM ? t`Approve Staking` : t`Approve Unstaking`;
       const pendingTxnType = token === TOKEN_OHM ? PENDING_TXN_STAKING_APPROVE : PENDING_TXN_UNSTAKING_APPROVE;
       if (approveTx) {
         dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
@@ -239,7 +239,9 @@ export const changeStake = createAsyncThunk(
       const rpcError = e as IJsonRPCError;
       if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         dispatch(
-          error("You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow"),
+          error(
+            t`You may be trying to stake more than your balance! Error code: 32603. Message: ds-math-sub-underflow`,
+          ),
         );
       } else {
         dispatch(error(rpcError.message));
