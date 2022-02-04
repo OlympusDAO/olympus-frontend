@@ -485,6 +485,7 @@ const Stake: React.FC = () => {
 
     // TODO add balance warning
     // TODO remember gOHM toggle post transaction
+    // TODO fix post-approval missing pending
 
     return (
       <>

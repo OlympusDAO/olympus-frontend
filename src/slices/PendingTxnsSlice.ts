@@ -16,6 +16,7 @@ const pendingTxnsSlice = createSlice({
   initialState,
   reducers: {
     fetchPendingTxns(state, action: PayloadAction<IPendingTxn>) {
+      console.log("payload: " + action.payload.type);
       state.push(action.payload);
     },
     clearPendingTxn(state, action: PayloadAction<string>) {
@@ -45,6 +46,13 @@ export const isPendingTxn = (pendingTransactions: IPendingTxn[], type: string) =
   return pendingTransactions.map(x => x.type).includes(type);
 };
 export const txnButtonText = (pendingTransactions: IPendingTxn[], type: string, defaultText: string) => {
+  console.log(
+    "pending: " +
+      pendingTransactions.map(txn => {
+        return txn.type + ", ";
+      }),
+  );
+  console.log("type: " + type);
   return isPendingTxn(pendingTransactions, type) ? t`Pending...` : defaultText;
 };
 

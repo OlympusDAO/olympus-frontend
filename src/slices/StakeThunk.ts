@@ -74,7 +74,7 @@ export const changeApproval = createAsyncThunk(
 
     if (!SUPPORTED_TOKENS.includes(token)) {
       dispatch(
-        error(t`The supplied token ${token} is not one of the supported tokens: ${SUPPORTED_TOKENS.toString()}`),
+        error(t`The supplied token ${token} is not one of the supported tokens: ${JSON.stringify(SUPPORTED_TOKENS)}`),
       );
       return;
     }
@@ -178,7 +178,9 @@ export const changeStake = createAsyncThunk(
 
     if (!SUPPORTED_ACTIONS.includes(action)) {
       dispatch(
-        error(t`The supplied action ${action} is not one of the supported actions: ${SUPPORTED_ACTIONS.toString()}`),
+        error(
+          t`The supplied action ${action} is not one of the supported actions: ${JSON.stringify(SUPPORTED_ACTIONS)}`,
+        ),
       );
       return;
     }
