@@ -10,15 +10,19 @@ import {
   Tabs,
   TextButton,
 } from "@olympusdao/component-library";
+import { ethers } from "ethers";
 import { ChangeEvent, useEffect, useState } from "react";
+import { useMutation } from "react-query";
+import { TENDER_ADDRESSES, TENDER_ESCROW_ADDRESSES } from "src/constants/addresses";
 import { trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
+import { useTenderEscrowContract, useTokenContract } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 
 import {
+  Allowance,
   Balance,
   DaiExchangeRate,
-  Deposit,
   Deposits,
   EscrowState,
   GOhmExchangeRate,
@@ -29,7 +33,7 @@ import {
 } from "./queries";
 
 const Tender = () => {
-  const { provider, address, connect } = useWeb3Context();
+  const { provider, address, connect, networkId } = useWeb3Context();
   const [view, setView] = useState(0);
   const [redeemToken, setRedeemToken] = useState(0);
   const [quantity, setQuantity] = useState(0);
@@ -43,6 +47,7 @@ const Tender = () => {
   const totalDeposits = TotalDeposits();
   const maxDeposits = MaxDeposits();
   const escrowState = EscrowState();
+  const allowance = Allowance(address);
   const useStyles = makeStyles<Theme>(() => ({
     progress: {
       backgroundColor: "#768299",
@@ -55,6 +60,7 @@ const Tender = () => {
     },
   }));
   const classes = useStyles();
+  console.log(allowance, "allowance");
 
   //exchange rate of gOhm from Deposit
   const gOhmDepositExchangeRate =
@@ -133,6 +139,17 @@ const Tender = () => {
     }
   };
 
+  //check allowance and set onclick / button text
+  let depositOnClick: () => void;
+  let depositButtonText: string;
+  if (allowance && allowance > 0) {
+    depositOnClick = () => deposit.mutate();
+    depositButtonText = `Deposit for ${redemptionToken()}`;
+  } else {
+    depositOnClick = () => approve.mutate();
+    depositButtonText = `Approve`;
+  }
+
   const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
@@ -192,6 +209,20 @@ const Tender = () => {
       </InfoNotification>
     </Box>
   );
+  const signer = provider.getSigner();
+  const tenderTokenContract = useTokenContract(TENDER_ADDRESSES, signer);
+  const test = TENDER_ESCROW_ADDRESSES[networkId];
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
+
+  const approve = useMutation(() => {
+    const data = tenderTokenContract?.approve(test, ethers.utils.parseUnits("1000000000", "gwei").toString());
+    return data;
+  });
+
+  const deposit = useMutation(() => {
+    const data = tenderEscrowContract?.deposit(quantity, redeemToken);
+    return data;
+  });
 
   return (
     <div id="stake-view">
@@ -225,8 +256,8 @@ const Tender = () => {
                     labelWidth={0}
                     endString={t`Max`}
                     endStringOnClick={() => tokenBalance && setDeposit(tokenBalance)}
-                    buttonText={t`Deposit for ${redemptionToken}`}
-                    buttonOnClick={() => Deposit(quantity, redeemToken)}
+                    buttonText={depositButtonText}
+                    buttonOnClick={depositOnClick}
                     disabled={depositButtonDisabled}
                   />
                   {allowChoice && <RedemptionToggle />}

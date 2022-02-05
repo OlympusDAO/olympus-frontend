@@ -1,5 +1,5 @@
 import { Contract, ContractInterface } from "@ethersproject/contracts";
-import { StaticJsonRpcProvider } from "@ethersproject/providers";
+import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { useMemo } from "react";
 import { abi as IERC20_ABI } from "src/abi/IERC20.json";
 import STAKING_ABI from "src/abi/OlympusStakingv2.json";
@@ -28,14 +28,14 @@ export function useContract<TContract extends Contract = Contract>(
   ABI: ContractInterface,
 ): TContract | null;
 export function useContract<TContract extends Contract = Contract>(
-  addressOrMap: string,
+  addressOrMap: string | AddressMap,
   ABI: ContractInterface,
-  provider?: StaticJsonRpcProvider,
+  provider?: StaticJsonRpcProvider | JsonRpcSigner,
 ): TContract;
 export function useContract<TContract extends Contract = Contract>(
   addressOrMap: string | AddressMap,
   ABI: ContractInterface,
-  provider?: StaticJsonRpcProvider,
+  provider?: StaticJsonRpcProvider | JsonRpcSigner,
 ): TContract | null {
   const { provider: currentProvider, networkId } = useWeb3Context();
 
@@ -69,10 +69,10 @@ export const useOhmDaiReserveContract = () => {
   return usePairContract(address);
 };
 
-export const useTokenContract = (addressMap: AddressMap) => {
-  return useContract<IERC20>(addressMap, IERC20_ABI);
+export const useTokenContract = (addressMap: AddressMap, signer?: JsonRpcSigner) => {
+  return useContract<IERC20>(addressMap, IERC20_ABI, signer);
 };
 
-export const useTenderEscrowContract = (addressMap: AddressMap) => {
-  return useContract<Tender>(addressMap, TENDER_ABI);
+export const useTenderEscrowContract = (addressMap: AddressMap, signer?: JsonRpcSigner) => {
+  return useContract<Tender>(addressMap, TENDER_ABI, signer);
 };

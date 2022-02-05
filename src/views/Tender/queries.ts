@@ -15,7 +15,7 @@ export const Balance = (address: string) => {
         return parseBigNumber(balance);
       }
     },
-    { refetchOnWindowFocus: false, refetchOnReconnect: false, enabled: !!tenderTokenContract },
+    { refetchOnWindowFocus: false, refetchOnReconnect: false, enabled: !!tenderTokenContract && !!address },
   );
   return data;
 };
@@ -154,6 +154,7 @@ export const Withdraw = () => {
 
 export const Redeem = () => {
   const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
+
   const { data } = useQuery(
     ["RedeemCall"],
     async () => {
@@ -167,17 +168,27 @@ export const Redeem = () => {
   return data;
 };
 
-export const Deposit = (quantity: number, redemptionToken: number) => {
+// export const Deposit = (quantity: number, redemptionToken: number) => {
+//   const provider = useWeb3Context();
+//   const signer = provider.getSigner();
+//   const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
+//   const data = useMutation(() => {
+//     const data = tenderEscrowContract.deposit(quantity, redemptionToken);
+//     return data;
+//   });
+//   return data;
+// };
+
+export const Allowance = (address: string) => {
+  const tenderTokenContract = useTokenContract(TENDER_ADDRESSES);
   const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
   const { data } = useQuery(
-    ["DepositsCall"],
+    ["Allowance", address],
     async () => {
-      if (tenderEscrowContract) {
-        const data = await tenderEscrowContract.deposit(quantity, redemptionToken);
-        return data;
-      }
+      const data = await tenderTokenContract.allowance(address, tenderEscrowContract.address);
+      return parseBigNumber(data);
     },
-    { enabled: !!tenderEscrowContract },
+    { enabled: !!tenderTokenContract && !!tenderEscrowContract },
   );
   return data;
 };
