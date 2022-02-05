@@ -1,7 +1,9 @@
-import { useQuery } from "react-query";
+import { ethers } from "ethers";
+import { useMutation, useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { TENDER_ADDRESSES, TENDER_ESCROW_ADDRESSES } from "src/constants/addresses";
 import { parseBigNumber } from "src/helpers";
+import { useWeb3Context } from "src/hooks";
 import { useTenderEscrowContract, useTokenContract } from "src/hooks/useContract";
 import { balancesOf } from "src/lib/fetchBalances";
 
@@ -168,16 +170,16 @@ export const Redeem = () => {
   return data;
 };
 
-// export const Deposit = (quantity: number, redemptionToken: number) => {
-//   const provider = useWeb3Context();
-//   const signer = provider.getSigner();
-//   const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
-//   const data = useMutation(() => {
-//     const data = tenderEscrowContract.deposit(quantity, redemptionToken);
-//     return data;
-//   });
-//   return data;
-// };
+export const Deposit = (quantity: number, redemptionToken: number) => {
+  const { provider } = useWeb3Context();
+  const signer = provider.getSigner();
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
+  const amount = quantity * 1e9;
+  return useMutation(() => {
+    const data = tenderEscrowContract.deposit(amount, redemptionToken);
+    return data;
+  });
+};
 
 export const Allowance = (address: string) => {
   const tenderTokenContract = useTokenContract(TENDER_ADDRESSES);
@@ -191,4 +193,15 @@ export const Allowance = (address: string) => {
     { enabled: !!tenderTokenContract && !!tenderEscrowContract },
   );
   return data;
+};
+
+export const Approve = () => {
+  const { provider, networkId } = useWeb3Context();
+  const signer = provider.getSigner();
+  const tenderTokenContract = useTokenContract(TENDER_ADDRESSES, signer);
+  const escrowAddress = TENDER_ESCROW_ADDRESSES[networkId];
+  return useMutation(() => {
+    const data = tenderTokenContract?.approve(escrowAddress, ethers.utils.parseUnits("1000000000", "gwei").toString());
+    return data;
+  });
 };

@@ -10,19 +10,17 @@ import {
   Tabs,
   TextButton,
 } from "@olympusdao/component-library";
-import { ethers } from "ethers";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useMutation } from "react-query";
-import { TENDER_ADDRESSES, TENDER_ESCROW_ADDRESSES } from "src/constants/addresses";
 import { trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
-import { useTenderEscrowContract, useTokenContract } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 
 import {
   Allowance,
+  Approve,
   Balance,
   DaiExchangeRate,
+  Deposit,
   Deposits,
   EscrowState,
   GOhmExchangeRate,
@@ -48,6 +46,8 @@ const Tender = () => {
   const maxDeposits = MaxDeposits();
   const escrowState = EscrowState();
   const allowance = Allowance(address);
+  const approve = Approve();
+  const deposit = Deposit(quantity, redeemToken);
   const useStyles = makeStyles<Theme>(() => ({
     progress: {
       backgroundColor: "#768299",
@@ -209,20 +209,6 @@ const Tender = () => {
       </InfoNotification>
     </Box>
   );
-  const signer = provider.getSigner();
-  const tenderTokenContract = useTokenContract(TENDER_ADDRESSES, signer);
-  const test = TENDER_ESCROW_ADDRESSES[networkId];
-  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
-
-  const approve = useMutation(() => {
-    const data = tenderTokenContract?.approve(test, ethers.utils.parseUnits("1000000000", "gwei").toString());
-    return data;
-  });
-
-  const deposit = useMutation(() => {
-    const data = tenderEscrowContract?.deposit(quantity, redeemToken);
-    return data;
-  });
 
   return (
     <div id="stake-view">
