@@ -6,7 +6,6 @@ import { EnvHelper } from "../helpers/Environment";
 import { useWeb3Context } from "./web3Context";
 
 const GA_API_KEY = EnvHelper.getGaKey();
-const GA_4_API_KEY = EnvHelper.getGa4Key();
 
 const useGoogleAnalytics = () => {
   const location = useLocation();
@@ -27,13 +26,6 @@ const useGoogleAnalytics = () => {
       });
       ReactGA.set({ anonymizeIp: true });
       ReactGA.pageview(path);
-
-      // Set user_id in GA4
-      if (GA_4_API_KEY && window.gtag && address) {
-        window.gtag("config", GA_4_API_KEY, {
-          user_id: address,
-        });
-      }
     }
   }, [location]);
 };

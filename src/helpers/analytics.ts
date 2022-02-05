@@ -4,7 +4,6 @@ import { EnvHelper } from "./Environment";
 
 const SEGMENT_API_KEY = EnvHelper.getSegmentKey();
 const GA_API_KEY = EnvHelper.getGaKey();
-const GA_4_API_KEY = EnvHelper.getGa4Key();
 
 declare global {
   interface Window {
