@@ -12,7 +12,7 @@ import {
 } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useState } from "react";
 import { trim } from "src/helpers";
-import { useWeb3Context } from "src/hooks";
+import { useAppSelector, useWeb3Context } from "src/hooks";
 import { useGohmPrice } from "src/hooks/usePrices";
 
 import {
@@ -61,6 +61,9 @@ const Tender = () => {
   }));
   const classes = useStyles();
   console.log(allowance, "allowance");
+  const pendingTransactions = useAppSelector(state => {
+    return state.pendingTransactions;
+  });
 
   //exchange rate of gOhm from Deposit
   const gOhmDepositExchangeRate =
@@ -81,10 +84,9 @@ const Tender = () => {
   const allowChoice =
     daiExchangeRate && daiExchangeRate > 0 && gOhmExchangeRate && gOhmExchangeRate > 0 && !depositedBalance;
 
-  //disabled button if no token balance or contract failed state
-  console.log(tokenBalance, "token balance");
-  console.log(escrowState, "escrow state");
-  const depositButtonDisabled = Number(tokenBalance) > 0 && escrowState != 1 ? false : true;
+  //disabled button if no token balance or contract failed state or quantity entered exceeds balance
+  const depositButtonDisabled =
+    !Number(tokenBalance) || escrowState === 1 || quantity > Number(tokenBalance) ? true : false;
   //disable if no deposited balance or escrow State === PENDING
   const redeemButtonDisabled = !Number(depositedBalance) || escrowState === 0 ? true : false;
 
@@ -210,6 +212,10 @@ const Tender = () => {
     </Box>
   );
 
+  console.log(deposit.isError, "error check");
+  console.log(deposit.error, "error message");
+  console.log(deposit.isSuccess, "success check");
+  console.log(pendingTransactions, "pendingTrans");
   return (
     <div id="stake-view">
       <NotificationMessage />

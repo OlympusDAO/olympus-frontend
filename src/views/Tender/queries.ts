@@ -144,30 +144,23 @@ export const EscrowState = () => {
 };
 
 export const Withdraw = () => {
-  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
-  const { data } = useQuery(["withdrawCall"], async () => {
-    if (tenderEscrowContract) {
-      const data = await tenderEscrowContract.withdraw();
-      return data;
-    }
+  const { provider } = useWeb3Context();
+  const signer = provider.getSigner();
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
+  return useMutation(() => {
+    const data = tenderEscrowContract.withdraw();
+    return data;
   });
-  return data;
 };
 
 export const Redeem = () => {
-  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
-
-  const { data } = useQuery(
-    ["RedeemCall"],
-    async () => {
-      if (tenderEscrowContract) {
-        const data = await tenderEscrowContract.redeem();
-        return data;
-      }
-    },
-    { enabled: !!tenderEscrowContract },
-  );
-  return data;
+  const { provider } = useWeb3Context();
+  const signer = provider.getSigner();
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
+  return useMutation(() => {
+    const data = tenderEscrowContract.redeem();
+    return data;
+  });
 };
 
 export const Deposit = (quantity: number, redemptionToken: number) => {
@@ -201,7 +194,7 @@ export const Approve = () => {
   const tenderTokenContract = useTokenContract(TENDER_ADDRESSES, signer);
   const escrowAddress = TENDER_ESCROW_ADDRESSES[networkId];
   return useMutation(() => {
-    const data = tenderTokenContract?.approve(escrowAddress, ethers.utils.parseUnits("1000000000", "gwei").toString());
+    const data = tenderTokenContract.approve(escrowAddress, ethers.utils.parseUnits("1000000000", "gwei").toString());
     return data;
   });
 };
