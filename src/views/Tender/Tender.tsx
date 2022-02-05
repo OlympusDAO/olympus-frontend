@@ -12,7 +12,7 @@ import {
 } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useState } from "react";
 import { trim } from "src/helpers";
-import { useAppSelector, useWeb3Context } from "src/hooks";
+import { useWeb3Context } from "src/hooks";
 import { useGohmPrice } from "src/hooks/usePrices";
 
 import {
@@ -60,10 +60,6 @@ const Tender = () => {
     },
   }));
   const classes = useStyles();
-  console.log(allowance, "allowance");
-  const pendingTransactions = useAppSelector(state => {
-    return state.pendingTransactions;
-  });
 
   //exchange rate of gOhm from Deposit
   const gOhmDepositExchangeRate =
@@ -212,10 +208,6 @@ const Tender = () => {
     </Box>
   );
 
-  console.log(deposit.isError, "error check");
-  console.log(deposit.error, "error message");
-  console.log(deposit.isSuccess, "success check");
-  console.log(pendingTransactions, "pendingTrans");
   return (
     <div id="stake-view">
       <NotificationMessage />
