@@ -3,7 +3,7 @@ import { Box, Divider, Grid, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { InputWrapper, PrimaryButton, Tab, Tabs } from "@olympusdao/component-library";
 import { ethers } from "ethers";
-import { ChangeEvent, ChangeEventHandler, useCallback, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
@@ -61,6 +61,19 @@ export const StakeActionArea: React.FC<{ isZoomed: boolean }> = props => {
   const pendingTransactions = useAppSelector(state => {
     return state.pendingTransactions;
   });
+
+  if (!address)
+    return (
+      <div className="stake-wallet-notification">
+        <div className="wallet-menu" id="wallet-menu">
+          <ConnectButton />
+        </div>
+
+        <Typography variant="h6">
+          <Trans>Connect your wallet to stake OHM</Trans>
+        </Typography>
+      </div>
+    );
 
   const setMax = () => {
     if (view === 0) {
@@ -127,15 +140,12 @@ export const StakeActionArea: React.FC<{ isZoomed: boolean }> = props => {
     );
   };
 
-  const hasAllowance = useCallback(
-    token => {
-      if (token === "ohm") return stakeAllowance > 0;
-      if (token === "sohm") return unstakeAllowance > 0;
-      if (token === "gohm") return directUnstakeAllowance > 0;
-      return 0;
-    },
-    [stakeAllowance, unstakeAllowance, directUnstakeAllowance],
-  );
+  const hasAllowance = (token: string) => {
+    if (token === "ohm") return stakeAllowance > 0;
+    if (token === "sohm") return unstakeAllowance > 0;
+    if (token === "gohm") return directUnstakeAllowance > 0;
+    return 0;
+  };
 
   const isAllowanceDataLoading = (stakeAllowance == null && view === 0) || (unstakeAllowance == null && view === 1);
 
@@ -143,9 +153,9 @@ export const StakeActionArea: React.FC<{ isZoomed: boolean }> = props => {
     setView(newView);
   };
 
-  const handleChangeQuantity = useCallback<ChangeEventHandler<HTMLInputElement>>(e => {
-    if (Number(e.target.value) >= 0) setQuantity(e.target.value);
-  }, []);
+  const handleChangeQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (Number(event.target.value) >= 0) setQuantity(event.target.value);
+  };
 
   let stakeOnClick: () => Promise<{ payload: string; type: string } | undefined | void>;
   let stakeDisabled: boolean;
@@ -166,7 +176,7 @@ export const StakeActionArea: React.FC<{ isZoomed: boolean }> = props => {
   if (!isAllowanceDataLoading) {
     //If Staking Tab
     if (view === 0) {
-      if (address && hasAllowance("ohm")) {
+      if (hasAllowance("ohm")) {
         stakeDisabled = isPendingTxn(pendingTransactions, "staking");
         stakeOnClick = () => onChangeStake("stake");
         stakeButtonText = txnButtonText(
@@ -178,7 +188,7 @@ export const StakeActionArea: React.FC<{ isZoomed: boolean }> = props => {
     }
     //If Unstaking Tab
     if (view === 1) {
-      if ((address && hasAllowance("sohm") && !confirmation) || (hasAllowance("gohm") && confirmation)) {
+      if ((hasAllowance("sohm") && !confirmation) || (hasAllowance("gohm") && confirmation)) {
         stakeDisabled = isPendingTxn(pendingTransactions, "unstaking");
         stakeOnClick = () => onChangeStake("unstake");
         stakeButtonText = txnButtonText(
@@ -191,114 +201,93 @@ export const StakeActionArea: React.FC<{ isZoomed: boolean }> = props => {
   }
 
   return (
-    <div className="staking-area">
-      {!address ? (
-        <div className="stake-wallet-notification">
-          <div className="wallet-menu" id="wallet-menu">
-            <ConnectButton />
-          </div>
-          <Typography variant="h6">
-            <Trans>Connect your wallet to stake OHM</Trans>
-          </Typography>
-        </div>
-      ) : (
-        <>
-          <Box className="stake-action-area">
-            <Tabs
-              key={String(props.isZoomed)}
-              centered
-              value={view}
-              textColor="primary"
-              indicatorColor="primary"
-              className="stake-tab-buttons"
-              onChange={changeView}
-              aria-label="stake tabs"
-              //hides the tab underline sliding animation in while <Zoom> is loading
-              TabIndicatorProps={!props.isZoomed ? { style: { display: "none" } } : undefined}
-            >
-              <Tab
-                aria-label="stake-button"
-                label={t({
-                  id: "do_stake",
-                  comment: "The action of staking (verb)",
-                })}
+    <>
+      <Box className="stake-action-area">
+        <Tabs
+          key={String(props.isZoomed)}
+          centered
+          value={view}
+          textColor="primary"
+          indicatorColor="primary"
+          className="stake-tab-buttons"
+          onChange={changeView}
+          aria-label="stake tabs"
+          //hides the tab underline sliding animation in while <Zoom> is loading
+          TabIndicatorProps={!props.isZoomed ? { style: { display: "none" } } : undefined}
+        >
+          <Tab aria-label="stake-button" label={t({ id: "do_stake", comment: "The action of staking (verb)" })} />
+
+          <Tab aria-label="unstake-button" label={t`Unstake`} />
+        </Tabs>
+
+        <Grid container className="stake-action-row">
+          {!isAllowanceDataLoading ? (
+            (!hasAllowance("ohm") && view === 0) ||
+            (!hasAllowance("sohm") && view === 1 && !confirmation) ||
+            (!hasAllowance("gohm") && view === 1 && confirmation) ? (
+              <>
+                <Grid item xs={12} sm={8} className="stake-grid-item">
+                  <Box mt={"10px"}>
+                    <Typography variant="body1" className="stake-note" color="textSecondary">
+                      {view === 0 ? (
+                        <>
+                          <Trans>First time staking</Trans> <b>OHM</b>?
+                          <br />
+                          <Trans>Please approve Olympus Dao to use your</Trans> <b>OHM</b> <Trans>for staking</Trans>.
+                        </>
+                      ) : (
+                        <>
+                          <Trans>First time unstaking</Trans> <b>{confirmation ? "gOHM" : "sOHM"}</b>?
+                          <br />
+                          <Trans>Please approve Olympus Dao to use your</Trans> <b>{confirmation ? "gOHM" : "sOHM"}</b>{" "}
+                          <Trans>for unstaking</Trans>.
+                        </>
+                      )}
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={4} className="stake-grid-item">
+                  <Box mt={1}>
+                    <PrimaryButton fullWidth className="stake-button" disabled={stakeDisabled} onClick={stakeOnClick}>
+                      {stakeButtonText}
+                    </PrimaryButton>
+                  </Box>
+                </Grid>
+              </>
+            ) : (
+              <InputWrapper
+                id="amount-input"
+                type="number"
+                label={t`Enter an amount`}
+                value={quantity}
+                onChange={handleChangeQuantity}
+                labelWidth={0}
+                endString={t`Max`}
+                endStringOnClick={setMax}
+                buttonText={stakeButtonText}
+                buttonOnClick={stakeOnClick}
+                disabled={stakeDisabled}
               />
-              <Tab aria-label="unstake-button" label={t`Unstake`} />
-            </Tabs>
-            <Grid container className="stake-action-row">
-              {address && !isAllowanceDataLoading ? (
-                (!hasAllowance("ohm") && view === 0) ||
-                (!hasAllowance("sohm") && view === 1 && !confirmation) ||
-                (!hasAllowance("gohm") && view === 1 && confirmation) ? (
-                  <>
-                    <Grid item xs={12} sm={8} className="stake-grid-item">
-                      <Box mt={"10px"}>
-                        <Typography variant="body1" className="stake-note" color="textSecondary">
-                          {view === 0 ? (
-                            <>
-                              <Trans>First time staking</Trans> <b>OHM</b>?
-                              <br />
-                              <Trans>Please approve Olympus Dao to use your</Trans> <b>OHM</b>{" "}
-                              <Trans>for staking</Trans>.
-                            </>
-                          ) : (
-                            <>
-                              <Trans>First time unstaking</Trans> <b>{confirmation ? "gOHM" : "sOHM"}</b>?
-                              <br />
-                              <Trans>Please approve Olympus Dao to use your</Trans>{" "}
-                              <b>{confirmation ? "gOHM" : "sOHM"}</b> <Trans>for unstaking</Trans>.
-                            </>
-                          )}
-                        </Typography>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={4} className="stake-grid-item">
-                      <Box mt={1}>
-                        <PrimaryButton
-                          fullWidth
-                          className="stake-button"
-                          disabled={stakeDisabled}
-                          onClick={stakeOnClick}
-                        >
-                          {stakeButtonText}
-                        </PrimaryButton>
-                      </Box>
-                    </Grid>
-                  </>
-                ) : (
-                  <InputWrapper
-                    id="amount-input"
-                    type="number"
-                    label={t`Enter an amount`}
-                    value={quantity}
-                    onChange={handleChangeQuantity}
-                    labelWidth={0}
-                    endString={t`Max`}
-                    endStringOnClick={setMax}
-                    buttonText={stakeButtonText}
-                    buttonOnClick={stakeOnClick}
-                    disabled={stakeDisabled}
-                  />
-                )
-              ) : (
-                <Skeleton width="150px" />
-              )}
-            </Grid>
-          </Box>
-          <ConfirmDialog quantity={quantity} currentIndex={currentIndex} view={view} onConfirm={setConfirmation} />
-          <div className="stake-user-data">
-            <StakeBalances />
+            )
+          ) : (
+            <Skeleton width="150px" />
+          )}
+        </Grid>
+      </Box>
 
-            <Divider color="secondary" />
+      <ConfirmDialog quantity={quantity} currentIndex={currentIndex} view={view} onConfirm={setConfirmation} />
 
-            <StakeNextRebaseAmount />
+      <div className="stake-user-data">
+        <StakeBalances />
 
-            <StakeRebaseYield />
+        <Divider color="secondary" />
 
-            <StakeFiveDayYield />
-          </div>
-        </>
-      )}
-    </div>
+        <StakeNextRebaseAmount />
+
+        <StakeRebaseYield />
+
+        <StakeFiveDayYield />
+      </div>
+    </>
   );
 };

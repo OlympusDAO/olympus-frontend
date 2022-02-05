@@ -28,7 +28,9 @@ const Stake: React.FC = () => {
               </MetricCollection>
             </Grid>
 
-            <StakeActionArea isZoomed={isZoombed} />
+            <div className="staking-area">
+              <StakeActionArea isZoomed={isZoombed} />
+            </div>
           </Grid>
         </Paper>
       </Zoom>
