@@ -34,13 +34,6 @@ export const trackGAEvent = (event: ReactGA.EventArgs) => {
     if (GA_API_KEY && ReactGA) {
       ReactGA.event(event);
     }
-    // GA 4 (added to head)
-    if (GA_4_API_KEY && window.gtag) {
-      window.gtag("event", event.action, {
-        event_category: event.category,
-        event_label: event?.label,
-      });
-    }
   } catch (e) {
     console.log("trackGAEvent", e);
   }
