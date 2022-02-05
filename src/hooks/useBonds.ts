@@ -23,8 +23,9 @@ export interface IAllBondData extends Bond, IBondDetails, IUserBondDetails {}
 
 const initialBondArray = allBonds;
 const initialExpiredArray = allExpiredBonds;
+
 // Slaps together bond data within the account & bonding states
-function useBonds(networkId: NetworkId) {
+const useBonds = (networkId: NetworkId) => {
   const bondLoading = useSelector((state: IBondingStateView) => !state.bonding.loading);
   const bondState = useSelector((state: IBondingStateView) => state.bonding);
   const accountBondsState = useSelector((state: IBondingStateView) => state.account.bonds);
@@ -75,6 +76,6 @@ function useBonds(networkId: NetworkId) {
   // Debug Log:
   // console.log(bonds);
   return { bonds, loading: bondLoading, expiredBonds };
-}
+};
 
 export default useBonds;
