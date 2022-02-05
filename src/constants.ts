@@ -222,7 +222,7 @@ interface INetwork {
   nativeCurrency: INativeCurrency;
   rpcUrls: string[];
   blockExplorerUrls: string[];
-  image: SVGImageElement;
+  image: SVGImageElement | string;
   imageAltText: string;
   uri: () => string;
 }

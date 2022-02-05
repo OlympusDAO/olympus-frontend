@@ -15,13 +15,13 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NetworkId } from "src/constants";
 import { useAppSelector } from "src/hooks";
-import { IAllBondData } from "src/hooks/Bonds";
+import { IAllBondData } from "src/hooks/useBonds";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import ConnectButton from "../../components/ConnectButton/ConnectButton";
 import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
-import useDebounce from "../../hooks/Debounce";
+import useDebounce from "../../hooks/useDebounce";
 import { bondAsset, calcBondDetails, changeApproval } from "../../slices/BondSlice";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./Bond";
