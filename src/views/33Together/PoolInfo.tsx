@@ -1,8 +1,7 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Divider, Paper, SvgIcon, Typography, Zoom } from "@material-ui/core";
-import { DataRow } from "@olympusdao/component-library";
+import { Box, Divider, Typography, Zoom } from "@material-ui/core";
+import { DataRow, Paper, SecondaryButton } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
-import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { poolTogetherUILinks } from "src/helpers/33Together";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 
@@ -42,13 +41,7 @@ export const PoolInfo = (props: PoolInfoProps) => {
 
   return (
     <Zoom in={true}>
-      <Paper className="ohm-card">
-        <div className="card-header">
-          <Typography variant="h5">
-            <Trans>Prize Pool Info</Trans>
-          </Typography>
-        </div>
-
+      <Paper headerText={t`Prize Pool Info`}>
         {address && (
           <>
             <Box display="flex" flexDirection="column" className="user-pool-data">
@@ -105,29 +98,21 @@ export const PoolInfo = (props: PoolInfoProps) => {
         </Box>
         <Divider color="secondary" />
 
-        <div className="data-row-centered">
+        <Box display="flex" flexDirection="row" justifyContent="center" m={"12px 0"}>
           <Typography>
             <Trans>Something not right, fren? Check Pool Together's UI below.</Trans>
           </Typography>
-        </div>
-        <div className="data-row-centered">
+        </Box>
+        <Box display="flex" flexDirection="row" justifyContent="center">
+          <SecondaryButton href={poolTogetherUILinks(networkId)[0]}>
+            <Trans>sOHM Prize Pool</Trans>
+          </SecondaryButton>
           <div className="marginedBtn">
-            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(networkId)[0]} target="_blank">
-              <Typography variant="body1">
-                <Trans>sOHM Prize Pool</Trans>&nbsp;
-              </Typography>
-              <SvgIcon component={ArrowUp} color="primary" />
-            </Button>
+            <SecondaryButton href={poolTogetherUILinks(networkId)[1]}>
+              <Trans>sOHM Pool Details</Trans>
+            </SecondaryButton>
           </div>
-          <div className="marginedBtn">
-            <Button variant="outlined" color="secondary" href={poolTogetherUILinks(networkId)[1]} target="_blank">
-              <Typography variant="body1">
-                <Trans>sOHM Pool Details</Trans>&nbsp;
-              </Typography>
-              <SvgIcon component={ArrowUp} color="primary" />
-            </Button>
-          </div>
-        </div>
+        </Box>
       </Paper>
     </Zoom>
   );

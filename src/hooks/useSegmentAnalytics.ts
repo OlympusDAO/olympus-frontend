@@ -1,3 +1,5 @@
+declare const window: CustomWindow;
+
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -8,9 +10,15 @@ import { getParameterByName } from "../helpers/QueryParameterHelper";
 
 const SEGMENT_API_KEY = EnvHelper.getSegmentKey();
 
-export default function useSegmentAnalytics() {
-  const [prevPath, setPrevPath] = useState(null);
-  const [loadedSegment, setLoadedSegment] = useState(false);
+type Utm = {
+  utmSource: string | null;
+  utmMedium: string | null;
+  utmCampaign: string | null;
+};
+
+const useSegmentAnalytics = () => {
+  const [prevPath, setPrevPath] = useState<string | null>(null);
+  const [loadedSegment, setLoadedSegment] = useState<boolean>(false);
   const analytics = (window.analytics = window.analytics || []);
   const location = useLocation();
   const { address } = useWeb3Context();
@@ -48,9 +56,9 @@ export default function useSegmentAnalytics() {
       });
     }
   }, [address]);
-}
+};
 
-function initSegmentAnalytics(utm: any) {
+const initSegmentAnalytics = (utm: Utm) => {
   const analytics = (window.analytics = window.analytics || []);
   if (!analytics.initialize) {
     if (analytics.invoked) window.console && console.error && console.error("Segment snippet included twice.");
@@ -107,4 +115,6 @@ function initSegmentAnalytics(utm: any) {
       analytics.page("UTM Check", utm);
     }
   }
-}
+};
+
+export default useSegmentAnalytics;

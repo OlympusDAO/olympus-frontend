@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, FormControl, Slide, Typography } from "@material-ui/core";
+import { Box, FormControl, Slide, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { DataRow, InfoTooltip, Input } from "@olympusdao/component-library";
+import { DataRow, InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -153,38 +153,28 @@ function BondPurchase({
                   </FormControl>
                 )}
                 {bond.soldOut ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    id="bond-btn"
-                    className="transaction-button"
-                    disabled={true}
-                  >
+                  <PrimaryButton id="bond-btn" className="transaction-button" disabled={true}>
                     <Trans>Sold Out</Trans>
-                  </Button>
+                  </PrimaryButton>
                 ) : balance ? (
                   hasAllowance() ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
+                    <PrimaryButton
                       id="bond-btn"
                       className="transaction-button"
                       disabled={isPendingTxn(pendingTransactions, "bond_" + bond.displayName)}
                       onClick={onBond}
                     >
                       {txnButtonText(pendingTransactions, "bond_" + bond.displayName, "Bond")}
-                    </Button>
+                    </PrimaryButton>
                   ) : (
-                    <Button
-                      variant="contained"
-                      color="primary"
+                    <PrimaryButton
                       id="bond-approve-btn"
                       className="transaction-button"
                       disabled={isPendingTxn(pendingTransactions, `approve_${bond.displayName}_bonding`)}
                       onClick={onSeekApproval}
                     >
                       {txnButtonText(pendingTransactions, `approve_${bond.displayName}_bonding`, "Approve")}
-                    </Button>
+                    </PrimaryButton>
                   )
                 ) : (
                   <Skeleton width="300px" height={40} />

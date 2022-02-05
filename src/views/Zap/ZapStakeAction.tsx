@@ -224,12 +224,6 @@ const ZapStakeAction: React.FC = () => {
 
   return (
     <>
-      <div className="card-header">
-        <Typography variant="h5">
-          OlyZaps <b>(Currently disabled for upcoming migration)</b>
-        </Typography>
-      </div>
-
       <ZapStakeHeader images={inputTokenImages} />
 
       <Typography>
