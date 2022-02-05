@@ -20,12 +20,12 @@ export const contractAllowanceQueryKey = (networkId?: NetworkId, address?: strin
 ];
 
 export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressMap) => {
-  const { address, networkId } = useWeb3Context();
+  const { address, networkId, provider } = useWeb3Context();
 
   const tokenAddress = tokenMap[networkId as NetworkId];
   assert(tokenAddress, `Token doesn't exist for network: ${networkId}`);
 
-  const token = useTokenContract(tokenAddress, networkId);
+  const token = useTokenContract(tokenAddress, provider);
 
   return useQuery<BigNumber, Error>(
     contractAllowanceQueryKey(networkId, address),

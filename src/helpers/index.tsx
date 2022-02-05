@@ -376,11 +376,12 @@ export const formatNumber = (number: number, precision = 0) => {
 };
 
 /**
- * Used to build a dependent `useQuery` function
+ * Used to build a `useQuery` function for fetching necessary data in parallel for a query,
+ * using that queries `queryKey`
  *
  * Please refer to the `useStakePoolTVL` function for an example on why this function is handy.
  */
-export const dependentQueryBuilder = (baseQueryKey: QueryKey) => {
+export const createDependentQuery = (baseQueryKey: QueryKey) => {
   return <TData,>(key: string, fn: () => Promise<TData>, enabled?: boolean) => {
     return useQuery([baseQueryKey, key].filter(Boolean), fn, { enabled }).data;
   };

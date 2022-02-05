@@ -21,6 +21,7 @@ import { CovalentTokenBalance } from "src/lib/covalent.types";
 
 import { useWeb3Context } from ".";
 import { useFuseContract } from "./useContract";
+import { useStaticProvider } from "./useStaticProvider";
 
 const unstable_Object = Object as unstable_ObjectConstructor;
 
@@ -94,9 +95,10 @@ export const useGohmTokemakBalance = () => useBalance(GOHM_TOKEMAK_ADDRESSES);
 export const fuseBalanceQueryKey = (address: string) => ["useFuseBalance", address];
 export const useFuseBalance = () => {
   const { address } = useWeb3Context();
-  const pool6Contract = useFuseContract(FUSE_POOL_6_ADDRESSES);
-  const pool18Contract = useFuseContract(FUSE_POOL_18_ADDRESSES);
-  const pool36Contract = useFuseContract(FUSE_POOL_36_ADDRESSES);
+  const provider = useStaticProvider(NetworkId.MAINNET);
+  const pool6Contract = useFuseContract(FUSE_POOL_6_ADDRESSES[NetworkId.MAINNET], provider);
+  const pool18Contract = useFuseContract(FUSE_POOL_18_ADDRESSES[NetworkId.MAINNET], provider);
+  const pool36Contract = useFuseContract(FUSE_POOL_36_ADDRESSES[NetworkId.MAINNET], provider);
 
   return useQuery<BigNumber, Error>(
     fuseBalanceQueryKey(address),

@@ -1,10 +1,13 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { useQuery } from "react-query";
+import { NetworkId } from "src/constants";
 import { OHM_DAI_RESERVE_CONTRACT_DECIMALS, STAKING_CONTRACT_DECIMALS } from "src/constants/decimals";
-import { parseBigNumber, queryAssertion } from "src/helpers";
+import { assert, parseBigNumber, queryAssertion } from "src/helpers";
+import { ohm_dai } from "src/helpers/AllBonds";
 
-import { useOhmDaiReserveContract } from "./useContract";
+import { usePairContract } from "./useContract";
 import { useCurrentIndex } from "./useCurrentIndex";
+import { useStaticProvider } from "./useStaticProvider";
 
 export const ohmPriceQueryKey = () => ["useOhmPrice"];
 
@@ -12,7 +15,12 @@ export const ohmPriceQueryKey = () => ["useOhmPrice"];
  * Returns the market price of OHM.
  */
 export const useOhmPrice = () => {
-  const reserveContract = useOhmDaiReserveContract();
+  const provider = useStaticProvider(NetworkId.MAINNET);
+
+  const address = ohm_dai.getAddressForReserve(NetworkId.MAINNET);
+  assert(address, "Contract should exist for NetworkId.MAINNET");
+
+  const reserveContract = usePairContract(address, provider);
 
   return useQuery<number, Error>(ohmPriceQueryKey(), async () => {
     const [ohm, dai] = await reserveContract.getReserves();

@@ -1,16 +1,18 @@
 import { useQuery } from "react-query";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
-import { dependentQueryBuilder, getTokenPrice, parseBigNumber, queryAssertion } from "src/helpers";
+import { createDependentQuery, getTokenPrice, parseBigNumber, queryAssertion } from "src/helpers";
 import { usePairContract } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
+import { useStaticProvider } from "src/hooks/useStaticProvider";
 import { ExternalPool } from "src/lib/ExternalPool";
 
 export const stakePoolTVLQueryKey = (poolAddress: string) => ["useStakePoolTVL", poolAddress];
 
 export const useStakePoolTVL = (pool: ExternalPool) => {
-  const contract = usePairContract(pool.address, pool.networkID);
+  const provider = useStaticProvider(pool.networkID);
+  const contract = usePairContract(pool.address, provider);
 
-  const useDependentQuery = dependentQueryBuilder(stakePoolTVLQueryKey(pool.address));
+  const useDependentQuery = createDependentQuery(stakePoolTVLQueryKey(pool.address));
 
   // Get dependent data in parallel
   const { data: gohmPrice } = useGohmPrice();

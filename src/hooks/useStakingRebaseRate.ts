@@ -1,26 +1,33 @@
 import { useQuery } from "react-query";
-import { parseBigNumber, queryAssertion } from "src/helpers";
+import { NetworkId } from "src/constants";
+import { SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import { createDependentQuery, parseBigNumber, queryAssertion } from "src/helpers";
 
 import { useSohmContract, useStakingContract } from "./useContract";
+import { useStaticProvider } from "./useStaticProvider";
 
 export const stakingRebaseRateQueryKey = () => ["useStakingRebaseRate"];
-
 export const useStakingRebaseRate = () => {
-  const sohmContract = useSohmContract();
-  const stakingContract = useStakingContract();
-  const stakingQuery = useQuery(["useStakingEpoch"], () => stakingContract.epoch());
-  const sohmQuery = useQuery(["useSohmCirculatingSuppply"], () => sohmContract.circulatingSupply());
+  const provider = useStaticProvider(NetworkId.MAINNET);
+
+  const sohmContract = useSohmContract(SOHM_ADDRESSES[NetworkId.MAINNET], provider);
+  const stakingContract = useStakingContract(STAKING_ADDRESSES[NetworkId.MAINNET], provider);
+
+  // Get dependent data in parallel
+  const useDependentQuery = createDependentQuery(stakingRebaseRateQueryKey());
+  const stakingEpoch = useDependentQuery("stakingEpoch", () => stakingContract.epoch());
+  const sohmCirculatingSupply = useDependentQuery("sohmCirculatingSupply", () => sohmContract.circulatingSupply());
 
   return useQuery<number, Error>(
     stakingRebaseRateQueryKey(),
     async () => {
-      queryAssertion(stakingQuery.data && sohmQuery.data, stakingRebaseRateQueryKey());
+      queryAssertion(stakingEpoch && sohmCirculatingSupply, stakingRebaseRateQueryKey());
 
-      const circulatingSupply = parseBigNumber(sohmQuery.data);
-      const stakingReward = parseBigNumber(stakingQuery.data.distribute);
+      const circulatingSupply = parseBigNumber(sohmCirculatingSupply);
+      const stakingReward = parseBigNumber(stakingEpoch.distribute);
 
       return stakingReward / circulatingSupply;
     },
-    { enabled: !!stakingQuery.data && !!sohmQuery.data },
+    { enabled: !!stakingEpoch && !!sohmCirculatingSupply },
   );
 };
