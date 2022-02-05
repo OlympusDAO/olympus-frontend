@@ -1,4 +1,5 @@
-import { render } from "../../../testUtils";
+import { render } from "src/testUtils";
+
 import { ConfirmDialog } from "../ConfirmDialog";
 
 describe("<ConfirmDialog/>", () => {
