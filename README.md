@@ -57,9 +57,18 @@ Coverage thresholds are enforced via CI checks. If a new PR introduces regressio
 
 For integration testing automation that runs browser and remote API code as well as our own code, see the End-to-end (E2E) testing section below.
 
+### Generative Testing
+
+We use [`fast-check`](https://github.com/dubzzz/fast-check) for generative testing which provides property-based coverage for ranges of input values.
+[Here is an example](src/helpers/33Together.unit.test.ts) of a unit test case in this repo that uses generative testing.
+
+### Snapshot Testing
+
 We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
 When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
 `yarn snapshot`.
+
+### Troubleshooting
 
 If all tests are failing in your local environment (in particular, due to a "cannot find module" error with `node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/interopRequireDefault.js`), but they should be passing (and the CI tests are passing), it's likely to be an issue with your local cache. Run the following command: `yarn test --clearCache`
 

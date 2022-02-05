@@ -5,7 +5,7 @@ import { calculateOdds } from "./33Together";
 /**
  * PoolTogether's reference implementation: https://github.com/pooltogether/pooltogether-community-ui/blob/2d4749e2e64c4f2ae259ac073edc0a49ca5857e2/lib/utils/calculateOdds.js#L3
  */
-test.only("calculateOdds for positive input numbers always returns a number >= 0", async () => {
+test("calculateOdds for positive input numbers always returns a number >= 0", async () => {
   fc.assert(
     fc.property(
       fc
@@ -51,7 +51,7 @@ test.only("calculateOdds is monotonously decreasing in respect to user balance",
   );
 });
 
-test.only("calculateOdds uses correct formula: input set 1", async () => {
+test("calculateOdds uses correct formula: input set 1", async () => {
   const usersPoolBalance = "10";
   const totalPoolDeposits = 200;
   const winners = 3;
@@ -60,7 +60,7 @@ test.only("calculateOdds uses correct formula: input set 1", async () => {
   expect(expectedOdds).toEqual(userWinningOdds);
 });
 
-test.only("calculateOdds uses correct formula: input set 2", async () => {
+test("calculateOdds uses correct formula: input set 2", async () => {
   const usersPoolBalance = "5";
   const totalPoolDeposits = 60;
   const winners = 2;
@@ -69,7 +69,7 @@ test.only("calculateOdds uses correct formula: input set 2", async () => {
   expect(expectedOdds).toEqual(userWinningOdds);
 });
 
-test.only("calculateOdds uses correct formula: input set 3", async () => {
+test("calculateOdds returns ngmi when userPool has no balance", async () => {
   const usersPoolBalance = "0";
   const totalPoolDeposits = 120;
   const winners = 1;
