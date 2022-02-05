@@ -86,11 +86,11 @@ const initSegmentAnalytics = (utm: Utm) => {
         "setAnonymousId",
         "addDestinationMiddleware",
       ];
-      analytics.factory = function (e: any) {
+      analytics.factory = function (...args: any) {
         return function () {
           // eslint-disable-next-line prefer-rest-params
-          const t = Array.prototype.slice.call(arguments);
-          t.unshift(e);
+          const t = Array.prototype.slice.call(args);
+          t.unshift(args[0]);
           analytics.push(t);
           return analytics;
         };
