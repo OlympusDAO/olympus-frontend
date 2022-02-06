@@ -270,7 +270,7 @@ const Tender = () => {
               )}
               <Grid item>
                 <DataRow title={t`Unstaked Balance`} balance={`${trim(Number(tokenBalance), 4)} Chicken`} />
-                <DataRow title={t`Staked Balances`}>
+                <DataRow title={t`Staked Balances`} tooltip="Please swap for SPA">
                   <DataRow title={t`sChicken Balance`} balance={`${trim(Number(stakedBalance), 4)} sChicken`} />
                   <DataRow title={t`wsChicken Balance`} balance={`${trim(Number(stakedBalance), 4)} wsChicken`} />
                 </DataRow>
