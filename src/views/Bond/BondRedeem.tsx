@@ -4,7 +4,7 @@ import { Skeleton } from "@material-ui/lab";
 import { DataRow } from "@olympusdao/component-library";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks";
-import { IAllBondData } from "src/hooks/Bonds";
+import { IAllBondData } from "src/hooks/useBonds";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
