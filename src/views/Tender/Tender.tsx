@@ -159,25 +159,13 @@ const Tender = () => {
     depositButtonText = `Approve`;
   }
 
-  //if transaction is happening. Change the Text
-  if (approve.isLoading) {
-    depositButtonText = `Approving...`;
-  }
-  if (deposit.isLoading) {
-    depositButtonText = `Depositing...`;
-  }
-  if (redeem.isLoading) {
-    redeemButtonText = `Redeeming...`;
-  }
-  if (withdraw.isLoading) {
-    redeemButtonText = `Withdrawing...`;
-  }
-  if (didRedeem) {
-    redeemButtonText = `Already Redeemed`;
-  }
-  if (!depositedBalance) {
-    redeemButtonText = `No Tokens Deposited`;
-  }
+  //Change Button Text based on conditions
+  approve.isLoading && (depositButtonText = "Approving...");
+  deposit.isLoading && (depositButtonText = "Depositing...");
+  redeem.isLoading && (redeemButtonText = "Redeeming...");
+  withdraw.isLoading && (redeemButtonText = "Withdrawing...");
+  didRedeem && (redeemButtonText = "Already Redeemed");
+  !depositedBalance && (redeemButtonText = "No Tokens Deposited");
 
   const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
