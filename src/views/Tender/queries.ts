@@ -1,26 +1,47 @@
 import { ethers } from "ethers";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { NetworkId } from "src/constants";
-import { TENDER_ADDRESSES, TENDER_ESCROW_ADDRESSES } from "src/constants/addresses";
+import {
+  STAKED_TENDER_ADDRESSES,
+  TENDER_ADDRESSES,
+  TENDER_ESCROW_ADDRESSES,
+  WRAPPED_TENDER_ADDRESSES,
+} from "src/constants/addresses";
 import { parseBigNumber } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { useTenderEscrowContract, useTokenContract } from "src/hooks/useContract";
 import { balancesOf } from "src/lib/fetchBalances";
 import { queryClient } from "src/lib/react-query";
+import { IERC20 } from "src/typechain";
 
 export const Balance = (address: string) => {
   const tenderTokenContract = useTokenContract(TENDER_ADDRESSES);
+  return BalanceHelper(tenderTokenContract);
+};
+
+const BalanceHelper = (contractAddress: IERC20) => {
+  const { address } = useWeb3Context();
   const { isLoading, data } = useQuery(
     ["tenderBalanceOf", address],
     async () => {
-      if (tenderTokenContract && address) {
-        const balance = await tenderTokenContract.balanceOf(address);
+      if (contractAddress && address) {
+        const balance = await contractAddress.balanceOf(address);
         return parseBigNumber(balance);
       }
     },
-    { refetchOnWindowFocus: false, refetchOnReconnect: false, enabled: !!tenderTokenContract && !!address },
+    { enabled: !!contractAddress && !!address },
   );
   return data;
+};
+
+export const StakedBalance = () => {
+  const stakingContract = useTokenContract(STAKED_TENDER_ADDRESSES);
+  return BalanceHelper(stakingContract);
+};
+
+export const WrappedBalance = () => {
+  const wrappedContract = useTokenContract(WRAPPED_TENDER_ADDRESSES);
+  return BalanceHelper(wrappedContract);
 };
 
 export const CrossChainBalanceCheck = (address: string) => {

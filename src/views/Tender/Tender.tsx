@@ -26,6 +26,7 @@ import {
   GOhmExchangeRate,
   MaxDeposits,
   Redeem,
+  StakedBalance,
   TotalDeposits,
   Withdraw,
 } from "./queries";
@@ -39,6 +40,7 @@ const Tender = () => {
   const [gOhmValue, setgOHMValue] = useState(0);
   const { data: gOhmPrice } = useGohmPrice();
   const tokenBalance = Balance(address);
+  const stakedBalance = StakedBalance();
   const gOhmExchangeRate = GOhmExchangeRate();
   const daiExchangeRate = DaiExchangeRate();
   const { amount: depositedBalance, choice, index, ohmPrice, didRedeem } = Deposits(address);
@@ -267,7 +269,11 @@ const Tender = () => {
                 </>
               )}
               <Grid item>
-                <DataRow title={t`Current Chicken Balance`} balance={`${trim(Number(tokenBalance), 4)} Chicken`} />
+                <DataRow title={t`Unstaked Balance`} balance={`${trim(Number(tokenBalance), 4)} Chicken`} />
+                <DataRow title={t`Staked Balances`}>
+                  <DataRow title={t`sChicken Balance`} balance={`${trim(Number(stakedBalance), 4)} sChicken`} />
+                  <DataRow title={t`wsChicken Balance`} balance={`${trim(Number(stakedBalance), 4)} wsChicken`} />
+                </DataRow>
                 <DataRow title={t`Deposited Balance`} balance={`${depositedBalance} Chicken `} />
                 <DataRow title={t`Redeemable Balance if Accepted`} balance={redeemableBalString} />
               </Grid>
