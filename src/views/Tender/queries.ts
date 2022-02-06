@@ -6,6 +6,7 @@ import { parseBigNumber } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { useTenderEscrowContract, useTokenContract } from "src/hooks/useContract";
 import { balancesOf } from "src/lib/fetchBalances";
+import { queryClient } from "src/lib/react-query";
 
 export const Balance = (address: string) => {
   const tenderTokenContract = useTokenContract(TENDER_ADDRESSES);
@@ -146,20 +147,34 @@ export const Withdraw = () => {
   const { provider } = useWeb3Context();
   const signer = provider.getSigner();
   const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
-  return useMutation(() => {
-    const data = tenderEscrowContract.withdraw();
-    return data;
-  });
+  return useMutation(
+    async () => {
+      const data = await tenderEscrowContract.withdraw();
+      return data.wait();
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries("deposits");
+      },
+    },
+  );
 };
 
 export const Redeem = () => {
   const { provider } = useWeb3Context();
   const signer = provider.getSigner();
   const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
-  return useMutation(() => {
-    const data = tenderEscrowContract.redeem();
-    return data;
-  });
+  return useMutation(
+    async () => {
+      const data = await tenderEscrowContract.redeem();
+      return data.wait();
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries(["deposits"]);
+      },
+    },
+  );
 };
 
 export const Deposit = (quantity: number, redemptionToken: number) => {

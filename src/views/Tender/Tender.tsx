@@ -31,7 +31,7 @@ import {
 } from "./queries";
 
 const Tender = () => {
-  const { provider, address, connect, networkId } = useWeb3Context();
+  const { address } = useWeb3Context();
   const [view, setView] = useState(0);
   const [redeemToken, setRedeemToken] = useState(0);
   const [quantity, setQuantity] = useState(0);
@@ -41,13 +41,15 @@ const Tender = () => {
   const tokenBalance = Balance(address);
   const gOhmExchangeRate = GOhmExchangeRate();
   const daiExchangeRate = DaiExchangeRate();
-  const { amount: depositedBalance, choice, index, ohmPrice } = Deposits(address);
+  const { amount: depositedBalance, choice, index, ohmPrice, didRedeem } = Deposits(address);
   const totalDeposits = TotalDeposits();
   const maxDeposits = MaxDeposits();
   const escrowState = EscrowState();
   const allowance = Allowance(address);
   const approve = Approve();
   const deposit = Deposit(quantity, redeemToken);
+  const redeem = Redeem();
+  const withdraw = Withdraw();
   const useStyles = makeStyles<Theme>(() => ({
     progress: {
       backgroundColor: "#768299",
@@ -89,8 +91,11 @@ const Tender = () => {
     deposit.isLoading
       ? true
       : false;
-  //disable if no deposited balance or escrow State === PENDING
-  const redeemButtonDisabled = !Number(depositedBalance) || escrowState === 0 ? true : false;
+  //disable if no deposited balance or escrow State === PENDING or redeemed or redeem loading or withdraw loading
+  const redeemButtonDisabled =
+    !Number(depositedBalance) || escrowState === 0 || didRedeem === true || redeem.isLoading || withdraw.isLoading
+      ? true
+      : false;
 
   //Currency formatters for the token balances
   const usdValue = quantity ? new Intl.NumberFormat("en-US").format(Number(quantity) * 55) : 0;
@@ -123,12 +128,12 @@ const Tender = () => {
   //Failed State
   if (escrowState === 1) {
     redeemButtonText = `Withdraw for ${depositedBalance} Chicken`;
-    redeemButtonOnClick = () => Withdraw();
+    redeemButtonOnClick = () => withdraw.mutate();
     message = "The offer has not been accepted by the founders. Withdraw your tokens below.";
   }
   //Passed State
   if (escrowState === 2) {
-    redeemButtonOnClick = () => Redeem();
+    redeemButtonOnClick = () => redeem.mutate();
     message = "The offer has been accepted by the founders. Redeem your tokens below.";
   }
 
@@ -153,12 +158,25 @@ const Tender = () => {
     depositOnClick = () => approve.mutate();
     depositButtonText = `Approve`;
   }
-  //if approval or depositing is happening. Disable the button.
+
+  //if transaction is happening. Change the Text
   if (approve.isLoading) {
     depositButtonText = `Approving...`;
   }
   if (deposit.isLoading) {
     depositButtonText = `Depositing...`;
+  }
+  if (redeem.isLoading) {
+    redeemButtonText = `Redeeming...`;
+  }
+  if (withdraw.isLoading) {
+    redeemButtonText = `Withdrawing...`;
+  }
+  if (didRedeem) {
+    redeemButtonText = `Already Redeemed`;
+  }
+  if (!depositedBalance) {
+    redeemButtonText = `No Tokens Deposited`;
   }
 
   const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
