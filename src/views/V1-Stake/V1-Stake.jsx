@@ -35,7 +35,7 @@ import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import ExternalStakePools from "../Stake/components/ExternalStakePools/ExternalStakePools";
-import RebaseTimer from "../Stake/components/RebaseTimer/RebaseTimer";
+import RebaseTimer from "../Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);

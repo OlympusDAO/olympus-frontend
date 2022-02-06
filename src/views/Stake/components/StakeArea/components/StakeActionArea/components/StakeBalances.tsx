@@ -136,7 +136,6 @@ export const StakeBalances = () => {
             />
           )}
 
-          {/* TODO */}
           {hasVisibleBalance(gohmFuseBalance, 18) && (
             <DataRow
               indented
