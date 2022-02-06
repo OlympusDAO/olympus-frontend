@@ -48,7 +48,6 @@ import ProjectInfo from "./views/Give/ProjectInfo";
 import projectData from "src/views/Give/projects.json";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
-import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -208,25 +207,6 @@ function App() {
     const allAssetsBalance =
       Number(state.account.balances.sohmV1) + Number(state.account.balances.ohmV1) + wrappedBalance;
     return state.app.marketPrice * allAssetsBalance >= 10;
-  });
-
-  const hasDust = useAppSelector(state => {
-    if (!state.app.currentIndex || !state.app.marketPrice) {
-      return true;
-    }
-    const wrappedBalance = Number(state.account.balances.wsohm) * Number(state.app.currentIndex!);
-    const ohmBalance = Number(state.account.balances.ohmV1);
-    const sOhmbalance = Number(state.account.balances.sohmV1);
-    if (ohmBalance > 0 && ohmBalance * state.app.marketPrice < 10) {
-      return true;
-    }
-    if (sOhmbalance > 0 && sOhmbalance * state.app.marketPrice < 10) {
-      return true;
-    }
-    if (wrappedBalance > 0 && wrappedBalance * state.app.marketPrice < 10) {
-      return true;
-    }
-    return false;
   });
 
   const newAssetsDetected = useAppSelector(state => {
@@ -420,11 +400,7 @@ function App() {
             <Route component={NotFound} />
           </Switch>
         </div>
-        {hasDust ? (
-          <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
-        ) : (
-          <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
-        )}
+        <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
       </div>
     </ThemeProvider>
   );
