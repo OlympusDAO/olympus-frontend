@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { NetworkId } from "src/constants";
 import { TENDER_ADDRESSES, TENDER_ESCROW_ADDRESSES } from "src/constants/addresses";
 import { parseBigNumber } from "src/helpers";
@@ -80,7 +80,6 @@ export const Deposits = (address: string) => {
     async () => {
       if (tenderEscrowContract && address) {
         const data = await tenderEscrowContract.deposits(address);
-        console.log(data);
         return {
           ...data,
           amount: parseBigNumber(data.amount),
@@ -164,14 +163,24 @@ export const Redeem = () => {
 };
 
 export const Deposit = (quantity: number, redemptionToken: number) => {
+  const queryClient = useQueryClient();
   const { provider } = useWeb3Context();
   const signer = provider.getSigner();
   const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
   const amount = quantity * 1e9;
-  return useMutation(() => {
-    const data = tenderEscrowContract.deposit(amount, redemptionToken);
-    return data;
-  });
+  return useMutation(
+    async () => {
+      const data = await tenderEscrowContract.deposit(amount, redemptionToken);
+      return data.wait();
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries(["totalDeposits"]);
+        queryClient.invalidateQueries(["deposits"]);
+        queryClient.invalidateQueries(["tenderBalanceOf"]);
+      },
+    },
+  );
 };
 
 export const Allowance = (address: string) => {
@@ -189,12 +198,23 @@ export const Allowance = (address: string) => {
 };
 
 export const Approve = () => {
+  const queryClient = useQueryClient();
   const { provider, networkId } = useWeb3Context();
   const signer = provider.getSigner();
   const tenderTokenContract = useTokenContract(TENDER_ADDRESSES, signer);
   const escrowAddress = TENDER_ESCROW_ADDRESSES[networkId];
-  return useMutation(() => {
-    const data = tenderTokenContract.approve(escrowAddress, ethers.utils.parseUnits("1000000000", "gwei").toString());
-    return data;
-  });
+  return useMutation(
+    async () => {
+      const data = await tenderTokenContract.approve(
+        escrowAddress,
+        ethers.utils.parseUnits("1000000000", "gwei").toString(),
+      );
+      return data.wait();
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries(["Allowance"]);
+      },
+    },
+  );
 };

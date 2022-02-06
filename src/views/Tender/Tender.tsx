@@ -82,7 +82,13 @@ const Tender = () => {
 
   //disabled button if no token balance or contract failed state or quantity entered exceeds balance
   const depositButtonDisabled =
-    !Number(tokenBalance) || escrowState === 1 || quantity > Number(tokenBalance) ? true : false;
+    !Number(tokenBalance) ||
+    escrowState === 1 ||
+    quantity > Number(tokenBalance) ||
+    approve.isLoading ||
+    deposit.isLoading
+      ? true
+      : false;
   //disable if no deposited balance or escrow State === PENDING
   const redeemButtonDisabled = !Number(depositedBalance) || escrowState === 0 ? true : false;
 
@@ -148,9 +154,20 @@ const Tender = () => {
     depositButtonText = `Approve`;
   }
 
+  if (approve.isLoading) {
+    depositButtonText = `Approving...`;
+  }
+  if (deposit.isLoading) {
+    depositButtonText = `Depositing...`;
+  }
+
   const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
+
+  console.log("totalDeposits", totalDeposits);
+  console.log("totaldepositsformatted", totalDepositsFormatted);
+  console.log("despoits", depositedBalance);
 
   const DepositLimitMessage = () => (
     <Box display="flex" justifyContent="center" mt="10px" mb="10px">
@@ -160,6 +177,7 @@ const Tender = () => {
     </Box>
   );
 
+  console.log(allowance, "allowance");
   const RedemptionToggle = () => (
     <>
       <Box
