@@ -3,23 +3,25 @@ import "../Stake/Stake.scss";
 import { t } from "@lingui/macro";
 import { Box, Button, Divider, FormControl, Grid, Link, MenuItem, Select, Typography, Zoom } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { DataRow, Icon, InputWrapper, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
+import { DataRow, Icon, InputWrapper, MetricCollection, Paper } from "@olympusdao/component-library";
 import { useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
+import { formatBalance } from "src/helpers";
 import { useAppSelector } from "src/hooks";
+import { useGohmBalance, useSohmBalance } from "src/hooks/useBalances";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
+import { CurrentIndex, GOHMPrice, OHMPrice } from "src/views/TreasuryDashboard/components/Metric/Metric";
 
-import { NETWORKS } from "../../constants";
-import { formatCurrency, trim } from "../../helpers";
+import { NetworkId, NETWORKS } from "../../constants";
 import { switchNetwork } from "../../helpers/NetworkHelper";
 import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
 import WrapCrossChain from "./WrapCrossChain";
 
 const Wrap: React.FC = () => {
   const dispatch = useDispatch();
-  const { provider, address, connect, networkId } = useWeb3Context();
+  const { provider, address, networkId } = useWeb3Context();
 
   const [, setZoomed] = useState<boolean>(false);
   const [assetFrom, setAssetFrom] = useState<string>("sOHM");
@@ -34,12 +36,11 @@ const Wrap: React.FC = () => {
   const currentAction = chooseCurrentAction();
 
   const isAppLoading = useAppSelector(state => state.app.loading);
-  const currentIndex = useAppSelector(state => Number(state.app.currentIndex));
-  const sOhmPrice = useAppSelector(state => Number(state.app.marketPrice));
 
-  const gOhmPrice = useAppSelector(state => state.app.marketPrice! * Number(state.app.currentIndex));
-  const sohmBalance = useAppSelector(state => state.account.balances && state.account.balances.sohm);
-  const gohmBalance = useAppSelector(state => state.account.balances && state.account.balances.gohm);
+  const sohmBalance = useSohmBalance()["data"]?.[NetworkId.MAINNET];
+  const gohmBalance = useGohmBalance()["data"]?.[NetworkId.MAINNET];
+  //  const gohmBalance = String(useGohmBalance()["data"]?.[NetworkId.MAINNET]);
+  //const sohmBalance = useAppSelector(state => state.account.balances && state.account.balances.sohm);
   const unwrapGohmAllowance = useAppSelector(state => state.account.wrapping && state.account.wrapping.gOhmUnwrap);
   const wrapSohmAllowance = useAppSelector(state => state.account.wrapping && state.account.wrapping.sohmWrap);
   const pendingTransactions = useAppSelector(state => state.pendingTransactions);
@@ -53,8 +54,8 @@ const Wrap: React.FC = () => {
     assetTo === "gOHM" ? (assetFrom === "wsOHM" ? "Migrate" : "Wrap") + " to gOHM" : `${currentAction} ${assetFrom}`;
 
   const setMax = () => {
-    if (assetFrom === "sOHM") setQuantity(sohmBalance);
-    if (assetFrom === "gOHM") setQuantity(gohmBalance);
+    if (assetFrom === "sOHM") setQuantity(String(sohmBalance));
+    if (assetFrom === "gOHM") setQuantity(String(gohmBalance));
   };
 
   const handleSwitchChain = (id: number) => {
@@ -184,22 +185,9 @@ const Wrap: React.FC = () => {
           >
             <Grid item style={{ padding: "0 0 2rem 0" }}>
               <MetricCollection>
-                <Metric
-                  label={`sOHM ${t`Price`}`}
-                  metric={formatCurrency(sOhmPrice, 2)}
-                  isLoading={sOhmPrice ? false : true}
-                />
-                <Metric
-                  label={t`Current Index`}
-                  metric={trim(currentIndex, 1)}
-                  isLoading={currentIndex ? false : true}
-                />
-                <Metric
-                  label={`gOHM ${t`Price`}`}
-                  metric={formatCurrency(gOhmPrice, 2)}
-                  isLoading={gOhmPrice ? false : true}
-                  tooltip={`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of sOHM multiplied by the current index`}
-                />
+                <OHMPrice />
+                <CurrentIndex />
+                <GOHMPrice />
               </MetricCollection>
             </Grid>
             <div className="staking-area">
@@ -279,12 +267,12 @@ const Wrap: React.FC = () => {
                     <>
                       <DataRow
                         title={t`sOHM Balance`}
-                        balance={`${trim(+sohmBalance, 4)} sOHM`}
+                        balance={`${formatBalance(sohmBalance, 36)} sOHM`}
                         isLoading={isAppLoading}
                       />
                       <DataRow
                         title={t`gOHM Balance`}
-                        balance={`${trim(+gohmBalance, 4)} gOHM`}
+                        balance={`${formatBalance(gohmBalance, 36)} gOHM`}
                         isLoading={isAppLoading}
                       />
                       <Divider />

@@ -375,6 +375,21 @@ export const formatNumber = (number: number, precision = 0) => {
   }).format(number);
 };
 
+const DECIMAL_PLACES_SHOWN = 4;
+/**
+ * Returns true if and only if the balance would not show 0 when used by formatBalance
+ */
+export const hasVisibleBalance = (balance?: BigNumber, units: BigNumberish = 18) => {
+  return balance && parseBigNumber(balance, units) > 9 / Math.pow(10, DECIMAL_PLACES_SHOWN + 1);
+};
+
+/**
+ * Formats a balance
+ */
+export const formatBalance = (balance?: BigNumber, units: BigNumberish = 18) => {
+  return balance && formatNumber(parseBigNumber(balance, units), DECIMAL_PLACES_SHOWN);
+};
+
 /**
  * Used to build a dependent `useQuery` function
  *

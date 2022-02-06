@@ -2,9 +2,8 @@ import { t } from "@lingui/macro";
 import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { DataRow } from "@olympusdao/component-library";
-import { BigNumber, BigNumberish } from "ethers";
 import { NetworkId } from "src/constants";
-import { formatNumber, parseBigNumber } from "src/helpers";
+import { formatBalance, hasVisibleBalance } from "src/helpers";
 import {
   useFuseBalance,
   useGohmBalance,
@@ -14,16 +13,6 @@ import {
   useV1SohmBalance,
   useWsohmBalance,
 } from "src/hooks/useBalances";
-
-const DECIMAL_PLACES_SHOWN = 4;
-
-const hasVisibleBalance = (balance?: BigNumber, units: BigNumberish = 18) => {
-  return balance && parseBigNumber(balance, units) > 9 / Math.pow(10, DECIMAL_PLACES_SHOWN + 1);
-};
-
-const formatBalance = (balance?: BigNumber, units: BigNumberish = 18) => {
-  return balance && formatNumber(parseBigNumber(balance, units), DECIMAL_PLACES_SHOWN);
-};
 
 // const trimmedBalance = Number(
 //   [
