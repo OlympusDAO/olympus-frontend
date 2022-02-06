@@ -39,11 +39,21 @@ Open the source code and start editing!
 
 If you would like to run the frontend in a Docker image (e.g. to isolate dependencies and the nodejs version), run `yarn docker-start`.
 
-## Unit Testing
+## Testing
 
-Unit tests are co-located with source code with naming convention `*.unit.test.js`.
+We use the [React Jest](https://jestjs.io/docs/tutorial-react) test driver for unit tests, snapshot tests and e2e tests.
 
-We use the [React Jest](https://jestjs.io/docs/tutorial-react) test driver.
+To run tests in interactive mode during development:
+
+```
+yarn test
+```
+
+### Unit Testing
+
+Unit test files are co-located with the source code files that they test and follow the naming convention `*.unit.test.ts`.
+For example unit tests for `OriginalSourceFile.ts` are located in `OriginalSourceFile.unit.test.ts`.
+Valid extensions for test files are `.js` (JavaScript), `.ts` (TypeScript), `.jsx` (React JSX), `.tsx` (React TSX).
 
 To run all unit test and see a coverage report:
 
@@ -57,9 +67,18 @@ Coverage thresholds are enforced via CI checks. If a new PR introduces regressio
 
 For integration testing automation that runs browser and remote API code as well as our own code, see the End-to-end (E2E) testing section below.
 
+### Generative Testing
+
+We use [`fast-check`](https://github.com/dubzzz/fast-check) for generative testing which provides property-based coverage for ranges of input values.
+[Here is an example](src/helpers/33Together.unit.test.ts) of a unit test case in this repo that uses generative testing.
+
+### Snapshot Testing
+
 We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
 When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
 `yarn snapshot`.
+
+### Troubleshooting
 
 If all tests are failing in your local environment (in particular, due to a "cannot find module" error with `node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/interopRequireDefault.js`), but they should be passing (and the CI tests are passing), it's likely to be an issue with your local cache. Run the following command: `yarn test --clearCache`
 
@@ -72,7 +91,7 @@ To run the tests:
 - Run the frontend, using `yarn start`
 - In another terminal, run the tests, using `yarn test:e2e`
 
-## Rinkeby Testing
+### Rinkeby Testing
 
 ### sOHM Faucet
 
@@ -81,6 +100,7 @@ To run the tests:
 - After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
 
 Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
+Note: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sOHM, OHM, gOHM), you will first need to use the migration steps in the UI to convert from sOHM v1 to sOHM v2.
 
 ### wETH Faucet
 
