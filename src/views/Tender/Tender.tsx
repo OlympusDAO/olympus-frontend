@@ -153,7 +153,7 @@ const Tender = () => {
     depositOnClick = () => approve.mutate();
     depositButtonText = `Approve`;
   }
-
+  //if approval or depositing is happening. Disable the button.
   if (approve.isLoading) {
     depositButtonText = `Approving...`;
   }
@@ -165,10 +165,6 @@ const Tender = () => {
     setView(newView);
   };
 
-  console.log("totalDeposits", totalDeposits);
-  console.log("totaldepositsformatted", totalDepositsFormatted);
-  console.log("despoits", depositedBalance);
-
   const DepositLimitMessage = () => (
     <Box display="flex" justifyContent="center" mt="10px" mb="10px">
       <Typography variant="h5" color="textSecondary">
@@ -177,7 +173,6 @@ const Tender = () => {
     </Box>
   );
 
-  console.log(allowance, "allowance");
   const RedemptionToggle = () => (
     <>
       <Box
