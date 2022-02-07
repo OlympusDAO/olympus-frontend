@@ -1,4 +1,4 @@
-import { NetworkId } from "src/constants";
+import { NetworkId } from "src/networkDetails";
 
 /**
  * Access `process.env` in an environment helper
