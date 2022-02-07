@@ -351,9 +351,7 @@ const Stake: React.FC = () => {
      *
      * @returns string
      */
-    const getTokenToUnstake = (): string => {
-      return usingGOhm ? "gOHM" : "sOHM";
-    };
+    const getTokenToUnstake = usingGOhm ? "gOHM" : "sOHM";
 
     const getApprovalElements = () => {
       if (view === 0) {
@@ -368,10 +366,9 @@ const Stake: React.FC = () => {
 
       return (
         <>
-          <Trans>First time unstaking</Trans> <b>{getTokenToUnstake()}</b>?
+          <Trans>First time unstaking</Trans> <b>{getTokenToUnstake}</b>?
           <br />
-          <Trans>Please approve Olympus Dao to use your</Trans> <b>{getTokenToUnstake()}</b>{" "}
-          <Trans>for unstaking</Trans>.
+          <Trans>Please approve Olympus Dao to use your</Trans> <b>{getTokenToUnstake}</b> <Trans>for unstaking</Trans>.
         </>
       );
     };
@@ -413,7 +410,7 @@ const Stake: React.FC = () => {
       return txnButtonText(
         pendingTransactions,
         getStakePendingTxnType(),
-        hasApprovalStaking ? t`Stake to ${getTokenToUnstake()}` : t`Approve`,
+        hasApprovalStaking ? t`Stake to ${getTokenToUnstake}` : t`Approve`,
       );
     };
 
@@ -457,7 +454,7 @@ const Stake: React.FC = () => {
         return;
       }
 
-      onSeekApproval(getTokenToUnstake().toLowerCase());
+      onSeekApproval(getTokenToUnstake.toLowerCase());
     };
 
     /**
@@ -469,7 +466,7 @@ const Stake: React.FC = () => {
       return txnButtonText(
         pendingTransactions,
         getUnstakePendingTxnType(),
-        hasApprovalUnstaking ? t`Unstake from ${getTokenToUnstake()}` : t`Approve`,
+        hasApprovalUnstaking ? t`Unstake from ${getTokenToUnstake}` : t`Approve`,
       );
     };
 
