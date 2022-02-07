@@ -509,6 +509,7 @@ export const loadAccountDetails = createAsyncThunk(
         ohmStake: +stakeAllowanceV2,
         ohmUnstake: +unstakeAllowanceV2,
         ohmtoGohm: +ohmToGohmAllowance,
+        loading: false,
       },
       wrapping: {
         sohmWrap: Number(ethers.utils.formatUnits(wrapAllowance, "gwei")),
