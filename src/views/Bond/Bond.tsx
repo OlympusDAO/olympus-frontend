@@ -7,7 +7,7 @@ import { Icon, Modal, Tab, TabPanel, Tabs, TokenStack } from "@olympusdao/compon
 import { ChangeEvent, Fragment, ReactElement, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { useAppSelector } from "src/hooks";
-import { IAllBondData } from "src/hooks/Bonds";
+import { IAllBondData } from "src/hooks/useBonds";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useWeb3Context } from "src/hooks/web3Context";
 
