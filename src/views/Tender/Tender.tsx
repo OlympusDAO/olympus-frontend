@@ -242,7 +242,7 @@ const Tender = () => {
           <LinearProgress className={classes.progress} variant="determinate" value={progressValue} />
         </Box>
         <Box className="stake-action-area">
-          <Tabs centered value={view} onChange={changeView} aria-label="stake tabs">
+          <Tabs centered value={view} onChange={changeView} aria-label="stake tabs" style={{ marginBottom: ".25rem" }}>
             <Tab label={t`Deposit`} />
             <Tab label={t`Redeem`} />
           </Tabs>
