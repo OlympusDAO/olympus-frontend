@@ -281,8 +281,6 @@ const Stake: React.FC = () => {
     stakeButtonText = txnButtonText(pendingTransactions, "approve_staking", t`Approve`);
   }
 
-  const token = confirmation ? "gOHM" : "sOHM";
-
   //evaluate if data allowance data is finished loading
   if (!isAllowanceDataLoading) {
     //If Staking Tab
@@ -290,7 +288,11 @@ const Stake: React.FC = () => {
       if (address && hasAllowance("ohm")) {
         stakeDisabled = isPendingTxn(pendingTransactions, "staking");
         stakeOnClick = () => onChangeStake("stake");
-        stakeButtonText = txnButtonText(pendingTransactions, "staking", t`Stake to ${token}`);
+        stakeButtonText = txnButtonText(
+          pendingTransactions,
+          "staking",
+          `${t`Stake to`} ${confirmation ? " gOHM" : " sOHM"}`,
+        );
       }
     }
     //If Unstaking Tab
