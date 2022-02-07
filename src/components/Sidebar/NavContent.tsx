@@ -26,7 +26,12 @@ import { Bond } from "src/lib/Bond";
 import { IBondDetails } from "src/slices/BondSlice";
 import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
 import { DisplayBondDiscount } from "src/views/BondV2/BondV2";
-import { Deposits as tenderEscrowDeposits, Balance as tenderBalance } from "src/views/Tender/queries";
+import {
+  Deposits as tenderEscrowDeposits,
+  Balance as tenderBalance,
+  StakedBalance,
+  WrappedBalance,
+} from "src/views/Tender/queries";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import useBonds from "../../hooks/useBonds";
@@ -77,6 +82,15 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
 
   const { amount: depositAmount } = tenderEscrowDeposits(address);
   const tenderTokenBalance = tenderBalance(address);
+  const stakedTenderBalance = StakedBalance();
+  const wrappedBalance = WrappedBalance();
+
+  //show if fantom network AND has a balance of any of the tokens
+  const tenderBalances = [tenderTokenBalance, stakedTenderBalance, wrappedBalance].some(balance => {
+    return balance! > 0;
+  });
+  const showTenderMenu =
+    (networkId === NetworkId.FANTOM || networkId === NetworkId.FANTOM_TESTNET) && tenderBalances ? true : false;
   return (
     <Paper className="dapp-sidebar">
       <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
@@ -95,10 +109,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              {(networkId === NetworkId.FANTOM || networkId === NetworkId.FANTOM_TESTNET) &&
-                ((depositAmount && depositAmount > 0) || (tenderTokenBalance && tenderTokenBalance > 0)) && (
-                  <NavItem to="/tender" icon="wallet" label={t`Chicken Tender Offer`} />
-                )}
+              {showTenderMenu && <NavItem to="/tender" icon="wallet" label={t`Chicken Tender Offer`} />}
               {networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY ? (
                 <>
                   <NavItem to="/dashboard" icon={"dashboard"} label={t`Dashboard`} />
