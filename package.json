@@ -158,7 +158,7 @@
     "lingui:branch:develop": "yarn lingui:deinit && git config -f .gitmodules submodule.src/locales/translations.branch develop && yarn lingui:fetch",
     "lingui:deinit": "git submodule  deinit -f  src/locales/translations",
     "lingui:fetch": "git submodule update --init --remote src/locales/translations",
-    "lingui:dirty": "yarn lingui:extract && cd src/locales/translations && git diff --quiet || echo 'There are translation strings that are not committed. Please commit them.'",
+    "lingui:dirty": "yarn lingui:extract && cd src/locales/translations && env -i git diff --quiet || (echo 'There are translation strings that are not committed. Please commit & push them.' && exit 1)",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "preinstall": "[ ! -e src/locales/translations/.git ] && yarn lingui:fetch || exit 0",
     "postinstall": "yarn typechain:build && yarn lingui:compile",
