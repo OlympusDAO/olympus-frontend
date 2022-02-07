@@ -251,7 +251,6 @@ const Stake: React.FC = () => {
 
   const hasAllowance: (token: string) => boolean = useCallback(
     token => {
-      // TODO check allowances are revoked or not
       if (token === TOKEN_OHM) return stakeAllowance > 0;
       if (token === TOKEN_SOHM) return unstakeAllowance > 0;
       if (token === TOKEN_GOHM) return directUnstakeAllowance > 0;
@@ -489,8 +488,6 @@ const Stake: React.FC = () => {
 
       return false;
     };
-
-    // TODO add balance warning
 
     return (
       <>
