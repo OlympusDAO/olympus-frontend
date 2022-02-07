@@ -86,7 +86,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
   const wrappedBalance = WrappedBalance();
 
   //show if fantom network AND has a balance of any of the tokens
-  const tenderBalances = [tenderTokenBalance, stakedTenderBalance, wrappedBalance].some(balance => {
+  const tenderBalances = [depositAmount, tenderTokenBalance, stakedTenderBalance, wrappedBalance].some(balance => {
     return balance! > 0;
   });
   const showTenderMenu =
