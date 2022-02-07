@@ -9,10 +9,19 @@ export interface ConfirmDialogProps {
   view: number;
   onConfirm: (value: boolean) => void;
   isLoading: boolean;
+  initialChecked?: boolean;
 }
 
-export function ConfirmDialog({ quantity, currentIndex, view, onConfirm, isLoading }: ConfirmDialogProps) {
-  const [checked, setChecked] = useState(false);
+export function ConfirmDialog({
+  quantity,
+  currentIndex,
+  view,
+  onConfirm,
+  isLoading,
+  initialChecked,
+}: ConfirmDialogProps) {
+  // If we have an initial value for the checkbox, use that. Else default to false.
+  const [checked, setChecked] = useState(initialChecked || false);
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.checked;
     setChecked(value);

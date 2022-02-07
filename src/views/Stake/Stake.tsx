@@ -588,6 +588,7 @@ const Stake: React.FC = () => {
           currentIndex={currentIndex}
           view={view}
           onConfirm={setUsingGOhm}
+          initialChecked={usingGOhm}
         />
       </>
     );
