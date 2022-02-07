@@ -256,8 +256,8 @@ const Tender = () => {
                     id="amount-input"
                     type="number"
                     label={t`Enter an amount`}
-                    value={quantity}
-                    onChange={e => e.target.value && setDeposit(Number(e.target.value))}
+                    value={quantity ? quantity : ""}
+                    onChange={e => Number(e.target.value) >= 0 && setDeposit(Number(e.target.value))}
                     labelWidth={0}
                     endString={t`Max`}
                     endStringOnClick={() => tokenBalance && setDeposit(tokenBalance)}
