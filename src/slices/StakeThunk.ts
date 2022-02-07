@@ -143,28 +143,36 @@ export const changeApproval = createAsyncThunk(
       dispatch(error((e as IJsonRPCError).message));
       return;
     } finally {
+      /**
+       * After approval, we need to refresh the allowances.
+       * However, we refresh the allowances BEFORE clearing pending transactions,
+       * otherwise we have an in-between state where there are no pending transactions,
+       * but the allowances have not yet updated, leading to the interface asking the user
+       * to approve again (until the allowances update after a few seconds).
+       *
+       * This fixes #1302
+       */
+      stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
+      unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
+      stakeAllowanceV2 = await ohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
+      unstakeAllowanceV2 = await sohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
+
+      dispatch(
+        fetchAccountSuccess({
+          staking: {
+            ohmStakeV1: +stakeAllowance,
+            ohmUnstakeV1: +unstakeAllowance,
+            ohmStake: +stakeAllowanceV2,
+            ohmUnstake: +unstakeAllowanceV2,
+            loading: false,
+          },
+        }),
+      );
+
       if (approveTx) {
         dispatch(clearPendingTxn(approveTx.hash));
       }
     }
-
-    // go get fresh allowances
-    stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
-    unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-    stakeAllowanceV2 = await ohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
-    unstakeAllowanceV2 = await sohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
-
-    return dispatch(
-      fetchAccountSuccess({
-        staking: {
-          ohmStakeV1: +stakeAllowance,
-          ohmUnstakeV1: +unstakeAllowance,
-          ohmStake: +stakeAllowanceV2,
-          ohmUnstake: +unstakeAllowanceV2,
-          loading: false,
-        },
-      }),
-    );
   },
 );
 

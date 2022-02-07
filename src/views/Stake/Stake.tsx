@@ -426,6 +426,9 @@ const Stake: React.FC = () => {
     const isStakeButtonDisabled = (): boolean => {
       if (isPendingTxn(pendingTransactions, getStakePendingTxnType())) return true;
 
+      // If approval is not yet given, then we should enable the button to let that happen
+      if (!hasApprovalStaking) return false;
+
       if (!quantity) return true;
 
       return false;
@@ -477,7 +480,10 @@ const Stake: React.FC = () => {
      * @returns boolean
      */
     const isUnstakeButtonDisabled = (): boolean => {
-      if (isPendingTxn(pendingTransactions, getStakePendingTxnType())) return true;
+      if (isPendingTxn(pendingTransactions, getUnstakePendingTxnType())) return true;
+
+      // If approval is not yet given, then we should enable the button to let that happen
+      if (!hasApprovalUnstaking) return false;
 
       if (!quantity) return true;
 
@@ -486,7 +492,6 @@ const Stake: React.FC = () => {
 
     // TODO add balance warning
     // TODO remember gOHM toggle post transaction
-    // TODO fix post-approval missing pending
 
     return (
       <>
