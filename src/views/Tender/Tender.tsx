@@ -1,14 +1,14 @@
 import { t } from "@lingui/macro";
-import { Box, Divider, Grid, LinearProgress, makeStyles, Switch, Theme, Typography } from "@material-ui/core";
+import { Box, Divider, Grid, LinearProgress, Link, makeStyles, Switch, Theme, Typography } from "@material-ui/core";
 import {
   DataRow,
+  Icon,
   InfoNotification,
   InputWrapper,
   Paper,
   PrimaryButton,
   Tab,
   Tabs,
-  TextButton,
 } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useState } from "react";
 import { trim } from "src/helpers";
@@ -212,19 +212,10 @@ const Tender = () => {
     <Box width="97%" maxWidth="833px">
       <InfoNotification>
         This is a very important message about redeeming your Chicken Tender Offer.
-        <TextButton
-          href="#"
-          style={{
-            margin: "0px",
-            marginLeft: "10px",
-            padding: "0px",
-            lineHeight: "20px",
-            paddingBottom: "2px",
-            height: "inherit",
-          }}
-        >
+        <Link href="#" style={{ marginLeft: "10px" }}>
           Learn More
-        </TextButton>
+          <Icon name="arrow-up" style={{ marginLeft: "2px", verticalAlign: "bottom" }} />
+        </Link>
       </InfoNotification>
     </Box>
   );
