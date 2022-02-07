@@ -2239,7 +2239,7 @@
     "@lingui/conf" "^3.13.2"
     mkdirp "^1.0.4"
 
-"@lingui/cli@^3.13.0", "@lingui/cli@^3.13.2":
+"@lingui/cli@^3.13.0":
   version "3.13.2"
   resolved "https://registry.yarnpkg.com/@lingui/cli/-/cli-3.13.2.tgz#35c231d227162de29d8e4f724011b5c8d78f9dae"
   integrity sha512-wPYlsKI7hx1hyntc6enUVUdKVwBM8XW+DnwHslWWw4ShMNvh98gLgAOW1ajXtUym7x0WTjhR+/s436hdxfZ/Og==
@@ -2296,17 +2296,6 @@
     "@babel/runtime" "^7.11.2"
     make-plural "^6.2.2"
     messageformat-parser "^4.1.3"
-
-"@lingui/loader@^3.13.2":
-  version "3.13.2"
-  resolved "https://registry.yarnpkg.com/@lingui/loader/-/loader-3.13.2.tgz#699e04256350adb47f6884dd40d6d1a3d2435f34"
-  integrity sha512-CFwoNLj3RJ+RADehkVVP0Pe5TBvhl61uKd45negsMP27EA6Xoc6zG1GwqqtE2GEg2soDe04RwmX6Uq6lCNxstA==
-  dependencies:
-    "@babel/runtime" "^7.11.2"
-    "@lingui/cli" "^3.13.2"
-    "@lingui/conf" "^3.13.2"
-    loader-utils "^2.0.0"
-    ramda "^0.27.1"
 
 "@lingui/macro@^3.12.1":
   version "3.13.2"
