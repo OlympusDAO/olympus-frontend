@@ -34,7 +34,7 @@ for (const [key, locale] of Object.entries(locales)) {
 
 export async function fetchLocale(locale = "en") {
   const { messages } = await import(
-    /* webpackChunkName: "[request]" */ `../locales/translations/olympus-frontend/${locale}/messages`
+    /* webpackChunkName: "[request]" */ `@lingui/loader!../locales/translations/olympus-frontend/${locale}/messages.po`
   );
   i18n.load(locale, messages);
   i18n.activate(locale);
