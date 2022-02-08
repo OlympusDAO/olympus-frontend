@@ -122,9 +122,9 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
             className={`${classes.infoHeader} oly-info-header-box`}
           >
             {/* @ts-ignore - (keith) add style prop & types to Token Component */}
-            <Token name="sOHM" style={{ marginBottom: "16px" }} />
+            <TokenStack tokens={["sOHM", "wsOHM"]} style={{ marginBottom: "16px" }} />
             <Typography color="textSecondary" align="center">
-              <Trans>You Get sOHM</Trans>{" "}
+              <Trans>You Choose</Trans>
             </Typography>
           </Box>
           <Box className={classes.infoBody}>
@@ -134,7 +134,7 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
             <Typography align="left" variant="body2" className="oly-info-body">
               <Trans>
                 Staking is the primary value accrual strategy of Olympus. When you stake, you lock OHM and receive an
-                equal amount of sOHM.
+                equal value of sOHM or gOHM.
               </Trans>
             </Typography>
           </Box>
