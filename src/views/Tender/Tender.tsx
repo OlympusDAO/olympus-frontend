@@ -1,25 +1,12 @@
 import { t } from "@lingui/macro";
-import {
-  Box,
-  Divider,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Grid,
-  Radio,
-  RadioGroup,
-  SvgIcon,
-  Switch,
-  Typography,
-} from "@material-ui/core";
-import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons";
+import { Box, Divider, Grid, Typography } from "@material-ui/core";
 import { DataRow, InputWrapper, Paper, PrimaryButton, Tab, Tabs } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useState } from "react";
 import { trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { useGohmPrice } from "src/hooks/usePrices";
 
-import { DepositLimitMessage, NotificationMessage, ProgressBar } from "./";
+import { DepositLimitMessage, NotificationMessage, ProgressBar, RedemptionToggle } from "./";
 import {
   Approve,
   Balance,
@@ -38,6 +25,7 @@ import {
   WrappedAllowance,
   WrappedBalance,
 } from "./queries";
+import { TokenSelector } from "./TokenSelector";
 
 const Tender = () => {
   const { address } = useWeb3Context();
@@ -96,11 +84,6 @@ const Tender = () => {
     !Number(depositedBalance) || escrowState === 0 || didRedeem === true || redeem.isLoading || withdraw.isLoading
       ? true
       : false;
-
-  //Currency formatters for the token balances
-  const usdValue = quantity ? new Intl.NumberFormat("en-US").format(Number(quantity) * 55) : 0;
-  const gOhm = new Intl.NumberFormat("en-US").format(gOhmValue);
-  const dai = new Intl.NumberFormat("en-US").format(daiValue);
 
   useEffect(() => {
     //mapping this to state so choice and redeemToken are always the same
@@ -170,65 +153,12 @@ const Tender = () => {
     setView(newView);
   };
 
-  const RedemptionToggle = () => (
-    <>
-      <Box
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-        marginTop="15px"
-        marginBottom="25px"
-        textAlign="center"
-      >
-        <Typography>
-          Deposit {quantity} Chicken for ${dai} DAI
-        </Typography>
-        <Switch
-          checked={redeemToken ? true : false}
-          onChange={() => setRedeemToken(redeemToken ? 0 : 1)}
-          color="default"
-        />
-        <Typography>
-          Deposit {quantity} Chicken for {gOhm} gOHM (~${usdValue})
-        </Typography>
-      </Box>
-      <Divider color="secondary" />
-    </>
-  );
-
   const handleTokenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDepositToken(Number((event.target as HTMLInputElement).value));
   };
 
   const hasBalances = tokens.some(token => token.balance > 0) ? true : false;
 
-  const TokenSelector = () => (
-    <FormControl component="fieldset">
-      <FormLabel component="legend">Deposit Token</FormLabel>
-      <RadioGroup name="tokenGroup" value={depositToken} onChange={handleTokenChange} row>
-        {tokens.map((token, index) => {
-          if (token.balance > 0) {
-            return (
-              <FormControlLabel
-                value={index}
-                control={
-                  <Radio
-                    icon={<SvgIcon component={RadioButtonUnchecked} viewBox="0 0 24 24" />}
-                    checkedIcon={<SvgIcon component={RadioButtonChecked} viewBox="0 0 24 24" />}
-                    disableRipple={true}
-                    color="primary"
-                  />
-                }
-                label={token.label}
-                key={index}
-              />
-            );
-          }
-        })}
-      </RadioGroup>
-    </FormControl>
-  );
   return (
     <div id="stake-view">
       <NotificationMessage />
@@ -245,7 +175,9 @@ const Tender = () => {
                 <DepositLimitMessage />
               ) : (
                 <>
-                  {hasBalances && <TokenSelector />}
+                  {hasBalances && (
+                    <TokenSelector tokens={tokens} depositToken={depositToken} onChange={handleTokenChange} />
+                  )}
                   <InputWrapper
                     id="amount-input"
                     type="number"
@@ -260,7 +192,15 @@ const Tender = () => {
                     disabled={depositButtonDisabled}
                   />
 
-                  {allowChoice && <RedemptionToggle />}
+                  {allowChoice && (
+                    <RedemptionToggle
+                      gOhmValue={gOhmValue}
+                      quantity={quantity}
+                      daiValue={daiValue}
+                      redeemToken={redeemToken}
+                      onChange={() => setRedeemToken(redeemToken ? 0 : 1)}
+                    />
+                  )}
                 </>
               )}
               <Grid item>
