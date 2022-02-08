@@ -1,5 +1,7 @@
+declare const window: CustomWindow;
+
 // Pushing data to segment analytics
-export function segmentUA(data) {
+export const segmentUA = (data: any) => {
   const analytics = (window.analytics = window.analytics);
 
   // NOTE (appleseed): the analytics object may not exist (if there is no SEGMENT_API_KEY)
@@ -9,4 +11,4 @@ export function segmentUA(data) {
   } catch (e) {
     console.log("segmentAnalytics", e);
   }
-}
+};

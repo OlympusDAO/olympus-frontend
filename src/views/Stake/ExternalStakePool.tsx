@@ -5,14 +5,17 @@ import { Skeleton } from "@material-ui/lab";
 import { DataRow, Paper, SecondaryButton, TokenStack } from "@olympusdao/component-library";
 import { useQuery } from "react-query";
 import allPools, { fetchPoolData } from "src/helpers/AllExternalPools";
+import { useGohmPrice } from "src/hooks/usePrices";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ExternalPoolwBalance } from "src/lib/ExternalPool";
 
 export const useExternalPools = (address: string) => {
-  const { isLoading, data } = useQuery(["externalPools", address], () => fetchPoolData(address), {
+  const { data: gOhmPrice } = useGohmPrice();
+  const { isLoading, data } = useQuery(["externalPools", address], () => fetchPoolData(address, Number(gOhmPrice)), {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     placeholderData: allPools,
+    enabled: !!gOhmPrice,
   });
   return { isLoading, pools: data };
 };
