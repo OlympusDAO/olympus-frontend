@@ -9,7 +9,7 @@ interface TokenSelectorProps {
 }
 
 export const TokenSelector: FC<TokenSelectorProps> = ({ depositToken, onChange, tokens }) => (
-  <FormControl component="fieldset">
+  <FormControl component="fieldset" style={{ marginTop: "5px" }}>
     <FormLabel component="legend">Deposit Token</FormLabel>
     <RadioGroup name="tokenGroup" value={depositToken} onChange={onChange} row>
       {tokens.map((token, index) => {

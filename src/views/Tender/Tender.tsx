@@ -161,7 +161,7 @@ const Tender = () => {
   return (
     <div id="stake-view">
       <NotificationMessage />
-      <Paper headerText={t`Chicken Tender Offer`}>
+      <Paper headerText={t`Chicken Tender Offer`} zoom={false}>
         <ProgressBar totalDeposits={totalDeposits} maxDeposits={maxDeposits} />
         <Box className="stake-action-area">
           <Tabs centered value={view} onChange={changeView} aria-label="stake tabs" style={{ marginBottom: ".25rem" }}>
