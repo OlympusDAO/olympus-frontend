@@ -33,7 +33,7 @@ import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTx
 const sOhmImg = getTokenImage("sohm");
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { InfoTooltip } from "@olympusdao/component-library";
+import { InfoTooltip, PrimaryButton } from "@olympusdao/component-library";
 import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
@@ -589,11 +589,11 @@ export function RecipientModal({
         )}
         {isCreateMode() ? (
           !address ? (
-            <FormControl className="ohm-modal-submit">
-              <Button variant="contained" color="primary" className="connect-button" onClick={handleConnect}>
+            <Box display="flex" justifyContent="center">
+              <PrimaryButton size="large" style={{ fontSize: "1.2857rem" }} onClick={handleConnect}>
                 <Trans>Connect Wallet</Trans>
-              </Button>
-            </FormControl>
+              </PrimaryButton>
+            </Box>
           ) : address && (hasAllowance() || isGiveLoading) && !isAmountSet ? (
             <FormControl className="ohm-modal-submit">
               <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
