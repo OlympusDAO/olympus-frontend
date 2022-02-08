@@ -4,7 +4,7 @@ import { ExpandMore } from "@material-ui/icons";
 import { DataRow } from "@olympusdao/component-library";
 import { BigNumber, BigNumberish } from "ethers";
 import { NetworkId } from "src/constants";
-import { formatNumber, parseBigNumber } from "src/helpers";
+import { convertGohmToOhm, formatNumber, nonNullable, parseBigNumber } from "src/helpers";
 import {
   useFuseBalance,
   useGohmBalance,
@@ -14,6 +14,7 @@ import {
   useV1SohmBalance,
   useWsohmBalance,
 } from "src/hooks/useBalances";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 
 const DECIMAL_PLACES_SHOWN = 4;
 
@@ -25,27 +26,6 @@ const formatBalance = (balance?: BigNumber, units: BigNumberish = 18) => {
   return balance && formatNumber(parseBigNumber(balance, units), DECIMAL_PLACES_SHOWN);
 };
 
-// const trimmedBalance = Number(
-//   [
-//     sohmBalance,
-//     gOhmAsSohm,
-//     gOhmOnArbAsSohm,
-//     gOhmOnAvaxAsSohm,
-//     gOhmOnPolygonAsSohm,
-//     gOhmOnFantomAsSohm,
-//     gOhmOnTokemakAsSohm,
-//     sohmV1Balance,
-//     wsohmAsSohm,
-//     fiatDaoAsSohm,
-//     fsohmBalance,
-//     fgOHMAsfsOHMBalance,
-//   ]
-//     .filter(Boolean)
-//     .map(balance => Number(balance))
-//     .reduce((a, b) => a + b, 0)
-//     .toFixed(4),
-// );
-
 export const StakeBalances = () => {
   const { data: ohmBalance } = useOhmBalance();
   const { data: sohmBalance } = useSohmBalance();
@@ -54,6 +34,37 @@ export const StakeBalances = () => {
   const { data: v1sohmBalance } = useV1SohmBalance();
   const { data: gohmFuseBalance } = useFuseBalance();
   const { data: gohmTokemakBalance } = useGohmTokemakBalance();
+
+  const { data: currentIndex } = useCurrentIndex();
+
+  const totalSohmBalance = [ohmBalance, sohmBalance, v1sohmBalance]
+    .filter(nonNullable)
+    .map(map => Object.values(map).reduce((res, bal) => res.add(bal), BigNumber.from(0)))
+    .reduce((res, bal) => res.add(bal), BigNumber.from(0));
+
+  const totalGohmBalanceAsSohm = [gohmBalance, wsohmBalance, gohmFuseBalance, gohmTokemakBalance]
+    .filter(nonNullable)
+    .map(mapOrBigNumber => {
+      if (mapOrBigNumber instanceof BigNumber) return mapOrBigNumber;
+
+      return Object.values(mapOrBigNumber).reduce((res, bal) => res.add(bal), BigNumber.from(0));
+    })
+    .reduce((res, bal) => {
+      if (!currentIndex) return BigNumber.from(0);
+
+      return res.add(convertGohmToOhm(bal, currentIndex));
+    }, BigNumber.from(0));
+
+  const totalStakedBalance = formatBalance(totalSohmBalance.mul(10 ** 9).add(totalGohmBalanceAsSohm.div(10 ** 9)), 27);
+
+  const allBalancesLoaded =
+    !!ohmBalance &&
+    !!sohmBalance &&
+    !!v1sohmBalance &&
+    !!gohmBalance &&
+    !!wsohmBalance &&
+    !!gohmFuseBalance &&
+    !!gohmTokemakBalance;
 
   return (
     <>
@@ -66,12 +77,11 @@ export const StakeBalances = () => {
 
       <Accordion className="stake-accordion" square defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
-          {/* TODO */}
           <DataRow
             id="user-staked-balance"
-            isLoading={!sohmBalance}
+            isLoading={!allBalancesLoaded}
             title={t`Total Staked Balance`}
-            balance={`${formatBalance(sohmBalance?.[NetworkId.MAINNET], 18)} sOHM`}
+            balance={`${totalStakedBalance} sOHM`}
           />
         </AccordionSummary>
 
