@@ -51,25 +51,16 @@ const Tender = () => {
     { balance: StakedBalance(), label: "sChicken", value: 1, allowance: StakedAllowance() },
     { balance: WrappedBalance(), label: "wsChicken", value: 2, allowance: WrappedAllowance() },
   ];
+  const hasBalances = tokens.some(token => token.balance > 0) ? true : false;
 
   //exchange rate of gOhm from Deposit
   const gOhmDepositExchangeRate =
     gOhmExchangeRate && index && ohmPrice && (gOhmExchangeRate * 1e17) / (index * ohmPrice);
 
-  //amount displayed on the redeem page
-  const claimAmount =
-    choice === 1
-      ? depositedBalance &&
-        gOhmExchangeRate &&
-        gOhmDepositExchangeRate &&
-        (depositedBalance * gOhmDepositExchangeRate) / 1e18
-      : choice === 0 && depositedBalance && daiExchangeRate && depositedBalance * daiExchangeRate;
-  const redeemableBalString = claimAmount ? `${trim(Number(claimAmount), 4)} ${choice ? "gOHM" : "DAI"}` : "0.00";
-
-  //If both exchange rates are positive and havent yet deposited, allow choice.
+  //If both exchange rates are positive and havent yet deposited, allow redemption choice.
   const allowChoice = daiExchangeRate > 0 && gOhmExchangeRate > 0 && !depositedBalance;
 
-  //disabled button if no token balance or contract failed state or quantity entered exceeds balance
+  //disabled button if no token balance or contract failed state or quantity entered exceeds balance or no quantity entered
   const depositButtonDisabled =
     !tokens[depositToken].balance ||
     escrowState === 1 ||
@@ -79,6 +70,7 @@ const Tender = () => {
     deposit.isLoading
       ? true
       : false;
+
   //disable if no deposited balance or escrow State === PENDING or redeemed or redeem loading or withdraw loading
   const redeemButtonDisabled =
     !Number(depositedBalance) || escrowState === 0 || didRedeem === true || redeem.isLoading || withdraw.isLoading
@@ -99,6 +91,16 @@ const Tender = () => {
     //Sets gOHM USD Equivalent value.
     gOhmPrice && gOhmExchangeRate && setgOHMValue((Number(amount) * gOhmExchangeRate) / gOhmPrice);
   };
+
+  //amounts displayed on the redeem page
+  const gOhmClaimAmount =
+    depositedBalance &&
+    gOhmExchangeRate &&
+    gOhmDepositExchangeRate &&
+    (depositedBalance * gOhmDepositExchangeRate) / 1e18;
+  const daiClaimAmount = depositedBalance && daiExchangeRate && depositedBalance * daiExchangeRate;
+  const claimAmount = choice === 1 ? gOhmClaimAmount : choice === 0 && daiClaimAmount;
+  const redeemableBalString = claimAmount ? `${trim(Number(claimAmount), 4)} ${choice ? "gOHM" : "DAI"}` : "0.00";
 
   //Check escrow state and assign variables.
   let redeemButtonText = `Redeem for ${redeemableBalString}`;
@@ -140,7 +142,6 @@ const Tender = () => {
     depositOnClick = () => approve.mutate(tokens[depositToken].value);
     depositButtonText = `Approve`;
   }
-
   //Change Button Text based on conditions
   approve.isLoading && (depositButtonText = "Approving...");
   deposit.isLoading && (depositButtonText = "Depositing...");
@@ -156,8 +157,6 @@ const Tender = () => {
   const handleTokenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDepositToken(Number((event.target as HTMLInputElement).value));
   };
-
-  const hasBalances = tokens.some(token => token.balance > 0) ? true : false;
 
   return (
     <div id="stake-view">
