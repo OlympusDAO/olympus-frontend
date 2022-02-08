@@ -81,7 +81,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
   bonds.sort((a: CustomBond, b: CustomBond) => b.bondDiscount! - a.bondDiscount!);
 
   const { amount: depositAmount } = tenderEscrowDeposits(address);
-  const tenderTokenBalance = tenderBalance(address);
+  const tenderTokenBalance = tenderBalance();
   const stakedTenderBalance = StakedBalance();
   const wrappedBalance = WrappedBalance();
 
