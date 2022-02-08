@@ -129,7 +129,7 @@ exports[`<Sidebar/> should render component 1`] = `
                             <p
                               class="MuiTypography-root MuiTypography-body2"
                             >
-                              Highest ROI
+                              Highest Discount
                             </p>
                           </div>
                           <div
