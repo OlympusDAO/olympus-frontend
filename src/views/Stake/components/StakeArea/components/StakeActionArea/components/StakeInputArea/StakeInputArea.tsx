@@ -93,7 +93,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                   className={classes.input}
                   endStringOnClick={setMax}
                   disabled={stakeMutation.isLoading}
-                  label={t`Enter an amount of ${fromToken}`}
+                  label={t`Enter an amount of` + ` ${fromToken}`}
                   onChange={event => setAmount(event.target.value)}
                 />
               </Grid>
