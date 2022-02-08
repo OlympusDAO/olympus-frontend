@@ -80,12 +80,6 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const wsOhmPrice = useAppSelector(state => state.app.marketPrice! * Number(state.app.currentIndex!));
   const gOHMPrice = wsOhmPrice;
 
-  /**
-   * V2!!! market price
-   */
-  const marketPrice = useAppSelector(state => {
-    return state.app.marketPrice;
-  });
   const approvedOhmBalance = useAppSelector(state => Number(state.account.migration.ohm));
   const approvedSOhmBalance = useAppSelector(state => Number(state.account.migration.sohm));
   const approvedWSOhmBalance = useAppSelector(state => Number(state.account.migration.wsohm));
@@ -94,7 +88,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const wsOhmFullApproval = approvedWSOhmBalance >= currentWSOhmBalance;
   const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
 
-  const ohmAsgOHM = currentOhmBalance / currentIndex;
+  const ohmAsgOHM = currentOhmBalance / indexV1;
   const sOHMAsgOHM = currentSOhmBalance / indexV1;
 
   const ohmInUSD = formatCurrency(gOHMPrice! * ohmAsgOHM);
