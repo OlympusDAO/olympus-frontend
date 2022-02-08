@@ -61,6 +61,10 @@ export const useTreasuryTotalBacking = () => {
   return useProtocolMetrics<number>(metrics => parseFloat(metrics.treasuryTotalBacking));
 };
 
+export const useTreasuryMarketValue = () => {
+  return useProtocolMetrics<number>(metrics => parseFloat(metrics.treasuryMarketValue));
+};
+
 export const useOhmCirculatingSupply = () => {
   return useProtocolMetrics<number>(metrics => parseFloat(metrics.ohmCirculatingSupply));
 };
