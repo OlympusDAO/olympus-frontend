@@ -51,7 +51,12 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const [amount, setAmount] = useState("");
   const addresses = fromToken === "OHM" ? OHM_ADDRESSES : fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
   const { data: balance } = useBalance(addresses);
-  const setMax = () => balance && setAmount(formatUnits(balance[NetworkId.MAINNET], fromToken === "gOHM" ? 36 : 18));
+
+  const setMax = () => {
+    if (!balance) return;
+
+    setAmount(formatUnits(balance[NetworkId.MAINNET], fromToken === "gOHM" ? 36 : 18));
+  };
 
   const stakeMutation = useStakeMutation(currentAction, stakedAssetType);
   const handleSubmit = (event: React.FormEvent<StakeFormElement>) => {
@@ -121,15 +126,15 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
       </Box>
 
       <Paper className="ohm-card confirm-dialog">
-        <Box className="dialog-container" display="flex" alignItems="center" justifyContent="space-between">
+        <Box display={[null, "flex"]} alignItems="center" justifyContent="space-between">
           <Grid component="label" container alignItems="center" spacing={1} wrap="nowrap">
             <Grid item>sOHM</Grid>
 
             <Grid item>
               <Switch
                 color="primary"
-                checked={stakedAssetType === "gOHM"}
                 className="stake-to-ohm-checkbox"
+                checked={stakedAssetType === "gOHM"}
                 inputProps={{ "aria-label": "stake to gohm" }}
                 onChange={(_, checked) => setStakedAssetType(checked ? "gOHM" : "sOHM")}
               />
@@ -145,7 +150,9 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
             </Grid>
           </Grid>
 
-          {amount && stakedAssetType === "gOHM" && <GOHMConversion amount={amount} action={currentAction} />}
+          <Box marginTop={[2, 0]} flexShrink={0}>
+            {stakedAssetType === "gOHM" && <GOHMConversion amount={amount} action={currentAction} />}
+          </Box>
         </Box>
       </Paper>
     </Box>
