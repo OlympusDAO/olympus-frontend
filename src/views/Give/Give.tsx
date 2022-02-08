@@ -62,6 +62,8 @@ function Give({ selectedIndex }: GiveProps) {
     if (newView === 0) {
       history.push("/give/");
     } else if (newView === 1) {
+      history.push("/give/grants");
+    } else if (newView === 2) {
       history.push("/give/donations/");
     } else {
       history.push("/give/redeem/");
@@ -103,18 +105,22 @@ function Give({ selectedIndex }: GiveProps) {
               style={{ height: "40px" }}
             >
               <Tab label={t`Causes`} {...a11yProps(0)} />
-              <Tab label={t`My Donations`} {...a11yProps(1)} />
-              <Tab label={t`Redeem`} {...a11yProps(2)} />
+              <Tab label={t`Grants`} {...a11yProps(1)} />
+              <Tab label={t`My Donations`} {...a11yProps(2)} />
+              <Tab label={t`Redeem`} {...a11yProps(3)} />
             </Tabs>
 
             <TabPanel value={view} index={0}>
               <CausesDashboard />
             </TabPanel>
             <TabPanel value={view} index={1}>
+              <Typography variant="body1">Grants</Typography>
+            </TabPanel>
+            <TabPanel value={view} index={2}>
               {/* We have a button to switch tabs in this child component, so need to pass the handler. */}
               <YieldRecipients changeView={buttonChangeView} />
             </TabPanel>
-            <TabPanel value={view} index={2}>
+            <TabPanel value={view} index={3}>
               <RedeemYield />
             </TabPanel>
           </Paper>

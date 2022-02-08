@@ -244,6 +244,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     const formattedGoalCompletion =
       countDecimals(goalCompletion) === 0 ? toInteger(goalCompletion) : roundToDecimal(goalCompletion);
 
+    if (depositGoal === 0) return <></>;
+
     return (
       <>
         <div className="cause-info-icon">
@@ -275,6 +277,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const renderGoalCompletionDetailed = (): JSX.Element => {
     const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
     const formattedTotalDonated = new BigNumber(parseFloat(totalDonated).toFixed(2)).toFormat();
+
+    if (depositGoal === 0) return <></>;
 
     return (
       <>
