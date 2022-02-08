@@ -7,7 +7,6 @@ import {
   FormLabel,
   Grid,
   LinearProgress,
-  Link,
   makeStyles,
   Radio,
   RadioGroup,
@@ -17,21 +16,13 @@ import {
   Typography,
 } from "@material-ui/core";
 import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons";
-import {
-  DataRow,
-  Icon,
-  InfoNotification,
-  InputWrapper,
-  Paper,
-  PrimaryButton,
-  Tab,
-  Tabs,
-} from "@olympusdao/component-library";
+import { DataRow, InputWrapper, Paper, PrimaryButton, Tab, Tabs } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useState } from "react";
 import { trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { useGohmPrice } from "src/hooks/usePrices";
 
+import { NotificationMessage } from "./NotificationMessage";
 import {
   Approve,
   Balance,
@@ -230,18 +221,6 @@ const Tender = () => {
       </Box>
       <Divider color="secondary" />
     </>
-  );
-
-  const NotificationMessage = () => (
-    <Box width="97%" maxWidth="833px">
-      <InfoNotification>
-        This is a very important message about redeeming your Chicken Tender Offer.
-        <Link href="#" style={{ marginLeft: "10px" }}>
-          Learn More
-          <Icon name="arrow-up" style={{ marginLeft: "2px", verticalAlign: "bottom" }} />
-        </Link>
-      </InfoNotification>
-    </Box>
   );
 
   const handleTokenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
