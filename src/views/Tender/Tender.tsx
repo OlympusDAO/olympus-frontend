@@ -6,13 +6,10 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
-  LinearProgress,
-  makeStyles,
   Radio,
   RadioGroup,
   SvgIcon,
   Switch,
-  Theme,
   Typography,
 } from "@material-ui/core";
 import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons";
@@ -22,7 +19,7 @@ import { trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { useGohmPrice } from "src/hooks/usePrices";
 
-import { NotificationMessage } from "./NotificationMessage";
+import { DepositLimitMessage, NotificationMessage, ProgressBar } from "./";
 import {
   Approve,
   Balance,
@@ -66,18 +63,6 @@ const Tender = () => {
     { balance: StakedBalance(), label: "sChicken", value: 1, allowance: StakedAllowance() },
     { balance: WrappedBalance(), label: "wsChicken", value: 2, allowance: WrappedAllowance() },
   ];
-  const useStyles = makeStyles<Theme>(() => ({
-    progress: {
-      backgroundColor: "#768299",
-      borderRadius: "4px",
-      marginTop: "3px",
-      marginBottom: "3px",
-      "& .MuiLinearProgress-barColorPrimary": {
-        backgroundColor: "#F8CC82",
-      },
-    },
-  }));
-  const classes = useStyles();
 
   //exchange rate of gOhm from Deposit
   const gOhmDepositExchangeRate =
@@ -92,7 +77,6 @@ const Tender = () => {
         (depositedBalance * gOhmDepositExchangeRate) / 1e18
       : choice === 0 && depositedBalance && daiExchangeRate && depositedBalance * daiExchangeRate;
   const redeemableBalString = claimAmount ? `${trim(Number(claimAmount), 4)} ${choice ? "gOHM" : "DAI"}` : "0.00";
-  const progressValue = totalDeposits && maxDeposits ? (totalDeposits / maxDeposits) * 100 : 0;
 
   //If both exchange rates are positive and havent yet deposited, allow choice.
   const allowChoice = daiExchangeRate > 0 && gOhmExchangeRate > 0 && !depositedBalance;
@@ -117,8 +101,6 @@ const Tender = () => {
   const usdValue = quantity ? new Intl.NumberFormat("en-US").format(Number(quantity) * 55) : 0;
   const gOhm = new Intl.NumberFormat("en-US").format(gOhmValue);
   const dai = new Intl.NumberFormat("en-US").format(daiValue);
-  const totalDepositsFormatted = totalDeposits && new Intl.NumberFormat("en-US").format(totalDeposits);
-  const maxDepositsFormatted = maxDeposits && new Intl.NumberFormat("en-US").format(maxDeposits);
 
   useEffect(() => {
     //mapping this to state so choice and redeemToken are always the same
@@ -188,14 +170,6 @@ const Tender = () => {
     setView(newView);
   };
 
-  const DepositLimitMessage = () => (
-    <Box display="flex" justifyContent="center" mt="10px" mb="10px">
-      <Typography variant="h5" color="textSecondary">
-        Deposit limit has been reached
-      </Typography>
-    </Box>
-  );
-
   const RedemptionToggle = () => (
     <>
       <Box
@@ -259,14 +233,7 @@ const Tender = () => {
     <div id="stake-view">
       <NotificationMessage />
       <Paper headerText={t`Chicken Tender Offer`}>
-        <Box display="flex" justifyContent={"center"} mb={"10px"}>
-          <Typography>
-            {totalDepositsFormatted}/{maxDepositsFormatted} Chickens Deposited
-          </Typography>
-        </Box>
-        <Box style={{ width: "50%", margin: "0 25%" }}>
-          <LinearProgress className={classes.progress} variant="determinate" value={progressValue} />
-        </Box>
+        <ProgressBar totalDeposits={totalDeposits} maxDeposits={maxDeposits} />
         <Box className="stake-action-area">
           <Tabs centered value={view} onChange={changeView} aria-label="stake tabs" style={{ marginBottom: ".25rem" }}>
             <Tab label={t`Deposit`} />
