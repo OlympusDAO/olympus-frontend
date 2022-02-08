@@ -8,8 +8,6 @@ This is the front-end repo for Olympus that allows users to be part of the futur
 
 We are moving at web3 speed and we are looking for talented contributors to boost this rocket. Take a look at our [CONTRIBUTING GUIDE](CONTRIBUTING.md) if you are considering joining a world class DAO.
 
-**_ Note We're currently in the process of switching to TypeScript. Please read this guide on how to use TypeScript for this repository. <https://github.com/OlympusDAO/olympus-frontend/wiki/TypeScript-Refactor-General-Guidelines> _**
-
 ## 🔧 Setting up Local Development
 
 Required:
@@ -67,6 +65,12 @@ Coverage thresholds are enforced via CI checks. If a new PR introduces regressio
 
 For integration testing automation that runs browser and remote API code as well as our own code, see the End-to-end (E2E) testing section below.
 
+### Mocking Remote API Calls
+
+Unit tests should minimize dependency on remote API calls. Remote API calls slow down test execution and they also occasionally error, which may fail tests for reasons outside the app code being tested. Live API calls should be tested in End-to-end/Integration tests.
+
+[Here is an example unit test](src/helpers/index.unit.test.js) that conditionally mocks API calls.
+
 ### Generative Testing
 
 We use [`fast-check`](https://github.com/dubzzz/fast-check) for generative testing which provides property-based coverage for ranges of input values.
@@ -96,11 +100,12 @@ To run the tests:
 ### sOHM Faucet
 
 - [0x800B3d87b77361F0D1d903246cA1F51b5acb43c9](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract)
-- to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`.
+- to retrieve test sOHMv1 click `Connect to Web3` and use function #3: `dripSOHM`.
 - After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
 
-Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
-Note: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sOHM, OHM, gOHM), you will first need to use the migration steps in the UI to convert from sOHM v1 to sOHM v2.
+_Note_: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
+
+_Note_: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sOHM, OHM, gOHM), you will first need to use the migration steps in the UI to convert from sOHM v1 to sOHM v2.
 
 ### wETH Faucet
 
