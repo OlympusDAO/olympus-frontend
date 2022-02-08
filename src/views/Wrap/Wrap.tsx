@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import { formatBalance } from "src/helpers";
 import { useAppSelector } from "src/hooks";
-import { useGohmBalance, useSohmBalance } from "src/hooks/useBalances";
+import { useGohmBalance, useSohmWalletBalanceData } from "src/hooks/useBalances";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 import { CurrentIndex, GOHMPrice, OHMPrice } from "src/views/TreasuryDashboard/components/Metric/Metric";
@@ -37,10 +37,9 @@ const Wrap: React.FC = () => {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
 
-  const sohmBalance = useSohmBalance()["data"]?.[NetworkId.MAINNET];
+  console.log(typeof networkId, typeof NetworkId.MAINNET, NetworkId[networkId], NetworkId["MAINNET"]);
+  const sohmBalance = useSohmWalletBalanceData()["data"];
   const gohmBalance = useGohmBalance()["data"]?.[NetworkId.MAINNET];
-  //  const gohmBalance = String(useGohmBalance()["data"]?.[NetworkId.MAINNET]);
-  //const sohmBalance = useAppSelector(state => state.account.balances && state.account.balances.sohm);
   const unwrapGohmAllowance = useAppSelector(state => state.account.wrapping && state.account.wrapping.gOhmUnwrap);
   const wrapSohmAllowance = useAppSelector(state => state.account.wrapping && state.account.wrapping.sohmWrap);
   const pendingTransactions = useAppSelector(state => state.pendingTransactions);

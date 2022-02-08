@@ -65,19 +65,22 @@ const getBalance = (balances: Balances, addressMap: AddressMap, networkId: Netwo
   return token ? parseUnits(token.balance, token.contract_decimals) : BigNumber.from(0);
 };
 
-/**
- * Returns a balance.
- * @param addressMap Address map of the token you want the balance of.
- */
-export const useBalance = <TAddressMap extends AddressMap = AddressMap>(addressMap: TAddressMap) => {
-  return useBalances<Record<keyof typeof addressMap, BigNumber>>(balances => {
+const selectBalance = <TAddressMap extends AddressMap>(addressMap: TAddressMap) => {
+  return (balances: Balances) => {
     return unstable_Object
       .keys(addressMap)
       .reduce(
         (prev, networkId) => Object.assign(prev, { [networkId]: getBalance(balances, addressMap, networkId) }),
         {} as Record<keyof typeof addressMap, BigNumber>,
       );
-  });
+  };
+};
+/**
+ * Returns a balance.
+ * @param addressMap Address map of the token you want the balance of.
+ */
+export const useBalance = <TAddressMap extends AddressMap = AddressMap>(addressMap: TAddressMap) => {
+  return useBalances<Record<keyof typeof addressMap, BigNumber>>(selectBalance(addressMap));
 };
 
 export const useOhmBalance = () => useBalance(OHM_ADDRESSES);
@@ -87,6 +90,28 @@ export const useWsohmBalance = () => useBalance(WSOHM_ADDRESSES);
 export const useV1OhmBalance = () => useBalance(V1_OHM_ADDRESSES);
 export const useV1SohmBalance = () => useBalance(V1_SOHM_ADDRESSES);
 export const useGohmTokemakBalance = () => useBalance(GOHM_TOKEMAK_ADDRESSES);
+
+/**
+ * Returns a balance for the connected network.
+ * @param addressMap Address map of the token you want the balance of.
+ */
+export const useWalletBalanceData = <TAddressMap extends AddressMap = AddressMap>(addressMap: TAddressMap) => {
+  const { networkId } = useWeb3Context();
+  return useBalances<BigNumber>((balances: Balances) => {
+    const balance = selectBalance(addressMap)(balances);
+    console.log(balance);
+    if (Object.prototype.hasOwnProperty.call(balance, networkId)) {
+      // @ts-ignore
+      return balance[networkId];
+    }
+    const error = "`The balance cannot be fetched for this network (${networkId})`";
+    console.error(error);
+    // NOTE: should we throw an error? Show an onscreen message?
+    return 0;
+  });
+};
+export const useSohmWalletBalanceData = () => useWalletBalanceData(SOHM_ADDRESSES);
+export const useGohmWalletBalanceData = () => useWalletBalanceData(GOHM_ADDRESSES);
 
 /**
  * Returns gOHM balance in Fuse
