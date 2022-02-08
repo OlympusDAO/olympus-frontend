@@ -29,6 +29,7 @@ import {
   StakedBalance,
   TotalDeposits,
   Withdraw,
+  WrappedBalance,
 } from "./queries";
 
 const Tender = () => {
@@ -41,6 +42,7 @@ const Tender = () => {
   const { data: gOhmPrice } = useGohmPrice();
   const tokenBalance = Balance(address);
   const stakedBalance = StakedBalance();
+  const wrappedBalance = WrappedBalance();
   const gOhmExchangeRate = GOhmExchangeRate();
   const daiExchangeRate = DaiExchangeRate();
   const { amount: depositedBalance, choice, index, ohmPrice, didRedeem } = Deposits(address);
@@ -263,7 +265,7 @@ const Tender = () => {
                 <DataRow title={t`Unstaked Balance`} balance={`${trim(Number(tokenBalance), 4)} Chicken`} />
                 <DataRow title={t`Staked Balances`} tooltip="Please swap for SPA">
                   <DataRow title={t`sChicken Balance`} balance={`${trim(Number(stakedBalance), 4)} sChicken`} />
-                  <DataRow title={t`wsChicken Balance`} balance={`${trim(Number(stakedBalance), 4)} wsChicken`} />
+                  <DataRow title={t`wsChicken Balance`} balance={`${trim(Number(wrappedBalance), 4)} wsChicken`} />
                 </DataRow>
                 <DataRow title={t`Deposited Balance`} balance={`${depositedBalance} Chicken `} />
                 <DataRow title={t`Redeemable Balance if Accepted`} balance={redeemableBalString} />
