@@ -16,13 +16,13 @@ import { IERC20 } from "src/typechain";
 
 export const Balance = (address: string) => {
   const tenderTokenContract = useTokenContract(TENDER_ADDRESSES);
-  return BalanceHelper(tenderTokenContract);
+  return BalanceHelper(tenderTokenContract, "tokenContract");
 };
 
-const BalanceHelper = (contractAddress: IERC20) => {
+const BalanceHelper = (contractAddress: IERC20, key: string) => {
   const { address } = useWeb3Context();
-  const { isLoading, data } = useQuery(
-    ["tenderBalanceOf", address],
+  const { data } = useQuery(
+    ["tenderBalanceOf", address, key],
     async () => {
       if (contractAddress && address) {
         const balance = await contractAddress.balanceOf(address);
@@ -36,12 +36,12 @@ const BalanceHelper = (contractAddress: IERC20) => {
 
 export const StakedBalance = () => {
   const stakingContract = useTokenContract(STAKED_TENDER_ADDRESSES);
-  return BalanceHelper(stakingContract);
+  return BalanceHelper(stakingContract, "stakedContract");
 };
 
 export const WrappedBalance = () => {
   const wrappedContract = useTokenContract(WRAPPED_TENDER_ADDRESSES);
-  return BalanceHelper(wrappedContract);
+  return BalanceHelper(wrappedContract, "wrappedContract");
 };
 
 export const CrossChainBalanceCheck = (address: string) => {
@@ -50,8 +50,8 @@ export const CrossChainBalanceCheck = (address: string) => {
     async () => {
       if (address) {
         const bal = await balancesOf(address, NetworkId.FANTOM);
-        const chicken = bal.find(address => address.contractAddress === TENDER_ADDRESSES[NetworkId.FANTOM]);
-        if (chicken && parseInt(chicken.balance) > 0) {
+        const token = bal.find(address => address.contractAddress === TENDER_ADDRESSES[NetworkId.FANTOM]);
+        if (token && parseInt(token.balance) > 0) {
           return true;
         }
         return false;
