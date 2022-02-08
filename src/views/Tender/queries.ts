@@ -14,7 +14,7 @@ import { balancesOf } from "src/lib/fetchBalances";
 import { queryClient } from "src/lib/react-query";
 import { IERC20 } from "src/typechain";
 
-export const Balance = (address: string) => {
+export const Balance = () => {
   const tenderTokenContract = useTokenContract(TENDER_ADDRESSES);
   return BalanceHelper(tenderTokenContract, "tokenContract");
 };
@@ -28,10 +28,11 @@ const BalanceHelper = (contractAddress: IERC20, key: string) => {
         const balance = await contractAddress.balanceOf(address);
         return parseBigNumber(balance);
       }
+      return 0;
     },
     { enabled: !!contractAddress && !!address },
   );
-  return data;
+  return data || 0;
 };
 
 export const StakedBalance = () => {
@@ -77,7 +78,7 @@ export const GOhmExchangeRate = () => {
     },
     { enabled: !!tenderEscrowContract },
   );
-  return data;
+  return data || 0;
 };
 
 export const DaiExchangeRate = () => {
@@ -92,7 +93,7 @@ export const DaiExchangeRate = () => {
     },
     { enabled: !!tenderEscrowContract },
   );
-  return data;
+  return data || 0;
 };
 
 export const Deposits = (address: string) => {
@@ -127,7 +128,7 @@ export const TotalDeposits = () => {
     },
     { enabled: !!tenderEscrowContract },
   );
-  return data;
+  return data || 0;
 };
 
 export const MaxDeposits = () => {
@@ -142,7 +143,7 @@ export const MaxDeposits = () => {
     },
     { enabled: !!tenderEscrowContract },
   );
-  return data;
+  return data || 0;
 };
 
 //
@@ -198,15 +199,15 @@ export const Redeem = () => {
   );
 };
 
-export const Deposit = (quantity: number, redemptionToken: number) => {
+//TODO need to add depositToken to deposit call once new contract is deployed
+export const Deposit = () => {
   const queryClient = useQueryClient();
   const { provider } = useWeb3Context();
   const signer = provider.getSigner();
   const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
-  const amount = quantity * 1e9;
   return useMutation(
-    async () => {
-      const data = await tenderEscrowContract.deposit(amount, redemptionToken);
+    async (deposit: { quantity: number; redeemToken: number; depositToken: number }) => {
+      const data = await tenderEscrowContract.deposit(deposit.quantity * 1e9, deposit.redeemToken);
       return data.wait();
     },
     {
@@ -219,18 +220,33 @@ export const Deposit = (quantity: number, redemptionToken: number) => {
   );
 };
 
-export const Allowance = (address: string) => {
+export const UnstakedAllowance = () => {
   const tenderTokenContract = useTokenContract(TENDER_ADDRESSES);
+  return AllowanceHelper(tenderTokenContract, "unstakedAllowance");
+};
+
+export const StakedAllowance = () => {
+  const stakedTokenAddress = useTokenContract(STAKED_TENDER_ADDRESSES);
+  return AllowanceHelper(stakedTokenAddress, "stakedAllowance");
+};
+
+export const WrappedAllowance = () => {
+  const wrappedTokenAddress = useTokenContract(WRAPPED_TENDER_ADDRESSES);
+  return AllowanceHelper(wrappedTokenAddress, "wrappedAllowance");
+};
+
+const AllowanceHelper = (contractAddress: IERC20, key: string) => {
+  const { address } = useWeb3Context();
   const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
   const { data } = useQuery(
-    ["Allowance", address],
+    ["Allowance", address, key],
     async () => {
-      const data = await tenderTokenContract.allowance(address, tenderEscrowContract.address);
+      const data = await contractAddress.allowance(address, tenderEscrowContract.address);
       return parseBigNumber(data);
     },
-    { enabled: !!tenderTokenContract && !!tenderEscrowContract },
+    { enabled: !!contractAddress && !!tenderEscrowContract },
   );
-  return data;
+  return data || 0;
 };
 
 export const Approve = () => {
@@ -238,10 +254,13 @@ export const Approve = () => {
   const { provider, networkId } = useWeb3Context();
   const signer = provider.getSigner();
   const tenderTokenContract = useTokenContract(TENDER_ADDRESSES, signer);
+  const stakedTokenContract = useTokenContract(STAKED_TENDER_ADDRESSES, signer);
+  const wrappedTokenContract = useTokenContract(WRAPPED_TENDER_ADDRESSES, signer);
+  const contractArray = [tenderTokenContract, stakedTokenContract, wrappedTokenContract];
   const escrowAddress = TENDER_ESCROW_ADDRESSES[networkId];
   return useMutation(
-    async () => {
-      const data = await tenderTokenContract.approve(
+    async (token: number) => {
+      const data = await contractArray[token].approve(
         escrowAddress,
         ethers.utils.parseUnits("1000000000", "gwei").toString(),
       );

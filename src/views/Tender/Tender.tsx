@@ -1,5 +1,22 @@
 import { t } from "@lingui/macro";
-import { Box, Divider, Grid, LinearProgress, Link, makeStyles, Switch, Theme, Typography } from "@material-ui/core";
+import {
+  Box,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  LinearProgress,
+  Link,
+  makeStyles,
+  Radio,
+  RadioGroup,
+  SvgIcon,
+  Switch,
+  Theme,
+  Typography,
+} from "@material-ui/core";
+import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons";
 import {
   DataRow,
   Icon,
@@ -16,7 +33,6 @@ import { useWeb3Context } from "src/hooks";
 import { useGohmPrice } from "src/hooks/usePrices";
 
 import {
-  Allowance,
   Approve,
   Balance,
   DaiExchangeRate,
@@ -26,9 +42,12 @@ import {
   GOhmExchangeRate,
   MaxDeposits,
   Redeem,
+  StakedAllowance,
   StakedBalance,
   TotalDeposits,
+  UnstakedAllowance,
   Withdraw,
+  WrappedAllowance,
   WrappedBalance,
 } from "./queries";
 
@@ -40,20 +59,22 @@ const Tender = () => {
   const [daiValue, setDaiValue] = useState(0);
   const [gOhmValue, setgOHMValue] = useState(0);
   const { data: gOhmPrice } = useGohmPrice();
-  const tokenBalance = Balance(address);
-  const stakedBalance = StakedBalance();
-  const wrappedBalance = WrappedBalance();
   const gOhmExchangeRate = GOhmExchangeRate();
   const daiExchangeRate = DaiExchangeRate();
   const { amount: depositedBalance, choice, index, ohmPrice, didRedeem } = Deposits(address);
   const totalDeposits = TotalDeposits();
   const maxDeposits = MaxDeposits();
   const escrowState = EscrowState();
-  const allowance = Allowance(address);
   const approve = Approve();
-  const deposit = Deposit(quantity, redeemToken);
+  const deposit = Deposit();
   const redeem = Redeem();
   const withdraw = Withdraw();
+  const [depositToken, setDepositToken] = useState(0);
+  const tokens = [
+    { balance: Balance(), label: "Chicken", value: 0, allowance: UnstakedAllowance() },
+    { balance: StakedBalance(), label: "sChicken", value: 1, allowance: StakedAllowance() },
+    { balance: WrappedBalance(), label: "wsChicken", value: 2, allowance: WrappedAllowance() },
+  ];
   const useStyles = makeStyles<Theme>(() => ({
     progress: {
       backgroundColor: "#768299",
@@ -83,14 +104,14 @@ const Tender = () => {
   const progressValue = totalDeposits && maxDeposits ? (totalDeposits / maxDeposits) * 100 : 0;
 
   //If both exchange rates are positive and havent yet deposited, allow choice.
-  const allowChoice =
-    daiExchangeRate && daiExchangeRate > 0 && gOhmExchangeRate && gOhmExchangeRate > 0 && !depositedBalance;
+  const allowChoice = daiExchangeRate > 0 && gOhmExchangeRate > 0 && !depositedBalance;
 
   //disabled button if no token balance or contract failed state or quantity entered exceeds balance
   const depositButtonDisabled =
-    !Number(tokenBalance) ||
+    !tokens[depositToken].balance ||
     escrowState === 1 ||
-    quantity > Number(tokenBalance) ||
+    quantity > tokens[depositToken].balance ||
+    !quantity ||
     approve.isLoading ||
     deposit.isLoading
       ? true
@@ -155,11 +176,12 @@ const Tender = () => {
   //check allowance and set onclick / button text
   let depositOnClick: () => void;
   let depositButtonText: string;
-  if (allowance && allowance > 0) {
-    depositOnClick = () => deposit.mutate();
+  if (tokens[depositToken].allowance > 0) {
+    depositOnClick = () => deposit.mutate({ quantity, redeemToken, depositToken: tokens[depositToken].value });
     depositButtonText = `Deposit for ${redemptionToken()}`;
   } else {
-    depositOnClick = () => approve.mutate();
+    //Mutate based on depositToken choice 0=unstaked, 1=staked, 2=wrapped
+    depositOnClick = () => approve.mutate(tokens[depositToken].value);
     depositButtonText = `Approve`;
   }
 
@@ -222,6 +244,38 @@ const Tender = () => {
     </Box>
   );
 
+  const handleTokenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDepositToken(Number((event.target as HTMLInputElement).value));
+  };
+
+  const hasBalances = tokens.some(token => token.balance > 0) ? true : false;
+
+  const TokenSelector = () => (
+    <FormControl component="fieldset">
+      <FormLabel component="legend">Deposit Token</FormLabel>
+      <RadioGroup name="tokenGroup" value={depositToken} onChange={handleTokenChange} row>
+        {tokens.map((token, index) => {
+          if (token.balance > 0) {
+            return (
+              <FormControlLabel
+                value={index}
+                control={
+                  <Radio
+                    icon={<SvgIcon component={RadioButtonUnchecked} viewBox="0 0 24 24" />}
+                    checkedIcon={<SvgIcon component={RadioButtonChecked} viewBox="0 0 24 24" />}
+                    disableRipple={true}
+                    color="primary"
+                  />
+                }
+                label={token.label}
+                key={index}
+              />
+            );
+          }
+        })}
+      </RadioGroup>
+    </FormControl>
+  );
   return (
     <div id="stake-view">
       <NotificationMessage />
@@ -245,6 +299,7 @@ const Tender = () => {
                 <DepositLimitMessage />
               ) : (
                 <>
+                  {hasBalances && <TokenSelector />}
                   <InputWrapper
                     id="amount-input"
                     type="number"
@@ -253,20 +308,24 @@ const Tender = () => {
                     onChange={e => Number(e.target.value) >= 0 && setDeposit(Number(e.target.value))}
                     labelWidth={0}
                     endString={t`Max`}
-                    endStringOnClick={() => tokenBalance && setDeposit(tokenBalance)}
+                    endStringOnClick={() => setDeposit(tokens[depositToken].balance)}
                     buttonText={depositButtonText}
                     buttonOnClick={depositOnClick}
                     disabled={depositButtonDisabled}
                   />
+
                   {allowChoice && <RedemptionToggle />}
                 </>
               )}
               <Grid item>
-                <DataRow title={t`Unstaked Balance`} balance={`${trim(Number(tokenBalance), 4)} Chicken`} />
-                <DataRow title={t`Staked Balances`} tooltip="Please swap for SPA">
-                  <DataRow title={t`sChicken Balance`} balance={`${trim(Number(stakedBalance), 4)} sChicken`} />
-                  <DataRow title={t`wsChicken Balance`} balance={`${trim(Number(wrappedBalance), 4)} wsChicken`} />
-                </DataRow>
+                {tokens.map((token, index) => (
+                  <DataRow
+                    key={index}
+                    title={`${token.label} ${t`Balance`}`}
+                    balance={`${trim(Number(token.balance), 4)} ${token.label}`}
+                  />
+                ))}
+                <Divider color="secondary" />
                 <DataRow title={t`Deposited Balance`} balance={`${depositedBalance} Chicken `} />
                 <DataRow title={t`Redeemable Balance if Accepted`} balance={redeemableBalString} />
               </Grid>
