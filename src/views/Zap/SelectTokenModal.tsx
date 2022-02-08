@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import {
   Avatar,
   Box,
@@ -14,18 +14,25 @@ import {
   SvgIcon,
   Typography,
 } from "@material-ui/core";
+import { Token } from "@olympusdao/component-library";
 import { trim } from "src/helpers";
 import { ZapperToken } from "src/helpers/ZapHelper";
 
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
+const NATIVE_TOKENS = ["sOHM", "wsOHM"];
+
 function SelectTokenModal(
   handleClose: () => void,
   modalOpen: boolean,
   isTokensLoading: boolean,
-  tokens: { [key: string]: ZapperToken },
-  handleSelectZapToken: { (token: string): void; (arg0: string): void },
+
+  handleSelectToken: { (token: string): void },
   zapperCredit: JSX.Element,
+  tokens: {
+    regularTokens?: { [key: string]: ZapperToken };
+    output?: boolean;
+  },
 ) {
   return (
     <Dialog
@@ -44,7 +51,7 @@ function SelectTokenModal(
           </Button>
           <Box paddingRight={6}>
             <Typography id="migration-modal-title" variant="h6" component="h2">
-              <Trans>Select Zap Token</Trans>
+              {t`Select ${tokens.output ? "Output" : "Input"} Token`}
             </Typography>
           </Box>
           <Box />
@@ -68,23 +75,40 @@ function SelectTokenModal(
         ) : (
           <Paper style={{ maxHeight: 300, overflow: "auto", borderRadius: 10 }}>
             <List>
-              {Object.entries(tokens)
-                .filter(token => !token[1].hide)
-                .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
-                .map(token => (
-                  <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
+              {tokens.regularTokens &&
+                Object.entries(tokens.regularTokens)
+                  .filter(token => !token[1].hide)
+                  .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
+                  .map(token => (
+                    <ListItem button onClick={() => handleSelectToken(token[0])} key={token[1].symbol}>
+                      <ListItemAvatar>
+                        <Avatar src={token[1].tokenImageUrl} />
+                      </ListItemAvatar>
+                      <ListItemText primary={token[1].symbol} />
+                      <Box flexGrow={10} />
+                      <ListItemText
+                        // style={{ primary: { justify: "center" } }}
+                        primary={`$${trim(token[1].balanceUSD, 2)}`}
+                        secondary={trim(token[1].balance, 4)}
+                      />
+                    </ListItem>
+                  ))}
+              {tokens.output && (
+                <>
+                  <ListItem button onClick={() => handleSelectToken("sOHM")} key={"sOHM"}>
                     <ListItemAvatar>
-                      <Avatar src={token[1].tokenImageUrl} />
+                      <Token name={"sOHM"} />
                     </ListItemAvatar>
-                    <ListItemText primary={token[1].symbol} />
-                    <Box flexGrow={10} />
-                    <ListItemText
-                      // style={{ primary: { justify: "center" } }}
-                      primary={`$${trim(token[1].balanceUSD, 2)}`}
-                      secondary={trim(token[1].balance, 4)}
-                    />
+                    <ListItemText primary={"sOHM"} />
                   </ListItem>
-                ))}
+                  <ListItem button onClick={() => handleSelectToken("gOHM")} key={"gOHM"}>
+                    <ListItemAvatar>
+                      <Token name={"wsOHM"} />
+                    </ListItemAvatar>
+                    <ListItemText primary={"gOHM"} />
+                  </ListItem>
+                </>
+              )}
             </List>
           </Paper>
         )}

@@ -95,6 +95,7 @@ export interface IZapAsyncThunk extends IBaseAddressAsyncThunk {
   readonly sellAmount: BigNumber;
   readonly slippage: string;
   readonly minimumAmount: string;
+  readonly gOHM: boolean;
 }
 
 // Account Slice

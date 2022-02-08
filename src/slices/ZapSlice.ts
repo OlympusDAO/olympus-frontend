@@ -113,7 +113,7 @@ export const getZapTokenBalances = createAsyncThunk(
 export const executeZap = createAsyncThunk(
   "zap/executeZap",
   async (
-    { provider, address, sellAmount, slippage, tokenAddress, networkID, minimumAmount }: IZapAsyncThunk,
+    { provider, address, sellAmount, slippage, tokenAddress, networkID, minimumAmount, gOHM }: IZapAsyncThunk,
     { dispatch },
   ) => {
     if (!zapNetworkAvailable(networkID, dispatch)) return;
@@ -132,8 +132,8 @@ export const executeZap = createAsyncThunk(
         tx = await zapContract.ZapStake(
           tokenAddress,
           sellAmount,
-          addresses[networkID].SOHM_V2,
-          ethers.utils.parseUnits(minimumAmount, 9),
+          gOHM ? addresses[networkID].GOHM_ADDRESS : addresses[networkID].SOHM_V2,
+          ethers.utils.parseUnits(minimumAmount, gOHM ? 18 : 9),
           rawTransactionData.to,
           rawTransactionData.data,
           address,
@@ -143,8 +143,8 @@ export const executeZap = createAsyncThunk(
         tx = await zapContract.ZapStake(
           tokenAddress,
           sellAmount,
-          addresses[networkID].SOHM_V2,
-          ethers.utils.parseUnits(minimumAmount, 9),
+          gOHM ? addresses[networkID].GOHM_ADDRESS : addresses[networkID].SOHM_V2,
+          ethers.utils.parseUnits(minimumAmount, gOHM ? 18 : 9),
           rawTransactionData.to,
           rawTransactionData.data,
           address,
