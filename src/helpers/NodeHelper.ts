@@ -1,9 +1,9 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { ethers } from "ethers";
-import { NetworkId } from "src/constants";
+import { NetworkId } from "src/networkDetails";
 
 import { EnvHelper } from "./Environment";
-import { minutesAgo } from "./index";
+import { minutesAgo } from "./timeUtil";
 
 interface ICurrentStats {
   failedConnectionCount: number;
