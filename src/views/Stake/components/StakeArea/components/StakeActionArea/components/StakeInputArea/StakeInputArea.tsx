@@ -48,16 +48,13 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
   const fromToken = currentAction === "STAKE" ? "OHM" : stakedAssetType;
 
+  // Max balance stuff
   const [amount, setAmount] = useState("");
   const addresses = fromToken === "OHM" ? OHM_ADDRESSES : fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
   const { data: balance } = useBalance(addresses);
+  const setMax = () => balance && setAmount(formatUnits(balance[NetworkId.MAINNET], fromToken === "gOHM" ? 36 : 18));
 
-  const setMax = () => {
-    if (!balance) return;
-
-    setAmount(formatUnits(balance[NetworkId.MAINNET], fromToken === "gOHM" ? 36 : 18));
-  };
-
+  // Staking mutation stuff
   const stakeMutation = useStakeMutation(currentAction, stakedAssetType);
   const handleSubmit = (event: React.FormEvent<StakeFormElement>) => {
     event.preventDefault();

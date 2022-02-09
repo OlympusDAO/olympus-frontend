@@ -8,14 +8,19 @@ export const GOHMConversion: React.FC<{ amount: string; action: "STAKE" | "UNSTA
 
   if (!currentIndex || !props.amount || isNaN(Number(props.amount))) return null;
 
-  const convertOhm = (amount: string) => formatUnits(convertOhmToGohm(parseUnits(amount, 9), currentIndex), 9);
-  const convertGohm = (amount: string) => formatUnits(convertGohmToOhm(parseUnits(amount, 18), currentIndex), 18);
+  const [integer, decimals] = props.amount.split(".");
+
+  // We only ever care about the first 9 decimals to prevent underflow errors
+  const _amount = decimals ? `${integer}.${decimals.substring(0, 9)}` : integer;
+
+  const amountInGohm = formatUnits(convertOhmToGohm(parseUnits(_amount, 9), currentIndex), 9);
+  const amountInSohm = formatUnits(convertGohmToOhm(parseUnits(_amount, 18), currentIndex), 18);
 
   return (
     <Typography variant="body2">
       {props.action === "STAKE"
-        ? `Stake ${props.amount} OHM → ${convertOhm(props.amount)} gOHM`
-        : `Unstake ${props.amount} gOHM → ${convertGohm(props.amount)} OHM`}
+        ? `Stake ${props.amount} OHM → ${amountInGohm} gOHM`
+        : `Unstake ${props.amount} gOHM → ${amountInSohm} OHM`}
     </Typography>
   );
 };
