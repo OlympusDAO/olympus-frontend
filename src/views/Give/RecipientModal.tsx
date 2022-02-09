@@ -1,14 +1,22 @@
 import { isAddress } from "@ethersproject/address";
+import { t, Trans } from "@lingui/macro";
 import { Box, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { FormControl, FormHelperText } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { Input, PrimaryButton } from "@olympusdao/component-library";
+import { InfoTooltip } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { Project } from "src/components/GiveProject/project.type";
+import { NetworkId } from "src/constants";
+import { shorten } from "src/helpers";
+import { EnvHelper } from "src/helpers/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
 import {
   changeApproval,
@@ -20,18 +28,7 @@ import {
 
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ArrowGraphic, VaultGraphic, WalletGraphic, YieldGraphic } from "../../components/EducationCard";
-import { getTokenImage } from "../../helpers";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
-const sOhmImg = getTokenImage("sohm");
-import { t, Trans } from "@lingui/macro";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ChevronLeft } from "@material-ui/icons";
-import { InfoTooltip } from "@olympusdao/component-library";
-import { useLocation } from "react-router-dom";
-import { NetworkId } from "src/constants";
-import { shorten } from "src/helpers";
-import { EnvHelper } from "src/helpers/Environment";
-
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
