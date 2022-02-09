@@ -5,8 +5,7 @@ import { FormControl, FormHelperText } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { Input, PrimaryButton } from "@olympusdao/component-library";
-import { InfoTooltip } from "@olympusdao/component-library";
+import { Icon, InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,7 +23,6 @@ import {
   PENDING_TXN_GIVE_APPROVAL,
 } from "src/slices/GiveThunk";
 
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ArrowGraphic, VaultGraphic, WalletGraphic, YieldGraphic } from "../../components/EducationCard";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
@@ -371,7 +369,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     // Otherwise an "x" to close the modal
     return (
       <Link onClick={() => cancelFunc()}>
-        <SvgIcon color="primary" component={XIcon} />
+        <Icon name="x" />
       </Link>
     );
   };
