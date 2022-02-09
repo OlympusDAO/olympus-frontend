@@ -1,10 +1,8 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Dialog, DialogTitle, FormControl, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Dialog, DialogTitle, FormControl, Typography } from "@material-ui/core";
 import { Input, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { SetStateAction, useEffect, useState } from "react";
 import { trim } from "src/helpers";
-
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 
 function SlippageModal(
   handleClose: () => void,
@@ -52,9 +50,7 @@ function SlippageModal(
               <Trans>Adjust Slippage</Trans>
             </Typography>
           </Box>
-          <Button onClick={handleClose}>
-            <SvgIcon component={XIcon} color="primary" />
-          </Button>
+          <PrimaryButton icon="x" template="text" onClick={handleClose} />
         </Box>
       </DialogTitle>
       <Box paddingX="36px" paddingBottom="36px">
@@ -99,7 +95,6 @@ function SlippageModal(
             <Typography>Adjust Slippage</Typography>
           </PrimaryButton>
         </Box>
-        {/* </Paper> */}
         {zapperCredit}
       </Box>
     </Dialog>
