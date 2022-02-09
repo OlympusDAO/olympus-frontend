@@ -243,9 +243,20 @@
         margin-bottom: -2px;
       }
 
+      .cause-link {
+        width: 100%;
+      }
+
       .cause-give-button {
         height: 40px;
         width: 12rem;
+        margin-left: auto;
+        margin-right: 0;
+      }
+
+      .grant-give-button {
+        height: 40px;
+        width: 100%;
         margin-left: auto;
         margin-right: 0;
       }

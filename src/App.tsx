@@ -33,10 +33,12 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
+import grantData from "src/views/Give/grants.json";
 import projectData from "src/views/Give/projects.json";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
+import GrantInfo from "./views/Give/GrantInfo";
 import ProjectInfo from "./views/Give/ProjectInfo";
 
 // 😬 Sorry for all the console logging
@@ -107,6 +109,7 @@ function App() {
 
   const [walletChecked, setWalletChecked] = useState(false);
 
+  const { grants } = grantData;
   const { projects } = projectData;
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
@@ -370,12 +373,26 @@ function App() {
               })}
             </Route>
 
-            <Route exact path="/give/donations">
+            <Route exact path="/give/grants">
               <Give selectedIndex={1} />
             </Route>
 
-            <Route exact path="/give/redeem">
+            <Route path="/give/grants">
+              {grants.map(grant => {
+                return (
+                  <Route exact key={grant.slug} path={`/give/grants/${grant.slug}`}>
+                    <GrantInfo grant={grant} />
+                  </Route>
+                );
+              })}
+            </Route>
+
+            <Route exact path="/give/donations">
               <Give selectedIndex={2} />
+            </Route>
+
+            <Route exact path="/give/redeem">
+              <Give selectedIndex={3} />
             </Route>
 
             <Route path="/wrap">

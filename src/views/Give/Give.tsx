@@ -11,6 +11,7 @@ import { isSupportedChain } from "src/slices/GiveThunk";
 
 import CausesDashboard from "./CausesDashboard";
 import { GiveInfo } from "./GiveInfo";
+import GrantsDashboard from "./GrantsDashboard";
 import RedeemYield from "./RedeemYield";
 import YieldRecipients from "./YieldRecipients";
 
@@ -62,7 +63,7 @@ function Give({ selectedIndex }: GiveProps) {
     if (newView === 0) {
       history.push("/give/");
     } else if (newView === 1) {
-      history.push("/give/grants");
+      history.push("/give/grants/");
     } else if (newView === 2) {
       history.push("/give/donations/");
     } else {
@@ -114,7 +115,7 @@ function Give({ selectedIndex }: GiveProps) {
               <CausesDashboard />
             </TabPanel>
             <TabPanel value={view} index={1}>
-              <Typography variant="body1">Grants</Typography>
+              <GrantsDashboard />
             </TabPanel>
             <TabPanel value={view} index={2}>
               {/* We have a button to switch tabs in this child component, so need to pass the handler. */}

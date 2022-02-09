@@ -1,5 +1,5 @@
 {
-  "projects": [
+  "grants": [
     {
       "title": "Playgrounds",
       "owner": "",
@@ -20,7 +20,7 @@
       "shortDescription": "A one-stop shop to supercharge Olympus. Built by people for people.",
       "details": "Mover is a decentralized, community-led project focused on democratizing savings. We created a range of permissionless savings products, along with the crypto debit card. And now, we have partnered with Olympus to make decentralized payments even simpler and easily accessible! As the first step, Mover is working on the permissionless gasless transactions, just like the one you are using right now in Olympus Give. We are excited to work very closely with Ohmies to bring the grand vision of the new reserve currency being used in our daily lives as our next steps. Thank you for your support (577,577).",
       "finishDate": "",
-      "photos": ["/assets/images/grants/playgrounds/mover_icon_circle.svg"],
+      "photos": ["/assets/images/grants/mover/mover_icon_circle.svg"],
       "category": "",
       "wallet": "0xf6A0307cb6aA05D7C19d080A0DA9B14eAB1050b7",
       "depositGoal": 0,
@@ -33,7 +33,7 @@
       "shortDescription": "Join Bored Elon and the MetaMars community as we shape the red planet and the future of humanity with games! BYOJoypad!",
       "details": "As humankind strives for Mars with ever increasing urgency, Bored Elon invites you to be amongst the first settlers of the Red Planet. MetaMars is your Martian home from home where you will partake of various curated Martian experiences, including high quality Mars-themed action/arcade games from the Bored studio as well as third party experiences coming in the future, all tied together under a player ownership economy backed by OHM. Long term roadmap leads to an open world multiplayer roleplaying experience with a working economy and PvE/PvP goals. With the project already running for over 9 months, MetaMars is an enthusiastic community of curious early investors who followed a cryptic trail of breadcrumbs to find the discord and this growing gaming Metaverse. These intrepid few hold a Mars coin (see website for more details), the low supply origin token of MetaMars, a requirement for access to the discord during the early access phase.",
       "finishDate": "",
-      "photos": [],
+      "photos": ["/assets/images/grants/metamars/metamars_logo.svg"],
       "category": "",
       "wallet": "0x92F3D5B780c6b83e6eFAaEC3bA15a0F52877D183",
       "depositGoal": 0,
