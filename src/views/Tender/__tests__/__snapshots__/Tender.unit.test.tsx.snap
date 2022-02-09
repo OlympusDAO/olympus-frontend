@@ -105,63 +105,6 @@ exports[`Tender Snapshots should render <RedemptionToggle /> 1`] = `
 </div>
 `;
 
-exports[`Tender Snapshots should render <RedemptionToggle /> 2`] = `
-<div>
-  <div
-    class="MuiBox-root MuiBox-root-31"
-  >
-    <p
-      class="MuiTypography-root MuiTypography-body1"
-    >
-      Deposit 
-      0
-       Chicken for $
-      0
-       DAI
-    </p>
-    <span
-      class="MuiSwitch-root"
-    >
-      <span
-        aria-disabled="false"
-        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-32 MuiSwitch-switchBase"
-      >
-        <span
-          class="MuiIconButton-label"
-        >
-          <input
-            class="PrivateSwitchBase-input-35 MuiSwitch-input"
-            type="checkbox"
-            value=""
-          />
-          <span
-            class="MuiSwitch-thumb"
-          />
-        </span>
-      </span>
-      <span
-        class="MuiSwitch-track"
-      />
-    </span>
-    <p
-      class="MuiTypography-root MuiTypography-body1"
-    >
-      Deposit 
-      0
-       Chicken for 
-      0
-       gOHM (~$
-      0
-      )
-    </p>
-  </div>
-  <hr
-    class="MuiDivider-root"
-    color="secondary"
-  />
-</div>
-`;
-
 exports[`Tender Snapshots should render <Tender/> 1`] = `
 <div>
   <div
