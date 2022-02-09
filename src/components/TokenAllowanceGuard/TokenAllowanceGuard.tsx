@@ -3,7 +3,6 @@ import { Box, Grid, makeStyles, Theme, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { PrimaryButton } from "@olympusdao/component-library";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
-import { parseBigNumber } from "src/helpers";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 
 import { useApproveToken } from "./hooks/useApproveToken";
@@ -53,16 +52,26 @@ export const TokenAllowanceGuard: React.FC<{ token: "OHM" | "sOHM" | "gOHM" }> =
       </Grid>
     );
 
-  if (parseBigNumber(allowance, props.token === "gOHM" ? 18 : 9) === 0)
+  if (allowance.eq(0))
     return (
       <Grid container className={classes.inputRow}>
         <Grid item xs={12} sm={8} className={classes.gridItem}>
           <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Typography variant="body1" className="stake-note" color="textSecondary">
-              <Trans>First time {props.token === "OHM" ? "staking" : "unstaking"}</Trans> <b>{props.token}</b>?
-              <br />
-              <Trans>Please approve Olympus Dao to use your</Trans> <b>{props.token}</b>{" "}
-              <Trans>for {props.token === "OHM" ? "staking" : "unstaking"}</Trans>.
+              {props.token === "OHM" ? (
+                <>
+                  <Trans>First time staking</Trans> <b>OHM</b>?
+                  <br />
+                  <Trans>Please approve Olympus Dao to use your</Trans> <b>OHM</b> <Trans>for staking</Trans>.
+                </>
+              ) : (
+                <>
+                  <Trans>First time unstaking</Trans> <b>{props.token}</b>?
+                  <br />
+                  <Trans>Please approve Olympus Dao to use your</Trans> <b>{props.token}</b>{" "}
+                  <Trans>for unstaking</Trans>.
+                </>
+              )}
             </Typography>
           </Box>
         </Grid>
