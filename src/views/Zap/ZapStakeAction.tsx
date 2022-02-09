@@ -6,6 +6,7 @@ import {
   ButtonBase,
   FormControl,
   Grid,
+  IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
@@ -13,7 +14,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { SecondaryButton, Token } from "@olympusdao/component-library";
+import { Icon, Token } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -303,7 +304,7 @@ const ZapStakeAction: React.FC = () => {
           </Box>
         )}
       </FormControl>
-      <Box marginY="12px" minHeight="24px" display="flex" justifyContent="center" alignItems="center" width="100%">
+      <Box minHeight="24px" display="flex" justifyContent="center" alignItems="center" width="100%">
         {downIcon}
       </Box>
 
@@ -376,7 +377,7 @@ const ZapStakeAction: React.FC = () => {
         flexDirection="row"
         display="flex"
         width="100%"
-        marginY="8px"
+        marginY="4px"
         alignItems="center"
       >
         <Typography>
@@ -385,7 +386,9 @@ const ZapStakeAction: React.FC = () => {
         <Box display="flex" alignItems="center">
           <Typography>{customSlippage}%</Typography>
           <Box width="8px" />
-          <SecondaryButton icon="settings" template="secondary" size="small" onClick={handleSlippageModalOpen} />
+          <IconButton name="settings" onClick={handleSlippageModalOpen} className="zap-settings-icon">
+            <Icon name="settings" className="zap-settings-icon" />
+          </IconButton>
         </Box>
       </Box>
       <Box justifyContent="space-between" flexDirection="row" display="flex" width="100%" marginY="8px">

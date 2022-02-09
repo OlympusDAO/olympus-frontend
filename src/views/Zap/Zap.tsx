@@ -44,7 +44,6 @@ const Zap: React.FC = () => {
               </div>
             ) : (
               <Box className="stake-action-area">
-                <Box alignSelf="center" minWidth="420px" width="80%"></Box>
                 <ZapStakeAction />
               </Box>
             )}

@@ -12,6 +12,13 @@
   }
 }
 
+.zap-settings-icon {
+  height: 12px;
+  width: 12px;
+  margin: 0;
+  padding: 0;
+}
+
 @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
   .MuiBackdrop-root {
     background: rgba(100, 100, 100, 0.33) !important;
@@ -120,12 +127,11 @@
   flex-wrap: wrap;
   width: 100%;
   justify-content: space-around;
-  margin-top: 10px;
 }
 
 .zap-input {
   width: 100%;
-  margin-block: 20px;
+  margin-block: 12px;
   min-height: 70px;
 }
 
