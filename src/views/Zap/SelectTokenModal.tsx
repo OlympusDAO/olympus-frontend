@@ -46,15 +46,15 @@ function SelectTokenModal(
     >
       <DialogTitle>
         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
+          <Box />
+          <Box paddingLeft={6}>
+            <Typography id="migration-modal-title" variant="h6" component="h2">
+              {t`Select Token`}
+            </Typography>
+          </Box>
           <Button onClick={handleClose}>
             <SvgIcon component={XIcon} color="primary" />
           </Button>
-          <Box paddingRight={6}>
-            <Typography id="migration-modal-title" variant="h6" component="h2">
-              {t`Select ${tokens.output ? "Output" : "Input"} Token`}
-            </Typography>
-          </Box>
-          <Box />
         </Box>
       </DialogTitle>
       <Box paddingX="36px" paddingBottom="36px" paddingTop="12px">

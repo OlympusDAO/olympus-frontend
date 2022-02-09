@@ -6,7 +6,6 @@ import {
   ButtonBase,
   FormControl,
   Grid,
-  IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
@@ -14,7 +13,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Icon, Token } from "@olympusdao/component-library";
+import { SecondaryButton, Token } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -296,7 +295,7 @@ const ZapStakeAction: React.FC = () => {
             <Button variant="contained" className="zap-input" onClick={handleOpen} color="primary">
               <Box flexDirection="row" display="flex" alignItems="center" justifyContent="end" flexGrow={1}>
                 <Typography>
-                  <Trans>Select Input Token</Trans>
+                  <Trans>Select Token</Trans>
                 </Typography>
                 {downIcon}
               </Box>
@@ -324,7 +323,7 @@ const ZapStakeAction: React.FC = () => {
             >
               <Box flexDirection="row" display="flex" alignItems="center" justifyContent="end" flexGrow={1}>
                 <Typography>
-                  <Trans>Select Output Token</Trans>
+                  <Trans>Select Token</Trans>
                 </Typography>
                 {downIcon}
               </Box>
@@ -377,7 +376,7 @@ const ZapStakeAction: React.FC = () => {
         flexDirection="row"
         display="flex"
         width="100%"
-        marginY="12px"
+        marginY="8px"
         alignItems="center"
       >
         <Typography>
@@ -386,12 +385,10 @@ const ZapStakeAction: React.FC = () => {
         <Box display="flex" alignItems="center">
           <Typography>{customSlippage}%</Typography>
           <Box width="8px" />
-          <IconButton style={{ margin: 0, padding: 0 }} onClick={handleSlippageModalOpen}>
-            <Icon name="settings" />
-          </IconButton>
+          <SecondaryButton icon="settings" template="secondary" size="small" onClick={handleSlippageModalOpen} />
         </Box>
       </Box>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" width="100%" marginY="12px">
+      <Box justifyContent="space-between" flexDirection="row" display="flex" width="100%" marginY="8px">
         <Typography>
           <Trans>Exchange Rate</Trans>
         </Typography>
@@ -404,7 +401,7 @@ const ZapStakeAction: React.FC = () => {
         justifyContent="space-between"
         flexDirection="row"
         display="flex"
-        marginTop="12px"
+        marginTop="8px"
         marginBottom="36px"
         width="100%"
       >

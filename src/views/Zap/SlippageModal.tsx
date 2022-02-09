@@ -55,15 +55,15 @@ function SlippageModal(
     >
       <DialogTitle>
         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
-          <Button onClick={handleClose}>
-            <SvgIcon component={XIcon} color="primary" />
-          </Button>
-          <Box paddingRight={6}>
+          <Box />
+          <Box paddingLeft={6}>
             <Typography id="migration-modal-title" variant="h6" component="h2">
               <Trans>Adjust Slippage</Trans>
             </Typography>
           </Box>
-          <Box />
+          <Button onClick={handleClose}>
+            <SvgIcon component={XIcon} color="primary" />
+          </Button>
         </Box>
       </DialogTitle>
       <Box paddingX="36px" paddingBottom="36px">

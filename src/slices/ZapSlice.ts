@@ -176,6 +176,8 @@ export const executeZap = createAsyncThunk(
       const rpcError = e as any;
       if (rpcError.message.indexOf("High Slippage") > 0) {
         dispatch(error(`Transaction would fail due to slippage. Please use a higher slippage tolerance value.`));
+      } else if (rpcError.message.indexOf("TRANSFER_AMOUNT_EXCEEDS_BALANCE") > 0) {
+        dispatch(error(`Insufficient balance.`));
       } else {
         dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
       }
