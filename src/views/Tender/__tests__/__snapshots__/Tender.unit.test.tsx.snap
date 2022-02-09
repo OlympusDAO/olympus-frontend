@@ -1,0 +1,377 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tender Snapshots should render <DepositLimitMessage /> 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-22"
+  >
+    <h5
+      class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+    >
+      Deposit limit has been reached
+    </h5>
+  </div>
+</div>
+`;
+
+exports[`Tender Snapshots should render <ProgressBar /> 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-24"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body1"
+    >
+      0
+      /
+      0
+       Chickens Deposited
+    </p>
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-25"
+    style="width: 50%; margin: 0px 25%;"
+  >
+    <div
+      aria-valuemax="100"
+      aria-valuemin="0"
+      aria-valuenow="0"
+      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary makeStyles-progress-23 MuiLinearProgress-determinate"
+      role="progressbar"
+    >
+      <div
+        class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+        style="transform: translateX(-100%);"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Tender Snapshots should render <RedemptionToggle /> 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-26"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body1"
+    >
+      Deposit 
+      0
+       Chicken for $
+      0
+       DAI
+    </p>
+    <span
+      class="MuiSwitch-root"
+    >
+      <span
+        aria-disabled="false"
+        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-27 MuiSwitch-switchBase"
+      >
+        <span
+          class="MuiIconButton-label"
+        >
+          <input
+            class="PrivateSwitchBase-input-30 MuiSwitch-input"
+            type="checkbox"
+            value=""
+          />
+          <span
+            class="MuiSwitch-thumb"
+          />
+        </span>
+      </span>
+      <span
+        class="MuiSwitch-track"
+      />
+    </span>
+    <p
+      class="MuiTypography-root MuiTypography-body1"
+    >
+      Deposit 
+      0
+       Chicken for 
+      0
+       gOHM (~$
+      0
+      )
+    </p>
+  </div>
+  <hr
+    class="MuiDivider-root"
+    color="secondary"
+  />
+</div>
+`;
+
+exports[`Tender Snapshots should render <RedemptionToggle /> 2`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-31"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body1"
+    >
+      Deposit 
+      0
+       Chicken for $
+      0
+       DAI
+    </p>
+    <span
+      class="MuiSwitch-root"
+    >
+      <span
+        aria-disabled="false"
+        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-32 MuiSwitch-switchBase"
+      >
+        <span
+          class="MuiIconButton-label"
+        >
+          <input
+            class="PrivateSwitchBase-input-35 MuiSwitch-input"
+            type="checkbox"
+            value=""
+          />
+          <span
+            class="MuiSwitch-thumb"
+          />
+        </span>
+      </span>
+      <span
+        class="MuiSwitch-track"
+      />
+    </span>
+    <p
+      class="MuiTypography-root MuiTypography-body1"
+    >
+      Deposit 
+      0
+       Chicken for 
+      0
+       gOHM (~$
+      0
+      )
+    </p>
+  </div>
+  <hr
+    class="MuiDivider-root"
+    color="secondary"
+  />
+</div>
+`;
+
+exports[`Tender Snapshots should render <Tender/> 1`] = `
+<div>
+  <div
+    id="stake-view"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-1"
+    >
+      <div
+        class="MuiCollapse-root MuiCollapse-entered"
+        style="min-height: 0px;"
+      >
+        <div
+          class="MuiCollapse-wrapper"
+        >
+          <div
+            class="MuiCollapse-wrapperInner"
+          >
+            <div
+              class="MuiPaper-root MuiAlert-root MuiAlert-filledInfo makeStyles-root-2 MuiPaper-elevation0"
+              role="alert"
+            >
+              <div
+                class="MuiAlert-message"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-5"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root makeStyles-icon-3 MuiSvgIcon-fontSizeSmall"
+                    focusable="false"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                    />
+                  </svg>
+                  <div
+                    class="MuiBox-root MuiBox-root-7"
+                  />
+                  <div
+                    class="MuiBox-root MuiBox-root-8"
+                  >
+                    <p
+                      class="MuiTypography-root makeStyles-text-4 MuiTypography-body1"
+                    >
+                      This is a very important message about redeeming your Chicken Tender Offer.
+                      <a
+                        class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                        href="#"
+                        style="margin-left: 10px;"
+                      >
+                        Learn More
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                          focusable="false"
+                          style="margin-left: 2px; vertical-align: bottom;"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                          />
+                        </svg>
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root makeStyles-root-9 makeStyles-root-10  MuiPaper-elevation0 MuiPaper-rounded"
+      style="transform: none;"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+      >
+        <div
+          class="MuiGrid-root card-header MuiGrid-item"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-11"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-12"
+            >
+              <h5
+                class="MuiTypography-root header-text MuiTypography-h5"
+              >
+                Chicken Tender Offer
+              </h5>
+            </div>
+            <div
+              class="top-right"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-14"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1"
+            >
+              0
+              /
+              0
+               Chickens Deposited
+            </p>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-15"
+            style="width: 50%; margin: 0px 25%;"
+          >
+            <div
+              aria-valuemax="100"
+              aria-valuemin="0"
+              aria-valuenow="0"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary makeStyles-progress-13 MuiLinearProgress-determinate"
+              role="progressbar"
+            >
+              <div
+                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                style="transform: translateX(-100%);"
+              />
+            </div>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-16 stake-action-area"
+          >
+            <div
+              class="MuiTabs-root makeStyles-root-17 undefined"
+              style="margin-bottom: .25rem;"
+            >
+              <div
+                class="MuiTabs-scroller MuiTabs-fixed"
+                style="overflow: hidden;"
+              >
+                <div
+                  aria-label="stake tabs"
+                  class="MuiTabs-flexContainer MuiTabs-centered"
+                  role="tablist"
+                >
+                  <button
+                    aria-controls="simple-tabpanel-0"
+                    aria-selected="true"
+                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected"
+                    id="simple-tab-0"
+                    role="tab"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <span
+                      class="MuiTab-wrapper"
+                    >
+                      Deposit
+                    </span>
+                  </button>
+                  <button
+                    aria-controls="simple-tabpanel-1"
+                    aria-selected="false"
+                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
+                    id="simple-tab-1"
+                    role="tab"
+                    tabindex="-1"
+                    type="button"
+                  >
+                    <span
+                      class="MuiTab-wrapper"
+                    >
+                      Redeem
+                    </span>
+                  </button>
+                </div>
+                <span
+                  class="PrivateTabIndicator-root-18 PrivateTabIndicator-colorPrimary-19 MuiTabs-indicator"
+                  style="left: 0px; width: 0px;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Tender Snapshots should render <TokenSelector /> 1`] = `
+<div>
+  <fieldset
+    class="MuiFormControl-root"
+    style="margin-top: 5px;"
+  >
+    <legend
+      class="MuiFormLabel-root"
+    >
+      Deposit Token
+    </legend>
+    <div
+      class="MuiFormGroup-root MuiFormGroup-row"
+      role="radiogroup"
+    />
+  </fieldset>
+</div>
+`;
