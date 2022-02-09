@@ -162,22 +162,6 @@ describe("Tender Snapshots", () => {
     );
     expect(container).toMatchSnapshot();
   });
-  it("should render <RedemptionToggle />", () => {
-    const { container } = render(
-      <QueryClientProvider client={queryClient}>
-        <RedemptionToggle
-          quantity={0}
-          daiValue={0}
-          redeemToken={0}
-          onChange={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-          gOhmValue={0}
-        />
-      </QueryClientProvider>,
-    );
-    expect(container).toMatchSnapshot();
-  });
   it("should render <TokenSelector />", () => {
     const { container } = render(
       <QueryClientProvider client={queryClient}>
