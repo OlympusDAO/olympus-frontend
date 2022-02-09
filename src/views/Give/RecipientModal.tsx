@@ -4,7 +4,7 @@ import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { PrimaryButton, TextButton } from "@olympusdao/component-library";
+import { Input, PrimaryButton, TextButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -326,15 +326,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               <Trans>Recipient</Trans>
             </Typography>
           </div>
-          <FormControl className="modal-input" variant="outlined" color="primary">
-            <OutlinedInput
-              id="wallet-input"
-              type="text"
-              className="stake-input"
-              value={getRecipientTitle()}
-              disabled={true}
-            />
-          </FormControl>{" "}
+          <Input id="wallet-input" label={getRecipientTitle()} disabled={true} />
         </>
       );
     }
