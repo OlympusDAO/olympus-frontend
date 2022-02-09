@@ -2,8 +2,6 @@ import { isAddress } from "@ethersproject/address";
 import { t, Trans } from "@lingui/macro";
 import { Box, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { FormControl, FormHelperText } from "@material-ui/core";
-import { InputLabel } from "@material-ui/core";
-import { OutlinedInput } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
@@ -340,20 +338,14 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
             children={null}
           />
         </div>
-        <FormControl className="modal-input" variant="outlined" color="primary">
-          <InputLabel htmlFor="wallet-input"></InputLabel>
-          <OutlinedInput
-            id="wallet-input"
-            type="text"
-            placeholder={t`Enter a wallet address in the form of 0x ...`}
-            className="stake-input"
-            value={walletAddress}
-            error={!isWalletAddressValid}
-            onChange={e => handleSetWallet(e.target.value)}
-            labelWidth={0}
-          />
-          <FormHelperText>{isWalletAddressValidError}</FormHelperText>
-        </FormControl>{" "}
+        <Input
+          id="wallet-input"
+          placeholder={t`Enter a wallet address in the form of 0x ...`}
+          value={walletAddress}
+          error={!isWalletAddressValid}
+          onChange={e => handleSetWallet(e.target.value)}
+          helperText={!isWalletAddressValid ? isWalletAddressValidError : ""}
+        />
       </>
     );
   };
