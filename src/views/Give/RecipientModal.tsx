@@ -1,10 +1,10 @@
 import { isAddress } from "@ethersproject/address";
 import { Box, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
-import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
+import { FormControl, FormHelperText } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Input, PrimaryButton, TextButton } from "@olympusdao/component-library";
+import { Input, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -445,37 +445,22 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
             children={null}
           />
         </div>
-        <FormControl className="modal-input" variant="outlined" color="primary">
-          <InputLabel htmlFor="amount-input"></InputLabel>
-          <OutlinedInput
-            id="amount-input"
-            type="number"
-            placeholder={t`Enter an amount`}
-            className="stake-input"
-            value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
-            error={!isDepositAmountValid}
-            onChange={e => handleSetDepositAmount(e.target.value)}
-            labelWidth={0}
-            startAdornment={
-              <InputAdornment position="start">
-                <div className="logo-holder">{sOhmImg}</div>
-              </InputAdornment>
-            }
-            endAdornment={
-              <InputAdornment position="end">
-                <TextButton onClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}>
-                  <Trans>Max</Trans>
-                </TextButton>
-              </InputAdornment>
-            }
-          />
-          <FormHelperText>{isDepositAmountValidError}</FormHelperText>
-          <div className="give-staked-balance">
-            <Typography variant="body2" align="left">
-              {`${t`Your current Staked Balance is `} ${getSOhmBalance().toFixed(2)} sOHM`}
-            </Typography>
-          </div>
-        </FormControl>
+        <Input
+          id="amount-input"
+          placeholder={t`Enter an amount`}
+          type="number"
+          value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+          helperText={
+            isDepositAmountValid
+              ? t`Your current Staked Balance is ${getSOhmBalance().toFixed(2)} sOHM`
+              : isDepositAmountValidError
+          }
+          onChange={e => handleSetDepositAmount(e.target.value)}
+          error={!isDepositAmountValid}
+          startAdornment="sOHM"
+          endString={t`Max`}
+          endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
+        />
         {getRecipientElements()}
         {
           /* We collapse the education graphics on mobile screens */

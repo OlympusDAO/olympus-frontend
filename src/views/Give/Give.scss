@@ -829,6 +829,7 @@
   }
 
   .project-modal-top {
+    margin-top: 16px;
     margin-bottom: 1rem;
   }
 
@@ -838,16 +839,6 @@
 
     .MuiBox-root {
       margin-bottom: 1rem;
-    }
-  }
-
-  .modal-input {
-    width: 100%;
-    max-width: 100%;
-    padding-bottom: 1rem;
-
-    .MuiFormHelperText-root {
-      color: red;
     }
   }
 
