@@ -153,9 +153,7 @@ export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement =
   }
   return (
     <Fragment>
-      <span style={bond.discount > 0.003 ? { color: "#3ba56c" } : {}}>
-        {bond.discount && trim(bond.discount * 100, 2)}%
-      </span>
+      <span style={bond.discount < 0 ? { color: "red" } : {}}>{bond.discount && trim(bond.discount * 100, 2)}%</span>
     </Fragment>
   );
 };

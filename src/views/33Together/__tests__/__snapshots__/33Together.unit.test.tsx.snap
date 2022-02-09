@@ -42,7 +42,7 @@ exports[`<PoolTogether/> should render component 1`] = `
             class="MuiBox-root MuiBox-root-6 pool-timer"
           >
             <div
-              class="MuiBox-root MuiBox-root-32 pool-timer-unit"
+              class="MuiBox-root MuiBox-root-39 pool-timer-unit"
             >
               <h3
                 class="MuiTypography-root MuiTypography-h3"
@@ -59,7 +59,7 @@ exports[`<PoolTogether/> should render component 1`] = `
               </p>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-33 pool-timer-unit"
+              class="MuiBox-root MuiBox-root-40 pool-timer-unit"
             >
               <h3
                 class="MuiTypography-root MuiTypography-h3"
@@ -76,7 +76,7 @@ exports[`<PoolTogether/> should render component 1`] = `
               </p>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-34 pool-timer-unit"
+              class="MuiBox-root MuiBox-root-41 pool-timer-unit"
             >
               <h3
                 class="MuiTypography-root MuiTypography-h3"
@@ -93,7 +93,7 @@ exports[`<PoolTogether/> should render component 1`] = `
               </p>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-35 pool-timer-unit"
+              class="MuiBox-root MuiBox-root-42 pool-timer-unit"
             >
               <h3
                 class="MuiTypography-root MuiTypography-h3"
@@ -273,30 +273,18 @@ exports[`<PoolTogether/> should render component 1`] = `
             <div
               class="makeStyles-root-26 data-row"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              <div
+                class="MuiBox-root MuiBox-root-50"
               >
-                Winners / prize period
-              </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                >
+                  Winners / prize period
+                </p>
+              </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
-              >
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                  style="width: 80px;"
-                />
-              </p>
-            </div>
-            <div
-              class="makeStyles-root-26 data-row"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
-              >
-                Total Deposits
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
@@ -307,13 +295,18 @@ exports[`<PoolTogether/> should render component 1`] = `
             <div
               class="makeStyles-root-26 data-row"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              <div
+                class="MuiBox-root MuiBox-root-51"
               >
-                Total Sponsorship
-              </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                >
+                  Total Deposits
+                </p>
+              </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
@@ -324,13 +317,40 @@ exports[`<PoolTogether/> should render component 1`] = `
             <div
               class="makeStyles-root-26 data-row"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              <div
+                class="MuiBox-root MuiBox-root-52"
               >
-                Yield Source
-              </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                >
+                  Total Sponsorship
+                </p>
+              </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  style="width: 80px;"
+                />
+              </p>
+            </div>
+            <div
+              class="makeStyles-root-26 data-row"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-53"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                >
+                  Yield Source
+                </p>
+              </div>
+              <p
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
               >
                 sOHM
               </p>
@@ -338,13 +358,18 @@ exports[`<PoolTogether/> should render component 1`] = `
             <div
               class="makeStyles-root-26 data-row"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              <div
+                class="MuiBox-root MuiBox-root-54"
               >
-                Pool owner
-              </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                >
+                  Pool owner
+                </p>
+              </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
               >
                 OlympusDAO
               </p>
@@ -356,13 +381,18 @@ exports[`<PoolTogether/> should render component 1`] = `
             <div
               class="makeStyles-root-26 data-row"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              <div
+                class="MuiBox-root MuiBox-root-55"
               >
-                Early Exit Fee
-              </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                >
+                  Early Exit Fee
+                </p>
+              </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
@@ -373,13 +403,18 @@ exports[`<PoolTogether/> should render component 1`] = `
             <div
               class="makeStyles-root-26 data-row"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              <div
+                class="MuiBox-root MuiBox-root-56"
               >
-                Exit Fee Decay Time
-              </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                >
+                  Exit Fee Decay Time
+                </p>
+              </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
@@ -393,7 +428,7 @@ exports[`<PoolTogether/> should render component 1`] = `
             color="secondary"
           />
           <div
-            class="MuiBox-root MuiBox-root-28"
+            class="MuiBox-root MuiBox-root-35"
           >
             <p
               class="MuiTypography-root MuiTypography-body1"
@@ -402,11 +437,11 @@ exports[`<PoolTogether/> should render component 1`] = `
             </p>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-29"
+            class="MuiBox-root MuiBox-root-36"
           >
             <a
               aria-disabled="false"
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-30 undefined MuiButton-outlinedSecondary MuiButton-disableElevation"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-37 undefined MuiButton-outlinedSecondary MuiButton-disableElevation"
               href="https://app.pooltogether.com/pools/mainnet/sOHM"
               tabindex="0"
               target="_blank"
@@ -436,7 +471,7 @@ exports[`<PoolTogether/> should render component 1`] = `
             >
               <a
                 aria-disabled="false"
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-31 undefined MuiButton-outlinedSecondary MuiButton-disableElevation"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-38 undefined MuiButton-outlinedSecondary MuiButton-disableElevation"
                 href="https://community.pooltogether.com/pools/mainnet/0xEaB695A8F5a44f583003A8bC97d677880D528248/manage#stats"
                 tabindex="0"
                 target="_blank"
