@@ -1,9 +1,10 @@
 import { isAddress } from "@ethersproject/address";
-import { Box, Button, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { PrimaryButton, TextButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -406,9 +407,9 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
             </Trans>
           </FormHelperText>
           <FormControl className="ohm-modal-submit">
-            <Button variant="contained" color="primary" className="connect-button" onClick={handleConnect}>
+            <PrimaryButton onClick={handleConnect}>
               <Trans>Connect Wallet</Trans>
-            </Button>
+            </PrimaryButton>
           </FormControl>
         </>
       );
@@ -429,14 +430,12 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
             </Typography>
           </Box>
           <FormControl className="ohm-modal-submit">
-            <Button
-              variant="contained"
-              color="primary"
+            <PrimaryButton
               disabled={isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading}
               onClick={onSeekApproval}
             >
               {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, t`Approve`)}
-            </Button>
+            </PrimaryButton>
           </FormControl>
         </>
       );
@@ -472,9 +471,9 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
             }
             endAdornment={
               <InputAdornment position="end">
-                <Button variant="text" onClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}>
+                <TextButton onClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}>
                   <Trans>Max</Trans>
-                </Button>
+                </TextButton>
               </InputAdornment>
             }
           />
@@ -501,9 +500,9 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
           )
         }
         <FormControl className="ohm-modal-submit">
-          <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
+          <PrimaryButton disabled={!canSubmit()} onClick={handleContinue}>
             <Trans>Continue</Trans>
-          </Button>
+          </PrimaryButton>
         </FormControl>
       </>
     );
@@ -546,13 +545,13 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
           </div>
         </Box>{" "}
         <FormControl className="ohm-modal-submit">
-          <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
+          <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit}>
             {txnButtonText(
               pendingTransactions,
               PENDING_TXN_GIVE,
               `${t`Confirm `} ${getDepositAmount().toFixed(2)} sOHM`,
             )}
-          </Button>
+          </PrimaryButton>
         </FormControl>
       </>
     );
