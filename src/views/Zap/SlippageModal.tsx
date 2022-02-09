@@ -1,15 +1,6 @@
 import { Trans } from "@lingui/macro";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogTitle,
-  FormControl,
-  InputAdornment,
-  OutlinedInput,
-  SvgIcon,
-  Typography,
-} from "@material-ui/core";
+import { Box, Button, Dialog, DialogTitle, FormControl, SvgIcon, Typography } from "@material-ui/core";
+import { Input, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { SetStateAction, useEffect, useState } from "react";
 import { trim } from "src/helpers";
 
@@ -74,28 +65,27 @@ function SlippageModal(
       <Box paddingX="64px" paddingBottom="16px">
         {/* <Paper style={{ maxHeight: 300, overflow: "auto", borderRadius: 10 }}> */}
         <FormControl className="slippage-input" variant="outlined" color="primary" size="small">
-          <OutlinedInput
-            id="zap-amount-input"
+          <Input
+            id="slippage"
             type="number"
-            placeholder="Enter Slippage Tolerance"
-            // className="slippage-input"
+            label="Slippage Tolerance"
             value={proposedSlippage}
             onChange={e => handleChangeProposedSlippage(e.target.value)}
-            endAdornment={<InputAdornment position="end">%</InputAdornment>}
+            endString="%"
           />
         </FormControl>
 
         <Box display="flex" flexDirection="row" justifyContent="space-between">
           {presetSlippageOptions.map(slippage => (
-            <Button variant="outlined" onClick={() => handleChangeProposedSlippage(slippage)}>
+            <SecondaryButton size="small" onClick={() => handleChangeProposedSlippage(slippage)}>
               <Typography>{`${slippage}%`}</Typography>
-            </Button>
+            </SecondaryButton>
           ))}
         </Box>
         <Box paddingY="16px">{errorState ? <Typography color="error">{errorState}</Typography> : null}</Box>
         <Box display="flex" justifyContent={"center"}>
-          <Button
-            variant="contained"
+          <PrimaryButton
+            size="small"
             color="primary"
             disabled={errorState != null}
             onClick={() => {
@@ -107,7 +97,7 @@ function SlippageModal(
             }}
           >
             <Typography>Adjust Slippage</Typography>
-          </Button>
+          </PrimaryButton>
         </Box>
         {/* </Paper> */}
         {zapperCredit}
