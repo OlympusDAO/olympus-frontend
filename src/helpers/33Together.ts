@@ -15,7 +15,11 @@ export const calculateOdds = (usersPoolBalance: string, totalPoolDeposits: numbe
   if (usersPoolBalance === undefined || Number(usersPoolBalance) === 0 || parseFloat(usersPoolBalance) === 0) {
     userOdds = "ngmi";
   } else {
-    userOdds = 1 / (1 - Math.pow((totalPoolDeposits - Number(usersPoolBalance)) / totalPoolDeposits, winners));
+    const uBal = Number(usersPoolBalance);
+    if (uBal < 0 || totalPoolDeposits < uBal || winners < 1) {
+      throw new Error("Invalid parameter values");
+    }
+    userOdds = 1 / (1 - Math.pow((totalPoolDeposits - uBal) / totalPoolDeposits, winners));
   }
   return userOdds;
 };
