@@ -216,7 +216,7 @@ interface INativeCurrency {
   decimals?: number;
 }
 
-interface INetwork {
+export interface INetwork {
   chainName: string;
   chainId: number;
   nativeCurrency: INativeCurrency;

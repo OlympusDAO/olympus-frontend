@@ -3,11 +3,12 @@ import "../Stake/Stake.scss";
 import { t } from "@lingui/macro";
 import { Box, Button, Divider, FormControl, Grid, Link, MenuItem, Select, Typography, Zoom } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { DataRow, Icon, InputWrapper, MetricCollection, Paper } from "@olympusdao/component-library";
+import { Icon, InputWrapper, MetricCollection, Paper } from "@olympusdao/component-library";
 import { useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
+import ChainButton from "src/components/ChainButton";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
-import { formatBalance } from "src/helpers";
+import { GOHMBalance, SOHMBalance } from "src/components/DataRows";
 import { useAppSelector } from "src/hooks";
 import { useGohmBalance, useSohmWalletBalanceData } from "src/hooks/useBalances";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -18,7 +19,6 @@ import { NetworkId, NETWORKS } from "../../constants";
 import { switchNetwork } from "../../helpers/NetworkHelper";
 import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
 import WrapCrossChain from "./WrapCrossChain";
-
 const Wrap: React.FC = () => {
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
@@ -34,8 +34,6 @@ const Wrap: React.FC = () => {
     return "Transform";
   };
   const currentAction = chooseCurrentAction();
-
-  const isAppLoading = useAppSelector(state => state.app.loading);
 
   const sohmBalance = useSohmWalletBalanceData().data;
   const gohmBalance = useGohmBalance()["data"]?.[NetworkId.MAINNET];
@@ -58,6 +56,7 @@ const Wrap: React.FC = () => {
 
   const handleSwitchChain = (id: number) => {
     return () => {
+      console.log("a");
       switchNetwork({ provider: provider, networkId: id });
     };
   };
@@ -263,34 +262,16 @@ const Wrap: React.FC = () => {
                   </Box>
                   <div className={`stake-user-data`}>
                     <>
-                      <DataRow
-                        title={t`sOHM Balance`}
-                        balance={`${formatBalance(sohmBalance, 36)} sOHM`}
-                        isLoading={isAppLoading}
-                      />
-                      <DataRow
-                        title={t`gOHM Balance`}
-                        balance={`${formatBalance(gohmBalance, 36)} gOHM`}
-                        isLoading={isAppLoading}
-                      />
+                      <SOHMBalance />
+                      <GOHMBalance />
                       <Divider />
                       <Box width="100%" p={1} sx={{ textAlign: "center" }}>
                         <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
                           Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no
                           bridge required!)
                         </Typography>
-                        <Button onClick={handleSwitchChain(43114)} variant="outlined" style={{ margin: "0.3rem" }}>
-                          <img height="28px" width="28px" src={String(avax.image)} alt={avax.imageAltText} />
-                          <Typography variant="h6" style={{ marginLeft: "8px" }}>
-                            {avax.chainName}
-                          </Typography>
-                        </Button>
-                        <Button onClick={handleSwitchChain(42161)} variant="outlined" style={{ margin: "0.3rem" }}>
-                          <img height="28px" width="28px" src={String(arbitrum.image)} alt={arbitrum.imageAltText} />
-                          <Typography variant="h6" style={{ marginLeft: "8px" }}>
-                            {arbitrum.chainName}
-                          </Typography>
-                        </Button>
+                        <ChainButton click={handleSwitchChain(avax.chainId)} network={avax}></ChainButton>
+                        <ChainButton click={handleSwitchChain(arbitrum.chainId)} network={arbitrum}></ChainButton>
                       </Box>
                     </>
                   </div>
