@@ -5,7 +5,7 @@ import { OHM_DAI_RESERVE_CONTRACT_DECIMALS, STAKING_CONTRACT_DECIMALS } from "sr
 import { assert, parseBigNumber, queryAssertion } from "src/helpers";
 import { ohm_dai } from "src/helpers/AllBonds";
 
-import { usePairContract } from "./useContract";
+import { useStaticPairContract } from "./useContract";
 import { useCurrentIndex } from "./useCurrentIndex";
 import { useStaticProvider } from "./useStaticProvider";
 
@@ -20,7 +20,7 @@ export const useOhmPrice = () => {
   const address = ohm_dai.getAddressForReserve(NetworkId.MAINNET);
   assert(address, "Contract should exist for NetworkId.MAINNET");
 
-  const reserveContract = usePairContract(address, provider);
+  const reserveContract = useStaticPairContract(address, provider);
 
   return useQuery<number, Error>(ohmPriceQueryKey(), async () => {
     const [ohm, dai] = await reserveContract.getReserves();

@@ -72,11 +72,11 @@ const createDynamicContract = <TContract extends Contract = Contract>(ABI: Contr
   };
 };
 
-export const useSohmContract = createStaticContract<SOhmv2>(SOHM_ABI);
-export const useTokenContract = createStaticContract<IERC20>(IERC20_ABI);
-export const useFuseContract = createStaticContract<FuseProxy>(FUSE_PROXY_ABI);
-export const usePairContract = createStaticContract<PairContract>(PAIR_CONTRACT_ABI);
-export const useStakingContract = createStaticContract<OlympusStakingv2>(STAKING_ABI);
+export const useStaticSohmContract = createStaticContract<SOhmv2>(SOHM_ABI);
+export const useStaticTokenContract = createStaticContract<IERC20>(IERC20_ABI);
+export const useStaticFuseContract = createStaticContract<FuseProxy>(FUSE_PROXY_ABI);
+export const useStaticPairContract = createStaticContract<PairContract>(PAIR_CONTRACT_ABI);
+export const useStaticStakingContract = createStaticContract<OlympusStakingv2>(STAKING_ABI);
 
 export const useDynamicTokenContract = createDynamicContract<IERC20>(IERC20_ABI);
 export const useDynamicStakingContract = createDynamicContract<OlympusStakingv2>(STAKING_ABI);
