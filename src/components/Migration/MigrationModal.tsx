@@ -55,7 +55,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
     );
   });
 
-  let rows = [];
+  let rows: any[] = [];
   const isMigrationComplete = useAppSelector(state => state.account.isMigrationComplete);
 
   const onSeekApproval = (token: string) => {
@@ -77,6 +77,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   const currentOhmBalance = useAppSelector(state => Number(state.account.balances.ohmV1));
   const currentSOhmBalance = useAppSelector(state => Number(state.account.balances.sohmV1));
   const currentWSOhmBalance = useAppSelector(state => Number(state.account.balances.wsohm));
+
   const wsOhmPrice = useAppSelector(state => state.app.marketPrice! * Number(state.app.currentIndex!));
   const gOHMPrice = wsOhmPrice;
 
@@ -137,6 +138,8 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
       usdBalance: wsOhmInUSD,
     },
   ];
+
+  // console.info(`MigrationModal rows after: [${rows}]`);
 
   return (
     <div>
