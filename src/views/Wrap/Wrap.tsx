@@ -37,8 +37,7 @@ const Wrap: React.FC = () => {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
 
-  console.log(typeof networkId, typeof NetworkId.MAINNET, NetworkId[networkId], NetworkId["MAINNET"]);
-  const sohmBalance = useSohmWalletBalanceData()["data"];
+  const sohmBalance = useSohmWalletBalanceData().data;
   const gohmBalance = useGohmBalance()["data"]?.[NetworkId.MAINNET];
   const unwrapGohmAllowance = useAppSelector(state => state.account.wrapping && state.account.wrapping.gOhmUnwrap);
   const wrapSohmAllowance = useAppSelector(state => state.account.wrapping && state.account.wrapping.sohmWrap);

@@ -17,6 +17,24 @@ export type CovalentResponse<Data = unknown> =
       error_message: string;
     };
 
+export type AlchemyResponse<Data = unknown> = {
+  jsonrpc: "2.0";
+  id: null | number;
+  result: Data;
+};
+export type AlchemyTokenBalance = {
+  contractAddress: string;
+  tokenBalance: string;
+  error: null | {
+    code: number;
+    message: string;
+  };
+};
+export type AlchemyTokenBalances = {
+  address: string;
+  tokenBalances: [AlchemyTokenBalance];
+};
+
 export type CovalentTokenBalance = {
   type: string;
   quote: number;

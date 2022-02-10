@@ -42,7 +42,6 @@ export const useBalances = <TSelectData = unknown>(select: (data: Balances) => T
 
       // Run all requests in parallel
       const responses = await Promise.all(promises);
-
       // Convert array of reponses back to a single object
       return unstable_Object
         .keys(covalent.SUPPORTED_NETWORKS)
@@ -61,8 +60,11 @@ const getBalance = (balances: Balances, addressMap: AddressMap, networkId: Netwo
   assert(tokenAddress, "addressMap[networkId] should always exist");
 
   const token = covalentTokens.find(token => token.contract_address.toLowerCase() === tokenAddress.toLowerCase());
-
-  return token ? parseUnits(token.balance, token.contract_decimals) : BigNumber.from(0);
+  if (token) {
+    const a = parseUnits(token.balance, token.contract_decimals);
+    return a;
+  }
+  return BigNumber.from(0);
 };
 
 const selectBalance = <TAddressMap extends AddressMap>(addressMap: TAddressMap) => {
@@ -99,12 +101,12 @@ export const useWalletBalanceData = <TAddressMap extends AddressMap = AddressMap
   const { networkId } = useWeb3Context();
   return useBalances<BigNumber>((balances: Balances) => {
     const balance = selectBalance(addressMap)(balances);
-    console.log(balance);
-    if (Object.prototype.hasOwnProperty.call(balance, networkId)) {
+
+    if (balance.hasOwnProperty(networkId)) {
       // @ts-ignore
       return balance[networkId];
     }
-    const error = "`The balance cannot be fetched for this network (${networkId})`";
+    const error = `The balance cannot be fetched for this network (${networkId})`;
     console.error(error);
     // NOTE: should we throw an error? Show an onscreen message?
     return 0;
