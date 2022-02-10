@@ -1,5 +1,5 @@
 import { isAddress } from "@ethersproject/address";
-import { Box, Button, Grid, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Button, Grid, Link, SvgIcon, Typography } from "@material-ui/core";
 import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
 import { InputLabel } from "@material-ui/core";
 import { OutlinedInput } from "@material-ui/core";
@@ -18,7 +18,7 @@ const sOhmImg = getTokenImage("sohm");
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
-import { InfoTooltip } from "@olympusdao/component-library";
+import { InfoTooltip, Modal } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
@@ -346,8 +346,6 @@ export function ManageDonationModal({
     }
   };
 
-  // TODO stop modal from moving when validation messages are shown
-
   // NOTE: the following warning is caused by the amount-input field:
   // Warning: `value` prop on `%s` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.%s
   // This is caused by this line (currently 423):
@@ -358,32 +356,28 @@ export function ManageDonationModal({
 
   // TODO re-arrange the below output to be around the state: approval, custom recipient, project recipient, editing
 
-  const ohmModalStyle = {
-    width: isSmallScreen ? "374px" : isMediumScreen ? "628px" : "692px",
-  };
-
   return (
     /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
-    <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
-      <Paper
-        className={`ohm-card ohm-modal ${isMediumScreen ? "medium" : isSmallScreen ? "smaller" : ""}`}
-        onClick={handleModalInsideClick}
-        style={ohmModalStyle}
-      >
-        <div className="yield-header">
-          {isAmountSet || isEditing || isWithdrawing ? (
-            <Link onClick={() => handleGoBack()}>
-              <SvgIcon color="primary" component={ChevronLeft} />
-            </Link>
-          ) : (
-            <Link onClick={() => cancelFunc()}>
-              <SvgIcon color="primary" component={XIcon} />
-            </Link>
-          )}
-          <Typography variant="h4">
-            <strong>{getModalTitle()} Donation</strong>
-          </Typography>
-        </div>
+    <Modal
+      open={isModalOpen}
+      onClose={cancelFunc}
+      headerText={getModalTitle() + " Donation"}
+      closePosition="left"
+      topLeft={
+        isAmountSet || isEditing || isWithdrawing ? (
+          <Link onClick={() => handleGoBack()}>
+            <SvgIcon color="primary" component={ChevronLeft} />
+          </Link>
+        ) : (
+          <Link onClick={() => cancelFunc()}>
+            <SvgIcon color="primary" component={XIcon} />
+          </Link>
+        )
+      }
+      className={`ohm-modal ${isMediumScreen ? "medium" : isSmallScreen ? "smaller" : ""}`}
+      minHeight="300px"
+    >
+      <div>
         <div className="manage-project-info">
           {project ? (
             <div className="project">
@@ -598,7 +592,7 @@ export function ManageDonationModal({
             </Button>
           )}
         </div>
-      </Paper>
+      </div>
     </Modal>
   );
 }
