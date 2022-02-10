@@ -1,9 +1,9 @@
 import { BigNumber, ethers } from "ethers";
 import { abi as PairContractABI } from "src/abi/PairContract.json";
-import { addresses, NetworkId } from "src/constants";
-import { formatCurrency, getMarketPrice, getTokenPrice } from "src/helpers";
+import { formatCurrency, getTokenPrice } from "src/helpers";
 import { ExternalPool } from "src/lib/ExternalPool";
-import { OlympusStakingv2__factory, PairContract } from "src/typechain";
+import { addresses, NetworkId } from "src/networkDetails";
+import { PairContract } from "src/typechain";
 
 import { NodeHelper } from "./NodeHelper";
 
@@ -69,8 +69,9 @@ export const allPools = [tj_gohm_wavax, sushi_arb_gohm_weth, sushi_poly_gohm_wet
  * iterate through a given wallet address for all ExternalPools
  * @param address
  */
-export const fetchPoolData = async (address: string) => {
+export const fetchPoolData = async (address: string, gOhmPrice: number) => {
   try {
+    // iterate the pools
     const results = allPools.map(async pool => {
       const provider = NodeHelper.getAnynetStaticProvider(pool.networkID);
       const poolContract = new ethers.Contract(pool.address as string, PairContractABI, provider) as PairContract;
@@ -84,14 +85,6 @@ export const fetchPoolData = async (address: string) => {
       let reserve0Price = 0;
       let reserve1Price = 0;
       const token0 = await poolContract.token0();
-      const ohmPrice = await getMarketPrice();
-      const mainnetProvider = NodeHelper.getMainnetStaticProvider();
-      const stakingContract = OlympusStakingv2__factory.connect(
-        addresses[NetworkId.MAINNET].STAKING_V2,
-        mainnetProvider,
-      );
-      const currentIndex = await stakingContract.index();
-      const gOhmPrice = ohmPrice * Number(ethers.utils.formatUnits(currentIndex, "gwei"));
       const token2Price: number = await getTokenPrice(pool.pairGecko);
       if (token0.toLowerCase() === addresses[pool.networkID].GOHM_ADDRESS.toLowerCase()) {
         reserve0Price = gOhmPrice;

@@ -28,10 +28,11 @@ exports[`<Give/> should render component 1`] = `
           class="MuiTabs-scroller MuiTabs-fixed"
           style="overflow: hidden;"
         >
-          <div
-            aria-label="stake tabs"
-            class="MuiTabs-flexContainer MuiTabs-centered"
-            role="tablist"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-1 makeStyles-root-2 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+            style="font-size: 1.2857rem;"
+            tabindex="0"
+            type="button"
           >
             <button
               aria-controls="simple-tabpanel-0"
