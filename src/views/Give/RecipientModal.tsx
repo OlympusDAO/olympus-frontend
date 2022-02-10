@@ -1,11 +1,11 @@
 import { isAddress } from "@ethersproject/address";
 import { t, Trans } from "@lingui/macro";
-import { Box, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Link, SvgIcon, Typography } from "@material-ui/core";
 import { FormControl, FormHelperText } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
+import { Icon, InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -531,16 +531,16 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
 
   return (
     /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
-    <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
-      <Paper className={`ohm-card ohm-modal ${isSmallScreen ? "smaller" : ""}`} onClick={handleModalInsideClick}>
-        <div className="yield-header">
-          {getEscapeComponent()}
-          <Typography variant="h4">
-            <strong>{getTitle()}</strong>
-          </Typography>
-        </div>
-        {shouldShowConfirmationScreen() ? getConfirmationScreen() : getAmountScreen()}
-      </Paper>
+    <Modal
+      open={isModalOpen}
+      onClose={cancelFunc}
+      headerText={getTitle()}
+      closePosition="left"
+      topLeft={getEscapeComponent()}
+      className={`ohm-modal ${isSmallScreen ? "smaller" : ""}`}
+      minHeight="300px"
+    >
+      {shouldShowConfirmationScreen() ? getConfirmationScreen() : getAmountScreen()}
     </Modal>
   );
 }
