@@ -45,9 +45,12 @@ export const subtractDates = (dateA: Date, dateB: Date) => {
     seconds = Math.trunc(diff / 1000);
   }
   return {
-    days,
-    hours,
-    minutes,
-    seconds,
+    secondsLeft: (msA - msB) / 1000,
+    formatted: {
+      days,
+      hours,
+      minutes,
+      seconds,
+    },
   };
 };

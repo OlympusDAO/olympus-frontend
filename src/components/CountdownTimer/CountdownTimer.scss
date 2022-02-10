@@ -1,0 +1,12 @@
+.countdown-timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 5px;
+  .countdown-timer-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 3.3rem;
+  }
+}
