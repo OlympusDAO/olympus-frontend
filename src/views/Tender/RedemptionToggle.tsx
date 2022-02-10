@@ -1,24 +1,31 @@
 import { Box, Divider, Switch, Typography } from "@material-ui/core";
 import { FC } from "react";
 
+import { WrappedToStaked } from "./queries";
 interface RedemptionToggleProps {
   quantity: number;
-  daiValue: number;
+  daiExchangeRate: number;
   redeemToken: number;
   onChange: () => void;
-  gOhmValue: number;
+  gOhmExchangeRate: number;
+  gOhmPrice: number;
+  depositTokenValue: number;
+  depositTokenLabel: string;
 }
 export const RedemptionToggle: FC<RedemptionToggleProps> = ({
   quantity,
-  daiValue,
+  daiExchangeRate,
   redeemToken,
   onChange,
-  gOhmValue,
+  gOhmExchangeRate,
+  gOhmPrice,
+  depositTokenValue,
+  depositTokenLabel,
 }) => {
-  //Currency formatters for the token balances
-  const usdValue = quantity ? new Intl.NumberFormat("en-US").format(Number(quantity) * 55) : 0;
-  const gOhm = new Intl.NumberFormat("en-US").format(gOhmValue);
-  const dai = new Intl.NumberFormat("en-US").format(daiValue);
+  const amount = depositTokenValue === 2 ? WrappedToStaked(quantity) : quantity;
+  const USD = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+  const gOhmValue = (amount * gOhmExchangeRate) / gOhmPrice;
+  const daiValue = amount * daiExchangeRate;
   return (
     <>
       <Box
@@ -31,11 +38,12 @@ export const RedemptionToggle: FC<RedemptionToggleProps> = ({
         textAlign="center"
       >
         <Typography>
-          Deposit {quantity} Chicken for ${dai} DAI
+          Deposit {quantity} {depositTokenLabel} for {USD.format(daiValue)} DAI
         </Typography>
         <Switch checked={redeemToken ? true : false} onChange={onChange} color="default" />
         <Typography>
-          Deposit {quantity} Chicken for {gOhm} gOHM (~${usdValue})
+          Deposit {quantity} {depositTokenLabel} for {new Intl.NumberFormat("en-US").format(gOhmValue)} gOHM (~
+          {USD.format(gOhmValue * gOhmPrice)})
         </Typography>
       </Box>
       <Divider color="secondary" />

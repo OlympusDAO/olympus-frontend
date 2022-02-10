@@ -1,16 +1,17 @@
 import { Contract, ContractInterface } from "@ethersproject/contracts";
-import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
+import { JsonRpcProvider, JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { useMemo } from "react";
 import { abi as IERC20_ABI } from "src/abi/IERC20.json";
 import STAKING_ABI from "src/abi/OlympusStakingv2.json";
 import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
 import { abi as TENDER_ABI } from "src/abi/Tender.json";
+import { abi as WSOHM_ABI } from "src/abi/wsOHM.json";
 import { NetworkId } from "src/constants";
 import { AddressMap, STAKING_ADDRESSES } from "src/constants/addresses";
 import { assert } from "src/helpers";
 import { ohm_dai } from "src/helpers/AllBonds";
 import { NodeHelper } from "src/helpers/NodeHelper";
-import { IERC20, OlympusStakingv2, PairContract, Tender } from "src/typechain";
+import { IERC20, OlympusStakingv2, PairContract, Tender, WsOHM } from "src/typechain";
 
 import { useWeb3Context } from ".";
 
@@ -71,6 +72,9 @@ export const useOhmDaiReserveContract = () => {
 
 export const useTokenContract = (addressMap: AddressMap, signer?: JsonRpcSigner) => {
   return useContract<IERC20>(addressMap, IERC20_ABI, signer);
+};
+export const useWrappedContract = (addressMap: AddressMap, provider?: JsonRpcProvider) => {
+  return useContract<WsOHM>(addressMap, WSOHM_ABI, provider);
 };
 
 export const useTenderEscrowContract = (addressMap: AddressMap, signer?: JsonRpcSigner) => {

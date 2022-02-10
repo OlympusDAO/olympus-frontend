@@ -9,7 +9,7 @@ import {
 } from "src/constants/addresses";
 import { parseBigNumber } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
-import { useTenderEscrowContract, useTokenContract } from "src/hooks/useContract";
+import { useTenderEscrowContract, useTokenContract, useWrappedContract } from "src/hooks/useContract";
 import { balancesOf } from "src/lib/fetchBalances";
 import { queryClient } from "src/lib/react-query";
 import { IERC20 } from "src/typechain";
@@ -43,6 +43,22 @@ export const StakedBalance = () => {
 export const WrappedBalance = () => {
   const wrappedContract = useTokenContract(WRAPPED_TENDER_ADDRESSES);
   return BalanceHelper(wrappedContract, "wrappedContract");
+};
+
+export const WrappedToStaked = (quantity: number) => {
+  const quantityString = quantity.toString();
+  const wrappedContract = useWrappedContract(WRAPPED_TENDER_ADDRESSES);
+  const { data } = useQuery(
+    ["wrappedToStaked", quantity],
+    async () => {
+      if (wrappedContract) {
+        const balance = await wrappedContract.wOHMTosOHM(ethers.utils.parseUnits(quantityString, 18));
+        return parseBigNumber(balance, 18) * 1e9;
+      }
+    },
+    { enabled: !!wrappedContract },
+  );
+  return data || 0;
 };
 
 export const CrossChainBalanceCheck = (address: string) => {

@@ -58,8 +58,9 @@ exports[`Tender Snapshots should render <RedemptionToggle /> 1`] = `
     >
       Deposit 
       0
-       Chicken for $
-      0
+       
+       for 
+      $NaN
        DAI
     </p>
     <span
@@ -91,10 +92,11 @@ exports[`Tender Snapshots should render <RedemptionToggle /> 1`] = `
     >
       Deposit 
       0
-       Chicken for 
-      0
-       gOHM (~$
-      0
+       
+       for 
+      NaN
+       gOHM (~
+      $NaN
       )
     </p>
   </div>

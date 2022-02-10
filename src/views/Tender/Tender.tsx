@@ -40,8 +40,6 @@ const Tender = () => {
   const [view, setView] = useState(0);
   const [redeemToken, setRedeemToken] = useState(0);
   const [quantity, setQuantity] = useState(0);
-  const [daiValue, setDaiValue] = useState(0);
-  const [gOhmValue, setgOHMValue] = useState(0);
   const { data: gOhmPrice = 0 } = useGohmPrice();
   const gOhmExchangeRate = GOhmExchangeRate();
   const daiExchangeRate = DaiExchangeRate();
@@ -91,12 +89,6 @@ const Tender = () => {
   }, [choice]);
 
   //Updates quantity of deposit and display values of gOHM and DAI
-  const setDeposit = (amount: number) => {
-    setQuantity(amount);
-    setDaiValue(amount * daiExchangeRate);
-    //Sets gOHM USD Equivalent value.
-    setgOHMValue((amount * gOhmExchangeRate) / gOhmPrice);
-  };
 
   //Set Redemption Strings
   let redemptionTokenString = redemptionToken(gOhmExchangeRate);
@@ -105,7 +97,6 @@ const Tender = () => {
   } else if (depositedBalance) {
     redemptionTokenString = redemptionToken(choice);
   }
-
   //amounts displayed on the redeem page
   const gOhmClaimAmount = (depositedBalance * gOhmDepositExchangeRate) / 1e18;
   const daiClaimAmount = depositedBalance * daiExchangeRate;
@@ -180,10 +171,10 @@ const Tender = () => {
                     type="number"
                     label={t`Enter an amount`}
                     value={quantity ? quantity : ""}
-                    onChange={e => Number(e.target.value) >= 0 && setDeposit(Number(e.target.value))}
+                    onChange={e => Number(e.target.value) >= 0 && setQuantity(Number(e.target.value))}
                     labelWidth={0}
                     endString={t`Max`}
-                    endStringOnClick={() => setDeposit(tokens[depositToken].balance)}
+                    endStringOnClick={() => setQuantity(tokens[depositToken].balance)}
                     buttonText={depositButtonText}
                     buttonOnClick={depositOnClick}
                     disabled={depositButtonDisabled}
@@ -191,10 +182,13 @@ const Tender = () => {
 
                   {allowChoice && (
                     <RedemptionToggle
-                      gOhmValue={gOhmValue}
+                      gOhmExchangeRate={gOhmExchangeRate}
                       quantity={quantity}
-                      daiValue={daiValue}
+                      daiExchangeRate={daiExchangeRate}
                       redeemToken={redeemToken}
+                      gOhmPrice={gOhmPrice}
+                      depositTokenValue={tokens[depositToken].value}
+                      depositTokenLabel={tokens[depositToken].label}
                       onChange={() => setRedeemToken(redeemToken ? 0 : 1)}
                     />
                   )}
