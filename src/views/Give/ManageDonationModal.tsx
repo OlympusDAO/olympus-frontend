@@ -244,11 +244,6 @@ export function ManageDonationModal({
     return depositAmountBig.minus(getCurrentDepositAmount());
   };
 
-  const handleModalInsideClick = (e: React.MouseEvent): void => {
-    // When the user clicks within the modal window, we do not want to pass the event up the tree
-    e.stopPropagation();
-  };
-
   /**
    * Ensures that the depositAmount returned is a valid number.
    *
@@ -357,7 +352,6 @@ export function ManageDonationModal({
   // TODO re-arrange the below output to be around the state: approval, custom recipient, project recipient, editing
 
   return (
-    /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
     <Modal
       open={isModalOpen}
       onClose={cancelFunc}
