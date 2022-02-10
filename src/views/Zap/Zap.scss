@@ -6,10 +6,54 @@
   overflow: hidden;
 }
 
+.zap-card {
+  .MuiPaper-root {
+    border-radius: 10px;
+  }
+}
+
+.zap-settings-icon {
+  height: 12px;
+  width: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .MuiBackdrop-root {
+    background: rgba(100, 100, 100, 0.33) !important;
+    backdrop-filter: blur(33px) !important;
+    -webkit-backdrop-filter: blur(33px) !important;
+    .zap-card {
+      opacity: 1 !important;
+      height: auto;
+    }
+  }
+  .zap-modal {
+    max-width: 688px;
+    min-height: 605px;
+  }
+}
+
+/* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .MuiBackdrop-root {
+    background: rgba(100, 100, 100, 0.95);
+    .zap-card {
+      height: auto;
+    }
+  }
+  .zap-modal {
+    max-width: 688px;
+    min-height: 605px;
+    opacity: 0.9;
+  }
+}
+
 #zap-select-token-modal {
   .MuiListItemText-primary,
   .MuiListItemText-secondary {
-    text-align: right;
+    text-align: left;
   }
 }
 
@@ -83,10 +127,15 @@
   flex-wrap: wrap;
   width: 100%;
   justify-content: space-around;
-  margin-top: 10px;
 }
 
 .zap-input {
+  width: 100%;
+  margin-block: 12px;
+  min-height: 70px;
+}
+
+.slippage-input {
   width: 100%;
   margin-block: 20px;
   min-height: 70px;

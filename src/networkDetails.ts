@@ -95,6 +95,7 @@ export const addresses: IAddresses = {
     BOND_DEPOSITORY: "0x9025046c6fb25Fb39e720d97a8FD881ED69a1Ef6", // updated
     DAO_TREASURY: "0x245cc372C84B3645Bf0Ffe6538620B04a217988B",
     TOKEMAK_GOHM: "0x41f6a95bacf9bc43704c4a4902ba5473a8b00263",
+    ZAP: "0x6F5CC3EDEa92AB52b75bad50Bcf4C6daa781B87e",
   },
   [NetworkId.ARBITRUM]: {
     DAI_ADDRESS: "", // duplicate
