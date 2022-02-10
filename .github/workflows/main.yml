@@ -21,3 +21,24 @@ jobs:
     - name: Run unit tests
       run: |
           yarn test:unit
+
+          # get coverage lines in %
+          echo "COVERAGE_LINES_PCT=$(echo ${jq .total.lines.pct coverage/coverage-summary.json})" >> $GITHUB_ENV
+
+          # get branch name
+          REF=${{ github.ref }}
+          echo "github.ref: $REF"
+          IFS='/' read -ra PATHS <<< "$REF"
+          BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
+          echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
+      - name: Create coverage badge
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 4d79fbc5bcabae6ded617354b1896066
+          filename: olympus-frontend__coverage__${{ env.BRANCH }}.json
+          label: coverage
+          message: ${{ env.COVERAGE_LINES_PCT}} %
+          color: blue
+          namedLogo: jest
+          logoColor: lightblue
