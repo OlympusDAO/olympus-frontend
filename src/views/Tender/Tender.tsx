@@ -2,6 +2,7 @@ import { t } from "@lingui/macro";
 import { Box, Divider, Grid, Typography } from "@material-ui/core";
 import { DataRow, InputWrapper, Paper, PrimaryButton, Tab, Tabs } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useState } from "react";
+import CountdownTimer from "src/components/CountdownTimer/CountdownTimer";
 import { trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { useGohmPrice } from "src/hooks/usePrices";
@@ -166,6 +167,10 @@ const Tender = () => {
                   {hasBalances && (
                     <TokenSelector tokens={tokens} depositToken={depositToken} onChange={handleTokenChange} />
                   )}
+                  <CountdownTimer
+                    endsAt={new Date("December 1, 2022")}
+                    timerTitle={t`Chicken Tender offer will open for deposits in:`}
+                  />
                   <InputWrapper
                     id="amount-input"
                     type="number"
