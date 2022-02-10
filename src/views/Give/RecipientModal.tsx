@@ -530,7 +530,6 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   // https://github.com/facebook/react/issues/11877
 
   return (
-    /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
     <Modal
       open={isModalOpen}
       onClose={cancelFunc}

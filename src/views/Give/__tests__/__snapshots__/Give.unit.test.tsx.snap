@@ -28,11 +28,10 @@ exports[`<Give/> should render component 1`] = `
           class="MuiTabs-scroller MuiTabs-fixed"
           style="overflow: hidden;"
         >
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-1 makeStyles-root-2 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
-            style="font-size: 1.2857rem;"
-            tabindex="0"
-            type="button"
+          <div
+            aria-label="stake tabs"
+            class="MuiTabs-flexContainer MuiTabs-centered"
+            role="tablist"
           >
             <button
               aria-controls="simple-tabpanel-0"
@@ -243,7 +242,7 @@ exports[`<Give/> should render component 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-10"
+                    class="MuiBox-root MuiBox-root-13"
                     style="width: 100%; border-radius: 10px;"
                   >
                     <div
@@ -375,7 +374,7 @@ exports[`<Give/> should render component 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-11"
+                    class="MuiBox-root MuiBox-root-15"
                     style="width: 100%; border-radius: 10px;"
                   >
                     <div
@@ -507,7 +506,7 @@ exports[`<Give/> should render component 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-12"
+                    class="MuiBox-root MuiBox-root-17"
                     style="width: 100%; border-radius: 10px;"
                   >
                     <div
@@ -639,7 +638,7 @@ exports[`<Give/> should render component 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-13"
+                    class="MuiBox-root MuiBox-root-19"
                     style="width: 100%; border-radius: 10px;"
                   >
                     <div
@@ -835,14 +834,14 @@ exports[`<Give/> should render component 1`] = `
           class="MuiGrid-root give-info-deposit-box MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-14 sect"
+            class="MuiBox-root MuiBox-root-22 sect"
             style="margin-bottom: 16px;"
           >
             <div
-              class="MuiBox-root MuiBox-root-15 graphic"
+              class="MuiBox-root MuiBox-root-23 graphic"
             >
               <div
-                class="MuiBox-root MuiBox-root-16"
+                class="MuiBox-root MuiBox-root-24"
                 style="margin-bottom: 8px;"
               >
                 <svg
@@ -889,7 +888,7 @@ exports[`<Give/> should render component 1`] = `
                 </svg>
               </div>
               <div
-                class="MuiBox-root MuiBox-root-18"
+                class="MuiBox-root MuiBox-root-26"
                 style="margin-bottom: 16px; color: rgb(153, 153, 153);"
               >
                 <p
@@ -900,7 +899,7 @@ exports[`<Give/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-19 text"
+              class="MuiBox-root MuiBox-root-27 text"
             >
               <p
                 class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignCenter"
@@ -921,14 +920,14 @@ exports[`<Give/> should render component 1`] = `
           class="MuiGrid-root give-info-vault-box MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-20 sect"
+            class="MuiBox-root MuiBox-root-28 sect"
             style="margin-bottom: 16px;"
           >
             <div
-              class="MuiBox-root MuiBox-root-21"
+              class="MuiBox-root MuiBox-root-29"
             >
               <div
-                class="MuiBox-root MuiBox-root-22"
+                class="MuiBox-root MuiBox-root-30"
                 style="margin-bottom: 8px;"
               >
                 <svg
@@ -950,7 +949,7 @@ exports[`<Give/> should render component 1`] = `
                 </svg>
               </div>
               <div
-                class="MuiBox-root MuiBox-root-23"
+                class="MuiBox-root MuiBox-root-31"
                 style="margin-bottom: 16px; color: rgb(153, 153, 153);"
               >
                 <p
@@ -961,7 +960,7 @@ exports[`<Give/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-24 text"
+              class="MuiBox-root MuiBox-root-32 text"
             >
               <p
                 class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignCenter"
@@ -982,14 +981,14 @@ exports[`<Give/> should render component 1`] = `
           class="MuiGrid-root give-info-yield-box MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-25 sect"
+            class="MuiBox-root MuiBox-root-33 sect"
             style="margin-bottom: 16px;"
           >
             <div
-              class="MuiBox-root MuiBox-root-26"
+              class="MuiBox-root MuiBox-root-34"
             >
               <div
-                class="MuiBox-root MuiBox-root-27"
+                class="MuiBox-root MuiBox-root-35"
                 style="margin-bottom: 8px;"
               >
                 <svg
@@ -1022,7 +1021,7 @@ exports[`<Give/> should render component 1`] = `
                 </svg>
               </div>
               <div
-                class="MuiBox-root MuiBox-root-28"
+                class="MuiBox-root MuiBox-root-36"
                 style="margin-bottom: 16px; color: rgb(153, 153, 153);"
               >
                 <p
@@ -1033,7 +1032,7 @@ exports[`<Give/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-29 text"
+              class="MuiBox-root MuiBox-root-37 text"
             >
               <p
                 class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignCenter"
@@ -1052,7 +1051,7 @@ exports[`<Give/> should render component 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-30 button-box"
+        class="MuiBox-root MuiBox-root-38 button-box"
       >
         <a
           aria-disabled="false"
