@@ -5,21 +5,12 @@ import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typograp
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { InfoTooltip, Modal, Tab, Tabs } from "@olympusdao/component-library";
-import { ChangeEvent, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
+import { useMigrationData } from "src/helpers/Migration";
 import { useWeb3Context } from "src/hooks";
 import { changeMigrationApproval, migrateSingle, TokenType } from "src/slices/MigrateThunk";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-
-const formatCurrency = (c: number) => {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-    minimumFractionDigits: 0,
-  }).format(c);
-};
 
 const useStyles = makeStyles({
   custom: {
@@ -32,11 +23,6 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
   const classes = useStyles();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const { provider, address, networkId } = useWeb3Context();
-
-  const [view, setView] = useState(0);
-  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
-    setView(newView);
-  };
 
   let rows = [];
 
@@ -54,10 +40,14 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
   };
 
   const {
+    view,
+    setView,
+    changeView,
     indexV1,
     currentIndex,
     currentOhmBalance,
     currentSOhmBalance,
+    currentWSOhmBalance,
     wsOhmPrice,
     gOHMPrice,
     approvedOhmBalance,
@@ -66,17 +56,17 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
     ohmFullApproval,
     sOhmFullApproval,
     wsOhmFullApproval,
+    ohmAsgOHM,
+    sOHMAsgOHM,
     ohmInUSD,
     sOhmInUSD,
     wsOhmInUSD,
     isGOHM,
     targetAsset,
     targetMultiplier,
+    oldAssetsDetected,
+    pendingTransactions,
   } = useMigrationData();
-
-  const isGOHM = view === 1;
-  const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM (v2)"), [view]);
-  const targetMultiplier = useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
 
   const onMigrate = (type: number, amount: string) =>
     dispatch(migrateSingle({ provider, address, networkID: networkId, gOHM: isGOHM, type, amount }));

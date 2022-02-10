@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import React from "react";
 import { useAppSelector } from "src/hooks";
 
 export const formatCurrency = (c: number) => {
@@ -11,6 +11,11 @@ export const formatCurrency = (c: number) => {
 };
 
 export function useMigrationData() {
+  const [view, setView] = React.useState(0);
+  const changeView: any = (_event: React.ChangeEvent<any>, newView: number) => {
+    setView(newView);
+  };
+
   const indexV1 = useAppSelector(state => Number(state.app.currentIndexV1!));
   const currentIndex = useAppSelector(state => Number(state.app.currentIndex));
 
@@ -35,14 +40,35 @@ export function useMigrationData() {
   const wsOhmInUSD = formatCurrency(wsOhmPrice * +currentWSOhmBalance);
 
   const isGOHM = view === 1;
-  const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM (v2)"), [view]);
-  const targetMultiplier = useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
+  const targetAsset = React.useMemo(() => (isGOHM ? "gOHM" : "sOHM (v2)"), [view]);
+  const targetMultiplier = React.useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
+
+  const isAllApproved = ohmFullApproval && sOhmFullApproval && wsOhmFullApproval;
+
+  const oldAssetsDetected = useAppSelector(state => {
+    return (
+      state.account.balances &&
+      (Number(state.account.balances.sohmV1) ||
+      Number(state.account.balances.ohmV1) ||
+      Number(state.account.balances.wsohm)
+        ? true
+        : false)
+    );
+  });
+
+  const pendingTransactions = useAppSelector(state => {
+    return state.pendingTransactions;
+  });
 
   return {
+    view,
+    setView,
+    changeView,
     indexV1,
     currentIndex,
     currentOhmBalance,
     currentSOhmBalance,
+    currentWSOhmBalance,
     wsOhmPrice,
     gOHMPrice,
     approvedOhmBalance,
@@ -51,11 +77,16 @@ export function useMigrationData() {
     ohmFullApproval,
     sOhmFullApproval,
     wsOhmFullApproval,
+    ohmAsgOHM,
+    sOHMAsgOHM,
     ohmInUSD,
     sOhmInUSD,
     wsOhmInUSD,
     isGOHM,
     targetAsset,
     targetMultiplier,
+    oldAssetsDetected,
+    pendingTransactions,
+    isAllApproved,
   };
 }
