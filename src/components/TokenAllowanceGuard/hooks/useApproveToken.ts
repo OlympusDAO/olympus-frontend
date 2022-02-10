@@ -28,9 +28,9 @@ export const useApproveToken = (tokenMap: AddressMap, contractMap: AddressMap) =
     },
     {
       onError: error => void dispatch(createErrorToast(error.message)),
-      onSuccess: () => {
+      onSuccess: async () => {
         dispatch(createInfoToast("Successfully approved"));
-        client.refetchQueries(contractAllowanceQueryKey(address, networkId, tokenMap, contractMap));
+        await client.refetchQueries(contractAllowanceQueryKey(address, networkId, tokenMap, contractMap));
       },
     },
   );
