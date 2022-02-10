@@ -289,7 +289,7 @@ export function NewPositionGraphic({ quantity }: EducationGraphicProps) {
 
 export function ArrowGraphic() {
   return (
-    <Box className="sect" minWidth={"2%"} style={{ marginTop: "0px", marginBottom: "0px" }}>
+    <Box className="sect" minWidth={"2%"} style={{ marginTop: "65px", marginBottom: "0px" }}>
       <Box
         className="arrow-graphic"
         display="flex"
