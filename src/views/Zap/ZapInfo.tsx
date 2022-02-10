@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
   infoHeader: {
     [theme.breakpoints.down("md")]: {
       width: "40%",
+      paddingTop: "12px",
     },
     [theme.breakpoints.up("md")]: {
       width: "100%",
@@ -39,7 +40,8 @@ const useStyles = makeStyles(theme => ({
   infoBody: {
     [theme.breakpoints.down("md")]: {
       width: "60%",
-      paddingTop: "24px",
+      paddingTop: "12px",
+      paddingInline: "6px",
     },
     [theme.breakpoints.up("md")]: {
       width: "100%",
