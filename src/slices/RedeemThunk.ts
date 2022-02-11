@@ -4,10 +4,10 @@ import { ethers } from "ethers";
 
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { addresses } from "../constants";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { error } from "../slices/MessagesSlice";
+import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
 import { getBalances, getMockRedemptionBalances, getRedemptionBalances } from "./AccountSlice";
 import { IBaseAddressAsyncThunk, IJsonRPCError } from "./interfaces";
+import { error } from "./MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 
 interface IUAData {
@@ -15,7 +15,7 @@ interface IUAData {
   value: string;
   approved: boolean;
   txHash: string | null;
-  type: string | null;
+  type: string;
 }
 
 export const redeemBalance = createAsyncThunk(
@@ -36,7 +36,7 @@ export const redeemBalance = createAsyncThunk(
       value: redeemableBalance,
       approved: true,
       txHash: null,
-      type: null,
+      type: "",
     };
 
     try {
@@ -57,8 +57,12 @@ export const redeemBalance = createAsyncThunk(
       return;
     } finally {
       if (redeemTx) {
-        segmentUA(uaData);
-
+        trackSegmentEvent(uaData);
+        trackGAEvent({
+          category: "Redeem",
+          action: uaData.type,
+          metric1: parseFloat(uaData.value),
+        });
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
@@ -90,7 +94,7 @@ export const redeemMockBalance = createAsyncThunk(
       value: redeemableBalance,
       approved: true,
       txHash: null,
-      type: null,
+      type: "",
     };
 
     try {
@@ -111,8 +115,12 @@ export const redeemMockBalance = createAsyncThunk(
       return;
     } finally {
       if (redeemTx) {
-        segmentUA(uaData);
-
+        trackSegmentEvent(uaData);
+        trackGAEvent({
+          category: "Redeem",
+          action: uaData.type,
+          metric1: parseFloat(uaData.value),
+        });
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
