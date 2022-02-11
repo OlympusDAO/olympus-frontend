@@ -120,7 +120,7 @@
     "gulp-debug": "^4.0.0",
     "gulp-less": "^5.0.0",
     "gulp-postcss": "^9.0.0",
-    "hardhat": "^2.8.3",
+    "hardhat": "^2.8.4",
     "history": "^5.2.0",
     "husky": "^7.0.4",
     "jest-puppeteer": "^6.1.0",
