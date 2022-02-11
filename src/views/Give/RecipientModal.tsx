@@ -341,7 +341,8 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
           placeholder={t`Enter a wallet address in the form of 0x ...`}
           value={walletAddress}
           error={!isWalletAddressValid}
-          onChange={e => handleSetWallet(e.target.value)}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onChange={(e: any) => handleSetWallet(e.target.value)}
           helperText={!isWalletAddressValid ? isWalletAddressValidError : ""}
         />
       </>
@@ -442,7 +443,8 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               ? t`Your current Staked Balance is ${getSOhmBalance().toFixed(2)} sOHM`
               : isDepositAmountValidError
           }
-          onChange={e => handleSetDepositAmount(e.target.value)}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onChange={(e: any) => handleSetDepositAmount(e.target.value)}
           error={!isDepositAmountValid}
           startAdornment="sOHM"
           endString={t`Max`}

@@ -1,31 +1,25 @@
 import { isAddress } from "@ethersproject/address";
-import { Box, Button, Grid, Link, SvgIcon, Typography } from "@material-ui/core";
-import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
-import { InputLabel } from "@material-ui/core";
-import { OutlinedInput } from "@material-ui/core";
-import { BigNumber } from "bignumber.js";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Project } from "src/components/GiveProject/project.type";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
-
-import { ArrowGraphic } from "../../components/EducationCard";
-import { getTokenImage } from "../../helpers";
-import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
-const sOhmImg = getTokenImage("sohm");
 import { t, Trans } from "@lingui/macro";
+import { Box, Grid, Link, SvgIcon, Typography } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
-import { Icon, InfoTooltip, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
+import { Icon, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
+import { BigNumber } from "bignumber.js";
 import MarkdownIt from "markdown-it";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { Project } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { EnvHelper } from "src/helpers/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 
+import { ArrowGraphic } from "../../components/EducationCard";
+import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
 
 export type WithdrawSubmitCallback = {
@@ -550,40 +544,23 @@ export function ManageDonationModal({
                   children={null}
                 />
               </div>
-              <FormControl className="modal-input" variant="outlined" color="primary">
-                <InputLabel htmlFor="amount-input"></InputLabel>
-                <OutlinedInput
-                  id="amount-input"
-                  type="number"
-                  placeholder={t`Enter an amount`}
-                  className="stake-input"
-                  value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
-                  error={!isDepositAmountValid}
-                  onChange={e => handleSetDepositAmount(e.target.value)}
-                  labelWidth={0}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <div className="logo-holder">{sOhmImg}</div>
-                    </InputAdornment>
-                  }
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <Button
-                        variant="text"
-                        onClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
-                      >
-                        <Trans>Max</Trans>
-                      </Button>
-                    </InputAdornment>
-                  }
-                />
-                <FormHelperText>{isDepositAmountValidError}</FormHelperText>
-                <div className="give-staked-balance">
-                  <Typography variant="body2" align="left">
-                    {`${t`Your current deposit is `} ${currentDepositAmount.toFixed(2)} sOHM`}
-                  </Typography>
-                </div>
-              </FormControl>
+              <Input
+                id="amount-input"
+                type="number"
+                placeholder={t`Enter an amount`}
+                value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+                helperText={
+                  isDepositAmountValid
+                    ? t`Your current deposit is ${currentDepositAmount.toFixed(2)} sOHM`
+                    : isDepositAmountValidError
+                }
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onChange={(e: any) => handleSetDepositAmount(e.target.value)}
+                error={!isDepositAmountValid}
+                startAdornment="sOHM"
+                endString={t`Max`}
+                endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
+              />
             </div>
           </Box>
         </div>
