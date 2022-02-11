@@ -46,35 +46,35 @@ jobs:
           namedLogo: jest
           logoColor: lightblue
       - name: Create coverage lines badge
-          uses: schneegans/dynamic-badges-action@v1.0.0
-          with:
-            auth: ${{ secrets.GIST_SECRET }}
-            gistID: 4d79fbc5bcabae6ded617354b1896066
-            filename: olympus-frontend__coverage__lines__${{ env.BRANCH }}.json
-            label: Lines Coverage
-            message: ${{ env.COVERAGE_LINES_PCT}} %
-            color: blue
-            namedLogo: jest
-            logoColor: lightblue
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 4d79fbc5bcabae6ded617354b1896066
+          filename: olympus-frontend__coverage__lines__${{ env.BRANCH }}.json
+          label: Lines Coverage
+          message: ${{ env.COVERAGE_LINES_PCT}} %
+          color: blue
+          namedLogo: jest
+          logoColor: lightblue
       - name: Create coverage statements badge
-          uses: schneegans/dynamic-badges-action@v1.0.0
-          with:
-            auth: ${{ secrets.GIST_SECRET }}
-            gistID: 4d79fbc5bcabae6ded617354b1896066
-            filename: olympus-frontend__coverage__statements__${{ env.BRANCH }}.json
-            label: Statements Coverage
-            message: ${{ env.COVERAGE_LINES_PCT}} %
-            color: blue
-            namedLogo: jest
-            logoColor: lightblue
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 4d79fbc5bcabae6ded617354b1896066
+          filename: olympus-frontend__coverage__statements__${{ env.BRANCH }}.json
+          label: Statements Coverage
+          message: ${{ env.COVERAGE_LINES_PCT}} %
+          color: blue
+          namedLogo: jest
+          logoColor: lightblue
       - name: Create coverage functions badge
-          uses: schneegans/dynamic-badges-action@v1.0.0
-          with:
-            auth: ${{ secrets.GIST_SECRET }}
-            gistID: 4d79fbc5bcabae6ded617354b1896066
-            filename: olympus-frontend__coverage__functions__${{ env.BRANCH }}.json
-            label: Functions Coverage
-            message: ${{ env.COVERAGE_LINES_PCT}} %
-            color: blue
-            namedLogo: jest
-            logoColor: lightblue
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 4d79fbc5bcabae6ded617354b1896066
+          filename: olympus-frontend__coverage__functions__${{ env.BRANCH }}.json
+          label: Functions Coverage
+          message: ${{ env.COVERAGE_LINES_PCT}} %
+          color: blue
+          namedLogo: jest
+          logoColor: lightblue
