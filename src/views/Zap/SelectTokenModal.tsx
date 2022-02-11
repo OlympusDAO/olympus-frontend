@@ -87,7 +87,7 @@ function SelectTokenModal(
                       <ListItemText primary={token[1].symbol} />
                       <Box flexGrow={10} />
                       <ListItemText
-                        // style={{ primary: { justify: "center" } }}
+                        style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}
                         primary={`$${trim(token[1].balanceUSD, 2)}`}
                         secondary={trim(token[1].balance, 4)}
                       />
