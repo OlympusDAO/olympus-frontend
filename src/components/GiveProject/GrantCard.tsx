@@ -485,7 +485,14 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     </Typography>
                   </div>
                   <Grid container direction="column" className="cause-misc-info">
-                    <Grid item xs={12} className="give-button-grid" style={{ justifyContent: "flex-end" }}>
+                    <Grid
+                      item
+                      xs={6}
+                      sm={12}
+                      md={6}
+                      className="give-button-grid"
+                      style={{ justifyContent: "flex-end" }}
+                    >
                       <Link
                         href={`#/give/grants/${grant.slug}`}
                         className="cause-link"
