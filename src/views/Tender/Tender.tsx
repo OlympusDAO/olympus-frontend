@@ -147,6 +147,25 @@ const Tender = () => {
   const handleTokenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDepositToken(Number((event.target as HTMLInputElement).value));
   };
+  const countdownEndDate = new Date("December 1, 2022");
+  const countdownActive = Date.now() < countdownEndDate.getTime() ? true : false;
+
+  const tokenSelector = hasBalances && (
+    <TokenSelector tokens={tokens} depositToken={depositToken} onChange={handleTokenChange} />
+  );
+
+  const redemptionToggle = allowChoice && (
+    <RedemptionToggle
+      gOhmExchangeRate={gOhmExchangeRate}
+      quantity={quantity}
+      daiExchangeRate={daiExchangeRate}
+      redeemToken={redeemToken}
+      gOhmPrice={gOhmPrice}
+      depositTokenValue={tokens[depositToken].value}
+      depositTokenLabel={tokens[depositToken].label}
+      onChange={() => setRedeemToken(redeemToken ? 0 : 1)}
+    />
+  );
 
   return (
     <div id="stake-view">
@@ -154,7 +173,7 @@ const Tender = () => {
       <Paper headerText={t`Chicken Tender Offer`} zoom={false}>
         <ProgressBar totalDeposits={totalDeposits} maxDeposits={maxDeposits} />
         <Box className="stake-action-area">
-          <Tabs centered value={view} onChange={changeView} aria-label="stake tabs" style={{ marginBottom: ".25rem" }}>
+          <Tabs centered value={view} onChange={changeView} aria-label="stake tabs" style={{ marginBottom: ".6rem" }}>
             <Tab label={t`Deposit`} />
             <Tab label={t`Redeem`} />
           </Tabs>
@@ -164,38 +183,29 @@ const Tender = () => {
                 <DepositLimitMessage />
               ) : (
                 <>
-                  {hasBalances && (
-                    <TokenSelector tokens={tokens} depositToken={depositToken} onChange={handleTokenChange} />
-                  )}
-                  <CountdownTimer
-                    endsAt={new Date("December 1, 2022")}
-                    timerTitle={t`Chicken Tender offer will open for deposits in:`}
-                  />
-                  <InputWrapper
-                    id="amount-input"
-                    type="number"
-                    label={t`Enter an amount`}
-                    value={quantity ? quantity : ""}
-                    onChange={e => Number(e.target.value) >= 0 && setQuantity(Number(e.target.value))}
-                    labelWidth={0}
-                    endString={t`Max`}
-                    endStringOnClick={() => setQuantity(tokens[depositToken].balance)}
-                    buttonText={depositButtonText}
-                    buttonOnClick={depositOnClick}
-                    disabled={depositButtonDisabled}
-                  />
-
-                  {allowChoice && (
-                    <RedemptionToggle
-                      gOhmExchangeRate={gOhmExchangeRate}
-                      quantity={quantity}
-                      daiExchangeRate={daiExchangeRate}
-                      redeemToken={redeemToken}
-                      gOhmPrice={gOhmPrice}
-                      depositTokenValue={tokens[depositToken].value}
-                      depositTokenLabel={tokens[depositToken].label}
-                      onChange={() => setRedeemToken(redeemToken ? 0 : 1)}
+                  {countdownActive ? (
+                    <CountdownTimer
+                      endsAt={countdownEndDate}
+                      timerTitle={t`Chicken Tender offer will open for deposits in:`}
                     />
+                  ) : (
+                    <>
+                      {tokenSelector}
+                      <InputWrapper
+                        id="amount-input"
+                        type="number"
+                        label={t`Enter an amount`}
+                        value={quantity ? quantity : ""}
+                        onChange={e => Number(e.target.value) >= 0 && setQuantity(Number(e.target.value))}
+                        labelWidth={0}
+                        endString={t`Max`}
+                        endStringOnClick={() => setQuantity(tokens[depositToken].balance)}
+                        buttonText={depositButtonText}
+                        buttonOnClick={depositOnClick}
+                        disabled={depositButtonDisabled}
+                      />
+                      {redemptionToggle}
+                    </>
                   )}
                 </>
               )}
