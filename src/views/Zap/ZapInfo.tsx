@@ -31,10 +31,11 @@ const useStyles = makeStyles(theme => ({
   infoHeader: {
     [theme.breakpoints.down("md")]: {
       width: "40%",
-      paddingTop: "12px",
+      padding: "12px 0px",
     },
     [theme.breakpoints.up("md")]: {
       width: "100%",
+      paddingBottom: "1.5rem",
     },
   },
   infoBody: {
@@ -73,6 +74,7 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
             alignItems="center"
             display="flex"
             flexDirection="column"
+            justifyContent="center"
             className={`${classes.infoHeader} oly-info-header-box`}
           >
             <Box>
@@ -99,6 +101,7 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
             alignItems="center"
             display="flex"
             flexDirection="column"
+            justifyContent="center"
             className={`${classes.infoHeader} oly-info-header-box`}
           >
             {/* @ts-ignore - (keith) add style prop & types to Token Component */}
@@ -121,6 +124,7 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
             alignItems="center"
             display="flex"
             flexDirection="column"
+            justifyContent="center"
             className={`${classes.infoHeader} oly-info-header-box`}
           >
             {/* @ts-ignore - (keith) add style prop & types to Token Component */}
