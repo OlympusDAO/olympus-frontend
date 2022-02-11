@@ -5,22 +5,12 @@ import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typograp
 import { makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { InfoTooltip, Modal, Tab, Tabs } from "@olympusdao/component-library";
-import { ChangeEvent, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
+import { useMigrationData } from "src/helpers/Migration";
 import { useWeb3Context } from "src/hooks";
-import { useAppSelector } from "src/hooks";
 import { changeMigrationApproval, migrateSingle, TokenType } from "src/slices/MigrateThunk";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
-
-const formatCurrency = (c: number) => {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-    minimumFractionDigits: 0,
-  }).format(c);
-};
 
 const useStyles = makeStyles({
   custom: {
@@ -33,26 +23,6 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
   const classes = useStyles();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const { provider, address, networkId } = useWeb3Context();
-
-  const [view, setView] = useState(0);
-  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
-    setView(newView);
-  };
-
-  const pendingTransactions = useAppSelector(state => {
-    return state.pendingTransactions;
-  });
-
-  const oldAssetsDetected = useAppSelector(state => {
-    return (
-      state.account.balances &&
-      (Number(state.account.balances.sohmV1) ||
-      Number(state.account.balances.ohmV1) ||
-      Number(state.account.balances.wsohm)
-        ? true
-        : false)
-    );
-  });
 
   let rows = [];
 
@@ -69,38 +39,34 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
     );
   };
 
-  const indexV1 = useAppSelector(state => Number(state.app.currentIndexV1!));
-  const currentIndex = useAppSelector(state => Number(state.app.currentIndex));
-
-  const currentOhmBalance = useAppSelector(state => state.account.balances.ohmV1);
-  const currentSOhmBalance = useAppSelector(state => state.account.balances.sohmV1);
-  const currentWSOhmBalance = useAppSelector(state => state.account.balances.wsohm);
-  const wsOhmPrice = useAppSelector(state => state.app.marketPrice! * Number(state.app.currentIndex!));
-  const gOHMPrice = wsOhmPrice;
-
-  /**
-   * V2!!! market price
-   */
-  const marketPrice = useAppSelector(state => {
-    return state.app.marketPrice;
-  });
-  const approvedOhmBalance = useAppSelector(state => Number(state.account.migration.ohm));
-  const approvedSOhmBalance = useAppSelector(state => Number(state.account.migration.sohm));
-  const approvedWSOhmBalance = useAppSelector(state => Number(state.account.migration.wsohm));
-  const ohmFullApproval = approvedOhmBalance >= +currentOhmBalance;
-  const sOhmFullApproval = approvedSOhmBalance >= +currentSOhmBalance;
-  const wsOhmFullApproval = approvedWSOhmBalance >= +currentWSOhmBalance;
-
-  const ohmAsgOHM = +currentOhmBalance / currentIndex;
-  const sOHMAsgOHM = +currentSOhmBalance / indexV1;
-
-  const ohmInUSD = formatCurrency(gOHMPrice! * ohmAsgOHM);
-  const sOhmInUSD = formatCurrency(gOHMPrice! * sOHMAsgOHM);
-  const wsOhmInUSD = formatCurrency(wsOhmPrice * +currentWSOhmBalance);
-
-  const isGOHM = view === 1;
-  const targetAsset = useMemo(() => (isGOHM ? "gOHM" : "sOHM (v2)"), [view]);
-  const targetMultiplier = useMemo(() => (isGOHM ? 1 : currentIndex), [currentIndex, view]);
+  const {
+    view,
+    setView,
+    changeView,
+    indexV1,
+    currentIndex,
+    currentOhmBalance,
+    currentSOhmBalance,
+    currentWSOhmBalance,
+    wsOhmPrice,
+    gOHMPrice,
+    approvedOhmBalance,
+    approvedSOhmBalance,
+    approvedWSOhmBalance,
+    ohmFullApproval,
+    sOhmFullApproval,
+    wsOhmFullApproval,
+    ohmAsgOHM,
+    sOHMAsgOHM,
+    ohmInUSD,
+    sOhmInUSD,
+    wsOhmInUSD,
+    isGOHM,
+    targetAsset,
+    targetMultiplier,
+    oldAssetsDetected,
+    pendingTransactions,
+  } = useMigrationData();
 
   const onMigrate = (type: number, amount: string) =>
     dispatch(migrateSingle({ provider, address, networkID: networkId, gOHM: isGOHM, type, amount }));

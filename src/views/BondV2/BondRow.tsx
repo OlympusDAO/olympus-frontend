@@ -54,7 +54,7 @@ export function BondDataCard({ bond, networkId }: { bond: IBondV2; networkId: Ne
         </div>
         <div className="data-row">
           <Typography>
-            <Trans>ROI</Trans>
+            <Trans>Discount</Trans>
           </Typography>
           <Typography>
             {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.index} bond={bond} />}
