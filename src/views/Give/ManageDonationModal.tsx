@@ -17,7 +17,7 @@ const sOhmImg = getTokenImage("sohm");
 import { t, Trans } from "@lingui/macro";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
-import { Icon, InfoTooltip, Modal } from "@olympusdao/component-library";
+import { Icon, InfoTooltip, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
@@ -380,17 +380,12 @@ export function ManageDonationModal({
           <Box className="donation-details">{getDonationDetails()}</Box>
         </div>
         <div className="manage-buttons">
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginBottom: "20px", height: "40px" }}
-            onClick={() => setIsEditing(true)}
-          >
+          <PrimaryButton style={{ marginBottom: "20px", height: "40px" }} onClick={() => setIsEditing(true)}>
             <Typography variant="h6">Edit Donation</Typography>
-          </Button>
-          <Button variant="outlined" color="primary" style={{ height: "40px" }} onClick={() => setIsWithdrawing(true)}>
+          </PrimaryButton>
+          <TertiaryButton style={{ height: "40px" }} onClick={() => setIsWithdrawing(true)}>
             <Typography variant="h6">Stop Donation</Typography>
-          </Button>
+          </TertiaryButton>
         </div>
       </div>
     );
@@ -593,11 +588,11 @@ export function ManageDonationModal({
           </Box>
         </div>
         <div className="manage-buttons">
-          <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={() => setIsAmountSet(true)}>
+          <PrimaryButton disabled={!canSubmit()} onClick={() => setIsAmountSet(true)}>
             <Typography variant="h6">
               <Trans>Continue</Trans>
             </Typography>
-          </Button>
+          </PrimaryButton>
         </div>
       </div>
     );
@@ -628,20 +623,14 @@ export function ManageDonationModal({
           </Box>
         </div>
         <div className="manage-buttons">
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={!canWithdraw()}
-            onClick={handleWithdrawSubmit}
-            style={{ marginBottom: "20px" }}
-          >
+          <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} style={{ marginBottom: "20px" }}>
             <Typography variant="h6">
               {txnButtonText(pendingTransactions, PENDING_TXN_WITHDRAW, t`Withdraw`)}
             </Typography>
-          </Button>
-          <Button variant="outlined" color="primary" onClick={() => setIsWithdrawing(false)}>
+          </PrimaryButton>
+          <TertiaryButton onClick={() => setIsWithdrawing(false)}>
             <Typography variant="h6">Cancel</Typography>
-          </Button>
+          </TertiaryButton>
         </div>
       </div>
     );
@@ -672,11 +661,11 @@ export function ManageDonationModal({
           </Box>
         </div>
         <div className="manage-buttons">
-          <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleEditSubmit}>
+          <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit}>
             <Typography variant="h6">
               {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Confirm New sOHM`)}
             </Typography>
-          </Button>
+          </PrimaryButton>
         </div>
       </div>
     );
