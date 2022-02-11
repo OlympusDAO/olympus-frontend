@@ -1,8 +1,19 @@
 import { Trans } from "@lingui/macro";
-import { Box, Dialog, DialogTitle, FormControl, Typography } from "@material-ui/core";
+import { Box, Dialog, DialogTitle, FormControl, makeStyles, Typography } from "@material-ui/core";
 import { Input, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { SetStateAction, useEffect, useState } from "react";
 import { trim } from "src/helpers";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    [theme.breakpoints.down("sm")]: {
+      paddingInline: "16px",
+    },
+    [theme.breakpoints.up("sm")]: {
+      paddingInline: "64px",
+    },
+  },
+}));
 
 function SlippageModal(
   handleClose: () => void,
@@ -11,6 +22,7 @@ function SlippageModal(
   setCustomSlippage: { (value: SetStateAction<string>): void; (arg0: string): void },
   zapperCredit: JSX.Element,
 ) {
+  const classes = useStyles();
   const [proposedSlippage, setProposedSlippage] = useState(currentSlippage);
   const [errorState, setErrorState] = useState<string | null>(null);
   const handleChangeProposedSlippage = (slippage: string) => {
@@ -53,12 +65,12 @@ function SlippageModal(
           <PrimaryButton icon="x" template="text" onClick={handleClose} />
         </Box>
       </DialogTitle>
-      <Box paddingX="36px" paddingBottom="36px">
+      <Box paddingBottom="36px" className={classes.root}>
         <Typography color="textSecondary">
           <Trans>Important: Recommended slippage is 1-3% to avoid a failed transaction.</Trans>
         </Typography>
       </Box>
-      <Box paddingX="64px" paddingBottom="16px">
+      <Box paddingBottom="16px" className={classes.root}>
         {/* <Paper style={{ maxHeight: 300, overflow: "auto", borderRadius: 10 }}> */}
         <FormControl className="slippage-input" variant="outlined" color="primary" size="small">
           <Input
