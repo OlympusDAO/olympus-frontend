@@ -8,8 +8,6 @@ This is the front-end repo for Olympus that allows users to be part of the futur
 
 We are moving at web3 speed and we are looking for talented contributors to boost this rocket. Take a look at our [CONTRIBUTING GUIDE](CONTRIBUTING.md) if you are considering joining a world class DAO.
 
-**_ Note We're currently in the process of switching to TypeScript. Please read this guide on how to use TypeScript for this repository. <https://github.com/OlympusDAO/olympus-frontend/wiki/TypeScript-Refactor-General-Guidelines> _**
-
 ## 🔧 Setting up Local Development
 
 Required:
@@ -39,11 +37,21 @@ Open the source code and start editing!
 
 If you would like to run the frontend in a Docker image (e.g. to isolate dependencies and the nodejs version), run `yarn docker-start`.
 
-## Unit Testing
+## Testing
 
-Unit tests are co-located with source code with naming convention `*.unit.test.js`.
+We use the [React Jest](https://jestjs.io/docs/tutorial-react) test driver for unit tests, snapshot tests and e2e tests.
 
-We use the [React Jest](https://jestjs.io/docs/tutorial-react) test driver.
+To run tests in interactive mode during development:
+
+```
+yarn test
+```
+
+### Unit Testing
+
+Unit test files are co-located with the source code files that they test and follow the naming convention `*.unit.test.ts`.
+For example unit tests for `OriginalSourceFile.ts` are located in `OriginalSourceFile.unit.test.ts`.
+Valid extensions for test files are `.js` (JavaScript), `.ts` (TypeScript), `.jsx` (React JSX), `.tsx` (React TSX).
 
 To run all unit test and see a coverage report:
 
@@ -57,9 +65,30 @@ Coverage thresholds are enforced via CI checks. If a new PR introduces regressio
 
 For integration testing automation that runs browser and remote API code as well as our own code, see the End-to-end (E2E) testing section below.
 
+### Mocking Remote API Calls
+
+Unit tests should minimize dependency on remote API calls. Remote API calls slow down test execution and they also occasionally error, which may fail tests for reasons outside the app code being tested. Live API calls should be tested in End-to-end/Integration tests.
+
+[Here is an example unit test](src/helpers/index.unit.test.js) that conditionally mocks API calls.
+
+### Generative Testing
+
+We use [`fast-check`](https://github.com/dubzzz/fast-check) for generative testing which provides property-based coverage for ranges of input values.
+[Here is an example](src/helpers/33Together.unit.test.ts) of a unit test case in this repo that uses generative testing.
+
+### Snapshot Testing
+
 We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
 When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
 `yarn snapshot`.
+
+[Here is an example](src/views/Stake/__tests__/Stake.unit.test.tsx) snapshot test and [here is the correspoding recorded snapshot](https://github.com/OlympusDAO/olympus-frontend/blob/develop/src/views/Stake/__tests__/__snapshots__/Stake.unit.test.tsx.snap). Keep in mind that for snapshot tests to be meaningful, they have to pre-populate components with variety of data sets (realistic, edge case, invalid).
+
+[Here is a good blog post](https://dev.to/tobiastimm/property-based-testing-with-react-and-fast-check-3dce) about testing React components with generative data sets.
+
+### Troubleshooting
+
+If all tests are failing in your local environment (in particular, due to a "cannot find module" error with `node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/interopRequireDefault.js`), but they should be passing (and the CI tests are passing), it's likely to be an issue with your local cache. Run the following command: `yarn test --clearCache`
 
 ## End-to-end testing
 
@@ -70,15 +99,17 @@ To run the tests:
 - Run the frontend, using `yarn start`
 - In another terminal, run the tests, using `yarn test:e2e`
 
-## Rinkeby Testing
+### Rinkeby Testing
 
 ### sOHM Faucet
 
 - [0x800B3d87b77361F0D1d903246cA1F51b5acb43c9](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract)
-- to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`.
+- to retrieve test sOHMv1 click `Connect to Web3` and use function #3: `dripSOHM`.
 - After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
 
-Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
+_Note_: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
+
+_Note_: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sOHM, OHM, gOHM), you will first need to use the migration steps in the UI to convert from sOHM v1 to sOHM v2.
 
 ### wETH Faucet
 
@@ -215,7 +246,9 @@ git commit
 ```
 
 ## ESLint
+
 We use ESLint to find/automatically fix problems.
+
 - react-app and react-hooks/recommended are important with react stuff.
 - @typescript-eslint/recommended and @typescript-eslint/eslint-recommended as recommended defaults.
 - unused-imports to automatically remove unused imports.
@@ -224,14 +257,15 @@ We use ESLint to find/automatically fix problems.
 - @typescript-eslint/ban-ts-comment and @typescript-eslint/ban-ts-ignore are also turned off. This could possibly be temporary, but the ability to use @ts-ignore-like directives is certainly handy as an escape hatch as we encounter errors during the migration to TS.
 
 ## Reusable Components (Component Library)
- Our codebase uses a custom component library extended from Material UI to make common UI patterns easy to implement on the frontend.
- An up-to-date list of available components, implementation examples as well as documentation is available here:
 
- [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://master--61c4d644c064da004aebdd97.chromatic.com/)
+Our codebase uses a custom component library extended from Material UI to make common UI patterns easy to implement on the frontend.
+An up-to-date list of available components, implementation examples as well as documentation is available here:
 
- Contributions are welcome and encouraged to our Component Library. If you see repeated UI patterns not represented in the library, or would like to enhance functionality (such as adding assets to our Icon or Token components), you're welcome to [submit a PR to the component-library project](https://github.com/OlympusDAO/component-library). Please fully review component documentation in Storybook before submitting a PR.
+[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://master--61c4d644c064da004aebdd97.chromatic.com/)
 
- ## 🚀 Deployment
+Contributions are welcome and encouraged to our Component Library. If you see repeated UI patterns not represented in the library, or would like to enhance functionality (such as adding assets to our Icon or Token components), you're welcome to [submit a PR to the component-library project](https://github.com/OlympusDAO/component-library). Please fully review component documentation in Storybook before submitting a PR.
+
+## 🚀 Deployment
 
 Auto deployed on [Fleek.co](http://fleek.co/) fronted by [Cloudflare](https://www.cloudflare.com/). Since it is hosted via IPFS there is no running "server" component and we don't have server sided business logic. Users are served an `index.html` and javascript to run our applications.
 

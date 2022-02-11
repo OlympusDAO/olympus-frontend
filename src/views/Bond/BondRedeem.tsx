@@ -4,7 +4,7 @@ import { Skeleton } from "@material-ui/lab";
 import { DataRow } from "@olympusdao/component-library";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks";
-import { IAllBondData } from "src/hooks/Bonds";
+import { IAllBondData } from "src/hooks/useBonds";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
@@ -110,7 +110,7 @@ function BondRedeem({ bond }: { bond: IAllBondData }) {
           /> */}
           <Box display="flex" flexDirection="row" justifyContent="space-between">
             <Typography>
-              <Trans>ROI</Trans>
+              <Trans>Discount</Trans>
             </Typography>
             <Typography>
               {isBondLoading ? <Skeleton width="80px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}

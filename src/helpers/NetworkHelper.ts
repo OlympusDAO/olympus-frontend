@@ -97,7 +97,7 @@ export const switchNetwork = async ({ provider, networkId }: ISwitchNetwork) => 
   }
 };
 
-const idToHexString = (id: number) => {
+export const idToHexString = (id: number) => {
   return "0x" + id.toString(16);
 };
 

@@ -1,7 +1,9 @@
+import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
+import { formatUnits } from "@ethersproject/units";
 import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import { IBondV2 } from "src/slices/BondSliceV2";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
@@ -59,17 +61,25 @@ export async function getV1MarketPrice() {
  * @returns INTEGER usd value
  */
 export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
+  let tokenPrice = 0;
+  const priceApiURL = "https://api.olympusdao.finance/api/rest/coingecko_name";
   try {
-    const resp = (await axios.get(
+    const ohmResp = (await axios.get(`${priceApiURL}/${tokenId}`)) as {
+      data: { coingeckoTicker: { value: number } };
+    };
+    tokenPrice = ohmResp.data.coingeckoTicker.value;
+  } catch (e) {
+    console.warn(`Error accessing OHM API ${priceApiURL} . Falling back to coingecko API`, e);
+    // fallback to coingecko
+    const cgResp = (await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`,
     )) as {
       data: { [id: string]: { usd: number } };
     };
-    const tokenPrice: number = resp.data[tokenId].usd;
+    tokenPrice = cgResp.data[tokenId].usd;
+  } finally {
+    // console.info(`Token price from coingecko: ${tokenPrice}`);
     return tokenPrice;
-  } catch (e) {
-    // console.log("coingecko api error: ", e);
-    return 0;
   }
 }
 
@@ -248,60 +258,6 @@ export const shouldTriggerSafetyCheck = () => {
   return false;
 };
 
-/**
- * returns unix timestamp for x minutes ago
- * @param x minutes as a number
- */
-export const minutesAgo = (x: number) => {
-  const now = new Date().getTime();
-  return new Date(now - x * 60000).getTime();
-};
-
-/**
- * subtracts two dates for use in 33-together timer
- * param (Date) dateA is the ending date object
- * param (Date) dateB is the current date object
- * returns days, hours, minutes, seconds
- * NOTE: this func previously used parseInt() to convert to whole numbers, however, typescript doesn't like
- * ... using parseInt on number params. It only allows parseInt on string params. So we converted usage to
- * ... Math.trunc which accomplishes the same result as parseInt.
- */
-export const subtractDates = (dateA: Date, dateB: Date) => {
-  const msA: number = dateA.getTime();
-  const msB: number = dateB.getTime();
-
-  let diff: number = msA - msB;
-
-  let days = 0;
-  if (diff >= 86400000) {
-    days = Math.trunc(diff / 86400000);
-    diff -= days * 86400000;
-  }
-
-  let hours = 0;
-  if (days || diff >= 3600000) {
-    hours = Math.trunc(diff / 3600000);
-    diff -= hours * 3600000;
-  }
-
-  let minutes = 0;
-  if (hours || diff >= 60000) {
-    minutes = Math.trunc(diff / 60000);
-    diff -= minutes * 60000;
-  }
-
-  let seconds = 0;
-  if (minutes || diff >= 1000) {
-    seconds = Math.trunc(diff / 1000);
-  }
-  return {
-    days,
-    hours,
-    minutes,
-    seconds,
-  };
-};
-
 export const toBN = (num: number) => {
   return BigNumber.from(num);
 };
@@ -312,6 +268,48 @@ export const bnToNum = (bigNum: BigNumber) => {
 
 export const handleContractError = (e: any) => {
   if (EnvHelper.env.NODE_ENV !== "production") console.warn("caught error in slices; usually network related", e);
+};
+
+/**
+ * Determines if app is viewed within an <iframe></iframe>
+ */
+export const isIFrame = () => window.location !== window.parent.location;
+
+/**
+ * Assertion function helpful for asserting `enabled`
+ * values from within a `react-query` function.
+ * @param value The value(s) to assert
+ * @param queryKey Key of current query
+ */
+export function queryAssertion(value: unknown, queryKey: any = "not specified"): asserts value {
+  if (!value) throw new Error(`Failed react-query assertion for key: ${queryKey}`);
+}
+
+/**
+ * Assertion function
+ */
+export function assert(value: unknown, message: string | Error): asserts value {
+  if (!value) throw message instanceof Error ? message : new Error(message);
+}
+
+/**
+ * Converts gOHM to OHM. Mimics `balanceFrom()` gOHM contract function.
+ * @returns Formatted string representation of OHM equivalent.
+ */
+export const convertGohmToOhm = (amount: BigNumber, index: BigNumber): string => {
+  return formatUnits(amount.div(10 ** 9).mul(index), 36);
+};
+
+/**
+ * Converts OHM to gOHM. Mimics `balanceTo()` gOHM contract function.
+ * @returns Formatted string representation of gOHM equivalent.
+ */
+export const convertOhmToGohm = (amount: BigNumber, index: BigNumber): string => {
+  return formatUnits(amount.mul(10 ** 9).div(index), 18);
+};
+
+export const parseBigNumber = (value: BigNumber, units: BigNumberish = 9) => {
+  return parseFloat(formatUnits(value, units));
 };
 
 interface ICheckBalance extends IBaseAsyncThunk {

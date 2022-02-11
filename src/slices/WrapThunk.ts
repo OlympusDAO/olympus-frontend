@@ -4,10 +4,10 @@ import { IERC20, OlympusStakingv2__factory } from "src/typechain";
 
 import { abi as ierc20ABI } from "../abi/IERC20.json";
 import { addresses } from "../constants";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { error, info } from "../slices/MessagesSlice";
+import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
+import { error, info } from "./MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns, getWrappingTypeText } from "./PendingTxnsSlice";
 
 interface IUAData {
@@ -15,7 +15,7 @@ interface IUAData {
   value: string;
   approved: boolean;
   txHash: string | null;
-  type: string | null;
+  type: string;
 }
 
 export const changeApproval = createAsyncThunk(
@@ -96,7 +96,7 @@ export const changeWrapV2 = createAsyncThunk(
       value: value,
       approved: true,
       txHash: null,
-      type: null,
+      type: "",
     };
 
     try {
@@ -126,8 +126,12 @@ export const changeWrapV2 = createAsyncThunk(
       if (wrapTx) {
         uaData.txHash = wrapTx.hash;
         await wrapTx.wait();
-        segmentUA(uaData);
-        console.log("getBalances");
+        trackSegmentEvent(uaData);
+        trackGAEvent({
+          category: "Wrap",
+          action: uaData.type,
+          metric1: parseFloat(uaData.value),
+        });
         dispatch(getBalances({ address, networkID, provider }));
         dispatch(clearPendingTxn(wrapTx.hash));
       }

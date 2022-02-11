@@ -85,7 +85,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="makeStyles-root-5 metric wsoprice"
+                      class="makeStyles-root-5 wsoprice"
                     >
                       <div
                         class="MuiBox-root MuiBox-root-8"
