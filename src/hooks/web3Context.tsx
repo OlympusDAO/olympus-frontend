@@ -15,6 +15,15 @@ function isIframe() {
   return window.location !== window.parent.location;
 }
 
+// TODO Maybe use Networks object
+function getScanner(networkId: number): string {
+  switch (networkId) {
+    default: {
+      return "https://etherscan.io";
+    }
+  }
+}
+
 /*
   Types
 */
@@ -30,6 +39,7 @@ type onChainProvider = {
   networkName: string;
   providerUri: string;
   providerInitialized: boolean;
+  scannerUrl: string;
 };
 
 export type Web3ContextData = {
@@ -161,6 +171,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       window.location.reload();
     }, 1);
   }, [provider, web3Modal, connected]);
+  const scannerUrl = getScanner(networkId);
 
   const onChainProvider = useMemo(
     () => ({
@@ -175,6 +186,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       networkName,
       providerUri,
       providerInitialized,
+      scannerUrl,
     }),
     [
       connect,
@@ -188,6 +200,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       networkName,
       providerUri,
       providerInitialized,
+      scannerUrl,
     ],
   );
 

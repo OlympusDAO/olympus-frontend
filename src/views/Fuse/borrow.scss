@@ -1,0 +1,130 @@
+#borrow-view {
+  width: calc(100% - 16px);
+  display: flex;
+  justify-content: center;
+
+  & > .MuiGrid-root {
+    max-width: 1200px;
+  }
+
+  .MuiTypography-body2 {
+    font-size: 12px;
+  }
+
+  .view-contract-icon {
+    font-size: 0.75rem;
+    vertical-align: sub;
+  }
+
+  .hec-card {
+    max-width: 100%;
+    width: 100%;
+    padding: 30px 20px;
+    margin-bottom: 0;
+
+    &.hec-modal {
+      max-width: 600px;
+
+      .MuiPaper-root {
+        min-width: 400px;
+        background: #fff5e6;
+        border: 1px solid #000000;
+        padding: 20px 30px 30px 30px;
+      }
+
+      .connect-button {
+        border-radius: 5px;
+        font-size: 18px;
+        line-height: 21px;
+        color: #161616;
+        height: 41px;
+        width: 100%;
+        border: 1px solid #ff9900;
+      }
+    }
+  }
+
+  .hero-metrics {
+    text-align: center;
+    margin-bottom: 16px;
+    .MuiTypography-h5 {
+      font-weight: bold;
+    }
+    .MuiSkeleton-root {
+      display: inline-block;
+    }
+  }
+
+  .hec-card-table {
+    width: 100%;
+
+    a {
+      padding: 0;
+    }
+
+    tbody tr {
+      height: 50px;
+    }
+  }
+
+  .collateralRatioBar {
+    .progress {
+      flex-grow: 1;
+      padding: 2px;
+    }
+  }
+
+  .MuiTable-root {
+    margin: 10px 0px;
+  }
+
+  .MuiTableRow-root.MuiTableRow-head .MuiTableCell-root {
+    padding: 6px;
+
+    &:first-child {
+      padding-left: 45px;
+    }
+  }
+
+  .MuiTableCell-sizeSmall {
+    padding: 6px;
+  }
+
+  .description {
+    padding: 3px 0 0;
+    margin: 0;
+    font-size: 12px;
+  }
+
+  .avatar-medium {
+    width: 32px;
+    height: 32px;
+  }
+
+  .tooltip-container {
+    min-width: 175px;
+    border: 1px solid rgba(118, 130, 153, 0.2);
+    padding: 10px;
+
+    .item {
+      align-items: center;
+      justify-content: space-between;
+      height: 1.5em;
+
+      &:first-child {
+        font-size: 14px;
+        margin: -10px -10px 5px;
+        padding: 10px 10px 25px;
+        border-bottom: 1px solid rgba(118, 130, 153, 0.2);
+      }
+    }
+  }
+
+  .asset-row {
+    cursor: pointer;
+  }
+}
+
+.mobile #borrow-view {
+  width: 100%;
+}

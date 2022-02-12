@@ -49,6 +49,7 @@ import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import { trackGAEvent, trackSegmentEvent } from "./helpers/analytics";
+import { Fuse } from "./views/Fuse";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -402,6 +403,10 @@ function App() {
               <Route exact path={`/zap`}>
                 <Zap />
               </Route>
+            </Route>
+
+            <Route path="/fuse">
+              <Fuse />
             </Route>
 
             {/* <Route path="/33-together">

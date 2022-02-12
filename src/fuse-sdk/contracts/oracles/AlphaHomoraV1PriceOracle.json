@@ -1,0 +1,1696 @@
+{
+  "contractName": "AlphaHomoraV1PriceOracle",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "IBETH",
+      "outputs": [
+        {
+          "internalType": "contract Bank",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract CToken",
+          "name": "cToken",
+          "type": "address"
+        }
+      ],
+      "name": "getUnderlyingPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"IBETH\",\"outputs\":[{\"internalType\":\"contract Bank\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract CToken\",\"name\":\"cToken\",\"type\":\"address\"}],\"name\":\"getUnderlyingPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"David Lucid <david@rari.capital> (https://github.com/davidlucid)\",\"details\":\"Implements the `PriceOracle` interface.\",\"kind\":\"dev\",\"methods\":{\"getUnderlyingPrice(address)\":{\"details\":\"Returns the price in ETH of the token underlying `cToken` (implements `PriceOracle`).\"}},\"stateVariables\":{\"IBETH\":{\"details\":\"Alpha Homora ibETH token contract object.\"}},\"title\":\"AlphaHomoraV1PriceOracle\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"Returns prices the Alpha Homora V1 ibETH ERC20 token.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/AlphaHomoraV1PriceOracle.sol\":\"AlphaHomoraV1PriceOracle\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/alpha/Bank.sol\":{\"keccak256\":\"0xf22457f3de70f1d82d9d6bf93339b6a9ca6c30dd1b042c37cddb6936d5e8a43a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7e3ef22ec9fc5fc5f417571ad4811d21af80e786cbf7fa114295a1a733e9a6aa\",\"dweb:/ipfs/QmYFrXv7LAFk4DvJntFM1xDjgVDL39wcM17eqZu5sJmdmM\"]},\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/CErc20.sol\":{\"keccak256\":\"0xb5389113393e785b62d404388e3a4edd5d0846c7af03a8877b1fb27e2714e2a0\",\"urls\":[\"bzz-raw://5f7756611610b189a731e18d59fa867ca6d4f0921b2d54f5301d615574f449ef\",\"dweb:/ipfs/QmSwVh5o9mpx3V3X8qmscmWBJrGhaFZZZUYhhX3Wysa3R7\"]},\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/CToken.sol\":{\"keccak256\":\"0xdfa3477ac5b45b78648b7ab1c804f5ad032e4b3143ffe178c0609fcd598fc2c7\",\"urls\":[\"bzz-raw://2ce9c025dd3897daabbe8e2f24be1d050e358c61d927047918fc3ab0042a4ea9\",\"dweb:/ipfs/QmPGpp9FMK1rpapJBUGzH9RTPidb865E4D9ZepiFUgrQ3t\"]},\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/PriceOracle.sol\":{\"keccak256\":\"0x87c6066612ced3b1beed4ac7ca5c7786903005b3d6cede8783faf3683f95a5d2\",\"urls\":[\"bzz-raw://449b3e2f89482f2bd95e0ccdf5dfcec65052c52283d4a36655053ebee52902f2\",\"dweb:/ipfs/Qmf65HW2oxh4nZupaau58vm91w75Edf3Lqyhn8mh9uDuRH\"]},\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/AlphaHomoraV1PriceOracle.sol\":{\"keccak256\":\"0x62a951686146baeae22aee19acfce22a988501cb4043983c6aebd5d50926244e\",\"urls\":[\"bzz-raw://fe4e60284939db29eea174695ab4efbddc5bf7f6c9b274e958a324d65da34eff\",\"dweb:/ipfs/QmbvgeqDQ6ocgk8zu5ayJjEkTxUqT7hD59q2cQd2y4DWMX\"]},\"@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol\":{\"keccak256\":\"0xe9ecc18d06bcc5aa48c40a98333540248b6c1c18ecb6262329c06d3f0cbb45ae\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8a81bcbe4f867a4eaf7ec375508a9901ea7517b9854c9a542c242050beda5127\",\"dweb:/ipfs/QmS499VRDhAgMg1pK96PiyRpP3gJZzzMcoNBbe8AV3JNw3\"]},\"@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol\":{\"keccak256\":\"0xa1931c47a617014f858580db625aa0dcf343796f39acd4b5b51effc092a1f0a9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://2cbeb499bad52667b96dd7df8e9b1f583e8c07afaba0018a75e5b7ff6e777173\",\"dweb:/ipfs/QmPLJnuhEcWnpmhMHKsiuVHVxMwb5k6idYyjajbrtZLz5B\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506103f0806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c806378cd49e91461003b578063fc57d4df1461005f575b600080fd5b610043610097565b604080516001600160a01b039092168252519081900360200190f35b6100856004803603602081101561007557600080fd5b50356001600160a01b03166100af565b60408051918252519081900360200190f35b7367b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a81565b60007367b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a6001600160a01b0316826001600160a01b0316636f307dc36040518163ffffffff1660e01b815260040160206040518083038186803b15801561010857600080fd5b505afa15801561011c573d6000803e3d6000fd5b505050506040513d602081101561013257600080fd5b50516001600160a01b03161461014757600080fd5b6102547367b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a6001600160a01b03166318160ddd6040518163ffffffff1660e01b815260040160206040518083038186803b15801561019757600080fd5b505afa1580156101ab573d6000803e3d6000fd5b505050506040513d60208110156101c157600080fd5b505160408051630daf7b9d60e21b8152905161024e91670de0b6b3a7640000917367b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a916336bdee74916004808301926020929190829003018186803b15801561021c57600080fd5b505afa158015610230573d6000803e3d6000fd5b505050506040513d602081101561024657600080fd5b50519061025a565b906102ba565b92915050565b60008261026957506000610254565b8282028284828161027657fe5b04146102b35760405162461bcd60e51b815260040180806020018281038252602181526020018061039a6021913960400191505060405180910390fd5b9392505050565b60006102b383836040518060400160405280601a81526020017f536166654d6174683a206469766973696f6e206279207a65726f000000000000815250600081836103835760405162461bcd60e51b81526004018080602001828103825283818151815260200191508051906020019080838360005b83811015610348578181015183820152602001610330565b50505050905090810190601f1680156103755780820380516001836020036101000a031916815260200191505b509250505060405180910390fd5b50600083858161038f57fe5b049594505050505056fe536166654d6174683a206d756c7469706c69636174696f6e206f766572666c6f77a2646970667358221220c7f21515d06cb78ee7c1f64c8997aca520579b3f468495a31652e8c332fb35e964736f6c634300060c0033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c806378cd49e91461003b578063fc57d4df1461005f575b600080fd5b610043610097565b604080516001600160a01b039092168252519081900360200190f35b6100856004803603602081101561007557600080fd5b50356001600160a01b03166100af565b60408051918252519081900360200190f35b7367b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a81565b60007367b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a6001600160a01b0316826001600160a01b0316636f307dc36040518163ffffffff1660e01b815260040160206040518083038186803b15801561010857600080fd5b505afa15801561011c573d6000803e3d6000fd5b505050506040513d602081101561013257600080fd5b50516001600160a01b03161461014757600080fd5b6102547367b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a6001600160a01b03166318160ddd6040518163ffffffff1660e01b815260040160206040518083038186803b15801561019757600080fd5b505afa1580156101ab573d6000803e3d6000fd5b505050506040513d60208110156101c157600080fd5b505160408051630daf7b9d60e21b8152905161024e91670de0b6b3a7640000917367b66c99d3eb37fa76aa3ed1ff33e8e39f0b9c7a916336bdee74916004808301926020929190829003018186803b15801561021c57600080fd5b505afa158015610230573d6000803e3d6000fd5b505050506040513d602081101561024657600080fd5b50519061025a565b906102ba565b92915050565b60008261026957506000610254565b8282028284828161027657fe5b04146102b35760405162461bcd60e51b815260040180806020018281038252602181526020018061039a6021913960400191505060405180910390fd5b9392505050565b60006102b383836040518060400160405280601a81526020017f536166654d6174683a206469766973696f6e206279207a65726f000000000000815250600081836103835760405162461bcd60e51b81526004018080602001828103825283818151815260200191508051906020019080838360005b83811015610348578181015183820152602001610330565b50505050905090810190601f1680156103755780820380516001836020036101000a031916815260200191505b509250505060405180910390fd5b50600083858161038f57fe5b049594505050505056fe536166654d6174683a206d756c7469706c69636174696f6e206f766572666c6f77a2646970667358221220c7f21515d06cb78ee7c1f64c8997aca520579b3f468495a31652e8c332fb35e964736f6c634300060c0033",
+  "immutableReferences": {},
+  "sourceMap": "519:613:32:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "519:613:32:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;694:77;;;:::i;:::-;;;;-1:-1:-1;;;;;694:77:32;;;;;;;;;;;;;;897:232;;;;;;;;;;;;;;;;-1:-1:-1;897:232:32;-1:-1:-1;;;;;897:232:32;;:::i;:::-;;;;;;;;;;;;;;;;694:77;728:42;694:77;:::o;897:232::-;972:4;728:42;-1:-1:-1;;;;;997:54:32;1012:6;-1:-1:-1;;;;;997:34:32;;:36;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;997:36:32;-1:-1:-1;;;;;997:54:32;;989:63;;;;;;1070:51;728:42;-1:-1:-1;;;;;1101:17:32;;:19;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;1101:19:32;1070:16;;;-1:-1:-1;;;1070:16:32;;;;:26;;1091:4;;728:42;;1070:14;;:16;;;;;1101:19;;1070:16;;;;;;;728:42;1070:16;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;1070:16:32;;:20;:26::i;:::-;:30;;:51::i;:::-;1063:58;897:232;-1:-1:-1;;897:232:32:o;2199:459:47:-;2257:7;2498:6;2494:45;;-1:-1:-1;2527:1:47;2520:8;;2494:45;2561:5;;;2565:1;2561;:5;:1;2584:5;;;;;:10;2576:56;;;;-1:-1:-1;;;2576:56:47;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2650:1;2199:459;-1:-1:-1;;;2199:459:47:o;3120:130::-;3178:7;3204:39;3208:1;3211;3204:39;;;;;;;;;;;;;;;;;3818:7;3852:12;3845:5;3837:28;;;;-1:-1:-1;;;3837:28:47;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3875:9;3891:1;3887;:5;;;;;;;3732:272;-1:-1:-1;;;;;3732:272:47:o",
+  "source": "pragma solidity 0.6.12;\r\n\r\nimport \"@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol\";\r\n\r\nimport \"../external/compound/PriceOracle.sol\";\r\nimport \"../external/compound/CToken.sol\";\r\nimport \"../external/compound/CErc20.sol\";\r\n\r\nimport \"../external/alpha/Bank.sol\";\r\n\r\n/**\r\n * @title AlphaHomoraV1PriceOracle\r\n * @notice Returns prices the Alpha Homora V1 ibETH ERC20 token.\r\n * @dev Implements the `PriceOracle` interface.\r\n * @author David Lucid <david@rari.capital> (https://github.com/davidlucid)\r\n */\r\ncontract AlphaHomoraV1PriceOracle is PriceOracle {\r\n    using SafeMathUpgradeable for uint256;\r\n\r\n    /**\r\n     * @dev Alpha Homora ibETH token contract object.\r\n     */\r\n    Bank constant public IBETH = Bank(0x67B66C99D3Eb37Fa76Aa3Ed1ff33E8e39F0b9c7A);\r\n\r\n    /**\r\n     * @dev Returns the price in ETH of the token underlying `cToken` (implements `PriceOracle`).\r\n     */\r\n    function getUnderlyingPrice(CToken cToken) external override view returns (uint) {\r\n        require(CErc20(address(cToken)).underlying() == address(IBETH));\r\n        return IBETH.totalETH().mul(1e18).div(IBETH.totalSupply());\r\n    }\r\n}\r\n",
+  "sourcePath": "C:/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/AlphaHomoraV1PriceOracle.sol",
+  "ast": {
+    "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/AlphaHomoraV1PriceOracle.sol",
+    "exportedSymbols": {
+      "AlphaHomoraV1PriceOracle": [7352]
+    },
+    "id": 7353,
+    "license": null,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 7296,
+        "literals": ["solidity", "0.6", ".12"],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:32"
+      },
+      {
+        "absolutePath": "@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol",
+        "file": "@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol",
+        "id": 7297,
+        "nodeType": "ImportDirective",
+        "scope": 7353,
+        "sourceUnit": 10933,
+        "src": "27:74:32",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/PriceOracle.sol",
+        "file": "../external/compound/PriceOracle.sol",
+        "id": 7298,
+        "nodeType": "ImportDirective",
+        "scope": 7353,
+        "sourceUnit": 6024,
+        "src": "105:46:32",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/CToken.sol",
+        "file": "../external/compound/CToken.sol",
+        "id": 7299,
+        "nodeType": "ImportDirective",
+        "scope": 7353,
+        "sourceUnit": 5867,
+        "src": "153:41:32",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/CErc20.sol",
+        "file": "../external/compound/CErc20.sol",
+        "id": 7300,
+        "nodeType": "ImportDirective",
+        "scope": 7353,
+        "sourceUnit": 5724,
+        "src": "196:41:32",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/alpha/Bank.sol",
+        "file": "../external/alpha/Bank.sol",
+        "id": 7301,
+        "nodeType": "ImportDirective",
+        "scope": 7353,
+        "sourceUnit": 5004,
+        "src": "241:36:32",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 7303,
+              "name": "PriceOracle",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 6023,
+              "src": "556:11:32",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_PriceOracle_$6023",
+                "typeString": "contract PriceOracle"
+              }
+            },
+            "id": 7304,
+            "nodeType": "InheritanceSpecifier",
+            "src": "556:11:32"
+          }
+        ],
+        "contractDependencies": [6023],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 7302,
+          "nodeType": "StructuredDocumentation",
+          "src": "281:236:32",
+          "text": " @title AlphaHomoraV1PriceOracle\n @notice Returns prices the Alpha Homora V1 ibETH ERC20 token.\n @dev Implements the `PriceOracle` interface.\n @author David Lucid <david@rari.capital> (https://github.com/davidlucid)"
+        },
+        "fullyImplemented": true,
+        "id": 7352,
+        "linearizedBaseContracts": [7352, 6023],
+        "name": "AlphaHomoraV1PriceOracle",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "id": 7307,
+            "libraryName": {
+              "contractScope": null,
+              "id": 7305,
+              "name": "SafeMathUpgradeable",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 10932,
+              "src": "581:19:32",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_SafeMathUpgradeable_$10932",
+                "typeString": "library SafeMathUpgradeable"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "575:38:32",
+            "typeName": {
+              "id": 7306,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "605:7:32",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            }
+          },
+          {
+            "constant": true,
+            "documentation": {
+              "id": 7308,
+              "nodeType": "StructuredDocumentation",
+              "src": "621:67:32",
+              "text": " @dev Alpha Homora ibETH token contract object."
+            },
+            "functionSelector": "78cd49e9",
+            "id": 7313,
+            "mutability": "constant",
+            "name": "IBETH",
+            "nodeType": "VariableDeclaration",
+            "overrides": null,
+            "scope": 7352,
+            "src": "694:77:32",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_Bank_$5003",
+              "typeString": "contract Bank"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 7309,
+              "name": "Bank",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 5003,
+              "src": "694:4:32",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Bank_$5003",
+                "typeString": "contract Bank"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "arguments": [
+                {
+                  "argumentTypes": null,
+                  "hexValue": "307836374236364339394433456233374661373641613345643166663333453865333946306239633741",
+                  "id": 7311,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "kind": "number",
+                  "lValueRequested": false,
+                  "nodeType": "Literal",
+                  "src": "728:42:32",
+                  "subdenomination": null,
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address_payable",
+                    "typeString": "address payable"
+                  },
+                  "value": "0x67B66C99D3Eb37Fa76Aa3Ed1ff33E8e39F0b9c7A"
+                }
+              ],
+              "expression": {
+                "argumentTypes": [
+                  {
+                    "typeIdentifier": "t_address_payable",
+                    "typeString": "address payable"
+                  }
+                ],
+                "id": 7310,
+                "name": "Bank",
+                "nodeType": "Identifier",
+                "overloadedDeclarations": [],
+                "referencedDeclaration": 5003,
+                "src": "723:4:32",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_type$_t_contract$_Bank_$5003_$",
+                  "typeString": "type(contract Bank)"
+                }
+              },
+              "id": 7312,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "typeConversion",
+              "lValueRequested": false,
+              "names": [],
+              "nodeType": "FunctionCall",
+              "src": "723:48:32",
+              "tryCall": false,
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Bank_$5003",
+                "typeString": "contract Bank"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "baseFunctions": [6022],
+            "body": {
+              "id": 7350,
+              "nodeType": "Block",
+              "src": "978:151:32",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        "id": 7335,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "arguments": [],
+                          "expression": {
+                            "argumentTypes": [],
+                            "expression": {
+                              "argumentTypes": null,
+                              "arguments": [
+                                {
+                                  "argumentTypes": null,
+                                  "arguments": [
+                                    {
+                                      "argumentTypes": null,
+                                      "id": 7326,
+                                      "name": "cToken",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 7316,
+                                      "src": "1012:6:32",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_contract$_CToken_$5866",
+                                        "typeString": "contract CToken"
+                                      }
+                                    }
+                                  ],
+                                  "expression": {
+                                    "argumentTypes": [
+                                      {
+                                        "typeIdentifier": "t_contract$_CToken_$5866",
+                                        "typeString": "contract CToken"
+                                      }
+                                    ],
+                                    "id": 7325,
+                                    "isConstant": false,
+                                    "isLValue": false,
+                                    "isPure": true,
+                                    "lValueRequested": false,
+                                    "nodeType": "ElementaryTypeNameExpression",
+                                    "src": "1004:7:32",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_type$_t_address_$",
+                                      "typeString": "type(address)"
+                                    },
+                                    "typeName": {
+                                      "id": 7324,
+                                      "name": "address",
+                                      "nodeType": "ElementaryTypeName",
+                                      "src": "1004:7:32",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": null,
+                                        "typeString": null
+                                      }
+                                    }
+                                  },
+                                  "id": 7327,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "kind": "typeConversion",
+                                  "lValueRequested": false,
+                                  "names": [],
+                                  "nodeType": "FunctionCall",
+                                  "src": "1004:15:32",
+                                  "tryCall": false,
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                  }
+                                }
+                              ],
+                              "expression": {
+                                "argumentTypes": [
+                                  {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                  }
+                                ],
+                                "id": 7323,
+                                "name": "CErc20",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 5723,
+                                "src": "997:6:32",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_type$_t_contract$_CErc20_$5723_$",
+                                  "typeString": "type(contract CErc20)"
+                                }
+                              },
+                              "id": 7328,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "typeConversion",
+                              "lValueRequested": false,
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "997:23:32",
+                              "tryCall": false,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_CErc20_$5723",
+                                "typeString": "contract CErc20"
+                              }
+                            },
+                            "id": 7329,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "underlying",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 5711,
+                            "src": "997:34:32",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_external_view$__$returns$_t_address_$",
+                              "typeString": "function () view external returns (address)"
+                            }
+                          },
+                          "id": 7330,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "997:36:32",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "==",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            {
+                              "argumentTypes": null,
+                              "id": 7333,
+                              "name": "IBETH",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 7313,
+                              "src": "1045:5:32",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_Bank_$5003",
+                                "typeString": "contract Bank"
+                              }
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_contract$_Bank_$5003",
+                                "typeString": "contract Bank"
+                              }
+                            ],
+                            "id": 7332,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "1037:7:32",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_address_$",
+                              "typeString": "type(address)"
+                            },
+                            "typeName": {
+                              "id": 7331,
+                              "name": "address",
+                              "nodeType": "ElementaryTypeName",
+                              "src": "1037:7:32",
+                              "typeDescriptions": {
+                                "typeIdentifier": null,
+                                "typeString": null
+                              }
+                            }
+                          },
+                          "id": 7334,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "1037:14:32",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "src": "997:54:32",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 7322,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [-18, -18],
+                      "referencedDeclaration": -18,
+                      "src": "989:7:32",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 7336,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "989:63:32",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 7337,
+                  "nodeType": "ExpressionStatement",
+                  "src": "989:63:32"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [],
+                        "expression": {
+                          "argumentTypes": [],
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 7345,
+                            "name": "IBETH",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 7313,
+                            "src": "1101:5:32",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_Bank_$5003",
+                              "typeString": "contract Bank"
+                            }
+                          },
+                          "id": 7346,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "totalSupply",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 11542,
+                          "src": "1101:17:32",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
+                            "typeString": "function () view external returns (uint256)"
+                          }
+                        },
+                        "id": 7347,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1101:19:32",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "hexValue": "31653138",
+                            "id": 7342,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "1091:4:32",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_1000000000000000000_by_1",
+                              "typeString": "int_const 1000000000000000000"
+                            },
+                            "value": "1e18"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_rational_1000000000000000000_by_1",
+                              "typeString": "int_const 1000000000000000000"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": null,
+                            "arguments": [],
+                            "expression": {
+                              "argumentTypes": [],
+                              "expression": {
+                                "argumentTypes": null,
+                                "id": 7338,
+                                "name": "IBETH",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 7313,
+                                "src": "1070:5:32",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_contract$_Bank_$5003",
+                                  "typeString": "contract Bank"
+                                }
+                              },
+                              "id": 7339,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "memberName": "totalETH",
+                              "nodeType": "MemberAccess",
+                              "referencedDeclaration": 5002,
+                              "src": "1070:14:32",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
+                                "typeString": "function () view external returns (uint256)"
+                              }
+                            },
+                            "id": 7340,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "1070:16:32",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "id": 7341,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "mul",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 10845,
+                          "src": "1070:20:32",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
+                            "typeString": "function (uint256,uint256) pure returns (uint256)"
+                          }
+                        },
+                        "id": 7343,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1070:26:32",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "id": 7344,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "div",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 10862,
+                      "src": "1070:30:32",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
+                        "typeString": "function (uint256,uint256) pure returns (uint256)"
+                      }
+                    },
+                    "id": 7348,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1070:51:32",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 7321,
+                  "id": 7349,
+                  "nodeType": "Return",
+                  "src": "1063:58:32"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 7314,
+              "nodeType": "StructuredDocumentation",
+              "src": "780:111:32",
+              "text": " @dev Returns the price in ETH of the token underlying `cToken` (implements `PriceOracle`)."
+            },
+            "functionSelector": "fc57d4df",
+            "id": 7351,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getUnderlyingPrice",
+            "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 7318,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "949:8:32"
+            },
+            "parameters": {
+              "id": 7317,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 7316,
+                  "mutability": "mutable",
+                  "name": "cToken",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 7351,
+                  "src": "925:13:32",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_CToken_$5866",
+                    "typeString": "contract CToken"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 7315,
+                    "name": "CToken",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 5866,
+                    "src": "925:6:32",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_CToken_$5866",
+                      "typeString": "contract CToken"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "924:15:32"
+            },
+            "returnParameters": {
+              "id": 7321,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 7320,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 7351,
+                  "src": "972:4:32",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 7319,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "972:4:32",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "971:6:32"
+            },
+            "scope": 7352,
+            "src": "897:232:32",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 7353,
+        "src": "519:613:32"
+      }
+    ],
+    "src": "0:1134:32"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/AlphaHomoraV1PriceOracle.sol",
+      "exportedSymbols": {
+        "AlphaHomoraV1PriceOracle": [7352]
+      },
+      "license": null
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": ["solidity", "0.6", ".12"]
+        },
+        "id": 7296,
+        "name": "PragmaDirective",
+        "src": "0:23:32"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 10933,
+          "absolutePath": "@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol",
+          "file": "@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol",
+          "scope": 7353,
+          "symbolAliases": [null],
+          "unitAlias": ""
+        },
+        "id": 7297,
+        "name": "ImportDirective",
+        "src": "27:74:32"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 6024,
+          "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/PriceOracle.sol",
+          "file": "../external/compound/PriceOracle.sol",
+          "scope": 7353,
+          "symbolAliases": [null],
+          "unitAlias": ""
+        },
+        "id": 7298,
+        "name": "ImportDirective",
+        "src": "105:46:32"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 5867,
+          "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/CToken.sol",
+          "file": "../external/compound/CToken.sol",
+          "scope": 7353,
+          "symbolAliases": [null],
+          "unitAlias": ""
+        },
+        "id": 7299,
+        "name": "ImportDirective",
+        "src": "153:41:32"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 5724,
+          "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/CErc20.sol",
+          "file": "../external/compound/CErc20.sol",
+          "scope": 7353,
+          "symbolAliases": [null],
+          "unitAlias": ""
+        },
+        "id": 7300,
+        "name": "ImportDirective",
+        "src": "196:41:32"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 5004,
+          "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/alpha/Bank.sol",
+          "file": "../external/alpha/Bank.sol",
+          "scope": 7353,
+          "symbolAliases": [null],
+          "unitAlias": ""
+        },
+        "id": 7301,
+        "name": "ImportDirective",
+        "src": "241:36:32"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "contractDependencies": [6023],
+          "contractKind": "contract",
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [7352, 6023],
+          "name": "AlphaHomoraV1PriceOracle",
+          "scope": 7353
+        },
+        "children": [
+          {
+            "attributes": {
+              "text": " @title AlphaHomoraV1PriceOracle\n @notice Returns prices the Alpha Homora V1 ibETH ERC20 token.\n @dev Implements the `PriceOracle` interface.\n @author David Lucid <david@rari.capital> (https://github.com/davidlucid)"
+            },
+            "id": 7302,
+            "name": "StructuredDocumentation",
+            "src": "281:236:32"
+          },
+          {
+            "attributes": {
+              "arguments": null
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "PriceOracle",
+                  "referencedDeclaration": 6023,
+                  "type": "contract PriceOracle"
+                },
+                "id": 7303,
+                "name": "UserDefinedTypeName",
+                "src": "556:11:32"
+              }
+            ],
+            "id": 7304,
+            "name": "InheritanceSpecifier",
+            "src": "556:11:32"
+          },
+          {
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "SafeMathUpgradeable",
+                  "referencedDeclaration": 10932,
+                  "type": "library SafeMathUpgradeable"
+                },
+                "id": 7305,
+                "name": "UserDefinedTypeName",
+                "src": "581:19:32"
+              },
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 7306,
+                "name": "ElementaryTypeName",
+                "src": "605:7:32"
+              }
+            ],
+            "id": 7307,
+            "name": "UsingForDirective",
+            "src": "575:38:32"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "functionSelector": "78cd49e9",
+              "mutability": "constant",
+              "name": "IBETH",
+              "overrides": null,
+              "scope": 7352,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "contract Bank",
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "Bank",
+                  "referencedDeclaration": 5003,
+                  "type": "contract Bank"
+                },
+                "id": 7309,
+                "name": "UserDefinedTypeName",
+                "src": "694:4:32"
+              },
+              {
+                "attributes": {
+                  "argumentTypes": null,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "isStructConstructorCall": false,
+                  "lValueRequested": false,
+                  "names": [null],
+                  "tryCall": false,
+                  "type": "contract Bank",
+                  "type_conversion": true
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      ],
+                      "overloadedDeclarations": [null],
+                      "referencedDeclaration": 5003,
+                      "type": "type(contract Bank)",
+                      "value": "Bank"
+                    },
+                    "id": 7310,
+                    "name": "Identifier",
+                    "src": "723:4:32"
+                  },
+                  {
+                    "attributes": {
+                      "argumentTypes": null,
+                      "hexvalue": "307836374236364339394433456233374661373641613345643166663333453865333946306239633741",
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "subdenomination": null,
+                      "token": "number",
+                      "type": "address payable",
+                      "value": "0x67B66C99D3Eb37Fa76Aa3Ed1ff33E8e39F0b9c7A"
+                    },
+                    "id": 7311,
+                    "name": "Literal",
+                    "src": "728:42:32"
+                  }
+                ],
+                "id": 7312,
+                "name": "FunctionCall",
+                "src": "723:48:32"
+              },
+              {
+                "attributes": {
+                  "text": " @dev Alpha Homora ibETH token contract object."
+                },
+                "id": 7308,
+                "name": "StructuredDocumentation",
+                "src": "621:67:32"
+              }
+            ],
+            "id": 7313,
+            "name": "VariableDeclaration",
+            "src": "694:77:32"
+          },
+          {
+            "attributes": {
+              "baseFunctions": [6022],
+              "functionSelector": "fc57d4df",
+              "implemented": true,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [null],
+              "name": "getUnderlyingPrice",
+              "scope": 7352,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "text": " @dev Returns the price in ETH of the token underlying `cToken` (implements `PriceOracle`)."
+                },
+                "id": 7314,
+                "name": "StructuredDocumentation",
+                "src": "780:111:32"
+              },
+              {
+                "attributes": {
+                  "overrides": [null]
+                },
+                "id": 7318,
+                "name": "OverrideSpecifier",
+                "src": "949:8:32"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "cToken",
+                      "overrides": null,
+                      "scope": 7351,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "contract CToken",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "CToken",
+                          "referencedDeclaration": 5866,
+                          "type": "contract CToken"
+                        },
+                        "id": 7315,
+                        "name": "UserDefinedTypeName",
+                        "src": "925:6:32"
+                      }
+                    ],
+                    "id": 7316,
+                    "name": "VariableDeclaration",
+                    "src": "925:13:32"
+                  }
+                ],
+                "id": 7317,
+                "name": "ParameterList",
+                "src": "924:15:32"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "",
+                      "overrides": null,
+                      "scope": 7351,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 7319,
+                        "name": "ElementaryTypeName",
+                        "src": "972:4:32"
+                      }
+                    ],
+                    "id": 7320,
+                    "name": "VariableDeclaration",
+                    "src": "972:4:32"
+                  }
+                ],
+                "id": 7321,
+                "name": "ParameterList",
+                "src": "971:6:32"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [null],
+                          "tryCall": false,
+                          "type": "tuple()",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_bool",
+                                  "typeString": "bool"
+                                }
+                              ],
+                              "overloadedDeclarations": [-18, -18],
+                              "referencedDeclaration": -18,
+                              "type": "function (bool) pure",
+                              "value": "require"
+                            },
+                            "id": 7322,
+                            "name": "Identifier",
+                            "src": "989:7:32"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "commonType": {
+                                "typeIdentifier": "t_address",
+                                "typeString": "address"
+                              },
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "operator": "==",
+                              "type": "bool"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "arguments": [null],
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "isStructConstructorCall": false,
+                                  "lValueRequested": false,
+                                  "names": [null],
+                                  "tryCall": false,
+                                  "type": "address",
+                                  "type_conversion": false
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": [null],
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": false,
+                                      "lValueRequested": false,
+                                      "member_name": "underlying",
+                                      "referencedDeclaration": 5711,
+                                      "type": "function () view external returns (address)"
+                                    },
+                                    "children": [
+                                      {
+                                        "attributes": {
+                                          "argumentTypes": null,
+                                          "isConstant": false,
+                                          "isLValue": false,
+                                          "isPure": false,
+                                          "isStructConstructorCall": false,
+                                          "lValueRequested": false,
+                                          "names": [null],
+                                          "tryCall": false,
+                                          "type": "contract CErc20",
+                                          "type_conversion": true
+                                        },
+                                        "children": [
+                                          {
+                                            "attributes": {
+                                              "argumentTypes": [
+                                                {
+                                                  "typeIdentifier": "t_address",
+                                                  "typeString": "address"
+                                                }
+                                              ],
+                                              "overloadedDeclarations": [null],
+                                              "referencedDeclaration": 5723,
+                                              "type": "type(contract CErc20)",
+                                              "value": "CErc20"
+                                            },
+                                            "id": 7323,
+                                            "name": "Identifier",
+                                            "src": "997:6:32"
+                                          },
+                                          {
+                                            "attributes": {
+                                              "argumentTypes": null,
+                                              "isConstant": false,
+                                              "isLValue": false,
+                                              "isPure": false,
+                                              "isStructConstructorCall": false,
+                                              "lValueRequested": false,
+                                              "names": [null],
+                                              "tryCall": false,
+                                              "type": "address",
+                                              "type_conversion": true
+                                            },
+                                            "children": [
+                                              {
+                                                "attributes": {
+                                                  "argumentTypes": [
+                                                    {
+                                                      "typeIdentifier": "t_contract$_CToken_$5866",
+                                                      "typeString": "contract CToken"
+                                                    }
+                                                  ],
+                                                  "isConstant": false,
+                                                  "isLValue": false,
+                                                  "isPure": true,
+                                                  "lValueRequested": false,
+                                                  "type": "type(address)"
+                                                },
+                                                "children": [
+                                                  {
+                                                    "attributes": {
+                                                      "name": "address",
+                                                      "type": null
+                                                    },
+                                                    "id": 7324,
+                                                    "name": "ElementaryTypeName",
+                                                    "src": "1004:7:32"
+                                                  }
+                                                ],
+                                                "id": 7325,
+                                                "name": "ElementaryTypeNameExpression",
+                                                "src": "1004:7:32"
+                                              },
+                                              {
+                                                "attributes": {
+                                                  "argumentTypes": null,
+                                                  "overloadedDeclarations": [
+                                                    null
+                                                  ],
+                                                  "referencedDeclaration": 7316,
+                                                  "type": "contract CToken",
+                                                  "value": "cToken"
+                                                },
+                                                "id": 7326,
+                                                "name": "Identifier",
+                                                "src": "1012:6:32"
+                                              }
+                                            ],
+                                            "id": 7327,
+                                            "name": "FunctionCall",
+                                            "src": "1004:15:32"
+                                          }
+                                        ],
+                                        "id": 7328,
+                                        "name": "FunctionCall",
+                                        "src": "997:23:32"
+                                      }
+                                    ],
+                                    "id": 7329,
+                                    "name": "MemberAccess",
+                                    "src": "997:34:32"
+                                  }
+                                ],
+                                "id": 7330,
+                                "name": "FunctionCall",
+                                "src": "997:36:32"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": true,
+                                  "isStructConstructorCall": false,
+                                  "lValueRequested": false,
+                                  "names": [null],
+                                  "tryCall": false,
+                                  "type": "address",
+                                  "type_conversion": true
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": [
+                                        {
+                                          "typeIdentifier": "t_contract$_Bank_$5003",
+                                          "typeString": "contract Bank"
+                                        }
+                                      ],
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": true,
+                                      "lValueRequested": false,
+                                      "type": "type(address)"
+                                    },
+                                    "children": [
+                                      {
+                                        "attributes": {
+                                          "name": "address",
+                                          "type": null
+                                        },
+                                        "id": 7331,
+                                        "name": "ElementaryTypeName",
+                                        "src": "1037:7:32"
+                                      }
+                                    ],
+                                    "id": 7332,
+                                    "name": "ElementaryTypeNameExpression",
+                                    "src": "1037:7:32"
+                                  },
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [null],
+                                      "referencedDeclaration": 7313,
+                                      "type": "contract Bank",
+                                      "value": "IBETH"
+                                    },
+                                    "id": 7333,
+                                    "name": "Identifier",
+                                    "src": "1045:5:32"
+                                  }
+                                ],
+                                "id": 7334,
+                                "name": "FunctionCall",
+                                "src": "1037:14:32"
+                              }
+                            ],
+                            "id": 7335,
+                            "name": "BinaryOperation",
+                            "src": "997:54:32"
+                          }
+                        ],
+                        "id": 7336,
+                        "name": "FunctionCall",
+                        "src": "989:63:32"
+                      }
+                    ],
+                    "id": 7337,
+                    "name": "ExpressionStatement",
+                    "src": "989:63:32"
+                  },
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 7321
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [null],
+                          "tryCall": false,
+                          "type": "uint256",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "div",
+                              "referencedDeclaration": 10862,
+                              "type": "function (uint256,uint256) pure returns (uint256)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "isStructConstructorCall": false,
+                                  "lValueRequested": false,
+                                  "names": [null],
+                                  "tryCall": false,
+                                  "type": "uint256",
+                                  "type_conversion": false
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": [
+                                        {
+                                          "typeIdentifier": "t_rational_1000000000000000000_by_1",
+                                          "typeString": "int_const 1000000000000000000"
+                                        }
+                                      ],
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": false,
+                                      "lValueRequested": false,
+                                      "member_name": "mul",
+                                      "referencedDeclaration": 10845,
+                                      "type": "function (uint256,uint256) pure returns (uint256)"
+                                    },
+                                    "children": [
+                                      {
+                                        "attributes": {
+                                          "argumentTypes": null,
+                                          "arguments": [null],
+                                          "isConstant": false,
+                                          "isLValue": false,
+                                          "isPure": false,
+                                          "isStructConstructorCall": false,
+                                          "lValueRequested": false,
+                                          "names": [null],
+                                          "tryCall": false,
+                                          "type": "uint256",
+                                          "type_conversion": false
+                                        },
+                                        "children": [
+                                          {
+                                            "attributes": {
+                                              "argumentTypes": [null],
+                                              "isConstant": false,
+                                              "isLValue": false,
+                                              "isPure": false,
+                                              "lValueRequested": false,
+                                              "member_name": "totalETH",
+                                              "referencedDeclaration": 5002,
+                                              "type": "function () view external returns (uint256)"
+                                            },
+                                            "children": [
+                                              {
+                                                "attributes": {
+                                                  "argumentTypes": null,
+                                                  "overloadedDeclarations": [
+                                                    null
+                                                  ],
+                                                  "referencedDeclaration": 7313,
+                                                  "type": "contract Bank",
+                                                  "value": "IBETH"
+                                                },
+                                                "id": 7338,
+                                                "name": "Identifier",
+                                                "src": "1070:5:32"
+                                              }
+                                            ],
+                                            "id": 7339,
+                                            "name": "MemberAccess",
+                                            "src": "1070:14:32"
+                                          }
+                                        ],
+                                        "id": 7340,
+                                        "name": "FunctionCall",
+                                        "src": "1070:16:32"
+                                      }
+                                    ],
+                                    "id": 7341,
+                                    "name": "MemberAccess",
+                                    "src": "1070:20:32"
+                                  },
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "hexvalue": "31653138",
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": true,
+                                      "lValueRequested": false,
+                                      "subdenomination": null,
+                                      "token": "number",
+                                      "type": "int_const 1000000000000000000",
+                                      "value": "1e18"
+                                    },
+                                    "id": 7342,
+                                    "name": "Literal",
+                                    "src": "1091:4:32"
+                                  }
+                                ],
+                                "id": 7343,
+                                "name": "FunctionCall",
+                                "src": "1070:26:32"
+                              }
+                            ],
+                            "id": 7344,
+                            "name": "MemberAccess",
+                            "src": "1070:30:32"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "arguments": [null],
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "isStructConstructorCall": false,
+                              "lValueRequested": false,
+                              "names": [null],
+                              "tryCall": false,
+                              "type": "uint256",
+                              "type_conversion": false
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": [null],
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "member_name": "totalSupply",
+                                  "referencedDeclaration": 11542,
+                                  "type": "function () view external returns (uint256)"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [null],
+                                      "referencedDeclaration": 7313,
+                                      "type": "contract Bank",
+                                      "value": "IBETH"
+                                    },
+                                    "id": 7345,
+                                    "name": "Identifier",
+                                    "src": "1101:5:32"
+                                  }
+                                ],
+                                "id": 7346,
+                                "name": "MemberAccess",
+                                "src": "1101:17:32"
+                              }
+                            ],
+                            "id": 7347,
+                            "name": "FunctionCall",
+                            "src": "1101:19:32"
+                          }
+                        ],
+                        "id": 7348,
+                        "name": "FunctionCall",
+                        "src": "1070:51:32"
+                      }
+                    ],
+                    "id": 7349,
+                    "name": "Return",
+                    "src": "1063:58:32"
+                  }
+                ],
+                "id": 7350,
+                "name": "Block",
+                "src": "978:151:32"
+              }
+            ],
+            "id": 7351,
+            "name": "FunctionDefinition",
+            "src": "897:232:32"
+          }
+        ],
+        "id": 7352,
+        "name": "ContractDefinition",
+        "src": "519:613:32"
+      }
+    ],
+    "id": 7353,
+    "name": "SourceUnit",
+    "src": "0:1134:32"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.6.12+commit.27d51765.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.3",
+  "updatedAt": "2021-03-09T04:23:29.110Z",
+  "devdoc": {
+    "author": "David Lucid <david@rari.capital> (https://github.com/davidlucid)",
+    "details": "Implements the `PriceOracle` interface.",
+    "kind": "dev",
+    "methods": {
+      "getUnderlyingPrice(address)": {
+        "details": "Returns the price in ETH of the token underlying `cToken` (implements `PriceOracle`)."
+      }
+    },
+    "stateVariables": {
+      "IBETH": {
+        "details": "Alpha Homora ibETH token contract object."
+      }
+    },
+    "title": "AlphaHomoraV1PriceOracle",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "notice": "Returns prices the Alpha Homora V1 ibETH ERC20 token.",
+    "version": 1
+  }
+}

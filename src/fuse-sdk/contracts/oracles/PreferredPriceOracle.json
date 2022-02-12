@@ -1,0 +1,3145 @@
+{
+  "contractName": "PreferredPriceOracle",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "contract ChainlinkPriceOracle",
+          "name": "_chainlinkOracle",
+          "type": "address"
+        },
+        {
+          "internalType": "contract PriceOracle",
+          "name": "_secondaryOracle",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "chainlinkOracle",
+      "outputs": [
+        {
+          "internalType": "contract ChainlinkPriceOracle",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "secondaryOracle",
+      "outputs": [
+        {
+          "internalType": "contract PriceOracle",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract CToken",
+          "name": "cToken",
+          "type": "address"
+        }
+      ],
+      "name": "getUnderlyingPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"contract ChainlinkPriceOracle\",\"name\":\"_chainlinkOracle\",\"type\":\"address\"},{\"internalType\":\"contract PriceOracle\",\"name\":\"_secondaryOracle\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"chainlinkOracle\",\"outputs\":[{\"internalType\":\"contract ChainlinkPriceOracle\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract CToken\",\"name\":\"cToken\",\"type\":\"address\"}],\"name\":\"getUnderlyingPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"secondaryOracle\",\"outputs\":[{\"internalType\":\"contract PriceOracle\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"David Lucid <david@rari.capital> (https://github.com/davidlucid)\",\"details\":\"Implements `PriceOracle`.\",\"kind\":\"dev\",\"methods\":{\"constructor\":{\"details\":\"Constructor to set the primary `ChainlinkPriceOracle` and the secondary `PriceOracle`.\"},\"getUnderlyingPrice(address)\":{\"details\":\"Returns the price in ETH of the token underlying `cToken` (implements `PriceOracle`).\"}},\"stateVariables\":{\"chainlinkOracle\":{\"details\":\"The primary `ChainlinkPriceOracle`.\"},\"secondaryOracle\":{\"details\":\"The secondary `PriceOracle`.\"}},\"title\":\"PreferredPriceOracle\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"Returns prices from Chainlink or prices from a secondary oracle if an asset's price is not available via Chainlink.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/PreferredPriceOracle.sol\":\"PreferredPriceOracle\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/chainlink/AggregatorV3Interface.sol\":{\"keccak256\":\"0x19b0055692673667799f6698d674fe1b4d938a2e6d89911583b91544ccf588e1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://72ca4a7259eb42c9aa1d2966b937f375f54ed9ec139d398f369446e1c55dc999\",\"dweb:/ipfs/Qmc6XsqaVsgWGDJmgdt5Wbx7wmnWZgWMHA8c6Mq8NcXX7G\"]},\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/CErc20.sol\":{\"keccak256\":\"0xb5389113393e785b62d404388e3a4edd5d0846c7af03a8877b1fb27e2714e2a0\",\"urls\":[\"bzz-raw://5f7756611610b189a731e18d59fa867ca6d4f0921b2d54f5301d615574f449ef\",\"dweb:/ipfs/QmSwVh5o9mpx3V3X8qmscmWBJrGhaFZZZUYhhX3Wysa3R7\"]},\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/CToken.sol\":{\"keccak256\":\"0xdfa3477ac5b45b78648b7ab1c804f5ad032e4b3143ffe178c0609fcd598fc2c7\",\"urls\":[\"bzz-raw://2ce9c025dd3897daabbe8e2f24be1d050e358c61d927047918fc3ab0042a4ea9\",\"dweb:/ipfs/QmPGpp9FMK1rpapJBUGzH9RTPidb865E4D9ZepiFUgrQ3t\"]},\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/PriceOracle.sol\":{\"keccak256\":\"0x87c6066612ced3b1beed4ac7ca5c7786903005b3d6cede8783faf3683f95a5d2\",\"urls\":[\"bzz-raw://449b3e2f89482f2bd95e0ccdf5dfcec65052c52283d4a36655053ebee52902f2\",\"dweb:/ipfs/Qmf65HW2oxh4nZupaau58vm91w75Edf3Lqyhn8mh9uDuRH\"]},\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/BasePriceOracle.sol\":{\"keccak256\":\"0xf267cd7f597c43c528b18543849347126d814357a0c3e262ac657f3054260a89\",\"urls\":[\"bzz-raw://d315fcc20e26f6378189167f4ab86893819903823ea18a485588f355aab5e036\",\"dweb:/ipfs/QmYG9oa8Rti6u7bAoBWJC8TtSqM1V8QsBiivsQo9y4wkAF\"]},\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/ChainlinkPriceOracle.sol\":{\"keccak256\":\"0xbed744696246b10ae4129f56d7007a234f3270e18967bdcad58ee4ae0138dc50\",\"urls\":[\"bzz-raw://cfe9587fe9a17486518dea4d342403f76c1f7cb95faa2fae3e32c59353254c2f\",\"dweb:/ipfs/QmRBecikWFCVJ2VFkcoSwVcyXmyzfT78u3Sp8mTMsHjayy\"]},\"/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/PreferredPriceOracle.sol\":{\"keccak256\":\"0xc5f527050654ac911bedbc8111f95be1bd2bc07c5cbe217c3d6f21328596088c\",\"urls\":[\"bzz-raw://74e775f10145ea2436a4b1cd774e94a974ca924905e97092ce5e220819e4f168\",\"dweb:/ipfs/QmUyzm3G9MgqaXmdMqocTgjYprkFQo2bcz33qk4M9LFMkK\"]},\"@openzeppelin/contracts-upgradeable/GSN/ContextUpgradeable.sol\":{\"keccak256\":\"0xbbf8a21b9a66c48d45ff771b8563c6df19ba451d63dfb8380a865c1e1f29d1a0\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://062688aac76e27ab50157a9d645700cf92e3c0d51d3d860be1d2e1a0c04a87d0\",\"dweb:/ipfs/QmfXxppWAiSTeH8YNn2EtMPDgzrLeJ5rjRq8knEbje88mX\"]},\"@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol\":{\"keccak256\":\"0xe9ecc18d06bcc5aa48c40a98333540248b6c1c18ecb6262329c06d3f0cbb45ae\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8a81bcbe4f867a4eaf7ec375508a9901ea7517b9854c9a542c242050beda5127\",\"dweb:/ipfs/QmS499VRDhAgMg1pK96PiyRpP3gJZzzMcoNBbe8AV3JNw3\"]},\"@openzeppelin/contracts-upgradeable/proxy/Initializable.sol\":{\"keccak256\":\"0xae7044b7c89ed74327b0979ae6f317c65d87b8d17a42d0c62d698d77d5de5511\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d676c978d8ecee5c4510f045b747d94f3a1381e39feb870d2675d5b6d45a371b\",\"dweb:/ipfs/QmUAokuHWPVAf14QkhPtSdYFyNa8HVje9CBEzwCcxH3xkP\"]},\"@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol\":{\"keccak256\":\"0x9e71cf53c2ee5c9e4f183e168028fc208560493aaf48668bca0981bb2c8359c2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7cb9d29f7bc76b077649ccef2043e1492a462afcb2410f443e63233f206a95dd\",\"dweb:/ipfs/QmRDXEro4hh2E6rTUAWvBkHzivAS1TBmtSLP1mRGAHVnnL\"]},\"@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol\":{\"keccak256\":\"0xa1931c47a617014f858580db625aa0dcf343796f39acd4b5b51effc092a1f0a9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://2cbeb499bad52667b96dd7df8e9b1f583e8c07afaba0018a75e5b7ff6e777173\",\"dweb:/ipfs/QmPLJnuhEcWnpmhMHKsiuVHVxMwb5k6idYyjajbrtZLz5B\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506040516104c73803806104c78339818101604052604081101561003357600080fd5b5080516020909101516001600160a01b038216610097576040805162461bcd60e51b815260206004820152601d60248201527f436861696e6c696e6b50726963654f7261636c65206e6f74207365742e000000604482015290519081900360640190fd5b6001600160a01b0381166100f2576040805162461bcd60e51b815260206004820152601f60248201527f5365636f6e64617279207072696365206f7261636c65206e6f74207365742e00604482015290519081900360640190fd5b600080546001600160a01b039384166001600160a01b0319918216179091556001805492909316911617905561039a8061012d6000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c8063329d460914610046578063ef06e72c1461006a578063fc57d4df14610072575b600080fd5b61004e6100aa565b604080516001600160a01b039092168252519081900360200190f35b61004e6100b9565b6100986004803603602081101561008857600080fd5b50356001600160a01b03166100c8565b60408051918252519081900360200190f35b6001546001600160a01b031681565b6000546001600160a01b031681565b6000816001600160a01b031663ac784ddc6040518163ffffffff1660e01b815260040160206040518083038186803b15801561010357600080fd5b505afa158015610117573d6000803e3d6000fd5b505050506040513d602081101561012d57600080fd5b5051156101435750670de0b6b3a764000061035f565b6000826001600160a01b0316636f307dc36040518163ffffffff1660e01b815260040160206040518083038186803b15801561017e57600080fd5b505afa158015610192573d6000803e3d6000fd5b505050506040513d60208110156101a857600080fd5b5051905073c02aaa39b223fe8d0a0e5c4f27ead9083c756cc26001600160a01b03821614156101e257670de0b6b3a764000091505061035f565b600054604080516305bcc1d160e11b81526001600160a01b03848116600483015291519190921691630b7983a2916024808301926020929190829003018186803b15801561022f57600080fd5b505afa158015610243573d6000803e3d6000fd5b505050506040513d602081101561025957600080fd5b5051156102e2576000546040805163fc57d4df60e01b81526001600160a01b0386811660048301529151919092169163fc57d4df916024808301926020929190829003018186803b1580156102ad57600080fd5b505afa1580156102c1573d6000803e3d6000fd5b505050506040513d60208110156102d757600080fd5b5051915061035f9050565b6001546040805163fc57d4df60e01b81526001600160a01b0386811660048301529151919092169163fc57d4df916024808301926020929190829003018186803b15801561032f57600080fd5b505afa158015610343573d6000803e3d6000fd5b505050506040513d602081101561035957600080fd5b50519150505b91905056fea2646970667358221220a4182f85109c7c483ea01fe286c461e179f7a53787f10054f420b5c819b994cc64736f6c634300060c0033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c8063329d460914610046578063ef06e72c1461006a578063fc57d4df14610072575b600080fd5b61004e6100aa565b604080516001600160a01b039092168252519081900360200190f35b61004e6100b9565b6100986004803603602081101561008857600080fd5b50356001600160a01b03166100c8565b60408051918252519081900360200190f35b6001546001600160a01b031681565b6000546001600160a01b031681565b6000816001600160a01b031663ac784ddc6040518163ffffffff1660e01b815260040160206040518083038186803b15801561010357600080fd5b505afa158015610117573d6000803e3d6000fd5b505050506040513d602081101561012d57600080fd5b5051156101435750670de0b6b3a764000061035f565b6000826001600160a01b0316636f307dc36040518163ffffffff1660e01b815260040160206040518083038186803b15801561017e57600080fd5b505afa158015610192573d6000803e3d6000fd5b505050506040513d60208110156101a857600080fd5b5051905073c02aaa39b223fe8d0a0e5c4f27ead9083c756cc26001600160a01b03821614156101e257670de0b6b3a764000091505061035f565b600054604080516305bcc1d160e11b81526001600160a01b03848116600483015291519190921691630b7983a2916024808301926020929190829003018186803b15801561022f57600080fd5b505afa158015610243573d6000803e3d6000fd5b505050506040513d602081101561025957600080fd5b5051156102e2576000546040805163fc57d4df60e01b81526001600160a01b0386811660048301529151919092169163fc57d4df916024808301926020929190829003018186803b1580156102ad57600080fd5b505afa1580156102c1573d6000803e3d6000fd5b505050506040513d60208110156102d757600080fd5b5051915061035f9050565b6001546040805163fc57d4df60e01b81526001600160a01b0386811660048301529151919092169163fc57d4df916024808301926020929190829003018186803b15801561032f57600080fd5b505afa158015610343573d6000803e3d6000fd5b505050506040513d602081101561035957600080fd5b50519150505b91905056fea2646970667358221220a4182f85109c7c483ea01fe286c461e179f7a53787f10054f420b5c819b994cc64736f6c634300060c0033",
+  "immutableReferences": {},
+  "sourceMap": "485:1571:39:-:0;;;881:372;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;881:372:39;;;;;;;-1:-1:-1;;;;;988:39:39;;980:81;;;;;-1:-1:-1;;;980:81:39;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;1080:39:39;;1072:83;;;;;-1:-1:-1;;;1072:83:39;;;;;;;;;;;;;;;;;;;;;;;;;;;;1166:15;:34;;-1:-1:-1;;;;;1166:34:39;;;-1:-1:-1;;;;;;1166:34:39;;;;;;;;1211;;;;;;;;;;;485:1571;;;;;;",
+  "deployedSourceMap": "485:1571:39:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;716:34;;;:::i;:::-;;;;-1:-1:-1;;;;;716:34:39;;;;;;;;;;;;;;604:43;;;:::i;1378:675::-;;;;;;;;;;;;;;;;-1:-1:-1;1378:675:39;-1:-1:-1;;;;;1378:675:39;;:::i;:::-;;;;;;;;;;;;;;;;716:34;;;-1:-1:-1;;;;;716:34:39;;:::o;604:43::-;;;-1:-1:-1;;;;;604:43:39;;:::o;1378:675::-;1453:4;1506:6;-1:-1:-1;;;;;1506:15:39;;:17;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;1506:17:39;1502:34;;;-1:-1:-1;1532:4:39;1525:11;;1502:34;1596:18;1640:6;-1:-1:-1;;;;;1625:34:39;;:36;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;1625:36:39;;-1:-1:-1;1726:42:39;-1:-1:-1;;;;;1712:56:39;;;1708:73;;;1777:4;1770:11;;;;;1708:73;1837:15;;:40;;;-1:-1:-1;;;1837:40:39;;-1:-1:-1;;;;;1837:40:39;;;;;;;;;:15;;;;;:28;;:40;;;;;;;;;;;;;;:15;:40;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;1837:40:39;1833:95;;;1886:15;;:42;;;-1:-1:-1;;;1886:42:39;;-1:-1:-1;;;;;1886:42:39;;;;;;;;;:15;;;;;:34;;:42;;;;;;;;;;;;;;:15;:42;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;1886:42:39;;-1:-1:-1;1879:49:39;;-1:-1:-1;1879:49:39;1833:95;2003:15;;:42;;;-1:-1:-1;;;2003:42:39;;-1:-1:-1;;;;;2003:42:39;;;;;;;;;:15;;;;;:34;;:42;;;;;;;;;;;;;;:15;:42;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;2003:42:39;;-1:-1:-1;;1378:675:39;;;;:::o",
+  "source": "pragma solidity 0.6.12;\r\n\r\nimport \"../external/compound/PriceOracle.sol\";\r\nimport \"../external/compound/CToken.sol\";\r\nimport \"../external/compound/CErc20.sol\";\r\n\r\nimport \"./ChainlinkPriceOracle.sol\";\r\n\r\n/**\r\n * @title PreferredPriceOracle\r\n * @notice Returns prices from Chainlink or prices from a secondary oracle if an asset's price is not available via Chainlink.\r\n * @dev Implements `PriceOracle`.\r\n * @author David Lucid <david@rari.capital> (https://github.com/davidlucid)\r\n */\r\ncontract PreferredPriceOracle is PriceOracle {\r\n    /**\r\n     * @dev The primary `ChainlinkPriceOracle`.\r\n     */\r\n    ChainlinkPriceOracle public chainlinkOracle;\r\n\r\n    /**\r\n     * @dev The secondary `PriceOracle`.\r\n     */\r\n    PriceOracle public secondaryOracle;\r\n    \r\n    /**\r\n     * @dev Constructor to set the primary `ChainlinkPriceOracle` and the secondary `PriceOracle`.\r\n     */\r\n    constructor(ChainlinkPriceOracle _chainlinkOracle, PriceOracle _secondaryOracle) public {\r\n        require(address(_chainlinkOracle) != address(0), \"ChainlinkPriceOracle not set.\");\r\n        require(address(_secondaryOracle) != address(0), \"Secondary price oracle not set.\");\r\n        chainlinkOracle = _chainlinkOracle;\r\n        secondaryOracle = _secondaryOracle;\r\n    }\r\n\r\n    /**\r\n     * @dev Returns the price in ETH of the token underlying `cToken` (implements `PriceOracle`).\r\n     */\r\n    function getUnderlyingPrice(CToken cToken) external override view returns (uint) {\r\n        // Return 1e18 for ETH\r\n        if (cToken.isCEther()) return 1e18;\r\n\r\n        // Get underlying ERC20 token address\r\n        address underlying = address(CErc20(address(cToken)).underlying());\r\n\r\n        // Return 1e18 for WETH\r\n        if (underlying == 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2) return 1e18;\r\n\r\n        // Try to get Chainlink price\r\n        if (chainlinkOracle.hasPriceFeed(underlying)) return chainlinkOracle.getUnderlyingPrice(cToken);\r\n\r\n        // Otherwise, get price from secondary oracle\r\n        return secondaryOracle.getUnderlyingPrice(cToken);\r\n    }\r\n}\r\n",
+  "sourcePath": "C:/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/PreferredPriceOracle.sol",
+  "ast": {
+    "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/PreferredPriceOracle.sol",
+    "exportedSymbols": {
+      "PreferredPriceOracle": [9700]
+    },
+    "id": 9701,
+    "license": null,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 9592,
+        "literals": ["solidity", "0.6", ".12"],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:39"
+      },
+      {
+        "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/PriceOracle.sol",
+        "file": "../external/compound/PriceOracle.sol",
+        "id": 9593,
+        "nodeType": "ImportDirective",
+        "scope": 9701,
+        "sourceUnit": 6024,
+        "src": "27:46:39",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/CToken.sol",
+        "file": "../external/compound/CToken.sol",
+        "id": 9594,
+        "nodeType": "ImportDirective",
+        "scope": 9701,
+        "sourceUnit": 5867,
+        "src": "75:41:39",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/CErc20.sol",
+        "file": "../external/compound/CErc20.sol",
+        "id": 9595,
+        "nodeType": "ImportDirective",
+        "scope": 9701,
+        "sourceUnit": 5724,
+        "src": "118:41:39",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/ChainlinkPriceOracle.sol",
+        "file": "./ChainlinkPriceOracle.sol",
+        "id": 9596,
+        "nodeType": "ImportDirective",
+        "scope": 9701,
+        "sourceUnit": 8906,
+        "src": "163:36:39",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 9598,
+              "name": "PriceOracle",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 6023,
+              "src": "518:11:39",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_PriceOracle_$6023",
+                "typeString": "contract PriceOracle"
+              }
+            },
+            "id": 9599,
+            "nodeType": "InheritanceSpecifier",
+            "src": "518:11:39"
+          }
+        ],
+        "contractDependencies": [6023],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 9597,
+          "nodeType": "StructuredDocumentation",
+          "src": "203:280:39",
+          "text": " @title PreferredPriceOracle\n @notice Returns prices from Chainlink or prices from a secondary oracle if an asset's price is not available via Chainlink.\n @dev Implements `PriceOracle`.\n @author David Lucid <david@rari.capital> (https://github.com/davidlucid)"
+        },
+        "fullyImplemented": true,
+        "id": 9700,
+        "linearizedBaseContracts": [9700, 6023],
+        "name": "PreferredPriceOracle",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "documentation": {
+              "id": 9600,
+              "nodeType": "StructuredDocumentation",
+              "src": "537:61:39",
+              "text": " @dev The primary `ChainlinkPriceOracle`."
+            },
+            "functionSelector": "ef06e72c",
+            "id": 9602,
+            "mutability": "mutable",
+            "name": "chainlinkOracle",
+            "nodeType": "VariableDeclaration",
+            "overrides": null,
+            "scope": 9700,
+            "src": "604:43:39",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_ChainlinkPriceOracle_$8905",
+              "typeString": "contract ChainlinkPriceOracle"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 9601,
+              "name": "ChainlinkPriceOracle",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 8905,
+              "src": "604:20:39",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_ChainlinkPriceOracle_$8905",
+                "typeString": "contract ChainlinkPriceOracle"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "documentation": {
+              "id": 9603,
+              "nodeType": "StructuredDocumentation",
+              "src": "656:54:39",
+              "text": " @dev The secondary `PriceOracle`."
+            },
+            "functionSelector": "329d4609",
+            "id": 9605,
+            "mutability": "mutable",
+            "name": "secondaryOracle",
+            "nodeType": "VariableDeclaration",
+            "overrides": null,
+            "scope": 9700,
+            "src": "716:34:39",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_PriceOracle_$6023",
+              "typeString": "contract PriceOracle"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 9604,
+              "name": "PriceOracle",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 6023,
+              "src": "716:11:39",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_PriceOracle_$6023",
+                "typeString": "contract PriceOracle"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 9647,
+              "nodeType": "Block",
+              "src": "969:284:39",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        "id": 9622,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            {
+                              "argumentTypes": null,
+                              "id": 9616,
+                              "name": "_chainlinkOracle",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 9608,
+                              "src": "996:16:39",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_ChainlinkPriceOracle_$8905",
+                                "typeString": "contract ChainlinkPriceOracle"
+                              }
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_contract$_ChainlinkPriceOracle_$8905",
+                                "typeString": "contract ChainlinkPriceOracle"
+                              }
+                            ],
+                            "id": 9615,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "988:7:39",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_address_$",
+                              "typeString": "type(address)"
+                            },
+                            "typeName": {
+                              "id": 9614,
+                              "name": "address",
+                              "nodeType": "ElementaryTypeName",
+                              "src": "988:7:39",
+                              "typeDescriptions": {
+                                "typeIdentifier": null,
+                                "typeString": null
+                              }
+                            }
+                          },
+                          "id": 9617,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "988:25:39",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "!=",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            {
+                              "argumentTypes": null,
+                              "hexValue": "30",
+                              "id": 9620,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "kind": "number",
+                              "lValueRequested": false,
+                              "nodeType": "Literal",
+                              "src": "1025:1:39",
+                              "subdenomination": null,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              },
+                              "value": "0"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              }
+                            ],
+                            "id": 9619,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "1017:7:39",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_address_$",
+                              "typeString": "type(address)"
+                            },
+                            "typeName": {
+                              "id": 9618,
+                              "name": "address",
+                              "nodeType": "ElementaryTypeName",
+                              "src": "1017:7:39",
+                              "typeDescriptions": {
+                                "typeIdentifier": null,
+                                "typeString": null
+                              }
+                            }
+                          },
+                          "id": 9621,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "1017:10:39",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address_payable",
+                            "typeString": "address payable"
+                          }
+                        },
+                        "src": "988:39:39",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "436861696e6c696e6b50726963654f7261636c65206e6f74207365742e",
+                        "id": 9623,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1029:31:39",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_9b57049bc5d2a58d48dece658a810bef75ba957085d6d3a2360c0c37bbd4e00c",
+                          "typeString": "literal_string \"ChainlinkPriceOracle not set.\""
+                        },
+                        "value": "ChainlinkPriceOracle not set."
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_9b57049bc5d2a58d48dece658a810bef75ba957085d6d3a2360c0c37bbd4e00c",
+                          "typeString": "literal_string \"ChainlinkPriceOracle not set.\""
+                        }
+                      ],
+                      "id": 9613,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [-18, -18],
+                      "referencedDeclaration": -18,
+                      "src": "980:7:39",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 9624,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "980:81:39",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 9625,
+                  "nodeType": "ExpressionStatement",
+                  "src": "980:81:39"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        "id": 9635,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            {
+                              "argumentTypes": null,
+                              "id": 9629,
+                              "name": "_secondaryOracle",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 9610,
+                              "src": "1088:16:39",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_PriceOracle_$6023",
+                                "typeString": "contract PriceOracle"
+                              }
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_contract$_PriceOracle_$6023",
+                                "typeString": "contract PriceOracle"
+                              }
+                            ],
+                            "id": 9628,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "1080:7:39",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_address_$",
+                              "typeString": "type(address)"
+                            },
+                            "typeName": {
+                              "id": 9627,
+                              "name": "address",
+                              "nodeType": "ElementaryTypeName",
+                              "src": "1080:7:39",
+                              "typeDescriptions": {
+                                "typeIdentifier": null,
+                                "typeString": null
+                              }
+                            }
+                          },
+                          "id": 9630,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "1080:25:39",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "!=",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            {
+                              "argumentTypes": null,
+                              "hexValue": "30",
+                              "id": 9633,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "kind": "number",
+                              "lValueRequested": false,
+                              "nodeType": "Literal",
+                              "src": "1117:1:39",
+                              "subdenomination": null,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              },
+                              "value": "0"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              }
+                            ],
+                            "id": 9632,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "1109:7:39",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_address_$",
+                              "typeString": "type(address)"
+                            },
+                            "typeName": {
+                              "id": 9631,
+                              "name": "address",
+                              "nodeType": "ElementaryTypeName",
+                              "src": "1109:7:39",
+                              "typeDescriptions": {
+                                "typeIdentifier": null,
+                                "typeString": null
+                              }
+                            }
+                          },
+                          "id": 9634,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "1109:10:39",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address_payable",
+                            "typeString": "address payable"
+                          }
+                        },
+                        "src": "1080:39:39",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "5365636f6e64617279207072696365206f7261636c65206e6f74207365742e",
+                        "id": 9636,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1121:33:39",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_ebd9734216fd97e27c38a134d929d7944d591c553f7345c5494b181c6fc8b0ba",
+                          "typeString": "literal_string \"Secondary price oracle not set.\""
+                        },
+                        "value": "Secondary price oracle not set."
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_ebd9734216fd97e27c38a134d929d7944d591c553f7345c5494b181c6fc8b0ba",
+                          "typeString": "literal_string \"Secondary price oracle not set.\""
+                        }
+                      ],
+                      "id": 9626,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [-18, -18],
+                      "referencedDeclaration": -18,
+                      "src": "1072:7:39",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 9637,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1072:83:39",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 9638,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1072:83:39"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 9641,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 9639,
+                      "name": "chainlinkOracle",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 9602,
+                      "src": "1166:15:39",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_ChainlinkPriceOracle_$8905",
+                        "typeString": "contract ChainlinkPriceOracle"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 9640,
+                      "name": "_chainlinkOracle",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 9608,
+                      "src": "1184:16:39",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_ChainlinkPriceOracle_$8905",
+                        "typeString": "contract ChainlinkPriceOracle"
+                      }
+                    },
+                    "src": "1166:34:39",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_ChainlinkPriceOracle_$8905",
+                      "typeString": "contract ChainlinkPriceOracle"
+                    }
+                  },
+                  "id": 9642,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1166:34:39"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 9645,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 9643,
+                      "name": "secondaryOracle",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 9605,
+                      "src": "1211:15:39",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_PriceOracle_$6023",
+                        "typeString": "contract PriceOracle"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 9644,
+                      "name": "_secondaryOracle",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 9610,
+                      "src": "1229:16:39",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_PriceOracle_$6023",
+                        "typeString": "contract PriceOracle"
+                      }
+                    },
+                    "src": "1211:34:39",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_PriceOracle_$6023",
+                      "typeString": "contract PriceOracle"
+                    }
+                  },
+                  "id": 9646,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1211:34:39"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 9606,
+              "nodeType": "StructuredDocumentation",
+              "src": "763:112:39",
+              "text": " @dev Constructor to set the primary `ChainlinkPriceOracle` and the secondary `PriceOracle`."
+            },
+            "id": 9648,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 9611,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9608,
+                  "mutability": "mutable",
+                  "name": "_chainlinkOracle",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 9648,
+                  "src": "893:37:39",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_ChainlinkPriceOracle_$8905",
+                    "typeString": "contract ChainlinkPriceOracle"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 9607,
+                    "name": "ChainlinkPriceOracle",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 8905,
+                    "src": "893:20:39",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_ChainlinkPriceOracle_$8905",
+                      "typeString": "contract ChainlinkPriceOracle"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 9610,
+                  "mutability": "mutable",
+                  "name": "_secondaryOracle",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 9648,
+                  "src": "932:28:39",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_PriceOracle_$6023",
+                    "typeString": "contract PriceOracle"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 9609,
+                    "name": "PriceOracle",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 6023,
+                    "src": "932:11:39",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_PriceOracle_$6023",
+                      "typeString": "contract PriceOracle"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "892:69:39"
+            },
+            "returnParameters": {
+              "id": 9612,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "969:0:39"
+            },
+            "scope": 9700,
+            "src": "881:372:39",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "baseFunctions": [6022],
+            "body": {
+              "id": 9698,
+              "nodeType": "Block",
+              "src": "1459:594:39",
+              "statements": [
+                {
+                  "condition": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 9657,
+                        "name": "cToken",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 9651,
+                        "src": "1506:6:39",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_CToken_$5866",
+                          "typeString": "contract CToken"
+                        }
+                      },
+                      "id": 9658,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "isCEther",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 5805,
+                      "src": "1506:15:39",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$__$returns$_t_bool_$",
+                        "typeString": "function () view external returns (bool)"
+                      }
+                    },
+                    "id": 9659,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1506:17:39",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": null,
+                  "id": 9662,
+                  "nodeType": "IfStatement",
+                  "src": "1502:34:39",
+                  "trueBody": {
+                    "expression": {
+                      "argumentTypes": null,
+                      "hexValue": "31653138",
+                      "id": 9660,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "1532:4:39",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_1000000000000000000_by_1",
+                        "typeString": "int_const 1000000000000000000"
+                      },
+                      "value": "1e18"
+                    },
+                    "functionReturnParameters": 9656,
+                    "id": 9661,
+                    "nodeType": "Return",
+                    "src": "1525:11:39"
+                  }
+                },
+                {
+                  "assignments": [9664],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 9664,
+                      "mutability": "mutable",
+                      "name": "underlying",
+                      "nodeType": "VariableDeclaration",
+                      "overrides": null,
+                      "scope": 9698,
+                      "src": "1596:18:39",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 9663,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "1596:7:39",
+                        "stateMutability": "nonpayable",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 9676,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [],
+                        "expression": {
+                          "argumentTypes": [],
+                          "expression": {
+                            "argumentTypes": null,
+                            "arguments": [
+                              {
+                                "argumentTypes": null,
+                                "arguments": [
+                                  {
+                                    "argumentTypes": null,
+                                    "id": 9670,
+                                    "name": "cToken",
+                                    "nodeType": "Identifier",
+                                    "overloadedDeclarations": [],
+                                    "referencedDeclaration": 9651,
+                                    "src": "1640:6:39",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_contract$_CToken_$5866",
+                                      "typeString": "contract CToken"
+                                    }
+                                  }
+                                ],
+                                "expression": {
+                                  "argumentTypes": [
+                                    {
+                                      "typeIdentifier": "t_contract$_CToken_$5866",
+                                      "typeString": "contract CToken"
+                                    }
+                                  ],
+                                  "id": 9669,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": true,
+                                  "lValueRequested": false,
+                                  "nodeType": "ElementaryTypeNameExpression",
+                                  "src": "1632:7:39",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_type$_t_address_$",
+                                    "typeString": "type(address)"
+                                  },
+                                  "typeName": {
+                                    "id": 9668,
+                                    "name": "address",
+                                    "nodeType": "ElementaryTypeName",
+                                    "src": "1632:7:39",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": null,
+                                      "typeString": null
+                                    }
+                                  }
+                                },
+                                "id": 9671,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "kind": "typeConversion",
+                                "lValueRequested": false,
+                                "names": [],
+                                "nodeType": "FunctionCall",
+                                "src": "1632:15:39",
+                                "tryCall": false,
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              }
+                            ],
+                            "expression": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              ],
+                              "id": 9667,
+                              "name": "CErc20",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 5723,
+                              "src": "1625:6:39",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_type$_t_contract$_CErc20_$5723_$",
+                                "typeString": "type(contract CErc20)"
+                              }
+                            },
+                            "id": 9672,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "typeConversion",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "1625:23:39",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_CErc20_$5723",
+                              "typeString": "contract CErc20"
+                            }
+                          },
+                          "id": 9673,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "underlying",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 5711,
+                          "src": "1625:34:39",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_external_view$__$returns$_t_address_$",
+                            "typeString": "function () view external returns (address)"
+                          }
+                        },
+                        "id": 9674,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1625:36:39",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 9666,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "nodeType": "ElementaryTypeNameExpression",
+                      "src": "1617:7:39",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_address_$",
+                        "typeString": "type(address)"
+                      },
+                      "typeName": {
+                        "id": 9665,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "1617:7:39",
+                        "typeDescriptions": {
+                          "typeIdentifier": null,
+                          "typeString": null
+                        }
+                      }
+                    },
+                    "id": 9675,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "typeConversion",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1617:45:39",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1596:66:39"
+                },
+                {
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    },
+                    "id": 9679,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "id": 9677,
+                      "name": "underlying",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 9664,
+                      "src": "1712:10:39",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "hexValue": "307843303261614133396232323346453844304130653543344632376541443930383343373536436332",
+                      "id": 9678,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "1726:42:39",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address_payable",
+                        "typeString": "address payable"
+                      },
+                      "value": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+                    },
+                    "src": "1712:56:39",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": null,
+                  "id": 9682,
+                  "nodeType": "IfStatement",
+                  "src": "1708:73:39",
+                  "trueBody": {
+                    "expression": {
+                      "argumentTypes": null,
+                      "hexValue": "31653138",
+                      "id": 9680,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "1777:4:39",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_1000000000000000000_by_1",
+                        "typeString": "int_const 1000000000000000000"
+                      },
+                      "value": "1e18"
+                    },
+                    "functionReturnParameters": 9656,
+                    "id": 9681,
+                    "nodeType": "Return",
+                    "src": "1770:11:39"
+                  }
+                },
+                {
+                  "condition": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 9685,
+                        "name": "underlying",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 9664,
+                        "src": "1866:10:39",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 9683,
+                        "name": "chainlinkOracle",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 9602,
+                        "src": "1837:15:39",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_ChainlinkPriceOracle_$8905",
+                          "typeString": "contract ChainlinkPriceOracle"
+                        }
+                      },
+                      "id": 9684,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "hasPriceFeed",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 8577,
+                      "src": "1837:28:39",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_bool_$",
+                        "typeString": "function (address) view external returns (bool)"
+                      }
+                    },
+                    "id": 9686,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1837:40:39",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": null,
+                  "id": 9692,
+                  "nodeType": "IfStatement",
+                  "src": "1833:95:39",
+                  "trueBody": {
+                    "expression": {
+                      "argumentTypes": null,
+                      "arguments": [
+                        {
+                          "argumentTypes": null,
+                          "id": 9689,
+                          "name": "cToken",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 9651,
+                          "src": "1921:6:39",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_CToken_$5866",
+                            "typeString": "contract CToken"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_contract$_CToken_$5866",
+                            "typeString": "contract CToken"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 9687,
+                          "name": "chainlinkOracle",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 9602,
+                          "src": "1886:15:39",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_ChainlinkPriceOracle_$8905",
+                            "typeString": "contract ChainlinkPriceOracle"
+                          }
+                        },
+                        "id": 9688,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "getUnderlyingPrice",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 8904,
+                        "src": "1886:34:39",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_external_view$_t_contract$_CToken_$5866_$returns$_t_uint256_$",
+                          "typeString": "function (contract CToken) view external returns (uint256)"
+                        }
+                      },
+                      "id": 9690,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1886:42:39",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "functionReturnParameters": 9656,
+                    "id": 9691,
+                    "nodeType": "Return",
+                    "src": "1879:49:39"
+                  }
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 9695,
+                        "name": "cToken",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 9651,
+                        "src": "2038:6:39",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_CToken_$5866",
+                          "typeString": "contract CToken"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_contract$_CToken_$5866",
+                          "typeString": "contract CToken"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 9693,
+                        "name": "secondaryOracle",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 9605,
+                        "src": "2003:15:39",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_PriceOracle_$6023",
+                          "typeString": "contract PriceOracle"
+                        }
+                      },
+                      "id": 9694,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "getUnderlyingPrice",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 6022,
+                      "src": "2003:34:39",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$_t_contract$_CToken_$5866_$returns$_t_uint256_$",
+                        "typeString": "function (contract CToken) view external returns (uint256)"
+                      }
+                    },
+                    "id": 9696,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2003:42:39",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 9656,
+                  "id": 9697,
+                  "nodeType": "Return",
+                  "src": "1996:49:39"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 9649,
+              "nodeType": "StructuredDocumentation",
+              "src": "1261:111:39",
+              "text": " @dev Returns the price in ETH of the token underlying `cToken` (implements `PriceOracle`)."
+            },
+            "functionSelector": "fc57d4df",
+            "id": 9699,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getUnderlyingPrice",
+            "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 9653,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "1430:8:39"
+            },
+            "parameters": {
+              "id": 9652,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9651,
+                  "mutability": "mutable",
+                  "name": "cToken",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 9699,
+                  "src": "1406:13:39",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_CToken_$5866",
+                    "typeString": "contract CToken"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 9650,
+                    "name": "CToken",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 5866,
+                    "src": "1406:6:39",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_CToken_$5866",
+                      "typeString": "contract CToken"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1405:15:39"
+            },
+            "returnParameters": {
+              "id": 9656,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9655,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 9699,
+                  "src": "1453:4:39",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 9654,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1453:4:39",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1452:6:39"
+            },
+            "scope": 9700,
+            "src": "1378:675:39",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 9701,
+        "src": "485:1571:39"
+      }
+    ],
+    "src": "0:2058:39"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/PreferredPriceOracle.sol",
+      "exportedSymbols": {
+        "PreferredPriceOracle": [9700]
+      },
+      "license": null
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": ["solidity", "0.6", ".12"]
+        },
+        "id": 9592,
+        "name": "PragmaDirective",
+        "src": "0:23:39"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 6024,
+          "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/PriceOracle.sol",
+          "file": "../external/compound/PriceOracle.sol",
+          "scope": 9701,
+          "symbolAliases": [null],
+          "unitAlias": ""
+        },
+        "id": 9593,
+        "name": "ImportDirective",
+        "src": "27:46:39"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 5867,
+          "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/CToken.sol",
+          "file": "../external/compound/CToken.sol",
+          "scope": 9701,
+          "symbolAliases": [null],
+          "unitAlias": ""
+        },
+        "id": 9594,
+        "name": "ImportDirective",
+        "src": "75:41:39"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 5724,
+          "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/external/compound/CErc20.sol",
+          "file": "../external/compound/CErc20.sol",
+          "scope": 9701,
+          "symbolAliases": [null],
+          "unitAlias": ""
+        },
+        "id": 9595,
+        "name": "ImportDirective",
+        "src": "118:41:39"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 8906,
+          "absolutePath": "/C/Users/david/Dropbox/Rari/v1/fuse-contracts/contracts/oracles/ChainlinkPriceOracle.sol",
+          "file": "./ChainlinkPriceOracle.sol",
+          "scope": 9701,
+          "symbolAliases": [null],
+          "unitAlias": ""
+        },
+        "id": 9596,
+        "name": "ImportDirective",
+        "src": "163:36:39"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "contractDependencies": [6023],
+          "contractKind": "contract",
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [9700, 6023],
+          "name": "PreferredPriceOracle",
+          "scope": 9701
+        },
+        "children": [
+          {
+            "attributes": {
+              "text": " @title PreferredPriceOracle\n @notice Returns prices from Chainlink or prices from a secondary oracle if an asset's price is not available via Chainlink.\n @dev Implements `PriceOracle`.\n @author David Lucid <david@rari.capital> (https://github.com/davidlucid)"
+            },
+            "id": 9597,
+            "name": "StructuredDocumentation",
+            "src": "203:280:39"
+          },
+          {
+            "attributes": {
+              "arguments": null
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "PriceOracle",
+                  "referencedDeclaration": 6023,
+                  "type": "contract PriceOracle"
+                },
+                "id": 9598,
+                "name": "UserDefinedTypeName",
+                "src": "518:11:39"
+              }
+            ],
+            "id": 9599,
+            "name": "InheritanceSpecifier",
+            "src": "518:11:39"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "functionSelector": "ef06e72c",
+              "mutability": "mutable",
+              "name": "chainlinkOracle",
+              "overrides": null,
+              "scope": 9700,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "contract ChainlinkPriceOracle",
+              "value": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "ChainlinkPriceOracle",
+                  "referencedDeclaration": 8905,
+                  "type": "contract ChainlinkPriceOracle"
+                },
+                "id": 9601,
+                "name": "UserDefinedTypeName",
+                "src": "604:20:39"
+              },
+              {
+                "attributes": {
+                  "text": " @dev The primary `ChainlinkPriceOracle`."
+                },
+                "id": 9600,
+                "name": "StructuredDocumentation",
+                "src": "537:61:39"
+              }
+            ],
+            "id": 9602,
+            "name": "VariableDeclaration",
+            "src": "604:43:39"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "functionSelector": "329d4609",
+              "mutability": "mutable",
+              "name": "secondaryOracle",
+              "overrides": null,
+              "scope": 9700,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "contract PriceOracle",
+              "value": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "PriceOracle",
+                  "referencedDeclaration": 6023,
+                  "type": "contract PriceOracle"
+                },
+                "id": 9604,
+                "name": "UserDefinedTypeName",
+                "src": "716:11:39"
+              },
+              {
+                "attributes": {
+                  "text": " @dev The secondary `PriceOracle`."
+                },
+                "id": 9603,
+                "name": "StructuredDocumentation",
+                "src": "656:54:39"
+              }
+            ],
+            "id": 9605,
+            "name": "VariableDeclaration",
+            "src": "716:34:39"
+          },
+          {
+            "attributes": {
+              "implemented": true,
+              "isConstructor": true,
+              "kind": "constructor",
+              "modifiers": [null],
+              "name": "",
+              "overrides": null,
+              "scope": 9700,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "text": " @dev Constructor to set the primary `ChainlinkPriceOracle` and the secondary `PriceOracle`."
+                },
+                "id": 9606,
+                "name": "StructuredDocumentation",
+                "src": "763:112:39"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_chainlinkOracle",
+                      "overrides": null,
+                      "scope": 9648,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "contract ChainlinkPriceOracle",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "ChainlinkPriceOracle",
+                          "referencedDeclaration": 8905,
+                          "type": "contract ChainlinkPriceOracle"
+                        },
+                        "id": 9607,
+                        "name": "UserDefinedTypeName",
+                        "src": "893:20:39"
+                      }
+                    ],
+                    "id": 9608,
+                    "name": "VariableDeclaration",
+                    "src": "893:37:39"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "_secondaryOracle",
+                      "overrides": null,
+                      "scope": 9648,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "contract PriceOracle",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "PriceOracle",
+                          "referencedDeclaration": 6023,
+                          "type": "contract PriceOracle"
+                        },
+                        "id": 9609,
+                        "name": "UserDefinedTypeName",
+                        "src": "932:11:39"
+                      }
+                    ],
+                    "id": 9610,
+                    "name": "VariableDeclaration",
+                    "src": "932:28:39"
+                  }
+                ],
+                "id": 9611,
+                "name": "ParameterList",
+                "src": "892:69:39"
+              },
+              {
+                "attributes": {
+                  "parameters": [null]
+                },
+                "children": [],
+                "id": 9612,
+                "name": "ParameterList",
+                "src": "969:0:39"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [null],
+                          "tryCall": false,
+                          "type": "tuple()",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_bool",
+                                  "typeString": "bool"
+                                },
+                                {
+                                  "typeIdentifier": "t_stringliteral_9b57049bc5d2a58d48dece658a810bef75ba957085d6d3a2360c0c37bbd4e00c",
+                                  "typeString": "literal_string \"ChainlinkPriceOracle not set.\""
+                                }
+                              ],
+                              "overloadedDeclarations": [-18, -18],
+                              "referencedDeclaration": -18,
+                              "type": "function (bool,string memory) pure",
+                              "value": "require"
+                            },
+                            "id": 9613,
+                            "name": "Identifier",
+                            "src": "980:7:39"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "commonType": {
+                                "typeIdentifier": "t_address",
+                                "typeString": "address"
+                              },
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "operator": "!=",
+                              "type": "bool"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "isStructConstructorCall": false,
+                                  "lValueRequested": false,
+                                  "names": [null],
+                                  "tryCall": false,
+                                  "type": "address",
+                                  "type_conversion": true
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": [
+                                        {
+                                          "typeIdentifier": "t_contract$_ChainlinkPriceOracle_$8905",
+                                          "typeString": "contract ChainlinkPriceOracle"
+                                        }
+                                      ],
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": true,
+                                      "lValueRequested": false,
+                                      "type": "type(address)"
+                                    },
+                                    "children": [
+                                      {
+                                        "attributes": {
+                                          "name": "address",
+                                          "type": null
+                                        },
+                                        "id": 9614,
+                                        "name": "ElementaryTypeName",
+                                        "src": "988:7:39"
+                                      }
+                                    ],
+                                    "id": 9615,
+                                    "name": "ElementaryTypeNameExpression",
+                                    "src": "988:7:39"
+                                  },
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [null],
+                                      "referencedDeclaration": 9608,
+                                      "type": "contract ChainlinkPriceOracle",
+                                      "value": "_chainlinkOracle"
+                                    },
+                                    "id": 9616,
+                                    "name": "Identifier",
+                                    "src": "996:16:39"
+                                  }
+                                ],
+                                "id": 9617,
+                                "name": "FunctionCall",
+                                "src": "988:25:39"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": true,
+                                  "isStructConstructorCall": false,
+                                  "lValueRequested": false,
+                                  "names": [null],
+                                  "tryCall": false,
+                                  "type": "address payable",
+                                  "type_conversion": true
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": [
+                                        {
+                                          "typeIdentifier": "t_rational_0_by_1",
+                                          "typeString": "int_const 0"
+                                        }
+                                      ],
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": true,
+                                      "lValueRequested": false,
+                                      "type": "type(address)"
+                                    },
+                                    "children": [
+                                      {
+                                        "attributes": {
+                                          "name": "address",
+                                          "type": null
+                                        },
+                                        "id": 9618,
+                                        "name": "ElementaryTypeName",
+                                        "src": "1017:7:39"
+                                      }
+                                    ],
+                                    "id": 9619,
+                                    "name": "ElementaryTypeNameExpression",
+                                    "src": "1017:7:39"
+                                  },
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "hexvalue": "30",
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": true,
+                                      "lValueRequested": false,
+                                      "subdenomination": null,
+                                      "token": "number",
+                                      "type": "int_const 0",
+                                      "value": "0"
+                                    },
+                                    "id": 9620,
+                                    "name": "Literal",
+                                    "src": "1025:1:39"
+                                  }
+                                ],
+                                "id": 9621,
+                                "name": "FunctionCall",
+                                "src": "1017:10:39"
+                              }
+                            ],
+                            "id": 9622,
+                            "name": "BinaryOperation",
+                            "src": "988:39:39"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "hexvalue": "436861696e6c696e6b50726963654f7261636c65206e6f74207365742e",
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "subdenomination": null,
+                              "token": "string",
+                              "type": "literal_string \"ChainlinkPriceOracle not set.\"",
+                              "value": "ChainlinkPriceOracle not set."
+                            },
+                            "id": 9623,
+                            "name": "Literal",
+                            "src": "1029:31:39"
+                          }
+                        ],
+                        "id": 9624,
+                        "name": "FunctionCall",
+                        "src": "980:81:39"
+                      }
+                    ],
+                    "id": 9625,
+                    "name": "ExpressionStatement",
+                    "src": "980:81:39"
+                  },
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [null],
+                          "tryCall": false,
+                          "type": "tuple()",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_bool",
+                                  "typeString": "bool"
+                                },
+                                {
+                                  "typeIdentifier": "t_stringliteral_ebd9734216fd97e27c38a134d929d7944d591c553f7345c5494b181c6fc8b0ba",
+                                  "typeString": "literal_string \"Secondary price oracle not set.\""
+                                }
+                              ],
+                              "overloadedDeclarations": [-18, -18],
+                              "referencedDeclaration": -18,
+                              "type": "function (bool,string memory) pure",
+                              "value": "require"
+                            },
+                            "id": 9626,
+                            "name": "Identifier",
+                            "src": "1072:7:39"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "commonType": {
+                                "typeIdentifier": "t_address",
+                                "typeString": "address"
+                              },
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "operator": "!=",
+                              "type": "bool"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "isStructConstructorCall": false,
+                                  "lValueRequested": false,
+                                  "names": [null],
+                                  "tryCall": false,
+                                  "type": "address",
+                                  "type_conversion": true
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": [
+                                        {
+                                          "typeIdentifier": "t_contract$_PriceOracle_$6023",
+                                          "typeString": "contract PriceOracle"
+                                        }
+                                      ],
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": true,
+                                      "lValueRequested": false,
+                                      "type": "type(address)"
+                                    },
+                                    "children": [
+                                      {
+                                        "attributes": {
+                                          "name": "address",
+                                          "type": null
+                                        },
+                                        "id": 9627,
+                                        "name": "ElementaryTypeName",
+                                        "src": "1080:7:39"
+                                      }
+                                    ],
+                                    "id": 9628,
+                                    "name": "ElementaryTypeNameExpression",
+                                    "src": "1080:7:39"
+                                  },
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [null],
+                                      "referencedDeclaration": 9610,
+                                      "type": "contract PriceOracle",
+                                      "value": "_secondaryOracle"
+                                    },
+                                    "id": 9629,
+                                    "name": "Identifier",
+                                    "src": "1088:16:39"
+                                  }
+                                ],
+                                "id": 9630,
+                                "name": "FunctionCall",
+                                "src": "1080:25:39"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": true,
+                                  "isStructConstructorCall": false,
+                                  "lValueRequested": false,
+                                  "names": [null],
+                                  "tryCall": false,
+                                  "type": "address payable",
+                                  "type_conversion": true
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": [
+                                        {
+                                          "typeIdentifier": "t_rational_0_by_1",
+                                          "typeString": "int_const 0"
+                                        }
+                                      ],
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": true,
+                                      "lValueRequested": false,
+                                      "type": "type(address)"
+                                    },
+                                    "children": [
+                                      {
+                                        "attributes": {
+                                          "name": "address",
+                                          "type": null
+                                        },
+                                        "id": 9631,
+                                        "name": "ElementaryTypeName",
+                                        "src": "1109:7:39"
+                                      }
+                                    ],
+                                    "id": 9632,
+                                    "name": "ElementaryTypeNameExpression",
+                                    "src": "1109:7:39"
+                                  },
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "hexvalue": "30",
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": true,
+                                      "lValueRequested": false,
+                                      "subdenomination": null,
+                                      "token": "number",
+                                      "type": "int_const 0",
+                                      "value": "0"
+                                    },
+                                    "id": 9633,
+                                    "name": "Literal",
+                                    "src": "1117:1:39"
+                                  }
+                                ],
+                                "id": 9634,
+                                "name": "FunctionCall",
+                                "src": "1109:10:39"
+                              }
+                            ],
+                            "id": 9635,
+                            "name": "BinaryOperation",
+                            "src": "1080:39:39"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "hexvalue": "5365636f6e64617279207072696365206f7261636c65206e6f74207365742e",
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "subdenomination": null,
+                              "token": "string",
+                              "type": "literal_string \"Secondary price oracle not set.\"",
+                              "value": "Secondary price oracle not set."
+                            },
+                            "id": 9636,
+                            "name": "Literal",
+                            "src": "1121:33:39"
+                          }
+                        ],
+                        "id": 9637,
+                        "name": "FunctionCall",
+                        "src": "1072:83:39"
+                      }
+                    ],
+                    "id": 9638,
+                    "name": "ExpressionStatement",
+                    "src": "1072:83:39"
+                  },
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "contract ChainlinkPriceOracle"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [null],
+                              "referencedDeclaration": 9602,
+                              "type": "contract ChainlinkPriceOracle",
+                              "value": "chainlinkOracle"
+                            },
+                            "id": 9639,
+                            "name": "Identifier",
+                            "src": "1166:15:39"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [null],
+                              "referencedDeclaration": 9608,
+                              "type": "contract ChainlinkPriceOracle",
+                              "value": "_chainlinkOracle"
+                            },
+                            "id": 9640,
+                            "name": "Identifier",
+                            "src": "1184:16:39"
+                          }
+                        ],
+                        "id": 9641,
+                        "name": "Assignment",
+                        "src": "1166:34:39"
+                      }
+                    ],
+                    "id": 9642,
+                    "name": "ExpressionStatement",
+                    "src": "1166:34:39"
+                  },
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "contract PriceOracle"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [null],
+                              "referencedDeclaration": 9605,
+                              "type": "contract PriceOracle",
+                              "value": "secondaryOracle"
+                            },
+                            "id": 9643,
+                            "name": "Identifier",
+                            "src": "1211:15:39"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [null],
+                              "referencedDeclaration": 9610,
+                              "type": "contract PriceOracle",
+                              "value": "_secondaryOracle"
+                            },
+                            "id": 9644,
+                            "name": "Identifier",
+                            "src": "1229:16:39"
+                          }
+                        ],
+                        "id": 9645,
+                        "name": "Assignment",
+                        "src": "1211:34:39"
+                      }
+                    ],
+                    "id": 9646,
+                    "name": "ExpressionStatement",
+                    "src": "1211:34:39"
+                  }
+                ],
+                "id": 9647,
+                "name": "Block",
+                "src": "969:284:39"
+              }
+            ],
+            "id": 9648,
+            "name": "FunctionDefinition",
+            "src": "881:372:39"
+          },
+          {
+            "attributes": {
+              "baseFunctions": [6022],
+              "functionSelector": "fc57d4df",
+              "implemented": true,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [null],
+              "name": "getUnderlyingPrice",
+              "scope": 9700,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "text": " @dev Returns the price in ETH of the token underlying `cToken` (implements `PriceOracle`)."
+                },
+                "id": 9649,
+                "name": "StructuredDocumentation",
+                "src": "1261:111:39"
+              },
+              {
+                "attributes": {
+                  "overrides": [null]
+                },
+                "id": 9653,
+                "name": "OverrideSpecifier",
+                "src": "1430:8:39"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "cToken",
+                      "overrides": null,
+                      "scope": 9699,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "contract CToken",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "CToken",
+                          "referencedDeclaration": 5866,
+                          "type": "contract CToken"
+                        },
+                        "id": 9650,
+                        "name": "UserDefinedTypeName",
+                        "src": "1406:6:39"
+                      }
+                    ],
+                    "id": 9651,
+                    "name": "VariableDeclaration",
+                    "src": "1406:13:39"
+                  }
+                ],
+                "id": 9652,
+                "name": "ParameterList",
+                "src": "1405:15:39"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "",
+                      "overrides": null,
+                      "scope": 9699,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 9654,
+                        "name": "ElementaryTypeName",
+                        "src": "1453:4:39"
+                      }
+                    ],
+                    "id": 9655,
+                    "name": "VariableDeclaration",
+                    "src": "1453:4:39"
+                  }
+                ],
+                "id": 9656,
+                "name": "ParameterList",
+                "src": "1452:6:39"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "falseBody": null
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "arguments": [null],
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [null],
+                          "tryCall": false,
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [null],
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "isCEther",
+                              "referencedDeclaration": 5805,
+                              "type": "function () view external returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [null],
+                                  "referencedDeclaration": 9651,
+                                  "type": "contract CToken",
+                                  "value": "cToken"
+                                },
+                                "id": 9657,
+                                "name": "Identifier",
+                                "src": "1506:6:39"
+                              }
+                            ],
+                            "id": 9658,
+                            "name": "MemberAccess",
+                            "src": "1506:15:39"
+                          }
+                        ],
+                        "id": 9659,
+                        "name": "FunctionCall",
+                        "src": "1506:17:39"
+                      },
+                      {
+                        "attributes": {
+                          "functionReturnParameters": 9656
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "hexvalue": "31653138",
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "subdenomination": null,
+                              "token": "number",
+                              "type": "int_const 1000000000000000000",
+                              "value": "1e18"
+                            },
+                            "id": 9660,
+                            "name": "Literal",
+                            "src": "1532:4:39"
+                          }
+                        ],
+                        "id": 9661,
+                        "name": "Return",
+                        "src": "1525:11:39"
+                      }
+                    ],
+                    "id": 9662,
+                    "name": "IfStatement",
+                    "src": "1502:34:39"
+                  },
+                  {
+                    "attributes": {
+                      "assignments": [9664]
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "constant": false,
+                          "mutability": "mutable",
+                          "name": "underlying",
+                          "overrides": null,
+                          "scope": 9698,
+                          "stateVariable": false,
+                          "storageLocation": "default",
+                          "type": "address",
+                          "value": null,
+                          "visibility": "internal"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "address",
+                              "stateMutability": "nonpayable",
+                              "type": "address"
+                            },
+                            "id": 9663,
+                            "name": "ElementaryTypeName",
+                            "src": "1596:7:39"
+                          }
+                        ],
+                        "id": 9664,
+                        "name": "VariableDeclaration",
+                        "src": "1596:18:39"
+                      },
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [null],
+                          "tryCall": false,
+                          "type": "address",
+                          "type_conversion": true
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "type": "type(address)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "name": "address",
+                                  "type": null
+                                },
+                                "id": 9665,
+                                "name": "ElementaryTypeName",
+                                "src": "1617:7:39"
+                              }
+                            ],
+                            "id": 9666,
+                            "name": "ElementaryTypeNameExpression",
+                            "src": "1617:7:39"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "arguments": [null],
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "isStructConstructorCall": false,
+                              "lValueRequested": false,
+                              "names": [null],
+                              "tryCall": false,
+                              "type": "address",
+                              "type_conversion": false
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": [null],
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "member_name": "underlying",
+                                  "referencedDeclaration": 5711,
+                                  "type": "function () view external returns (address)"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "isConstant": false,
+                                      "isLValue": false,
+                                      "isPure": false,
+                                      "isStructConstructorCall": false,
+                                      "lValueRequested": false,
+                                      "names": [null],
+                                      "tryCall": false,
+                                      "type": "contract CErc20",
+                                      "type_conversion": true
+                                    },
+                                    "children": [
+                                      {
+                                        "attributes": {
+                                          "argumentTypes": [
+                                            {
+                                              "typeIdentifier": "t_address",
+                                              "typeString": "address"
+                                            }
+                                          ],
+                                          "overloadedDeclarations": [null],
+                                          "referencedDeclaration": 5723,
+                                          "type": "type(contract CErc20)",
+                                          "value": "CErc20"
+                                        },
+                                        "id": 9667,
+                                        "name": "Identifier",
+                                        "src": "1625:6:39"
+                                      },
+                                      {
+                                        "attributes": {
+                                          "argumentTypes": null,
+                                          "isConstant": false,
+                                          "isLValue": false,
+                                          "isPure": false,
+                                          "isStructConstructorCall": false,
+                                          "lValueRequested": false,
+                                          "names": [null],
+                                          "tryCall": false,
+                                          "type": "address",
+                                          "type_conversion": true
+                                        },
+                                        "children": [
+                                          {
+                                            "attributes": {
+                                              "argumentTypes": [
+                                                {
+                                                  "typeIdentifier": "t_contract$_CToken_$5866",
+                                                  "typeString": "contract CToken"
+                                                }
+                                              ],
+                                              "isConstant": false,
+                                              "isLValue": false,
+                                              "isPure": true,
+                                              "lValueRequested": false,
+                                              "type": "type(address)"
+                                            },
+                                            "children": [
+                                              {
+                                                "attributes": {
+                                                  "name": "address",
+                                                  "type": null
+                                                },
+                                                "id": 9668,
+                                                "name": "ElementaryTypeName",
+                                                "src": "1632:7:39"
+                                              }
+                                            ],
+                                            "id": 9669,
+                                            "name": "ElementaryTypeNameExpression",
+                                            "src": "1632:7:39"
+                                          },
+                                          {
+                                            "attributes": {
+                                              "argumentTypes": null,
+                                              "overloadedDeclarations": [null],
+                                              "referencedDeclaration": 9651,
+                                              "type": "contract CToken",
+                                              "value": "cToken"
+                                            },
+                                            "id": 9670,
+                                            "name": "Identifier",
+                                            "src": "1640:6:39"
+                                          }
+                                        ],
+                                        "id": 9671,
+                                        "name": "FunctionCall",
+                                        "src": "1632:15:39"
+                                      }
+                                    ],
+                                    "id": 9672,
+                                    "name": "FunctionCall",
+                                    "src": "1625:23:39"
+                                  }
+                                ],
+                                "id": 9673,
+                                "name": "MemberAccess",
+                                "src": "1625:34:39"
+                              }
+                            ],
+                            "id": 9674,
+                            "name": "FunctionCall",
+                            "src": "1625:36:39"
+                          }
+                        ],
+                        "id": 9675,
+                        "name": "FunctionCall",
+                        "src": "1617:45:39"
+                      }
+                    ],
+                    "id": 9676,
+                    "name": "VariableDeclarationStatement",
+                    "src": "1596:66:39"
+                  },
+                  {
+                    "attributes": {
+                      "falseBody": null
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          },
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "==",
+                          "type": "bool"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [null],
+                              "referencedDeclaration": 9664,
+                              "type": "address",
+                              "value": "underlying"
+                            },
+                            "id": 9677,
+                            "name": "Identifier",
+                            "src": "1712:10:39"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "hexvalue": "307843303261614133396232323346453844304130653543344632376541443930383343373536436332",
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "subdenomination": null,
+                              "token": "number",
+                              "type": "address payable",
+                              "value": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+                            },
+                            "id": 9678,
+                            "name": "Literal",
+                            "src": "1726:42:39"
+                          }
+                        ],
+                        "id": 9679,
+                        "name": "BinaryOperation",
+                        "src": "1712:56:39"
+                      },
+                      {
+                        "attributes": {
+                          "functionReturnParameters": 9656
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "hexvalue": "31653138",
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "subdenomination": null,
+                              "token": "number",
+                              "type": "int_const 1000000000000000000",
+                              "value": "1e18"
+                            },
+                            "id": 9680,
+                            "name": "Literal",
+                            "src": "1777:4:39"
+                          }
+                        ],
+                        "id": 9681,
+                        "name": "Return",
+                        "src": "1770:11:39"
+                      }
+                    ],
+                    "id": 9682,
+                    "name": "IfStatement",
+                    "src": "1708:73:39"
+                  },
+                  {
+                    "attributes": {
+                      "falseBody": null
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [null],
+                          "tryCall": false,
+                          "type": "bool",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "hasPriceFeed",
+                              "referencedDeclaration": 8577,
+                              "type": "function (address) view external returns (bool)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [null],
+                                  "referencedDeclaration": 9602,
+                                  "type": "contract ChainlinkPriceOracle",
+                                  "value": "chainlinkOracle"
+                                },
+                                "id": 9683,
+                                "name": "Identifier",
+                                "src": "1837:15:39"
+                              }
+                            ],
+                            "id": 9684,
+                            "name": "MemberAccess",
+                            "src": "1837:28:39"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [null],
+                              "referencedDeclaration": 9664,
+                              "type": "address",
+                              "value": "underlying"
+                            },
+                            "id": 9685,
+                            "name": "Identifier",
+                            "src": "1866:10:39"
+                          }
+                        ],
+                        "id": 9686,
+                        "name": "FunctionCall",
+                        "src": "1837:40:39"
+                      },
+                      {
+                        "attributes": {
+                          "functionReturnParameters": 9656
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "isStructConstructorCall": false,
+                              "lValueRequested": false,
+                              "names": [null],
+                              "tryCall": false,
+                              "type": "uint256",
+                              "type_conversion": false
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": [
+                                    {
+                                      "typeIdentifier": "t_contract$_CToken_$5866",
+                                      "typeString": "contract CToken"
+                                    }
+                                  ],
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "member_name": "getUnderlyingPrice",
+                                  "referencedDeclaration": 8904,
+                                  "type": "function (contract CToken) view external returns (uint256)"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [null],
+                                      "referencedDeclaration": 9602,
+                                      "type": "contract ChainlinkPriceOracle",
+                                      "value": "chainlinkOracle"
+                                    },
+                                    "id": 9687,
+                                    "name": "Identifier",
+                                    "src": "1886:15:39"
+                                  }
+                                ],
+                                "id": 9688,
+                                "name": "MemberAccess",
+                                "src": "1886:34:39"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [null],
+                                  "referencedDeclaration": 9651,
+                                  "type": "contract CToken",
+                                  "value": "cToken"
+                                },
+                                "id": 9689,
+                                "name": "Identifier",
+                                "src": "1921:6:39"
+                              }
+                            ],
+                            "id": 9690,
+                            "name": "FunctionCall",
+                            "src": "1886:42:39"
+                          }
+                        ],
+                        "id": 9691,
+                        "name": "Return",
+                        "src": "1879:49:39"
+                      }
+                    ],
+                    "id": 9692,
+                    "name": "IfStatement",
+                    "src": "1833:95:39"
+                  },
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 9656
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [null],
+                          "tryCall": false,
+                          "type": "uint256",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_contract$_CToken_$5866",
+                                  "typeString": "contract CToken"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "getUnderlyingPrice",
+                              "referencedDeclaration": 6022,
+                              "type": "function (contract CToken) view external returns (uint256)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [null],
+                                  "referencedDeclaration": 9605,
+                                  "type": "contract PriceOracle",
+                                  "value": "secondaryOracle"
+                                },
+                                "id": 9693,
+                                "name": "Identifier",
+                                "src": "2003:15:39"
+                              }
+                            ],
+                            "id": 9694,
+                            "name": "MemberAccess",
+                            "src": "2003:34:39"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [null],
+                              "referencedDeclaration": 9651,
+                              "type": "contract CToken",
+                              "value": "cToken"
+                            },
+                            "id": 9695,
+                            "name": "Identifier",
+                            "src": "2038:6:39"
+                          }
+                        ],
+                        "id": 9696,
+                        "name": "FunctionCall",
+                        "src": "2003:42:39"
+                      }
+                    ],
+                    "id": 9697,
+                    "name": "Return",
+                    "src": "1996:49:39"
+                  }
+                ],
+                "id": 9698,
+                "name": "Block",
+                "src": "1459:594:39"
+              }
+            ],
+            "id": 9699,
+            "name": "FunctionDefinition",
+            "src": "1378:675:39"
+          }
+        ],
+        "id": 9700,
+        "name": "ContractDefinition",
+        "src": "485:1571:39"
+      }
+    ],
+    "id": 9701,
+    "name": "SourceUnit",
+    "src": "0:2058:39"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.6.12+commit.27d51765.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.3",
+  "updatedAt": "2021-03-09T04:23:29.156Z",
+  "devdoc": {
+    "author": "David Lucid <david@rari.capital> (https://github.com/davidlucid)",
+    "details": "Implements `PriceOracle`.",
+    "kind": "dev",
+    "methods": {
+      "constructor": {
+        "details": "Constructor to set the primary `ChainlinkPriceOracle` and the secondary `PriceOracle`."
+      },
+      "getUnderlyingPrice(address)": {
+        "details": "Returns the price in ETH of the token underlying `cToken` (implements `PriceOracle`)."
+      }
+    },
+    "stateVariables": {
+      "chainlinkOracle": {
+        "details": "The primary `ChainlinkPriceOracle`."
+      },
+      "secondaryOracle": {
+        "details": "The secondary `PriceOracle`."
+      }
+    },
+    "title": "PreferredPriceOracle",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "notice": "Returns prices from Chainlink or prices from a secondary oracle if an asset's price is not available via Chainlink.",
+    "version": 1
+  }
+}
