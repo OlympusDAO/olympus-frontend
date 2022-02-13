@@ -58,7 +58,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-19"
+                          class="MuiBox-root MuiBox-root-20"
                         >
                           <div>
                             <svg
@@ -88,7 +88,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-20"
+                          class="MuiBox-root MuiBox-root-21"
                         >
                           <div>
                             <svg
@@ -129,7 +129,7 @@ exports[`<Sidebar/> should render component 1`] = `
                             <p
                               class="MuiTypography-root MuiTypography-body2"
                             >
-                              Highest ROI
+                              Highest Discount
                             </p>
                           </div>
                           <div
@@ -188,7 +188,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-21"
+                          class="MuiBox-root MuiBox-root-22"
                         >
                           <div>
                             <svg
@@ -212,13 +212,43 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
+                      href="/#/zap"
+                    >
+                      <h6
+                        class="MuiTypography-root MuiTypography-h6"
+                      >
+                        <div
+                          class="MuiBox-root MuiBox-root-23"
+                        >
+                          <div>
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                              focusable="false"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                d="M 18.176 7.27 C 18.54 7.27 18.812 7.453 18.994 7.817 C 19.174 8.09 19.083 8.454 18.903 8.726 L 9.819 19.636 C 9.637 19.909 9.365 20 9.092 20 C 9.002 20 8.82 20 8.729 19.909 C 8.365 19.818 8.092 19.365 8.184 19 L 9.002 12.725 L 1.825 12.725 C 1.492 12.728 1.183 12.555 1.007 12.27 C 0.826 11.908 0.916 11.545 1.099 11.27 L 10.183 0.363 C 10.43 0.016 10.892 -0.098 11.273 0.09 C 11.635 0.181 11.908 0.635 11.817 0.999 L 11 7.272 L 18.176 7.272 Z M 10.909 11.907 L 10.364 16.089 L 16.177 9.088 L 9.91 9.088 C 9.672 9.078 9.445 8.982 9.274 8.817 C 9.16 8.59 9.098 8.342 9.092 8.088 L 9.547 3.906 L 3.733 10.906 L 10 10.906 C 10.273 10.906 10.545 10.997 10.728 11.179 C 10.819 11.363 10.909 11.634 10.909 11.907 Z"
+                              />
+                            </svg>
+                            Zap
+                          </div>
+                        </div>
+                      </h6>
+                    </a>
+                  </div>
+                  <div
+                    class="makeStyles-root-3 nav-item-container"
+                  >
+                    <a
+                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
                       href="/#/give"
                     >
                       <h6
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-22"
+                          class="MuiBox-root MuiBox-root-24"
                         >
                           <div>
                             <svg
@@ -257,7 +287,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-23"
+                          class="MuiBox-root MuiBox-root-25"
                         >
                           <div>
                             <svg
@@ -288,7 +318,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-24"
+                          class="MuiBox-root MuiBox-root-26"
                         >
                           <div>
                             <svg
@@ -318,7 +348,7 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-11 menu-divider"
+                    class="MuiBox-root MuiBox-root-12 menu-divider"
                   >
                     <hr
                       class="MuiDivider-root"
@@ -336,7 +366,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-25"
+                          class="MuiBox-root MuiBox-root-27"
                         >
                           <div>
                             <svg
@@ -366,7 +396,7 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-13 menu-divider"
+                    class="MuiBox-root MuiBox-root-14 menu-divider"
                   >
                     <hr
                       class="MuiDivider-root"
@@ -384,7 +414,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-26"
+                          class="MuiBox-root MuiBox-root-28"
                         >
                           <div>
                             <svg
@@ -425,7 +455,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-27"
+                          class="MuiBox-root MuiBox-root-29"
                         >
                           <div>
                             <svg
@@ -466,7 +496,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-28"
+                          class="MuiBox-root MuiBox-root-30"
                         >
                           <div>
                             <svg
@@ -507,7 +537,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-29"
+                          class="MuiBox-root MuiBox-root-31"
                         >
                           <div>
                             <svg
@@ -540,7 +570,7 @@ exports[`<Sidebar/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-18 dapp-menu-social"
+              class="MuiBox-root MuiBox-root-19 dapp-menu-social"
             >
               <div
                 class="social-row"

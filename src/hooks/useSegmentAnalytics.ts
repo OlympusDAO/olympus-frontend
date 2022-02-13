@@ -25,11 +25,15 @@ const useSegmentAnalytics = () => {
 
   useEffect(() => {
     if (SEGMENT_API_KEY && SEGMENT_API_KEY.length > 1) {
-      const path = location.pathname + location.search + location.hash;
+      const path = location.pathname + location.hash + location.search;
       const utmSource = getParameterByName("utm_source", path);
       const utmMedium = getParameterByName("utm_medium", path);
       const utmCampaign = getParameterByName("utm_campaign", path);
-      initSegmentAnalytics({ utmSource, utmMedium, utmCampaign });
+      initSegmentAnalytics({
+        utmSource,
+        utmMedium,
+        utmCampaign,
+      });
       setLoadedSegment(true);
     }
   }, []);
@@ -84,6 +88,7 @@ const initSegmentAnalytics = (utm: Utm) => {
       ];
       analytics.factory = function (...args: any) {
         return function () {
+          // eslint-disable-next-line prefer-rest-params
           const t = Array.prototype.slice.call(args);
           t.unshift(args[0]);
           analytics.push(t);
@@ -94,13 +99,14 @@ const initSegmentAnalytics = (utm: Utm) => {
         const key = analytics.methods[e];
         analytics[key] = analytics.factory(key);
       }
-      analytics.load = function (key: string, e: any) {
+      analytics.load = function (key: any, e: any) {
         const t = document.createElement("script");
         t.type = "text/javascript";
         t.async = !0;
-        t.src = `https://cdn.segment.com/analytics.js/v1/${key}/analytics.min.js`;
+        t.src = "https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";
         const n = document.getElementsByTagName("script")[0];
-        n?.parentNode?.insertBefore(t, n);
+        // @ts-ignore
+        n.parentNode.insertBefore(t, n);
         analytics._loadOptions = e;
       };
       analytics._writeKey = SEGMENT_API_KEY;

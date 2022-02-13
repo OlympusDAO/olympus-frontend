@@ -1,15 +1,13 @@
 import { t } from "@lingui/macro";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
-import ReactGA from "react-ga";
 
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as MockSohm } from "../abi/MockSohm.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
 import { addresses, NetworkId } from "../constants";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { error } from "../slices/MessagesSlice";
+import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
 import { fetchAccountSuccess, getBalances, getDonationBalances, getMockDonationBalances } from "./AccountSlice";
 import {
   IActionValueRecipientAsyncThunk,
@@ -17,6 +15,7 @@ import {
   IChangeApprovalAsyncThunk,
   IJsonRPCError,
 } from "./interfaces";
+import { error } from "./MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns, getGivingTypeText, IPendingTxn, isPendingTxn } from "./PendingTxnsSlice";
 
 interface IUAData {
@@ -25,7 +24,7 @@ interface IUAData {
   recipient: string;
   approved: boolean;
   txHash: string | null;
-  type: string | null;
+  type: string;
 }
 
 export const PENDING_TXN_GIVE = "giving";
@@ -163,7 +162,7 @@ export const changeGive = createAsyncThunk(
       recipient: recipient,
       approved: true,
       txHash: null,
-      type: null,
+      type: "",
     };
 
     try {
@@ -202,9 +201,8 @@ export const changeGive = createAsyncThunk(
       return;
     } finally {
       if (giveTx) {
-        segmentUA(uaData);
-
-        ReactGA.event({
+        trackSegmentEvent(uaData);
+        trackGAEvent({
           category: "Olympus Give",
           action: uaData.type ?? "unknown",
           label: uaData.txHash ?? "unknown",
@@ -239,7 +237,7 @@ export const changeMockGive = createAsyncThunk(
       recipient: recipient,
       approved: true,
       txHash: null,
-      type: null,
+      type: "",
     };
 
     try {
@@ -278,8 +276,13 @@ export const changeMockGive = createAsyncThunk(
       return;
     } finally {
       if (giveTx) {
-        segmentUA(uaData);
-
+        trackSegmentEvent(uaData);
+        trackGAEvent({
+          category: "Olympus Give",
+          action: uaData.type,
+          label: uaData.recipient,
+          metric1: parseFloat(uaData.value),
+        });
         dispatch(clearPendingTxn(giveTx.hash));
       }
     }
