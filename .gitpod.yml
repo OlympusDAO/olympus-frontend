@@ -23,6 +23,18 @@ tasks:
       yarn test --clearCache
       yarn test:unit
     openMode: split-right
+  - name: Shell
+# The ~/.ssh directory will be removed between workspace runs
+# We store it on /workspace/ instead and link it
+# We also ensure that ssh-agent is added
+# Your own keys will need to be added through ssh-add or ~/.ssh/config
+    before: |
+      echo "Setting up SSH environment"
+      rm -rf ~/.ssh
+      mkdir -p /workspace/.ssh
+      ln -sf /workspace/.ssh ~/.ssh
+    command: eval $(ssh-agent -s)
+    openMode: tab-after
 ports:
   - port: 3000
     onOpen: open-preview
@@ -36,3 +48,6 @@ vscode:
   extensions:
     - dbaeumer.vscode-eslint
     - esbenp.prettier-vscode
+    - mhutchie.git-graph
+    - bmuskalla.vscode-tldr
+    - eamodio.gitlens

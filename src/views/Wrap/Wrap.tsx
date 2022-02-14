@@ -1,25 +1,12 @@
 import "../Stake/Stake.scss";
 
 import { t } from "@lingui/macro";
-import {
-  Box,
-  Button,
-  Divider,
-  FormControl,
-  Grid,
-  InputAdornment,
-  InputLabel,
-  Link,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  Typography,
-  Zoom,
-} from "@material-ui/core";
+import { Box, Button, Divider, FormControl, Grid, Link, MenuItem, Select, Typography, Zoom } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { DataRow, Icon, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
-import { useCallback, useMemo, useState } from "react";
+import { DataRow, Icon, InputWrapper, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
+import { FC, useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
+import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
@@ -30,7 +17,7 @@ import { switchNetwork } from "../../helpers/NetworkHelper";
 import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
 import WrapCrossChain from "./WrapCrossChain";
 
-const Wrap: React.FC = () => {
+const Wrap: FC = () => {
   const dispatch = useDispatch();
   const { provider, address, connect, networkId } = useWeb3Context();
 
@@ -86,14 +73,6 @@ const Wrap: React.FC = () => {
   // @ts-ignore
   const isAllowanceDataLoading = currentAction === "Unwrap";
 
-  const modalButton = [];
-
-  modalButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
-      Connect Wallet
-    </Button>,
-  );
-
   const temporaryStore = assetTo;
 
   const changeAsset = () => {
@@ -145,25 +124,19 @@ const Wrap: React.FC = () => {
       );
 
     return (
-      <FormControl className="ohm-input" variant="outlined" color="primary">
-        <InputLabel htmlFor="amount-input"></InputLabel>
-        <OutlinedInput
-          id="amount-input"
-          type="number"
-          placeholder="Enter an amount"
-          className="stake-input"
-          value={quantity}
-          onChange={e => setQuantity(e.target.value)}
-          labelWidth={0}
-          endAdornment={
-            <InputAdornment position="end">
-              <Button variant="text" onClick={setMax} color="inherit">
-                Max
-              </Button>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
+      <InputWrapper
+        id="amount-input"
+        type="number"
+        placeholder={t`Enter an amount`}
+        value={quantity}
+        onChange={e => setQuantity(e.target.value)}
+        labelWidth={0}
+        endString={t`Max`}
+        endStringOnClick={setMax}
+        disabled={isPendingTxn(pendingTransactions, "wrapping") || isPendingTxn(pendingTransactions, "migrate")}
+        buttonOnClick={chooseCorrectWrappingFunction}
+        buttonText={txnButtonTextMultiType(pendingTransactions, ["wrapping", "migrate"], wrapButtonText)}
+      />
     );
   };
 
@@ -183,19 +156,6 @@ const Wrap: React.FC = () => {
           onClick={approveCorrectToken}
         >
           {txnButtonTextMultiType(pendingTransactions, ["approve_wrapping", "approve_migration"], "Approve")}
-        </Button>
-      );
-
-    if (hasCorrectAllowance())
-      return (
-        <Button
-          className="stake-button wrap-page"
-          variant="contained"
-          color="primary"
-          disabled={isPendingTxn(pendingTransactions, "wrapping") || isPendingTxn(pendingTransactions, "migrate")}
-          onClick={chooseCorrectWrappingFunction}
-        >
-          {txnButtonTextMultiType(pendingTransactions, ["wrapping", "migrate"], wrapButtonText)}
         </Button>
       );
   };
@@ -246,7 +206,7 @@ const Wrap: React.FC = () => {
               {!address ? (
                 <div className="stake-wallet-notification">
                   <div className="wallet-menu" id="wallet-menu">
-                    {modalButton}
+                    <ConnectButton />
                   </div>
                   <Typography variant="h6">Connect your wallet</Typography>
                 </div>

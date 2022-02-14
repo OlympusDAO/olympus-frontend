@@ -1,18 +1,19 @@
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
-import { ethers } from "ethers";
-import { NetworkId } from "src/constants";
+import { BigNumber, ethers } from "ethers";
+import { addresses, NetworkId } from "src/constants";
 import { setAll } from "src/helpers";
-import { ZapHelper } from "src/helpers/ZapHelper";
+import { ZapHelper, ZapperToken } from "src/helpers/ZapHelper";
+import { IERC20__factory, Zap__factory } from "src/typechain";
 
-import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
 import { getBalances } from "./AccountSlice";
-import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IZapAsyncThunk } from "./interfaces";
+import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IValueAsyncThunk, IZapAsyncThunk } from "./interfaces";
 import { error, info } from "./MessagesSlice";
 interface IUAData {
   address: string;
   value: string;
   approved: boolean;
-  type: string | null;
+  type: string;
 }
 interface IUADataZap {
   address: string;
@@ -24,10 +25,15 @@ interface IUADataZap {
 }
 export const getZapTokenAllowance = createAsyncThunk(
   "zap/getZapTokenAllowance",
-  async ({ address, value, action, provider, networkID }: IActionValueAsyncThunk, { dispatch }) => {
+  async ({ address, value, provider, networkID }: IValueAsyncThunk, { dispatch }) => {
+    if (value === ethers.constants.AddressZero) {
+      return { eth: ethers.constants.MaxUint256 };
+    }
     try {
-      const result = await ZapHelper.getZapTokenAllowanceHelper(value, address);
-      return Object.fromEntries([[action, result]]);
+      const tokenContract = IERC20__factory.connect(value, provider);
+      const allowance = await tokenContract.allowance(address, addresses[networkID].ZAP);
+      const symbol = await tokenContract.symbol();
+      return Object.fromEntries([[symbol.toLowerCase(), allowance]]);
     } catch (e: unknown) {
       console.error(e);
       dispatch(error("An error has occurred when fetching token allowance."));
@@ -47,15 +53,9 @@ export const changeZapTokenAllowance = createAsyncThunk(
   "zap/changeZapTokenAllowance",
   async ({ address, value, provider, action, networkID }: IActionValueAsyncThunk, { dispatch }) => {
     try {
-      const gasPrice = await provider.getGasPrice();
-      const rawTransactionData = await ZapHelper.changeZapTokenAllowanceHelper(value, address, +gasPrice);
-      const transactionData = {
-        data: rawTransactionData.data,
-        to: rawTransactionData.to,
-        from: rawTransactionData.from,
-      };
       const signer = provider.getSigner();
-      const tx = await signer.sendTransaction(transactionData);
+      const tokenContract = IERC20__factory.connect(value, signer);
+      const tx = await tokenContract.approve(addresses[networkID].ZAP, ethers.constants.MaxUint256);
       await tx.wait();
 
       const uaData: IUAData = {
@@ -64,9 +64,14 @@ export const changeZapTokenAllowance = createAsyncThunk(
         approved: true,
         type: "Zap Approval Request Success",
       };
-      segmentUA(uaData);
+      trackSegmentEvent(uaData);
+      trackGAEvent({
+        category: "OlyZaps",
+        action: uaData.type,
+        metric1: parseFloat(uaData.value),
+      });
       dispatch(info("Successfully approved token!"));
-      return Object.fromEntries([[action, true]]);
+      return Object.fromEntries([[action, BigNumber.from(ethers.constants.MaxUint256)]]);
     } catch (e: unknown) {
       const rpcError = e as any;
       const uaData: IUAData = {
@@ -75,7 +80,12 @@ export const changeZapTokenAllowance = createAsyncThunk(
         approved: false,
         type: "Zap Approval Request Failure",
       };
-      segmentUA(uaData);
+      trackSegmentEvent(uaData);
+      trackGAEvent({
+        category: "OlyZaps",
+        action: uaData.type,
+        metric1: parseFloat(uaData.value),
+      });
       console.error(e);
       dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
       throw e;
@@ -92,6 +102,14 @@ export const getZapTokenBalances = createAsyncThunk(
         if (result.balances["ohm"]) {
           result.balances["ohm"].hide = true;
         }
+
+        for (const key in result.balances) {
+          const balance = result.balances[key];
+          const balanceRaw = balance.balanceRaw;
+          const balanceBigNumber = BigNumber.from(balanceRaw);
+          balance.balanceRaw = ethers.utils.formatUnits(balanceBigNumber, balance.decimals);
+        }
+
         return result;
       } catch (e: unknown) {
         console.error(e);
@@ -104,27 +122,44 @@ export const getZapTokenBalances = createAsyncThunk(
 
 export const executeZap = createAsyncThunk(
   "zap/executeZap",
-  async ({ provider, address, sellAmount, slippage, tokenAddress, networkID }: IZapAsyncThunk, { dispatch }) => {
+  async (
+    { provider, address, sellAmount, slippage, tokenAddress, networkID, minimumAmount, gOHM }: IZapAsyncThunk,
+    { dispatch },
+  ) => {
     if (!zapNetworkAvailable(networkID, dispatch)) return;
     try {
-      const gasPrice = await provider.getGasPrice();
+      const signer = provider.getSigner();
       const rawTransactionData = await ZapHelper.executeZapHelper(
-        sellAmount,
         address,
+        sellAmount,
         tokenAddress,
-        slippage,
-        +gasPrice,
+        +slippage / 100,
         networkID,
       );
-      const transactionData = {
-        data: rawTransactionData.data,
-        from: rawTransactionData.from,
-        to: rawTransactionData.to,
-        value: rawTransactionData.value,
-        gasLimit: ethers.utils.hexlify(Number(rawTransactionData.gas)),
-      };
-      const signer = provider.getSigner();
-      const tx = await signer.sendTransaction(transactionData);
+      const zapContract = Zap__factory.connect(addresses[networkID].ZAP, signer);
+      let tx: ethers.ContractTransaction;
+      if (tokenAddress === ethers.constants.AddressZero) {
+        tx = await zapContract.ZapStake(
+          tokenAddress,
+          sellAmount,
+          gOHM ? addresses[networkID].GOHM_ADDRESS : addresses[networkID].SOHM_V2,
+          ethers.utils.parseUnits(minimumAmount, gOHM ? 18 : 9),
+          rawTransactionData.to,
+          rawTransactionData.data,
+          address,
+          { value: sellAmount },
+        );
+      } else {
+        tx = await zapContract.ZapStake(
+          tokenAddress,
+          sellAmount,
+          gOHM ? addresses[networkID].GOHM_ADDRESS : addresses[networkID].SOHM_V2,
+          ethers.utils.parseUnits(minimumAmount, gOHM ? 18 : 9),
+          rawTransactionData.to,
+          rawTransactionData.data,
+          address,
+        );
+      }
       await tx.wait();
 
       const uaData: IUADataZap = {
@@ -135,7 +170,12 @@ export const executeZap = createAsyncThunk(
         slippage: slippage,
         approved: true,
       };
-      segmentUA(uaData);
+      trackSegmentEvent(uaData);
+      trackGAEvent({
+        category: "OlyZaps",
+        action: uaData.type,
+        metric1: parseFloat(uaData.value),
+      });
       dispatch(info("Successful Zap!"));
     } catch (e: unknown) {
       const uaData: IUADataZap = {
@@ -146,10 +186,21 @@ export const executeZap = createAsyncThunk(
         slippage: slippage,
         approved: false,
       };
-      segmentUA(uaData);
+      trackSegmentEvent(uaData);
+      trackGAEvent({
+        category: "OlyZaps",
+        action: uaData.type,
+        metric1: parseFloat(uaData.value),
+      });
       console.error(e);
       const rpcError = e as any;
-      dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
+      if (rpcError.message.indexOf("High Slippage") > 0) {
+        dispatch(error(`Transaction would fail due to slippage. Please use a higher slippage tolerance value.`));
+      } else if (rpcError.message.indexOf("TRANSFER_AMOUNT_EXCEEDS_BALANCE") > 0) {
+        dispatch(error(`Insufficient balance.`));
+      } else {
+        dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
+      }
       throw e;
     }
     dispatch(getBalances({ address, provider, networkID }));
@@ -167,11 +218,11 @@ const zapNetworkAvailable = (networkID: NetworkId, dispatch: ThunkDispatch<unkno
 };
 
 export interface IZapSlice {
-  balances: { [key: string]: any };
+  balances: { [key: string]: ZapperToken };
   balancesLoading: boolean;
   changeAllowanceLoading: boolean;
   stakeLoading: boolean;
-  allowances: { [key: string]: number };
+  allowances: { [key: string]: BigNumber };
 }
 
 const initialState: IZapSlice = {

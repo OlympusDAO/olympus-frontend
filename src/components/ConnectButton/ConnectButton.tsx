@@ -1,3 +1,5 @@
+
+import { Trans } from "@lingui/macro";
 import { PrimaryButton } from "@olympusdao/component-library";
 import React from "react";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -7,6 +9,8 @@ const ConnectButton: React.FC = () => {
   return (
     <PrimaryButton className="connect-button" onClick={connect}>
       Connect Wallet
+    <PrimaryButton size="large" style={{ fontSize: "1.2857rem" }} onClick={connect}>
+      <Trans>Connect Wallet</Trans>
     </PrimaryButton>
   );
 };

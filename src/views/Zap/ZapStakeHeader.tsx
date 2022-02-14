@@ -43,7 +43,6 @@ const ZapStakeHeader: React.FC<ZapStakeHeaderProps> = ({ images }) => {
           <>
             <Grid item xs={12} sm={4}>
               <Box alignItems="center" display="flex" flexDirection="column" marginX={1}>
-                {/* @ts-ignore - (keith) add style prop & types to Token Component */}
                 <Token name="zap" style={{ marginBottom: "16px" }} />
                 <Typography color="textSecondary">
                   <Trans>Swap for OHM</Trans>
@@ -52,10 +51,9 @@ const ZapStakeHeader: React.FC<ZapStakeHeaderProps> = ({ images }) => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <Box alignItems="center" display="flex" flexDirection="column" marginX={1}>
-                {/* @ts-ignore - (keith) add style prop & types to Token Component */}
-                <Token name="sOHM" style={{ marginBottom: "16px" }} />
+                <TokenStack tokens={["sOHM", "wsOHM"]} style={{ marginBottom: "16px" }} />
                 <Typography color="textSecondary">
-                  <Trans>Auto staked for sOHM</Trans>
+                  <Trans>Auto staked</Trans>
                 </Typography>
               </Box>
             </Grid>
