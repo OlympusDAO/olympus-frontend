@@ -1,8 +1,9 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Paper, Typography, Zoom } from "@material-ui/core";
+import { Box, Paper, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { TertiaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -124,9 +125,7 @@ export default function CausesDashboard() {
             >
               You can direct your yield to a recipient of your choice
             </Typography>
-            <Button
-              variant="outlined"
-              color="primary"
+            <TertiaryButton
               className="custom-give-button"
               onClick={() => handleCustomGiveButtonClick()}
               disabled={!address}
@@ -134,7 +133,7 @@ export default function CausesDashboard() {
               <Typography variant="body1" style={{ marginBottom: "0px" }}>
                 <Trans>Custom Recipient</Trans>
               </Typography>
-            </Button>
+            </TertiaryButton>
           </Paper>
           <RecipientModal
             isModalOpen={isCustomGiveModalOpen}
