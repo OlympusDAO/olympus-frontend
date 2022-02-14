@@ -151,7 +151,7 @@ export const UnknownDetails: V2BondDetails = {
 /**
  * DOWNCASE ALL THE ADDRESSES!!! for comparison purposes
  */
-export const v2BondDetails: { [key: number]: { [key: string]: V2BondDetails } } = {
+export const singleSidedBondDetails: { [key: number]: { [key: string]: V2BondDetails } } = {
   [NetworkId.TESTNET_RINKEBY]: {
     ["0xc0b491dabf3709ee5eb79e603d73289ca6060932"]: OhmDetails,
     ["0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c"]: DaiDetails,
@@ -175,6 +175,8 @@ export const v2BondDetails: { [key: number]: { [key: string]: V2BondDetails } } 
 };
 
 /**
+ * G-Uni LP will have a variable, ever-changing set of reserve addresses, so parsing code needs to be dynamic
+ *
  * BondParser should figure out what to return:
  * 1. logos
  * 2. names
@@ -197,16 +199,19 @@ export class V2BondParser {
 
   /**
    * normalize asset
+   * 1. first check if asset is single-sided
+   * 2. check if LP & get LP details
+   * 3. fallback to DAI
    */
   async details() {
-    if (v2BondDetails[this.networkId] && v2BondDetails[this.networkId][this.assetAddress]) {
-      return v2BondDetails[this.networkId][this.assetAddress];
+    if (singleSidedBondDetails[this.networkId] && singleSidedBondDetails[this.networkId][this.assetAddress]) {
+      return singleSidedBondDetails[this.networkId][this.assetAddress];
     } else if (await this.isLP()) {
       console.log("in isLP if");
       return this._lpDetails();
     } else {
       // return DAI as default
-      return v2BondDetails[NetworkId.MAINNET]["0x6b175474e89094c44da98b954eedeac495271d0f"];
+      return singleSidedBondDetails[NetworkId.MAINNET]["0x6b175474e89094c44da98b954eedeac495271d0f"];
     }
     return UnknownDetails;
   }
@@ -222,8 +227,8 @@ export class V2BondParser {
       return UnknownDetails;
     }
     console.log("tokens", token0.toLowerCase(), token1.toLowerCase());
-    const token0Details: V2BondDetails = v2BondDetails[this.networkId][token0.toLowerCase()];
-    const token1Details: V2BondDetails = v2BondDetails[this.networkId][token1.toLowerCase()];
+    const token0Details: V2BondDetails = singleSidedBondDetails[this.networkId][token0.toLowerCase()];
+    const token1Details: V2BondDetails = singleSidedBondDetails[this.networkId][token1.toLowerCase()];
     console.log("tokens", token0Details, token1Details);
     const name = token0Details.name.concat("-", token1Details.name, " LP");
 
@@ -288,7 +293,7 @@ export class V2BondParser {
     if (this.networkId === NetworkId.MAINNET) {
       return await getTokenByContract(tokenAddress);
     } else {
-      return await v2BondDetails[this.networkId][tokenAddress].pricingFunction();
+      return await singleSidedBondDetails[this.networkId][tokenAddress].pricingFunction();
     }
   }
 

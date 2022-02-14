@@ -1,7 +1,7 @@
 import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
-import { addresses, NetworkId, UnknownDetails, V2BondDetails, v2BondDetails, V2BondParser } from "src/constants";
+import { addresses, NetworkId, UnknownDetails, V2BondDetails, V2BondParser } from "src/constants";
 import { prettifySeconds } from "src/helpers";
 import { RootState } from "src/store";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
@@ -351,7 +351,8 @@ export const getUserNotes = createAsyncThunk(
     const bonds = await Promise.all(
       Array.from(new Set(userNotes.map(note => note.marketID))).map(async id => {
         const bond = await depositoryContract.markets(id);
-        const bondDetail = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
+        const bondParser = new V2BondParser(bond.quoteToken.toLowerCase(), networkID, provider);
+        const bondDetail: V2BondDetails = await bondParser.details();
         return { index: id, quoteToken: bond.quoteToken, ...bondDetail };
       }),
     ).then(result => Object.fromEntries(result.map(bond => [bond.index, bond])));
