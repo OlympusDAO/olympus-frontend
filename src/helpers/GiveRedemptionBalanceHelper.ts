@@ -15,6 +15,9 @@ interface IDonorAddresses {
   [key: string]: boolean;
 }
 
+// Gets a recipient's info. Separating it out into a helper allows us to call it on addresses
+// other than the current user's without overwriting the data in Redux store. This is needed
+// to pull data on our partner projects
 export const getRedemptionBalancesAsync = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
   let redeemableBalance = 0;
   const recipientInfo: IUserRecipientInfo = {
@@ -52,6 +55,7 @@ export const getRedemptionBalancesAsync = async ({ address, networkID, provider 
   };
 };
 
+// Gets a recipient's info but from the MockGive contract on Rinkeby
 export const getMockRedemptionBalancesAsync = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
   let redeemableBalance = 0;
   const recipientInfo: IUserRecipientInfo = {
@@ -98,6 +102,8 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
   but it will work with the new YieldDirector version that indexes event topics
 */
 export const getDonorNumbers = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+  // Addresses in EVM events are zero padded out to 32 characters and are lower case
+  // This matches our inputs with the data we expect to receive from Ethereum
   const zeroPadAddress = ethers.utils.hexZeroPad(address, 32);
 
   const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
@@ -120,12 +126,15 @@ export const getDonorNumbers = async ({ address, networkID, provider }: IBaseAdd
 
     if (event.topics[2] === zeroPadAddress.toLowerCase()) {
       const donorActiveDonations: [string[], BigNumber[]] = await givingContract.getAllDeposits(
-        ethers.utils.hexStripZeros(event.topics[1]),
+        ethers.utils.hexDataSlice(event.topics[1], 12),
       );
       // make sure the deposit was an active donation and has not been withdrawn
       for (let j = 0; j < donorActiveDonations[0].length; j++) {
+        // Makes sure that the recipient matches the one we are looking for,
+        // that the deposit amount is not 0, and that the user is not already
+        // counted for donating in a previous Deposited event
         if (
-          donorActiveDonations[0][j] == address &&
+          donorActiveDonations[0][j].toLowerCase() == address.toLowerCase() &&
           donorActiveDonations[1][j] > BigNumber.from(0) &&
           !donorAddresses[event.topics[1]]
         ) {
