@@ -43,6 +43,7 @@ export const isSupportedChain = (chainID: NetworkId): boolean => {
   return false;
 };
 
+// Checks to confirm if user has any current pending Give transactions (Give, Edit, or Withdraw)
 export const hasPendingGiveTxn = (pendingTransactions: IPendingTxn[]): boolean => {
   return (
     isPendingTxn(pendingTransactions, PENDING_TXN_GIVE) ||
@@ -51,10 +52,10 @@ export const hasPendingGiveTxn = (pendingTransactions: IPendingTxn[]): boolean =
   );
 };
 
-// This is approving the recipient to spend, not the contract
+// Approves Give address to spend user's sOHM
 export const changeApproval = createAsyncThunk(
   "give/changeApproval",
-  async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet`));
       return;
@@ -93,9 +94,10 @@ export const changeApproval = createAsyncThunk(
   },
 );
 
+// Approves MockGive address to spend user's MocksOHM on Rinkeby
 export const changeMockApproval = createAsyncThunk(
   "give/changeMockApproval",
-  async ({ token, provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet`));
       return;
@@ -144,9 +146,13 @@ export const changeMockApproval = createAsyncThunk(
   },
 );
 
+// Submits transactions to deposit, edit or withdraw to Give contract
 export const changeGive = createAsyncThunk(
   "give/changeGive",
-  async ({ action, value, recipient, provider, address, networkID }: IActionValueRecipientAsyncThunk, { dispatch }) => {
+  async (
+    { action, value, recipient, provider, address, networkID, eventSource }: IActionValueRecipientAsyncThunk,
+    { dispatch },
+  ) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet!`));
       return;
@@ -168,19 +174,24 @@ export const changeGive = createAsyncThunk(
     try {
       let pendingTxnType = "";
       if (action === ACTION_GIVE) {
+        // If the desired action is a new deposit
         uaData.type = ACTION_GIVE;
         pendingTxnType = PENDING_TXN_GIVE;
         giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
       } else if (action === ACTION_GIVE_EDIT) {
+        // If the desired action is adjusting a deposit
         uaData.type = ACTION_GIVE_EDIT;
         pendingTxnType = PENDING_TXN_EDIT_GIVE;
         if (parseFloat(value) > 0) {
+          // If the user is increasing the amount of sOHM directing yield to recipient
           giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
         } else if (parseFloat(value) < 0) {
+          // If th user is decreasing the amount of sOHM directing yield to recipient
           const reductionAmount = (-1 * parseFloat(value)).toString();
           giveTx = await giving.withdraw(ethers.utils.parseUnits(reductionAmount, "gwei"), recipient);
         }
       } else if (action === ACTION_GIVE_WITHDRAW) {
+        // If the desired action is to remove all sOHM from deposit
         uaData.type = ACTION_GIVE_WITHDRAW;
         pendingTxnType = PENDING_TXN_WITHDRAW;
         giveTx = await giving.withdraw(ethers.utils.parseUnits(value, "gwei"), recipient);
@@ -208,6 +219,7 @@ export const changeGive = createAsyncThunk(
           label: uaData.txHash ?? "unknown",
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
+          dimension3: eventSource,
           metric1: parseFloat(uaData.value),
         });
 
@@ -219,9 +231,13 @@ export const changeGive = createAsyncThunk(
   },
 );
 
+// Submits transactions to deposit, edit or withdraw to Give contract
 export const changeMockGive = createAsyncThunk(
   "give/changeMockGive",
-  async ({ action, value, recipient, provider, address, networkID }: IActionValueRecipientAsyncThunk, { dispatch }) => {
+  async (
+    { action, value, recipient, provider, address, networkID, eventSource }: IActionValueRecipientAsyncThunk,
+    { dispatch },
+  ) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet!`));
       return;
@@ -243,19 +259,24 @@ export const changeMockGive = createAsyncThunk(
     try {
       let pendingTxnType = "";
       if (action === ACTION_GIVE) {
+        // If the desired action is a new deposit
         uaData.type = ACTION_GIVE;
         pendingTxnType = PENDING_TXN_GIVE;
         giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
       } else if (action === ACTION_GIVE_EDIT) {
+        // If the desired action is adjusting a deposit
         uaData.type = ACTION_GIVE_EDIT;
         pendingTxnType = PENDING_TXN_EDIT_GIVE;
         if (parseFloat(value) > 0) {
+          // If the user is increasing the amount of sOHM directing yield to recipient
           giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
         } else if (parseFloat(value) < 0) {
+          // If th user is decreasing the amount of sOHM directing yield to recipient
           const reductionAmount = (-1 * parseFloat(value)).toString();
           giveTx = await giving.withdraw(ethers.utils.parseUnits(reductionAmount, "gwei"), recipient);
         }
       } else if (action === ACTION_GIVE_WITHDRAW) {
+        // If the desired action is to remove all sOHM from deposit
         uaData.type = ACTION_GIVE_WITHDRAW;
         pendingTxnType = PENDING_TXN_WITHDRAW;
         giveTx = await giving.withdraw(ethers.utils.parseUnits(value, "gwei"), recipient);
