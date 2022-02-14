@@ -12,6 +12,7 @@ const pricingFunctionHelper = async (
   secondToken: string,
 ) => {
   const baseContract = UniswapV2Lp__factory.connect(quoteToken, provider);
+  // need
   const reserves = await baseContract.getReserves();
   const totalSupply = +(await baseContract.totalSupply()) / Math.pow(10, await baseContract.decimals());
 
@@ -159,4 +160,17 @@ export const v2BondDetails: { [key: number]: { [key: string]: V2BondDetails } } 
     ["0x69b81152c5a8d35a67b32a4d3772795d96cae4da"]: OhmEthDetails,
     ["0x055475920a8c93cffb64d039a8205f7acc7722d3"]: OhmDaiDetails,
   },
+};
+
+/**
+ * BondParser should figure out what to return:
+ * 1. logos
+ * 2. names
+ * 3. pricing
+ * 4. isLP
+ * 5. lpURL
+ */
+export const v2BondParser = (assetAddress: string) => {
+  // 1. lookup assetAddress
+  // 2. is it an LP?
 };
