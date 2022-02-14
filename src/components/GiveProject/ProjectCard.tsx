@@ -1,12 +1,10 @@
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
-  Button,
   Container,
   Grid,
   LinearProgress,
   Link,
-  Paper,
   SvgIcon,
   Tooltip,
   Typography,
@@ -15,7 +13,7 @@ import {
 import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { Icon } from "@olympusdao/component-library";
+import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
@@ -569,11 +567,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         className="cause-link"
                         onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                       >
-                        <Button variant="contained" color="primary" className="cause-give-button">
+                        <PrimaryButton className="cause-give-button">
                           <Typography variant="h6">
                             <Trans>View Details</Trans>
                           </Typography>
-                        </Button>
+                        </PrimaryButton>
                       </Link>
                     </Grid>
                   </Grid>
@@ -617,11 +615,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         className="cause-link"
                         onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                       >
-                        <Button variant="contained" color="primary" className="cause-give-button">
+                        <PrimaryButton className="cause-give-button">
                           <Typography variant="h6">
                             <Trans>View Details</Trans>
                           </Typography>
-                        </Button>
+                        </PrimaryButton>
                       </Link>
                     </Grid>
                   </Grid>
@@ -694,23 +692,21 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             isUserDonating ? (
                               <></>
                             ) : (
-                              <Button
-                                variant="contained"
-                                color="primary"
+                              <PrimaryButton
                                 onClick={() => handleGiveButtonClick()}
                                 disabled={!isSupportedChain(networkId)}
                               >
                                 <Typography variant="h6">
                                   <Trans>Donate Yield</Trans>
                                 </Typography>
-                              </Button>
+                              </PrimaryButton>
                             )
                           ) : (
-                            <Button variant="contained" color="primary" onClick={connect}>
+                            <PrimaryButton onClick={connect}>
                               <Typography variant="h6">
                                 <Trans>Connect wallet</Trans>
                               </Typography>
-                            </Button>
+                            </PrimaryButton>
                           )}
                         </div>
                         <div className="project-countdown">{renderCountdownDetailed()}</div>
@@ -747,16 +743,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             </Typography>
                           </div>
                         </div>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => handleEditButtonClick()}
-                          disabled={!isSupportedChain(networkId)}
-                        >
+                        <PrimaryButton onClick={() => handleEditButtonClick()} disabled={!isSupportedChain(networkId)}>
                           <Typography variant="h6">
                             <Trans>Edit Donation</Trans>
                           </Typography>
-                        </Button>
+                        </PrimaryButton>
                       </div>
                     </Paper>
                   ) : (
