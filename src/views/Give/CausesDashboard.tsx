@@ -1,7 +1,7 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Paper, Typography, Zoom } from "@material-ui/core";
+import { Box, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { TertiaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
@@ -91,6 +91,8 @@ export default function CausesDashboard() {
     setIsCustomGiveModalOpen(false);
   };
 
+  // TODO shift the custom-recipient div back to Paper
+  // https://github.com/OlympusDAO/component-library/issues/111
   return (
     <div
       id="give-view"
@@ -110,10 +112,7 @@ export default function CausesDashboard() {
           <div className="causes-body">
             <Box className="data-grid">{renderProjects}</Box>
           </div>
-          <Paper
-            className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}
-            style={{ borderRadius: "10px" }}
-          >
+          <div className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}>
             <Typography variant="h4" align="center" className="custom-recipient-headline">
               Want to give to a different cause?
             </Typography>
@@ -134,7 +133,7 @@ export default function CausesDashboard() {
                 <Trans>Custom Recipient</Trans>
               </Typography>
             </TertiaryButton>
-          </Paper>
+          </div>
           <RecipientModal
             isModalOpen={isCustomGiveModalOpen}
             eventSource="Custom Recipient Button"
