@@ -42,9 +42,8 @@ import {
 } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
-import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
+import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
-import { WithdrawSubmitCallback } from "src/views/Give/WithdrawDepositModal";
 
 import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
