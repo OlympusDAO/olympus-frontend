@@ -3,7 +3,7 @@ import { t, Trans } from "@lingui/macro";
 import { Box, Grid, Link, SvgIcon, Typography } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
-import { Icon, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
+import { InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
@@ -334,6 +334,16 @@ export function ManageDonationModal({
     }
   };
 
+  const handleClose = () => {
+    // Reset state
+    setIsAmountSet(false);
+    setIsEditing(false);
+    setIsWithdrawing(false);
+
+    // Fire callback
+    cancelFunc();
+  };
+
   const getEscapeComponent = () => {
     // If on the edit/stop/confirmation screen, we provide a chevron to go back a step
     if (shouldShowEditConfirmationScreen() || shouldShowEditScreen() || shouldShowStopScreen()) {
@@ -344,22 +354,8 @@ export function ManageDonationModal({
       );
     }
 
-    // Otherwise an "x" to close the modal
-    return (
-      <Link
-        onClick={() => {
-          // Reset state
-          setIsAmountSet(false);
-          setIsEditing(false);
-          setIsWithdrawing(false);
-
-          // Fire callback
-          cancelFunc();
-        }}
-      >
-        <Icon name="x" />
-      </Link>
-    );
+    // Don't display on the first screen
+    return <></>;
   };
 
   /**
@@ -659,8 +655,9 @@ export function ManageDonationModal({
   return (
     <Modal
       open={isModalOpen}
-      onClose={cancelFunc}
+      onClose={handleClose}
       headerText={getModalTitle() + " Donation"}
+      closePosition="right"
       topLeft={getEscapeComponent()}
       className={`ohm-modal ${isMediumScreen ? "medium" : isSmallScreen ? "smaller" : ""}`}
       minHeight="300px"

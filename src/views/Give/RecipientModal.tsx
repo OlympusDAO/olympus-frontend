@@ -5,7 +5,7 @@ import { FormControl, FormHelperText } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
+import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -78,11 +78,6 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
       setIsAmountSet(_initialIsAmountSet);
     }
   }, [isModalOpen]);
-
-  const handleModalInsideClick = (e: React.MouseEvent): void => {
-    // When the user clicks within the modal window, we do not want to pass the event up the tree
-    e.stopPropagation();
-  };
 
   /**
    * Returns the user's sOHM balance
@@ -357,7 +352,16 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     connect();
   };
 
+  const handleClose = () => {
+    // Reset state
+    setIsAmountSet(false);
+
+    // Fire callback
+    cancelFunc();
+  };
+
   const getEscapeComponent = () => {
+    console.log("amount = " + isAmountSet);
     // If on the confirmation screen, we provide a chevron to go back a step
     if (shouldShowConfirmationScreen()) {
       return (
@@ -367,12 +371,8 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
       );
     }
 
-    // Otherwise an "x" to close the modal
-    return (
-      <Link onClick={() => cancelFunc()}>
-        <Icon name="x" />
-      </Link>
-    );
+    // Don't display on the first screen
+    return <></>;
   };
 
   const getAmountScreen = () => {
@@ -534,9 +534,9 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   return (
     <Modal
       open={isModalOpen}
-      onClose={cancelFunc}
+      onClose={handleClose}
       headerText={getTitle()}
-      closePosition="left"
+      closePosition="right"
       topLeft={getEscapeComponent()}
       className={`ohm-modal ${isSmallScreen ? "smaller" : ""}`}
       minHeight="300px"
