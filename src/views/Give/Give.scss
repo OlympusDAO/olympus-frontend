@@ -786,40 +786,6 @@
     }
   }
 
-  .yield-header {
-    align-items: center;
-    display: flex;
-    height: 44px;
-    justify-content: center;
-    margin-bottom: 30px;
-
-    a {
-      position: absolute;
-      left: 1.7rem;
-    }
-  }
-
-  .redeemable-details {
-    display: flex;
-    border: 1px solid #999999;
-    border-radius: 10px;
-    padding: 20px 20px 20px 20px;
-    width: 80%;
-
-    .redeem-info {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-
-      .subtext {
-        color: #999999;
-        margin-bottom: 10px;
-      }
-    }
-  }
-
   .give-modal-header {
     display: flex;
     flex-direction: row;
@@ -1396,6 +1362,75 @@
   align-items: center;
 }
 
+.redeem-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .MuiPaper-root {
+    min-height: 0px;
+    max-width: 833px;
+  }
+
+  .yield-header {
+    align-items: center;
+    display: flex;
+    height: 44px;
+    justify-content: center;
+    margin-bottom: 30px;
+
+    a {
+      position: absolute;
+      left: 1.7rem;
+    }
+  }
+
+  .redeemable-details {
+    display: flex;
+    border: 1px solid #999999;
+    border-radius: 10px;
+    padding: 20px 20px 20px 20px;
+    // width: 80%;
+
+    .redeem-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      &.smaller {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .wallet-text {
+          margin-top: 30px;
+        }
+      }
+
+      .subtext {
+        color: #999999;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .ohm-modal-submit {
+    display: flex;
+    align-items: center;
+    width: 60%;
+    height: 43px !important;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+
+    button {
+      height: 40px;
+      width: 100%;
+    }
+  }
+}
+
 @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
   .modal-container {
     background: rgba(100, 100, 100, 0.1) !important;
@@ -1413,6 +1448,7 @@
   }
 }
 
+// TODO look at removing
 /* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
 @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
   .modal-container {
