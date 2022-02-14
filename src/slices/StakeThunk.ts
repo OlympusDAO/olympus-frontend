@@ -1,15 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
-import ReactGA from "react-ga";
 import { IERC20, OlympusStaking__factory, OlympusStakingv2__factory, StakingHelper } from "src/typechain";
 
 import { abi as ierc20ABI } from "../abi/IERC20.json";
 import { abi as StakingHelperABI } from "../abi/StakingHelper.json";
 import { addresses } from "../constants";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { error, info } from "../slices/MessagesSlice";
+import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { IChangeApprovalWithVersionAsyncThunk, IJsonRPCError, IStakeAsyncThunk } from "./interfaces";
+import { error, info } from "./MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns, getStakingTypeText } from "./PendingTxnsSlice";
 
 interface IUAData {
@@ -17,7 +16,7 @@ interface IUAData {
   value: string;
   approved: boolean;
   txHash: string | null;
-  type: string | null;
+  type: string;
 }
 
 function alreadyApprovedToken(
@@ -168,7 +167,7 @@ export const changeStake = createAsyncThunk(
       value: value,
       approved: true,
       txHash: null,
-      type: null,
+      type: "",
     };
     try {
       if (version2) {
@@ -214,8 +213,8 @@ export const changeStake = createAsyncThunk(
       return;
     } finally {
       if (stakeTx) {
-        segmentUA(uaData);
-        ReactGA.event({
+        trackSegmentEvent(uaData);
+        trackGAEvent({
           category: "Staking",
           action: uaData.type ?? "unknown",
           label: uaData.txHash ?? "unknown",

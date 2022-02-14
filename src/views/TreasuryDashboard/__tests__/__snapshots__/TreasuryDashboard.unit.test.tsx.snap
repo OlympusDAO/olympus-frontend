@@ -166,7 +166,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                         <h6
                           class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
                         >
-                          Liquid Backing per OHM
+                          Backing per OHM
                         </h6>
                         <h5
                           class="MuiTypography-root MuiTypography-h5"

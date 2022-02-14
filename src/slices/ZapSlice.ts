@@ -5,7 +5,7 @@ import { setAll } from "src/helpers";
 import { ZapHelper, ZapperToken } from "src/helpers/ZapHelper";
 import { IERC20__factory, Zap__factory } from "src/typechain";
 
-import { segmentUA } from "../helpers/userAnalyticHelpers";
+import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
 import { getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IValueAsyncThunk, IZapAsyncThunk } from "./interfaces";
 import { error, info } from "./MessagesSlice";
@@ -13,7 +13,7 @@ interface IUAData {
   address: string;
   value: string;
   approved: boolean;
-  type: string | null;
+  type: string;
 }
 interface IUADataZap {
   address: string;
@@ -64,7 +64,12 @@ export const changeZapTokenAllowance = createAsyncThunk(
         approved: true,
         type: "Zap Approval Request Success",
       };
-      segmentUA(uaData);
+      trackSegmentEvent(uaData);
+      trackGAEvent({
+        category: "OlyZaps",
+        action: uaData.type,
+        metric1: parseFloat(uaData.value),
+      });
       dispatch(info("Successfully approved token!"));
       return Object.fromEntries([[action, BigNumber.from(ethers.constants.MaxUint256)]]);
     } catch (e: unknown) {
@@ -75,7 +80,12 @@ export const changeZapTokenAllowance = createAsyncThunk(
         approved: false,
         type: "Zap Approval Request Failure",
       };
-      segmentUA(uaData);
+      trackSegmentEvent(uaData);
+      trackGAEvent({
+        category: "OlyZaps",
+        action: uaData.type,
+        metric1: parseFloat(uaData.value),
+      });
       console.error(e);
       dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
       throw e;
@@ -160,7 +170,12 @@ export const executeZap = createAsyncThunk(
         slippage: slippage,
         approved: true,
       };
-      segmentUA(uaData);
+      trackSegmentEvent(uaData);
+      trackGAEvent({
+        category: "OlyZaps",
+        action: uaData.type,
+        metric1: parseFloat(uaData.value),
+      });
       dispatch(info("Successful Zap!"));
     } catch (e: unknown) {
       const uaData: IUADataZap = {
@@ -171,7 +186,12 @@ export const executeZap = createAsyncThunk(
         slippage: slippage,
         approved: false,
       };
-      segmentUA(uaData);
+      trackSegmentEvent(uaData);
+      trackGAEvent({
+        category: "OlyZaps",
+        action: uaData.type,
+        metric1: parseFloat(uaData.value),
+      });
       console.error(e);
       const rpcError = e as any;
       if (rpcError.message.indexOf("High Slippage") > 0) {

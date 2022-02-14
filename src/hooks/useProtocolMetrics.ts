@@ -13,7 +13,6 @@ const query = `
       treasuryMarketValue
       ohmCirculatingSupply
       sOhmCirculatingSupply
-      treasuryTotalBacking
     }
   }
 `;
@@ -28,7 +27,6 @@ interface ProtocolMetrics {
   readonly treasuryMarketValue: string;
   readonly ohmCirculatingSupply: string;
   readonly sOhmCirculatingSupply: string;
-  readonly treasuryTotalBacking: string;
 }
 
 export const protocolMetricsQueryKey = () => ["useProtocolMetrics"];
@@ -57,8 +55,8 @@ export const useTotalSupply = () => {
   return useProtocolMetrics<number>(metrics => parseFloat(metrics.totalSupply));
 };
 
-export const useTreasuryTotalBacking = () => {
-  return useProtocolMetrics<number>(metrics => parseFloat(metrics.treasuryTotalBacking));
+export const useTreasuryMarketValue = () => {
+  return useProtocolMetrics<number>(metrics => parseFloat(metrics.treasuryMarketValue));
 };
 
 export const useOhmCirculatingSupply = () => {
