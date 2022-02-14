@@ -1,14 +1,13 @@
 import { t } from "@lingui/macro";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
-import ReactGA from "react-ga";
 
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { addresses } from "../constants";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { error } from "../slices/MessagesSlice";
+import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
 import { getBalances, getMockRedemptionBalances, getRedemptionBalances } from "./AccountSlice";
 import { IJsonRPCError, IRedeemAsyncThunk } from "./interfaces";
+import { error } from "./MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 
 interface IUAData {
@@ -16,7 +15,7 @@ interface IUAData {
   value: string;
   approved: boolean;
   txHash: string | null;
-  type: string | null;
+  type: string;
 }
 
 // Redeems a user's redeemable balance from the Give contract
@@ -38,7 +37,7 @@ export const redeemBalance = createAsyncThunk(
       value: redeemableBalance,
       approved: true,
       txHash: null,
-      type: null,
+      type: "",
     };
 
     try {
@@ -59,18 +58,12 @@ export const redeemBalance = createAsyncThunk(
       return;
     } finally {
       if (redeemTx) {
-        segmentUA(uaData);
-
-        ReactGA.event({
-          category: "Olympus Give",
-          action: uaData.type ?? "unknown",
-          value: parseFloat(uaData.value),
-          label: uaData.txHash ?? "unknown",
-          dimension1: uaData.txHash ?? "unknown",
-          dimension2: uaData.address,
-          dimension3: eventSource,
+        trackSegmentEvent(uaData);
+        trackGAEvent({
+          category: "Redeem",
+          action: uaData.type,
+          metric1: parseFloat(uaData.value),
         });
-
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
@@ -103,7 +96,7 @@ export const redeemMockBalance = createAsyncThunk(
       value: redeemableBalance,
       approved: true,
       txHash: null,
-      type: null,
+      type: "",
     };
 
     try {
@@ -124,18 +117,12 @@ export const redeemMockBalance = createAsyncThunk(
       return;
     } finally {
       if (redeemTx) {
-        segmentUA(uaData);
-
-        ReactGA.event({
-          category: "Olympus Give",
-          action: uaData.type ?? "unknown",
-          value: parseFloat(uaData.value),
-          label: uaData.txHash ?? "unknown",
-          dimension1: uaData.txHash ?? "unknown",
-          dimension2: uaData.address,
-          dimension3: eventSource,
+        trackSegmentEvent(uaData);
+        trackGAEvent({
+          category: "Redeem",
+          action: uaData.type,
+          metric1: parseFloat(uaData.value),
         });
-
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
