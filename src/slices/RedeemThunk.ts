@@ -59,8 +59,11 @@ export const redeemBalance = createAsyncThunk(
       if (redeemTx) {
         trackSegmentEvent(uaData);
         trackGAEvent({
-          category: "Redeem",
+          category: "Olympus Give",
           action: uaData.type,
+          label: uaData.txHash ?? "unknown",
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
           metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(redeemTx.hash));
@@ -117,8 +120,11 @@ export const redeemMockBalance = createAsyncThunk(
       if (redeemTx) {
         trackSegmentEvent(uaData);
         trackGAEvent({
-          category: "Redeem",
+          category: "Olympus Give",
           action: uaData.type,
+          label: uaData.txHash ?? "unknown",
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
           metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(redeemTx.hash));
