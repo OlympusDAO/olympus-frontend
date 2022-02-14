@@ -58,7 +58,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-20"
+                          class="MuiBox-root MuiBox-root-21"
                         >
                           <div>
                             <svg
@@ -88,7 +88,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-21"
+                          class="MuiBox-root MuiBox-root-22"
                         >
                           <div>
                             <svg
@@ -188,7 +188,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-22"
+                          class="MuiBox-root MuiBox-root-23"
                         >
                           <div>
                             <svg
@@ -218,7 +218,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-23"
+                          class="MuiBox-root MuiBox-root-24"
                         >
                           <div>
                             <svg
@@ -248,7 +248,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-24"
+                          class="MuiBox-root MuiBox-root-25"
                         >
                           <div>
                             <svg
@@ -287,7 +287,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-25"
+                          class="MuiBox-root MuiBox-root-26"
                         >
                           <div>
                             <svg
@@ -318,7 +318,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-26"
+                          class="MuiBox-root MuiBox-root-27"
                         >
                           <div>
                             <svg
@@ -366,7 +366,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-27"
+                          class="MuiBox-root MuiBox-root-28"
                         >
                           <div>
                             <svg
@@ -414,7 +414,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-28"
+                          class="MuiBox-root MuiBox-root-29"
                         >
                           <div>
                             <svg
@@ -455,7 +455,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-29"
+                          class="MuiBox-root MuiBox-root-30"
                         >
                           <div>
                             <svg
@@ -496,7 +496,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-30"
+                          class="MuiBox-root MuiBox-root-31"
                         >
                           <div>
                             <svg
@@ -537,7 +537,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-31"
+                          class="MuiBox-root MuiBox-root-32"
                         >
                           <div>
                             <svg
@@ -566,11 +566,73 @@ exports[`<Sidebar/> should render component 1`] = `
                       </h6>
                     </a>
                   </div>
+                  <div
+                    class="makeStyles-root-3 nav-item-container"
+                  >
+                    <a
+                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
+                      href="https://grants.olympusdao.finance/"
+                      target="_blank"
+                    >
+                      <h6
+                        class="MuiTypography-root MuiTypography-h6"
+                      >
+                        <div
+                          class="MuiBox-root MuiBox-root-33"
+                        >
+                          <div>
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                              focusable="false"
+                              viewBox="0 0 20 20"
+                            >
+                              <rect
+                                fill="url(#b)"
+                                height="20"
+                                width="20"
+                              />
+                              <defs>
+                                <pattern
+                                  height="1"
+                                  id="b"
+                                  patternContentUnits="objectBoundingBox"
+                                  width="1"
+                                >
+                                  <use
+                                    transform="scale(0.0208333)"
+                                    xlink:href="#c"
+                                  />
+                                </pattern>
+                                <image
+                                  height="48"
+                                  id="c"
+                                  width="48"
+                                  xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAABgAAAAYADwa0LPAAACYUlEQVRo3u2ZPWsUURiFzzUG2eBGNx+FYBpR1k4hEkgjioUfVSAYRf+IWNrEPyAx+A+0VUFEESwEwd5otwabJIVBNGl8LGaFuJmZvR+vO7DOgWnuzj3vOfPe+96PlWrU+L/hLEiAEUlzki5KmpV0WtIxSYe7r3yX9FXSmqQPkl5Leu+c+1Wpe2AGuA+sE44vwDJwvArh08AqsBshvBe7wAowNSjxt4AtA+G92ARu/kvho8AjTzEdYBFodp8F4KNn34fAqLX4MeB5gPiJHI5W9zcfPAPGLL+8r3iAxRKu6wE8T00yETBs/qBZwjUeyLWSKv52YMB+Bo5E8N2IFT9NXLVZKOFciuDbACZjDKxGBIOs2rRy+CbJFq8YPAgVP0PaItUhm7Dj3WcpQTzADiErNtn2oEhYbH1P5Vv2FT9C/t7Gor6n8HWAAz4G5gsCWtX3FL45HwN3Czpb1vdYvju97+alZNZrrP0Nk3OFB98+bXkG2gWdL5UEvBwhMoavrX6gePGyru8xfBs+Bsrqv3V9D+Xb6dXrcgxsS2r2dVoNvjnnju5tyJsDr6pWWYIXvQ15GWhLeiep5cM4QGxJOuucW9/buC8Dzrk1SWckPZG0XbXqrobHeeJrDA2AUxEl9KRF7P67Oz9cHVCf4TOQvAkDGpI2JYXe4/yUNOWc+5ES3yIDFyLES1JD0vnU4BYGUoaCyTBKAvA5YTP3qWrxJxLEm5TT1CF0zeA7XKnSwDkDAzFHWDMDFvf4B6s0YHF2eGnAEQey/w7eJkzgN0BSBixMHALuEXY27pBdXzYqFV+jxhDgN43O1Oc/mObcAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTAxLTExVDA1OjA4OjUyKzAwOjAwDWeZUgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wMS0xMVQwNTowODo1MiswMDowMHw6Ie4AAAAASUVORK5CYII="
+                                />
+                              </defs>
+                            </svg>
+                            Grants
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root external-site-link-icon MuiSvgIcon-fontSizeSmall"
+                              focusable="false"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </h6>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-19 dapp-menu-social"
+              class="MuiBox-root MuiBox-root-20 dapp-menu-social"
             >
               <div
                 class="social-row"
