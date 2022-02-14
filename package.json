@@ -42,7 +42,7 @@
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
-    "@olympusdao/component-library": "^1.6.1",
+    "@olympusdao/component-library": "^1.6.3",
     "@reduxjs/toolkit": "^1.7.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.0.0",
@@ -78,7 +78,7 @@
     "web3modal": "^1.9.1"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.16.7",
+    "@babel/runtime": "^7.17.2",
     "@chainsafe/dappeteer": "^2.2.0",
     "@graphql-codegen/cli": "^2.6.0",
     "@graphql-codegen/typescript": "^2.3.0",
@@ -100,7 +100,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/shelljs": "^0.8.9",
     "@types/uuid": "^8.3.1",
-    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.11.0",
     "autoprefixer": "^10.2.4",
     "eslint": "^7.11.0",
