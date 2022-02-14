@@ -1,9 +1,9 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Button, Paper, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
+import { Tab, Tabs, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { TabPanel } from "@olympusdao/component-library";
+import { Paper, PrimaryButton, TabPanel } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -42,9 +42,9 @@ function Give({ selectedIndex }: GiveProps) {
   const history = useHistory();
 
   connectButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+    <PrimaryButton className="connect-button" onClick={connect} key={1}>
       <Trans>Connect Wallet</Trans>
-    </Button>,
+    </PrimaryButton>,
   );
 
   const changeView = (_event: React.ChangeEvent<unknown>, newView: number) => {
