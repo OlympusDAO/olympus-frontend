@@ -29,7 +29,8 @@
       margin-bottom: 50px;
       max-height: 60px;
       min-height: 40px;
-      height: auto;
+      // // Restrict the height of the tab bar, so the indicator is 4px away
+      height: 40px;
     }
 
     .MuiBox-root .no-donations {
