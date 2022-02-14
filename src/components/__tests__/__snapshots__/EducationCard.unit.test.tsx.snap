@@ -4,11 +4,11 @@ exports[`<ArrowGraphic/> should render component 1`] = `
 <div>
   <div
     class="MuiBox-root MuiBox-root-1 sect"
-    style="margin-top: 65px; margin-bottom: 0px;"
+    style="margin-top: 0px; margin-bottom: 0px;"
   >
     <div
       class="MuiBox-root MuiBox-root-2 arrow-graphic"
-      style="margin-top: 0px; margin-bottom: 0px; height: 20px;"
+      style="height: 20px;"
     >
       <svg
         aria-hidden="true"
