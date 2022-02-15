@@ -51,6 +51,23 @@ export const dark = responsiveFontSizes(
       primary: {
         main: darkTheme.color,
       },
+      colors: {
+        paper: "linear-gradient(237.43deg, #2B313D -12.81%, #171A20 132.72%)",
+        gray: {
+          700: "#181A1D",
+          600: "#292C32",
+          500: "#3F4552",
+          90: "#676B74",
+          40: "#A3A3A3",
+          10: "#FAFAFB",
+        },
+        primary: {
+          300: "#F8CC82",
+          100: "#EAD8B8",
+          "300/A75": " rgba(248, 204, 130,0.75)",
+          "300/A50": " rgba(248, 204, 130,0.5)",
+        },
+      },
       palette: {
         type: "dark",
         background: {
