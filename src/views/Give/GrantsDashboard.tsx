@@ -1,7 +1,7 @@
 import "./Give.scss";
 
-import { t, Trans } from "@lingui/macro";
-import { Box, Button, Paper, Typography, Zoom } from "@material-ui/core";
+import { t } from "@lingui/macro";
+import { Box, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { BigNumber } from "bignumber.js";
 import { useMemo, useState } from "react";
@@ -107,35 +107,14 @@ export default function GrantsDashboard() {
             <></>
           )}
           <div className="causes-body">
+            <Typography variant="body1" className="grants-header">
+              Upon receiving an Olympus Grant, you gain exposure to the Olympus Give ecosystem where your performance is
+              rewarded every 8 hours through the yield your grant generates; you then can also receive support from
+              other Ohmies and this acts as a loop that compounds value and amplifies the reach and growth of your
+              mission.
+            </Typography>
             <Box className="data-grid">{renderGrants}</Box>
           </div>
-          <Paper
-            className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}
-            style={{ borderRadius: "10px" }}
-          >
-            <Typography variant="h4" align="center" className="custom-recipient-headline">
-              Want to give to a different cause?
-            </Typography>
-            <Typography
-              variant="body1"
-              align="center"
-              className="custom-recipient-body"
-              style={{ marginBottom: "30px" }}
-            >
-              You can direct your yield to a recipient of your choice
-            </Typography>
-            <Button
-              variant="outlined"
-              color="primary"
-              className="custom-give-button"
-              onClick={() => handleCustomGiveButtonClick()}
-              disabled={!address}
-            >
-              <Typography variant="body1" style={{ marginBottom: "0px" }}>
-                <Trans>Custom Recipient</Trans>
-              </Typography>
-            </Button>
-          </Paper>
           <RecipientModal
             isModalOpen={isCustomGiveModalOpen}
             eventSource="Custom Recipient Button"

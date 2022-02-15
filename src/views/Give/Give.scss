@@ -26,7 +26,7 @@
 
     .give-tab-buttons {
       margin-top: 1rem;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
       max-height: 60px;
       min-height: 40px;
       height: auto;
@@ -104,6 +104,11 @@
     width: 100%;
     padding-left: 30px;
     padding-right: 30px;
+
+    .grants-header {
+      line-height: 24px;
+      padding-bottom: 30px;
+    }
 
     .data-grid {
       justify-content: center;
@@ -211,6 +216,10 @@
         justify-content: space-between;
         align-items: flex-end;
         margin-top: 16px;
+
+        &.grants {
+          justify-content: flex-end;
+        }
 
         .cause-info-main-text {
           font-size: 1rem;

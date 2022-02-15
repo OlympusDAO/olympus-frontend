@@ -484,7 +484,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                       <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
                     </Typography>
                   </div>
-                  <Grid container direction="column" className="cause-misc-info">
+                  <Grid container direction="column" className="cause-misc-info grants">
                     <Grid
                       item
                       xs={6}
