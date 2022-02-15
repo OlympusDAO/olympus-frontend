@@ -29,7 +29,7 @@ export const redeemBalance = createAsyncThunk(
 
     const signer = provider.getSigner();
     const giving = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, signer);
-    const redeemableBalance = await giving.redeemableBalance(address);
+    const redeemableBalance = await giving.totalRedeemableBalance(address);
     let redeemTx;
 
     const uaData: IUAData = {
@@ -42,7 +42,7 @@ export const redeemBalance = createAsyncThunk(
 
     try {
       uaData.type = "redeem";
-      redeemTx = await giving.redeem();
+      redeemTx = await giving.redeemAllYieldAsSohm();
       const pendingTxnType = "redeeming";
       uaData.txHash = redeemTx.hash;
       dispatch(fetchPendingTxns({ txnHash: redeemTx.hash, text: "Redeeming sOHM", type: pendingTxnType }));

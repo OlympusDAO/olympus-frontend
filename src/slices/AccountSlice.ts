@@ -9,6 +9,7 @@ import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
 import { abi as fiatDAO } from "../abi/FiatDAOContract.json";
 import { abi as fuseProxy } from "../abi/FuseProxy.json";
+import { abi as gOHM } from "../abi/gOHM.json";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as MockSohm } from "../abi/MockSohm.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
@@ -18,6 +19,7 @@ import { abi as wsOHM } from "../abi/wsOHM.json";
 import { addresses, NetworkId } from "../constants";
 import { handleContractError, setAll } from "../helpers";
 import { GetDonationDate } from "../helpers/GetDonationDate";
+import { getTotalYieldSent } from "../helpers/GetTotalDonated";
 import { getMockRedemptionBalancesAsync, getRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 
@@ -277,6 +279,7 @@ export const getDonationBalances = createAsyncThunk(
 
     if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
       const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider);
+      const gohmContract = new ethers.Contract(addresses[networkID].GOHM_ADDRESS as string, gOHM, provider);
       giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
       const givingContract = new ethers.Contract(
         addresses[networkID].GIVING_ADDRESS as string,
@@ -287,33 +290,41 @@ export const getDonationBalances = createAsyncThunk(
       try {
         // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
         const allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
-        for (let i = 0; i < allDeposits[0].length; i++) {
-          if (allDeposits[1][i].eq(0)) continue;
-          const depositAmount = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
-          const recipient = allDeposits[0][i];
-          const firstDonationDate: string = await GetDonationDate({
-            address: address,
-            recipient: recipient,
-            networkID: networkID,
-            provider: provider,
-          });
+        if (allDeposits[0].length != 1 || allDeposits[1][0] != BigNumber.from(0)) {
+          for (let i = 0; i < allDeposits[0].length; i++) {
+            if (allDeposits[1][i].eq(0)) continue;
+            const sohmValue = await gohmContract.balanceFrom(allDeposits[1][i]);
+            const depositAmount = ethers.utils.formatUnits(sohmValue, "gwei");
+            const recipient = allDeposits[0][i];
+            const firstDonationDate: string = await GetDonationDate({
+              address: address,
+              recipient: recipient,
+              networkID: networkID,
+              provider: provider,
+            });
 
-          // NOTE: Bad fix, but since no rebases on testnet this would throw an error otherwise
-          const yieldSent: BigNumber =
-            networkID === 1 ? await givingContract.donatedTo(address, recipient) : BigNumber.from("0");
-          const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
+            // NOTE: Bad fix, but since no rebases on testnet this would throw an error otherwise
+            const yieldSent: BigNumber =
+              networkID === 1
+                ? await getTotalYieldSent({
+                    address: address,
+                    recipient: recipient,
+                    networkID: networkID,
+                    provider: provider,
+                  })
+                : BigNumber.from("0");
+            const sohmYieldSent = await gohmContract.balanceFrom(yieldSent);
+            const formattedYieldSent = ethers.utils.formatUnits(sohmYieldSent, "gwei");
 
-          donationInfo.push({
-            date: firstDonationDate,
-            deposit: depositAmount,
-            recipient: recipient,
-            yieldDonated: formattedYieldSent,
-          });
+            donationInfo.push({
+              date: firstDonationDate,
+              deposit: depositAmount,
+              recipient: recipient,
+              yieldDonated: formattedYieldSent,
+            });
+          }
         }
       } catch (e: unknown) {
-        console.log(
-          "If the following error contains 'user is not donating', then it is an expected error. No need to report it!",
-        );
         console.log(e);
       }
     } else {
