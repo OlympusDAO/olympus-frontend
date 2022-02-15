@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { IERC20, OlympusStakingv2__factory } from "src/typechain";
 
 import { abi as ierc20ABI } from "../abi/IERC20.json";
-import { addresses } from "../constants";
+import { getAddresses } from "../constants";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { error, info } from "../slices/MessagesSlice";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
@@ -27,22 +27,26 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20ABI, signer) as IERC20;
-    const gohmContract = new ethers.Contract(addresses[networkID].GOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
+    const sohmContract = new ethers.Contract(getAddresses(networkID).SOHM_V2 as string, ierc20ABI, signer) as IERC20;
+    const gohmContract = new ethers.Contract(
+      getAddresses(networkID).GOHM_ADDRESS as string,
+      ierc20ABI,
+      signer,
+    ) as IERC20;
     let approveTx;
-    let wrapAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_V2);
-    let unwrapAllowance = await gohmContract.allowance(address, addresses[networkID].STAKING_V2);
+    let wrapAllowance = await sohmContract.allowance(address, getAddresses(networkID).STAKING_V2);
+    let unwrapAllowance = await gohmContract.allowance(address, getAddresses(networkID).STAKING_V2);
 
     try {
       if (token === "sohm") {
         // won't run if wrapAllowance > 0
         approveTx = await sohmContract.approve(
-          addresses[networkID].STAKING_V2,
+          getAddresses(networkID).STAKING_V2,
           ethers.utils.parseUnits("1000000000", "gwei"),
         );
       } else if (token === "gohm") {
         approveTx = await gohmContract.approve(
-          addresses[networkID].STAKING_V2,
+          getAddresses(networkID).STAKING_V2,
           ethers.utils.parseUnits("1000000000", "ether"),
         );
       }
@@ -64,8 +68,8 @@ export const changeApproval = createAsyncThunk(
     }
 
     // go get fresh allowances
-    wrapAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_V2);
-    unwrapAllowance = await gohmContract.allowance(address, addresses[networkID].STAKING_V2);
+    wrapAllowance = await sohmContract.allowance(address, getAddresses(networkID).STAKING_V2);
+    unwrapAllowance = await gohmContract.allowance(address, getAddresses(networkID).STAKING_V2);
 
     return dispatch(
       fetchAccountSuccess({
@@ -88,7 +92,7 @@ export const changeWrapV2 = createAsyncThunk(
 
     const signer = provider.getSigner();
 
-    const stakingContract = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, signer);
+    const stakingContract = OlympusStakingv2__factory.connect(getAddresses(networkID).STAKING_V2, signer);
 
     let wrapTx;
     const uaData: IUAData = {

@@ -9,7 +9,7 @@ import { abi as PairContractABI } from "../abi/PairContract.json";
 import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
 import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
-import { addresses, BLOCK_RATE_SECONDS, EPOCH_INTERVAL, NetworkId } from "../constants";
+import { BLOCK_RATE_SECONDS, EPOCH_INTERVAL, getAddresses, NetworkId } from "../constants";
 import { PairContract, RedeemHelper } from "../typechain";
 import { ohm_dai, ohm_daiOld, ohm_weth } from "./AllBonds";
 import { EnvHelper } from "./Environment";
@@ -219,7 +219,7 @@ export function contractForRedeemHelper({
   provider: StaticJsonRpcProvider | JsonRpcSigner;
 }) {
   return new ethers.Contract(
-    addresses[networkID].REDEEM_HELPER_ADDRESS as string,
+    getAddresses(networkID).REDEEM_HELPER_ADDRESS as string,
     RedeemHelperABI,
     provider,
   ) as RedeemHelper;
@@ -311,7 +311,7 @@ interface ICheckBalance extends IBaseAsyncThunk {
 }
 
 export const getGohmBalFromSohm = async ({ provider, networkID, sOHMbalance }: ICheckBalance) => {
-  const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
+  const gOhmContract = GOHM__factory.connect(getAddresses(networkID).GOHM_ADDRESS, provider);
   const formattedGohmBal = await gOhmContract.balanceTo(ethers.utils.parseUnits(sOHMbalance, "gwei").toString());
   return ethers.utils.formatEther(formattedGohmBal);
 };

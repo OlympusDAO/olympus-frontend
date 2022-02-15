@@ -1,4 +1,4 @@
-import { addresses } from "../constants";
+import { getAddresses } from "../constants";
 
 interface ZapperResponse {
   [key: string]: ZapperAddress;
@@ -112,7 +112,7 @@ export class ZapHelper {
    * @returns string
    */
   static getZapperPoolAddress = (networkID: number) => {
-    return addresses[networkID].ZAPPER_POOL_V1;
+    return getAddresses(networkID).ZAPPER_POOL_V1;
   };
 
   static getZapperAPIKey() {

@@ -5,7 +5,7 @@ import { IERC20, OlympusStaking__factory, OlympusStakingv2__factory, StakingHelp
 
 import { abi as ierc20ABI } from "../abi/IERC20.json";
 import { abi as StakingHelperABI } from "../abi/StakingHelper.json";
-import { addresses } from "../constants";
+import { getAddresses } from "../constants";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { error, info } from "../slices/MessagesSlice";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
@@ -59,23 +59,23 @@ export const changeApproval = createAsyncThunk(
     // NOTE (jem): Partial workaround for #1271
     // V1 contracts do not exist apart from on Ethereum mainnet and rinkeby.
     // We check if the contracts exist first
-    const ohmContract = addresses[networkID].OHM_ADDRESS
-      ? (new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20)
+    const ohmContract = getAddresses(networkID).OHM_ADDRESS
+      ? (new ethers.Contract(getAddresses(networkID).OHM_ADDRESS as string, ierc20ABI, signer) as IERC20)
       : null;
-    const sohmContract = addresses[networkID].SOHM_ADDRESS
-      ? (new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20)
+    const sohmContract = getAddresses(networkID).SOHM_ADDRESS
+      ? (new ethers.Contract(getAddresses(networkID).SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20)
       : null;
-    const ohmV2Contract = new ethers.Contract(addresses[networkID].OHM_V2 as string, ierc20ABI, signer) as IERC20;
-    const sohmV2Contract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20ABI, signer) as IERC20;
+    const ohmV2Contract = new ethers.Contract(getAddresses(networkID).OHM_V2 as string, ierc20ABI, signer) as IERC20;
+    const sohmV2Contract = new ethers.Contract(getAddresses(networkID).SOHM_V2 as string, ierc20ABI, signer) as IERC20;
     let approveTx;
     let stakeAllowance = ohmContract
-      ? await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS)
+      ? await ohmContract.allowance(address, getAddresses(networkID).STAKING_HELPER_ADDRESS)
       : BigNumber.from(0);
     let unstakeAllowance = sohmContract
-      ? await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS)
+      ? await sohmContract.allowance(address, getAddresses(networkID).STAKING_ADDRESS)
       : BigNumber.from(0);
-    let stakeAllowanceV2 = await ohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
-    let unstakeAllowanceV2 = await sohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
+    let stakeAllowanceV2 = await ohmV2Contract.allowance(address, getAddresses(networkID).STAKING_V2);
+    let unstakeAllowanceV2 = await sohmV2Contract.allowance(address, getAddresses(networkID).STAKING_V2);
     // return early if approval has already happened
     if (alreadyApprovedToken(token, stakeAllowance, unstakeAllowance, stakeAllowanceV2, unstakeAllowanceV2, version2)) {
       dispatch(info("Approval completed."));
@@ -95,12 +95,12 @@ export const changeApproval = createAsyncThunk(
       if (version2) {
         if (token === "ohm") {
           approveTx = await ohmV2Contract.approve(
-            addresses[networkID].STAKING_V2,
+            getAddresses(networkID).STAKING_V2,
             ethers.utils.parseUnits("1000000000", "gwei").toString(),
           );
         } else if (token === "sohm") {
           approveTx = await sohmV2Contract.approve(
-            addresses[networkID].STAKING_V2,
+            getAddresses(networkID).STAKING_V2,
             ethers.utils.parseUnits("1000000000", "gwei").toString(),
           );
         }
@@ -109,12 +109,12 @@ export const changeApproval = createAsyncThunk(
         // ohmContract and sohmContract (V1) are not guaranteed to exist
         if (token === "ohm" && ohmContract) {
           approveTx = await ohmContract.approve(
-            addresses[networkID].STAKING_ADDRESS,
+            getAddresses(networkID).STAKING_ADDRESS,
             ethers.utils.parseUnits("1000000000", "gwei").toString(),
           );
         } else if (token === "sohm" && sohmContract) {
           approveTx = await sohmContract.approve(
-            addresses[networkID].STAKING_ADDRESS,
+            getAddresses(networkID).STAKING_ADDRESS,
             ethers.utils.parseUnits("1000000000", "gwei").toString(),
           );
         }
@@ -138,13 +138,13 @@ export const changeApproval = createAsyncThunk(
 
     // go get fresh allowances
     stakeAllowance = ohmContract
-      ? await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS)
+      ? await ohmContract.allowance(address, getAddresses(networkID).STAKING_HELPER_ADDRESS)
       : BigNumber.from(0);
     unstakeAllowance = sohmContract
-      ? await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS)
+      ? await sohmContract.allowance(address, getAddresses(networkID).STAKING_ADDRESS)
       : BigNumber.from(0);
-    stakeAllowanceV2 = await ohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
-    unstakeAllowanceV2 = await sohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
+    stakeAllowanceV2 = await ohmV2Contract.allowance(address, getAddresses(networkID).STAKING_V2);
+    unstakeAllowanceV2 = await sohmV2Contract.allowance(address, getAddresses(networkID).STAKING_V2);
 
     return dispatch(
       fetchAccountSuccess({
@@ -169,15 +169,15 @@ export const changeStake = createAsyncThunk(
 
     const signer = provider.getSigner();
 
-    const staking = OlympusStaking__factory.connect(addresses[networkID].STAKING_ADDRESS, signer);
+    const staking = OlympusStaking__factory.connect(getAddresses(networkID).STAKING_ADDRESS, signer);
 
     const stakingHelper = new ethers.Contract(
-      addresses[networkID].STAKING_HELPER_ADDRESS as string,
+      getAddresses(networkID).STAKING_HELPER_ADDRESS as string,
       StakingHelperABI,
       signer,
     ) as StakingHelper;
 
-    const stakingV2 = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, signer);
+    const stakingV2 = OlympusStakingv2__factory.connect(getAddresses(networkID).STAKING_V2, signer);
 
     let stakeTx;
     const uaData: IUAData = {

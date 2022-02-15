@@ -5,7 +5,7 @@ import { Box, Paper, Tab, Tabs } from "@material-ui/core";
 import { InfoTooltipMulti } from "@olympusdao/component-library";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addresses, POOL_GRAPH_URLS } from "src/constants";
+import { getAddresses, POOL_GRAPH_URLS } from "src/constants";
 import { calculateOdds, trimOdds } from "src/helpers/33Together";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { apolloExt } from "src/lib/apolloClient";
@@ -82,9 +82,9 @@ const PoolTogether = () => {
     console.log("apollo", networkId);
     let apolloUrl: string;
     if (!providerInitialized) {
-      apolloUrl = poolDataQuery(addresses[1].PT_PRIZE_POOL_ADDRESS);
+      apolloUrl = poolDataQuery(getAddresses(1).PT_PRIZE_POOL_ADDRESS);
     } else {
-      apolloUrl = poolDataQuery(addresses[networkId].PT_PRIZE_POOL_ADDRESS);
+      apolloUrl = poolDataQuery(getAddresses(networkId).PT_PRIZE_POOL_ADDRESS);
     }
     // get poolData
     apolloExt(apolloUrl, graphUrl)
@@ -111,7 +111,11 @@ const PoolTogether = () => {
       const yourPrizes: Array<AwardItem> = [];
       let totalAwards = 0;
       apolloExt(
-        yourAwardsQuery(addresses[networkId].PT_PRIZE_POOL_ADDRESS, address, addresses[networkId].PT_TOKEN_ADDRESS),
+        yourAwardsQuery(
+          getAddresses(networkId).PT_PRIZE_POOL_ADDRESS,
+          address,
+          getAddresses(networkId).PT_TOKEN_ADDRESS,
+        ),
         graphUrl,
       )
         .then(poolData => {

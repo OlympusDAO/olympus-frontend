@@ -13,7 +13,7 @@ import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
 import { abi as ReserveOhmEthContract } from "src/abi/reserves/OhmEth.json";
 import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
 import { abi as ReserveOhmLusdContract } from "src/abi/reserves/OhmLusd.json";
-import { addresses, NetworkId } from "src/constants";
+import { getAddresses, NetworkId } from "src/constants";
 import { getTokenPrice } from "src/helpers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { BondType, CustomBond, LPBond, StableBond } from "src/lib/Bond";
@@ -269,7 +269,7 @@ export const eth = new CustomBond({
     let ethPrice: BigNumberish = await ethBondContract.assetPrice();
     ethPrice = Number(ethPrice.toString()) / Math.pow(10, 8);
     const token = this.getContractForReserve(NetworkId, provider);
-    let ethAmount: BigNumberish = await token.balanceOf(addresses[NetworkId].TREASURY_ADDRESS);
+    let ethAmount: BigNumberish = await token.balanceOf(getAddresses(NetworkId).TREASURY_ADDRESS);
     ethAmount = Number(ethAmount.toString()) / Math.pow(10, 18);
     return ethAmount * ethPrice;
   },
@@ -325,7 +325,7 @@ export const cvx = new CustomBond({
   customTreasuryBalanceFunc: async function (this: CustomBond, NetworkId, provider) {
     const cvxPrice: number = await getTokenPrice("convex-finance");
     const token = this.getContractForReserve(NetworkId, provider);
-    let cvxAmount: BigNumberish = await token.balanceOf(addresses[NetworkId].TREASURY_ADDRESS);
+    let cvxAmount: BigNumberish = await token.balanceOf(getAddresses(NetworkId).TREASURY_ADDRESS);
     cvxAmount = Number(cvxAmount.toString()) / Math.pow(10, 18);
     return cvxAmount * cvxPrice;
   },
@@ -387,7 +387,7 @@ export const cvx_expired = new CustomBond({
   customTreasuryBalanceFunc: async function (this: CustomBond, NetworkId, provider) {
     const cvxPrice: number = await getTokenPrice("convex-finance");
     const token = this.getContractForReserve(NetworkId, provider);
-    let cvxAmount: BigNumberish = await token.balanceOf(addresses[NetworkId].TREASURY_ADDRESS);
+    let cvxAmount: BigNumberish = await token.balanceOf(getAddresses(NetworkId).TREASURY_ADDRESS);
     cvxAmount = Number(cvxAmount.toString()) / Math.pow(10, 18);
     return cvxAmount * cvxPrice;
   },
@@ -707,7 +707,7 @@ export const ohm_weth = new CustomBond({
       const token = this.getContractForReserve(networkId, provider);
       const tokenAddress = this.getAddressForReserve(networkId);
       const bondCalculator = getBondCalculator(networkId, provider, true);
-      const tokenAmount = await token.balanceOf(addresses[networkId].TREASURY_V2);
+      const tokenAmount = await token.balanceOf(getAddresses(networkId).TREASURY_V2);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
       const tokenUSD =
@@ -718,7 +718,7 @@ export const ohm_weth = new CustomBond({
       const token = this.getContractForReserve(networkId, provider);
       const tokenAddress = this.getAddressForReserve(networkId);
       const bondCalculator = getBondCalculator(networkId, provider, false);
-      const tokenAmount = await token.balanceOf(addresses[networkId].TREASURY_ADDRESS);
+      const tokenAmount = await token.balanceOf(getAddresses(networkId).TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
       const tokenUSD =
@@ -789,7 +789,7 @@ export const ohm_wethOld = new CustomBond({
       const token = this.getContractForReserve(networkId, provider);
       const tokenAddress = this.getAddressForReserve(networkId);
       const bondCalculator = getBondCalculator(networkId, provider, false);
-      const tokenAmount = await token.balanceOf(addresses[networkId].TREASURY_ADDRESS);
+      const tokenAmount = await token.balanceOf(getAddresses(networkId).TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
       const tokenUSD =
@@ -800,7 +800,7 @@ export const ohm_wethOld = new CustomBond({
       const token = this.getContractForReserve(networkId, provider);
       const tokenAddress = this.getAddressForReserve(networkId);
       const bondCalculator = getBondCalculator(networkId, provider, false);
-      const tokenAmount = await token.balanceOf(addresses[networkId].TREASURY_ADDRESS);
+      const tokenAmount = await token.balanceOf(getAddresses(networkId).TREASURY_ADDRESS);
       const valuation = await bondCalculator.valuation(tokenAddress || "", tokenAmount);
       const markdown = await bondCalculator.markdown(tokenAddress || "");
       const tokenUSD =

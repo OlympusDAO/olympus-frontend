@@ -16,7 +16,7 @@ import { Icon, OHMTokenProps, OHMTokenStackProps, Token, TokenStack } from "@oly
 import { ReactElement, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as ArrowUpIcon } from "src/assets/icons/arrow-up.svg";
-import { addresses, NetworkId } from "src/constants";
+import { getAddresses, NetworkId } from "src/constants";
 import { formatCurrency } from "src/helpers";
 import { dai, frax } from "src/helpers/AllBonds";
 import { FAUCET_PENDING_TYPE, getOhm } from "src/helpers/OhmFaucet";
@@ -216,7 +216,7 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
           <ExternalLink
             color={currentTheme === "dark" ? "primary" : undefined}
             href={`https://app.sushi.com/swap?inputCurrency=${dai.getAddressForReserve(networkId)}&outputCurrency=${
-              addresses[networkId].OHM_V2
+              getAddresses(networkId).OHM_V2
             }`}
           >
             <Typography>Get on Sushiswap</Typography>
@@ -225,7 +225,7 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
             color={currentTheme === "dark" ? "primary" : undefined}
             href={`https://app.uniswap.org/#/swap?inputCurrency=${frax.getAddressForReserve(
               networkId,
-            )}&outputCurrency=${addresses[networkId].OHM_V2}`}
+            )}&outputCurrency=${getAddresses(networkId).OHM_V2}`}
           >
             <Typography>Get on Uniswap</Typography>
           </ExternalLink>

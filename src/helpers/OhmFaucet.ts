@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { addresses, NetworkId } from "src/constants";
+import { getAddresses, NetworkId } from "src/constants";
 import { IBaseAddressAsyncThunk, IJsonRPCError } from "src/slices/interfaces";
 import { clearPendingTxn, fetchPendingTxns } from "src/slices/PendingTxnsSlice";
 import { OhmFaucet__factory } from "src/typechain";
@@ -25,13 +25,13 @@ export const getOhm = createAsyncThunk(
     }
 
     // If the faucet contract doesn't exist, abort
-    if (!addresses[networkID].OHM_FAUCET || !addresses[networkID].OHM_FAUCET.trim().length) {
+    if (!getAddresses(networkID).OHM_FAUCET || !getAddresses(networkID).OHM_FAUCET.trim().length) {
       dispatch(error("OHM_FAUCET contract is not defined for chain ID " + networkID + ". Aborting."));
       return;
     }
 
     const signer = provider.getSigner();
-    const faucetContract = OhmFaucet__factory.connect(addresses[networkID].OHM_FAUCET, signer);
+    const faucetContract = OhmFaucet__factory.connect(getAddresses(networkID).OHM_FAUCET, signer);
 
     let dispenseTx;
     try {

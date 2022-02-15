@@ -1,7 +1,7 @@
 import { BigNumber, ethers } from "ethers";
 
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
-import { addresses } from "../constants";
+import { getAddresses } from "../constants";
 import { IBaseAddressAsyncThunk } from "../slices/interfaces";
 
 interface IUserRecipientInfo {
@@ -24,8 +24,12 @@ export const getRedemptionBalancesAsync = async ({ address, networkID, provider 
     indexAtLastChange: "",
   };
 
-  if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
-    const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
+  if (getAddresses(networkID) && getAddresses(networkID).GIVING_ADDRESS) {
+    const givingContract = new ethers.Contract(
+      getAddresses(networkID).GIVING_ADDRESS as string,
+      OlympusGiving,
+      provider,
+    );
     redeemableBalance = await givingContract.redeemableBalance(address);
 
     try {
@@ -61,9 +65,9 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
     indexAtLastChange: "",
   };
 
-  if (addresses[networkID] && addresses[networkID].MOCK_GIVING_ADDRESS) {
+  if (getAddresses(networkID) && getAddresses(networkID).MOCK_GIVING_ADDRESS) {
     const givingContract = new ethers.Contract(
-      addresses[networkID].MOCK_GIVING_ADDRESS as string,
+      getAddresses(networkID).MOCK_GIVING_ADDRESS as string,
       OlympusGiving,
       provider,
     );
@@ -100,11 +104,11 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
 export const getDonorNumbers = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
   const zeroPadAddress = ethers.utils.hexZeroPad(address, 32);
 
-  const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
+  const givingContract = new ethers.Contract(getAddresses(networkID).GIVING_ADDRESS as string, OlympusGiving, provider);
 
   // creates a filter looking at all Deposited events on the YieldDirector contract
   const filter = {
-    address: addresses[networkID].GIVING_ADDRESS,
+    address: getAddresses(networkID).GIVING_ADDRESS,
     fromBlock: 1,
     toBlock: "latest",
     topics: [ethers.utils.id("Deposited(address,address,uint256)"), null, zeroPadAddress], // hash identifying Deposited event

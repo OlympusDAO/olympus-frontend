@@ -13,7 +13,7 @@ import { Skeleton } from "@material-ui/lab";
 import { Icon, OHMTokenProps, Token as TokenSVG } from "@olympusdao/component-library";
 import { ChangeEvent, useState } from "react";
 import { useQuery } from "react-query";
-import { addresses, NETWORKS } from "src/constants";
+import { getAddresses, NETWORKS } from "src/constants";
 import { NetworkId } from "src/constants";
 import { formatCurrency } from "src/helpers";
 import { segmentUA } from "src/helpers/userAnalyticHelpers";
@@ -270,7 +270,7 @@ export const useWallet = (
   const tokens = {
     ohmV1: {
       symbol: "OHM V1",
-      address: addresses[networkId].OHM_ADDRESS,
+      address: getAddresses(networkId).OHM_ADDRESS,
       balance: connectedChainBalances.ohmV1,
       price: ohmPrice || 0,
       icon: "OHM",
@@ -278,7 +278,7 @@ export const useWallet = (
     },
     sohmV1: {
       symbol: "sOHM V1",
-      address: addresses[networkId].SOHM_ADDRESS,
+      address: getAddresses(networkId).SOHM_ADDRESS,
       balance: connectedChainBalances.sohmV1,
       price: ohmPrice || 0,
       icon: "sOHM",
@@ -286,7 +286,7 @@ export const useWallet = (
     },
     ohm: {
       symbol: "OHM",
-      address: addresses[networkId].OHM_V2,
+      address: getAddresses(networkId).OHM_V2,
       balance: connectedChainBalances.ohm,
       price: ohmPrice || 0,
       icon: "OHM",
@@ -294,7 +294,7 @@ export const useWallet = (
     },
     sohm: {
       symbol: "sOHM",
-      address: addresses[networkId].SOHM_V2,
+      address: getAddresses(networkId).SOHM_V2,
       balance: connectedChainBalances.sohm,
       price: ohmPrice || 0,
       vaultBalances: {
@@ -306,7 +306,7 @@ export const useWallet = (
     },
     wsohm: {
       symbol: "wsOHM",
-      address: addresses[networkId].WSOHM_ADDRESS,
+      address: getAddresses(networkId).WSOHM_ADDRESS,
       balance: connectedChainBalances.wsohm,
       price: (ohmPrice || 0) * Number(currentIndex || 0),
       crossChainBalances: { balances: wsohm, isLoading },
@@ -315,7 +315,7 @@ export const useWallet = (
     },
     pool: {
       symbol: "33T",
-      address: addresses[networkId].PT_TOKEN_ADDRESS,
+      address: getAddresses(networkId).PT_TOKEN_ADDRESS,
       balance: connectedChainBalances.pool,
       price: ohmPrice || 0,
       icon: "33T",
@@ -323,7 +323,7 @@ export const useWallet = (
     },
     gohm: {
       symbol: "gOHM",
-      address: addresses[networkId].GOHM_ADDRESS,
+      address: getAddresses(networkId).GOHM_ADDRESS,
       balance: connectedChainBalances.gohm,
       price: (ohmPrice || 0) * Number(currentIndex || 0),
       crossChainBalances: { balances: gohm, isLoading },

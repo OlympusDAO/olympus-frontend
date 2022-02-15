@@ -1,7 +1,7 @@
 import { BigNumber, ethers } from "ethers";
 import { trim } from "src/helpers";
 
-import { addresses, NetworkId } from "../constants";
+import { getAddresses, NetworkId } from "../constants";
 
 /**
  * Calculates user's odds of winning based on their pool balance
@@ -64,7 +64,7 @@ export const secondsToDaysForInput = (seconds: number) => {
  */
 export const poolTogetherUILinks = (networkId: NetworkId): Array<string> => {
   // if (networkId === -1) networkId = 1;
-  const contractAddress = addresses[networkId].PT_PRIZE_POOL_ADDRESS;
+  const contractAddress = getAddresses(networkId).PT_PRIZE_POOL_ADDRESS;
 
   if (networkId === NetworkId.TESTNET_RINKEBY) {
     return [

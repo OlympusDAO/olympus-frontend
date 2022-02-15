@@ -7,6 +7,7 @@ import polygon from "./assets/tokens/matic.svg";
 import ethereum from "./assets/tokens/wETH.svg";
 import { getTokenByContract, getTokenPrice } from "./helpers";
 import { EnvHelper } from "./helpers/Environment";
+import { fetchAddressFile } from "./helpers/NetworkHelper";
 import { NodeHelper } from "./helpers/NodeHelper";
 import { IERC20__factory, UniswapV2Lp__factory } from "./typechain";
 
@@ -46,9 +47,45 @@ export enum NetworkId {
   Localhost = 1337,
 }
 
-interface IAddresses {
-  [key: number]: { [key: string]: string };
+export interface IAddress {
+  [key: string]: string;
 }
+
+interface IAddresses {
+  [key: number]: IAddress;
+}
+
+let addressesJson: IAddress | null;
+
+// TODO shift to singleton or some other pattern
+const getAddressesJson = () => {
+  // Exit quickly if already loaded or non-existent
+  if (addressesJson || addressesJson === null) {
+    return addressesJson;
+  }
+
+  fetchAddressFile().then(fetchedJson => {
+    if (!fetchedJson) {
+      console.debug(`Addresses JSON file does not exist`);
+    } else {
+      console.debug(`Loaded addresses JSON file. Caching.`);
+    }
+
+    addressesJson = fetchedJson;
+    return addressesJson;
+  });
+};
+
+export const getAddresses = (networkId: NetworkId): IAddress => {
+  // If this is the local testnet and an addresses file is present, use that as the source
+  let addressDict = addresses[networkId];
+  if (networkId === NetworkId.Localhost) {
+    const fetchedJson = getAddressesJson();
+    if (fetchedJson) addressDict = fetchedJson;
+  }
+
+  return addressDict;
+};
 
 export const addresses: IAddresses = {
   [NetworkId.TESTNET_RINKEBY]: {

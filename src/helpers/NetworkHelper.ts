@@ -1,6 +1,7 @@
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
+import axios from "axios";
 
-import { NETWORKS } from "../constants";
+import { IAddress, NETWORKS } from "../constants";
 import { EnvHelper } from "../helpers/Environment";
 import { NodeHelper } from "../helpers/NodeHelper";
 
@@ -107,4 +108,20 @@ const idToHexString = (id: number) => {
 
 export const idFromHexString = (hexString: string) => {
   return parseInt(hexString, 16);
+};
+
+export const fetchAddressFile = async (): Promise<IAddress | null> => {
+  try {
+    const res = await axios.get("assets/addresses/addresses.json");
+
+    if (res.status !== 200) {
+      console.info(`Unexpected error (${res.status}) when fetching addresses JSON: ${res.statusText}`);
+      return null;
+    }
+
+    return res.data;
+  } catch (err) {
+    console.info(`Unexpected error when fetching addresses JSON: ${err}`);
+    return null;
+  }
 };

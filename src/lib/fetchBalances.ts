@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { addresses, NetworkId } from "src/constants";
+import { getAddresses, NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 
 export type Token = {
@@ -64,7 +64,7 @@ const addressBalancesByNetwork = (Networks: NetworkId[], balances: Token[], cont
   return Networks.reduce(
     (networksBalances, networkId) => ({
       ...networksBalances,
-      [networkId]: balanceByContractAddress(balances, addresses[networkId][contractAddressKey]),
+      [networkId]: balanceByContractAddress(balances, getAddresses(networkId)[contractAddressKey]),
     }),
     {},
   ) as Record<NetworkId, string>;

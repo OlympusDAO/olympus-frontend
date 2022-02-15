@@ -7,7 +7,7 @@ import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as MockSohm } from "../abi/MockSohm.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
-import { addresses, NetworkId } from "../constants";
+import { getAddresses, NetworkId } from "../constants";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { error } from "../slices/MessagesSlice";
 import { fetchAccountSuccess, getBalances, getDonationBalances, getMockDonationBalances } from "./AccountSlice";
@@ -62,11 +62,11 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, signer);
+    const sohmContract = new ethers.Contract(getAddresses(networkID).SOHM_V2 as string, ierc20Abi, signer);
     let approveTx;
     try {
       approveTx = await sohmContract.approve(
-        addresses[networkID].GIVING_ADDRESS,
+        getAddresses(networkID).GIVING_ADDRESS,
         ethers.utils.parseUnits("1000000000", "gwei").toString(),
       );
       const text = "Approve giving";
@@ -82,7 +82,7 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    const giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+    const giveAllowance = await sohmContract.allowance(address, getAddresses(networkID).GIVING_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({
@@ -109,11 +109,11 @@ export const changeMockApproval = createAsyncThunk(
       this is the best way to avoid manually switching out code every deployment
     */
     const signer = provider.getSigner();
-    const sohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
+    const sohmContract = new ethers.Contract(getAddresses(networkID).MOCK_SOHM as string, MockSohm, signer);
     let approveTx;
     try {
       approveTx = await sohmContract.approve(
-        addresses[networkID].MOCK_GIVING_ADDRESS,
+        getAddresses(networkID).MOCK_GIVING_ADDRESS,
         ethers.utils.parseUnits("1000000000", "gwei").toString(),
       );
       const text = "Approve giving";
@@ -133,7 +133,7 @@ export const changeMockApproval = createAsyncThunk(
       The pseudo-sOHM contract used on testnet does not have a functional allowance
       mapping. Instead approval calls write allowaces to a mapping title _allowedValue
     */
-    const giveAllowance = await sohmContract._allowedValue(address, addresses[networkID].MOCK_GIVING_ADDRESS);
+    const giveAllowance = await sohmContract._allowedValue(address, getAddresses(networkID).MOCK_GIVING_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({
@@ -154,7 +154,7 @@ export const changeGive = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const giving = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, signer);
+    const giving = new ethers.Contract(getAddresses(networkID).GIVING_ADDRESS as string, OlympusGiving, signer);
     let giveTx;
 
     const uaData: IUAData = {
@@ -230,7 +230,11 @@ export const changeMockGive = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const giving = new ethers.Contract(addresses[networkID].MOCK_GIVING_ADDRESS as string, OlympusMockGiving, signer);
+    const giving = new ethers.Contract(
+      getAddresses(networkID).MOCK_GIVING_ADDRESS as string,
+      OlympusMockGiving,
+      signer,
+    );
     let giveTx;
 
     const uaData: IUAData = {
@@ -301,7 +305,7 @@ export const getTestTokens = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, signer);
+    const mockSohmContract = new ethers.Contract(getAddresses(networkID).MOCK_SOHM as string, MockSohm, signer);
     const pendingTxnType = "drip";
     let getTx;
     try {

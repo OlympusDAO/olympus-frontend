@@ -6,7 +6,7 @@ import { AwardAbi2, PrizePoolAbi, PrizePoolAbi2, SOHM } from "src/typechain";
 import { abi as AwardPool } from "../abi/33-together/AwardAbi2.json";
 import { abi as PrizePool } from "../abi/33-together/PrizePoolAbi2.json";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { addresses } from "../constants";
+import { getAddresses } from "../constants";
 import { setAll } from "../helpers";
 import { getCreditMaturationDaysAndLimitPercentage } from "../helpers/33Together";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
@@ -27,19 +27,19 @@ export const getPoolValues = createAsyncThunk(
   async ({ networkID, provider }: IBaseAsyncThunk) => {
     // calculate 33-together
     const poolReader = new ethers.Contract(
-      addresses[networkID].PT_PRIZE_POOL_ADDRESS,
+      getAddresses(networkID).PT_PRIZE_POOL_ADDRESS,
       PrizePool,
       provider,
     ) as PrizePoolAbi;
     const poolAwardBalance = await poolReader.callStatic.captureAwardBalance();
-    const creditPlanOf = await poolReader.creditPlanOf(addresses[networkID].PT_TOKEN_ADDRESS);
+    const creditPlanOf = await poolReader.creditPlanOf(getAddresses(networkID).PT_TOKEN_ADDRESS);
     const poolCredit = getCreditMaturationDaysAndLimitPercentage(
       creditPlanOf.creditRateMantissa,
       creditPlanOf.creditLimitMantissa,
     );
 
     const awardReader = new ethers.Contract(
-      addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS,
+      getAddresses(networkID).PT_PRIZE_STRATEGY_ADDRESS,
       AwardPool,
       provider,
     ) as AwardAbi2;
@@ -56,7 +56,7 @@ export const getPoolValues = createAsyncThunk(
 
 export const getRNGStatus = createAsyncThunk("pool/getRNGStatus", async ({ networkID, provider }: IBaseAsyncThunk) => {
   const awardReader = new ethers.Contract(
-    addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS,
+    getAddresses(networkID).PT_PRIZE_STRATEGY_ADDRESS,
     AwardPool,
     provider,
   ) as AwardAbi2;
@@ -80,10 +80,10 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS, ierc20Abi, signer) as SOHM;
+    const sohmContract = new ethers.Contract(getAddresses(networkID).SOHM_ADDRESS, ierc20Abi, signer) as SOHM;
 
     let approveTx;
-    let depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+    let depositAllowance = await sohmContract.allowance(address, getAddresses(networkID).PT_PRIZE_POOL_ADDRESS);
 
     // return early if approval already exists
     if (depositAllowance.gt(BigNumber.from("0"))) {
@@ -100,7 +100,7 @@ export const changeApproval = createAsyncThunk(
     try {
       if (token === "sohm") {
         approveTx = await sohmContract.approve(
-          addresses[networkID].PT_PRIZE_POOL_ADDRESS,
+          getAddresses(networkID).PT_PRIZE_POOL_ADDRESS,
           ethers.utils.parseUnits("1000000000", "gwei").toString(),
         );
 
@@ -119,7 +119,7 @@ export const changeApproval = createAsyncThunk(
     }
 
     // go get fresh allowance
-    depositAllowance = await sohmContract.allowance(address, addresses[networkID].PT_PRIZE_POOL_ADDRESS);
+    depositAllowance = await sohmContract.allowance(address, getAddresses(networkID).PT_PRIZE_POOL_ADDRESS);
 
     return dispatch(
       fetchAccountSuccess({
@@ -141,7 +141,7 @@ export const poolDeposit = createAsyncThunk(
     }
     const signer = provider.getSigner();
     const poolContract = new ethers.Contract(
-      addresses[networkID].PT_PRIZE_POOL_ADDRESS,
+      getAddresses(networkID).PT_PRIZE_POOL_ADDRESS,
       PrizePool,
       signer,
     ) as PrizePoolAbi;
@@ -158,7 +158,7 @@ export const poolDeposit = createAsyncThunk(
         poolTx = await poolContract.depositTo(
           address,
           ethers.utils.parseUnits(value, "gwei"),
-          addresses[networkID].PT_TOKEN_ADDRESS,
+          getAddresses(networkID).PT_TOKEN_ADDRESS,
           "0x0000000000000000000000000000000000000000", // referral address
         );
         const text = "Pool " + action;
@@ -206,7 +206,7 @@ export const getEarlyExitFee = createAsyncThunk(
   "pool/getEarlyExitFee",
   async ({ value, provider, address, networkID }: IValueAsyncThunk) => {
     const poolReader = new ethers.Contract(
-      addresses[networkID].PT_PRIZE_POOL_ADDRESS,
+      getAddresses(networkID).PT_PRIZE_POOL_ADDRESS,
       PrizePool,
       provider,
     ) as PrizePoolAbi;
@@ -221,11 +221,11 @@ export const getEarlyExitFee = createAsyncThunk(
     //
     const earlyExitFee = await poolReader.callStatic.calculateEarlyExitFee(
       address,
-      addresses[networkID].PT_TOKEN_ADDRESS,
+      getAddresses(networkID).PT_TOKEN_ADDRESS,
       ethers.utils.parseUnits(value, "gwei"),
     );
     // NOTE (appleseed): poolTogether calcs this credit, but it's not used...
-    const credit = await poolReader.callStatic.balanceOfCredit(address, addresses[networkID].PT_TOKEN_ADDRESS);
+    const credit = await poolReader.callStatic.balanceOfCredit(address, getAddresses(networkID).PT_TOKEN_ADDRESS);
 
     return {
       withdraw: {
@@ -248,7 +248,7 @@ export const poolWithdraw = createAsyncThunk(
 
     const signer = provider.getSigner();
     const poolContract = new ethers.Contract(
-      addresses[networkID].PT_PRIZE_POOL_ADDRESS,
+      getAddresses(networkID).PT_PRIZE_POOL_ADDRESS,
       PrizePool,
       signer,
     ) as PrizePoolAbi2;
@@ -268,7 +268,7 @@ export const poolWithdraw = createAsyncThunk(
         poolTx = await poolContract.withdrawInstantlyFrom(
           address,
           ethers.utils.parseUnits(value, "gwei"),
-          addresses[networkID].PT_TOKEN_ADDRESS,
+          getAddresses(networkID).PT_TOKEN_ADDRESS,
           (earlyExitFee.payload as any).withdraw.earlyExitFee.exitFee, // maximum exit fee
           // TS-REFACTOR-TODO: set the payload type above once we've added typechain in.
         );
@@ -312,7 +312,7 @@ export const awardProcess = createAsyncThunk(
 
     const signer = provider.getSigner();
     const poolContract = new ethers.Contract(
-      addresses[networkID].PT_PRIZE_STRATEGY_ADDRESS,
+      getAddresses(networkID).PT_PRIZE_STRATEGY_ADDRESS,
       AwardPool,
       signer,
     ) as AwardAbi2;

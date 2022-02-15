@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
 
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
-import { addresses } from "../constants";
+import { getAddresses } from "../constants";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { error } from "../slices/MessagesSlice";
 import { getBalances, getMockRedemptionBalances, getRedemptionBalances } from "./AccountSlice";
@@ -27,7 +27,7 @@ export const redeemBalance = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const giving = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, signer);
+    const giving = new ethers.Contract(getAddresses(networkID).GIVING_ADDRESS as string, OlympusGiving, signer);
     const redeemableBalance = await giving.redeemableBalance(address);
     let redeemTx;
 
@@ -75,13 +75,13 @@ export const redeemMockBalance = createAsyncThunk(
       return;
     }
 
-    if (!addresses[networkID] || !addresses[networkID].MOCK_GIVING_ADDRESS) {
+    if (!getAddresses(networkID) || !getAddresses(networkID).MOCK_GIVING_ADDRESS) {
       dispatch(error(t`Please switch to testnet!`));
       return;
     }
 
     const signer = provider.getSigner();
-    const giving = new ethers.Contract(addresses[networkID].MOCK_GIVING_ADDRESS as string, OlympusGiving, signer);
+    const giving = new ethers.Contract(getAddresses(networkID).MOCK_GIVING_ADDRESS as string, OlympusGiving, signer);
     const redeemableBalance = await giving.redeemableBalance(address);
     let redeemTx;
 

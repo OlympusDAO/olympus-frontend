@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
-import { addresses, NetworkId } from "src/constants";
+import { getAddresses, NetworkId } from "src/constants";
 import { CrossChainMigrator__factory, IERC20, IERC20__factory } from "src/typechain";
 import { OlympusTokenMigrator__factory } from "src/typechain";
 
@@ -25,13 +25,13 @@ export enum TokenType {
 const chooseContract = (token: string, networkID: NetworkId, signer: ethers.providers.JsonRpcSigner): IERC20 => {
   let address: string;
   if (token === "ohm") {
-    address = addresses[networkID].OHM_ADDRESS;
+    address = getAddresses(networkID).OHM_ADDRESS;
   } else if (token === "sohm") {
-    address = addresses[networkID].SOHM_ADDRESS;
+    address = getAddresses(networkID).SOHM_ADDRESS;
   } else if (token === "wsohm") {
-    address = addresses[networkID].WSOHM_ADDRESS;
+    address = getAddresses(networkID).WSOHM_ADDRESS;
   } else if (token === "gohm") {
-    address = addresses[networkID].GOHM_ADDRESS;
+    address = getAddresses(networkID).GOHM_ADDRESS;
   } else {
     const message = `Invalid token type: ${token}`;
     console.error(message);
@@ -56,7 +56,7 @@ export const changeMigrationApproval = createAsyncThunk(
 
     let migrateAllowance = BigNumber.from("0");
     let currentBalance = BigNumber.from("0");
-    migrateAllowance = await tokenContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+    migrateAllowance = await tokenContract.allowance(address, getAddresses(networkID).MIGRATOR_ADDRESS);
     currentBalance = await tokenContract.balanceOf(address);
 
     // return early if approval has already happened
@@ -68,7 +68,7 @@ export const changeMigrationApproval = createAsyncThunk(
     let approveTx: ethers.ContractTransaction | undefined;
     try {
       approveTx = await tokenContract.approve(
-        addresses[networkID].MIGRATOR_ADDRESS,
+        getAddresses(networkID).MIGRATOR_ADDRESS,
         ethers.utils.parseUnits("1000000000", token === "wsohm" || token === "gohm" ? "ether" : "gwei").toString(),
       );
 
@@ -105,7 +105,7 @@ export const bridgeBack = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
+    const migrator = OlympusTokenMigrator__factory.connect(getAddresses(networkID).MIGRATOR_ADDRESS, signer);
 
     let unMigrateTx: ethers.ContractTransaction | undefined;
 
@@ -141,7 +141,7 @@ export const migrateWithType = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
+    const migrator = OlympusTokenMigrator__factory.connect(getAddresses(networkID).MIGRATOR_ADDRESS, signer);
 
     let migrateTx: ethers.ContractTransaction | undefined;
     try {
@@ -178,7 +178,7 @@ export const migrateSingle = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
+    const migrator = OlympusTokenMigrator__factory.connect(getAddresses(networkID).MIGRATOR_ADDRESS, signer);
 
     let migrateTx: ethers.ContractTransaction | undefined;
     try {
@@ -215,7 +215,7 @@ export const migrateAll = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
+    const migrator = OlympusTokenMigrator__factory.connect(getAddresses(networkID).MIGRATOR_ADDRESS, signer);
 
     let migrateAllTx: ethers.ContractTransaction | undefined;
 
@@ -250,7 +250,7 @@ export const migrateCrossChainWSOHM = createAsyncThunk(
       return;
     }
     const signer = provider.getSigner();
-    const migrator = CrossChainMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
+    const migrator = CrossChainMigrator__factory.connect(getAddresses(networkID).MIGRATOR_ADDRESS, signer);
     let migrateTx: ethers.ContractTransaction | undefined;
     try {
       migrateTx = await migrator.migrate(ethers.utils.parseUnits(value, "ether"));

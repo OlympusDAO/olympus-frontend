@@ -1,7 +1,7 @@
 import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
-import { addresses, NetworkId, UnknownDetails, V2BondDetails, v2BondDetails } from "src/constants";
+import { getAddresses, NetworkId, UnknownDetails, V2BondDetails, v2BondDetails } from "src/constants";
 import { prettifySeconds } from "src/helpers";
 import { RootState } from "src/store";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
@@ -123,7 +123,7 @@ export const changeApproval = createAsyncThunk(
     let approveTx: ethers.ContractTransaction | undefined;
     try {
       approveTx = await tokenContract.approve(
-        addresses[networkID].BOND_DEPOSITORY,
+        getAddresses(networkID).BOND_DEPOSITORY,
         ethers.utils.parseUnits("10000000000000", tokenDecimals),
       );
       const text = `Approve ${bond.displayName} Bonding`;
@@ -150,7 +150,7 @@ export const purchaseBond = createAsyncThunk(
   async ({ provider, address, bond, networkID, amount, maxPrice }: IBondV2PurchaseAsyncThunk, { dispatch }) => {
     checkNetwork(networkID);
     const signer = provider.getSigner();
-    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
+    const depositoryContract = BondDepository__factory.connect(getAddresses(networkID).BOND_DEPOSITORY, signer);
 
     let depositTx: ethers.ContractTransaction | undefined;
     try {
@@ -159,7 +159,7 @@ export const purchaseBond = createAsyncThunk(
         amount,
         maxPrice,
         address,
-        addresses[networkID].DAO_TREASURY,
+        getAddresses(networkID).DAO_TREASURY,
       );
       const text = `Purchase ${bond.displayName} Bond`;
       const pendingTxnType = `bond_${bond.displayName}`;
@@ -185,7 +185,7 @@ export const getSingleBond = createAsyncThunk(
   "bondsV2/getSingle",
   async ({ provider, networkID, bondIndex }: IBondV2IndexAsyncThunk, { dispatch }): Promise<IBondV2> => {
     checkNetwork(networkID);
-    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
+    const depositoryContract = BondDepository__factory.connect(getAddresses(networkID).BOND_DEPOSITORY, provider);
     const bondCore = await depositoryContract.markets(bondIndex);
     const bondMetadata = await depositoryContract.metadata(bondIndex);
     const bondTerms = await depositoryContract.terms(bondIndex);
@@ -199,7 +199,7 @@ export const getTokenBalance = createAsyncThunk(
     checkNetwork(networkID);
     const tokenContract = IERC20__factory.connect(value, provider);
     const balance = await tokenContract.balanceOf(address);
-    const allowance = await tokenContract.allowance(address, addresses[networkID].BOND_DEPOSITORY);
+    const allowance = await tokenContract.allowance(address, getAddresses(networkID).BOND_DEPOSITORY);
     return { balance, allowance, tokenAddress: value };
   },
 );
@@ -214,7 +214,7 @@ async function processBond(
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
 ): Promise<IBondV2> {
   const currentTime = Date.now() / 1000;
-  const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
+  const depositoryContract = BondDepository__factory.connect(getAddresses(networkID).BOND_DEPOSITORY, provider);
   let v2BondDetail: V2BondDetails = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
 
   if (!v2BondDetail) {
@@ -303,7 +303,7 @@ export const getAllBonds = createAsyncThunk(
   "bondsV2/getAll",
   async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch }) => {
     checkNetwork(networkID);
-    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
+    const depositoryContract = BondDepository__factory.connect(getAddresses(networkID).BOND_DEPOSITORY, provider);
     const liveBondIndexes = await depositoryContract.liveMarkets();
     // `markets()` returns quote/price data
     const liveBondPromises = liveBondIndexes.map(async index => await depositoryContract.markets(index));
@@ -337,7 +337,7 @@ export const getUserNotes = createAsyncThunk(
   async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch, getState }): Promise<IUserNote[]> => {
     checkNetwork(networkID);
     const currentTime = Date.now() / 1000;
-    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
+    const depositoryContract = BondDepository__factory.connect(getAddresses(networkID).BOND_DEPOSITORY, provider);
     const userNoteIndexes = await depositoryContract.indexesFor(address);
     const userNotePromises = userNoteIndexes.map(async index => await depositoryContract.notes(address, index));
     const userNotes: {
@@ -402,7 +402,7 @@ export const claimAllNotes = createAsyncThunk(
   "bondsV2/claimAll",
   async ({ provider, networkID, address, gOHM }: IBaseBondV2ClaimAsyncThunk, { dispatch, getState }) => {
     const signer = provider.getSigner();
-    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
+    const depositoryContract = BondDepository__factory.connect(getAddresses(networkID).BOND_DEPOSITORY, signer);
 
     let claimTx: ethers.ContractTransaction | undefined;
     try {
@@ -431,7 +431,7 @@ export const claimSingleNote = createAsyncThunk(
   "bondsV2/claimSingle",
   async ({ provider, networkID, address, indexes, gOHM }: IBaseBondV2SingleClaimAsyncThunk, { dispatch, getState }) => {
     const signer = provider.getSigner();
-    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
+    const depositoryContract = BondDepository__factory.connect(getAddresses(networkID).BOND_DEPOSITORY, signer);
 
     let claimTx: ethers.ContractTransaction | undefined;
     try {
