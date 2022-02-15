@@ -1,9 +1,9 @@
-import "./choosebond.scss";
+import "./ChooseBond.scss";
 
 import { t } from "@lingui/macro";
-import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
+import { Box, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { TokenStack } from "@olympusdao/component-library";
+import { TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { useDispatch } from "react-redux";
 import { useAppSelector, useBonds, useWeb3Context } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
@@ -59,9 +59,8 @@ export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondD
         {isAppLoading ? <Skeleton /> : vestingPeriod()}
       </TableCell>
       <TableCell align="right">
-        <Button
-          variant="outlined"
-          color="primary"
+        <TertiaryButton
+          fullWidth
           disabled={
             isPendingTxn(pendingTransactions, "redeem_bond_" + bond.displayName) ||
             isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
@@ -69,10 +68,8 @@ export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondD
           }
           onClick={() => onRedeem({ autostake: false })}
         >
-          <Typography variant="h6">
-            {txnButtonText(pendingTransactions, "redeem_bond_" + bond.displayName, "Claim")}
-          </Typography>
-        </Button>
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond.displayName, "Claim")}
+        </TertiaryButton>
       </TableCell>
     </TableRow>
   );
@@ -113,24 +110,23 @@ export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDe
         </Box>
       </Box>
 
-      <div className="data-row">
+      <div className="data-row" style={{ display: "flex", justifyContent: "space-between" }}>
         <Typography>Claimable</Typography>
         <Typography>{bond.pendingPayout ? trim(Number(bond.pendingPayout), 4) : <Skeleton width={100} />}</Typography>
       </div>
 
-      <div className="data-row">
+      <div className="data-row" style={{ display: "flex", justifyContent: "space-between" }}>
         <Typography>Pending</Typography>
         <Typography>{bond.interestDue ? trim(bond.interestDue, 4) : <Skeleton width={100} />}</Typography>
       </div>
 
-      <div className="data-row" style={{ marginBottom: "20px" }}>
+      <div className="data-row" style={{ marginBottom: "20px", display: "flex", justifyContent: "space-between" }}>
         <Typography>Fully Vested</Typography>
         <Typography>{vestingPeriod()}</Typography>
       </div>
       <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">
-        <Button
-          variant="outlined"
-          color="primary"
+        <TertiaryButton
+          fullWidth
           disabled={
             isPendingTxn(pendingTransactions, "redeem_bond_" + bond.displayName) ||
             isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
@@ -138,13 +134,10 @@ export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDe
           }
           onClick={() => onRedeem({ autostake: false })}
         >
-          <Typography variant="h5">
-            {txnButtonText(pendingTransactions, "redeem_bond_" + bond.displayName, t`Claim`)}
-          </Typography>
-        </Button>
-        <Button
-          variant="outlined"
-          color="primary"
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond.displayName, t`Claim`)}
+        </TertiaryButton>
+        <TertiaryButton
+          fullWidth
           disabled={
             isPendingTxn(pendingTransactions, "redeem_bond_" + bond.displayName) ||
             isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
@@ -152,10 +145,8 @@ export function ClaimBondCardData({ userBond }: { userBond: [string, IUserBondDe
           }
           onClick={() => onRedeem({ autostake: true })}
         >
-          <Typography variant="h5">
-            {txnButtonText(pendingTransactions, "redeem_bond_" + bond.displayName, t`Claim and Stake`)}
-          </Typography>
-        </Button>
+          {txnButtonText(pendingTransactions, "redeem_bond_" + bond.displayName, t`Claim and Stake`)}
+        </TertiaryButton>
       </Box>
     </Box>
   );

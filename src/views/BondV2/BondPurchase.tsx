@@ -1,16 +1,7 @@
 import { t, Trans } from "@lingui/macro";
-import {
-  Box,
-  Button,
-  FormControl,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Slide,
-  Typography,
-} from "@material-ui/core";
+import { Box, FormControl, Slide, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { InfoTooltip } from "@olympusdao/component-library";
+import { DataRow, Input, PrimaryButton } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -148,60 +139,42 @@ function BondPurchase({
                     </em>
                   </div>
                 ) : (
-                  <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
-                    <InputLabel htmlFor="outlined-adornment-amount">
-                      <Trans>Amount</Trans>
-                    </InputLabel>
-                    <OutlinedInput
+                  <FormControl className="ohm-input" fullWidth>
+                    <Input
+                      endString={t`Max`}
                       id="outlined-adornment-amount"
                       type="number"
                       value={quantity}
                       onChange={e => setQuantity(e.target.value)}
-                      // startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                      label={t`Amount`}
+                      endStringOnClick={setMax}
                       labelWidth={55}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <Button variant="text" onClick={setMax}>
-                            <Trans>Max</Trans>
-                          </Button>
-                        </InputAdornment>
-                      }
                     />
                   </FormControl>
                 )}
                 {bond.soldOut ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    id="bond-btn"
-                    className="transaction-button"
-                    disabled={true}
-                  >
+                  <PrimaryButton id="bond-btn" className="transaction-button" disabled={true}>
                     <Trans>Sold Out</Trans>
-                  </Button>
+                  </PrimaryButton>
                 ) : balance ? (
                   hasAllowance() ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
+                    <PrimaryButton
                       id="bond-btn"
                       className="transaction-button"
                       disabled={isPendingTxn(pendingTransactions, "bond_" + bond.displayName)}
                       onClick={onBond}
                     >
                       {txnButtonText(pendingTransactions, "bond_" + bond.displayName, "Bond")}
-                    </Button>
+                    </PrimaryButton>
                   ) : (
-                    <Button
-                      variant="contained"
-                      color="primary"
+                    <PrimaryButton
                       id="bond-approve-btn"
                       className="transaction-button"
                       disabled={isPendingTxn(pendingTransactions, `approve_${bond.displayName}_bonding`)}
                       onClick={onSeekApproval}
                     >
                       {txnButtonText(pendingTransactions, `approve_${bond.displayName}_bonding`, "Approve")}
-                    </Button>
+                    </PrimaryButton>
                   )
                 ) : (
                   <Skeleton width="300px" height={40} />
@@ -214,70 +187,43 @@ function BondPurchase({
 
       <Slide direction="left" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
         <Box className="bond-data">
-          <div className="data-row">
-            <Typography>
-              <Trans>Your Balance</Trans>
-            </Typography>{" "}
-            <Typography id="bond-balance">
-              {isBondLoading ? <Skeleton width="100px" /> : <>{`${trim(balanceNumber, 4)} ${bond.displayName}`}</>}
-            </Typography>
-          </div>
+          <DataRow
+            title={t`Your Balance`}
+            balance={`${trim(balanceNumber, 4)} ${bond.displayName}`}
+            isLoading={isBondLoading}
+          />
+          <DataRow
+            title={t`You Will Get`}
+            balance={
+              `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` +
+              `sOHM (≈${trim(+quantity / bond.priceToken / +currentIndex, 4) || "0"} gOHM)`
+            }
+            tooltip={t`The total amount of payout asset you will recieve from this bond purhcase. (sOHM amount will be higher due to rebasing)`}
+            isLoading={isBondLoading}
+          />
+          <DataRow
+            title={t`Max You Can Buy`}
+            balance={`${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
+              trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
+            } ${bond.displayName})`}
+            isLoading={isBondLoading}
+            tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
+          />
+          <DataRow
+            title={t`Discount`}
+            balance={<DisplayBondDiscount key={bond.displayName} bond={bond} />}
+            tooltip={t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between OHM's market value and the bond's price.`}
+            isLoading={isBondLoading}
+          />
 
-          <div className={`data-row`}>
-            <Box display="flex" flexDirection="row">
-              <Typography>
-                <Trans>You Will Get</Trans>
-              </Typography>
-              <InfoTooltip message="Actual sOHM amount you receive will be higher at the end of the term due to rebase accrual."></InfoTooltip>
-            </Box>
-            <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` +
-                `sOHM (≈${trim(+quantity / bond.priceToken / +currentIndex, 4) || "0"} gOHM)`
-              )}
-            </Typography>
-          </div>
-
-          <div className={`data-row`}>
-            <Typography>
-              <Trans>Max You Can Buy</Trans>
-            </Typography>
-            <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
-                  trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
-                } ${bond.displayName})`
-              )}
-            </Typography>
-          </div>
-
-          <div className="data-row">
-            <Typography>
-              <Trans>ROI</Trans>
-            </Typography>
-            <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.displayName} bond={bond} />}
-            </Typography>
-          </div>
-
-          <div className="data-row">
-            <Typography>
-              <Trans>Duration</Trans>
-            </Typography>
-            <Typography>{isBondLoading ? <Skeleton width="100px" /> : bond.duration}</Typography>
-          </div>
-
+          <DataRow
+            title={t`Duration`}
+            balance={bond.duration}
+            isLoading={isBondLoading}
+            tooltip={t`The duration of the Bond whereby the bond can be claimed in it’s entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
+          />
           {recipientAddress !== address && (
-            <div className="data-row">
-              <Typography>
-                <Trans>Recipient</Trans>{" "}
-              </Typography>
-              <Typography>{isBondLoading ? <Skeleton width="100px" /> : shorten(recipientAddress)}</Typography>
-            </div>
+            <DataRow title={t`Recipient`} balance={shorten(recipientAddress)} isLoading={isBondLoading} />
           )}
         </Box>
       </Slide>

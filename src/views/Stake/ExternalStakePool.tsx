@@ -2,19 +2,20 @@ import { t, Trans } from "@lingui/macro";
 import { Box, makeStyles, Typography, useTheme, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
-import { Paper, SecondaryButton, TokenStack } from "@olympusdao/component-library";
-import { useEffect, useState } from "react";
+import { DataRow, Paper, SecondaryButton, TokenStack } from "@olympusdao/component-library";
 import { useQuery } from "react-query";
-import { useDispatch } from "react-redux";
 import allPools, { fetchPoolData } from "src/helpers/AllExternalPools";
+import { useGohmPrice } from "src/hooks/usePrices";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ExternalPoolwBalance } from "src/lib/ExternalPool";
 
 export const useExternalPools = (address: string) => {
-  const { isLoading, data } = useQuery(["externalPools", address], () => fetchPoolData(address), {
+  const { data: gOhmPrice } = useGohmPrice();
+  const { isLoading, data } = useQuery(["externalPools", address], () => fetchPoolData(address, Number(gOhmPrice)), {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    initialData: allPools,
+    placeholderData: allPools,
+    enabled: !!gOhmPrice,
   });
   return { isLoading, pools: data };
 };
@@ -52,32 +53,14 @@ const MobileStakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLo
           <Typography>{pool.poolName}</Typography>
         </div>
       </div>
-      <div className="data-row">
-        <Typography>
-          <Trans>TVL</Trans>
-        </Typography>
-        <Typography>
-          <>{!pool.tvl ? <Skeleton width={30} /> : pool.tvl}</>
-        </Typography>
-      </div>
-      <div className="data-row">
-        <Typography>{connected && t`Balance`}</Typography>
-        <Typography>
-          {!pool.userBalance && connected ? (
-            <Skeleton width={30} />
-          ) : connected && pool.userBalance ? (
-            `${pool.userBalance} LP`
-          ) : (
-            ""
-          )}
-        </Typography>
-      </div>
+      <DataRow title={`TVL`} balance={pool.tvl} isLoading={pool.tvl ? false : true} />
+      {connected && (
+        <DataRow title={t`Balance`} balance={`${pool.userBalance} LP`} isLoading={pool.userBalance ? false : true} />
+      )}
       {/* Pool Staking Linkouts */}
-      <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
-        <SecondaryButton href={pool.href} fullWidth>
-          {`${t`Stake on`} ${pool.stakeOn}`}
-        </SecondaryButton>
-      </Box>
+      <SecondaryButton href={pool.href} fullWidth>
+        {`${t`Stake on`} ${pool.stakeOn}`}
+      </SecondaryButton>
     </Paper>
   );
 };
@@ -86,6 +69,7 @@ const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading:
   const theme = useTheme();
   const styles = useStyles();
   const { connected } = useWeb3Context();
+
   return (
     <Box style={{ gap: theme.spacing(1.5) }} className={styles.stakePoolsWrapper}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -116,35 +100,12 @@ const StakePool = ({ pool, isLoading }: { pool: ExternalPoolwBalance; isLoading:
 };
 
 export default function ExternalStakePool() {
-  const dispatch = useDispatch();
-  const { provider, hasCachedProvider, address, connect, connected, networkId, providerInitialized } = useWeb3Context();
-  const [walletChecked, setWalletChecked] = useState(false);
+  const { address, connected } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   // const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const theme = useTheme();
   const styles = useStyles();
   const allStakePools = useExternalPools(address);
-
-  useEffect(() => {
-    if (hasCachedProvider()) {
-      // then user DOES have a wallet
-      connect().then(() => {
-        setWalletChecked(true);
-      });
-    } else {
-      // then user DOES NOT have a wallet
-      setWalletChecked(true);
-    }
-  }, []);
-
-  // this useEffect fires on state change from above. It will ALWAYS fire AFTER
-  useEffect(() => {
-    // don't load ANY details until wallet is Checked
-    if (walletChecked && providerInitialized) {
-      // view specific redux actions can be dispatched here
-    }
-  }, [walletChecked, networkId, providerInitialized, address, provider]);
-
   return (
     <Zoom in={true}>
       {isSmallScreen ? (

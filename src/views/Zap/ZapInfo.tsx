@@ -7,7 +7,7 @@ import { Token, TokenStack } from "@olympusdao/component-library";
 import React from "react";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { segmentUA } from "../../helpers/userAnalyticHelpers";
+import { trackGAEvent, trackSegmentEvent } from "../../helpers/analytics";
 
 const useStyles = makeStyles(theme => ({
   infoBox: {
@@ -31,15 +31,18 @@ const useStyles = makeStyles(theme => ({
   infoHeader: {
     [theme.breakpoints.down("md")]: {
       width: "40%",
+      padding: "12px 0px",
     },
     [theme.breakpoints.up("md")]: {
       width: "100%",
+      paddingBottom: "1.5rem",
     },
   },
   infoBody: {
     [theme.breakpoints.down("md")]: {
       width: "60%",
-      paddingTop: "24px",
+      paddingTop: "12px",
+      paddingInline: "6px",
     },
     [theme.breakpoints.up("md")]: {
       width: "100%",
@@ -61,7 +64,11 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
       address,
       type: "Learn more OlyZaps",
     };
-    segmentUA(uaData);
+    trackSegmentEvent(uaData);
+    trackGAEvent({
+      category: "OlyZaps",
+      action: uaData.type,
+    });
   };
   return (
     <Paper className="ohm-card" id="olyzaps-info">
@@ -71,6 +78,7 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
             alignItems="center"
             display="flex"
             flexDirection="column"
+            justifyContent="center"
             className={`${classes.infoHeader} oly-info-header-box`}
           >
             <Box>
@@ -97,6 +105,7 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
             alignItems="center"
             display="flex"
             flexDirection="column"
+            justifyContent="center"
             className={`${classes.infoHeader} oly-info-header-box`}
           >
             {/* @ts-ignore - (keith) add style prop & types to Token Component */}
@@ -119,12 +128,13 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
             alignItems="center"
             display="flex"
             flexDirection="column"
+            justifyContent="center"
             className={`${classes.infoHeader} oly-info-header-box`}
           >
             {/* @ts-ignore - (keith) add style prop & types to Token Component */}
-            <Token name="sOHM" style={{ marginBottom: "16px" }} />
+            <TokenStack tokens={["sOHM", "wsOHM"]} style={{ marginBottom: "16px" }} />
             <Typography color="textSecondary" align="center">
-              <Trans>You Get sOHM</Trans>{" "}
+              <Trans>You Choose</Trans>
             </Typography>
           </Box>
           <Box className={classes.infoBody}>
@@ -134,7 +144,7 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
             <Typography align="left" variant="body2" className="oly-info-body">
               <Trans>
                 Staking is the primary value accrual strategy of Olympus. When you stake, you lock OHM and receive an
-                equal amount of sOHM.
+                equal value of sOHM or gOHM.
               </Trans>
             </Typography>
           </Box>

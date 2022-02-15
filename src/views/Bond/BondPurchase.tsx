@@ -15,20 +15,20 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NetworkId } from "src/constants";
 import { useAppSelector } from "src/hooks";
-import { IAllBondData } from "src/hooks/Bonds";
+import { IAllBondData } from "src/hooks/useBonds";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import ConnectButton from "../../components/ConnectButton/ConnectButton";
 import { prettifySeconds, secondsUntilBlock, shorten, trim } from "../../helpers";
-import useDebounce from "../../hooks/Debounce";
+import useDebounce from "../../hooks/useDebounce";
 import { bondAsset, calcBondDetails, changeApproval } from "../../slices/BondSlice";
 import { error } from "../../slices/MessagesSlice";
 import { DisplayBondDiscount } from "./Bond";
 
 interface IBondPurchaseProps {
   readonly bond: IAllBondData;
-  readonly slippage: string;
+  readonly slippage: number;
   readonly recipientAddress: string;
 }
 
@@ -249,14 +249,14 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
             balance={<DisplayBondDiscount key={bond.name} bond={bond} />}
             isLoading={isBondLoading}
           /> */}
-          <div className="data-row">
+          <Box display="flex" flexDirection="row" justifyContent="space-between">
             <Typography>
-              <Trans>ROI</Trans>
+              <Trans>Discount</Trans>
             </Typography>
             <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
+              {isBondLoading ? <Skeleton width="80px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
             </Typography>
-          </div>
+          </Box>
           <DataRow title={t`Debt Ratio`} balance={`${trim(bond.debtRatio / 10000000, 2)}%`} isLoading={isBondLoading} />
           <DataRow title={t`Vesting Term`} balance={vestingPeriod()} isLoading={isBondLoading} />
           {recipientAddress !== address && (

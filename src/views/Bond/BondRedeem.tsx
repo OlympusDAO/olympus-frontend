@@ -4,7 +4,7 @@ import { Skeleton } from "@material-ui/lab";
 import { DataRow } from "@olympusdao/component-library";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks";
-import { IAllBondData } from "src/hooks/Bonds";
+import { IAllBondData } from "src/hooks/useBonds";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
@@ -108,14 +108,14 @@ function BondRedeem({ bond }: { bond: IAllBondData }) {
             balance={<DisplayBondDiscount key={bond.name} bond={bond} />}
             isLoading={isBondLoading}
           /> */}
-          <div className="data-row">
+          <Box display="flex" flexDirection="row" justifyContent="space-between">
             <Typography>
-              <Trans>ROI</Trans>
+              <Trans>Discount</Trans>
             </Typography>
             <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
+              {isBondLoading ? <Skeleton width="80px" /> : <DisplayBondDiscount key={bond.name} bond={bond} />}
             </Typography>
-          </div>
+          </Box>
           <DataRow title={t`Debt Ratio`} balance={`${trim(bond.debtRatio / 10000000, 2)}%`} isLoading={isBondLoading} />
           <DataRow title={t`Vesting Term`} balance={vestingPeriod()} isLoading={isBondLoading} />
         </Box>

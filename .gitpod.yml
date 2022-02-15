@@ -1,13 +1,40 @@
 tasks:
   - name: App
-    init: >
-      yarn &&
+    init: |
+      # bring in secret access tokens from gitpod user dashboard
+      eval $(gp env -e)
+      # OlmypusDAO front end contributors with access permissions to the main repo
+      # should set GITHUB_OHM_PERSONAL_ACCESS_TOKEN in their gitpod UI Settings panel
+      if [ -z ${GITHUB_OHM_PERSONAL_ACCESS_TOKEN+x} ];
+      then
+        echo "var is unset";
+      else
+        echo "Setting git origin push URL for OlympusDAO/olympus-frontend";
+        git remote set-url --push origin https://${GITHUB_OHM_PERSONAL_ACCESS_TOKEN}@github.com/OlympusDAO/olympus-frontend.git;
+      fi
+      #  create a default .env file if none present
+      if [ ! -f .env ]; then cp ".env.test" ".env"; fi
+      yarn && \
       gp sync-done install
     command: REACT_APP_PROVIDER=$(gp url 8545) yarn start
   - name: Test
     init: gp sync-await install
-    command: yarn test:unit
+    command: |
+      yarn test --clearCache
+      yarn test:unit
     openMode: split-right
+  - name: Shell
+# The ~/.ssh directory will be removed between workspace runs
+# We store it on /workspace/ instead and link it
+# We also ensure that ssh-agent is added
+# Your own keys will need to be added through ssh-add or ~/.ssh/config
+    before: |
+      echo "Setting up SSH environment"
+      rm -rf ~/.ssh
+      mkdir -p /workspace/.ssh
+      ln -sf /workspace/.ssh ~/.ssh
+    command: eval $(ssh-agent -s)
+    openMode: tab-after
 ports:
   - port: 3000
     onOpen: open-preview
@@ -21,4 +48,6 @@ vscode:
   extensions:
     - dbaeumer.vscode-eslint
     - esbenp.prettier-vscode
-    - juanblanco.solidity
+    - mhutchie.git-graph
+    - bmuskalla.vscode-tldr
+    - eamodio.gitlens

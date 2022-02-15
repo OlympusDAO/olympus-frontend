@@ -1,9 +1,9 @@
-import "./choosebond.scss";
+import "./ChooseBond.scss";
 
 import { t } from "@lingui/macro";
-import { Box, Button, TableCell, TableRow, Typography } from "@material-ui/core";
+import { Box, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { TokenStack } from "@olympusdao/component-library";
+import { TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { useDispatch } from "react-redux";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { claimSingleNote, IUserNote } from "src/slices/BondSliceV2";
@@ -34,11 +34,13 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
   return (
     <TableRow id={`${bondName}--claim`}>
       {/* Name */}
-      <TableCell align="left" className="bond-name-cell">
-        <TokenStack tokens={note.bondIconSvg} />
-        <div className="bond-name">
-          <Typography variant="body1">{bondName ? bondName : <Skeleton width={100} />}</Typography>
-        </div>
+      <TableCell align="left">
+        <Box display="flex" alignItems="center">
+          <TokenStack tokens={note.bondIconSvg} />
+          <div className="bond-name" style={{ marginLeft: "10px" }}>
+            <Typography variant="body1">{bondName ? bondName : <Skeleton width={100} />}</Typography>
+          </div>
+        </Box>
       </TableCell>
       {/* Remaining Duration */}
       <TableCell align="center">{note.originalDuration}</TableCell>
@@ -55,19 +57,16 @@ export function ClaimBondTableData({ userNote, gOHM }: { userNote: IUserNote; gO
       {/* Claim Button */}
       <TableCell align="right">
         {vestingPeriod() === "Fully Vested" ? (
-          <Button
-            variant="outlined"
-            color="primary"
+          <TertiaryButton
+            fullWidth
             disabled={
               isPendingTxn(pendingTransactions, "redeem_note_" + note.index) ||
               isPendingTxn(pendingTransactions, "redeem_all_notes")
             }
             onClick={() => onRedeem(note.index)}
           >
-            <Typography variant="h6">
-              {txnButtonText(pendingTransactions, "redeem_note_" + note.index, "Claim")}
-            </Typography>
-          </Button>
+            {txnButtonText(pendingTransactions, "redeem_note_" + note.index, "Claim")}
+          </TertiaryButton>
         ) : (
           <div style={{ width: "84px" }} />
         )}
@@ -103,7 +102,7 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
         </Box>
       </Box>
 
-      <div className="data-row">
+      <Box display="flex" flexDirection="row" justifyContent="space-between" className="data-row">
         <Typography>Claimable</Typography>
         <Typography>
           {note.payout && currentIndex ? (
@@ -112,27 +111,23 @@ export function ClaimBondCardData({ userNote, gOHM }: { userNote: IUserNote; gOH
             <Skeleton width={100} />
           )}
         </Typography>
-      </div>
+      </Box>
 
-      <div className="data-row" style={{ marginBottom: "20px" }}>
+      <Box display="flex" flexDirection="row" justifyContent="space-between" mb={"20px"}>
         <Typography>Remaining Duration</Typography>
         <Typography>{vestingPeriod()}</Typography>
-      </div>
+      </Box>
       {note.fullyMatured && (
         <Box display="flex" justifyContent="space-around" alignItems="center" className="claim-bond-card-buttons">
-          <Button
-            variant="outlined"
-            color="primary"
+          <TertiaryButton
             disabled={
               isPendingTxn(pendingTransactions, "redeem_note_" + note.index) ||
               isPendingTxn(pendingTransactions, "redeem_all_notes")
             }
             onClick={() => onRedeem(note.index)}
           >
-            <Typography variant="h5">
-              {txnButtonText(pendingTransactions, "redeem_note_" + note.index, t`Claim`)}
-            </Typography>
-          </Button>
+            {txnButtonText(pendingTransactions, "redeem_note_" + note.index, t`Claim`)}
+          </TertiaryButton>
         </Box>
       )}
     </Box>
