@@ -8,6 +8,7 @@ import { abi as MockSohm } from "../abi/MockSohm.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
 import { addresses, NetworkId } from "../constants";
+import { getGiveProjectName } from "../helpers/GiveProjectNameHelper";
 import { segmentUA } from "../helpers/userAnalyticHelpers";
 import { error } from "../slices/MessagesSlice";
 import { fetchAccountSuccess, getBalances, getDonationBalances, getMockDonationBalances } from "./AccountSlice";
@@ -208,9 +209,10 @@ export const changeGive = createAsyncThunk(
           category: "Olympus Give",
           action: uaData.type ?? "unknown",
           label: uaData.txHash ?? "unknown",
+          value: Math.round(parseFloat(uaData.value)),
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
-          metric1: parseFloat(uaData.value),
+          dimension4: getGiveProjectName(uaData.recipient) ?? "unknown",
         });
 
         dispatch(clearPendingTxn(giveTx.hash));
