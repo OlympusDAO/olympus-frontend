@@ -130,7 +130,6 @@
     "prettier": "^2.5.1",
     "puppeteer": "^13.1.3",
     "sass": "^1.49.7",
-    "serve": "^13.0.2",
     "shelljs": "^0.8.5",
     "surge": "^0.21.5",
     "type-graphql": "^1.1.1",
@@ -162,6 +161,8 @@
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "preinstall": "[ ! -e src/locales/translations/.git ] && yarn lingui:fetch || exit 0",
     "postinstall": "yarn typechain:build && yarn lingui:compile",
+    "staging-build": "yarn lingui:branch:develop && yarn install && yarn:lingui:dirty && yarn build",
+    "production-build": "yarn lingui:branch:main && yarn install && yarn build",
     "prepare": "husky install",
     "serve-prod": "yarn serve -s build"
   },

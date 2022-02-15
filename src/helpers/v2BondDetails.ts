@@ -40,8 +40,8 @@ export interface V2BondDetails {
 }
 
 const DaiDetails: V2BondDetails = {
-  name: "DAI",
-  bondIconSvg: ["DAI"],
+  name: "OHM",
+  bondIconSvg: ["OHM"],
   pricingFunction: async () => {
     return getTokenPrice("dai");
   },
