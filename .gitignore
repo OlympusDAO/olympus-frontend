@@ -48,3 +48,5 @@ cache
 .vscode
 
 src/typechain
+
+tests/addresses

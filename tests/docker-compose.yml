@@ -12,6 +12,9 @@ services:
       - .env
     # We use the host mode so that "localhost" can be accessed
     network_mode: host
+    volumes:
+      # Used to share contract addresses between services
+      - ./addresses:/opt/addresses
   frontend:
     image: ghcr.io/olympusdao/olympus-frontend:${FRONTEND_DOCKER_TAG}
     depends_on:
@@ -19,5 +22,7 @@ services:
     volumes:
       # Mount the root directory
       - ../:/usr/src/app/
+      # Used to share contract addresses between services
+      - ./addresses:/usr/src/app/public/assets/addresses
     # We use the host mode so that "localhost" can be accessed
     network_mode: host

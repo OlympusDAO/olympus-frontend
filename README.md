@@ -107,11 +107,12 @@ Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day
 
 ### Local testnet
 
-A local testnet is available using `hardhat node`. This offers the following advantages over running on rinkeby:
+A local testnet is available using hardhat. This offers the following advantages over running on rinkeby:
 
 - predictable state of the blockchain, including wallet balance
 - an OHM faucet (1 OHM per call) is available (accessible via the wallet menu)
 - dodgy contract deployment? you can reset the state of the blockchain by tearing down the node (`make test_e2e_stack_stop`)
+- contract addresses don't need to be manually entered in `constants.ts`: they are shared using a JSON file published under `public/assets/addresses/addresses.json`
 
 To run a local testnet and frontend, run the `yarn test:e2e-stack`. See the [end-to-end testing](#end-to-end-testing) section for more information.
 
