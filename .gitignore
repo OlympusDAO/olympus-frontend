@@ -25,6 +25,8 @@ tenderly.yaml
 # testing
 coverage
 tests/e2e/videos
+tests/screenshots
+tests/videos
 
 # production
 build
