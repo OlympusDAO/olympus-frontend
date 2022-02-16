@@ -667,7 +667,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   md={5}
                   style={{
                     paddingLeft: "1rem",
-                    paddingRight: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
                   }}
                 >
                   <Paper className="project-sidebar">
@@ -732,19 +731,19 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                           <div className="project-deposited">
                             <Typography variant="h6">
                               <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-                              <strong>{parseFloat(donationInfo[donationId].deposit).toFixed(2)} sOHM</strong>
+                              <strong>{parseFloat(donationInfo[donationId].deposit).toFixed(2)}</strong>
                             </Typography>
                             <Typography variant="body1" className="subtext">
-                              Deposited
+                              sOHM Deposited
                             </Typography>
                           </div>
                           <div className="project-yield-sent">
                             <Typography variant="h6" align="right">
                               <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-                              <strong>{parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)} sOHM</strong>
+                              <strong>{parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)}</strong>
                             </Typography>
                             <Typography variant="body1" align="right" className="subtext">
-                              Yield Sent
+                              sOHM Yield Sent
                             </Typography>
                           </div>
                         </div>

@@ -1023,14 +1023,11 @@
 
 .project {
   margin-top: 10px;
+
   // TODO look at whether we can make this less flakey by using rem instead of px
   .project-sidebar {
     padding: 20px 30px 30px 30px;
-    margin-bottom: 1rem;
-
-    .project-sidebar-header {
-      margin-bottom: 30px;
-    }
+    margin-bottom: 30px;
 
     .cause-image {
       padding-bottom: 30px;
@@ -1111,13 +1108,13 @@
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
+      margin-top: 30px;
 
       .project-donation-data {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         width: 100%;
-        margin-bottom: 30px;
 
         h6 {
           display: flex;
@@ -1226,10 +1223,6 @@
     }
   }
 
-  .MuiPaper-root {
-    border-radius: 10px;
-  }
-
   .MuiLinearProgress-determinate {
     height: 10px;
     border-radius: 3px;
@@ -1247,14 +1240,6 @@
   .very-small {
     .project-info {
       margin-left: 0;
-    }
-
-    .visual-info-bottom {
-      flex-direction: column;
-
-      .project-give-button {
-        width: 100%;
-      }
     }
   }
 
