@@ -3,7 +3,10 @@ import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import {
   AddressMap,
+  GOHM_ADDRESSES,
   MIGRATOR_ADDRESSES,
+  SOHM_ADDRESSES,
+  STAKINGV2_ADDRESSES,
   V1_OHM_ADDRESSES,
   V1_SOHM_ADDRESSES,
   WSOHM_ADDRESSES,
@@ -13,11 +16,12 @@ import { assert, queryAssertion } from "src/helpers";
 import { useWeb3Context } from ".";
 import { useTokenContract } from "./useContract";
 
-export const contractAllowanceQueryKey = (networkId?: NetworkId, address?: string) => [
-  "useContractAllowances",
-  networkId,
-  address,
-];
+export const contractAllowanceQueryKey = (
+  networkId?: NetworkId,
+  address?: string,
+  tokenMap?: AddressMap,
+  contractMap?: AddressMap,
+) => ["useContractAllowances", networkId, address, tokenMap, contractMap];
 
 export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressMap) => {
   const { address, networkId } = useWeb3Context();
@@ -26,11 +30,12 @@ export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressM
   assert(tokenAddress, `Token doesn't exist for network: ${networkId}`);
 
   const token = useTokenContract(tokenAddress, networkId);
+  const queryKey = contractAllowanceQueryKey(networkId, address, tokenMap, contractMap);
 
   return useQuery<BigNumber, Error>(
-    contractAllowanceQueryKey(networkId, address),
+    queryKey,
     async () => {
-      queryAssertion(address && networkId, contractAllowanceQueryKey(networkId, address));
+      queryAssertion(address && networkId, queryKey);
 
       const contractAddress = contractMap[networkId as NetworkId];
 
@@ -46,3 +51,5 @@ export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressM
 export const useWsohmMigrationAllowance = () => useContractAllowance(WSOHM_ADDRESSES, MIGRATOR_ADDRESSES);
 export const useV1OhmMigrationAllowance = () => useContractAllowance(V1_OHM_ADDRESSES, MIGRATOR_ADDRESSES);
 export const useV1SohmMigrationAllowance = () => useContractAllowance(V1_SOHM_ADDRESSES, MIGRATOR_ADDRESSES);
+export const useSohmWrapAllowance = () => useContractAllowance(SOHM_ADDRESSES, STAKINGV2_ADDRESSES);
+export const useGohmUnwrapAllowance = () => useContractAllowance(GOHM_ADDRESSES, STAKINGV2_ADDRESSES);
