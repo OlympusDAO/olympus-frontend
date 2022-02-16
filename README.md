@@ -1,6 +1,10 @@
-[![Lighthouse PWA Test](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+[![Lighthouse PWA Test](https://github.com/OlympusDAO/olympus-frontend/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/OlympusDAO/olympus-frontend/actions/workflows/lighthouse.yml)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![OHM Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/gGZUMVDuhQ)
+![Branches Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/midnight-madman/4d79fbc5bcabae6ded617354b1896066/raw/olympus-frontend__coverage__branches__heads_develop.json)
+![Lines Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/midnight-madman/4d79fbc5bcabae6ded617354b1896066/raw/olympus-frontend__coverage__lines__heads_develop.json)
+![Statements Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/midnight-madman/4d79fbc5bcabae6ded617354b1896066/raw/olympus-frontend__coverage__statements__heads_develop.json)
+![Functions Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/midnight-madman/4d79fbc5bcabae6ded617354b1896066/raw/olympus-frontend__coverage__functions__heads_develop.json)
 
 # [Ω Olympus Frontend](https://app.olympusdao.finance/)
 
@@ -81,6 +85,10 @@ We use [`fast-check`](https://github.com/dubzzz/fast-check) for generative testi
 We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
 When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
 `yarn snapshot`.
+
+[Here is an example](src/views/Stake/__tests__/Stake.unit.test.tsx) snapshot test and [here is the correspoding recorded snapshot](https://github.com/OlympusDAO/olympus-frontend/blob/develop/src/views/Stake/__tests__/__snapshots__/Stake.unit.test.tsx.snap). Keep in mind that for snapshot tests to be meaningful, they have to pre-populate components with variety of data sets (realistic, edge case, invalid).
+
+[Here is a good blog post](https://dev.to/tobiastimm/property-based-testing-with-react-and-fast-check-3dce) about testing React components with generative data sets.
 
 ### Troubleshooting
 
@@ -210,11 +218,17 @@ In order to mark text for translation you can use:
 - The t function in javascript code and jsx templates. `` t`Translate me` ``
   You can also add comments for the translators. eg.
 
-```
+```JSX
 t({
  id: "do_bond",
  comment: "The action of bonding (verb)",
 })
+```
+
+- Where a variable/javascript function is required within a block of translatable text, a different format is used:
+
+```JSX
+{`${t`Your current Staked Balance is `} ${getSOhmBalance().toFixed(2)} sOHM`}
 ```
 
 When new texts are created or existing texts are modified in the application please leave a message in the OlympusDao app-translation channel for the translators to translate them.

@@ -62,12 +62,14 @@ export async function getV1MarketPrice() {
  */
 export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
   let tokenPrice = 0;
+  const priceApiURL = "https://api.olympusdao.finance/api/rest/coingecko_name";
   try {
-    const ohmResp = (await axios.get(`https://api.olympusdao.finance/api/rest/coingecko_name/${tokenId}`)) as {
+    const ohmResp = (await axios.get(`${priceApiURL}/${tokenId}`)) as {
       data: { coingeckoTicker: { value: number } };
     };
     tokenPrice = ohmResp.data.coingeckoTicker.value;
   } catch (e) {
+    console.warn(`Error accessing OHM API ${priceApiURL} . Falling back to coingecko API`, e);
     // fallback to coingecko
     const cgResp = (await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`,
@@ -76,6 +78,7 @@ export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
     };
     tokenPrice = cgResp.data[tokenId].usd;
   } finally {
+    // console.info(`Token price from coingecko: ${tokenPrice}`);
     return tokenPrice;
   }
 }

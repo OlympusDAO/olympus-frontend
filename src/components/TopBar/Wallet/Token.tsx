@@ -16,10 +16,11 @@ import { useQuery } from "react-query";
 import { addresses, NETWORKS } from "src/constants";
 import { NetworkId } from "src/constants";
 import { formatCurrency } from "src/helpers";
-import { segmentUA } from "src/helpers/userAnalyticHelpers";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { fetchCrossChainBalances } from "src/lib/fetchBalances";
+
+import { trackGAEvent, trackSegmentEvent } from "../../../helpers/analytics";
 
 const Accordion = withStyles({
   root: {
@@ -84,10 +85,15 @@ const addTokenToWallet = async (token: IToken, userAddress: string) => {
         },
       },
     });
-    segmentUA({
+    trackSegmentEvent({
       address: userAddress,
       type: "Add Token",
       tokenName: token.symbol,
+    });
+    trackGAEvent({
+      category: "Token",
+      action: "Add Token",
+      label: token.symbol ?? "unknown",
     });
   } catch (error) {
     console.log(error);
