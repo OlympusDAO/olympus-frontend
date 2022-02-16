@@ -727,8 +727,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         </Typography>
                       </div>
                       <div className="project-donations">
-                        <div className="project-donation-data">
-                          <div className="project-deposited">
+                        <Grid container className="project-donation-data">
+                          <Grid item className="project-deposited">
                             <Typography variant="h6">
                               <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
                               <strong>{parseFloat(donationInfo[donationId].deposit).toFixed(2)}</strong>
@@ -736,17 +736,19 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             <Typography variant="body1" className="subtext">
                               sOHM Deposited
                             </Typography>
-                          </div>
-                          <div className="project-yield-sent">
-                            <Typography variant="h6" align="right">
-                              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-                              <strong>{parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)}</strong>
-                            </Typography>
+                          </Grid>
+                          <Grid item className="project-yield-sent">
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end" }}>
+                              <Typography variant="h6" align="right">
+                                <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
+                                <strong>{parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)}</strong>
+                              </Typography>
+                            </div>
                             <Typography variant="body1" align="right" className="subtext">
                               sOHM Yield Sent
                             </Typography>
-                          </div>
-                        </div>
+                          </Grid>
+                        </Grid>
                         <div className="project-edit-button">
                           <PrimaryButton
                             onClick={() => handleEditButtonClick()}

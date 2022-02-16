@@ -1117,6 +1117,10 @@
         justify-content: space-between;
         width: 100%;
 
+        .project-yield-sent {
+          text-align: right;
+        }
+
         h6 {
           display: flex;
           align-items: center;
