@@ -3,13 +3,11 @@ import { NetworkId } from "src/constants";
 import { STAKING_ADDRESSES } from "src/constants/addresses";
 import { parseBigNumber } from "src/helpers";
 import { useStaticStakingContract } from "src/hooks/useContract";
-import { useStaticProvider } from "src/hooks/useStaticProvider";
 
 export const nextRebaseDateQueryKey = () => ["useNextRebaseDate"];
 
 export const useNextRebaseDate = () => {
-  const provider = useStaticProvider(NetworkId.MAINNET);
-  const contract = useStaticStakingContract(STAKING_ADDRESSES[NetworkId.MAINNET], provider);
+  const contract = useStaticStakingContract(STAKING_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
 
   return useQuery<Date, Error>(nextRebaseDateQueryKey(), async () => {
     const secondsToRebase = await contract.secondsToNextEpoch();

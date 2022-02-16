@@ -7,7 +7,6 @@ import { ohm_dai } from "src/helpers/AllBonds";
 
 import { useStaticPairContract } from "./useContract";
 import { useCurrentIndex } from "./useCurrentIndex";
-import { useStaticProvider } from "./useStaticProvider";
 
 export const ohmPriceQueryKey = () => ["useOhmPrice"];
 
@@ -15,12 +14,10 @@ export const ohmPriceQueryKey = () => ["useOhmPrice"];
  * Returns the market price of OHM.
  */
 export const useOhmPrice = () => {
-  const provider = useStaticProvider(NetworkId.MAINNET);
-
   const address = ohm_dai.getAddressForReserve(NetworkId.MAINNET);
   assert(address, "Contract should exist for NetworkId.MAINNET");
 
-  const reserveContract = useStaticPairContract(address, provider);
+  const reserveContract = useStaticPairContract(address, NetworkId.MAINNET);
 
   return useQuery<number, Error>(ohmPriceQueryKey(), async () => {
     const [ohm, dai] = await reserveContract.getReserves();

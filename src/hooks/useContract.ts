@@ -7,9 +7,11 @@ import STAKING_ABI from "src/abi/OlympusStakingv2.json";
 import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
 import { abi as SOHM_ABI } from "src/abi/sOhmv2.json";
 import { AddressMap } from "src/constants/addresses";
+import { NetworkId } from "src/networkDetails";
 import { FuseProxy, IERC20, OlympusStakingv2, PairContract, SOhmv2 } from "src/typechain";
 
 import { useWeb3Context } from ".";
+import { useStaticProvider } from "./useStaticProvider";
 
 /**
  * Hook for fetching a contract.
@@ -49,20 +51,22 @@ export function useContract<TContract extends Contract = Contract>(
 
 /**
  * Helper function to create a static contract hook.
- * Static contracts require a provider/signer to be given as an argument.
+ * Static contracts require an explicit network id to be given as an argument.
  */
 const createStaticContract = <TContract extends Contract = Contract>(ABI: ContractInterface) => {
-  return (address: string, providerOrSigner: StaticJsonRpcProvider | JsonRpcSigner) => {
-    return useContract<TContract>(address, ABI, providerOrSigner);
+  return (address: string, networkId: NetworkId) => {
+    const provider = useStaticProvider(networkId);
+
+    return useContract<TContract>(address, ABI, provider);
   };
 };
 
 /**
  * Helper function to create a dynamic contract hook.
- * Dynamic contracts do not require a provider/signer to be given as an argument.
- * Instead, they are given a map of networkIds and addresses, and use the current network
- * and provider/signer injected by the users wallet. This means that a dynamic contract
- * can possibly return null if that contract does not exist on the currently active network.
+ * Dynamic contracts use the provider/signer injected by the users wallet.
+ * Since a wallet can be connected to any network, a dynamic contract hook
+ * can possibly return null if there is no contract address specified for
+ * the currently active network.
  */
 const createDynamicContract = <TContract extends Contract = Contract>(ABI: ContractInterface) => {
   return (addressMap: AddressMap, asSigner = false) => {
