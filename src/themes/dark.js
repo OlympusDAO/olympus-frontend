@@ -53,6 +53,7 @@ export const dark = responsiveFontSizes(
       },
       colors: {
         paper: "linear-gradient(237.43deg, #2B313D -12.81%, #171A20 132.72%)",
+        feedback: "#49A1F2",
         gray: {
           700: "#181A1D",
           600: "#292C32",

@@ -1,7 +1,7 @@
 import { Box, Grid, RadioGroup, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { DottedDataRow, Input, ProgressCircle, Radio, Slider } from "@olympusdao/component-library";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { trim } from "src/helpers";
 import { useAppSelector } from "src/hooks";
 //import { parseBigNumber } from "src/helpers";
@@ -94,14 +94,12 @@ const Calculator: FC<OHMCalculatorProps> = () => {
   const [duration, setDuration] = useState(365);
   const [multiplier, setMultiplier] = useState(1);
   const [futureOhmPrice, setFutureOhmPrice] = useState(0);
-  const [manualOhmPrice, setManualOhmPrice] = useState(0);
-  const [manualRebaseRate, setManualRebaseRate] = useState(0);
+  const [currentOhmPrice, setCurrentOhmPrice] = useState(0);
+  const [rebaseRate, setRebaseRate] = useState(0);
   const [advanced, setAdvanced] = useState(false);
   const classes = useStyles();
   const rebases = duration * 3;
   const { data: ohmPrice = 0 } = useOhmPrice();
-  const currentOhmPrice = manualOhmPrice > 0 ? manualOhmPrice : ohmPrice;
-  const rebaseRate = manualRebaseRate > 0 ? manualRebaseRate : currentRebaseRate;
   const { data: runwayData = [{ runwayCurrent: 0 }] } = useTreasuryMetrics({ refetchOnMount: false });
   const runway = trim(runwayData[0].runwayCurrent, 2);
   const predictedOhmPrice = futureOhmPrice > 0 ? futureOhmPrice : currentOhmPrice * multiplier;
@@ -112,6 +110,10 @@ const Calculator: FC<OHMCalculatorProps> = () => {
   const pieValue = (usdProfit / (totalsOHM * predictedOhmPrice)) * 100;
   const breakEvenPrice = initialInvestment / totalsOHM;
 
+  useEffect(() => {
+    setRebaseRate(+trim(currentRebaseRate, 8));
+    setCurrentOhmPrice(+trim(ohmPrice, 2));
+  }, [currentRebaseRate, ohmPrice]);
   //Solving for duration (rebases/3) aka breakeven days
   const breakevenDays =
     (Math.log(totalsOHM / (initialInvestment / futureOhmPrice)) / Math.log(1 + rebaseRate) / 3 - duration) * -1;
@@ -176,8 +178,14 @@ const Calculator: FC<OHMCalculatorProps> = () => {
   return (
     <Box>
       <Box display="flex" flexDirection="column" mb="21px">
-        <Box display="flex" flexDirection="row" className={classes.selector}>
-          <Typography className={!advanced ? "active-primary" : ""} onClick={() => setAdvanced(false)}>
+        <Box display="flex" flexDirection="row" className={classes.selector} mb="30px">
+          <Typography
+            className={!advanced ? "active-primary" : ""}
+            onClick={() => {
+              setAdvanced(false);
+              setFutureOhmPrice(0);
+            }}
+          >
             Simple
           </Typography>
           <Typography className={advanced ? "active-primary" : ""} onClick={() => setAdvanced(true)}>
@@ -208,7 +216,7 @@ const Calculator: FC<OHMCalculatorProps> = () => {
               <Input
                 id="amount"
                 label="sOHM Amount"
-                value={amountOfOhmPurchased}
+                value={amountOfOhmPurchased ? +trim(amountOfOhmPurchased, 4) : ""}
                 onChange={e => setInitialInvestment(Number(e.target.value) * currentOhmPrice)}
                 type="number"
               />
@@ -217,7 +225,7 @@ const Calculator: FC<OHMCalculatorProps> = () => {
                   id="purchaseAmount"
                   label="OHM Purchase Price"
                   value={currentOhmPrice}
-                  onChange={e => setManualOhmPrice(Number(e.target.value))}
+                  onChange={e => setCurrentOhmPrice(Number(e.target.value))}
                 />
               </Box>
             </Grid>
@@ -225,8 +233,8 @@ const Calculator: FC<OHMCalculatorProps> = () => {
               <Input
                 id="rebaseRate"
                 label="Rebase Rate"
-                value={rebaseRate}
-                onChange={e => setManualRebaseRate(Number(e.target.value))}
+                value={rebaseRate ? rebaseRate * 100 : ""}
+                onChange={e => setRebaseRate(Number(e.target.value) / 100)}
                 type="number"
                 endString="%"
               />
@@ -234,7 +242,7 @@ const Calculator: FC<OHMCalculatorProps> = () => {
                 <Input
                   id="futureOhmPrice"
                   label="Future OHM Price"
-                  value={futureOhmPrice}
+                  value={futureOhmPrice > 0 ? futureOhmPrice : ""}
                   onChange={e => setFutureOhmPrice(Number(e.target.value))}
                   type="number"
                 />
@@ -301,7 +309,7 @@ const Calculator: FC<OHMCalculatorProps> = () => {
       <DottedDataRow title="ROI" value={ROI} />
       {advanced && (
         <>
-          <DottedDataRow title="Breakeven Price" value={breakEvenPrice} />
+          <DottedDataRow title="Breakeven Price" value={trim(breakEvenPrice, 2)} />
           <DottedDataRow
             title="Days to Breakeven"
             value={`${Number(formattedBreakEvenDays) > 0 ? formattedBreakEvenDays : 0} Days`}
