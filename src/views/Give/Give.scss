@@ -671,6 +671,10 @@
     color: #999999;
   }
 
+  .message-text {
+    color: #999999;
+  }
+
   .yield-graphic svg path {
     fill: none;
   }
@@ -784,6 +788,27 @@
     .manage-project-stats .center-item {
       margin-left: 10px;
       margin-right: 10px;
+    }
+  }
+
+  .redeemable-details {
+    display: flex;
+    border: 1px solid #999999;
+    border-radius: 10px;
+    padding: 20px 20px 20px 20px;
+    width: 80%;
+
+    .redeem-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      .subtext {
+        color: #999999;
+        margin-bottom: 10px;
+      }
     }
   }
 
@@ -1028,6 +1053,10 @@
   .project-sidebar {
     padding: 20px 30px 30px 30px;
     margin-bottom: 30px;
+
+    .project-sidebar-header {
+      margin-bottom: 30px;
+    }
 
     .cause-image {
       padding-bottom: 30px;
