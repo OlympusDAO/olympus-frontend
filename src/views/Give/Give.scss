@@ -1037,7 +1037,7 @@
     }
 
     .project-top-data {
-      padding-bottom: 30px;
+      padding-top: 30px;
 
       .project-deposits {
         text-align: right;
@@ -1132,8 +1132,6 @@
   }
 
   .project-intro {
-    padding-bottom: 30px;
-
     .project-title {
       display: flex;
       flex-direction: row;
@@ -1154,7 +1152,7 @@
     padding-right: 30px;
     padding-top: 30px;
     padding-bottom: 1rem;
-    margin-left: 2rem;
+    margin-left: 30px;
     height: auto;
     width: 100%;
 
@@ -1211,20 +1209,16 @@
   }
 
   .project-goal {
-    padding-bottom: 10px;
+    padding-top: 30px;
   }
 
   .project-goal-progress {
-    padding-bottom: 30px;
-
-    &.donating {
-      padding-bottom: 0px;
-    }
+    padding-top: 10px;
   }
 
   .project-give-button {
     display: flex;
-    padding-bottom: 30px;
+    padding-top: 24px; // PrimaryButton has 6px inbuilt padding
 
     button {
       display: flex;
@@ -1272,11 +1266,14 @@
     max-height: 128px;
     overflow: hidden;
     padding-bottom: 0px !important;
-    margin-bottom: 30px;
 
     a {
       width: 100%;
     }
+  }
+
+  .project-visual-info {
+    padding-top: 30px;
   }
 
   .smaller {
@@ -1296,7 +1293,6 @@
         overflow: hidden;
         padding-right: 0px;
         padding-bottom: 0px;
-        margin-bottom: 30px;
 
         a {
           width: 100%;
@@ -1329,7 +1325,6 @@
         align-items: center;
         justify-content: center;
         border-radius: 16px;
-        padding-bottom: 0px;
 
         a {
           width: 100%;

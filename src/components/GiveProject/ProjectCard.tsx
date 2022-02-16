@@ -643,7 +643,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const renderCountdownDetailed = () => {
     if (!finishDateObject) return <></>;
 
-    return <Countdown date={finishDateObject} renderer={countdownRendererDetailed} />;
+    return (
+      <div className="project-countdown">
+        <Countdown date={finishDateObject} renderer={countdownRendererDetailed} />
+      </div>
+    );
   };
 
   const getPageContent = () => {
@@ -686,12 +690,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                       <Grid item className="goal-graphics">
                         {renderDepositData()}
                         {renderGoalCompletionDetailed()}
-
-                        <div className="project-give-button">
-                          {connected ? (
-                            isUserDonating ? (
-                              <></>
-                            ) : (
+                        {connected ? (
+                          isUserDonating ? (
+                            <></>
+                          ) : (
+                            <div className="project-give-button">
                               <PrimaryButton
                                 onClick={() => handleGiveButtonClick()}
                                 disabled={!isSupportedChain(networkId)}
@@ -700,16 +703,18 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                                   <Trans>Donate Yield</Trans>
                                 </Typography>
                               </PrimaryButton>
-                            )
-                          ) : (
+                            </div>
+                          )
+                        ) : (
+                          <div className="project-give-button">
                             <PrimaryButton onClick={connect}>
                               <Typography variant="h6">
                                 <Trans>Connect wallet</Trans>
                               </Typography>
                             </PrimaryButton>
-                          )}
-                        </div>
-                        <div className="project-countdown">{renderCountdownDetailed()}</div>
+                          </div>
+                        )}
+                        {renderCountdownDetailed()}
                       </Grid>
                     </Grid>
                   </Paper>
