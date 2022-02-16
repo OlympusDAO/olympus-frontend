@@ -747,11 +747,16 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             </Typography>
                           </div>
                         </div>
-                        <PrimaryButton onClick={() => handleEditButtonClick()} disabled={!isSupportedChain(networkId)}>
-                          <Typography variant="h6">
-                            <Trans>Edit Donation</Trans>
-                          </Typography>
-                        </PrimaryButton>
+                        <div className="project-edit-button">
+                          <PrimaryButton
+                            onClick={() => handleEditButtonClick()}
+                            disabled={!isSupportedChain(networkId)}
+                          >
+                            <Typography variant="h6">
+                              <Trans>Edit Donation</Trans>
+                            </Typography>
+                          </PrimaryButton>
+                        </div>
                       </div>
                     </Paper>
                   ) : (

@@ -1223,6 +1223,12 @@
     }
   }
 
+  .project-edit-button {
+    padding-top: 24px; // PrimaryButton has 6px inbuilt padding
+    width: 100%;
+    text-align: right;
+  }
+
   .MuiLinearProgress-determinate {
     height: 10px;
     border-radius: 3px;
@@ -1328,12 +1334,16 @@
     .project-donations {
       flex-direction: row;
 
-      .project-yield-sent {
-        padding-right: 67px;
-      }
-
       button {
         width: 50%;
+      }
+
+      .project-edit-button {
+        padding-top: 0px;
+
+        button {
+          width: 226px;
+        }
       }
     }
   }
