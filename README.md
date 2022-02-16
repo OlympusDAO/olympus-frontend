@@ -1,10 +1,10 @@
 [![Lighthouse PWA Test](https://github.com/OlympusDAO/olympus-frontend/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/OlympusDAO/olympus-frontend/actions/workflows/lighthouse.yml)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![OHM Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/gGZUMVDuhQ)
-![Branches Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/midnight-madman/4d79fbc5bcabae6ded617354b1896066/raw/olympus-frontend__coverage__branches__heads_develop.json)
-![Lines Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/midnight-madman/4d79fbc5bcabae6ded617354b1896066/raw/olympus-frontend__coverage__lines__heads_develop.json)
-![Statements Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/midnight-madman/4d79fbc5bcabae6ded617354b1896066/raw/olympus-frontend__coverage__statements__heads_develop.json)
-![Functions Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/midnight-madman/4d79fbc5bcabae6ded617354b1896066/raw/olympus-frontend__coverage__functions__heads_develop.json)
+![Branches Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/appleseed-iii/d630a3bd1cf13bb3dc3c1925df28efcd/raw/olympus-frontend__coverage__branches__heads_develop.json)
+![Lines Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/appleseed-iii/d630a3bd1cf13bb3dc3c1925df28efcd/raw/olympus-frontend__coverage__lines__heads_develop.json)
+![Statements Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/appleseed-iii/d630a3bd1cf13bb3dc3c1925df28efcd/raw/olympus-frontend__coverage__statements__heads_develop.json)
+![Functions Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/appleseed-iii/d630a3bd1cf13bb3dc3c1925df28efcd/raw/olympus-frontend__coverage__functions__heads_develop.json)
 
 # [Ω Olympus Frontend](https://app.olympusdao.finance/)
 
