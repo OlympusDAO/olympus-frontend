@@ -6,7 +6,7 @@ import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
 
 import Calculator from "./Calculator";
-import { ActiveProposals, MediumArticles } from "./queries";
+import { ActiveProposals } from "./queries";
 
 //mport InitialWalletView from "./InitialWalletView";
 
@@ -36,8 +36,7 @@ const StyledSwipeableDrawer = withStyles(theme => ({
 
 export function Wallet() {
   const { data, isLoading, isFetched } = ActiveProposals();
-  const { data: mediumArticles, isFetched: mediumIsFetched } = MediumArticles();
-  console.log(mediumArticles, "medium");
+  //const { data: mediumArticles, isFetched: mediumIsFetched } = MediumArticles();
   const [isWalletOpen, setWalletOpen] = useState(false);
   const closeWallet = () => setWalletOpen(false);
   const openWallet = () => setWalletOpen(true);

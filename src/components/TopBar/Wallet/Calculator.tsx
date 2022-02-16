@@ -1,7 +1,12 @@
-import { Box, Theme, Typography } from "@material-ui/core";
+import { Box, Grid, RadioGroup, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { DottedDataRow, ProgressCircle, Slider } from "@olympusdao/component-library";
+import { DottedDataRow, Input, ProgressCircle, Radio, Slider } from "@olympusdao/component-library";
 import { FC, useState } from "react";
+import { trim } from "src/helpers";
+import { useAppSelector } from "src/hooks";
+//import { parseBigNumber } from "src/helpers";
+import { useOhmPrice } from "src/hooks/usePrices";
+import { useTreasuryMetrics } from "src/views/TreasuryDashboard/hooks/useTreasuryMetrics";
 
 const useStyles = makeStyles<Theme>(theme => ({
   title: {
@@ -34,7 +39,7 @@ const useStyles = makeStyles<Theme>(theme => ({
     fontWeight: 400,
     color: theme.colors.gray[90],
   },
-  duration: {
+  selector: {
     "& p": {
       fontSize: "16px",
       fontWeight: 400,
@@ -42,12 +47,36 @@ const useStyles = makeStyles<Theme>(theme => ({
       lineHeight: "24px",
       marginRight: "18px",
       cursor: "pointer",
+      color: theme.colors.gray[90],
+      "&.active": {
+        color: theme.colors.gray[10],
+      },
+      "&.active-primary": {
+        color: theme.colors.primary[300],
+      },
     },
     "& p:last-child": {
       marginRight: 0,
     },
   },
+  radioGroup: {
+    "& .MuiFormControlLabel-root:last-child": {
+      marginRight: 0,
+    },
+  },
+  targetDate: {
+    fontSize: "16px",
+    lineHeight: "24px",
+    "& span": {
+      marginLeft: "18px",
+      color: theme.colors.gray[40],
+    },
+  },
 }));
+
+export const initialInvestment = (quantity: number, purchasePrice: number) => {
+  return quantity * purchasePrice;
+};
 
 export interface OHMCalculatorProps {
   props?: any;
@@ -57,18 +86,36 @@ export interface OHMCalculatorProps {
  * Component for Displaying Calculator
  */
 const Calculator: FC<OHMCalculatorProps> = () => {
+  const currentRebaseRate = useAppSelector(state => {
+    return state.app.stakingRebase || 0;
+  });
+
   const [initialInvestment, setInitialInvestment] = useState(10000);
   const [duration, setDuration] = useState(365);
+  const [multiplier, setMultiplier] = useState(1);
+  const [futureOhmPrice, setFutureOhmPrice] = useState(0);
+  const [manualOhmPrice, setManualOhmPrice] = useState(0);
+  const [manualRebaseRate, setManualRebaseRate] = useState(0);
+  const [advanced, setAdvanced] = useState(false);
   const classes = useStyles();
   const rebases = duration * 3;
-  const currentOhmPrice = 70;
-  const currentRebaseRate = 0.002037;
-  const priceMultiplier = 1;
+  const { data: ohmPrice = 0 } = useOhmPrice();
+  const currentOhmPrice = manualOhmPrice > 0 ? manualOhmPrice : ohmPrice;
+  const rebaseRate = manualRebaseRate > 0 ? manualRebaseRate : currentRebaseRate;
+  const { data: runwayData = [{ runwayCurrent: 0 }] } = useTreasuryMetrics({ refetchOnMount: false });
+  const runway = trim(runwayData[0].runwayCurrent, 2);
+  const predictedOhmPrice = futureOhmPrice > 0 ? futureOhmPrice : currentOhmPrice * multiplier;
   const amountOfOhmPurchased = initialInvestment / currentOhmPrice;
-  const totalsOHM = (1 + currentRebaseRate) ** rebases * amountOfOhmPurchased;
-  const usdProfit = totalsOHM * currentOhmPrice - initialInvestment;
-  const usdValue = totalsOHM * currentOhmPrice;
-  const pieValue = (usdProfit / (totalsOHM * currentOhmPrice)) * 100;
+  const totalsOHM = (1 + rebaseRate) ** rebases * amountOfOhmPurchased;
+  const usdProfit = totalsOHM * predictedOhmPrice - initialInvestment;
+  const usdValue = totalsOHM * predictedOhmPrice;
+  const pieValue = (usdProfit / (totalsOHM * predictedOhmPrice)) * 100;
+  const breakEvenPrice = initialInvestment / totalsOHM;
+
+  //Solving for duration (rebases/3) aka breakeven days
+  const breakevenDays =
+    (Math.log(totalsOHM / (initialInvestment / futureOhmPrice)) / Math.log(1 + rebaseRate) / 3 - duration) * -1;
+
   const ROI = new Intl.NumberFormat("en-US", {
     style: "percent",
   }).format(usdProfit / initialInvestment);
@@ -76,13 +123,20 @@ const Calculator: FC<OHMCalculatorProps> = () => {
   const formattedCurrentRebaseRate = new Intl.NumberFormat("en-US", {
     style: "percent",
     minimumFractionDigits: 4,
-  }).format(currentRebaseRate);
+  }).format(rebaseRate);
 
   const handleChange: any = (event: Event, newValue: number | number[]) => {
     if (typeof newValue === "number") {
       setInitialInvestment(newValue);
     }
   };
+
+  const handleDurationChange: any = (event: Event, newValue: number | number[]) => {
+    if (typeof newValue === "number") {
+      setDuration(newValue);
+    }
+  };
+
   const usdPie = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -100,47 +154,160 @@ const Calculator: FC<OHMCalculatorProps> = () => {
   const formattedInitialInvestment = usd.format(initialInvestment);
   const formattedTotalsOHM = ohm.format(totalsOHM);
   const formattedAmountPurchased = ohm.format(amountOfOhmPurchased);
+  const formattedBreakEvenDays = new Intl.NumberFormat("en-US", {
+    style: "decimal",
+    maximumFractionDigits: 0,
+  }).format(breakevenDays);
+
+  const RadioSelector = () => (
+    <RadioGroup
+      name="multiplierGroup"
+      value={multiplier}
+      onChange={e => setMultiplier(Number(e.target.value))}
+      row
+      className={classes.radioGroup}
+    >
+      <Radio label="1x" value={1} />
+      <Radio label="2x" value={2} />
+      <Radio label="3x" value={3} />
+    </RadioGroup>
+  );
 
   return (
     <Box>
       <Box display="flex" flexDirection="column" mb="21px">
-        <Box display="flex" justifyContent="center" mb="3px">
-          <Typography className={classes.title}>Investment Amount:</Typography>
-        </Box>
-        <Box display="flex" justifyContent="center" mb="18px">
-          <Typography className={classes.investmentAmount}>{formattedInitialInvestment}</Typography>
-        </Box>
-        <Box display="flex" justifyContent="center">
-          <Typography className={classes.runway}>
-            Runway: <span>311.5 Days</span>
+        <Box display="flex" flexDirection="row" className={classes.selector}>
+          <Typography className={!advanced ? "active-primary" : ""} onClick={() => setAdvanced(false)}>
+            Simple
+          </Typography>
+          <Typography className={advanced ? "active-primary" : ""} onClick={() => setAdvanced(true)}>
+            Advanced
           </Typography>
         </Box>
+        {!advanced && (
+          <>
+            <Box display="flex" justifyContent="center" mb="3px">
+              <Typography className={classes.title}>Investment Amount:</Typography>
+            </Box>
+            <Box display="flex" justifyContent="center" mb="18px">
+              <Typography className={classes.investmentAmount}>{formattedInitialInvestment}</Typography>
+            </Box>
+            <Box display="flex" justifyContent="center">
+              <Typography className={classes.runway}>
+                Runway: <span>{runway} Days</span>
+              </Typography>
+            </Box>
+          </>
+        )}
       </Box>
-      <Slider value={initialInvestment} min={500} max={100000} step={100} onChange={handleChange} />
-      <Box display="flex" justifyContent="space-around" alignItems="center" mt="18px" mb="18px">
-        <Box display="flex" flexDirection="column" textAlign="right">
-          <Typography className={classes.progressMetric}>{formattedInitialInvestment}</Typography>
-          <Typography className={classes.progressLabel}>Invested</Typography>
-        </Box>
-        <ProgressCircle balance={totalValue.toString()} label="Total Value" progress={pieValue} />
-        <Box display="flex" flexDirection="column" textAlign="left">
-          <Typography className={classes.progressMetric}>{formattedProfits}</Typography>
-          <Typography className={classes.progressLabel}>ROI in</Typography>
-        </Box>
-      </Box>
-      <Box display="flex" flexDirection="row" alignItems="center" className={classes.duration} justifyContent="center">
-        <Typography onClick={() => setDuration(365)}>12 months</Typography>
-        <Typography onClick={() => setDuration(180)}>6m</Typography>
-        <Typography onClick={() => setDuration(90)}>3m</Typography>
-        <Typography onClick={() => setDuration(60)}>2m</Typography>
-        <Typography onClick={() => setDuration(30)}>1m</Typography>
-      </Box>
+
+      {advanced ? (
+        <>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Input
+                id="amount"
+                label="sOHM Amount"
+                value={amountOfOhmPurchased}
+                onChange={e => setInitialInvestment(Number(e.target.value) * currentOhmPrice)}
+                type="number"
+              />
+              <Box mt="9px">
+                <Input
+                  id="purchaseAmount"
+                  label="OHM Purchase Price"
+                  value={currentOhmPrice}
+                  onChange={e => setManualOhmPrice(Number(e.target.value))}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={6}>
+              <Input
+                id="rebaseRate"
+                label="Rebase Rate"
+                value={rebaseRate}
+                onChange={e => setManualRebaseRate(Number(e.target.value))}
+                type="number"
+                endString="%"
+              />
+              <Box mt="9px">
+                <Input
+                  id="futureOhmPrice"
+                  label="Future OHM Price"
+                  value={futureOhmPrice}
+                  onChange={e => setFutureOhmPrice(Number(e.target.value))}
+                  type="number"
+                />
+              </Box>
+            </Grid>
+          </Grid>
+
+          <Box display="flex" flexDirection="row" justifyContent="space-between" mt="30px" mb="30px">
+            <Typography className={classes.targetDate}>
+              {duration} Days <span>Target date</span>
+            </Typography>
+            <Typography className={classes.runway}>
+              Runway: <span>{runway} Days</span>
+            </Typography>
+          </Box>
+          <Slider value={duration} onChange={handleDurationChange} min={1} max={1825} />
+        </>
+      ) : (
+        <Slider value={initialInvestment} min={500} max={100000} step={100} onChange={handleChange} />
+      )}
+      {!advanced && (
+        <>
+          <Box display="flex" justifyContent="space-around" alignItems="center" mt="18px" mb="18px">
+            <Box display="flex" flexDirection="column" textAlign="right" flexGrow={0.33}>
+              <Typography className={classes.progressMetric}>{formattedInitialInvestment}</Typography>
+              <Typography className={classes.progressLabel}>Invested</Typography>
+            </Box>
+            <ProgressCircle balance={totalValue.toString()} label="Total Value" progress={pieValue} />
+            <Box display="flex" flexDirection="column" textAlign="left" flexGrow={0.33}>
+              <Typography className={classes.progressMetric}>{formattedProfits}</Typography>
+              <Typography className={classes.progressLabel}>ROI in {duration} days</Typography>
+            </Box>
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            className={classes.selector}
+            justifyContent="center"
+          >
+            <Typography className={duration === 365 ? "active" : ""} onClick={() => setDuration(365)}>
+              12 months
+            </Typography>
+            <Typography className={duration === 180 ? "active" : ""} onClick={() => setDuration(180)}>
+              6m
+            </Typography>
+            <Typography className={duration === 90 ? "active" : ""} onClick={() => setDuration(90)}>
+              3m
+            </Typography>
+            <Typography className={duration === 60 ? "active" : ""} onClick={() => setDuration(60)}>
+              2m
+            </Typography>
+            <Typography className={duration === 30 ? "active" : ""} onClick={() => setDuration(30)}>
+              1m
+            </Typography>
+          </Box>
+        </>
+      )}
       <DottedDataRow title="Initial Investment" value={formattedInitialInvestment} />
-      <DottedDataRow title="OHM Purchase Price" value={currentOhmPrice} />
-      <DottedDataRow title="Amount Purchased" value={`${formattedAmountPurchased} OHM`} />
-      <DottedDataRow title="Price Multiplier" value={priceMultiplier} />
-      <DottedDataRow title="Rebase Rate" value={formattedCurrentRebaseRate} />
+      {!advanced && <DottedDataRow title="OHM Purchase Price" value={currentOhmPrice} />}
+      {!advanced && <DottedDataRow title="Amount Purchased" value={`${formattedAmountPurchased} OHM`} />}
+      {!advanced && <DottedDataRow title="Price Multiplier" value={<RadioSelector />} />}
+      {!advanced && <DottedDataRow title="Rebase Rate" value={formattedCurrentRebaseRate} />}
       <DottedDataRow title="ROI" value={ROI} />
+      {advanced && (
+        <>
+          <DottedDataRow title="Breakeven Price" value={breakEvenPrice} />
+          <DottedDataRow
+            title="Days to Breakeven"
+            value={`${Number(formattedBreakEvenDays) > 0 ? formattedBreakEvenDays : 0} Days`}
+          />
+        </>
+      )}
       <DottedDataRow title="Total sOHM" value={formattedTotalsOHM} bold />
       <DottedDataRow title="Estimated Profits" value={formattedProfits} bold />
     </Box>
