@@ -422,10 +422,10 @@ function App() {
               <ChooseBondV2 />
             </Route>
             <Route exact path="/wallet">
-              <Wallet open={true} />
+              <Wallet open={true} currentPath={currentPath} />
             </Route>
             <Route exact path="/calculator">
-              <Wallet open={true} component="calculator" />
+              <Wallet open={true} component="calculator" currentPath={currentPath} />
             </Route>
             <Route component={NotFound} />
           </Switch>

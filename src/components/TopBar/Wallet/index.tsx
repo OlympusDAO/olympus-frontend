@@ -1,27 +1,12 @@
-import { t } from "@lingui/macro";
-import { Box, Button, SvgIcon, SwipeableDrawer, Typography, useTheme, withStyles } from "@material-ui/core";
-import { TabBar } from "@olympusdao/component-library";
+import { Box, Link as MuiLink, SwipeableDrawer, withStyles } from "@material-ui/core";
+import { Icon, TabBar } from "@olympusdao/component-library";
 //import { InfoCard } from "@olympusdao/component-library";
 import { useState } from "react";
-import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
-import { useWeb3Context } from "src/hooks/web3Context";
+import { Link } from "react-router-dom";
 
 import Calculator from "./Calculator";
 import InitialWalletView from "./InitialWalletView";
 import { ActiveProposals } from "./queries";
-
-const WalletButton = ({ openWallet }: { openWallet: () => void }) => {
-  const { connect, connected } = useWeb3Context();
-  const onClick = connected ? openWallet : connect;
-  const label = connected ? t`Wallet` : t`Connect Wallet`;
-  const theme = useTheme();
-  return (
-    <Button id="ohm-menu-button" variant="contained" color="secondary" onClick={onClick}>
-      <SvgIcon component={WalletIcon} style={{ marginRight: theme.spacing(1) }} />
-      <Typography>{label}</Typography>
-    </Button>
-  );
-};
 
 const StyledSwipeableDrawer = withStyles(theme => ({
   root: {
@@ -34,7 +19,7 @@ const StyledSwipeableDrawer = withStyles(theme => ({
   },
 }))(SwipeableDrawer);
 
-export function Wallet(props: { open?: boolean; component?: string }) {
+export function Wallet(props: { open?: boolean; component?: string; currentPath?: any }) {
   const { data, isLoading, isFetched } = ActiveProposals();
   //const { data: mediumArticles, isFetched: mediumIsFetched } = MediumArticles();
   const [isWalletOpen, setWalletOpen] = useState(false);
@@ -58,10 +43,13 @@ export function Wallet(props: { open?: boolean; component?: string }) {
         return <InitialWalletView onClose={closeWallet} />;
     }
   };
-
+  const CloseButton = (props: any) => (
+    <MuiLink {...props}>
+      <Icon name="x" />
+    </MuiLink>
+  );
   return (
     <>
-      {/* <WalletButton openWallet={openWallet} /> */}
       <StyledSwipeableDrawer
         disableBackdropTransition={!isIOS}
         disableDiscovery={isIOS}
@@ -70,8 +58,10 @@ export function Wallet(props: { open?: boolean; component?: string }) {
         onOpen={openWallet}
         onClose={closeWallet}
       >
-        {/* <InitialWalletView onClose={closeWallet} /> */}
         <Box p="30px 15px">
+          <Box display="flex" flexDirection="row" justifyContent="right" alignItems="center" mb={"18px"}>
+            <Link to="/stake" component={CloseButton} />
+          </Box>
           <TabBar
             items={[
               { label: "Wallet", to: "/wallet" },
