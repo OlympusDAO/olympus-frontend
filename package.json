@@ -30,6 +30,7 @@
     },
     "coverageReporters": [
       "text",
+      "json-summary",
       "text-summary"
     ]
   },
@@ -71,14 +72,14 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-uid": "^2.3.1",
-    "recharts": "^2.0.10",
+    "recharts": "^2.1.9",
     "sass": "^1.49.7",
     "typescript": "^4.5.4",
     "uuid": "^8.3.2",
     "web3modal": "^1.9.1"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.16.7",
+    "@babel/runtime": "^7.17.2",
     "@chainsafe/dappeteer": "^2.2.0",
     "@graphql-codegen/cli": "^2.6.0",
     "@graphql-codegen/typescript": "^2.3.0",
@@ -123,6 +124,7 @@
     "hardhat": "^2.8.4",
     "history": "^5.2.0",
     "husky": "^7.0.4",
+    "jest-coverage-badges": "^1.1.2",
     "jest-puppeteer": "^6.1.0",
     "jest-when": "^3.5.1",
     "less-plugin-npm-import": "^2.1.0",
@@ -141,8 +143,8 @@
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "test": "react-scripts test",
-    "test:unit": "react-scripts test --testPathPattern=\"(\\.|/|-)unit\\.(test|spec)\\.[jt]sx?$\" --watchAll=false --bail --ci --coverage --maxWorkers=50%",
-    "test:e2e": "react-scripts test --testPathPattern=\"(\\.|/|-)e2e\\.(test|spec)\\.[jt]sx?$\" --watchAll=false --bail --ci",
+    "test:unit": "react-scripts test --testPathPattern=\"(\\.|/|-)unit\\.(test|spec)\\.[jt]sx?$\" --watchAll=false --bail --ci --coverage --maxWorkers=50% --forceExit",
+    "test:e2e": "react-scripts test --testPathPattern=\"(\\.|/|-)e2e\\.(test|spec)\\.[jt]sx?$\" --watchAll=false --bail --ci --forceExit",
     "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
     "lint:fix": "prettier --write ./src/ & yarn lint --fix",
     "theme": "npx gulp less",

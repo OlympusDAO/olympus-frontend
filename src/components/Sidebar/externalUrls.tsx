@@ -28,6 +28,11 @@ const externalUrls: ExternalUrl[] = [
     url: "https://immunefi.com/bounty/olympus/",
     icon: "bug-report",
   },
+  {
+    title: <Trans>Grants</Trans>,
+    url: "https://grants.olympusdao.finance/",
+    icon: "grants",
+  },
 ];
 
 export default externalUrls;
