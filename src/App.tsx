@@ -49,6 +49,7 @@ import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import { trackGAEvent, trackSegmentEvent } from "./helpers/analytics";
+import Wallet from "./components/TopBar/Wallet";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -419,6 +420,12 @@ function App() {
                 );
               })}
               <ChooseBondV2 />
+            </Route>
+            <Route exact path="/wallet">
+              <Wallet open={true} />
+            </Route>
+            <Route exact path="/calculator">
+              <Wallet open={true} component="calculator" />
             </Route>
             <Route component={NotFound} />
           </Switch>
