@@ -1,7 +1,7 @@
 {
   "build": {
     "image": "fleek/create-react-app:node-16",
-    "command": "yarn && yarn build",
+    "command": "yarn lingui:branch:main && yarn install && yarn build",
     "publicDir": "build"
   }
 }
