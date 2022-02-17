@@ -17,6 +17,7 @@ import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
 import { addresses, NetworkId } from "../constants";
 import { handleContractError, setAll } from "../helpers";
+import { GetDonationDate } from "../helpers/GetDonationDate";
 import { getMockRedemptionBalancesAsync, getRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 
@@ -48,16 +49,11 @@ interface IUserBalances {
   };
 }
 
-/**
- * Stores the user donation information in a map.
- * - Key: recipient wallet address
- * - Value: amount deposited by the sender
- *
- * We store the amount as a string, since numbers in Javascript are inaccurate.
- * We later parse the string into BigNumber for performing arithmetic.
- */
 interface IUserDonationInfo {
-  [key: string]: string;
+  date: string;
+  deposit: string;
+  recipient: string;
+  yieldDonated: string;
 }
 
 interface IUserRecipientInfo {
@@ -277,7 +273,7 @@ export const getDonationBalances = createAsyncThunk(
   "account/getDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     let giveAllowance = 0;
-    const donationInfo: IUserDonationInfo = {};
+    const donationInfo: IUserDonationInfo[] = [];
 
     if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
       const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider);
@@ -293,9 +289,26 @@ export const getDonationBalances = createAsyncThunk(
         const allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
         for (let i = 0; i < allDeposits[0].length; i++) {
           if (allDeposits[1][i].eq(0)) continue;
+          const depositAmount = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
+          const recipient = allDeposits[0][i];
+          const firstDonationDate: string = await GetDonationDate({
+            address: address,
+            recipient: recipient,
+            networkID: networkID,
+            provider: provider,
+          });
 
-          // Store as a formatted string
-          donationInfo[allDeposits[0][i]] = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
+          // NOTE: Bad fix, but since no rebases on testnet this would throw an error otherwise
+          const yieldSent: BigNumber =
+            networkID === 1 ? await givingContract.donatedTo(address, recipient) : BigNumber.from("0");
+          const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
+
+          donationInfo.push({
+            date: firstDonationDate,
+            deposit: depositAmount,
+            recipient: recipient,
+            yieldDonated: formattedYieldSent,
+          });
         }
       } catch (e: unknown) {
         console.log(
@@ -320,14 +333,14 @@ export const getDonationBalances = createAsyncThunk(
 /**
  * Provides the details of deposits/donations provided by a specific wallet.
  *
- * This differs from the standard `getDonationBalances` function because it uses a alternative
+ * This differs from the standard `getDonationBalances` function because it uses an alternative
  * sOHM contract that allows for manual rebases, which is helpful during testing of the 'Give' functionality.
  */
 export const getMockDonationBalances = createAsyncThunk(
   "account/getMockDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
     let giveAllowance = 0;
-    const donationInfo: IUserDonationInfo = {};
+    const donationInfo: IUserDonationInfo[] = [];
 
     if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {
       const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
@@ -343,8 +356,23 @@ export const getMockDonationBalances = createAsyncThunk(
         const allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
         for (let i = 0; i < allDeposits[0].length; i++) {
           if (allDeposits[1][i] !== BigNumber.from(0)) {
-            // Store as a formatted string
-            donationInfo[allDeposits[0][i]] = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
+            const depositAmount = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
+            const recipient = allDeposits[0][i];
+            const firstDonationDate: string = await GetDonationDate({
+              address: address,
+              recipient: recipient,
+              networkID: networkID,
+              provider: provider,
+            });
+            const yieldSent: BigNumber = await givingContract.donatedTo(address, recipient);
+            const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
+
+            donationInfo.push({
+              date: firstDonationDate,
+              deposit: depositAmount,
+              recipient: recipient,
+              yieldDonated: formattedYieldSent,
+            });
           }
         }
       } catch (e: unknown) {
@@ -577,8 +605,8 @@ export const calculateUserBondDetails = createAsyncThunk(
 );
 
 export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
-  giving: { sohmGive: number; donationInfo: IUserDonationInfo; loading: boolean };
-  mockGiving: { sohmGive: number; donationInfo: IUserDonationInfo; loading: boolean };
+  giving: { sohmGive: number; donationInfo: IUserDonationInfo[]; loading: boolean };
+  mockGiving: { sohmGive: number; donationInfo: IUserDonationInfo[]; loading: boolean };
   redeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   mockRedeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   bonds: { [key: string]: IUserBondDetails };
@@ -658,8 +686,8 @@ const initialState: IAccountSlice = {
     pool: "",
     mockSohm: "",
   },
-  giving: { sohmGive: 0, donationInfo: {}, loading: true },
-  mockGiving: { sohmGive: 0, donationInfo: {}, loading: true },
+  giving: { sohmGive: 0, donationInfo: [], loading: true },
+  mockGiving: { sohmGive: 0, donationInfo: [], loading: true },
   redeeming: {
     sohmRedeemable: "",
     recipientInfo: {

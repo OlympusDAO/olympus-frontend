@@ -1,35 +1,24 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Container, Typography, Zoom } from "@material-ui/core";
+import { Box, Button, Paper, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { BigNumber } from "bignumber.js";
 import { useMemo, useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useUIDSeed } from "react-uid";
-import { GiveHeader } from "src/components/GiveProject/GiveHeader";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IAppData } from "src/slices/AppSlice";
 import { ACTION_GIVE, changeGive, changeMockGive, isSupportedChain } from "src/slices/GiveThunk";
-import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { error } from "../../slices/MessagesSlice";
-import { GiveInfo } from "./GiveInfo";
 import data from "./projects.json";
 
-type State = {
-  account: IAccountSlice;
-  pendingTransactions: IPendingTxn[];
-  app: IAppData;
-};
 export default function CausesDashboard() {
   const location = useLocation();
   const { provider, address, networkId } = useWeb3Context();
@@ -43,18 +32,6 @@ export default function CausesDashboard() {
   const dispatch = useAppDispatch();
   const seed = useUIDSeed();
 
-  const donationInfo = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving && state.account.mockGiving.donationInfo
-      : state.account.giving && state.account.giving.donationInfo;
-  });
-
-  const totalDebt = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
-      ? state.account.mockRedeeming && state.account.mockRedeeming.recipientInfo.totalDebt
-      : state.account.redeeming && state.account.redeeming.recipientInfo.totalDebt;
-  });
-
   const renderProjects = useMemo(() => {
     return projects.map(project => {
       return <ProjectCard key={seed(project.title)} project={project} mode={ProjectDetailsMode.Card} />;
@@ -67,14 +44,15 @@ export default function CausesDashboard() {
 
   const handleCustomGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
+    eventSource: string,
     depositAmount: BigNumber,
-    depositAmountDiff?: BigNumber,
   ) => {
     if (depositAmount.isEqualTo(new BigNumber(0))) {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    // If reducing the amount of deposit, withdraw
+    // If on Rinkeby and using Mock Sohm, use the changeMockGive async thunk
+    // Else use standard call
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
@@ -86,6 +64,7 @@ export default function CausesDashboard() {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource: eventSource,
         }),
       );
     } else {
@@ -99,6 +78,7 @@ export default function CausesDashboard() {
           networkID: networkId,
           version2: false,
           rebase: false,
+          eventSource: eventSource,
         }),
       );
     }
@@ -111,64 +91,59 @@ export default function CausesDashboard() {
   };
 
   return (
-    <Container
-      style={{
-        paddingLeft: isSmallScreen ? "0" : "3.3rem",
-        paddingRight: isSmallScreen ? "0" : "3.3rem",
-        display: "flex",
-        justifyContent: "center",
-      }}
+    <div
+      id="give-view"
+      className={`${isMediumScreen ? "medium" : ""}
+      ${isSmallScreen ? "smaller" : ""}}`}
     >
-      <Box className={isSmallScreen ? "subnav-paper mobile" : "subnav-paper"}>
-        <GiveHeader
-          isSmallScreen={isSmallScreen}
-          isVerySmallScreen={false}
-          totalDebt={new BigNumber(totalDebt)}
-          networkId={networkId}
-        />
-        <div
-          id="give-view"
-          className={`${isMediumScreen && "medium"}
-          ${isSmallScreen && "smaller"}`}
-        >
-          <Zoom in={true}>
-            <Box className={`ohm-card secondary causes-container`}>
-              {!isSupportedChain(networkId) ? (
-                <Typography variant="h6">
-                  Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
-                  functionality.
-                </Typography>
-              ) : (
-                <></>
-              )}
-              <div className="causes-body">
-                <Box className="data-grid">{renderProjects}</Box>
-              </div>
-              <div className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="custom-give-button"
-                  onClick={() => handleCustomGiveButtonClick()}
-                  disabled={!address}
-                >
-                  <Typography variant="h6" style={{ marginBottom: "0px" }}>
-                    <Trans>Custom Recipient</Trans>
-                  </Typography>
-                </Button>
-              </div>
-              <RecipientModal
-                isModalOpen={isCustomGiveModalOpen}
-                callbackFunc={handleCustomGiveModalSubmit}
-                cancelFunc={handleCustomGiveModalCancel}
-              />
-            </Box>
-          </Zoom>
-          <Zoom in={true}>
-            <GiveInfo />
-          </Zoom>
-        </div>
-      </Box>
-    </Container>
+      <Zoom in={true}>
+        <Box className={`ohm-card secondary causes-container`}>
+          {!isSupportedChain(networkId) ? (
+            <Typography variant="h6">
+              Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
+              functionality.
+            </Typography>
+          ) : (
+            <></>
+          )}
+          <div className="causes-body">
+            <Box className="data-grid">{renderProjects}</Box>
+          </div>
+          <Paper
+            className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}
+            style={{ borderRadius: "10px" }}
+          >
+            <Typography variant="h4" align="center" className="custom-recipient-headline">
+              Want to give to a different cause?
+            </Typography>
+            <Typography
+              variant="body1"
+              align="center"
+              className="custom-recipient-body"
+              style={{ marginBottom: "30px" }}
+            >
+              You can direct your yield to a recipient of your choice
+            </Typography>
+            <Button
+              variant="outlined"
+              color="primary"
+              className="custom-give-button"
+              onClick={() => handleCustomGiveButtonClick()}
+              disabled={!address}
+            >
+              <Typography variant="body1" style={{ marginBottom: "0px" }}>
+                <Trans>Custom Recipient</Trans>
+              </Typography>
+            </Button>
+          </Paper>
+          <RecipientModal
+            isModalOpen={isCustomGiveModalOpen}
+            eventSource="Custom Recipient Button"
+            callbackFunc={handleCustomGiveModalSubmit}
+            cancelFunc={handleCustomGiveModalCancel}
+          />
+        </Box>
+      </Zoom>
+    </div>
   );
 }
