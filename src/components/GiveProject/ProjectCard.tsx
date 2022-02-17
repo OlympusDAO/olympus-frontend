@@ -5,6 +5,7 @@ import {
   Grid,
   LinearProgress,
   Link,
+  Paper as MuiPaper,
   SvgIcon,
   Tooltip,
   Typography,
@@ -669,7 +670,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     paddingLeft: "1rem",
                   }}
                 >
-                  <Paper className="project-sidebar">
+                  <MuiPaper className="project-sidebar">
                     <Grid container className="project-intro" justifyContent="space-between">
                       <Grid item className="project-title">
                         <Link href={"#/give"}>
@@ -716,9 +717,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         {renderCountdownDetailed()}
                       </Grid>
                     </Grid>
-                  </Paper>
+                  </MuiPaper>
                   {isUserDonating ? (
-                    <Paper className="project-sidebar">
+                    <MuiPaper className="project-sidebar">
                       <div className="project-sidebar-header">
                         <Typography variant="h5">
                           <strong>
@@ -760,7 +761,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                           </PrimaryButton>
                         </div>
                       </div>
-                    </Paper>
+                    </MuiPaper>
                   ) : (
                     <></>
                   )}
