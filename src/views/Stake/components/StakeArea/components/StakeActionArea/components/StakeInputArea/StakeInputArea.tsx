@@ -9,7 +9,8 @@ import { useBalance } from "src/hooks/useBalance";
 import { NetworkId } from "src/networkDetails";
 
 import { GOHMConversion } from "./components/GOHMConversion";
-import { useStakeMutation } from "./hooks/useStakeMutation";
+import { useStakeToken } from "./hooks/useStakeToken";
+import { useUnstakeToken } from "./hooks/useUnstakeToken";
 
 const useStyles = makeStyles<Theme>(theme => ({
   inputRow: {
@@ -55,12 +56,15 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const setMax = () => balance && setAmount(formatUnits(balance[NetworkId.MAINNET], fromToken === "gOHM" ? 18 : 9));
 
   // Staking mutation stuff
-  const stakeMutation = useStakeMutation(currentAction, stakedAssetType);
+  const stakeMutation = useStakeToken(stakedAssetType);
+  const unstakeMutation = useUnstakeToken(stakedAssetType);
   const handleSubmit = (event: React.FormEvent<StakeFormElement>) => {
     event.preventDefault();
     const amount = event.currentTarget.elements["amount-input"].value;
-    stakeMutation.mutate(amount);
+    (currentAction === "STAKE" ? stakeMutation : unstakeMutation).mutate(amount);
   };
+
+  const isMutating = (currentAction === "STAKE" ? stakeMutation : unstakeMutation).isLoading;
 
   return (
     <Box className="stake-action-area">
@@ -94,26 +98,26 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                   name="amount-input"
                   className={classes.input}
                   endStringOnClick={setMax}
-                  disabled={stakeMutation.isLoading}
                   label={t`Enter an amount of` + ` ${fromToken}`}
                   onChange={event => setAmount(event.target.value)}
+                  disabled={isMutating}
                 />
               </Grid>
 
               <Grid item xs={12} sm={4} className={classes.gridItem}>
                 <Box sx={{ marginTop: { xs: 1, sm: 0 } }}>
-                  <PrimaryButton fullWidth type="submit" className={classes.button} disabled={stakeMutation.isLoading}>
+                  <PrimaryButton fullWidth type="submit" className={classes.button} disabled={isMutating}>
                     {currentAction === "STAKE"
-                      ? stakeMutation.isLoading
+                      ? isMutating
                         ? "Staking to "
                         : "Stake to "
-                      : stakeMutation.isLoading
+                      : isMutating
                       ? "Unstaking "
                       : "Unstake "}
 
                     {stakedAssetType}
 
-                    {stakeMutation.isLoading ? "..." : ""}
+                    {isMutating ? "..." : ""}
                   </PrimaryButton>
                 </Box>
               </Grid>
@@ -130,6 +134,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
             <Grid item>
               <Switch
                 color="primary"
+                disabled={isMutating}
                 className="stake-to-ohm-checkbox"
                 checked={stakedAssetType === "gOHM"}
                 inputProps={{ "aria-label": "stake to gohm" }}

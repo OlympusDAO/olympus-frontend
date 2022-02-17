@@ -15,18 +15,14 @@ import {
   V1_SOHM_ADDRESSES,
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
-import { queryAssertion } from "src/helpers";
+import { nonNullable, queryAssertion } from "src/helpers";
 import { IERC20 } from "src/typechain";
 
 import { useWeb3Context } from ".";
 import { useMultipleContracts, useStaticFuseContract } from "./useContract";
 
-export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, networkId?: NetworkId) => [
-  "useBalance",
-  address,
-  tokenAddressMap,
-  networkId,
-];
+export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, networkId?: NetworkId) =>
+  ["useBalance", address, tokenAddressMap, networkId].filter(nonNullable);
 
 /**
  * Returns a balance.
