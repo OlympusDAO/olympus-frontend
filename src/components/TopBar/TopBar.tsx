@@ -48,7 +48,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
     const label = connected ? t`Wallet` : t`Connect Wallet`;
     const theme = useTheme();
     return (
-      <Button id="ohm-menu-button" variant="contained" color="secondary" {...props}>
+      <Button id="ohm-menu-button" variant="contained" color="secondary" {...props} onClick={onClick}>
         <SvgIcon component={WalletIcon} style={{ marginRight: theme.spacing(1) }} />
         <Typography>{label}</Typography>
       </Button>
