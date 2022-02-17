@@ -13,16 +13,16 @@ import {
   useSohmBalance,
   useV1SohmBalance,
   useWsohmBalance,
-} from "src/hooks/useBalances";
+} from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 
 const DECIMAL_PLACES_SHOWN = 4;
 
-const hasVisibleBalance = (balance?: BigNumber, units: BigNumberish = 18) => {
+const hasVisibleBalance = (balance?: BigNumber, units: BigNumberish = 9) => {
   return balance && parseBigNumber(balance, units) > 9 / Math.pow(10, DECIMAL_PLACES_SHOWN + 1);
 };
 
-const formatBalance = (balance?: BigNumber, units: BigNumberish = 18) => {
+const formatBalance = (balance?: BigNumber, units: BigNumberish = 9) => {
   return balance && formatNumber(parseBigNumber(balance, units), DECIMAL_PLACES_SHOWN);
 };
 
@@ -55,7 +55,7 @@ export const StakeBalances = () => {
       return res.add(convertGohmToOhm(bal, currentIndex));
     }, BigNumber.from(0));
 
-  const totalStakedBalance = formatBalance(totalSohmBalance.mul(10 ** 9).add(totalGohmBalanceAsSohm.div(10 ** 9)), 27);
+  const totalStakedBalance = formatBalance(totalSohmBalance.mul(10 ** 9).add(totalGohmBalanceAsSohm), 18);
 
   const allBalancesLoaded =
     !!ohmBalance &&
@@ -91,58 +91,58 @@ export const StakeBalances = () => {
             title={t`sOHM`}
             id="user-staked-balance"
             isLoading={!sohmBalance}
-            balance={`${formatBalance(sohmBalance?.[NetworkId.MAINNET], 18)} sOHM`}
+            balance={`${formatBalance(sohmBalance?.[NetworkId.MAINNET])} sOHM`}
           />
 
           <DataRow
             indented
             title={t`gOHM`}
             isLoading={!gohmBalance}
-            balance={`${formatBalance(gohmBalance?.[NetworkId.MAINNET], 36)} gOHM`}
+            balance={`${formatBalance(gohmBalance?.[NetworkId.MAINNET], 18)} gOHM`}
           />
 
-          {hasVisibleBalance(gohmBalance?.[NetworkId.ARBITRUM], 36) && (
+          {hasVisibleBalance(gohmBalance?.[NetworkId.ARBITRUM], 18) && (
             <DataRow
               indented
               isLoading={!gohmBalance}
               title={t`gOHM (Arbitrum)`}
-              balance={`${formatBalance(gohmBalance?.[NetworkId.ARBITRUM], 36)} gOHM`}
+              balance={`${formatBalance(gohmBalance?.[NetworkId.ARBITRUM], 18)} gOHM`}
             />
           )}
 
-          {hasVisibleBalance(gohmBalance?.[NetworkId.AVALANCHE], 36) && (
+          {hasVisibleBalance(gohmBalance?.[NetworkId.AVALANCHE], 18) && (
             <DataRow
               indented
               isLoading={!gohmBalance}
               title={t`gOHM (Avalanche)`}
-              balance={`${formatBalance(gohmBalance?.[NetworkId.AVALANCHE], 36)} gOHM`}
+              balance={`${formatBalance(gohmBalance?.[NetworkId.AVALANCHE], 18)} gOHM`}
             />
           )}
 
-          {hasVisibleBalance(gohmBalance?.[NetworkId.POLYGON], 36) && (
+          {hasVisibleBalance(gohmBalance?.[NetworkId.POLYGON], 18) && (
             <DataRow
               indented
               isLoading={!gohmBalance}
               title={t`gOHM (Polygon)`}
-              balance={`${formatBalance(gohmBalance?.[NetworkId.POLYGON], 36)} gOHM`}
+              balance={`${formatBalance(gohmBalance?.[NetworkId.POLYGON], 18)} gOHM`}
             />
           )}
 
-          {hasVisibleBalance(gohmBalance?.[NetworkId.FANTOM], 36) && (
+          {hasVisibleBalance(gohmBalance?.[NetworkId.FANTOM], 18) && (
             <DataRow
               indented
               title={t`gOHM (Fantom)`}
               isLoading={!gohmBalance}
-              balance={`${formatBalance(gohmBalance?.[NetworkId.FANTOM], 36)} gOHM`}
+              balance={`${formatBalance(gohmBalance?.[NetworkId.FANTOM], 18)} gOHM`}
             />
           )}
 
-          {hasVisibleBalance(gohmTokemakBalance?.[NetworkId.MAINNET], 36) && (
+          {hasVisibleBalance(gohmTokemakBalance?.[NetworkId.MAINNET], 18) && (
             <DataRow
               indented
               title={t`gOHM (Tokemak)`}
               isLoading={!gohmTokemakBalance}
-              balance={`${formatBalance(gohmTokemakBalance?.[NetworkId.MAINNET], 36)} gOHM`}
+              balance={`${formatBalance(gohmTokemakBalance?.[NetworkId.MAINNET], 18)} gOHM`}
             />
           )}
 
@@ -155,39 +155,39 @@ export const StakeBalances = () => {
             />
           )}
 
-          {hasVisibleBalance(v1sohmBalance?.[NetworkId.MAINNET], 18) && (
+          {hasVisibleBalance(v1sohmBalance?.[NetworkId.MAINNET]) && (
             <DataRow
               indented
               isLoading={!v1sohmBalance}
               title={t`sOHM (v1)`}
-              balance={`${formatBalance(v1sohmBalance?.[NetworkId.MAINNET], 18)} sOHM`}
+              balance={`${formatBalance(v1sohmBalance?.[NetworkId.MAINNET])} sOHM`}
             />
           )}
 
-          {hasVisibleBalance(wsohmBalance?.[NetworkId.MAINNET], 36) && (
+          {hasVisibleBalance(wsohmBalance?.[NetworkId.MAINNET], 18) && (
             <DataRow
               indented
               title={t`wsOHM`}
               isLoading={!wsohmBalance}
-              balance={`${formatBalance(wsohmBalance?.[NetworkId.MAINNET], 36)} wsOHM`}
+              balance={`${formatBalance(wsohmBalance?.[NetworkId.MAINNET], 18)} wsOHM`}
             />
           )}
 
-          {hasVisibleBalance(wsohmBalance?.[NetworkId.ARBITRUM], 36) && (
+          {hasVisibleBalance(wsohmBalance?.[NetworkId.ARBITRUM], 18) && (
             <DataRow
               indented
               isLoading={!wsohmBalance}
               title={t`wsOHM (Arbitrum)`}
-              balance={`${formatBalance(wsohmBalance?.[NetworkId.ARBITRUM], 36)} wsOHM`}
+              balance={`${formatBalance(wsohmBalance?.[NetworkId.ARBITRUM], 18)} wsOHM`}
             />
           )}
 
-          {hasVisibleBalance(wsohmBalance?.[NetworkId.AVALANCHE], 36) && (
+          {hasVisibleBalance(wsohmBalance?.[NetworkId.AVALANCHE], 18) && (
             <DataRow
               indented
               isLoading={!wsohmBalance}
               title={t`wsOHM (Avalanche)`}
-              balance={`${formatBalance(wsohmBalance?.[NetworkId.AVALANCHE], 36)} wsOHM`}
+              balance={`${formatBalance(wsohmBalance?.[NetworkId.AVALANCHE], 18)} wsOHM`}
             />
           )}
         </AccordionDetails>

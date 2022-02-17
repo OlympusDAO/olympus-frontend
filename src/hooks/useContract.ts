@@ -11,14 +11,14 @@ import { NetworkId } from "src/networkDetails";
 import { FuseProxy, IERC20, OlympusStakingv2, PairContract, SOhmv2 } from "src/typechain";
 
 import { useWeb3Context } from ".";
-import { useStaticProvider } from "./useStaticProvider";
+import { useStaticProvider, useStaticProviders } from "./useStaticProvider";
 
 /**
  * Hook for fetching a contract.
  *
  * @param address Contract address
  * @param ABI The contract interface
- * @param providerOrSigner Static provider/signer to be used by the contract
+ * @param providerOrSigner Provider/signer to be used by the contract
  */
 export function useContract<TContract extends Contract = Contract>(
   addressOrAddressMap: string,
@@ -74,6 +74,23 @@ const createDynamicContract = <TContract extends Contract = Contract>(ABI: Contr
 
     return useContract<TContract>(addressMap, ABI, asSigner && connected ? provider.getSigner() : provider);
   };
+};
+
+/**
+ * Hook that returns a contract for every network in an address map
+ */
+export const useMultipleContracts = <TContract extends Contract = Contract>(
+  addressMap: AddressMap,
+  ABI: ContractInterface,
+) => {
+  const networks = useMemo(() => Object.keys(addressMap).map(Number), [addressMap]);
+  const providers = useStaticProviders(networks);
+
+  return useMemo(() => {
+    return Object.values(addressMap).map((address, index) => {
+      return new Contract(address, ABI, providers[index]) as TContract;
+    });
+  }, [addressMap, ABI, providers]);
 };
 
 export const useStaticSohmContract = createStaticContract<SOhmv2>(SOHM_ABI);

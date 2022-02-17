@@ -1,4 +1,4 @@
-import { useBalance } from "src/hooks/useBalances";
+import { useBalance } from "src/hooks/useBalance";
 import { ExternalPool } from "src/lib/ExternalPool";
 
 export const useStakePoolBalance = (pool: ExternalPool) => {

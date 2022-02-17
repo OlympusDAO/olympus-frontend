@@ -5,7 +5,7 @@ import { formatUnits } from "ethers/lib/utils";
 import React, { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
-import { useBalance } from "src/hooks/useBalances";
+import { useBalance } from "src/hooks/useBalance";
 import { NetworkId } from "src/networkDetails";
 
 import { GOHMConversion } from "./components/GOHMConversion";
@@ -52,7 +52,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const [amount, setAmount] = useState("");
   const addresses = fromToken === "OHM" ? OHM_ADDRESSES : fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
   const { data: balance } = useBalance(addresses);
-  const setMax = () => balance && setAmount(formatUnits(balance[NetworkId.MAINNET], fromToken === "gOHM" ? 36 : 18));
+  const setMax = () => balance && setAmount(formatUnits(balance[NetworkId.MAINNET], fromToken === "gOHM" ? 18 : 9));
 
   // Staking mutation stuff
   const stakeMutation = useStakeMutation(currentAction, stakedAssetType);

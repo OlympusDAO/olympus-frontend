@@ -13,7 +13,7 @@ export const GOHMConversion: React.FC<{ amount: string; action: "STAKE" | "UNSTA
   // We only ever care about the first 9 decimals to prevent underflow errors
   const _amount = decimals ? `${integer}.${decimals.substring(0, 9)}` : integer;
 
-  const amountInGohm = (amount: string) => formatUnits(convertOhmToGohm(parseUnits(amount, 9), currentIndex), 9);
+  const amountInGohm = (amount: string) => formatUnits(convertOhmToGohm(parseUnits(amount), currentIndex));
   const amountInSohm = (amount: string) => formatUnits(convertGohmToOhm(parseUnits(amount, 18), currentIndex), 18);
 
   return (

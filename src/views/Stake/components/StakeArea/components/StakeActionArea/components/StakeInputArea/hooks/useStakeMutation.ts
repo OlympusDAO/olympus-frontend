@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { useWeb3Context } from "src/hooks";
-import { balancesQueryKey, useBalance } from "src/hooks/useBalances";
+import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
 import { NetworkId } from "src/networkDetails";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
@@ -31,12 +31,7 @@ export const useStakeMutation = (action: "STAKE" | "UNSTAKE", stakedAssetType: "
 
       if (!balances) throw new Error(t`Please refresh your page and try again`);
 
-      const balance = balances[NetworkId.MAINNET];
-
-      const decimalNormalizedAmount = parsedAmount.mul(10 ** 9);
-      const decimalNormalizedBalance = fromToken === "gOHM" ? balance.div(10 ** 9) : balance;
-
-      if (decimalNormalizedAmount.gt(decimalNormalizedBalance))
+      if (parsedAmount.gt(balances[NetworkId.MAINNET]))
         throw new Error(t`You cannot ${action === "STAKE" ? "stake" : "unstake"} more than your ${fromToken} balance`);
 
       if (!contract)
@@ -60,7 +55,7 @@ export const useStakeMutation = (action: "STAKE" | "UNSTAKE", stakedAssetType: "
       onError: error => void dispatch(createErrorToast(error.message)),
       onSuccess: () => {
         dispatch(createInfoToast(`Successfully ${action === "STAKE" ? "staked OHM" : `unstaked ${fromToken}`}`));
-        client.refetchQueries(balancesQueryKey());
+        client.refetchQueries(balanceQueryKey());
       },
     },
   );
