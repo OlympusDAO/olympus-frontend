@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, Button, Link, Typography, useTheme } from "@material-ui/core";
+import { Box, Button, Link, Typography } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import { NavLink, useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
@@ -14,7 +14,6 @@ type GiveHeaderProps = {
 
 export function GiveHeader({ isSmallScreen, isVerySmallScreen, totalDebt, networkId }: GiveHeaderProps) {
   const location = useLocation();
-  const theme = useTheme();
   const isDonationsTabActive = location.pathname.replace("/", "") == "give/donations";
   const isGiveTabActive =
     location.pathname.replace("/", "") == "give" || location.pathname.replace("/", "").includes("give/projects");
