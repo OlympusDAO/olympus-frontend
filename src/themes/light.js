@@ -45,7 +45,11 @@ export const light = responsiveFontSizes(
         main: lightTheme.color,
       },
       colors: {
-        paper: "linear-gradient(237.43deg, #2B313D -12.81%, #171A20 132.72%)",
+        paper: {
+          background: "linear-gradient(237.43deg, #2B313D -12.81%, #171A20 132.72%)",
+          card: "#1D2026",
+          cardHover: "#343C49",
+        },
         feedback: "#49A1F2",
         gray: {
           700: "#181A1D",

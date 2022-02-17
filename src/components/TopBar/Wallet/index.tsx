@@ -1,14 +1,14 @@
 import { t } from "@lingui/macro";
 import { Box, Button, SvgIcon, SwipeableDrawer, Typography, useTheme, withStyles } from "@material-ui/core";
+import { TabBar } from "@olympusdao/component-library";
 //import { InfoCard } from "@olympusdao/component-library";
 import { useState } from "react";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { useWeb3Context } from "src/hooks/web3Context";
 
 import Calculator from "./Calculator";
+import InitialWalletView from "./InitialWalletView";
 import { ActiveProposals } from "./queries";
-
-//mport InitialWalletView from "./InitialWalletView";
 
 const WalletButton = ({ openWallet }: { openWallet: () => void }) => {
   const { connect, connected } = useWeb3Context();
@@ -30,11 +30,11 @@ const StyledSwipeableDrawer = withStyles(theme => ({
   },
   paper: {
     maxWidth: "100%",
-    background: theme.colors.paper,
+    background: theme.colors.paper.background,
   },
 }))(SwipeableDrawer);
 
-export function Wallet() {
+export function Wallet(props: { open?: boolean; component?: string }) {
   const { data, isLoading, isFetched } = ActiveProposals();
   //const { data: mediumArticles, isFetched: mediumIsFetched } = MediumArticles();
   const [isWalletOpen, setWalletOpen] = useState(false);
@@ -49,20 +49,39 @@ export function Wallet() {
   const truncate = (str: string) => {
     return str.length > 200 ? str.substring(0, 197) + "..." : str;
   };
+
+  const RenderComponent = (props: { component?: string }) => {
+    switch (props.component) {
+      case "calculator":
+        return <Calculator />;
+      default:
+        return <InitialWalletView onClose={closeWallet} />;
+    }
+  };
+
   return (
     <>
-      <WalletButton openWallet={openWallet} />
+      {/* <WalletButton openWallet={openWallet} /> */}
       <StyledSwipeableDrawer
         disableBackdropTransition={!isIOS}
         disableDiscovery={isIOS}
         anchor="right"
-        open={isWalletOpen}
+        open={props.open ? true : false}
         onOpen={openWallet}
         onClose={closeWallet}
       >
         {/* <InitialWalletView onClose={closeWallet} /> */}
         <Box p="30px 15px">
-          <Calculator />
+          <TabBar
+            items={[
+              { label: "Wallet", to: "/wallet" },
+              { label: "Get OHM", to: "/get" },
+              { label: "Calculator", to: "/calculator" },
+              { label: "Info", to: "info" },
+            ]}
+            mb={"18px"}
+          />
+          <RenderComponent component={props.component} />
           {/* {isFetched &&
             data.proposals.map((proposal: any) => {
               const max = Math.max(...proposal.scores);
