@@ -54,7 +54,6 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
       </Button>
     );
   };
-  console.log(connected);
   return (
     <AppBar position="sticky" className={classes.appBar} elevation={0}>
       <Toolbar disableGutters className="dapp-topbar">
