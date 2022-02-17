@@ -94,14 +94,19 @@ const Calculator: FC<OHMCalculatorProps> = () => {
   const [duration, setDuration] = useState(365);
   const [multiplier, setMultiplier] = useState(1);
   const [futureOhmPrice, setFutureOhmPrice] = useState(0);
-  const [currentOhmPrice, setCurrentOhmPrice] = useState(0);
-  const [rebaseRate, setRebaseRate] = useState(0);
+  const [manualOhmPrice, setManualOhmPrice] = useState(0);
+  const [manualRebaseRate, setManualRebaseRate] = useState(0);
   const [advanced, setAdvanced] = useState(false);
   const classes = useStyles();
   const rebases = duration * 3;
   const { data: ohmPrice = 0 } = useOhmPrice();
   const { data: runwayData = [{ runwayCurrent: 0 }] } = useTreasuryMetrics({ refetchOnMount: false });
   const runway = trim(runwayData[0].runwayCurrent, 2);
+
+  //If values are set on the Advanced view.
+  const currentOhmPrice = advanced ? manualOhmPrice : ohmPrice;
+  const rebaseRate = advanced ? manualRebaseRate : +trim(currentRebaseRate, 7);
+
   const predictedOhmPrice = futureOhmPrice > 0 ? futureOhmPrice : currentOhmPrice * multiplier;
   const amountOfOhmPurchased = initialInvestment / currentOhmPrice;
   const totalsOHM = (1 + rebaseRate) ** rebases * amountOfOhmPurchased;
@@ -111,9 +116,12 @@ const Calculator: FC<OHMCalculatorProps> = () => {
   const breakEvenPrice = initialInvestment / totalsOHM;
 
   useEffect(() => {
-    setRebaseRate(+trim(currentRebaseRate, 8));
-    setCurrentOhmPrice(+trim(ohmPrice, 2));
-  }, [currentRebaseRate, ohmPrice]);
+    setManualRebaseRate(+trim(currentRebaseRate, 7));
+  }, [currentRebaseRate]);
+
+  useEffect(() => {
+    setManualOhmPrice(+trim(ohmPrice, 2));
+  }, [ohmPrice]);
   //Solving for duration (rebases/3) aka breakeven days
   const breakevenDays =
     (Math.log(totalsOHM / (initialInvestment / futureOhmPrice)) / Math.log(1 + rebaseRate) / 3 - duration) * -1;
@@ -175,6 +183,14 @@ const Calculator: FC<OHMCalculatorProps> = () => {
     </RadioGroup>
   );
 
+  const durations = [
+    { days: 365, label: "12 months" },
+    { days: 180, label: "6 m" },
+    { days: 90, label: "3 m" },
+    { days: 60, label: "2 m" },
+    { days: 30, label: "1 m" },
+  ];
+
   return (
     <Box>
       <Box display="flex" flexDirection="column" mb="21px">
@@ -225,7 +241,7 @@ const Calculator: FC<OHMCalculatorProps> = () => {
                   id="purchaseAmount"
                   label="OHM Purchase Price"
                   value={currentOhmPrice}
-                  onChange={e => setCurrentOhmPrice(Number(e.target.value))}
+                  onChange={e => setManualOhmPrice(Number(e.target.value))}
                 />
               </Box>
             </Grid>
@@ -233,8 +249,8 @@ const Calculator: FC<OHMCalculatorProps> = () => {
               <Input
                 id="rebaseRate"
                 label="Rebase Rate"
-                value={rebaseRate ? rebaseRate * 100 : ""}
-                onChange={e => setRebaseRate(Number(e.target.value) / 100)}
+                value={rebaseRate * 100}
+                onChange={e => setManualRebaseRate(Number(e.target.value) / 100)}
                 type="number"
                 endString="%"
               />
@@ -283,21 +299,11 @@ const Calculator: FC<OHMCalculatorProps> = () => {
             className={classes.selector}
             justifyContent="center"
           >
-            <Typography className={duration === 365 ? "active" : ""} onClick={() => setDuration(365)}>
-              12 months
-            </Typography>
-            <Typography className={duration === 180 ? "active" : ""} onClick={() => setDuration(180)}>
-              6m
-            </Typography>
-            <Typography className={duration === 90 ? "active" : ""} onClick={() => setDuration(90)}>
-              3m
-            </Typography>
-            <Typography className={duration === 60 ? "active" : ""} onClick={() => setDuration(60)}>
-              2m
-            </Typography>
-            <Typography className={duration === 30 ? "active" : ""} onClick={() => setDuration(30)}>
-              1m
-            </Typography>
+            {durations.map(dur => (
+              <Typography className={duration === dur.days ? "active" : ""} onClick={() => setDuration(dur.days)}>
+                {dur.label}
+              </Typography>
+            ))}
           </Box>
         </>
       )}
