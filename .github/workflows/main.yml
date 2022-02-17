@@ -21,8 +21,9 @@ jobs:
       - name: Run unit tests
         run: |
           yarn test:unit
-
-          # save coverage values as environment variables %
+      - name: Prepare coverage badges
+        run: |
+          echo "$(cat coverage/coverage-summary.json)"
           echo "COVERAGE_BRANCHES_PCT=$(echo ${jq .total.branches.pct coverage/coverage-summary.json})" >> $GITHUB_ENV
           echo "COVERAGE_LINES_PCT=$(echo ${jq .total.lines.pct coverage/coverage-summary.json})" >> $GITHUB_ENV
           echo "COVERAGE_STATEMENTS_PCT=$(echo ${jq .total.statements.pct coverage/coverage-summary.json})" >> $GITHUB_ENV
