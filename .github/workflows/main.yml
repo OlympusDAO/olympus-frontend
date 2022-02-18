@@ -21,12 +21,12 @@ jobs:
       - name: Run unit tests
         run: |
           yarn test:unit
-
-          # save coverage values as environment variables %
-          echo "COVERAGE_BRANCHES_PCT=$(echo ${jq .total.branches.pct coverage/coverage-summary.json})" >> $GITHUB_ENV
-          echo "COVERAGE_LINES_PCT=$(echo ${jq .total.lines.pct coverage/coverage-summary.json})" >> $GITHUB_ENV
-          echo "COVERAGE_STATEMENTS_PCT=$(echo ${jq .total.statements.pct coverage/coverage-summary.json})" >> $GITHUB_ENV
-          echo "COVERAGE_FUNCTIONS_PCT=$(echo ${jq .total.functions.pct coverage/coverage-summary.json})" >> $GITHUB_ENV
+      - name: Prepare coverage badges
+        run: |
+          echo "COVERAGE_BRANCHES_PCT=$(echo $(jq .total.branches.pct coverage/coverage-summary.json))" >> $GITHUB_ENV
+          echo "COVERAGE_LINES_PCT=$(echo $(jq .total.lines.pct coverage/coverage-summary.json))" >> $GITHUB_ENV
+          echo "COVERAGE_STATEMENTS_PCT=$(echo $(jq .total.statements.pct coverage/coverage-summary.json))" >> $GITHUB_ENV
+          echo "COVERAGE_FUNCTIONS_PCT=$(echo $(jq .total.functions.pct coverage/coverage-summary.json))" >> $GITHUB_ENV
 
           # get branch name
           REF=${{ github.ref }}
@@ -41,7 +41,7 @@ jobs:
           gistID: d630a3bd1cf13bb3dc3c1925df28efcd
           filename: olympus-frontend__coverage__branches__${{ env.BRANCH }}.json
           label: Branches Coverage
-          message: ${{ env.COVERAGE_LINES_PCT}} %
+          message: ${{ env.COVERAGE_LINES_PCT}}%
           color: blue
           namedLogo: jest
           logoColor: lightblue
@@ -52,7 +52,7 @@ jobs:
           gistID: d630a3bd1cf13bb3dc3c1925df28efcd
           filename: olympus-frontend__coverage__lines__${{ env.BRANCH }}.json
           label: Lines Coverage
-          message: ${{ env.COVERAGE_LINES_PCT}} %
+          message: ${{ env.COVERAGE_LINES_PCT}}%
           color: blue
           namedLogo: jest
           logoColor: lightblue
@@ -63,7 +63,7 @@ jobs:
           gistID: d630a3bd1cf13bb3dc3c1925df28efcd
           filename: olympus-frontend__coverage__statements__${{ env.BRANCH }}.json
           label: Statements Coverage
-          message: ${{ env.COVERAGE_LINES_PCT}} %
+          message: ${{ env.COVERAGE_LINES_PCT}}%
           color: blue
           namedLogo: jest
           logoColor: lightblue
@@ -74,7 +74,7 @@ jobs:
           gistID: d630a3bd1cf13bb3dc3c1925df28efcd
           filename: olympus-frontend__coverage__functions__${{ env.BRANCH }}.json
           label: Functions Coverage
-          message: ${{ env.COVERAGE_LINES_PCT}} %
+          message: ${{ env.COVERAGE_LINES_PCT}}%
           color: blue
           namedLogo: jest
           logoColor: lightblue
