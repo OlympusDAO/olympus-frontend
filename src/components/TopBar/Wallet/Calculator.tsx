@@ -235,6 +235,7 @@ const Calculator: FC<OHMCalculatorProps> = () => {
                 value={amountOfOhmPurchased ? +trim(amountOfOhmPurchased, 4) : ""}
                 onChange={e => setInitialInvestment(Number(e.target.value) * currentOhmPrice)}
                 type="number"
+                inputProps={{ inputMode: "numeric" }}
               />
               <Box mt="9px">
                 <Input
@@ -242,6 +243,7 @@ const Calculator: FC<OHMCalculatorProps> = () => {
                   label="OHM Purchase Price"
                   value={currentOhmPrice}
                   onChange={e => setManualOhmPrice(Number(e.target.value))}
+                  inputProps={{ inputMode: "numeric" }}
                 />
               </Box>
             </Grid>
@@ -253,6 +255,7 @@ const Calculator: FC<OHMCalculatorProps> = () => {
                 onChange={e => setManualRebaseRate(Number(e.target.value) / 100)}
                 type="number"
                 endString="%"
+                inputProps={{ inputMode: "numeric" }}
               />
               <Box mt="9px">
                 <Input
@@ -261,6 +264,7 @@ const Calculator: FC<OHMCalculatorProps> = () => {
                   value={futureOhmPrice > 0 ? futureOhmPrice : ""}
                   onChange={e => setFutureOhmPrice(Number(e.target.value))}
                   type="number"
+                  inputProps={{ inputMode: "numeric" }}
                 />
               </Box>
             </Grid>

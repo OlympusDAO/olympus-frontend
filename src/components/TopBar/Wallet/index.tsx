@@ -59,7 +59,7 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
         onClose={closeWallet}
       >
         <Box p="30px 15px">
-          <Box display="flex" flexDirection="row" justifyContent="right" alignItems="center" mb={"18px"}>
+          <Box display="flex" flexDirection="row" justifyContent="flex-end" mb={"18px"} textAlign="right">
             <Link to="/stake" component={CloseButton} />
           </Box>
           <TabBar
