@@ -16,7 +16,7 @@ We are moving at web3 speed and we are looking for talented contributors to boos
 
 Required:
 
-- [Node v14](https://nodejs.org/download/release/latest-v14.x/)
+- [Node v16](https://nodejs.org/download/release/latest-v16.x/)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install/)
 - [Git](https://git-scm.com/downloads)
 
