@@ -129,9 +129,7 @@ export default function CausesDashboard() {
               onClick={() => handleCustomGiveButtonClick()}
               disabled={!address}
             >
-              <Typography variant="body1" style={{ marginBottom: "0px" }}>
-                <Trans>Custom Recipient</Trans>
-              </Typography>
+              <Trans>Custom Recipient</Trans>
             </TertiaryButton>
           </div>
           <RecipientModal

@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Grid, Typography, useMediaQuery } from "@material-ui/core";
+import { Box, Grid, useMediaQuery } from "@material-ui/core";
 import { Paper, TertiaryButton } from "@olympusdao/component-library";
 
 import { DepositSohm, LockInVault, ReceivesYield } from "../../components/EducationCard";
@@ -29,9 +29,7 @@ export function GiveInfo() {
             target="_blank"
             className="learn-more-button"
           >
-            <Typography variant="body1">
-              <Trans>Learn More</Trans>
-            </Typography>
+            <Trans>Learn More</Trans>
           </TertiaryButton>
         </Box>
       </Paper>

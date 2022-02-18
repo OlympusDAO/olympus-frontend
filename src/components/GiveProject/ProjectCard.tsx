@@ -568,9 +568,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                       >
                         <PrimaryButton className="cause-give-button">
-                          <Typography variant="h6">
-                            <Trans>View Details</Trans>
-                          </Typography>
+                          <Trans>View Details</Trans>
                         </PrimaryButton>
                       </Link>
                     </Grid>
@@ -616,9 +614,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                       >
                         <PrimaryButton className="cause-give-button">
-                          <Typography variant="h6">
-                            <Trans>View Details</Trans>
-                          </Typography>
+                          <Trans>View Details</Trans>
                         </PrimaryButton>
                       </Link>
                     </Grid>
@@ -698,18 +694,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                                 onClick={() => handleGiveButtonClick()}
                                 disabled={!isSupportedChain(networkId)}
                               >
-                                <Typography variant="h6">
-                                  <Trans>Donate Yield</Trans>
-                                </Typography>
+                                <Trans>Donate Yield</Trans>
                               </PrimaryButton>
                             </div>
                           )
                         ) : (
                           <div className="project-give-button">
                             <PrimaryButton onClick={connect}>
-                              <Typography variant="h6">
-                                <Trans>Connect wallet</Trans>
-                              </Typography>
+                              <Trans>Connect Wallet</Trans>
                             </PrimaryButton>
                           </div>
                         )}
@@ -754,9 +746,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             onClick={() => handleEditButtonClick()}
                             disabled={!isSupportedChain(networkId)}
                           >
-                            <Typography variant="h6">
-                              <Trans>Edit Donation</Trans>
-                            </Typography>
+                            <Trans>Edit Donation</Trans>
                           </PrimaryButton>
                         </div>
                       </div>

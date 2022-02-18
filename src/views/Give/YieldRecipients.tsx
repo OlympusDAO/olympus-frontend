@@ -56,9 +56,7 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
           <Trans>Looks like you haven’t made any donations yet</Trans>
         </Typography>
         <TertiaryButton onClick={() => changeView(0)}>
-          <Typography variant="body1">
-            <Trans>Donate to a cause</Trans>
-          </Typography>
+          <Trans>Donate to a cause</Trans>
         </TertiaryButton>
       </Box>
     );

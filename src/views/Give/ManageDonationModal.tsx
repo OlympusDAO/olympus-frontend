@@ -370,12 +370,10 @@ export function ManageDonationModal({
           <Box className="donation-details">{getDonationDetails()}</Box>
         </div>
         <div className="manage-buttons">
-          <PrimaryButton style={{ marginBottom: "20px", height: "40px" }} onClick={() => setIsEditing(true)}>
-            <Typography variant="h6">Edit Donation</Typography>
+          <PrimaryButton style={{ marginBottom: "20px" }} onClick={() => setIsEditing(true)}>
+            Edit Donation
           </PrimaryButton>
-          <TertiaryButton style={{ height: "40px" }} onClick={() => setIsWithdrawing(true)}>
-            <Typography variant="h6">Stop Donation</Typography>
-          </TertiaryButton>
+          <TertiaryButton onClick={() => setIsWithdrawing(true)}>Stop Donation</TertiaryButton>
         </div>
       </div>
     );
@@ -562,9 +560,7 @@ export function ManageDonationModal({
         </div>
         <div className="manage-buttons">
           <PrimaryButton disabled={!canSubmit()} onClick={() => setIsAmountSet(true)}>
-            <Typography variant="h6">
-              <Trans>Continue</Trans>
-            </Typography>
+            <Trans>Continue</Trans>
           </PrimaryButton>
         </div>
       </div>
@@ -597,13 +593,9 @@ export function ManageDonationModal({
         </div>
         <div className="manage-buttons">
           <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} style={{ marginBottom: "20px" }}>
-            <Typography variant="h6">
-              {txnButtonText(pendingTransactions, PENDING_TXN_WITHDRAW, t`Withdraw`)}
-            </Typography>
+            {txnButtonText(pendingTransactions, PENDING_TXN_WITHDRAW, t`Withdraw`)}
           </PrimaryButton>
-          <TertiaryButton onClick={() => setIsWithdrawing(false)}>
-            <Typography variant="h6">Cancel</Typography>
-          </TertiaryButton>
+          <TertiaryButton onClick={() => setIsWithdrawing(false)}>Cancel</TertiaryButton>
         </div>
       </div>
     );
@@ -635,9 +627,7 @@ export function ManageDonationModal({
         </div>
         <div className="manage-buttons">
           <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit}>
-            <Typography variant="h6">
-              {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Confirm New sOHM`)}
-            </Typography>
+            {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Confirm New sOHM`)}
           </PrimaryButton>
         </div>
       </div>

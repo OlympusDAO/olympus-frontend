@@ -163,8 +163,8 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
           </Typography>
         </TableCell>
         <TableCell align="right" className="deposit-manage-cell">
-          <SecondaryButton onClick={() => setIsManageModalOpen(true)} style={{ width: "100%" }}>
-            <Typography variant="h6">Manage</Typography>
+          <SecondaryButton onClick={() => setIsManageModalOpen(true)} fullWidth>
+            Manage
           </SecondaryButton>
         </TableCell>
       </TableRow>
