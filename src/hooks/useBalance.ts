@@ -51,7 +51,7 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
 /**
  * Returns gOHM balance in Fuse
  */
-export const fuseBalanceQueryKey = (address: string) => ["useFuseBalance", address];
+export const fuseBalanceQueryKey = (address: string) => ["useFuseBalance", address].filter(nonNullable);
 export const useFuseBalance = () => {
   const { address } = useWeb3Context();
   const pool6Contract = useStaticFuseContract(FUSE_POOL_6_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);

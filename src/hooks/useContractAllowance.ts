@@ -2,7 +2,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { AddressMap } from "src/constants/addresses";
-import { queryAssertion } from "src/helpers";
+import { nonNullable, queryAssertion } from "src/helpers";
 
 import { useWeb3Context } from ".";
 import { useDynamicTokenContract } from "./useContract";
@@ -12,7 +12,7 @@ export const contractAllowanceQueryKey = (
   networkId?: NetworkId,
   tokenMap?: AddressMap,
   contractMap?: AddressMap,
-) => ["useContractAllowances", address, networkId, tokenMap, contractMap];
+) => ["useContractAllowances", address, networkId, tokenMap, contractMap].filter(nonNullable);
 
 export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressMap) => {
   const token = useDynamicTokenContract(tokenMap);

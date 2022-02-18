@@ -1,10 +1,10 @@
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
-import { queryAssertion } from "src/helpers";
+import { nonNullable, queryAssertion } from "src/helpers";
 
 import { useWeb3Context } from ".";
 
-export const ensQueryKey = (address?: string) => [address, "useEns"];
+export const ensQueryKey = (address?: string) => ["useEns", address].filter(nonNullable);
 
 export const useEns = () => {
   const { provider, address, networkId } = useWeb3Context();

@@ -2,7 +2,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { OHM_DAI_RESERVE_CONTRACT_DECIMALS, STAKING_CONTRACT_DECIMALS } from "src/constants/decimals";
-import { assert, parseBigNumber, queryAssertion } from "src/helpers";
+import { assert, nonNullable, parseBigNumber, queryAssertion } from "src/helpers";
 import { ohm_dai } from "src/helpers/AllBonds";
 
 import { useStaticPairContract } from "./useContract";
@@ -26,11 +26,8 @@ export const useOhmPrice = () => {
   });
 };
 
-export const gohmPriceQueryKey = (marketPrice?: number, currentIndex?: BigNumber) => [
-  "useGOHMPrice",
-  marketPrice,
-  currentIndex,
-];
+export const gohmPriceQueryKey = (marketPrice?: number, currentIndex?: BigNumber) =>
+  ["useGOHMPrice", marketPrice, currentIndex].filter(nonNullable);
 
 /**
  * Returns the calculated price of gOHM.

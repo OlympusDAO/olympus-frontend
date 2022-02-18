@@ -1,11 +1,11 @@
 import { useQuery } from "react-query";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
-import { createDependentQuery, getTokenPrice, parseBigNumber, queryAssertion } from "src/helpers";
+import { createDependentQuery, getTokenPrice, nonNullable, parseBigNumber, queryAssertion } from "src/helpers";
 import { useStaticPairContract } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { ExternalPool } from "src/lib/ExternalPool";
 
-export const stakePoolTVLQueryKey = (poolAddress: string) => ["useStakePoolTVL", poolAddress];
+export const stakePoolTVLQueryKey = (poolAddress: string) => ["useStakePoolTVL", poolAddress].filter(nonNullable);
 
 export const useStakePoolTVL = (pool: ExternalPool) => {
   const contract = useStaticPairContract(pool.address, pool.networkID);
