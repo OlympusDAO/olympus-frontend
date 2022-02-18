@@ -1,6 +1,6 @@
 import { Box, Grid, RadioGroup, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { DottedDataRow, Input, ProgressCircle, Radio, Slider } from "@olympusdao/component-library";
+import { DottedDataRow, Input, PrimaryButton, ProgressCircle, Radio, Slider } from "@olympusdao/component-library";
 import { FC, useEffect, useState } from "react";
 import { trim } from "src/helpers";
 import { useAppSelector } from "src/hooks";
@@ -71,6 +71,17 @@ const useStyles = makeStyles<Theme>(theme => ({
       marginLeft: "18px",
       color: theme.colors.gray[40],
     },
+  },
+  ctaTitle: {
+    fontWeight: 600,
+    lineHeight: "24px",
+    fontSize: "16px",
+    marginBottom: "6px",
+  },
+  ctaSubtitle: {
+    color: theme.colors.gray[90],
+    fontWeight: 500,
+    lineHeight: "20px",
   },
 }));
 
@@ -328,6 +339,13 @@ const Calculator: FC<OHMCalculatorProps> = () => {
       )}
       <DottedDataRow title="Total sOHM" value={formattedTotalsOHM} bold />
       <DottedDataRow title="Estimated Profits" value={formattedProfits} bold />
+      <Box display="flex" flexDirection="column" textAlign="center" mt="30px">
+        <Typography className={classes.ctaTitle}>Opportunities don't happen 🚀</Typography>
+        <Typography className={classes.ctaSubtitle}>You create them! So, what you are waiting for?</Typography>
+        <Box display="flex" justifyContent="center" mt="4.5px">
+          <PrimaryButton>Get OHM</PrimaryButton>
+        </Box>
+      </Box>
     </Box>
   );
 };
