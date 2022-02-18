@@ -1,5 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { useQueries, useQuery } from "react-query";
+import { useQueries, useQuery, UseQueryResult } from "react-query";
 import { abi as IERC20_ABI } from "src/abi/IERC20.json";
 import { NetworkId } from "src/constants";
 import {
@@ -42,18 +42,9 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
     })),
   );
 
-  return useQuery<Record<keyof typeof tokenAddressMap, BigNumber>, Error>(
-    balanceQueryKey(address, tokenAddressMap),
-    () => {
-      return networkIds.reduce((prev, networkId, index) => {
-        const balance = results[index].data;
-
-        queryAssertion(balance, balanceQueryKey(address, tokenAddressMap, networkId));
-
-        return Object.assign(prev, { [networkId]: balance });
-      }, {} as Record<keyof typeof tokenAddressMap, BigNumber>);
-    },
-    { enabled: results.every(result => !!result.data) },
+  return networkIds.reduce(
+    (prev, networkId, index) => Object.assign(prev, { [networkId]: results[index] }),
+    {} as Record<keyof typeof tokenAddressMap, UseQueryResult<BigNumber>>,
   );
 };
 
@@ -67,23 +58,23 @@ export const useFuseBalance = () => {
   const pool18Contract = useStaticFuseContract(FUSE_POOL_18_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
   const pool36Contract = useStaticFuseContract(FUSE_POOL_36_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
 
-  return useQuery<Record<NetworkId.MAINNET, BigNumber>, Error>(
-    fuseBalanceQueryKey(address),
-    async () => {
-      queryAssertion(address, fuseBalanceQueryKey(address));
+  return {
+    [NetworkId.MAINNET]: useQuery<BigNumber, Error>(
+      fuseBalanceQueryKey(address),
+      async () => {
+        queryAssertion(address, fuseBalanceQueryKey(address));
 
-      const promises = [pool6Contract, pool18Contract, pool36Contract].map(async contract => {
-        return contract.callStatic.balanceOfUnderlying(address);
-      });
+        const promises = [pool6Contract, pool18Contract, pool36Contract].map(async contract => {
+          return contract.callStatic.balanceOfUnderlying(address);
+        });
 
-      const results = await Promise.all(promises);
+        const results = await Promise.all(promises);
 
-      const balance = results.reduce((prev, bal) => prev.add(bal), BigNumber.from(0));
-
-      return { [NetworkId.MAINNET]: balance };
-    },
-    { enabled: !!address },
-  );
+        return results.reduce((prev, bal) => prev.add(bal), BigNumber.from(0));
+      },
+      { enabled: !!address },
+    ),
+  };
 };
 
 export const useOhmBalance = () => useBalance(OHM_ADDRESSES);

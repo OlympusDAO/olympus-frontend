@@ -78,8 +78,10 @@ const StakePool: React.FC<{ pool: ExternalPool }> = props => {
   const theme = useTheme();
   const styles = useStyles();
   const { connected } = useWeb3Context();
-  const { data: userBalance } = useStakePoolBalance(props.pool);
   const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+
+  const userBalances = useStakePoolBalance(props.pool);
+  const userBalance = userBalances[props.pool.networkID].data;
 
   return (
     <Box style={{ gap: theme.spacing(1.5) }} className={styles.stakePoolsWrapper}>
@@ -98,7 +100,7 @@ const StakePool: React.FC<{ pool: ExternalPool }> = props => {
       <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
         {connected ? (
           userBalance ? (
-            `${formatNumber(parseBigNumber(userBalance[props.pool.networkID], 18), 4)} LP`
+            `${formatNumber(parseBigNumber(userBalance, 18), 4)} LP`
           ) : (
             <Skeleton width={80} />
           )
@@ -119,8 +121,10 @@ const StakePool: React.FC<{ pool: ExternalPool }> = props => {
 const MobileStakePool: React.FC<{ pool: ExternalPool }> = props => {
   const styles = useStyles();
   const { connected } = useWeb3Context();
-  const { data: userBalance } = useStakePoolBalance(props.pool);
   const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+
+  const userBalances = useStakePoolBalance(props.pool);
+  const userBalance = userBalances[props.pool.networkID].data;
 
   return (
     <Paper>
@@ -142,7 +146,7 @@ const MobileStakePool: React.FC<{ pool: ExternalPool }> = props => {
         <DataRow
           title={t`Balance`}
           isLoading={!userBalance}
-          balance={userBalance && `${formatNumber(parseBigNumber(userBalance[props.pool.networkID], 18), 4)} LP`}
+          balance={userBalance && `${formatNumber(parseBigNumber(userBalance, 18), 4)} LP`}
         />
       )}
 

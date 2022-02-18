@@ -29,6 +29,7 @@ export const OHM_ADDRESSES = {
 };
 
 export const V1_OHM_ADDRESSES = {
+  [NetworkId.MAINNET]: "0xC0b491daBf3709Ee5Eb79E603D73289Ca6060932",
   [NetworkId.MAINNET]: "0x383518188c0c6d7730d91b2c03a03c837814a899",
 };
 
@@ -38,6 +39,7 @@ export const SOHM_ADDRESSES = {
 };
 
 export const V1_SOHM_ADDRESSES = {
+  [NetworkId.TESTNET_RINKEBY]: "0x1Fecda1dE7b6951B248C0B62CaeBD5BAbedc2084",
   [NetworkId.MAINNET]: "0x04F2694C8fcee23e8Fd0dfEA1d4f5Bb8c352111F",
 };
 

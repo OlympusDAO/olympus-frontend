@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { useBalance } from "src/hooks/useBalance";
-import { NetworkId } from "src/networkDetails";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 
 import { GOHMConversion } from "./components/GOHMConversion";
 import { useStakeToken } from "./hooks/useStakeToken";
@@ -44,6 +44,7 @@ const useStyles = makeStyles<Theme>(theme => ({
 
 export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const classes = useStyles();
+  const networks = useTestableNetworks();
   const [stakedAssetType, setStakedAssetType] = useState<"sOHM" | "gOHM">("sOHM");
   const [currentAction, setCurrentAction] = useState<"STAKE" | "UNSTAKE">("STAKE");
 
@@ -52,19 +53,19 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   // Max balance stuff
   const [amount, setAmount] = useState("");
   const addresses = fromToken === "OHM" ? OHM_ADDRESSES : fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
-  const { data: balance } = useBalance(addresses);
-  const setMax = () => balance && setAmount(formatUnits(balance[NetworkId.MAINNET], fromToken === "gOHM" ? 18 : 9));
+  const balances = useBalance(addresses);
+  const balance = balances[networks.MAINNET].data;
+  const setMax = () => balance && setAmount(formatUnits(balance, fromToken === "gOHM" ? 18 : 9));
 
-  // Staking mutation stuff
+  // Staking/unstaking mutation stuff
   const stakeMutation = useStakeToken(stakedAssetType);
   const unstakeMutation = useUnstakeToken(stakedAssetType);
+  const isMutating = (currentAction === "STAKE" ? stakeMutation : unstakeMutation).isLoading;
   const handleSubmit = (event: React.FormEvent<StakeFormElement>) => {
     event.preventDefault();
     const amount = event.currentTarget.elements["amount-input"].value;
     (currentAction === "STAKE" ? stakeMutation : unstakeMutation).mutate(amount);
   };
-
-  const isMutating = (currentAction === "STAKE" ? stakeMutation : unstakeMutation).isLoading;
 
   return (
     <Box className="stake-action-area">
