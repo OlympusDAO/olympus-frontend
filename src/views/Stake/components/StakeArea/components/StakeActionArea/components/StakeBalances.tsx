@@ -18,13 +18,14 @@ import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 
 const DECIMAL_PLACES_SHOWN = 4;
 
-const hasVisibleBalance = (balance?: BigNumber, units: BigNumberish = 9) => {
-  return balance && parseBigNumber(balance, units) > 9 / Math.pow(10, DECIMAL_PLACES_SHOWN + 1);
-};
+const hasVisibleBalance = (balance?: BigNumber, units: BigNumberish = 9) =>
+  balance && parseBigNumber(balance, units) > 9 / Math.pow(10, DECIMAL_PLACES_SHOWN + 1);
 
-const formatBalance = (balance?: BigNumber, units: BigNumberish = 9) => {
-  return balance && formatNumber(parseBigNumber(balance, units), DECIMAL_PLACES_SHOWN);
-};
+const formatBalance = (balance?: BigNumber, units: BigNumberish = 9) =>
+  balance && formatNumber(parseBigNumber(balance, units), DECIMAL_PLACES_SHOWN);
+
+const sumTokenBalOnAllNetworks = (balances: Partial<Record<NetworkId, BigNumber>>) =>
+  Object.values(balances).reduce((res, bal) => res.add(bal), BigNumber.from(0));
 
 export const StakeBalances = () => {
   const { data: ohmBalance } = useOhmBalance();
@@ -39,23 +40,17 @@ export const StakeBalances = () => {
 
   const totalSohmBalance = [ohmBalance, sohmBalance, v1sohmBalance]
     .filter(nonNullable)
-    .map(map => Object.values(map).reduce((res, bal) => res.add(bal), BigNumber.from(0)))
+    .map(sumTokenBalOnAllNetworks)
     .reduce((res, bal) => res.add(bal), BigNumber.from(0));
 
-  const totalGohmBalanceAsSohm = [gohmBalance, wsohmBalance, gohmFuseBalance, gohmTokemakBalance]
+  const totalGohmBalance = [gohmBalance, wsohmBalance, gohmFuseBalance, gohmTokemakBalance]
     .filter(nonNullable)
-    .map(mapOrBigNumber => {
-      if (mapOrBigNumber instanceof BigNumber) return mapOrBigNumber;
+    .map(sumTokenBalOnAllNetworks)
+    .reduce((res, bal) => res.add(bal), BigNumber.from(0));
 
-      return Object.values(mapOrBigNumber).reduce((res, bal) => res.add(bal), BigNumber.from(0));
-    })
-    .reduce((res, bal) => {
-      if (!currentIndex) return BigNumber.from(0);
-
-      return res.add(convertGohmToOhm(bal, currentIndex));
-    }, BigNumber.from(0));
-
-  const totalStakedBalance = formatBalance(totalSohmBalance.mul(10 ** 9).add(totalGohmBalanceAsSohm), 18);
+  const totalStakedBalance = currentIndex
+    ? formatBalance(totalSohmBalance.mul(10 ** 9).add(convertGohmToOhm(totalGohmBalance, currentIndex)), 18)
+    : BigNumber.from(0);
 
   const allBalancesLoaded =
     !!ohmBalance &&
@@ -146,12 +141,12 @@ export const StakeBalances = () => {
             />
           )}
 
-          {hasVisibleBalance(gohmFuseBalance, 18) && (
+          {hasVisibleBalance(gohmFuseBalance?.[NetworkId.MAINNET], 18) && (
             <DataRow
               indented
               isLoading={!gohmFuseBalance}
               title={t`gOHM (Fuse)`}
-              balance={`${formatBalance(gohmFuseBalance, 18)} gOHM`}
+              balance={`${formatBalance(gohmFuseBalance?.[NetworkId.MAINNET], 18)} gOHM`}
             />
           )}
 

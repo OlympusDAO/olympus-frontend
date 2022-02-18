@@ -67,7 +67,7 @@ export const useFuseBalance = () => {
   const pool18Contract = useStaticFuseContract(FUSE_POOL_18_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
   const pool36Contract = useStaticFuseContract(FUSE_POOL_36_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
 
-  return useQuery<BigNumber, Error>(
+  return useQuery<Record<NetworkId.MAINNET, BigNumber>, Error>(
     fuseBalanceQueryKey(address),
     async () => {
       queryAssertion(address, fuseBalanceQueryKey(address));
@@ -78,7 +78,9 @@ export const useFuseBalance = () => {
 
       const results = await Promise.all(promises);
 
-      return results.reduce((prev, bal) => prev.add(bal), BigNumber.from(0));
+      const balance = results.reduce((prev, bal) => prev.add(bal), BigNumber.from(0));
+
+      return { [NetworkId.MAINNET]: balance };
     },
     { enabled: !!address },
   );
