@@ -314,8 +314,12 @@ const Calculator: FC<OHMCalculatorProps> = () => {
             className={classes.selector}
             justifyContent="center"
           >
-            {durations.map(dur => (
-              <Typography className={duration === dur.days ? "active" : ""} onClick={() => setDuration(dur.days)}>
+            {durations.map((dur, index) => (
+              <Typography
+                key={index}
+                className={duration === dur.days ? "active" : ""}
+                onClick={() => setDuration(dur.days)}
+              >
                 {dur.label}
               </Typography>
             ))}

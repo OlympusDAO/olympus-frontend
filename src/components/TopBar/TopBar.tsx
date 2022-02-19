@@ -44,7 +44,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
   const { connect, connected } = useWeb3Context();
 
   const WalletButton = (props: any) => {
-    const onClick = !connected && connect;
+    const onClick = !connected ? connect : undefined;
     const label = connected ? t`Wallet` : t`Connect Wallet`;
     const theme = useTheme();
     return (
