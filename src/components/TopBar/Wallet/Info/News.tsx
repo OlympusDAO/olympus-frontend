@@ -1,7 +1,7 @@
 import { ArticleCard } from "@olympusdao/component-library";
 import { FC, Key } from "react";
 
-import { MediumArticles } from "./queries";
+import { MediumArticles } from "../queries";
 
 export interface OHMNewsProps {
   path?: string;
@@ -30,18 +30,29 @@ const News: FC<OHMNewsProps> = () => {
   return (
     <>
       {isFetched &&
-        data.items.map((article: any, index: Key | null | undefined) => {
-          return (
-            <ArticleCard
-              title={article.title}
-              imageSrc={article.thumbnail}
-              content={truncate(parseFeedContent(article.content))}
-              href={article.link}
-              publishDate={new Date(article.pubDate).toString()}
-              key={index}
-            />
-          );
-        })}
+        data.items.map(
+          (
+            article: {
+              title: string;
+              thumbnail: string;
+              content: string;
+              link: string | undefined;
+              pubDate: string | number | Date;
+            },
+            index: Key | null | undefined,
+          ) => {
+            return (
+              <ArticleCard
+                title={article.title}
+                imageSrc={article.thumbnail}
+                content={truncate(parseFeedContent(article.content))}
+                href={article.link}
+                publishDate={new Date(article.pubDate).toString()}
+                key={index}
+              />
+            );
+          },
+        )}
     </>
   );
 };

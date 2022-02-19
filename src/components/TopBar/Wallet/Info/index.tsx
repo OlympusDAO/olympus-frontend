@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
 
+import Faq from "./Faq";
 import News from "./News";
 import Proposals from "./Proposals";
 
@@ -36,6 +37,8 @@ const Info: FC<OHMInfoProps> = (props: { path?: string }) => {
         return <News />;
       case "proposals":
         return <Proposals />;
+      case "faq":
+        return <Faq />;
       default:
         return <Proposals />;
     }
