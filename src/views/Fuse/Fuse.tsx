@@ -149,7 +149,6 @@ function AssetRow({
   onClick: (asset: USDPricedFuseAsset, mode: Mode) => void;
 }) {
   const tokenData = useTokenData(asset.underlyingToken);
-  console.log(tokenData);
 
   const supplyAPY = convertMantissaToAPY(asset.supplyRatePerBlock, 365);
   const borrowAPR = convertMantissaToAPY(asset.borrowRatePerBlock, 365);

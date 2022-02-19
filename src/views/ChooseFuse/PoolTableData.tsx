@@ -10,28 +10,28 @@ import { NavLink } from "react-router-dom";
 // import { getEtherscanUrl } from "src/helpers";
 // import { useAppSelector } from "src/hooks";
 import { NetworkId } from "../../constants";
+import { MergedPool } from "../../fuse-sdk/helpers/fetchFusePool";
 // import { DisplayBondDiscount, DisplayBondPrice } from "./BondV2";
-import { FusePoolData } from "../../fuse-sdk/helpers/fetchFusePoolData";
 // import { useTokensData } from "../../fuse-sdk/hooks/useTokenData";
 import { formatCurrency } from "../../helpers";
 
-export function FuseDataCard({ fuse, networkId }: { fuse: FusePoolData; networkId: NetworkId }) {
-  const isFuseLoading = false; //useAppSelector(state => state.bondingV2.loading);
-  const tokens = fuse.assets.map(a => a.underlyingSymbol).filter(Boolean);
+export function PoolDataCard({ pool, networkId }: { pool: MergedPool; networkId: NetworkId }) {
+  const isPoolLoading = false; //useAppSelector(state => state.bondingV2.loading);
+  // const tokens = pool..map(a => a.underlyingSymbol).filter(Boolean);
 
   return (
-    <NavLink to={`/fuse/${fuse.id}`}>
+    <NavLink to={`/fuse/${pool.id}`}>
       <Paper className="fuse-data-card ohm-card">
         <div className="fuse-pair">
           {/* @ts-ignore TODO */}
-          <TokenStack tokens={tokens} />
+          <TokenStack tokens={pool.underlyingTokens} />
           <div className="fuse-name">
-            <Typography>{fuse.name}</Typography>
+            <Typography>{pool.name}</Typography>
           </div>
         </div>
-        <DataRow title={t`Pool Assets`} balance={`${fuse.id}`} />
-        <DataRow title={t`Total Supplied`} balance={formatCurrency(fuse.totalSuppliedUSD, 2)} />
-        <DataRow title={t`Total Borrowed`} balance={formatCurrency(fuse.totalBorrowedUSD, 2)} />
+        <DataRow title={t`Pool Assets`} balance={`${pool.id}`} />
+        <DataRow title={t`Total Supplied`} balance={formatCurrency(Number(pool.totalSupply), 2)} />
+        <DataRow title={t`Total Borrowed`} balance={formatCurrency(Number(pool.totalBorrow), 2)} />
         {/* TODO risk score */}
         <DataRow title={t`Pool Risk Score`} balance="F" />
       </Paper>
@@ -39,35 +39,30 @@ export function FuseDataCard({ fuse, networkId }: { fuse: FusePoolData; networkI
   );
 }
 
-export function FuseTableData({ fuse, networkId }: { fuse: FusePoolData; networkId: NetworkId }) {
-  const isFuseLoading = !fuse.totalBorrowedUSD ?? true;
-  const tokens = fuse.assets.map(a => a.underlyingSymbol).filter(Boolean);
-  //   const tokens = useTokensData(fuse.assets.map(a => a.underlyingToken))
-  //     .map(t => (t ? t.symbol : undefined))
-  //     .filter(Boolean);
-  console.log(fuse);
+export function PoolTableData({ pool, networkId }: { pool: MergedPool; networkId: NetworkId }) {
+  const isPoolLoading = !pool.totalBorrow ?? true;
   return (
-    <TableRow hover component={Link} href={`/fuse/${fuse.id}/`}>
+    <TableRow hover component={Link} href={`/fuse/${pool.id}/`}>
       <TableCell align="left" className="fuse-name-cell">
         <Box display="flex" flexDirection="column">
           <TokenStack
             style={{ fontSize: 26, marginInlineEnd: "-0.5rem" }}
-            //  @ts-ignore
-            tokens={[...tokens]}
+            // @ts-ignore
+            tokens={pool.underlyingTokens}
           />
           <div className="fuse-name">
-            <Typography variant="body1">{fuse.name}</Typography>
+            <Typography variant="body1">{pool.name}</Typography>
           </div>
         </Box>
       </TableCell>
       <TableCell align="center">
-        <Typography>{isFuseLoading ? <Skeleton width="50px" /> : fuse.id}</Typography>
+        <Typography>{isPoolLoading ? <Skeleton width="50px" /> : pool.id}</Typography>
       </TableCell>
       <TableCell align="center">
-        {isFuseLoading ? <Skeleton width="50px" /> : <DisplayFusePrice price={fuse.totalSuppliedUSD} />}
+        {isPoolLoading ? <Skeleton width="50px" /> : <DisplayFusePrice price={Number(pool.totalSupply)} />}
       </TableCell>
       <TableCell align="center">
-        {isFuseLoading ? <Skeleton width="50px" /> : <DisplayFusePrice price={fuse.totalBorrowedUSD} />}
+        {isPoolLoading ? <Skeleton width="50px" /> : <DisplayFusePrice price={Number(pool.totalBorrow)} />}
       </TableCell>
       <TableCell align="center">
         {/* TODO risk score */}

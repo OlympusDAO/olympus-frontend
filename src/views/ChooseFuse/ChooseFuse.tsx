@@ -25,9 +25,8 @@ import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 // import { getAllBonds, getUserNotes, IUserNote } from "src/slices/BondSliceV2";
 import { AppDispatch } from "src/store";
 
-import { FusePoolData } from "../../fuse-sdk/helpers/fetchFusePoolData";
-import { useFusePoolData } from "../../fuse-sdk/hooks/useFusePoolData";
-import { FuseDataCard, FuseTableData } from "./FuseTableData";
+import { useFusePools } from "../../fuse-sdk/hooks/useFusePool";
+import { PoolDataCard, PoolTableData } from "./PoolTableData";
 
 // import { formatCurrency } from "../../helpers";
 // import { BondDataCard, BondTableData } from "./BondRow";
@@ -38,9 +37,8 @@ function FusePools() {
   const dispatch = useDispatch<AppDispatch>();
   const history = useHistory();
   usePathForNetwork({ pathName: "fuse", networkID: networkId, history });
-  const data = useFusePoolData(6);
 
-  const fuse: FusePoolData[] = data ? [{ ...data, id: 6 }] : [];
+  const { pools = [] } = useFusePools();
   //    useAppSelector(state => {
   //     return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]).sort((a, b) => b.discount - a.discount);
   //   });
@@ -87,12 +85,12 @@ function FusePools() {
 
       <Zoom in={true}>
         <Paper>
-          {fuse.length == 0 && !isFuseLoading && (
+          {pools.length == 0 && !isFuseLoading && (
             <Box display="flex" justifyContent="center" marginY="24px">
               <Typography variant="h4">No active fuses</Typography>
             </Box>
           )}
-          {!isSmallScreen && fuse.length > 0 && (
+          {!isSmallScreen && pools.length > 0 && (
             <Grid container item>
               <TableContainer>
                 <Table aria-label="Available bonds">
@@ -114,8 +112,8 @@ function FusePools() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {fuse.map(f => (
-                      <FuseTableData networkId={networkId} key={f.name} fuse={f} />
+                    {pools.map(f => (
+                      <PoolTableData networkId={networkId} key={f.name} pool={f} />
                     ))}
                   </TableBody>
                 </Table>
@@ -128,9 +126,9 @@ function FusePools() {
       {isSmallScreen && (
         <Box className="ohm-card-container">
           <Grid container spacing={2}>
-            {fuse.map(f => (
+            {pools.map(f => (
               <Grid item xs={12} key={f.id}>
-                <FuseDataCard key={f.id} fuse={f} networkId={networkId} />
+                <PoolDataCard key={f.id} pool={f} networkId={networkId} />
               </Grid>
             ))}
           </Grid>
