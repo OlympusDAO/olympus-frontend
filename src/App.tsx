@@ -12,7 +12,6 @@ import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/useBonds";
 import { useWeb3Context, useAppSelector } from "./hooks";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
-import { segmentUA } from "./helpers/userAnalyticHelpers";
 import { shouldTriggerSafetyCheck } from "./helpers";
 
 import { calcBondDetails } from "./slices/BondSlice";
@@ -21,19 +20,7 @@ import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } 
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import {
-  Stake,
-  TreasuryDashboard,
-  Zap,
-  Wrap,
-  V1Stake,
-  CausesDashboard,
-  DepositYield,
-  RedeemYield,
-  BondV2,
-  ChooseBondV2,
-  Tender,
-} from "./views";
+import { Stake, TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2, Tender } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar";
 import TopBar from "./components/TopBar/TopBar";
 import CallToAction from "./components/CallToAction/CallToAction";
@@ -45,12 +32,13 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import ProjectInfo from "./views/Give/ProjectInfo";
 import projectData from "src/views/Give/projects.json";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import TenderCTA from "./views/Tender/TenderCTA";
+import ProjectInfo from "./views/Give/ProjectInfo";
+import { trackGAEvent, trackSegmentEvent } from "./helpers/analytics";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -251,10 +239,13 @@ function App() {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
-        segmentUA({
+        trackSegmentEvent({
           type: "connect",
-          provider: provider,
           context: currentPath,
+        });
+        trackGAEvent({
+          category: "App",
+          action: "connect",
         });
       });
     } else {
@@ -365,7 +356,7 @@ function App() {
             </Route>
 
             <Route exact path="/give">
-              <CausesDashboard />
+              <Give />
             </Route>
             <Redirect from="/olympusgive" to="/give" />
             <Redirect from="/tyche" to="/give" />
@@ -384,11 +375,11 @@ function App() {
             </Route>
 
             <Route exact path="/give/donations">
-              <DepositYield />
+              <Give selectedIndex={1} />
             </Route>
 
             <Route exact path="/give/redeem">
-              <RedeemYield />
+              <Give selectedIndex={2} />
             </Route>
 
             <Route path="/wrap">

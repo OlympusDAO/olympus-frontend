@@ -4,10 +4,10 @@ import { ethers } from "ethers";
 
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { addresses } from "../constants";
-import { segmentUA } from "../helpers/userAnalyticHelpers";
-import { error } from "../slices/MessagesSlice";
+import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
 import { getBalances, getMockRedemptionBalances, getRedemptionBalances } from "./AccountSlice";
-import { IBaseAddressAsyncThunk, IJsonRPCError } from "./interfaces";
+import { IJsonRPCError, IRedeemAsyncThunk } from "./interfaces";
+import { error } from "./MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 
 interface IUAData {
@@ -15,12 +15,13 @@ interface IUAData {
   value: string;
   approved: boolean;
   txHash: string | null;
-  type: string | null;
+  type: string;
 }
 
+// Redeems a user's redeemable balance from the Give contract
 export const redeemBalance = createAsyncThunk(
   "redeem/redeemBalance",
-  async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID, eventSource }: IRedeemAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet!`));
       return;
@@ -36,7 +37,7 @@ export const redeemBalance = createAsyncThunk(
       value: redeemableBalance,
       approved: true,
       txHash: null,
-      type: null,
+      type: "",
     };
 
     try {
@@ -57,8 +58,15 @@ export const redeemBalance = createAsyncThunk(
       return;
     } finally {
       if (redeemTx) {
-        segmentUA(uaData);
-
+        trackSegmentEvent(uaData);
+        trackGAEvent({
+          category: "Olympus Give",
+          action: uaData.type,
+          label: uaData.txHash ?? "unknown",
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
+          metric1: parseFloat(uaData.value),
+        });
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
@@ -67,9 +75,10 @@ export const redeemBalance = createAsyncThunk(
   },
 );
 
+// Redeem a user's redeemable balance from the MockGive contract on Rinkeby
 export const redeemMockBalance = createAsyncThunk(
   "redeem/redeemMockBalance",
-  async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID, eventSource }: IRedeemAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet!`));
       return;
@@ -90,7 +99,7 @@ export const redeemMockBalance = createAsyncThunk(
       value: redeemableBalance,
       approved: true,
       txHash: null,
-      type: null,
+      type: "",
     };
 
     try {
@@ -111,8 +120,15 @@ export const redeemMockBalance = createAsyncThunk(
       return;
     } finally {
       if (redeemTx) {
-        segmentUA(uaData);
-
+        trackSegmentEvent(uaData);
+        trackGAEvent({
+          category: "Olympus Give",
+          action: uaData.type,
+          label: uaData.txHash ?? "unknown",
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
+          metric1: parseFloat(uaData.value),
+        });
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }

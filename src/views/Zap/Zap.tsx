@@ -23,7 +23,7 @@ const Zap: React.FC = () => {
     () =>
       Object.entries(tokens)
         .filter(token => token[0] !== "sohm")
-        .map(token => token[1].img)
+        .map(token => token[1].tokenImageUrl)
         .slice(0, 3),
     [tokens],
   );
@@ -31,7 +31,7 @@ const Zap: React.FC = () => {
   return (
     <div id="zap-view">
       <Zoom in={true}>
-        <Paper headerText={address && `OlyZaps (Currently disabled for upcoming migration)`}>
+        <Paper headerText={address && `Zap`}>
           <div className="staking-area">
             {!address ? (
               <div className="stake-wallet-notification">
@@ -44,7 +44,6 @@ const Zap: React.FC = () => {
               </div>
             ) : (
               <Box className="stake-action-area">
-                <Box alignSelf="center" minWidth="420px" width="80%"></Box>
                 <ZapStakeAction />
               </Box>
             )}

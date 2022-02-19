@@ -284,6 +284,7 @@ exports[`<PoolTogether/> should render component 1`] = `
               </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
@@ -305,6 +306,7 @@ exports[`<PoolTogether/> should render component 1`] = `
               </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
@@ -326,6 +328,7 @@ exports[`<PoolTogether/> should render component 1`] = `
               </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
@@ -347,6 +350,7 @@ exports[`<PoolTogether/> should render component 1`] = `
               </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
               >
                 sOHM
               </p>
@@ -365,6 +369,7 @@ exports[`<PoolTogether/> should render component 1`] = `
               </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
               >
                 OlympusDAO
               </p>
@@ -387,6 +392,7 @@ exports[`<PoolTogether/> should render component 1`] = `
               </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
@@ -408,6 +414,7 @@ exports[`<PoolTogether/> should render component 1`] = `
               </div>
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                style="text-align: right;"
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
