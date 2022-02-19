@@ -1,16 +1,16 @@
 import React, { Suspense } from "react";
 
-const FusePools = React.lazy(() => import("./Borrow"));
+const ChooseFuse = React.lazy(() => import("./ChooseFuse"));
 const FuseProvider = React.lazy(() => import("../../fuse-sdk/helpers/RariContext"));
 
 // TODO Routes
 // TODO Replace bigjs to bignumber.js
-export default function Fuse({ poolId }: { poolId: number }) {
+export default function Fuse() {
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
         <FuseProvider>
-          <FusePools poolId={poolId} />
+          <ChooseFuse />
         </FuseProvider>
       </Suspense>
     </div>

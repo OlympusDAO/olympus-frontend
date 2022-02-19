@@ -1,0 +1,58 @@
+#choose-fuse-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+
+  .MuiTable-root {
+    margin: 10px 0px;
+  }
+
+  .ohm-card-container {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft.fuse-name-cell {
+    .MuiBox-root div.fuse-name {
+      margin-top: 5px;
+
+      a {
+        margin-top: 5px;
+      }
+    }
+  }
+  .fuse-data-card {
+    margin: auto;
+    text-decoration: none;
+    .ohm-pairs {
+      display: flex;
+      margin-right: 15px;
+    }
+    .fuse-pair {
+      display: flex !important;
+      align-items: center;
+      justify-content: left;
+      margin-bottom: 15px;
+      .MuiBox-root {
+        margin-right: 10px;
+      }
+      .fuse-name {
+        svg {
+          margin-left: 5px;
+          vertical-align: middle;
+          font-size: 15px;
+        }
+      }
+    }
+    .data-row {
+      margin-bottom: 13px;
+    }
+  }
+}

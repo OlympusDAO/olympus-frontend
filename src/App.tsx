@@ -31,6 +31,7 @@ import {
   RedeemYield,
   BondV2,
   ChooseBondV2,
+  ChooseFuse,
 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar";
 import TopBar from "./components/TopBar/TopBar";
@@ -49,7 +50,7 @@ import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import { trackGAEvent, trackSegmentEvent } from "./helpers/analytics";
-import { Fuse } from "./views/Fuse";
+import FusePool from "./views/Fuse";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -125,6 +126,7 @@ function App() {
   const { bonds, expiredBonds } = useBonds(networkId);
 
   const bondIndexes = useAppSelector(state => state.bondingV2.indexes);
+  const fuseIndices = [6, 7];
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -405,8 +407,15 @@ function App() {
               </Route>
             </Route>
 
+            {fuseIndices.map(index => {
+              return (
+                <Route exact key={index} path={`/fuse/${index}`}>
+                  <FusePool poolId={index} />
+                </Route>
+              );
+            })}
             <Route path="/fuse">
-              <Fuse />
+              <ChooseFuse />
             </Route>
 
             {/* <Route path="/33-together">
