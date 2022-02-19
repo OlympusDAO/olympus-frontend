@@ -54,9 +54,9 @@ const Tender = () => {
   const withdraw = Withdraw();
   const [depositToken, setDepositToken] = useState(0);
   const tokens = [
-    { balance: Balance(), label: "Chicken", value: 0, allowance: UnstakedAllowance() },
-    { balance: StakedBalance(), label: "sChicken", value: 1, allowance: StakedAllowance() },
-    { balance: WrappedBalance(), label: "wsChicken", value: 2, allowance: WrappedAllowance() },
+    { balance: Balance(), label: "SPA", value: 0, allowance: UnstakedAllowance() },
+    { balance: StakedBalance(), label: "sSPA", value: 1, allowance: StakedAllowance() },
+    { balance: WrappedBalance(), label: "wsSPA", value: 2, allowance: WrappedAllowance() },
   ];
   const hasBalances = tokens.some(token => token.balance > 0) ? true : false;
 
@@ -113,7 +113,7 @@ const Tender = () => {
 
   //Failed State
   if (escrowState === 1) {
-    redeemButtonText = `Withdraw for ${depositedBalance} Chicken`;
+    redeemButtonText = `Withdraw for ${depositedBalance} SPA`;
     redeemButtonOnClick = () => withdraw.mutate();
   }
   //Passed State
@@ -170,7 +170,7 @@ const Tender = () => {
   return (
     <div id="stake-view">
       <NotificationMessage />
-      <Paper headerText={t`Chicken Tender Offer`} zoom={false}>
+      <Paper headerText={t`SPA Tender Offer`} zoom={false}>
         <Box className="stake-action-area">
           <ProgressBar totalDeposits={totalDeposits} maxDeposits={maxDeposits} />
           <Tabs centered value={view} onChange={changeView} aria-label="stake tabs" style={{ marginBottom: ".6rem" }}>
@@ -186,7 +186,7 @@ const Tender = () => {
                   {countdownActive ? (
                     <CountdownTimer
                       endsAt={countdownEndDate}
-                      timerTitle={t`Chicken Tender offer will open for deposits in:`}
+                      timerTitle={t`SPA Tender offer will open for deposits in:`}
                     />
                   ) : (
                     <>
@@ -218,7 +218,7 @@ const Tender = () => {
                   />
                 ))}
                 <Divider color="secondary" />
-                <DataRow title={t`Deposited Balance`} balance={`${depositedBalance} Chicken `} />
+                <DataRow title={t`Deposited Balance`} balance={`${depositedBalance} SPA `} />
                 <DataRow title={t`Redeemable Balance if Accepted`} balance={redeemableBalString} />
               </Grid>
             </>

@@ -25,7 +25,7 @@ exports[`Tender Snapshots should render <ProgressBar /> 1`] = `
       0
       /
       0
-       Chickens Deposited
+       SPA Deposited
     </p>
   </div>
   <div
@@ -154,7 +154,7 @@ exports[`Tender Snapshots should render <Tender/> 1`] = `
                     <p
                       class="MuiTypography-root makeStyles-text-4 MuiTypography-body1"
                     >
-                      This is a very important message about redeeming your Chicken Tender Offer.
+                      This is a very important message about redeeming your SPA Tender Offer.
                       <a
                         class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
                         href="#"
@@ -201,7 +201,7 @@ exports[`Tender Snapshots should render <Tender/> 1`] = `
               <h5
                 class="MuiTypography-root header-text MuiTypography-h5"
               >
-                Chicken Tender Offer
+                SPA Tender Offer
               </h5>
             </div>
             <div
@@ -213,40 +213,40 @@ exports[`Tender Snapshots should render <Tender/> 1`] = `
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-14"
-          >
-            <p
-              class="MuiTypography-root MuiTypography-body1"
-            >
-              0
-              /
-              0
-               Chickens Deposited
-            </p>
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-15"
-            style="width: 50%; margin: 0px 25%;"
+            class="MuiBox-root MuiBox-root-13 stake-action-area"
           >
             <div
-              aria-valuemax="100"
-              aria-valuemin="0"
-              aria-valuenow="0"
-              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary makeStyles-progress-13 MuiLinearProgress-determinate"
-              role="progressbar"
+              class="MuiBox-root MuiBox-root-15"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                0
+                /
+                0
+                 SPA Deposited
+              </p>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-16"
+              style="width: 50%; margin: 0px 25%;"
             >
               <div
-                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
-                style="transform: translateX(-100%);"
-              />
+                aria-valuemax="100"
+                aria-valuemin="0"
+                aria-valuenow="0"
+                class="MuiLinearProgress-root MuiLinearProgress-colorPrimary makeStyles-progress-14 MuiLinearProgress-determinate"
+                role="progressbar"
+              >
+                <div
+                  class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                  style="transform: translateX(-100%);"
+                />
+              </div>
             </div>
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-16 stake-action-area"
-          >
             <div
               class="MuiTabs-root makeStyles-root-17 undefined"
-              style="margin-bottom: .25rem;"
+              style="margin-bottom: .6rem;"
             >
               <div
                 class="MuiTabs-scroller MuiTabs-fixed"
