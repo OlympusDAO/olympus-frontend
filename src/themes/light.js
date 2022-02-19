@@ -50,7 +50,12 @@ export const light = responsiveFontSizes(
           card: "#1D2026",
           cardHover: "#343C49",
         },
-        feedback: "#49A1F2",
+        feedback: {
+          success: "#94B9A1",
+          userFeedback: "#49A1F2",
+          error: "#FF6767",
+          warning: "#FC8E5F",
+        },
         gray: {
           700: "#181A1D",
           600: "#292C32",
