@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export function CollateralRatioBar({ maxBorrow, borrowUSD }: Props) {
   const ratio = (borrowUSD / maxBorrow) * 100;
   const classes = useStyles();
-
+  // TODO use common controls
   return (
     <Grid item container spacing={2} alignItems="center" className="collateralRatioBar">
       <Grid item>

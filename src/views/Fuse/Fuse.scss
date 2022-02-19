@@ -1,0 +1,55 @@
+#fuse-view {
+  & > .MuiGrid-root {
+    max-width: 1200px;
+  }
+
+  .MuiTypography-body2 {
+    font-size: 12px;
+  }
+
+  .collateralRatioBar {
+    .progress {
+      flex-grow: 1;
+      padding: 2px;
+    }
+  }
+
+  .MuiTable-root {
+    margin: 10px 0px;
+  }
+
+  .MuiTableRow-root.MuiTableRow-head .MuiTableCell-root {
+    padding: 6px;
+
+    &:first-child {
+      padding-left: 45px;
+    }
+  }
+
+  .MuiTableCell-sizeSmall {
+    padding: 6px;
+  }
+
+  .tooltip-container {
+    min-width: 175px;
+    border: 1px solid rgba(118, 130, 153, 0.2);
+    padding: 10px;
+
+    .item {
+      align-items: center;
+      justify-content: space-between;
+      height: 1.5em;
+
+      &:first-child {
+        font-size: 14px;
+        margin: -10px -10px 5px;
+        padding: 10px 10px 25px;
+        border-bottom: 1px solid rgba(118, 130, 153, 0.2);
+      }
+    }
+  }
+}
+
+.mobile #fuse-view {
+  width: 100%;
+}

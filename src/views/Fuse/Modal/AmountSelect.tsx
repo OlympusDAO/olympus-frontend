@@ -1,22 +1,14 @@
 import {
-  Avatar,
   Box,
-  Button,
   CircularProgress,
-  DialogActions,
-  DialogContent,
   FormControl,
   Grid,
   InputAdornment,
-  InputLabel,
-  Link,
-  OutlinedInput,
-  SvgIcon,
   Switch,
   Typography,
-  useMediaQuery,
   withStyles,
 } from "@material-ui/core";
+import { DataRow, Input, PrimaryButton } from "@olympusdao/component-library";
 import Big from "big.js";
 import { BigNumber, ethers } from "ethers";
 import { useState } from "react";
@@ -25,13 +17,11 @@ import { useDispatch } from "react-redux";
 import { createComptroller } from "src/fuse-sdk/helpers/createComptroller";
 import { useWeb3Context } from "src/hooks";
 
-import { ReactComponent as ArrowUp } from "../../../assets/icons/arrow-up.svg";
 import { USDPricedFuseAsset } from "../../../fuse-sdk/helpers/fetchFusePoolData";
 import { fetchMaxAmount, Mode } from "../../../fuse-sdk/helpers/fetchMaxAmount";
 import { useRari } from "../../../fuse-sdk/helpers/RariContext";
 import { ETH_TOKEN_DATA, useTokenData } from "../../../fuse-sdk/hooks/useTokenData";
 import { error } from "../../../slices/MessagesSlice";
-import { DialogTitle } from "./DialogTitle";
 import { StatsColumn } from "./StatsColumn";
 import { TabBar } from "./TabBar";
 import { TokenNameAndMaxButton } from "./TokenNameAndMaxButton";
@@ -179,8 +169,6 @@ export function AmountSelect({
     depositOrWithdrawAlert = null;
   }
 
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
-
   const onConfirm = async () => {
     try {
       setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
@@ -255,101 +243,62 @@ export function AmountSelect({
   };
 
   return userAction === UserAction.WAITING_FOR_TRANSACTIONS ? (
-    <>
-      <DialogTitle onClose={onClose}>
-        <Grid container alignItems="center" spacing={2}>
-          <Grid item>
-            <CircularProgress size={40} />
-          </Grid>
-          <Grid item>
-            <Typography variant="h5">{"Check your wallet to submit the transactions"}</Typography>
-          </Grid>
-        </Grid>
-      </DialogTitle>
-      <DialogContent>
-        <Typography variant="h5">{"Do not close this tab until you submit all transactions!"}</Typography>
-      </DialogContent>
-    </>
+    <Box display="flex" alignItems="center">
+      <CircularProgress size={40} />
+      <Typography variant="h5" style={{ marginLeft: 10 }}>
+        <p>Check your wallet to submit the transactions</p>
+        <p>Do not close this tab until you submit all transactions!</p>
+      </Typography>
+    </Box>
   ) : (
     <>
-      <DialogTitle onClose={onClose}>
-        <Grid container alignItems="center" spacing={1} justifyContent="center">
-          <Grid item>
-            <Avatar
-              className={"avatar-medium"}
-              component="span"
-              src={
-                tokenData?.logoURL ??
-                "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"
+      <Grid container spacing={3} direction="column" justifyContent="space-around">
+        <Grid item>
+          <TabBar mode={mode} setMode={setMode} />
+        </Grid>
+        <Grid item>
+          <FormControl variant="outlined" color="primary" fullWidth>
+            <Input
+              type="number"
+              endAdornment={
+                <InputAdornment position="end">
+                  <TokenNameAndMaxButton mode={mode} asset={asset} updateAmount={updateAmount} />
+                </InputAdornment>
               }
+              label="Amount"
+              id="outlined-adornment-amount"
+              fullWidth
+              value={userEnteredAmount}
+              onChange={e => updateAmount(e.target.value)}
+              labelWidth={55}
+            />
+          </FormControl>
+        </Grid>
+
+        <StatsColumn
+          symbol={tokenData?.symbol ?? asset.underlyingSymbol}
+          amount={amount ? Number(amount.toFixed(0)) : 0}
+          asset={asset}
+          mode={mode}
+          enableAsCollateral={mode === Mode.SUPPLY}
+          borrowLimit={borrowLimit}
+        />
+
+        {mode === Mode.SUPPLY ? (
+          <Grid item>
+            <DataRow
+              title="Enable As Collateral"
+              balance={<OrangeSwitch checked={asset.membership} onChange={onToggleCollateral} />}
             />
           </Grid>
-          <Grid item>
-            <Typography variant="h5" component="span">
-              {!isSmallScreen && asset.underlyingName.length < 25 ? asset.underlyingName : asset.underlyingSymbol}
-            </Typography>
-            <Link href={`${scannerUrl}/token/${asset.underlyingToken}`} target="_blank">
-              <Typography variant="body2">
-                View contract <SvgIcon className={"view-contract-icon"} component={ArrowUp} />
-              </Typography>
-            </Link>
-          </Grid>
-        </Grid>
-      </DialogTitle>
-      <DialogContent className="pool-modal-content">
-        <Grid container spacing={3} direction="column" justifyContent="space-around">
-          <Grid item>
-            <TabBar mode={mode} setMode={setMode} />
-          </Grid>
-          <Grid item>
-            <FormControl variant="outlined" color="primary" fullWidth>
-              <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-amount"
-                type="number"
-                fullWidth
-                value={userEnteredAmount}
-                onChange={e => updateAmount(e.target.value)}
-                labelWidth={55}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <TokenNameAndMaxButton mode={mode} asset={asset} updateAmount={updateAmount} />
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-          </Grid>
+        ) : null}
 
-          <StatsColumn
-            symbol={tokenData?.symbol ?? asset.underlyingSymbol}
-            amount={amount ? Number(amount.toNumber().toFixed(0)) : 0}
-            asset={asset}
-            mode={mode}
-            enableAsCollateral={mode === Mode.SUPPLY}
-            borrowLimit={borrowLimit}
-          />
-
-          {mode === Mode.SUPPLY ? (
-            <Grid item>
-              <Box display="flex" alignItems="baseline" justifyContent="space-between">
-                <Typography>Enable As Collateral</Typography>
-                <OrangeSwitch checked={asset.membership} onChange={onToggleCollateral} />
-              </Box>
-            </Grid>
-          ) : null}
+        <Grid item style={{ alignSelf: "center" }}>
+          <PrimaryButton onClick={onConfirm} disabled={!amountIsValid}>
+            {depositOrWithdrawAlert || "Confirm"}
+          </PrimaryButton>
         </Grid>
-      </DialogContent>
-      <DialogActions disableSpacing>
-        <Button
-          variant="contained"
-          color="primary"
-          className={`connect-button ${!amountIsValid ? "claim-disable" : ""}`}
-          onClick={onConfirm}
-          disabled={!amountIsValid}
-        >
-          {depositOrWithdrawAlert || "Confirm"}
-        </Button>
-      </DialogActions>
+      </Grid>
     </>
   );
 }

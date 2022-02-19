@@ -1,4 +1,5 @@
-import { Box, CircularProgress, Grid, Paper, Select, Typography, useTheme } from "@material-ui/core";
+import { Box, CircularProgress, Grid, Select, Typography, useTheme } from "@material-ui/core";
+import { Paper } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { Line, LineChart, ReferenceDot, ReferenceLine, ResponsiveContainer, Tooltip } from "recharts";
@@ -14,7 +15,7 @@ const CustomTooltip = (props: any) => {
     const borrow = payload[0].payload.borrow;
     const supply = payload[1].payload.supply;
     return (
-      <Paper className="hec-card tooltip-container">
+      <Paper className="tooltip-container">
         <Typography className="item" variant="body2">{`${
           borrow.toString() === "0" ? "0%" : ((supply / borrow) * 100).toFixed(2)
         }% Utilization`}</Typography>

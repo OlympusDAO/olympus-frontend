@@ -31,10 +31,6 @@
   .fuse-data-card {
     margin: auto;
     text-decoration: none;
-    .ohm-pairs {
-      display: flex;
-      margin-right: 15px;
-    }
     .fuse-pair {
       display: flex !important;
       align-items: center;
@@ -43,16 +39,6 @@
       .MuiBox-root {
         margin-right: 10px;
       }
-      .fuse-name {
-        svg {
-          margin-left: 5px;
-          vertical-align: middle;
-          font-size: 15px;
-        }
-      }
-    }
-    .data-row {
-      margin-bottom: 13px;
     }
   }
 }

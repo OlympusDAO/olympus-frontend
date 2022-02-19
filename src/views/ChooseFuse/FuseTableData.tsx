@@ -1,9 +1,9 @@
 import "./ChooseFuse.scss";
 
-import { Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { Box, Link, Paper, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { TokenStack } from "@olympusdao/component-library";
+import { DataRow, TokenStack } from "@olympusdao/component-library";
 import { Fragment } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -29,35 +29,11 @@ export function FuseDataCard({ fuse, networkId }: { fuse: FusePoolData; networkI
             <Typography>{fuse.name}</Typography>
           </div>
         </div>
-        <div className="data-row">
-          <Typography>
-            <Trans>Pool Assets</Trans>
-          </Typography>
-          <Typography>{isFuseLoading ? <Skeleton width="50px" /> : fuse.id}</Typography>
-        </div>
-        <div className="data-row">
-          <Typography>
-            <Trans>Total Supplied</Trans>
-          </Typography>
-          <Typography>
-            {isFuseLoading ? <Skeleton width="50px" /> : <DisplayFusePrice price={fuse.totalSuppliedUSD} />}
-          </Typography>
-        </div>
-        <div className="data-row">
-          <Typography>
-            <Trans>Total Borrowed</Trans>
-          </Typography>
-          <Typography>
-            {isFuseLoading ? <Skeleton width="50px" /> : <DisplayFusePrice price={fuse.totalBorrowedUSD} />}
-          </Typography>
-        </div>
-        <div className="data-row">
-          <Typography>
-            <Trans>Pool Risk Score</Trans>
-          </Typography>
-          {/* /TODO risk score */}
-          <Typography>{isFuseLoading ? <Skeleton width="50px" /> : "F"}</Typography>
-        </div>
+        <DataRow title={t`Pool Assets`} balance={`${fuse.id}`} />
+        <DataRow title={t`Total Supplied`} balance={formatCurrency(fuse.totalSuppliedUSD, 2)} />
+        <DataRow title={t`Total Borrowed`} balance={formatCurrency(fuse.totalBorrowedUSD, 2)} />
+        {/* TODO risk score */}
+        <DataRow title={t`Pool Risk Score`} balance="F" />
       </Paper>
     </NavLink>
   );
@@ -102,5 +78,5 @@ export function FuseTableData({ fuse, networkId }: { fuse: FusePoolData; network
 }
 
 export const DisplayFusePrice = ({ price }: { price: number }) => {
-  return <Fragment>{formatCurrency(price)}</Fragment>;
+  return <Fragment>{formatCurrency(price, 2)}</Fragment>;
 };

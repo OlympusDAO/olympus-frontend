@@ -13,3 +13,4 @@ export { default as Zap } from "./Zap/Zap";
 export { default as BondV2 } from "./BondV2/BondV2";
 export { default as ChooseBondV2 } from "./BondV2/ChooseBondV2";
 export { default as ChooseFuse } from "./ChooseFuse";
+export { default as Fuse } from "./Fuse";

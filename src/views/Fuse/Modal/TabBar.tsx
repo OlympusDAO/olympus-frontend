@@ -1,4 +1,4 @@
-import { Tab, Tabs } from "@material-ui/core";
+import { Tab, Tabs } from "@olympusdao/component-library";
 
 import { Mode } from "../../../fuse-sdk/helpers/fetchMaxAmount";
 
@@ -11,7 +11,8 @@ export const TabBar = ({ mode, setMode }: { mode: Mode; setMode: (mode: Mode) =>
       textColor="primary"
       indicatorColor="primary"
       aria-label="borrow tabs"
-      onChange={(e, index: number) => setMode(isSupplySide ? index : index + 2)}
+      // @ts-ignore
+      onChange={(e, index) => setMode(isSupplySide ? index : index + 2)}
       value={mode % 2}
       variant="fullWidth"
     >

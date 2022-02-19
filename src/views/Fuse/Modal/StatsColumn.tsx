@@ -1,4 +1,5 @@
-import { CircularProgress, Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+import { DataRow } from "@olympusdao/component-library";
 import { useQuery, UseQueryResult } from "react-query";
 import { useRari } from "src/fuse-sdk/helpers/RariContext";
 
@@ -121,85 +122,78 @@ export const StatsColumn = ({
 
   return (
     <Grid item>
-      {updatedAsset ? (
-        <Grid container direction="column" spacing={2}>
-          <StatsColumnRow
-            left="Supply Balance"
-            right={
-              <>
-                {formatCurrency(asset.supplyBalance / 10 ** asset.underlyingDecimals, 2).replace("$", "")}
-                {isSupplyingOrWithdrawing ? (
-                  <>
-                    {" → "}
-                    {formatCurrency(
-                      Math.max(0, updatedAsset.supplyBalance) / 10 ** updatedAsset.underlyingDecimals,
-                      2,
-                    ).replace("$", "")}
-                  </>
-                ) : null}{" "}
-                {symbol}
-              </>
-            }
-          />
+      <DataRow
+        title="Supply Balance"
+        isLoading={!updatedAsset}
+        balance={
+          updatedAsset ? (
+            <>
+              {formatCurrency(asset.supplyBalance / 10 ** asset.underlyingDecimals, 2).replace("$", "")}
+              {isSupplyingOrWithdrawing ? (
+                <>
+                  {" → "}
+                  {formatCurrency(
+                    Math.max(0, updatedAsset.supplyBalance) / 10 ** updatedAsset.underlyingDecimals,
+                    2,
+                  ).replace("$", "")}
+                </>
+              ) : null}{" "}
+              {symbol}
+            </>
+          ) : undefined
+        }
+      />
 
-          <StatsColumnRow
-            left={isSupplyingOrWithdrawing ? "Supply APY" : "Borrow APR"}
-            right={
-              <>
-                {isSupplyingOrWithdrawing ? supplyAPY.toFixed(2) : borrowAPR.toFixed(2)}%
-                {updatedAPYDiffIsLarge ? (
-                  <>
-                    {" → "}
-                    {isSupplyingOrWithdrawing ? updatedSupplyAPY.toFixed(2) : updatedBorrowAPR.toFixed(2)}%
-                  </>
-                ) : null}
-              </>
-            }
-          />
-          <StatsColumnRow
-            left="Borrow Limit"
-            right={
-              <>
-                {formatCurrency(borrowLimit, 2)}
-                {isSupplyingOrWithdrawing ? (
-                  <>
-                    {" → "} {formatCurrency(updatedBorrowLimit, 2)}
-                  </>
-                ) : null}{" "}
-              </>
-            }
-          />
-          <StatsColumnRow
-            left="Debt Balance"
-            right={
-              <>
-                {formatCurrency(asset.borrowBalanceUSD, 2)}
-                {!isSupplyingOrWithdrawing ? (
-                  <>
-                    {" → "}
-                    {formatCurrency(Math.max(0, updatedAsset.borrowBalanceUSD), 2)}
-                  </>
-                ) : null}
-              </>
-            }
-          />
-        </Grid>
-      ) : (
-        <CircularProgress />
-      )}
-    </Grid>
-  );
-};
-
-const StatsColumnRow = ({ left, right }: { left: string; right: React.ReactNode }) => {
-  return (
-    <Grid item container justifyContent="space-between" alignItems="baseline">
-      <Grid item>
-        <Typography>{left}:</Typography>
-      </Grid>
-      <Grid item>
-        <Typography>{right}</Typography>
-      </Grid>
+      <DataRow
+        title={isSupplyingOrWithdrawing ? "Supply APY" : "Borrow APR"}
+        isLoading={!updatedAsset}
+        balance={
+          updatedAsset ? (
+            <>
+              {isSupplyingOrWithdrawing ? supplyAPY.toFixed(2) : borrowAPR.toFixed(2)}%
+              {updatedAPYDiffIsLarge ? (
+                <>
+                  {" → "}
+                  {isSupplyingOrWithdrawing ? updatedSupplyAPY.toFixed(2) : updatedBorrowAPR.toFixed(2)}%
+                </>
+              ) : null}
+            </>
+          ) : undefined
+        }
+      />
+      <DataRow
+        title="Borrow Limit"
+        isLoading={!updatedAsset}
+        balance={
+          updatedAsset ? (
+            <>
+              {formatCurrency(borrowLimit, 2)}
+              {isSupplyingOrWithdrawing ? (
+                <>
+                  {" → "} {formatCurrency(updatedBorrowLimit, 2)}
+                </>
+              ) : null}{" "}
+            </>
+          ) : undefined
+        }
+      />
+      <DataRow
+        title="Debt Balance"
+        isLoading={!updatedAsset}
+        balance={
+          updatedAsset ? (
+            <>
+              {formatCurrency(asset.borrowBalanceUSD, 2)}
+              {!isSupplyingOrWithdrawing ? (
+                <>
+                  {" → "}
+                  {formatCurrency(Math.max(0, updatedAsset.borrowBalanceUSD), 2)}
+                </>
+              ) : null}
+            </>
+          ) : undefined
+        }
+      />
     </Grid>
   );
 };
