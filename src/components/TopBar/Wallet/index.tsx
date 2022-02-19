@@ -63,7 +63,7 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
               { label: "Wallet", to: "/wallet" },
               { label: "Get OHM", to: "/get" },
               { label: "Calculator", to: "/calculator" },
-              { label: "Info", to: "/info/faq" },
+              { label: "Info", to: "/info" },
             ]}
             mb={"18px"}
           />

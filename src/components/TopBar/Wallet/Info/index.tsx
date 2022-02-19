@@ -40,20 +40,20 @@ const Info: FC<OHMInfoProps> = (props: { path?: string }) => {
       case "faq":
         return <Faq />;
       default:
-        return <Proposals />;
+        return <News />;
     }
   };
   return (
     <Box>
       <Box display="flex" flexDirection="row" className={classes.tabNav} pt="18px" mb="18px">
-        <Link component={NavLink} to="/info/faq">
-          FAQ
+        <Link component={NavLink} to="/info/news">
+          News
         </Link>
         <Link component={NavLink} to="/info/proposals">
           Votes
         </Link>
-        <Link component={NavLink} to="/info/news">
-          News
+        <Link component={NavLink} to="/info/faq">
+          FAQ
         </Link>
       </Box>
       <RenderComponent path={props.path} />
