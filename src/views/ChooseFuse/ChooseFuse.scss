@@ -19,26 +19,22 @@
     }
   }
 
-  .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft.fuse-name-cell {
-    .MuiBox-root div.fuse-name {
-      margin-top: 5px;
-
-      a {
-        margin-top: 5px;
-      }
-    }
+  div.fuse-name {
+    margin-top: 15px;
   }
+
   .fuse-data-card {
     margin: auto;
     text-decoration: none;
-    .fuse-pair {
-      display: flex !important;
-      align-items: center;
-      justify-content: left;
-      margin-bottom: 15px;
-      .MuiBox-root {
-        margin-right: 10px;
-      }
+  }
+
+  .MuiAvatar-root {
+    width: 25px;
+    height: 25px;
+
+    &.MuiAvatarGroup-avatar {
+      margin-left: -10px !important;
+      font-size: 13px;
     }
   }
 }

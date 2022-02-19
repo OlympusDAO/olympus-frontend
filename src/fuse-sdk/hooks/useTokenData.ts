@@ -39,14 +39,12 @@ export const fetchTokenData = async (address: string) => {
 
   if (address !== ETH_TOKEN_DATA.address) {
     try {
+      // Since running the vercel functions requires a Vercel account and is super slow,
+      // just fetch this data from the live site in development:
+      const url = `https://rari-git-l2tokendata-rari-capital.vercel.app/api/tokenData?address=${address}`;
+
       data = {
-        ...(await fetch(
-          // Since running the vercel functions requires a Vercel account and is super slow,
-          // just fetch this data from the live site in development:
-          (process.env.NODE_ENV === "development" ? "https://app.rari.capital" : "https://app.rari.capital") +
-            "/api/tokenData?address=" +
-            address,
-        ).then(res => res.json())),
+        ...(await fetch(url).then(res => res.json())),
         address: address,
       };
     } catch (e) {

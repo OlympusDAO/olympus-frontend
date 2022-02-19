@@ -34,7 +34,7 @@ export interface MergedPool extends LensFusePoolData, LensFusePool {
 }
 
 export const fetchPools = async ({ fuse, address }: { fuse: Fuse; address: string }) => {
-  const req = await fuse.contracts.FusePoolLens.getPublicPoolUsersWithData(0);
+  const req = await fuse.contracts.FusePoolLens.callStatic.getPublicPoolsByVerificationWithData(true);
   const { 0: ids, 1: fusePools, 2: fusePoolsData, 3: errors }: LensPoolsWithData = await req;
 
   const ethPrice: number = await fuse.getEthUsdPriceBN();

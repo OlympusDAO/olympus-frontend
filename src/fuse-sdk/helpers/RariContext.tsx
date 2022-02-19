@@ -20,7 +20,7 @@ export default ({ children }: { children: ReactNode }) => {
   const address = useAddress();
   // const { provider } = useWeb3Context();
 
-  const provider = new StaticJsonRpcProvider("https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161");
+  const provider = new StaticJsonRpcProvider("https://eth-mainnet.alchemyapi.io/v2/2Mt-6brbJvTA4w9cpiDtnbTo6qOoySnN");
 
   const [fuse, setFuse] = useState<Fuse>(initFuseWithProviders(provider));
 

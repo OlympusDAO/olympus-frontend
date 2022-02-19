@@ -1,39 +1,52 @@
 import "./ChooseFuse.scss";
 
 import { t } from "@lingui/macro";
-import { Box, Link, Paper, TableCell, TableRow, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import { DataRow, TokenStack } from "@olympusdao/component-library";
+import { Avatar, Box, Link, Paper, TableCell, TableRow, Typography } from "@material-ui/core";
+import { AvatarGroup, Skeleton } from "@material-ui/lab";
+import { DataRow } from "@olympusdao/component-library";
 import { Fragment } from "react";
 import { NavLink } from "react-router-dom";
 
-// import { getEtherscanUrl } from "src/helpers";
-// import { useAppSelector } from "src/hooks";
 import { NetworkId } from "../../constants";
 import { MergedPool } from "../../fuse-sdk/helpers/fetchFusePool";
-// import { DisplayBondDiscount, DisplayBondPrice } from "./BondV2";
-// import { useTokensData } from "../../fuse-sdk/hooks/useTokenData";
+import { useTokenData } from "../../fuse-sdk/hooks/useTokenData";
 import { formatCurrency } from "../../helpers";
+import { letterScore, usePoolRSS } from "../../hooks/useRss";
 
 export function PoolDataCard({ pool, networkId }: { pool: MergedPool; networkId: NetworkId }) {
-  const isPoolLoading = false; //useAppSelector(state => state.bondingV2.loading);
-  // const tokens = pool..map(a => a.underlyingSymbol).filter(Boolean);
+  const isPoolLoading = false;
+  const rss = usePoolRSS(pool.id);
+  const rssScore = rss ? letterScore(rss.totalScore) : "?";
+  const tokens = pool.underlyingTokens.map((address, index) => ({
+    symbol: pool.underlyingSymbols[index],
+    address,
+  }));
 
   return (
     <NavLink to={`/fuse/${pool.id}`}>
       <Paper className="fuse-data-card ohm-card">
         <div className="fuse-pair">
-          {/* @ts-ignore TODO */}
-          <TokenStack tokens={pool.underlyingTokens} />
+          <AvatarGroup spacing="small" max={10}>
+            {tokens.map(({ address }) => (
+              <TokenIcon address={address} key={address} />
+            ))}
+          </AvatarGroup>
           <div className="fuse-name">
             <Typography>{pool.name}</Typography>
           </div>
         </div>
-        <DataRow title={t`Pool Assets`} balance={`${pool.id}`} />
-        <DataRow title={t`Total Supplied`} balance={formatCurrency(Number(pool.totalSupply), 2)} />
-        <DataRow title={t`Total Borrowed`} balance={formatCurrency(Number(pool.totalBorrow), 2)} />
-        {/* TODO risk score */}
-        <DataRow title={t`Pool Risk Score`} balance="F" />
+        <DataRow title={t`Pool Assets`} balance={`${pool.id}`} isLoading={isPoolLoading} />
+        <DataRow
+          title={t`Total Supplied`}
+          balance={formatCurrency(Number(pool.suppliedUSD), 2)}
+          isLoading={isPoolLoading}
+        />
+        <DataRow
+          title={t`Total Borrowed`}
+          balance={formatCurrency(Number(pool.borrowedUSD), 2)}
+          isLoading={isPoolLoading}
+        />
+        <DataRow title={t`Pool Risk Score`} balance={rssScore} isLoading={isPoolLoading} />
       </Paper>
     </NavLink>
   );
@@ -41,15 +54,21 @@ export function PoolDataCard({ pool, networkId }: { pool: MergedPool; networkId:
 
 export function PoolTableData({ pool, networkId }: { pool: MergedPool; networkId: NetworkId }) {
   const isPoolLoading = !pool.totalBorrow ?? true;
+  const rss = usePoolRSS(pool.id);
+  const rssScore = rss ? letterScore(rss.totalScore) : "?";
+  const tokens = pool.underlyingTokens.map((address, index) => ({
+    symbol: pool.underlyingSymbols[index],
+    address,
+  }));
   return (
     <TableRow hover component={Link} href={`/fuse/${pool.id}/`}>
       <TableCell align="left" className="fuse-name-cell">
         <Box display="flex" flexDirection="column">
-          <TokenStack
-            style={{ fontSize: 26, marginInlineEnd: "-0.5rem" }}
-            // @ts-ignore
-            tokens={pool.underlyingTokens}
-          />
+          <AvatarGroup spacing="small" max={10}>
+            {tokens.map(({ address }) => (
+              <TokenIcon address={address} key={address} />
+            ))}
+          </AvatarGroup>
           <div className="fuse-name">
             <Typography variant="body1">{pool.name}</Typography>
           </div>
@@ -59,15 +78,12 @@ export function PoolTableData({ pool, networkId }: { pool: MergedPool; networkId
         <Typography>{isPoolLoading ? <Skeleton width="50px" /> : pool.id}</Typography>
       </TableCell>
       <TableCell align="center">
-        {isPoolLoading ? <Skeleton width="50px" /> : <DisplayFusePrice price={Number(pool.totalSupply)} />}
+        {isPoolLoading ? <Skeleton width="50px" /> : <DisplayFusePrice price={Number(pool.suppliedUSD)} />}
       </TableCell>
       <TableCell align="center">
-        {isPoolLoading ? <Skeleton width="50px" /> : <DisplayFusePrice price={Number(pool.totalBorrow)} />}
+        {isPoolLoading ? <Skeleton width="50px" /> : <DisplayFusePrice price={Number(pool.borrowedUSD)} />}
       </TableCell>
-      <TableCell align="center">
-        {/* TODO risk score */}
-        {"F"}
-      </TableCell>
+      <TableCell align="center">{rssScore}</TableCell>
     </TableRow>
   );
 }
@@ -75,3 +91,12 @@ export function PoolTableData({ pool, networkId }: { pool: MergedPool; networkId
 export const DisplayFusePrice = ({ price }: { price: number }) => {
   return <Fragment>{formatCurrency(price, 2)}</Fragment>;
 };
+
+function TokenIcon({ address }: { address: string }) {
+  const tokenData = useTokenData(address);
+  return (
+    <Avatar
+      src={tokenData?.logoURL ?? "https://raw.githubusercontent.com/feathericons/feather/master/icons/help-circle.svg"}
+    />
+  );
+}
