@@ -1,4 +1,5 @@
 import { Box, CircularProgress, Grid, Select, Typography, useTheme } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import { Paper } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useQuery } from "react-query";
@@ -35,6 +36,14 @@ const CustomTooltip = (props: any) => {
 };
 
 export function AssetAndOtherInfo({ assets }: { assets: USDPricedFuseAsset[] }) {
+  return (
+    <Paper fullWidth>
+      {assets.length > 0 ? <AssetAndOtherInfoInternal assets={assets} /> : <Skeleton variant="rect" height="300" />}
+    </Paper>
+  );
+}
+
+function AssetAndOtherInfoInternal({ assets }: { assets: USDPricedFuseAsset[] }) {
   const { fuse } = useRari();
   const [selectedAsset, setSelectedAsset] = useState(assets.length > 3 ? assets[2] : assets[0]);
   const selectedTokenData = useTokenData(selectedAsset.underlyingToken);

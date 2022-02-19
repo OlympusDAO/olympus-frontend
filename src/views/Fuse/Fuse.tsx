@@ -57,10 +57,10 @@ export default function Borrow({ poolId }: { poolId: number }) {
   const [defaultMode, setDefaultMode] = useState(Mode.SUPPLY);
   const handleOpen = useCallback(
     (asset, mode) => {
-      // if (!connected) {
-      // connect();
-      // return;
-      // }
+      if (!connected) {
+        connect();
+        return;
+      }
       setSelectedAsset(asset);
       setDefaultMode(mode);
     },
@@ -69,8 +69,8 @@ export default function Borrow({ poolId }: { poolId: number }) {
   const handleClose = useCallback(() => setSelectedAsset(null), []);
 
   return (
-    <div id="fuse-view">
-      <Zoom in={true}>
+    <Zoom in={true}>
+      <div id="fuse-view">
         <Paper fullWidth headerText={`Pool ${poolId}`}>
           <MetricCollection>
             <Metric
@@ -90,9 +90,13 @@ export default function Borrow({ poolId }: { poolId: number }) {
             />
             <Metric label={t`Supply Utilization`} metric={utilization} isLoading={!!utilization ? false : true} />
           </MetricCollection>
-          {assets.some(asset => asset.membership) ? (
-            <CollateralRatioBar maxBorrow={maxBorrow} borrowUSD={totalBorrowBalanceUSD} />
-          ) : null}
+        </Paper>
+        {assets.some(asset => asset.membership) ? (
+          <Paper fullWidth>
+            <CollateralRatioBar maxBorrow={maxBorrow} borrowUSD={totalBorrowBalanceUSD} />{" "}
+          </Paper>
+        ) : null}
+        <Paper fullWidth>
           <TableContainer>
             <Table>
               <TableHead>
@@ -107,31 +111,33 @@ export default function Borrow({ poolId }: { poolId: number }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {assets.map(asset => (
-                  <AssetRow asset={asset} key={asset.cToken} onClick={handleOpen} />
-                ))}
+                {assets.length ? (
+                  assets.map(asset => <AssetRow asset={asset} key={asset.cToken} onClick={handleOpen} />)
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={7}>
+                      <Skeleton height={300} variant="rect" />
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>
         </Paper>
-      </Zoom>
-      <Grid container spacing={2} direction="column">
-        <Grid item>
-          <Paper>
-            {assets.length > 0 ? <AssetAndOtherInfo assets={assets} /> : <Skeleton variant="rect" height={300} />}
-          </Paper>
-        </Grid>
-      </Grid>
-      {selectedAsset ? (
-        <PoolModal
-          defaultMode={defaultMode}
-          comptrollerAddress={comptrollerAddress}
-          asset={selectedAsset}
-          onClose={handleClose}
-          borrowLimit={maxBorrow}
-        />
-      ) : null}
-    </div>
+
+        <AssetAndOtherInfo assets={assets} />
+
+        {selectedAsset ? (
+          <PoolModal
+            defaultMode={defaultMode}
+            comptrollerAddress={comptrollerAddress}
+            asset={selectedAsset}
+            onClose={handleClose}
+            borrowLimit={maxBorrow}
+          />
+        ) : null}
+      </div>
+    </Zoom>
   );
 }
 
