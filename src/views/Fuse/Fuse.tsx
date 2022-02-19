@@ -2,6 +2,7 @@ import "./Fuse.scss";
 
 import { t } from "@lingui/macro";
 import {
+  Box,
   Grid,
   Table,
   TableBody,
@@ -107,11 +108,32 @@ export default function Borrow({ poolId }: { poolId: number }) {
                 <TableHead>
                   <TableRow>
                     <TableCell>Asset</TableCell>
-                    <TableCell align="right">APY/LTV</TableCell>
-                    <TableCell align="right">APR/TVL</TableCell>
+                    <TableCell align="right">
+                      <Box display="flex" justifyContent="right">
+                        APY/LTV{" "}
+                        <InfoTooltip
+                          message={`The Collateral Factor (CF) ratio defines the maximum amount of tokens in the pool that can be borrowed with a specific collateral. It’s expressed in percentage: if in a pool ETH has 75% LTV, for every 1 ETH worth of collateral, borrowers will be able to borrow 0.75 ETH worth of other tokens in the pool.`}
+                        />
+                      </Box>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Box display={"flex"} justifyContent="right">
+                        APR/TVL
+                        <InfoTooltip
+                          message={`Total Value Lent (TVL) measures how much of this asset has been supplied in total. TVL does not account for how much of the lent assets have been borrowed, use 'liquidity' to determine the total unborrowed assets lent.`}
+                        />
+                      </Box>
+                    </TableCell>
                     <TableCell align="right">Supply balance</TableCell>
                     <TableCell align="right">Borrow balance</TableCell>
-                    <TableCell align="right">Liquidity</TableCell>
+                    <TableCell align="right">
+                      <Box display="flex" justifyContent="right">
+                        Liquidity
+                        <InfoTooltip
+                          message={`Liquidity is the amount of this asset that is available to borrow (unborrowed). To see how much has been supplied and borrowed in total, navigate to the Pool Info tab.`}
+                        />
+                      </Box>
+                    </TableCell>
                     <TableCell colSpan={2} />
                   </TableRow>
                 </TableHead>
@@ -185,9 +207,6 @@ function AssetRow({
           <Typography variant="body2" component="span">
             {asset.collateralFactor / 1e16}% LTV
           </Typography>
-          <InfoTooltip
-            message={`The Collateral Factor (CF) ratio defines the maximum amount of tokens in the pool that can be borrowed with a specific collateral. It’s expressed in percentage: if in a pool ETH has 75% LTV, for every 1 ETH worth of collateral, borrowers will be able to borrow 0.75 ETH worth of other tokens in the pool.`}
-          ></InfoTooltip>
         </>
       </TableCell>
       {asset.isPaused ? (
@@ -196,9 +215,6 @@ function AssetRow({
         <TableCell align={"right"}>
           <Typography variant="body1">{borrowAPR.toFixed(2)}%</Typography>
           <Typography variant="body2" component="span">{`${shortUsdFormatter(asset.totalSupplyUSD)} TVL`}</Typography>
-          <InfoTooltip
-            message={`Total Value Lent (TVL) measures how much of this asset has been supplied in total. TVL does not account for how much of the lent assets have been borrowed, use 'liquidity' to determine the total unborrowed assets lent.`}
-          ></InfoTooltip>
         </TableCell>
       )}
       <TableCell align="right">
@@ -220,9 +236,6 @@ function AssetRow({
         <Typography variant="body2" component="span">
           {shortUsdFormatter(asset.liquidity / 10 ** asset.underlyingDecimals).replace("$", "")} {tokenData?.symbol}
         </Typography>
-        <InfoTooltip
-          message={`Liquidity is the amount of this asset that is available to borrow (unborrowed). To see how much has been supplied and borrowed in total, navigate to the Pool Info tab.`}
-        />
       </TableCell>
       <TableCell>
         <TertiaryButton fullWidth onClick={handleSupplyClick}>
