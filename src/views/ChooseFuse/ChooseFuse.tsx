@@ -84,43 +84,47 @@ function FusePools() {
       {/* {(!isEmpty(accountNotes) || !isEmpty(v1AccountBonds)) && <ClaimBonds activeNotes={accountNotes} />} */}
 
       <Zoom in={true}>
-        <Paper>
+        <>
           {pools.length == 0 && !isFuseLoading && (
-            <Box display="flex" justifyContent="center" marginY="24px">
-              <Typography variant="h4">No active fuses</Typography>
-            </Box>
+            <Paper>
+              <Box display="flex" justifyContent="center" marginY="24px">
+                <Typography variant="h4">No active fuses</Typography>
+              </Box>
+            </Paper>
           )}
           {!isSmallScreen && pools.length > 0 && (
-            <Grid container item>
-              <TableContainer>
-                <Table aria-label="Available bonds">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="center" width={"40%"}>
-                        <Trans>Pool Assets</Trans>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Trans>Pool Number</Trans>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Trans>Total Supplied</Trans>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Trans>Total Borrowed</Trans>
-                      </TableCell>
-                      <TableCell align="center">Pool Risk Score</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {pools.map(f => (
-                      <PoolTableData networkId={networkId} key={f.name} pool={f} />
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Grid>
+            <Paper>
+              <Grid container item>
+                <TableContainer>
+                  <Table aria-label="Available bonds">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="center" width={"40%"}>
+                          <Trans>Pool Assets</Trans>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Trans>Pool Number</Trans>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Trans>Total Supplied</Trans>
+                        </TableCell>
+                        <TableCell align="center">
+                          <Trans>Total Borrowed</Trans>
+                        </TableCell>
+                        <TableCell align="center">Pool Risk Score</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {pools.map(f => (
+                        <PoolTableData networkId={networkId} key={f.name} pool={f} />
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Grid>
+            </Paper>
           )}
-        </Paper>
+        </>
       </Zoom>
 
       {isSmallScreen && (

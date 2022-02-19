@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useMediaQuery,
   Zoom,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
@@ -26,6 +27,7 @@ import { formatCurrency } from "../../helpers";
 import { useWeb3Context } from "../../hooks/web3Context";
 import { AssetAndOtherInfo } from "./AssetAndOtherInfo";
 import { CollateralRatioBar } from "./CollateralRatioBar";
+import FuseDataCard from "./FuseDataCard";
 import { PoolModal } from "./Modal/PoolModal";
 
 export default function Borrow({ poolId }: { poolId: number }) {
@@ -47,6 +49,8 @@ export default function Borrow({ poolId }: { poolId: number }) {
   const nonBorrowedAssets = useMemo(() => assets.filter(asset => asset.borrowBalanceUSD < 1), [assets]);
 
   const maxBorrow = useBorrowLimit(assets);
+
+  const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
 
   const utilization =
     (totalSuppliedUSD ?? 0).toString() === "0"
@@ -96,34 +100,40 @@ export default function Borrow({ poolId }: { poolId: number }) {
             <CollateralRatioBar maxBorrow={maxBorrow} borrowUSD={totalBorrowBalanceUSD} />{" "}
           </Paper>
         ) : null}
-        <Paper fullWidth>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Asset</TableCell>
-                  <TableCell align="right">APY/LTV</TableCell>
-                  <TableCell align="right">APR/TVL</TableCell>
-                  <TableCell align="right">Supply balance</TableCell>
-                  <TableCell align="right">Borrow balance</TableCell>
-                  <TableCell align="right">Liquidity</TableCell>
-                  <TableCell colSpan={2} />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {assets.length ? (
-                  assets.map(asset => <AssetRow asset={asset} key={asset.cToken} onClick={handleOpen} />)
-                ) : (
+        {!isSmallScreen && (
+          <Paper fullWidth>
+            <TableContainer>
+              <Table>
+                <TableHead>
                   <TableRow>
-                    <TableCell colSpan={7}>
-                      <Skeleton height={300} variant="rect" />
-                    </TableCell>
+                    <TableCell>Asset</TableCell>
+                    <TableCell align="right">APY/LTV</TableCell>
+                    <TableCell align="right">APR/TVL</TableCell>
+                    <TableCell align="right">Supply balance</TableCell>
+                    <TableCell align="right">Borrow balance</TableCell>
+                    <TableCell align="right">Liquidity</TableCell>
+                    <TableCell colSpan={2} />
                   </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
+                </TableHead>
+                <TableBody>
+                  {assets.length ? (
+                    assets.map(asset => <AssetRow asset={asset} key={asset.cToken} onClick={handleOpen} />)
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={7}>
+                        <Skeleton height={300} variant="rect" />
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        )}
+
+        {isSmallScreen &&
+          assets.length > 0 &&
+          assets.map((a, i) => <FuseDataCard asset={a} key={i} onClick={handleOpen} />)}
 
         <AssetAndOtherInfo assets={assets} />
 
@@ -154,7 +164,7 @@ function AssetRow({
   const borrowAPR = convertMantissaToAPY(asset.borrowRatePerBlock, 365);
 
   const handleSupplyClick = useCallback(() => onClick(asset, Mode.SUPPLY), [asset, onClick]);
-  const handleBorrowCLick = useCallback(() => onClick(asset, Mode.BORROW), [asset, onClick]);
+  const handleBorrowClick = useCallback(() => onClick(asset, Mode.BORROW), [asset, onClick]);
 
   return (
     <TableRow>
@@ -220,7 +230,7 @@ function AssetRow({
         </TertiaryButton>
       </TableCell>
       <TableCell>
-        <TertiaryButton fullWidth disabled={asset.isPaused} onClick={handleBorrowCLick}>
+        <TertiaryButton fullWidth disabled={asset.isPaused} onClick={handleBorrowClick}>
           Borrow
         </TertiaryButton>
       </TableCell>

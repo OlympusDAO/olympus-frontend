@@ -52,4 +52,10 @@
 
 .mobile #fuse-view {
   width: 100%;
+
+  .fuse-buttons {
+    button {
+      margin: 0 10px;
+    }
+  }
 }
