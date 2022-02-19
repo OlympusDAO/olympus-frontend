@@ -218,9 +218,9 @@ export const changeStake = createAsyncThunk(
           category: "Staking",
           action: uaData.type ?? "unknown",
           label: uaData.txHash ?? "unknown",
+          value: Math.round(parseFloat(uaData.value)),
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
-          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(stakeTx.hash));
       }

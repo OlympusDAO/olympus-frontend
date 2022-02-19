@@ -1,5 +1,8 @@
+
 import { Box, Link } from "@material-ui/core";
 import { TextButton } from "@olympusdao/component-library";
+import { Trans } from "@lingui/macro";
+import { Box, Button, Link, Typography } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import { NavLink, useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";

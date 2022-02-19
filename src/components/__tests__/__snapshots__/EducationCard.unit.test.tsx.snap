@@ -8,6 +8,7 @@ exports[`<ArrowGraphic/> should render component 1`] = `
   >
     <div
       class="MuiBox-root MuiBox-root-2 arrow-graphic"
+      style="margin-top: 0px; margin-bottom: 0px; height: 20px;"
     >
       <svg
         aria-hidden="true"
@@ -30,7 +31,7 @@ exports[`<CurrPositionGraphic/> should render component 1`] = `
 <div>
   <div
     class="MuiBox-root MuiBox-root-9 sect"
-    style="margin-top: 16px; margin-bottom: 16px;"
+    style="margin-bottom: 16px;"
   >
     <div
       class="MuiBox-root MuiBox-root-10 text"
@@ -94,7 +95,7 @@ exports[`<CurrPositionGraphic/> should render component 1`] = `
       <h6
         class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
       >
-        1
+        1.00
          sOHM
       </h6>
     </div>
@@ -106,7 +107,7 @@ exports[`<DepositSohm/> should render component 1`] = `
 <div>
   <div
     class="MuiBox-root MuiBox-root-35 sect"
-    style="margin-top: 16px; margin-bottom: 16px;"
+    style="margin-bottom: 16px;"
   >
     <div
       class="MuiBox-root MuiBox-root-36 graphic"
@@ -173,13 +174,13 @@ exports[`<DepositSohm/> should render component 1`] = `
       class="MuiBox-root MuiBox-root-40 text"
     >
       <p
-        class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignLeft"
+        class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignCenter"
         style="padding-bottom: 0.33rem;"
       >
         test123
       </p>
       <p
-        class="MuiTypography-root education-message MuiTypography-body2 MuiTypography-alignLeft"
+        class="MuiTypography-root education-message MuiTypography-body2 MuiTypography-alignCenter"
         style="line-height: 16px;"
       >
         Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step is depositing your sOHM and specifying a recipient.
@@ -193,7 +194,7 @@ exports[`<LockInVault/> should render component 1`] = `
 <div>
   <div
     class="MuiBox-root MuiBox-root-41 sect"
-    style="margin-top: 16px; margin-bottom: 16px;"
+    style="margin-bottom: 16px;"
   >
     <div
       class="MuiBox-root MuiBox-root-42"
@@ -235,13 +236,13 @@ exports[`<LockInVault/> should render component 1`] = `
       class="MuiBox-root MuiBox-root-46 text"
     >
       <p
-        class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignLeft"
+        class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignCenter"
         style="padding-bottom: 0.33rem;"
       >
         test123
       </p>
       <p
-        class="MuiTypography-root education-message MuiTypography-body2 MuiTypography-alignLeft"
+        class="MuiTypography-root education-message MuiTypography-body2 MuiTypography-alignCenter"
         style="line-height: 16px;"
       >
         Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient. You can withdraw or edit your principal sOHM amount at any time.
@@ -255,7 +256,7 @@ exports[`<NewPositionGraphic/> should render component 1`] = `
 <div>
   <div
     class="MuiBox-root MuiBox-root-4 sect"
-    style="margin-top: 16px; margin-bottom: 16px;"
+    style="margin-bottom: 16px;"
   >
     <div
       class="MuiBox-root MuiBox-root-5 text"
@@ -319,7 +320,7 @@ exports[`<NewPositionGraphic/> should render component 1`] = `
       <h6
         class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
       >
-        1
+        1.00
          sOHM
       </h6>
     </div>
@@ -331,7 +332,7 @@ exports[`<ReceivesYield/> should render component 1`] = `
 <div>
   <div
     class="MuiBox-root MuiBox-root-14 sect"
-    style="margin-top: 16px; margin-bottom: 16px;"
+    style="margin-bottom: 16px;"
   >
     <div
       class="MuiBox-root MuiBox-root-15"
@@ -342,9 +343,9 @@ exports[`<ReceivesYield/> should render component 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
-          color="#fff"
+          class="MuiSvgIcon-root receives-yield-icon MuiSvgIcon-fontSizeSmall"
           focusable="false"
+          style="height: 32px; width: 32px; margin: auto;"
           viewBox="0 0 20 20"
         >
           <svg
@@ -384,13 +385,13 @@ exports[`<ReceivesYield/> should render component 1`] = `
       class="MuiBox-root MuiBox-root-19 text"
     >
       <p
-        class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignLeft"
+        class="MuiTypography-root cta-text MuiTypography-body1 MuiTypography-alignCenter"
         style="padding-bottom: 0.33rem;"
       >
         test123
       </p>
       <p
-        class="MuiTypography-root education-message MuiTypography-body2 MuiTypography-alignLeft"
+        class="MuiTypography-root education-message MuiTypography-body2 MuiTypography-alignCenter"
         style="line-height: 16px;"
       >
         The recipient you specified, or the project you selected, will then receive the rebases associated with your sOHM deposit until you withdraw your sOHM principal from the vault.
@@ -404,7 +405,7 @@ exports[`<RedeemGraphic/> should render component 1`] = `
 <div>
   <div
     class="MuiBox-root MuiBox-root-20 sect"
-    style="margin-top: 16px; margin-bottom: 16px;"
+    style="margin-bottom: 16px;"
   >
     <div
       class="MuiBox-root MuiBox-root-21 text"
@@ -416,14 +417,13 @@ exports[`<RedeemGraphic/> should render component 1`] = `
       </h6>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-22"
+      class="MuiBox-root MuiBox-root-22 yield-graphic"
     >
       <svg
         aria-hidden="true"
         class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-        color="#fff"
         focusable="false"
-        style="font-size: 60px;"
+        style="height: 32px; width: 32px; margin: auto;"
         viewBox="0 0 20 20"
       >
         <svg
@@ -454,7 +454,7 @@ exports[`<RedeemGraphic/> should render component 1`] = `
       <h6
         class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
       >
-        Redeem 1 sOHM in yield
+        Redeem 1.00 sOHM in yield
       </h6>
     </div>
   </div>
@@ -465,7 +465,7 @@ exports[`<VaultGraphic/> should render component 1`] = `
 <div>
   <div
     class="MuiBox-root MuiBox-root-30 sect"
-    style="margin-top: 16px; margin-bottom: 16px;"
+    style="margin-bottom: 16px;"
   >
     <div
       class="MuiBox-root MuiBox-root-31 text"
@@ -484,7 +484,7 @@ exports[`<VaultGraphic/> should render component 1`] = `
         class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
         color="#fff"
         focusable="false"
-        style="font-size: 60px;"
+        style="height: 32px; width: 32px; margin: auto;"
         viewBox="0 0 20 20"
       >
         <rect
@@ -502,9 +502,9 @@ exports[`<VaultGraphic/> should render component 1`] = `
       class="MuiBox-root MuiBox-root-34 text"
     >
       <h6
-        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root message-text MuiTypography-h6 MuiTypography-alignCenter"
       >
-        1 sOHM deposited
+        1.00 sOHM deposited
       </h6>
     </div>
   </div>
@@ -515,7 +515,7 @@ exports[`<WalletGraphic/> should render component 1`] = `
 <div>
   <div
     class="MuiBox-root MuiBox-root-47 sect"
-    style="margin-top: 16px; margin-bottom: 16px;"
+    style="margin-bottom: 16px;"
   >
     <div
       class="MuiBox-root MuiBox-root-48 text"
@@ -577,9 +577,9 @@ exports[`<WalletGraphic/> should render component 1`] = `
       class="MuiBox-root MuiBox-root-51 text"
     >
       <h6
-        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root message-text MuiTypography-h6 MuiTypography-alignCenter"
       >
-        1
+        1.00
          sOHM 
         retained
       </h6>
@@ -592,7 +592,7 @@ exports[`<YieldGraphic/> should render component 1`] = `
 <div>
   <div
     class="MuiBox-root MuiBox-root-25 sect"
-    style="margin-top: 16px; margin-bottom: 16px;"
+    style="margin-bottom: 16px;"
   >
     <div
       class="MuiBox-root MuiBox-root-26 text"
@@ -604,14 +604,13 @@ exports[`<YieldGraphic/> should render component 1`] = `
       </h6>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-27"
+      class="MuiBox-root MuiBox-root-27 yield-graphic"
     >
       <svg
         aria-hidden="true"
         class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-        color="#fff"
         focusable="false"
-        style="font-size: 60px;"
+        style="height: 64px; width: 64px; margin: auto;"
         viewBox="0 0 20 20"
       >
         <svg
@@ -640,9 +639,9 @@ exports[`<YieldGraphic/> should render component 1`] = `
       class="MuiBox-root MuiBox-root-29 text"
     >
       <h6
-        class="MuiTypography-root cta-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root message-text MuiTypography-h6 MuiTypography-alignCenter"
       >
-        Receives yield from 1 sOHM
+        Receives yield from 1.00 sOHM
       </h6>
     </div>
   </div>
