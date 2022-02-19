@@ -6,7 +6,7 @@ import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { addresses } from "../constants";
 import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
 import { getBalances, getMockRedemptionBalances, getRedemptionBalances } from "./AccountSlice";
-import { IBaseAddressAsyncThunk, IJsonRPCError } from "./interfaces";
+import { IJsonRPCError, IRedeemAsyncThunk } from "./interfaces";
 import { error } from "./MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 
@@ -18,9 +18,10 @@ interface IUAData {
   type: string;
 }
 
+// Redeems a user's redeemable balance from the Give contract
 export const redeemBalance = createAsyncThunk(
   "redeem/redeemBalance",
-  async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID, eventSource }: IRedeemAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet!`));
       return;
@@ -59,8 +60,11 @@ export const redeemBalance = createAsyncThunk(
       if (redeemTx) {
         trackSegmentEvent(uaData);
         trackGAEvent({
-          category: "Redeem",
+          category: "Olympus Give",
           action: uaData.type,
+          label: uaData.txHash ?? "unknown",
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
           metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(redeemTx.hash));
@@ -71,9 +75,10 @@ export const redeemBalance = createAsyncThunk(
   },
 );
 
+// Redeem a user's redeemable balance from the MockGive contract on Rinkeby
 export const redeemMockBalance = createAsyncThunk(
   "redeem/redeemMockBalance",
-  async ({ provider, address, networkID }: IBaseAddressAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID, eventSource }: IRedeemAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet!`));
       return;
@@ -117,8 +122,11 @@ export const redeemMockBalance = createAsyncThunk(
       if (redeemTx) {
         trackSegmentEvent(uaData);
         trackGAEvent({
-          category: "Redeem",
+          category: "Olympus Give",
           action: uaData.type,
+          label: uaData.txHash ?? "unknown",
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
           metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(redeemTx.hash));

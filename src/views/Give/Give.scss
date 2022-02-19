@@ -4,9 +4,49 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  margin-top: 10px;
+
+  #simple-tabpanel-0 {
+    width: 100%;
+  }
+
+  #simple-tabpanel-1 {
+    width: 100%;
+  }
+
+  #simple-tabpanel-2 {
+    width: 100%;
+  }
+
+  .MuiBox-root {
+    padding: 0px;
+  }
 
   .ohm-card {
+    padding-bottom: 40px;
+
+    .give-tab-buttons {
+      margin-top: 1rem;
+      margin-bottom: 50px;
+      max-height: 60px;
+      min-height: 40px;
+      height: auto;
+    }
+
+    .MuiBox-root .no-donations {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .MuiTypography-body1 {
+        margin-bottom: 30px;
+      }
+
+      .MuiButtonBase-root .MuiTypography-body1 {
+        margin-bottom: 0px;
+      }
+    }
+
     overflow-y: scrollable;
     .cell-align-end {
       display: flex;
@@ -41,10 +81,6 @@
     }
   }
 
-  .causes-container {
-    padding: 0px 10px 30px 10px;
-  }
-
   .card-header {
     display: flex;
     flex-direction: column;
@@ -66,11 +102,8 @@
     align-content: center;
     justify-content: center;
     width: 100%;
-
-    .MuiGrid-root.MuiGrid-item {
-      display: flex;
-      justify-self: center !important;
-    }
+    padding-left: 30px;
+    padding-right: 30px;
 
     .data-grid {
       justify-content: center;
@@ -79,13 +112,10 @@
     }
 
     .cause-card {
-      height: auto;
       &.very-small {
         min-width: 200px;
       }
-      min-width: 333px;
       // max-width: 773px;
-      width: auto;
       // box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.03);
       // background-color: #ffffff0e;
       // backdrop-filter: blur(60px);
@@ -93,13 +123,19 @@
       border-radius: 10px !important;
       display: flex;
       flex-direction: row;
+      flex: 0 0 auto;
       justify-content: flex-start;
-      align-items: center;
-      margin-bottom: 2rem;
+      align-items: flex-start;
+      margin-bottom: 60px;
 
       .cause-title {
         padding-left: 0rem;
         padding-bottom: 0rem;
+        margin-bottom: 10px;
+      }
+
+      .cause-title.smaller-size {
+        margin-bottom: 20px;
       }
 
       .cause-title:hover {
@@ -109,38 +145,28 @@
       }
 
       .cause-image {
-        width: 35%;
+        width: 33%;
         height: 100%;
         justify-content: flex-start;
-        padding: 30px;
+        padding-right: 30px;
 
         img {
-          border-radius: 5%;
+          border-radius: 16px;
         }
       }
 
       .cause-content {
-        height: 100%;
-        width: 65%;
+        height: auto;
+        width: 66%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding-right: 30px;
-        padding-top: 30px;
-        padding-bottom: 30px;
 
         .MuiTypography-body2 {
           margin-top: 0.5rem;
         }
 
-        .cause-header {
-          justify-content: space-between;
-          align-items: center;
-        }
-
         .cause-body {
-          padding-bottom: 16px;
-
           p {
             margin-bottom: 0px;
           }
@@ -183,7 +209,8 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-end;
+        margin-top: 16px;
 
         .cause-info-main-text {
           font-size: 1rem;
@@ -200,15 +227,20 @@
       }
 
       .cause-misc-info .MuiGrid-item {
-        height: 40px;
+        display: flex;
         padding-left: 0px;
-        align-items: center;
+        align-items: flex-end;
         justify-content: flex-start;
       }
 
+      .cause-misc-info .give-button-grid {
+        height: 40px;
+      }
+
       .cause-info-icon {
-        margin-right: 0.2rem;
-        align-self: center;
+        margin-right: 0.25rem;
+        align-self: flex-end;
+        margin-bottom: -2px;
       }
 
       .cause-give-button {
@@ -222,62 +254,174 @@
 
   .donation-table {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    margin: 6px 0px;
 
-    .donation-row {
+    .MuiTableCell-root {
+      padding: 28px 0px 20px 0px;
+    }
+
+    // Must be after .MuiTableCell-root in order to override
+    .MuiTableCell-head {
+      padding: 0px 0px 20px 0px;
+    }
+
+    .MuiTableRow-root {
       display: flex;
-      justify-content: flex-end;
-      width: 100%;
 
-      .donation-buttons {
-        display: flex;
-        justify-content: flex-end;
-
-        .donation-lp-button {
-          width: 25%;
-          margin-right: 1rem;
-        }
-      }
-
-      .recipient-divider {
-        width: 100%;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
+      .MuiTypography-body1 {
+        margin-bottom: 0px;
+        margin-top: 0px;
       }
     }
 
-    .MuiTypography-h6 {
-      min-width: 33%;
-      margin-right: 2rem;
+    .MuiTableHead-root .MuiTableRow-head .MuiTableCell-alignLeft {
+      width: 20%;
+      margin-left: 5px !important;
     }
 
-    .MuiTypography-body1 {
-      min-width: 33%;
-      margin-top: 0.5rem;
-      margin-right: 2rem;
-      margin-bottom: 0rem;
+    .MuiTableHead-root .MuiTableRow-head .MuiTableCell-alignRight {
+      width: 20%;
+      margin-left: 5px !important;
+
+      &.manage-cell {
+        margin-left: 40px !important;
+      }
+    }
+
+    .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
+      display: flex;
+      align-items: center;
+      width: 20%;
+      margin-left: 5px !important;
+      text-align: left;
+    }
+
+    .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignRight {
+      display: flex;
+      align-items: center;
+      width: 20%;
+      margin-left: 5px !important;
+      text-align: left;
+
+      &.deposit-manage-cell {
+        margin-left: 40px !important;
+      }
     }
   }
 
-  .donation-table.smaller {
-    .donation-buttons {
-      justify-content: flex-start;
-      margin-top: 1rem;
+  .redeem-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 85px;
+    padding-right: 85px;
+    width: 100%;
 
-      .donation-lp-button {
-        width: 40%;
+    .redeemable-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 50%;
+      margin-bottom: 40px;
+
+      .redeemable-balance {
+        text-align: center;
+        margin-bottom: 30px;
+
+        h3 {
+          font-weight: 600;
+          margin-bottom: 6px;
+        }
+
+        .subtext {
+          color: #999999;
+        }
+      }
+
+      .redeem-button {
+        height: 40px;
+        width: 100%;
+      }
+    }
+
+    .projects-redeemable-data {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 20px;
+      text-align: center;
+
+      .projects-redeemable-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #999999;
+        padding: 20px 20px 20px 20px;
+        border-radius: 10px;
+        width: 30%;
+
+        h5 {
+          font-weight: 600;
+        }
+
+        .subtext {
+          color: #999999;
+        }
+      }
+    }
+
+    .main-redeemable-box {
+      border: 1px solid #999999;
+      padding-left: 30px;
+      padding-right: 30px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      border-radius: 10px;
+      width: 100%;
+
+      p:first-of-type {
+        color: #999999;
       }
     }
   }
 }
 
 #give-view.medium {
+  .cause-title {
+    margin-bottom: 1rem;
+  }
+
   .causes-body {
+    padding-left: 0px;
+    padding-right: 0px;
+
+    .cause-card {
+      margin-bottom: 30px;
+    }
+
     .cause-content {
-      width: 50%;
+      width: 45%;
 
       .cause-body {
-        padding-bottom: 0px;
+        margin-top: -5%;
+      }
+    }
+
+    .cause-image {
+      display: flex;
+      align-items: center;
+      border-radius: 16px;
+      width: 50%;
+      max-height: 184px;
+      overflow: hidden;
+      padding-right: 0px;
+      margin-right: 30px;
+
+      a {
+        width: 100%;
       }
     }
 
@@ -288,32 +432,168 @@
       }
     }
 
-    .cause-image {
-      width: 50%;
+    .cause-misc-info .give-button-grid {
+      margin-top: 20px;
+
+      .cause-link {
+        width: 100%;
+      }
+    }
+  }
+
+  .ohm-card {
+    // On smaller screens, stack vertically and center
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .give-info {
+    width: 315px;
+
+    .give-info-deposit-box {
+      margin-right: 0px;
+    }
+
+    .give-info-vault-box {
+      margin-right: 0px;
+    }
+  }
+  .donation-table {
+    .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignRight {
+      &.deposit-manage-cell {
+        margin-left: 20px !important;
+      }
+    }
+  }
+
+  .redeem-view {
+    padding-left: 35px;
+    padding-right: 35px;
+
+    .redeemable-container {
+      width: 65%;
+    }
+
+    .projects-redeemable-data {
+      width: 100%;
     }
   }
 }
 
 #give-view.smaller {
-  .causes-container {
-    padding: 5px 0px 30px 0px;
-    .card-header {
-      padding: 0px 0px 0px 30px;
-    }
+  margin-bottom: 30px;
+
+  .give-tab-buttons .MuiTab-wrapper {
+    font-size: 16px;
   }
+
+  .cause-title {
+    margin-bottom: 1rem;
+  }
+
   .causes-body {
+    padding-left: 0px;
+    padding-right: 0px;
+
     .cause-card {
       flex-direction: column;
+    }
+  }
+
+  .small-screen-cause {
+    flex-direction: column;
+
+    .cause-image {
+      display: flex;
+      align-items: center;
+      border-radius: 16px;
+      width: 100%;
+      max-height: 117px;
+      overflow: hidden;
+      padding-right: 0px;
+
+      a {
+        width: 100%;
+      }
     }
 
     .cause-content {
       padding-top: 0px;
-      padding-left: 30px;
+      width: 100%;
+
+      .cause-misc-info .give-button-grid {
+        margin-top: 20px;
+
+        .cause-link {
+          width: 100%;
+        }
+
+        .cause-give-button {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .ohm-card {
+    // On smaller screens, stack vertically and center
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .give-info {
+    width: 220px;
+
+    .give-info-deposit-box {
+      margin-right: 0px;
+    }
+
+    .give-info-vault-box {
+      margin-right: 0px;
+    }
+
+    .cta-text {
+      white-space: nowrap;
+    }
+  }
+
+  .donation-table {
+    .MuiTableHead-root .MuiTableRow-head .MuiTableCell-alignLeft {
+      font-size: 12px;
+      width: 33%;
+    }
+
+    .MuiTableHead-root .MuiTableRow-head .MuiTableCell-alignRight {
+      font-size: 12px;
+      width: 33%;
+    }
+
+    .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignLeft {
+      width: 33%;
+    }
+
+    .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignRight {
+      width: 33%;
+
+      &.deposit-manage-cell {
+        margin-left: 20px !important;
+        width: 40%;
+      }
+    }
+  }
+
+  .redeem-view {
+    padding-left: 0px;
+    padding-right: 0px;
+
+    .redeemable-container {
       width: 100%;
     }
 
-    .cause-image {
-      width: 100%;
+    .projects-redeemable-data .projects-redeemable-box {
+      padding: 20px 10px 20px 10px;
     }
   }
 }
@@ -360,12 +640,18 @@
 
 .custom-recipient {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   &.smaller {
-    padding: 0px 20px 5px 0px;
+    padding: 20px 20px 20px 20px;
   }
-  padding: 0px 30px 5px 0px;
+  padding: 30px 30px 30px 30px;
+
+  .custom-recipient-headline {
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
 
   .custom-give-button {
     height: 40px;
@@ -379,6 +665,10 @@
   justify-content: center;
   align-content: center;
   align-items: center;
+
+  .message-text {
+    color: #999999;
+  }
 
   .yield-graphic svg path {
     fill: none;
@@ -395,6 +685,7 @@
   justify-content: space-between;
 
   .MuiTypography-body2 {
+    color: #999999;
     margin-top: 0.5rem;
   }
 }
@@ -427,6 +718,76 @@
   // Use decimal values to fix anti-aliasing in Chrome. Ridiculous.
   transform: translate(-50.048%, -50.048%);
 
+  &.medium {
+    .manage-project-stats .MuiBox-root {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
+
+  &.smaller {
+    overflow-y: scroll;
+
+    .give-confirmation-details .details-row {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .sohm-allocation-col {
+        margin-bottom: 30px;
+      }
+
+      .recipient-address-col {
+        align-items: flex-start;
+      }
+    }
+
+    .ohm-modal-submit {
+      width: 100%;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+
+    .manage-project-info {
+      .project {
+        .cause-image {
+          max-width: 40%;
+        }
+        .cause-content {
+          width: 60%;
+        }
+      }
+    }
+
+    .manage-donation-details .donation-details {
+      padding: 30px 20px 30px 20px;
+    }
+
+    .redeemable-details .redeem-info {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .donation-details .details-row {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .sohm-allocation-col {
+        width: 100%;
+        margin-bottom: 30px;
+      }
+
+      .recipient-address-col {
+        align-items: flex-start;
+        width: 100%;
+      }
+    }
+
+    .manage-project-stats .center-item {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+
   .yield-header {
     align-items: center;
     display: flex;
@@ -440,9 +801,34 @@
     }
   }
 
+  .redeemable-details {
+    display: flex;
+    border: 1px solid #999999;
+    border-radius: 10px;
+    padding: 20px 20px 20px 20px;
+    width: 80%;
+
+    .redeem-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      .subtext {
+        color: #999999;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
   .give-modal-header {
     display: flex;
     flex-direction: row;
+  }
+
+  .project-modal-top {
+    margin-bottom: 1rem;
   }
 
   .give-modal-alloc-tip {
@@ -450,7 +836,7 @@
     flex-direction: row;
 
     .MuiBox-root {
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
     }
   }
 
@@ -469,7 +855,7 @@
     align-items: center;
     width: 60%;
     height: 43px !important;
-    margin-top: 1rem;
+    margin-top: 40px;
     margin-left: auto;
     margin-right: auto;
 
@@ -478,11 +864,118 @@
       width: 100%;
     }
   }
-}
 
-.ohm-modal.smaller {
-  top: 0%;
-  transform: translate(-50.048%, 0%);
+  .manage-project-info {
+    .project {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding-bottom: 20px;
+
+      .cause-image {
+        max-width: 20%;
+        padding-right: 20px;
+      }
+
+      .project-description {
+        color: #999999;
+      }
+    }
+  }
+
+  .manage-project-stats {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 20px;
+
+    .center-item {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+
+    .MuiBox-root {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #999999;
+      border-radius: 10px;
+      padding: 20px 20px 20px 20px;
+      max-height: 77px;
+      width: 33%;
+      overflow: auto;
+
+      .project-stat-top {
+        font-weight: 600;
+      }
+
+      .subtext {
+        color: #999999;
+      }
+    }
+  }
+
+  .details-header .MuiTypography-h5 {
+    font-weight: 600;
+  }
+
+  .details-container {
+    display: flex;
+    flex-direction: column;
+
+    .details-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding-top: 18px;
+
+      .row-title {
+        color: #999999;
+      }
+    }
+  }
+
+  .details-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .MuiTypography-body1 {
+      color: #999999;
+      margin-bottom: 10px;
+    }
+
+    .sohm-allocation-col {
+      width: 30%;
+    }
+
+    .recipient-address-col {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      align-content: flex-end;
+    }
+  }
+
+  .manage-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+
+    .MuiButton-root {
+      width: 75%;
+      height: 40px;
+    }
+  }
+
+  .manage-donation-details .donation-details {
+    border: 1px solid #999999;
+    border-radius: 10px;
+    padding: 30px;
+  }
 }
 
 .give-confirmation-details {
@@ -495,6 +988,11 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    .MuiTypography-body1 {
+      color: #999999;
+      margin-bottom: 10px;
+    }
 
     .sohm-allocation-col {
       width: 30%;
@@ -522,25 +1020,21 @@
 .give-info {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+
+  .give-info-deposit-box {
+    margin-right: 40px;
+  }
+
+  .give-info-vault-box {
+    margin-right: 40px;
+  }
 
   .subtext {
     font-weight: 400;
   }
 
-  .give-info-deposit-box .text {
-    margin-left: 30px;
-  }
-
-  .give-info-vault-box .text {
-    margin-left: 30px;
-  }
-
   .give-info-yield-box {
-    .text {
-      margin-left: 30px;
-    }
-
     .receives-yield-icon path {
       fill: none;
     }
@@ -574,23 +1068,35 @@
   margin-top: 10px;
   // TODO look at whether we can make this less flakey by using rem instead of px
   .project-sidebar {
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 30px;
-    padding-bottom: 1.5rem;
+    padding: 20px 30px 30px 30px;
     margin-bottom: 1rem;
+
+    .project-sidebar-header {
+      margin-bottom: 30px;
+    }
 
     .cause-image {
       padding-bottom: 30px;
     }
 
-    .project-goal .project-donated-icon {
-      flex-direction: row;
-      flex-wrap: nowrap;
+    .project-top-data {
+      padding-bottom: 30px;
 
-      .subtext {
-        color: #999999;
+      .project-deposits {
+        text-align: right;
+
+        .project-data-icon {
+          justify-content: flex-end;
+        }
       }
+    }
+
+    .project-data-icon {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: nowrap;
+      margin-bottom: 6px;
 
       h6 {
         line-height: 1rem;
@@ -598,14 +1104,19 @@
 
       .MuiGrid-item {
         max-width: 20px;
-        margin-right: 1rem;
+        margin-right: 10px;
       }
+    }
+
+    .subtext {
+      color: #999999;
     }
 
     .project-countdown .countdown-container {
       display: flex;
       flex-direction: row;
       justify-content: center;
+      flex-wrap: nowrap;
 
       .countdown-object {
         display: flex;
@@ -613,30 +1124,68 @@
         align-items: center;
         justify-content: center;
 
-        svg {
-          padding-right: 0.3rem;
-        }
+        padding-left: 3px;
+        padding-right: 3px;
       }
 
       .project-countdown-text {
         display: flex;
         align-content: center;
         justify-content: center;
-        padding-top: 0.3rem;
+        padding-left: 3px;
+        padding-right: 3px;
+      }
 
-        .cause-info-bottom-text {
-          color: #999999;
-        }
+      .cause-info-bottom-text {
+        padding-left: 3px;
+        padding-right: 3px;
+        display: flex;
+        align-items: center;
+        color: #999999;
       }
     }
 
     .donors-title {
       padding-bottom: 30px;
     }
+
+    .project-donations {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      .project-donation-data {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 30px;
+
+        h6 {
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      button {
+        width: 100%;
+      }
+    }
   }
 
   .project-intro {
     padding-bottom: 30px;
+
+    .project-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .back-to-causes {
+        margin-right: 20px;
+      }
+    }
   }
 
   .project-link {
@@ -651,6 +1200,12 @@
     margin-left: 2rem;
     height: auto;
     width: 100%;
+
+    .project-info-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
 
     .project-about-header {
       padding-bottom: 30px;
@@ -667,6 +1222,7 @@
     .project-donated-icon {
       display: inline-flex;
       align-items: center;
+      margin-bottom: 6px;
 
       h6 {
         line-height: 1rem;
@@ -684,6 +1240,7 @@
     .project-completion-icon {
       display: inline-flex;
       align-items: center;
+      margin-bottom: 6px;
 
       h6 {
         max-width: 3.3rem;
@@ -696,15 +1253,24 @@
     }
   }
 
+  .project-goal {
+    padding-bottom: 10px;
+  }
+
   .project-goal-progress {
-    padding-top: 0.5rem;
-    padding-bottom: 1.5rem;
+    padding-bottom: 30px;
+
+    &.donating {
+      padding-bottom: 0px;
+    }
   }
 
   .project-give-button {
-    padding-top: 1.5rem;
+    display: flex;
+    padding-bottom: 30px;
 
     button {
+      display: flex;
       width: 100%;
     }
   }
@@ -714,7 +1280,7 @@
   }
 
   .MuiLinearProgress-determinate {
-    height: 1rem;
+    height: 10px;
     border-radius: 3px;
   }
 
@@ -736,8 +1302,23 @@
       flex-direction: column;
 
       .project-give-button {
-        padding-top: 1.5rem;
+        width: 100%;
       }
+    }
+  }
+
+  .cause-image {
+    display: flex;
+    align-items: center;
+    border-radius: 16px;
+    width: 100%;
+    max-height: 128px;
+    overflow: hidden;
+    padding-bottom: 0px !important;
+    margin-bottom: 30px;
+
+    a {
+      width: 100%;
     }
   }
 
@@ -750,26 +1331,23 @@
       flex-direction: column;
 
       .cause-image {
+        display: flex;
+        align-items: center;
+        border-radius: 16px;
         width: 100%;
-        margin-right: 0px;
+        max-height: 117px;
+        overflow: hidden;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 30px;
+
+        a {
+          width: 100%;
+        }
       }
 
       .goal-graphics {
         width: 100%;
-      }
-
-      .visual-info-bottom {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-
-        .project-give-button {
-          padding-top: 0px;
-        }
-
-        .project-countdown {
-          width: 50%;
-        }
       }
     }
   }
@@ -783,14 +1361,41 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
 
       .cause-image {
         width: 50%;
         margin-right: 30px;
+        display: flex;
+        max-height: 193px;
+        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        padding-bottom: 0px;
+
+        a {
+          width: 100%;
+        }
+
+        &.donating {
+          max-height: 123px;
+        }
       }
 
       .goal-graphics {
+        width: 50%;
+      }
+    }
+
+    .project-donations {
+      flex-direction: row;
+
+      .project-yield-sent {
+        padding-right: 67px;
+      }
+
+      button {
         width: 50%;
       }
     }
