@@ -201,6 +201,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                         <Button
                           variant="outlined"
                           onClick={() => onSeekApproval(row.initialAsset)}
+                          aria-label="approve-migration"
                           disabled={isPendingTxn(
                             pendingTransactions,
                             `approve_migration_${row.initialAsset.toLowerCase()}`,
