@@ -7,8 +7,6 @@ import pendingTransactionsReducer from "src/slices/PendingTxnsSlice";
 import { render, screen } from "../../../testUtils";
 import MigrationModal from "../MigrationModal";
 
-jest.mock("web3modal");
-
 describe("<MigrationModal/>", () => {
   it("should render closed component", () => {
     const { container } = render(<MigrationModal open={false} handleClose={() => console.log("handleClose")} />);
