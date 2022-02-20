@@ -90,6 +90,11 @@ When you make changes to the UI (intentionally), you likely will have to update 
 
 [Here is a good blog post](https://dev.to/tobiastimm/property-based-testing-with-react-and-fast-check-3dce) about testing React components with generative data sets.
 
+### React Component Testing
+
+We use [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) to test behavior of UI components.
+Here is an [example component test](src/components/Migration/__tests__/MigrationModal.unit.test.jsx).
+Here is a useful [cheat sheet](https://testing-library.com/docs/react-testing-library/cheatsheet).
 ### Troubleshooting
 
 If all tests are failing in your local environment (in particular, due to a "cannot find module" error with `node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/interopRequireDefault.js`), but they should be passing (and the CI tests are passing), it's likely to be an issue with your local cache. Run the following command: `yarn test --clearCache`
