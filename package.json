@@ -31,7 +31,8 @@
     "coverageReporters": [
       "text",
       "json-summary",
-      "text-summary"
+      "text-summary",
+      "lcov"
     ]
   },
   "dependencies": {
