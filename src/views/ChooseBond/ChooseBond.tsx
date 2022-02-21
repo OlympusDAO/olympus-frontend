@@ -29,7 +29,7 @@ import { IUserNote } from "src/slices/BondSliceV2";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { formatCurrency } from "../../helpers";
-import useBonds from "../../hooks/Bonds";
+import useBonds from "../../hooks/useBonds";
 import ClaimBonds from "../BondV2/ClaimBonds";
 import { BondDataCard, BondTableData } from "./BondRow";
 
@@ -126,7 +126,7 @@ function ChooseBond() {
                         <Trans>Price</Trans>
                       </TableCell>
                       <TableCell align="left">
-                        <Trans>ROI</Trans>
+                        <Trans>Discount</Trans>
                       </TableCell>
                       <TableCell align="right">
                         <Trans>Purchased</Trans>

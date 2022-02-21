@@ -6,7 +6,7 @@ import { Skeleton } from "@material-ui/lab";
 import { TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
 import { NetworkId } from "src/constants";
-import { IAllBondData } from "src/hooks/Bonds";
+import { IAllBondData } from "src/hooks/useBonds";
 import { Bond, CustomBond, LPBond } from "src/lib/Bond";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
@@ -57,7 +57,7 @@ export function BondDataCard({ bond }: { bond: IAllBondData | Bond }) {
         </div>
         <div className="data-row">
           <Typography>
-            <Trans>ROI</Trans>
+            <Trans>Discount</Trans>
           </Typography>
           <Typography>
             {isBondLoading ? (

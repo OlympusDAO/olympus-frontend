@@ -113,7 +113,7 @@ function ChooseBondV2() {
                         <Trans>Price</Trans>
                       </TableCell>
                       <TableCell align="left">
-                        <Trans>ROI</Trans>
+                        <Trans>Discount</Trans>
                       </TableCell>
                       <TableCell align="left">
                         <Trans>Duration</Trans>

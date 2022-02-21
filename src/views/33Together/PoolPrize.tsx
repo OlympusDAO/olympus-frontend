@@ -3,7 +3,8 @@ import { Box, Paper, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { subtractDates, trim } from "src/helpers";
+import { trim } from "src/helpers";
+import { subtractDates } from "src/helpers/timeUtil";
 
 import { useAppSelector, useWeb3Context } from "../../hooks";
 import { getPoolValues, getRNGStatus } from "../../slices/PoolThunk";
