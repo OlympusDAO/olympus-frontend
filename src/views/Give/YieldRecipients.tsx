@@ -1,7 +1,6 @@
 import { Trans } from "@lingui/macro";
 import {
   Box,
-  Button,
   Divider,
   Grid,
   Table,
@@ -14,6 +13,7 @@ import {
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
+import { TertiaryButton } from "@olympusdao/component-library";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
@@ -55,11 +55,9 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
         <Typography variant="body1">
           <Trans>Looks like you haven’t made any donations yet</Trans>
         </Typography>
-        <Button variant="outlined" color="primary" onClick={() => changeView(0)}>
-          <Typography variant="body1">
-            <Trans>Donate to a cause</Trans>
-          </Typography>
-        </Button>
+        <TertiaryButton onClick={() => changeView(0)}>
+          <Trans>Donate to a cause</Trans>
+        </TertiaryButton>
       </Box>
     );
   }

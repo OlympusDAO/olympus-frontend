@@ -1,9 +1,9 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Button, Paper, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
+import { Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { TabPanel } from "@olympusdao/component-library";
+import { Paper, PrimaryButton, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -43,12 +43,12 @@ function Give({ selectedIndex }: GiveProps) {
   const history = useHistory();
 
   connectButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+    <PrimaryButton className="connect-button" onClick={connect} key={1}>
       <Trans>Connect Wallet</Trans>
-    </Button>,
+    </PrimaryButton>,
   );
 
-  const changeView = (_event: React.ChangeEvent<unknown>, newView: number) => {
+  const changeView: any = (_event: React.ChangeEvent<unknown>, newView: number) => {
     buttonChangeView(newView);
   };
 
@@ -95,15 +95,9 @@ function Give({ selectedIndex }: GiveProps) {
               key={String(zoomed)}
               centered
               value={view}
-              textColor="primary"
-              indicatorColor="primary"
               className="give-tab-buttons"
               onChange={changeView}
               aria-label="stake tabs"
-              //hides the tab underline sliding animation in while <Zoom> is loading
-              TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
-              // Restrict the height of the tab bar, so the indicator is 4px away
-              style={{ height: "40px" }}
             >
               <Tab label={t`Causes`} {...a11yProps(0)} />
               <Tab label={t`Grants`} {...a11yProps(1)} />

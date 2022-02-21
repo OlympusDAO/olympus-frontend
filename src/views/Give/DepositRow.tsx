@@ -1,8 +1,9 @@
 import "./Give.scss";
 
 import { t } from "@lingui/macro";
-import { Box, Button, Divider, TableCell, TableRow, Tooltip, Typography } from "@material-ui/core";
+import { Box, Divider, TableCell, TableRow, Tooltip, Typography } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { SecondaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -162,14 +163,9 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
           </Typography>
         </TableCell>
         <TableCell align="right" className="deposit-manage-cell">
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => setIsManageModalOpen(true)}
-            style={{ width: "100%" }}
-          >
-            <Typography variant="h6">Manage</Typography>
-          </Button>
+          <SecondaryButton onClick={() => setIsManageModalOpen(true)} fullWidth>
+            Manage
+          </SecondaryButton>
         </TableCell>
       </TableRow>
       <Divider />
