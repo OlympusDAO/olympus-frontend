@@ -8450,10 +8450,10 @@ fancy-log@^1.3.2, fancy-log@^1.3.3:
     parse-node-version "^1.0.0"
     time-stamp "^1.0.0"
 
-fast-check@^2.21.0:
-  version "2.21.0"
-  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-2.21.0.tgz#0d2e20bc65343ee67ec0f58373358140c08a1217"
-  integrity sha512-hkTRytqMceXfnSwPnryIqKkxKJjfcvtVqJrWRb8tgmfyUsGajIgQqDFxCJ+As+l9VLUCcmx6XIYoXeQe2Ih0UA==
+fast-check@^2.22.0:
+  version "2.22.0"
+  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-2.22.0.tgz#b807ef18e10a37e8eb57b28e43974e7986563585"
+  integrity sha512-Yrx1E8fZk6tfSqYaNkwnxj/lOk+vj2KTbbpHDtYoK9MrrL/D204N/rCtcaVSz5bE29g6gW4xj0byresjlFyybg==
   dependencies:
     pure-rand "^5.0.0"
 
