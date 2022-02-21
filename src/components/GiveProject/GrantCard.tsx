@@ -3,10 +3,11 @@ import {
   Box,
   Container,
   Grid,
-  LinearProgress,
   Link,
+  Step,
+  StepLabel,
+  Stepper,
   SvgIcon,
-  Tooltip,
   Typography,
   useMediaQuery,
 } from "@material-ui/core";
@@ -44,7 +45,6 @@ import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { error } from "../../slices/MessagesSlice";
 import { Grant } from "./project.type";
-import { countDecimals, roundToDecimal, toInteger } from "./utils";
 
 export enum GrantDetailsMode {
   Card = "Card",
@@ -174,76 +174,27 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed();
   };
 
-  const renderGoalCompletion = (): JSX.Element => {
-    const goalCompletion = getGoalCompletion();
-    const formattedGoalCompletion =
-      countDecimals(goalCompletion) === 0 ? toInteger(goalCompletion) : roundToDecimal(goalCompletion);
+  const renderMilestoneCompletion = (): JSX.Element => {
+    if (milestones === undefined || milestones.length === 0) {
+      return <Typography>No milestones are defined for this grant.</Typography>;
+    }
 
-    if (depositGoal === 0) return <></>;
-
-    return (
-      <>
-        <div className="cause-info-icon">
-          <Icon name="check-circle" style={{ marginRight: "0.33rem" }} />
-        </div>
-        <div>
-          <Tooltip
-            title={
-              !address
-                ? t`Connect your wallet to view the fundraising progress`
-                : `${totalDonated} of ${depositGoal} sOHM raised`
-            }
-            arrow
-          >
-            <div>
-              <div className="cause-info-main-text">
-                <Typography variant="body1">
-                  <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}% </strong>
-                  of goal
-                </Typography>
-              </div>
-            </div>
-          </Tooltip>
-        </div>
-      </>
-    );
-  };
-
-  const renderGoalCompletionDetailed = (): JSX.Element => {
-    const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
-    const formattedTotalDonated = new BigNumber(parseFloat(totalDonated).toFixed(2)).toFormat();
-
-    if (depositGoal === 0) return <></>;
+    const latestMilestoneCompletedSafe = !latestMilestoneCompleted ? 0 : latestMilestoneCompleted;
 
     return (
       <>
-        <Grid container className="project-goal">
-          <Grid item xs={5} className="project-donated">
-            <div className="project-donated-icon">
-              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-              <Typography variant="h6">
-                <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedTotalDonated}</strong>
-              </Typography>
-            </div>
-            <div className="subtext">
-              <Trans>sOHM Yield</Trans>
-            </div>
-          </Grid>
-          <Grid item xs={2} />
-          <Grid item xs={5} className="project-completion">
-            <div className="project-completion-icon">
-              <Icon name="goal" style={{ marginRight: "0.33rem" }} />
-              <Typography variant="h6">
-                <strong>{new BigNumber(depositGoal).toFormat()}</strong>
-              </Typography>
-            </div>
-            <div className="subtext">
-              <Trans>sOHM Yield Goal</Trans>
-            </div>
-          </Grid>
-        </Grid>
-        <div className={`project-goal-progress ${isUserDonating ? "donating" : ""}`}>
-          <LinearProgress variant="determinate" value={goalProgress} />
+        <div className={`project-goal-progress`}>
+          <Stepper alternativeLabel activeStep={latestMilestoneCompletedSafe}>
+            {milestones.map((value, index) => {
+              const stepLabel = index === 0 ? "Start" : `Milestone ${index}`;
+
+              return (
+                <Step key={`step-${index}`} disabled completed={latestMilestoneCompletedSafe >= index}>
+                  <StepLabel StepIconProps={{ icon: null }}>{stepLabel}</StepLabel>
+                </Step>
+              );
+            })}
+          </Stepper>
         </div>
       </>
     );
@@ -611,7 +562,6 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                       {getProjectImage()}
                       <Grid item className="goal-graphics">
                         {renderDepositData()}
-
                         <div className="project-give-button">
                           {connected ? (
                             isUserDonating ? (
@@ -673,11 +623,10 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   )}
                 </Grid>
                 <Grid item xs={12} md={5}>
-                  <Paper title="Milestone" className="project-sidebar">
-                    TODO
+                  <Paper headerText="Milestone" className="project-sidebar">
+                    {renderMilestoneCompletion()}
                   </Paper>
                 </Grid>
-                <Grid item className="break" />
                 <Grid
                   item
                   xs={12}
