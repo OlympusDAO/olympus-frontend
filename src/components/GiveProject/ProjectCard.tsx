@@ -1,12 +1,11 @@
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
-  Button,
   Container,
   Grid,
   LinearProgress,
   Link,
-  Paper,
+  Paper as MuiPaper,
   SvgIcon,
   Tooltip,
   Typography,
@@ -15,7 +14,7 @@ import {
 import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { Icon } from "@olympusdao/component-library";
+import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
@@ -42,9 +41,8 @@ import {
 } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
-import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
+import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
-import { WithdrawSubmitCallback } from "src/views/Give/WithdrawDepositModal";
 
 import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
@@ -570,11 +568,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         className="cause-link"
                         onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                       >
-                        <Button variant="contained" color="primary" className="cause-give-button">
-                          <Typography variant="h6">
-                            <Trans>View Details</Trans>
-                          </Typography>
-                        </Button>
+                        <PrimaryButton className="cause-give-button">
+                          <Trans>View Details</Trans>
+                        </PrimaryButton>
                       </Link>
                     </Grid>
                   </Grid>
@@ -618,11 +614,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         className="cause-link"
                         onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                       >
-                        <Button variant="contained" color="primary" className="cause-give-button">
-                          <Typography variant="h6">
-                            <Trans>View Details</Trans>
-                          </Typography>
-                        </Button>
+                        <PrimaryButton className="cause-give-button">
+                          <Trans>View Details</Trans>
+                        </PrimaryButton>
                       </Link>
                     </Grid>
                   </Grid>
@@ -646,7 +640,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const renderCountdownDetailed = () => {
     if (!finishDateObject) return <></>;
 
-    return <Countdown date={finishDateObject} renderer={countdownRendererDetailed} />;
+    return (
+      <div className="project-countdown">
+        <Countdown date={finishDateObject} renderer={countdownRendererDetailed} />
+      </div>
+    );
   };
 
   const getPageContent = () => {
@@ -666,10 +664,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   md={5}
                   style={{
                     paddingLeft: "1rem",
-                    paddingRight: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
                   }}
                 >
-                  <Paper className="project-sidebar">
+                  <MuiPaper className="project-sidebar">
                     <Grid container className="project-intro" justifyContent="space-between">
                       <Grid item className="project-title">
                         <Link href={"#/give"}>
@@ -689,37 +686,32 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                       <Grid item className="goal-graphics">
                         {renderDepositData()}
                         {renderGoalCompletionDetailed()}
-
-                        <div className="project-give-button">
-                          {connected ? (
-                            isUserDonating ? (
-                              <></>
-                            ) : (
-                              <Button
-                                variant="contained"
-                                color="primary"
+                        {connected ? (
+                          isUserDonating ? (
+                            <></>
+                          ) : (
+                            <div className="project-give-button">
+                              <PrimaryButton
                                 onClick={() => handleGiveButtonClick()}
                                 disabled={!isSupportedChain(networkId)}
                               >
-                                <Typography variant="h6">
-                                  <Trans>Donate Yield</Trans>
-                                </Typography>
-                              </Button>
-                            )
-                          ) : (
-                            <Button variant="contained" color="primary" onClick={connect}>
-                              <Typography variant="h6">
-                                <Trans>Connect wallet</Trans>
-                              </Typography>
-                            </Button>
-                          )}
-                        </div>
-                        <div className="project-countdown">{renderCountdownDetailed()}</div>
+                                <Trans>Donate Yield</Trans>
+                              </PrimaryButton>
+                            </div>
+                          )
+                        ) : (
+                          <div className="project-give-button">
+                            <PrimaryButton onClick={connect}>
+                              <Trans>Connect Wallet</Trans>
+                            </PrimaryButton>
+                          </div>
+                        )}
+                        {renderCountdownDetailed()}
                       </Grid>
                     </Grid>
-                  </Paper>
+                  </MuiPaper>
                   {isUserDonating ? (
-                    <Paper className="project-sidebar">
+                    <MuiPaper className="project-sidebar">
                       <div className="project-sidebar-header">
                         <Typography variant="h5">
                           <strong>
@@ -728,38 +720,38 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         </Typography>
                       </div>
                       <div className="project-donations">
-                        <div className="project-donation-data">
-                          <div className="project-deposited">
+                        <Grid container className="project-donation-data">
+                          <Grid item className="project-deposited">
                             <Typography variant="h6">
                               <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-                              <strong>{parseFloat(donationInfo[donationId].deposit).toFixed(2)} sOHM</strong>
+                              <strong>{parseFloat(donationInfo[donationId].deposit).toFixed(2)}</strong>
                             </Typography>
                             <Typography variant="body1" className="subtext">
-                              Deposited
+                              sOHM Deposited
                             </Typography>
-                          </div>
-                          <div className="project-yield-sent">
-                            <Typography variant="h6" align="right">
-                              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-                              <strong>{parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)} sOHM</strong>
-                            </Typography>
+                          </Grid>
+                          <Grid item className="project-yield-sent">
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end" }}>
+                              <Typography variant="h6" align="right">
+                                <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
+                                <strong>{parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)}</strong>
+                              </Typography>
+                            </div>
                             <Typography variant="body1" align="right" className="subtext">
-                              Yield Sent
+                              sOHM Yield Sent
                             </Typography>
-                          </div>
-                        </div>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => handleEditButtonClick()}
-                          disabled={!isSupportedChain(networkId)}
-                        >
-                          <Typography variant="h6">
+                          </Grid>
+                        </Grid>
+                        <div className="project-edit-button">
+                          <PrimaryButton
+                            onClick={() => handleEditButtonClick()}
+                            disabled={!isSupportedChain(networkId)}
+                          >
                             <Trans>Edit Donation</Trans>
-                          </Typography>
-                        </Button>
+                          </PrimaryButton>
+                        </div>
                       </div>
-                    </Paper>
+                    </MuiPaper>
                   ) : (
                     <></>
                   )}
