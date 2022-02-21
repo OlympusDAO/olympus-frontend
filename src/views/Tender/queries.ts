@@ -9,13 +9,21 @@ import {
 } from "src/constants/addresses";
 import { parseBigNumber } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
-import { useTenderEscrowContract, useTokenContract, useWrappedContract } from "src/hooks/useContract";
+import {
+  useDynamicTokenContract,
+  useStaticTokenContract,
+  useTenderEscrowContract,
+  useWrappedContract,
+} from "src/hooks/useContract";
 import { balancesOf } from "src/lib/fetchBalances";
 import { queryClient } from "src/lib/react-query";
 import { IERC20 } from "src/typechain";
 
 export const Balance = () => {
-  const tenderTokenContract = useTokenContract(TENDER_ADDRESSES);
+  const tenderTokenContract = useStaticTokenContract(
+    TENDER_ADDRESSES[NetworkId.FANTOM_TESTNET],
+    NetworkId.FANTOM_TESTNET,
+  );
   return BalanceHelper(tenderTokenContract, "tokenContract");
 };
 
@@ -36,18 +44,27 @@ const BalanceHelper = (contractAddress: IERC20, key: string) => {
 };
 
 export const StakedBalance = () => {
-  const stakingContract = useTokenContract(STAKED_TENDER_ADDRESSES);
+  const stakingContract = useStaticTokenContract(
+    STAKED_TENDER_ADDRESSES[NetworkId.FANTOM_TESTNET],
+    NetworkId.FANTOM_TESTNET,
+  );
   return BalanceHelper(stakingContract, "stakedContract");
 };
 
 export const WrappedBalance = () => {
-  const wrappedContract = useTokenContract(WRAPPED_TENDER_ADDRESSES);
+  const wrappedContract = useStaticTokenContract(
+    WRAPPED_TENDER_ADDRESSES[NetworkId.FANTOM_TESTNET],
+    NetworkId.FANTOM_TESTNET,
+  );
   return BalanceHelper(wrappedContract, "wrappedContract");
 };
 
 export const WrappedToStaked = (quantity: number) => {
   const quantityString = quantity.toString();
-  const wrappedContract = useWrappedContract(WRAPPED_TENDER_ADDRESSES);
+  const wrappedContract = useWrappedContract(
+    WRAPPED_TENDER_ADDRESSES[NetworkId.FANTOM_TESTNET],
+    NetworkId.FANTOM_TESTNET,
+  );
   const { data } = useQuery(
     ["wrappedToStaked", quantity],
     async () => {
@@ -183,10 +200,10 @@ export const EscrowState = () => {
 
 export const Withdraw = () => {
   const { provider } = useWeb3Context();
-  const signer = provider.getSigner();
-  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
   return useMutation(
     async () => {
+      if (!tenderEscrowContract) throw new Error("Token doesn't exist on current network. Please switch networks.");
       const data = await tenderEscrowContract.withdraw();
       return data.wait();
     },
@@ -200,10 +217,10 @@ export const Withdraw = () => {
 
 export const Redeem = () => {
   const { provider } = useWeb3Context();
-  const signer = provider.getSigner();
-  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
   return useMutation(
     async () => {
+      if (!tenderEscrowContract) throw new Error("Token doesn't exist on current network. Please switch networks.");
       const data = await tenderEscrowContract.redeem();
       return data.wait();
     },
@@ -218,11 +235,10 @@ export const Redeem = () => {
 //TODO need to add depositToken to deposit call once new contract is deployed
 export const Deposit = () => {
   const queryClient = useQueryClient();
-  const { provider } = useWeb3Context();
-  const signer = provider.getSigner();
-  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES, signer);
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
   return useMutation(
     async (deposit: { quantity: number; redeemToken: number; depositToken: number }) => {
+      if (!tenderEscrowContract) throw new Error("Token doesn't exist on current network. Please switch networks.");
       const data = await tenderEscrowContract.deposit(deposit.quantity * 1e9, deposit.redeemToken);
       return data.wait();
     },
@@ -237,17 +253,26 @@ export const Deposit = () => {
 };
 
 export const UnstakedAllowance = () => {
-  const tenderTokenContract = useTokenContract(TENDER_ADDRESSES);
+  const tenderTokenContract = useStaticTokenContract(
+    TENDER_ADDRESSES[NetworkId.FANTOM_TESTNET],
+    NetworkId.FANTOM_TESTNET,
+  );
   return AllowanceHelper(tenderTokenContract, "unstakedAllowance");
 };
 
 export const StakedAllowance = () => {
-  const stakedTokenAddress = useTokenContract(STAKED_TENDER_ADDRESSES);
+  const stakedTokenAddress = useStaticTokenContract(
+    STAKED_TENDER_ADDRESSES[NetworkId.FANTOM_TESTNET],
+    NetworkId.FANTOM_TESTNET,
+  );
   return AllowanceHelper(stakedTokenAddress, "stakedAllowance");
 };
 
 export const WrappedAllowance = () => {
-  const wrappedTokenAddress = useTokenContract(WRAPPED_TENDER_ADDRESSES);
+  const wrappedTokenAddress = useStaticTokenContract(
+    WRAPPED_TENDER_ADDRESSES[NetworkId.FANTOM_TESTNET],
+    NetworkId.FANTOM_TESTNET,
+  );
   return AllowanceHelper(wrappedTokenAddress, "wrappedAllowance");
 };
 
@@ -257,6 +282,7 @@ const AllowanceHelper = (contractAddress: IERC20, key: string) => {
   const { data } = useQuery(
     ["Allowance", address, key],
     async () => {
+      if (!tenderEscrowContract) throw new Error("Token doesn't exist on current network. Please switch networks.");
       const data = await contractAddress.allowance(address, tenderEscrowContract.address);
       return parseBigNumber(data);
     },
@@ -267,15 +293,16 @@ const AllowanceHelper = (contractAddress: IERC20, key: string) => {
 
 export const Approve = () => {
   const queryClient = useQueryClient();
-  const { provider, networkId } = useWeb3Context();
-  const signer = provider.getSigner();
-  const tenderTokenContract = useTokenContract(TENDER_ADDRESSES, signer);
-  const stakedTokenContract = useTokenContract(STAKED_TENDER_ADDRESSES, signer);
-  const wrappedTokenContract = useTokenContract(WRAPPED_TENDER_ADDRESSES, signer);
-  const contractArray = [tenderTokenContract, stakedTokenContract, wrappedTokenContract];
-  const escrowAddress = TENDER_ESCROW_ADDRESSES[networkId];
+  const tenderTokenContract = useDynamicTokenContract(TENDER_ADDRESSES);
+  const stakedTokenContract = useDynamicTokenContract(STAKED_TENDER_ADDRESSES);
+  const wrappedTokenContract = useDynamicTokenContract(WRAPPED_TENDER_ADDRESSES);
+  const escrowAddress = TENDER_ESCROW_ADDRESSES[NetworkId.FANTOM_TESTNET];
   return useMutation(
     async (token: number) => {
+      if (!tenderTokenContract) throw new Error("Token doesn't exist on current network. Please switch networks.");
+      if (!stakedTokenContract) throw new Error("Token doesn't exist on current network. Please switch networks.");
+      if (!wrappedTokenContract) throw new Error("Token doesn't exist on current network. Please switch networks.");
+      const contractArray = [tenderTokenContract, stakedTokenContract, wrappedTokenContract];
       const data = await contractArray[token].approve(
         escrowAddress,
         ethers.utils.parseUnits("1000000000", "gwei").toString(),

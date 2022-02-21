@@ -1,8 +1,9 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Paper, Typography, Zoom } from "@material-ui/core";
+import { Box, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { TertiaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -90,6 +91,8 @@ export default function CausesDashboard() {
     setIsCustomGiveModalOpen(false);
   };
 
+  // TODO shift the custom-recipient div back to Paper
+  // https://github.com/OlympusDAO/component-library/issues/111
   return (
     <div
       id="give-view"
@@ -109,10 +112,7 @@ export default function CausesDashboard() {
           <div className="causes-body">
             <Box className="data-grid">{renderProjects}</Box>
           </div>
-          <Paper
-            className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}
-            style={{ borderRadius: "10px" }}
-          >
+          <div className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}>
             <Typography variant="h4" align="center" className="custom-recipient-headline">
               Want to give to a different cause?
             </Typography>
@@ -124,18 +124,14 @@ export default function CausesDashboard() {
             >
               You can direct your yield to a recipient of your choice
             </Typography>
-            <Button
-              variant="outlined"
-              color="primary"
+            <TertiaryButton
               className="custom-give-button"
               onClick={() => handleCustomGiveButtonClick()}
               disabled={!address}
             >
-              <Typography variant="body1" style={{ marginBottom: "0px" }}>
-                <Trans>Custom Recipient</Trans>
-              </Typography>
-            </Button>
-          </Paper>
+              <Trans>Custom Recipient</Trans>
+            </TertiaryButton>
+          </div>
           <RecipientModal
             isModalOpen={isCustomGiveModalOpen}
             eventSource="Custom Recipient Button"

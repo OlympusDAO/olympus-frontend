@@ -1,13 +1,13 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { FormControl } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useSelector } from "react-redux";
 import { shorten } from "src/helpers";
 import { useWeb3Context } from "src/hooks/web3Context";
 
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ArrowGraphic } from "../../components/EducationCard";
 import { txnButtonText } from "../../slices/PendingTxnsSlice";
 import { isPendingTxn } from "../../slices/PendingTxnsSlice";
@@ -50,23 +50,18 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
     callbackFunc();
   };
 
-  const handleModalInsideClick = (e: React.MouseEvent): void => {
-    // When the user clicks within the modal window, we do not want to pass the event up the tree
-    e.stopPropagation();
-  };
+  const smallClass = isSmallScreen ? "smaller" : "";
 
   return (
-    /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
-    <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
-      <Paper
-        className={`ohm-card ohm-modal ${isSmallScreen ? "smaller" : ""}`}
-        onClick={handleModalInsideClick}
-        style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-      >
+    <Modal
+      className="modal-container redeem-container"
+      open={isModalOpen}
+      closePosition="right"
+      onClose={cancelFunc}
+      hideBackdrop={true}
+    >
+      <div className={`redeem-modal ${smallClass}`}>
         <div className="yield-header">
-          <Link onClick={() => cancelFunc()}>
-            <SvgIcon color="primary" component={XIcon} />
-          </Link>
           <Typography variant="h4">
             <strong>
               <Trans>Redeem Yield</Trans>
@@ -74,7 +69,7 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
           </Typography>
         </div>
         <Box className="redeemable-details">
-          <div className="redeem-info">
+          <div className={`redeem-info ${smallClass}`}>
             <div className="redeemable-yield-text">
               <Typography variant="body1" className="subtext">
                 Redeemable Yield
@@ -91,11 +86,11 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
           </div>
         </Box>
         <FormControl className="ohm-modal-submit">
-          <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={() => handleSubmit()}>
+          <PrimaryButton disabled={!canSubmit()} onClick={() => handleSubmit()}>
             {txnButtonText(pendingTransactions, "redeeming", t`Confirm ${redeemableBalance.toFixed(2)} sOHM`)}
-          </Button>
+          </PrimaryButton>
         </FormControl>
-      </Paper>
+      </div>
     </Modal>
   );
 }

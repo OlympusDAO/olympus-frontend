@@ -1,32 +1,25 @@
 import { isAddress } from "@ethersproject/address";
-import { Box, Button, Grid, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
-import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
-import { InputLabel } from "@material-ui/core";
-import { OutlinedInput } from "@material-ui/core";
-import { BigNumber } from "bignumber.js";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Project } from "src/components/GiveProject/project.type";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
-
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import { ArrowGraphic } from "../../components/EducationCard";
-import { getTokenImage } from "../../helpers";
-import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
-const sOhmImg = getTokenImage("sohm");
 import { t, Trans } from "@lingui/macro";
+import { Box, Grid, Link, SvgIcon, Typography } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
-import { InfoTooltip } from "@olympusdao/component-library";
+import { InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
+import { BigNumber } from "bignumber.js";
 import MarkdownIt from "markdown-it";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { Project } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { EnvHelper } from "src/helpers/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
+import { useWeb3Context } from "src/hooks/web3Context";
+import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 
+import { ArrowGraphic } from "../../components/EducationCard";
+import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
 
 export type WithdrawSubmitCallback = {
@@ -244,11 +237,6 @@ export function ManageDonationModal({
     return depositAmountBig.minus(getCurrentDepositAmount());
   };
 
-  const handleModalInsideClick = (e: React.MouseEvent): void => {
-    // When the user clicks within the modal window, we do not want to pass the event up the tree
-    e.stopPropagation();
-  };
-
   /**
    * Ensures that the depositAmount returned is a valid number.
    *
@@ -346,7 +334,305 @@ export function ManageDonationModal({
     }
   };
 
-  // TODO stop modal from moving when validation messages are shown
+  const handleClose = () => {
+    // Reset state
+    setIsAmountSet(false);
+    setIsEditing(false);
+    setIsWithdrawing(false);
+
+    // Fire callback
+    cancelFunc();
+  };
+
+  const getEscapeComponent = () => {
+    // If on the edit/stop/confirmation screen, we provide a chevron to go back a step
+    if (shouldShowEditConfirmationScreen() || shouldShowEditScreen() || shouldShowStopScreen()) {
+      return (
+        <Link onClick={() => handleGoBack()}>
+          <SvgIcon color="primary" component={ChevronLeft} />
+        </Link>
+      );
+    }
+
+    // Don't display on the first screen
+    return <></>;
+  };
+
+  /**
+   * Content for initial screen (not editing or withdrawing)
+   */
+  const getInitialScreen = () => {
+    return (
+      <div>
+        <div className="manage-project-info">{getRecipientDetails()}</div>
+        <div className="manage-project-stats-container">{getProjectStats()}</div>
+        <div className="manage-donation-details">
+          <Box className="donation-details">{getDonationDetails()}</Box>
+        </div>
+        <div className="manage-buttons">
+          <PrimaryButton style={{ marginBottom: "20px" }} onClick={() => setIsEditing(true)}>
+            Edit Donation
+          </PrimaryButton>
+          <TertiaryButton onClick={() => setIsWithdrawing(true)}>Stop Donation</TertiaryButton>
+        </div>
+      </div>
+    );
+  };
+
+  /**
+   * Elements to display project statistics, such as donation sOHM, yield and goal achievement.
+   */
+  const getProjectStats = () => {
+    return (
+      <div className="manage-project-stats">
+        <Box className="project-stats-box">
+          <Typography variant="h5" align="center" className="project-stat-top">
+            {project ? project.depositGoal.toFixed(2) : "N/A"}
+          </Typography>
+          <Typography variant="body1" align="center" className="subtext">
+            {isSmallScreen ? "Goal" : "sOHM Goal"}
+          </Typography>
+        </Box>
+        <Box className="project-stats-box center-item">
+          <Typography variant="h5" align="center" className="project-stat-top">
+            {project ? parseFloat(totalDebt).toFixed(2) : "N/A"}
+          </Typography>
+          <Typography variant="body1" align="center" className="subtext">
+            {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
+          </Typography>
+        </Box>
+        <Box className="project-stats-box">
+          <Typography variant="h5" align="center" className="project-stat-top">
+            {project ? ((parseFloat(totalDonated) / project.depositGoal) * 100).toFixed(1) + "%" : "N/A"}
+          </Typography>
+          <Typography variant="body1" align="center" className="subtext">
+            {isSmallScreen ? "of Goal" : "of sOHM Goal"}
+          </Typography>
+        </Box>
+      </div>
+    );
+  };
+
+  /**
+   * Returns elements detailing the user's donation
+   */
+  const getDonationDetails = () => {
+    return (
+      <>
+        <div className="details-header">
+          <Typography variant="h5" style={isAmountSet ? { marginBottom: "0px" } : {}}>
+            Donation Details
+          </Typography>
+        </div>
+        <div className="details-container">
+          <div className="details-row">
+            <Typography variant="h6" className="row-title">
+              Date
+            </Typography>
+            <Typography variant="h6">{depositDate}</Typography>
+          </div>
+          <div className="details-row">
+            <Typography variant="h6" className="row-title">
+              Recipient
+            </Typography>
+            <Typography variant="h6">{getRecipientTitle()}</Typography>
+          </div>
+          <div className="details-row">
+            <Typography variant="h6" className="row-title">
+              Deposited
+            </Typography>
+            <Typography variant="h6">{depositAmount} sOHM</Typography>
+          </div>
+          <div className="details-row">
+            <Typography variant="h6" className="row-title">
+              Yield Sent
+            </Typography>
+            <Typography variant="h6">{yieldSent} sOHM</Typography>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  /**
+   * Renders the details of the recipient, whether a project or custom recipient.
+   */
+  const getRecipientDetails = () => {
+    if (project) {
+      return (
+        <div className="project">
+          <div className="cause-image">
+            <img width="100%" src={`${process.env.PUBLIC_URL}${project.photos[0]}`} />
+          </div>
+          <div className="cause-content">
+            <Grid container className="cause-header">
+              <Grid item className="cause-title">
+                <Typography variant="h6">
+                  <strong>{getRecipientTitle()}</strong>
+                </Typography>
+              </Grid>
+            </Grid>
+            <div className="cause-body">
+              <Typography variant="body1" className="project-description" style={{ lineHeight: "20px" }}>
+                <div dangerouslySetInnerHTML={getRenderedDetails()} />
+              </Typography>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="project">
+        <div className="cause-content">
+          <Grid container className="cause-header">
+            <Typography variant="h6">Custom Recipient</Typography>
+          </Grid>
+          <Grid item className="cause-body">
+            <Typography variant="body2">{walletAddress}</Typography>
+          </Grid>
+        </div>
+      </div>
+    );
+  };
+
+  /**
+   * Indicates whether the edit confirmation screen should be displayed.
+   *
+   * The edit confirmation screen is displayed if the amount is set.
+   *
+   * @returns boolean
+   */
+  const shouldShowEditConfirmationScreen = () => {
+    return isAmountSet;
+  };
+
+  /**
+   * Edit screen before altering the amount
+   */
+  const shouldShowEditScreen = () => {
+    return isEditing && !isAmountSet;
+  };
+
+  /**
+   * Stop/withdraw screen
+   */
+  const shouldShowStopScreen = () => {
+    return isWithdrawing;
+  };
+
+  const getEditDonationScreen = () => {
+    return (
+      <div>
+        <div className="manage-project-info">{getRecipientDetails()}</div>
+        <div className="manage-project-stats-container">{getProjectStats()}</div>
+        <div className="manage-donation-details">
+          <Box className="donation-details">
+            <div className="edit-entry-section">
+              <div className="give-modal-alloc-tip">
+                <Typography variant="body1">
+                  <Trans>New sOHM Amount</Trans>
+                </Typography>
+                <InfoTooltip
+                  message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                  children={null}
+                />
+              </div>
+              <Input
+                id="amount-input"
+                type="number"
+                placeholder={t`Enter an amount`}
+                value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+                helperText={
+                  isDepositAmountValid
+                    ? t`Your current deposit is ${currentDepositAmount.toFixed(2)} sOHM`
+                    : isDepositAmountValidError
+                }
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onChange={(e: any) => handleSetDepositAmount(e.target.value)}
+                error={!isDepositAmountValid}
+                startAdornment="sOHM"
+                endString={t`Max`}
+                endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
+              />
+            </div>
+          </Box>
+        </div>
+        <div className="manage-buttons">
+          <PrimaryButton disabled={!canSubmit()} onClick={() => setIsAmountSet(true)}>
+            <Trans>Continue</Trans>
+          </PrimaryButton>
+        </div>
+      </div>
+    );
+  };
+
+  const getStopDonationScreen = () => {
+    return (
+      <div>
+        <div className="manage-project-info">{getRecipientDetails()}</div>
+        <div className="manage-project-stats-container">{getProjectStats()}</div>
+        <div className="manage-donation-details">
+          <Box className="donation-details">
+            <div className="details-row">
+              <div className="sohm-allocation-col">
+                <Typography variant="body1">
+                  <Trans>Current sOHM deposit</Trans>
+                </Typography>
+                <Typography variant="h6">{currentDepositAmount.toFixed(2)} sOHM</Typography>
+              </div>
+              {!isSmallScreen && <ArrowGraphic />}
+              <div className="recipient-address-col">
+                <Typography variant="body1">
+                  <Trans>New sOHM deposit</Trans>
+                </Typography>
+                <Typography variant="h6">{isWithdrawing ? 0 : depositAmount.toFixed(2)} sOHM</Typography>
+              </div>
+            </div>
+          </Box>
+        </div>
+        <div className="manage-buttons">
+          <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} style={{ marginBottom: "20px" }}>
+            {txnButtonText(pendingTransactions, PENDING_TXN_WITHDRAW, t`Withdraw`)}
+          </PrimaryButton>
+          <TertiaryButton onClick={() => setIsWithdrawing(false)}>Cancel</TertiaryButton>
+        </div>
+      </div>
+    );
+  };
+
+  const getEditConfirmationScreen = () => {
+    return (
+      <div>
+        <div className="manage-project-info">{getRecipientDetails()}</div>
+        <div className="manage-project-stats-container">{getProjectStats()}</div>
+        <div className="manage-donation-details">
+          <Box className="donation-details">
+            <div className="details-row">
+              <div className="sohm-allocation-col">
+                <Typography variant="body1">
+                  <Trans>Current sOHM deposit</Trans>
+                </Typography>
+                <Typography variant="h6">{currentDepositAmount.toFixed(2)} sOHM</Typography>
+              </div>
+              {!isSmallScreen && <ArrowGraphic />}
+              <div className="recipient-address-col">
+                <Typography variant="body1">
+                  <Trans>New sOHM deposit</Trans>
+                </Typography>
+                <Typography variant="h6">{isWithdrawing ? 0 : depositAmount.toFixed(2)} sOHM</Typography>
+              </div>
+            </div>
+          </Box>
+        </div>
+        <div className="manage-buttons">
+          <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit}>
+            {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Confirm New sOHM`)}
+          </PrimaryButton>
+        </div>
+      </div>
+    );
+  };
 
   // NOTE: the following warning is caused by the amount-input field:
   // Warning: `value` prop on `%s` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.%s
@@ -356,249 +642,23 @@ export function ManageDonationModal({
   // This appears to be due to the following bug (which is still not resolved);
   // https://github.com/facebook/react/issues/11877
 
-  // TODO re-arrange the below output to be around the state: approval, custom recipient, project recipient, editing
-
-  const ohmModalStyle = {
-    width: isSmallScreen ? "374px" : isMediumScreen ? "628px" : "692px",
-  };
-
   return (
-    /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
-    <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
-      <Paper
-        className={`ohm-card ohm-modal ${isMediumScreen ? "medium" : isSmallScreen ? "smaller" : ""}`}
-        onClick={handleModalInsideClick}
-        style={ohmModalStyle}
-      >
-        <div className="yield-header">
-          {isAmountSet || isEditing || isWithdrawing ? (
-            <Link onClick={() => handleGoBack()}>
-              <SvgIcon color="primary" component={ChevronLeft} />
-            </Link>
-          ) : (
-            <Link onClick={() => cancelFunc()}>
-              <SvgIcon color="primary" component={XIcon} />
-            </Link>
-          )}
-          <Typography variant="h4">
-            <strong>{getModalTitle()} Donation</strong>
-          </Typography>
-        </div>
-        <div className="manage-project-info">
-          {project ? (
-            <div className="project">
-              <div className="cause-image">
-                <img width="100%" src={`${process.env.PUBLIC_URL}${project.photos[0]}`} />
-              </div>
-              <div className="cause-content">
-                <Grid container className="cause-header">
-                  <Grid item className="cause-title">
-                    <Typography variant="h6">
-                      <strong>{getRecipientTitle()}</strong>
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <div className="cause-body">
-                  <Typography variant="body1" className="project-description" style={{ lineHeight: "20px" }}>
-                    <div dangerouslySetInnerHTML={getRenderedDetails()} />
-                  </Typography>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="project">
-              <div className="cause-content">
-                <Grid container className="cause-header">
-                  <Typography variant="h6">Custom Recipient</Typography>
-                </Grid>
-                <Grid item className="cause-body">
-                  <Typography variant="body2">{walletAddress}</Typography>
-                </Grid>
-              </div>
-            </div>
-          )}
-        </div>
-        <div className="manage-project-stats-container">
-          <div className="manage-project-stats">
-            <Box className="project-stats-box">
-              <Typography variant="h5" align="center" className="project-stat-top">
-                {project ? project.depositGoal.toFixed(2) : "N/A"}
-              </Typography>
-              <Typography variant="body1" align="center" className="subtext">
-                {isSmallScreen ? "Goal" : "sOHM Goal"}
-              </Typography>
-            </Box>
-            <Box className="project-stats-box center-item">
-              <Typography variant="h5" align="center" className="project-stat-top">
-                {project ? parseFloat(totalDebt).toFixed(2) : "N/A"}
-              </Typography>
-              <Typography variant="body1" align="center" className="subtext">
-                {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
-              </Typography>
-            </Box>
-            <Box className="project-stats-box">
-              <Typography variant="h5" align="center" className="project-stat-top">
-                {project ? ((parseFloat(totalDonated) / project.depositGoal) * 100).toFixed(1) + "%" : "N/A"}
-              </Typography>
-              <Typography variant="body1" align="center" className="subtext">
-                {isSmallScreen ? "of Goal" : "of sOHM Goal"}
-              </Typography>
-            </Box>
-          </div>
-        </div>
-        <div className="manage-donation-details">
-          <Box className="donation-details">
-            {!isEditing && !isWithdrawing ? (
-              <>
-                <div className="details-header">
-                  <Typography variant="h5" style={isAmountSet ? { marginBottom: "0px" } : {}}>
-                    Donation Details
-                  </Typography>
-                </div>
-                <div className="details-container">
-                  <div className="details-row">
-                    <Typography variant="h6" className="row-title">
-                      Date
-                    </Typography>
-                    <Typography variant="h6">{depositDate}</Typography>
-                  </div>
-                  <div className="details-row">
-                    <Typography variant="h6" className="row-title">
-                      Recipient
-                    </Typography>
-                    <Typography variant="h6">{getRecipientTitle()}</Typography>
-                  </div>
-                  <div className="details-row">
-                    <Typography variant="h6" className="row-title">
-                      Deposited
-                    </Typography>
-                    <Typography variant="h6">{depositAmount} sOHM</Typography>
-                  </div>
-                  <div className="details-row">
-                    <Typography variant="h6" className="row-title">
-                      Yield Sent
-                    </Typography>
-                    <Typography variant="h6">{yieldSent} sOHM</Typography>
-                  </div>
-                </div>
-              </>
-            ) : isAmountSet || isWithdrawing ? (
-              <div className="details-row">
-                <div className="sohm-allocation-col">
-                  <Typography variant="body1">
-                    <Trans>Current sOHM deposit</Trans>
-                  </Typography>
-                  <Typography variant="h6">{currentDepositAmount.toFixed(2)} sOHM</Typography>
-                </div>
-                {!isSmallScreen && <ArrowGraphic />}
-                <div className="recipient-address-col">
-                  <Typography variant="body1">
-                    <Trans>New sOHM deposit</Trans>
-                  </Typography>
-                  <Typography variant="h6">{isWithdrawing ? 0 : depositAmount.toFixed(2)} sOHM</Typography>
-                </div>
-              </div>
-            ) : (
-              <div className="edit-entry-section">
-                <div className="give-modal-alloc-tip">
-                  <Typography variant="body1">
-                    <Trans>New sOHM Amount</Trans>
-                  </Typography>
-                  <InfoTooltip
-                    message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
-                    children={null}
-                  />
-                </div>
-                <FormControl className="modal-input" variant="outlined" color="primary">
-                  <InputLabel htmlFor="amount-input"></InputLabel>
-                  <OutlinedInput
-                    id="amount-input"
-                    type="number"
-                    placeholder={t`Enter an amount`}
-                    className="stake-input"
-                    value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
-                    error={!isDepositAmountValid}
-                    onChange={e => handleSetDepositAmount(e.target.value)}
-                    labelWidth={0}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <div className="logo-holder">{sOhmImg}</div>
-                      </InputAdornment>
-                    }
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <Button
-                          variant="text"
-                          onClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
-                        >
-                          <Trans>Max</Trans>
-                        </Button>
-                      </InputAdornment>
-                    }
-                  />
-                  <FormHelperText>{isDepositAmountValidError}</FormHelperText>
-                  <div className="give-staked-balance">
-                    <Typography variant="body2" align="left">
-                      {`${t`Your current deposit is `} ${currentDepositAmount.toFixed(2)} sOHM`}
-                    </Typography>
-                  </div>
-                </FormControl>
-              </div>
-            )}
-          </Box>
-        </div>
-        <div className="manage-buttons">
-          {!isEditing && !isWithdrawing ? (
-            <>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginBottom: "20px", height: "40px" }}
-                onClick={() => setIsEditing(true)}
-              >
-                <Typography variant="h6">Edit Donation</Typography>
-              </Button>
-              <Button
-                variant="outlined"
-                color="primary"
-                style={{ height: "40px" }}
-                onClick={() => setIsWithdrawing(true)}
-              >
-                <Typography variant="h6">Stop Donation</Typography>
-              </Button>
-            </>
-          ) : isWithdrawing ? (
-            <>
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={!canWithdraw()}
-                onClick={handleWithdrawSubmit}
-                style={{ marginBottom: "20px" }}
-              >
-                <Typography variant="h6">
-                  {txnButtonText(pendingTransactions, PENDING_TXN_WITHDRAW, t`Withdraw`)}
-                </Typography>
-              </Button>
-              <Button variant="outlined" color="primary" onClick={() => setIsWithdrawing(false)}>
-                <Typography variant="h6">Cancel</Typography>
-              </Button>
-            </>
-          ) : !isAmountSet ? (
-            <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={() => setIsAmountSet(true)}>
-              <Typography variant="h6">
-                <Trans>Continue</Trans>
-              </Typography>
-            </Button>
-          ) : (
-            <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleEditSubmit}>
-              <Typography variant="h6">
-                {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Confirm New sOHM`)}
-              </Typography>
-            </Button>
-          )}
-        </div>
-      </Paper>
+    <Modal
+      open={isModalOpen}
+      onClose={handleClose}
+      headerText={getModalTitle() + " Donation"}
+      closePosition="right"
+      topLeft={getEscapeComponent()}
+      className={`ohm-modal ${isMediumScreen ? "medium" : isSmallScreen ? "smaller" : ""}`}
+      minHeight="300px"
+    >
+      {shouldShowEditScreen()
+        ? getEditDonationScreen()
+        : shouldShowStopScreen()
+        ? getStopDonationScreen()
+        : shouldShowEditConfirmationScreen()
+        ? getEditConfirmationScreen()
+        : getInitialScreen()}
     </Modal>
   );
 }
