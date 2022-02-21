@@ -11,7 +11,21 @@
       "category": "",
       "wallet": "0x43600Fe18A6f3ff9ef40a7611952Cc51Db9AF53a",
       "depositGoal": 0,
-      "website": "https://twitter.com/Playgrounds0x?s=20"
+      "website": "https://twitter.com/Playgrounds0x?s=20",
+      "milestones": [
+        {
+          "amount": 100,
+          "description": "- About milestone 1\n-More on milestone 1\n-Even more"
+        },
+        {
+          "amount": 150,
+          "description": "- About milestone 2\n-More on milestone 2\n-Even more"
+        },
+        {
+          "amount": 200,
+          "description": "- About milestone 3\n-More on milestone 3\n-Even more"
+        }
+      ]
     },
     {
       "title": "Mover",

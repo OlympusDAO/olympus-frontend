@@ -46,7 +46,7 @@ import { RecipientModal } from "src/views/Give/RecipientModal";
 import { WithdrawSubmitCallback } from "src/views/Give/WithdrawDepositModal";
 
 import { error } from "../../slices/MessagesSlice";
-import { Project } from "./project.type";
+import { Grant } from "./project.type";
 import { countDecimals, roundToDecimal, toInteger } from "./utils";
 
 export enum GrantDetailsMode {
@@ -55,7 +55,7 @@ export enum GrantDetailsMode {
 }
 
 type GrantDetailsProps = {
-  grant: Project;
+  grant: Grant;
   mode: GrantDetailsMode;
 };
 
