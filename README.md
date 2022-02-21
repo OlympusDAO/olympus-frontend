@@ -140,6 +140,16 @@ _Note_: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sO
 1. [avax faucet](https://faucet.avax-test.network/)
 2. [explorer](https://explorer.avax-test.network/)
 
+## Rinkeby Bond Creation
+
+1. `create` [here](https://rinkeby.etherscan.io/address/0x9810C5c97C57Ef3F23d9ee06813eF7FD51E13042#writeContract)
+2. _name: `DAI`
+3. _quoteToken: `0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C`
+4. _market: `[10000000000000000000000000,60000000000,1000000]`
+5. _booleans: `[true,true]`
+6. _terms: `[100,1677008640]` <- the second term here is a unix timestamp for bond expiration, set a new one: https://www.unixtimestamp.com/index.php
+7. _intervals: `[14400,86400]`
+
 ## Gitpod Continuous Dev Environment (optional)
 
 This repo is configured to work with Gitpod.
