@@ -71,7 +71,18 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
   const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 600px)") && !isSmallScreen;
   const { provider, address, connected, connect, networkId } = useWeb3Context();
-  const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = grant;
+  const {
+    title,
+    owner,
+    shortDescription,
+    details,
+    finishDate,
+    photos,
+    wallet,
+    depositGoal,
+    milestones,
+    latestMilestoneCompleted,
+  } = grant;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
@@ -680,6 +691,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   ) : (
                     <></>
                   )}
+                </Grid>
+                <Grid item>
+                  <Paper title="Milestone">TODO</Paper>
                 </Grid>
                 <Grid
                   item
