@@ -546,7 +546,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   <Paper className="project-sidebar">
                     <Grid container className="project-intro" justifyContent="space-between">
                       <Grid item className="project-title">
-                        <Link href={"#/give"}>
+                        <Link href={"#/give/grants"}>
                           <ChevronLeft
                             className="back-to-causes"
                             viewBox="6 6 12 12"
