@@ -125,6 +125,7 @@
     "history": "^5.2.0",
     "husky": "^7.0.4",
     "jest-coverage-badges": "^1.1.2",
+    "jest-extended": "^2.0.0",
     "jest-puppeteer": "^6.1.0",
     "jest-when": "^3.5.1",
     "less-plugin-npm-import": "^2.1.0",

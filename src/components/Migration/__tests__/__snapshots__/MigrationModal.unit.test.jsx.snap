@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MigrationModal/> should render closed component 1`] = `
+<div>
+  <div />
+</div>
+`;
+
+exports[`<MigrationModal/> should render open component 1`] = `
+<div
+  aria-hidden="true"
+>
+  <div />
+</div>
+`;
