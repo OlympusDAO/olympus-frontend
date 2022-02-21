@@ -232,14 +232,17 @@ export const Redeem = () => {
   );
 };
 
-//TODO need to add depositToken to deposit call once new contract is deployed
 export const Deposit = () => {
   const queryClient = useQueryClient();
   const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
   return useMutation(
     async (deposit: { quantity: number; redeemToken: number; depositToken: number }) => {
       if (!tenderEscrowContract) throw new Error("Token doesn't exist on current network. Please switch networks.");
-      const data = await tenderEscrowContract.deposit(deposit.quantity * 1e9, deposit.redeemToken);
+      const data = await tenderEscrowContract.deposit(
+        deposit.quantity * 1e9,
+        deposit.redeemToken,
+        deposit.depositToken,
+      );
       return data.wait();
     },
     {
