@@ -419,7 +419,12 @@ function App() {
             <Route path={"/info/:id"}>
               <Wallet open={true} component="info" />
             </Route>
-            <Redirect from="/info" to="/info/news" />
+            <Route path={"/info"}>
+              <Wallet open={true} component="info" />
+            </Route>
+            <Route path={"/get-ohm"}>
+              <Wallet open={true} component="getohm" />
+            </Route>
 
             <Route component={NotFound} />
           </Switch>

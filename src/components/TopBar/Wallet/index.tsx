@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import Calculator from "./Calculator";
+import GetOhm from "./GetOhm";
 import Info from "./Info";
 import InitialWalletView from "./InitialWalletView";
 
@@ -35,6 +36,8 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
         return <Calculator />;
       case "info":
         return <Info path={id} />;
+      case "getohm":
+        return <GetOhm />;
       default:
         return <InitialWalletView onClose={closeWallet} />;
     }
@@ -54,20 +57,24 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
         onOpen={openWallet}
         onClose={closeWallet}
       >
-        <Box p="30px 15px">
-          <Box display="flex" flexDirection="row" justifyContent="flex-end" mb={"18px"} textAlign="right">
-            <Link to="/stake" component={CloseButton} />
+        <Box p="30px 15px" style={{ overflow: "hidden" }}>
+          <Box style={{ top: 0, position: "sticky" }}>
+            <Box display="flex" flexDirection="row" justifyContent="flex-end" mb={"18px"} textAlign="right">
+              <Link to="/stake" component={CloseButton} />
+            </Box>
+            <TabBar
+              items={[
+                { label: "Wallet", to: "/wallet" },
+                { label: "Get OHM", to: "/get-ohm" },
+                { label: "Calculator", to: "/calculator" },
+                { label: "Info", to: "/info" },
+              ]}
+              mb={"18px"}
+            />
           </Box>
-          <TabBar
-            items={[
-              { label: "Wallet", to: "/wallet" },
-              { label: "Get OHM", to: "/get" },
-              { label: "Calculator", to: "/calculator" },
-              { label: "Info", to: "/info" },
-            ]}
-            mb={"18px"}
-          />
-          <RenderComponent component={props.component} />
+          <Box style={{ height: "100%", display: "block", overflow: "auto" }}>
+            <RenderComponent component={props.component} />
+          </Box>
         </Box>
       </StyledSwipeableDrawer>
     </>

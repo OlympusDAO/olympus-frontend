@@ -44,9 +44,9 @@ const Info: FC<OHMInfoProps> = (props: { path?: string }) => {
     }
   };
   return (
-    <Box>
+    <Box style={{ height: "100%", display: "block", overflow: "auto" }}>
       <Box display="flex" flexDirection="row" className={classes.tabNav} pt="18px" mb="18px">
-        <Link component={NavLink} to="/info/news">
+        <Link component={NavLink} to="/info" exact>
           News
         </Link>
         <Link component={NavLink} to="/info/proposals">
