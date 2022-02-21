@@ -1,73 +1,103 @@
 import { Contract, ContractInterface } from "@ethersproject/contracts";
-import { StaticJsonRpcProvider } from "@ethersproject/providers";
+import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { useMemo } from "react";
+import { abi as FUSE_PROXY_ABI } from "src/abi/FuseProxy.json";
 import { abi as IERC20_ABI } from "src/abi/IERC20.json";
 import STAKING_ABI from "src/abi/OlympusStakingv2.json";
 import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
-import { NetworkId } from "src/constants";
-import { AddressMap, STAKING_ADDRESSES } from "src/constants/addresses";
-import { assert } from "src/helpers";
-import { ohm_dai } from "src/helpers/AllBonds";
-import { NodeHelper } from "src/helpers/NodeHelper";
-import { IERC20, OlympusStakingv2, PairContract } from "src/typechain";
+import { abi as SOHM_ABI } from "src/abi/sOhmv2.json";
+import { AddressMap } from "src/constants/addresses";
+import { NetworkId } from "src/networkDetails";
+import { FuseProxy, IERC20, OlympusStakingv2, PairContract, SOhmv2 } from "src/typechain";
 
 import { useWeb3Context } from ".";
-
-const provider = NodeHelper.getMainnetStaticProvider();
+import { useStaticProvider, useStaticProviders } from "./useStaticProvider";
 
 /**
  * Hook for fetching a contract.
  *
- * @param addressOrMap A contract address, or a map with a contract address for each network
+ * @param address Contract address
  * @param ABI The contract interface
- * @param provider An optional static provider to be used by the contract
+ * @param providerOrSigner Provider/signer to be used by the contract
  */
 export function useContract<TContract extends Contract = Contract>(
-  addressOrMap: AddressMap,
+  addressOrAddressMap: string,
   ABI: ContractInterface,
-): TContract | null;
-export function useContract<TContract extends Contract = Contract>(
-  addressOrMap: string,
-  ABI: ContractInterface,
-  provider?: StaticJsonRpcProvider,
+  providerOrSigner: StaticJsonRpcProvider | JsonRpcSigner,
 ): TContract;
 export function useContract<TContract extends Contract = Contract>(
-  addressOrMap: string | AddressMap,
+  addressOrAddressMap: AddressMap,
   ABI: ContractInterface,
-  provider?: StaticJsonRpcProvider,
+  providerOrSigner?: StaticJsonRpcProvider | JsonRpcSigner,
+): TContract | null;
+export function useContract<TContract extends Contract = Contract>(
+  addressOrAddressMap: string | AddressMap,
+  ABI: ContractInterface,
+  providerOrSigner?: StaticJsonRpcProvider | JsonRpcSigner,
 ): TContract | null {
-  const { provider: currentProvider, networkId } = useWeb3Context();
+  const { networkId } = useWeb3Context();
 
   return useMemo(() => {
-    const address = typeof addressOrMap === "string" ? addressOrMap : addressOrMap[networkId as NetworkId];
+    const address =
+      typeof addressOrAddressMap === "string"
+        ? addressOrAddressMap
+        : addressOrAddressMap[networkId as keyof typeof addressOrAddressMap];
+
     if (!address) return null;
 
-    try {
-      return new Contract(address, ABI, provider || currentProvider) as TContract;
-    } catch (error) {
-      console.error("Unable to get contract", error);
-      return null;
-    }
-  }, [addressOrMap, ABI, provider, networkId, currentProvider]);
+    return new Contract(address, ABI, providerOrSigner) as TContract;
+  }, [networkId, addressOrAddressMap, ABI, providerOrSigner]);
 }
 
-const usePairContract = (address: string) => {
-  return useContract<PairContract>(address, PAIR_CONTRACT_ABI);
+/**
+ * Helper function to create a static contract hook.
+ * Static contracts require an explicit network id to be given as an argument.
+ */
+const createStaticContract = <TContract extends Contract = Contract>(ABI: ContractInterface) => {
+  return (address: string, networkId: NetworkId) => {
+    const provider = useStaticProvider(networkId);
+
+    return useContract<TContract>(address, ABI, provider);
+  };
 };
 
-export const useStakingContract = () => {
-  const address = STAKING_ADDRESSES[NetworkId.MAINNET];
+/**
+ * Helper function to create a dynamic contract hook.
+ * Dynamic contracts use the provider/signer injected by the users wallet.
+ * Since a wallet can be connected to any network, a dynamic contract hook
+ * can possibly return null if there is no contract address specified for
+ * the currently active network.
+ */
+const createDynamicContract = <TContract extends Contract = Contract>(ABI: ContractInterface) => {
+  return (addressMap: AddressMap, asSigner = false) => {
+    const { provider, connected } = useWeb3Context();
 
-  return useContract<OlympusStakingv2>(address, STAKING_ABI, provider);
+    return useContract<TContract>(addressMap, ABI, asSigner && connected ? provider.getSigner() : provider);
+  };
 };
 
-export const useOhmDaiReserveContract = () => {
-  const address = ohm_dai.getAddressForReserve(NetworkId.MAINNET);
-  assert(address, "Contract should exist for NetworkId.MAINNET");
+/**
+ * Hook that returns a contract for every network in an address map
+ */
+export const useMultipleContracts = <TContract extends Contract = Contract>(
+  addressMap: AddressMap,
+  ABI: ContractInterface,
+) => {
+  const networks = useMemo(() => Object.keys(addressMap).map(Number), [addressMap]);
+  const providers = useStaticProviders(networks);
 
-  return usePairContract(address);
+  return useMemo(() => {
+    return Object.values(addressMap).map((address, index) => {
+      return new Contract(address, ABI, providers[index]) as TContract;
+    });
+  }, [addressMap, ABI, providers]);
 };
 
-export const useTokenContract = (addressMap: AddressMap) => {
-  return useContract<IERC20>(addressMap, IERC20_ABI);
-};
+export const useStaticSohmContract = createStaticContract<SOhmv2>(SOHM_ABI);
+export const useStaticTokenContract = createStaticContract<IERC20>(IERC20_ABI);
+export const useStaticFuseContract = createStaticContract<FuseProxy>(FUSE_PROXY_ABI);
+export const useStaticPairContract = createStaticContract<PairContract>(PAIR_CONTRACT_ABI);
+export const useStaticStakingContract = createStaticContract<OlympusStakingv2>(STAKING_ABI);
+
+export const useDynamicTokenContract = createDynamicContract<IERC20>(IERC20_ABI);
+export const useDynamicStakingContract = createDynamicContract<OlympusStakingv2>(STAKING_ABI);
