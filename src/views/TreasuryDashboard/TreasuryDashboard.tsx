@@ -1,7 +1,7 @@
 import "./TreasuryDashboard.scss";
 
 import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
-import { MetricCollection, Paper } from "@olympusdao/component-library";
+import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { memo } from "react";
 
 import {
@@ -13,6 +13,9 @@ import {
   TotalValueDepositedGraph,
 } from "./components/Graph/Graph";
 import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
+
+const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVariant: "h5" };
+
 const TreasuryDashboard = memo(() => {
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
@@ -28,12 +31,12 @@ const TreasuryDashboard = memo(() => {
         <Box className="hero-metrics">
           <Paper className="ohm-card">
             <MetricCollection>
-              <MarketCap />
-              <OHMPrice />
-              <GOHMPrice />
-              <CircSupply />
-              <BackingPerOHM />
-              <CurrentIndex />
+              <MarketCap {...sharedMetricProps} />
+              <OHMPrice {...sharedMetricProps} />
+              <GOHMPrice {...sharedMetricProps} className="wsoprice" />
+              <CircSupply {...sharedMetricProps} />
+              <BackingPerOHM {...sharedMetricProps} />
+              <CurrentIndex {...sharedMetricProps} />
             </MetricCollection>
           </Paper>
         </Box>
