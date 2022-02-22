@@ -6,7 +6,8 @@ import { trim } from "src/helpers";
 import { useAppSelector } from "src/hooks";
 //import { parseBigNumber } from "src/helpers";
 import { useOhmPrice } from "src/hooks/usePrices";
-import { useTreasuryMetrics } from "src/views/TreasuryDashboard/hooks/useTreasuryMetrics";
+import { useProtocolMetrics } from "src/hooks/useProtocolMetrics";
+//import { useTreasuryMetrics } from "src/views/TreasuryDashboard/hooks/useTreasuryMetrics";
 
 const useStyles = makeStyles<Theme>(theme => ({
   title: {
@@ -111,8 +112,11 @@ const Calculator: FC<OHMCalculatorProps> = () => {
   const classes = useStyles();
   const rebases = duration * 3;
   const { data: ohmPrice = 0 } = useOhmPrice();
-  const { data: runwayData = [{ runwayCurrent: 0 }] } = useTreasuryMetrics({ refetchOnMount: false });
-  const runway = trim(runwayData[0].runwayCurrent, 2);
+  const { data: runwayData } = useProtocolMetrics();
+
+  //protocol metrics hook is causing this ts error. disabling for now.
+  //@ts-expect-error
+  const runway = runwayData && trim(runwayData[0].runwayCurrent, 1);
 
   //If values are set on the Advanced view.
   const currentOhmPrice = advanced ? manualOhmPrice : ohmPrice;

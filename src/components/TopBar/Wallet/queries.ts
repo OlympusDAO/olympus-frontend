@@ -3,7 +3,9 @@ import { gql, request } from "graphql-request";
 import { useQuery } from "react-query";
 const snapshotUrl = "https://hub.snapshot.org/graphql";
 const mediumUrl = "https://api.rss2json.com/v1/api.json?rss_url=https://olympusdao.medium.com/feed";
-
+import { FUSE_POOL_18_ADDRESSES } from "src/constants/addresses";
+import { useStaticFuseContract } from "src/hooks/useContract";
+import { NetworkId } from "src/networkDetails";
 export const ActiveProposals = () => {
   const { data, isFetched, isLoading } = useQuery("ActiveProposals", async () => {
     const data = await request(
@@ -42,6 +44,14 @@ export const MediumArticles = () => {
     return await axios.get(mediumUrl).then(res => {
       return res.data;
     });
+  });
+  return { data, isFetched, isLoading };
+};
+
+export const SupplyRatePerBlock = () => {
+  const fuse = useStaticFuseContract(FUSE_POOL_18_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
+  const { data, isFetched, isLoading } = useQuery("FuseSupply", async () => {
+    return await fuse.supplyRatePerBlock();
   });
   return { data, isFetched, isLoading };
 };

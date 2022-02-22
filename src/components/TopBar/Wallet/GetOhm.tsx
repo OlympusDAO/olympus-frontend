@@ -4,9 +4,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import { ItemCard } from "@olympusdao/component-library";
 import { FC } from "react";
 import { useDispatch } from "react-redux";
-import { formatCurrency, trim } from "src/helpers";
+import { formatCurrency, parseBigNumber, trim } from "src/helpers";
+import allPools from "src/helpers/AllExternalPools";
 import { useAppSelector, useWeb3Context } from "src/hooks";
+import { ExternalPool } from "src/lib/ExternalPool";
 import { AppDispatch } from "src/store";
+import { useStakePoolTVL } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
+
+import { SupplyRatePerBlock } from "./queries";
 
 const useStyles = makeStyles<Theme>(theme => ({
   title: {
@@ -23,6 +28,12 @@ const useStyles = makeStyles<Theme>(theme => ({
 const GetOhm: FC = () => {
   const { networkId, address, provider } = useWeb3Context();
   const dispatch = useDispatch<AppDispatch>();
+  const { data: supplyRate } = SupplyRatePerBlock();
+  const ethMantissa = 1e18;
+  const blocksPerDay = 6500;
+  const daysPerYear = 365;
+  const fuseSupplyApy =
+    supplyRate && (Math.pow((parseBigNumber(supplyRate) / ethMantissa) * blocksPerDay + 1, daysPerYear) - 1) * 100;
 
   const classes = useStyles();
   const bondsV2 = useAppSelector(state => {
@@ -31,7 +42,7 @@ const GetOhm: FC = () => {
   const fiveDayRate = useAppSelector(state => {
     return state.app.fiveDayRate;
   });
-  console.log(bondsV2);
+
   return (
     <>
       <Typography variant="h6" className={classes.title}>
@@ -53,15 +64,50 @@ const GetOhm: FC = () => {
       <ItemCard
         tokens={["sOHM", "wsOHM"]}
         title={t`Stake Now`}
-        roi={`${trim(Number(fiveDayRate) * 100, 4)}%`}
+        roi={`${trim(Number(fiveDayRate) * 100, 2)}%`}
         days={t`5 Days`}
+        href={`http://google.com`}
+        external
+        disableFlip
       />
       <Typography variant="h6" className={classes.title}>
         Zap
       </Typography>
-      <ItemCard tokens={["wETH", "wBTC", "DAI"]} title={t`Zap with more assets`} />
+      <ItemCard tokens={["wETH", "wBTC", "USDC", "DAI"]} title={t`Zap with more assets`} href={`/zap`} disableFlip />
+      <Typography variant="h6" className={classes.title}>
+        Farm Pool
+      </Typography>
+      {allPools.map(pool => (
+        <StakePool pool={pool} />
+      ))}
+      <Typography variant="h6" className={classes.title}>
+        Borrow
+      </Typography>
+      <ItemCard
+        tokens={["RARI"]}
+        title={t`Get Loans on Rari`}
+        href={`https://app.rari.capital/fuse/pool/18`}
+        external
+        roi={`${fuseSupplyApy}%`}
+        days="APY"
+        disableFlip
+      />
     </>
   );
 };
 
 export default GetOhm;
+
+const StakePool: React.FC<{ pool: ExternalPool }> = props => {
+  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+  return (
+    <ItemCard
+      tokens={props.pool.icons}
+      title={props.pool.poolName}
+      value={totalValueLocked && formatCurrency(totalValueLocked)}
+      href={props.pool.href}
+      external
+      disableFlip
+    />
+  );
+};

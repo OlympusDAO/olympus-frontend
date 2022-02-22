@@ -72,7 +72,7 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
               mb={"18px"}
             />
           </Box>
-          <Box style={{ height: "100%", display: "block", overflow: "auto" }}>
+          <Box style={{ height: "100%", display: "block", overflow: "scroll", paddingBottom: "100px" }}>
             <RenderComponent component={props.component} />
           </Box>
         </Box>
