@@ -15,7 +15,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           # ref: ${{ github.ref }}
-          check-name: 'Main CI'
+          check-name: deploy
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 60
       - name: Run Lighthouse check against Fleek deployment
