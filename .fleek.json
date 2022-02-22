@@ -2,8 +2,8 @@
   "site": {
     "id": "bc53e95a-837a-4c89-ad2d-8d1865b7c202",
     "name": "falling-thunder-6538",
-    "team": "My team",
-    "source": "",
+    "team": "5649e289-a154-4e8e-8ad7-7ff8ab341caa",
+    "source": "github",
     "platform": "ipfs"
   },
   "build": {
