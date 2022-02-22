@@ -168,6 +168,11 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed();
   };
 
+  /**
+   * Returns the milestone completion:
+   * - 0: no milestones completed
+   * - Otherwise, the completed milestone is indexed from 1
+   */
   const getLatestMilestoneCompleted = (): number => {
     return !latestMilestoneCompleted ? 0 : latestMilestoneCompleted;
   };
@@ -223,14 +228,19 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     );
   };
 
+  /**
+   * Returns the details of the next milestone.
+   *
+   * If the last milestone has been completed, display that.
+   */
   const renderMilestoneDetails = (): JSX.Element => {
-    // TODO if it's a smaller window size, hide
-
     if (milestones === undefined || milestones.length === 0) {
       return <></>;
     }
 
-    const currentMilestoneDetails = milestones[getLatestMilestoneCompleted()];
+    const milestoneSafe =
+      getLatestMilestoneCompleted() >= milestones.length ? milestones.length - 1 : getLatestMilestoneCompleted();
+    const currentMilestoneDetails = milestones[milestoneSafe];
 
     return (
       <div
