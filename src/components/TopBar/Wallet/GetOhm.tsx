@@ -66,8 +66,7 @@ const GetOhm: FC = () => {
         title={t`Stake Now`}
         roi={`${trim(Number(fiveDayRate) * 100, 2)}%`}
         days={t`5 Days`}
-        href={`http://google.com`}
-        external
+        href={`/stake`}
         disableFlip
       />
       <Typography variant="h6" className={classes.title}>
