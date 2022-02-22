@@ -1,44 +1,35 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
-import {
-  AddressMap,
-  MIGRATOR_ADDRESSES,
-  V1_OHM_ADDRESSES,
-  V1_SOHM_ADDRESSES,
-  WSOHM_ADDRESSES,
-} from "src/constants/addresses";
-import { queryAssertion } from "src/helpers";
+import { AddressMap } from "src/constants/addresses";
+import { nonNullable, queryAssertion } from "src/helpers";
 
 import { useWeb3Context } from ".";
-import { useTokenContract } from "./useContract";
+import { useDynamicTokenContract } from "./useContract";
 
-export const contractAllowanceQueryKey = (networkId?: NetworkId, address?: string) => [
-  "useContractAllowances",
-  networkId,
-  address,
-];
+export const contractAllowanceQueryKey = (
+  address?: string,
+  networkId?: NetworkId,
+  tokenMap?: AddressMap,
+  contractMap?: AddressMap,
+) => ["useContractAllowances", address, networkId, tokenMap, contractMap].filter(nonNullable);
 
 export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressMap) => {
-  const { address, networkId } = useWeb3Context();
-  const token = useTokenContract(tokenMap);
+  const token = useDynamicTokenContract(tokenMap);
+  const { address, networkId, connected } = useWeb3Context();
 
   return useQuery<BigNumber, Error>(
-    contractAllowanceQueryKey(networkId, address),
+    contractAllowanceQueryKey(address, networkId, tokenMap, contractMap),
     async () => {
-      queryAssertion(address && networkId, contractAllowanceQueryKey(networkId, address));
-
-      const contractAddress = contractMap[networkId as NetworkId];
+      queryAssertion(address && networkId, contractAllowanceQueryKey(address, networkId, tokenMap, contractMap));
 
       if (!token) throw new Error("Token doesn't exist on current network");
+
+      const contractAddress = contractMap[networkId as NetworkId];
       if (!contractAddress) throw new Error("Contract doesn't exist on current network");
 
       return token.allowance(address, contractAddress);
     },
-    { enabled: !!address },
+    { enabled: !!address && !!connected },
   );
 };
-
-export const useWsohmMigrationAllowance = () => useContractAllowance(WSOHM_ADDRESSES, MIGRATOR_ADDRESSES);
-export const useV1OhmMigrationAllowance = () => useContractAllowance(V1_OHM_ADDRESSES, MIGRATOR_ADDRESSES);
-export const useV1SohmMigrationAllowance = () => useContractAllowance(V1_SOHM_ADDRESSES, MIGRATOR_ADDRESSES);

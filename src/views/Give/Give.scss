@@ -29,7 +29,8 @@
       margin-bottom: 50px;
       max-height: 60px;
       min-height: 40px;
-      height: auto;
+      // // Restrict the height of the tab bar, so the indicator is 4px away
+      height: 40px;
     }
 
     .MuiBox-root .no-donations {
@@ -663,8 +664,12 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-content: center;
-  align-items: center;
+  align-items: flex-start;
+  margin-top: 16px;
+
+  .message-text {
+    color: #999999;
+  }
 
   .message-text {
     color: #999999;
@@ -672,6 +677,10 @@
 
   .yield-graphic svg path {
     fill: none;
+  }
+
+  .arrow-graphic {
+    margin-top: 65px;
   }
 }
 
@@ -712,12 +721,6 @@
 }
 
 .ohm-modal {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  // Use decimal values to fix anti-aliasing in Chrome. Ridiculous.
-  transform: translate(-50.048%, -50.048%);
-
   &.medium {
     .manage-project-stats .MuiBox-root {
       padding-left: 10px;
@@ -788,19 +791,6 @@
     }
   }
 
-  .yield-header {
-    align-items: center;
-    display: flex;
-    height: 44px;
-    justify-content: center;
-    margin-bottom: 30px;
-
-    a {
-      position: absolute;
-      left: 1.7rem;
-    }
-  }
-
   .redeemable-details {
     display: flex;
     border: 1px solid #999999;
@@ -828,25 +818,17 @@
   }
 
   .project-modal-top {
+    margin-top: 16px;
     margin-bottom: 1rem;
   }
 
   .give-modal-alloc-tip {
     display: flex;
     flex-direction: row;
+    margin-top: 16px;
 
     .MuiBox-root {
       margin-bottom: 1rem;
-    }
-  }
-
-  .modal-input {
-    width: 100%;
-    max-width: 100%;
-    padding-bottom: 1rem;
-
-    .MuiFormHelperText-root {
-      color: red;
     }
   }
 
@@ -1066,10 +1048,11 @@
 
 .project {
   margin-top: 10px;
+
   // TODO look at whether we can make this less flakey by using rem instead of px
   .project-sidebar {
     padding: 20px 30px 30px 30px;
-    margin-bottom: 1rem;
+    margin-bottom: 30px;
 
     .project-sidebar-header {
       margin-bottom: 30px;
@@ -1080,7 +1063,7 @@
     }
 
     .project-top-data {
-      padding-bottom: 30px;
+      padding-top: 30px;
 
       .project-deposits {
         text-align: right;
@@ -1117,6 +1100,7 @@
       flex-direction: row;
       justify-content: center;
       flex-wrap: nowrap;
+      padding-top: 30px;
 
       .countdown-object {
         display: flex;
@@ -1154,13 +1138,17 @@
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
+      margin-top: 30px;
 
       .project-donation-data {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         width: 100%;
-        margin-bottom: 30px;
+
+        .project-yield-sent {
+          text-align: right;
+        }
 
         h6 {
           display: flex;
@@ -1175,8 +1163,6 @@
   }
 
   .project-intro {
-    padding-bottom: 30px;
-
     .project-title {
       display: flex;
       flex-direction: row;
@@ -1197,7 +1183,7 @@
     padding-right: 30px;
     padding-top: 30px;
     padding-bottom: 1rem;
-    margin-left: 2rem;
+    margin-left: 30px;
     height: auto;
     width: 100%;
 
@@ -1254,20 +1240,16 @@
   }
 
   .project-goal {
-    padding-bottom: 10px;
+    padding-top: 30px;
   }
 
   .project-goal-progress {
-    padding-bottom: 30px;
-
-    &.donating {
-      padding-bottom: 0px;
-    }
+    padding-top: 10px;
   }
 
   .project-give-button {
     display: flex;
-    padding-bottom: 30px;
+    padding-top: 24px; // PrimaryButton has 6px inbuilt padding
 
     button {
       display: flex;
@@ -1275,8 +1257,10 @@
     }
   }
 
-  .MuiPaper-root {
-    border-radius: 10px;
+  .project-edit-button {
+    padding-top: 24px; // PrimaryButton has 6px inbuilt padding
+    width: 100%;
+    text-align: right;
   }
 
   .MuiLinearProgress-determinate {
@@ -1297,14 +1281,6 @@
     .project-info {
       margin-left: 0;
     }
-
-    .visual-info-bottom {
-      flex-direction: column;
-
-      .project-give-button {
-        width: 100%;
-      }
-    }
   }
 
   .cause-image {
@@ -1315,11 +1291,14 @@
     max-height: 128px;
     overflow: hidden;
     padding-bottom: 0px !important;
-    margin-bottom: 30px;
 
     a {
       width: 100%;
     }
+  }
+
+  .project-visual-info {
+    padding-top: 30px;
   }
 
   .smaller {
@@ -1339,7 +1318,6 @@
         overflow: hidden;
         padding-right: 0px;
         padding-bottom: 0px;
-        margin-bottom: 30px;
 
         a {
           width: 100%;
@@ -1372,7 +1350,6 @@
         align-items: center;
         justify-content: center;
         border-radius: 16px;
-        padding-bottom: 0px;
 
         a {
           width: 100%;
@@ -1391,12 +1368,16 @@
     .project-donations {
       flex-direction: row;
 
-      .project-yield-sent {
-        padding-right: 67px;
-      }
-
       button {
         width: 50%;
+      }
+
+      .project-edit-button {
+        padding-top: 0px;
+
+        button {
+          width: 226px;
+        }
       }
     }
   }
@@ -1406,36 +1387,72 @@
   align-items: center;
 }
 
-@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
-  .modal-container {
-    background: rgba(100, 100, 100, 0.1) !important;
-    backdrop-filter: blur(33px) !important;
-    -webkit-backdrop-filter: blur(33px) !important;
-    overflow-y: scroll;
-    .ohm-card {
-      opacity: 1 !important;
-      height: auto;
-    }
-    .ohm-modal {
-      max-width: 688px;
-      opacity: 0.9;
-    }
-  }
-}
+.redeem-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-/* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
-@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
-  .modal-container {
-    background: rgba(100, 100, 100, 0.95);
-    overflow-y: scroll;
-    .ohm-card {
-      height: auto;
+  .MuiPaper-root {
+    min-height: 0px;
+    max-width: 833px;
+  }
+
+  .yield-header {
+    align-items: center;
+    display: flex;
+    height: 44px;
+    justify-content: center;
+    margin-bottom: 30px;
+
+    a {
+      position: absolute;
+      left: 1.7rem;
     }
   }
 
-  .ohm-modal {
-    max-width: 688px;
-    opacity: 0.9;
+  .redeemable-details {
+    display: flex;
+    border: 1px solid #999999;
+    border-radius: 10px;
+    padding: 20px 20px 20px 20px;
+    // width: 80%;
+
+    .redeem-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      &.smaller {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .wallet-text {
+          margin-top: 30px;
+        }
+      }
+
+      .subtext {
+        color: #999999;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .ohm-modal-submit {
+    display: flex;
+    align-items: center;
+    width: 60%;
+    height: 43px !important;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+
+    button {
+      height: 40px;
+      width: 100%;
+    }
   }
 }
 
