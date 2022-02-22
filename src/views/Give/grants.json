@@ -25,7 +25,8 @@
           "amount": 200,
           "description": "- About milestone 3\n-More on milestone 3\n-Even more"
         }
-      ]
+      ],
+      "latestMilestoneCompleted": 1
     },
     {
       "title": "Mover",

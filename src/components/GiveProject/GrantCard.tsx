@@ -1,16 +1,7 @@
+import "react-step-progress-bar/styles.css";
+
 import { t, Trans } from "@lingui/macro";
-import {
-  Box,
-  Container,
-  Grid,
-  Link,
-  Step,
-  StepLabel,
-  Stepper,
-  SvgIcon,
-  Typography,
-  useMediaQuery,
-} from "@material-ui/core";
+import { Box, Container, Grid, Link, SvgIcon, Typography, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
@@ -21,6 +12,7 @@ import { useEffect, useState } from "react";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { ProgressBar, Step } from "react-step-progress-bar";
 import { ReactComponent as GiveSohm } from "src/assets/icons/give_sohm.svg";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
@@ -180,21 +172,32 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     }
 
     const latestMilestoneCompletedSafe = !latestMilestoneCompleted ? 0 : latestMilestoneCompleted;
+    // Expects a percentage between 0 and 100
+    // Examples for 2 milestones:
+    // Start: latestMilestoneCompletedSafe = 0, percentComplete should equal 0
+    // Milestone 1 complete: latestMilestoneCompletedSafe = 1, percentComplete should equal 50
+    const percentComplete = (100 * latestMilestoneCompletedSafe) / milestones.length;
 
     return (
       <>
-        <div className={`project-goal-progress`}>
-          <Stepper alternativeLabel activeStep={latestMilestoneCompletedSafe}>
+        <div className={`project-milestone-progress`}>
+          <ProgressBar
+            hasStepZero
+            percent={percentComplete}
+            unfilledBackground="rgb(172, 177, 185)"
+            filledBackground="linear-gradient(269deg, rgba(112, 139, 150, 1) 0%, rgba(247, 251, 231, 1) 100%)"
+          >
+            <Step key={`step-0`}>{({}) => <div className="step-label">Start</div>}</Step>
             {milestones.map((value, index) => {
-              const stepLabel = index === 0 ? "Start" : `Milestone ${index}`;
+              const humanIndex = index + 1;
 
               return (
-                <Step key={`step-${index}`} disabled completed={latestMilestoneCompletedSafe >= index}>
-                  <StepLabel StepIconProps={{ icon: null }}>{stepLabel}</StepLabel>
+                <Step key={`step-${humanIndex}`}>
+                  {({}) => <div className="step-label">{`Milestone ${humanIndex}`}</div>}
                 </Step>
               );
             })}
-          </Stepper>
+          </ProgressBar>
         </div>
       </>
     );
