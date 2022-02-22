@@ -1,13 +1,19 @@
 import { isAddress } from "@ethersproject/address";
-import { Box, Button, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
-import { FormControl, FormHelperText, InputAdornment } from "@material-ui/core";
-import { InputLabel } from "@material-ui/core";
-import { OutlinedInput } from "@material-ui/core";
+import { t, Trans } from "@lingui/macro";
+import { Box, Link, SvgIcon, Typography } from "@material-ui/core";
+import { FormControl, FormHelperText } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
+import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { Project } from "src/components/GiveProject/project.type";
+import { NetworkId } from "src/constants";
+import { shorten } from "src/helpers";
+import { EnvHelper } from "src/helpers/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
 import {
   changeApproval,
@@ -17,20 +23,8 @@ import {
   PENDING_TXN_GIVE_APPROVAL,
 } from "src/slices/GiveThunk";
 
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { ArrowGraphic, VaultGraphic, WalletGraphic, YieldGraphic } from "../../components/EducationCard";
-import { getTokenImage } from "../../helpers";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
-const sOhmImg = getTokenImage("sohm");
-import { t, Trans } from "@lingui/macro";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ChevronLeft } from "@material-ui/icons";
-import { InfoTooltip } from "@olympusdao/component-library";
-import { useLocation } from "react-router-dom";
-import { NetworkId } from "src/constants";
-import { shorten } from "src/helpers";
-import { EnvHelper } from "src/helpers/Environment";
-
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
@@ -84,11 +78,6 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
       setIsAmountSet(_initialIsAmountSet);
     }
   }, [isModalOpen]);
-
-  const handleModalInsideClick = (e: React.MouseEvent): void => {
-    // When the user clicks within the modal window, we do not want to pass the event up the tree
-    e.stopPropagation();
-  };
 
   /**
    * Returns the user's sOHM balance
@@ -325,15 +314,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               <Trans>Recipient</Trans>
             </Typography>
           </div>
-          <FormControl className="modal-input" variant="outlined" color="primary">
-            <OutlinedInput
-              id="wallet-input"
-              type="text"
-              className="stake-input"
-              value={getRecipientTitle()}
-              disabled={true}
-            />
-          </FormControl>{" "}
+          <Input id="wallet-input" label={getRecipientTitle()} disabled={true} />
         </>
       );
     }
@@ -350,20 +331,15 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
             children={null}
           />
         </div>
-        <FormControl className="modal-input" variant="outlined" color="primary">
-          <InputLabel htmlFor="wallet-input"></InputLabel>
-          <OutlinedInput
-            id="wallet-input"
-            type="text"
-            placeholder={t`Enter a wallet address in the form of 0x ...`}
-            className="stake-input"
-            value={walletAddress}
-            error={!isWalletAddressValid}
-            onChange={e => handleSetWallet(e.target.value)}
-            labelWidth={0}
-          />
-          <FormHelperText>{isWalletAddressValidError}</FormHelperText>
-        </FormControl>{" "}
+        <Input
+          id="wallet-input"
+          placeholder={t`Enter a wallet address in the form of 0x ...`}
+          value={walletAddress}
+          error={!isWalletAddressValid}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onChange={(e: any) => handleSetWallet(e.target.value)}
+          helperText={!isWalletAddressValid ? isWalletAddressValidError : ""}
+        />
       </>
     );
   };
@@ -376,7 +352,16 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     connect();
   };
 
+  const handleClose = () => {
+    // Reset state
+    setIsAmountSet(false);
+
+    // Fire callback
+    cancelFunc();
+  };
+
   const getEscapeComponent = () => {
+    console.log("amount = " + isAmountSet);
     // If on the confirmation screen, we provide a chevron to go back a step
     if (shouldShowConfirmationScreen()) {
       return (
@@ -386,12 +371,8 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
       );
     }
 
-    // Otherwise an "x" to close the modal
-    return (
-      <Link onClick={() => cancelFunc()}>
-        <SvgIcon color="primary" component={XIcon} />
-      </Link>
-    );
+    // Don't display on the first screen
+    return <></>;
   };
 
   const getAmountScreen = () => {
@@ -406,9 +387,9 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
             </Trans>
           </FormHelperText>
           <FormControl className="ohm-modal-submit">
-            <Button variant="contained" color="primary" className="connect-button" onClick={handleConnect}>
+            <PrimaryButton onClick={handleConnect}>
               <Trans>Connect Wallet</Trans>
-            </Button>
+            </PrimaryButton>
           </FormControl>
         </>
       );
@@ -429,14 +410,12 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
             </Typography>
           </Box>
           <FormControl className="ohm-modal-submit">
-            <Button
-              variant="contained"
-              color="primary"
+            <PrimaryButton
               disabled={isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading}
               onClick={onSeekApproval}
             >
               {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, t`Approve`)}
-            </Button>
+            </PrimaryButton>
           </FormControl>
         </>
       );
@@ -454,37 +433,23 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
             children={null}
           />
         </div>
-        <FormControl className="modal-input" variant="outlined" color="primary">
-          <InputLabel htmlFor="amount-input"></InputLabel>
-          <OutlinedInput
-            id="amount-input"
-            type="number"
-            placeholder={t`Enter an amount`}
-            className="stake-input"
-            value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
-            error={!isDepositAmountValid}
-            onChange={e => handleSetDepositAmount(e.target.value)}
-            labelWidth={0}
-            startAdornment={
-              <InputAdornment position="start">
-                <div className="logo-holder">{sOhmImg}</div>
-              </InputAdornment>
-            }
-            endAdornment={
-              <InputAdornment position="end">
-                <Button variant="text" onClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}>
-                  <Trans>Max</Trans>
-                </Button>
-              </InputAdornment>
-            }
-          />
-          <FormHelperText>{isDepositAmountValidError}</FormHelperText>
-          <div className="give-staked-balance">
-            <Typography variant="body2" align="left">
-              {`${t`Your current Staked Balance is `} ${getSOhmBalance().toFixed(2)} sOHM`}
-            </Typography>
-          </div>
-        </FormControl>
+        <Input
+          id="amount-input"
+          placeholder={t`Enter an amount`}
+          type="number"
+          value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+          helperText={
+            isDepositAmountValid
+              ? t`Your current Staked Balance is ${getSOhmBalance().toFixed(2)} sOHM`
+              : isDepositAmountValidError
+          }
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onChange={(e: any) => handleSetDepositAmount(e.target.value)}
+          error={!isDepositAmountValid}
+          startAdornment="sOHM"
+          endString={t`Max`}
+          endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
+        />
         {getRecipientElements()}
         {
           /* We collapse the education graphics on mobile screens */
@@ -501,9 +466,9 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
           )
         }
         <FormControl className="ohm-modal-submit">
-          <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleContinue}>
+          <PrimaryButton disabled={!canSubmit()} onClick={handleContinue}>
             <Trans>Continue</Trans>
-          </Button>
+          </PrimaryButton>
         </FormControl>
       </>
     );
@@ -546,13 +511,13 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
           </div>
         </Box>{" "}
         <FormControl className="ohm-modal-submit">
-          <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={handleSubmit}>
+          <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit}>
             {txnButtonText(
               pendingTransactions,
               PENDING_TXN_GIVE,
               `${t`Confirm `} ${getDepositAmount().toFixed(2)} sOHM`,
             )}
-          </Button>
+          </PrimaryButton>
         </FormControl>
       </>
     );
@@ -567,17 +532,16 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   // https://github.com/facebook/react/issues/11877
 
   return (
-    /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
-    <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
-      <Paper className={`ohm-card ohm-modal ${isSmallScreen ? "smaller" : ""}`} onClick={handleModalInsideClick}>
-        <div className="yield-header">
-          {getEscapeComponent()}
-          <Typography variant="h4">
-            <strong>{getTitle()}</strong>
-          </Typography>
-        </div>
-        {shouldShowConfirmationScreen() ? getConfirmationScreen() : getAmountScreen()}
-      </Paper>
+    <Modal
+      open={isModalOpen}
+      onClose={handleClose}
+      headerText={getTitle()}
+      closePosition="right"
+      topLeft={getEscapeComponent()}
+      className={`ohm-modal ${isSmallScreen ? "smaller" : ""}`}
+      minHeight="300px"
+    >
+      {shouldShowConfirmationScreen() ? getConfirmationScreen() : getAmountScreen()}
     </Modal>
   );
 }
