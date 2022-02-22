@@ -296,7 +296,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           <Grid item xs={6}>
             <Grid container direction="column" alignItems="flex-start">
               <Grid item>
-                <Typography>{getLatestMilestoneCompleted()}</Typography>
+                <strong>{getLatestMilestoneCompleted()}</strong>
               </Grid>
               <Grid item>
                 <Trans>Current Milestone</Trans>
@@ -310,7 +310,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   <Grid item>
                     <SvgIcon component={GiveSohm} />
                   </Grid>
-                  <Grid item>{getLatestMilestoneAmount()}</Grid>
+                  <Grid item>
+                    <strong>{getLatestMilestoneAmount()}</strong>
+                  </Grid>
                 </Grid>
               </Grid>
               <Grid item>
