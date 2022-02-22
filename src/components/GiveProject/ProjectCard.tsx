@@ -22,6 +22,7 @@ import Countdown from "react-countdown";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { ReactComponent as ActiveSohm } from "src/assets/icons/active_sohm.svg";
 import { ReactComponent as GiveSohm } from "src/assets/icons/give_sohm.svg";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
@@ -328,7 +329,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Grid item xs={2} />
           <Grid item xs={5} className="project-deposits">
             <div className="project-data-icon">
-              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
+              <SvgIcon component={ActiveSohm} style={{ marginRight: "0.33rem" }} />
               <Typography variant="h6">
                 {recipientInfoIsLoading ? <Skeleton /> : <strong>{parseFloat(totalDebt).toFixed(2)}</strong>}
               </Typography>
