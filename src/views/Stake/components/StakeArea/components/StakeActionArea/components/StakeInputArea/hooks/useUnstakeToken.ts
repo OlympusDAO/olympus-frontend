@@ -32,7 +32,7 @@ export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
 
       if (!balance) throw new Error(t`Please refresh your page and try again`);
 
-      if (parsedAmount.gt(balance))
+      if (parsedAmount.gt(balance.toBigNumber()))
         throw new Error(t`You cannot unstake more than your` + ` ${fromToken} ` + t`balance`);
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network to unstake your` + ` ${fromToken}`);

@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { DataRow } from "@olympusdao/component-library";
-import { convertGohmToOhm, formatNumber, parseBigNumber } from "src/helpers";
+import { convertGohmToOhm, formatNumber } from "src/helpers";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
@@ -11,19 +11,15 @@ export const StakeNextRebaseAmount = () => {
   const { data: currentIndex } = useCurrentIndex();
   const { data: rebaseRate } = useStakingRebaseRate();
 
-  const gohmBalances = useGohmBalance();
-  const sohmBalances = useSohmBalance();
-  const gohmBalance = gohmBalances[networks.MAINNET].data;
-  const sohmBalance = sohmBalances[networks.MAINNET].data;
+  const gohmBalance = useGohmBalance()[networks.MAINNET].data;
+  const sohmBalance = useSohmBalance()[networks.MAINNET].data;
 
   const props: PropsOf<typeof DataRow> = { title: t`Next Reward Amount` };
 
   if (rebaseRate && sohmBalance && gohmBalance && currentIndex) {
-    const gohmBalanceAsSohm = convertGohmToOhm(gohmBalance, currentIndex);
+    const totalSohmBalance = convertGohmToOhm(gohmBalance, currentIndex).add(sohmBalance);
 
-    const totalSohmBalance = parseBigNumber(gohmBalanceAsSohm, 18) + parseBigNumber(sohmBalance);
-
-    const nextRewardAmount = rebaseRate * totalSohmBalance;
+    const nextRewardAmount = rebaseRate * totalSohmBalance.toApproxNumber();
     props.balance = `${formatNumber(nextRewardAmount, 4)} sOHM`;
   } else props.isLoading = true;
 

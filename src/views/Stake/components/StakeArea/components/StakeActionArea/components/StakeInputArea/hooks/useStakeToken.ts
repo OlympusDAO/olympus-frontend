@@ -30,7 +30,7 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
 
       if (!balance) throw new Error(t`Please refresh your page and try again`);
 
-      if (parsedAmount.gt(balance)) throw new Error(t`You cannot stake more than your OHM balance`);
+      if (parsedAmount.gt(balance.toBigNumber())) throw new Error(t`You cannot stake more than your OHM balance`);
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network to stake your OHM`);
 
