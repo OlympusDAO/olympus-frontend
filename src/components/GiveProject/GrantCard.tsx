@@ -1,4 +1,6 @@
 import "react-step-progress-bar/styles.css";
+// We import this AFTER the styles for react-step-progress-bar, so that we can override it
+import "./GrantCard.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Box, Container, Grid, Link, SvgIcon, Typography, useMediaQuery } from "@material-ui/core";
@@ -166,40 +168,75 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed();
   };
 
+  const getLatestMilestoneCompleted = (): number => {
+    return !latestMilestoneCompleted ? 0 : latestMilestoneCompleted;
+  };
+
   const renderMilestoneCompletion = (): JSX.Element => {
     if (milestones === undefined || milestones.length === 0) {
       return <Typography>No milestones are defined for this grant.</Typography>;
     }
 
-    const latestMilestoneCompletedSafe = !latestMilestoneCompleted ? 0 : latestMilestoneCompleted;
     // Expects a percentage between 0 and 100
     // Examples for 2 milestones:
-    // Start: latestMilestoneCompletedSafe = 0, percentComplete should equal 0
-    // Milestone 1 complete: latestMilestoneCompletedSafe = 1, percentComplete should equal 50
-    const percentComplete = (100 * latestMilestoneCompletedSafe) / milestones.length;
+    // Start: getLatestMilestoneCompleted() = 0, percentComplete should equal 0
+    // Milestone 1 complete: getLatestMilestoneCompleted() = 1, percentComplete should equal 50
+    const percentComplete = (100 * getLatestMilestoneCompleted()) / milestones.length;
+    const accomplishedStyle = {
+      color: `${theme.palette.text.primary}`,
+    };
+    const unaccomplishedStyle = {
+      color: `${theme.palette.text.secondary}`,
+    };
 
     return (
       <>
         <div className={`project-milestone-progress`}>
           <ProgressBar
-            hasStepZero
             percent={percentComplete}
             unfilledBackground="rgb(172, 177, 185)"
             filledBackground="linear-gradient(269deg, rgba(112, 139, 150, 1) 0%, rgba(247, 251, 231, 1) 100%)"
           >
-            <Step key={`step-0`}>{({}) => <div className="step-label">Start</div>}</Step>
             {milestones.map((value, index) => {
-              const humanIndex = index + 1;
+              const humanIndex: number = index + 1;
+              const currentMilestonePercentage: number = (100 * humanIndex) / milestones.length;
+              const milestoneAccomplished: boolean = percentComplete >= currentMilestonePercentage;
 
               return (
                 <Step key={`step-${humanIndex}`}>
-                  {({}) => <div className="step-label">{`Milestone ${humanIndex}`}</div>}
+                  {({}) => (
+                    <div
+                      className="step-label"
+                      style={milestoneAccomplished ? accomplishedStyle : unaccomplishedStyle}
+                    >{`Milestone ${humanIndex}`}</div>
+                  )}
                 </Step>
               );
             })}
+            {
+              // We add a dummy step at the end, so that steps are left-aligned
+              <Step key={`step-${milestones.length + 1}`}>{({}) => <></>}</Step>
+            }
           </ProgressBar>
         </div>
       </>
+    );
+  };
+
+  const renderMilestoneDetails = (): JSX.Element => {
+    // TODO if it's a smaller window size, hide
+
+    if (milestones === undefined || milestones.length === 0) {
+      return <></>;
+    }
+
+    const currentMilestoneDetails = milestones[getLatestMilestoneCompleted()];
+
+    return (
+      <div
+        dangerouslySetInnerHTML={{ __html: MarkdownIt({ html: true }).render(currentMilestoneDetails.description) }}
+        className="milestone-deliverables"
+      />
     );
   };
 
@@ -628,6 +665,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                 <Grid item xs={12} md={5}>
                   <Paper headerText="Milestone" className="project-sidebar">
                     {renderMilestoneCompletion()}
+                    {renderMilestoneDetails()}
                   </Paper>
                 </Grid>
                 <Grid
