@@ -1,4 +1,8 @@
 {
+  "site": {
+    "id": "bc53e95a-837a-4c89-ad2d-8d1865b7c202",
+    "name": "falling-thunder-6538"
+  },
   "build": {
     "image": "fleek/create-react-app:node-16",
     "command": "yarn lingui:branch:main && yarn install && yarn build",

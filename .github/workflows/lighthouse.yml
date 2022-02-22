@@ -1,21 +1,14 @@
 name: Lighthouse PWA Test
 
 on:
-  pull_request:
-  push:
-    branches: [ master, develop ]
-
+  workflow_run:
+    workflows: ['Main CI']
+    types:
+      - completed
 jobs:
   lighthouse:
     runs-on: ubuntu-latest
     steps:
-      - name: Wait for Fleek deploy to succeed
-        uses: lewagon/wait-on-check-action@v1.0.0
-        with:
-          ref: develop
-          check-name: deploy
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
       - name: Run Lighthouse check against Fleek deployment
         uses: treosh/lighthouse-ci-action@v8
         with:

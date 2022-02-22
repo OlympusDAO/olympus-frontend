@@ -87,7 +87,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Deploy site to Fleek
         id: deploy
-        uses: fleekhq/action-deploy@v1
+        uses: fleekhq/action-deploy@master
         with:
           apiKey: ${{ secrets.FLEEK_API_KEY }}
       - name: Get the output url
