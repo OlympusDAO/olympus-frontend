@@ -251,6 +251,10 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   };
 
   const renderDepositData = (): JSX.Element => {
+    const totalMilestoneAmount: BigNumber = !milestones
+      ? new BigNumber(0)
+      : milestones.reduce((total, value) => total.plus(value.amount), new BigNumber(0));
+
     return (
       <>
         <Grid container className="project-top-data">
@@ -268,11 +272,11 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
             <div className="project-data-icon">
               <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
               <Typography variant="h6">
-                {recipientInfoIsLoading ? <Skeleton /> : <strong>{parseFloat(totalDebt).toFixed(2)}</strong>}
+                <strong>{totalMilestoneAmount.toFixed(0)}</strong>
               </Typography>
             </div>
             <div className="subtext">
-              <Trans>Total Active sOHM</Trans>
+              <Trans>Total Milestone Amount</Trans>
             </div>
           </Grid>
         </Grid>
