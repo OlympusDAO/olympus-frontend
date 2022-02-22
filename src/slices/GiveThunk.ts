@@ -300,9 +300,12 @@ export const changeMockGive = createAsyncThunk(
         trackSegmentEvent(uaData);
         trackGAEvent({
           category: "Olympus Give",
-          action: uaData.type,
-          value: Math.round(parseFloat(uaData.value)),
+          action: uaData.type ?? "unknown",
           label: getGiveProjectName(uaData.recipient) ?? "unknown",
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
+          metric1: parseFloat(uaData.value),
+          value: Math.round(parseFloat(uaData.value)),
         });
         dispatch(clearPendingTxn(giveTx.hash));
       }

@@ -297,7 +297,7 @@ export function ArrowGraphic() {
         alignItems="center"
         justifyContent="center"
         m={2}
-        style={{ marginTop: "0px", marginBottom: "0px", height: "20px" }}
+        style={{ height: "20px" }}
       >
         <Icon name="arrow-right" style={{ fontSize: 70 }} opacity={0.6} />
       </Box>

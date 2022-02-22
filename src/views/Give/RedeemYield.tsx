@@ -1,8 +1,8 @@
 import { t } from "@lingui/macro";
-import { Box, Button, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
-import { DataRow } from "@olympusdao/component-library";
+import { DataRow, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -154,15 +154,9 @@ export default function RedeemYield() {
             Redeemable Yield
           </Typography>
         </div>
-        <Button
-          variant="contained"
-          color="primary"
-          className="redeem-button"
-          onClick={() => handleRedeemButtonClick()}
-          disabled={!canRedeem()}
-        >
+        <PrimaryButton className="redeem-button" onClick={() => handleRedeemButtonClick()} disabled={!canRedeem()}>
           {txnButtonText(pendingTransactions, "redeeming", t`Redeem Yield`)}
-        </Button>
+        </PrimaryButton>
       </div>
       {isProject ? (
         <div className="projects-redeemable-data">
