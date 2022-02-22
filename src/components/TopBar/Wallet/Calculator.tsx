@@ -305,7 +305,9 @@ const Calculator: FC<OHMCalculatorProps> = () => {
               <Typography className={classes.progressMetric}>{formattedInitialInvestment}</Typography>
               <Typography className={classes.progressLabel}>Invested</Typography>
             </Box>
-            <ProgressCircle balance={totalValue.toString()} label="Total Value" progress={pieValue} />
+            <Box position="relative">
+              <ProgressCircle balance={totalValue.toString()} label="Total Value" progress={pieValue} />
+            </Box>
             <Box display="flex" flexDirection="column" textAlign="left" flexGrow={0.33}>
               <Typography className={classes.progressMetric}>{formattedProfits}</Typography>
               <Typography className={classes.progressLabel}>ROI in {duration} days</Typography>
