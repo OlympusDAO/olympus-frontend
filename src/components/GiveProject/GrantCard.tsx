@@ -158,16 +158,6 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     setDonationId(0);
   }, [networkId]);
 
-  const getGoalCompletion = (): string => {
-    if (!depositGoal) return "0";
-    if (recipientInfoIsLoading) return "0"; // This shouldn't be needed, but just to be sure...
-    if (!totalDonated) return "0";
-
-    const totalDonatedNumber = new BigNumber(totalDonated);
-
-    return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed();
-  };
-
   /**
    * Returns the milestone completion:
    * - 0: no milestones completed
@@ -175,6 +165,18 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
    */
   const getLatestMilestoneCompleted = (): number => {
     return !latestMilestoneCompleted ? 0 : latestMilestoneCompleted;
+  };
+
+  const getLatestMilestoneCompletedSafe = (): number => {
+    if (!milestones) return 0;
+
+    return getLatestMilestoneCompleted() >= milestones.length ? milestones.length - 1 : getLatestMilestoneCompleted();
+  };
+
+  const getLatestMilestoneAmount = (): number => {
+    if (!milestones) return 0;
+
+    return milestones[getLatestMilestoneCompletedSafe()].amount;
   };
 
   const renderMilestoneCompletion = (): JSX.Element => {
@@ -238,8 +240,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       return <></>;
     }
 
-    const milestoneSafe =
-      getLatestMilestoneCompleted() >= milestones.length ? milestones.length - 1 : getLatestMilestoneCompleted();
+    const milestoneSafe = getLatestMilestoneCompletedSafe();
     const currentMilestoneDetails = milestones[milestoneSafe];
 
     return (
@@ -257,27 +258,65 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
 
     return (
       <>
-        <Grid container className="project-top-data">
-          <Grid item xs={5} className="project-donors">
-            <div className="project-data-icon">
-              <Icon name="donors" style={{ marginRight: "0.33rem" }} />
-              <Typography variant="h6">{donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}</Typography>
-            </div>
-            <div className="subtext">
-              <Trans>Donors</Trans>
-            </div>
+        <Grid container className="grant-data">
+          <Grid item xs={6}>
+            <Grid container direction="column" alignItems="flex-start">
+              <Grid item>
+                <Grid container justifyContent="flex-start" alignItems="center">
+                  <Grid item>
+                    <Icon name="donors" />
+                  </Grid>
+                  <Grid item>{donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}</Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Trans>Donors</Trans>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={2} />
-          <Grid item xs={5} className="project-deposits">
-            <div className="project-data-icon">
-              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-              <Typography variant="h6">
-                <strong>{totalMilestoneAmount.toFixed(0)}</strong>
-              </Typography>
-            </div>
-            <div className="subtext">
-              <Trans>Total Milestone Amount</Trans>
-            </div>
+          <Grid item xs={6}>
+            <Grid container direction="column" alignItems="flex-end">
+              <Grid item>
+                <Grid container justifyContent="flex-end" alignItems="center">
+                  <Grid item>
+                    <SvgIcon component={GiveSohm} />
+                  </Grid>
+                  <Grid item>
+                    <strong>{totalMilestoneAmount.toFixed(0)}</strong>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Trans>Total Milestone Amount</Trans>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item xs={6}>
+            <Grid container direction="column" alignItems="flex-start">
+              <Grid item>
+                <Typography>{getLatestMilestoneCompleted()}</Typography>
+              </Grid>
+              <Grid item>
+                <Trans>Current Milestone</Trans>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={6}>
+            <Grid container direction="column" alignItems="flex-end">
+              <Grid item>
+                <Grid container justifyContent="flex-end" alignItems="center">
+                  <Grid item>
+                    <SvgIcon component={GiveSohm} />
+                  </Grid>
+                  <Grid item>{getLatestMilestoneAmount()}</Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Trans>Current Milestone Amount</Trans>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </>

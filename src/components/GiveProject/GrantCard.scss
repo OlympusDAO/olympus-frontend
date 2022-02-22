@@ -15,3 +15,10 @@
   line-height: 50px;
   font-size: 16px;
 }
+
+.grant-data {
+  .MuiSkeleton-text {
+    // Force the Skeleton to not break onto a new line
+    display: inline;
+  }
+}
