@@ -35,7 +35,7 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "^3.5.8",
+    "@apollo/client": "^3.5.9",
     "@ethersproject/address": "^5.0.5",
     "@ethersproject/providers": "^5.0.12",
     "@ledgerhq/iframe-provider": "^0.4.2",
@@ -106,7 +106,7 @@
     "autoprefixer": "^10.2.4",
     "eslint": "^7.11.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jsx-a11y": "^6.5.1",
