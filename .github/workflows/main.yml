@@ -79,9 +79,10 @@ jobs:
           namedLogo: jest
           logoColor: lightblue
   deploy:
+    needs: [test]
     runs-on: ubuntu-latest
     # run Fleek deployment via this Github Action only on pull requests - for now
-    if: ${{ github.event_name == 'push' && github.ref != 'refs/heads/develop' }}
+    if: ${{ github.ref != 'refs/heads/develop' }}
     steps:
       - uses: actions/checkout@v2
       - name: Deploy site to Fleek
