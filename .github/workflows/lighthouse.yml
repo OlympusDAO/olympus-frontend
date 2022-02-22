@@ -13,10 +13,11 @@ jobs:
       - name: Wait for deploy to succeed
         uses: lewagon/wait-on-check-action@master
         with:
-          ref: ${{ github.ref }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          # ref: ${{ github.ref }}
           check-name: 'Main CI'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
+          wait-interval: 60
       - name: Run Lighthouse check against Fleek deployment
         uses: treosh/lighthouse-ci-action@v8
         with:
