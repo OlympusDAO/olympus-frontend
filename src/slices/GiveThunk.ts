@@ -7,12 +7,14 @@ import { abi as MockSohm } from "../abi/MockSohm.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
 import { addresses, NetworkId } from "../constants";
+import { getGohmBalFromSohm } from "../helpers";
 import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
 import { fetchAccountSuccess, getBalances, getDonationBalances, getMockDonationBalances } from "./AccountSlice";
 import {
   IActionValueRecipientAsyncThunk,
   IBaseAddressAsyncThunk,
   IChangeApprovalAsyncThunk,
+  IGiveAsyncThunk,
   IJsonRPCError,
 } from "./interfaces";
 import { error } from "./MessagesSlice";
@@ -150,7 +152,7 @@ export const changeMockApproval = createAsyncThunk(
 export const changeGive = createAsyncThunk(
   "give/changeGive",
   async (
-    { action, value, recipient, provider, address, networkID, eventSource }: IActionValueRecipientAsyncThunk,
+    { action, value, recipient, id, provider, address, networkID, eventSource }: IGiveAsyncThunk,
     { dispatch },
   ) => {
     if (!provider) {
@@ -177,24 +179,26 @@ export const changeGive = createAsyncThunk(
         // If the desired action is a new deposit
         uaData.type = ACTION_GIVE;
         pendingTxnType = PENDING_TXN_GIVE;
-        giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
+        giveTx = await giving.depositSohm(ethers.utils.parseUnits(value, "gwei"), recipient);
       } else if (action === ACTION_GIVE_EDIT) {
         // If the desired action is adjusting a deposit
         uaData.type = ACTION_GIVE_EDIT;
         pendingTxnType = PENDING_TXN_EDIT_GIVE;
         if (parseFloat(value) > 0) {
           // If the user is increasing the amount of sOHM directing yield to recipient
-          giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
+          giveTx = await giving.addToSohmDeposit(id, ethers.utils.parseUnits(value, "gwei"));
         } else if (parseFloat(value) < 0) {
           // If th user is decreasing the amount of sOHM directing yield to recipient
           const reductionAmount = (-1 * parseFloat(value)).toString();
-          giveTx = await giving.withdraw(ethers.utils.parseUnits(reductionAmount, "gwei"), recipient);
+          const gohmAmount = await getGohmBalFromSohm({ provider, networkID: networkID, sOHMbalance: reductionAmount });
+          giveTx = await giving.withdrawPrincipalAsSohm(id, ethers.utils.parseEther(gohmAmount));
         }
       } else if (action === ACTION_GIVE_WITHDRAW) {
         // If the desired action is to remove all sOHM from deposit
         uaData.type = ACTION_GIVE_WITHDRAW;
         pendingTxnType = PENDING_TXN_WITHDRAW;
-        giveTx = await giving.withdraw(ethers.utils.parseUnits(value, "gwei"), recipient);
+        const gohmAmount = await getGohmBalFromSohm({ provider, networkID: networkID, sOHMbalance: value });
+        giveTx = await giving.withdrawPrincipalAsSohm(id, ethers.utils.parseEther(value));
       }
       uaData.txHash = giveTx.hash;
       dispatch(fetchPendingTxns({ txnHash: giveTx.hash, text: getGivingTypeText(action), type: pendingTxnType }));

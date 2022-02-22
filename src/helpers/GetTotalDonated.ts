@@ -8,6 +8,8 @@ import { IBaseAddressAsyncThunk, IBaseAddressRecipientAsyncThunk } from "../slic
 // Calculate total amount redeemed by a user + their current redeemable balance
 export const getTotalDonated = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
   if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
+    const gohmContract = new ethers.Contract(addresses[networkID].GOHM_ADDRESS as string, gOHM, provider);
+
     // Addresses in EVM events are zero padded out to 32 characters and are lower case
     // This matches our inputs with the data we expect to receive from Ethereum
     const zeroPadAddress = ethers.utils.hexZeroPad(address.toLowerCase(), 32);
@@ -33,11 +35,12 @@ export const getTotalDonated = async ({ address, networkID, provider }: IBaseAdd
 
     // Pull user's redeemable balance and add to amount redeemed
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
-    const redeemableBalance = await givingContract.redeemableBalance(address);
+    const redeemableBalance = await givingContract.totalRedeemableBalance(address);
 
     const totalDonated = totalRedeemed.add(redeemableBalance);
+    const totalDonatedAsSohm = await gohmContract.balanceFrom(totalDonated);
 
-    return ethers.utils.formatUnits(totalDonated, "gwei");
+    return ethers.utils.formatUnits(totalDonatedAsSohm, "gwei");
   } else {
     console.log("No giving contract on chain ID " + networkID);
     return "0";
@@ -51,11 +54,10 @@ export const getTotalYieldSent = async ({
   provider,
 }: IBaseAddressRecipientAsyncThunk) => {
   if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
-    const gohmContract = new ethers.Contract(addresses[networkID].GOHM_ADDRESS as string, gOHM, provider);
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
 
     // Get deposit ID
-    const depositIds = await givingContract.depositorIds(address);
+    const depositIds = await givingContract.getDepositorIds(address);
     let recipientId = 0;
 
     for (let i = 0; i < depositIds.length; i++) {

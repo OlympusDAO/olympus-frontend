@@ -41,7 +41,7 @@ import {
   isSupportedChain,
 } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
-import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
+import { CancelCallback, SubmitCallback, SubmitEditCallback } from "src/views/Give/Interfaces";
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 import { WithdrawSubmitCallback } from "src/views/Give/WithdrawDepositModal";
@@ -398,6 +398,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           action: ACTION_GIVE,
           value: depositAmount.toFixed(),
           recipient: walletAddress,
+          id: "-1",
           provider,
           address,
           networkID: networkId,
@@ -415,8 +416,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     setIsGiveModalOpen(false);
   };
 
-  const handleEditModalSubmit: SubmitCallback = async (
+  const handleEditModalSubmit: SubmitEditCallback = async (
     walletAddress,
+    depositId,
     eventSource,
     depositAmount,
     depositAmountDiff,
@@ -449,6 +451,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           action: ACTION_GIVE_EDIT,
           value: depositAmountDiff.toFixed(),
           recipient: walletAddress,
+          id: depositId,
           provider,
           address,
           networkID: networkId,
@@ -462,7 +465,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     setIsManageModalOpen(false);
   };
 
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
+    walletAddress,
+    depositId,
+    eventSource,
+    depositAmount,
+  ) => {
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
@@ -485,6 +493,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           action: ACTION_GIVE_WITHDRAW,
           value: depositAmount.toFixed(),
           recipient: walletAddress,
+          id: depositId,
           provider,
           address,
           networkID: networkId,
@@ -811,6 +820,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             submitWithdraw={handleWithdrawModalSubmit}
             cancelFunc={handleManageModalCancel}
             currentWalletAddress={donationInfo[donationId].recipient}
+            currentDepositId={donationInfo[donationId].id}
             currentDepositAmount={new BigNumber(donationInfo[donationId].deposit)}
             depositDate={donationInfo[donationId].date}
             yieldSent={donationInfo[donationId].yieldDonated}

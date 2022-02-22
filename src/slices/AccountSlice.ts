@@ -52,6 +52,7 @@ interface IUserBalances {
 }
 
 interface IUserDonationInfo {
+  id: string;
   date: string;
   deposit: string;
   recipient: string;
@@ -60,9 +61,7 @@ interface IUserDonationInfo {
 
 interface IUserRecipientInfo {
   totalDebt: string;
-  carry: string;
   agnosticAmount: string;
-  indexAtLastChange: string;
 }
 
 export const getBalances = createAsyncThunk(
@@ -289,10 +288,12 @@ export const getDonationBalances = createAsyncThunk(
 
       try {
         // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
+        const depositIds: BigNumber[] = await givingContract.getDepositorIds(address);
         const allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
         if (allDeposits[0].length != 1 || allDeposits[1][0] != BigNumber.from(0)) {
           for (let i = 0; i < allDeposits[0].length; i++) {
             if (allDeposits[1][i].eq(0)) continue;
+            const depositId = depositIds[i];
             const sohmValue = await gohmContract.balanceFrom(allDeposits[1][i]);
             const depositAmount = ethers.utils.formatUnits(sohmValue, "gwei");
             const recipient = allDeposits[0][i];
@@ -317,6 +318,7 @@ export const getDonationBalances = createAsyncThunk(
             const formattedYieldSent = ethers.utils.formatUnits(sohmYieldSent, "gwei");
 
             donationInfo.push({
+              id: depositId.toString(),
               date: firstDonationDate,
               deposit: depositAmount,
               recipient: recipient,
@@ -379,6 +381,7 @@ export const getMockDonationBalances = createAsyncThunk(
             const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
 
             donationInfo.push({
+              id: "1",
               date: firstDonationDate,
               deposit: depositAmount,
               recipient: recipient,
@@ -703,18 +706,14 @@ const initialState: IAccountSlice = {
     sohmRedeemable: "",
     recipientInfo: {
       totalDebt: "",
-      carry: "",
       agnosticAmount: "",
-      indexAtLastChange: "",
     },
   },
   mockRedeeming: {
     sohmRedeemable: "",
     recipientInfo: {
       totalDebt: "",
-      carry: "",
       agnosticAmount: "",
-      indexAtLastChange: "",
     },
   },
   staking: { ohmStakeV1: 0, ohmUnstakeV1: 0, ohmStake: 0, ohmUnstake: 0 },

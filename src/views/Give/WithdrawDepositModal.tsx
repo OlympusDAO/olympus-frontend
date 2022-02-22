@@ -15,7 +15,7 @@ import { txnButtonText } from "../../slices/PendingTxnsSlice";
 import { IPendingTxn } from "../../slices/PendingTxnsSlice";
 
 export interface WithdrawSubmitCallback {
-  (walletAddress: string, eventSource: string, depositAmount: BigNumber): void;
+  (walletAddress: string, depositId: string, eventSource: string, depositAmount: BigNumber): void;
 }
 
 export interface WithdrawCancelCallback {
@@ -28,6 +28,7 @@ type WithdrawModalProps = {
   callbackFunc: WithdrawSubmitCallback;
   cancelFunc: WithdrawCancelCallback;
   walletAddress: string;
+  depositId: string;
   depositAmount: BigNumber; // As per IUserDonationInfo
   project?: Project;
 };
@@ -44,6 +45,7 @@ export function WithdrawDepositModal({
   callbackFunc,
   cancelFunc,
   walletAddress,
+  depositId,
   depositAmount,
   project,
 }: WithdrawModalProps) {
@@ -68,7 +70,7 @@ export function WithdrawDepositModal({
    * Calls the submission callback function that is provided to the component.
    */
   const handleSubmit = () => {
-    callbackFunc(walletAddress, eventSource, new BigNumber(depositAmount));
+    callbackFunc(walletAddress, depositId, eventSource, new BigNumber(depositAmount));
   };
 
   const getRecipientTitle = () => {

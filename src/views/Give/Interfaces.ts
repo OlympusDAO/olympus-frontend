@@ -7,6 +7,16 @@ export interface SubmitCallback {
   (walletAddress: string, eventSource: string, depositAmount: BigNumber, depositAmountDiff?: BigNumber): void;
 }
 
+export interface SubmitEditCallback {
+  (
+    walletAddress: string,
+    id: string,
+    eventSource: string,
+    depositAmount: BigNumber,
+    depositAmountDiff?: BigNumber,
+  ): void;
+}
+
 export interface CancelCallback {
   (): void;
 }

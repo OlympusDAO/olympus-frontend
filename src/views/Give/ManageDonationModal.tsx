@@ -27,19 +27,20 @@ import { EnvHelper } from "src/helpers/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 
-import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
+import { CancelCallback, DonationInfoState, SubmitEditCallback } from "./Interfaces";
 
 export type WithdrawSubmitCallback = {
-  (walletAddress: string, eventSource: string, depositAmount: BigNumber): void;
+  (walletAddress: string, id: string, eventSource: string, depositAmount: BigNumber): void;
 };
 
 type ManageModalProps = {
   isModalOpen: boolean;
   eventSource: string;
-  submitEdit: SubmitCallback;
+  submitEdit: SubmitEditCallback;
   submitWithdraw: WithdrawSubmitCallback;
   cancelFunc: CancelCallback;
   project?: Project;
+  currentDepositId: string;
   currentWalletAddress: string;
   currentDepositAmount: BigNumber; // As per IUserDonationInfo
   depositDate: string;
@@ -53,6 +54,7 @@ export function ManageDonationModal({
   submitWithdraw,
   cancelFunc,
   project,
+  currentDepositId,
   currentWalletAddress,
   currentDepositAmount,
   depositDate,
@@ -174,13 +176,13 @@ export function ManageDonationModal({
   const handleEditSubmit = () => {
     const depositAmountBig = new BigNumber(depositAmount);
 
-    submitEdit(getWalletAddress(), eventSource, depositAmountBig, getDepositAmountDiff());
+    submitEdit(getWalletAddress(), currentDepositId, eventSource, depositAmountBig, getDepositAmountDiff());
   };
 
   const handleWithdrawSubmit = () => {
     const depositAmountBig = new BigNumber(depositAmount);
 
-    submitWithdraw(getWalletAddress(), eventSource, depositAmountBig);
+    submitWithdraw(getWalletAddress(), currentDepositId, eventSource, depositAmountBig);
   };
 
   /**

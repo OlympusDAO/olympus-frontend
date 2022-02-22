@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { SubmitCallback } from "src/views/Give/Interfaces";
+import { SubmitEditCallback } from "src/views/Give/Interfaces";
 
 import { Project } from "../../components/GiveProject/project.type";
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
@@ -19,6 +19,7 @@ import { ManageDonationModal, WithdrawSubmitCallback } from "./ManageDonationMod
 import data from "./projects.json";
 
 interface IUserDonationInfo {
+  id: string;
   date: string;
   deposit: string;
   recipient: string;
@@ -52,8 +53,9 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
     setIsManageModalOpen(false);
   };
 
-  const handleEditModalSubmit: SubmitCallback = async (
+  const handleEditModalSubmit: SubmitEditCallback = async (
     walletAddress,
+    depositId,
     eventSource,
     depositAmount,
     depositAmountDiff,
@@ -86,6 +88,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
           action: ACTION_GIVE_EDIT,
           value: depositAmountDiff.toFixed(),
           recipient: walletAddress,
+          id: depositId,
           provider,
           address,
           networkID: networkId,
@@ -101,7 +104,12 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
 
   // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
   // Else use standard call
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
+    walletAddress,
+    depositId,
+    eventSource,
+    depositAmount,
+  ) => {
     // Issue withdrawal from smart contract
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
@@ -123,6 +131,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
           action: ACTION_GIVE_WITHDRAW,
           value: depositAmount.toFixed(),
           recipient: walletAddress,
+          id: depositId,
           provider,
           address,
           networkID: networkId,
@@ -184,6 +193,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         depositDate={depositObject.date}
         yieldSent={depositObject.yieldDonated}
         project={projectMap.get(depositObject.recipient)}
+        currentDepositId={depositObject.id}
         key={"manage-modal-" + depositObject.recipient}
         eventSource={"My Donations"}
       />

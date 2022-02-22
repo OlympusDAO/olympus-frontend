@@ -95,6 +95,10 @@ export interface IActionValueRecipientAsyncThunk extends IActionValueAsyncThunk 
   readonly eventSource: string;
 }
 
+export interface IGiveAsyncThunk extends IActionValueRecipientAsyncThunk {
+  readonly id: string;
+}
+
 export interface IRedeemAsyncThunk extends IBaseAddressAsyncThunk {
   readonly eventSource: string;
 }

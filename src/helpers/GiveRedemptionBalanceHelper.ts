@@ -1,14 +1,13 @@
 import { BigNumber, ethers } from "ethers";
 
+import { abi as gOHM } from "../abi/gOHM.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { addresses } from "../constants";
 import { IBaseAddressAsyncThunk } from "../slices/interfaces";
 
 interface IUserRecipientInfo {
   totalDebt: string;
-  carry: string;
   agnosticDebt: string;
-  indexAtLastChange: string;
 }
 
 interface IDonorAddresses {
@@ -21,25 +20,31 @@ interface IDonorAddresses {
 export const getRedemptionBalancesAsync = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
   let redeemableBalance = 0;
   const recipientInfo: IUserRecipientInfo = {
-    totalDebt: "",
-    carry: "",
-    agnosticDebt: "",
-    indexAtLastChange: "",
+    totalDebt: "0",
+    agnosticDebt: "0",
   };
 
   if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
+    const gohmContract = new ethers.Contract(addresses[networkID].GOHM_ADDRESS as string, gOHM, provider);
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
-    redeemableBalance = await givingContract.redeemableBalance(address);
+
+    const gohmRedeemable = await givingContract.totalRedeemableBalance(address);
+    redeemableBalance = await gohmContract.balanceFrom(gohmRedeemable);
 
     try {
-      const recipientInfoData = await givingContract.recipientInfo(address);
-      recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
-      recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
-      recipientInfo.agnosticDebt = ethers.utils.formatUnits(recipientInfoData.agnosticDebt.toNumber(), "gwei");
-      recipientInfo.indexAtLastChange = ethers.utils.formatUnits(
-        recipientInfoData.indexAtLastChange.toNumber(),
-        "gwei",
-      );
+      const recipientIds = await givingContract.getRecipientIds(address);
+      let sumDebt = BigNumber.from("0");
+      let sumAgnosticDebt = BigNumber.from("0");
+
+      for (let i = 0; i < recipientIds.length; i++) {
+        const currDeposit = await givingContract.depositInfo(recipientIds[i]);
+        sumDebt = sumDebt.add(currDeposit.principalAmount);
+      }
+
+      sumAgnosticDebt = await gohmContract.balanceTo(sumDebt);
+
+      recipientInfo.totalDebt = ethers.utils.formatUnits(sumDebt.toNumber(), "gwei");
+      recipientInfo.agnosticDebt = ethers.utils.formatEther(sumAgnosticDebt);
     } catch (e: unknown) {
       console.log(e);
     }
@@ -60,9 +65,7 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
   let redeemableBalance = 0;
   const recipientInfo: IUserRecipientInfo = {
     totalDebt: "",
-    carry: "",
     agnosticDebt: "",
-    indexAtLastChange: "",
   };
 
   if (addresses[networkID] && addresses[networkID].MOCK_GIVING_ADDRESS) {
@@ -76,12 +79,7 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
     try {
       const recipientInfoData = await givingContract.recipientInfo(address);
       recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt.toNumber(), "gwei");
-      recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry.toNumber(), "gwei");
       recipientInfo.agnosticDebt = ethers.utils.formatUnits(recipientInfoData.agnosticDebt.toNumber(), "gwei");
-      recipientInfo.indexAtLastChange = ethers.utils.formatUnits(
-        recipientInfoData.indexAtLastChange.toNumber(),
-        "gwei",
-      );
     } catch (e: unknown) {
       console.log(e);
     }

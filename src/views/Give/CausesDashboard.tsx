@@ -73,6 +73,7 @@ export default function CausesDashboard() {
           action: ACTION_GIVE,
           value: depositAmount.toFixed(),
           recipient: walletAddress,
+          id: "-1",
           provider,
           address,
           networkID: networkId,
