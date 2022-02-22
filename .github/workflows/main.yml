@@ -41,7 +41,7 @@ jobs:
           gistID: d630a3bd1cf13bb3dc3c1925df28efcd
           filename: olympus-frontend__coverage__branches__${{ env.BRANCH }}.json
           label: Branches Coverage
-          message: ${{ env.COVERAGE_LINES_PCT}}%
+          message: ${{ env.COVERAGE_BRANCHES_PCT}}%
           color: blue
           namedLogo: jest
           logoColor: lightblue
@@ -63,7 +63,7 @@ jobs:
           gistID: d630a3bd1cf13bb3dc3c1925df28efcd
           filename: olympus-frontend__coverage__statements__${{ env.BRANCH }}.json
           label: Statements Coverage
-          message: ${{ env.COVERAGE_LINES_PCT}}%
+          message: ${{ env.COVERAGE_STATEMENTS_PCT}}%
           color: blue
           namedLogo: jest
           logoColor: lightblue
@@ -74,7 +74,7 @@ jobs:
           gistID: d630a3bd1cf13bb3dc3c1925df28efcd
           filename: olympus-frontend__coverage__functions__${{ env.BRANCH }}.json
           label: Functions Coverage
-          message: ${{ env.COVERAGE_LINES_PCT}}%
+          message: ${{ env.COVERAGE_FUNCTIONS_PCT}}%
           color: blue
           namedLogo: jest
           logoColor: lightblue
