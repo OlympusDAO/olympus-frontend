@@ -2,7 +2,7 @@ name: Lighthouse PWA Test
 
 on:
   workflow_run:
-    workflows: ['Main CI']
+    workflows: [ Main CI ]
     types:
       - completed
 jobs:
