@@ -622,143 +622,127 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const getPageContent = () => {
     return (
       <>
-        <Container style={{ display: "flex", justifyContent: "center" }} className="project-container">
-          <div
-            className={`${isMediumScreen ? "medium" : ""}
-            ${isSmallScreen ? "smaller" : ""}
-            ${isVerySmallScreen ? "very-small" : ""}`}
-          >
-            <Box className="project-content-container">
-              <Grid container className="project">
-                <Grid
-                  item
-                  xs={12}
-                  md={5}
-                  style={{
-                    paddingLeft: "1rem",
-                    paddingRight: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                  }}
-                >
-                  <Paper className="project-sidebar">
-                    <Grid container className="project-intro" justifyContent="space-between">
-                      <Grid item className="project-title">
-                        <Link href={"#/give/grants"}>
-                          <ChevronLeft
-                            className="back-to-causes"
-                            viewBox="6 6 12 12"
-                            style={{ width: "12px", height: "12px" }}
-                          />
-                        </Link>
-                        <Typography variant="h5">
-                          <strong>{getTitle()}</strong>
-                        </Typography>
-                      </Grid>
+        <Container
+          style={{ display: "flex", justifyContent: "center" }}
+          className={`project-container ${isMediumScreen ? "medium" : ""} ${isSmallScreen ? "smaller" : ""} ${
+            isVerySmallScreen ? "very-small" : ""
+          }`}
+        >
+          <Grid container className="project" spacing={3}>
+            <Grid container item xs={12} lg={5}>
+              <Grid item xs={12}>
+                <Paper>
+                  <Grid container className="project-intro" justifyContent="space-between">
+                    <Grid item className="project-title">
+                      <Link href={"#/give/grants"}>
+                        <ChevronLeft
+                          className="back-to-causes"
+                          viewBox="6 6 12 12"
+                          style={{ width: "12px", height: "12px" }}
+                        />
+                      </Link>
+                      <Typography variant="h5">
+                        <strong>{getTitle()}</strong>
+                      </Typography>
                     </Grid>
-                    <Grid item className="project-visual-info">
-                      {getProjectImage()}
-                      <Grid item className="goal-graphics">
-                        {renderDepositData()}
-                        <div className="project-give-button">
-                          {connected ? (
-                            isUserDonating ? (
-                              <></>
-                            ) : (
-                              <PrimaryButton
-                                onClick={() => handleGiveButtonClick()}
-                                disabled={!isSupportedChain(networkId)}
-                              >
-                                <Trans>Donate Yield</Trans>
-                              </PrimaryButton>
-                            )
+                  </Grid>
+                  <Grid container className="project-visual-info">
+                    {getProjectImage()}
+                    <Grid item xs>
+                      {renderDepositData()}
+                      <div className="project-give-button">
+                        {connected ? (
+                          isUserDonating ? (
+                            <></>
                           ) : (
-                            <PrimaryButton onClick={connect}>
-                              <Trans>Connect Wallet</Trans>
+                            <PrimaryButton
+                              onClick={() => handleGiveButtonClick()}
+                              disabled={!isSupportedChain(networkId)}
+                            >
+                              <Trans>Donate Yield</Trans>
                             </PrimaryButton>
-                          )}
-                        </div>
-                      </Grid>
+                          )
+                        ) : (
+                          <PrimaryButton onClick={connect}>
+                            <Trans>Connect Wallet</Trans>
+                          </PrimaryButton>
+                        )}
+                      </div>
                     </Grid>
-                  </Paper>
-                  {isUserDonating ? (
-                    <Paper className="project-sidebar">
-                      <div className="project-sidebar-header">
-                        <Typography variant="h5">
-                          <strong>
-                            <Trans>Your Donations</Trans>
-                          </strong>
-                        </Typography>
-                      </div>
-                      <div className="project-donations">
-                        <div className="project-donation-data">
-                          <div className="project-deposited">
-                            <Typography variant="h6">
-                              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-                              <strong>{parseFloat(donationInfo[donationId].deposit).toFixed(2)} sOHM</strong>
-                            </Typography>
-                            <Typography variant="body1" className="subtext">
-                              Deposited
-                            </Typography>
-                          </div>
-                          <div className="project-yield-sent">
-                            <Typography variant="h6" align="right">
-                              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-                              <strong>{parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)} sOHM</strong>
-                            </Typography>
-                            <Typography variant="body1" align="right" className="subtext">
-                              Yield Sent
-                            </Typography>
-                          </div>
-                        </div>
-                        <PrimaryButton
-                          onClick={() => handleEditButtonClick()}
-                          disabled={!isSupportedChain(networkId)}
-                          style={{ marginTop: "30px" }}
-                        >
-                          <Trans>Edit Donation</Trans>
-                        </PrimaryButton>
-                      </div>
-                    </Paper>
-                  ) : (
-                    <></>
-                  )}
-                </Grid>
-                <Grid item xs={12} md={5} lg={6}>
-                  <Paper headerText="Milestone" className="project-sidebar">
-                    {renderMilestoneCompletion()}
-                    {renderMilestoneDetails()}
-                  </Paper>
-                </Grid>
-                <Grid item xs={1} md={5} lg={5} />
-                <Grid
-                  item
-                  xs={12}
-                  md={5}
-                  lg={6}
-                  // style={{
-                  //   marginBottom: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                  //   paddingRight: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                  //   paddingLeft: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                  // }}
-                >
-                  <Paper className="project-info">
-                    <div className="project-info-header">
-                      <Typography variant="h5" className="project-about-header">
+                  </Grid>
+                </Paper>
+              </Grid>
+              <Grid item xs={12}>
+                {isUserDonating ? (
+                  <Paper className="project-sidebar">
+                    <div className="project-sidebar-header">
+                      <Typography variant="h5">
                         <strong>
-                          <Trans>About</Trans>
+                          <Trans>Your Donations</Trans>
                         </strong>
                       </Typography>
-                      <Grid item className="project-link">
-                        <Link href={grant.website} target="_blank">
-                          <Icon name="website" fill={svgFillColour} />
-                        </Link>
-                      </Grid>
                     </div>
-                    <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
+                    <div className="project-donations">
+                      <div className="project-donation-data">
+                        <div className="project-deposited">
+                          <Typography variant="h6">
+                            <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
+                            <strong>{parseFloat(donationInfo[donationId].deposit).toFixed(2)} sOHM</strong>
+                          </Typography>
+                          <Typography variant="body1" className="subtext">
+                            Deposited
+                          </Typography>
+                        </div>
+                        <div className="project-yield-sent">
+                          <Typography variant="h6" align="right">
+                            <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
+                            <strong>{parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)} sOHM</strong>
+                          </Typography>
+                          <Typography variant="body1" align="right" className="subtext">
+                            Yield Sent
+                          </Typography>
+                        </div>
+                      </div>
+                      <PrimaryButton
+                        onClick={() => handleEditButtonClick()}
+                        disabled={!isSupportedChain(networkId)}
+                        style={{ marginTop: "30px" }}
+                      >
+                        <Trans>Edit Donation</Trans>
+                      </PrimaryButton>
+                    </div>
                   </Paper>
-                </Grid>
+                ) : (
+                  <></>
+                )}
               </Grid>
-            </Box>
-          </div>
+            </Grid>
+            <Grid container item xs={12} lg={7}>
+              <Grid item xs={12}>
+                <Paper headerText="Milestone">
+                  {renderMilestoneCompletion()}
+                  {renderMilestoneDetails()}
+                </Paper>
+              </Grid>
+              <Grid item xs={12}>
+                <Paper>
+                  <div className="project-info-header">
+                    <Typography variant="h5" className="project-about-header">
+                      <strong>
+                        <Trans>About</Trans>
+                      </strong>
+                    </Typography>
+                    <Grid item className="project-link">
+                      <Link href={grant.website} target="_blank">
+                        <Icon name="website" fill={svgFillColour} />
+                      </Link>
+                    </Grid>
+                  </div>
+                  <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
+                </Paper>
+              </Grid>
+            </Grid>
+          </Grid>
         </Container>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
