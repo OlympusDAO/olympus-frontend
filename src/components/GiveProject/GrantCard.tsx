@@ -267,7 +267,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Icon name="donors" />
                   </Grid>
                   <Grid item className="metric">
-                    {donorCountIsLoading ? <Skeleton /> : { donorCount }}
+                    {donorCountIsLoading ? <Skeleton /> : donorCount}
                   </Grid>
                 </Grid>
               </Grid>
@@ -718,21 +718,23 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <></>
                   )}
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={5} lg={6}>
                   <Paper headerText="Milestone" className="project-sidebar">
                     {renderMilestoneCompletion()}
                     {renderMilestoneDetails()}
                   </Paper>
                 </Grid>
+                <Grid item xs={1} md={5} lg={5} />
                 <Grid
                   item
                   xs={12}
-                  md={6}
-                  style={{
-                    marginBottom: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                    paddingRight: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                    paddingLeft: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                  }}
+                  md={5}
+                  lg={6}
+                  // style={{
+                  //   marginBottom: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
+                  //   paddingRight: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
+                  //   paddingLeft: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
+                  // }}
                 >
                   <Paper className="project-info">
                     <div className="project-info-header">
