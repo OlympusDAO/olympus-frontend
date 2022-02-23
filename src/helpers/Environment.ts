@@ -193,6 +193,16 @@ export class EnvHelper {
           URI_LIST = EnvHelper.env.REACT_APP_FANTOM_SELF_HOSTED_NODE.split(new RegExp(EnvHelper.whitespaceRegex));
         }
         break;
+      case NetworkId.FANTOM_TESTNET:
+        if (
+          EnvHelper.env.REACT_APP_FANTOM_TESTNET_SELF_HOSTED_NODE &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_FANTOM_TESTNET_SELF_HOSTED_NODE)
+        ) {
+          URI_LIST = EnvHelper.env.REACT_APP_FANTOM_TESTNET_SELF_HOSTED_NODE.split(
+            new RegExp(EnvHelper.whitespaceRegex),
+          );
+        }
+        break;
     }
     return URI_LIST;
   }
