@@ -709,7 +709,11 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                             </Typography>
                           </div>
                         </div>
-                        <PrimaryButton onClick={() => handleEditButtonClick()} disabled={!isSupportedChain(networkId)}>
+                        <PrimaryButton
+                          onClick={() => handleEditButtonClick()}
+                          disabled={!isSupportedChain(networkId)}
+                          style={{ marginTop: "30px" }}
+                        >
                           <Trans>Edit Donation</Trans>
                         </PrimaryButton>
                       </div>
