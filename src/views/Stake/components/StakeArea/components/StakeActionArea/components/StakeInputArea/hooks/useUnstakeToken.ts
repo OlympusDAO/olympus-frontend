@@ -1,9 +1,9 @@
-import { parseUnits } from "@ethersproject/units";
 import { t } from "@lingui/macro";
 import { ContractReceipt } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
@@ -18,17 +18,15 @@ export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
 
   const addresses = fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
-  const balances = useBalance(addresses);
+  const balance = useBalance(addresses)[networks.MAINNET].data;
 
   return useMutation<ContractReceipt, Error, string>(
     async amount => {
       if (!amount || isNaN(Number(amount))) throw new Error(t`Please enter a number`);
 
-      const parsedAmount = parseUnits(amount, fromToken === "gOHM" ? 18 : 9);
+      const parsedAmount = new DecimalBigNumber(amount, fromToken === "gOHM" ? 18 : 9).toBigNumber();
 
       if (!parsedAmount.gt(0)) throw new Error(t`Please enter a number greater than 0`);
-
-      const balance = balances[networks.MAINNET].data;
 
       if (!balance) throw new Error(t`Please refresh your page and try again`);
 
