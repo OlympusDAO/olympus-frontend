@@ -615,47 +615,68 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                 </Paper>
               </Grid>
               <Grid item xs={12}>
-                {isUserDonating ? (
-                  <Paper className="project-sidebar">
-                    <div className="project-sidebar-header">
-                      <Typography variant="h5">
-                        <strong>
-                          <Trans>Your Donations</Trans>
-                        </strong>
-                      </Typography>
-                    </div>
-                    <div className="project-donations">
-                      <div className="project-donation-data">
-                        <div className="project-deposited">
-                          <Typography variant="h6">
-                            <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-                            <strong>{parseFloat(donationInfo[donationId].deposit).toFixed(2)} sOHM</strong>
-                          </Typography>
-                          <Typography variant="body1" className="subtext">
-                            Deposited
-                          </Typography>
-                        </div>
-                        <div className="project-yield-sent">
-                          <Typography variant="h6" align="right">
-                            <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-                            <strong>{parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)} sOHM</strong>
-                          </Typography>
-                          <Typography variant="body1" align="right" className="subtext">
-                            Yield Sent
-                          </Typography>
-                        </div>
-                      </div>
-                      <PrimaryButton
-                        onClick={() => handleEditButtonClick()}
-                        disabled={!isSupportedChain(networkId)}
-                        style={{ marginTop: "30px" }}
-                      >
-                        <Trans>Edit Donation</Trans>
-                      </PrimaryButton>
-                    </div>
-                  </Paper>
-                ) : (
+                {!isUserDonating ? (
                   <></>
+                ) : (
+                  <Paper className="project-sidebar" headerText={t`Your Donations`}>
+                    <Grid container alignItems="flex-end">
+                      <Grid item xs={6}>
+                        <Grid container direction="column" alignItems="flex-start">
+                          <Grid item container justifyContent="flex-start" alignItems="center">
+                            <Grid item>
+                              <SvgIcon component={GiveSohm} />
+                            </Grid>
+                            <Grid item>
+                              <Typography className="metric">
+                                {t`${
+                                  donationInfo[donationId]
+                                    ? parseFloat(donationInfo[donationId].deposit).toFixed(2)
+                                    : "0"
+                                } sOHM`}
+                              </Typography>
+                            </Grid>
+                          </Grid>
+                          <Grid item className="subtext">
+                            <Trans>Deposited</Trans>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Grid container direction="column" alignItems="flex-end">
+                          <Grid item>
+                            <Grid container justifyContent="flex-end" alignItems="center">
+                              <Grid item>
+                                <SvgIcon component={GiveSohm} />
+                              </Grid>
+                              <Grid item>
+                                <Typography className="metric">
+                                  {t`${
+                                    donationInfo[donationId]
+                                      ? parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)
+                                      : "0"
+                                  } sOHM`}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item className="subtext">
+                            <Trans>Yield Sent</Trans>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Box width="100%" />
+                      <Grid item xs={12}>
+                        <PrimaryButton
+                          onClick={() => handleEditButtonClick()}
+                          disabled={!isSupportedChain(networkId)}
+                          style={{ marginTop: "24px" }}
+                          fullWidth
+                        >
+                          <Trans>Edit Donation</Trans>
+                        </PrimaryButton>
+                      </Grid>
+                    </Grid>
+                  </Paper>
                 )}
               </Grid>
             </Grid>
