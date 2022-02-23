@@ -589,8 +589,8 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                       <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
                     </Typography>
                   </div>
-                  <Grid container direction="column" className="cause-misc-info">
-                    <Grid item xs={12} className="give-button-grid" style={{ justifyContent: "flex-end" }}>
+                  <Grid container direction="column" justifyContent="flex-end">
+                    <Grid item xs={12} className="give-button-grid">
                       <Link
                         href={`#/give/grants/${grant.slug}`}
                         className="cause-link"
@@ -622,12 +622,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const getPageContent = () => {
     return (
       <>
-        <Container
-          style={{ display: "flex", justifyContent: "center" }}
-          className={`project-container ${isMediumScreen ? "medium" : ""} ${isSmallScreen ? "smaller" : ""} ${
-            isVerySmallScreen ? "very-small" : ""
-          }`}
-        >
+        <Container className={`project-container`}>
           <Grid container className="project" spacing={3}>
             <Grid container item xs={12} lg={5}>
               <Grid item xs={12}>
