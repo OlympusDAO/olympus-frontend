@@ -672,7 +672,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                             )
                           ) : (
                             <PrimaryButton onClick={connect}>
-                              <Trans>Connect wallet</Trans>
+                              <Trans>Connect Wallet</Trans>
                             </PrimaryButton>
                           )}
                         </div>
