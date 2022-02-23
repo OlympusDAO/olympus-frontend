@@ -572,7 +572,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     return (
       <>
         <Container className={`project-container`}>
-          <Grid container className="project" spacing={3}>
+          <Grid container className="project" spacing={3} alignItems="flex-start">
             <Grid container item xs={12} lg={5}>
               <Grid item xs={12}>
                 <Paper>
