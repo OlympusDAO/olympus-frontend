@@ -92,6 +92,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   });
 
   const theme = useTheme();
+
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
@@ -519,93 +520,41 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     return (
       <>
         <Box style={{ width: "100%", borderRadius: "10px" }}>
-          {!isMediumScreen && !isSmallScreen && !isVerySmallScreen ? (
-            <Grid item className={isVerySmallScreen ? "cause-card very-small" : "cause-card"} key={title}>
-              <div style={{ display: "flex", width: "100%" }}>
-                {getProjectImage()}
-                <div className="cause-content">
-                  <div className="cause-title">
+          <Grid container key={title} spacing={3}>
+            <Grid item xs={12}>
+              <Link href={`#/give/grants/${grant.slug}`} onClick={() => handleGrantDetailsButtonClick("Title Link")}>
+                <Typography variant="h4">
+                  <strong>{getTitle()}</strong>
+                </Typography>
+              </Link>
+            </Grid>
+            <Grid item xs={12} md={12} lg={4}>
+              {getProjectImage()}
+            </Grid>
+            <Grid item container xs alignContent="space-between">
+              <Grid item xs={12}>
+                <Typography variant="body1" style={{ lineHeight: "20px" }}>
+                  <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container>
+                  <Grid item xs />
+                  <Grid item xs={12} lg={4}>
                     <Link
                       href={`#/give/grants/${grant.slug}`}
-                      onClick={() => handleGrantDetailsButtonClick("Title Link")}
+                      className="cause-link"
+                      onClick={() => handleGrantDetailsButtonClick("View Details Button")}
                     >
-                      <Typography variant="h4">
-                        <strong>{getTitle()}</strong>
-                      </Typography>
+                      <PrimaryButton fullWidth>
+                        <Trans>View Details</Trans>
+                      </PrimaryButton>
                     </Link>
-                  </div>
-                  <div className="cause-body">
-                    <Typography variant="body1" style={{ lineHeight: "20px" }}>
-                      <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
-                    </Typography>
-                  </div>
-                  <Grid container direction="column" className="cause-misc-info grants">
-                    <Grid
-                      item
-                      xs={6}
-                      sm={12}
-                      md={6}
-                      className="give-button-grid"
-                      style={{ justifyContent: "flex-end" }}
-                    >
-                      <Link
-                        href={`#/give/grants/${grant.slug}`}
-                        className="cause-link"
-                        onClick={() => handleGrantDetailsButtonClick("View Details Button")}
-                      >
-                        <PrimaryButton className="grant-give-button">
-                          <Trans>View Details</Trans>
-                        </PrimaryButton>
-                      </Link>
-                    </Grid>
                   </Grid>
-                </div>
-              </div>
-            </Grid>
-          ) : (
-            <Grid
-              item
-              className={isVerySmallScreen ? "cause-card very-small" : "cause-card"}
-              key={title}
-              style={{ flexDirection: "column" }}
-            >
-              <Grid container className="cause-header">
-                <Grid item className="cause-title smaller-size">
-                  <Link
-                    href={`#/give/grants/${grant.slug}`}
-                    onClick={() => handleGrantDetailsButtonClick("Title Link")}
-                  >
-                    <Typography variant="h4">
-                      <strong>{getTitle()}</strong>
-                    </Typography>
-                  </Link>
                 </Grid>
               </Grid>
-              <div style={{ display: "flex", width: "100%" }} className="small-screen-cause">
-                {getProjectImage()}
-                <div className="cause-content">
-                  <div className="cause-body">
-                    <Typography variant="body1" style={{ lineHeight: "20px" }}>
-                      <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
-                    </Typography>
-                  </div>
-                  <Grid container direction="column" justifyContent="flex-end">
-                    <Grid item xs={12} className="give-button-grid">
-                      <Link
-                        href={`#/give/grants/${grant.slug}`}
-                        className="cause-link"
-                        onClick={() => handleGrantDetailsButtonClick("View Details Button")}
-                      >
-                        <PrimaryButton className="grant-give-button">
-                          <Trans>View Details</Trans>
-                        </PrimaryButton>
-                      </Link>
-                    </Grid>
-                  </Grid>
-                </div>
-              </div>
             </Grid>
-          )}
+          </Grid>
         </Box>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
@@ -720,19 +669,14 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                 </Paper>
               </Grid>
               <Grid item xs={12}>
-                <Paper>
-                  <div className="project-info-header">
-                    <Typography variant="h5" className="project-about-header">
-                      <strong>
-                        <Trans>About</Trans>
-                      </strong>
-                    </Typography>
-                    <Grid item className="project-link">
-                      <Link href={grant.website} target="_blank">
-                        <Icon name="website" fill={svgFillColour} />
-                      </Link>
-                    </Grid>
-                  </div>
+                <Paper
+                  headerText="About"
+                  topRight={
+                    <Link href={grant.website} target="_blank">
+                      <Icon name="website" fill={svgFillColour} />
+                    </Link>
+                  }
+                >
                   <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
                 </Paper>
               </Grid>
