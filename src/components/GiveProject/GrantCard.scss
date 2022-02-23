@@ -17,8 +17,20 @@
 }
 
 .grant-data {
+  padding-top: 30px;
+
   .MuiSkeleton-text {
     // Force the Skeleton to not break onto a new line
     display: inline;
+  }
+
+  .metric {
+    padding-left: 3px;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .subtext {
+    padding-top: 2px;
   }
 }

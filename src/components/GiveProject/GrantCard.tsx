@@ -258,64 +258,65 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
 
     return (
       <>
-        <Grid container className="grant-data">
-          <Grid item xs={6}>
+        <Grid container className="grant-data" spacing={3} alignItems="flex-end">
+          <Grid item xs={5}>
             <Grid container direction="column" alignItems="flex-start">
               <Grid item>
                 <Grid container justifyContent="flex-start" alignItems="center">
                   <Grid item>
                     <Icon name="donors" />
                   </Grid>
-                  <Grid item>{donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}</Grid>
+                  <Grid item className="metric">
+                    {donorCountIsLoading ? <Skeleton /> : { donorCount }}
+                  </Grid>
                 </Grid>
               </Grid>
-              <Grid item>
+              <Grid item className="subtext">
                 <Trans>Donors</Trans>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={7}>
             <Grid container direction="column" alignItems="flex-end">
               <Grid item>
                 <Grid container justifyContent="flex-end" alignItems="center">
                   <Grid item>
                     <SvgIcon component={GiveSohm} />
                   </Grid>
-                  <Grid item>
-                    <strong>{totalMilestoneAmount.toFixed(0)}</strong>
+                  <Grid item className="metric">
+                    {totalMilestoneAmount.toFixed(0)}
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item>
+              <Grid item className="subtext">
                 <Trans>Total Milestone Amount</Trans>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={6}>
+          <Box width="100%" />
+          <Grid item xs={5}>
             <Grid container direction="column" alignItems="flex-start">
-              <Grid item>
-                <strong>{getLatestMilestoneCompleted()}</strong>
+              <Grid item className="metric">
+                {getLatestMilestoneCompleted()}
               </Grid>
-              <Grid item>
+              <Grid item className="subtext">
                 <Trans>Current Milestone</Trans>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={7}>
             <Grid container direction="column" alignItems="flex-end">
               <Grid item>
                 <Grid container justifyContent="flex-end" alignItems="center">
                   <Grid item>
                     <SvgIcon component={GiveSohm} />
                   </Grid>
-                  <Grid item>
-                    <strong>{getLatestMilestoneAmount()}</strong>
+                  <Grid item className="metric">
+                    {getLatestMilestoneAmount()}
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item>
+              <Grid item className="subtext">
                 <Trans>Current Milestone Amount</Trans>
               </Grid>
             </Grid>
