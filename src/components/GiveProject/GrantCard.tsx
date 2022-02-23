@@ -589,26 +589,27 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   </Grid>
                   <Grid container className="project-visual-info">
                     {getProjectImage()}
-                    <Grid item xs>
-                      {renderDepositData()}
-                      <div className="project-give-button">
-                        {connected ? (
-                          isUserDonating ? (
-                            <></>
-                          ) : (
-                            <PrimaryButton
-                              onClick={() => handleGiveButtonClick()}
-                              disabled={!isSupportedChain(networkId)}
-                            >
-                              <Trans>Donate Yield</Trans>
-                            </PrimaryButton>
-                          )
-                        ) : (
-                          <PrimaryButton onClick={connect}>
+                    <Grid item container xs>
+                      <Grid item xs={12}>
+                        {renderDepositData()}
+                      </Grid>
+                      <Grid item xs={12} style={{ paddingTop: "24px" }}>
+                        {!connected ? (
+                          <PrimaryButton onClick={connect} fullWidth>
                             <Trans>Connect Wallet</Trans>
                           </PrimaryButton>
+                        ) : isUserDonating ? (
+                          <></>
+                        ) : (
+                          <PrimaryButton
+                            onClick={() => handleGiveButtonClick()}
+                            disabled={!isSupportedChain(networkId)}
+                            fullWidth
+                          >
+                            <Trans>Donate Yield</Trans>
+                          </PrimaryButton>
                         )}
-                      </div>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Paper>
