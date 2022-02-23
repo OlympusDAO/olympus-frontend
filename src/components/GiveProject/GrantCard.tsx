@@ -3,7 +3,7 @@ import "react-step-progress-bar/styles.css";
 import "./GrantCard.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Container, Grid, Link, SvgIcon, Typography, useMediaQuery } from "@material-ui/core";
+import { Box, Container, Grid, Link, SvgIcon, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
@@ -58,9 +58,6 @@ type State = {
 
 export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const location = useLocation();
-  const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
-  const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
-  const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 600px)") && !isSmallScreen;
   const { provider, address, connected, connect, networkId } = useWeb3Context();
   const {
     title,
@@ -331,14 +328,14 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     // We return an empty image with a set width, so that the spacing remains the same.
     if (!photos || photos.length < 1)
       return (
-        <div className="cause-image">
+        <div className="grant-image">
           <img height="100%" src="" />
         </div>
       );
 
     // For the moment, we only display the first photo
     return (
-      <div className={`cause-image ${isUserDonating ? "donating" : ""}`}>
+      <div className="grant-image">
         <Link href={`#/give/grants/${grant.slug}`} onClick={() => handleGrantDetailsButtonClick("Image")}>
           <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
         </Link>
