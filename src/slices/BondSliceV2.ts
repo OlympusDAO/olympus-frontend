@@ -51,7 +51,7 @@ export interface IBondV2Balance {
   tokenAddress: string;
 }
 
-interface IBondV2Core {
+export interface IBondV2Core {
   quoteToken: string;
   capacityInQuote: boolean;
   capacity: BigNumber;
@@ -109,6 +109,14 @@ function checkNetwork(networkID: NetworkId) {
     //ENABLE FOR MAINNET LAUNCH
     throw Error(`Network=${networkID} is not supported for V2 bonds`);
   }
+}
+
+function convertNumberToRatio(a: BigNumber, b: BigNumber, divisor: number): BigNumber {
+  return a.mul(b).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - divisor));
+}
+
+function convertRatioToNumber(a: BigNumber, b: number, divisor: BigNumber): BigNumber {
+  return a.mul(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - b)).div(divisor);
 }
 
 export const changeApproval = createAsyncThunk(
@@ -185,10 +193,12 @@ export const getSingleBond = createAsyncThunk(
   "bondsV2/getSingle",
   async ({ provider, networkID, bondIndex }: IBondV2IndexAsyncThunk, { dispatch }): Promise<IBondV2> => {
     checkNetwork(networkID);
+
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const bondCore = await depositoryContract.markets(bondIndex);
     const bondMetadata = await depositoryContract.metadata(bondIndex);
     const bondTerms = await depositoryContract.terms(bondIndex);
+
     return processBond(bondCore, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
   },
 );
@@ -197,12 +207,32 @@ export const getTokenBalance = createAsyncThunk(
   "bondsV2/getBalance",
   async ({ provider, networkID, address, value }: IValueAsyncThunk, {}): Promise<IBondV2Balance> => {
     checkNetwork(networkID);
+
     const tokenContract = IERC20__factory.connect(value, provider);
     const balance = await tokenContract.balanceOf(address);
     const allowance = await tokenContract.allowance(address, addresses[networkID].BOND_DEPOSITORY);
+
     return { balance, allowance, tokenAddress: value };
   },
 );
+
+export function getBondCapacities(bond: IBondV2Core, quoteDecimals: number, bondPriceBigNumber: BigNumber) {
+  let capacityInBaseToken: string, capacityInQuoteToken: string;
+  if (bond.capacityInQuote) {
+    capacityInBaseToken = ethers.utils.formatUnits(
+      bond.capacity.mul(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - quoteDecimals)).div(bondPriceBigNumber),
+      BASE_TOKEN_DECIMALS,
+    );
+    capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, quoteDecimals);
+  } else {
+    capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, BASE_TOKEN_DECIMALS);
+    capacityInQuoteToken = ethers.utils.formatUnits(
+      bond.capacity.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - quoteDecimals)),
+      quoteDecimals,
+    );
+  }
+  return { capacityInBaseToken, capacityInQuoteToken };
+}
 
 async function processBond(
   bond: IBondV2Core,
@@ -227,21 +257,11 @@ async function processBond(
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
   const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;
-
-  let capacityInBaseToken: string, capacityInQuoteToken: string;
-  if (bond.capacityInQuote) {
-    capacityInBaseToken = ethers.utils.formatUnits(
-      bond.capacity.mul(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)).div(bondPriceBigNumber),
-      BASE_TOKEN_DECIMALS,
-    );
-    capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, metadata.quoteDecimals);
-  } else {
-    capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, BASE_TOKEN_DECIMALS);
-    capacityInQuoteToken = ethers.utils.formatUnits(
-      bond.capacity.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
-      metadata.quoteDecimals,
-    );
-  }
+  const { capacityInBaseToken, capacityInQuoteToken } = getBondCapacities(
+    bond,
+    metadata.quoteDecimals,
+    bondPriceBigNumber,
+  );
   const maxPayoutInBaseToken: string = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
   const maxPayoutInQuoteToken: string = ethers.utils.formatUnits(
     bond.maxPayout.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
