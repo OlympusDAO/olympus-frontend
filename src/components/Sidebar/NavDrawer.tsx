@@ -1,5 +1,7 @@
 import { SwipeableDrawer } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import NavContent from "./NavContent";
 
@@ -24,8 +26,16 @@ type NavDrawerProps = {
 };
 
 const NavDrawer: React.FC<NavDrawerProps> = ({ mobileOpen, handleDrawerToggle }) => {
+  const location = useLocation();
   const classes = useStyles();
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+  useEffect(() => {
+    if (mobileOpen && handleDrawerToggle) {
+      handleDrawerToggle();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
 
   return (
     <SwipeableDrawer
