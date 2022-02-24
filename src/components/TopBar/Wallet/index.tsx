@@ -3,6 +3,7 @@ import { Icon, TabBar } from "@olympusdao/component-library";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
+import Assets from "./Assets";
 import Calculator from "./Calculator";
 import GetOhm from "./GetOhm";
 import Info from "./Info";
@@ -38,6 +39,8 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
         return <Info path={id} />;
       case "getohm":
         return <GetOhm />;
+      case "assets":
+        return <Assets />;
       default:
         return <InitialWalletView onClose={closeWallet} />;
     }

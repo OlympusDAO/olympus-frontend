@@ -55,3 +55,13 @@ export const SupplyRatePerBlock = () => {
   });
   return { data, isFetched, isLoading };
 };
+
+export const GetTokenPrice = (tokenId = "olympus") => {
+  const { data, isFetched, isLoading } = useQuery(["TokenPrice", tokenId], async () => {
+    const cgResp = await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd&include_24hr_change=true`,
+    );
+    return cgResp.data[tokenId];
+  });
+  return { data, isFetched, isLoading };
+};
