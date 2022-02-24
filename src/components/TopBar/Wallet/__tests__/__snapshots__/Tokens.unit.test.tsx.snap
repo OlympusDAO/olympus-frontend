@@ -419,7 +419,67 @@ exports[`<Tokens/> should render component 1`] = `
                 style="gap: 8px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-19 ohm-pairs"
+                  class="MuiBox-root MuiBox-root-19"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+                  >
+                    gOHM on Tokemak:
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-20"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2"
+                        data-testid="balance-token"
+                        style="font-weight: 600;"
+                      >
+                        100
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        data-testid="balance-usd"
+                      >
+                        $0.00
+                      </p>
+                    </div>
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root MuiBox-root-21"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+                  >
+                    Fuse Olympus Pool Party:
+                  </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-22"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2"
+                        data-testid="balance-token"
+                        style="font-weight: 600;"
+                      >
+                        100
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        data-testid="balance-usd"
+                      >
+                        $0.00
+                      </p>
+                    </div>
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root MuiBox-root-23 ohm-pairs"
                   style="width: 100%;"
                 >
                   <button

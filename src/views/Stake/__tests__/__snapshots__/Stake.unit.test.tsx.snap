@@ -355,7 +355,7 @@ exports[`<Stake/> should render component 1`] = `
                 <a
                   aria-disabled="false"
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-31 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
-                  href="https://traderjoexyz.com/#/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
+                  href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                   tabindex="0"
                   target="_blank"
                 >
@@ -837,7 +837,7 @@ exports[`<Stake/> should render component 1`] = `
                 <a
                   aria-disabled="false"
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-46 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
-                  href="https://app.spiritswap.finance/#/boostedfarms"
+                  href="https://app.spiritswap.finance/#/farms/allfarms"
                   tabindex="0"
                   target="_blank"
                 >
