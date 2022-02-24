@@ -38,10 +38,6 @@ export default function GrantsDashboard() {
     });
   }, [grants]);
 
-  const handleCustomGiveButtonClick = () => {
-    setIsCustomGiveModalOpen(true);
-  };
-
   const handleCustomGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
     eventSource: string,
