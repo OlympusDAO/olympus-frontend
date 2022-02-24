@@ -104,7 +104,6 @@
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
-    "assert": "^2.0.0",
     "autoprefixer": "^10.2.4",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.4.0",
@@ -139,7 +138,6 @@
     "surge": "^0.21.5",
     "type-graphql": "^1.1.1",
     "typechain": "^6.0.2",
-    "url": "^0.11.0",
     "webpack-cli": "^4.9.2"
   },
   "scripts": {
