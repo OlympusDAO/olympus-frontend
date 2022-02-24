@@ -133,7 +133,7 @@
     "lint-staged": "^12.3.4",
     "pptr-testing-library": "^0.7.0",
     "prettier": "^2.5.1",
-    "puppeteer": "^13.3.2",
+    "puppeteer": "^13.4.0",
     "sass": "^1.49.7",
     "shelljs": "^0.8.5",
     "surge": "^0.21.5",
