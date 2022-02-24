@@ -44,6 +44,20 @@ export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
   return <Metric {..._props} />;
 };
 
+export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
+  const { data: ohmPrice } = useOhmPrice();
+
+  const _props: MetricProps = {
+    ...props,
+    label: t`sOHM Price`,
+  };
+
+  if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
+  else _props.isLoading = true;
+
+  return <Metric {..._props} />;
+};
+
 export const CircSupply: React.FC<AbstractedMetricProps> = props => {
   const { data: totalSupply } = useTotalSupply();
   const { data: circSupply } = useOhmCirculatingSupply();

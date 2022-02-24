@@ -3,7 +3,7 @@ import "../Stake/Stake.scss";
 import { t } from "@lingui/macro";
 import { Box, Button, Divider, FormControl, Grid, Link, MenuItem, Select, Typography, Zoom } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { DataRow, Icon, InputWrapper, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
+import { DataRow, Icon, InputWrapper, MetricCollection, Paper } from "@olympusdao/component-library";
 import { FC, useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
@@ -12,9 +12,10 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 
 import { NETWORKS } from "../../constants";
-import { formatCurrency, trim } from "../../helpers";
+import { trim } from "../../helpers";
 import { switchNetwork } from "../../helpers/NetworkHelper";
 import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
+import { CurrentIndex, GOHMPrice, SOHMPrice } from "../TreasuryDashboard/components/Metric/Metric";
 import WrapCrossChain from "./WrapCrossChain";
 
 const Wrap: FC = () => {
@@ -184,22 +185,11 @@ const Wrap: FC = () => {
           >
             <Grid item style={{ padding: "0 0 2rem 0" }}>
               <MetricCollection>
-                <Metric
-                  label={`sOHM ${t`Price`}`}
-                  metric={formatCurrency(sOhmPrice, 2)}
-                  isLoading={sOhmPrice ? false : true}
-                />
-                <Metric
-                  label={t`Current Index`}
-                  metric={trim(currentIndex, 1)}
-                  isLoading={currentIndex ? false : true}
-                />
-                <Metric
-                  label={`gOHM ${t`Price`}`}
-                  metric={formatCurrency(gOhmPrice, 2)}
-                  isLoading={gOhmPrice ? false : true}
-                  tooltip={`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of sOHM multiplied by the current index`}
-                />
+                <SOHMPrice />
+
+                <CurrentIndex />
+
+                <GOHMPrice />
               </MetricCollection>
             </Grid>
             <div className="staking-area">
