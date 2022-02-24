@@ -16,6 +16,7 @@ import { switchNetwork } from "../../helpers/NetworkHelper";
 import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
 import { CurrentIndex, GOHMPrice, SOHMPrice } from "../TreasuryDashboard/components/Metric/Metric";
 import { WrapBalances } from "./components/WrapBalances";
+import { WrapSwitchNetwork } from "./components/WrapSwitchNetwork";
 import WrapCrossChain from "./WrapCrossChain";
 
 const Wrap: FC = () => {
@@ -270,24 +271,7 @@ const Wrap: FC = () => {
 
                     <Divider />
 
-                    <Box width="100%" p={1} sx={{ textAlign: "center" }}>
-                      <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
-                        Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no
-                        bridge required!)
-                      </Typography>
-                      <Button onClick={handleSwitchChain(43114)} variant="outlined" style={{ margin: "0.3rem" }}>
-                        <img height="28px" width="28px" src={String(avax.image)} alt={avax.imageAltText} />
-                        <Typography variant="h6" style={{ marginLeft: "8px" }}>
-                          {avax.chainName}
-                        </Typography>
-                      </Button>
-                      <Button onClick={handleSwitchChain(42161)} variant="outlined" style={{ margin: "0.3rem" }}>
-                        <img height="28px" width="28px" src={String(arbitrum.image)} alt={arbitrum.imageAltText} />
-                        <Typography variant="h6" style={{ marginLeft: "8px" }}>
-                          {arbitrum.chainName}
-                        </Typography>
-                      </Button>
-                    </Box>
+                    <WrapSwitchNetwork />
                   </div>
                 </>
               )}
