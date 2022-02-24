@@ -2,63 +2,107 @@ import { useQuery } from "react-query";
 import apollo from "src/lib/apolloClient";
 
 const query = `
-  query {
-    protocolMetrics(first: 1, orderBy: timestamp, orderDirection: desc) {
+  query ProtcolMetrics {
+    protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+      id
+      runway5k
       timestamp
+      ohmPrice
+      runway10k
+      runway20k
+      runway50k
       marketCap
+      currentAPY
       totalSupply
+      runway7dot5k
+      runway2dot5k
+      runwayCurrent
       nextEpochRebase
       totalValueLocked
+      treasuryOhmDaiPOL
+      treasuryOhmFraxPOL
       nextDistributedOhm
       treasuryMarketValue
       ohmCirculatingSupply
       sOhmCirculatingSupply
+      treasuryRiskFreeValue
+      treasuryDaiMarketValue
+      treasuryUstMarketValue
+      treasuryFraxMarketValue
+      treasuryWETHMarketValue
+      treasuryLusdMarketValue
+      treasuryWBTCMarketValue
+      treasuryDaiRiskFreeValue
+      treasuryOtherMarketValue
+      treasuryLusdRiskFreeValue
+      treasuryXsushiMarketValue
+      treasuryFraxRiskFreeValue
     }
   }
 `;
 
 interface ProtocolMetrics {
-  readonly timestamp: string;
-  readonly marketCap: string;
-  readonly totalSupply: string;
-  readonly totalValueLocked: string;
-  readonly nextEpochRebase: string;
-  readonly nextDistributedOhm: string;
-  readonly treasuryMarketValue: string;
-  readonly ohmCirculatingSupply: string;
-  readonly sOhmCirculatingSupply: string;
+  id: string;
+  runway5k: string;
+  timestamp: string;
+  ohmPrice: string;
+  runway10k: string;
+  runway20k: string;
+  runway50k: string;
+  marketCap: string;
+  currentAPY: string;
+  totalSupply: string;
+  runway7dot5k: string;
+  runway2dot5k: string;
+  runwayCurrent: string;
+  nextEpochRebase: string;
+  totalValueLocked: string;
+  treasuryOhmDaiPOL: string;
+  treasuryOhmFraxPOL: string;
+  nextDistributedOhm: string;
+  treasuryMarketValue: string;
+  ohmCirculatingSupply: string;
+  sOhmCirculatingSupply: string;
+  treasuryRiskFreeValue: string;
+  treasuryDaiMarketValue: string;
+  treasuryUstMarketValue: string;
+  treasuryFraxMarketValue: string;
+  treasuryWETHMarketValue: string;
+  treasuryLusdMarketValue: string;
+  treasuryWBTCMarketValue: string;
+  treasuryDaiRiskFreeValue: string;
+  treasuryOtherMarketValue: string;
+  treasuryLusdRiskFreeValue: string;
+  treasuryXsushiMarketValue: string;
+  treasuryFraxRiskFreeValue: string;
 }
+
+type ProtocolMetricsNumbers = Record<keyof ProtocolMetrics, number>;
 
 export const protocolMetricsQueryKey = () => ["useProtocolMetrics"];
 
-export const useProtocolMetrics = <TSelectData = unknown>(select: (data: ProtocolMetrics) => TSelectData) => {
-  return useQuery<ProtocolMetrics, Error, TSelectData>(
+export const useProtocolMetrics = <TSelectData = unknown>(select: (data: ProtocolMetricsNumbers[]) => TSelectData) => {
+  return useQuery<ProtocolMetricsNumbers[], Error, TSelectData>(
     protocolMetricsQueryKey(),
     async () => {
       const response = await apollo<{ protocolMetrics: ProtocolMetrics[] }>(query);
 
       if (!response) throw new Error("No response from TheGraph");
 
-      const [metrics] = response.data.protocolMetrics;
-
-      return metrics;
+      // Convert all strings to numbers
+      return response.data.protocolMetrics.map(metric =>
+        Object.entries(metric).reduce(
+          (obj, [key, value]) => Object.assign(obj, { [key]: parseFloat(value) }),
+          {} as ProtocolMetricsNumbers,
+        ),
+      );
     },
     { select },
   );
 };
 
-export const useMarketCap = () => {
-  return useProtocolMetrics<number>(metrics => parseFloat(metrics.marketCap));
-};
-
-export const useTotalSupply = () => {
-  return useProtocolMetrics<number>(metrics => parseFloat(metrics.totalSupply));
-};
-
-export const useTreasuryMarketValue = () => {
-  return useProtocolMetrics<number>(metrics => parseFloat(metrics.treasuryMarketValue));
-};
-
-export const useOhmCirculatingSupply = () => {
-  return useProtocolMetrics<number>(metrics => parseFloat(metrics.ohmCirculatingSupply));
-};
+export const useMarketCap = () => useProtocolMetrics(metrics => metrics[0].marketCap);
+export const useTotalSupply = () => useProtocolMetrics(metrics => metrics[0].totalSupply);
+export const useTotalValueDeposited = () => useProtocolMetrics(metrics => metrics[0].totalValueLocked);
+export const useTreasuryMarketValue = () => useProtocolMetrics(metrics => metrics[0].treasuryMarketValue);
+export const useOhmCirculatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmCirculatingSupply);

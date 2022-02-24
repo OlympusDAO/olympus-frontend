@@ -10,11 +10,16 @@ export const formatCurrency = (c: number) => {
   }).format(c);
 };
 
-export function useMigrationData() {
+export function useView() {
   const [view, setView] = React.useState(0);
   const changeView: any = (_event: React.ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
+  return [view, setView, changeView];
+}
+
+export function useMigrationData() {
+  const [view, setView, changeView] = useView();
 
   const indexV1 = useAppSelector(state => Number(state.app.currentIndexV1!));
   const currentIndex = useAppSelector(state => Number(state.app.currentIndex));
@@ -90,3 +95,11 @@ export function useMigrationData() {
     isAllApproved,
   };
 }
+
+const Migration = {
+  useMigrationData,
+  formatCurrency,
+  useView,
+};
+
+export default Migration;
