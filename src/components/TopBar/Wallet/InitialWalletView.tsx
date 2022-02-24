@@ -21,8 +21,10 @@ import { dai, frax } from "src/helpers/AllBonds";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import useCurrentTheme from "src/hooks/useTheme";
 
+import { OhmFaucetButton } from "./OhmFaucet";
 import { Tokens, useWallet } from "./Token";
 import WalletAddressEns from "./WalletAddressEns";
+
 const Borrow = ({
   Icon1,
   borrowableTokensIcons,
@@ -209,6 +211,7 @@ function InitialWalletView({ onClose }: { onClose: () => void }) {
               <Typography>Shadow's dashboard</Typography>
             </ExternalLink>
           </Box>
+          <OhmFaucetButton />
         </Box>
 
         <Box sx={{ marginTop: "auto", marginX: "auto", padding: theme.spacing(2) }}>
