@@ -1,5 +1,3 @@
-import "./ChooseBond.scss";
-
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
@@ -11,23 +9,20 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useMediaQuery,
   Zoom,
 } from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
-import isEmpty from "lodash/isEmpty";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
+import { formatCurrency } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { IUserNote } from "src/slices/BondSliceV2";
 
-import { formatCurrency } from "../../helpers";
-import { BondDataCard, BondTableData } from "./BondRow";
-import ClaimBonds from "./ClaimBonds";
-import ChooseInverseBond from "./InverseBond/ChooseInverseBond";
+import { BondDataCard, BondTableData } from "../BondRow";
 
-function ChooseBondV2() {
+function ChooseInverseBond() {
   const { networkId } = useWeb3Context();
   const history = useHistory();
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
@@ -65,12 +60,9 @@ function ChooseBondV2() {
   });
 
   return (
-    <div id="choose-bond-view">
-      {(!isEmpty(accountNotes) || !isEmpty(v1AccountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
-
-      {/* standard bonds for desktop, mobile is below */}
+    <>
       <Zoom in={true}>
-        <Paper headerText={`${t`Bond`} (4,4)`}>
+        <Paper headerText={`${t`Inverse Bond`} (3,1)`}>
           <MetricCollection>
             <Metric
               label={t`Treasury Balance`}
@@ -84,12 +76,6 @@ function ChooseBondV2() {
             />
           </MetricCollection>
 
-          {bondsV2.length == 0 && !isBondsLoading && (
-            <Box display="flex" justifyContent="center" marginY="24px">
-              <Typography variant="h4">No active bonds</Typography>
-            </Box>
-          )}
-
           {!isSmallScreen && bondsV2.length != 0 && (
             <Grid container item>
               <TableContainer>
@@ -98,6 +84,9 @@ function ChooseBondV2() {
                     <TableRow>
                       <TableCell align="center">
                         <Trans>Bond</Trans>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Trans>Payout Asset</Trans>
                       </TableCell>
                       <TableCell align="left">
                         <Trans>Price</Trans>
@@ -113,7 +102,7 @@ function ChooseBondV2() {
                   <TableBody>
                     {bondsV2.map(bond => {
                       if (bond.displayName !== "unknown")
-                        return <BondTableData networkId={networkId} key={bond.index} bond={bond} inverseBond={false} />;
+                        return <BondTableData networkId={networkId} key={bond.index} bond={bond} inverseBond={true} />;
                     })}
                   </TableBody>
                 </Table>
@@ -123,14 +112,12 @@ function ChooseBondV2() {
           <Box mt={2} className="help-text">
             <em>
               <Typography variant="body2">
-                Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim
-                as sOHM or gOHM at the end of the term.
+                Important: Inverse bonds allow you to bond your OHM for treasury assets.
               </Typography>
             </em>
           </Box>
         </Paper>
       </Zoom>
-
       {/* standard bonds for mobile, desktop is above */}
       {isSmallScreen && (
         <Box className="ohm-card-container">
@@ -138,18 +125,14 @@ function ChooseBondV2() {
             {bondsV2.map(bond => {
               return (
                 <Grid item xs={12} key={bond.index}>
-                  <BondDataCard key={bond.index} bond={bond} networkId={networkId} inverseBond={false} />
+                  <BondDataCard key={bond.index} bond={bond} networkId={networkId} inverseBond={true} />
                 </Grid>
               );
             })}
           </Grid>
         </Box>
       )}
-
-      {/* Inverse Bonds */}
-      <ChooseInverseBond />
-    </div>
+    </>
   );
 }
-
-export default ChooseBondV2;
+export default ChooseInverseBond;

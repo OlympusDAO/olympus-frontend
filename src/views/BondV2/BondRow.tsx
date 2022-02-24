@@ -13,37 +13,78 @@ import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { NetworkId } from "../../constants";
 import { DisplayBondDiscount, DisplayBondPrice } from "./BondV2";
 
-export function BondDataCard({ bond, networkId }: { bond: IBondV2; networkId: NetworkId }) {
+export function BondDataCard({
+  bond,
+  networkId,
+  inverseBond,
+}: {
+  bond: IBondV2;
+  networkId: NetworkId;
+  inverseBond: boolean;
+}) {
   const isBondLoading = useAppSelector(state => state.bondingV2.loading);
 
   return (
     <Slide direction="up" in={true}>
       <Paper id={`${bond.index}--bond`} className="bond-data-card ohm-card">
-        <div className="bond-pair">
-          <TokenStack tokens={bond.bondIconSvg} />
-          <div className="bond-name">
-            <Typography>{bond.displayName}</Typography>
-            {bond && bond.isLP ? (
-              <div>
-                <Link href={bond.lpUrl} target="_blank">
-                  <Typography variant="body1">
-                    <Trans>Get LP</Trans>
-                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-                  </Typography>
-                </Link>
-              </div>
-            ) : (
-              <div>
-                <Link href={getEtherscanUrl({ bond, networkId })} target="_blank">
-                  <Typography variant="body1">
-                    <Trans>View Asset</Trans>
-                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-                  </Typography>
-                </Link>
-              </div>
-            )}
+        {/* when not inverse bond show bondable asset */}
+        {!inverseBond && (
+          <div className="bond-pair">
+            <TokenStack tokens={bond.bondIconSvg} />
+            <div className="bond-name">
+              <Typography>{bond.displayName}</Typography>
+              {bond && bond.isLP ? (
+                <div>
+                  <Link href={bond.lpUrl} target="_blank">
+                    <Typography variant="body1">
+                      <Trans>Get LP</Trans>
+                      <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                    </Typography>
+                  </Link>
+                </div>
+              ) : (
+                <div>
+                  <Link href={getEtherscanUrl({ bond, networkId })} target="_blank">
+                    <Typography variant="body1">
+                      <Trans>View Asset</Trans>
+                      <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                    </Typography>
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* TODO (appleseed-inverse): show payout */}
+        {/* when IS inverse bond show payout asset */}
+        {inverseBond && (
+          <div className="bond-pair">
+            <TokenStack tokens={bond.bondIconSvg} />
+            <div className="bond-name">
+              <Typography>{bond.displayName}</Typography>
+              {bond && bond.isLP ? (
+                <div>
+                  <Link href={bond.lpUrl} target="_blank">
+                    <Typography variant="body1">
+                      <Trans>Get LP</Trans>
+                      <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                    </Typography>
+                  </Link>
+                </div>
+              ) : (
+                <div>
+                  <Link href={getEtherscanUrl({ bond, networkId })} target="_blank">
+                    <Typography variant="body1">
+                      <Trans>View Asset</Trans>
+                      <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                    </Typography>
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
         <div className="data-row">
           <Typography>
             <Trans>Price</Trans>
@@ -67,23 +108,6 @@ export function BondDataCard({ bond, networkId }: { bond: IBondV2; networkId: Ne
           <Typography>{isBondLoading ? <Skeleton width="50px" /> : bond.duration}</Typography>
         </div>
 
-        {/* <div className="data-row">
-          <Typography>
-            <Trans>Purchased</Trans>
-          </Typography>
-          <Typography>
-            {isBondLoading ? (
-              <Skeleton width="80px" />
-            ) : (
-              new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-                maximumFractionDigits: 0,
-                minimumFractionDigits: 0,
-              }).format(bond.purchased)
-            )}
-          </Typography>
-        </div> */}
         <Link component={NavLink} to={`/bonds/${bond.index}`}>
           <TertiaryButton fullWidth disabled={bond.soldOut}>
             {bond.soldOut ? t`Sold Out` : t`Bond ${bond.displayName}`}
@@ -94,39 +118,67 @@ export function BondDataCard({ bond, networkId }: { bond: IBondV2; networkId: Ne
   );
 }
 
-export function BondTableData({ bond, networkId }: { bond: IBondV2; networkId: NetworkId }) {
+export function BondTableData({
+  bond,
+  networkId,
+  inverseBond,
+}: {
+  bond: IBondV2;
+  networkId: NetworkId;
+  inverseBond: boolean;
+}) {
   // Use BondPrice as indicator of loading.
   const isBondLoading = !bond.priceUSD ?? true;
 
   return (
     <TableRow id={`${bond.index}--bond`}>
-      <TableCell align="left" className="bond-name-cell">
-        <TokenStack tokens={bond.bondIconSvg} />
-        <div className="bond-name">
-          {bond && bond.isLP ? (
-            <>
-              <Typography variant="body1">{bond.displayName}</Typography>
-              <Link color="primary" href={bond.lpUrl} target="_blank">
-                <Typography variant="body1">
-                  <Trans>Get LP</Trans>
-                  <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-                </Typography>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Typography variant="body1">{bond.displayName}</Typography>
-              <Link color="primary" href={getEtherscanUrl({ bond, networkId })} target="_blank">
-                <Typography variant="body1">
-                  <Trans>View Asset</Trans>
-                  <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-                </Typography>
-              </Link>
-            </>
-          )}
-          {/* <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography> */}
+      <TableCell align="left" className="bond-logo-cell">
+        <div className="logo-container">
+          <TokenStack tokens={bond.bondIconSvg} />
+          <div className="bond-name">
+            {bond && bond.isLP ? (
+              <>
+                <Typography variant="body1">{bond.displayName}</Typography>
+                <Link color="primary" href={bond.lpUrl} target="_blank">
+                  <Typography variant="body1">
+                    <Trans>Get LP</Trans>
+                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                  </Typography>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Typography variant="body1">{bond.displayName}</Typography>
+                <Link color="primary" href={getEtherscanUrl({ bond, networkId })} target="_blank">
+                  <Typography variant="body1">
+                    <Trans>View Asset</Trans>
+                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                  </Typography>
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </TableCell>
+      {/* payout asset for inverse bonds */}
+      {inverseBond && (
+        <TableCell align="left" className="bond-logo-cell">
+          <div className="logo-container">
+            <TokenStack tokens={bond.bondIconSvg} />
+            <div className="bond-name">
+              <>
+                <Typography variant="body1">{bond.displayName}</Typography>
+                <Link color="primary" href={getEtherscanUrl({ bond, networkId })} target="_blank">
+                  <Typography variant="body1">
+                    <Trans>View Asset</Trans>
+                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                  </Typography>
+                </Link>
+              </>
+            </div>
+          </div>
+        </TableCell>
+      )}
       <TableCell align="left">
         <Typography>
           <>{isBondLoading ? <Skeleton width="50px" /> : <DisplayBondPrice key={bond.index} bond={bond} />}</>
