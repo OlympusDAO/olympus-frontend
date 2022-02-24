@@ -31,11 +31,11 @@ import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
-import RebaseTimer from "../../components/RebaseTimer/RebaseTimer";
 import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
-import ExternalStakePool from "../Stake/ExternalStakePool";
+import ExternalStakePools from "../Stake/components/ExternalStakePools/ExternalStakePools";
+import RebaseTimer from "../Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 
 const sOhmImg = getTokenImage("sohm");
 const ohmImg = getOhmTokenImage(16, 16);
@@ -450,7 +450,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
         </Paper>
       </Zoom>
 
-      <ExternalStakePool />
+      <ExternalStakePools />
     </div>
   );
 }

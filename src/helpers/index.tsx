@@ -4,6 +4,7 @@ import { formatUnits } from "@ethersproject/units";
 import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
 import { ethers } from "ethers";
+import { QueryKey, useQuery } from "react-query";
 import { IBondV2 } from "src/slices/BondSliceV2";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
@@ -294,23 +295,53 @@ export function assert(value: unknown, message: string | Error): asserts value {
 
 /**
  * Converts gOHM to OHM. Mimics `balanceFrom()` gOHM contract function.
- * @returns Formatted string representation of OHM equivalent.
  */
-export const convertGohmToOhm = (amount: BigNumber, index: BigNumber): string => {
-  return formatUnits(amount.div(10 ** 9).mul(index), 36);
+export const convertGohmToOhm = (amount: BigNumber, index: BigNumber) => {
+  return amount.div(10 ** 9).mul(index);
 };
 
 /**
  * Converts OHM to gOHM. Mimics `balanceTo()` gOHM contract function.
- * @returns Formatted string representation of gOHM equivalent.
  */
-export const convertOhmToGohm = (amount: BigNumber, index: BigNumber): string => {
-  return formatUnits(amount.mul(10 ** 9).div(index), 18);
+export const convertOhmToGohm = (amount: BigNumber, index: BigNumber) => {
+  return amount.mul(10 ** 9).div(index);
 };
 
+/**
+ * Converts a BigNumber to a number
+ */
 export const parseBigNumber = (value: BigNumber, units: BigNumberish = 9) => {
   return parseFloat(formatUnits(value, units));
 };
+
+/**
+ * Formats a number to a specified amount of decimals
+ */
+export const formatNumber = (number: number, precision = 0) => {
+  return new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: precision,
+    maximumFractionDigits: precision,
+  }).format(number);
+};
+
+/**
+ * Used to build a `useQuery` function for fetching necessary data in parallel for a query,
+ * using that queries `queryKey`
+ *
+ * Please refer to the `useStakePoolTVL` function for an example on why this function is handy.
+ */
+export const createDependentQuery = (baseQueryKey: QueryKey) => {
+  return <TData,>(key: string, fn: () => Promise<TData>, enabled?: boolean) => {
+    return useQuery([baseQueryKey, key].filter(Boolean), fn, { enabled }).data;
+  };
+};
+
+/**
+ * Type safe check for non defined values
+ */
+export function nonNullable<Type>(value: Type): value is NonNullable<Type> {
+  return value !== null && value !== undefined;
+}
 
 interface ICheckBalance extends IBaseAsyncThunk {
   readonly sOHMbalance: string;

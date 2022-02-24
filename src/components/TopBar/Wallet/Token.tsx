@@ -119,10 +119,10 @@ const BalanceValue = ({
   sigFigs: number;
 }) => (
   <Box sx={{ textAlign: "right", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-    <Typography variant="body2" style={{ fontWeight: 600 }}>
+    <Typography variant="body2" style={{ fontWeight: 600 }} data-testid="balance-token">
       {!isLoading ? balance.substring(0, sigFigs) : <Skeleton variant="text" width={50} />}
     </Typography>
-    <Typography variant="body2" color="textSecondary">
+    <Typography variant="body2" color="textSecondary" data-testid="balance-usd">
       {!isLoading ? (
         formatCurrency(balanceValueUSD === NaN ? 0 : balanceValueUSD, 2)
       ) : (

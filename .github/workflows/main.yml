@@ -10,14 +10,71 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Build UI for production
-      run: |
+      - uses: actions/checkout@v2
+      - name: Build UI for production
+        run: |
           yarn install --frozen-lockfile
           yarn lint
           yarn build
-      env:
+        env:
           CI: false
-    - name: Run unit tests
-      run: |
+      - name: Run unit tests
+        run: |
           yarn test:unit
+      - name: Prepare coverage badges
+        run: |
+          echo "COVERAGE_BRANCHES_PCT=$(echo $(jq .total.branches.pct coverage/coverage-summary.json))" >> $GITHUB_ENV
+          echo "COVERAGE_LINES_PCT=$(echo $(jq .total.lines.pct coverage/coverage-summary.json))" >> $GITHUB_ENV
+          echo "COVERAGE_STATEMENTS_PCT=$(echo $(jq .total.statements.pct coverage/coverage-summary.json))" >> $GITHUB_ENV
+          echo "COVERAGE_FUNCTIONS_PCT=$(echo $(jq .total.functions.pct coverage/coverage-summary.json))" >> $GITHUB_ENV
+
+          # get branch name
+          REF=${{ github.ref }}
+          echo "github.ref: $REF"
+          IFS='/' read -ra PATHS <<< "$REF"
+          BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
+          echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
+      - name: Create coverage branches badge
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: d630a3bd1cf13bb3dc3c1925df28efcd
+          filename: olympus-frontend__coverage__branches__${{ env.BRANCH }}.json
+          label: Branches Coverage
+          message: ${{ env.COVERAGE_BRANCHES_PCT}}%
+          color: blue
+          namedLogo: jest
+          logoColor: lightblue
+      - name: Create coverage lines badge
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: d630a3bd1cf13bb3dc3c1925df28efcd
+          filename: olympus-frontend__coverage__lines__${{ env.BRANCH }}.json
+          label: Lines Coverage
+          message: ${{ env.COVERAGE_LINES_PCT}}%
+          color: blue
+          namedLogo: jest
+          logoColor: lightblue
+      - name: Create coverage statements badge
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: d630a3bd1cf13bb3dc3c1925df28efcd
+          filename: olympus-frontend__coverage__statements__${{ env.BRANCH }}.json
+          label: Statements Coverage
+          message: ${{ env.COVERAGE_STATEMENTS_PCT}}%
+          color: blue
+          namedLogo: jest
+          logoColor: lightblue
+      - name: Create coverage functions badge
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: d630a3bd1cf13bb3dc3c1925df28efcd
+          filename: olympus-frontend__coverage__functions__${{ env.BRANCH }}.json
+          label: Functions Coverage
+          message: ${{ env.COVERAGE_FUNCTIONS_PCT}}%
+          color: blue
+          namedLogo: jest
+          logoColor: lightblue
