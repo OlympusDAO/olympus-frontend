@@ -333,8 +333,8 @@ export const useWallet = (
       price: (ohmPrice || 0) * Number(currentIndex || 0),
       crossChainBalances: { balances: gohm, isLoading },
       vaultBalances: {
-        "gOHM on Tokemak": "100",
-        "Fuse Olympus Pool Party": "100",
+        "gOHM on Tokemak": connectedChainBalances.gOhmOnTokemak,
+        "Fuse Olympus Pool Party": connectedChainBalances.fgohm,
       },
       icon: "wsOHM",
       decimals: 18,

@@ -470,67 +470,7 @@ exports[`<InitialWalletView/> Should render component 1`] = `
                       style="gap: 8px;"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-24"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
-                        >
-                          gOHM on Tokemak:
-                        </p>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
-                        >
-                          <div
-                            class="MuiBox-root MuiBox-root-25"
-                          >
-                            <p
-                              class="MuiTypography-root MuiTypography-body2"
-                              data-testid="balance-token"
-                              style="font-weight: 600;"
-                            >
-                              100
-                            </p>
-                            <p
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                              data-testid="balance-usd"
-                            >
-                              $0.00
-                            </p>
-                          </div>
-                        </p>
-                      </div>
-                      <div
-                        class="MuiBox-root MuiBox-root-26"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
-                        >
-                          Fuse Olympus Pool Party:
-                        </p>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
-                        >
-                          <div
-                            class="MuiBox-root MuiBox-root-27"
-                          >
-                            <p
-                              class="MuiTypography-root MuiTypography-body2"
-                              data-testid="balance-token"
-                              style="font-weight: 600;"
-                            >
-                              100
-                            </p>
-                            <p
-                              class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
-                              data-testid="balance-usd"
-                            >
-                              $0.00
-                            </p>
-                          </div>
-                        </p>
-                      </div>
-                      <div
-                        class="MuiBox-root MuiBox-root-28 ohm-pairs"
+                        class="MuiBox-root MuiBox-root-24 ohm-pairs"
                         style="width: 100%;"
                       >
                         <button
@@ -558,7 +498,7 @@ exports[`<InitialWalletView/> Should render component 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-29"
+        class="MuiBox-root MuiBox-root-25"
       >
         <hr
           class="MuiDivider-root"
@@ -566,7 +506,7 @@ exports[`<InitialWalletView/> Should render component 1`] = `
         />
       </div>
       <div
-        class="MuiBox-root MuiBox-root-30"
+        class="MuiBox-root MuiBox-root-26"
         style="gap: 12px;"
       >
         <a
@@ -581,10 +521,10 @@ exports[`<InitialWalletView/> Should render component 1`] = `
             class="MuiButton-label"
           >
             <div
-              class="MuiBox-root MuiBox-root-31"
+              class="MuiBox-root MuiBox-root-27"
             >
               <div
-                class="MuiBox-root MuiBox-root-32"
+                class="MuiBox-root MuiBox-root-28"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1"
@@ -593,7 +533,7 @@ exports[`<InitialWalletView/> Should render component 1`] = `
                 </p>
               </div>
               <div
-                class="MuiBox-root MuiBox-root-33"
+                class="MuiBox-root MuiBox-root-29"
               >
                 <svg
                   aria-hidden="true"
@@ -621,10 +561,10 @@ exports[`<InitialWalletView/> Should render component 1`] = `
             class="MuiButton-label"
           >
             <div
-              class="MuiBox-root MuiBox-root-34"
+              class="MuiBox-root MuiBox-root-30"
             >
               <div
-                class="MuiBox-root MuiBox-root-35"
+                class="MuiBox-root MuiBox-root-31"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body1"
@@ -633,7 +573,7 @@ exports[`<InitialWalletView/> Should render component 1`] = `
                 </p>
               </div>
               <div
-                class="MuiBox-root MuiBox-root-36"
+                class="MuiBox-root MuiBox-root-32"
               >
                 <svg
                   aria-hidden="true"
@@ -661,16 +601,16 @@ exports[`<InitialWalletView/> Should render component 1`] = `
             class="MuiButton-label"
           >
             <div
-              class="MuiBox-root MuiBox-root-37"
+              class="MuiBox-root MuiBox-root-33"
             >
               <div
-                class="MuiBox-root MuiBox-root-38"
+                class="MuiBox-root MuiBox-root-34"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-39"
+                  class="MuiBox-root MuiBox-root-35"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-40"
+                    class="MuiBox-root MuiBox-root-36"
                   >
                     <svg
                       aria-hidden="true"
@@ -733,7 +673,7 @@ exports[`<InitialWalletView/> Should render component 1`] = `
                       />
                     </svg>
                     <div
-                      class="MuiBox-root MuiBox-root-41"
+                      class="MuiBox-root MuiBox-root-37"
                     >
                       <svg
                         aria-hidden="true"
@@ -822,10 +762,10 @@ exports[`<InitialWalletView/> Should render component 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-42"
+                    class="MuiBox-root MuiBox-root-38"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-43"
+                      class="MuiBox-root MuiBox-root-39"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-alignLeft"
@@ -839,7 +779,7 @@ exports[`<InitialWalletView/> Should render component 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root MuiBox-root-44"
+                class="MuiBox-root MuiBox-root-40"
               >
                 <svg
                   aria-hidden="true"
@@ -856,7 +796,7 @@ exports[`<InitialWalletView/> Should render component 1`] = `
           </span>
         </a>
         <div
-          class="MuiBox-root MuiBox-root-45"
+          class="MuiBox-root MuiBox-root-41"
           style="gap: 12px;"
         >
           <a
@@ -871,10 +811,10 @@ exports[`<InitialWalletView/> Should render component 1`] = `
               class="MuiButton-label"
             >
               <div
-                class="MuiBox-root MuiBox-root-46"
+                class="MuiBox-root MuiBox-root-42"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-47"
+                  class="MuiBox-root MuiBox-root-43"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1"
@@ -883,7 +823,7 @@ exports[`<InitialWalletView/> Should render component 1`] = `
                   </p>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-48"
+                  class="MuiBox-root MuiBox-root-44"
                 >
                   <svg
                     aria-hidden="true"
@@ -911,10 +851,10 @@ exports[`<InitialWalletView/> Should render component 1`] = `
               class="MuiButton-label"
             >
               <div
-                class="MuiBox-root MuiBox-root-49"
+                class="MuiBox-root MuiBox-root-45"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-50"
+                  class="MuiBox-root MuiBox-root-46"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1"
@@ -923,7 +863,7 @@ exports[`<InitialWalletView/> Should render component 1`] = `
                   </p>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-51"
+                  class="MuiBox-root MuiBox-root-47"
                 >
                   <svg
                     aria-hidden="true"
@@ -951,10 +891,10 @@ exports[`<InitialWalletView/> Should render component 1`] = `
               class="MuiButton-label"
             >
               <div
-                class="MuiBox-root MuiBox-root-52"
+                class="MuiBox-root MuiBox-root-48"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-53"
+                  class="MuiBox-root MuiBox-root-49"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1"
@@ -963,7 +903,7 @@ exports[`<InitialWalletView/> Should render component 1`] = `
                   </p>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-54"
+                  class="MuiBox-root MuiBox-root-50"
                 >
                   <svg
                     aria-hidden="true"
@@ -982,7 +922,7 @@ exports[`<InitialWalletView/> Should render component 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root MuiBox-root-55"
+        class="MuiBox-root MuiBox-root-51"
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
