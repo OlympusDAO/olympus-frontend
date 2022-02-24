@@ -29,6 +29,10 @@ export class EnvHelper {
     return EnvHelper.env.REACT_APP_GA_API_KEY;
   }
 
+  static getMultiFarmApiKey() {
+    return EnvHelper.env.REACT_APP_MULTIFARM_API;
+  }
+
   static getCovalentKey() {
     let CKEYS: string[] = [];
     if (EnvHelper.env.REACT_APP_COVALENT && EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_COVALENT)) {

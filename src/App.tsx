@@ -1,6 +1,9 @@
 // eslint-disable-next-line simple-import-sort/imports
 import "./style.scss";
 
+// @ts-ignore
+import { MultifarmProvider } from "@multifarm/widget";
+
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
@@ -12,6 +15,7 @@ import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/useBonds";
 import { useWeb3Context, useAppSelector } from "./hooks";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
+import { EnvHelper } from "./helpers/Environment";
 import { shouldTriggerSafetyCheck } from "./helpers";
 
 import { calcBondDetails } from "./slices/BondSlice";
@@ -20,7 +24,7 @@ import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } 
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2 } from "./views";
+import { Stake, TreasuryDashboard, V2TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar";
 import TopBar from "./components/TopBar/TopBar";
 import CallToAction from "./components/CallToAction/CallToAction";
@@ -81,6 +85,8 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
   },
 }));
+
+const MULTIFARM_API_KEY = EnvHelper.getMultiFarmApiKey();
 
 function App() {
   useSegmentAnalytics();
@@ -304,121 +310,129 @@ function App() {
   });
   const hasActiveV1Bonds = accountBonds.length > 0;
 
+  console.log("process.env", process.env);
+
   return (
-    <ThemeProvider theme={themeMode}>
-      <CssBaseline />
-      <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
-        <Messages />
-        <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
-        <nav className={classes.drawer}>
-          {isSmallerScreen ? (
-            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-          ) : (
-            <Sidebar />
-          )}
-        </nav>
+    <MultifarmProvider token={MULTIFARM_API_KEY}>
+      <ThemeProvider theme={themeMode}>
+        <CssBaseline />
+        <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+          <Messages />
+          <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+          <nav className={classes.drawer}>
+            {isSmallerScreen ? (
+              <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            ) : (
+              <Sidebar />
+            )}
+          </nav>
 
-        <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-          {oldAssetsDetected &&
-            !hasActiveV1Bonds &&
-            trimmedPath.indexOf("dashboard") === -1 &&
-            oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+          <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+            {oldAssetsDetected &&
+              !hasActiveV1Bonds &&
+              trimmedPath.indexOf("dashboard") === -1 &&
+              oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
-          <Switch>
-            <Route exact path="/dashboard">
-              <TreasuryDashboard />
-            </Route>
+            <Switch>
+              <Route exact path="/dashboard">
+                <TreasuryDashboard />
+              </Route>
 
-            <Route exact path="/">
-              <Redirect to="/stake" />
-            </Route>
+              <Route exact path="/v2-dashboard">
+                <V2TreasuryDashboard />
+              </Route>
 
-            <Route path="/stake">
-              {/* if newAssets or 0 assets */}
-              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
-                <Stake />
-              ) : (
+              <Route exact path="/">
+                <Redirect to="/stake" />
+              </Route>
+
+              <Route path="/stake">
+                {/* if newAssets or 0 assets */}
+                {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
+                  <Stake />
+                ) : (
+                  <V1Stake
+                    hasActiveV1Bonds={hasActiveV1Bonds}
+                    oldAssetsDetected={oldAssetsDetected}
+                    setMigrationModalOpen={setMigrationModalOpen}
+                  />
+                )}
+              </Route>
+
+              <Route path="/v1-stake">
                 <V1Stake
                   hasActiveV1Bonds={hasActiveV1Bonds}
                   oldAssetsDetected={oldAssetsDetected}
                   setMigrationModalOpen={setMigrationModalOpen}
                 />
-              )}
-            </Route>
-
-            <Route path="/v1-stake">
-              <V1Stake
-                hasActiveV1Bonds={hasActiveV1Bonds}
-                oldAssetsDetected={oldAssetsDetected}
-                setMigrationModalOpen={setMigrationModalOpen}
-              />
-            </Route>
-
-            <Route exact path="/give">
-              <Give />
-            </Route>
-            <Redirect from="/olympusgive" to="/give" />
-            <Redirect from="/tyche" to="/give" />
-            <Redirect from="/olygive" to="/give" />
-            <Redirect from="/olympusdaogive" to="/give" />
-            <Redirect from="/ohmgive" to="/give" />
-
-            <Route path="/give/projects">
-              {projects.map(project => {
-                return (
-                  <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
-                    <ProjectInfo project={project} />
-                  </Route>
-                );
-              })}
-            </Route>
-
-            <Route exact path="/give/donations">
-              <Give selectedIndex={1} />
-            </Route>
-
-            <Route exact path="/give/redeem">
-              <Give selectedIndex={2} />
-            </Route>
-
-            <Route path="/wrap">
-              <Route exact path={`/wrap`}>
-                <Wrap />
               </Route>
-            </Route>
 
-            <Route path="/zap">
-              <Route exact path={`/zap`}>
-                <Zap />
+              <Route exact path="/give">
+                <Give />
               </Route>
-            </Route>
+              <Redirect from="/olympusgive" to="/give" />
+              <Redirect from="/tyche" to="/give" />
+              <Redirect from="/olygive" to="/give" />
+              <Redirect from="/olympusdaogive" to="/give" />
+              <Redirect from="/ohmgive" to="/give" />
 
-            {/* <Route path="/33-together">
+              <Route path="/give/projects">
+                {projects.map(project => {
+                  return (
+                    <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
+                      <ProjectInfo project={project} />
+                    </Route>
+                  );
+                })}
+              </Route>
+
+              <Route exact path="/give/donations">
+                <Give selectedIndex={1} />
+              </Route>
+
+              <Route exact path="/give/redeem">
+                <Give selectedIndex={2} />
+              </Route>
+
+              <Route path="/wrap">
+                <Route exact path={`/wrap`}>
+                  <Wrap />
+                </Route>
+              </Route>
+
+              <Route path="/zap">
+                <Route exact path={`/zap`}>
+                  <Zap />
+                </Route>
+              </Route>
+
+              {/* <Route path="/33-together">
               <PoolTogether />
             </Route> */}
 
-            <Redirect from="/bonds-v1" to="/bonds" />
+              <Redirect from="/bonds-v1" to="/bonds" />
 
-            <Route path="/bonds">
-              {bondIndexes.map(index => {
-                return (
-                  <Route exact key={index} path={`/bonds/${index}`}>
-                    <BondV2 index={index} />
-                  </Route>
-                );
-              })}
-              <ChooseBondV2 />
-            </Route>
-            <Route component={NotFound} />
-          </Switch>
+              <Route path="/bonds">
+                {bondIndexes.map(index => {
+                  return (
+                    <Route exact key={index} path={`/bonds/${index}`}>
+                      <BondV2 index={index} />
+                    </Route>
+                  );
+                })}
+                <ChooseBondV2 />
+              </Route>
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+          {hasDust ? (
+            <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
+          ) : (
+            <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
+          )}
         </div>
-        {hasDust ? (
-          <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
-        ) : (
-          <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
-        )}
-      </div>
-    </ThemeProvider>
+      </ThemeProvider>
+    </MultifarmProvider>
   );
 }
 
