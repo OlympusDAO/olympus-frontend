@@ -41,22 +41,11 @@ type CustomBond = Bond & Partial<IBondDetails>;
 
 const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
   const { networkId, address, provider } = useWeb3Context();
-  const [isMounted, setIsMounted] = useState<boolean>(false);
   const { bonds } = useBonds(networkId);
   const location = useLocation();
   const dispatch = useDispatch();
 
   const bondsV2 = useAppSelector(state => state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]));
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (isMounted && handleDrawerToggle) {
-      handleDrawerToggle();
-    }
-  }, [location]);
 
   const sortedBonds = bondsV2
     .filter(bond => bond.soldOut === false)
