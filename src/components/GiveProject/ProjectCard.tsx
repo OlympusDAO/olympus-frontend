@@ -122,6 +122,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   }, [location.pathname]);
 
   useEffect(() => {
+    setIsUserDonating(false);
+    setDonationId(0);
+  }, [networkId]);
+
+  useEffect(() => {
     // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
     // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
     // e.g. the redeem yield page will show someone else's deposited sOHM and redeemable yield
@@ -159,6 +164,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   }, [connected, networkId, isGiveModalOpen]);
 
   useEffect(() => {
+    if (!donationInfo) {
+      return;
+    }
+
     for (let i = 0; i < donationInfo.length; i++) {
       if (donationInfo[i].recipient.toLowerCase() === wallet.toLowerCase()) {
         setIsUserDonating(true);
@@ -166,12 +175,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         break;
       }
     }
-  }, [donationInfo]);
-
-  useEffect(() => {
-    setIsUserDonating(false);
-    setDonationId(0);
-  }, [networkId]);
+  }, [donationInfo, location.pathname]);
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
