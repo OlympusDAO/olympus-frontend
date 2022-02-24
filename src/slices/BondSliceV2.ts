@@ -2,10 +2,10 @@ import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
 import { addresses, NetworkId, UnknownDetails, V2BondDetails, v2BondDetails } from "src/constants";
-import { prettifySeconds } from "src/helpers";
 import { RootState } from "src/store";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
 
+import { prettifySecondsInDays } from "../helpers/timeUtil";
 import { getBalances } from "./AccountSlice";
 import { findOrLoadMarketPrice } from "./AppSlice";
 import {
@@ -70,15 +70,7 @@ interface IBondV2Meta {
   quoteDecimals: number;
 }
 
-interface IBondV2Terms {
-  fixedTerm: boolean;
-  controlVariable: ethers.BigNumber;
-  vesting: number;
-  conclusion: number;
-  maxDebt: ethers.BigNumber;
-}
-
-interface IBondV2Terms {
+export interface IBondV2Terms {
   fixedTerm: boolean;
   controlVariable: ethers.BigNumber;
   vesting: number;
@@ -111,12 +103,20 @@ function checkNetwork(networkID: NetworkId) {
   }
 }
 
-function convertNumberToRatio(a: BigNumber, b: BigNumber, divisor: number): BigNumber {
-  return a.mul(b).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - divisor));
+export function convertAmountInBondUnitToQuoteTokenUnit(
+  amountInBondUnit: BigNumber,
+  price: BigNumber,
+  decimals: number,
+): BigNumber {
+  return amountInBondUnit.mul(price).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - decimals));
 }
 
-function convertRatioToNumber(a: BigNumber, b: number, divisor: BigNumber): BigNumber {
-  return a.mul(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - b)).div(divisor);
+export function convertAmountInBondUnitToBaseTokenUnit(
+  amountInBondUnit: BigNumber,
+  decimals: number,
+  price: BigNumber,
+): BigNumber {
+  return amountInBondUnit.mul(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - decimals)).div(price);
 }
 
 export const changeApproval = createAsyncThunk(
@@ -220,18 +220,32 @@ export function getBondCapacities(bond: IBondV2Core, quoteDecimals: number, bond
   let capacityInBaseToken: string, capacityInQuoteToken: string;
   if (bond.capacityInQuote) {
     capacityInBaseToken = ethers.utils.formatUnits(
-      bond.capacity.mul(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - quoteDecimals)).div(bondPriceBigNumber),
+      convertAmountInBondUnitToBaseTokenUnit(bond.capacity, quoteDecimals, bondPriceBigNumber),
       BASE_TOKEN_DECIMALS,
     );
     capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, quoteDecimals);
   } else {
     capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, BASE_TOKEN_DECIMALS);
     capacityInQuoteToken = ethers.utils.formatUnits(
-      bond.capacity.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - quoteDecimals)),
+      convertAmountInBondUnitToQuoteTokenUnit(bond.capacity, bondPriceBigNumber, quoteDecimals),
       quoteDecimals,
     );
   }
   return { capacityInBaseToken, capacityInQuoteToken };
+}
+
+export function getBondDuration(terms: IBondV2Terms): string {
+  const currentTime = Date.now() / 1000;
+  let secondsRemaining = 0;
+
+  if (terms.fixedTerm) {
+    secondsRemaining = terms.vesting;
+  } else {
+    const conclusionTime = terms.conclusion;
+    secondsRemaining = conclusionTime - currentTime;
+  }
+
+  return prettifySecondsInDays(secondsRemaining);
 }
 
 async function processBond(
@@ -243,7 +257,6 @@ async function processBond(
   networkID: NetworkId,
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
 ): Promise<IBondV2> {
-  const currentTime = Date.now() / 1000;
   const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
   let v2BondDetail: V2BondDetails = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
 
@@ -264,29 +277,13 @@ async function processBond(
   );
   const maxPayoutInBaseToken: string = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
   const maxPayoutInQuoteToken: string = ethers.utils.formatUnits(
-    bond.maxPayout.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
+    convertAmountInBondUnitToQuoteTokenUnit(bond.maxPayout, bondPriceBigNumber, metadata.quoteDecimals),
     metadata.quoteDecimals,
   );
+  const duration = getBondDuration(terms);
 
-  let seconds = 0;
-  if (terms.fixedTerm) {
-    const vestingTime = currentTime + terms.vesting;
-    seconds = vestingTime - currentTime;
-  } else {
-    const conclusionTime = terms.conclusion;
-    seconds = conclusionTime - currentTime;
-  }
-  let duration = "";
-  if (seconds > 86400) {
-    duration = prettifySeconds(seconds, "day");
-  } else {
-    duration = prettifySeconds(seconds);
-  }
+  const soldOut = +capacityInBaseToken < 1 || +maxPayoutInBaseToken < 1;
 
-  // SAFETY CHECKs
-  // 1. check sold out
-  let soldOut = false;
-  if (+capacityInBaseToken < 1 || +maxPayoutInBaseToken < 1) soldOut = true;
   const maxPayoutOrCapacityInQuote =
     +capacityInQuoteToken > +maxPayoutInQuoteToken ? maxPayoutInQuoteToken : capacityInQuoteToken;
   const maxPayoutOrCapacityInBase =
@@ -387,19 +384,12 @@ export const getUserNotes = createAsyncThunk(
       const originalDurationSeconds = Math.max(rawNote.matured - rawNote.created, 0);
       const seconds = Math.max(rawNote.matured - currentTime, 0);
       let duration = "";
-      if (seconds > 86400) {
-        duration = prettifySeconds(seconds, "day");
-      } else if (seconds > 0) {
-        duration = prettifySeconds(seconds);
+      if (seconds > 0) {
+        duration = prettifySecondsInDays(seconds);
       } else {
         duration = "Fully Vested";
       }
-      let originalDuration = "";
-      if (originalDurationSeconds > 86400) {
-        originalDuration = prettifySeconds(originalDurationSeconds, "day");
-      } else {
-        originalDuration = prettifySeconds(originalDurationSeconds);
-      }
+      const originalDuration = prettifySecondsInDays(originalDurationSeconds);
       const note: IUserNote = {
         ...rawNote,
         payout: +rawNote.payout / Math.pow(10, 18), //Always in gOHM
@@ -479,6 +469,7 @@ export const claimSingleNote = createAsyncThunk(
     }
   },
 );
+
 // Note(zx): this is a barebones interface for the state. Update to be more accurate
 interface IBondSlice {
   loading: boolean;
