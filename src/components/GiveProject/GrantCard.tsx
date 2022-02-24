@@ -590,8 +590,10 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     </Grid>
                   }
                 >
-                  <Grid container>
-                    {getProjectImage()}
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} md={4} lg={12}>
+                      {getProjectImage()}
+                    </Grid>
                     <Grid item container xs>
                       <Grid item xs={12}>
                         {renderDepositData()}
