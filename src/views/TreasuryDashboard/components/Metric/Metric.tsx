@@ -65,7 +65,8 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps> = props => {
 
   const _props: MetricProps = {
     ...props,
-    label: t`Backing per OHM`,
+    label: t`Treasury Market Value per OHM`,
+    tooltip: t`Treasury MV backing is the total USD budget the treasury has per OHM to spend on all market operations (LP, swaps, revenue generation, bonds and inverse bonds, etc)`,
   };
 
   if (treasuryValue && circSupply) _props.metric = formatCurrency(treasuryValue / circSupply, 2);
