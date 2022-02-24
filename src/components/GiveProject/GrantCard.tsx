@@ -15,7 +15,11 @@ import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { ProgressBar, Step } from "react-step-progress-bar";
+import { ReactComponent as CurrentMilestone } from "src/assets/icons/current-milestone.svg";
+import { ReactComponent as Donors } from "src/assets/icons/donors.svg";
 import { ReactComponent as GiveSohm } from "src/assets/icons/give_sohm.svg";
+import { ReactComponent as Heart } from "src/assets/icons/heart.svg";
+import { ReactComponent as MilestoneAmount } from "src/assets/icons/milestone-amount.svg";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
@@ -262,7 +266,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
               <Grid item>
                 <Grid container justifyContent="flex-start" alignItems="center">
                   <Grid item>
-                    <Icon name="donors" />
+                    <SvgIcon component={Donors} />
                   </Grid>
                   <Grid item className="metric">
                     {donorCountIsLoading ? <Skeleton /> : donorCount}
@@ -279,7 +283,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
               <Grid item>
                 <Grid container justifyContent="flex-end" alignItems="center">
                   <Grid item>
-                    <SvgIcon component={GiveSohm} />
+                    <SvgIcon component={MilestoneAmount} />
                   </Grid>
                   <Grid item className="metric">
                     {totalMilestoneAmount.toFixed(0)}
@@ -294,8 +298,15 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           <Box width="100%" />
           <Grid item xs={5}>
             <Grid container direction="column" alignItems="flex-start">
-              <Grid item className="metric">
-                {getLatestMilestoneCompleted()}
+              <Grid item>
+                <Grid container justifyContent="flex-end" alignItems="center">
+                  <Grid item>
+                    <SvgIcon component={CurrentMilestone} />
+                  </Grid>
+                  <Grid item className="metric">
+                    {getLatestMilestoneCompleted()}
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item className="subtext">
                 <Trans>Current Milestone</Trans>
@@ -307,7 +318,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
               <Grid item>
                 <Grid container justifyContent="flex-end" alignItems="center">
                   <Grid item>
-                    <SvgIcon component={GiveSohm} />
+                    <SvgIcon component={Heart} />
                   </Grid>
                   <Grid item className="metric">
                     {getLatestMilestoneAmount()}
