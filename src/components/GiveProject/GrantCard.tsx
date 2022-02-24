@@ -572,22 +572,25 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           <Grid container className="project" spacing={3} alignItems="flex-start">
             <Grid container item xs={12} lg={5}>
               <Grid item xs={12}>
-                <Paper>
-                  <Grid container className="project-intro" justifyContent="space-between">
-                    <Grid item className="project-title">
-                      <Link href={"#/give/grants"}>
-                        <ChevronLeft
-                          className="back-to-causes"
-                          viewBox="6 6 12 12"
-                          style={{ width: "12px", height: "12px" }}
-                        />
-                      </Link>
-                      <Typography variant="h5">
-                        <strong>{getTitle()}</strong>
-                      </Typography>
+                <Paper
+                  topLeft={
+                    <Grid container spacing={2} alignItems="center">
+                      <Grid item>
+                        <Link href={"#/give/grants"}>
+                          <ChevronLeft
+                            className="back-to-causes"
+                            viewBox="6 6 12 12"
+                            style={{ width: "12px", height: "12px" }}
+                          />
+                        </Link>
+                      </Grid>
+                      <Grid item>
+                        <Typography variant="h5">{getTitle()}</Typography>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  <Grid container className="project-visual-info">
+                  }
+                >
+                  <Grid container>
                     {getProjectImage()}
                     <Grid item container xs>
                       <Grid item xs={12}>
