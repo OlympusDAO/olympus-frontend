@@ -1,9 +1,10 @@
+// NOTE could get this from an outside source since it changes slightly over time
+export const BLOCK_RATE_SECONDS = 13.14;
+
 /**
  * returns unix timestamp for x minutes ago
  * @param x minutes as a number
  */
-import { BLOCK_RATE_SECONDS } from "../constants";
-
 export const minutesAgo = (x: number) => {
   const now = new Date().getTime();
   return new Date(now - x * 60000).getTime();
