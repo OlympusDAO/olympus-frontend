@@ -95,6 +95,7 @@ When you make changes to the UI (intentionally), you likely will have to update 
 We use [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) to test behavior of UI components.
 Here is an [example component test](src/components/Migration/__tests__/MigrationModal.unit.test.jsx).
 Here is a useful [cheat sheet](https://testing-library.com/docs/react-testing-library/cheatsheet).
+
 ### Troubleshooting
 
 If all tests are failing in your local environment (in particular, due to a "cannot find module" error with `node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/interopRequireDefault.js`), but they should be passing (and the CI tests are passing), it's likely to be an issue with your local cache. Run the following command: `yarn test --clearCache`
@@ -139,6 +140,16 @@ _Note_: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sO
 
 1. [avax faucet](https://faucet.avax-test.network/)
 2. [explorer](https://explorer.avax-test.network/)
+
+## Rinkeby V2-Bond Creation
+
+1. `create` [here](https://rinkeby.etherscan.io/address/0x9810C5c97C57Ef3F23d9ee06813eF7FD51E13042#writeContract)
+2. _name: `DAI` <- name is not used in the frontend / does not matter
+3. _quoteToken: `0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C` <- this is DAI, make it whatever asset you want to bond
+4. _market: `[10000000000000000000000000,60000000000,1000000]` <- [capacity (in OHM or quote), initial price (9 decimals), debt buffer (3 decimals)]
+5. _booleans: `[true,true]` <- [capacity in quote, fixed term]
+6. _terms: `[100,1677008640]` <- [vesting length (if fixed term) or vested timestamp, conclusion timestamp], grab a timestamp [here](https://www.unixtimestamp.com/index.php)
+7. _intervals: `[14400,86400]` <- [deposit interval, tune interval]
 
 ## Gitpod Continuous Dev Environment (optional)
 

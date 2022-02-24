@@ -47,14 +47,6 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
 
   const bondsV2 = useAppSelector(state => state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]));
 
-  useEffect(() => {
-    const interval = setTimeout(() => {
-      dispatch(getAllBonds({ address, networkID: networkId, provider }));
-      dispatch(getUserNotes({ address, networkID: networkId, provider }));
-    }, 60000);
-    return () => clearTimeout(interval);
-  });
-
   const sortedBonds = bondsV2
     .filter(bond => bond.soldOut === false)
     .sort((a, b) => {

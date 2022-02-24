@@ -16,13 +16,12 @@ import {
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import isEmpty from "lodash/isEmpty";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { IUserBondDetails } from "src/slices/AccountSlice";
-import { getAllBonds, getUserNotes, IUserNote } from "src/slices/BondSliceV2";
+import { IUserNote } from "src/slices/BondSliceV2";
 import { AppDispatch } from "src/store";
 
 import { formatCurrency } from "../../helpers";
@@ -56,14 +55,6 @@ function ChooseBondV2() {
     maximumFractionDigits: 0,
     minimumFractionDigits: 0,
   }).format(Number(treasuryBalance));
-
-  useEffect(() => {
-    const interval = setTimeout(() => {
-      dispatch(getAllBonds({ address, networkID: networkId, provider }));
-      dispatch(getUserNotes({ address, networkID: networkId, provider }));
-    }, 60000);
-    return () => clearTimeout(interval);
-  });
 
   const v1AccountBonds: IUserBondDetails[] = useAppSelector(state => {
     const withInterestDue = [];
