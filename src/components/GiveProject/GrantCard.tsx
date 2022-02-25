@@ -285,7 +285,13 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
               <Grid item>
                 <Grid container justifyContent="flex-end" alignItems="center">
                   <Grid item>
-                    <SvgIcon viewBox="0 0 18 18" component={MilestoneAmount} />
+                    {/**
+                     * HACK: a specific path in the SVG needs to mimic the background behind the SVG.
+                     * We can't easily pass variables from JS to CSS, so instead we specifcy a CSS class
+                     * for the affected path (`transparent-background`) and dynamically apply the theme name
+                     * to the SVG.
+                     */}
+                    <SvgIcon className={theme.palette.type} viewBox="0 0 18 18" component={MilestoneAmount} />
                   </Grid>
                   <Grid item className="metric">
                     {totalMilestoneAmount.toFormat(0)}
