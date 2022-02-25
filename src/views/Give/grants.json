@@ -14,11 +14,11 @@
       "website": "https://twitter.com/Playgrounds0x?s=20",
       "milestones": [
         {
-          "amount": 10000,
+          "amount": 40000,
           "description": "- About milestone 1\n- More on milestone 1\n- Even more"
         },
         {
-          "amount": 15200,
+          "amount": 40000,
           "description": "- About milestone 2\n- More on milestone 2\n- Even more"
         },
         {
@@ -39,7 +39,21 @@
       "category": "",
       "wallet": "0xf6A0307cb6aA05D7C19d080A0DA9B14eAB1050b7",
       "depositGoal": 0,
-      "website": "https://viamover.com/"
+      "website": "https://viamover.com/",
+      "milestones": [
+        {
+          "amount": 40000,
+          "description": ""
+        },
+        {
+          "amount": 30000,
+          "description": ""
+        },
+        {
+          "amount": 30000,
+          "description": ""
+        }
+      ]
     },
     {
       "title": "MetaMars",
@@ -52,7 +66,21 @@
       "category": "",
       "wallet": "0x92F3D5B780c6b83e6eFAaEC3bA15a0F52877D183",
       "depositGoal": 0,
-      "website": "https://metamars.org/"
+      "website": "https://metamars.org/",
+      "milestones": [
+        {
+          "amount": 33000,
+          "description": ""
+        },
+        {
+          "amount": 33000,
+          "description": ""
+        },
+        {
+          "amount": 34000,
+          "description": ""
+        }
+      ]
     },
     {
       "title": "Composable Finance",
@@ -65,7 +93,21 @@
       "category": "",
       "wallet": "0x8371188E98499b8ADA155550a999598b442eFa71",
       "depositGoal": 0,
-      "website": "https://www.composable.finance/"
+      "website": "https://www.composable.finance/",
+      "milestones": [
+        {
+          "amount": 16500,
+          "description": ""
+        },
+        {
+          "amount": 16500,
+          "description": ""
+        },
+        {
+          "amount": 17000,
+          "description": ""
+        }
+      ]
     },
     {
       "title": "Pas",
@@ -78,7 +120,17 @@
       "category": "",
       "wallet": "0x6E5622807DbC21c1CCEF93d8A8d0Ad50Ea5050Db",
       "depositGoal": 0,
-      "website": ""
+      "website": "",
+      "milestones": [
+        {
+          "amount": 10000,
+          "description": ""
+        },
+        {
+          "amount": 10000,
+          "description": ""
+        }
+      ]
     },
     {
       "title": "EntropyFi",
@@ -91,7 +143,21 @@
       "category": "",
       "wallet": "0xCa775D361548c6B2904A64344023cfeaFF0bD77E",
       "depositGoal": 0,
-      "website": "https://www.entropyfi.com/"
+      "website": "https://www.entropyfi.com/",
+      "milestones": [
+        {
+          "amount": 15000,
+          "description": ""
+        },
+        {
+          "amount": 15000,
+          "description": ""
+        },
+        {
+          "amount": 20000,
+          "description": ""
+        }
+      ]
     },
     {
       "title": "On-Demand Analytics",
@@ -104,7 +170,21 @@
       "category": "",
       "wallet": "0x4faFB87de15cFf7448bD0658112F4e4B0d53332c",
       "depositGoal": 0,
-      "website": "https://metricsdao.notion.site/metricsdao/Bounty-Programs-d4bac7f1908f412f8bf4ed349198e5fe"
+      "website": "https://metricsdao.notion.site/metricsdao/Bounty-Programs-d4bac7f1908f412f8bf4ed349198e5fe",
+      "milestones": [
+        {
+          "amount": 27000,
+          "description": ""
+        },
+        {
+          "amount": 27000,
+          "description": ""
+        },
+        {
+          "amount": 6000,
+          "description": ""
+        }
+      ]
     },
     {
       "title": "The Black DAO",
@@ -117,7 +197,25 @@
       "category": "",
       "wallet": "0x5c656F5e8c44f6Df504DFb3E224E7f01310Aa52c",
       "depositGoal": 0,
-      "website": "https://blk.finance/"
+      "website": "https://blk.finance/",
+      "milestones": [
+        {
+          "amount": 10000,
+          "description": ""
+        },
+        {
+          "amount": 13000,
+          "description": ""
+        },
+        {
+          "amount": 13000,
+          "description": ""
+        },
+        {
+          "amount": 14000,
+          "description": ""
+        }
+      ]
     },
     {
       "title": "Gateway",
@@ -130,7 +228,25 @@
       "category": "",
       "wallet": "0xA47d57B74361B20fB24e1dD2d22944db12Ee8553",
       "depositGoal": 0,
-      "website": ""
+      "website": "",
+      "milestones": [
+        {
+          "amount": 10000,
+          "description": ""
+        },
+        {
+          "amount": 13000,
+          "description": ""
+        },
+        {
+          "amount": 13000,
+          "description": ""
+        },
+        {
+          "amount": 14000,
+          "description": ""
+        }
+      ]
     },
     {
       "title": "Incubator Startup Jam",
@@ -143,7 +259,13 @@
       "category": "",
       "wallet": "",
       "depositGoal": 0,
-      "website": ""
+      "website": "",
+      "milestones": [
+        {
+          "amount": 9999,
+          "description": ""
+        }
+      ]
     },
     {
       "title": "Diverse Usability Study and Art Auction Ads",
@@ -156,7 +278,25 @@
       "category": "",
       "wallet": "0x31400E66a48Fd29cAb359ED3eBE19303D87e1FB9",
       "depositGoal": 0,
-      "website": "https://www.afrodao.us/"
+      "website": "https://www.afrodao.us/",
+      "milestones": [
+        {
+          "amount": 20000,
+          "description": ""
+        },
+        {
+          "amount": 20000,
+          "description": ""
+        },
+        {
+          "amount": 20000,
+          "description": ""
+        },
+        {
+          "amount": 25000,
+          "description": ""
+        }
+      ]
     }
   ]
 }
