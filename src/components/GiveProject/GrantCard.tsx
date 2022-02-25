@@ -609,7 +609,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                 </Paper>
               </Grid>
               <Grid item xs={12}>
-                {isUserDonating ? (
+                {!isUserDonating ? (
                   <></>
                 ) : (
                   <Paper headerText={t`Your Donations`}>
