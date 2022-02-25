@@ -8,6 +8,7 @@ import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useUIDSeed } from "react-uid";
 import GrantCard, { GrantDetailsMode } from "src/components/GiveProject/GrantCard";
+import { Grant } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { useAppDispatch } from "src/hooks";
@@ -25,7 +26,7 @@ export default function GrantsDashboard() {
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
-  const { grants } = data;
+  const grants: Grant[] = data.grants;
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
@@ -34,6 +35,8 @@ export default function GrantsDashboard() {
 
   const renderGrants = useMemo(() => {
     return grants.map(grant => {
+      if (grant.disabled) return <></>;
+
       return <GrantCard key={seed(grant.title)} grant={grant} mode={GrantDetailsMode.Card} />;
     });
   }, [grants]);

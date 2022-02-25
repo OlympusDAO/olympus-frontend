@@ -31,4 +31,5 @@ export type Grant = {
   website: string;
   milestones?: GrantMilestone[];
   latestMilestoneCompleted?: number;
+  disabled?: boolean;
 };
