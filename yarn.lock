@@ -2417,10 +2417,10 @@
   resolved "https://registry.yarnpkg.com/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz#af577b477c683fad17c619a78208cede06f9605c"
   integrity sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==
 
-"@multifarm/widget@^0.0.33":
-  version "0.0.33"
-  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.33.tgz#0a0e6998691d74b214743b21886668877b9b0211"
-  integrity sha512-GtLj5EaKMm81hUkUqzLSfRZHnl1kz+GfYw1oNPBiO/YUM7sanhGQAwoVuShRACFDsNAwDUzbHj1LAf32/0JnAQ==
+"@multifarm/widget@^0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.35.tgz#5567a02ac19025d5324b51e83b32698e9a63304d"
+  integrity sha512-zn9sCqT1YXVJ+Y/LUOTuw6mwCMY1iJgbuM8rVbkdA/5AOAYhMApZFpLOTBJYDf4qQpmGCPDSGAsS7Y+pmFDLAg==
   dependencies:
     "@tippyjs/react" "^4.2.6"
     dayjs "1.10.7"
