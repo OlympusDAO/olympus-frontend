@@ -267,7 +267,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           <Grid item xs={5}>
             <Grid container direction="column" alignItems="flex-start">
               <Grid item>
-                <Grid container justifyContent="flex-start" alignItems="center">
+                <Grid container justifyContent="flex-start" alignItems="center" wrap="nowrap">
                   <Grid item>
                     <SvgIcon component={Donors} />
                   </Grid>
