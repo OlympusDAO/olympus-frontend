@@ -2,17 +2,11 @@
   "name": "@scaffold-eth/react-app",
   "version": "1.1.0",
   "homepage": ".",
-  "browserslist": {
-    "production": [
-      ">0.2% or last 2 versions",
-      "not dead"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2% or last 2 versions",
+    "not dead",
+    "not op_mini all"
+  ],
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
@@ -170,7 +164,6 @@
     "prepare": "husky install"
   },
   "resolutions": {
-    "**/acorn": "8.7.0",
     "**/immer": "9.0.6",
     "**/axios": "0.23.0",
     "**/set-value": "4.0.1",

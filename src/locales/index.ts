@@ -2,10 +2,6 @@ import { i18n } from "@lingui/core";
 import { OHMLocaleSwitcherProps } from "@olympusdao/component-library";
 import { ar, de, en, es, fr, ko, tr, vi, zh } from "make-plural/plurals";
 
-// @todo: need to fix this issue, dynamic imports are
-// failing due to the acorn resolution which is required for @multifarm/widget
-import { messages } from "./translations/olympus-frontend/en/messages";
-
 // Declare locales
 interface ILocale {
   flag: OHMLocaleSwitcherProps["locales"]["locale"]["flag"];
@@ -37,9 +33,9 @@ for (const [key, locale] of Object.entries(locales)) {
 }
 
 export async function fetchLocale(locale = "en") {
-  // const { messages } = await import(
-  //   /* webpackChunkName: "[request]" */ `../locales/translations/olympus-frontend/${locale}/messages`
-  // );
+  const { messages } = await import(
+    /* webpackChunkName: "[request]" */ `../locales/translations/olympus-frontend/${locale}/messages`
+  );
   i18n.load(locale, messages);
   i18n.activate(locale);
   translations_style_dom.innerHTML = `.MuiTypography-root { direction: ${locales[locale].direction}; !important}`;
