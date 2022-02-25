@@ -52,10 +52,10 @@
 // *** The two following classes are used when currentcolor cannot be used in SVGs
 // Applied when the dark theme is enabled
 .dark path.transparent-background {
-  stroke: rgba(54, 56, 64, 0.6);
+  stroke: black;
 }
 
 // Applied when the light theme is enabled
 .light path.transparent-background {
-  stroke: rgba(255, 255, 255, 0.6);
+  stroke: white;
 }

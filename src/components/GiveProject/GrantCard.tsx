@@ -16,8 +16,9 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { ProgressBar, Step } from "react-step-progress-bar";
 import { ReactComponent as Donors } from "src/assets/icons/donors.svg";
-import { ReactComponent as GiveSohm } from "src/assets/icons/give_sohm.svg";
 import { ReactComponent as MilestoneAmount } from "src/assets/icons/milestone-amount.svg";
+import { ReactComponent as sOHMDeposited } from "src/assets/icons/sohm-deposited.svg";
+import { ReactComponent as sOHMYieldSent } from "src/assets/icons/sohm-yield-sent.svg";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
@@ -608,7 +609,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                 </Paper>
               </Grid>
               <Grid item xs={12}>
-                {!isUserDonating ? (
+                {isUserDonating ? (
                   <></>
                 ) : (
                   <Paper headerText={t`Your Donations`}>
@@ -617,7 +618,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                         <Grid container direction="column" alignItems="flex-start">
                           <Grid item container justifyContent="flex-start" alignItems="center">
                             <Grid item>
-                              <SvgIcon component={GiveSohm} />
+                              <SvgIcon className={theme.palette.type} component={sOHMDeposited} />
                             </Grid>
                             <Grid item>
                               <Typography className="metric">
@@ -637,7 +638,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                           <Grid item>
                             <Grid container justifyContent="flex-end" alignItems="center">
                               <Grid item>
-                                <SvgIcon component={GiveSohm} />
+                                <SvgIcon className={theme.palette.type} component={sOHMYieldSent} />
                               </Grid>
                               <Grid item>
                                 <Typography className="metric">
