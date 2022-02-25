@@ -1,17 +1,16 @@
 .project-milestone-progress {
   .RSPBstep {
     // The step labels are shifted left by 50%, so we override that
-    transform: none;
+    // This forces the labels to not exceed the width of the progress bar
+    transform: translateX(-100%);
   }
 
   .step-label {
     padding-top: 40px;
-    text-align: left;
   }
 }
 
 .milestone-deliverables {
-  margin-top: 46px; // Keeps it below the progress bar
   line-height: 2rem;
 }
 

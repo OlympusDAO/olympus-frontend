@@ -15,10 +15,8 @@ import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { ProgressBar, Step } from "react-step-progress-bar";
-import { ReactComponent as CurrentMilestone } from "src/assets/icons/current-milestone.svg";
 import { ReactComponent as Donors } from "src/assets/icons/donors.svg";
 import { ReactComponent as GiveSohm } from "src/assets/icons/give_sohm.svg";
-import { ReactComponent as Heart } from "src/assets/icons/heart.svg";
 import { ReactComponent as MilestoneAmount } from "src/assets/icons/milestone-amount.svg";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
@@ -206,6 +204,10 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
             unfilledBackground="rgb(172, 177, 185)"
             filledBackground="linear-gradient(269deg, rgba(112, 139, 150, 1) 0%, rgba(247, 251, 231, 1) 100%)"
           >
+            {
+              // We add a dummy step at the start, so that steps are right-aligned
+              <Step key={`step-0`}>{({}) => <></>}</Step>
+            }
             {milestones.map((value, index) => {
               const humanIndex: number = index + 1;
               const currentMilestonePercentage: number = (100 * humanIndex) / milestones.length;
@@ -214,18 +216,13 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
               return (
                 <Step key={`step-${humanIndex}`}>
                   {({}) => (
-                    <div
-                      className="step-label"
-                      style={milestoneAccomplished ? accomplishedStyle : unaccomplishedStyle}
-                    >{`Milestone ${humanIndex}`}</div>
+                    <div className="step-label" style={milestoneAccomplished ? accomplishedStyle : unaccomplishedStyle}>
+                      {new BigNumber(value.amount).toFormat(0)}
+                    </div>
                   )}
                 </Step>
               );
             })}
-            {
-              // We add a dummy step at the end, so that steps are left-aligned
-              <Step key={`step-${milestones.length + 1}`}>{({}) => <></>}</Step>
-            }
           </ProgressBar>
         </div>
       </>
@@ -242,14 +239,19 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       return <></>;
     }
 
-    const milestoneSafe = getLatestMilestoneCompletedSafe();
-    const currentMilestoneDetails = milestones[milestoneSafe];
-
     return (
-      <div
-        dangerouslySetInnerHTML={{ __html: MarkdownIt({ html: true }).render(currentMilestoneDetails.description) }}
-        className="milestone-deliverables"
-      />
+      <div className="milestone-deliverables">
+        {milestones.map((value, index) => {
+          return (
+            <div key={`milestone-${index}`}>
+              <Typography variant="h6">{t`Milestone ${index + 1}: ${new BigNumber(value.amount).toFormat(
+                0,
+              )} sOHM`}</Typography>
+              <div dangerouslySetInnerHTML={{ __html: MarkdownIt({ html: true }).render(value.description) }} />
+            </div>
+          );
+        })}
+      </div>
     );
   };
 
@@ -286,7 +288,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <SvgIcon viewBox="0 0 18 18" component={MilestoneAmount} />
                   </Grid>
                   <Grid item className="metric">
-                    {totalMilestoneAmount.toFixed(0)}
+                    {totalMilestoneAmount.toFormat(0)}
                   </Grid>
                 </Grid>
               </Grid>
@@ -296,39 +298,8 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
             </Grid>
           </Grid>
           <Box width="100%" />
-          <Grid item xs={5}>
-            <Grid container direction="column" alignItems="flex-start">
-              <Grid item>
-                <Grid container justifyContent="flex-start" alignItems="center">
-                  <Grid item>
-                    <SvgIcon viewBox="0 0 18 18" component={CurrentMilestone} />
-                  </Grid>
-                  <Grid item className="metric">
-                    {getLatestMilestoneCompleted()}
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item className="subtext">
-                <Trans>Current Milestone</Trans>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={7}>
-            <Grid container direction="column" alignItems="flex-end">
-              <Grid item>
-                <Grid container justifyContent="flex-end" alignItems="center">
-                  <Grid item>
-                    <SvgIcon component={Heart} />
-                  </Grid>
-                  <Grid item className="metric">
-                    {getLatestMilestoneAmount()}
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item className="subtext">
-                <Trans>Current Milestone Amount</Trans>
-              </Grid>
-            </Grid>
+          <Grid item xs={12}>
+            {renderMilestoneCompletion()}
           </Grid>
         </Grid>
       </>
@@ -609,7 +580,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                       <Grid item xs={12}>
                         {renderDepositData()}
                       </Grid>
-                      <Grid item xs={12} style={{ paddingTop: "24px" }}>
+                      <Grid item xs={12} style={{ paddingTop: "45px" }}>
                         {!connected ? (
                           <PrimaryButton onClick={connect} fullWidth>
                             <Trans>Connect Wallet</Trans>
@@ -634,7 +605,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                 {!isUserDonating ? (
                   <></>
                 ) : (
-                  <Paper className="project-sidebar" headerText={t`Your Donations`}>
+                  <Paper headerText={t`Your Donations`}>
                     <Grid container alignItems="flex-end">
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="flex-start">
@@ -644,16 +615,14 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                             </Grid>
                             <Grid item>
                               <Typography className="metric">
-                                {t`${
-                                  donationInfo[donationId]
-                                    ? parseFloat(donationInfo[donationId].deposit).toFixed(2)
-                                    : "0"
-                                } sOHM`}
+                                {donationInfo[donationId]
+                                  ? parseFloat(donationInfo[donationId].deposit).toFixed(2)
+                                  : "0"}
                               </Typography>
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            <Trans>Deposited</Trans>
+                            <Trans>sOHM Deposited</Trans>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -666,17 +635,15 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                               </Grid>
                               <Grid item>
                                 <Typography className="metric">
-                                  {t`${
-                                    donationInfo[donationId]
-                                      ? parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)
-                                      : "0"
-                                  } sOHM`}
+                                  {donationInfo[donationId]
+                                    ? parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)
+                                    : "0"}
                                 </Typography>
                               </Grid>
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            <Trans>Yield Sent</Trans>
+                            <Trans>sOHM Yield Sent</Trans>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -698,10 +665,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
             </Grid>
             <Grid container item xs={12} lg={7}>
               <Grid item xs={12}>
-                <Paper headerText="Milestone">
-                  {renderMilestoneCompletion()}
-                  {renderMilestoneDetails()}
-                </Paper>
+                <Paper headerText="Milestones">{renderMilestoneDetails()}</Paper>
               </Grid>
               <Grid item xs={12}>
                 <Paper

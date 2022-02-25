@@ -14,15 +14,15 @@
       "website": "https://twitter.com/Playgrounds0x?s=20",
       "milestones": [
         {
-          "amount": 100,
+          "amount": 10000,
           "description": "- About milestone 1\n- More on milestone 1\n- Even more"
         },
         {
-          "amount": 150,
+          "amount": 15200,
           "description": "- About milestone 2\n- More on milestone 2\n- Even more"
         },
         {
-          "amount": 200,
+          "amount": 20000,
           "description": "- About milestone 3\n- More on milestone 3\n- Even more"
         }
       ],
