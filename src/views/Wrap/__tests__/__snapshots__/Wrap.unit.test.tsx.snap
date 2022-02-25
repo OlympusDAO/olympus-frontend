@@ -63,8 +63,7 @@ exports[`<Wrap/> should render component 1`] = `
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="MuiGrid-root MuiGrid-item"
-            style="padding: 0px 0px 2rem 0px;"
+            class="MuiGrid-root"
           >
             <div
               class="MuiBox-root MuiBox-root-6"
@@ -196,32 +195,27 @@ exports[`<Wrap/> should render component 1`] = `
             </div>
           </div>
           <div
-            class="staking-area"
+            class="MuiBox-root MuiBox-root-15"
           >
             <div
-              class="stake-wallet-notification"
+              class="MuiBox-root MuiBox-root-16"
             >
-              <div
-                class="wallet-menu"
-                id="wallet-menu"
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-17 makeStyles-root-18 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+                style="font-size: 1.2857rem;"
+                tabindex="0"
+                type="button"
               >
-                <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-15 makeStyles-root-16 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
-                  style="font-size: 1.2857rem;"
-                  tabindex="0"
-                  type="button"
+                <span
+                  class="MuiButton-label"
                 >
-                  <span
-                    class="MuiButton-label"
-                  >
-                    Connect Wallet
-                  </span>
-                </button>
-              </div>
+                  Connect Wallet
+                </span>
+              </button>
               <h6
                 class="MuiTypography-root MuiTypography-h6"
               >
-                Connect your wallet
+                Connect your wallet to wrap/unwrap your staked tokens
               </h6>
             </div>
           </div>
