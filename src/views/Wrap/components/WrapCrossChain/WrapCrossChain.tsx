@@ -1,4 +1,4 @@
-import "../Stake/Stake.scss";
+import "../../../Stake/Stake.scss";
 
 import { t } from "@lingui/macro";
 import { Box, Button, Divider, Grid, Link, Typography, Zoom } from "@material-ui/core";
@@ -12,10 +12,10 @@ import { useAppSelector } from "src/hooks/index";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonTextMultiType } from "src/slices/PendingTxnsSlice";
 
-import { NETWORKS } from "../../constants";
-import { formatCurrency, trim } from "../../helpers";
-import { switchNetwork } from "../../helpers/NetworkHelper";
-import { changeMigrationApproval, migrateCrossChainWSOHM } from "../../slices/MigrateThunk";
+import { NETWORKS } from "../../../../constants";
+import { formatCurrency, trim } from "../../../../helpers";
+import { switchNetwork } from "../../../../helpers/NetworkHelper";
+import { changeMigrationApproval, migrateCrossChainWSOHM } from "../../../../slices/MigrateThunk";
 
 function WrapCrossChain() {
   const dispatch = useDispatch();

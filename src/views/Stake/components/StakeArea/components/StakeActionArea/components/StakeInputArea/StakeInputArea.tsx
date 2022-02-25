@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { Box, Grid, makeStyles, Paper, Switch, Tab, Tabs, Theme } from "@material-ui/core";
 import { InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
 import { formatUnits } from "ethers/lib/utils";
@@ -53,8 +53,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   // Max balance stuff
   const [amount, setAmount] = useState("");
   const addresses = fromToken === "OHM" ? OHM_ADDRESSES : fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
-  const balances = useBalance(addresses);
-  const balance = balances[networks.MAINNET].data;
+  const balance = useBalance(addresses)[networks.MAINNET].data;
   const setMax = () => balance && setAmount(formatUnits(balance, fromToken === "gOHM" ? 18 : 9));
 
   // Staking/unstaking mutation stuff
@@ -87,7 +86,24 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
       </Tabs>
 
       <Box my={2}>
-        <TokenAllowanceGuard token={fromToken}>
+        <TokenAllowanceGuard
+          tokenMap={addresses}
+          message={
+            currentAction === "STAKE" ? (
+              <>
+                <Trans>First time staking</Trans> <b>OHM</b>?
+                <br />
+                <Trans>Please approve Olympus DAO to use your</Trans> <b>OHM</b> <Trans>for staking</Trans>.
+              </>
+            ) : (
+              <>
+                <Trans>First time unstaking</Trans> <b>{fromToken}</b>?
+                <br />
+                <Trans>Please approve Olympus DAO to use your</Trans> <b>{fromToken}</b> <Trans>for unstaking</Trans>.
+              </>
+            )
+          }
+        >
           <form onSubmit={handleSubmit}>
             <Grid container className={classes.inputRow}>
               <Grid item xs={12} sm={8} className={classes.gridItem}>
