@@ -82,6 +82,13 @@ const initModal = new Web3Modal({
   },
 });
 
+export function checkCachedProvider(web3Modal: Web3Modal): boolean {
+  if (!web3Modal) return false;
+  const cachedProvider = web3Modal.cachedProvider;
+  if (!cachedProvider) return false;
+  return true;
+}
+
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [connectionError, setConnectionError] = useState<IConnectionError | null>(null);
@@ -95,11 +102,9 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(initModal);
 
-  const hasCachedProvider = (): boolean => {
-    if (!web3Modal) return false;
-    if (!web3Modal.cachedProvider) return false;
-    return true;
-  };
+  function hasCachedProvider(): boolean {
+    return checkCachedProvider(web3Modal);
+  }
 
   // NOTE (appleseed): none of these listeners are needed for Backend API Providers
   // ... so I changed these listeners so that they only apply to walletProviders, eliminating
@@ -135,6 +140,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       rawProvider = new IFrameEthereumProvider();
     } else {
       try {
+        console.error("222222222\n222222222\n222222222\n222222222\n222222222\n");
         rawProvider = await web3Modal.connect();
       } catch (e) {
         console.log("wallet connection status:", e);
