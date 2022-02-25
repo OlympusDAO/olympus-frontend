@@ -310,11 +310,9 @@ function App() {
   });
   const hasActiveV1Bonds = accountBonds.length > 0;
 
-  console.log("process.env", process.env);
-
   return (
-    <MultifarmProvider token={MULTIFARM_API_KEY}>
-      <ThemeProvider theme={themeMode}>
+    <ThemeProvider theme={themeMode}>
+      <MultifarmProvider token={MULTIFARM_API_KEY} theme="olympus" provider="olympus">
         <CssBaseline />
         <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
           <Messages />
@@ -431,8 +429,8 @@ function App() {
             <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
           )}
         </div>
-      </ThemeProvider>
-    </MultifarmProvider>
+      </MultifarmProvider>
+    </ThemeProvider>
   );
 }
 
