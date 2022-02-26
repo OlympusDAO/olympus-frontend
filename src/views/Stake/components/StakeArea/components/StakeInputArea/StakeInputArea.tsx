@@ -67,7 +67,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   };
 
   return (
-    <Box className="stake-action-area">
+    <Box my={3}>
       <Tabs
         centered
         textColor="primary"

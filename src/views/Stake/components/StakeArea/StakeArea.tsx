@@ -1,11 +1,16 @@
 import { t } from "@lingui/macro";
-import { Grid, Zoom } from "@material-ui/core";
+import { Divider, Grid, Zoom } from "@material-ui/core";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useState } from "react";
+import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { CurrentIndex, StakingAPY, TotalValueDeposited } from "src/views/TreasuryDashboard/components/Metric/Metric";
 
 import RebaseTimer from "./components/RebaseTimer/RebaseTimer";
-import { StakeActionArea } from "./components/StakeActionArea/StakeActionArea";
+import { StakeBalances } from "./components/StakeBalances";
+import { StakeFiveDayYield } from "./components/StakeFiveDayYield";
+import { StakeInputArea } from "./components/StakeInputArea/StakeInputArea";
+import { StakeNextRebaseAmount } from "./components/StakeNextRebaseAmount";
+import { StakeRebaseYield } from "./components/StakeRebaseYield";
 
 export const StakeArea: React.FC = () => {
   const [isZoomed, setIsZoomed] = useState(false);
@@ -13,21 +18,29 @@ export const StakeArea: React.FC = () => {
   return (
     <Zoom in onEntered={() => setIsZoomed(true)}>
       <Paper headerText={t`Single Stake (3, 3)`} subHeader={<RebaseTimer />}>
-        <Grid container direction="column" spacing={2}>
-          <Grid item>
-            <MetricCollection>
-              <StakingAPY className="stake-apy" />
+        <Grid>
+          <MetricCollection>
+            <StakingAPY className="stake-apy" />
 
-              <TotalValueDeposited className="stake-tvl" />
+            <TotalValueDeposited className="stake-tvl" />
 
-              <CurrentIndex className="stake-index" />
-            </MetricCollection>
-          </Grid>
-
-          <div className="staking-area">
-            <StakeActionArea isZoomed={isZoomed} />
-          </div>
+            <CurrentIndex className="stake-index" />
+          </MetricCollection>
         </Grid>
+
+        <WalletConnectedGuard message="Connect your wallet to stake OHM">
+          <StakeInputArea isZoomed={isZoomed} />
+
+          <StakeBalances />
+
+          <Divider color="secondary" />
+
+          <StakeNextRebaseAmount />
+
+          <StakeRebaseYield />
+
+          <StakeFiveDayYield />
+        </WalletConnectedGuard>
       </Paper>
     </Zoom>
   );

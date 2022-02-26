@@ -1,21 +1,14 @@
 import { t } from "@lingui/macro";
-import { Grid, Link, Typography, Zoom } from "@material-ui/core";
+import { Box, Divider, Grid, Link, Typography, Zoom } from "@material-ui/core";
 import { Icon, MetricCollection, Paper } from "@olympusdao/component-library";
-import { FC } from "react";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { NetworkId } from "src/networkDetails";
+import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 
 import { CurrentIndex, GOHMPrice, SOHMPrice } from "../TreasuryDashboard/components/Metric/Metric";
-import { WrapActionArea } from "./components/WrapActionArea/WrapActionArea";
-import WrapCrossChain from "./components/WrapCrossChain/WrapCrossChain";
+import { WrapBalances } from "./components/WrapBalances";
+import { WrapInputArea } from "./components/WrapInputArea/WrapInputArea";
+import { WrapSwitchNetwork } from "./components/WrapSwitchNetwork";
 
-const Wrap: FC = () => {
-  const { networkId } = useWeb3Context();
-
-  const isMainnet = networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY;
-
-  if (!isMainnet) return <WrapCrossChain />;
-
+const Wrap: React.FC = () => {
   return (
     <div id="stake-view" className="wrapper">
       <Zoom in>
@@ -30,7 +23,17 @@ const Wrap: FC = () => {
             </MetricCollection>
           </Grid>
 
-          <WrapActionArea />
+          <WalletConnectedGuard message="Connect your wallet to wrap/unwrap your staked tokens">
+            <WrapInputArea />
+
+            <WrapBalances />
+
+            <Divider />
+
+            <Box width="100%" p={1} sx={{ textAlign: "center" }}>
+              <WrapSwitchNetwork />
+            </Box>
+          </WalletConnectedGuard>
         </Paper>
       </Zoom>
     </div>
