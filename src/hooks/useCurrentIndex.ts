@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { STAKING_ADDRESSES } from "src/constants/addresses";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
 import { useStaticStakingContract } from "./useContract";
 

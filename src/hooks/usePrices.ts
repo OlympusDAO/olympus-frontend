@@ -3,7 +3,7 @@ import { NetworkId } from "src/constants";
 import { OHM_DAI_RESERVE_CONTRACT_DECIMALS } from "src/constants/decimals";
 import { assert, nonNullable, parseBigNumber, queryAssertion } from "src/helpers";
 import { ohm_dai } from "src/helpers/AllBonds";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
 import { useStaticPairContract } from "./useContract";
 import { useCurrentIndex } from "./useCurrentIndex";

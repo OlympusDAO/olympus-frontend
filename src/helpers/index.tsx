@@ -16,7 +16,7 @@ import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
 import { addresses, BLOCK_RATE_SECONDS, EPOCH_INTERVAL, NetworkId } from "../constants";
 import { PairContract, RedeemHelper } from "../typechain";
 import { ohm_dai, ohm_daiOld, ohm_weth } from "./AllBonds";
-import { DecimalBigNumber } from "./DecimalBigNumber";
+import { DecimalBigNumber } from "./DecimalBigNumber/DecimalBigNumber";
 import { EnvHelper } from "./Environment";
 import { NodeHelper } from "./NodeHelper";
 

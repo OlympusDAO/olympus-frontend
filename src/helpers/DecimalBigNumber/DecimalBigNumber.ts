@@ -1,7 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { formatUnits, parseUnits } from "@ethersproject/units";
 
-import { formatNumber } from ".";
+import { formatNumber } from "..";
 
 export class DecimalBigNumber {
   private _decimals: number;

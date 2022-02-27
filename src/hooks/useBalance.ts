@@ -15,7 +15,7 @@ import {
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
 import { nonNullable, queryAssertion } from "src/helpers";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { IERC20 } from "src/typechain";
 
 import { useWeb3Context } from ".";

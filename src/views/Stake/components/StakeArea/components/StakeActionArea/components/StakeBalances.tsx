@@ -4,7 +4,7 @@ import { ExpandMore } from "@material-ui/icons";
 import { DataRow } from "@olympusdao/component-library";
 import { NetworkId } from "src/constants";
 import { convertGohmToOhm, nonNullable } from "src/helpers";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import {
   useFuseBalance,
   useGohmBalance,

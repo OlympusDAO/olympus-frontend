@@ -1,6 +1,6 @@
 import { Typography } from "@material-ui/core";
 import { convertGohmToOhm, convertOhmToGohm } from "src/helpers";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 
 export const GOHMConversion: React.FC<{ amount: string; action: "STAKE" | "UNSTAKE" }> = props => {
