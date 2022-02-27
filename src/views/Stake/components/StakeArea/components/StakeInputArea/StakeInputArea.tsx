@@ -4,7 +4,7 @@ import { InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library
 import { formatUnits } from "ethers/lib/utils";
 import React, { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
-import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
+import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 
@@ -87,7 +87,8 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
       <Box my={2}>
         <TokenAllowanceGuard
-          tokenMap={addresses}
+          tokenAddressMap={addresses}
+          spenderAddressMap={STAKING_ADDRESSES}
           message={
             currentAction === "STAKE" ? (
               <>

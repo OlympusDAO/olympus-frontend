@@ -93,6 +93,18 @@ export class EnvHelper {
         }
         uriPath = "https://arb-mainnet.alchemyapi.io/v2/";
         break;
+      case NetworkId.ARBITRUM_TESTNET:
+        if (
+          EnvHelper.env.NODE_ENV !== "development" &&
+          EnvHelper.env.REACT_APP_ARBITRUM_ALCHEMY_IDS &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_ARBITRUM_ALCHEMY_IDS)
+        ) {
+          ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ARBITRUM_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
+        } else {
+          ALCHEMY_ID_LIST = ["7Fz2U-NiLphizjlRkJzWtK5jef-5rX-G"];
+        }
+        uriPath = "https://rinkeby.arbitrum.io/rpc/";
+        break;
       case NetworkId.POLYGON:
         if (
           EnvHelper.env.REACT_APP_POLYGON_ALCHEMY_IDS &&
@@ -114,7 +126,19 @@ export class EnvHelper {
         } else {
           ALCHEMY_ID_LIST = [];
         }
-        uriPath = "https://api.avax.network/ext/bc/C/rpc";
+        uriPath = "https://api.avax.network/ext/bc/C/rpc/";
+        break;
+      case NetworkId.AVALANCHE_TESTNET:
+        if (
+          EnvHelper.env.NODE_ENV !== "development" &&
+          EnvHelper.env.REACT_APP_AVALANCHE_ALCHEMY_IDS &&
+          EnvHelper.isNotEmpty(EnvHelper.env.REACT_APP_AVALANCHE_ALCHEMY_IDS)
+        ) {
+          ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_AVALANCHE_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
+        } else {
+          ALCHEMY_ID_LIST = [];
+        }
+        uriPath = "https://api.avax-test.network/ext/bc/C/rpc";
         break;
     }
 

@@ -2,7 +2,7 @@ import { Box, Grid, makeStyles, Theme, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { PrimaryButton } from "@olympusdao/component-library";
 import React, { ReactNode } from "react";
-import { AddressMap, STAKING_ADDRESSES } from "src/constants/addresses";
+import { AddressMap } from "src/constants/addresses";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 
 import { useApproveToken } from "./hooks/useApproveToken";
@@ -37,10 +37,14 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-export const TokenAllowanceGuard: React.FC<{ tokenMap: AddressMap; message: ReactNode }> = props => {
+export const TokenAllowanceGuard: React.FC<{
+  message: ReactNode;
+  tokenAddressMap: AddressMap;
+  spenderAddressMap: AddressMap;
+}> = props => {
   const classes = useStyles();
-  const approveMutation = useApproveToken(props.tokenMap, STAKING_ADDRESSES);
-  const { data: allowance } = useContractAllowance(props.tokenMap, STAKING_ADDRESSES);
+  const approveMutation = useApproveToken(props.tokenAddressMap, props.spenderAddressMap);
+  const { data: allowance } = useContractAllowance(props.tokenAddressMap, props.spenderAddressMap);
 
   if (!allowance)
     return (

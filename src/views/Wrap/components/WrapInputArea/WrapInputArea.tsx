@@ -4,7 +4,7 @@ import { Input, PrimaryButton } from "@olympusdao/component-library";
 import { formatUnits } from "ethers/lib/utils";
 import { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
-import { GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
+import { GOHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 
@@ -13,18 +13,18 @@ import { useWrapSohm } from "./hooks/useWrapSohm";
 
 export const WrapInputArea = () => {
   const networks = useTestableNetworks();
+  const [amount, setAmount] = useState("");
   const [currentAction, setCurrentAction] = useState<"WRAP" | "UNWRAP">("WRAP");
 
   // Max balance stuff
-  const [amount, setAmount] = useState("");
   const addresses = currentAction === "WRAP" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
   const balance = useBalance(addresses)[networks.MAINNET].data;
-  const setMax = () => balance && setAmount(formatUnits(balance, currentAction === "WRAP" ? 9 : 18));
+  const setMax = () => balance && setAmount(formatUnits(balance, currentAction === "UNWRAP" ? 18 : 9));
 
   // Mutation stuff
   const wrapMutation = useWrapSohm();
   const unwrapMutation = useUnwrapGohm();
-  const isMutating = (currentAction === "WRAP" ? wrapMutation : unwrapMutation).isLoading;
+  const { isLoading: isMutating } = currentAction === "WRAP" ? wrapMutation : unwrapMutation;
   const handleSubmit = (event: React.FormEvent<WrapFormElement>) => {
     event.preventDefault();
     const amount = event.currentTarget.elements["amount-input"].value;
@@ -69,7 +69,8 @@ export const WrapInputArea = () => {
 
       <Box my={1}>
         <TokenAllowanceGuard
-          tokenMap={currentAction === "WRAP" ? SOHM_ADDRESSES : GOHM_ADDRESSES}
+          spenderAddressMap={STAKING_ADDRESSES}
+          tokenAddressMap={currentAction === "WRAP" ? SOHM_ADDRESSES : GOHM_ADDRESSES}
           message={
             currentAction === "WRAP" ? (
               <>
