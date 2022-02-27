@@ -60,8 +60,17 @@ export class DecimalBigNumber {
    * Adds two numbers
    */
   public add(value: DecimalBigNumber) {
-    const [_value, _this] = this._normalize(value, this);
+    const [_this, _value] = this._normalize(this, value);
 
     return new DecimalBigNumber(_value.add(_this), Math.max(value._decimals, this._decimals));
+  }
+
+  /**
+   * Determines if this number is greater than the provided value
+   */
+  public gt(value: DecimalBigNumber) {
+    const [_this, _value] = this._normalize(this, value);
+
+    return _this.gt(_value);
   }
 }
