@@ -12,6 +12,17 @@ export class DecimalBigNumber {
     this._number = typeof number === "string" ? parseUnits(number, decimals) : number;
   }
 
+  private _normalize(first: DecimalBigNumber, second: DecimalBigNumber): [BigNumber, BigNumber] {
+    const difference = first._decimals - second._decimals;
+
+    const _first = first.toBigNumber();
+    const _second = second.toBigNumber();
+
+    if (difference === 0) return [_first, _second];
+
+    return difference > 0 ? [_first, _second.mul(10 ** difference)] : [_first.mul(10 ** Math.abs(difference)), _second];
+  }
+
   /**
    * Use when performing accurate calculations with
    * the number where precision is important.
@@ -49,12 +60,8 @@ export class DecimalBigNumber {
    * Adds two numbers
    */
   public add(value: DecimalBigNumber) {
-    const difference = value._decimals - this._decimals;
+    const [_value, _this] = this._normalize(value, this);
 
-    if (difference === 0) return new DecimalBigNumber(this._number.add(value._number), this._decimals);
-
-    return difference > 0
-      ? new DecimalBigNumber(this._number.mul(10 ** Math.abs(difference)).add(value._number), value._decimals)
-      : new DecimalBigNumber(this._number.add(value._number.mul(10 ** Math.abs(difference))), this._decimals);
+    return new DecimalBigNumber(_value.add(_this), Math.max(value._decimals, this._decimals));
   }
 }
