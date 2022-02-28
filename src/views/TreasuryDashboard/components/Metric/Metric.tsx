@@ -10,6 +10,7 @@ import {
   useTotalSupply,
   useTotalValueDeposited,
   useTreasuryMarketValue,
+  useTreasuryTotalBacking,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 
@@ -62,14 +63,19 @@ export const CircSupply: React.FC<AbstractedMetricProps> = props => {
 export const BackingPerOHM: React.FC<AbstractedMetricProps> = props => {
   const { data: circSupply } = useOhmCirculatingSupply();
   const { data: treasuryValue } = useTreasuryMarketValue();
+  const { data: treasuryBacking } = useTreasuryTotalBacking();
 
   const _props: MetricProps = {
     ...props,
-    label: t`Treasury Market Value per OHM`,
-    tooltip: t`Treasury MV backing is the total USD budget the treasury has per OHM to spend on all market operations (LP, swaps, revenue generation, bonds and inverse bonds, etc)`,
+    label: t`Backing per OHM`,
+    tooltip: t`The number on the left represents the backing including all assets in the treasury. The number on the right represents the backing without the LP positions.`,
   };
 
-  if (treasuryValue && circSupply) _props.metric = formatCurrency(treasuryValue / circSupply, 2);
+  if (treasuryValue && circSupply && treasuryBacking)
+    _props.metric = `${formatCurrency(treasuryValue / circSupply, 2)} / ${formatCurrency(
+      treasuryBacking / circSupply,
+      2,
+    )}`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;
