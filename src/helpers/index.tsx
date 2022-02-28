@@ -16,7 +16,6 @@ import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
 import { addresses, BLOCK_RATE_SECONDS, EPOCH_INTERVAL, NetworkId } from "../constants";
 import { PairContract, RedeemHelper } from "../typechain";
 import { ohm_dai, ohm_daiOld, ohm_weth } from "./AllBonds";
-import { DecimalBigNumber } from "./DecimalBigNumber/DecimalBigNumber";
 import { EnvHelper } from "./Environment";
 import { NodeHelper } from "./NodeHelper";
 
@@ -293,30 +292,6 @@ export function queryAssertion(value: unknown, queryKey: any = "not specified"):
 export function assert(value: unknown, message: string | Error): asserts value {
   if (!value) throw message instanceof Error ? message : new Error(message);
 }
-
-/**
- * Converts gOHM to OHM. Mimics `balanceFrom()` gOHM contract function.
- */
-export const convertGohmToOhm = (amount: DecimalBigNumber, index: DecimalBigNumber) => {
-  const ohm = amount
-    .toBigNumber()
-    .div(10 ** 9)
-    .mul(index.toBigNumber());
-
-  return new DecimalBigNumber(ohm, 9);
-};
-
-/**
- * Converts OHM to gOHM. Mimics `balanceTo()` gOHM contract function.
- */
-export const convertOhmToGohm = (amount: DecimalBigNumber, index: DecimalBigNumber) => {
-  const gohm = amount
-    .toBigNumber()
-    .mul(10 ** 9)
-    .div(index.toBigNumber());
-
-  return new DecimalBigNumber(gohm, 18);
-};
 
 /**
  * Converts a BigNumber to a number
