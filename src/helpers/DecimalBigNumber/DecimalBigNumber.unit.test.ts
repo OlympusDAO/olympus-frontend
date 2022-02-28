@@ -25,6 +25,10 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("1.1", 9).add(new DecimalBigNumber("1.2", 18)).toAccurateString()).toEqual("2.3");
   });
 
+  it("subtracts numbers correctly", () => {
+    expect(new DecimalBigNumber("1.2", 9).sub(new DecimalBigNumber("1.1", 18)).toAccurateString()).toEqual("0.1");
+  });
+
   it("compares numbers correctly", () => {
     expect(new DecimalBigNumber("1.1", 9).gt(new DecimalBigNumber("1.2", 18))).toEqual(false);
     expect(new DecimalBigNumber("1.21", 9).gt(new DecimalBigNumber("1.2", 18))).toEqual(true);

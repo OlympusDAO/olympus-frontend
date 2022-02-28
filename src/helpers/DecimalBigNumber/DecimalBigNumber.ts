@@ -61,7 +61,19 @@ export class DecimalBigNumber {
   }
 
   /**
-   * Adds two numbers
+   * Subtraacts this number by the value provided
+   */
+  public sub(value: DecimalBigNumber) {
+    const decimals = Math.max(value._decimals, this._decimals);
+
+    // Normalize decimal places
+    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
+    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+
+    return new DecimalBigNumber(_this._number.sub(_value._number), decimals);
+  }
+  /**
+   * Adds the value provided to this number
    */
   public add(value: DecimalBigNumber) {
     const decimals = Math.max(value._decimals, this._decimals);
@@ -70,7 +82,7 @@ export class DecimalBigNumber {
     const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
     const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
 
-    return new DecimalBigNumber(_value._number.add(_this._number), decimals);
+    return new DecimalBigNumber(_this._number.add(_value._number), decimals);
   }
 
   /**
