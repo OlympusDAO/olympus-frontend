@@ -61,7 +61,7 @@ export class DecimalBigNumber {
   }
 
   /**
-   * Subtraacts this number by the value provided
+   * Subtracts this number by the value provided
    */
   public sub(value: DecimalBigNumber) {
     const decimals = Math.max(value._decimals, this._decimals);
