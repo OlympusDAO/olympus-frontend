@@ -4,28 +4,23 @@ import {
   Box,
   Button,
   ButtonBase,
-  CircularProgress,
-  Dialog,
-  DialogTitle,
   FormControl,
   Grid,
+  IconButton,
   InputAdornment,
   InputLabel,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
   OutlinedInput,
-  Paper,
   SvgIcon,
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { ethers } from "ethers";
+import { Icon, Token } from "@olympusdao/component-library";
+import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { changeZapTokenAllowance, executeZap, getZapTokenAllowance, zapNetworkCheck } from "src/slices/ZapSlice";
 
 import { ReactComponent as DownIcon } from "../../assets/icons/arrow-down.svg";
@@ -33,11 +28,12 @@ import { ReactComponent as ZapperIcon } from "../../assets/icons/powered-by-zapp
 import { ReactComponent as FirstStepIcon } from "../../assets/icons/step-1.svg";
 import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg";
 import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import { segmentUA } from "../../helpers/userAnalyticHelpers";
+import { trackGAEvent, trackSegmentEvent } from "../../helpers/analytics";
+import SelectTokenModal from "./SelectTokenModal";
+import SlippageModal from "./SlippageModal";
 import ZapStakeHeader from "./ZapStakeHeader";
 
-const DISABLE_ZAPS = true;
+const DISABLE_ZAPS = false;
 
 const iconStyle = { height: "24px", width: "24px", zIndex: 1 };
 const viewBox = "-8 -12 48 48";
@@ -63,15 +59,31 @@ const ZapStakeAction: React.FC = () => {
   const isTokensLoading = useAppSelector(state => state.zap.balancesLoading);
   const isChangeAllowanceLoading = useAppSelector(state => state.zap.changeAllowanceLoading);
   const isExecuteZapLoading = useAppSelector(state => state.zap.stakeLoading);
-  const [zapToken, setZapToken] = useState<string | null>(null);
 
+  const [outputToken, setOutputToken] = useState<boolean | null>(null);
+  const handleSelectOutputToken = (token: string) => {
+    if (token === "gOHM") {
+      setOutputToken(true);
+    } else if (token === "sOHM") {
+      setOutputToken(false);
+    }
+    setZapTokenQuantity(inputQuantity);
+    handleOutputClose();
+  };
+
+  const [zapToken, setZapToken] = useState<string | null>(null);
   const handleSelectZapToken = (token: string) => {
     const uaData = {
       type: "OlyZaps Token Select",
       token: token,
       address: address,
     };
-    segmentUA(uaData);
+    trackSegmentEvent(uaData);
+    trackGAEvent({
+      category: "OlyZaps",
+      action: uaData.type,
+      label: uaData.token ?? "unknown",
+    });
     setZapToken(token);
     handleClose();
   };
@@ -92,8 +104,16 @@ const ZapStakeAction: React.FC = () => {
   };
   const handleClose = () => setModalOpen(false);
 
-  const [inputQuantity, setInputQuantity] = useState<Partial<string | number>>("");
-  const [outputQuantity, setOutputQuantity] = useState<Partial<string | number>>("");
+  const [outputModalOpen, setOutputModalOpen] = useState(false);
+  const handleOutputOpen = () => setOutputModalOpen(true);
+  const handleOutputClose = () => setOutputModalOpen(false);
+
+  const [slippageModalOpen, setSlippageModalOpen] = useState(false);
+  const handleSlippageModalOpen = () => setSlippageModalOpen(true);
+  const handleSlippageModalClose = () => setSlippageModalOpen(false);
+
+  const [inputQuantity, setInputQuantity] = useState("");
+  const [outputQuantity, setOutputQuantity] = useState("");
 
   const olyZapsSwapOfferDisplay = (outputQuantity: Partial<string | number>) => {
     const uaData = {
@@ -101,14 +121,31 @@ const ZapStakeAction: React.FC = () => {
       token: zapToken,
       minOutput: outputQuantity,
     };
-    segmentUA(uaData);
+    trackSegmentEvent(uaData);
+    trackGAEvent({
+      category: "OlyZaps",
+      action: uaData.type ?? "unknown",
+      label: zapToken ?? "unknown",
+    });
   };
 
   const ohmMarketPrice = useAppSelector(state => state.app.marketPrice || 0);
 
   const sOhmBalance = useAppSelector(state => Number(state.account?.balances?.sohm ?? 0.0));
+  const gOhmBalance = useAppSelector(state => Number(state.account?.balances?.gohm ?? 0.0));
+  const currentIndex = Number(useCurrentIndex().data?.div(1e9));
 
-  const exchangeRate = zapToken ? ohmMarketPrice / tokens[zapToken]?.price : 0;
+  const exchangeRate = useMemo(
+    () =>
+      zapToken && outputToken != null
+        ? outputToken
+          ? (ohmMarketPrice * currentIndex) / tokens[zapToken]?.price
+          : ohmMarketPrice / tokens[zapToken]?.price
+        : Number.MAX_VALUE,
+    [zapToken, outputToken],
+  );
+
+  useEffect(() => setZapTokenQuantity(inputQuantity), [exchangeRate]);
 
   const setZapTokenQuantity = (q: ZapQuantity) => {
     if (q == null || q === "") {
@@ -116,9 +153,8 @@ const ZapStakeAction: React.FC = () => {
       setOutputQuantity("");
       return;
     }
-    const amount = Number(q);
-    setInputQuantity(amount);
-    setOutputQuantity(amount / exchangeRate);
+    setInputQuantity(q.toString());
+    setOutputQuantity((+q / exchangeRate).toString());
     if (outputQuantity) {
       olyZapsSwapOfferDisplay(outputQuantity);
     }
@@ -130,9 +166,8 @@ const ZapStakeAction: React.FC = () => {
       setOutputQuantity("");
       return;
     }
-    const amount = Number(q);
-    setOutputQuantity(amount);
-    setInputQuantity(amount * exchangeRate);
+    setOutputQuantity(q.toString());
+    setInputQuantity((+q * exchangeRate).toString());
   };
 
   useEffect(() => setZapTokenQuantity(null), [zapToken]);
@@ -146,13 +181,11 @@ const ZapStakeAction: React.FC = () => {
         .slice(0, 3),
     [tokens],
   );
-  const currentTokenAllowance = useAppSelector(state => zapToken && state.zap.allowances[zapToken]);
+  const currentTokenAllowance = useAppSelector(state => state.zap.allowances[zapToken ?? ""]?.gt(BigNumber.from(0)));
   const checkTokenAllowance = (tokenAddress: string, tokenSymbol: string) => {
     if (tokenAddress && tokenSymbol) {
       if (currentTokenAllowance == null) {
-        dispatch(
-          getZapTokenAllowance({ value: tokenAddress, address, action: tokenSymbol, networkID: networkId, provider }),
-        );
+        dispatch(getZapTokenAllowance({ value: tokenAddress, address, networkID: networkId, provider }));
       } else {
         return currentTokenAllowance;
       }
@@ -190,23 +223,24 @@ const ZapStakeAction: React.FC = () => {
 
   const zapperCredit = (
     <Box display="flex" alignItems="center" justifyContent="center" paddingTop="32px" width="100%">
-      <SvgIcon component={ZapperIcon} viewBox="80 -20 100 80" style={{ width: "200px", height: "40px" }} />
+      <SvgIcon component={ZapperIcon} viewBox="85 0 100 80" style={{ width: "200px", height: "40px" }} />
     </Box>
   );
 
-  const [isCustomSlippage, setUseCustomSlippage] = useState<boolean>(false);
-  const [customSlippage, setCustomSlippage] = useState<string>("0.01");
+  const [customSlippage, setCustomSlippage] = useState<string>("1.0");
 
   const onZap = async () => {
-    if (zapToken) {
+    if (zapToken && outputToken != null) {
       dispatch(
         executeZap({
           address,
           provider,
           slippage: customSlippage,
-          sellAmount: ethers.utils.parseUnits(inputQuantity.toString(), tokens[zapToken]?.decimals),
+          sellAmount: ethers.utils.parseUnits(inputQuantity, tokens[zapToken]?.decimals),
           tokenAddress: tokens[zapToken]?.address,
           networkID: networkId,
+          minimumAmount: trim(+outputQuantity * (1 - +customSlippage / 100), 2),
+          gOHM: outputToken,
         }),
       );
     }
@@ -242,38 +276,27 @@ const ZapStakeAction: React.FC = () => {
                     minWidth: "50px",
                   }}
                 >
-                  {zapToken == null ? (
-                    <ButtonBase onClick={handleOpen}>
-                      <Box flexDirection="row" display="flex" alignItems="center">
-                        <Typography>
-                          <Trans>Select a Token</Trans>
-                        </Typography>
-                        {downIcon}
-                      </Box>
-                    </ButtonBase>
-                  ) : (
-                    <Box flexDirection="column" display="flex">
-                      <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
-                        <ButtonBase onClick={handleOpen}>
-                          <Avatar src={tokens[zapToken]?.tokenImageUrl} style={{ height: "30px", width: "30px" }} />
-                          <Box width="10px" />
-                          <Typography>{tokens[zapToken]?.symbol}</Typography>
-                          {downIcon}
-                        </ButtonBase>
-                      </Box>
-
-                      <Box height="5px" />
-                      <Box flexDirection="row" display="flex" alignItems="center">
-                        <Typography color="textSecondary">{`Balance ${trim(tokens[zapToken]?.balance, 2)}`}</Typography>
+                  <Box flexDirection="column" display="flex">
+                    <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
+                      <ButtonBase onClick={handleOpen}>
+                        <Avatar src={tokens[zapToken]?.tokenImageUrl} style={{ height: "30px", width: "30px" }} />
                         <Box width="10px" />
-                        <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken]?.balance)}>
-                          <Typography>
-                            <b>Max</b>
-                          </Typography>
-                        </ButtonBase>
-                      </Box>
+                        <Typography>{tokens[zapToken]?.symbol}</Typography>
+                        {downIcon}
+                      </ButtonBase>
                     </Box>
-                  )}
+
+                    <Box height="5px" />
+                    <Box flexDirection="row" display="flex" alignItems="center">
+                      <Typography color="textSecondary">{`Balance ${trim(tokens[zapToken]?.balance, 2)}`}</Typography>
+                      <Box width="10px" />
+                      <ButtonBase onClick={() => setZapTokenQuantity(tokens[zapToken]?.balanceRaw)}>
+                        <Typography>
+                          <b>Max</b>
+                        </Typography>
+                      </ButtonBase>
+                    </Box>
+                  </Box>
                 </div>
               </InputAdornment>
             }
@@ -283,7 +306,7 @@ const ZapStakeAction: React.FC = () => {
             <Button variant="contained" className="zap-input" onClick={handleOpen} color="primary">
               <Box flexDirection="row" display="flex" alignItems="center" justifyContent="end" flexGrow={1}>
                 <Typography>
-                  <Trans>Select a Token</Trans>
+                  <Trans>Select Token</Trans>
                 </Typography>
                 {downIcon}
               </Box>
@@ -291,7 +314,7 @@ const ZapStakeAction: React.FC = () => {
           </Box>
         )}
       </FormControl>
-      <Box marginY="12px" minHeight="24px" display="flex" justifyContent="center" alignItems="center" width="100%">
+      <Box minHeight="24px" display="flex" justifyContent="center" alignItems="center" width="100%">
         {downIcon}
       </Box>
 
@@ -300,91 +323,107 @@ const ZapStakeAction: React.FC = () => {
       </Typography>
       <FormControl className="zap-input" variant="outlined" color="primary">
         <InputLabel htmlFor="amount-input"></InputLabel>
-        <OutlinedInput
-          id="zap-amount-output"
-          type="number"
-          placeholder="Enter Amount"
-          className="zap-input"
-          value={outputQuantity}
-          disabled={zapToken == null}
-          onChange={e => setOutputTokenQuantity(e.target.value)}
-          labelWidth={0}
-          endAdornment={
-            <InputAdornment position="end">
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  minWidth: "50px",
-                }}
-              >
-                <Box flexDirection="column" display="flex">
-                  <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
-                    <Avatar
-                      src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x04f2694c8fcee23e8fd0dfea1d4f5bb8c352111f.png"
-                      style={{ height: "36px", width: "36px" }}
-                    />
-                    <Box width="10px" />
-                    <Typography>sOHM</Typography>
+        {outputToken == null ? (
+          <Box className="zap-input">
+            <Button
+              variant="contained"
+              className="zap-input"
+              onClick={handleOutputOpen}
+              color="primary"
+              disabled={zapToken == null}
+            >
+              <Box flexDirection="row" display="flex" alignItems="center" justifyContent="end" flexGrow={1}>
+                <Typography>
+                  <Trans>Select Token</Trans>
+                </Typography>
+                {downIcon}
+              </Box>
+            </Button>
+          </Box>
+        ) : (
+          <OutlinedInput
+            id="zap-amount-output"
+            type="number"
+            placeholder="Enter Amount"
+            className="zap-input"
+            value={outputQuantity}
+            disabled={zapToken == null}
+            onChange={e => setOutputTokenQuantity(e.target.value)}
+            labelWidth={0}
+            endAdornment={
+              <InputAdornment position="end">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    minWidth: "50px",
+                  }}
+                >
+                  <Box flexDirection="column" display="flex">
+                    <Box flexDirection="row" display="flex" alignItems="center" justifyContent="flex-end">
+                      <ButtonBase onClick={handleOutputOpen}>
+                        <Token name={outputToken ? "wsOHM" : "sOHM"} />
+                        <Box width="10px" />
+                        <Typography>{outputToken ? "gOHM" : "sOHM"}</Typography>
+                        {downIcon}
+                      </ButtonBase>
+                    </Box>
+                    <Box flexDirection="row" display="flex" alignItems="center">
+                      <Typography color="textSecondary">{`Balance ${trim(
+                        outputToken ? gOhmBalance : sOhmBalance,
+                        2,
+                      )}`}</Typography>
+                    </Box>
                   </Box>
-                  <Box flexDirection="row" display="flex" alignItems="center">
-                    <Typography color="textSecondary">{`Balance ${trim(sOhmBalance, 2)}`}</Typography>
-                  </Box>
-                </Box>
-              </div>
-            </InputAdornment>
-          }
-        />
+                </div>
+              </InputAdornment>
+            }
+          />
+        )}
       </FormControl>
       <Box
         justifyContent="space-between"
         flexDirection="row"
         display="flex"
         width="100%"
-        marginY="12px"
+        marginY="4px"
         alignItems="center"
       >
         <Typography>
           <Trans>Slippage Tolerance</Trans>
         </Typography>
-        {isCustomSlippage ? (
-          <FormControl variant="outlined" color="primary">
-            <InputLabel htmlFor="amount-input"></InputLabel>
-            <OutlinedInput
-              id="zap-amount-output"
-              type="number"
-              placeholder="Enter Slippage"
-              value={customSlippage}
-              onChange={e => setCustomSlippage(e.target.value)}
-            />
-          </FormControl>
-        ) : (
-          <Box display="flex" alignItems="center">
-            <Typography>1.0%</Typography>
-          </Box>
-        )}
+        <Box display="flex" alignItems="center">
+          <Typography>{customSlippage}%</Typography>
+          <Box width="8px" />
+          <IconButton name="settings" onClick={handleSlippageModalOpen} className="zap-settings-icon">
+            <Icon name="settings" className="zap-settings-icon" />
+          </IconButton>
+        </Box>
       </Box>
-      <Box justifyContent="space-between" flexDirection="row" display="flex" width="100%" marginY="12px">
+      <Box justifyContent="space-between" flexDirection="row" display="flex" width="100%" marginY="8px">
         <Typography>
           <Trans>Exchange Rate</Trans>
         </Typography>
         <Typography>
-          {zapToken == null ? "nil" : `${trim(exchangeRate, 4)} ${tokens[zapToken]?.symbol}`} = 1 sOHM
+          {zapToken == null || outputToken == null ? "nil" : `${trim(exchangeRate, 4)} ${tokens[zapToken]?.symbol}`} = 1{" "}
+          {outputToken ? "gOHM" : "sOHM"}
         </Typography>
       </Box>
       <Box
         justifyContent="space-between"
         flexDirection="row"
         display="flex"
-        marginTop="12px"
+        marginTop="8px"
         marginBottom="36px"
         width="100%"
       >
         <Typography>
           <Trans>Minimum You Get</Trans>
         </Typography>
-        <Typography>{trim(Number(outputQuantity) * 0.98, 2)} sOHM</Typography>
+        <Typography>
+          {trim(Number(outputQuantity) * (1 - +customSlippage / 100), 2)} {outputToken ? "gOHM" : "sOHM"}
+        </Typography>
       </Box>
       {initialTokenAllowance ? (
         <Button
@@ -392,15 +431,24 @@ const ZapStakeAction: React.FC = () => {
           className="zap-stake-button"
           variant="contained"
           color="primary"
-          disabled={zapToken == null || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS}
+          disabled={
+            zapToken == null ||
+            outputToken == null ||
+            isExecuteZapLoading ||
+            outputQuantity === "" ||
+            DISABLE_ZAPS ||
+            (+outputQuantity < 0.5 && !outputToken)
+          }
           onClick={onZap}
         >
           {isExecuteZapLoading ? (
             <Trans>Pending...</Trans>
           ) : outputQuantity === "" ? (
             <Trans>Enter Amount</Trans>
-          ) : (
+          ) : +outputQuantity >= 0.5 || outputToken ? (
             <Trans>Zap-Stake</Trans>
+          ) : (
+            <Trans>Minimum Output Amount: 0.5</Trans>
           )}
         </Button>
       ) : (
@@ -412,7 +460,12 @@ const ZapStakeAction: React.FC = () => {
               variant="contained"
               color="primary"
               disabled={
-                zapToken == null || isTokensLoading || isAllowanceTxSuccess || isChangeAllowanceLoading || DISABLE_ZAPS
+                zapToken == null ||
+                outputToken == null ||
+                isTokensLoading ||
+                isAllowanceTxSuccess ||
+                isChangeAllowanceLoading ||
+                DISABLE_ZAPS
               }
               onClick={onSeekApproval}
               classes={isAllowanceTxSuccess ? { disabled: classes.ApprovedButton } : {}}
@@ -443,16 +496,25 @@ const ZapStakeAction: React.FC = () => {
               className="zap-stake-button"
               variant="contained"
               color="primary"
-              disabled={!currentTokenAllowance || isExecuteZapLoading || outputQuantity === "" || DISABLE_ZAPS}
-              // disabled={isPendingTxn(pendingTransactions, approveTxnName)}
+              disabled={
+                !currentTokenAllowance ||
+                isExecuteZapLoading ||
+                outputQuantity === "" ||
+                (+outputQuantity < 0.5 && !outputToken) ||
+                DISABLE_ZAPS
+              }
               onClick={onZap}
             >
-              {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
               <Box display="flex" flexDirection="row" alignItems="center">
                 <SvgIcon component={SecondStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
-
                 <Typography>
-                  {outputQuantity === "" ? <Trans>Enter Amount</Trans> : <Trans>Zap-Stake</Trans>}
+                  {outputQuantity === "" ? (
+                    <Trans>Enter Amount</Trans>
+                  ) : +outputQuantity >= 0.5 || outputToken ? (
+                    <Trans>Zap-Stake</Trans>
+                  ) : (
+                    <Trans>Minimum Output Amount: 0.5</Trans>
+                  )}
                 </Typography>
               </Box>
             </Button>
@@ -460,60 +522,13 @@ const ZapStakeAction: React.FC = () => {
         </Grid>
       )}
       {zapperCredit}
-      <Dialog onClose={handleClose} open={modalOpen} keepMounted fullWidth maxWidth="xs" id="zap-select-token-modal">
-        <DialogTitle>
-          <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
-            <Button onClick={handleClose}>
-              <SvgIcon component={XIcon} color="primary" />
-            </Button>
-            <Box paddingRight={6}>
-              <Typography id="migration-modal-title" variant="h6" component="h2">
-                <Trans>Select Zap Token</Trans>
-              </Typography>
-            </Box>
-            <Box />
-          </Box>
-        </DialogTitle>
-        <Box paddingX="36px" paddingBottom="36px" paddingTop="12px">
-          {isTokensLoading ? (
-            <Box display="flex" justifyItems="center" flexDirection="column" alignItems="center">
-              <CircularProgress />
-              <Box height={24} />
-              <Typography>
-                <Trans>Dialing Zapper...</Trans>
-              </Typography>
-            </Box>
-          ) : Object.entries(tokens).length == 0 ? (
-            <Box display="flex" justifyContent="center">
-              <Typography>
-                <Trans>Ser, you have no assets...</Trans>
-              </Typography>
-            </Box>
-          ) : (
-            <Paper style={{ maxHeight: 300, overflow: "auto", borderRadius: 10 }}>
-              <List>
-                {Object.entries(tokens)
-                  .filter(token => !token[1].hide)
-                  .sort((tokenA, tokenB) => tokenB[1].balanceUSD - tokenA[1].balanceUSD)
-                  .map(token => (
-                    <ListItem button onClick={() => handleSelectZapToken(token[0])} key={token[1].symbol}>
-                      <ListItemAvatar>
-                        <Avatar src={token[1].tokenImageUrl} />
-                      </ListItemAvatar>
-                      <ListItemText primary={token[1].symbol} />
-                      <Box flexGrow={10} />
-                      <ListItemText
-                        primary={`$${trim(token[1].balanceUSD, 2)}`}
-                        secondary={trim(token[1].balance, 4)}
-                      />
-                    </ListItem>
-                  ))}
-              </List>
-            </Paper>
-          )}
-          {zapperCredit}
-        </Box>
-      </Dialog>
+      {SelectTokenModal(handleClose, modalOpen, isTokensLoading, handleSelectZapToken, zapperCredit, {
+        regularTokens: tokens,
+      })}
+      {SelectTokenModal(handleOutputClose, outputModalOpen, false, handleSelectOutputToken, zapperCredit, {
+        output: true,
+      })}
+      {SlippageModal(handleSlippageModalClose, slippageModalOpen, customSlippage, setCustomSlippage, zapperCredit)}
     </>
   );
 };

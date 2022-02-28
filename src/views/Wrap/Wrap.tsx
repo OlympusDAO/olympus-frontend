@@ -4,7 +4,7 @@ import { t } from "@lingui/macro";
 import { Box, Button, Divider, FormControl, Grid, Link, MenuItem, Select, Typography, Zoom } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, Icon, InputWrapper, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
-import { useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import { useAppSelector } from "src/hooks";
@@ -17,7 +17,7 @@ import { switchNetwork } from "../../helpers/NetworkHelper";
 import { changeApproval, changeWrapV2 } from "../../slices/WrapThunk";
 import WrapCrossChain from "./WrapCrossChain";
 
-const Wrap: React.FC = () => {
+const Wrap: FC = () => {
   const dispatch = useDispatch();
   const { provider, address, connect, networkId } = useWeb3Context();
 

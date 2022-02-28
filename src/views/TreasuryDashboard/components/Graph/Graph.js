@@ -2,15 +2,15 @@ import { t } from "@lingui/macro";
 import { useTheme } from "@material-ui/core/styles";
 import Chart from "src/components/Chart/Chart";
 import { formatCurrency, trim } from "src/helpers";
+import { useProtocolMetrics } from "src/hooks/useProtocolMetrics";
 
-import { useTreasuryMetrics } from "../../hooks/useTreasuryMetrics";
 import { bulletpoints, itemType, tooltipInfoMessages, tooltipItems } from "../../treasuryData";
 
 export const Graph = ({ children }) => <>{children}</>;
 
 export const TotalValueDepositedGraph = () => {
   const theme = useTheme();
-  const { data } = useTreasuryMetrics({ refetchOnMount: false });
+  const { data } = useProtocolMetrics();
 
   return (
     <Chart
@@ -31,7 +31,7 @@ export const TotalValueDepositedGraph = () => {
 
 export const MarketValueGraph = () => {
   const theme = useTheme();
-  const { data } = useTreasuryMetrics({ refetchOnMount: false });
+  const { data } = useProtocolMetrics();
 
   return (
     <Chart
@@ -68,7 +68,7 @@ export const MarketValueGraph = () => {
 
 export const RiskFreeValueGraph = () => {
   const theme = useTheme();
-  const { data } = useTreasuryMetrics({ refetchOnMount: false });
+  const { data } = useProtocolMetrics();
 
   return (
     <Chart
@@ -103,7 +103,7 @@ export const RiskFreeValueGraph = () => {
 
 export const ProtocolOwnedLiquidityGraph = () => {
   const theme = useTheme();
-  const { data } = useTreasuryMetrics({ refetchOnMount: false });
+  const { data } = useProtocolMetrics();
 
   return (
     <Chart
@@ -126,7 +126,7 @@ export const ProtocolOwnedLiquidityGraph = () => {
 
 export const OHMStakedGraph = () => {
   const theme = useTheme();
-  const { data } = useTreasuryMetrics({ refetchOnMount: false });
+  const { data } = useProtocolMetrics();
 
   const staked =
     data &&
@@ -156,7 +156,7 @@ export const OHMStakedGraph = () => {
 
 export const RunwayAvailableGraph = () => {
   const theme = useTheme();
-  const { data } = useTreasuryMetrics({ refetchOnMount: false });
+  const { data } = useProtocolMetrics();
 
   const runway = data && data.filter(metric => metric.runway10k > 5);
 

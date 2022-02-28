@@ -1,16 +1,17 @@
 import { t, Trans } from "@lingui/macro";
-import { Button, Link, Modal, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { FormControl } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useSelector } from "react-redux";
+import { shorten } from "src/helpers";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { IAccountSlice } from "src/slices/AccountSlice";
 
-import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
-import { ArrowGraphic, RedeemGraphic, VaultGraphic } from "../../components/EducationCard";
+import { ArrowGraphic } from "../../components/EducationCard";
 import { txnButtonText } from "../../slices/PendingTxnsSlice";
-import { IPendingTxn, isPendingTxn } from "../../slices/PendingTxnsSlice";
+import { isPendingTxn } from "../../slices/PendingTxnsSlice";
+import { DonationInfoState } from "./Interfaces";
 
 export interface RedeemSubmitCallback {
   (): void;
@@ -28,21 +29,9 @@ type RedeemModalProps = {
   redeemableBalance: BigNumber;
 };
 
-// TODO consider shifting this into interfaces.ts
-type State = {
-  account: IAccountSlice;
-  pendingTransactions: IPendingTxn[];
-};
-
-export function RedeemYieldModal({
-  isModalOpen,
-  callbackFunc,
-  cancelFunc,
-  deposit,
-  redeemableBalance,
-}: RedeemModalProps) {
+export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeemableBalance }: RedeemModalProps) {
   const { address } = useWeb3Context();
-  const pendingTransactions = useSelector((state: State) => {
+  const pendingTransactions = useSelector((state: DonationInfoState) => {
     return state.pendingTransactions;
   });
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
@@ -61,39 +50,47 @@ export function RedeemYieldModal({
     callbackFunc();
   };
 
-  const handleModalInsideClick = (e: any): void => {
-    // When the user clicks within the modal window, we do not want to pass the event up the tree
-    e.stopPropagation();
-  };
+  const smallClass = isSmallScreen ? "smaller" : "";
 
   return (
-    /* modal-container displays a background behind the ohm-card container, which means that if modal-container receives a click, we can close the modal */
-    <Modal className="modal-container" open={isModalOpen} onClose={cancelFunc} onClick={cancelFunc} hideBackdrop={true}>
-      <Paper className={`ohm-card ohm-modal ${isSmallScreen && "smaller"}`} onClick={handleModalInsideClick}>
+    <Modal
+      className="modal-container redeem-container"
+      open={isModalOpen}
+      closePosition="right"
+      onClose={cancelFunc}
+      hideBackdrop={true}
+    >
+      <div className={`redeem-modal ${smallClass}`}>
         <div className="yield-header">
-          <Link onClick={() => cancelFunc()}>
-            <SvgIcon color="primary" component={XIcon} />
-          </Link>
           <Typography variant="h4">
             <strong>
-              <Trans>Redeem Yield?</Trans>
+              <Trans>Redeem Yield</Trans>
             </strong>
           </Typography>
         </div>
-        <div className={`give-education-graphics ${isSmallScreen && "smaller"}`}>
-          <VaultGraphic quantity={deposit.toFixed(2)} verb={t`in deposits remains`} />
-          {!isSmallScreen && <ArrowGraphic />}
-          <RedeemGraphic quantity={redeemableBalance.toFixed(2)} />
-        </div>
-        <Typography variant="body1" align="center">
-          <Trans>Any sOHM directed towards you will continue to rebase and earn additional yield on your behalf.</Trans>
-        </Typography>
+        <Box className="redeemable-details">
+          <div className={`redeem-info ${smallClass}`}>
+            <div className="redeemable-yield-text">
+              <Typography variant="body1" className="subtext">
+                Redeemable Yield
+              </Typography>
+              <Typography variant="h6">{redeemableBalance.toFixed(2)} sOHM</Typography>
+            </div>
+            {!isSmallScreen && <ArrowGraphic />}
+            <div className="wallet-text">
+              <Typography variant="body1" className="subtext">
+                My Wallet Address
+              </Typography>
+              <Typography variant="h6">{shorten(address)}</Typography>
+            </div>
+          </div>
+        </Box>
         <FormControl className="ohm-modal-submit">
-          <Button variant="contained" color="primary" disabled={!canSubmit()} onClick={() => handleSubmit()}>
-            {txnButtonText(pendingTransactions, "redeeming", t`Redeem`)}
-          </Button>
+          <PrimaryButton disabled={!canSubmit()} onClick={() => handleSubmit()}>
+            {txnButtonText(pendingTransactions, "redeeming", t`Confirm ${redeemableBalance.toFixed(2)} sOHM`)}
+          </PrimaryButton>
         </FormControl>
-      </Paper>
+      </div>
     </Modal>
   );
 }

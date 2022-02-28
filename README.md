@@ -1,14 +1,16 @@
-[![Lighthouse PWA Test](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/ivelin/olympus-frontend/actions/workflows/lighthouse.yml)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+[![Lighthouse PWA Test](https://github.com/OlympusDAO/olympus-frontend/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/OlympusDAO/olympus-frontend/actions/workflows/lighthouse.yml)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![OHM Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/gGZUMVDuhQ)
+![Branches Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/appleseed-iii/d630a3bd1cf13bb3dc3c1925df28efcd/raw/olympus-frontend__coverage__branches__heads_develop.json)
+![Lines Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/appleseed-iii/d630a3bd1cf13bb3dc3c1925df28efcd/raw/olympus-frontend__coverage__lines__heads_develop.json)
+![Statements Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/appleseed-iii/d630a3bd1cf13bb3dc3c1925df28efcd/raw/olympus-frontend__coverage__statements__heads_develop.json)
+![Functions Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/appleseed-iii/d630a3bd1cf13bb3dc3c1925df28efcd/raw/olympus-frontend__coverage__functions__heads_develop.json)
 
 # [Ω Olympus Frontend](https://app.olympusdao.finance/)
 
 This is the front-end repo for Olympus that allows users to be part of the future of _Meta Greece_.
 
 We are moving at web3 speed and we are looking for talented contributors to boost this rocket. Take a look at our [CONTRIBUTING GUIDE](CONTRIBUTING.md) if you are considering joining a world class DAO.
-
-**_ Note We're currently in the process of switching to TypeScript. Please read this guide on how to use TypeScript for this repository. <https://github.com/OlympusDAO/olympus-frontend/wiki/TypeScript-Refactor-General-Guidelines> _**
 
 ## 🔧 Setting up Local Development
 
@@ -67,6 +69,12 @@ Coverage thresholds are enforced via CI checks. If a new PR introduces regressio
 
 For integration testing automation that runs browser and remote API code as well as our own code, see the End-to-end (E2E) testing section below.
 
+### Mocking Remote API Calls
+
+Unit tests should minimize dependency on remote API calls. Remote API calls slow down test execution and they also occasionally error, which may fail tests for reasons outside the app code being tested. Live API calls should be tested in End-to-end/Integration tests.
+
+[Here is an example unit test](src/helpers/index.unit.test.js) that conditionally mocks API calls.
+
 ### Generative Testing
 
 We use [`fast-check`](https://github.com/dubzzz/fast-check) for generative testing which provides property-based coverage for ranges of input values.
@@ -77,6 +85,16 @@ We use [`fast-check`](https://github.com/dubzzz/fast-check) for generative testi
 We use [Jest Snapshot tests](https://jestjs.io/docs/snapshot-testing) to make sure the UI does not change unexpectedly.
 When you make changes to the UI (intentionally), you likely will have to update the Snapshots. You can do so by running:
 `yarn snapshot`.
+
+[Here is an example](src/views/Stake/__tests__/Stake.unit.test.tsx) snapshot test and [here is the correspoding recorded snapshot](https://github.com/OlympusDAO/olympus-frontend/blob/develop/src/views/Stake/__tests__/__snapshots__/Stake.unit.test.tsx.snap). Keep in mind that for snapshot tests to be meaningful, they have to pre-populate components with variety of data sets (realistic, edge case, invalid).
+
+[Here is a good blog post](https://dev.to/tobiastimm/property-based-testing-with-react-and-fast-check-3dce) about testing React components with generative data sets.
+
+### React Component Testing
+
+We use [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) to test behavior of UI components.
+Here is an [example component test](src/components/Migration/__tests__/MigrationModal.unit.test.jsx).
+Here is a useful [cheat sheet](https://testing-library.com/docs/react-testing-library/cheatsheet).
 
 ### Troubleshooting
 
@@ -96,11 +114,12 @@ To run the tests:
 ### sOHM Faucet
 
 - [0x800B3d87b77361F0D1d903246cA1F51b5acb43c9](https://rinkeby.etherscan.io/address/0x800B3d87b77361F0D1d903246cA1F51b5acb43c9#writeContract)
-- to retrieve test sOHM click `Connect to Web3` and use function #3: `dripSOHM`.
+- to retrieve test sOHMv1 click `Connect to Web3` and use function #3: `dripSOHM`.
 - After connecting to web3, click `Write` to execute and 10 sOHM will automatically be transferred to your connected wallet.
 
-Note: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
-Note: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sOHM, OHM, gOHM), you will first need to use the migration steps in the UI to convert from sOHM v1 to sOHM v2.
+_Note_: The faucet is limited to one transfer per wallet every 6500 blocks (~1 day)
+
+_Note_: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sOHM, OHM, gOHM), you will first need to use the migration steps in the UI to convert from sOHM v1 to sOHM v2.
 
 ### wETH Faucet
 
@@ -121,6 +140,16 @@ Note: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sOHM
 
 1. [avax faucet](https://faucet.avax-test.network/)
 2. [explorer](https://explorer.avax-test.network/)
+
+## Rinkeby V2-Bond Creation
+
+1. `create` [here](https://rinkeby.etherscan.io/address/0x9810C5c97C57Ef3F23d9ee06813eF7FD51E13042#writeContract)
+2. _name: `DAI` <- name is not used in the frontend / does not matter
+3. _quoteToken: `0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C` <- this is DAI, make it whatever asset you want to bond
+4. _market: `[10000000000000000000000000,60000000000,1000000]` <- [capacity (in OHM or quote), initial price (9 decimals), debt buffer (3 decimals)]
+5. _booleans: `[true,true]` <- [capacity in quote, fixed term]
+6. _terms: `[100,1677008640]` <- [vesting length (if fixed term) or vested timestamp, conclusion timestamp], grab a timestamp [here](https://www.unixtimestamp.com/index.php)
+7. _intervals: `[14400,86400]` <- [deposit interval, tune interval]
 
 ## Gitpod Continuous Dev Environment (optional)
 
@@ -205,11 +234,17 @@ In order to mark text for translation you can use:
 - The t function in javascript code and jsx templates. `` t`Translate me` ``
   You can also add comments for the translators. eg.
 
-```
+```JSX
 t({
  id: "do_bond",
  comment: "The action of bonding (verb)",
 })
+```
+
+- Where a variable/javascript function is required within a block of translatable text, a different format is used:
+
+```JSX
+{`${t`Your current Staked Balance is `} ${getSOhmBalance().toFixed(2)} sOHM`}
 ```
 
 When new texts are created or existing texts are modified in the application please leave a message in the OlympusDao app-translation channel for the translators to translate them.

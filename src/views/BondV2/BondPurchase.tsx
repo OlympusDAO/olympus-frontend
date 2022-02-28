@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, FormControl, Slide, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { DataRow, InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
+import { DataRow, Input, PrimaryButton } from "@olympusdao/component-library";
 import { ethers } from "ethers";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -192,40 +192,36 @@ function BondPurchase({
             balance={`${trim(balanceNumber, 4)} ${bond.displayName}`}
             isLoading={isBondLoading}
           />
-
-          <Box display="flex" flexDirection="row" justifyContent="space-between">
-            <Box display="flex" flexDirection="row">
-              <Typography>
-                <Trans>You Will Get</Trans>
-              </Typography>
-              <InfoTooltip message="Actual sOHM amount you receive will be higher at the end of the term due to rebase accrual."></InfoTooltip>
-            </Box>
-            <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? (
-                <Skeleton width="100px" />
-              ) : (
-                `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` +
-                `sOHM (≈${trim(+quantity / bond.priceToken / +currentIndex, 4) || "0"} gOHM)`
-              )}
-            </Typography>
-          </Box>
+          <DataRow
+            title={t`You Will Get`}
+            balance={
+              `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` +
+              `sOHM (≈${trim(+quantity / bond.priceToken / +currentIndex, 4) || "0"} gOHM)`
+            }
+            tooltip={t`The total amount of payout asset you will recieve from this bond purhcase. (sOHM amount will be higher due to rebasing)`}
+            isLoading={isBondLoading}
+          />
           <DataRow
             title={t`Max You Can Buy`}
             balance={`${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
               trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
             } ${bond.displayName})`}
             isLoading={isBondLoading}
+            tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
           />
-          <Box display="flex" flexDirection="row" justifyContent="space-between">
-            <Typography>
-              <Trans>ROI</Trans>
-            </Typography>
-            <Typography>
-              {isBondLoading ? <Skeleton width="100px" /> : <DisplayBondDiscount key={bond.displayName} bond={bond} />}
-            </Typography>
-          </Box>
+          <DataRow
+            title={t`Discount`}
+            balance={<DisplayBondDiscount key={bond.displayName} bond={bond} />}
+            tooltip={t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between OHM's market value and the bond's price.`}
+            isLoading={isBondLoading}
+          />
 
-          <DataRow title={t`Duration`} balance={bond.duration} isLoading={isBondLoading} />
+          <DataRow
+            title={t`Duration`}
+            balance={bond.duration}
+            isLoading={isBondLoading}
+            tooltip={t`The duration of the Bond whereby the bond can be claimed in it’s entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
+          />
           {recipientAddress !== address && (
             <DataRow title={t`Recipient`} balance={shorten(recipientAddress)} isLoading={isBondLoading} />
           )}

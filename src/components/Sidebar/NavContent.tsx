@@ -41,30 +41,11 @@ type CustomBond = Bond & Partial<IBondDetails>;
 
 const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
   const { networkId, address, provider } = useWeb3Context();
-  const [isMounted, setIsMounted] = useState<boolean>(false);
   const { bonds } = useBonds(networkId);
   const location = useLocation();
   const dispatch = useDispatch();
 
   const bondsV2 = useAppSelector(state => state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]));
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (isMounted && handleDrawerToggle) {
-      handleDrawerToggle();
-    }
-  }, [location]);
-
-  useEffect(() => {
-    const interval = setTimeout(() => {
-      dispatch(getAllBonds({ address, networkID: networkId, provider }));
-      dispatch(getUserNotes({ address, networkID: networkId, provider }));
-    }, 60000);
-    return () => clearTimeout(interval);
-  });
 
   const sortedBonds = bondsV2
     .filter(bond => bond.soldOut === false)
@@ -105,7 +86,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                           }
                         >
                           <Typography variant="body2">
-                            <Trans>Highest ROI</Trans>
+                            <Trans>Highest Discount</Trans>
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -134,7 +115,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
 
                   {/* NOTE (appleseed-olyzaps): OlyZaps disabled until v2 contracts */}
-                  {/*<NavItem to="/zap" icon="zap" label={t`Zap`} /> */}
+                  <NavItem to="/zap" icon="zap" label={t`Zap`} />
 
                   {EnvHelper.isGiveEnabled(location.search) && (
                     <NavItem to="/give" icon="give" label={t`Give`} chip={t`New`} />

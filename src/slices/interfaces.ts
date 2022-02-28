@@ -62,6 +62,10 @@ export interface IBaseAddressAsyncThunk extends IBaseAsyncThunk {
   readonly address: string;
 }
 
+export interface IBaseAddressRecipientAsyncThunk extends IBaseAddressAsyncThunk {
+  readonly recipient: string;
+}
+
 export interface IMigrateAsyncThunk extends IBaseAddressAsyncThunk {
   readonly gOHM: boolean;
 }
@@ -88,12 +92,19 @@ export interface IActionValueRecipientAsyncThunk extends IActionValueAsyncThunk 
   readonly recipient: string;
   readonly version2: boolean;
   readonly rebase: boolean;
+  readonly eventSource: string;
+}
+
+export interface IRedeemAsyncThunk extends IBaseAddressAsyncThunk {
+  readonly eventSource: string;
 }
 
 export interface IZapAsyncThunk extends IBaseAddressAsyncThunk {
   readonly tokenAddress: string;
   readonly sellAmount: BigNumber;
   readonly slippage: string;
+  readonly minimumAmount: string;
+  readonly gOHM: boolean;
 }
 
 // Account Slice
