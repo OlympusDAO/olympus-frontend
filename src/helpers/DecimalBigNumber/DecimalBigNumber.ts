@@ -11,7 +11,9 @@ export class DecimalBigNumber {
     this._decimals = decimals;
 
     if (typeof number === "string") {
-      const formatted = this._omitIrrelevantDecimals(number, decimals);
+      const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
+
+      const formatted = this._omitIrrelevantDecimals(_number, decimals);
       this._number = parseUnits(formatted, decimals);
       return;
     }
