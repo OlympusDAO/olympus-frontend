@@ -495,7 +495,9 @@ function Chart({
             >
               {headerText}
             </Typography>
-            <InfoTooltip message={infoTooltipMessage} />
+            <Typography variant={"h6"} color="textSecondary">
+              <InfoTooltip message={infoTooltipMessage} />
+            </Typography>
           </Box>
           {/* could make this svgbutton */}
 
