@@ -3,7 +3,7 @@ import "react-step-progress-bar/styles.css";
 import "./GrantCard.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Container, Grid, Link, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Container, Grid, Link, SvgIcon, Typography, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
@@ -92,6 +92,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   });
 
   const theme = useTheme();
+  const isBreakpointLarge = useMediaQuery(theme.breakpoints.up("lg"));
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
@@ -166,18 +167,6 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
    */
   const getLatestMilestoneCompleted = (): number => {
     return !latestMilestoneCompleted ? 0 : latestMilestoneCompleted;
-  };
-
-  const getLatestMilestoneCompletedSafe = (): number => {
-    if (!milestones) return 0;
-
-    return getLatestMilestoneCompleted() >= milestones.length ? milestones.length - 1 : getLatestMilestoneCompleted();
-  };
-
-  const getLatestMilestoneAmount = (): number => {
-    if (!milestones) return 0;
-
-    return milestones[getLatestMilestoneCompletedSafe()].amount;
   };
 
   const renderMilestoneCompletion = (): JSX.Element => {
@@ -507,17 +496,35 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       <>
         <Box style={{ width: "100%", borderRadius: "10px" }}>
           <Grid container key={title} spacing={3}>
-            <Grid item xs={12}>
-              <Link href={`#/give/grants/${grant.slug}`} onClick={() => handleGrantDetailsButtonClick("Title Link")}>
-                <Typography variant="h4">
-                  <strong>{getTitle()}</strong>
-                </Typography>
-              </Link>
-            </Grid>
-            <Grid item xs={12} md={12} lg={4}>
+            {!isBreakpointLarge ? (
+              <Grid item xs={12}>
+                <Link href={`#/give/grants/${grant.slug}`} onClick={() => handleGrantDetailsButtonClick("Title Link")}>
+                  <Typography variant="h4">
+                    <strong>{getTitle()}</strong>
+                  </Typography>
+                </Link>
+              </Grid>
+            ) : (
+              <></>
+            )}
+            <Grid item xs={12} md={5} lg={4}>
               {getProjectImage()}
             </Grid>
             <Grid item container xs alignContent="space-between">
+              {isBreakpointLarge ? (
+                <Grid item xs={12}>
+                  <Link
+                    href={`#/give/grants/${grant.slug}`}
+                    onClick={() => handleGrantDetailsButtonClick("Title Link")}
+                  >
+                    <Typography variant="h4">
+                      <strong>{getTitle()}</strong>
+                    </Typography>
+                  </Link>
+                </Grid>
+              ) : (
+                <></>
+              )}
               <Grid item xs={12}>
                 <Typography variant="body1" style={{ lineHeight: "20px" }}>
                   <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
