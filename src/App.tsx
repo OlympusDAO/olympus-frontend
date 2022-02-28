@@ -332,11 +332,13 @@ function App() {
               oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
             <Switch>
-              <Route exact path="/dashboard">
+              {/* (keith): leave this route here temporarily to 
+              be able to reference the old dashboard */}
+              <Route exact path="/v1-dashboard">
                 <TreasuryDashboard />
               </Route>
 
-              <Route exact path="/v2-dashboard">
+              <Route exact path="/dashboard">
                 <V2TreasuryDashboard />
               </Route>
 
