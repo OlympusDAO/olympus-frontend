@@ -67,8 +67,12 @@ export const BackingPerOHM: React.FC<AbstractedMetricProps> = props => {
 
   const _props: MetricProps = {
     ...props,
-    label: t`Backing per OHM`,
-    tooltip: t`The number on the left represents the backing including all assets in the treasury. The number on the right represents the backing without the LP positions.`,
+    label: t`Backing per OHM` + "\n\n" + t`(total / liquid)`,
+    tooltip:
+      t`Total Treasury MV backing is the total USD budget the Treasury has per OHM to spend on all market operations (LP, swaps, revenue generation, bonds and inverse bonds, etc).` +
+      "\n\n" +
+      t`Liquid Treasury Backing does not include LP OHM, locked assets, or reserves used for RFV backing. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc)
+    `,
   };
 
   if (treasuryValue && circSupply && treasuryBacking)
