@@ -167,6 +167,8 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                           class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
                         >
                           Backing per OHM
+
+(total / liquid)
                           <div
                             class="MuiBox-root MuiBox-root-14"
                             style="font-size: 16px;"
