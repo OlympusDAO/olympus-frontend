@@ -1,5 +1,4 @@
 import { Typography } from "@material-ui/core";
-import { convertGohmToOhm, convertOhmToGohm } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 
@@ -8,17 +7,13 @@ export const GOHMConversion: React.FC<{ amount: string; action: "STAKE" | "UNSTA
 
   if (!currentIndex || !props.amount || isNaN(Number(props.amount))) return null;
 
-  // We only ever care about the first 9 decimals to prevent underflow errors
-  const [integer, decimals] = props.amount.split(".");
-  const _amount = decimals ? `${integer}.${decimals.substring(0, 9)}` : integer;
-
-  const parsedAmount = new DecimalBigNumber(_amount, props.action === "STAKE" ? 9 : 18);
+  const _amount = new DecimalBigNumber(props.amount, props.action === "STAKE" ? 9 : 18);
 
   return (
     <Typography variant="body2">
       {props.action === "STAKE"
-        ? `Stake ${props.amount} OHM → ${convertOhmToGohm(parsedAmount, currentIndex).toAccurateString()} gOHM`
-        : `Unstake ${props.amount} gOHM → ${convertGohmToOhm(parsedAmount, currentIndex).toFormattedString(9)} OHM`}
+        ? `Stake ${_amount.toAccurateString()} OHM → ${_amount.div(currentIndex, 18).toAccurateString()} gOHM`
+        : `Unstake ${_amount.toAccurateString()} gOHM → ${_amount.mul(currentIndex, 9).toAccurateString()} OHM`}
     </Typography>
   );
 };

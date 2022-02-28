@@ -3,7 +3,7 @@ import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core
 import { ExpandMore } from "@material-ui/icons";
 import { DataRow } from "@olympusdao/component-library";
 import { NetworkId } from "src/constants";
-import { convertGohmToOhm, nonNullable } from "src/helpers";
+import { nonNullable } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import {
   useFuseBalance,
@@ -22,7 +22,7 @@ const DECIMAL_PLACES_SHOWN = 4;
 const hasVisibleBalance = (balance?: DecimalBigNumber) =>
   balance && balance.toApproxNumber() > 9 / Math.pow(10, DECIMAL_PLACES_SHOWN + 1);
 
-const formatBalance = (balance?: DecimalBigNumber) => balance && balance.toFormattedString(DECIMAL_PLACES_SHOWN);
+const formatBalance = (balance?: DecimalBigNumber) => balance?.toFormattedString(DECIMAL_PLACES_SHOWN);
 
 export const StakeBalances = () => {
   const networks = useTestableNetworks();
@@ -60,8 +60,7 @@ export const StakeBalances = () => {
     .filter(nonNullable)
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
-  const totalStakedBalance =
-    currentIndex && formatBalance(convertGohmToOhm(totalGohmBalance, currentIndex).add(totalSohmBalance));
+  const totalStakedBalance = currentIndex && formatBalance(totalGohmBalance.mul(currentIndex, 9).add(totalSohmBalance));
 
   const allBalancesLoaded = sohmTokens.every(Boolean) && gohmTokens.every(Boolean);
 

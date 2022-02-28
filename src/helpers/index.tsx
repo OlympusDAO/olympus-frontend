@@ -303,7 +303,7 @@ export const convertGohmToOhm = (amount: DecimalBigNumber, index: DecimalBigNumb
     .div(10 ** 9)
     .mul(index.toBigNumber());
 
-  return new DecimalBigNumber(ohm, 18);
+  return new DecimalBigNumber(ohm, 9);
 };
 
 /**

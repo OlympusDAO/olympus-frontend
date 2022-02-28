@@ -24,14 +24,13 @@ export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
     async amount => {
       if (!amount || isNaN(Number(amount))) throw new Error(t`Please enter a number`);
 
-      const parsedAmount = new DecimalBigNumber(amount, fromToken === "gOHM" ? 18 : 9).toBigNumber();
+      const _amount = new DecimalBigNumber(amount, fromToken === "gOHM" ? 18 : 9);
 
-      if (!parsedAmount.gt(0)) throw new Error(t`Please enter a number greater than 0`);
+      if (!_amount.gt(new DecimalBigNumber("0", 9))) throw new Error(t`Please enter a number greater than 0`);
 
       if (!balance) throw new Error(t`Please refresh your page and try again`);
 
-      if (parsedAmount.gt(balance.toBigNumber()))
-        throw new Error(t`You cannot unstake more than your` + ` ${fromToken} ` + t`balance`);
+      if (_amount.gt(balance)) throw new Error(t`You cannot unstake more than your` + ` ${fromToken} ` + t`balance`);
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network to unstake your` + ` ${fromToken}`);
 
@@ -39,7 +38,7 @@ export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
 
       const shouldRebase = fromToken === "sOHM";
 
-      const transaction = await contract.unstake(address, parsedAmount, true, shouldRebase);
+      const transaction = await contract.unstake(address, _amount.toBigNumber(), true, shouldRebase);
       return transaction.wait();
     },
     {

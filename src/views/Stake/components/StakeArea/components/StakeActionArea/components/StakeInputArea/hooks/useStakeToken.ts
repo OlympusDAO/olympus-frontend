@@ -22,13 +22,13 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
     async amount => {
       if (!amount || isNaN(Number(amount))) throw new Error(t`Please enter a number`);
 
-      const parsedAmount = new DecimalBigNumber(amount, 9).toBigNumber();
+      const _amount = new DecimalBigNumber(amount, 9);
 
-      if (!parsedAmount.gt(0)) throw new Error(t`Please enter a number greater than 0`);
+      if (!_amount.gt(new DecimalBigNumber("0", 9))) throw new Error(t`Please enter a number greater than 0`);
 
       if (!balance) throw new Error(t`Please refresh your page and try again`);
 
-      if (parsedAmount.gt(balance.toBigNumber())) throw new Error(t`You cannot stake more than your OHM balance`);
+      if (_amount.gt(balance)) throw new Error(t`You cannot stake more than your OHM balance`);
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network to stake your OHM`);
 
@@ -36,7 +36,7 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
 
       const shouldRebase = toToken === "sOHM";
 
-      const transaction = await contract.stake(address, parsedAmount, shouldRebase, true);
+      const transaction = await contract.stake(address, _amount.toBigNumber(), shouldRebase, true);
       return transaction.wait();
     },
     {
