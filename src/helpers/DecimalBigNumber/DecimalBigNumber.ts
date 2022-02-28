@@ -9,18 +9,22 @@ export class DecimalBigNumber {
 
   constructor(number: BigNumber | string, decimals: number) {
     this._decimals = decimals;
-    this._number = typeof number === "string" ? parseUnits(number, decimals) : number;
+
+    if (typeof number === "string") {
+      const formatted = this._omitIrrelevantDecimals(number, decimals);
+      this._number = parseUnits(formatted, decimals);
+      return;
+    }
+
+    this._number = number;
   }
 
-  private _normalize(first: DecimalBigNumber, second: DecimalBigNumber): [BigNumber, BigNumber] {
-    const difference = first._decimals - second._decimals;
+  private _omitIrrelevantDecimals(number: string, decimals: number) {
+    const [integer, _decimals] = number.split(".");
 
-    const _first = first.toBigNumber();
-    const _second = second.toBigNumber();
+    if (!_decimals) return integer;
 
-    if (difference === 0) return [_first, _second];
-
-    return difference > 0 ? [_first, _second.mul(10 ** difference)] : [_first.mul(10 ** Math.abs(difference)), _second];
+    return integer + "." + _decimals.substring(0, decimals);
   }
 
   /**
@@ -48,29 +52,57 @@ export class DecimalBigNumber {
 
   /**
    * Used to display a formatted approximate value to the user
-   * @param precision The number of decimal places to show
+   * @param decimals The number of decimal places to show
    */
-  public toFormattedString(precision = this._decimals): string {
-    const number = this.toApproxNumber();
-
-    return formatNumber(number, precision);
+  public toFormattedString(decimals = 0): string {
+    return formatNumber(this.toApproxNumber(), decimals);
   }
 
   /**
    * Adds two numbers
    */
   public add(value: DecimalBigNumber) {
-    const [_this, _value] = this._normalize(this, value);
+    const decimals = Math.max(value._decimals, this._decimals);
 
-    return new DecimalBigNumber(_value.add(_this), Math.max(value._decimals, this._decimals));
+    // Normalize decimal places
+    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
+    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+
+    return new DecimalBigNumber(_value._number.add(_this._number), decimals);
   }
 
   /**
    * Determines if this number is greater than the provided value
    */
   public gt(value: DecimalBigNumber) {
-    const [_this, _value] = this._normalize(this, value);
+    const decimals = Math.max(value._decimals, this._decimals);
 
-    return _this.gt(_value);
+    // Normalize decimal places
+    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
+    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+
+    return _this._number.gt(_value._number);
+  }
+
+  /**
+   * Multiplies this number by the provided value
+   * @param decimals The expected number of decimals of the output value
+   */
+  public mul(value: DecimalBigNumber, decimals: number) {
+    const product = new DecimalBigNumber(this._number.mul(value._number), this._decimals + value._decimals);
+
+    return new DecimalBigNumber(product.toAccurateString(), decimals);
+  }
+
+  /**
+   * Divides this number by the provided value
+   * @param decimals The expected number of decimals of the output value
+   */
+  public div(value: DecimalBigNumber, decimals: number) {
+    const _this = new DecimalBigNumber(this.toAccurateString(), decimals + value._decimals);
+
+    const quotient = _this._number.div(value._number);
+
+    return new DecimalBigNumber(quotient, decimals);
   }
 }
