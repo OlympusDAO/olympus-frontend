@@ -3,7 +3,6 @@
 exports[`<Wrap/> should render component 1`] = `
 <div>
   <div
-    class="wrapper"
     id="stake-view"
   >
     <div
