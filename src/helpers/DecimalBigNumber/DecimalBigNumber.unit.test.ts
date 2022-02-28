@@ -9,12 +9,15 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber(".", 1).toAccurateString()).toEqual("0.0");
     expect(new DecimalBigNumber("....", 1).toAccurateString()).toEqual("0.0");
     expect(new DecimalBigNumber("1.1.1.1.1", 1).toAccurateString()).toEqual("0.0");
+    expect(new DecimalBigNumber("-", 1).toAccurateString()).toEqual("0.0");
+    expect(new DecimalBigNumber("-0.", 1).toAccurateString()).toEqual("0.0");
   });
 
   it("accurately formats strings", () => {
     expect(new DecimalBigNumber(".1", 1).toAccurateString()).toEqual("0.1");
     expect(new DecimalBigNumber("1.1", 9).toAccurateString()).toEqual("1.1");
     expect(new DecimalBigNumber("1.123", 9).toAccurateString()).toEqual("1.123");
+    expect(new DecimalBigNumber("-1.123", 9).toAccurateString()).toEqual("-1.123");
   });
 
   it("discards irrelevant precision", () => {
@@ -23,10 +26,12 @@ describe("DecimalBigNumber", () => {
 
   it("adds numbers correctly", () => {
     expect(new DecimalBigNumber("1.1", 9).add(new DecimalBigNumber("1.2", 18)).toAccurateString()).toEqual("2.3");
+    expect(new DecimalBigNumber("-1.1", 9).add(new DecimalBigNumber("-1.2", 18)).toAccurateString()).toEqual("-2.3");
   });
 
   it("subtracts numbers correctly", () => {
     expect(new DecimalBigNumber("1.2", 9).sub(new DecimalBigNumber("1.1", 18)).toAccurateString()).toEqual("0.1");
+    expect(new DecimalBigNumber("1.1", 9).sub(new DecimalBigNumber("1.2", 18)).toAccurateString()).toEqual("-0.1");
   });
 
   it("compares numbers correctly", () => {
