@@ -16,8 +16,8 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { ProgressBar, Step } from "react-step-progress-bar";
 import { ReactComponent as Donors } from "src/assets/icons/donors.svg";
-import { ReactComponent as MilestoneAmount } from "src/assets/icons/milestone-amount.svg";
 import { ReactComponent as sOHMDeposited } from "src/assets/icons/sohm-deposited.svg";
+import { ReactComponent as SOhmTotal } from "src/assets/icons/sohm-total.svg";
 import { ReactComponent as sOHMYieldSent } from "src/assets/icons/sohm-yield-sent.svg";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
@@ -281,7 +281,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                      * for the affected path (`transparent-background`) and dynamically apply the theme name
                      * to the SVG.
                      */}
-                    <SvgIcon className={theme.palette.type} viewBox="0 0 18 18" component={MilestoneAmount} />
+                    <SvgIcon className={theme.palette.type} viewBox="0 0 18 18" component={SOhmTotal} />
                   </Grid>
                   <Grid item className="metric">
                     {totalMilestoneAmount.toFormat(0)}

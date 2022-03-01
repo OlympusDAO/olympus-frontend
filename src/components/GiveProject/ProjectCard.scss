@@ -1,0 +1,10 @@
+// *** The two following classes are used when currentcolor cannot be used in SVGs
+// Applied when the dark theme is enabled
+.dark path.transparent-background {
+  stroke: black;
+}
+
+// Applied when the light theme is enabled
+.light path.transparent-background {
+  stroke: white;
+}

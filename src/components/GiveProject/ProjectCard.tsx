@@ -1,3 +1,5 @@
+import "./ProjectCard.scss";
+
 import { t, Trans } from "@lingui/macro";
 import {
   Box,
@@ -22,8 +24,13 @@ import Countdown from "react-countdown";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { ReactComponent as ActiveSohm } from "src/assets/icons/active_sohm.svg";
-import { ReactComponent as GiveSohm } from "src/assets/icons/give_sohm.svg";
+import { ReactComponent as Donors } from "src/assets/icons/donors.svg";
+import { ReactComponent as sOHMDeposited } from "src/assets/icons/sohm-deposited.svg";
+import { ReactComponent as SOhmTotal } from "src/assets/icons/sohm-total.svg";
+import { ReactComponent as SOhmYield } from "src/assets/icons/sohm-yield.svg";
+import { ReactComponent as SOhmYieldSent } from "src/assets/icons/sohm-yield-sent.svg";
+import { ReactComponent as TimeRemaining } from "src/assets/icons/time-remaining.svg";
+import { ReactComponent as YieldGoal } from "src/assets/icons/yield-goal.svg";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
@@ -203,7 +210,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         <>
           <Grid container className="countdown-container">
             <Grid item className="countdown-object">
-              <Icon name="clock" />
+              <SvgIcon component={TimeRemaining} />
             </Grid>
             <Grid item className="project-countdown-text">
               <Tooltip
@@ -284,7 +291,18 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         <Grid container className="project-goal">
           <Grid item xs={5} className="project-donated">
             <div className="project-donated-icon">
-              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
+              {/**
+               * HACK: a specific path in the SVG needs to mimic the background behind the SVG.
+               * We can't easily pass variables from JS to CSS, so instead we specifcy a CSS class
+               * for the affected path (`transparent-background`) and dynamically apply the theme name
+               * to the SVG.
+               */}
+              <SvgIcon
+                className={theme.palette.type}
+                viewBox="0 0 20 20"
+                component={SOhmYield}
+                style={{ marginRight: "0.33rem" }}
+              />
               <Typography variant="h6">
                 <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedTotalDonated}</strong>
               </Typography>
@@ -296,7 +314,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Grid item xs={2} />
           <Grid item xs={5} className="project-completion">
             <div className="project-completion-icon">
-              <Icon name="goal" style={{ marginRight: "0.33rem" }} />
+              <SvgIcon component={YieldGoal} style={{ marginRight: "0.33rem" }} />
               <Typography variant="h6">
                 <strong>{new BigNumber(depositGoal).toFormat()}</strong>
               </Typography>
@@ -319,7 +337,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         <Grid container className="project-top-data">
           <Grid item xs={5} className="project-donors">
             <div className="project-data-icon">
-              <Icon name="donors" style={{ marginRight: "0.33rem" }} />
+              <SvgIcon component={Donors} style={{ marginRight: "0.33rem" }} />
               <Typography variant="h6">{donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}</Typography>
             </div>
             <div className="subtext">
@@ -329,7 +347,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Grid item xs={2} />
           <Grid item xs={5} className="project-deposits">
             <div className="project-data-icon">
-              <SvgIcon component={ActiveSohm} style={{ marginRight: "0.33rem" }} />
+              <SvgIcon component={SOhmTotal} style={{ marginRight: "0.33rem" }} />
               <Typography variant="h6">
                 {recipientInfoIsLoading ? <Skeleton /> : <strong>{parseFloat(totalDebt).toFixed(2)}</strong>}
               </Typography>
@@ -715,7 +733,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                       </Grid>
                     </Grid>
                   </MuiPaper>
-                  {isUserDonating ? (
+                  {!isUserDonating ? (
+                    <></>
+                  ) : (
                     <MuiPaper className="project-sidebar">
                       <div className="project-sidebar-header">
                         <Typography variant="h5">
@@ -728,8 +748,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         <Grid container className="project-donation-data">
                           <Grid item className="project-deposited">
                             <Typography variant="h6">
-                              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-                              <strong>{parseFloat(donationInfo[donationId].deposit).toFixed(2)}</strong>
+                              <SvgIcon component={sOHMDeposited} style={{ marginRight: "0.33rem" }} />
+                              <strong>
+                                {!donationInfo[donationId]
+                                  ? "0"
+                                  : parseFloat(donationInfo[donationId].deposit).toFixed(2)}
+                              </strong>
                             </Typography>
                             <Typography variant="body1" className="subtext">
                               sOHM Deposited
@@ -738,8 +762,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                           <Grid item className="project-yield-sent">
                             <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end" }}>
                               <Typography variant="h6" align="right">
-                                <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-                                <strong>{parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)}</strong>
+                                <SvgIcon component={SOhmYieldSent} style={{ marginRight: "0.33rem" }} />
+                                <strong>
+                                  {!donationInfo[donationId]
+                                    ? "0"
+                                    : parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)}
+                                </strong>
                               </Typography>
                             </div>
                             <Typography variant="body1" align="right" className="subtext">
@@ -757,8 +785,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                         </div>
                       </div>
                     </MuiPaper>
-                  ) : (
-                    <></>
                   )}
                 </Grid>
                 <Grid
