@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { AddressMap } from "src/constants/addresses";
 import { nonNullable, queryAssertion } from "src/helpers";
+import { reactQueryErrorHandler } from "src/lib/react-query";
 
 import { useWeb3Context } from ".";
 import { useDynamicTokenContract } from "./useContract";
@@ -18,10 +19,11 @@ export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressM
   const token = useDynamicTokenContract(tokenMap);
   const { address, networkId, connected } = useWeb3Context();
 
+  const key = contractAllowanceQueryKey(address, networkId, tokenMap, contractMap);
   return useQuery<BigNumber, Error>(
-    contractAllowanceQueryKey(address, networkId, tokenMap, contractMap),
+    key,
     async () => {
-      queryAssertion(address && networkId, contractAllowanceQueryKey(address, networkId, tokenMap, contractMap));
+      queryAssertion(address && networkId, key);
 
       if (!token) throw new Error("Token doesn't exist on current network");
 
@@ -30,6 +32,6 @@ export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressM
 
       return token.allowance(address, contractAddress);
     },
-    { enabled: !!address && !!connected },
+    { enabled: !!address && !!connected, onError: reactQueryErrorHandler(key) },
   );
 };

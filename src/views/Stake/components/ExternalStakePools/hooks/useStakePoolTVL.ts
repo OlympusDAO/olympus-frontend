@@ -4,15 +4,17 @@ import { createDependentQuery, getTokenPrice, nonNullable, parseBigNumber, query
 import { useStaticPairContract } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { ExternalPool } from "src/lib/ExternalPool";
+import { reactQueryErrorHandler } from "src/lib/react-query";
 
 export const stakePoolTVLQueryKey = (poolAddress: string) => ["useStakePoolTVL", poolAddress].filter(nonNullable);
 
 export const useStakePoolTVL = (pool: ExternalPool) => {
   const contract = useStaticPairContract(pool.address, pool.networkID);
 
-  const useDependentQuery = createDependentQuery(stakePoolTVLQueryKey(pool.address));
+  const key = stakePoolTVLQueryKey(pool.address);
 
   // Get dependent data in parallel
+  const useDependentQuery = createDependentQuery(key);
   const { data: gohmPrice } = useGohmPrice();
   const reserves = useDependentQuery("reserves", () => contract.getReserves());
   const firstTokenAddress = useDependentQuery("firstTokenAddress", () => contract.token0());
@@ -21,11 +23,11 @@ export const useStakePoolTVL = (pool: ExternalPool) => {
   const nonGohmTokenPrice = useDependentQuery("nonGohmTokenPrice", () => getTokenPrice(pool.pairGecko));
 
   return useQuery<number, Error>(
-    stakePoolTVLQueryKey(pool.address),
+    key,
     async () => {
       queryAssertion(
         gohmPrice && stakedBalance && poolTokenSupply && reserves && nonGohmTokenPrice && firstTokenAddress,
-        stakePoolTVLQueryKey(pool.address),
+        key,
       );
 
       const isFirstTokenGohm =
@@ -45,6 +47,7 @@ export const useStakePoolTVL = (pool: ExternalPool) => {
     {
       enabled:
         !!gohmPrice && !!stakedBalance && !!poolTokenSupply && !!reserves && !!nonGohmTokenPrice && !!firstTokenAddress,
+      onError: reactQueryErrorHandler(key),
     },
   );
 };

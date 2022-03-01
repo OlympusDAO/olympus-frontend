@@ -16,6 +16,7 @@ import {
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
 import { isTestnet, nonNullable, queryAssertion } from "src/helpers";
+import { reactQueryErrorHandler } from "src/lib/react-query";
 import { IERC20 } from "src/typechain";
 
 import { useWeb3Context } from ".";
@@ -41,6 +42,7 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
       queryFn: () => contracts[index].balanceOf(address),
       queryKey: balanceQueryKey(address, tokenAddressMap, networkId),
       enabled: !!address && isTestMode ? isTestnet(networkId) : !isTestnet(networkId),
+      onError: reactQueryErrorHandler(balanceQueryKey(address, tokenAddressMap, networkId)),
     })),
   );
 

@@ -3,6 +3,7 @@ import { NetworkId } from "src/constants";
 import { nonNullable, queryAssertion } from "src/helpers";
 import { covalent } from "src/lib/covalent";
 import { CovalentTransaction } from "src/lib/covalent.types";
+import { reactQueryErrorHandler } from "src/lib/react-query";
 
 import { useWeb3Context } from ".";
 
@@ -12,10 +13,11 @@ export const pendingTransactionsQueryKey = (address?: string, networkId?: Networ
 export const usePendingTransactions = () => {
   const { address, networkId } = useWeb3Context();
 
+  const key = pendingTransactionsQueryKey(address, networkId);
   return useQuery<CovalentTransaction[], Error>(
-    pendingTransactionsQueryKey(address, networkId),
+    key,
     async () => {
-      queryAssertion(address && networkId, pendingTransactionsQueryKey(address));
+      queryAssertion(address && networkId, key);
 
       if (!covalent.isSupportedNetwork(networkId)) return [];
 
@@ -26,6 +28,6 @@ export const usePendingTransactions = () => {
 
       return transactions.filter(transaction => !transaction.successful);
     },
-    { enabled: !!address && !!networkId },
+    { enabled: !!address && !!networkId, onError: reactQueryErrorHandler(key) },
   );
 };

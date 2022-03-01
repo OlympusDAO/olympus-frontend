@@ -5,6 +5,7 @@ import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
 import { ethers } from "ethers";
 import { QueryKey, useQuery } from "react-query";
+import { reactQueryErrorHandler } from "src/lib/react-query";
 import { IBondV2 } from "src/slices/BondSliceV2";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
@@ -332,7 +333,9 @@ export const formatNumber = (number: number, precision = 0) => {
  */
 export const createDependentQuery = (baseQueryKey: QueryKey) => {
   return <TData,>(key: string, fn: () => Promise<TData>, enabled?: boolean) => {
-    return useQuery([baseQueryKey, key].filter(Boolean), fn, { enabled }).data;
+    const _key = [...baseQueryKey, key];
+
+    return useQuery(_key.filter(Boolean), fn, { enabled, onError: reactQueryErrorHandler(_key) }).data;
   };
 };
 
