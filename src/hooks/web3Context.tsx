@@ -140,7 +140,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       rawProvider = new IFrameEthereumProvider();
     } else {
       try {
-        console.error("222222222\n222222222\n222222222\n222222222\n222222222\n");
         rawProvider = await web3Modal.connect();
       } catch (e) {
         console.log("wallet connection status:", e);
