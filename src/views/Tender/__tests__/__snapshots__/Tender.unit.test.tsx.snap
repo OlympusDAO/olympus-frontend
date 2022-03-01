@@ -154,13 +154,12 @@ exports[`Tender Snapshots should render <Tender/> 1`] = `
                     <p
                       class="MuiTypography-root makeStyles-text-4 MuiTypography-body1"
                     >
-                      This is a very important message about redeeming your SPA Tender Offer.
                       <a
                         class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                        href="#"
-                        style="margin-left: 10px;"
+                        href="https://forum.olympusdao.finance/d/1096-oip-82a-amendment-to-tender-offer-for-spartacus-finance"
+                        target="_blank"
                       >
-                        Learn More
+                        Learn More about the Spartacus Finance Tender Offer
                         <svg
                           aria-hidden="true"
                           class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
