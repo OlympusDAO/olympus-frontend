@@ -37,14 +37,9 @@ export const RedemptionToggle: FC<RedemptionToggleProps> = ({
         marginBottom="25px"
         textAlign="center"
       >
-        <Typography>
-          Deposit {quantity} {depositTokenLabel} for {USD.format(daiValue)} DAI
-        </Typography>
+        <Typography>Deposit for DAI</Typography>
         <Switch checked={redeemToken ? true : false} onChange={onChange} color="default" />
-        <Typography>
-          Deposit {quantity} {depositTokenLabel} for {new Intl.NumberFormat("en-US").format(gOhmValue)} gOHM (~
-          {USD.format(gOhmValue * gOhmPrice)})
-        </Typography>
+        <Typography>Deposit for gOHM</Typography>
       </Box>
       <Divider color="secondary" />
     </>

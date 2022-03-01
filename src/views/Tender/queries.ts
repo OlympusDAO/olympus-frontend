@@ -171,6 +171,36 @@ export const MaxDeposits = () => {
   return data || 0;
 };
 
+export const LatestIndex = () => {
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
+  const { data } = useQuery(
+    ["TenderlatestIndex"],
+    async () => {
+      if (tenderEscrowContract) {
+        const data = await tenderEscrowContract.getLatestOHMIndex();
+        return parseBigNumber(data);
+      }
+    },
+    { enabled: !!tenderEscrowContract },
+  );
+  return data || 0;
+};
+
+export const LatestPrice = () => {
+  const tenderEscrowContract = useTenderEscrowContract(TENDER_ESCROW_ADDRESSES);
+  const { data } = useQuery(
+    ["TenderLatestPrice"],
+    async () => {
+      if (tenderEscrowContract) {
+        const data = await tenderEscrowContract.getLatestOHMPrice();
+        return parseBigNumber(data);
+      }
+    },
+    { enabled: !!tenderEscrowContract },
+  );
+  return data || 0;
+};
+
 //
 //0=PENDING
 //1=FAILED

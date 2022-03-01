@@ -24,6 +24,8 @@ import {
   Deposits,
   EscrowState,
   GOhmExchangeRate,
+  LatestIndex,
+  LatestPrice,
   MaxDeposits,
   Redeem,
   StakedAllowance,
@@ -33,6 +35,7 @@ import {
   Withdraw,
   WrappedAllowance,
   WrappedBalance,
+  WrappedToStaked,
 } from "./queries";
 import { TokenSelector } from "./TokenSelector";
 
@@ -52,6 +55,9 @@ const Tender = () => {
   const deposit = Deposit();
   const redeem = Redeem();
   const withdraw = Withdraw();
+  const latestIndex = LatestIndex();
+  const latestOhmPrice = LatestPrice();
+  const wrappedToStakedQuantity = WrappedToStaked(quantity);
   const [depositToken, setDepositToken] = useState(0);
   const tokens = [
     { balance: Balance(), label: "SPA", value: 0, allowance: UnstakedAllowance() },
@@ -167,6 +173,22 @@ const Tender = () => {
     />
   );
 
+  const redemptionValue = () => {
+    //depositing for gOhm
+    if (redeemToken === 1) {
+      let gOhmRate = 0;
+      if (depositedBalance === 0) {
+        gOhmRate = goOhmDepositExchangeRate(gOhmExchangeRate, latestIndex, latestOhmPrice);
+      } else {
+        gOhmRate = goOhmDepositExchangeRate(gOhmExchangeRate, index, ohmPrice);
+      }
+      const quant = tokens[depositToken].value === 2 ? wrappedToStakedQuantity : quantity;
+      return trim((quant * gOhmRate) / 1e18, 4);
+    }
+    //depositing for dai
+    return trim(quantity * daiExchangeRate, 2);
+  };
+
   return (
     <div id="stake-view">
       <NotificationMessage />
@@ -203,6 +225,11 @@ const Tender = () => {
                         buttonText={depositButtonText}
                         buttonOnClick={depositOnClick}
                         disabled={depositButtonDisabled}
+                        helperText={`Deposit ${quantity} ${
+                          tokens[depositToken].label
+                        } for ${redemptionValue()} ${redemptionTokenString} ${
+                          redeemToken === 1 ? `~($${trim(Number(redemptionValue()) * gOhmPrice, 2)})` : ""
+                        }`}
                       />
                       {redemptionToggle}
                     </>
