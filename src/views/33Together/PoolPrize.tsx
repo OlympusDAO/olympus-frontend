@@ -76,7 +76,7 @@ export const PoolPrize = () => {
     const currentDate = new Date(Date.now());
     // multiply integerTimeRemaining by 1000 for milliseconds
     const futureDate = new Date(currentDate.getTime() + secondsLeft * 1000);
-    const formatted = subtractDates(futureDate, currentDate).formatted;
+    const formatted = subtractDates(futureDate, currentDate);
     setTimer(formatted);
     if (secondsLeft > 0) {
       timerInterval.current = setInterval(decreaseNum, 1000);
