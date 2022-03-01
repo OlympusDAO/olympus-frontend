@@ -20,7 +20,7 @@ export const ProgressBar = (props: { totalDeposits: number; maxDeposits: number 
     <>
       <Box display="flex" justifyContent={"center"} mb={"10px"}>
         <Typography>
-          {totalDepositsFormatted}/{maxDepositsFormatted} SPA Deposited
+          {totalDepositsFormatted}/{maxDepositsFormatted} wsSPA Deposited
         </Typography>
       </Box>
       <Box style={{ width: "50%", margin: "0 25%" }}>

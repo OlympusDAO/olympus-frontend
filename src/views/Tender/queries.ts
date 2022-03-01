@@ -25,14 +25,14 @@ export const Balance = () => {
   return BalanceHelper(tenderTokenContract, "tokenContract");
 };
 
-const BalanceHelper = (contractAddress: IERC20, key: string) => {
+const BalanceHelper = (contractAddress: IERC20, key: string, decimals = 9) => {
   const { address } = useWeb3Context();
   const { data } = useQuery(
     ["tenderBalanceOf", address, key],
     async () => {
       if (contractAddress && address) {
         const balance = await contractAddress.balanceOf(address);
-        return parseBigNumber(balance);
+        return parseBigNumber(balance, decimals);
       }
       return 0;
     },
@@ -50,7 +50,7 @@ export const StakedBalance = () => {
 export const WrappedBalance = () => {
   const { networkId } = useWeb3Context();
   const wrappedContract = useStaticTokenContract(WRAPPED_TENDER_ADDRESSES[networkId], networkId);
-  return BalanceHelper(wrappedContract, "wrappedContract");
+  return BalanceHelper(wrappedContract, "wrappedContract", 18);
 };
 
 export const WrappedToStaked = (quantity: number) => {
@@ -130,7 +130,7 @@ export const Deposits = (address: string) => {
         const data = await tenderEscrowContract.deposits(address);
         return {
           ...data,
-          amount: parseBigNumber(data.amount),
+          amount: parseBigNumber(data.amount, 18),
           index: parseBigNumber(data.index),
           ohmPrice: parseBigNumber(data.ohmPrice),
         };
@@ -230,7 +230,12 @@ export const Deposit = () => {
   return useMutation(
     async (deposit: { quantity: number; redeemToken: number; depositToken: number }) => {
       if (!tenderEscrowContract) throw new Error("Token doesn't exist on current network. Please switch networks.");
-      const data = await tenderEscrowContract.deposit(deposit.quantity, deposit.redeemToken, deposit.depositToken);
+      //if depositToken==2, need 18 decimals for wsSPA, else 9 decimals
+      const data = await tenderEscrowContract.deposit(
+        ethers.utils.parseUnits(deposit.quantity.toString(), deposit.depositToken == 2 ? 18 : 9),
+        deposit.redeemToken,
+        deposit.depositToken,
+      );
       return data.wait();
     },
     {
@@ -297,7 +302,7 @@ export const Approve = () => {
       const contractArray = [tenderTokenContract, stakedTokenContract, wrappedTokenContract];
       const data = await contractArray[token].approve(
         escrowAddress,
-        ethers.utils.parseUnits("1000000000", "gwei").toString(),
+        ethers.utils.parseUnits("1000000000", token == 2 ? 18 : 9),
       );
       return data.wait();
     },

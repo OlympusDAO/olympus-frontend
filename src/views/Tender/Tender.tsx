@@ -113,7 +113,7 @@ const Tender = () => {
 
   //Failed State
   if (escrowState === 1) {
-    redeemButtonText = `Withdraw for ${depositedBalance} SPA`;
+    redeemButtonText = `Withdraw for ${depositedBalance} wsSPA`;
     redeemButtonOnClick = () => withdraw.mutate();
   }
   //Passed State
@@ -147,7 +147,7 @@ const Tender = () => {
   const handleTokenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDepositToken(Number((event.target as HTMLInputElement).value));
   };
-  const countdownEndDate = new Date("December 1, 2022");
+  const countdownEndDate = new Date("December 1, 2021");
   const countdownActive = Date.now() < countdownEndDate.getTime() ? true : false;
 
   const tokenSelector = hasBalances && (
@@ -218,7 +218,7 @@ const Tender = () => {
                   />
                 ))}
                 <Divider color="secondary" />
-                <DataRow title={t`Deposited Balance`} balance={`${depositedBalance} SPA `} />
+                <DataRow title={t`Deposited Balance`} balance={`${depositedBalance} wsSPA `} />
                 <DataRow title={t`Redeemable Balance if Accepted`} balance={redeemableBalString} />
               </Grid>
             </>

@@ -25,7 +25,7 @@ exports[`Tender Snapshots should render <ProgressBar /> 1`] = `
       0
       /
       0
-       SPA Deposited
+       wsSPA Deposited
     </p>
   </div>
   <div
@@ -224,7 +224,7 @@ exports[`Tender Snapshots should render <Tender/> 1`] = `
                 0
                 /
                 0
-                 SPA Deposited
+                 wsSPA Deposited
               </p>
             </div>
             <div
