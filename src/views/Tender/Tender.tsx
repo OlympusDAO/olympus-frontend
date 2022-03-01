@@ -161,16 +161,7 @@ const Tender = () => {
   );
 
   const redemptionToggle = allowChoice && (
-    <RedemptionToggle
-      gOhmExchangeRate={gOhmExchangeRate}
-      quantity={quantity}
-      daiExchangeRate={daiExchangeRate}
-      redeemToken={redeemToken}
-      gOhmPrice={gOhmPrice}
-      depositTokenValue={tokens[depositToken].value}
-      depositTokenLabel={tokens[depositToken].label}
-      onChange={() => setRedeemToken(redeemToken ? 0 : 1)}
-    />
+    <RedemptionToggle redeemToken={redeemToken} onChange={() => setRedeemToken(redeemToken ? 0 : 1)} />
   );
 
   const redemptionValue = () => {

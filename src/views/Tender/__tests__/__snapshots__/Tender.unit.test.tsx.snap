@@ -56,48 +56,41 @@ exports[`Tender Snapshots should render <RedemptionToggle /> 1`] = `
     <p
       class="MuiTypography-root MuiTypography-body1"
     >
-      Deposit 
-      0
-       
-       for 
-      $NaN
-       DAI
+      Deposit for DAI
     </p>
-    <span
-      class="MuiSwitch-root"
+    <div
+      class="MuiBox-root MuiBox-root-27"
+      style="padding-left: 10px; padding-right: 10px;"
     >
       <span
-        aria-disabled="false"
-        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-27 MuiSwitch-switchBase"
+        class="MuiSwitch-root"
       >
         <span
-          class="MuiIconButton-label"
+          aria-disabled="false"
+          class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-28 MuiSwitch-switchBase"
         >
-          <input
-            class="PrivateSwitchBase-input-30 MuiSwitch-input"
-            type="checkbox"
-            value=""
-          />
           <span
-            class="MuiSwitch-thumb"
-          />
+            class="MuiIconButton-label"
+          >
+            <input
+              class="PrivateSwitchBase-input-31 MuiSwitch-input"
+              type="checkbox"
+              value=""
+            />
+            <span
+              class="MuiSwitch-thumb"
+            />
+          </span>
         </span>
+        <span
+          class="MuiSwitch-track"
+        />
       </span>
-      <span
-        class="MuiSwitch-track"
-      />
-    </span>
+    </div>
     <p
       class="MuiTypography-root MuiTypography-body1"
     >
-      Deposit 
-      0
-       
-       for 
-      NaN
-       gOHM (~
-      $NaN
-      )
+      Deposit for gOHM
     </p>
   </div>
   <hr
