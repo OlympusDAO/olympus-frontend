@@ -15,11 +15,12 @@ import {
   V1_SOHM_ADDRESSES,
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
-import { nonNullable, queryAssertion } from "src/helpers";
+import { isTestnet, nonNullable, queryAssertion } from "src/helpers";
 import { IERC20 } from "src/typechain";
 
 import { useWeb3Context } from ".";
 import { useMultipleContracts, useStaticFuseContract } from "./useContract";
+import { useTestMode } from "./useTestMode";
 
 export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, networkId?: NetworkId) =>
   ["useBalance", address, tokenAddressMap, networkId].filter(nonNullable);
@@ -29,6 +30,7 @@ export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, 
  * @param addressMap Address map of the token you want the balance of.
  */
 export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAddressMap: TAddressMap) => {
+  const isTestMode = useTestMode();
   const { address } = useWeb3Context();
   const contracts = useMultipleContracts<IERC20>(tokenAddressMap, IERC20_ABI);
 
@@ -36,9 +38,9 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
 
   const results = useQueries(
     networkIds.map((networkId, index) => ({
-      enabled: !!address,
       queryFn: () => contracts[index].balanceOf(address),
       queryKey: balanceQueryKey(address, tokenAddressMap, networkId),
+      enabled: !!address && isTestMode ? isTestnet(networkId) : !isTestnet(networkId),
     })),
   );
 

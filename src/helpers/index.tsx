@@ -343,6 +343,18 @@ export function nonNullable<Type>(value: Type): value is NonNullable<Type> {
   return value !== null && value !== undefined;
 }
 
+export const isTestnet = (networkId: NetworkId) => {
+  const testnets = [
+    NetworkId.ARBITRUM_TESTNET,
+    NetworkId.AVALANCHE_TESTNET,
+    NetworkId.FANTOM_TESTNET,
+    NetworkId.POLYGON_TESTNET,
+    NetworkId.TESTNET_RINKEBY,
+  ];
+
+  return testnets.includes(networkId);
+};
+
 interface ICheckBalance extends IBaseAsyncThunk {
   readonly sOHMbalance: string;
 }
