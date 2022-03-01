@@ -625,7 +625,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                         <Grid container direction="column" alignItems="flex-start">
                           <Grid item container justifyContent="flex-start" alignItems="center">
                             <Grid item>
-                              <SvgIcon className={theme.palette.type} component={sOHMDeposited} />
+                              <SvgIcon component={sOHMDeposited} />
                             </Grid>
                             <Grid item>
                               <Typography className="metric">
