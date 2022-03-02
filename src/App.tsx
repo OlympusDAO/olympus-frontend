@@ -24,7 +24,7 @@ import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } 
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, TreasuryDashboard, V2TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2 } from "./views";
+import { Stake, TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar";
 import TopBar from "./components/TopBar/TopBar";
 import CallToAction from "./components/CallToAction/CallToAction";
@@ -334,12 +334,8 @@ function App() {
             <Switch>
               {/* (keith): leave this route here temporarily to 
               be able to reference the old dashboard */}
-              <Route exact path="/v1-dashboard">
-                <TreasuryDashboard />
-              </Route>
-
               <Route exact path="/dashboard">
-                <V2TreasuryDashboard />
+                <TreasuryDashboard />
               </Route>
 
               <Route exact path="/">

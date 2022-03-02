@@ -117,7 +117,7 @@ const commonSettings = {
         backdropFilter: "blur(33px)",
         "&.ohm-card": {
           padding: "20px 30px 30px 30px",
-          borderRadius: "10px",
+          borderRadius: "var(--ohm-card-border-radius)",
           maxWidth: "833px",
           width: "97%",
           marginBottom: "1.8rem",

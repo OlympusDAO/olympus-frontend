@@ -2412,14 +2412,16 @@
   resolved "https://registry.yarnpkg.com/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz#af577b477c683fad17c619a78208cede06f9605c"
   integrity sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==
 
-"@multifarm/widget@^0.0.38":
-  version "0.0.38"
-  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.38.tgz#63d4ec90db3be0dab3ad63ded66f1645510b2583"
-  integrity sha512-xUGEgG80wXTtPb5F/p0cuf59G32S0RaF69h+sFNtJQZL8XPNG5VTZo21v8J4iMZm5VnNJXEWEfepkuGYKkqQPw==
+"@multifarm/widget@^0.0.44":
+  version "0.0.44"
+  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.44.tgz#ece2d67abfbb93466b976ae8cb6b9a23086ca5d9"
+  integrity sha512-j+xFK6hP26oZNKqaX7/FYIhgBM6vPxU1rCnGyObHLPv+n1Md9FGJTGetqPioA8Z39Nq+z06Ire+Rm2NR4MoxLg==
   dependencies:
     "@tippyjs/react" "^4.2.6"
+    clsx "^1.1.1"
     dayjs "1.10.7"
     react-responsive "^9.0.0-beta.6"
+    react-scroll "^1.8.5"
     swr "1.1.2"
 
 "@n1ru4l/graphql-live-query@^0.9.0":
@@ -15485,6 +15487,14 @@ react-scripts@^4.0.3:
     workbox-webpack-plugin "5.1.4"
   optionalDependencies:
     fsevents "^2.1.3"
+
+react-scroll@^1.8.5:
+  version "1.8.5"
+  resolved "https://registry.yarnpkg.com/react-scroll/-/react-scroll-1.8.5.tgz#fea09ccffbbab97c3e3e19acd6a35dccd29b258f"
+  integrity sha512-VcYFWDV2yGeuqeVCt3vxWTGWT4yCcefXOgvNZ16hSD0QTFzNNWiyZKWAVEgmz22PTKJlwRkspALaFI5+cr73OQ==
+  dependencies:
+    lodash.throttle "^4.1.1"
+    prop-types "^15.7.2"
 
 react-smooth@^2.0.0:
   version "2.0.0"

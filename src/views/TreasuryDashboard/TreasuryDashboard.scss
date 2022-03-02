@@ -10,6 +10,11 @@
   overflow-y: auto;
   -ms-overflow-style: none !important; /* IE and Edge */
   scrollbar-width: none !important; /* Firefox */
+
+  & div[role="tabpanel"] > div {
+    padding: 22px 0;
+  }
+
   &::-webkit-scrollbar {
     display: none !important;
   }
@@ -32,6 +37,7 @@
   .hero-metrics {
     width: 100%;
     margin-bottom: 23px;
+    padding: 0;
     text-align: center;
     .ohm-card {
       max-width: unset !important;
@@ -88,5 +94,69 @@
       flex-direction: column;
       justify-content: center;
     }
+  }
+}
+
+.multifarm-widget-accordion,
+.multifarm-widget-card {
+  border: none;
+  border-radius: var(--ohm-card-border-radius);
+}
+
+.multifarm-widget-table-cell:first-child {
+  border-radius: var(--ohm-card-border-radius) 0 0 var(--ohm-card-border-radius);
+}
+
+.multifarm-widget-table-cell:last-child {
+  border-radius: 0 var(--ohm-card-border-radius) var(--ohm-card-border-radius) 0;
+}
+
+.multifarm-widget-tabs {
+  padding: 0 10px;
+  margin-left: 10px;
+  height: 51px;
+  border-radius: 6px;
+}
+
+.multifarm-widget-tabs__tab {
+  font-size: 0.85rem;
+  &[data-active="true"] {
+    border-radius: 6px;
+    height: 39px;
+  }
+}
+
+.light {
+  .multifarm-widget-tabs {
+    background: #fff; // todo: (keith) use variable
+  }
+  .multifarm-widget-dashboard-tabs__tab {
+    font-size: 19px;
+    border-bottom: 2px solid transparent;
+  }
+  .multifarm-widget-dashboard-tabs__tab[data-active="true"] {
+    border-bottom: 2px solid #000; // todo: (keith) use variable
+    color: #000; // todo: (keith) use variable
+  }
+}
+
+.dark {
+  .multifarm-widget-tabs {
+    background: #1d2026; // todo: (keith) use variable
+  }
+  .multifarm-widget-dashboard-tabs__tab {
+    font-size: 19px;
+    border-bottom: 2px solid transparent;
+  }
+  .multifarm-widget-dashboard-tabs__tab[data-active="true"] {
+    border-bottom: 2px solid #f8cc82; // todo: (keith) use variable
+    color: #f8cc82; // todo: (keith) use variable
+  }
+  .multifarm-widget-table-cell {
+    background: #1d2026;
+  }
+  .multifarm-widget-powered-by-badge {
+    color: #fff;
+    background: var(--card-bg-primary);
   }
 }
