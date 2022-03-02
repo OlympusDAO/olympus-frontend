@@ -5,8 +5,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 import CountdownTimer from "src/components/CountdownTimer/CountdownTimer";
 import { trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
-import { useGohmPrice } from "src/hooks/usePrices";
 
+//import { useGohmPrice } from "src/hooks/usePrices";
 import { DepositLimitMessage, NotificationMessage, ProgressBar, RedemptionToggle } from "./";
 import {
   allowRedemtionChoice,
@@ -30,12 +30,12 @@ import {
   Redeem,
   StakedAllowance,
   StakedBalance,
+  StakedToWrapped,
   TotalDeposits,
   UnstakedAllowance,
   Withdraw,
   WrappedAllowance,
   WrappedBalance,
-  WrappedToStaked,
 } from "./queries";
 import { TokenSelector } from "./TokenSelector";
 
@@ -44,7 +44,6 @@ const Tender = () => {
   const [view, setView] = useState(0);
   const [redeemToken, setRedeemToken] = useState(0);
   const [quantity, setQuantity] = useState(0);
-  const { data: gOhmPrice = 0 } = useGohmPrice();
   const gOhmExchangeRate = GOhmExchangeRate();
   const daiExchangeRate = DaiExchangeRate();
   const { amount: depositedBalance = 0, choice, index, ohmPrice, didRedeem } = Deposits(address);
@@ -57,8 +56,9 @@ const Tender = () => {
   const withdraw = Withdraw();
   const latestIndex = LatestIndex();
   const latestOhmPrice = LatestPrice();
-  const wrappedToStakedQuantity = WrappedToStaked(quantity);
+  const stakedToWrappedQuantity = StakedToWrapped(quantity);
   const [depositToken, setDepositToken] = useState(0);
+  const gOhmPrice = latestOhmPrice * latestIndex;
   const tokens = [
     { balance: Balance(), label: "SPA", value: 0, allowance: UnstakedAllowance() },
     { balance: StakedBalance(), label: "sSPA", value: 1, allowance: StakedAllowance() },
@@ -173,7 +173,8 @@ const Tender = () => {
       } else {
         gOhmRate = goOhmDepositExchangeRate(gOhmExchangeRate, index, ohmPrice);
       }
-      const quant = tokens[depositToken].value === 2 ? wrappedToStakedQuantity : quantity;
+      const quant = tokens[depositToken].value === 2 ? quantity : stakedToWrappedQuantity;
+      console.log(gOhmRate, "gOhmRate");
       return trim((quant * gOhmRate) / 1e18, 4);
     }
     //depositing for dai

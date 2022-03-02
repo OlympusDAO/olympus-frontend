@@ -53,7 +53,7 @@ export const WrappedBalance = () => {
   return BalanceHelper(wrappedContract, "wrappedContract", 18);
 };
 
-export const WrappedToStaked = (quantity: number) => {
+export const StakedToWrapped = (quantity: number) => {
   const quantityString = quantity.toString();
   const { networkId } = useWeb3Context();
   const wrappedContract = useWrappedContract(WRAPPED_TENDER_ADDRESSES[networkId], networkId);
@@ -61,8 +61,8 @@ export const WrappedToStaked = (quantity: number) => {
     ["wrappedToStaked", quantity],
     async () => {
       if (wrappedContract) {
-        const balance = await wrappedContract.wOHMTosOHM(ethers.utils.parseUnits(quantityString, 18));
-        return parseBigNumber(balance, 18) * 1e9;
+        const balance = await wrappedContract.sOHMTowOHM(ethers.utils.parseUnits(quantityString, 9));
+        return parseBigNumber(balance, 18);
       }
     },
     { enabled: !!wrappedContract },
