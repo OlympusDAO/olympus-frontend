@@ -97,66 +97,72 @@
   }
 }
 
-.multifarm-widget-accordion,
-.multifarm-widget-card {
-  border: none;
-  border-radius: var(--ohm-card-border-radius);
-}
+.multifarm-widget-dashboard__tab-container {
+  .multifarm-widget-accordion,
+  .multifarm-widget-card {
+    border: none;
+    border-radius: var(--ohm-card-border-radius);
+  }
 
-.multifarm-widget-table-cell:first-child {
-  border-radius: var(--ohm-card-border-radius) 0 0 var(--ohm-card-border-radius);
-}
+  .multifarm-widget-table-cell:first-child {
+    border-radius: var(--ohm-card-border-radius) 0 0 var(--ohm-card-border-radius);
+  }
 
-.multifarm-widget-table-cell:last-child {
-  border-radius: 0 var(--ohm-card-border-radius) var(--ohm-card-border-radius) 0;
-}
+  .multifarm-widget-table-cell:last-child {
+    border-radius: 0 var(--ohm-card-border-radius) var(--ohm-card-border-radius) 0;
+  }
 
-.multifarm-widget-tabs {
-  padding: 0 10px;
-  margin-left: 10px;
-  height: 51px;
-  border-radius: 6px;
-}
-
-.multifarm-widget-tabs__tab {
-  font-size: 0.85rem;
-  &[data-active="true"] {
+  .multifarm-widget-tabs {
+    padding: 0 10px;
+    margin-left: 10px;
+    height: 51px;
     border-radius: 6px;
-    height: 39px;
+  }
+
+  .multifarm-widget-tabs__tab {
+    font-size: 0.85rem;
+    &[data-active="true"] {
+      border-radius: 6px;
+      height: 39px;
+    }
   }
 }
 
 .light {
-  .multifarm-widget-tabs {
-    background: #fff; // todo: (keith) use variable
-  }
-  .multifarm-widget-dashboard-tabs__tab {
-    font-size: 19px;
-    border-bottom: 2px solid transparent;
-  }
-  .multifarm-widget-dashboard-tabs__tab[data-active="true"] {
-    border-bottom: 2px solid #000; // todo: (keith) use variable
-    color: #000; // todo: (keith) use variable
+  .multifarm-widget-dashboard__tab-container {
+    .multifarm-widget-tabs {
+      background: #fff; // todo: (keith) use variable
+    }
+    .multifarm-widget-dashboard-tabs__tab {
+      font-size: 19px;
+      border-bottom: 2px solid transparent;
+    }
+    .multifarm-widget-dashboard-tabs__tab[data-active="true"] {
+      border-bottom: 2px solid #000; // todo: (keith) use variable
+      color: #000; // todo: (keith) use variable
+    }
   }
 }
 
 .dark {
-  .multifarm-widget-tabs {
-    background: #1d2026; // todo: (keith) use variable
-  }
-  .multifarm-widget-dashboard-tabs__tab {
-    font-size: 19px;
-    border-bottom: 2px solid transparent;
-  }
-  .multifarm-widget-dashboard-tabs__tab[data-active="true"] {
-    border-bottom: 2px solid #f8cc82; // todo: (keith) use variable
-    color: #f8cc82; // todo: (keith) use variable
-  }
-  .multifarm-widget-table-cell {
-    background: #1d2026;
-  }
-  .multifarm-widget-powered-by-badge {
-    color: #fff;
-    background: var(--card-bg-primary);
+  .multifarm-widget-dashboard__tab-container {
+    .multifarm-widget-tabs {
+      background: #1d2026; // todo: (keith) use variable
+    }
+    .multifarm-widget-dashboard-tabs__tab {
+      font-size: 19px;
+      border-bottom: 2px solid transparent;
+    }
+    .multifarm-widget-dashboard-tabs__tab[data-active="true"] {
+      border-bottom: 2px solid #f8cc82; // todo: (keith) use variable
+      color: #f8cc82; // todo: (keith) use variable
+    }
+    .multifarm-widget-table-cell {
+      background: #1d2026;
+    }
+    .multifarm-widget-powered-by-badge {
+      color: #fff;
+      background: var(--card-bg-primary);
+    }
   }
 }
