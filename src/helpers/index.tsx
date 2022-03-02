@@ -16,15 +16,15 @@ import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
 import { addresses, BLOCK_RATE_SECONDS, EPOCH_INTERVAL, NetworkId } from "../constants";
 import { PairContract, RedeemHelper } from "../typechain";
 import { ohm_dai, ohm_daiOld, ohm_weth } from "./AllBonds";
-import { EnvHelper } from "./Environment";
-import { NodeHelper } from "./NodeHelper";
+import { Environment } from "./environment/environment";
+import { Providers } from "./providers/providers";
 
 /**
  * gets marketPrice from Ohm-DAI v2
  * @returns Number like 333.33
  */
 export async function getMarketPrice() {
-  const mainnetProvider = NodeHelper.getMainnetStaticProvider();
+  const mainnetProvider = Providers.getStaticProvider(NetworkId.MAINNET);
   // v2 price
   const ohm_dai_address = ohm_dai.getAddressForReserve(NetworkId.MAINNET);
   const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
@@ -34,7 +34,7 @@ export async function getMarketPrice() {
 }
 
 export async function getMarketPriceFromWeth() {
-  const mainnetProvider = NodeHelper.getMainnetStaticProvider();
+  const mainnetProvider = Providers.getStaticProvider(NetworkId.MAINNET);
   // v2 price
   const ohm_weth_address = ohm_weth.getAddressForReserve(NetworkId.MAINNET);
   const wethBondContract = ohm_weth.getContractForBond(NetworkId.MAINNET, mainnetProvider);
@@ -48,7 +48,7 @@ export async function getMarketPriceFromWeth() {
 }
 
 export async function getV1MarketPrice() {
-  const mainnetProvider = NodeHelper.getMainnetStaticProvider();
+  const mainnetProvider = Providers.getStaticProvider(NetworkId.MAINNET);
   // v1 price
   const ohm_dai_address = ohm_daiOld.getAddressForReserve(NetworkId.MAINNET);
   const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
@@ -268,7 +268,7 @@ export const bnToNum = (bigNum: BigNumber) => {
 };
 
 export const handleContractError = (e: any) => {
-  if (EnvHelper.env.NODE_ENV !== "production") console.warn("caught error in slices; usually network related", e);
+  if (Environment.env.NODE_ENV !== "production") console.warn("caught error in slices; usually network related", e);
 };
 
 /**

@@ -1,8 +1,8 @@
 import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { BigNumber, BigNumberish, ethers } from "ethers";
-import { EnvHelper } from "src/helpers/Environment";
-import { NodeHelper } from "src/helpers/NodeHelper";
+import { Environment } from "src/helpers/environment/environment";
+import { Providers } from "src/helpers/providers/providers";
 import { RootState } from "src/store";
 import { FiatDAOContract, FuseProxy, IERC20, IERC20__factory, SOhmv2, WsOHM } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
@@ -98,7 +98,7 @@ export const getBalances = createAsyncThunk(
       handleContractError(e);
     }
     try {
-      const arbProvider = NodeHelper.getAnynetStaticProvider(NetworkId.ARBITRUM);
+      const arbProvider = Providers.getStaticProvider(NetworkId.ARBITRUM);
       const gOhmArbContract = GOHM__factory.connect(addresses[NetworkId.ARBITRUM].GOHM_ADDRESS, arbProvider);
       gOhmOnArbitrum = await gOhmArbContract.balanceOf(address);
       gOhmOnArbAsSohm = await gOhmContract.balanceFrom(gOhmOnArbitrum.toString());
@@ -106,7 +106,7 @@ export const getBalances = createAsyncThunk(
       handleContractError(e);
     }
     try {
-      const avaxProvider = NodeHelper.getAnynetStaticProvider(NetworkId.AVALANCHE);
+      const avaxProvider = Providers.getStaticProvider(NetworkId.AVALANCHE);
       const gOhmAvaxContract = GOHM__factory.connect(addresses[NetworkId.AVALANCHE].GOHM_ADDRESS, avaxProvider);
       gOhmOnAvax = await gOhmAvaxContract.balanceOf(address);
       gOhmOnAvaxAsSohm = await gOhmContract.balanceFrom(gOhmOnAvax.toString());
@@ -114,7 +114,7 @@ export const getBalances = createAsyncThunk(
       handleContractError(e);
     }
     try {
-      const polygonProvider = NodeHelper.getAnynetStaticProvider(NetworkId.POLYGON);
+      const polygonProvider = Providers.getStaticProvider(NetworkId.POLYGON);
       const gOhmPolygonContract = GOHM__factory.connect(addresses[NetworkId.POLYGON].GOHM_ADDRESS, polygonProvider);
       gOhmOnPolygon = await gOhmPolygonContract.balanceOf(address);
       gOhmOnPolygonAsSohm = await gOhmContract.balanceFrom(gOhmOnPolygon.toString());
@@ -122,7 +122,7 @@ export const getBalances = createAsyncThunk(
       handleContractError(e);
     }
     try {
-      const fantomProvider = NodeHelper.getAnynetStaticProvider(NetworkId.FANTOM);
+      const fantomProvider = Providers.getStaticProvider(NetworkId.FANTOM);
       const gOhmFantomContract = GOHM__factory.connect(addresses[NetworkId.FANTOM].GOHM_ADDRESS, fantomProvider);
       gOhmOnFantom = await gOhmFantomContract.balanceOf(address);
       gOhmOnFantomAsSohm = await gOhmContract.balanceFrom(gOhmOnFantom.toString());
@@ -131,7 +131,7 @@ export const getBalances = createAsyncThunk(
     }
 
     try {
-      const tokemakProvider = NodeHelper.getAnynetStaticProvider(NetworkId.MAINNET);
+      const tokemakProvider = Providers.getStaticProvider(NetworkId.MAINNET);
       const gOhmTokemakContract = GOHM__factory.connect(addresses[NetworkId.MAINNET].TOKEMAK_GOHM, tokemakProvider);
       gOhmOnTokemak = await gOhmTokemakContract.balanceOf(address);
       gOhmOnTokemakAsSohm = await gOhmContract.balanceFrom(gOhmOnTokemak.toString());
@@ -527,7 +527,7 @@ export const loadAccountDetails = createAsyncThunk(
       await dispatch(getMockDonationBalances({ address, networkID, provider }));
       await dispatch(getMockRedemptionBalances({ address, networkID, provider }));
     } else {
-      if (EnvHelper.env.NODE_ENV !== "production") console.log("Give - Contract mocks skipped except on Rinkeby");
+      if (Environment.env.NODE_ENV !== "production") console.log("Give - Contract mocks skipped except on Rinkeby");
     }
 
     return {

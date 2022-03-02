@@ -3,10 +3,10 @@ import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import React, { ReactElement, useCallback, useContext, useMemo, useState } from "react";
 import { idFromHexString, initNetworkFunc } from "src/helpers/NetworkHelper";
-import { NodeHelper } from "src/helpers/NodeHelper";
+import { Providers } from "src/helpers/providers/providers";
 import Web3Modal from "web3modal";
 
-import { NETWORKS } from "../constants";
+import { NetworkId, NETWORKS } from "../constants";
 
 /**
  * determine if in IFrame for Ledger Live
@@ -80,7 +80,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [connected, setConnected] = useState(false);
   const [address, setAddress] = useState("");
   // NOTE (appleseed): loading eth mainnet as default rpc provider for a non-connected wallet
-  const [provider, setProvider] = useState<JsonRpcProvider>(NodeHelper.getMainnetStaticProvider());
+  const [provider, setProvider] = useState<JsonRpcProvider>(Providers.getStaticProvider(NetworkId.MAINNET));
   const [networkId, setNetworkId] = useState(1);
   const [networkName, setNetworkName] = useState("");
   const [providerUri, setProviderUri] = useState("");
