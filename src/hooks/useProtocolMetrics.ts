@@ -23,6 +23,7 @@ const query = `
       treasuryOhmFraxPOL
       nextDistributedOhm
       treasuryMarketValue
+      treasuryTotalBacking
       ohmCirculatingSupply
       sOhmCirculatingSupply
       treasuryRiskFreeValue
@@ -61,6 +62,7 @@ interface ProtocolMetrics {
   treasuryOhmFraxPOL: string;
   nextDistributedOhm: string;
   treasuryMarketValue: string;
+  treasuryTotalBacking: string;
   ohmCirculatingSupply: string;
   sOhmCirculatingSupply: string;
   treasuryRiskFreeValue: string;
@@ -105,4 +107,5 @@ export const useMarketCap = () => useProtocolMetrics(metrics => metrics[0].marke
 export const useTotalSupply = () => useProtocolMetrics(metrics => metrics[0].totalSupply);
 export const useTotalValueDeposited = () => useProtocolMetrics(metrics => metrics[0].totalValueLocked);
 export const useTreasuryMarketValue = () => useProtocolMetrics(metrics => metrics[0].treasuryMarketValue);
+export const useTreasuryTotalBacking = () => useProtocolMetrics(metrics => metrics[0].treasuryTotalBacking);
 export const useOhmCirculatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmCirculatingSupply);
