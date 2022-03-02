@@ -174,7 +174,6 @@ const Tender = () => {
         gOhmRate = goOhmDepositExchangeRate(gOhmExchangeRate, index, ohmPrice);
       }
       const quant = tokens[depositToken].value === 2 ? quantity : stakedToWrappedQuantity;
-      console.log(gOhmRate, "gOhmRate");
       return trim((quant * gOhmRate) / 1e18, 4);
     }
     //depositing for dai
@@ -237,7 +236,7 @@ const Tender = () => {
                   />
                 ))}
                 <Divider color="secondary" />
-                <DataRow title={t`Deposited Balance`} balance={`${depositedBalance} wsSPA `} />
+                <DataRow title={t`Deposited Balance`} balance={`${trim(depositedBalance, 4)} wsSPA `} />
                 <DataRow title={t`Redeemable Balance if Accepted`} balance={redeemableBalString} />
               </Grid>
             </>
