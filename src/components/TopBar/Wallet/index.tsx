@@ -32,6 +32,7 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const RenderComponent = (props: { component?: string }) => {
+    console.log(props.component);
     switch (props.component) {
       case "calculator":
         return <Calculator />;
@@ -41,6 +42,8 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
         return <GetOhm />;
       case "assets":
         return <Assets />;
+      case "assets/history":
+        return <Assets path="history" />;
       default:
         return <InitialWalletView onClose={closeWallet} />;
     }

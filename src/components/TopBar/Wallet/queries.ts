@@ -3,7 +3,9 @@ import { gql, request } from "graphql-request";
 import { useQuery } from "react-query";
 const snapshotUrl = "https://hub.snapshot.org/graphql";
 const mediumUrl = "https://api.rss2json.com/v1/api.json?rss_url=https://olympusdao.medium.com/feed";
-import { FUSE_POOL_18_ADDRESSES } from "src/constants/addresses";
+import { FUSE_POOL_18_ADDRESSES, SOHM_ADDRESSES, V1_SOHM_ADDRESSES } from "src/constants/addresses";
+import { EnvHelper } from "src/helpers/Environment";
+import { useWeb3Context } from "src/hooks";
 import { useStaticFuseContract } from "src/hooks/useContract";
 import { NetworkId } from "src/networkDetails";
 export const ActiveProposals = () => {
@@ -63,5 +65,39 @@ export const GetTokenPrice = (tokenId = "olympus") => {
     );
     return cgResp.data[tokenId];
   });
+  return { data, isFetched, isLoading };
+};
+
+export const GetTransactionHistory = () => {
+  const { address, networkId } = useWeb3Context();
+  const reqObject = JSON.stringify({
+    jsonrpc: "2.0",
+    id: 0,
+    method: "alchemy_getAssetTransfers",
+    params: [
+      {
+        fromBlock: "0x98EBFE",
+        fromAddress: address.toString(),
+        contractAddresses: [
+          SOHM_ADDRESSES[networkId as keyof typeof SOHM_ADDRESSES],
+          V1_SOHM_ADDRESSES[networkId as keyof typeof V1_SOHM_ADDRESSES],
+        ],
+        // maxCount: "0x5",
+        excludeZeroValue: true,
+        category: ["erc20", "token"],
+      },
+    ],
+  });
+  const alchemyEndpoint = EnvHelper.getAlchemyAPIKeyList(networkId);
+  const { data, isFetched, isLoading } = useQuery(
+    ["TransactionHistory", networkId],
+    async () => {
+      if (alchemyEndpoint.length > 0) {
+        const resp = await axios.post(alchemyEndpoint[0], reqObject);
+        return resp.data.result;
+      }
+    },
+    { enabled: !!address && !!networkId },
+  );
   return { data, isFetched, isLoading };
 };

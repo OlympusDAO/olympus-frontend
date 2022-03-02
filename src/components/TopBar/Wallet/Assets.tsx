@@ -1,6 +1,6 @@
 import { Box, Link, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { AssetCard, WalletBalance } from "@olympusdao/component-library";
+import { WalletBalance } from "@olympusdao/component-library";
 import { BigNumber, BigNumberish } from "ethers";
 import { FC } from "react";
 import { UseQueryResult } from "react-query";
@@ -22,6 +22,8 @@ import { NetworkId } from "src/networkDetails";
 import { IUserNote } from "src/slices/BondSliceV2";
 import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
 
+import Balances from "./Assets/Balances";
+import TransactionHistory from "./Assets/TransactionHistory";
 import { GetTokenPrice } from "./queries";
 import { useWallet } from "./Token";
 
@@ -74,7 +76,11 @@ const sumBalances = (
     .reduce((a, b) => a + b);
   return bal;
 };
-const Assets: FC = () => {
+
+export interface OHMAssetsProps {
+  path?: string;
+}
+const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const networks = useTestableNetworks();
   const { address: userAddress, networkId, providerInitialized } = useWeb3Context();
   const { data: ohmPrice = 0 } = useOhmPrice();
@@ -96,7 +102,6 @@ const Assets: FC = () => {
   const formattedSOhmBalance = trim(parseBigNumber(sOhmBalance), 4);
   const gOhmPriceChange = priceFeed.usd_24h_change * parseBigNumber(currentIndex);
   const gOhmPrice = ohmPrice * parseBigNumber(currentIndex);
-
   const tokenArray = [
     {
       symbol: ["OHM"],
@@ -154,6 +159,17 @@ const Assets: FC = () => {
 
   const assets = [...tokenArray, ...bondsArray];
   const walletTotalValueUSD = Object.values(assets).reduce((totalValue, token) => totalValue + token.assetValue, 0);
+  const RenderComponent = (props: { path?: string }) => {
+    console.log(props.path);
+    switch (props.path) {
+      case "history":
+        return <TransactionHistory />;
+      case "assets":
+        return <Balances assets={assets} />;
+      default:
+        return <Balances assets={assets} />;
+    }
+  };
   return (
     <>
       <WalletBalance
@@ -169,47 +185,9 @@ const Assets: FC = () => {
           <Typography>History</Typography>
         </Link>
       </Box>
-      {assets
-        .filter(asset => Number(asset.balance) > 0)
-        .map(
-          (
-            token: TokenArray = {
-              label: "",
-              symbol: undefined,
-              assetValue: 0,
-            },
-          ) => (
-            <AssetCard
-              token={token.symbol}
-              label={token.label}
-              assetValue={formatCurrency(token.assetValue, 2)}
-              assetBalance={`${token.balance} ${token.underlyingSymbol ? token.underlyingSymbol : token.symbol}`}
-              pnl={
-                token.pnl
-                  ? token.pnl
-                  : Number(token.balance) > 0
-                  ? formatCurrency(
-                      Number(token.balance) === 0 ? 0 : Number(token.balance) * priceFeed.usd_24h_change,
-                      2,
-                    )
-                  : ""
-              }
-              timeRemaining={token.timeRemaining}
-            />
-          ),
-        )}
+      <RenderComponent path={props.path} />
     </>
   );
 };
 
-export default Assets;
-
-interface TokenArray {
-  assetValue: number;
-  symbol: any;
-  balance?: string;
-  label?: string;
-  timeRemaining?: string;
-  underlyingSymbol?: string;
-  pnl?: string;
-}
+export default AssetsIndex;
