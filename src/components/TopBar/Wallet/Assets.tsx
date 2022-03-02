@@ -6,7 +6,7 @@ import { FC } from "react";
 import { UseQueryResult } from "react-query";
 import { NavLink } from "react-router-dom";
 import { formatCurrency, formatNumber, parseBigNumber, prettifySeconds, trim } from "src/helpers";
-import { useWeb3Context } from "src/hooks";
+import { useAppSelector, useWeb3Context } from "src/hooks";
 import {
   useGohmBalance,
   useOhmBalance,
@@ -19,6 +19,7 @@ import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
+import { IUserNote } from "src/slices/BondSliceV2";
 import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
 
 import { GetTokenPrice } from "./queries";
@@ -86,6 +87,7 @@ const Assets: FC = () => {
   const { data: sOhmBalance = 0 as unknown as BigNumber } = useSohmBalance()[networks.MAINNET];
   const { data: wsOhmBalance = 0 as unknown as BigNumber } = useWsohmBalance()[networks.MAINNET];
   const { data: gOhmBalance = 0 as unknown as BigNumber } = useGohmBalance()[networks.MAINNET];
+  const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
   const formattedohmBalance = trim(parseBigNumber(ohmBalance), 4);
   const formattedV1OhmBalance = trim(parseBigNumber(v1OhmBalance), 4);
   const formattedV1SohmBalance = trim(parseBigNumber(v1SohmBalance), 4);
@@ -95,7 +97,6 @@ const Assets: FC = () => {
   const gOhmPriceChange = priceFeed.usd_24h_change * parseBigNumber(currentIndex);
   const gOhmPrice = ohmPrice * parseBigNumber(currentIndex);
 
-  console.log(gOhmPrice, ohmPrice, currentIndex);
   const tokenArray = [
     {
       symbol: ["OHM"],
@@ -128,15 +129,31 @@ const Assets: FC = () => {
       balance: formattedWsOhmBalance,
       assetValue: gOhmPrice * Number(formattedWsOhmBalance),
     },
-    { symbol: ["gOHM"], balance: formattedgOhmBalance, assetValue: gOhmPrice * Number(formattedgOhmBalance) },
+    {
+      symbol: ["gOHM"],
+      balance: formattedgOhmBalance,
+      assetValue: gOhmPrice * Number(formattedgOhmBalance),
+      pnl: formatCurrency(parseBigNumber(gOhmBalance, 18) * gOhmPriceChange, 2),
+    },
   ];
-  const walletTotalValueUSD = Object.values(tokenArray).reduce((totalValue, token) => totalValue + token.assetValue, 0);
+
+  const bondsArray = accountNotes.map(note => ({
+    symbol: note.bondIconSvg,
+    balance: trim(note.payout, 4),
+    label: "(Bond)",
+    timeRemaining: note.timeLeft,
+    assetValue: note.payout * gOhmPrice,
+    underlyingSymbol: "gOHM",
+    pnl: formatCurrency(note.payout * gOhmPriceChange, 2),
+  }));
 
   const tokens = useWallet(userAddress, networkId, providerInitialized);
   const alwaysShowTokens = [tokens.ohm, tokens.sohm, tokens.gohm];
   const onlyShowWhenBalanceTokens = [tokens.wsohm, tokens.pool];
   const classes = useStyles();
 
+  const assets = [...tokenArray, ...bondsArray];
+  const walletTotalValueUSD = Object.values(assets).reduce((totalValue, token) => totalValue + token.assetValue, 0);
   return (
     <>
       <WalletBalance
@@ -152,24 +169,35 @@ const Assets: FC = () => {
           <Typography>History</Typography>
         </Link>
       </Box>
-      {tokenArray.map(
-        (
-          token: TokenArray = {
-            label: "",
-            symbol: undefined,
-            assetValue: 0,
-          },
-        ) => (
-          <AssetCard
-            token={token.symbol}
-            label={token.label}
-            assetValue={formatCurrency(token.assetValue, 2)}
-            assetBalance={`${token.balance} ${token.symbol}`}
-            pnl={formatCurrency(Number(token.balance) == 0 ? 0 : Number(token.balance) * priceFeed.usd_24h_change, 2)}
-            timeRemaining={token.timeRemaining}
-          />
-        ),
-      )}
+      {assets
+        .filter(asset => Number(asset.balance) > 0)
+        .map(
+          (
+            token: TokenArray = {
+              label: "",
+              symbol: undefined,
+              assetValue: 0,
+            },
+          ) => (
+            <AssetCard
+              token={token.symbol}
+              label={token.label}
+              assetValue={formatCurrency(token.assetValue, 2)}
+              assetBalance={`${token.balance} ${token.underlyingSymbol ? token.underlyingSymbol : token.symbol}`}
+              pnl={
+                token.pnl
+                  ? token.pnl
+                  : Number(token.balance) > 0
+                  ? formatCurrency(
+                      Number(token.balance) === 0 ? 0 : Number(token.balance) * priceFeed.usd_24h_change,
+                      2,
+                    )
+                  : ""
+              }
+              timeRemaining={token.timeRemaining}
+            />
+          ),
+        )}
     </>
   );
 };
@@ -182,4 +210,6 @@ interface TokenArray {
   balance?: string;
   label?: string;
   timeRemaining?: string;
+  underlyingSymbol?: string;
+  pnl?: string;
 }
