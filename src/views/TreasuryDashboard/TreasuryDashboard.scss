@@ -15,6 +15,11 @@
     padding: 22px 0;
   }
 
+  & .multifarm-widget-accordion__title,
+  & .multifarm-widget-card__title {
+    font-weight: 400;
+  }
+
   &::-webkit-scrollbar {
     display: none !important;
   }
@@ -32,6 +37,39 @@
         min-width: 300px;
       }
       height: 355px;
+    }
+
+    & .multifarm-widget-card {
+      background: transparent;
+      border-color: transparent;
+      padding: 0 1.25rem;
+    }
+
+    & .multifarm-widget-card__header {
+      margin-top: 3px;
+      margin-bottom: 2.5rem;
+    }
+
+    & .multifarm-widget-card__title {
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 1rem;
+      color: #a3a3a3;
+      text-overflow: ellipsis;
+    }
+
+    & .recharts-surface {
+      overflow: visible;
+    }
+
+    & .multifarm-widget-line-chart .recharts-responsive-container,
+    & .multifarm-widget-line-chart .recharts-wrapper {
+      height: 260px !important;
+    }
+
+    & .multifarm-widget-line-chart .recharts-text {
+      fill: #666 !important;
+      font-size: 0.75rem !important;
     }
   }
   .hero-metrics {
@@ -71,6 +109,16 @@
 }
 
 .mobile {
+  & .multifarm-widget-dashboard__tab-container .multifarm-widget-dashboard-tabs {
+    justify-content: unset !important;
+  }
+  
+  .ohm-card {
+    & .multifarm-widget-card__header {
+      margin-bottom: 1.25rem !important;
+    }
+  }
+
   div.metric {
     white-space: nowrap;
     min-width: 30% !important;
@@ -98,7 +146,6 @@
 }
 
 .multifarm-widget-dashboard__tab-container {
-
   .multifarm-widget-dashboard-tabs {
     width: auto;
     display: flex;
