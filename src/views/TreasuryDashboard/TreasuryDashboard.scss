@@ -112,7 +112,7 @@
   & .multifarm-widget-dashboard__tab-container .multifarm-widget-dashboard-tabs {
     justify-content: unset !important;
   }
-  
+
   .ohm-card {
     & .multifarm-widget-card__header {
       margin-bottom: 1.25rem !important;
@@ -155,7 +155,13 @@
   .multifarm-widget-dashboard-tabs__tab {
     margin: 0 15px;
     width: inherit;
+    padding: 0;
+  }
+
+  .multifarm-widget-dashboard-tabs__tab-text {
+    font-size: 19px;
     padding: 0.25rem 0;
+    border-bottom: 2px solid transparent;
   }
 
   .multifarm-widget-dashboard__sub-tabs {
@@ -184,6 +190,14 @@
     border-radius: 0 var(--ohm-card-border-radius) var(--ohm-card-border-radius) 0;
   }
 
+  .multifarm-widget-incomes-bar__text span {
+    font-size: 1rem;
+  }
+
+  .multifarm-widget-typography_page-title {
+    font-weight: 600;
+  }
+
   .multifarm-widget-tabs {
     padding: 0 10px;
     margin-left: 10px;
@@ -205,13 +219,10 @@
     .multifarm-widget-tabs {
       background: #fff; // todo: (keith) use variable
     }
-    .multifarm-widget-dashboard-tabs__tab {
-      font-size: 19px;
-      border-bottom: 2px solid transparent;
-    }
-    .multifarm-widget-dashboard-tabs__tab[data-active="true"] {
+    .multifarm-widget-dashboard-tabs__tab[data-active="true"] .multifarm-widget-dashboard-tabs__tab-text {
       border-bottom: 2px solid #000; // todo: (keith) use variable
       color: #000; // todo: (keith) use variable
+      font-weight: 400;
     }
   }
 }
@@ -221,13 +232,10 @@
     .multifarm-widget-tabs {
       background: #1d2026; // todo: (keith) use variable
     }
-    .multifarm-widget-dashboard-tabs__tab {
-      font-size: 19px;
-      border-bottom: 2px solid transparent;
-    }
-    .multifarm-widget-dashboard-tabs__tab[data-active="true"] {
+    .multifarm-widget-dashboard-tabs__tab[data-active="true"] .multifarm-widget-dashboard-tabs__tab-text {
       border-bottom: 2px solid #f8cc82; // todo: (keith) use variable
       color: #f8cc82; // todo: (keith) use variable
+      font-weight: 400;
     }
     .multifarm-widget-table-cell {
       background: #1d2026;

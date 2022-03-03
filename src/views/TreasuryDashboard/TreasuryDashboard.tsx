@@ -41,46 +41,47 @@ const TreasuryDashboard = memo(() => {
           <Tab aria-label="total-income" label="Income" />
         </Tabs>
         <TabPanel value={view} index={0}>
-          <Box className="hero-metrics">
-            <Paper className="ohm-card">
-              <MetricCollection>
-                <MarketCap {...sharedMetricProps} />
-                <OHMPrice {...sharedMetricProps} />
-                <GOHMPrice {...sharedMetricProps} className="wsoprice" />
-                <CircSupply {...sharedMetricProps} />
-                <BackingPerOHM {...sharedMetricProps} />
-                <CurrentIndex {...sharedMetricProps} />
-              </MetricCollection>
-            </Paper>
-          </Box>
-          <Zoom in={true}>
-            <Grid container spacing={2} className="data-grid">
-              <Grid item lg={6} md={6} sm={12} xs={12}>
-                <Paper className="ohm-card ohm-chart-card">
-                  <TotalValueDepositedGraph />
-                </Paper>
-              </Grid>
+          <Box sx={{ mt: "15px" }}>
+            <Box className="hero-metrics">
+              <Paper className="ohm-card">
+                <MetricCollection>
+                  <MarketCap {...sharedMetricProps} />
+                  <OHMPrice {...sharedMetricProps} />
+                  <GOHMPrice {...sharedMetricProps} className="wsoprice" />
+                  <CircSupply {...sharedMetricProps} />
+                  <BackingPerOHM {...sharedMetricProps} />
+                  <CurrentIndex {...sharedMetricProps} />
+                </MetricCollection>
+              </Paper>
+            </Box>
+            <Zoom in={true}>
+              <Grid container spacing={2} className="data-grid">
+                <Grid item lg={6} md={6} sm={12} xs={12}>
+                  <Paper className="ohm-card ohm-chart-card">
+                    <TotalValueDepositedGraph />
+                  </Paper>
+                </Grid>
 
-              <Grid item lg={6} md={6} sm={12} xs={12}>
-                <Paper className="ohm-card ohm-chart-card">
-                  <MarketValueGraph />
-                </Paper>
-              </Grid>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
+                  <Paper className="ohm-card ohm-chart-card">
+                    <MarketValueGraph />
+                  </Paper>
+                </Grid>
 
-              <Grid item lg={6} md={6} sm={12} xs={12}>
-                <Paper className="ohm-card ohm-chart-card">
-                  <RiskFreeValueGraph />
-                </Paper>
-              </Grid>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
+                  <Paper className="ohm-card ohm-chart-card">
+                    <RiskFreeValueGraph />
+                  </Paper>
+                </Grid>
 
-              <Grid item lg={6} md={6} sm={12} xs={12}>
-                <Paper className="ohm-card ohm-chart-card">
-                  <ProtocolOwnedLiquidityGraph />
-                </Paper>
-              </Grid>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
+                  <Paper className="ohm-card ohm-chart-card">
+                    <ProtocolOwnedLiquidityGraph />
+                  </Paper>
+                </Grid>
 
-              {/*  Temporarily removed until correct data is in the graph */}
-              {/* <Grid item lg={6} md={12} sm={12} xs={12}>
+                {/*  Temporarily removed until correct data is in the graph */}
+                {/* <Grid item lg={6} md={12} sm={12} xs={12}>
               <Paper className="ohm-card">
                 <Chart
                   type="bar"
@@ -103,25 +104,30 @@ const TreasuryDashboard = memo(() => {
                 />
               </Paper>
             </Grid> */}
-              <Grid item lg={6} md={6} sm={12} xs={12}>
-                <Paper className="ohm-card ohm-chart-card">
-                  <OHMStakedGraph />
-                </Paper>
-              </Grid>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
+                  <Paper className="ohm-card ohm-chart-card">
+                    <OHMStakedGraph />
+                  </Paper>
+                </Grid>
 
-              <Grid item lg={6} md={6} sm={12} xs={12}>
-                <Paper className="ohm-card ohm-chart-card">
-                  <RunwayAvailableGraph />
-                </Paper>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
+                  <Paper className="ohm-card ohm-chart-card">
+                    <RunwayAvailableGraph />
+                  </Paper>
+                </Grid>
               </Grid>
-            </Grid>
-          </Zoom>
+            </Zoom>
+          </Box>
         </TabPanel>
         <TabPanel value={view} index={1}>
-          <TreasuryAllocation />
+          <Box sx={{ mt: "15px" }}>
+            <TreasuryAllocation />
+          </Box>
         </TabPanel>
         <TabPanel value={view} index={2}>
-          <TotalIncome />
+          <Box sx={{ mt: "15px" }}>
+            <TotalIncome />
+          </Box>
         </TabPanel>
       </Container>
     </div>

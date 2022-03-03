@@ -1,8 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, CircularProgress } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
-// @ts-ignore
-import { MarketValueLineChart, RiskFreeValueLineChart } from "@multifarm/widget";
 import Chart from "src/components/Chart/Chart";
 import { formatCurrency, trim } from "src/helpers";
 import { useProtocolMetrics } from "src/hooks/useProtocolMetrics";
@@ -33,28 +30,75 @@ export const TotalValueDepositedGraph = () => {
 };
 
 export const MarketValueGraph = () => {
+  const theme = useTheme();
   const { data } = useProtocolMetrics();
 
-  if (!data) {
-    return (
-      <Box style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-  return <MarketValueLineChart />;
+  return (
+    <Chart
+      type="stack"
+      data={data}
+      dataKey={[
+        "treasuryDaiMarketValue",
+        "treasuryFraxMarketValue",
+        "treasuryWETHMarketValue",
+        "treasuryLusdMarketValue",
+        "treasuryWBTCMarketValue",
+        "treasuryUstMarketValue",
+        "treasuryOtherMarketValue",
+      ]}
+      stopColor={[
+        ["#F5AC37", "#F5AC37"],
+        ["#768299", "#768299"],
+        ["#DC30EB", "#DC30EB"],
+        ["#8BFF4D", "#8BFF4D"],
+        ["#ff758f", "#ff758f"],
+        ["#4E1F71", "#4E1F71"],
+        ["#8AECCD", "#8AECCD"],
+      ]}
+      headerText={t`Market Value of Treasury Assets`}
+      headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
+      bulletpointColors={bulletpoints.coin}
+      itemNames={tooltipItems.coin}
+      itemType={itemType.dollar}
+      infoTooltipMessage={tooltipInfoMessages().mvt}
+      expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+    />
+  );
 };
 
 export const RiskFreeValueGraph = () => {
+  const theme = useTheme();
   const { data } = useProtocolMetrics();
-  if (!data) {
-    return (
-      <Box style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <CircularProgress disableShrink />
-      </Box>
-    );
-  }
-  return <RiskFreeValueLineChart />;
+
+  return (
+    <Chart
+      type="stack"
+      data={data}
+      format="currency"
+      dataKey={[
+        "treasuryDaiRiskFreeValue",
+        "treasuryFraxRiskFreeValue",
+        "treasuryLusdRiskFreeValue",
+        "treasuryUstMarketValue",
+      ]}
+      stopColor={[
+        ["#F5AC37", "#F5AC37"],
+        ["#768299", "#768299"],
+        ["#ff758f", "#ff758f"],
+        ["#4E1F71", "#4E1F71"],
+        ["#000", "#fff"],
+        ["#000", "#fff"],
+        ["#000", "#fff"],
+      ]}
+      headerText={t`Risk Free Value of Treasury Assets`}
+      headerSubText={`${data && formatCurrency(data[0].treasuryRiskFreeValue)}`}
+      bulletpointColors={bulletpoints.rfv}
+      itemNames={tooltipItems.rfv}
+      itemType={itemType.dollar}
+      infoTooltipMessage={tooltipInfoMessages().rfv}
+      expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+    />
+  );
 };
 
 export const ProtocolOwnedLiquidityGraph = () => {
