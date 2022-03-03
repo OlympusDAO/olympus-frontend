@@ -1,7 +1,7 @@
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 
 import { NetworkId, NETWORKS } from "../constants";
-import { Providers } from "./providers/providers";
+import { Providers } from "./providers/Providers";
 
 interface IGetCurrentNetwork {
   provider: StaticJsonRpcProvider | JsonRpcProvider;

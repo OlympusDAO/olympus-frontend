@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { NetworkId } from "src/constants";
-import { Providers } from "src/helpers/providers/providers";
+import { Providers } from "src/helpers/providers/Providers";
 
 export const useStaticProvider = (networkId: NetworkId) => Providers.getStaticProvider(networkId);
 
