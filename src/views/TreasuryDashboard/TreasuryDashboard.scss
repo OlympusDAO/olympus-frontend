@@ -98,6 +98,14 @@
 }
 
 .multifarm-widget-dashboard__tab-container {
+  .multifarm-widget-select__select {
+    border-radius: 5px;
+  }
+
+  .multifarm-widget-dashboard__tab-title {
+    text-align: center;
+  }
+
   .multifarm-widget-accordion,
   .multifarm-widget-card {
     border: none;
