@@ -1,7 +1,8 @@
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
-import { createDependentQuery, parseBigNumber, queryAssertion } from "src/helpers";
+import { createDependentQuery, parseBigNumber } from "src/helpers";
+import { queryAssertion } from "src/helpers/reactQueryUtil";
 
 import { useStaticSohmContract, useStaticStakingContract } from "./useContract";
 
