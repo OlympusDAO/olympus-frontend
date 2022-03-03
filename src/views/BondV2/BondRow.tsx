@@ -23,68 +23,40 @@ export function BondDataCard({
   inverseBond: boolean;
 }) {
   const isBondLoading = useAppSelector(state => state.bondingV2.loading);
+  const bondLink = inverseBond ? `/bonds/inverse/${bond.index}` : `/bonds/${bond.index}`;
 
   return (
     <Slide direction="up" in={true}>
       <Paper id={`${bond.index}--bond`} className="bond-data-card ohm-card">
         {/* when not inverse bond show bondable asset */}
-        {!inverseBond && (
-          <div className="bond-pair">
-            <TokenStack tokens={bond.bondIconSvg} />
-            <div className="bond-name">
-              <Typography>{bond.displayName}</Typography>
-              {bond && bond.isLP ? (
-                <div>
-                  <Link href={bond.lpUrl} target="_blank">
-                    <Typography variant="body1">
-                      <Trans>Get LP</Trans>
-                      <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-                    </Typography>
-                  </Link>
-                </div>
-              ) : (
-                <div>
-                  <Link href={getEtherscanUrl({ bond, networkId })} target="_blank">
-                    <Typography variant="body1">
-                      <Trans>View Asset</Trans>
-                      <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-                    </Typography>
-                  </Link>
-                </div>
-              )}
-            </div>
+        <div className="bond-pair">
+          <TokenStack tokens={bond.bondIconSvg} />
+          <div className="bond-name">
+            <Typography>{bond.displayName}</Typography>
+            {bond && bond.isLP ? (
+              <div>
+                <Link href={bond.lpUrl} target="_blank">
+                  <Typography variant="body1">
+                    <Trans>Get LP</Trans>
+                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                  </Typography>
+                </Link>
+              </div>
+            ) : (
+              <div>
+                <Link
+                  href={getEtherscanUrl({ tokenAddress: inverseBond ? bond.baseToken : bond.quoteToken, networkId })}
+                  target="_blank"
+                >
+                  <Typography variant="body1">
+                    <Trans>View Asset</Trans>
+                    <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                  </Typography>
+                </Link>
+              </div>
+            )}
           </div>
-        )}
-
-        {/* TODO (appleseed-inverse): show payout */}
-        {/* when IS inverse bond show payout asset */}
-        {inverseBond && (
-          <div className="bond-pair">
-            <TokenStack tokens={bond.bondIconSvg} />
-            <div className="bond-name">
-              <Typography>{bond.displayName}</Typography>
-              {bond && bond.isLP ? (
-                <div>
-                  <Link href={bond.lpUrl} target="_blank">
-                    <Typography variant="body1">
-                      <Trans>Get LP</Trans>
-                      <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-                    </Typography>
-                  </Link>
-                </div>
-              ) : (
-                <div>
-                  <Link href={getEtherscanUrl({ bond, networkId })} target="_blank">
-                    <Typography variant="body1">
-                      <Trans>View Asset</Trans>
-                      <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
-                    </Typography>
-                  </Link>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+        </div>
         <div className="data-row">
           <Typography>
             <Trans>Price</Trans>
@@ -101,16 +73,28 @@ export function BondDataCard({
             {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.index} bond={bond} />}
           </Typography>
         </div>
-        <div className="data-row">
-          <Typography>
-            <Trans>Duration</Trans>
-          </Typography>
-          <Typography>{isBondLoading ? <Skeleton width="50px" /> : bond.duration}</Typography>
-        </div>
-
-        <Link component={NavLink} to={`/bonds/${bond.index}`}>
+        {inverseBond ? (
+          <div className="data-row">
+            <Typography>
+              <Trans>Payout</Trans>
+            </Typography>
+            <Typography>{isBondLoading ? <Skeleton width="50px" /> : bond.payoutName}</Typography>
+          </div>
+        ) : (
+          <div className="data-row">
+            <Typography>
+              <Trans>Duration</Trans>
+            </Typography>
+            <Typography>{isBondLoading ? <Skeleton width="50px" /> : bond.duration}</Typography>
+          </div>
+        )}
+        <Link component={NavLink} to={bondLink}>
           <TertiaryButton fullWidth disabled={bond.soldOut}>
-            {bond.soldOut ? t`Sold Out` : t`Bond ${bond.displayName}`}
+            {bond.soldOut
+              ? t`Sold Out`
+              : !inverseBond
+              ? `${t`Bond`} ${bond.displayName}`
+              : `${t`Bond`} ${bond.displayName} for ${bond.payoutName}`}
           </TertiaryButton>
         </Link>
       </Paper>
@@ -129,6 +113,7 @@ export function BondTableData({
 }) {
   // Use BondPrice as indicator of loading.
   const isBondLoading = !bond.priceUSD ?? true;
+  const bondLink = inverseBond ? `/bonds/inverse/${bond.index}` : `/bonds/${bond.index}`;
 
   return (
     <TableRow id={`${bond.index}--bond`}>
@@ -149,7 +134,11 @@ export function BondTableData({
             ) : (
               <>
                 <Typography variant="body1">{bond.displayName}</Typography>
-                <Link color="primary" href={getEtherscanUrl({ bond, networkId })} target="_blank">
+                <Link
+                  color="primary"
+                  href={getEtherscanUrl({ tokenAddress: bond.quoteToken, networkId })}
+                  target="_blank"
+                >
                   <Typography variant="body1">
                     <Trans>View Asset</Trans>
                     <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
@@ -164,11 +153,15 @@ export function BondTableData({
       {inverseBond && (
         <TableCell align="left" className="bond-logo-cell">
           <div className="logo-container">
-            <TokenStack tokens={bond.bondIconSvg} />
+            <TokenStack tokens={bond.payoutIconSvg} />
             <div className="bond-name">
               <>
-                <Typography variant="body1">{bond.displayName}</Typography>
-                <Link color="primary" href={getEtherscanUrl({ bond, networkId })} target="_blank">
+                <Typography variant="body1">{bond.payoutName}</Typography>
+                <Link
+                  color="primary"
+                  href={getEtherscanUrl({ tokenAddress: bond.baseToken, networkId })}
+                  target="_blank"
+                >
                   <Typography variant="body1">
                     <Trans>View Asset</Trans>
                     <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
@@ -187,9 +180,9 @@ export function BondTableData({
       <TableCell align="left">
         {isBondLoading ? <Skeleton width="50px" /> : <DisplayBondDiscount key={bond.index} bond={bond} />}
       </TableCell>
-      <TableCell align="left">{isBondLoading ? <Skeleton /> : bond.duration}</TableCell>
+      {!inverseBond && <TableCell align="left">{isBondLoading ? <Skeleton /> : bond.duration}</TableCell>}
       <TableCell>
-        <Link component={NavLink} to={`/bonds/${bond.index}`}>
+        <Link component={NavLink} to={bondLink}>
           <TertiaryButton fullWidth disabled={bond.soldOut}>
             {bond.soldOut ? t`Sold Out` : t`do_bond`}
           </TertiaryButton>

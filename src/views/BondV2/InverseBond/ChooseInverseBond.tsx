@@ -17,7 +17,6 @@ import { useHistory } from "react-router-dom";
 import { formatCurrency } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import { IUserBondDetails } from "src/slices/AccountSlice";
 import { IUserNote } from "src/slices/BondSliceV2";
 
 import { BondDataCard, BondTableData } from "../BondRow";
@@ -27,8 +26,10 @@ function ChooseInverseBond() {
   const history = useHistory();
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
-  const bondsV2 = useAppSelector(state => {
-    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]).sort((a, b) => b.discount - a.discount);
+  const inverseBonds = useAppSelector(state => {
+    return state.inverseBonds.indexes
+      .map(index => state.inverseBonds.bonds[index])
+      .sort((a, b) => b.discount - a.discount);
   });
 
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
@@ -49,16 +50,6 @@ function ChooseInverseBond() {
     minimumFractionDigits: 0,
   }).format(Number(treasuryBalance));
 
-  const v1AccountBonds: IUserBondDetails[] = useAppSelector(state => {
-    const withInterestDue = [];
-    for (const bond in state.account.bonds) {
-      if (state.account.bonds[bond].interestDue > 0) {
-        withInterestDue.push(state.account.bonds[bond]);
-      }
-    }
-    return withInterestDue;
-  });
-
   return (
     <>
       <Zoom in={true}>
@@ -76,7 +67,7 @@ function ChooseInverseBond() {
             />
           </MetricCollection>
 
-          {!isSmallScreen && bondsV2.length != 0 && (
+          {!isSmallScreen && inverseBonds.length != 0 && (
             <Grid container item>
               <TableContainer>
                 <Table aria-label="Available bonds">
@@ -94,13 +85,10 @@ function ChooseInverseBond() {
                       <TableCell align="left">
                         <Trans>Discount</Trans>
                       </TableCell>
-                      <TableCell align="left">
-                        <Trans>Duration</Trans>
-                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {bondsV2.map(bond => {
+                    {inverseBonds.map(bond => {
                       if (bond.displayName !== "unknown")
                         return <BondTableData networkId={networkId} key={bond.index} bond={bond} inverseBond={true} />;
                     })}
@@ -122,7 +110,7 @@ function ChooseInverseBond() {
       {isSmallScreen && (
         <Box className="ohm-card-container">
           <Grid container item spacing={2}>
-            {bondsV2.map(bond => {
+            {inverseBonds.map(bond => {
               return (
                 <Grid item xs={12} key={bond.index}>
                   <BondDataCard key={bond.index} bond={bond} networkId={networkId} inverseBond={true} />

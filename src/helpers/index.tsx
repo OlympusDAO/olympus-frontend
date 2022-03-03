@@ -5,7 +5,6 @@ import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
 import { ethers } from "ethers";
 import { QueryKey, useQuery } from "react-query";
-import { IBondV2 } from "src/slices/BondSliceV2";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
@@ -118,11 +117,11 @@ export async function getTokenIdByContract(contractAddress: string): Promise<str
   }
 }
 
-export const getEtherscanUrl = ({ bond, networkId }: { bond: IBondV2; networkId: NetworkId }) => {
+export const getEtherscanUrl = ({ tokenAddress, networkId }: { tokenAddress: string; networkId: NetworkId }) => {
   if (networkId === NetworkId.TESTNET_RINKEBY) {
-    return `https://rinkeby.etherscan.io/address/${bond.quoteToken}`;
+    return `https://rinkeby.etherscan.io/address/${tokenAddress}`;
   }
-  return `https://etherscan.io/address/${bond.quoteToken}`;
+  return `https://etherscan.io/address/${tokenAddress}`;
 };
 
 export function shorten(str: string) {

@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { changeApproval, getSingleBond, IBondV2, purchaseBond } from "src/slices/BondSliceV2";
+import { purchaseInverseBond } from "src/slices/InverseBondSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { AppDispatch } from "src/store";
 
@@ -20,10 +21,12 @@ function BondPurchase({
   bond,
   slippage,
   recipientAddress,
+  inverseBond,
 }: {
   bond: IBondV2;
   slippage: number;
   recipientAddress: string;
+  inverseBond: boolean;
 }) {
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch<AppDispatch>();
@@ -37,8 +40,14 @@ function BondPurchase({
 
   const isBondLoading = useAppSelector(state => state.bondingV2.loading ?? true);
 
-  const balance = useAppSelector(state => state.bondingV2.balances[bond.quoteToken]);
-
+  // const balance = useAppSelector(state => state.bondingV2.balances[bond.quoteToken]);
+  const balance = useAppSelector(state => {
+    if (inverseBond) {
+      return state.inverseBonds.balances[bond.quoteToken];
+    } else {
+      return state.bondingV2.balances[bond.quoteToken];
+    }
+  });
   const maxBondable = +bond.maxPayoutOrCapacityInQuote;
 
   const balanceNumber: number = useMemo(
@@ -63,16 +72,29 @@ function BondPurchase({
         ),
       );
     } else {
-      dispatch(
-        purchaseBond({
-          amount: ethers.utils.parseUnits(quantity, bond.quoteDecimals),
-          networkID: networkId,
-          provider,
-          bond,
-          maxPrice: Math.round(Number(bond.priceTokenBigNumber.toString()) * (1 + slippage / 100)),
-          address: recipientAddress,
-        }),
-      ).then(() => clearInput());
+      if (inverseBond) {
+        dispatch(
+          purchaseInverseBond({
+            amounts: [quantity, 0],
+            networkID: networkId,
+            provider,
+            bond,
+            maxPrice: Math.round(Number(bond.priceTokenBigNumber.toString()) * (1 + slippage / 100)),
+            address: recipientAddress,
+          }),
+        ).then(() => clearInput());
+      } else {
+        dispatch(
+          purchaseBond({
+            amount: ethers.utils.parseUnits(quantity, bond.quoteDecimals),
+            networkID: networkId,
+            provider,
+            bond,
+            maxPrice: Math.round(Number(bond.priceTokenBigNumber.toString()) * (1 + slippage / 100)),
+            address: recipientAddress,
+          }),
+        ).then(() => clearInput());
+      }
     }
   }
 

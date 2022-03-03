@@ -521,13 +521,15 @@ export const loadAccountDetails = createAsyncThunk(
       handleContractError(e);
     }
     await dispatch(getBalances({ address, networkID, provider }));
-    await dispatch(getDonationBalances({ address, networkID, provider }));
-    await dispatch(getRedemptionBalances({ address, networkID, provider }));
-    if (networkID === NetworkId.TESTNET_RINKEBY) {
-      await dispatch(getMockDonationBalances({ address, networkID, provider }));
-      await dispatch(getMockRedemptionBalances({ address, networkID, provider }));
-    } else {
-      if (EnvHelper.env.NODE_ENV !== "production") console.log("Give - Contract mocks skipped except on Rinkeby");
+    if (EnvHelper.isGiveEnabled()) {
+      await dispatch(getDonationBalances({ address, networkID, provider }));
+      await dispatch(getRedemptionBalances({ address, networkID, provider }));
+      if (networkID === NetworkId.TESTNET_RINKEBY) {
+        await dispatch(getMockDonationBalances({ address, networkID, provider }));
+        await dispatch(getMockRedemptionBalances({ address, networkID, provider }));
+      } else {
+        if (EnvHelper.env.NODE_ENV !== "production") console.log("Give - Contract mocks skipped except on Rinkeby");
+      }
     }
 
     return {

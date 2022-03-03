@@ -1,123 +1,32 @@
-import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import { addresses, NetworkId, UnknownDetails, V2BondDetails, v2BondDetails } from "src/constants";
 import { prettifySeconds } from "src/helpers";
 import { RootState } from "src/store";
-import { BondDepository__factory, IERC20__factory } from "src/typechain";
+import { IERC20__factory, OlympusProV2__factory } from "src/typechain";
 
 import { getBalances } from "./AccountSlice";
-import { findOrLoadMarketPrice } from "./AppSlice";
+import {
+  getTokenBalance,
+  IBondInverseCore,
+  IBondInverseMeta,
+  IBondV2,
+  IBondV2Balance,
+  IBondV2Terms,
+  IInverseDepoNote,
+  IUserNote,
+} from "./BondSliceV2";
 import {
   IBaseAddressAsyncThunk,
   IBaseBondV2ClaimAsyncThunk,
   IBaseBondV2SingleClaimAsyncThunk,
+  IBondInversePurchaseAsyncThunk,
   IBondV2AysncThunk,
   IBondV2IndexAsyncThunk,
-  IBondV2PurchaseAsyncThunk,
   IJsonRPCError,
-  IValueAsyncThunk,
 } from "./interfaces";
 import { error, info } from "./MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
-
-const BASE_TOKEN_DECIMALS = 9;
-
-export interface IBondV2 extends IBondInverseCore, IBondInverseMeta, IBondV2Terms {
-  index: number;
-  displayName: string;
-  payoutName: string;
-  priceUSD: number;
-  priceToken: number;
-  priceTokenBigNumber: BigNumber;
-  discount: number;
-  duration: string;
-  expiration: string;
-  isLP: boolean;
-  lpUrl: string;
-  marketPrice: number;
-  soldOut: boolean;
-  capacityInBaseToken: string;
-  capacityInQuoteToken: string;
-  maxPayoutInBaseToken: string;
-  maxPayoutInQuoteToken: string;
-  maxPayoutOrCapacityInQuote: string;
-  maxPayoutOrCapacityInBase: string;
-  bondIconSvg: OHMTokenStackProps["tokens"];
-  payoutIconSvg: OHMTokenStackProps["tokens"];
-}
-
-export interface IBondInverseCore extends IBondV2Core {
-  // creator: string;
-  baseToken: string;
-  // call: boolean;
-}
-
-export interface IBondInverseMeta extends IBondV2Meta {
-  baseDecimals: number;
-}
-
-export interface IBondV2Balance {
-  allowance: BigNumber;
-  balance: BigNumber;
-  tokenAddress: string;
-}
-
-export interface IBondV2Core {
-  quoteToken: string;
-  capacityInQuote: boolean;
-  capacity: BigNumber;
-  totalDebt: BigNumber;
-  maxPayout: BigNumber;
-  purchased: BigNumber;
-  sold: BigNumber;
-}
-
-export interface IBondV2Meta {
-  lastTune: number;
-  lastDecay: number;
-  length: number;
-  depositInterval: number;
-  tuneInterval: number;
-  quoteDecimals: number;
-}
-
-export interface IBondV2Terms {
-  fixedTerm: boolean;
-  controlVariable: ethers.BigNumber;
-  vesting: number;
-  conclusion: number;
-  maxDebt: ethers.BigNumber;
-}
-
-export interface IDepoNote {
-  payout: ethers.BigNumber;
-  created: number;
-  matured: number;
-  redeemed: number;
-  marketID: number;
-}
-
-export interface IInverseDepoNote extends IDepoNote {
-  token: string;
-}
-
-export interface IUserNoteIsh extends Omit<IInverseDepoNote, "payout"> {
-  payout: number;
-}
-
-export interface IUserNote extends IUserNoteIsh {
-  fullyMatured: boolean;
-  originalDurationSeconds: number;
-  remainingDurationSeconds: number;
-  originalDuration: string;
-  timeLeft: string;
-  claimed: boolean;
-  displayName: string;
-  quoteToken: string;
-  bondIconSvg: OHMTokenStackProps["tokens"];
-  index: number;
-}
 
 function checkNetwork(networkID: NetworkId) {
   if (networkID !== 1 && networkID !== 4) {
@@ -126,8 +35,10 @@ function checkNetwork(networkID: NetworkId) {
   }
 }
 
+const BASE_TOKEN_DECIMALS = 9;
+
 export const changeApproval = createAsyncThunk(
-  "bondsV2/changeApproval",
+  "inverseBonds/changeApproval",
   async ({ bond, provider, networkID, address }: IBondV2AysncThunk, { dispatch, getState }) => {
     checkNetwork(networkID);
     const signer = provider.getSigner();
@@ -138,7 +49,7 @@ export const changeApproval = createAsyncThunk(
     let approveTx: ethers.ContractTransaction | undefined;
     try {
       approveTx = await tokenContract.approve(
-        addresses[networkID].BOND_DEPOSITORY,
+        addresses[networkID].OP_BOND_DEPOSITORY,
         ethers.utils.parseUnits("10000000000000", tokenDecimals),
       );
       const text = `Approve ${bond.displayName} Bonding`;
@@ -160,21 +71,20 @@ export const changeApproval = createAsyncThunk(
   },
 );
 
-export const purchaseBond = createAsyncThunk(
-  "bondsV2/purchase",
-  async ({ provider, address, bond, networkID, amount, maxPrice }: IBondV2PurchaseAsyncThunk, { dispatch }) => {
+export const purchaseInverseBond = createAsyncThunk(
+  "inverseBonds/purchase",
+  async ({ provider, address, bond, networkID, amounts }: IBondInversePurchaseAsyncThunk, { dispatch }) => {
     checkNetwork(networkID);
     const signer = provider.getSigner();
-    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
+    // TODO (appleseed-inverse) update the ABI & Factory one last time before launch
+    const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, signer);
 
     let depositTx: ethers.ContractTransaction | undefined;
     try {
       depositTx = await depositoryContract.deposit(
         bond.index,
-        amount,
-        maxPrice,
-        address,
-        addresses[networkID].DAO_TREASURY,
+        [amounts[0], amounts[1]],
+        [address, addresses[networkID].DAO_TREASURY],
       );
       const text = `Purchase ${bond.displayName} Bond`;
       const pendingTxnType = `bond_${bond.displayName}`;
@@ -190,17 +100,18 @@ export const purchaseBond = createAsyncThunk(
       if (depositTx) {
         dispatch(info("Successfully purchased bond!"));
         dispatch(getUserNotes({ provider, networkID, address }));
-        dispatch(getAllBonds({ address, provider, networkID }));
+        dispatch(getAllInverseBonds({ address, provider, networkID }));
       }
     }
   },
 );
 
 export const getSingleBond = createAsyncThunk(
-  "bondsV2/getSingle",
+  "inverseBonds/getSingle",
   async ({ provider, networkID, bondIndex }: IBondV2IndexAsyncThunk, { dispatch }): Promise<IBondV2> => {
     checkNetwork(networkID);
-    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
+    // TODO (appleseed-inverse): update this factory & abi to the deployed depository
+    const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, provider);
     const bondCore = await depositoryContract.markets(bondIndex);
     const bondMetadata = await depositoryContract.metadata(bondIndex);
     const bondTerms = await depositoryContract.terms(bondIndex);
@@ -208,20 +119,9 @@ export const getSingleBond = createAsyncThunk(
   },
 );
 
-export const getTokenBalance = createAsyncThunk(
-  "bondsV2/getBalance",
-  async ({ provider, networkID, address, value }: IValueAsyncThunk, {}): Promise<IBondV2Balance> => {
-    checkNetwork(networkID);
-    const tokenContract = IERC20__factory.connect(value, provider);
-    const balance = await tokenContract.balanceOf(address);
-    const allowance = await tokenContract.allowance(address, addresses[networkID].BOND_DEPOSITORY);
-    return { balance, allowance, tokenAddress: value };
-  },
-);
-
 async function processBond(
-  bond: IBondV2Core,
-  metadata: IBondV2Meta,
+  bond: IBondInverseCore,
+  metadata: IBondInverseMeta,
   terms: IBondV2Terms,
   index: number,
   provider: ethers.providers.JsonRpcProvider,
@@ -229,21 +129,52 @@ async function processBond(
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
 ): Promise<IBondV2> {
   const currentTime = Date.now() / 1000;
-  const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
+  console.log("processBond");
+  // TODO (appleseed-inverse): update this factory & abi to the deployed depository
+  const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, provider);
   let v2BondDetail: V2BondDetails = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
+  const payoutDetail: V2BondDetails = v2BondDetails[networkID][bond.baseToken.toLowerCase()];
 
   if (!v2BondDetail) {
     v2BondDetail = UnknownDetails;
     console.error(`Add details for bond index=${index}`);
   }
+  console.log("v2BondDetail", v2BondDetail, payoutDetail);
+  // quoteTokenPrice === the price of LUSD or DAI or OHM-DAI etc, except with Inverse Bonds == price of OHM
   const quoteTokenPrice = await v2BondDetail.pricingFunction(provider, bond.quoteToken);
+  console.log("qt", quoteTokenPrice);
+  // bondPriceBigNumber === the market price of quote_token (bond_in_token) in base_token (payout_token) where base_token is typically OHM
+  // ... in other words, 20 bond_in_token / 1 payout_token w/ payout_token decimals (X bond_in_token per 1 payout_token)
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
+  // const bondPrice = +bondPriceBigNumber / Math.pow(10, metadata.baseDecimals);
+  // bond price appears to be in OHM decimals, not payout decimals
   const bondPrice = +bondPriceBigNumber / Math.pow(10, BASE_TOKEN_DECIMALS);
+  // bondPriceUsd === $X/payoutToken
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
-  const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
-  const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;
+  console.log("bp", bondPriceBigNumber, bondPrice, bondPriceUSD);
+
+  const payoutTokenPrice = await payoutDetail.pricingFunction(provider, bond.baseToken);
+  const bondDiscount = (payoutTokenPrice - bondPriceUSD) / payoutTokenPrice;
+  console.log("payoutTokenPrice", bond.baseToken, payoutTokenPrice, bondDiscount);
 
   let capacityInBaseToken: string, capacityInQuoteToken: string;
+  console.log("bond", bond);
+  // if (bond.capacityInQuote) {
+  //   capacityInBaseToken = ethers.utils.formatUnits(
+  //     bond.capacity.mul(Math.pow(10, 2 * metadata.baseDecimals - metadata.quoteDecimals)).div(bondPriceBigNumber),
+  //     metadata.baseDecimals,
+  //   );
+  //   capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, metadata.quoteDecimals);
+  // } else {
+  //   // capacity in payout token (for inverse this is DAI, LUSD, etc)
+  //   capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, metadata.baseDecimals);
+  //   console.log("capacityInBaseToken", capacityInBaseToken);
+  //   capacityInQuoteToken = ethers.utils.formatUnits(
+  //     bond.capacity.mul(bondPriceBigNumber).div(Math.pow(10, 2 * metadata.baseDecimals - metadata.quoteDecimals)),
+  //     metadata.quoteDecimals,
+  //   );
+  //   console.log("capacityInQuoteToken", capacityInQuoteToken);
+  // }
   if (bond.capacityInQuote) {
     capacityInBaseToken = ethers.utils.formatUnits(
       bond.capacity.mul(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)).div(bondPriceBigNumber),
@@ -252,17 +183,20 @@ async function processBond(
     capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, metadata.quoteDecimals);
   } else {
     capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, BASE_TOKEN_DECIMALS);
+    console.log("capacityInBaseToken", capacityInBaseToken);
     capacityInQuoteToken = ethers.utils.formatUnits(
       bond.capacity.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
       metadata.quoteDecimals,
     );
+    console.log("capacityInQuoteToken", capacityInQuoteToken);
   }
   const maxPayoutInBaseToken: string = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
+  console.log("maxPayoutInBaseToken", maxPayoutInBaseToken);
   const maxPayoutInQuoteToken: string = ethers.utils.formatUnits(
     bond.maxPayout.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
     metadata.quoteDecimals,
   );
-
+  console.log("maxPayoutInQuoteToken", maxPayoutInQuoteToken);
   let seconds = 0;
   if (terms.fixedTerm) {
     const vestingTime = currentTime + terms.vesting;
@@ -287,13 +221,14 @@ async function processBond(
   const maxPayoutOrCapacityInBase =
     +capacityInBaseToken > +maxPayoutInBaseToken ? maxPayoutInBaseToken : capacityInBaseToken;
 
+  soldOut = false;
   return {
     ...bond,
     ...metadata,
     ...terms,
     index: index,
     displayName: `${v2BondDetail.name}`,
-    payoutName: `OHM`,
+    payoutName: `${payoutDetail.name}`,
     priceUSD: bondPriceUSD,
     priceToken: bondPrice,
     priceTokenBigNumber: bondPriceBigNumber,
@@ -302,10 +237,9 @@ async function processBond(
     duration,
     isLP: v2BondDetail.isLP,
     lpUrl: v2BondDetail.isLP ? v2BondDetail.lpUrl[networkID] : "",
-    marketPrice: ohmPrice,
+    marketPrice: payoutTokenPrice,
     quoteToken: bond.quoteToken.toLowerCase(),
-    baseToken: "OHM",
-    baseDecimals: BASE_TOKEN_DECIMALS,
+    baseToken: bond.baseToken.toLowerCase(),
     maxPayoutInQuoteToken,
     maxPayoutInBaseToken,
     capacityInQuoteToken,
@@ -314,15 +248,15 @@ async function processBond(
     maxPayoutOrCapacityInQuote,
     maxPayoutOrCapacityInBase,
     bondIconSvg: v2BondDetail.bondIconSvg,
-    payoutIconSvg: ["OHM"],
+    payoutIconSvg: payoutDetail.bondIconSvg,
   };
 }
 
-export const getAllBonds = createAsyncThunk(
-  "bondsV2/getAll",
+export const getAllInverseBonds = createAsyncThunk(
+  "inverseBonds/getAll",
   async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch }) => {
     checkNetwork(networkID);
-    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
+    const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, provider);
     const liveBondIndexes = await depositoryContract.liveMarkets();
     // `markets()` returns quote/price data
     const liveBondPromises = liveBondIndexes.map(async index => await depositoryContract.markets(index));
@@ -330,11 +264,14 @@ export const getAllBonds = createAsyncThunk(
     const liveBondTermsPromises = liveBondIndexes.map(async index => await depositoryContract.terms(index));
     const liveBonds: IBondV2[] = [];
 
+    console.log("inverse", liveBondIndexes, liveBondPromises);
+
     for (let i = 0; i < liveBondIndexes.length; i++) {
       const bondIndex = +liveBondIndexes[i];
+      console.log("bondIndex", bondIndex);
       try {
-        const bond: IBondV2Core = await liveBondPromises[i];
-        const bondMetadata: IBondV2Meta = await liveBondMetadataPromises[i];
+        const bond: IBondInverseCore = await liveBondPromises[i];
+        const bondMetadata: IBondInverseMeta = await liveBondMetadataPromises[i];
         const bondTerms: IBondV2Terms = await liveBondTermsPromises[i];
         const finalBond = await processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
         liveBonds.push(finalBond);
@@ -343,7 +280,7 @@ export const getAllBonds = createAsyncThunk(
           dispatch(getTokenBalance({ provider, networkID, address, value: finalBond.quoteToken }));
         }
       } catch (e) {
-        console.log("getAllBonds Error for Bond Index: ", bondIndex);
+        console.log("getAllInverseBonds Error for Bond Index: ", bondIndex);
         console.log(e);
       }
     }
@@ -352,14 +289,14 @@ export const getAllBonds = createAsyncThunk(
 );
 
 export const getUserNotes = createAsyncThunk(
-  "bondsV2/notes",
+  "inverseBonds/notes",
   async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch, getState }): Promise<IUserNote[]> => {
     checkNetwork(networkID);
     const currentTime = Date.now() / 1000;
-    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
+    const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, provider);
     const userNoteIndexes = await depositoryContract.indexesFor(address);
     const userNotePromises = userNoteIndexes.map(async index => await depositoryContract.notes(address, index));
-    const userNotes: IDepoNote[] = await Promise.all(userNotePromises);
+    const userNotes: IInverseDepoNote[] = await Promise.all(userNotePromises);
     const bonds = await Promise.all(
       Array.from(new Set(userNotes.map(note => note.marketID))).map(async id => {
         const bond = await depositoryContract.markets(id);
@@ -369,7 +306,7 @@ export const getUserNotes = createAsyncThunk(
     ).then(result => Object.fromEntries(result.map(bond => [bond.index, bond])));
     const notes: IUserNote[] = [];
     for (let i = 0; i < userNotes.length; i++) {
-      const rawNote: IDepoNote = userNotes[i];
+      const rawNote: IInverseDepoNote = userNotes[i];
       const bond = bonds[rawNote.marketID];
       const originalDurationSeconds = Math.max(rawNote.matured - rawNote.created, 0);
       const seconds = Math.max(rawNote.matured - currentTime, 0);
@@ -400,7 +337,6 @@ export const getUserNotes = createAsyncThunk(
         quoteToken: bond.quoteToken.toLowerCase(),
         index: +userNoteIndexes[i],
         bondIconSvg: bond?.bondIconSvg,
-        token: "OHM",
       };
       notes.push(note);
     }
@@ -409,14 +345,14 @@ export const getUserNotes = createAsyncThunk(
 );
 
 export const claimAllNotes = createAsyncThunk(
-  "bondsV2/claimAll",
-  async ({ provider, networkID, address, gOHM }: IBaseBondV2ClaimAsyncThunk, { dispatch, getState }) => {
+  "inverseBonds/claimAll",
+  async ({ provider, networkID, address }: IBaseBondV2ClaimAsyncThunk, { dispatch, getState }) => {
     const signer = provider.getSigner();
-    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
+    const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, signer);
 
     let claimTx: ethers.ContractTransaction | undefined;
     try {
-      claimTx = await depositoryContract.redeemAll(address, gOHM);
+      claimTx = await depositoryContract.redeemAll(address);
       const text = `Claim All Bonds`;
       const pendingTxnType = `redeem_all_notes`;
       if (claimTx) {
@@ -438,14 +374,14 @@ export const claimAllNotes = createAsyncThunk(
 );
 
 export const claimSingleNote = createAsyncThunk(
-  "bondsV2/claimSingle",
-  async ({ provider, networkID, address, indexes, gOHM }: IBaseBondV2SingleClaimAsyncThunk, { dispatch, getState }) => {
+  "inverseBonds/claimSingle",
+  async ({ provider, networkID, address, indexes }: IBaseBondV2SingleClaimAsyncThunk, { dispatch, getState }) => {
     const signer = provider.getSigner();
-    const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
+    const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, signer);
 
     let claimTx: ethers.ContractTransaction | undefined;
     try {
-      claimTx = await depositoryContract.redeem(address, indexes, gOHM);
+      claimTx = await depositoryContract.redeem(address, indexes);
       const text = `Redeem Note Index=${indexes}`;
       if (claimTx) {
         for (let i = 0; i < indexes.length; i++) {
@@ -488,21 +424,21 @@ const initialState: IBondSlice = {
   notes: [],
 };
 
-const bondingSliceV2 = createSlice({
-  name: "bondsV2",
+const inverseBondingSlice = createSlice({
+  name: "inverseBonds",
   initialState,
   reducers: {
-    fetchBondSuccessV2(state, action) {
+    fetchBondSuccessInverse(state, action) {
       state.bonds[action.payload.bond] = action.payload;
     },
   },
 
   extraReducers: builder => {
     builder
-      .addCase(getAllBonds.pending, state => {
+      .addCase(getAllInverseBonds.pending, state => {
         state.loading = true;
       })
-      .addCase(getAllBonds.fulfilled, (state, action) => {
+      .addCase(getAllInverseBonds.fulfilled, (state, action) => {
         state.indexes = [];
         state.bonds = {};
         action.payload.forEach(bond => {
@@ -511,7 +447,7 @@ const bondingSliceV2 = createSlice({
         });
         state.loading = false;
       })
-      .addCase(getAllBonds.rejected, (state, { error }) => {
+      .addCase(getAllInverseBonds.rejected, (state, { error }) => {
         state.indexes = [];
         state.bonds = {};
         state.loading = false;
@@ -543,10 +479,10 @@ const bondingSliceV2 = createSlice({
   },
 });
 
-export const bondingReducerV2 = bondingSliceV2.reducer;
+export const inverseBondingReducer = inverseBondingSlice.reducer;
 
-export const { fetchBondSuccessV2 } = bondingSliceV2.actions;
+export const { fetchBondSuccessInverse } = inverseBondingSlice.actions;
 
-const baseInfo = (state: RootState) => state.bondingV2;
+const baseInfo = (state: RootState) => state.inverseBonds;
 
-export const getBondingStateV2 = createSelector(baseInfo, bonding => bonding);
+export const getInverseBondingState = createSelector(baseInfo, bonding => bonding);
