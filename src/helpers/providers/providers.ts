@@ -1,7 +1,7 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
+import { nonNullable } from "src/helpers/typeUtil";
 import { NetworkId } from "src/networkDetails";
 
-import { nonNullable } from "..";
 import { Environment } from "../environment/environment";
 
 export class Providers {
@@ -58,6 +58,7 @@ export class Providers {
    */
   private static _getAlchemyUrl(networkId: NetworkId) {
     const key = Environment.getAlchemyApiKey();
+    console.error({ networkId });
 
     switch (networkId) {
       case NetworkId.MAINNET:
@@ -72,6 +73,8 @@ export class Providers {
         return `https://polygon-mainnet.g.alchemy.com/v2/${key}`;
       case NetworkId.POLYGON_TESTNET:
         return `https://polygon-mumbai.g.alchemy.com/v2/${key}`;
+      default:
+        console.error("NetworkId not known", { networkId });
     }
   }
 

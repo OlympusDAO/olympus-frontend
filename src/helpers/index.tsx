@@ -277,16 +277,6 @@ export const handleContractError = (e: any) => {
 export const isIFrame = () => window.location !== window.parent.location;
 
 /**
- * Assertion function helpful for asserting `enabled`
- * values from within a `react-query` function.
- * @param value The value(s) to assert
- * @param queryKey Key of current query
- */
-export function queryAssertion(value: unknown, queryKey: any = "not specified"): asserts value {
-  if (!value) throw new Error(`Failed react-query assertion for key: ${queryKey}`);
-}
-
-/**
  * Assertion function
  */
 export function assert(value: unknown, message: string | Error): asserts value {
@@ -335,13 +325,6 @@ export const createDependentQuery = (baseQueryKey: QueryKey) => {
     return useQuery([baseQueryKey, key].filter(Boolean), fn, { enabled }).data;
   };
 };
-
-/**
- * Type safe check for non defined values
- */
-export function nonNullable<Type>(value: Type): value is NonNullable<Type> {
-  return value !== null && value !== undefined;
-}
 
 interface ICheckBalance extends IBaseAsyncThunk {
   readonly sOHMbalance: string;

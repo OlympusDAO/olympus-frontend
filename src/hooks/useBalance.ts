@@ -15,7 +15,8 @@ import {
   V1_SOHM_ADDRESSES,
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
-import { nonNullable, queryAssertion } from "src/helpers";
+import { queryAssertion } from "src/helpers/reactQueryUtil";
+import { nonNullable } from "src/helpers/typeUtil";
 import { IERC20 } from "src/typechain";
 
 import { useWeb3Context } from ".";
