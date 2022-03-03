@@ -3,72 +3,100 @@ import { NetworkId } from "src/networkDetails";
 export class Environment {
   public static env = process.env;
 
-  private static _getVar(args: { silent?: boolean; key: string; error?: string; fallback?: string }) {
+  private static _get(args: { key: string; err?: string; first: true; fallback: string }): string;
+  private static _get(args: { key: string; err?: string; first?: never; fallback: string }): string[];
+  private static _get(args: { key: string; err?: string; first: true; fallback?: never }): string | undefined;
+  private static _get(args: { key: string; err?: string; first?: never; fallback?: never }): string[] | undefined;
+  private static _get(args: { key: string; err?: string; first?: boolean; fallback?: string }) {
     const value = this.env[args.key] || args.fallback;
 
-    if (!value && !args.silent) console[this.env.NODE_ENV === "development" ? "warn" : "error"](args.error);
+    if (!value) {
+      if (this.env.NODE_ENV === "development") console.warn(args.err);
+      else throw new Error(args.err);
+    }
 
-    return value;
+    if (value === undefined) return value;
+
+    return args.first ? value : value.split(" ");
   }
 
   public static getSegmentApiKey = () =>
-    this._getVar({
-      silent: true,
+    this._get({
+      first: true,
       key: "REACT_APP_SEGMENT_API_KEY",
+      err: "Please provide a Segment analytics API key in your .env file",
     });
 
   public static getGoogleAnalyticsApiKey = () =>
-    this._getVar({
-      silent: true,
+    this._get({
+      first: true,
       key: "REACT_APP_GOOGLE_ANALYTICS_API_KEY",
-    });
-
-  public static getInfuraApiKey = () =>
-    this._getVar({
-      key: "REACT_APP_INFURA_API_KEY",
-      /**
-       * This is the ether.js default API key
-       * https://github.com/ethers-io/ethers.js/blob/master/packages/providers/src.ts/infura-provider.ts#L17
-       */
-      fallback: "84842078b09946638c03157f83405213",
-    });
-
-  public static getAlchemyApiKey = () =>
-    this._getVar({
-      key: "REACT_APP_ALCHEMY_API_KEY",
-      /**
-       * This is the ether.js default API key
-       * https://github.com/ethers-io/ethers.js/blob/master/packages/providers/src.ts/alchemy-provider.ts#L21
-       */
-      fallback: "_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+      err: "Please provide an Google Analytics API key in your .env file",
     });
 
   public static getCovalentApiKey = () =>
-    this._getVar({
+    this._get({
+      first: true,
       key: "REACT_APP_COVALENT_API_KEY",
-      error: "Please provide an API key for Covalent (https://www.covalenthq.com) in your .env file",
+      err: "Please provide an API key for Covalent (https://www.covalenthq.com) in your .env file",
     });
 
-  public static getSelfHostedNodeUrl = (networkId: NetworkId) => {
-    const network =
-      networkId === NetworkId.MAINNET
-        ? "ETHEREUM"
-        : networkId === NetworkId.ARBITRUM
-        ? "ARBITRUM"
-        : networkId === NetworkId.FANTOM
-        ? "FANTOM"
-        : networkId === NetworkId.POLYGON
-        ? "POLYGON"
-        : networkId === NetworkId.AVALANCHE
-        ? "AVALANCHE"
-        : undefined;
-
-    if (!network) return "";
-
-    return this._getVar({
-      silent: true,
-      key: `REACT_APP_${network}_SELF_HOSTED_NODE`,
-    });
+  public static getNodeUrls = (networkId: NetworkId) => {
+    switch (networkId) {
+      case NetworkId.MAINNET:
+        return this._get({
+          key: `REACT_APP_ETHEREUM_NODE_URL`,
+          fallback: "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+        });
+      case NetworkId.TESTNET_RINKEBY:
+        return this._get({
+          key: `REACT_APP_ETHEREUM_TESTNET_NODE_URL`,
+          fallback: "https://eth-rinkeby.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+        });
+      case NetworkId.ARBITRUM:
+        return this._get({
+          key: `REACT_APP_ARBITRUM_NODE_URL`,
+          fallback: "https://arb-mainnet.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+        });
+      case NetworkId.ARBITRUM_TESTNET:
+        return this._get({
+          key: `REACT_APP_ARBITRUM_TESTNET_NODE_URL`,
+          fallback: "https://arb-rinkeby.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+        });
+      case NetworkId.AVALANCHE:
+        return this._get({
+          key: `REACT_APP_AVALANCHE_NODE_URL`,
+          fallback: "https://api.avax.network/ext/bc/C/rpc",
+        });
+      case NetworkId.AVALANCHE_TESTNET:
+        return this._get({
+          key: `REACT_APP_AVALANCHE_TESTNET_NODE_URL`,
+          fallback: "https://api.avax-test.network/ext/bc/C/rpc",
+        });
+      case NetworkId.POLYGON:
+        return this._get({
+          key: `REACT_APP_POLYGON_NODE_URL`,
+          fallback: "https://polygon-mainnet.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+        });
+      case NetworkId.POLYGON_TESTNET:
+        return this._get({
+          key: `REACT_APP_POLYGON_TESTNET_NODE_URL`,
+          fallback: "https://polygon-mumbai.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+        });
+      case NetworkId.FANTOM:
+        return this._get({
+          key: `REACT_APP_FANTOM_NODE_URL`,
+          fallback: "https://rpc.ftm.tools/",
+        });
+      case NetworkId.FANTOM_TESTNET:
+        return this._get({
+          key: `REACT_APP_FANTOM_TESTNET_NODE_URL`,
+          fallback: "https://rpc.testnet.fantom.network/",
+        });
+      case NetworkId.Localhost:
+        // TODO: Remove localhost from NetworkId enum
+        throw new Error("Localhost isn't a network");
+    }
   };
 
   /**
