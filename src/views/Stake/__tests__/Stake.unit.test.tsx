@@ -40,7 +40,7 @@ describe("<Stake/>", () => {
     );
     // there should be two sushi contracts, one on Arbitrum and the other on Polygon
     const sushiContracts = await screen.findAllByText("gOHM-wETH");
-    expect(sushiContracts).toHaveLength(2);
+    expect(sushiContracts).toHaveLength(1);
     expect(await screen.getByText("Stake on Sushi (Arbitrum)").closest("a")).toHaveAttribute(
       "href",
       "https://app.sushi.com/farm?filter=2x",
