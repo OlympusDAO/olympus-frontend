@@ -361,7 +361,6 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   };
 
   const getEscapeComponent = () => {
-    console.log("amount = " + isAmountSet);
     // If on the confirmation screen, we provide a chevron to go back a step
     if (shouldShowConfirmationScreen()) {
       return (
