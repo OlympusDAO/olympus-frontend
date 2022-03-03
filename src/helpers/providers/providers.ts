@@ -1,7 +1,6 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { NetworkId } from "src/networkDetails";
 
-import { assert } from "..";
 import { Environment } from "../environment/environment";
 
 export class Providers {
@@ -12,8 +11,6 @@ export class Providers {
    */
   public static getProviderUrl(networkId: NetworkId) {
     const [url] = Environment.getNodeUrls(networkId);
-
-    assert(url, `No provider url found for network: ${networkId}`);
 
     return url;
   }
