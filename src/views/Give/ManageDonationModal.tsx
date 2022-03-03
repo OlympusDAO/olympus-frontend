@@ -12,7 +12,7 @@ import { useLocation } from "react-router-dom";
 import { Project } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
-import { Environment } from "src/helpers/environment/environment";
+import { Environment } from "src/helpers/environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { useWeb3Context } from "src/hooks/web3Context";

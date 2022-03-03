@@ -24,7 +24,7 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { ReactComponent as GiveSohm } from "src/assets/icons/give_sohm.svg";
 import { NetworkId } from "src/constants";
-import { Environment } from "src/helpers/environment/environment";
+import { Environment } from "src/helpers/environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { useAppDispatch } from "src/hooks";

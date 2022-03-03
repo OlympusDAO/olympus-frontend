@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import ReactGA from "react-ga";
 import { useLocation } from "react-router-dom";
 
-import { Environment } from "../helpers/environment/environment";
+import { Environment } from "../helpers/environment/Environment";
 import { useWeb3Context } from "./web3Context";
 
 const GA_API_KEY = Environment.getGoogleAnalyticsApiKey();

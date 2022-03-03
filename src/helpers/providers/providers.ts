@@ -1,7 +1,7 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { NetworkId } from "src/networkDetails";
 
-import { Environment } from "../environment/environment";
+import { Environment } from "../environment/Environment";
 
 export class Providers {
   private static _providerCache = {} as Record<NetworkId, StaticJsonRpcProvider>;

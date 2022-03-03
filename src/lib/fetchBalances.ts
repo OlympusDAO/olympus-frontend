@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { addresses, NetworkId } from "src/constants";
-import { Environment } from "src/helpers/environment/environment";
+import { Environment } from "src/helpers/environment/Environment";
 
 export type Token = {
   contractAddress: string;
