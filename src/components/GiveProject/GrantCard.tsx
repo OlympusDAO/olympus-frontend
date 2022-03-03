@@ -41,7 +41,7 @@ import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/Mana
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { error } from "../../slices/MessagesSlice";
-import { Grant } from "./project.type";
+import { Grant, RecordType } from "./project.type";
 
 export enum GrantDetailsMode {
   Card = "Card",
@@ -717,6 +717,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
             depositDate={donationInfo[donationId].date}
             yieldSent={donationInfo[donationId].yieldDonated}
             project={grant}
+            recordType={RecordType.GRANT}
             key={"manage-modal-" + donationInfo[donationId].recipient}
           />
         ) : (

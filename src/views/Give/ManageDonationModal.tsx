@@ -9,7 +9,7 @@ import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { Project } from "src/components/GiveProject/project.type";
+import { Project, RecordType } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { EnvHelper } from "src/helpers/Environment";
@@ -37,6 +37,7 @@ type ManageModalProps = {
   currentDepositAmount: BigNumber; // As per IUserDonationInfo
   depositDate: string;
   yieldSent: string;
+  recordType?: string;
 };
 
 export function ManageDonationModal({
@@ -50,6 +51,7 @@ export function ManageDonationModal({
   currentDepositAmount,
   depositDate,
   yieldSent,
+  recordType = RecordType.PROJECT,
 }: ManageModalProps) {
   const location = useLocation();
   const { provider, address, connected, networkId } = useWeb3Context();
@@ -365,7 +367,11 @@ export function ManageDonationModal({
     return (
       <div>
         <div className="manage-project-info">{getRecipientDetails()}</div>
-        <div className="manage-project-stats-container">{getProjectStats()}</div>
+        {recordType === RecordType.PROJECT ? (
+          <div className="manage-project-stats-container">{getProjectStats()}</div>
+        ) : (
+          <></>
+        )}
         <div className="manage-donation-details">
           <Box className="donation-details">{getDonationDetails()}</Box>
         </div>

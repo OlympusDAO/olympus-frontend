@@ -1,3 +1,8 @@
+export enum RecordType {
+  PROJECT = "Project",
+  GRANT = "Grant",
+}
+
 export type Project = {
   title: string;
   owner: string;
