@@ -98,6 +98,23 @@
 }
 
 .multifarm-widget-dashboard__tab-container {
+
+  .multifarm-widget-dashboard-tabs {
+    width: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .multifarm-widget-dashboard-tabs__tab {
+    margin: 0 15px;
+    width: inherit;
+    padding: 0.25rem 0;
+  }
+
+  .multifarm-widget-dashboard__sub-tabs {
+    margin: 2.5rem auto 1.75rem;
+  }
+
   .multifarm-widget-select__select {
     border-radius: 5px;
   }
