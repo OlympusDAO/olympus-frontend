@@ -145,6 +145,17 @@
   }
 }
 
+.treasury {
+  margin-top: 15px;
+}
+
+.income {
+  margin-top: 15px;
+  .multifarm-widget-dashboard__tab-title-container {
+    margin-bottom: 0;
+  }
+}
+
 .multifarm-widget-dashboard__tab-container {
   .multifarm-widget-dashboard-tabs {
     width: auto;

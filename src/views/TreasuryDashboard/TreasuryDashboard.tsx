@@ -120,12 +120,12 @@ const TreasuryDashboard = memo(() => {
           </Box>
         </TabPanel>
         <TabPanel value={view} index={1}>
-          <Box sx={{ mt: "15px" }}>
+          <Box className="treasury">
             <TreasuryAllocation />
           </Box>
         </TabPanel>
         <TabPanel value={view} index={2}>
-          <Box sx={{ mt: "15px" }}>
+          <Box className="income">
             <TotalIncome />
           </Box>
         </TabPanel>
