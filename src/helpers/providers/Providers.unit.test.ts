@@ -1,6 +1,6 @@
 import { NetworkId } from "src/networkDetails";
 
-import { Providers } from "./providers";
+import { Providers } from "./Providers";
 
 describe("Providers", () => {
   it("has a provider url for every network", () => {
@@ -10,7 +10,6 @@ describe("Providers", () => {
     Object.values(NetworkId)
       .filter(networkId => +networkId !== NetworkId.Localhost && !isNaN(+networkId))
       .forEach(networkId => {
-        console.debug({ networkId });
         expect(Providers.getProviderUrl(+networkId as unknown as NetworkId)).toBeTruthy();
       });
   });
