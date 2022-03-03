@@ -58,7 +58,6 @@ export class Providers {
    */
   private static _getAlchemyUrl(networkId: NetworkId) {
     const key = Environment.getAlchemyApiKey();
-    console.error({ networkId });
 
     switch (networkId) {
       case NetworkId.MAINNET:
@@ -74,7 +73,7 @@ export class Providers {
       case NetworkId.POLYGON_TESTNET:
         return `https://polygon-mumbai.g.alchemy.com/v2/${key}`;
       default:
-        console.error("NetworkId not known", { networkId });
+        console.debug("NetworkId not known", { networkId });
     }
   }
 
