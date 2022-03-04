@@ -8,7 +8,6 @@ import {
   LinearProgress,
   Link,
   Paper as MuiPaper,
-  SvgIcon,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -24,13 +23,6 @@ import Countdown from "react-countdown";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { ReactComponent as Donors } from "src/assets/icons/donors.svg";
-import { ReactComponent as sOHMDeposited } from "src/assets/icons/sohm-deposited.svg";
-import { ReactComponent as SOhmTotal } from "src/assets/icons/sohm-total.svg";
-import { ReactComponent as SOhmYield } from "src/assets/icons/sohm-yield.svg";
-import { ReactComponent as SOhmYieldSent } from "src/assets/icons/sohm-yield-sent.svg";
-import { ReactComponent as TimeRemaining } from "src/assets/icons/time-remaining.svg";
-import { ReactComponent as YieldGoal } from "src/assets/icons/yield-goal.svg";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
@@ -210,7 +202,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         <>
           <Grid container className="countdown-container">
             <Grid item className="countdown-object">
-              <SvgIcon component={TimeRemaining} />
+              <Icon name="time-remaining" />
             </Grid>
             <Grid item className="project-countdown-text">
               <Tooltip
@@ -288,40 +280,51 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     return (
       <>
-        <Grid container className="project-goal">
+        <Grid container alignItems="flex-end" className="project-goal">
           <Grid item xs={5} className="project-donated">
-            <div className="project-donated-icon">
-              {/**
-               * HACK: a specific path in the SVG needs to mimic the background behind the SVG.
-               * We can't easily pass variables from JS to CSS, so instead we specifcy a CSS class
-               * for the affected path (`transparent-background`) and dynamically apply the theme name
-               * to the SVG.
-               */}
-              <SvgIcon
-                className={theme.palette.type}
-                viewBox="0 0 20 20"
-                component={SOhmYield}
-                style={{ marginRight: "0.33rem" }}
-              />
-              <Typography variant="h6">
+            <Grid
+              container
+              justifyContent="flex-start"
+              alignItems="center"
+              wrap="nowrap"
+              className="project-data-icon"
+              spacing={1}
+            >
+              <Grid item>
+                <Icon name="sohm-yield" />
+              </Grid>
+              <Grid item className="metric">
                 <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedTotalDonated}</strong>
-              </Typography>
-            </div>
-            <div className="subtext">
+              </Grid>
+            </Grid>
+            <Grid item className="subtext">
               <Trans>sOHM Yield</Trans>
-            </div>
+            </Grid>
           </Grid>
           <Grid item xs={2} />
-          <Grid item xs={5} className="project-completion">
-            <div className="project-completion-icon">
-              <SvgIcon component={YieldGoal} style={{ marginRight: "0.33rem" }} />
-              <Typography variant="h6">
-                <strong>{new BigNumber(depositGoal).toFormat()}</strong>
-              </Typography>
-            </div>
-            <div className="subtext">
-              <Trans>sOHM Yield Goal</Trans>
-            </div>
+          <Grid item xs={5} className="project-donated">
+            <Grid container direction="column" alignItems="flex-end">
+              <Grid item>
+                <Grid
+                  container
+                  justifyContent="flex-end"
+                  alignItems="center"
+                  wrap="nowrap"
+                  className="project-data-icon"
+                  spacing={1}
+                >
+                  <Grid item>
+                    <Icon name="sohm-yield-goal" />
+                  </Grid>
+                  <Grid item className="metric">
+                    {new BigNumber(depositGoal).toFormat()}
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item className="subtext">
+                <Trans>sOHM Yield Goal</Trans>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
         <div className={`project-goal-progress ${isUserDonating ? "donating" : ""}`}>
@@ -336,22 +339,42 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       <>
         <Grid container className="project-top-data">
           <Grid item xs={5} className="project-donors">
-            <div className="project-data-icon">
-              <SvgIcon component={Donors} style={{ marginRight: "0.33rem" }} />
-              <Typography variant="h6">{donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}</Typography>
-            </div>
+            <Grid
+              container
+              justifyContent="flex-start"
+              alignItems="center"
+              wrap="nowrap"
+              className="project-data-icon"
+              spacing={1}
+            >
+              <Grid item>
+                <Icon name="donors" />
+              </Grid>
+              <Grid item className="metric">
+                {donorCountIsLoading ? <Skeleton /> : donorCount}
+              </Grid>
+            </Grid>
             <div className="subtext">
               <Trans>Donors</Trans>
             </div>
           </Grid>
           <Grid item xs={2} />
           <Grid item xs={5} className="project-deposits">
-            <div className="project-data-icon">
-              <SvgIcon component={SOhmTotal} style={{ marginRight: "0.33rem" }} />
-              <Typography variant="h6">
+            <Grid
+              container
+              justifyContent="flex-start"
+              alignItems="center"
+              wrap="nowrap"
+              className="project-data-icon"
+              spacing={1}
+            >
+              <Grid item>
+                <Icon name="sohm-total" />
+              </Grid>
+              <Grid item className="metric">
                 {recipientInfoIsLoading ? <Skeleton /> : <strong>{parseFloat(totalDebt).toFixed(2)}</strong>}
-              </Typography>
-            </div>
+              </Grid>
+            </Grid>
             <div className="subtext">
               <Trans>Total Active sOHM</Trans>
             </div>
@@ -746,33 +769,53 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                       </div>
                       <div className="project-donations">
                         <Grid container className="project-donation-data">
-                          <Grid item className="project-deposited">
-                            <Typography variant="h6">
-                              <SvgIcon component={sOHMDeposited} style={{ marginRight: "0.33rem" }} />
-                              <strong>
+                          <Grid item xs={5} className="project-deposited">
+                            <Grid
+                              container
+                              justifyContent="flex-start"
+                              alignItems="center"
+                              wrap="nowrap"
+                              className="project-data-icon"
+                              spacing={1}
+                            >
+                              <Grid item>
+                                <Icon name="deposited" />
+                              </Grid>
+                              <Grid item className="metric">
                                 {!donationInfo[donationId]
                                   ? "0"
                                   : parseFloat(donationInfo[donationId].deposit).toFixed(2)}
-                              </strong>
-                            </Typography>
-                            <Typography variant="body1" className="subtext">
-                              sOHM Deposited
-                            </Typography>
+                              </Grid>
+                            </Grid>
+                            <Grid item className="subtext">
+                              <Trans>sOHM Deposited</Trans>
+                            </Grid>
                           </Grid>
-                          <Grid item className="project-yield-sent">
-                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end" }}>
-                              <Typography variant="h6" align="right">
-                                <SvgIcon component={SOhmYieldSent} style={{ marginRight: "0.33rem" }} />
-                                <strong>
-                                  {!donationInfo[donationId]
-                                    ? "0"
-                                    : parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)}
-                                </strong>
-                              </Typography>
-                            </div>
-                            <Typography variant="body1" align="right" className="subtext">
-                              sOHM Yield Sent
-                            </Typography>
+                          <Grid item xs={5} className="project-donated">
+                            <Grid container direction="column" alignItems="flex-end">
+                              <Grid item>
+                                <Grid
+                                  container
+                                  justifyContent="flex-end"
+                                  alignItems="center"
+                                  wrap="nowrap"
+                                  className="project-data-icon"
+                                  spacing={1}
+                                >
+                                  <Grid item>
+                                    <Icon name="sohm-yield-sent" />
+                                  </Grid>
+                                  <Grid item className="metric">
+                                    {!donationInfo[donationId]
+                                      ? "0"
+                                      : parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)}
+                                  </Grid>
+                                </Grid>
+                              </Grid>
+                              <Grid item className="subtext">
+                                <Trans>sOHM Yield Sent</Trans>
+                              </Grid>
+                            </Grid>
                           </Grid>
                         </Grid>
                         <div className="project-edit-button">

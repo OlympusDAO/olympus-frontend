@@ -1091,19 +1091,9 @@
     }
 
     .project-data-icon {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      flex-wrap: nowrap;
-      margin-bottom: 6px;
-
-      h6 {
-        line-height: 1rem;
-      }
-
-      .MuiGrid-item {
-        max-width: 20px;
-        margin-right: 10px;
+      .metric {
+        font-weight: 600;
+        font-size: 14px;
       }
     }
 
@@ -1221,16 +1211,6 @@
   }
 
   .project-donated {
-    .project-donated-icon {
-      display: inline-flex;
-      align-items: center;
-      margin-bottom: 6px;
-
-      h6 {
-        line-height: 1rem;
-      }
-    }
-
     .subtext {
       color: #999999;
     }
@@ -1238,17 +1218,6 @@
 
   .project-completion {
     text-align: right;
-
-    .project-completion-icon {
-      display: inline-flex;
-      align-items: center;
-      margin-bottom: 6px;
-
-      h6 {
-        max-width: 3.3rem;
-        line-height: 1rem;
-      }
-    }
 
     .subtext {
       color: #999999;
