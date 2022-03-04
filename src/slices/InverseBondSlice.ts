@@ -158,9 +158,9 @@ async function processBond(
   // bondPriceBigNumber === the market price of quote_token (bond_in_token) in base_token (payout_token) where base_token is typically OHM
   // ... in other words, 20 bond_in_token / 1 payout_token w/ payout_token decimals (X bond_in_token per 1 payout_token)
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
-  // const bondPrice = +bondPriceBigNumber / Math.pow(10, metadata.baseDecimals);
+  const bondPrice = +bondPriceBigNumber / Math.pow(10, metadata.baseDecimals);
   // bond price appears to be in OHM decimals, not payout decimals
-  const bondPrice = +bondPriceBigNumber / Math.pow(10, BASE_TOKEN_DECIMALS);
+  // const bondPrice = +bondPriceBigNumber / Math.pow(10, 2 * BASE_TOKEN_DECIMALS);
   // bondPriceUsd === $X/payoutToken
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
   console.log("bp", bondPriceBigNumber, bondPrice, bondPriceUSD);
