@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { changeApproval, getSingleBond, IBondV2, purchaseBond } from "src/slices/BondSliceV2";
-import { purchaseInverseBond } from "src/slices/InverseBondSlice";
+import { changeInverseApproval, purchaseInverseBond } from "src/slices/InverseBondSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { AppDispatch } from "src/store";
 
@@ -132,7 +132,11 @@ function BondPurchase({
   }, [secondsToRefresh, quantity]);
 
   const onSeekApproval = async () => {
-    dispatch(changeApproval({ address, provider, networkID: networkId, bond }));
+    if (inverseBond) {
+      dispatch(changeInverseApproval({ address, provider, networkID: networkId, bond }));
+    } else {
+      dispatch(changeApproval({ address, provider, networkID: networkId, bond }));
+    }
   };
 
   // const displayUnits = bond.displayUnits;

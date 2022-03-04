@@ -7,7 +7,6 @@ import { IERC20__factory, OlympusProV2__factory } from "src/typechain";
 
 import { getBalances } from "./AccountSlice";
 import {
-  getTokenBalance,
   IBondInverseCore,
   IBondInverseMeta,
   IBondV2,
@@ -24,6 +23,7 @@ import {
   IBondV2AysncThunk,
   IBondV2IndexAsyncThunk,
   IJsonRPCError,
+  IValueAsyncThunk,
 } from "./interfaces";
 import { error, info } from "./MessagesSlice";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
@@ -37,12 +37,12 @@ function checkNetwork(networkID: NetworkId) {
 
 const BASE_TOKEN_DECIMALS = 9;
 
-export const changeApproval = createAsyncThunk(
+export const changeInverseApproval = createAsyncThunk(
   "inverseBonds/changeApproval",
   async ({ bond, provider, networkID, address }: IBondV2AysncThunk, { dispatch, getState }) => {
     checkNetwork(networkID);
     const signer = provider.getSigner();
-    const bondState: IBondV2 = (getState() as RootState).bondingV2.bonds[bond.index];
+    const bondState: IBondV2 = (getState() as RootState).inverseBonds.bonds[bond.index];
     const tokenContractAddress: string = bondState.quoteToken;
     const tokenDecimals: number = bondState.quoteDecimals;
     const tokenContract = IERC20__factory.connect(tokenContractAddress, signer);
@@ -65,7 +65,7 @@ export const changeApproval = createAsyncThunk(
       return;
     } finally {
       if (approveTx) {
-        dispatch(getTokenBalance({ provider, networkID, address, value: tokenContractAddress }));
+        dispatch(getInverseTokenBalance({ provider, networkID, address, value: tokenContractAddress }));
       }
     }
   },
@@ -116,6 +116,17 @@ export const getSingleBond = createAsyncThunk(
     const bondMetadata = await depositoryContract.metadata(bondIndex);
     const bondTerms = await depositoryContract.terms(bondIndex);
     return processBond(bondCore, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
+  },
+);
+
+export const getInverseTokenBalance = createAsyncThunk(
+  "inverseBonds/getBalance",
+  async ({ provider, networkID, address, value }: IValueAsyncThunk, {}): Promise<IBondV2Balance> => {
+    checkNetwork(networkID);
+    const tokenContract = IERC20__factory.connect(value, provider);
+    const balance = await tokenContract.balanceOf(address);
+    const allowance = await tokenContract.allowance(address, addresses[networkID].OP_BOND_DEPOSITORY);
+    return { balance, allowance, tokenAddress: value };
   },
 );
 
@@ -277,7 +288,7 @@ export const getAllInverseBonds = createAsyncThunk(
         liveBonds.push(finalBond);
 
         if (address) {
-          dispatch(getTokenBalance({ provider, networkID, address, value: finalBond.quoteToken }));
+          dispatch(getInverseTokenBalance({ provider, networkID, address, value: finalBond.quoteToken }));
         }
       } catch (e) {
         console.log("getAllInverseBonds Error for Bond Index: ", bondIndex);
@@ -453,14 +464,14 @@ const inverseBondingSlice = createSlice({
         state.loading = false;
         console.error(error.message);
       })
-      .addCase(getTokenBalance.pending, (state, action) => {
+      .addCase(getInverseTokenBalance.pending, (state, action) => {
         state.balanceLoading[action.meta.arg.value] = true;
       })
-      .addCase(getTokenBalance.fulfilled, (state, action) => {
+      .addCase(getInverseTokenBalance.fulfilled, (state, action) => {
         state.balances[action.payload.tokenAddress] = action.payload;
         state.balanceLoading[action.meta.arg.value] = false;
       })
-      .addCase(getTokenBalance.rejected, (state, { error, meta }) => {
+      .addCase(getInverseTokenBalance.rejected, (state, { error, meta }) => {
         state.balanceLoading[meta.arg.value] = false;
         console.error(error.message);
       })
