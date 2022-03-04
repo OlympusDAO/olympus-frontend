@@ -1,10 +1,7 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Token } from "@olympusdao/component-library";
-import { ReactComponent as VaultLock } from "src/assets/icons/vault-lock.svg";
-import { ReactComponent as VaultRecipient } from "src/assets/icons/vault-recipient.svg";
-import { ReactComponent as VaultWallet } from "src/assets/icons/vault-wallet.svg";
 
 const smallIconStyle = { height: "32px", width: "32px", margin: "auto" };
 
@@ -28,7 +25,7 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" m={2}>
-        <SvgIcon component={VaultWallet} fontSize="large" viewBox="0 0 30 30" />
+        <Icon name="vault-wallet" fontSize="large" />
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
@@ -52,7 +49,7 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <SvgIcon component={VaultWallet} fontSize="large" viewBox="0 0 30 30" />
+          <Icon name="vault-wallet" fontSize="large" />
         </Box>
         <Box
           display="flex"
@@ -90,7 +87,7 @@ export function VaultGraphic({ quantity, verb = "deposited", isLoading, small = 
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <SvgIcon component={VaultLock} fontSize="large" viewBox="0 0 30 30" />
+        <Icon name="vault-lock" fontSize="large" />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
@@ -114,7 +111,7 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <SvgIcon component={VaultLock} fontSize="large" viewBox="0 0 30 30" />
+          <Icon name="vault-lock" fontSize="large" />
         </Box>
         <Box
           display="flex"
@@ -160,7 +157,7 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
         alignContent="center"
         m={2}
       >
-        <SvgIcon component={VaultRecipient} viewBox="0 0 30 30" fontSize="large" />
+        <Icon name="vault-recipient" fontSize="large" />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
@@ -213,7 +210,7 @@ export function ReceivesYield({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <SvgIcon component={VaultRecipient} viewBox="0 0 30 30" fontSize="large" />
+          <Icon name="vault-recipient" fontSize="large" />
         </Box>
         <Box
           display="flex"
