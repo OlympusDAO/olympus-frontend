@@ -75,7 +75,7 @@ function BondPurchase({
       if (inverseBond) {
         dispatch(
           purchaseInverseBond({
-            amounts: [quantity, 0],
+            amounts: [ethers.utils.parseUnits(quantity, "gwei"), 0],
             networkID: networkId,
             provider,
             bond,
@@ -221,17 +221,25 @@ function BondPurchase({
           <DataRow
             title={t`You Will Get`}
             balance={
-              `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` +
-              `sOHM (≈${trim(+quantity / bond.priceToken / +currentIndex, 4) || "0"} gOHM)`
+              inverseBond
+                ? `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ${bond.payoutName}`
+                : `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` +
+                  `sOHM (≈${trim(+quantity / bond.priceToken / +currentIndex, 4) || "0"} gOHM)`
             }
             tooltip={t`The total amount of payout asset you will recieve from this bond purhcase. (sOHM amount will be higher due to rebasing)`}
             isLoading={isBondLoading}
           />
           <DataRow
             title={t`Max You Can Buy`}
-            balance={`${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
-              trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
-            } ${bond.displayName})`}
+            balance={
+              inverseBond
+                ? `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} ${bond.payoutName} (≈${
+                    trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
+                  } ${bond.displayName})`
+                : `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
+                    trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
+                  } ${bond.displayName})`
+            }
             isLoading={isBondLoading}
             tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
           />
@@ -241,13 +249,14 @@ function BondPurchase({
             tooltip={t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between OHM's market value and the bond's price.`}
             isLoading={isBondLoading}
           />
-
-          <DataRow
-            title={t`Duration`}
-            balance={bond.duration}
-            isLoading={isBondLoading}
-            tooltip={t`The duration of the Bond whereby the bond can be claimed in it’s entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
-          />
+          {!inverseBond && (
+            <DataRow
+              title={t`Duration`}
+              balance={bond.duration}
+              isLoading={isBondLoading}
+              tooltip={t`The duration of the Bond whereby the bond can be claimed in it’s entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
+            />
+          )}
           {recipientAddress !== address && (
             <DataRow title={t`Recipient`} balance={shorten(recipientAddress)} isLoading={isBondLoading} />
           )}

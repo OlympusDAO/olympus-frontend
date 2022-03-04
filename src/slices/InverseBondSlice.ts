@@ -80,6 +80,7 @@ export const purchaseInverseBond = createAsyncThunk(
     const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, signer);
 
     let depositTx: ethers.ContractTransaction | undefined;
+    console.log("purchase", amounts[0]);
     try {
       depositTx = await depositoryContract.deposit(
         bond.index,
