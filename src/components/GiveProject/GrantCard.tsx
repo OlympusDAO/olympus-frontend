@@ -484,7 +484,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const getCardContent = () => {
     return (
       <>
-        <Box style={{ width: "100%", borderRadius: "10px" }}>
+        <Box style={{ width: "100%", borderRadius: "10px", marginBottom: "60px" }}>
           <Grid container key={title} spacing={3}>
             {!isBreakpointLarge ? (
               <Grid item xs={12}>
