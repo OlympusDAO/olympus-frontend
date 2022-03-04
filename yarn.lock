@@ -2468,9 +2468,9 @@
     rimraf "^3.0.2"
 
 "@olympusdao/component-library@^1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.7.0.tgz#d12055b0e66991354bd0ecdd05f3faea5f5517af"
-  integrity sha512-+0WgU+FE/bI1aZNHPOZAt5NuIdc6wQzA/Wta8Xlt4gKEAxFPKDs1hw9SVjucBCxIpQWjXHZNAutcc85N/T3SGQ==
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.7.1.tgz#e130579a0699b2ac2e89dd8bf9df73b4a1011f66"
+  integrity sha512-sAbrwbYFzrUJy5uFKVpu7Fs3RLn8od4B4Vh/+dDTzpclaf4BZZ7W4exhMNdJYfn4DGqi/HjC1XJN2GyYPLVujg==
 
 "@pmmmwh/react-refresh-webpack-plugin@0.4.3":
   version "0.4.3"
