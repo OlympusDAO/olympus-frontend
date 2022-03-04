@@ -2,7 +2,7 @@ import "./TreasuryDashboard.scss";
 
 import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
 // @ts-ignore - (keith): fix types issue with multifarm lib
-import { TotalIncome, TreasuryAllocation } from "@multifarm/widget";
+import { PoweredByBadge, TotalIncome, TreasuryAllocation } from "@multifarm/widget";
 import { Metric, MetricCollection, Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { ChangeEvent, memo, useState } from "react";
 
@@ -29,17 +29,17 @@ const TreasuryDashboard = memo(() => {
 
   return (
     <div id="treasury-dashboard-view" className={`${isSmallScreen && "smaller"} ${isVerySmallScreen && "very-small"}`}>
+      <Tabs centered value={view} textColor="primary" indicatorColor="primary" onChange={changeView} aria-label="">
+        <Tab aria-label="key-metrics" label="Overview" />
+        <Tab aria-label="treasury-allocation" label="Treasury" />
+        <Tab aria-label="total-income" label="Income" />
+      </Tabs>
       <Container
         style={{
           paddingLeft: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
           paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
         }}
       >
-        <Tabs centered value={view} textColor="primary" indicatorColor="primary" onChange={changeView} aria-label="">
-          <Tab aria-label="key-metrics" label="Overview" />
-          <Tab aria-label="treasury-allocation" label="Treasury" />
-          <Tab aria-label="total-income" label="Income" />
-        </Tabs>
         <TabPanel value={view} index={0}>
           <Box sx={{ mt: "15px" }}>
             <Box className="hero-metrics">
@@ -122,11 +122,13 @@ const TreasuryDashboard = memo(() => {
         <TabPanel value={view} index={1}>
           <Box className="treasury">
             <TreasuryAllocation />
+            <PoweredByBadge />
           </Box>
         </TabPanel>
         <TabPanel value={view} index={2}>
           <Box className="income">
             <TotalIncome />
+            <PoweredByBadge />
           </Box>
         </TabPanel>
       </Container>

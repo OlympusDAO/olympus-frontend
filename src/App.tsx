@@ -2,7 +2,7 @@
 import "./style.scss";
 
 // @ts-ignore
-import { MultifarmProvider } from "@multifarm/widget";
+import { extendTheme, MultifarmProvider, olympusDarkTheme, olympusTheme } from "@multifarm/widget";
 
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useEffect, useState, useCallback } from "react";
@@ -42,6 +42,12 @@ import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import { trackGAEvent, trackSegmentEvent } from "./helpers/analytics";
+
+const customDarkTheme = extendTheme(olympusDarkTheme, {
+  text: {
+    highlight: "#fff",
+  },
+});
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -312,7 +318,12 @@ function App() {
 
   return (
     <ThemeProvider theme={themeMode}>
-      <MultifarmProvider token={MULTIFARM_API_KEY} provider="olympus" theme="olympus" themeColors={theme}>
+      <MultifarmProvider
+        token={MULTIFARM_API_KEY}
+        provider="olympus"
+        themeColors={theme}
+        theme={theme === "light" ? olympusTheme : customDarkTheme}
+      >
         <CssBaseline />
         <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
           <Messages />

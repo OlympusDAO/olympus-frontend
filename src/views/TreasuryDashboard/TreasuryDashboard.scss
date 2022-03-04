@@ -15,6 +15,47 @@
     padding: 22px 0;
   }
 
+  & .multifarm-widget-mb-10 {
+    margin-bottom: 0;
+  }
+
+  & .multifarm-widget-table {
+    border-spacing: 0 0.75rem;
+  }
+
+  & .multifarm-widget-accordion,
+  & .multifarm-widget-dashboard__spacing-5 {
+    margin-bottom: 0.75rem;
+  }
+
+  & .multifarm-widget-income-view-per-type__pie-charts,
+  & .multifarm-widget-dashboard__pie-charts {
+    margin-bottom: 0.75rem;
+  }
+
+  & .multifarm-widget-dashboard__pie-charts {
+    grid-gap: 0.75rem;
+  }
+
+  & .multifarm-widget-table__container {
+    margin-bottom: 0.25rem;
+  }
+
+  & .multifarm-widget-powered-by-badge {
+    width: 100%;
+    margin-top: 0.75rem;
+    justify-content: center;
+  }
+
+  & .multifarm-widget-dashboard__sub-tabs {
+    justify-content: center;
+  }
+
+  & .multifarm-widget-dashboard__tab-title-container {
+    align-items: center;
+    justify-content: center;
+  }
+
   & .multifarm-widget-accordion__title,
   & .multifarm-widget-card__title {
     font-weight: 400;
@@ -93,6 +134,49 @@
 }
 
 .smaller {
+  .multifarm-widget-scroll-tabs__arrow {
+    top: -4px;
+  }
+
+  .multifarm-widget-dashboard__tab-title {
+    margin: 0 auto;
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  .multifarm-widget-dashboard-tabs__tab {
+    padding: 0 0.5rem;
+  }
+
+  .multifarm-widget-tabs__tab {
+    min-width: 41px;
+  }
+
+  .multifarm-widget-dashboard__sub-tabs {
+    margin: 1.5rem 0 1.75rem;
+  }
+
+  .multifarm-widget-dashboard__tab-container .multifarm-widget-tabs {
+    padding: 0 2px;
+    margin-left: 0;
+    height: 51px;
+  }
+
+  .multifarm-widget-card__title {
+    font-size: 1rem;
+  }
+
+  .multifarm-widget-tabs__tab {
+    padding: 0.125rem 0.25rem;
+    font-size: 0.85rem;
+  }
+
+  .multifarm-widget-technologies-used__icons {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
   .ohm-card {
     width: 97%;
   }
@@ -157,16 +241,25 @@
 }
 
 .multifarm-widget-dashboard__tab-container {
-  .multifarm-widget-dashboard-tabs {
-    width: auto;
-    display: flex;
-    justify-content: center;
+  // .multifarm-widget-dashboard-tabs {
+  //   width: auto;
+  //   display: flex;
+  //   justify-content: center;
+  // }
+
+  // .multifarm-widget-dashboard-tabs__tab {
+  //   margin: 0 15px;
+  //   width: inherit;
+  //   padding: 0;
+  // }'
+
+  .multifarm-widget-incomes-bar__text {
+    font-size: 1rem;
+    margin: 8px auto;
   }
 
-  .multifarm-widget-dashboard-tabs__tab {
-    margin: 0 15px;
-    width: inherit;
-    padding: 0;
+  .multifarm-widget-dashboard-tabs__tab:first-child {
+    padding-left: 0;
   }
 
   .multifarm-widget-dashboard-tabs__tab-text {
@@ -175,16 +268,8 @@
     border-bottom: 2px solid transparent;
   }
 
-  .multifarm-widget-dashboard__sub-tabs {
-    margin: 2.5rem auto 1.75rem;
-  }
-
   .multifarm-widget-select__select {
     border-radius: 5px;
-  }
-
-  .multifarm-widget-dashboard__tab-title {
-    text-align: center;
   }
 
   .multifarm-widget-accordion,
@@ -222,6 +307,10 @@
       border-radius: 6px;
       height: 39px;
     }
+  }
+
+  a.multifarm-widget-dashboard__tab-badge {
+    display: none;
   }
 }
 
