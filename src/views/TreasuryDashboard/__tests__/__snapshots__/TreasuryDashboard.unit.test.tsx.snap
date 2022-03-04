@@ -7,76 +7,76 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
     id="treasury-dashboard-view"
   >
     <div
+      class="MuiTabs-root makeStyles-root-1 undefined"
+    >
+      <div
+        class="MuiTabs-scroller MuiTabs-fixed"
+        style="overflow: hidden;"
+      >
+        <div
+          aria-label=""
+          class="MuiTabs-flexContainer MuiTabs-centered"
+          role="tablist"
+        >
+          <button
+            aria-controls="simple-tabpanel-0"
+            aria-label="key-metrics"
+            aria-selected="true"
+            class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected"
+            id="simple-tab-0"
+            role="tab"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiTab-wrapper"
+            >
+              Overview
+            </span>
+          </button>
+          <button
+            aria-controls="simple-tabpanel-1"
+            aria-label="treasury-allocation"
+            aria-selected="false"
+            class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
+            id="simple-tab-1"
+            role="tab"
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              class="MuiTab-wrapper"
+            >
+              Treasury
+            </span>
+          </button>
+          <button
+            aria-controls="simple-tabpanel-2"
+            aria-label="total-income"
+            aria-selected="false"
+            class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
+            id="simple-tab-2"
+            role="tab"
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              class="MuiTab-wrapper"
+            >
+              Income
+            </span>
+          </button>
+        </div>
+        <span
+          class="PrivateTabIndicator-root-2 PrivateTabIndicator-colorPrimary-3 MuiTabs-indicator"
+          style="left: 0px; width: 0px;"
+        />
+      </div>
+    </div>
+    <div
       class="MuiContainer-root MuiContainer-maxWidthLg"
       style="padding-left: 3.3rem; padding-right: 3.3rem;"
     >
-      <div
-        class="MuiTabs-root makeStyles-root-1 undefined"
-      >
-        <div
-          class="MuiTabs-scroller MuiTabs-fixed"
-          style="overflow: hidden;"
-        >
-          <div
-            aria-label=""
-            class="MuiTabs-flexContainer MuiTabs-centered"
-            role="tablist"
-          >
-            <button
-              aria-controls="simple-tabpanel-0"
-              aria-label="key-metrics"
-              aria-selected="true"
-              class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected"
-              id="simple-tab-0"
-              role="tab"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiTab-wrapper"
-              >
-                Overview
-              </span>
-            </button>
-            <button
-              aria-controls="simple-tabpanel-1"
-              aria-label="treasury-allocation"
-              aria-selected="false"
-              class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
-              id="simple-tab-1"
-              role="tab"
-              tabindex="-1"
-              type="button"
-            >
-              <span
-                class="MuiTab-wrapper"
-              >
-                Treasury
-              </span>
-            </button>
-            <button
-              aria-controls="simple-tabpanel-2"
-              aria-label="total-income"
-              aria-selected="false"
-              class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
-              id="simple-tab-2"
-              role="tab"
-              tabindex="-1"
-              type="button"
-            >
-              <span
-                class="MuiTab-wrapper"
-              >
-                Income
-              </span>
-            </button>
-          </div>
-          <span
-            class="PrivateTabIndicator-root-2 PrivateTabIndicator-colorPrimary-3 MuiTabs-indicator"
-            style="left: 0px; width: 0px;"
-          />
-        </div>
-      </div>
       <div
         aria-labelledby="simple-tab-0"
         id="simple-tabpanel-0"
