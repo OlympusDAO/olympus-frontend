@@ -1,7 +1,7 @@
-import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
 import { addresses, NetworkId, UnknownDetails, V2BondDetails, v2BondDetails } from "src/constants";
-import { prettifySeconds } from "src/helpers";
+import { prettifySeconds } from "src/helpers/timeUtil";
 import { RootState } from "src/store";
 import { IERC20__factory, OlympusProV2__factory } from "src/typechain";
 
@@ -80,7 +80,6 @@ export const purchaseInverseBond = createAsyncThunk(
     const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, signer);
 
     let depositTx: ethers.ContractTransaction | undefined;
-    console.log("purchase", amounts[0]);
     try {
       depositTx = await depositoryContract.deposit(
         bond.index,
@@ -116,7 +115,7 @@ export const getSingleBond = createAsyncThunk(
     const bondCore = await depositoryContract.markets(bondIndex);
     const bondMetadata = await depositoryContract.metadata(bondIndex);
     const bondTerms = await depositoryContract.terms(bondIndex);
-    return processBond(bondCore, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
+    return processBond(bondCore, bondMetadata, bondTerms, bondIndex, provider, networkID);
   },
 );
 
@@ -138,10 +137,8 @@ async function processBond(
   index: number,
   provider: ethers.providers.JsonRpcProvider,
   networkID: NetworkId,
-  dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
 ): Promise<IBondV2> {
   const currentTime = Date.now() / 1000;
-  console.log("processBond");
   // TODO (appleseed-inverse): update this factory & abi to the deployed depository
   const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, provider);
   let v2BondDetail: V2BondDetails = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
@@ -151,10 +148,8 @@ async function processBond(
     v2BondDetail = UnknownDetails;
     console.error(`Add details for bond index=${index}`);
   }
-  console.log("v2BondDetail", v2BondDetail, payoutDetail);
   // quoteTokenPrice === the price of LUSD or DAI or OHM-DAI etc, except with Inverse Bonds == price of OHM
   const quoteTokenPrice = await v2BondDetail.pricingFunction(provider, bond.quoteToken);
-  console.log("qt", quoteTokenPrice);
   // bondPriceBigNumber === the market price of quote_token (bond_in_token) in base_token (payout_token) where base_token is typically OHM
   // ... in other words, 20 bond_in_token / 1 payout_token w/ payout_token decimals (X bond_in_token per 1 payout_token)
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
@@ -163,30 +158,11 @@ async function processBond(
   // const bondPrice = +bondPriceBigNumber / Math.pow(10, 2 * BASE_TOKEN_DECIMALS);
   // bondPriceUsd === $X/payoutToken
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
-  console.log("bp", bondPriceBigNumber, bondPrice, bondPriceUSD);
 
   const payoutTokenPrice = await payoutDetail.pricingFunction(provider, bond.baseToken);
   const bondDiscount = (payoutTokenPrice - bondPriceUSD) / payoutTokenPrice;
-  console.log("payoutTokenPrice", bond.baseToken, payoutTokenPrice, bondDiscount);
 
   let capacityInBaseToken: string, capacityInQuoteToken: string;
-  console.log("bond", bond);
-  // if (bond.capacityInQuote) {
-  //   capacityInBaseToken = ethers.utils.formatUnits(
-  //     bond.capacity.mul(Math.pow(10, 2 * metadata.baseDecimals - metadata.quoteDecimals)).div(bondPriceBigNumber),
-  //     metadata.baseDecimals,
-  //   );
-  //   capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, metadata.quoteDecimals);
-  // } else {
-  //   // capacity in payout token (for inverse this is DAI, LUSD, etc)
-  //   capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, metadata.baseDecimals);
-  //   console.log("capacityInBaseToken", capacityInBaseToken);
-  //   capacityInQuoteToken = ethers.utils.formatUnits(
-  //     bond.capacity.mul(bondPriceBigNumber).div(Math.pow(10, 2 * metadata.baseDecimals - metadata.quoteDecimals)),
-  //     metadata.quoteDecimals,
-  //   );
-  //   console.log("capacityInQuoteToken", capacityInQuoteToken);
-  // }
   if (bond.capacityInQuote) {
     capacityInBaseToken = ethers.utils.formatUnits(
       bond.capacity.mul(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)).div(bondPriceBigNumber),
@@ -195,20 +171,16 @@ async function processBond(
     capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, metadata.quoteDecimals);
   } else {
     capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, BASE_TOKEN_DECIMALS);
-    console.log("capacityInBaseToken", capacityInBaseToken);
     capacityInQuoteToken = ethers.utils.formatUnits(
       bond.capacity.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
       metadata.quoteDecimals,
     );
-    console.log("capacityInQuoteToken", capacityInQuoteToken);
   }
   const maxPayoutInBaseToken: string = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
-  console.log("maxPayoutInBaseToken", maxPayoutInBaseToken);
   const maxPayoutInQuoteToken: string = ethers.utils.formatUnits(
     bond.maxPayout.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
     metadata.quoteDecimals,
   );
-  console.log("maxPayoutInQuoteToken", maxPayoutInQuoteToken);
   let seconds = 0;
   if (terms.fixedTerm) {
     const vestingTime = currentTime + terms.vesting;
@@ -276,16 +248,13 @@ export const getAllInverseBonds = createAsyncThunk(
     const liveBondTermsPromises = liveBondIndexes.map(async index => await depositoryContract.terms(index));
     const liveBonds: IBondV2[] = [];
 
-    console.log("inverse", liveBondIndexes, liveBondPromises);
-
     for (let i = 0; i < liveBondIndexes.length; i++) {
       const bondIndex = +liveBondIndexes[i];
-      console.log("bondIndex", bondIndex);
       try {
         const bond: IBondInverseCore = await liveBondPromises[i];
         const bondMetadata: IBondInverseMeta = await liveBondMetadataPromises[i];
         const bondTerms: IBondV2Terms = await liveBondTermsPromises[i];
-        const finalBond = await processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
+        const finalBond = await processBond(bond, bondMetadata, bondTerms, bondIndex, provider, networkID);
         liveBonds.push(finalBond);
 
         if (address) {
