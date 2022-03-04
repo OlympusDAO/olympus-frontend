@@ -21,12 +21,12 @@
   }
 
   .metric {
-    padding-left: 3px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .subtext {
+    color: #999999;
     padding-top: 2px;
   }
 }
@@ -47,15 +47,4 @@
   &.medium {
     max-height: 117px;
   }
-}
-
-// *** The two following classes are used when currentcolor cannot be used in SVGs
-// Applied when the dark theme is enabled
-.dark path.transparent-background {
-  stroke: black;
-}
-
-// Applied when the light theme is enabled
-.light path.transparent-background {
-  stroke: white;
 }

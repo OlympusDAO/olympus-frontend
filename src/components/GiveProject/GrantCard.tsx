@@ -3,7 +3,7 @@ import "react-step-progress-bar/styles.css";
 import "./GrantCard.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Container, Grid, Link, SvgIcon, Typography, useMediaQuery } from "@material-ui/core";
+import { Box, Container, Grid, Link, Typography, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
@@ -15,10 +15,6 @@ import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { ProgressBar, Step } from "react-step-progress-bar";
-import { ReactComponent as Donors } from "src/assets/icons/donors.svg";
-import { ReactComponent as sOHMDeposited } from "src/assets/icons/sohm-deposited.svg";
-import { ReactComponent as SOhmTotal } from "src/assets/icons/sohm-total.svg";
-import { ReactComponent as sOHMYieldSent } from "src/assets/icons/sohm-yield-sent.svg";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
@@ -256,9 +252,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           <Grid item xs={5}>
             <Grid container direction="column" alignItems="flex-start">
               <Grid item>
-                <Grid container justifyContent="flex-start" alignItems="center" wrap="nowrap">
+                <Grid container justifyContent="flex-start" alignItems="center" wrap="nowrap" spacing={1}>
                   <Grid item>
-                    <SvgIcon component={Donors} />
+                    <Icon name="donors" />
                   </Grid>
                   <Grid item className="metric">
                     {donorCountIsLoading ? <Skeleton /> : donorCount}
@@ -273,15 +269,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           <Grid item xs={7}>
             <Grid container direction="column" alignItems="flex-end">
               <Grid item>
-                <Grid container justifyContent="flex-end" alignItems="center">
+                <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
                   <Grid item>
-                    {/**
-                     * HACK: a specific path in the SVG needs to mimic the background behind the SVG.
-                     * We can't easily pass variables from JS to CSS, so instead we specifcy a CSS class
-                     * for the affected path (`transparent-background`) and dynamically apply the theme name
-                     * to the SVG.
-                     */}
-                    <SvgIcon className={theme.palette.type} viewBox="0 0 18 18" component={SOhmTotal} />
+                    <Icon name="sohm-total" />
                   </Grid>
                   <Grid item className="metric">
                     {totalMilestoneAmount.toFormat(0)}
@@ -620,12 +610,12 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   <></>
                 ) : (
                   <Paper headerText={t`Your Donations`}>
-                    <Grid container alignItems="flex-end">
+                    <Grid container alignItems="flex-end" className="grant-data">
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="flex-start">
-                          <Grid item container justifyContent="flex-start" alignItems="center">
+                          <Grid item container justifyContent="flex-start" alignItems="center" spacing={1}>
                             <Grid item>
-                              <SvgIcon component={sOHMDeposited} />
+                              <Icon name="deposited" />
                             </Grid>
                             <Grid item>
                               <Typography className="metric">
@@ -643,9 +633,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="flex-end">
                           <Grid item>
-                            <Grid container justifyContent="flex-end" alignItems="center">
+                            <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
                               <Grid item>
-                                <SvgIcon className={theme.palette.type} component={sOHMYieldSent} />
+                                <Icon name="sohm-yield-sent" />
                               </Grid>
                               <Grid item>
                                 <Typography className="metric">
