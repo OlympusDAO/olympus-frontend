@@ -1,7 +1,7 @@
 import { DecimalBigNumber } from "./DecimalBigNumber";
 
 describe("DecimalBigNumber", () => {
-  it("handles unexpected inputs", () => {
+  it("should handle unexpected inputs when initialized", () => {
     expect(new DecimalBigNumber("", 9).toAccurateString()).toEqual("0.0");
     expect(new DecimalBigNumber("      ", 9).toAccurateString()).toEqual("0.0");
     expect(new DecimalBigNumber("text", 1).toAccurateString()).toEqual("0.0");
@@ -13,43 +13,45 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("-0.", 1).toAccurateString()).toEqual("0.0");
   });
 
-  it("accurately formats strings", () => {
+  it("should discard irrelevant precision when initialized", () => {
+    expect(new DecimalBigNumber("1.12345678913139872398723", 9).toAccurateString()).toEqual("1.123456789");
+  });
+
+  it("should accurately format strings", () => {
     expect(new DecimalBigNumber(".1", 1).toAccurateString()).toEqual("0.1");
     expect(new DecimalBigNumber("1.1", 9).toAccurateString()).toEqual("1.1");
     expect(new DecimalBigNumber("1.123", 9).toAccurateString()).toEqual("1.123");
     expect(new DecimalBigNumber("-1.123", 9).toAccurateString()).toEqual("-1.123");
   });
 
-  it("discards irrelevant precision", () => {
-    expect(new DecimalBigNumber("1.12345678913139872398723", 9).toAccurateString()).toEqual("1.123456789");
-  });
-
-  it("adds numbers correctly", () => {
+  it("should add another number correctly", () => {
     expect(new DecimalBigNumber("1.1", 9).add(new DecimalBigNumber("1.2", 18)).toAccurateString()).toEqual("2.3");
     expect(new DecimalBigNumber("-1.1", 9).add(new DecimalBigNumber("-1.2", 18)).toAccurateString()).toEqual("-2.3");
   });
 
-  it("subtracts numbers correctly", () => {
+  it("should subtract another number correctly", () => {
     expect(new DecimalBigNumber("1.2", 9).sub(new DecimalBigNumber("1.1", 18)).toAccurateString()).toEqual("0.1");
     expect(new DecimalBigNumber("1.1", 9).sub(new DecimalBigNumber("1.2", 18)).toAccurateString()).toEqual("-0.1");
   });
 
-  it("compares numbers correctly", () => {
+  it("should compares the magnitude against another number correctly", () => {
     expect(new DecimalBigNumber("1.1", 9).gt(new DecimalBigNumber("1.2", 18))).toEqual(false);
     expect(new DecimalBigNumber("1.21", 9).gt(new DecimalBigNumber("1.2", 18))).toEqual(true);
   });
 
-  it("multiples numbers correctly", () => {
+  it("should multiple by a number correctly", () => {
     // gOHM to OHM
     const gohm = new DecimalBigNumber("1", 18); // 90 OHM
     const index = new DecimalBigNumber("90", 9); // Index of 90
-    expect(gohm.mul(index, 9).toAccurateString()).toEqual("90.0"); // OHM to gOHM
+    expect(gohm.mul(index, 9).toAccurateString()).toEqual("90.0");
+    expect(index.mul(gohm, 9).toAccurateString()).toEqual("90.0");
   });
 
-  it("divides numbers correctly", () => {
+  it("should divide by a number correctly", () => {
     // OHM to gOHM
     const ohm = new DecimalBigNumber("90", 9); // 90 OHM
     const index = new DecimalBigNumber("90", 9); // Index of 90
-    expect(ohm.div(index, 18).toAccurateString()).toEqual("1.0"); // OHM to gOHM
+    expect(ohm.div(index, 18).toAccurateString()).toEqual("1.0");
+    expect(index.div(ohm, 18).toAccurateString()).toEqual("1.0");
   });
 });
