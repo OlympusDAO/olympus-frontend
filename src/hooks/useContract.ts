@@ -7,11 +7,11 @@ import STAKING_ABI from "src/abi/OlympusStakingv2.json";
 import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
 import { abi as SOHM_ABI } from "src/abi/sOhmv2.json";
 import { AddressMap } from "src/constants/addresses";
+import { Providers } from "src/helpers/providers/Providers";
 import { NetworkId } from "src/networkDetails";
 import { FuseProxy, IERC20, OlympusStakingv2, PairContract, SOhmv2 } from "src/typechain";
 
 import { useWeb3Context } from ".";
-import { useStaticProvider, useStaticProviders } from "./useStaticProvider";
 
 /**
  * Hook for fetching a contract.
@@ -55,7 +55,7 @@ export function useContract<TContract extends Contract = Contract>(
  */
 const createStaticContract = <TContract extends Contract = Contract>(ABI: ContractInterface) => {
   return (address: string, networkId: NetworkId) => {
-    const provider = useStaticProvider(networkId);
+    const provider = Providers.getStaticProvider(networkId);
 
     return useContract<TContract>(address, ABI, provider);
   };
@@ -83,14 +83,14 @@ export const useMultipleContracts = <TContract extends Contract = Contract>(
   addressMap: AddressMap,
   ABI: ContractInterface,
 ) => {
-  const networks = useMemo(() => Object.keys(addressMap).map(Number), [addressMap]);
-  const providers = useStaticProviders(networks);
-
   return useMemo(() => {
-    return Object.values(addressMap).map((address, index) => {
-      return new Contract(address, ABI, providers[index]) as TContract;
+    return Object.entries(addressMap).map(([networkId, address]) => {
+      const _networkId = Number(networkId) as NetworkId;
+      const provider = Providers.getStaticProvider(_networkId);
+
+      return new Contract(address, ABI, provider) as TContract;
     });
-  }, [addressMap, ABI, providers]);
+  }, [addressMap, ABI]);
 };
 
 export const useStaticSohmContract = createStaticContract<SOhmv2>(SOHM_ABI);
