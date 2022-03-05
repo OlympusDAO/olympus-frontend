@@ -17,7 +17,7 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("1.12345678913139872398723", 9).toAccurateString()).toEqual("1.123456789");
   });
 
-  it("should accurately format strings", () => {
+  it("should accurately format number to string", () => {
     expect(new DecimalBigNumber(".1", 1).toAccurateString()).toEqual("0.1");
     expect(new DecimalBigNumber("1.1", 9).toAccurateString()).toEqual("1.1");
     expect(new DecimalBigNumber("1.123", 9).toAccurateString()).toEqual("1.123");
@@ -39,7 +39,7 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("1.21", 9).gt(new DecimalBigNumber("1.2", 18))).toEqual(true);
   });
 
-  it("should multiple by a number correctly", () => {
+  it("should multiply by a number correctly", () => {
     // gOHM to OHM
     const gohm = new DecimalBigNumber("1", 18); // 90 OHM
     const index = new DecimalBigNumber("90", 9); // Index of 90
