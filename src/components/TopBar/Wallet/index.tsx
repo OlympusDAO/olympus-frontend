@@ -7,7 +7,7 @@ import Assets from "./Assets";
 import Calculator from "./Calculator";
 import GetOhm from "./GetOhm";
 import Info from "./Info";
-import InitialWalletView from "./InitialWalletView";
+//import InitialWalletView from "./InitialWalletView";
 
 const StyledSwipeableDrawer = withStyles(theme => ({
   root: {
@@ -32,7 +32,6 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const RenderComponent = (props: { component?: string }) => {
-    console.log(props.component);
     switch (props.component) {
       case "calculator":
         return <Calculator />;
@@ -40,12 +39,12 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
         return <Info path={id} />;
       case "getohm":
         return <GetOhm />;
-      case "assets":
+      case "wallet":
         return <Assets />;
-      case "assets/history":
+      case "wallet/history":
         return <Assets path="history" />;
       default:
-        return <InitialWalletView onClose={closeWallet} />;
+        return <></>;
     }
   };
   const CloseButton = (props: any) => (

@@ -25,7 +25,7 @@ import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/componen
 import Balances from "./Assets/Balances";
 import TransactionHistory from "./Assets/TransactionHistory";
 import { GetTokenPrice } from "./queries";
-import { useWallet } from "./Token";
+//import { useWallet } from "./Token";
 
 const useStyles = makeStyles<Theme>(theme => ({
   selector: {
@@ -152,15 +152,14 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     pnl: formatCurrency(note.payout * gOhmPriceChange, 2),
   }));
 
-  const tokens = useWallet(userAddress, networkId, providerInitialized);
-  const alwaysShowTokens = [tokens.ohm, tokens.sohm, tokens.gohm];
-  const onlyShowWhenBalanceTokens = [tokens.wsohm, tokens.pool];
+  // const tokens = useWallet(userAddress, networkId, providerInitialized);
+  // const alwaysShowTokens = [tokens.ohm, tokens.sohm, tokens.gohm];
+  // const onlyShowWhenBalanceTokens = [tokens.wsohm, tokens.pool];
   const classes = useStyles();
 
   const assets = [...tokenArray, ...bondsArray];
   const walletTotalValueUSD = Object.values(assets).reduce((totalValue, token) => totalValue + token.assetValue, 0);
   const RenderComponent = (props: { path?: string }) => {
-    console.log(props.path);
     switch (props.path) {
       case "history":
         return <TransactionHistory />;
@@ -178,14 +177,23 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
         underlyingBalance={`${trim(walletTotalValueUSD / ohmPrice, 2)} OHM`}
       />
       <Box display="flex" flexDirection="row" className={classes.selector} mb="18px" mt="18px">
-        <Link exact component={NavLink} to="/assets">
+        <Link exact component={NavLink} to="/wallet">
           <Typography>My Wallet</Typography>
         </Link>
-        <Link component={NavLink} to="/assets/history">
+        <Link component={NavLink} to="/wallet/history">
           <Typography>History</Typography>
         </Link>
       </Box>
-      <RenderComponent path={props.path} />
+      {(() => {
+        switch (props.path) {
+          case "history":
+            return <TransactionHistory />;
+          case "assets":
+            return <Balances assets={assets} />;
+          default:
+            return <Balances assets={assets} />;
+        }
+      })()}
     </>
   );
 };

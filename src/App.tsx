@@ -410,9 +410,6 @@ function App() {
               })}
               <ChooseBondV2 />
             </Route>
-            <Route exact path="/wallet">
-              <Wallet open={true} />
-            </Route>
             <Route exact path="/calculator">
               <Wallet open={true} component="calculator" />
             </Route>
@@ -425,11 +422,11 @@ function App() {
             <Route path={"/get-ohm"}>
               <Wallet open={true} component="getohm" />
             </Route>
-            <Route path={"/assets/history"}>
-              <Wallet open={true} component="assets/history" />
+            <Route path={"/wallet/history"}>
+              <Wallet open={true} component="wallet/history" />
             </Route>
-            <Route path={"/assets"}>
-              <Wallet open={true} component="assets" />
+            <Route path="/wallet">
+              <Wallet open={true} component="wallet" />
             </Route>
 
             <Route component={NotFound} />

@@ -1,12 +1,12 @@
 import axios from "axios";
 import { gql, request } from "graphql-request";
-import { useQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 const snapshotUrl = "https://hub.snapshot.org/graphql";
 const mediumUrl = "https://api.rss2json.com/v1/api.json?rss_url=https://olympusdao.medium.com/feed";
-import { FUSE_POOL_18_ADDRESSES, SOHM_ADDRESSES, V1_SOHM_ADDRESSES } from "src/constants/addresses";
-import { EnvHelper } from "src/helpers/Environment";
+import { FUSE_POOL_18_ADDRESSES } from "src/constants/addresses";
 import { useWeb3Context } from "src/hooks";
 import { useStaticFuseContract } from "src/hooks/useContract";
+import { CovalentResponse } from "src/lib/covalent.types";
 import { NetworkId } from "src/networkDetails";
 export const ActiveProposals = () => {
   const { data, isFetched, isLoading } = useQuery("ActiveProposals", async () => {
@@ -70,34 +70,64 @@ export const GetTokenPrice = (tokenId = "olympus") => {
 
 export const GetTransactionHistory = () => {
   const { address, networkId } = useWeb3Context();
-  const reqObject = JSON.stringify({
-    jsonrpc: "2.0",
-    id: 0,
-    method: "alchemy_getAssetTransfers",
-    params: [
-      {
-        fromBlock: "0x98EBFE",
-        fromAddress: address.toString(),
-        contractAddresses: [
-          SOHM_ADDRESSES[networkId as keyof typeof SOHM_ADDRESSES],
-          V1_SOHM_ADDRESSES[networkId as keyof typeof V1_SOHM_ADDRESSES],
-        ],
-        // maxCount: "0x5",
-        excludeZeroValue: true,
-        category: ["erc20", "token"],
+  const { data, isFetched, isLoading, isPreviousData, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery<CovalentResponse, Error>(
+      ["TransactionHistory", networkId],
+      async ({ pageParam = 0 }) => {
+        const resp = await axios.get(
+          `https://api.covalenthq.com/v1/${networkId}/address/${address}/transactions_v2/?page-number=${pageParam}&page-size=300&key=ckey_337befd4640a4f0d9682373fc34`,
+        );
+        return { ...resp.data, type: "transaction" };
       },
-    ],
-  });
-  const alchemyEndpoint = EnvHelper.getAlchemyAPIKeyList(networkId);
-  const { data, isFetched, isLoading } = useQuery(
-    ["TransactionHistory", networkId],
-    async () => {
-      if (alchemyEndpoint.length > 0) {
-        const resp = await axios.post(alchemyEndpoint[0], reqObject);
-        return resp.data.result;
-      }
-    },
-    { enabled: !!address && !!networkId },
-  );
-  return { data, isFetched, isLoading };
+      {
+        enabled: !!address && !!networkId,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        retry: false,
+        getNextPageParam: lastPage => {
+          if (!lastPage.error) {
+            return lastPage.data.pagination?.has_more ? lastPage.data.pagination.page_number + 1 : false;
+          }
+          return false;
+        },
+      },
+    );
+  return {
+    data,
+    isFetched,
+    isLoading,
+    isPreviousData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  };
+};
+
+export const GetTransferHistory = (contractAddress: string) => {
+  const { address, networkId } = useWeb3Context();
+  const { data, isFetched, isLoading, isPreviousData, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery<CovalentResponse>(
+      ["TransferHistory", networkId, contractAddress],
+      async ({ pageParam = 0 }) => {
+        const resp = await axios.get(
+          `https://api.covalenthq.com/v1/${networkId}/address/${address}/transfers_v2/?page-number=${pageParam}&quote-currency=USD&format=JSON&contract-address=${contractAddress}&key=ckey_337befd4640a4f0d9682373fc34`,
+        );
+        return { ...resp.data, type: "transfer" };
+      },
+      {
+        enabled: !!address && !!networkId,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        retry: false,
+        getNextPageParam: lastPage => {
+          if (!lastPage.error) {
+            return lastPage.data.pagination?.has_more ? lastPage.data.pagination.page_number + 1 : false;
+          }
+          return false;
+        },
+      },
+    );
+  return { data, isFetched, isLoading, isPreviousData, fetchNextPage, hasNextPage, isFetchingNextPage };
 };
