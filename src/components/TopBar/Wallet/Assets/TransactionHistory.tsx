@@ -83,7 +83,6 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
   }
 
   const filterTransfers = (transfers: CovalentResponse) => {
-    console.log(transfers);
     if (!transfers.error) {
       return transfers.data.items.map(item => {
         if (item.transfers) {
