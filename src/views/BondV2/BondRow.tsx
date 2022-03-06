@@ -1,12 +1,11 @@
 import "./ChooseBond.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Link, Paper, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
+import { Box, Link, Slide, SvgIcon, TableCell, TableRow, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
 import { getEtherscanUrl } from "src/helpers";
-import { useAppSelector } from "src/hooks";
 import { IBondV2 } from "src/slices/BondSliceV2";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
@@ -22,12 +21,13 @@ export function BondDataCard({
   networkId: NetworkId;
   inverseBond: boolean;
 }) {
-  const isBondLoading = useAppSelector(state => state.bondingV2.loading);
+  // Use BondPrice as indicator of loading.
+  const isBondLoading = !bond.priceUSD ?? true;
   const bondLink = inverseBond ? `/bonds/inverse/${bond.index}` : `/bonds/${bond.index}`;
 
   return (
     <Slide direction="up" in={true}>
-      <Paper id={`${bond.index}--bond`} className="bond-data-card ohm-card">
+      <Box id={`${bond.index}--bond`} className="bond-data-card" style={{ marginBottom: "15px" }}>
         {/* when not inverse bond show bondable asset */}
         <div className="bond-pair">
           <TokenStack tokens={bond.bondIconSvg} />
@@ -97,7 +97,7 @@ export function BondDataCard({
               : `${t`Bond`} ${bond.displayName} for ${bond.payoutName}`}
           </TertiaryButton>
         </Link>
-      </Paper>
+      </Box>
     </Slide>
   );
 }
