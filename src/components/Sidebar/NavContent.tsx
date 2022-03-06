@@ -53,6 +53,12 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
       return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
     });
 
+  const sortedInverseBonds = inverseBonds
+    .filter(bond => bond.soldOut === false)
+    .sort((a, b) => {
+      return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
+    });
+
   // bonds.sort((a: CustomBond, b: CustomBond) => b.bondDiscount! - a.bondDiscount!);
 
   return (
@@ -112,7 +118,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                           </AccordionDetails>
                         </Accordion>
                       )}
-                      {inverseBonds.length > 0 && (
+                      {sortedInverseBonds.length > 0 && (
                         <Accordion className="discounts-accordion" square defaultExpanded={true}>
                           <AccordionSummary
                             expandIcon={
@@ -124,7 +130,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                             </Typography>
                           </AccordionSummary>
                           <AccordionDetails>
-                            {inverseBonds.map((bond, i) => {
+                            {sortedInverseBonds.map((bond, i) => {
                               return (
                                 <Link
                                   component={NavLink}
