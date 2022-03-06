@@ -1,6 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { useQueries, useQuery, UseQueryResult } from "react-query";
-import { abi as IERC20_ABI } from "src/abi/IERC20.json";
 import { NetworkId } from "src/constants";
 import {
   AddressMap,
@@ -17,10 +16,9 @@ import {
 } from "src/constants/addresses";
 import { queryAssertion } from "src/helpers/reactQueryUtil";
 import { nonNullable } from "src/helpers/typeUtil";
-import { IERC20 } from "src/typechain";
 
 import { useWeb3Context } from ".";
-import { useMultipleContracts, useStaticFuseContract } from "./useContract";
+import { useMultipleTokenContracts, useStaticFuseContract } from "./useContract";
 
 export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, networkId?: NetworkId) =>
   ["useBalance", address, tokenAddressMap, networkId].filter(nonNullable);
@@ -31,14 +29,14 @@ export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, 
  */
 export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAddressMap: TAddressMap) => {
   const { address } = useWeb3Context();
-  const contracts = useMultipleContracts<IERC20>(tokenAddressMap, IERC20_ABI);
+  const contracts = useMultipleTokenContracts(tokenAddressMap);
 
   const networkIds = Object.keys(tokenAddressMap).map(Number);
 
   const results = useQueries(
-    networkIds.map((networkId, index) => ({
+    networkIds.map(networkId => ({
       enabled: !!address,
-      queryFn: () => contracts[index].balanceOf(address),
+      queryFn: () => contracts[networkId as NetworkId].balanceOf(address),
       queryKey: balanceQueryKey(address, tokenAddressMap, networkId),
     })),
   );
