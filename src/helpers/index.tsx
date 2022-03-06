@@ -13,7 +13,7 @@ import { abi as PairContractABI } from "../abi/PairContract.json";
 import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
 import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
-import { addresses, BLOCK_RATE_SECONDS, EPOCH_INTERVAL, NetworkId } from "../constants";
+import { addresses, EPOCH_INTERVAL, NetworkId } from "../constants";
 import { PairContract, RedeemHelper } from "../typechain";
 import { ohm_dai, ohm_daiOld, ohm_weth } from "./AllBonds";
 import { EnvHelper } from "./Environment";
@@ -158,50 +158,6 @@ export function trim(number = 0, precision = 0) {
 
 export function getRebaseBlock(currentBlock: number) {
   return currentBlock + EPOCH_INTERVAL - (currentBlock % EPOCH_INTERVAL);
-}
-
-export function secondsUntilBlock(startBlock: number, endBlock: number): number {
-  const blocksAway = endBlock - startBlock;
-  const secondsAway = blocksAway * BLOCK_RATE_SECONDS;
-
-  return secondsAway;
-}
-
-export function prettyVestingPeriod(currentBlock: number, vestingBlock: number) {
-  if (vestingBlock === 0) {
-    return "";
-  }
-
-  const seconds = secondsUntilBlock(currentBlock, vestingBlock);
-  if (seconds < 0) {
-    return "Fully Vested";
-  }
-  return prettifySeconds(seconds);
-}
-
-export function prettifySeconds(seconds: number, resolution?: string) {
-  if (seconds !== 0 && !seconds) {
-    return "";
-  }
-
-  const d = Math.floor(seconds / (3600 * 24));
-  const h = Math.floor((seconds % (3600 * 24)) / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-
-  if (resolution === "day") {
-    return d + (d == 1 ? " day" : " days");
-  }
-
-  const dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
-  const hDisplay = h > 0 ? h + (h == 1 ? " hr, " : " hrs, ") : "";
-  const mDisplay = m > 0 ? m + (m == 1 ? " min" : " mins") : "";
-
-  let result = dDisplay + hDisplay + mDisplay;
-  if (mDisplay === "") {
-    result = result.slice(0, result.length - 2);
-  }
-
-  return result;
 }
 
 function getSohmTokenImage() {
