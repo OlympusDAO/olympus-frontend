@@ -66,12 +66,14 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
   const stakedTenderBalance = StakedBalance();
   const wrappedBalance = WrappedBalance();
 
-  //show if fantom network AND has a balance of any of the tokens
-  const tenderBalances = [depositAmount, tenderTokenBalance, stakedTenderBalance, wrappedBalance].some(balance => {
-    return balance! > 0;
-  });
-  const showTenderMenu =
-    (networkId === NetworkId.FANTOM || networkId === NetworkId.FANTOM_TESTNET) && tenderBalances ? true : false;
+  //Disable until Tender Offer is Live - brightiron
+  // //show if fantom network AND has a balance of any of the tokens
+  // const tenderBalances = [depositAmount, tenderTokenBalance, stakedTenderBalance, wrappedBalance].some(balance => {
+  //   return balance! > 0;
+  // });
+  // const showTenderMenu =
+  //   (networkId === NetworkId.FANTOM || networkId === NetworkId.FANTOM_TESTNET) && tenderBalances ? true : false;
+
   return (
     <Paper className="dapp-sidebar">
       <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
@@ -90,7 +92,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              {showTenderMenu && <NavItem to="/tender" icon="wallet" label={t`SPA Tender Offer`} />}
+              {/* {showTenderMenu && <NavItem to="/tender" icon="wallet" label={t`SPA Tender Offer`} />} */}
               {networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY ? (
                 <>
                   <NavItem to="/dashboard" icon={"dashboard"} label={t`Dashboard`} />

@@ -20,7 +20,7 @@ import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } 
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { info } from "./slices/MessagesSlice";
 
-import { Stake, TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2, Tender } from "./views";
+import { Stake, TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar";
 import TopBar from "./components/TopBar/TopBar";
 import CallToAction from "./components/CallToAction/CallToAction";
@@ -36,7 +36,6 @@ import projectData from "src/views/Give/projects.json";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
-import TenderCTA from "./views/Tender/TenderCTA";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import { trackGAEvent, trackSegmentEvent } from "./helpers/analytics";
 
@@ -324,7 +323,9 @@ function App() {
             !hasActiveV1Bonds &&
             trimmedPath.indexOf("dashboard") === -1 &&
             oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
-          {networkId !== NetworkId.FANTOM && <TenderCTA />}
+
+          {/* Disable Balance Cross Chain Tender Offer Balance Check until live -brightiron
+          {networkId !== NetworkId.FANTOM && <TenderCTA />} */}
           <Switch>
             <Route exact path="/dashboard">
               <TreasuryDashboard />
@@ -410,9 +411,11 @@ function App() {
               })}
               <ChooseBondV2 />
             </Route>
+
+            {/* tender offer routes disabled until live -brightiron 
             <Route path="/tender">
               <Tender />
-            </Route>
+            </Route> */}
             <Route component={NotFound} />
           </Switch>
         </div>
