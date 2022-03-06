@@ -2,20 +2,20 @@ import * as fc from "fast-check";
 
 import { getParameterByName } from "./QueryParameterHelper";
 
-function fixFcTestQueryParameterString(s: string): string {
-  s = s.replace("+", "%2b");
-  s = s.replace("&", "%26");
-  return s;
-}
-
 describe("QueryParameterHelper", () => {
   const paramName = "p";
 
-  test("getBondCalculator always returns contract with the correct contract address", () => {
+  function fixFcTestQueryParameterString(s: string): string {
+    s = s.replace(/\+/g, "%2b");
+    s = s.replace(/&/g, "%26");
+    return s;
+  }
+
+  test("getParameterByName returns the right parameter value", () => {
     fc.assert(
-      fc.property(fc.webQueryParameters({ size: "small" }), param => {
+      fc.property(fc.webQueryParameters({ size: "large" }), param => {
         param = fixFcTestQueryParameterString(param);
-        const url = `?${paramName}=${param}`;
+        const url = `?${paramName}=${param}&otherParameter=Olympus`;
 
         const returnParam = getParameterByName(paramName, url);
 
