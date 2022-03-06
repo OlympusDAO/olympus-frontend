@@ -4,7 +4,7 @@ import { t } from "@lingui/macro";
 import { Zoom } from "@material-ui/core";
 import { Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import isEmpty from "lodash/isEmpty";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { formatCurrency } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
@@ -45,8 +45,21 @@ function ChooseBondV2() {
     }
     return withInterestDue;
   });
+  const inverseBonds = useAppSelector(state => {
+    return state.inverseBonds.indexes
+      .map(index => state.inverseBonds.bonds[index])
+      .sort((a, b) => b.discount - a.discount);
+  });
+
+  useEffect(() => {
+    if (inverseBonds.length > 0 && currentAction === 0) {
+      setShowTabs(true);
+      setCurrentAction(1);
+    }
+  }, [inverseBonds.length]);
 
   const [currentAction, setCurrentAction] = useState<number>(0);
+  const [showTabs, setShowTabs] = useState<boolean>(false);
   const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setCurrentAction(newView);
   };
@@ -69,24 +82,25 @@ function ChooseBondV2() {
             />
           </MetricCollection>
 
-          <Tabs
-            centered
-            textColor="primary"
-            aria-label="bond tabs"
-            indicatorColor="primary"
-            key={`true`}
-            className="bond-tab-buttons"
-            value={currentAction}
-            //hides the tab underline sliding animation in while <Zoom> is loading
-            TabIndicatorProps={!true ? { style: { display: "none" } } : undefined}
-            onChange={changeView}
-          >
-            <Tab aria-label="bond-button" label={t`Bond`} />
+          {showTabs && (
+            <Tabs
+              centered
+              textColor="primary"
+              aria-label="bond tabs"
+              indicatorColor="primary"
+              key={`true`}
+              className="bond-tab-buttons"
+              value={currentAction}
+              //hides the tab underline sliding animation in while <Zoom> is loading
+              TabIndicatorProps={!true ? { style: { display: "none" } } : undefined}
+              onChange={changeView}
+            >
+              <Tab aria-label="bond-button" label={t`Bond`} />
 
-            <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} />
-          </Tabs>
-
-          {currentAction === 1 ? <ChooseInverseBond /> : <ChooseStraightBond />}
+              <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} />
+            </Tabs>
+          )}
+          {showTabs && currentAction === 1 ? <ChooseInverseBond /> : <ChooseStraightBond />}
         </Paper>
       </Zoom>
     </div>

@@ -28,10 +28,17 @@ function ChooseInverseBond() {
       .sort((a, b) => b.discount - a.discount);
   });
 
+  const isBondsLoading = useAppSelector(state => state.inverseBonds.loading ?? true);
+
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
 
   return (
     <>
+      {inverseBonds.length === 0 && !isBondsLoading && (
+        <Box display="flex" justifyContent="center" marginY="24px">
+          <Typography variant="h4">No active bonds</Typography>
+        </Box>
+      )}
       {!isSmallScreen && inverseBonds.length != 0 && (
         <Grid container item>
           <TableContainer>
