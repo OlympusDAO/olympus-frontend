@@ -83,18 +83,16 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
   }
 
   const filterTransfers = (transfers: CovalentResponse) => {
+    console.log(transfers);
     if (!transfers.error) {
       return transfers.data.items.map(item => {
-        let detailString = "";
-        if (item.from_address.toLowerCase() === address.toLowerCase()) {
-          detailString = `Transfer to ${shorten(item.to_address)}`;
-        } else {
-          detailString = `Deposit from ${shorten(item.to_address)}`;
-        }
         if (item.transfers) {
           return {
             ...item,
-            details: detailString,
+            details:
+              item.transfers[0].transfer_type === "OUT"
+                ? `Transfer to ${shorten(item.to_address)}`
+                : `Deposit from ${shorten(item.to_address)}`,
             value: item.transfers[0].delta / 10 ** item.transfers[0].contract_decimals,
             contract_ticker_symbol: item.transfers[0].contract_ticker_symbol,
             type: "transfer",
