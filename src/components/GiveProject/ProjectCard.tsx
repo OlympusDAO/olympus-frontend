@@ -685,7 +685,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 </Paper>
               </Grid>
               <Grid item xs={12}>
-                {isUserDonating ? (
+                {!isUserDonating ? (
                   <></>
                 ) : (
                   <Paper headerText={t`Your Donations`}>
