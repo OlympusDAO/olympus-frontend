@@ -249,70 +249,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                       >
                         <div
                           class="bond-discounts"
-                        >
-                          <div
-                            class="MuiPaper-root MuiAccordion-root discounts-accordion Mui-expanded MuiPaper-elevation0"
-                          >
-                            <div
-                              aria-disabled="false"
-                              aria-expanded="true"
-                              class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded"
-                              role="button"
-                              tabindex="0"
-                            >
-                              <div
-                                class="MuiAccordionSummary-content Mui-expanded"
-                              >
-                                <p
-                                  class="MuiTypography-root MuiTypography-body2"
-                                >
-                                  Highest Discount
-                                </p>
-                              </div>
-                              <div
-                                aria-disabled="false"
-                                aria-hidden="true"
-                                class="MuiButtonBase-root MuiIconButton-root MuiAccordionSummary-expandIcon Mui-expanded MuiIconButton-edgeEnd"
-                              >
-                                <span
-                                  class="MuiIconButton-label"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root discounts-expand MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    style="width: 18px; height: 18px;"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                            </div>
-                            <div
-                              class="MuiCollapse-root MuiCollapse-entered"
-                              style="min-height: 0px;"
-                            >
-                              <div
-                                class="MuiCollapse-wrapper"
-                              >
-                                <div
-                                  class="MuiCollapse-wrapperInner"
-                                >
-                                  <div
-                                    role="region"
-                                  >
-                                    <div
-                                      class="MuiAccordionDetails-root"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        />
                       </div>
                       <div
                         class="makeStyles-root-218 nav-item-container"
@@ -1952,70 +1889,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                       >
                         <div
                           class="bond-discounts"
-                        >
-                          <div
-                            class="MuiPaper-root MuiAccordion-root discounts-accordion Mui-expanded MuiPaper-elevation0"
-                          >
-                            <div
-                              aria-disabled="false"
-                              aria-expanded="true"
-                              class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded"
-                              role="button"
-                              tabindex="0"
-                            >
-                              <div
-                                class="MuiAccordionSummary-content Mui-expanded"
-                              >
-                                <p
-                                  class="MuiTypography-root MuiTypography-body2"
-                                >
-                                  Highest Discount
-                                </p>
-                              </div>
-                              <div
-                                aria-disabled="false"
-                                aria-hidden="true"
-                                class="MuiButtonBase-root MuiIconButton-root MuiAccordionSummary-expandIcon Mui-expanded MuiIconButton-edgeEnd"
-                              >
-                                <span
-                                  class="MuiIconButton-label"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root discounts-expand MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    style="width: 18px; height: 18px;"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                            </div>
-                            <div
-                              class="MuiCollapse-root MuiCollapse-entered"
-                              style="min-height: 0px;"
-                            >
-                              <div
-                                class="MuiCollapse-wrapper"
-                              >
-                                <div
-                                  class="MuiCollapse-wrapperInner"
-                                >
-                                  <div
-                                    role="region"
-                                  >
-                                    <div
-                                      class="MuiAccordionDetails-root"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        />
                       </div>
                       <div
                         class="makeStyles-root-54 nav-item-container"
@@ -3655,70 +3529,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                       >
                         <div
                           class="bond-discounts"
-                        >
-                          <div
-                            class="MuiPaper-root MuiAccordion-root discounts-accordion Mui-expanded MuiPaper-elevation0"
-                          >
-                            <div
-                              aria-disabled="false"
-                              aria-expanded="true"
-                              class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded"
-                              role="button"
-                              tabindex="0"
-                            >
-                              <div
-                                class="MuiAccordionSummary-content Mui-expanded"
-                              >
-                                <p
-                                  class="MuiTypography-root MuiTypography-body2"
-                                >
-                                  Highest Discount
-                                </p>
-                              </div>
-                              <div
-                                aria-disabled="false"
-                                aria-hidden="true"
-                                class="MuiButtonBase-root MuiIconButton-root MuiAccordionSummary-expandIcon Mui-expanded MuiIconButton-edgeEnd"
-                              >
-                                <span
-                                  class="MuiIconButton-label"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root discounts-expand MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    style="width: 18px; height: 18px;"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                            </div>
-                            <div
-                              class="MuiCollapse-root MuiCollapse-entered"
-                              style="min-height: 0px;"
-                            >
-                              <div
-                                class="MuiCollapse-wrapper"
-                              >
-                                <div
-                                  class="MuiCollapse-wrapperInner"
-                                >
-                                  <div
-                                    role="region"
-                                  >
-                                    <div
-                                      class="MuiAccordionDetails-root"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        />
                       </div>
                       <div
                         class="makeStyles-root-395 nav-item-container"
