@@ -82,20 +82,6 @@
     }
   }
 
-  .card-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    vertical-align: middle;
-
-    .give-education {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      align-content: center;
-    }
-  }
   .causes-body {
     display: flex;
     flex-direction: column;
@@ -166,94 +152,6 @@
             margin-bottom: 0px;
           }
         }
-      }
-
-      .view-details {
-        padding-bottom: 0rem;
-
-        .cause-link {
-          display: flex;
-          flex-direction: row;
-          align-content: center;
-          align-items: center;
-          justify-content: space-between;
-          color: #999999;
-          font-size: small;
-          border-radius: 12px;
-          font-weight: 500;
-
-          svg path {
-            fill: #999999;
-          }
-
-          > p {
-            margin-bottom: 0px;
-          }
-        }
-      }
-
-      .cause-link:hover {
-        color: #f4d092;
-
-        svg path {
-          fill: #f4d092;
-        }
-      }
-
-      .cause-misc-info {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-end;
-        margin-top: 16px;
-
-        .cause-info-main-text {
-          font-size: 1rem;
-
-          .MuiTypography-body1 {
-            margin-bottom: 0rem;
-          }
-        }
-
-        .cause-info-bottom-text {
-          font-size: 0.875rem;
-          font-weight: 500;
-        }
-      }
-
-      .cause-misc-info .MuiGrid-item {
-        display: flex;
-        padding-left: 0px;
-        align-items: flex-end;
-        justify-content: flex-start;
-      }
-
-      .cause-misc-info .give-button-grid {
-        height: 40px;
-      }
-
-      .cause-info-icon {
-        margin-right: 0.25rem;
-        align-self: flex-end;
-        margin-bottom: -2px;
-      }
-
-      .cause-link {
-        width: 100%;
-      }
-
-      .cause-give-button {
-        height: 40px;
-        width: 12rem;
-        margin-left: auto;
-        margin-right: 0;
-      }
-
-      .grant-give-button {
-        height: 40px;
-        width: 100%;
-        margin-left: auto;
-        margin-right: 0;
       }
     }
   }
