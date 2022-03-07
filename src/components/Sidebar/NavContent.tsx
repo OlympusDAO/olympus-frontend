@@ -134,7 +134,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                               return (
                                 <Link
                                   component={NavLink}
-                                  to={`/bonds/${bond.index}`}
+                                  to={`/bonds/inverse/${bond.index}`}
                                   key={i}
                                   className={"bond"}
                                   onClick={handleDrawerToggle}
