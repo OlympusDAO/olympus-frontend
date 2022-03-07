@@ -260,7 +260,7 @@ exports[`<Give/> should render component 1`] = `
                                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
                               >
                                 <a
-                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone cause-link MuiTypography-colorPrimary"
+                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
                                   href="#/give/projects/impact-market"
                                 >
                                   <button
@@ -411,7 +411,7 @@ exports[`<Give/> should render component 1`] = `
                                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
                               >
                                 <a
-                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone cause-link MuiTypography-colorPrimary"
+                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
                                   href="#/give/projects/angel-protocol"
                                 >
                                   <button
@@ -562,7 +562,7 @@ exports[`<Give/> should render component 1`] = `
                                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
                               >
                                 <a
-                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone cause-link MuiTypography-colorPrimary"
+                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
                                   href="#/give/projects/gitcoin"
                                 >
                                   <button
@@ -713,7 +713,7 @@ exports[`<Give/> should render component 1`] = `
                                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
                               >
                                 <a
-                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone cause-link MuiTypography-colorPrimary"
+                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
                                   href="#/give/projects/kolektivo"
                                 >
                                   <button
@@ -864,7 +864,7 @@ exports[`<Give/> should render component 1`] = `
                                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
                               >
                                 <a
-                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone cause-link MuiTypography-colorPrimary"
+                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
                                   href="#/give/projects/popcorndao"
                                 >
                                   <button

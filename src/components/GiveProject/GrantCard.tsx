@@ -248,7 +248,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
 
     return (
       <>
-        <Grid container className="grant-data" spacing={3} alignItems="flex-end">
+        <Grid container spacing={3} alignItems="flex-end">
           <Grid item xs={5}>
             <Grid container direction="column" alignItems="flex-start">
               <Grid item>
@@ -257,7 +257,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Icon name="donors" />
                   </Grid>
                   <Grid item className="metric">
-                    {donorCountIsLoading ? <Skeleton /> : donorCount}
+                    {donorCountIsLoading ? <Skeleton className="skeleton-inline" /> : donorCount}
                   </Grid>
                 </Grid>
               </Grid>
@@ -525,7 +525,6 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                 <Grid item xs={12} lg={4}>
                   <Link
                     href={`#/give/grants/${grant.slug}`}
-                    className="cause-link"
                     onClick={() => handleGrantDetailsButtonClick("View Details Button")}
                   >
                     <PrimaryButton fullWidth>
@@ -604,7 +603,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   <></>
                 ) : (
                   <Paper headerText={t`Your Donations`}>
-                    <Grid container alignItems="flex-end" className="grant-data">
+                    <Grid container alignItems="flex-end">
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="flex-start">
                           <Grid item container justifyContent="flex-start" alignItems="center" spacing={1}>

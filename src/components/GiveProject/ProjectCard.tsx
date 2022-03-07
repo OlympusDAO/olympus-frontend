@@ -594,7 +594,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <Grid item xs={12} lg={4}>
                   <Link
                     href={`#/give/projects/${project.slug}`}
-                    className="cause-link"
                     onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                   >
                     <PrimaryButton fullWidth>

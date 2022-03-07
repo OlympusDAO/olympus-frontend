@@ -20,21 +20,19 @@
   }
 }
 
-.grant-data {
-  .MuiSkeleton-text {
-    // Force the Skeleton to not break onto a new line
-    display: inline;
-  }
+.skeleton-inline.MuiSkeleton-text {
+  // Force the Skeleton to not break onto a new line
+  display: inline;
+}
 
-  .metric {
-    font-weight: 600;
-    font-size: 14px;
-  }
+.metric {
+  font-weight: 600;
+  font-size: 14px;
+}
 
-  .subtext {
-    color: #999999;
-    padding-top: 2px;
-  }
+.subtext {
+  color: #999999;
+  padding-top: 2px;
 }
 
 .grant-image {
