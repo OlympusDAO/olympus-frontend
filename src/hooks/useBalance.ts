@@ -14,8 +14,8 @@ import {
   V1_SOHM_ADDRESSES,
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
-import { queryAssertion } from "src/helpers/reactQueryUtil";
-import { nonNullable } from "src/helpers/typeUtil";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
+import { nonNullable } from "src/helpers/types/nonNullable";
 
 import { useWeb3Context } from ".";
 import { useMultipleTokenContracts, useStaticFuseContract } from "./useContract";

@@ -4,7 +4,6 @@ import { formatUnits } from "@ethersproject/units";
 import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
 import { ethers } from "ethers";
-import { QueryKey, useQuery } from "react-query";
 import { IBondV2 } from "src/slices/BondSliceV2";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
@@ -277,13 +276,6 @@ export const handleContractError = (e: any) => {
 export const isIFrame = () => window.location !== window.parent.location;
 
 /**
- * Assertion function
- */
-export function assert(value: unknown, message: string | Error): asserts value {
-  if (!value) throw message instanceof Error ? message : new Error(message);
-}
-
-/**
  * Converts gOHM to OHM. Mimics `balanceFrom()` gOHM contract function.
  */
 export const convertGohmToOhm = (amount: BigNumber, index: BigNumber) => {
@@ -312,18 +304,6 @@ export const formatNumber = (number: number, precision = 0) => {
     minimumFractionDigits: precision,
     maximumFractionDigits: precision,
   }).format(number);
-};
-
-/**
- * Used to build a `useQuery` function for fetching necessary data in parallel for a query,
- * using that queries `queryKey`
- *
- * Please refer to the `useStakePoolTVL` function for an example on why this function is handy.
- */
-export const createDependentQuery = (baseQueryKey: QueryKey) => {
-  return <TData,>(key: string, fn: () => Promise<TData>, enabled?: boolean) => {
-    return useQuery([baseQueryKey, key].filter(Boolean), fn, { enabled }).data;
-  };
 };
 
 interface ICheckBalance extends IBaseAsyncThunk {

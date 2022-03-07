@@ -5,7 +5,7 @@ import { DataRow } from "@olympusdao/component-library";
 import { BigNumber, BigNumberish } from "ethers";
 import { NetworkId } from "src/constants";
 import { convertGohmToOhm, formatNumber, parseBigNumber } from "src/helpers";
-import { nonNullable } from "src/helpers/typeUtil";
+import { nonNullable } from "src/helpers/types/nonNullable";
 import {
   useFuseBalance,
   useGohmBalance,

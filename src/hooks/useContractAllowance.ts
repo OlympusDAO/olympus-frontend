@@ -2,8 +2,8 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { AddressMap } from "src/constants/addresses";
-import { queryAssertion } from "src/helpers/reactQueryUtil";
-import { nonNullable } from "src/helpers/typeUtil";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
+import { nonNullable } from "src/helpers/types/nonNullable";
 
 import { useWeb3Context } from ".";
 import { useDynamicTokenContract } from "./useContract";
