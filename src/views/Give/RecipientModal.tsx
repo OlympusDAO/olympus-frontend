@@ -1,6 +1,6 @@
 import { isAddress } from "@ethersproject/address";
 import { t, Trans } from "@lingui/macro";
-import { Box, Link, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Grid, Link, SvgIcon, Typography } from "@material-ui/core";
 import { FormControl, FormHelperText } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
@@ -304,43 +304,21 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     callbackFunc(getWalletAddress(), eventSource, depositAmountBig, getDepositAmount());
   };
 
-  const getRecipientElements = () => {
-    // If project mode is enabled, the amount is editable, but the recipient is not
+  const getRecipientInputField = () => {
     if (isProjectMode()) {
-      return (
-        <>
-          <div className="project-modal-top">
-            <Typography variant="body1">
-              <Trans>Recipient</Trans>
-            </Typography>
-          </div>
-          <Input id="wallet-input" label={getRecipientTitle()} disabled={true} />
-        </>
-      );
+      return <Input id="wallet-input" label={getRecipientTitle()} disabled={true} />;
     }
 
     return (
-      <>
-        <div className="give-modal-alloc-tip">
-          <Typography variant="body1">
-            <Trans>Recipient</Trans>
-          </Typography>
-          {/* The main reason for having this tooltip is because it keeps spacing consistent with the sOHM Allocation above */}
-          <InfoTooltip
-            message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
-            children={null}
-          />
-        </div>
-        <Input
-          id="wallet-input"
-          placeholder={t`Enter a wallet address in the form of 0x ...`}
-          value={walletAddress}
-          error={!isWalletAddressValid}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onChange={(e: any) => handleSetWallet(e.target.value)}
-          helperText={!isWalletAddressValid ? isWalletAddressValidError : ""}
-        />
-      </>
+      <Input
+        id="wallet-input"
+        placeholder={t`Enter a wallet address in the form of 0x ...`}
+        value={walletAddress}
+        error={!isWalletAddressValid}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onChange={(e: any) => handleSetWallet(e.target.value)}
+        helperText={!isWalletAddressValid ? isWalletAddressValidError : ""}
+      />
     );
   };
 
@@ -423,52 +401,82 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     // Otherwise we let the user enter the amount
     return (
       <>
-        <div className="give-modal-alloc-tip">
-          <Typography variant="body1">
-            <Trans>sOHM Allocation</Trans>
-          </Typography>
-          <InfoTooltip
-            message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
-            children={null}
-          />
-        </div>
-        <Input
-          id="amount-input"
-          placeholder={t`Enter an amount`}
-          type="number"
-          value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
-          helperText={
-            isDepositAmountValid
-              ? t`Your current Staked Balance is ${getSOhmBalance().toFixed(2)} sOHM`
-              : isDepositAmountValidError
-          }
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onChange={(e: any) => handleSetDepositAmount(e.target.value)}
-          error={!isDepositAmountValid}
-          startAdornment="sOHM"
-          endString={t`Max`}
-          endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
-        />
-        {getRecipientElements()}
-        {
-          /* We collapse the education graphics on mobile screens */
-          !isSmallScreen ? (
-            <div className={`give-education-graphics`}>
-              <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
-              {!isSmallScreen && <ArrowGraphic />}
-              <VaultGraphic quantity={getDepositAmount().toFixed()} small={false} />
-              {!isSmallScreen && <ArrowGraphic />}
-              <YieldGraphic quantity={getDepositAmount().toFixed()} />
-            </div>
+        <Grid container alignItems="center" spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="body1">
+              <Trans>sOHM Allocation</Trans>
+              <InfoTooltip
+                message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                children={null}
+              />
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Input
+              id="amount-input"
+              placeholder={t`Enter an amount`}
+              type="number"
+              value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+              helperText={
+                isDepositAmountValid
+                  ? t`Your current Staked Balance is ${getSOhmBalance().toFixed(2)} sOHM`
+                  : isDepositAmountValidError
+              }
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onChange={(e: any) => handleSetDepositAmount(e.target.value)}
+              error={!isDepositAmountValid}
+              startAdornment="sOHM"
+              endString={t`Max`}
+              endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body1">
+              <Trans>Recipient</Trans>
+              <InfoTooltip
+                message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+                children={null}
+              />
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            {getRecipientInputField()}
+          </Grid>
+          {!isSmallScreen ? (
+            <Grid item xs={12}>
+              <Grid container justifyContent="center" alignItems="flex-start" wrap="nowrap">
+                <Grid item xs={3}>
+                  <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
+                </Grid>
+                <Grid item xs={1} style={{ marginTop: "30px" }}>
+                  <ArrowGraphic />
+                </Grid>
+                <Grid item xs={3}>
+                  <VaultGraphic quantity={getDepositAmount().toFixed()} small={false} />
+                </Grid>
+                <Grid item xs={1} style={{ marginTop: "30px" }}>
+                  <ArrowGraphic />
+                </Grid>
+                <Grid item xs={3}>
+                  <YieldGraphic quantity={getDepositAmount().toFixed()} />
+                </Grid>
+              </Grid>
+            </Grid>
           ) : (
             <></>
-          )
-        }
-        <FormControl className="ohm-modal-submit">
-          <PrimaryButton disabled={!canSubmit()} onClick={handleContinue}>
-            <Trans>Continue</Trans>
-          </PrimaryButton>
-        </FormControl>
+          )}
+          <Grid item xs={12}>
+            <Grid container justifyContent="center" alignContent="center">
+              <Grid item xs />
+              <Grid item xs={8}>
+                <PrimaryButton disabled={!canSubmit()} onClick={handleContinue} fullWidth>
+                  <Trans>Continue</Trans>
+                </PrimaryButton>
+              </Grid>
+              <Grid item xs />
+            </Grid>
+          </Grid>
+        </Grid>
       </>
     );
   };

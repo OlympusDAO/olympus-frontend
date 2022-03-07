@@ -509,34 +509,6 @@
   }
 }
 
-.give-education-graphics {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  margin-top: 16px;
-
-  .message-text {
-    color: #999999;
-  }
-
-  .message-text {
-    color: #999999;
-  }
-
-  .yield-graphic svg path {
-    fill: none;
-  }
-
-  .arrow-graphic {
-    margin-top: 45px;
-  }
-}
-
-.give-education-graphics.smaller {
-  flex-direction: column;
-}
-
 .yield-action-area {
   justify-content: space-around;
   align-items: center;
@@ -645,16 +617,6 @@
         margin-bottom: 10px;
       }
     }
-  }
-
-  .give-modal-header {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .project-modal-top {
-    margin-top: 16px;
-    margin-bottom: 1rem;
   }
 
   .give-modal-alloc-tip {
