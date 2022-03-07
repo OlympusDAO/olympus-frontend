@@ -492,27 +492,6 @@
     }
   }
 
-  .small-screen-cause {
-    flex-direction: column;
-
-    .cause-content {
-      padding-top: 0px;
-      width: 100%;
-
-      .cause-misc-info .give-button-grid {
-        margin-top: 20px;
-
-        .cause-link {
-          width: 100%;
-        }
-
-        .cause-give-button {
-          width: 100%;
-        }
-      }
-    }
-  }
-
   .ohm-card {
     // On smaller screens, stack vertically and center
     display: flex;
@@ -662,17 +641,6 @@
 
 .give-education-graphics.smaller {
   flex-direction: column;
-}
-
-.give-staked-balance {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  .MuiTypography-body2 {
-    color: #999999;
-    margin-top: 0.5rem;
-  }
 }
 
 .yield-action-area {
@@ -991,17 +959,6 @@
   }
 }
 
-.redeem-table {
-  .MuiTableCell-body {
-    font-size: 0.875rem;
-    font-family: Square;
-    font-weight: 500;
-    line-height: 1;
-    padding-left: 0rem;
-    padding-bottom: 1rem;
-  }
-}
-
 .arrow-graphic {
   svg path {
     fill: #999999;
@@ -1017,83 +974,6 @@
 .project {
   margin-top: 10px;
 
-  // TODO look at whether we can make this less flakey by using rem instead of px
-  .project-sidebar {
-    padding: 20px 30px 30px 30px;
-    margin-bottom: 30px;
-
-    .project-sidebar-header {
-      margin-bottom: 30px;
-    }
-
-    .project-top-data {
-      padding-top: 30px;
-
-      .project-deposits {
-        text-align: right;
-
-        .project-data-icon {
-          justify-content: flex-end;
-        }
-      }
-    }
-
-    .project-data-icon {
-      .metric {
-        font-weight: 600;
-        font-size: 14px;
-      }
-    }
-
-    .subtext {
-      color: #999999;
-    }
-
-    .donors-title {
-      padding-bottom: 30px;
-    }
-
-    .project-donations {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 30px;
-
-      .project-donation-data {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-
-        .project-yield-sent {
-          text-align: right;
-        }
-
-        h6 {
-          display: flex;
-          align-items: center;
-        }
-      }
-
-      button {
-        width: 100%;
-      }
-    }
-  }
-
-  .project-intro {
-    .project-title {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-    }
-  }
-
-  .project-link {
-    padding-top: 0.4rem;
-  }
-
   .project-info {
     padding-left: 30px;
     padding-right: 30px;
@@ -1103,55 +983,11 @@
     height: auto;
     width: 100%;
 
-    .project-info-header {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    }
-
-    .project-about-header {
-      padding-bottom: 30px;
-    }
-
     p {
       margin-top: 0rem;
       font-size: 0.875rem;
       line-height: 20px;
     }
-  }
-
-  .project-donated {
-    .subtext {
-      color: #999999;
-    }
-  }
-
-  .project-completion {
-    text-align: right;
-
-    .subtext {
-      color: #999999;
-    }
-  }
-
-  .project-goal {
-    padding-top: 30px;
-  }
-
-  .project-give-button {
-    display: flex;
-    padding-top: 24px; // PrimaryButton has 6px inbuilt padding
-
-    button {
-      display: flex;
-      width: 100%;
-    }
-  }
-
-  .project-edit-button {
-    padding-top: 24px; // PrimaryButton has 6px inbuilt padding
-    width: 100%;
-    text-align: right;
   }
 }
 
@@ -1164,54 +1000,15 @@
     }
   }
 
-  .project-visual-info {
-    padding-top: 30px;
-  }
-
   .smaller {
     .project-info {
       margin-left: 0;
-    }
-
-    .project-visual-info {
-      flex-direction: column;
-
-      .goal-graphics {
-        width: 100%;
-      }
     }
   }
 
   .medium {
     .project-info {
       margin-left: 0;
-    }
-
-    .project-visual-info {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
-
-      .goal-graphics {
-        width: 50%;
-      }
-    }
-
-    .project-donations {
-      flex-direction: row;
-
-      button {
-        width: 50%;
-      }
-
-      .project-edit-button {
-        padding-top: 0px;
-
-        button {
-          width: 226px;
-        }
-      }
     }
   }
 }
@@ -1286,14 +1083,6 @@
       height: 40px;
       width: 100%;
     }
-  }
-}
-
-.subnav-paper {
-  max-width: 833px;
-  margin-bottom: 10rem;
-  &.mobile {
-    width: 100%;
   }
 }
 
