@@ -58,7 +58,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-21"
+                          class="MuiBox-root MuiBox-root-4"
                         >
                           <div>
                             <svg
@@ -88,7 +88,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-22"
+                          class="MuiBox-root MuiBox-root-6"
                         >
                           <div>
                             <svg
@@ -112,70 +112,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <div
                       class="bond-discounts"
-                    >
-                      <div
-                        class="MuiPaper-root MuiAccordion-root discounts-accordion Mui-expanded MuiPaper-elevation0"
-                      >
-                        <div
-                          aria-disabled="false"
-                          aria-expanded="true"
-                          class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded"
-                          role="button"
-                          tabindex="0"
-                        >
-                          <div
-                            class="MuiAccordionSummary-content Mui-expanded"
-                          >
-                            <p
-                              class="MuiTypography-root MuiTypography-body2"
-                            >
-                              Highest Discount
-                            </p>
-                          </div>
-                          <div
-                            aria-disabled="false"
-                            aria-hidden="true"
-                            class="MuiButtonBase-root MuiIconButton-root MuiAccordionSummary-expandIcon Mui-expanded MuiIconButton-edgeEnd"
-                          >
-                            <span
-                              class="MuiIconButton-label"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root discounts-expand MuiSvgIcon-fontSizeSmall"
-                                focusable="false"
-                                style="width: 18px; height: 18px;"
-                                viewBox="0 0 20 20"
-                              >
-                                <path
-                                  d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-                        </div>
-                        <div
-                          class="MuiCollapse-root MuiCollapse-entered"
-                          style="min-height: 0px;"
-                        >
-                          <div
-                            class="MuiCollapse-wrapper"
-                          >
-                            <div
-                              class="MuiCollapse-wrapperInner"
-                            >
-                              <div
-                                role="region"
-                              >
-                                <div
-                                  class="MuiAccordionDetails-root"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    />
                   </div>
                   <div
                     class="makeStyles-root-3 nav-item-container"
@@ -188,7 +125,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-23"
+                          class="MuiBox-root MuiBox-root-7"
                         >
                           <div>
                             <svg
@@ -218,7 +155,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-24"
+                          class="MuiBox-root MuiBox-root-8"
                         >
                           <div>
                             <svg
@@ -248,7 +185,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-25"
+                          class="MuiBox-root MuiBox-root-9"
                         >
                           <div>
                             <svg
@@ -287,7 +224,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-26"
+                          class="MuiBox-root MuiBox-root-10"
                         >
                           <div>
                             <svg
@@ -318,7 +255,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-27"
+                          class="MuiBox-root MuiBox-root-11"
                         >
                           <div>
                             <svg
@@ -366,7 +303,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-28"
+                          class="MuiBox-root MuiBox-root-13"
                         >
                           <div>
                             <svg
@@ -414,7 +351,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-29"
+                          class="MuiBox-root MuiBox-root-15"
                         >
                           <div>
                             <svg
@@ -455,7 +392,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-30"
+                          class="MuiBox-root MuiBox-root-16"
                         >
                           <div>
                             <svg
@@ -496,7 +433,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-31"
+                          class="MuiBox-root MuiBox-root-17"
                         >
                           <div>
                             <svg
@@ -537,7 +474,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-32"
+                          class="MuiBox-root MuiBox-root-18"
                         >
                           <div>
                             <svg
@@ -578,7 +515,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiTypography-root MuiTypography-h6"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-33"
+                          class="MuiBox-root MuiBox-root-19"
                         >
                           <div>
                             <svg

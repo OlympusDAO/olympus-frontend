@@ -1,44 +1,26 @@
 import "./ChooseBond.scss";
 
-import { t, Trans } from "@lingui/macro";
-import {
-  Box,
-  Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-  Zoom,
-} from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
+import { t } from "@lingui/macro";
+import { Zoom } from "@material-ui/core";
+import { Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import isEmpty from "lodash/isEmpty";
-import { useDispatch } from "react-redux";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import { formatCurrency } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { IUserNote } from "src/slices/BondSliceV2";
-import { AppDispatch } from "src/store";
 
-import { formatCurrency } from "../../helpers";
-import { BondDataCard, BondTableData } from "./BondRow";
+import ChooseStraightBond from "./ChooseStraightBond";
 import ClaimBonds from "./ClaimBonds";
+import ChooseInverseBond from "./InverseBond/ChooseInverseBond";
 
 function ChooseBondV2() {
-  const { networkId, address, provider } = useWeb3Context();
-  const dispatch = useDispatch<AppDispatch>();
+  const { networkId } = useWeb3Context();
   const history = useHistory();
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
-  const bondsV2 = useAppSelector(state => {
-    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]).sort((a, b) => b.discount - a.discount);
-  });
-
-  const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
   const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
 
   const marketPrice: number | undefined = useAppSelector(state => {
@@ -46,8 +28,6 @@ function ChooseBondV2() {
   });
 
   const treasuryBalance = useAppSelector(state => state.app.treasuryMarketValue);
-
-  const isBondsLoading = useAppSelector(state => state.bondingV2.loading ?? true);
 
   const formattedTreasuryBalance = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -65,13 +45,30 @@ function ChooseBondV2() {
     }
     return withInterestDue;
   });
+  const inverseBonds = useAppSelector(state => {
+    return state.inverseBonds.indexes
+      .map(index => state.inverseBonds.bonds[index])
+      .sort((a, b) => b.discount - a.discount);
+  });
 
+  useEffect(() => {
+    if (inverseBonds.length > 0 && currentAction === 0) {
+      setShowTabs(true);
+      setCurrentAction(1);
+    }
+  }, [inverseBonds.length]);
+
+  const [currentAction, setCurrentAction] = useState<number>(0);
+  const [showTabs, setShowTabs] = useState<boolean>(false);
+  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
+    setCurrentAction(newView);
+  };
   return (
     <div id="choose-bond-view">
       {(!isEmpty(accountNotes) || !isEmpty(v1AccountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
-
+      {/* standard bonds for desktop, mobile is below */}
       <Zoom in={true}>
-        <Paper headerText={`${t`Bond`} (4,4)`}>
+        <Paper headerText={currentAction === 1 ? `${t`Inverse Bond`} (3,1)` : `${t`Bond`} (4,4)`}>
           <MetricCollection>
             <Metric
               label={t`Treasury Balance`}
@@ -85,68 +82,27 @@ function ChooseBondV2() {
             />
           </MetricCollection>
 
-          {bondsV2.length == 0 && !isBondsLoading && (
-            <Box display="flex" justifyContent="center" marginY="24px">
-              <Typography variant="h4">No active bonds</Typography>
-            </Box>
-          )}
+          {showTabs && (
+            <Tabs
+              centered
+              textColor="primary"
+              aria-label="bond tabs"
+              indicatorColor="primary"
+              key={`true`}
+              className="bond-tab-buttons"
+              value={currentAction}
+              //hides the tab underline sliding animation in while <Zoom> is loading
+              TabIndicatorProps={!true ? { style: { display: "none" } } : undefined}
+              onChange={changeView}
+            >
+              <Tab aria-label="bond-button" label={t`Bond`} />
 
-          {!isSmallScreen && bondsV2.length != 0 && (
-            <Grid container item>
-              <TableContainer>
-                <Table aria-label="Available bonds">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="center">
-                        <Trans>Bond</Trans>
-                      </TableCell>
-                      <TableCell align="left">
-                        <Trans>Price</Trans>
-                      </TableCell>
-                      <TableCell align="left">
-                        <Trans>Discount</Trans>
-                      </TableCell>
-                      <TableCell align="left">
-                        <Trans>Duration</Trans>
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {bondsV2.map(bond => {
-                      if (bond.displayName !== "unknown")
-                        return <BondTableData networkId={networkId} key={bond.index} bond={bond} />;
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Grid>
+              <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} />
+            </Tabs>
           )}
-          <Box mt={2} className="help-text">
-            <em>
-              <Typography variant="body2">
-                <Trans>
-                  Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim
-                  as sOHM or gOHM at the end of the term.
-                </Trans>
-              </Typography>
-            </em>
-          </Box>
+          {showTabs && currentAction === 1 ? <ChooseInverseBond /> : <ChooseStraightBond />}
         </Paper>
       </Zoom>
-
-      {isSmallScreen && (
-        <Box className="ohm-card-container">
-          <Grid container item spacing={2}>
-            {bondsV2.map(bond => {
-              return (
-                <Grid item xs={12} key={bond.index}>
-                  <BondDataCard key={bond.index} bond={bond} networkId={networkId} />
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Box>
-      )}
     </div>
   );
 }

@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { changeApproval, getSingleBond, IBondV2, purchaseBond } from "src/slices/BondSliceV2";
+import { changeInverseApproval, purchaseInverseBond } from "src/slices/InverseBondSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { AppDispatch } from "src/store";
 
@@ -20,10 +21,12 @@ function BondPurchase({
   bond,
   slippage,
   recipientAddress,
+  inverseBond,
 }: {
   bond: IBondV2;
   slippage: number;
   recipientAddress: string;
+  inverseBond: boolean;
 }) {
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch<AppDispatch>();
@@ -35,10 +38,26 @@ function BondPurchase({
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
 
-  const isBondLoading = useAppSelector(state => state.bondingV2.loading ?? true);
+  const helpText = inverseBond
+    ? t`Important: Inverse Bonds have 0 vesting time & payout instantly.`
+    : t`Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as sOHM or gOHM at the end of the term.`;
 
-  const balance = useAppSelector(state => state.bondingV2.balances[bond.quoteToken]);
+  const isBondLoading = useAppSelector(state => {
+    if (inverseBond) {
+      return state.inverseBonds.loading ?? true;
+    } else {
+      return state.bondingV2.loading ?? true;
+    }
+  });
 
+  // const balance = useAppSelector(state => state.bondingV2.balances[bond.quoteToken]);
+  const balance = useAppSelector(state => {
+    if (inverseBond) {
+      return state.inverseBonds.balances[bond.quoteToken];
+    } else {
+      return state.bondingV2.balances[bond.quoteToken];
+    }
+  });
   const maxBondable = +bond.maxPayoutOrCapacityInQuote;
 
   const balanceNumber: number = useMemo(
@@ -63,16 +82,29 @@ function BondPurchase({
         ),
       );
     } else {
-      dispatch(
-        purchaseBond({
-          amount: ethers.utils.parseUnits(quantity, bond.quoteDecimals),
-          networkID: networkId,
-          provider,
-          bond,
-          maxPrice: Math.round(Number(bond.priceTokenBigNumber.toString()) * (1 + slippage / 100)),
-          address: recipientAddress,
-        }),
-      ).then(() => clearInput());
+      if (inverseBond) {
+        dispatch(
+          purchaseInverseBond({
+            amounts: [ethers.utils.parseUnits(quantity, "gwei"), 0],
+            networkID: networkId,
+            provider,
+            bond,
+            maxPrice: Math.round(Number(bond.priceTokenBigNumber.toString()) * (1 + slippage / 100)),
+            address: recipientAddress,
+          }),
+        ).then(() => clearInput());
+      } else {
+        dispatch(
+          purchaseBond({
+            amount: ethers.utils.parseUnits(quantity, bond.quoteDecimals),
+            networkID: networkId,
+            provider,
+            bond,
+            maxPrice: Math.round(Number(bond.priceTokenBigNumber.toString()) * (1 + slippage / 100)),
+            address: recipientAddress,
+          }),
+        ).then(() => clearInput());
+      }
     }
   }
 
@@ -110,7 +142,11 @@ function BondPurchase({
   }, [secondsToRefresh, quantity]);
 
   const onSeekApproval = async () => {
-    dispatch(changeApproval({ address, provider, networkID: networkId, bond }));
+    if (inverseBond) {
+      dispatch(changeInverseApproval({ address, provider, networkID: networkId, bond }));
+    } else {
+      dispatch(changeApproval({ address, provider, networkID: networkId, bond }));
+    }
   };
 
   // const displayUnits = bond.displayUnits;
@@ -195,17 +231,25 @@ function BondPurchase({
           <DataRow
             title={t`You Will Get`}
             balance={
-              `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` +
-              `sOHM (≈${trim(+quantity / bond.priceToken / +currentIndex, 4) || "0"} gOHM)`
+              inverseBond
+                ? `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ${bond.payoutName}`
+                : `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` +
+                  `sOHM (≈${trim(+quantity / bond.priceToken / +currentIndex, 4) || "0"} gOHM)`
             }
             tooltip={t`The total amount of payout asset you will recieve from this bond purhcase. (sOHM amount will be higher due to rebasing)`}
             isLoading={isBondLoading}
           />
           <DataRow
             title={t`Max You Can Buy`}
-            balance={`${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
-              trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
-            } ${bond.displayName})`}
+            balance={
+              inverseBond
+                ? `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} ${bond.payoutName} (≈${
+                    trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
+                  } ${bond.displayName})`
+                : `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
+                    trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
+                  } ${bond.displayName})`
+            }
             isLoading={isBondLoading}
             tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
           />
@@ -215,13 +259,14 @@ function BondPurchase({
             tooltip={t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between OHM's market value and the bond's price.`}
             isLoading={isBondLoading}
           />
-
-          <DataRow
-            title={t`Duration`}
-            balance={bond.duration}
-            isLoading={isBondLoading}
-            tooltip={t`The duration of the Bond whereby the bond can be claimed in it’s entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
-          />
+          {!inverseBond && (
+            <DataRow
+              title={t`Duration`}
+              balance={bond.duration}
+              isLoading={isBondLoading}
+              tooltip={t`The duration of the Bond whereby the bond can be claimed in it’s entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
+            />
+          )}
           {recipientAddress !== address && (
             <DataRow title={t`Recipient`} balance={shorten(recipientAddress)} isLoading={isBondLoading} />
           )}
@@ -229,12 +274,7 @@ function BondPurchase({
       </Slide>
       <div className="help-text">
         <em>
-          <Typography variant="body2">
-            <Trans>
-              Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as
-              sOHM or gOHM at the end of the term.
-            </Trans>
-          </Typography>
+          <Typography variant="body2">{helpText}</Typography>
         </em>
       </div>
     </Box>

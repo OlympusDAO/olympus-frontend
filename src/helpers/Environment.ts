@@ -225,7 +225,7 @@ export class EnvHelper {
    * @param url
    * @returns
    */
-  static isGiveEnabled(url: string): boolean {
+  static isGiveEnabled(): boolean {
     const giveEnabled = EnvHelper.env.REACT_APP_GIVE_ENABLED;
 
     // If the variable isn't set, we default to true.
