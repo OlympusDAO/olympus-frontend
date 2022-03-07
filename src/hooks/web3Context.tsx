@@ -3,7 +3,7 @@ import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import React, { ReactElement, useCallback, useContext, useMemo, useState } from "react";
 import { idFromHexString, initNetworkFunc } from "src/helpers/NetworkHelper";
-import { Providers } from "src/helpers/providers/Providers";
+import { Providers } from "src/helpers/providers/Providers/Providers";
 import Web3Modal from "web3modal";
 
 import { NetworkId, NETWORKS } from "../constants";

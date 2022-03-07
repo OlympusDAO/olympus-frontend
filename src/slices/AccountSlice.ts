@@ -2,7 +2,7 @@ import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { BigNumber, BigNumberish, ethers } from "ethers";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-import { Providers } from "src/helpers/providers/Providers";
+import { Providers } from "src/helpers/providers/Providers/Providers";
 import { RootState } from "src/store";
 import { FiatDAOContract, FuseProxy, IERC20, IERC20__factory, SOhmv2, WsOHM } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";

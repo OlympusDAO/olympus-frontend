@@ -16,7 +16,7 @@ import { addresses, BLOCK_RATE_SECONDS, EPOCH_INTERVAL, NetworkId } from "../con
 import { PairContract, RedeemHelper } from "../typechain";
 import { ohm_dai, ohm_daiOld, ohm_weth } from "./AllBonds";
 import { Environment } from "./environment/Environment/Environment";
-import { Providers } from "./providers/Providers";
+import { Providers } from "./providers/Providers/Providers";
 
 /**
  * gets marketPrice from Ohm-DAI v2

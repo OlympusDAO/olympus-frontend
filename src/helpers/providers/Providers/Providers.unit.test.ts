@@ -1,6 +1,6 @@
 import { NetworkId } from "src/networkDetails";
 
-import { enumToArray } from "../types/enumToArray";
+import { enumToArray } from "../../types/enumToArray";
 import { Providers } from "./Providers";
 
 describe("Providers", () => {

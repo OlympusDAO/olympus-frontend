@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
-import { Providers } from "src/helpers/providers/Providers";
+import { Providers } from "src/helpers/providers/Providers/Providers";
 import { RootState } from "src/store";
 
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";

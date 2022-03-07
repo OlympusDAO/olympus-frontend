@@ -2,7 +2,7 @@ import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
 import polygon from "./assets/tokens/matic.svg";
 import ethereum from "./assets/tokens/wETH.svg";
-import { Providers } from "./helpers/providers/Providers";
+import { Providers } from "./helpers/providers/Providers/Providers";
 
 export enum NetworkId {
   MAINNET = 1,
