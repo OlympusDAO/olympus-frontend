@@ -230,8 +230,10 @@ function BondPurchase({
       <div className="help-text">
         <em>
           <Typography variant="body2">
-            Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as
-            sOHM or gOHM at the end of the term.
+            <Trans>
+              Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as
+              sOHM or gOHM at the end of the term.
+            </Trans>
           </Typography>
         </em>
       </div>
