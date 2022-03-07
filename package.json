@@ -81,7 +81,7 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.17.2",
-    "@chainsafe/dappeteer": "^2.2.0",
+    "@chainsafe/dappeteer": "^2.4.1",
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "^2.4.5",
     "@lingui/cli": "^3.13.0",
