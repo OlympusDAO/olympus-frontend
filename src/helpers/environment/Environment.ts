@@ -90,9 +90,6 @@ export class Environment {
           key: `REACT_APP_FANTOM_TESTNET_NODE_URL`,
           fallback: "https://rpc.testnet.fantom.network/",
         });
-      case NetworkId.Localhost:
-        // TODO: Remove localhost from NetworkId enum
-        throw new Error("Localhost isn't a network");
     }
   };
 

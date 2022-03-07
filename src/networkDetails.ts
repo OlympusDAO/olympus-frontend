@@ -19,9 +19,6 @@ export enum NetworkId {
 
   FANTOM = 250,
   FANTOM_TESTNET = 4002,
-
-  // local test network
-  Localhost = 1337,
 }
 
 interface IAddresses {

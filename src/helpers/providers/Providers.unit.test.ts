@@ -7,10 +7,8 @@ describe("Providers", () => {
     // see this for details on the TypeScript obnoxious enum implementation
     // https://www.cloudhadoop.com/typescript-enum-iterate/
     // It will explain the ugly code below that simply tries to iterate all enum values.
-    Object.values(NetworkId)
-      .filter(networkId => +networkId !== NetworkId.Localhost && !isNaN(+networkId))
-      .forEach(networkId => {
-        expect(Providers.getProviderUrl(+networkId as unknown as NetworkId)).toBeTruthy();
-      });
+    Object.values(NetworkId).forEach(networkId => {
+      expect(Providers.getProviderUrl(+networkId as unknown as NetworkId)).toBeTruthy();
+    });
   });
 });
