@@ -69,7 +69,7 @@ export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
     };
     tokenPrice = ohmResp.data.coingeckoTicker.value;
   } catch (e) {
-    console.warn(`Error accessing OHM API ${priceApiURL} . Falling back to coingecko API`, e);
+    console.warn(`Error accessing OHM API ${priceApiURL} . Falling back to coingecko API`);
     // fallback to coingecko
     const cgResp = (await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`,
@@ -203,7 +203,7 @@ export function contractForRedeemHelper({
  * returns false if SafetyCheck has fired in this Session. True otherwise
  * @returns boolean
  */
-export const shouldTriggerSafetyCheck = () => {
+export function shouldTriggerSafetyCheck() {
   const _storage = window.sessionStorage;
   const _safetyCheckKey = "-oly-safety";
   // check if sessionStorage item exists for SafetyCheck
@@ -212,7 +212,7 @@ export const shouldTriggerSafetyCheck = () => {
     return true;
   }
   return false;
-};
+}
 
 export const toBN = (num: number) => {
   return BigNumber.from(num);

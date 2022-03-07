@@ -18,7 +18,7 @@ import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
 import { getZapTokenBalances } from "./slices/ZapSlice";
-import { info } from "./slices/MessagesSlice";
+import { error, info } from "./slices/MessagesSlice";
 
 import { Stake, TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -95,7 +95,8 @@ function App() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const { address, connect, hasCachedProvider, provider, connected, networkId, providerInitialized } = useWeb3Context();
+  const { address, connect, connectionError, hasCachedProvider, provider, connected, networkId, providerInitialized } =
+    useWeb3Context();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalClose = () => {
@@ -277,6 +278,10 @@ function App() {
       loadDetails("account");
     }
   }, [connected, networkId, providerInitialized]);
+
+  useEffect(() => {
+    if (connectionError) dispatch(error(connectionError.text));
+  }, [connectionError]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
