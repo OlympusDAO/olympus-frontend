@@ -634,7 +634,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getPageContent = () => {
     return (
       <>
-        <Container style={{ display: "flex", justifyContent: "center" }} className="project-container">
+        <Container>
           <Grid container spacing={3} alignItems="flex-start">
             <Grid container item xs={12} lg={5}>
               <Grid item xs={12}>
