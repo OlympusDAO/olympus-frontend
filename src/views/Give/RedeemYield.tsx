@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
-import { Environment } from "src/helpers/environment/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { loadAccountDetails } from "src/slices/AccountSlice";

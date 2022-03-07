@@ -1,6 +1,6 @@
 import ReactGA from "react-ga";
 
-import { Environment } from "./environment/Environment";
+import { Environment } from "./environment/Environment/Environment";
 
 const SEGMENT_API_KEY = Environment.getSegmentApiKey();
 const GA_API_KEY = Environment.getGoogleAnalyticsApiKey();

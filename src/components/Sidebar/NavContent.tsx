@@ -19,7 +19,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
-import { Environment } from "src/helpers/environment/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Bond } from "src/lib/Bond";

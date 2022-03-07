@@ -1,5 +1,5 @@
 import { NetworkId } from "src/constants";
-import { Environment } from "src/helpers/environment/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import { CovalentResponse, CovalentTokenBalance, CovalentTransaction } from "./covalent.types";
 

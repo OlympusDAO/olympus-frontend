@@ -17,7 +17,7 @@ import { TertiaryButton } from "@olympusdao/component-library";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
-import { Environment } from "src/helpers/environment/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { DonationInfoState, IButtonChangeView } from "src/views/Give/Interfaces";
 
