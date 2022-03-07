@@ -26,7 +26,8 @@
           "description": "- About milestone 3\n- More on milestone 3\n- Even more"
         }
       ],
-      "latestMilestoneCompleted": 1
+      "latestMilestoneCompleted": 1,
+      "disabled": true
     },
     {
       "title": "Mover",
@@ -53,7 +54,8 @@
           "amount": 30000,
           "description": ""
         }
-      ]
+      ],
+      "disabled": true
     },
     {
       "title": "MetaMars",
@@ -80,7 +82,8 @@
           "amount": 34000,
           "description": ""
         }
-      ]
+      ],
+      "disabled": true
     },
     {
       "title": "Composable Finance",
@@ -107,7 +110,8 @@
           "amount": 17000,
           "description": ""
         }
-      ]
+      ],
+      "disabled": true
     },
     {
       "title": "Pas",
@@ -130,7 +134,8 @@
           "amount": 10000,
           "description": ""
         }
-      ]
+      ],
+      "disabled": true
     },
     {
       "title": "EntropyFi",
@@ -157,7 +162,8 @@
           "amount": 20000,
           "description": ""
         }
-      ]
+      ],
+      "disabled": true
     },
     {
       "title": "On-Demand Analytics",
@@ -184,7 +190,8 @@
           "amount": 6000,
           "description": ""
         }
-      ]
+      ],
+      "disabled": true
     },
     {
       "title": "The Black DAO",
@@ -215,7 +222,8 @@
           "amount": 14000,
           "description": ""
         }
-      ]
+      ],
+      "disabled": true
     },
     {
       "title": "Gateway",
@@ -246,7 +254,8 @@
           "amount": 14000,
           "description": ""
         }
-      ]
+      ],
+      "disabled": true
     },
     {
       "title": "Diverse Usability Study and Art Auction Ads",
@@ -277,7 +286,8 @@
           "amount": 25000,
           "description": ""
         }
-      ]
+      ],
+      "disabled": true
     }
   ]
 }

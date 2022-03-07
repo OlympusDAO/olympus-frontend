@@ -1,6 +1,6 @@
 import "./Give.scss";
 
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { Box, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { BigNumber } from "bignumber.js";
@@ -34,11 +34,22 @@ export default function GrantsDashboard() {
   const seed = useUIDSeed();
 
   const renderGrants = useMemo(() => {
-    return grants.map(grant => {
+    let activeGrants = 0;
+
+    const grantElements: JSX.Element[] = grants.map(grant => {
       if (grant.disabled) return <></>;
 
+      activeGrants++;
       return <GrantCard key={seed(grant.title)} grant={grant} mode={GrantDetailsMode.Card} />;
     });
+
+    if (activeGrants > 0) return grantElements;
+
+    return (
+      <Typography variant="body2">
+        <Trans>We don't have any grants open right now, but check back soon!</Trans>
+      </Typography>
+    );
   }, [grants]);
 
   const handleCustomGiveModalSubmit: SubmitCallback = async (
@@ -99,18 +110,22 @@ export default function GrantsDashboard() {
         <Box className={`ohm-card secondary causes-container`}>
           {!isSupportedChain(networkId) ? (
             <Typography variant="h6">
-              Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
-              functionality.
+              <Trans>
+                Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
+                functionality.
+              </Trans>
             </Typography>
           ) : (
             <></>
           )}
           <div className="causes-body">
             <Typography variant="body1" className="grants-header">
-              Upon receiving an Olympus Grant, you gain exposure to the Olympus Give ecosystem where your performance is
-              rewarded every 8 hours through the yield your grant generates; you then can also receive support from
-              other Ohmies and this acts as a loop that compounds value and amplifies the reach and growth of your
-              mission.
+              <Trans>
+                Upon receiving an Olympus Grant, you gain exposure to the Olympus Give ecosystem where your performance
+                is rewarded every 8 hours through the yield your grant generates; you then can also receive support from
+                other Ohmies and this acts as a loop that compounds value and amplifies the reach and growth of your
+                mission.
+              </Trans>
             </Typography>
             <Box className="data-grid">{renderGrants}</Box>
           </div>
