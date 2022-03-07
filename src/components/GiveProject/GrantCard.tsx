@@ -520,20 +520,18 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
-                <Grid container>
-                  <Grid item xs />
-                  <Grid item xs={12} lg={4}>
-                    <Link
-                      href={`#/give/grants/${grant.slug}`}
-                      className="cause-link"
-                      onClick={() => handleGrantDetailsButtonClick("View Details Button")}
-                    >
-                      <PrimaryButton fullWidth>
-                        <Trans>View Details</Trans>
-                      </PrimaryButton>
-                    </Link>
-                  </Grid>
+              <Grid item container xs={12}>
+                <Grid item xs />
+                <Grid item xs={12} lg={4}>
+                  <Link
+                    href={`#/give/grants/${grant.slug}`}
+                    className="cause-link"
+                    onClick={() => handleGrantDetailsButtonClick("View Details Button")}
+                  >
+                    <PrimaryButton fullWidth>
+                      <Trans>View Details</Trans>
+                    </PrimaryButton>
+                  </Link>
                 </Grid>
               </Grid>
             </Grid>
