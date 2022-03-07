@@ -94,7 +94,7 @@ export function BondDataCard({
               ? t`Sold Out`
               : !inverseBond
               ? `${t`Bond`} ${bond.displayName}`
-              : `${t`Bond`} ${bond.displayName} for ${bond.payoutName}`}
+              : `${t`Bond`} ${bond.displayName} ${t`for`} ${bond.payoutName}`}
           </TertiaryButton>
         </Link>
       </Box>

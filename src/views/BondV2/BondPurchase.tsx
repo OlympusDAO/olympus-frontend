@@ -39,9 +39,8 @@ function BondPurchase({
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
 
   const helpText = inverseBond
-    ? "Important: Inverse Bonds have 0 vesting time & payout instantly"
-    : "Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. " +
-      "Simply claim as sOHM or gOHM at the end of the term.";
+    ? t`Important: Inverse Bonds have 0 vesting time & payout instantly.`
+    : t`Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as sOHM or gOHM at the end of the term.`;
 
   const isBondLoading = useAppSelector(state => {
     if (inverseBond) {

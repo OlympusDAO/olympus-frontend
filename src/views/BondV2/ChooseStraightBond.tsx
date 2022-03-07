@@ -34,7 +34,9 @@ function ChooseStraightBond() {
     <>
       {bondsV2.length == 0 && !isBondsLoading && (
         <Box display="flex" justifyContent="center" marginY="24px">
-          <Typography variant="h4">No active bonds</Typography>
+          <Typography variant="h4">
+            <Trans>No active bonds</Trans>
+          </Typography>
         </Box>
       )}
 
@@ -71,8 +73,10 @@ function ChooseStraightBond() {
       <Box mt={2} mb={isSmallScreen && 2} className="help-text">
         <em>
           <Typography variant="body2">
-            Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as
-            sOHM or gOHM at the end of the term.
+            <Trans>
+              Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as
+              sOHM or gOHM at the end of the term.
+            </Trans>
           </Typography>
         </em>
       </Box>

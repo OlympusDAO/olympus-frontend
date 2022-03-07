@@ -36,7 +36,9 @@ function ChooseInverseBond() {
     <>
       {inverseBonds.length === 0 && !isBondsLoading && (
         <Box display="flex" justifyContent="center" marginY="24px">
-          <Typography variant="h4">No active bonds</Typography>
+          <Typography variant="h4">
+            <Trans>No active bonds</Trans>
+          </Typography>
         </Box>
       )}
       {!isSmallScreen && inverseBonds.length != 0 && (
@@ -72,8 +74,10 @@ function ChooseInverseBond() {
       <Box mt={2} mb={isSmallScreen && 2} className="help-text">
         <em>
           <Typography variant="body2">
-            Important: Inverse bonds allow you to bond your OHM for treasury assets. Vesting time is 0 and payouts are
-            instant.
+            <Trans>
+              Important: Inverse bonds allow you to bond your OHM for treasury assets. Vesting time is 0 and payouts are
+              instant.
+            </Trans>
           </Typography>
         </em>
       </Box>
