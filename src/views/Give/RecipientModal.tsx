@@ -1,7 +1,7 @@
 import { isAddress } from "@ethersproject/address";
 import { t, Trans } from "@lingui/macro";
 import { Box, Grid, Link, SvgIcon, Typography } from "@material-ui/core";
-import { FormControl, FormHelperText } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
@@ -63,7 +63,12 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState(_initialWalletAddressValidError);
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  console.log("md = " + useMediaQuery(theme.breakpoints.down("md")));
+  console.log("sm = " + useMediaQuery(theme.breakpoints.down("sm")));
+  console.log("xs = " + isSmallScreen);
 
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toFixed());
@@ -353,25 +358,6 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   };
 
   const getAmountScreen = () => {
-    // If there is no connected wallet, then the user cannot proceed
-    if (!address) {
-      return (
-        <>
-          <FormHelperText>
-            <Trans>
-              You must be logged into your wallet to use this feature. Click on the "Connect Wallet" button and try
-              again.
-            </Trans>
-          </FormHelperText>
-          <FormControl className="ohm-modal-submit">
-            <PrimaryButton onClick={handleConnect}>
-              <Trans>Connect Wallet</Trans>
-            </PrimaryButton>
-          </FormControl>
-        </>
-      );
-    }
-
     // If we are loading the state, add a placeholder
     if (isAccountLoading || isGiveLoading) return <Skeleton />;
 
@@ -379,21 +365,32 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     if (!hasAllowance()) {
       return (
         <>
-          <Box className="help-text">
-            <Typography variant="h6" className="stream-note" color="textSecondary">
-              <Trans>
-                Is this your first time donating sOHM? Please approve OlympusDAO to use your sOHM for donating.
-              </Trans>
-            </Typography>
-          </Box>
-          <FormControl className="ohm-modal-submit">
-            <PrimaryButton
-              disabled={isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading}
-              onClick={onSeekApproval}
-            >
-              {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, t`Approve`)}
-            </PrimaryButton>
-          </FormControl>
+          <Grid container spacing={2} justifyContent="flex-end">
+            <Grid item xs={12}>
+              <Typography variant="h6" className="stream-note" color="textSecondary">
+                <Trans>
+                  Is this your first time donating sOHM? Please approve OlympusDAO to use your sOHM for donating.
+                </Trans>
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container alignItems="center">
+                <Grid item xs />
+                <Grid item xs={8}>
+                  <PrimaryButton
+                    disabled={
+                      isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading || !address
+                    }
+                    onClick={onSeekApproval}
+                    fullWidth
+                  >
+                    {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, t`Approve`)}
+                  </PrimaryButton>
+                </Grid>
+                <Grid item xs />
+              </Grid>
+            </Grid>
+          </Grid>
         </>
       );
     }
@@ -493,39 +490,65 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   };
 
   const getConfirmationScreen = () => {
+    // TODO fix sm/md breakpoint
     return (
       <>
-        <Box
-          className="give-confirmation-details"
-          style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px" }}
-        >
-          <div className="details-row">
-            <div className="sohm-allocation-col">
-              <Typography variant="body1">
-                <Trans>sOHM deposit</Trans>
-              </Typography>
-              <Typography variant="h6">{getDepositAmount().toFixed(2)} sOHM</Typography>
-            </div>
-            {!isSmallScreen && <ArrowGraphic />}
-            <div className="recipient-address-col">
-              <Typography variant="body1">
-                <Trans>Recipient address</Trans>
-              </Typography>
-              <Typography variant="h6">
-                <strong>{getRecipientTitle()}</strong>
-              </Typography>
-            </div>
-          </div>
-        </Box>{" "}
-        <FormControl className="ohm-modal-submit">
-          <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit}>
-            {txnButtonText(
-              pendingTransactions,
-              PENDING_TXN_GIVE,
-              `${t`Confirm `} ${getDepositAmount().toFixed(2)} sOHM`,
-            )}
-          </PrimaryButton>
-        </FormControl>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Box border={1} borderColor="#999999" borderRadius="10px" padding={2}>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item container xs={12} md={4}>
+                  <Grid xs={12}>
+                    <Typography variant="body1">
+                      <Trans>sOHM deposit</Trans>
+                    </Typography>
+                  </Grid>
+                  <Grid xs={12}>
+                    <Typography variant="h6">
+                      <strong>{getDepositAmount().toFixed(2)} sOHM</strong>
+                    </Typography>
+                  </Grid>
+                </Grid>
+                {!isSmallScreen ? (
+                  <Grid item xs={4}>
+                    <ArrowGraphic />
+                  </Grid>
+                ) : (
+                  <></>
+                )}
+                <Grid item xs={12} md={4}>
+                  <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
+                    <Grid xs={12}>
+                      <Typography variant="body1">
+                        <Trans>Recipient address</Trans>
+                      </Typography>
+                    </Grid>
+                    <Grid xs={12}>
+                      <Typography variant="h6">
+                        <strong>{getRecipientTitle()}</strong>
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container>
+              <Grid item xs />
+              <Grid item xs={8}>
+                <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
+                  {txnButtonText(
+                    pendingTransactions,
+                    PENDING_TXN_GIVE,
+                    `${t`Confirm `} ${getDepositAmount().toFixed(2)} sOHM`,
+                  )}
+                </PrimaryButton>
+              </Grid>
+              <Grid item xs />
+            </Grid>
+          </Grid>
+        </Grid>
       </>
     );
   };
