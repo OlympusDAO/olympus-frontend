@@ -561,11 +561,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Grid container spacing={2} alignItems="center">
                       <Grid item>
                         <Link href={"#/give/grants"}>
-                          <ChevronLeft
-                            className="back-to-causes"
-                            viewBox="6 6 12 12"
-                            style={{ width: "12px", height: "12px" }}
-                          />
+                          <ChevronLeft viewBox="6 6 12 12" style={{ width: "12px", height: "12px" }} />
                         </Link>
                       </Grid>
                       <Grid item>

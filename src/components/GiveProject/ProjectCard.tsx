@@ -72,9 +72,6 @@ type State = {
 
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const location = useLocation();
-  const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
-  const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
-  const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 600px)") && !isSmallScreen;
   const { provider, address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
@@ -643,11 +640,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Grid container spacing={2} alignItems="center">
                       <Grid item>
                         <Link href={"#/give/"}>
-                          <ChevronLeft
-                            className="back-to-causes"
-                            viewBox="6 6 12 12"
-                            style={{ width: "12px", height: "12px" }}
-                          />
+                          <ChevronLeft viewBox="6 6 12 12" style={{ width: "12px", height: "12px" }} />
                         </Link>
                       </Grid>
                       <Grid item>
