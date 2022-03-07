@@ -22,7 +22,7 @@ import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
 import { getZapTokenBalances } from "./slices/ZapSlice";
-import { info } from "./slices/MessagesSlice";
+import { error, info } from "./slices/MessagesSlice";
 
 import { Stake, TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -31,7 +31,6 @@ import CallToAction from "./components/CallToAction/CallToAction";
 import NavDrawer from "./components/Sidebar/NavDrawer";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
-import MigrationModal from "src/components/Migration/MigrationModal";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
@@ -39,9 +38,9 @@ import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import projectData from "src/views/Give/projects.json";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
-import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import { trackGAEvent, trackSegmentEvent } from "./helpers/analytics";
+import { getAllInverseBonds } from "./slices/InverseBondSlice";
 
 const customDarkTheme = extendTheme(olympusDarkTheme, {
   text: {
@@ -106,7 +105,8 @@ function App() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const { address, connect, hasCachedProvider, provider, connected, networkId, providerInitialized } = useWeb3Context();
+  const { address, connect, connectionError, hasCachedProvider, provider, connected, networkId, providerInitialized } =
+    useWeb3Context();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalClose = () => {
@@ -125,6 +125,7 @@ function App() {
   const { bonds, expiredBonds } = useBonds(networkId);
 
   const bondIndexes = useAppSelector(state => state.bondingV2.indexes);
+  const inverseBondIndexes = useAppSelector(state => state.inverseBonds.indexes);
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -157,6 +158,7 @@ function App() {
           }
         });
         dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
+        dispatch(getAllInverseBonds({ provider: loadProvider, networkID: networkId, address }));
       }
     },
     [networkId, address],
@@ -286,6 +288,10 @@ function App() {
       loadDetails("account");
     }
   }, [connected, networkId, providerInitialized]);
+
+  useEffect(() => {
+    if (connectionError) dispatch(error(connectionError.text));
+  }, [connectionError]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -423,7 +429,14 @@ function App() {
                 {bondIndexes.map(index => {
                   return (
                     <Route exact key={index} path={`/bonds/${index}`}>
-                      <BondV2 index={index} />
+                      <BondV2 index={index} inverseBond={false} />
+                    </Route>
+                  );
+                })}
+                {inverseBondIndexes.map(index => {
+                  return (
+                    <Route exact key={index} path={`/bonds/inverse/${index}`}>
+                      <BondV2 index={index} inverseBond={true} />
                     </Route>
                   );
                 })}
@@ -432,11 +445,6 @@ function App() {
               <Route component={NotFound} />
             </Switch>
           </div>
-          {hasDust ? (
-            <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
-          ) : (
-            <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
-          )}
         </div>
       </MultifarmProvider>
     </ThemeProvider>

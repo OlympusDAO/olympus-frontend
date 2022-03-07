@@ -24,6 +24,7 @@ type onChainProvider = {
   hasCachedProvider: () => boolean;
   address: string;
   connected: boolean;
+  connectionError: IConnectionError | null;
   provider: JsonRpcProvider;
   web3Modal: Web3Modal;
   networkId: number;
@@ -31,6 +32,11 @@ type onChainProvider = {
   providerUri: string;
   providerInitialized: boolean;
 };
+
+interface IConnectionError {
+  text: string;
+  created: number;
+}
 
 export type Web3ContextData = {
   onChainProvider: onChainProvider;
@@ -76,8 +82,16 @@ const initModal = new Web3Modal({
   },
 });
 
+export function checkCachedProvider(web3Modal: Web3Modal): boolean {
+  if (!web3Modal) return false;
+  const cachedProvider = web3Modal.cachedProvider;
+  if (!cachedProvider) return false;
+  return true;
+}
+
 export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [connected, setConnected] = useState(false);
+  const [connectionError, setConnectionError] = useState<IConnectionError | null>(null);
   const [address, setAddress] = useState("");
   // NOTE (appleseed): loading eth mainnet as default rpc provider for a non-connected wallet
   const [provider, setProvider] = useState<JsonRpcProvider>(NodeHelper.getMainnetStaticProvider());
@@ -88,11 +102,9 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(initModal);
 
-  const hasCachedProvider = (): boolean => {
-    if (!web3Modal) return false;
-    if (!web3Modal.cachedProvider) return false;
-    return true;
-  };
+  function hasCachedProvider(): boolean {
+    return checkCachedProvider(web3Modal);
+  }
 
   // NOTE (appleseed): none of these listeners are needed for Backend API Providers
   // ... so I changed these listeners so that they only apply to walletProviders, eliminating
@@ -127,7 +139,19 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     if (isIframe()) {
       rawProvider = new IFrameEthereumProvider();
     } else {
-      rawProvider = await web3Modal.connect();
+      try {
+        rawProvider = await web3Modal.connect();
+      } catch (e) {
+        console.log("wallet connection status:", e);
+        if (e !== "Modal closed by user") {
+          setConnectionError({
+            created: Date.now(),
+            text: "Please check your Wallet UI for connection errors",
+          });
+        }
+        setConnected(false);
+        return;
+      }
     }
 
     // new _initListeners implementation matches Web3Modal Docs
@@ -155,6 +179,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
 
   const disconnect = useCallback(async () => {
     web3Modal.clearCachedProvider();
+    setConnectionError(null);
     setConnected(false);
 
     setTimeout(() => {
@@ -169,6 +194,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       hasCachedProvider,
       provider,
       connected,
+      connectionError,
       address,
       web3Modal,
       networkId,
@@ -182,6 +208,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       hasCachedProvider,
       provider,
       connected,
+      connectionError,
       address,
       web3Modal,
       networkId,
