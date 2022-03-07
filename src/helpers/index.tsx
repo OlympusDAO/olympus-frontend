@@ -4,7 +4,6 @@ import { formatUnits } from "@ethersproject/units";
 import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
 import { ethers } from "ethers";
-import { IBondV2 } from "src/slices/BondSliceV2";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
@@ -12,7 +11,7 @@ import { abi as PairContractABI } from "../abi/PairContract.json";
 import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
 import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
-import { addresses, BLOCK_RATE_SECONDS, EPOCH_INTERVAL, NetworkId } from "../constants";
+import { addresses, EPOCH_INTERVAL, NetworkId } from "../constants";
 import { PairContract, RedeemHelper } from "../typechain";
 import { ohm_dai, ohm_daiOld, ohm_weth } from "./AllBonds";
 import { Environment } from "./environment/Environment/Environment";
@@ -69,7 +68,7 @@ export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
     };
     tokenPrice = ohmResp.data.coingeckoTicker.value;
   } catch (e) {
-    console.warn(`Error accessing OHM API ${priceApiURL} . Falling back to coingecko API`, e);
+    console.warn(`Error accessing OHM API ${priceApiURL} . Falling back to coingecko API`);
     // fallback to coingecko
     const cgResp = (await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`,
@@ -117,11 +116,11 @@ export async function getTokenIdByContract(contractAddress: string): Promise<str
   }
 }
 
-export const getEtherscanUrl = ({ bond, networkId }: { bond: IBondV2; networkId: NetworkId }) => {
+export const getEtherscanUrl = ({ tokenAddress, networkId }: { tokenAddress: string; networkId: NetworkId }) => {
   if (networkId === NetworkId.TESTNET_RINKEBY) {
-    return `https://rinkeby.etherscan.io/address/${bond.quoteToken}`;
+    return `https://rinkeby.etherscan.io/address/${tokenAddress}`;
   }
-  return `https://etherscan.io/address/${bond.quoteToken}`;
+  return `https://etherscan.io/address/${tokenAddress}`;
 };
 
 export function shorten(str: string) {
@@ -157,50 +156,6 @@ export function trim(number = 0, precision = 0) {
 
 export function getRebaseBlock(currentBlock: number) {
   return currentBlock + EPOCH_INTERVAL - (currentBlock % EPOCH_INTERVAL);
-}
-
-export function secondsUntilBlock(startBlock: number, endBlock: number): number {
-  const blocksAway = endBlock - startBlock;
-  const secondsAway = blocksAway * BLOCK_RATE_SECONDS;
-
-  return secondsAway;
-}
-
-export function prettyVestingPeriod(currentBlock: number, vestingBlock: number) {
-  if (vestingBlock === 0) {
-    return "";
-  }
-
-  const seconds = secondsUntilBlock(currentBlock, vestingBlock);
-  if (seconds < 0) {
-    return "Fully Vested";
-  }
-  return prettifySeconds(seconds);
-}
-
-export function prettifySeconds(seconds: number, resolution?: string) {
-  if (seconds !== 0 && !seconds) {
-    return "";
-  }
-
-  const d = Math.floor(seconds / (3600 * 24));
-  const h = Math.floor((seconds % (3600 * 24)) / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-
-  if (resolution === "day") {
-    return d + (d == 1 ? " day" : " days");
-  }
-
-  const dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
-  const hDisplay = h > 0 ? h + (h == 1 ? " hr, " : " hrs, ") : "";
-  const mDisplay = m > 0 ? m + (m == 1 ? " min" : " mins") : "";
-
-  let result = dDisplay + hDisplay + mDisplay;
-  if (mDisplay === "") {
-    result = result.slice(0, result.length - 2);
-  }
-
-  return result;
 }
 
 function getSohmTokenImage() {
@@ -247,7 +202,7 @@ export function contractForRedeemHelper({
  * returns false if SafetyCheck has fired in this Session. True otherwise
  * @returns boolean
  */
-export const shouldTriggerSafetyCheck = () => {
+export function shouldTriggerSafetyCheck() {
   const _storage = window.sessionStorage;
   const _safetyCheckKey = "-oly-safety";
   // check if sessionStorage item exists for SafetyCheck
@@ -256,7 +211,7 @@ export const shouldTriggerSafetyCheck = () => {
     return true;
   }
   return false;
-};
+}
 
 export const toBN = (num: number) => {
   return BigNumber.from(num);

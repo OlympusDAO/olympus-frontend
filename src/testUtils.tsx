@@ -38,7 +38,7 @@ const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOp
 const renderRoute = function (route: string, store = defaultStore) {
   const history = createMemoryHistory();
   history.push(route);
-  render(
+  return render(
     <Web3ContextProvider>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
