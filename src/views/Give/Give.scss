@@ -1049,40 +1049,6 @@
       color: #999999;
     }
 
-    .project-countdown .countdown-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      flex-wrap: nowrap;
-      padding-top: 30px;
-
-      .countdown-object {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-
-        padding-left: 3px;
-        padding-right: 3px;
-      }
-
-      .project-countdown-text {
-        display: flex;
-        align-content: center;
-        justify-content: center;
-        padding-left: 3px;
-        padding-right: 3px;
-      }
-
-      .cause-info-bottom-text {
-        padding-left: 3px;
-        padding-right: 3px;
-        display: flex;
-        align-items: center;
-        color: #999999;
-      }
-    }
-
     .donors-title {
       padding-bottom: 30px;
     }
@@ -1176,10 +1142,6 @@
     padding-top: 30px;
   }
 
-  .project-goal-progress {
-    padding-top: 10px;
-  }
-
   .project-give-button {
     display: flex;
     padding-top: 24px; // PrimaryButton has 6px inbuilt padding
@@ -1194,16 +1156,6 @@
     padding-top: 24px; // PrimaryButton has 6px inbuilt padding
     width: 100%;
     text-align: right;
-  }
-
-  .MuiLinearProgress-determinate {
-    height: 10px;
-    border-radius: 3px;
-  }
-
-  .MuiLinearProgress-barColorPrimary {
-    background: rgb(112, 139, 150);
-    background: linear-gradient(269deg, rgba(112, 139, 150, 1) 0%, rgba(247, 251, 231, 1) 100%);
   }
 }
 
@@ -1372,5 +1324,29 @@
 
   a {
     width: 100%;
+  }
+}
+
+.metric {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.subtext {
+  color: #999999;
+  padding-top: 2px;
+}
+
+.project-goal-progress {
+  padding-top: 10px;
+
+  .MuiLinearProgress-determinate {
+    height: 10px;
+    border-radius: 3px;
+  }
+
+  .MuiLinearProgress-barColorPrimary {
+    background: rgb(112, 139, 150);
+    background: linear-gradient(269deg, rgba(112, 139, 150, 1) 0%, rgba(247, 251, 231, 1) 100%);
   }
 }
