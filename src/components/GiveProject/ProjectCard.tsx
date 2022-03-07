@@ -356,21 +356,26 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const getProjectImage = (): JSX.Element => {
+    let imageElement;
     // We return an empty image with a set width, so that the spacing remains the same.
-    if (!photos || photos.length < 1)
-      return (
-        <div className="cause-image">
-          <img height="100%" src="" />
-        </div>
-      );
-
+    if (!photos || photos.length < 1) {
+      imageElement = <img height="100%" src="" />;
+    }
     // For the moment, we only display the first photo
-    return (
-      <div className={`cause-image`}>
+    else {
+      imageElement = (
         <Link href={`#/give/projects/${project.slug}`} onClick={() => handleProjectDetailsButtonClick("Image")}>
           <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
         </Link>
-      </div>
+      );
+    }
+
+    return (
+      <Grid container alignContent="center" style={{ maxHeight: "184px", overflow: "hidden", borderRadius: "16px" }}>
+        <Grid item xs>
+          {imageElement}
+        </Grid>
+      </Grid>
     );
   };
 

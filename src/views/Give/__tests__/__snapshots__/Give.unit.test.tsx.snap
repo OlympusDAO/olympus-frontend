@@ -156,17 +156,22 @@ exports[`<Give/> should render component 1`] = `
                             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-5 MuiGrid-grid-lg-4"
                           >
                             <div
-                              class="cause-image"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                              style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                             >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/impact-market"
+                              <div
+                                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                               >
-                                <img
-                                  src="/assets/images/give/impact-market/impact-market-logo.svg"
-                                  width="100%"
-                                />
-                              </a>
+                                <a
+                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                  href="#/give/projects/impact-market"
+                                >
+                                  <img
+                                    src="/assets/images/give/impact-market/impact-market-logo.svg"
+                                    width="100%"
+                                  />
+                                </a>
+                              </div>
                             </div>
                           </div>
                           <div
@@ -307,17 +312,22 @@ exports[`<Give/> should render component 1`] = `
                             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-5 MuiGrid-grid-lg-4"
                           >
                             <div
-                              class="cause-image"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                              style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                             >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/angel-protocol"
+                              <div
+                                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                               >
-                                <img
-                                  src="/assets/images/give/angel-protocol/angel-protocol-logo.svg"
-                                  width="100%"
-                                />
-                              </a>
+                                <a
+                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                  href="#/give/projects/angel-protocol"
+                                >
+                                  <img
+                                    src="/assets/images/give/angel-protocol/angel-protocol-logo.svg"
+                                    width="100%"
+                                  />
+                                </a>
+                              </div>
                             </div>
                           </div>
                           <div
@@ -458,17 +468,22 @@ exports[`<Give/> should render component 1`] = `
                             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-5 MuiGrid-grid-lg-4"
                           >
                             <div
-                              class="cause-image"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                              style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                             >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/gitcoin"
+                              <div
+                                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                               >
-                                <img
-                                  src="/assets/images/give/gitcoin/gitcoin-logo.svg"
-                                  width="100%"
-                                />
-                              </a>
+                                <a
+                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                  href="#/give/projects/gitcoin"
+                                >
+                                  <img
+                                    src="/assets/images/give/gitcoin/gitcoin-logo.svg"
+                                    width="100%"
+                                  />
+                                </a>
+                              </div>
                             </div>
                           </div>
                           <div
@@ -609,17 +624,22 @@ exports[`<Give/> should render component 1`] = `
                             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-5 MuiGrid-grid-lg-4"
                           >
                             <div
-                              class="cause-image"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                              style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                             >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/kolektivo"
+                              <div
+                                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                               >
-                                <img
-                                  src="/assets/images/give/kolektivo/kolektivo-logo.svg"
-                                  width="100%"
-                                />
-                              </a>
+                                <a
+                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                  href="#/give/projects/kolektivo"
+                                >
+                                  <img
+                                    src="/assets/images/give/kolektivo/kolektivo-logo.svg"
+                                    width="100%"
+                                  />
+                                </a>
+                              </div>
                             </div>
                           </div>
                           <div
@@ -760,17 +780,22 @@ exports[`<Give/> should render component 1`] = `
                             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-5 MuiGrid-grid-lg-4"
                           >
                             <div
-                              class="cause-image"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                              style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                             >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/popcorndao"
+                              <div
+                                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                               >
-                                <img
-                                  src="/assets/images/give/popcorndao/popcorndao-logo.svg"
-                                  width="100%"
-                                />
-                              </a>
+                                <a
+                                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                  href="#/give/projects/popcorndao"
+                                >
+                                  <img
+                                    src="/assets/images/give/popcorndao/popcorndao-logo.svg"
+                                    width="100%"
+                                  />
+                                </a>
+                              </div>
                             </div>
                           </div>
                           <div
