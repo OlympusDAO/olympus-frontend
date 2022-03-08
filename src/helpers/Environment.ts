@@ -235,6 +235,16 @@ export class EnvHelper {
     return true;
   }
 
+  static isGiveGrantsEnabled(): boolean {
+    const giveEnabled = EnvHelper.env.REACT_APP_GIVE_GRANTS_ENABLED;
+
+    // If the variable isn't set, we default to true.
+    // We also want to be case-insensitive.
+    if (giveEnabled !== undefined && giveEnabled.toLowerCase() === "false") return false;
+
+    return true;
+  }
+
   /**
    * Indicates whether mockSohm is enabled.
    * This is needed for easily manually testing rebases

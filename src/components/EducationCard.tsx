@@ -3,7 +3,6 @@ import { Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Token } from "@olympusdao/component-library";
 
-const iconStyle = { height: "64px", width: "64px", margin: "auto" };
 const smallIconStyle = { height: "32px", width: "32px", margin: "auto" };
 
 type EducationGraphicProps = {
@@ -26,7 +25,7 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" m={2}>
-        <Token name="sOHM" style={{ fontSize: 64 }} />
+        <Icon name="vault-wallet" fontSize="large" />
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
@@ -50,7 +49,7 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <Token name="sOHM" />
+          <Icon name="vault-wallet" fontSize="large" />
         </Box>
         <Box
           display="flex"
@@ -88,7 +87,7 @@ export function VaultGraphic({ quantity, verb = "deposited", isLoading, small = 
         </Typography>
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <Icon name="vault-lock" htmlColor="#fff" style={small ? smallIconStyle : iconStyle} />
+        <Icon name="vault-lock" fontSize="large" />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
@@ -112,7 +111,7 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <Icon name="vault-lock" htmlColor="#fff" fontSize="large" />
+          <Icon name="vault-lock" fontSize="large" />
         </Box>
         <Box
           display="flex"
@@ -158,7 +157,7 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
         alignContent="center"
         m={2}
       >
-        <Icon name="yield" style={iconStyle} />
+        <Icon name="vault-recipient" fontSize="large" />
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
@@ -211,7 +210,7 @@ export function ReceivesYield({ message }: GenericEducationGraphicProps) {
           m={2}
           style={{ marginBottom: "8px" }}
         >
-          <Icon name="yield" style={smallIconStyle} className="receives-yield-icon" />
+          <Icon name="vault-recipient" fontSize="large" />
         </Box>
         <Box
           display="flex"
@@ -297,7 +296,7 @@ export function ArrowGraphic() {
         alignItems="center"
         justifyContent="center"
         m={2}
-        style={{ marginTop: "0px", marginBottom: "0px", height: "20px" }}
+        style={{ height: "20px" }}
       >
         <Icon name="arrow-right" style={{ fontSize: 70 }} opacity={0.6} />
       </Box>

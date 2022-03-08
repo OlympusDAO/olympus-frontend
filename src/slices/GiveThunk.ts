@@ -9,6 +9,7 @@ import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
 import { addresses, NetworkId } from "../constants";
 import { getGohmBalFromSohm } from "../helpers";
 import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
+import { getGiveProjectName } from "../helpers/GiveProjectNameHelper";
 import { fetchAccountSuccess, getBalances, getDonationBalances, getMockDonationBalances } from "./AccountSlice";
 import {
   IActionValueRecipientAsyncThunk,
@@ -220,11 +221,10 @@ export const changeGive = createAsyncThunk(
         trackGAEvent({
           category: "Olympus Give",
           action: uaData.type ?? "unknown",
-          label: uaData.txHash ?? "unknown",
+          value: Math.round(parseFloat(uaData.value)),
+          label: getGiveProjectName(uaData.recipient) ?? "unknown",
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
-          dimension3: eventSource,
-          metric1: parseFloat(uaData.value),
         });
 
         dispatch(clearPendingTxn(giveTx.hash));
@@ -304,9 +304,12 @@ export const changeMockGive = createAsyncThunk(
         trackSegmentEvent(uaData);
         trackGAEvent({
           category: "Olympus Give",
-          action: uaData.type,
-          label: uaData.recipient,
+          action: uaData.type ?? "unknown",
+          label: getGiveProjectName(uaData.recipient) ?? "unknown",
+          dimension1: uaData.txHash ?? "unknown",
+          dimension2: uaData.address,
           metric1: parseFloat(uaData.value),
+          value: Math.round(parseFloat(uaData.value)),
         });
         dispatch(clearPendingTxn(giveTx.hash));
       }

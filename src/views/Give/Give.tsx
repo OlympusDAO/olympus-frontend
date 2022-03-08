@@ -1,16 +1,18 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Button, Paper, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
+import { Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { TabPanel } from "@olympusdao/component-library";
+import { Paper, PrimaryButton, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { EnvHelper } from "src/helpers/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isSupportedChain } from "src/slices/GiveThunk";
 
 import CausesDashboard from "./CausesDashboard";
 import { GiveInfo } from "./GiveInfo";
+import GrantsDashboard from "./GrantsDashboard";
 import RedeemYield from "./RedeemYield";
 import YieldRecipients from "./YieldRecipients";
 
@@ -42,12 +44,12 @@ function Give({ selectedIndex }: GiveProps) {
   const history = useHistory();
 
   connectButton.push(
-    <Button variant="contained" color="primary" className="connect-button" onClick={connect} key={1}>
+    <PrimaryButton className="connect-button" onClick={connect} key={1}>
       <Trans>Connect Wallet</Trans>
-    </Button>,
+    </PrimaryButton>,
   );
 
-  const changeView = (_event: React.ChangeEvent<unknown>, newView: number) => {
+  const changeView: any = (_event: React.ChangeEvent<unknown>, newView: number) => {
     buttonChangeView(newView);
   };
 
@@ -62,6 +64,8 @@ function Give({ selectedIndex }: GiveProps) {
     if (newView === 0) {
       history.push("/give/");
     } else if (newView === 1) {
+      history.push("/give/grants/");
+    } else if (newView === 2) {
       history.push("/give/donations/");
     } else {
       history.push("/give/redeem/");
@@ -92,29 +96,27 @@ function Give({ selectedIndex }: GiveProps) {
               key={String(zoomed)}
               centered
               value={view}
-              textColor="primary"
-              indicatorColor="primary"
               className="give-tab-buttons"
               onChange={changeView}
               aria-label="stake tabs"
-              //hides the tab underline sliding animation in while <Zoom> is loading
-              TabIndicatorProps={!zoomed ? { style: { display: "none" } } : undefined}
-              // Restrict the height of the tab bar, so the indicator is 4px away
-              style={{ height: "40px" }}
             >
               <Tab label={t`Causes`} {...a11yProps(0)} />
-              <Tab label={t`My Donations`} {...a11yProps(1)} />
-              <Tab label={t`Redeem`} {...a11yProps(2)} />
+              <Tab label={t`Grants`} {...a11yProps(1)} disabled={!EnvHelper.isGiveGrantsEnabled()} />
+              <Tab label={t`My Donations`} {...a11yProps(2)} />
+              <Tab label={t`Redeem`} {...a11yProps(3)} />
             </Tabs>
 
             <TabPanel value={view} index={0}>
               <CausesDashboard />
             </TabPanel>
             <TabPanel value={view} index={1}>
+              <GrantsDashboard />
+            </TabPanel>
+            <TabPanel value={view} index={2}>
               {/* We have a button to switch tabs in this child component, so need to pass the handler. */}
               <YieldRecipients changeView={buttonChangeView} />
             </TabPanel>
-            <TabPanel value={view} index={2}>
+            <TabPanel value={view} index={3}>
               <RedeemYield />
             </TabPanel>
           </Paper>

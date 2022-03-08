@@ -1,0 +1,293 @@
+{
+  "grants": [
+    {
+      "title": "Playgrounds",
+      "owner": "",
+      "slug": "playground",
+      "shortDescription": "Empowers the Olympus and KlimaDAO communities by providing an advanced education ecosystem.",
+      "details": "The vision of Playgrounds is to provide a robust ecosystem that changes the way participants in OlympusDAO, KlimaDAO, and the general DeFi space learn, interact with, and understand the mechanics of our protocols and DeFi. Playgrounds will accomplish this goal by serving high-quality educational content, advanced simulation environments, and unparalleled open-ended data analytics tools for OlympusDAO, KlimaDAO, and participants in the broader DeFi landscape. We believe our efforts and applications will play a critical role in bridging the gap between early adopters of DeFi and mainstream.",
+      "finishDate": "",
+      "photos": ["/assets/images/grants/playgrounds/playgrounds_logo.svg"],
+      "category": "",
+      "wallet": "0x43600Fe18A6f3ff9ef40a7611952Cc51Db9AF53a",
+      "depositGoal": 0,
+      "website": "https://twitter.com/Playgrounds0x?s=20",
+      "milestones": [
+        {
+          "amount": 40000,
+          "description": "- About milestone 1\n- More on milestone 1\n- Even more"
+        },
+        {
+          "amount": 40000,
+          "description": "- About milestone 2\n- More on milestone 2\n- Even more"
+        },
+        {
+          "amount": 20000,
+          "description": "- About milestone 3\n- More on milestone 3\n- Even more"
+        }
+      ],
+      "latestMilestoneCompleted": 1,
+      "disabled": true
+    },
+    {
+      "title": "Mover",
+      "owner": "",
+      "slug": "mover",
+      "shortDescription": "A one-stop shop to supercharge Olympus. Built by people for people.",
+      "details": "Mover is a decentralized, community-led project focused on democratizing savings. We created a range of permissionless savings products, along with the crypto debit card. And now, we have partnered with Olympus to make decentralized payments even simpler and easily accessible! As the first step, Mover is working on the permissionless gasless transactions, just like the one you are using right now in Olympus Give. We are excited to work very closely with Ohmies to bring the grand vision of the new reserve currency being used in our daily lives as our next steps. Thank you for your support (577,577).",
+      "finishDate": "",
+      "photos": ["/assets/images/grants/mover/mover_logo.svg"],
+      "category": "",
+      "wallet": "0xf6A0307cb6aA05D7C19d080A0DA9B14eAB1050b7",
+      "depositGoal": 0,
+      "website": "https://viamover.com/",
+      "milestones": [
+        {
+          "amount": 40000,
+          "description": ""
+        },
+        {
+          "amount": 30000,
+          "description": ""
+        },
+        {
+          "amount": 30000,
+          "description": ""
+        }
+      ],
+      "disabled": true
+    },
+    {
+      "title": "MetaMars",
+      "owner": "",
+      "slug": "metamars",
+      "shortDescription": "Bored Elon and the Metamars community are shaping the red planet and the future of humanity with games!",
+      "details": "As humankind strives for Mars with ever increasing urgency, Bored Elon invites you to be amongst the first settlers of the Red Planet. MetaMars is your Martian home from home where you will partake of various curated Martian experiences, including high quality Mars-themed action/arcade games from the Bored studio as well as third party experiences coming in the future, all tied together under a player ownership economy backed by OHM. Long term roadmap leads to an open world multiplayer roleplaying experience with a working economy and PvE/PvP goals. With the project already running for over 9 months, MetaMars is an enthusiastic community of curious early investors who followed a cryptic trail of breadcrumbs to find the discord and this growing gaming Metaverse. These intrepid few hold a Mars coin (see website for more details), the low supply origin token of MetaMars, a requirement for access to the discord during the early access phase.",
+      "finishDate": "",
+      "photos": ["/assets/images/grants/metamars/metamars_logo.svg"],
+      "category": "",
+      "wallet": "0x92F3D5B780c6b83e6eFAaEC3bA15a0F52877D183",
+      "depositGoal": 0,
+      "website": "https://metamars.org/",
+      "milestones": [
+        {
+          "amount": 33000,
+          "description": ""
+        },
+        {
+          "amount": 33000,
+          "description": ""
+        },
+        {
+          "amount": 34000,
+          "description": ""
+        }
+      ],
+      "disabled": true
+    },
+    {
+      "title": "Composable Finance",
+      "owner": "",
+      "slug": "composable-finance",
+      "shortDescription": "The future we are crafting is fully interoperable and seamless in utility.",
+      "details": "A natural evolution in a cross-chain world entails developers and users interacting seamlessly regardless of where their assets lie. That’s why our team at Composable Finance, are on a mission to build a fully interoperable future capable of offering developers and end-users alike seamless user experience and utility. Our vision of hyper liquidity and composability abstract the underlying technology into a single interface, unlocking the potential for new primitives to be developed at an unprecedented pace. With Composable Finance, we believe that creativity, communication, and community will be reimagined and reconciled for a more inclusive and composable future. We are doing this through a multifaceted approach where we begin by bridging gaps between today’s isolated blockchains and layer 2 scaling solutions, to create a single and unified access point that we are calling the Innovation Availability Layer (IAL), based on our Parachain offering. The IAL communicates with our powerful new virtual machine — Composable Cross-Chain VM (XCVM) — that serves to orchestrate and compute smart contract functions across the array of layer 1 and layer 2 networks autonomously, with the sole purpose of optimizing for best execution and mitigating all user experience constraints for developers and end-users.",
+      "finishDate": "",
+      "photos": ["/assets/images/grants/composable/composable_logo.svg"],
+      "category": "",
+      "wallet": "0x8371188E98499b8ADA155550a999598b442eFa71",
+      "depositGoal": 0,
+      "website": "https://www.composable.finance/",
+      "milestones": [
+        {
+          "amount": 16500,
+          "description": ""
+        },
+        {
+          "amount": 16500,
+          "description": ""
+        },
+        {
+          "amount": 17000,
+          "description": ""
+        }
+      ],
+      "disabled": true
+    },
+    {
+      "title": "Pas",
+      "owner": "",
+      "slug": "pas",
+      "shortDescription": "The future of crypto gaming. Bringing quality to crypto.",
+      "details": "The future of crypto gaming. Bringing quality to crypto.",
+      "finishDate": "",
+      "photos": [],
+      "category": "",
+      "wallet": "0x6E5622807DbC21c1CCEF93d8A8d0Ad50Ea5050Db",
+      "depositGoal": 0,
+      "website": "",
+      "milestones": [
+        {
+          "amount": 10000,
+          "description": ""
+        },
+        {
+          "amount": 10000,
+          "description": ""
+        }
+      ],
+      "disabled": true
+    },
+    {
+      "title": "EntropyFi",
+      "owner": "",
+      "slug": "entropy-fi",
+      "shortDescription": "(3,3) and (9,9) with Entropyfi!",
+      "details": "Entropyfi is an exotic derivative platform. We have recently launched soft hedge and soft leverage products for rebase tokens. The soft hedge product helps rebase token holders to hedge the short-term price risk without offloading their staked tokens. The soft leverage product helps rebase token holders to boost expected return without liquidation risk. Entropyfi soft hedge and soft leverage products are currently live on Polygon network for VESQ token. Entropyfi is coming to other scaling solutions and networks soon.",
+      "finishDate": "",
+      "photos": ["/assets/images/grants/entropy/entropy_logo.svg"],
+      "category": "",
+      "wallet": "0xCa775D361548c6B2904A64344023cfeaFF0bD77E",
+      "depositGoal": 0,
+      "website": "https://www.entropyfi.com/",
+      "milestones": [
+        {
+          "amount": 15000,
+          "description": ""
+        },
+        {
+          "amount": 15000,
+          "description": ""
+        },
+        {
+          "amount": 20000,
+          "description": ""
+        }
+      ],
+      "disabled": true
+    },
+    {
+      "title": "On-Demand Analytics",
+      "owner": "",
+      "slug": "on-demand-analytics",
+      "shortDescription": "Over a thousand analytical minds working together to deliver insights for other DAOs",
+      "details": "MetricsDAO programs attract, onboard, and activate new community members through a structured program that generates public reporting and analytics content. Our initial program allowed us to test various parts of our process with our community. Read more about our 6 step process. The program delivers $OHM directly to community members who grow the protocol ecosystem by developing analytics content, insights for marketing initiatives, and research that provides strategic guidance. This includes Olympus community members, who are encouraged to provide direction and questions via our question collection tooling. Thie data vendor-neutral nature of the program ensures the best analytics resources will be available and utilized to generate the program’s analytics outputs.",
+      "finishDate": "",
+      "photos": ["/assets/images/grants/on-demand/metricsdao_logo.svg"],
+      "category": "",
+      "wallet": "0x4faFB87de15cFf7448bD0658112F4e4B0d53332c",
+      "depositGoal": 0,
+      "website": "https://metricsdao.notion.site/metricsdao/Bounty-Programs-d4bac7f1908f412f8bf4ed349198e5fe",
+      "milestones": [
+        {
+          "amount": 27000,
+          "description": ""
+        },
+        {
+          "amount": 27000,
+          "description": ""
+        },
+        {
+          "amount": 6000,
+          "description": ""
+        }
+      ],
+      "disabled": true
+    },
+    {
+      "title": "The Black DAO",
+      "owner": "",
+      "slug": "black-dao",
+      "shortDescription": "A Pan-African Multi-Chain Reserve Currency that funds Black and African-Owned Businesses, Creatives, and Initiatives.",
+      "details": "A Pan-African Multi-Chain Reserve Currency for Communal Economics Across the African Diaspora. The Black DAO began as a simple idea during the summer of 2020. In the middle of a global pandemic, the entire United States saw the most significant series of decentralized uprisings for civil and human rights in the nation’s history, in the wake of the murders of Geroge Floyd, Breonna Taylor, and Ahmaud Arbery. During this time, the cryptocurrency community was focused elsewhere at the beginning of cyclical rapid growth, now referred to as DeFi Summer 2020. Created to fill a gap, we view a great majority of the problems experienced by black and brown communities across the African diaspora as inherently stemming from economic deprivation. As such, we’re building a yield aggregation protocol and reserve currency that uses its resources and community to, not only, make DeFi accessible to these historically excluded communities but, also, fund entities and communities that could stand to benefit the most from the DeFi and Web3 revolution.",
+      "finishDate": "",
+      "photos": ["/assets/images/grants/black-dao/black_dao_logo.svg"],
+      "category": "",
+      "wallet": "0x5c656F5e8c44f6Df504DFb3E224E7f01310Aa52c",
+      "depositGoal": 0,
+      "website": "https://blk.finance/",
+      "milestones": [
+        {
+          "amount": 10000,
+          "description": ""
+        },
+        {
+          "amount": 13000,
+          "description": ""
+        },
+        {
+          "amount": 13000,
+          "description": ""
+        },
+        {
+          "amount": 14000,
+          "description": ""
+        }
+      ],
+      "disabled": true
+    },
+    {
+      "title": "Gateway",
+      "owner": "",
+      "slug": "gateway",
+      "shortDescription": "Building the web3 standard for community verified activity and professional data through soulbound NFTs",
+      "details": "Gateway is working on creating portable, decentralized professional user tables by issuing soulbound NFTs indicating guild membership. After receiving these membership badges, contributors can “log” work by creating activity logs that need to be verified by the other guild members. As our platform continues to expand, we hope to provide extensible data models for other projects to stream professional data regarding certain users into Gateway.Initially, our focus is helping DAOs bring structure to onboarding and filtering into guilds, and we think this is the perfect first step in the accreditation of work/growth in web3. We want to become the Web3 professional decentralized networking platform. By becoming the standard for membership codification and resume building.",
+      "finishDate": "",
+      "photos": ["/assets/images/grants/gateway/gateway_logo.svg"],
+      "category": "",
+      "wallet": "0xA47d57B74361B20fB24e1dD2d22944db12Ee8553",
+      "depositGoal": 0,
+      "website": "",
+      "milestones": [
+        {
+          "amount": 10000,
+          "description": ""
+        },
+        {
+          "amount": 13000,
+          "description": ""
+        },
+        {
+          "amount": 13000,
+          "description": ""
+        },
+        {
+          "amount": 14000,
+          "description": ""
+        }
+      ],
+      "disabled": true
+    },
+    {
+      "title": "Diverse Usability Study and Art Auction Ads",
+      "owner": "",
+      "slug": "diverse-usability-study",
+      "shortDescription": "To build the “Inclusive Econohmy” this project will perform user testing amongst a pool of Black, Indigenous, Queer, and/or PoC users who are underrepresented in web3 so critical for building Total Available Market share and making OHM more accessible. These users will also participate in a culture driving NFT Art auction which will feature Olympus ads.",
+      "details": "We are a collective of individuals who believe that the technology and Web3 community can catalyze change, while supporting missions from both AFRODAO & the Indigenous LandBack movement. We aim to take these tools and implement ways forward that guide. Both AFRODAO & LandBackDAO will onboard a pool of new artists and makers, a user study of Olympus for marginalized communities. The goal is to expand and support our communities' creative contributions into this space while supporting both missions of AFRODAO and LandBackDAO, providing space & inclusion while strengthening visibility and voice.",
+      "finishDate": "",
+      "photos": [],
+      "category": "",
+      "wallet": "0x31400E66a48Fd29cAb359ED3eBE19303D87e1FB9",
+      "depositGoal": 0,
+      "website": "https://www.afrodao.us/",
+      "milestones": [
+        {
+          "amount": 20000,
+          "description": ""
+        },
+        {
+          "amount": 20000,
+          "description": ""
+        },
+        {
+          "amount": 20000,
+          "description": ""
+        },
+        {
+          "amount": 25000,
+          "description": ""
+        }
+      ],
+      "disabled": true
+    }
+  ]
+}

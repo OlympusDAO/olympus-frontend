@@ -12,30 +12,30 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { Web3ContextProvider } from "./hooks/web3Context";
 import { queryClient } from "./lib/react-query";
-import store from "./store";
+import defaultStore from "./store";
 import { light as lightTheme } from "./themes/light.js";
 
-const ProviderWrapper = ({ children }: { children?: ReactNode }) => (
-  <Web3ContextProvider>
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <I18nProvider i18n={i18n}>
-          <BrowserRouter basename={"/#"}>
-            <ThemeProvider theme={lightTheme}>
-              <CssBaseline />
-              {children}
-            </ThemeProvider>
-          </BrowserRouter>
-        </I18nProvider>
-      </Provider>
-    </QueryClientProvider>
-  </Web3ContextProvider>
-);
+const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOptions): RenderResult => {
+  const ProviderWrapper = ({ children }: { children?: ReactNode }) => (
+    <Web3ContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <I18nProvider i18n={i18n}>
+            <BrowserRouter basename={"/#"}>
+              <ThemeProvider theme={lightTheme}>
+                <CssBaseline />
+                {children}
+              </ThemeProvider>
+            </BrowserRouter>
+          </I18nProvider>
+        </Provider>
+      </QueryClientProvider>
+    </Web3ContextProvider>
+  );
+  return render(ui, { wrapper: ProviderWrapper, ...options });
+};
 
-const customRender = (ui: ReactElement, options?: RenderOptions): RenderResult =>
-  render(ui, { wrapper: ProviderWrapper, ...options });
-
-const renderRoute = function (route: string) {
+const renderRoute = function (route: string, store = defaultStore) {
   const history = createMemoryHistory();
   history.push(route);
   render(
