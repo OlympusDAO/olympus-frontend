@@ -24,15 +24,6 @@
   .ohm-card {
     padding-bottom: 40px;
 
-    .give-tab-buttons {
-      margin-top: 1rem;
-      margin-bottom: 50px;
-      max-height: 60px;
-      min-height: 40px;
-      // // Restrict the height of the tab bar, so the indicator is 4px away
-      height: 40px;
-    }
-
     .MuiBox-root .no-donations {
       display: flex;
       flex-direction: column;
@@ -357,10 +348,6 @@
 
 #give-view.smaller {
   margin-bottom: 30px;
-
-  .give-tab-buttons .MuiTab-wrapper {
-    font-size: 14px;
-  }
 
   .cause-title {
     margin-bottom: 1rem;
@@ -898,4 +885,20 @@
 
 .modal-confirmation-title {
   color: #999999;
+}
+
+.give-tab-buttons {
+  margin-bottom: 10px;
+  // Restrict the height of the tab bar, so the indicator is 4px away
+  height: 40px;
+
+  .MuiTab-wrapper {
+    font-size: 24px;
+  }
+}
+
+.give-tab-buttons-xs {
+  .MuiTab-wrapper {
+    font-size: 14px;
+  }
 }
