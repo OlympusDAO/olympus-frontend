@@ -101,11 +101,12 @@ exports[`<Root/> should render component 1`] = `
         <div
           class="MuiBox-root-370 MuiBox-root-371"
         >
-          <button
+          <a
+            aria-disabled="false"
             class="MuiButtonBase-root-316 MuiButton-root-343 MuiButton-contained-351 MuiButton-containedSecondary-353 MuiButton-disableElevation-354"
+            href="/#/wallet"
             id="ohm-menu-button"
             tabindex="0"
-            type="button"
           >
             <span
               class="MuiButton-label-344"
@@ -122,10 +123,10 @@ exports[`<Root/> should render component 1`] = `
               <p
                 class="MuiTypography-root-256 MuiTypography-body1-258"
               >
-                Connect Wallet
+                Wallet
               </p>
             </span>
-          </button>
+          </a>
           <button
             class="MuiButtonBase-root-316 MuiToggleButton-root-372 toggle-button"
             tabindex="0"

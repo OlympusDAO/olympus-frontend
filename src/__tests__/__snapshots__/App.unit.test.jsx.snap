@@ -37,11 +37,12 @@ exports[`<App/> should not render a connection error message when user wallet is
         <div
           class="MuiBox-root MuiBox-root-193"
         >
-          <button
+          <a
+            aria-disabled="false"
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
+            href="/#/wallet"
             id="ohm-menu-button"
             tabindex="0"
-            type="button"
           >
             <span
               class="MuiButton-label"
@@ -58,10 +59,10 @@ exports[`<App/> should not render a connection error message when user wallet is
               <p
                 class="MuiTypography-root MuiTypography-body1"
               >
-                Connect Wallet
+                Wallet
               </p>
             </span>
-          </button>
+          </a>
           <button
             class="MuiButtonBase-root MuiToggleButton-root toggle-button"
             tabindex="0"
@@ -1673,11 +1674,12 @@ exports[`<App/> should not render an error message when user wallet is connected
         <div
           class="MuiBox-root MuiBox-root-38"
         >
-          <button
+          <a
+            aria-disabled="false"
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
+            href="/#/wallet"
             id="ohm-menu-button"
             tabindex="0"
-            type="button"
           >
             <span
               class="MuiButton-label"
@@ -1694,10 +1696,10 @@ exports[`<App/> should not render an error message when user wallet is connected
               <p
                 class="MuiTypography-root MuiTypography-body1"
               >
-                Connect Wallet
+                Wallet
               </p>
             </span>
-          </button>
+          </a>
           <button
             class="MuiButtonBase-root MuiToggleButton-root toggle-button"
             tabindex="0"
@@ -3309,11 +3311,12 @@ exports[`<App/> should render an error message when user wallet is connected and
         <div
           class="MuiBox-root MuiBox-root-361"
         >
-          <button
+          <a
+            aria-disabled="false"
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
+            href="/#/wallet"
             id="ohm-menu-button"
             tabindex="0"
-            type="button"
           >
             <span
               class="MuiButton-label"
@@ -3330,10 +3333,10 @@ exports[`<App/> should render an error message when user wallet is connected and
               <p
                 class="MuiTypography-root MuiTypography-body1"
               >
-                Connect Wallet
+                Wallet
               </p>
             </span>
-          </button>
+          </a>
           <button
             class="MuiButtonBase-root MuiToggleButton-root toggle-button"
             tabindex="0"
