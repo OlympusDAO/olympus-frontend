@@ -511,7 +511,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                 )}
                 <Grid item xs={12} sm={4}>
                   <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
-                    <Grid xs={12}>
+                    <Grid item xs={12}>
                       <Typography variant="body1" className="modal-confirmation-title">
                         <Trans>Recipient address</Trans>
                         <InfoTooltip

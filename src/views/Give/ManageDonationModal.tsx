@@ -123,7 +123,7 @@ export function ManageDonationModal({
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   const sohmBalance: string = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
@@ -594,6 +594,38 @@ export function ManageDonationModal({
     );
   };
 
+  const getDonationConfirmationElement = () => {
+    return (
+      <Box>
+        <Grid container spacing={1} alignItems="center">
+          <Grid item xs={12} sm={4}>
+            <Typography variant="body1" className="modal-confirmation-title">
+              <Trans>Current sOHM deposit</Trans>
+            </Typography>
+            <Typography variant="h6">{currentDepositAmount.toFixed(2)} sOHM</Typography>
+          </Grid>
+          {!isSmallScreen ? (
+            <Grid item sm={4}>
+              <ArrowGraphic />
+            </Grid>
+          ) : (
+            <></>
+          )}
+          <Grid item xs={12} sm={4}>
+            <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
+              <Grid item xs={12}>
+                <Typography variant="body1" className="modal-confirmation-title">
+                  <Trans>New sOHM deposit</Trans>
+                </Typography>
+                <Typography variant="h6">{isWithdrawing ? 0 : depositAmount.toFixed(2)} sOHM</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
+    );
+  };
+
   const getStopDonationScreen = () => {
     return (
       <Grid container spacing={2}>
@@ -608,31 +640,7 @@ export function ManageDonationModal({
           <></>
         )}
         <Grid item xs={12}>
-          <Box>
-            <Grid container spacing={1} alignItems="center">
-              <Grid item xs={12} md={4}>
-                <Typography variant="body1" className="modal-confirmation-title">
-                  <Trans>Current sOHM deposit</Trans>
-                </Typography>
-                <Typography variant="h6">{currentDepositAmount.toFixed(2)} sOHM</Typography>
-              </Grid>
-              {!isSmallScreen ? (
-                <Grid item sm={4}>
-                  <ArrowGraphic />
-                </Grid>
-              ) : (
-                <></>
-              )}
-              <Grid item xs={12} md={4}>
-                <Typography variant="body1" align="right" className="modal-confirmation-title">
-                  <Trans>New sOHM deposit</Trans>
-                </Typography>
-                <Typography variant="h6" align="right">
-                  {isWithdrawing ? 0 : depositAmount.toFixed(2)} sOHM
-                </Typography>
-              </Grid>
-            </Grid>
-          </Box>
+          {getDonationConfirmationElement()}
         </Grid>
         <Grid item xs={12}>
           <Grid container>
@@ -672,31 +680,7 @@ export function ManageDonationModal({
           <></>
         )}
         <Grid item xs={12}>
-          <Box>
-            <Grid container spacing={1} alignItems="center">
-              <Grid item xs={12} md={4}>
-                <Typography variant="body1" className="modal-confirmation-title">
-                  <Trans>Current sOHM deposit</Trans>
-                </Typography>
-                <Typography variant="h6">{currentDepositAmount.toFixed(2)} sOHM</Typography>
-              </Grid>
-              {!isSmallScreen ? (
-                <Grid item sm={4}>
-                  <ArrowGraphic />
-                </Grid>
-              ) : (
-                <></>
-              )}
-              <Grid item xs={12} md={4}>
-                <Typography variant="body1" align="right" className="modal-confirmation-title">
-                  <Trans>New sOHM deposit</Trans>
-                </Typography>
-                <Typography variant="h6" align="right">
-                  {isWithdrawing ? 0 : depositAmount.toFixed(2)} sOHM
-                </Typography>
-              </Grid>
-            </Grid>
-          </Box>
+          {getDonationConfirmationElement()}
         </Grid>
         <Grid item xs={12}>
           <Grid container>
