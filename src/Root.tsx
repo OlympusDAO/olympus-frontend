@@ -3,6 +3,7 @@ import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { FC, useEffect } from "react";
 import { QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
@@ -20,6 +21,8 @@ const Root: FC = () => {
   return (
     <Web3ContextProvider>
       <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools />
+
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
             <BrowserRouter basename={"/#"}>
