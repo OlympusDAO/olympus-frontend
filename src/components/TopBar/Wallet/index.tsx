@@ -55,12 +55,21 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
       <Icon name="x" />
     </MuiLink>
   );
-  const WalletButton = (props: any) => {
+  const WalletButtonTop = (props: any) => {
     const onClick = !connected ? connect : undefined;
     const label = connected ? t`Wallet` : t`Connect Wallet`;
     return (
       <PrimaryButton className={classes.connectButton} color="secondary" {...props} onClick={onClick}>
         <Icon name="wallet" />
+        <Typography>{label}</Typography>
+      </PrimaryButton>
+    );
+  };
+  const WalletButtonBottom = (props: any) => {
+    const onClick = !connected ? connect : undefined;
+    const label = connected ? t`Wallet` : t`Connect Wallet`;
+    return (
+      <PrimaryButton {...props} onClick={onClick}>
         <Typography>{label}</Typography>
       </PrimaryButton>
     );
@@ -74,6 +83,13 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
       </TertiaryButton>
     );
   };
+
+  const ConnectMessage = () => (
+    <Box display="flex" justifyContent="center" mt={"32px"}>
+      <Typography variant={"h6"}> Please Connect Your Wallet </Typography>
+    </Box>
+  );
+
   return (
     <>
       <StyledSwipeableDrawer
@@ -88,7 +104,7 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
           <Box style={{ top: 0, position: "sticky" }}>
             <Box display="flex" justifyContent="space-between" mb={"18px"}>
               <Box>
-                {!connected && <WalletButton />}
+                {!connected && <WalletButtonTop />}
                 {connected && (
                   <Box display="flex" className={classes.networkSelector}>
                     <Token
@@ -131,27 +147,29 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
                 case "getohm":
                   return <GetOhm />;
                 case "wallet":
-                  return <Assets />;
+                  if (!connected) {
+                    return <ConnectMessage />;
+                  } else {
+                    return <Assets />;
+                  }
                 case "wallet/history":
                   return <Assets path="history" />;
                 default:
-                  return <></>;
+                  <></>;
               }
             })()}
           </Box>
         </Box>
-        {connected && (
-          <Box
-            display="flex"
-            flexDirection="row"
-            justifyContent="center"
-            style={{ position: "sticky", bottom: 0, boxShadow: "0px -3px 3px rgba(0, 0, 0, 0.1)" }}
-            pt={"21px"}
-            pb={"21px"}
-          >
-            <DisconnectButton />
-          </Box>
-        )}
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+          style={{ position: "sticky", bottom: 0, boxShadow: "0px -3px 3px rgba(0, 0, 0, 0.1)" }}
+          pt={"21px"}
+          pb={"21px"}
+        >
+          {connected ? <DisconnectButton /> : <WalletButtonBottom />}
+        </Box>
       </StyledSwipeableDrawer>
     </>
   );

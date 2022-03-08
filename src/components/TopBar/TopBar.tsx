@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { LocaleSwitcher } from "@olympusdao/component-library";
 import { Link } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
+import { useWeb3Context } from "src/hooks";
 
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
 import { locales, selectLocale } from "../../locales";
@@ -39,6 +40,7 @@ interface TopBarProps {
 }
 
 function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
+  const { connected } = useWeb3Context();
   const classes = useStyles();
   const WalletButton = (props: any) => {
     const theme = useTheme();
@@ -46,7 +48,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
       <Button id="ohm-menu-button" variant="contained" color="secondary" {...props}>
         <SvgIcon component={WalletIcon} style={{ marginRight: theme.spacing(1) }} />
         <Typography>
-          <Trans>Wallet</Trans>
+          <Trans>{connected ? t`Wallet` : t`Connect`}</Trans>
         </Typography>
       </Button>
     );
