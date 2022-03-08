@@ -1,7 +1,8 @@
-import "./Give.scss";
+import "./YieldRecipients.scss";
 
 import { t } from "@lingui/macro";
 import { Box, Divider, TableCell, TableRow, Tooltip, Typography } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { SecondaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
@@ -37,8 +38,9 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
-  const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const getRecipientTitle = (address: string): string => {
     const project = projectMap.get(address);

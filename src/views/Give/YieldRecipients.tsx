@@ -1,3 +1,5 @@
+import "./YieldRecipients.scss";
+
 import { Trans } from "@lingui/macro";
 import {
   Box,
@@ -67,51 +69,50 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
     );
   }
 
+  // TODO extract the table and styles into a common component
   return (
-    <Grid container item className="card-content">
-      <TableContainer>
-        <Table className="donation-table">
-          <TableHead>
-            <TableRow>
-              {!isSmallScreen && (
-                <TableCell align="left">
-                  <Typography variant="body1">
-                    <Trans>DATE</Trans>
-                  </Typography>
-                </TableCell>
-              )}
+    <TableContainer>
+      <Table className="donation-table">
+        <TableHead>
+          <TableRow>
+            {!isSmallScreen && (
               <TableCell align="left">
                 <Typography variant="body1">
-                  <Trans>RECIPIENT</Trans>
+                  <Trans>DATE</Trans>
                 </Typography>
               </TableCell>
-              {!isSmallScreen && (
-                <TableCell align="right">
-                  <Typography variant="body1">
-                    <Trans>DEPOSITED</Trans>
-                  </Typography>
-                </TableCell>
-              )}
+            )}
+            <TableCell align="left">
+              <Typography variant="body1">
+                <Trans>RECIPIENT</Trans>
+              </Typography>
+            </TableCell>
+            {!isSmallScreen && (
               <TableCell align="right">
                 <Typography variant="body1">
-                  <Trans>YIELD SENT</Trans>
+                  <Trans>DEPOSITED</Trans>
                 </Typography>
               </TableCell>
-              <TableCell align="right" className="manage-cell"></TableCell>
-            </TableRow>
-          </TableHead>
-          <Divider className="table-head-divider" />
-          <TableBody>
-            {isLoading ? (
-              <Skeleton />
-            ) : (
-              donationInfo.map(donation => {
-                return <DepositTableRow depositObject={donation} key={donation.recipient} />;
-              })
             )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Grid>
+            <TableCell align="right">
+              <Typography variant="body1">
+                <Trans>YIELD SENT</Trans>
+              </Typography>
+            </TableCell>
+            <TableCell align="right" className="manage-cell"></TableCell>
+          </TableRow>
+        </TableHead>
+        <Divider className="table-head-divider" />
+        <TableBody>
+          {isLoading ? (
+            <Skeleton />
+          ) : (
+            donationInfo.map(donation => {
+              return <DepositTableRow depositObject={donation} key={donation.recipient} />;
+            })
+          )}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
