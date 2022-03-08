@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useTheme,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
@@ -30,7 +31,8 @@ type RecipientModalProps = {
 export default function YieldRecipients({ changeView }: RecipientModalProps) {
   const location = useLocation();
   const { networkId } = useWeb3Context();
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
   const donationInfo = useSelector((state: DonationInfoState) => {
@@ -48,16 +50,19 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
 
   if (!donationInfo || donationInfo.length == 0) {
     return (
-      <Box
-        className="no-donations"
-        style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px 40px 20px 40px" }}
-      >
-        <Typography variant="body1">
-          <Trans>Looks like you haven’t made any donations yet</Trans>
-        </Typography>
-        <TertiaryButton onClick={() => changeView(0)}>
-          <Trans>Donate to a cause</Trans>
-        </TertiaryButton>
+      <Box border={1} borderColor="#999999" borderRadius="10px" padding={2}>
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item xs={12} container justifyContent="center">
+            <Typography variant="body1">
+              <Trans>Looks like you haven’t made any donations yet</Trans>
+            </Typography>
+          </Grid>
+          <Grid item xs={12} container justifyContent="center">
+            <TertiaryButton onClick={() => changeView(0)}>
+              <Trans>Donate to a cause</Trans>
+            </TertiaryButton>
+          </Grid>
+        </Grid>
       </Box>
     );
   }

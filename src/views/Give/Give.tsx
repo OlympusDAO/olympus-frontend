@@ -69,7 +69,7 @@ function Give({ selectedIndex }: GiveProps) {
   return (
     <>
       <Grid container direction="column" alignItems="center">
-        <Grid item>
+        <Grid item xs={12}>
           <Zoom in={true} onEntered={() => setZoomed(true)}>
             <Paper headerText={t`Give`} childPaperBackground={true}>
               {!isSupportedChain(networkId) ? (
@@ -109,8 +109,6 @@ function Give({ selectedIndex }: GiveProps) {
               </TabPanel>
             </Paper>
           </Zoom>
-        </Grid>
-        <Grid item>
           <Zoom in={true}>
             <GiveInfo />
           </Zoom>
