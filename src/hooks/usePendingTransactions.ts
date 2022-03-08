@@ -1,10 +1,10 @@
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
+import { reactQueryErrorHandler } from "src/helpers/react-query/reactQueryErrorHandler";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import { covalent } from "src/lib/covalent";
 import { CovalentTransaction } from "src/lib/covalent.types";
-import { reactQueryErrorHandler } from "src/lib/react-query";
 
 import { useWeb3Context } from ".";
 

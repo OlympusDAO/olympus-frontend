@@ -1,4 +1,4 @@
-import { QueryClient, QueryKey } from "react-query";
+import { QueryClient } from "react-query";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -11,9 +11,3 @@ export const queryClient = new QueryClient({
     },
   },
 });
-
-export const reactQueryErrorHandler = (key: QueryKey) => {
-  return (error: any) => {
-    console.log({ key, error: error.message });
-  };
-};

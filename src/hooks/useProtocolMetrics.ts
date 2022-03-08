@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
+import { reactQueryErrorHandler } from "src/helpers/react-query/reactQueryErrorHandler";
 import apollo from "src/lib/apolloClient";
-import { reactQueryErrorHandler } from "src/lib/react-query";
 
 const query = `
   query ProtcolMetrics {

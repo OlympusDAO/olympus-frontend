@@ -2,7 +2,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { STAKING_ADDRESSES } from "src/constants/addresses";
-import { reactQueryErrorHandler } from "src/lib/react-query";
+import { reactQueryErrorHandler } from "src/helpers/react-query/reactQueryErrorHandler";
 
 import { useStaticStakingContract } from "./useContract";
 

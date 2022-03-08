@@ -5,9 +5,9 @@ import { OHM_DAI_RESERVE_CONTRACT_DECIMALS, STAKING_CONTRACT_DECIMALS } from "sr
 import { parseBigNumber } from "src/helpers";
 import { ohm_dai } from "src/helpers/AllBonds";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
+import { reactQueryErrorHandler } from "src/helpers/react-query/reactQueryErrorHandler";
 import { assert } from "src/helpers/types/assert";
 import { nonNullable } from "src/helpers/types/nonNullable";
-import { reactQueryErrorHandler } from "src/lib/react-query";
 
 import { useStaticPairContract } from "./useContract";
 import { useCurrentIndex } from "./useCurrentIndex";
