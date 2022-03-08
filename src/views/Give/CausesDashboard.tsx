@@ -94,7 +94,8 @@ export default function CausesDashboard() {
         <Grid container justifyContent="center" alignItems="center">
           {renderProjects}
         </Grid>
-        <Paper>
+        {/* Paper defaults to 97%, which would result in this being out of alignment with the projects listing */}
+        <Paper style={{ width: "100%" }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h4" align="center">

@@ -494,7 +494,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
             ) : (
               <></>
             )}
-            <Grid item xs={12} md={5} lg={4}>
+            <Grid item xs={12} sm={5} lg={4}>
               {getProjectImage()}
             </Grid>
             <Grid item container xs alignContent="space-between">
@@ -567,7 +567,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   }
                 >
                   <Grid container spacing={2}>
-                    <Grid item xs={12} md={4} lg={12}>
+                    <Grid item xs={12} sm={6} lg={12}>
                       {getProjectImage()}
                     </Grid>
                     <Grid item container xs>
