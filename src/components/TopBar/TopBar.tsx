@@ -48,7 +48,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
       <Button id="ohm-menu-button" variant="contained" color="secondary" {...props}>
         <SvgIcon component={WalletIcon} style={{ marginRight: theme.spacing(1) }} />
         <Typography>
-          <Trans>{connected ? t`Wallet` : t`Connect`}</Trans>
+          <Trans>{connected ? `Wallet` : `Connect`}</Trans>
         </Typography>
       </Button>
     );
