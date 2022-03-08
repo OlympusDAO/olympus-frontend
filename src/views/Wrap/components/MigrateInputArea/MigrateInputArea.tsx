@@ -4,7 +4,7 @@ import { Input, PrimaryButton } from "@olympusdao/component-library";
 import { formatUnits } from "ethers/lib/utils";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { MIGRATOR_ADDRESSES, WSOHM_ADDRESSES } from "src/constants/addresses";
-import { assert } from "src/helpers";
+import { assert } from "src/helpers/types/assert";
 import { useWeb3Context } from "src/hooks";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
