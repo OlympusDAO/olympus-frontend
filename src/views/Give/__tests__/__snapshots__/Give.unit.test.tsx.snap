@@ -131,7 +131,7 @@ exports[`<Give/> should render component 1`] = `
                   style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
                 >
                   <div
-                    class="MuiContainer-root data-grid MuiContainer-maxWidthLg"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center"
                   >
                     <div
                       class="MuiBox-root MuiBox-root-11"
