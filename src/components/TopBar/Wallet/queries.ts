@@ -4,7 +4,7 @@ import { useInfiniteQuery, useQuery } from "react-query";
 const snapshotUrl = "https://hub.snapshot.org/graphql";
 const mediumUrl = "https://api.rss2json.com/v1/api.json?rss_url=https://olympusdao.medium.com/feed";
 import { FUSE_POOL_18_ADDRESSES } from "src/constants/addresses";
-import { EnvHelper } from "src/helpers/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useWeb3Context } from "src/hooks";
 import { useStaticFuseContract } from "src/hooks/useContract";
 import { covalent } from "src/lib/covalent";
@@ -72,7 +72,7 @@ export const GetTokenPrice = (tokenId = "olympus") => {
 
 export const GetTransactionHistory = () => {
   const { address, networkId } = useWeb3Context();
-  const COVALENT_KEY = EnvHelper.getCovalentKey();
+  const COVALENT_KEY = Environment.getCovalentApiKey();
   const { data, isFetched, isLoading, isPreviousData, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery<CovalentResponse, Error>(
       ["TransactionHistory", networkId],
@@ -110,7 +110,7 @@ export const GetTransactionHistory = () => {
 
 export const GetTransferHistory = (contractAddress: string) => {
   const { address, networkId } = useWeb3Context();
-  const COVALENT_KEY = EnvHelper.getCovalentKey();
+  const COVALENT_KEY = Environment.getCovalentApiKey();
   const { data, isFetched, isLoading, isPreviousData, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery<CovalentResponse>(
       ["TransferHistory", networkId, contractAddress],
