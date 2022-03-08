@@ -2,7 +2,6 @@ import "./YieldRecipients.scss";
 
 import { Trans } from "@lingui/macro";
 import {
-  Box,
   Divider,
   Grid,
   Table,
@@ -19,6 +18,7 @@ import { Skeleton } from "@material-ui/lab";
 import { TertiaryButton } from "@olympusdao/component-library";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { NetworkId } from "src/constants";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -52,7 +52,7 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
 
   if (!donationInfo || donationInfo.length == 0) {
     return (
-      <Box border={1} borderColor="#999999" borderRadius="10px" padding={2}>
+      <Box>
         <Grid container spacing={2} justifyContent="center">
           <Grid item xs={12} container justifyContent="center">
             <Typography variant="body1">

@@ -1,6 +1,6 @@
 import { isAddress } from "@ethersproject/address";
 import { t, Trans } from "@lingui/macro";
-import { Box, Grid, Link, SvgIcon, Typography } from "@material-ui/core";
+import { Grid, Link, SvgIcon, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
@@ -10,6 +10,7 @@ import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
@@ -483,7 +484,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
       <>
         <Grid container spacing={4}>
           <Grid item xs={12}>
-            <Box border={1} borderColor="#999999" borderRadius="10px" padding={2}>
+            <Box>
               <Grid container spacing={2} alignItems="center">
                 <Grid item container xs={12} sm={4}>
                   <Grid xs={12}>
