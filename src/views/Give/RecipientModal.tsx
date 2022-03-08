@@ -66,9 +66,6 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
-  console.log("md = " + useMediaQuery(theme.breakpoints.down("md")));
-  console.log("sm = " + useMediaQuery(theme.breakpoints.down("sm")));
-  console.log("xs = " + isSmallScreen);
 
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toFixed());
@@ -490,14 +487,13 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   };
 
   const getConfirmationScreen = () => {
-    // TODO fix sm/md breakpoint
     return (
       <>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Box border={1} borderColor="#999999" borderRadius="10px" padding={2}>
               <Grid container spacing={2} alignItems="center">
-                <Grid item container xs={12} md={4}>
+                <Grid item container xs={12} sm={4}>
                   <Grid xs={12}>
                     <Typography variant="body1">
                       <Trans>sOHM deposit</Trans>
@@ -516,7 +512,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                 ) : (
                   <></>
                 )}
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} sm={4}>
                   <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
                     <Grid xs={12}>
                       <Typography variant="body1">
