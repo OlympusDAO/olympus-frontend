@@ -489,14 +489,18 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   const getConfirmationScreen = () => {
     return (
       <>
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
           <Grid item xs={12}>
             <Box border={1} borderColor="#999999" borderRadius="10px" padding={2}>
               <Grid container spacing={2} alignItems="center">
                 <Grid item container xs={12} sm={4}>
                   <Grid xs={12}>
-                    <Typography variant="body1">
+                    <Typography variant="body1" className="modal-confirmation-title">
                       <Trans>sOHM deposit</Trans>
+                      <InfoTooltip
+                        message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                        children={null}
+                      />
                     </Typography>
                   </Grid>
                   <Grid xs={12}>
@@ -515,12 +519,17 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                 <Grid item xs={12} sm={4}>
                   <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
                     <Grid xs={12}>
-                      <Typography variant="body1">
+                      <Typography variant="body1" className="modal-confirmation-title">
                         <Trans>Recipient address</Trans>
+                        <InfoTooltip
+                          message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+                          children={null}
+                        />
                       </Typography>
                     </Grid>
                     <Grid xs={12}>
-                      <Typography variant="h6">
+                      {/* 5px to align with the padding on the tooltip */}
+                      <Typography variant="h6" style={{ paddingRight: "5px" }}>
                         <strong>{getRecipientTitle()}</strong>
                       </Typography>
                     </Grid>
