@@ -32,7 +32,7 @@ const TreasuryDashboard = memo(() => {
       <Tabs centered value={view} textColor="primary" indicatorColor="primary" onChange={changeView} aria-label="">
         <Tab aria-label="key-metrics" label="Overview" />
         <Tab aria-label="treasury-allocation" label="Treasury" />
-        <Tab aria-label="total-income" label="Income" />
+        <Tab aria-label="revenue" label="Revenue" />
       </Tabs>
       <Container
         style={{

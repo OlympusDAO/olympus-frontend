@@ -52,7 +52,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
           </button>
           <button
             aria-controls="simple-tabpanel-2"
-            aria-label="total-income"
+            aria-label="revenue"
             aria-selected="false"
             class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
             id="simple-tab-2"
@@ -63,7 +63,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
             <span
               class="MuiTab-wrapper"
             >
-              Income
+              Revenue
             </span>
           </button>
         </div>
