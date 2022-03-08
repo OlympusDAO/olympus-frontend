@@ -13,7 +13,7 @@ import { NetworkId } from "src/constants";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { ACTION_GIVE, changeGive, changeMockGive, isSupportedChain } from "src/slices/GiveThunk";
+import { ACTION_GIVE, changeGive, changeMockGive } from "src/slices/GiveThunk";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
@@ -108,16 +108,6 @@ export default function GrantsDashboard() {
     >
       <Zoom in={true}>
         <Box className={`ohm-card secondary causes-container`}>
-          {!isSupportedChain(networkId) ? (
-            <Typography variant="h6">
-              <Trans>
-                Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
-                functionality.
-              </Trans>
-            </Typography>
-          ) : (
-            <></>
-          )}
           <div className="causes-body">
             <Typography variant="body1" className="grants-header">
               <Trans>

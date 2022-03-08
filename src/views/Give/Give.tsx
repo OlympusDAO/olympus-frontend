@@ -79,7 +79,7 @@ function Give({ selectedIndex }: GiveProps) {
         ${isSmallScreen ? "smaller" : ""}`}
       >
         <Zoom in={true} onEntered={() => setZoomed(true)}>
-          <Paper className={`ohm-card secondary causes-container`}>
+          <Paper className={`ohm-card secondary causes-container`} childPaperBackground={true}>
             <div className="card-header">
               <Typography variant="h5">Give</Typography>
             </div>
