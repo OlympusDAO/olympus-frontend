@@ -59,7 +59,7 @@ exports[`<App/> should not render a connection error message when user wallet is
               <p
                 class="MuiTypography-root MuiTypography-body1"
               >
-                Wallet
+                Connect
               </p>
             </span>
           </a>
@@ -1696,7 +1696,7 @@ exports[`<App/> should not render an error message when user wallet is connected
               <p
                 class="MuiTypography-root MuiTypography-body1"
               >
-                Wallet
+                Connect
               </p>
             </span>
           </a>
@@ -3333,7 +3333,7 @@ exports[`<App/> should render an error message when user wallet is connected and
               <p
                 class="MuiTypography-root MuiTypography-body1"
               >
-                Wallet
+                Connect
               </p>
             </span>
           </a>
