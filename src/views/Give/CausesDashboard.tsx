@@ -2,7 +2,6 @@ import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Container, Grid, Typography, Zoom } from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Paper, TertiaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useMemo, useState } from "react";
@@ -24,8 +23,6 @@ export default function CausesDashboard() {
   const location = useLocation();
   const { provider, address, networkId } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
-  const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
   const { projects } = data;
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
@@ -94,17 +91,19 @@ export default function CausesDashboard() {
   return (
     <Zoom in={true}>
       <Container>
-        <Container className="data-grid">{renderProjects}</Container>
+        <Grid container justifyContent="center" alignItems="center">
+          {renderProjects}
+        </Grid>
         <Paper>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h4" align="center">
-                Want to give to a different cause?
+                <Trans>Want to give to a different cause?</Trans>
               </Typography>
             </Grid>
             <Grid item xs={12}>
               <Typography variant="body1" align="center">
-                You can direct your yield to a recipient of your choice
+                <Trans>You can direct your yield to a recipient of your choice</Trans>
               </Typography>
             </Grid>
             <Grid item xs={12} container justifyContent="center">

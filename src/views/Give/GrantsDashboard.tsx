@@ -1,8 +1,7 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Typography, Zoom } from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Container, Grid, Typography, Zoom } from "@material-ui/core";
 import { BigNumber } from "bignumber.js";
 import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -24,8 +23,6 @@ export default function GrantsDashboard() {
   const location = useLocation();
   const { provider, address, networkId } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
-  const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
   const grants: Grant[] = data.grants;
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
@@ -101,15 +98,11 @@ export default function GrantsDashboard() {
   };
 
   return (
-    <div
-      id="give-view"
-      className={`${isMediumScreen ? "medium" : ""}
-      ${isSmallScreen ? "smaller" : ""}}`}
-    >
-      <Zoom in={true}>
-        <Box className={`ohm-card secondary causes-container`}>
-          <div className="causes-body">
-            <Typography variant="body1" className="grants-header">
+    <Zoom in={true}>
+      <Container>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="body1">
               <Trans>
                 Upon receiving an Olympus Grant, you gain exposure to the Olympus Give ecosystem where your performance
                 is rewarded every 8 hours through the yield your grant generates; you then can also receive support from
@@ -117,16 +110,21 @@ export default function GrantsDashboard() {
                 mission.
               </Trans>
             </Typography>
-            <Box className="data-grid">{renderGrants}</Box>
-          </div>
-          <RecipientModal
-            isModalOpen={isCustomGiveModalOpen}
-            eventSource="Custom Recipient Button"
-            callbackFunc={handleCustomGiveModalSubmit}
-            cancelFunc={handleCustomGiveModalCancel}
-          />
-        </Box>
-      </Zoom>
-    </div>
+          </Grid>
+          <Grid item xs={12}>
+            {/* Custom padding so that the "no grants" text isn't cut off at the bottom */}
+            <Grid container justifyContent="center" style={{ paddingBottom: "10px" }}>
+              {renderGrants}
+            </Grid>
+          </Grid>
+        </Grid>
+        <RecipientModal
+          isModalOpen={isCustomGiveModalOpen}
+          eventSource="Custom Recipient Button"
+          callbackFunc={handleCustomGiveModalSubmit}
+          cancelFunc={handleCustomGiveModalCancel}
+        />
+      </Container>
+    </Zoom>
   );
 }
