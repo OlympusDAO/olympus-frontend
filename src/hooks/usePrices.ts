@@ -2,8 +2,11 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { OHM_DAI_RESERVE_CONTRACT_DECIMALS, STAKING_CONTRACT_DECIMALS } from "src/constants/decimals";
-import { assert, nonNullable, parseBigNumber, queryAssertion } from "src/helpers";
+import { parseBigNumber } from "src/helpers";
 import { ohm_dai } from "src/helpers/AllBonds";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
+import { assert } from "src/helpers/types/assert";
+import { nonNullable } from "src/helpers/types/nonNullable";
 
 import { useStaticPairContract } from "./useContract";
 import { useCurrentIndex } from "./useCurrentIndex";

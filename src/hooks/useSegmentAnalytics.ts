@@ -5,10 +5,10 @@ import { useLocation } from "react-router-dom";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { v4 as uuidv4 } from "uuid";
 
-import { EnvHelper } from "../helpers/Environment";
+import { Environment } from "../helpers/environment/Environment/Environment";
 import { getParameterByName } from "../helpers/QueryParameterHelper";
 
-const SEGMENT_API_KEY = EnvHelper.getSegmentKey();
+const SEGMENT_API_KEY = Environment.getSegmentApiKey();
 
 type Utm = {
   utmSource: string | null;
