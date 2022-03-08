@@ -160,7 +160,7 @@ export default function RedeemYield() {
         <Grid container>
           <Grid item xs />
           <Grid item xs={12} sm={6}>
-            <PrimaryButton onClick={() => handleRedeemButtonClick()} fullWidth>
+            <PrimaryButton onClick={() => handleRedeemButtonClick()} disabled={!canRedeem()} fullWidth>
               {txnButtonText(pendingTransactions, "redeeming", t`Redeem Yield`)}
             </PrimaryButton>
           </Grid>
