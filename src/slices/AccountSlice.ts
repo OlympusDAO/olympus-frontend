@@ -212,7 +212,7 @@ export const getBalances = createAsyncThunk(
       be manually rebased to test redeem features
     */
     try {
-      if (EnvHelper.isGiveEnabled() && addresses[networkID] && addresses[networkID].MOCK_SOHM) {
+      if (Environment.isGiveEnabled() && addresses[networkID] && addresses[networkID].MOCK_SOHM) {
         const mockSohmContract = new ethers.Contract(
           addresses[networkID].MOCK_SOHM as string,
           MockSohm,
