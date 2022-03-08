@@ -1,7 +1,11 @@
-import { Box, Link as MuiLink, SwipeableDrawer, withStyles } from "@material-ui/core";
-import { Icon, TabBar } from "@olympusdao/component-library";
+import { t, Trans } from "@lingui/macro";
+import { Box, Link as MuiLink, makeStyles, SwipeableDrawer, Theme, Typography, withStyles } from "@material-ui/core";
+import { Icon, OHMTokenProps, PrimaryButton, TabBar, TertiaryButton, Token } from "@olympusdao/component-library";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { NETWORKS } from "src/constants";
+import { shorten } from "src/helpers";
+import { useWeb3Context } from "src/hooks";
 
 import Assets from "./Assets";
 import Calculator from "./Calculator";
@@ -20,8 +24,23 @@ const StyledSwipeableDrawer = withStyles(theme => ({
   },
 }))(SwipeableDrawer);
 
+const useStyles = makeStyles<Theme>(theme => ({
+  networkSelector: {
+    background: theme.colors.paper.card,
+    minHeight: "39px",
+    borderRadius: "6px",
+    padding: "9px 18px",
+    alignItems: "center",
+  },
+  connectButton: {
+    background: theme.colors.paper.card,
+  },
+}));
+
 export function Wallet(props: { open?: boolean; component?: string; currentPath?: any }) {
+  const classes = useStyles();
   const [isWalletOpen, setWalletOpen] = useState(false);
+  const { address, connect, connected, networkId } = useWeb3Context();
   const closeWallet = () => setWalletOpen(false);
   const openWallet = () => setWalletOpen(true);
   const { id } = useParams<{ id: string }>();
@@ -36,6 +55,25 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
       <Icon name="x" />
     </MuiLink>
   );
+  const WalletButton = (props: any) => {
+    const onClick = !connected ? connect : undefined;
+    const label = connected ? t`Wallet` : t`Connect Wallet`;
+    return (
+      <PrimaryButton className={classes.connectButton} color="secondary" {...props} onClick={onClick}>
+        <Icon name="wallet" />
+        <Typography>{label}</Typography>
+      </PrimaryButton>
+    );
+  };
+
+  const DisconnectButton = () => {
+    const { disconnect } = useWeb3Context();
+    return (
+      <TertiaryButton onClick={disconnect}>
+        <Trans>Disconnect</Trans>
+      </TertiaryButton>
+    );
+  };
   return (
     <>
       <StyledSwipeableDrawer
@@ -48,8 +86,22 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
       >
         <Box p="30px 15px" style={{ overflow: "hidden" }}>
           <Box style={{ top: 0, position: "sticky" }}>
-            <Box display="flex" flexDirection="row" justifyContent="flex-end" mb={"18px"} textAlign="right">
-              <Link to="/stake" component={CloseButton} />
+            <Box display="flex" justifyContent="space-between" mb={"18px"}>
+              <Box>
+                {!connected && <WalletButton />}
+                {connected && (
+                  <Box display="flex" className={classes.networkSelector}>
+                    <Token
+                      name={NETWORKS[networkId].nativeCurrency.symbol as OHMTokenProps["name"]}
+                      style={{ fontSize: "21px" }}
+                    />
+                    <Typography style={{ marginLeft: "6px" }}> {shorten(address)}</Typography>
+                  </Box>
+                )}
+              </Box>
+              <Box display="flex" flexDirection="row" justifyContent="flex-end" alignItems="center" textAlign="right">
+                <Link to="/stake" component={CloseButton} />
+              </Box>
             </Box>
             <TabBar
               items={[
@@ -61,7 +113,14 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
               mb={"18px"}
             />
           </Box>
-          <Box style={{ height: "100%", display: "block", overflow: "scroll", paddingBottom: "100px" }}>
+          <Box
+            style={{
+              height: "100vh",
+              display: "block",
+              overflow: "scroll-y",
+              paddingBottom: connected ? "240px" : "150px",
+            }}
+          >
             {(() => {
               switch (props.component) {
                 case "calculator":
@@ -80,6 +139,18 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
             })()}
           </Box>
         </Box>
+        {connected && (
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            style={{ position: "sticky", bottom: 0, boxShadow: "0px -3px 3px rgba(0, 0, 0, 0.1)" }}
+            pt={"21px"}
+            pb={"21px"}
+          >
+            <DisconnectButton />
+          </Box>
+        )}
       </StyledSwipeableDrawer>
     </>
   );

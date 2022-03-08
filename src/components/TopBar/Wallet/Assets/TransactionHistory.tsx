@@ -373,7 +373,7 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
                   </Typography>
                 </Box>
               ) : (
-                <Box display="flex" justifyContent="center">
+                <Box display="flex" justifyContent="center" mt={"15px"}>
                   <Button
                     ref={loadMoreButtonRef}
                     onClick={() => covalentTransactionsFetchNextPage()}

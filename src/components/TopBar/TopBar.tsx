@@ -1,13 +1,12 @@
 import "./TopBar.scss";
 
 import { i18n } from "@lingui/core";
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { AppBar, Box, Button, SvgIcon, Toolbar, Typography, useTheme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { LocaleSwitcher } from "@olympusdao/component-library";
 import { Link } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
-import { useWeb3Context } from "src/hooks";
 
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
 import { locales, selectLocale } from "../../locales";
@@ -41,16 +40,14 @@ interface TopBarProps {
 
 function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
   const classes = useStyles();
-  const { connect, connected } = useWeb3Context();
-
   const WalletButton = (props: any) => {
-    const onClick = !connected ? connect : undefined;
-    const label = connected ? t`Wallet` : t`Connect Wallet`;
     const theme = useTheme();
     return (
-      <Button id="ohm-menu-button" variant="contained" color="secondary" {...props} onClick={onClick}>
+      <Button id="ohm-menu-button" variant="contained" color="secondary" {...props}>
         <SvgIcon component={WalletIcon} style={{ marginRight: theme.spacing(1) }} />
-        <Typography>{label}</Typography>
+        <Typography>
+          <Trans>Wallet</Trans>
+        </Typography>
       </Button>
     );
   };
@@ -69,12 +66,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
           <SvgIcon component={MenuIcon} />
         </Button>
         <Box display="flex">
-          {connected && (
-            <Link to="/wallet" component={WalletButton}>
-              test
-            </Link>
-          )}
-          {!connected && <WalletButton />}
+          <Link to="/wallet" component={WalletButton} />
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
           <LocaleSwitcher
             initialLocale={i18n.locale}
