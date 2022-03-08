@@ -1,5 +1,5 @@
 import { NetworkId } from "src/constants";
-import { EnvHelper } from "src/helpers/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import { CovalentResponse, CovalentTokenBalance, CovalentTransaction } from "./covalent.types";
 
@@ -13,7 +13,7 @@ export class Covalent {
   };
 
   private _url = "https://api.covalenthq.com/v1";
-  private _key = Buffer.from(EnvHelper.getCovalentKey() + "::").toString("base64");
+  private _key = Buffer.from(Environment.getCovalentApiKey() + "::").toString("base64");
 
   private async _fetch<Data = unknown>(path: string) {
     const url = this._url + path;

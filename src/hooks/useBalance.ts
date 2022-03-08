@@ -1,6 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { useQueries, useQuery, UseQueryResult } from "react-query";
-import { abi as IERC20_ABI } from "src/abi/IERC20.json";
 import { NetworkId } from "src/constants";
 import {
   AddressMap,
@@ -15,12 +14,13 @@ import {
   V1_SOHM_ADDRESSES,
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
-import { isTestnet, nonNullable, queryAssertion } from "src/helpers";
+import { isTestnet } from "src/helpers";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
+import { nonNullable } from "src/helpers/types/nonNullable";
 import { reactQueryErrorHandler } from "src/lib/react-query";
-import { IERC20 } from "src/typechain";
 
 import { useWeb3Context } from ".";
-import { useMultipleContracts, useStaticFuseContract } from "./useContract";
+import { useMultipleTokenContracts, useStaticFuseContract } from "./useContract";
 import { useTestMode } from "./useTestMode";
 
 export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, networkId?: NetworkId) =>
@@ -33,14 +33,14 @@ export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, 
 export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAddressMap: TAddressMap) => {
   const isTestMode = useTestMode();
   const { address } = useWeb3Context();
-  const contracts = useMultipleContracts<IERC20>(tokenAddressMap, IERC20_ABI);
+  const contracts = useMultipleTokenContracts(tokenAddressMap);
 
   const networkIds = Object.keys(tokenAddressMap).map(Number);
 
   const results = useQueries(
-    networkIds.map((networkId, index) => ({
-      queryFn: () => contracts[index].balanceOf(address),
+    networkIds.map(networkId => ({
       queryKey: balanceQueryKey(address, tokenAddressMap, networkId),
+      queryFn: () => contracts[networkId as NetworkId].balanceOf(address),
       enabled: !!address && isTestMode ? isTestnet(networkId) : !isTestnet(networkId),
       onError: reactQueryErrorHandler(balanceQueryKey(address, tokenAddressMap, networkId)),
     })),
