@@ -2467,10 +2467,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@olympusdao/component-library@^1.8.0-beta.8":
-  version "1.8.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.8.0-beta.8.tgz#a99967bacea1dd054d233df295e41ff5ebb3bb7f"
-  integrity sha512-KP7HLGlqeGJFxmdMfH4zJ+wYDjk/ATlbUUAWOaS1dr5iTY6WoVPlrLn70ozL1ZGWwf3d5iZSKOgGLIbpKIKqew==
+"@olympusdao/component-library@^1.8.0-beta.9":
+  version "1.8.0-beta.9"
+  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.8.0-beta.9.tgz#b77b96d45bb51f3cbd834a5064ff64e5016de7f2"
+  integrity sha512-q1HOHoDxKR0jb/I/R/JHyBcLyN0r0bDTOYG8olNlJz2scSjv0lZEtwwdgM9B8nBtmvqFnnXszfyul92Lr1y1zQ==
   dependencies:
     react-spring "^9.4.2"
 
