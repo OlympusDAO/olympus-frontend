@@ -1,7 +1,8 @@
 import { t } from "@lingui/macro";
 import { DataRow } from "@olympusdao/component-library";
 import { BigNumber } from "ethers";
-import { convertGohmToOhm, formatNumber, nonNullable, parseBigNumber } from "src/helpers";
+import { convertGohmToOhm, formatNumber, parseBigNumber } from "src/helpers";
+import { nonNullable } from "src/helpers/types/nonNullable";
 import {
   useFuseBalance,
   useGohmBalance,

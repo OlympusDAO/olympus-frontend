@@ -2,8 +2,7 @@ import arbitrum from "./assets/arbitrum.png";
 import avalanche from "./assets/tokens/AVAX.svg";
 import polygon from "./assets/tokens/matic.svg";
 import ethereum from "./assets/tokens/wETH.svg";
-import { EnvHelper } from "./helpers/Environment";
-import { NodeHelper } from "./helpers/NodeHelper";
+import { Providers } from "./helpers/providers/Providers/Providers";
 
 export enum NetworkId {
   MAINNET = 1,
@@ -20,8 +19,6 @@ export enum NetworkId {
 
   FANTOM = 250,
   FANTOM_TESTNET = 4002,
-
-  Localhost = 1337,
 }
 
 interface IAddresses {
@@ -233,7 +230,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://etherscan.io/#/"],
     image: ethereum,
     imageAltText: "Ethereum Logo",
-    uri: () => NodeHelper.getMainnetURI(NetworkId.MAINNET),
+    uri: () => Providers.getProviderUrl(NetworkId.MAINNET),
   },
   [NetworkId.TESTNET_RINKEBY]: {
     chainName: "Rinkeby Testnet",
@@ -247,7 +244,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://rinkeby.etherscan.io/#/"],
     image: ethereum,
     imageAltText: "Ethereum Logo",
-    uri: () => NodeHelper.getMainnetURI(NetworkId.TESTNET_RINKEBY),
+    uri: () => Providers.getProviderUrl(NetworkId.TESTNET_RINKEBY),
   },
   [NetworkId.ARBITRUM]: {
     chainName: "Arbitrum",
@@ -261,7 +258,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://explorer.arbitrum.io/#/"],
     image: arbitrum,
     imageAltText: "Arbitrum Logo",
-    uri: () => NodeHelper.getMainnetURI(NetworkId.ARBITRUM),
+    uri: () => Providers.getProviderUrl(NetworkId.ARBITRUM),
   },
   [NetworkId.ARBITRUM_TESTNET]: {
     chainName: "Arbitrum Testnet",
@@ -275,7 +272,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://rinkeby-explorer.arbitrum.io/#/"],
     image: arbitrum,
     imageAltText: "Arbitrum Logo",
-    uri: () => EnvHelper.alchemyArbitrumTestnetURI,
+    uri: () => Providers.getProviderUrl(NetworkId.ARBITRUM),
   },
   [NetworkId.AVALANCHE_TESTNET]: {
     chainName: "Avalanche Fuji Testnet",
@@ -289,7 +286,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://testnet.snowtrace.io/#/"],
     image: avalanche,
     imageAltText: "Avalanche Logo",
-    uri: () => EnvHelper.alchemyAvalancheTestnetURI,
+    uri: () => Providers.getProviderUrl(NetworkId.AVALANCHE_TESTNET),
   },
   [NetworkId.AVALANCHE]: {
     chainName: "Avalanche",
@@ -303,7 +300,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://cchain.explorer.avax.network/"],
     image: avalanche,
     imageAltText: "Avalanche Logo",
-    uri: () => NodeHelper.getMainnetURI(NetworkId.AVALANCHE),
+    uri: () => Providers.getProviderUrl(NetworkId.AVALANCHE),
   },
   [NetworkId.POLYGON]: {
     chainName: "Polygon",
@@ -317,7 +314,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://polygonscan.com/"],
     image: polygon,
     imageAltText: "Polygon Logo",
-    uri: () => NodeHelper.getMainnetURI(NetworkId.POLYGON),
+    uri: () => Providers.getProviderUrl(NetworkId.POLYGON),
   },
   [NetworkId.POLYGON_TESTNET]: {
     chainName: "Polygon Mumbai Testnet",
@@ -331,7 +328,7 @@ export const NETWORKS: { [key: number]: INetwork } = {
     blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
     image: polygon,
     imageAltText: "Polygon Logo",
-    uri: () => "", // NodeHelper.getMainnetURI(NetworkId.POLYGON_TESTNET),
+    uri: () => Providers.getProviderUrl(NetworkId.POLYGON_TESTNET),
   },
 };
 

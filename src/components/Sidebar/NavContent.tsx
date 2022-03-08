@@ -18,7 +18,7 @@ import { NavItem } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { NetworkId } from "src/constants";
-import { EnvHelper } from "src/helpers/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Bond } from "src/lib/Bond";
@@ -158,7 +158,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                   {/* NOTE (appleseed-olyzaps): OlyZaps disabled until v2 contracts */}
                   <NavItem to="/zap" icon="zap" label={t`Zap`} />
 
-                  {EnvHelper.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} chip={t`New`} />}
+                  {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} chip={t`New`} />}
                   <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
                   <NavItem
                     href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}

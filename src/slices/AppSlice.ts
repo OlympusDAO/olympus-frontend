@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
-import { NodeHelper } from "src/helpers/NodeHelper";
+import { Providers } from "src/helpers/providers/Providers/Providers";
 import { RootState } from "src/store";
 
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
@@ -49,7 +49,7 @@ export const loadAppDetails = createAsyncThunk(
     `;
 
     if (networkID !== NetworkId.MAINNET) {
-      provider = NodeHelper.getMainnetStaticProvider();
+      provider = Providers.getStaticProvider(NetworkId.MAINNET);
       networkID = NetworkId.MAINNET;
     }
     const graphData = await apollo<{ protocolMetrics: IProtocolMetrics[] }>(protocolMetricsQuery);
