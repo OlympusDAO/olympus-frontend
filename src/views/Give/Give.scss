@@ -46,28 +46,8 @@
 }
 
 .ohm-modal {
-  &.medium {
-    .manage-project-stats .MuiBox-root {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-  }
-
   &.smaller {
     overflow-y: scroll;
-
-    .give-confirmation-details .details-row {
-      flex-direction: column;
-      align-items: flex-start;
-
-      .sohm-allocation-col {
-        margin-bottom: 30px;
-      }
-
-      .recipient-address-col {
-        align-items: flex-start;
-      }
-    }
 
     .ohm-modal-submit {
       width: 100%;
@@ -75,41 +55,9 @@
       margin-right: 0px;
     }
 
-    .manage-project-info {
-      .project {
-        .cause-content {
-          width: 60%;
-        }
-      }
-    }
-
-    .manage-donation-details .donation-details {
-      padding: 30px 20px 30px 20px;
-    }
-
     .redeemable-details .redeem-info {
       flex-direction: column;
       align-items: flex-start;
-    }
-
-    .donation-details .details-row {
-      flex-direction: column;
-      align-items: flex-start;
-
-      .sohm-allocation-col {
-        width: 100%;
-        margin-bottom: 30px;
-      }
-
-      .recipient-address-col {
-        align-items: flex-start;
-        width: 100%;
-      }
-    }
-
-    .manage-project-stats .center-item {
-      margin-left: 10px;
-      margin-right: 10px;
     }
   }
 
@@ -134,16 +82,6 @@
     }
   }
 
-  .give-modal-alloc-tip {
-    display: flex;
-    flex-direction: row;
-    margin-top: 16px;
-
-    .MuiBox-root {
-      margin-bottom: 1rem;
-    }
-  }
-
   .ohm-modal-submit {
     display: flex;
     align-items: center;
@@ -157,113 +95,6 @@
       height: 40px;
       width: 100%;
     }
-  }
-
-  .manage-project-info {
-    .project {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      padding-bottom: 20px;
-
-      .project-description {
-        color: #999999;
-      }
-    }
-  }
-
-  .manage-project-stats {
-    display: flex;
-    flex-direction: row;
-    padding-bottom: 20px;
-
-    .center-item {
-      margin-left: 20px;
-      margin-right: 20px;
-    }
-
-    .MuiBox-root {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      border: 1px solid #999999;
-      border-radius: 10px;
-      padding: 20px 20px 20px 20px;
-      max-height: 77px;
-      width: 33%;
-      overflow: auto;
-
-      .project-stat-top {
-        font-weight: 600;
-      }
-
-      .subtext {
-        color: #999999;
-      }
-    }
-  }
-
-  .details-header .MuiTypography-h5 {
-    font-weight: 600;
-  }
-
-  .details-container {
-    display: flex;
-    flex-direction: column;
-
-    .details-row {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      padding-top: 18px;
-
-      .row-title {
-        color: #999999;
-      }
-    }
-  }
-
-  .details-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    .MuiTypography-body1 {
-      color: #999999;
-      margin-bottom: 10px;
-    }
-
-    .sohm-allocation-col {
-      width: 30%;
-    }
-
-    .recipient-address-col {
-      width: 30%;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      align-content: flex-end;
-    }
-  }
-
-  .manage-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 40px;
-
-    .MuiButton-root {
-      width: 75%;
-      height: 40px;
-    }
-  }
-
-  .manage-donation-details .donation-details {
-    border: 1px solid #999999;
-    border-radius: 10px;
-    padding: 30px;
   }
 }
 
@@ -382,20 +213,6 @@
     // Same as standard
     line-height: 20px;
     font-size: 16px;
-  }
-}
-
-.cause-image {
-  display: flex;
-  align-items: center;
-  border-radius: 16px;
-  width: 100%;
-  max-height: 184px;
-  overflow: hidden;
-  padding-bottom: 0px !important;
-
-  a {
-    width: 100%;
   }
 }
 

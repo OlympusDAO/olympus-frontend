@@ -6,7 +6,7 @@ exports[`<Give/> should render component 1`] = `
     class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-center"
   >
     <div
-      class="MuiGrid-root MuiGrid-item"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
     >
       <div
         class="MuiPaper-root makeStyles-root-1 makeStyles-root-2  MuiPaper-elevation0 MuiPaper-rounded"
@@ -157,7 +157,7 @@ exports[`<Give/> should render component 1`] = `
                           </a>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-5 MuiGrid-grid-lg-4"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
                         >
                           <div
                             class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
@@ -313,7 +313,7 @@ exports[`<Give/> should render component 1`] = `
                           </a>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-5 MuiGrid-grid-lg-4"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
                         >
                           <div
                             class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
@@ -469,7 +469,7 @@ exports[`<Give/> should render component 1`] = `
                           </a>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-5 MuiGrid-grid-lg-4"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
                         >
                           <div
                             class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
@@ -625,7 +625,7 @@ exports[`<Give/> should render component 1`] = `
                           </a>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-5 MuiGrid-grid-lg-4"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
                         >
                           <div
                             class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
@@ -781,7 +781,7 @@ exports[`<Give/> should render component 1`] = `
                           </a>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-5 MuiGrid-grid-lg-4"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
                         >
                           <div
                             class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
@@ -916,7 +916,7 @@ exports[`<Give/> should render component 1`] = `
                   </div>
                   <div
                     class="MuiPaper-root makeStyles-root-1 makeStyles-root-30  MuiPaper-elevation0 MuiPaper-rounded"
-                    style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+                    style="transform: none; width: 100%; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
                   >
                     <div
                       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
@@ -992,10 +992,6 @@ exports[`<Give/> should render component 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="MuiGrid-root MuiGrid-item"
-    >
       <div
         class="MuiPaper-root makeStyles-root-1 makeStyles-root-33  MuiPaper-elevation0 MuiPaper-rounded"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
