@@ -15,9 +15,8 @@ import {
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { NavItem } from "@olympusdao/component-library";
-import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { NavLink, useLocation } from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { useAppSelector } from "src/hooks";
@@ -41,11 +40,12 @@ type CustomBond = Bond & Partial<IBondDetails>;
 
 const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
   const { networkId, address, provider } = useWeb3Context();
-  const { bonds } = useBonds(networkId);
-  const location = useLocation();
-  const dispatch = useDispatch();
+  // const { bonds } = useBonds(networkId);
 
   const bondsV2 = useAppSelector(state => state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]));
+  const inverseBonds = useAppSelector(state =>
+    state.inverseBonds.indexes.map(index => state.inverseBonds.bonds[index]),
+  );
 
   const sortedBonds = bondsV2
     .filter(bond => bond.soldOut === false)
@@ -53,7 +53,13 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
       return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
     });
 
-  bonds.sort((a: CustomBond, b: CustomBond) => b.bondDiscount! - a.bondDiscount!);
+  const sortedInverseBonds = inverseBonds
+    .filter(bond => bond.soldOut === false)
+    .sort((a, b) => {
+      return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
+    });
+
+  // bonds.sort((a: CustomBond, b: CustomBond) => b.bondDiscount! - a.bondDiscount!);
 
   return (
     <Paper className="dapp-sidebar">
@@ -79,37 +85,72 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                   <NavItem to="/bonds" icon="bond" label={t`Bond`} />
                   <div className="dapp-menu-data discounts">
                     <div className="bond-discounts">
-                      <Accordion className="discounts-accordion" square defaultExpanded={true}>
-                        <AccordionSummary
-                          expandIcon={
-                            <ExpandMore className="discounts-expand" style={{ width: "18px", height: "18px" }} />
-                          }
-                        >
-                          <Typography variant="body2">
-                            <Trans>Highest Discount</Trans>
-                          </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          {sortedBonds.map((bond, i) => {
-                            return (
-                              <Link
-                                component={NavLink}
-                                to={`/bonds/${bond.index}`}
-                                key={i}
-                                className={"bond"}
-                                onClick={handleDrawerToggle}
-                              >
-                                <Typography variant="body2">
-                                  {bond.displayName}
-                                  <span className="bond-pair-roi">
-                                    <DisplayBondDiscount key={bond.index} bond={bond} />
-                                  </span>
-                                </Typography>
-                              </Link>
-                            );
-                          })}
-                        </AccordionDetails>
-                      </Accordion>
+                      {sortedBonds.length > 0 && (
+                        <Accordion className="discounts-accordion" square defaultExpanded={true}>
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMore className="discounts-expand" style={{ width: "18px", height: "18px" }} />
+                            }
+                          >
+                            <Typography variant="body2">
+                              <Trans>Highest Discount</Trans>
+                            </Typography>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            {sortedBonds.map((bond, i) => {
+                              return (
+                                <Link
+                                  component={NavLink}
+                                  to={`/bonds/${bond.index}`}
+                                  key={i}
+                                  className={"bond"}
+                                  onClick={handleDrawerToggle}
+                                >
+                                  <Typography variant="body2">
+                                    {bond.displayName}
+                                    <span className="bond-pair-roi">
+                                      <DisplayBondDiscount key={bond.index} bond={bond} />
+                                    </span>
+                                  </Typography>
+                                </Link>
+                              );
+                            })}
+                          </AccordionDetails>
+                        </Accordion>
+                      )}
+                      {sortedInverseBonds.length > 0 && (
+                        <Accordion className="discounts-accordion" square defaultExpanded={true}>
+                          <AccordionSummary
+                            expandIcon={
+                              <ExpandMore className="discounts-expand" style={{ width: "18px", height: "18px" }} />
+                            }
+                          >
+                            <Typography variant="body2">
+                              <Trans>Inverse Bonds</Trans>
+                            </Typography>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            {sortedInverseBonds.map((bond, i) => {
+                              return (
+                                <Link
+                                  component={NavLink}
+                                  to={`/bonds/inverse/${bond.index}`}
+                                  key={i}
+                                  className={"bond"}
+                                  onClick={handleDrawerToggle}
+                                >
+                                  <Typography variant="body2">
+                                    {bond.displayName}
+                                    <span className="bond-pair-roi">
+                                      <DisplayBondDiscount key={bond.index} bond={bond} />
+                                    </span>
+                                  </Typography>
+                                </Link>
+                              );
+                            })}
+                          </AccordionDetails>
+                        </Accordion>
+                      )}
                     </div>
                   </div>
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
@@ -117,9 +158,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                   {/* NOTE (appleseed-olyzaps): OlyZaps disabled until v2 contracts */}
                   <NavItem to="/zap" icon="zap" label={t`Zap`} />
 
-                  {EnvHelper.isGiveEnabled(location.search) && (
-                    <NavItem to="/give" icon="give" label={t`Give`} chip={t`New`} />
-                  )}
+                  {EnvHelper.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} chip={t`New`} />}
                   <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
                   <NavItem
                     href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}

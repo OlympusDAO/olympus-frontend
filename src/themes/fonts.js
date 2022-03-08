@@ -15,7 +15,7 @@ const square = {
 		url(${SquareWOFF}) format('woff')
 	`,
   unicodeRange:
-    "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF",
+    "U+0000-024F, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+0400—04FF, U+1E00—1EFF",
 };
 
 const squareLight = {
@@ -29,7 +29,7 @@ const squareLight = {
 		url(${SquareLightWOFF}) format('woff')
 	`,
   unicodeRange:
-    "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF",
+    "U+0000-024F, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+0400—04FF, U+1E00—1EFF",
 };
 
 const squareMedium = {
@@ -43,7 +43,7 @@ const squareMedium = {
 		url(${SquareMediumWOFF}) format('woff')
 	`,
   unicodeRange:
-    "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF",
+    "U+0000-024F, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+0400—04FF, U+1E00—1EFF",
 };
 const squareMedium400 = {
   fontFamily: "SquareMedium",
@@ -70,7 +70,7 @@ const squareSemiBold = {
 		url(${SquareBoldWOFF}) format('woff')
 	`,
   unicodeRange:
-    "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF",
+    "U+0000-024F, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+0400—04FF, U+1E00—1EFF",
 };
 
 const squareBold = {
@@ -84,7 +84,7 @@ const squareBold = {
 		url(${SquareBoldWOFF}) format('woff')
 	`,
   unicodeRange:
-    "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF",
+    "U+0000-024F, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+0400—04FF, U+1E00—1EFF",
 };
 
 const squareItalic = {
@@ -98,7 +98,7 @@ const squareItalic = {
 		url(${SquareItalicWOFF}) format('woff')
 	`,
   unicodeRange:
-    "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF",
+    "U+0000-024F, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+0400—04FF, U+1E00—1EFF",
 };
 
 const fonts = [square, squareLight, squareMedium, squareMedium400, squareSemiBold, squareBold, squareItalic];

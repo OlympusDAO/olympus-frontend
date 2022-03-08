@@ -5,7 +5,8 @@ import { BigNumber, BigNumberish } from "ethers";
 import { FC } from "react";
 import { UseQueryResult } from "react-query";
 import { NavLink } from "react-router-dom";
-import { formatCurrency, formatNumber, parseBigNumber, prettifySeconds, trim } from "src/helpers";
+import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
+import { prettifySeconds } from "src/helpers/timeUtil";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import {
   useGohmBalance,
