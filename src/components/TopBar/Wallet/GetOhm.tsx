@@ -1,19 +1,21 @@
 import { t } from "@lingui/macro";
-import { Theme, Typography } from "@material-ui/core";
+import { Grid, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { ItemCard } from "@olympusdao/component-library";
+import { GetOnButton, ItemCard } from "@olympusdao/component-library";
 import { FC } from "react";
-import { useDispatch } from "react-redux";
+import sushiswapImg from "src/assets/sushiswap.png";
+import uniswapImg from "src/assets/uniswap.png";
+import { GOHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, parseBigNumber, trim } from "src/helpers";
 import allPools from "src/helpers/AllExternalPools";
 import { useAppSelector, useWeb3Context } from "src/hooks";
+import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { ExternalPool } from "src/lib/ExternalPool";
-import { AppDispatch } from "src/store";
 import { useStakePoolTVL } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
 
 import { SupplyRatePerBlock } from "./queries";
 
-const useStyles = makeStyles<Theme>(theme => ({
+const useStyles = makeStyles<Theme>(() => ({
   title: {
     lineHeight: "24px",
     fontWeight: 600,
@@ -27,8 +29,8 @@ const useStyles = makeStyles<Theme>(theme => ({
  */
 const GetOhm: FC = () => {
   const { networkId, address, provider } = useWeb3Context();
-  const dispatch = useDispatch<AppDispatch>();
   const { data: supplyRate } = SupplyRatePerBlock();
+  const { data: rebaseRate = 0 } = useStakingRebaseRate();
   const ethMantissa = 1e18;
   const blocksPerDay = 6500;
   const daysPerYear = 365;
@@ -39,12 +41,34 @@ const GetOhm: FC = () => {
   const bondsV2 = useAppSelector(state => {
     return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]).sort((a, b) => b.discount - a.discount);
   });
-  const fiveDayRate = useAppSelector(state => {
-    return state.app.fiveDayRate;
-  });
+  const fiveDayRate = Math.pow(1 + rebaseRate, 5 * 3) - 1;
 
   return (
     <>
+      <Typography variant="h6" className={classes.title}>
+        Our Partners
+      </Typography>
+      <Grid container spacing={1}>
+        <Grid item xs={6}>
+          <GetOnButton
+            href={`https://app.sushi.com/swap/?outputCurrency=${
+              GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
+            }`}
+            logo={<img src={sushiswapImg}></img>}
+            exchangeName="Sushiswap"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <GetOnButton
+            href={`https://app.uniswap.org/#/swap?outputCurrency=${
+              GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
+            }`}
+            logo={<img src={uniswapImg}></img>}
+            exchangeName="Uniswap"
+          />
+        </Grid>
+      </Grid>
+
       <Typography variant="h6" className={classes.title}>
         Bonds
       </Typography>

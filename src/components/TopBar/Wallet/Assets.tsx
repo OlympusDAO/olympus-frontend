@@ -5,11 +5,14 @@ import { BigNumber, BigNumberish } from "ethers";
 import { FC } from "react";
 import { UseQueryResult } from "react-query";
 import { NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
 import { prettifySeconds } from "src/helpers/timeUtil";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import {
+  useFuseBalance,
   useGohmBalance,
+  useGohmTokemakBalance,
   useOhmBalance,
   useSohmBalance,
   useV1OhmBalance,
@@ -82,6 +85,7 @@ export interface OHMAssetsProps {
   path?: string;
 }
 const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
+  const history = useHistory();
   const networks = useTestableNetworks();
   const { address: userAddress, networkId, providerInitialized } = useWeb3Context();
   const { data: ohmPrice = 0 } = useOhmPrice();
@@ -94,12 +98,18 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const { data: sOhmBalance = 0 as unknown as BigNumber } = useSohmBalance()[networks.MAINNET];
   const { data: wsOhmBalance = 0 as unknown as BigNumber } = useWsohmBalance()[networks.MAINNET];
   const { data: gOhmBalance = 0 as unknown as BigNumber } = useGohmBalance()[networks.MAINNET];
+  const { data: fuseBalance = 0 as unknown as BigNumber } = useFuseBalance()[1];
+  const { data: gohmTokemakBalance = 0 as unknown as BigNumber } = useGohmTokemakBalance()[1];
+
   const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
   const formattedohmBalance = trim(parseBigNumber(ohmBalance), 4);
   const formattedV1OhmBalance = trim(parseBigNumber(v1OhmBalance), 4);
   const formattedV1SohmBalance = trim(parseBigNumber(v1SohmBalance), 4);
   const formattedWsOhmBalance = trim(parseBigNumber(wsOhmBalance), 4);
-  const formattedgOhmBalance = trim(parseBigNumber(gOhmBalance, 18), 4);
+  const formattedgOhmBalance = trim(
+    parseBigNumber(gOhmBalance, 18) + parseBigNumber(fuseBalance, 18) + parseBigNumber(gohmTokemakBalance, 18),
+    4,
+  );
   const formattedSOhmBalance = trim(parseBigNumber(sOhmBalance), 4);
   const gOhmPriceChange = priceFeed.usd_24h_change * parseBigNumber(currentIndex);
   const gOhmPrice = ohmPrice * parseBigNumber(currentIndex);
@@ -108,6 +118,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       symbol: ["OHM"],
       balance: formattedohmBalance,
       assetValue: Number(formattedohmBalance) * ohmPrice,
+      alwaysShow: true,
     },
     {
       symbol: ["OHM"],
@@ -121,6 +132,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       timeRemaining:
         nextRebaseDate && `Stakes in ${prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}`,
       assetValue: Number(formattedSOhmBalance) * ohmPrice,
+      alwaysShow: true,
     },
     {
       symbol: ["sOHM"],
@@ -139,7 +151,8 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       symbol: ["gOHM"],
       balance: formattedgOhmBalance,
       assetValue: gOhmPrice * Number(formattedgOhmBalance),
-      pnl: formatCurrency(parseBigNumber(gOhmBalance, 18) * gOhmPriceChange, 2),
+      pnl: Number(gOhmBalance) === 0 ? 0 : formatCurrency(parseBigNumber(gOhmBalance, 18) * gOhmPriceChange, 2),
+      alwaysShow: true,
     },
   ];
 
@@ -150,8 +163,12 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     timeRemaining: note.timeLeft,
     assetValue: note.payout * gOhmPrice,
     underlyingSymbol: "gOHM",
-    pnl: formatCurrency(note.payout * gOhmPriceChange, 2),
+    pnl: Number(note.payout) === 0 ? 0 : formatCurrency(note.payout * gOhmPriceChange, 2),
+    ctaText: "Claim",
+    ctaOnClick: () => history.push("/bonds"),
   }));
+
+  console.log(accountNotes);
 
   // const tokens = useWallet(userAddress, networkId, providerInitialized);
   // const alwaysShowTokens = [tokens.ohm, tokens.sohm, tokens.gohm];
@@ -160,16 +177,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
 
   const assets = [...tokenArray, ...bondsArray];
   const walletTotalValueUSD = Object.values(assets).reduce((totalValue, token) => totalValue + token.assetValue, 0);
-  const RenderComponent = (props: { path?: string }) => {
-    switch (props.path) {
-      case "history":
-        return <TransactionHistory />;
-      case "assets":
-        return <Balances assets={assets} />;
-      default:
-        return <Balances assets={assets} />;
-    }
-  };
+
   return (
     <>
       <WalletBalance

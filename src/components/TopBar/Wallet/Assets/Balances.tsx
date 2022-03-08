@@ -11,7 +11,10 @@ interface TokenArray {
   label?: string;
   timeRemaining?: string;
   underlyingSymbol?: string;
-  pnl?: string;
+  pnl?: string | number;
+  alwaysShow?: boolean;
+  ctaOnClick?: () => void;
+  ctaText?: string;
 }
 export interface OHMAssetsProps {
   assets: TokenArray[];
@@ -26,7 +29,7 @@ const Balances: FC<OHMAssetsProps> = ({ assets }) => {
   return (
     <>
       {assets
-        .filter(asset => Number(asset.balance) > 0)
+        .filter(asset => Number(asset.balance) > 0 || asset.alwaysShow)
         .map(
           (
             token: TokenArray = {
@@ -34,25 +37,31 @@ const Balances: FC<OHMAssetsProps> = ({ assets }) => {
               symbol: undefined,
               assetValue: 0,
             },
-          ) => (
-            <AssetCard
-              token={token.symbol}
-              label={token.label}
-              assetValue={formatCurrency(token.assetValue, 2)}
-              assetBalance={`${token.balance} ${token.underlyingSymbol ? token.underlyingSymbol : token.symbol}`}
-              pnl={
-                token.pnl
-                  ? token.pnl
-                  : Number(token.balance) > 0
-                  ? formatCurrency(
-                      Number(token.balance) === 0 ? 0 : Number(token.balance) * priceFeed.usd_24h_change,
-                      2,
-                    )
-                  : ""
-              }
-              timeRemaining={token.timeRemaining}
-            />
-          ),
+          ) => {
+            const extraProps =
+              token.ctaText && token.ctaOnClick ? { ctaText: token.ctaText, ctaOnClick: token.ctaOnClick } : {};
+
+            return (
+              <AssetCard
+                token={token.symbol}
+                label={token.label}
+                assetValue={formatCurrency(token.assetValue, 2)}
+                assetBalance={`${token.balance} ${token.underlyingSymbol ? token.underlyingSymbol : token.symbol}`}
+                pnl={
+                  token.pnl
+                    ? token.pnl
+                    : Number(token.balance) > 0
+                    ? formatCurrency(
+                        Number(token.balance) === 0 ? 0 : Number(token.balance) * priceFeed.usd_24h_change,
+                        2,
+                      )
+                    : ""
+                }
+                timeRemaining={token.timeRemaining}
+                {...extraProps}
+              />
+            );
+          },
         )}
     </>
   );

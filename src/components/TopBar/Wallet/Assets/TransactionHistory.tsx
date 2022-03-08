@@ -288,17 +288,20 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
     loaded &&
     [...transfers, covalentTransactions]
       .reduce((previousGroup: any, currentGroup: any) => {
-        console.log(currentGroup, "currentGroup", previousGroup, "previousGroup");
-        const page = currentGroup.pages.reduce((lastPage: CovalentTransaction[], currentPage: CovalentResponse) => {
-          console.log(lastPage, "lastPage");
-          console.log(currentPage, "currentPage");
-          if (!currentPage.error) {
-            const filtered =
-              currentPage.type === "transfer" ? filterTransfers(currentPage) : filterTransactions(currentPage);
-            return [...lastPage, ...filtered];
-          }
-        }, []);
-        return [...previousGroup, ...page];
+        if (currentGroup && currentGroup.pages) {
+          const page = currentGroup.pages.reduce((lastPage: CovalentTransaction[], currentPage: CovalentResponse) => {
+            console.log(lastPage, "lastPage");
+            console.log(currentPage, "currentPage");
+            if (!currentPage.error) {
+              const filtered =
+                currentPage.type === "transfer" ? filterTransfers(currentPage) : filterTransactions(currentPage);
+              return [...lastPage, ...filtered];
+            }
+            return [...lastPage];
+          }, []);
+          return [...previousGroup, ...page];
+        }
+        return [...previousGroup];
       }, [])
       .sort((a: { block_height: number }, b: { block_height: number }) => {
         return b.block_height - a.block_height;
@@ -364,7 +367,11 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
                 );
               })}
               {filteredTransactions(filter).length === 0 ? (
-                <p>No Transactions</p>
+                <Box display="flex" justifyContent="center">
+                  <Typography variant="body1" color="textSecondary">
+                    No Transactions
+                  </Typography>
+                </Box>
               ) : (
                 <Box display="flex" justifyContent="center">
                   <Button

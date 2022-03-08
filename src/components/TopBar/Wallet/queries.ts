@@ -6,6 +6,7 @@ const mediumUrl = "https://api.rss2json.com/v1/api.json?rss_url=https://olympusd
 import { FUSE_POOL_18_ADDRESSES } from "src/constants/addresses";
 import { useWeb3Context } from "src/hooks";
 import { useStaticFuseContract } from "src/hooks/useContract";
+import { covalent } from "src/lib/covalent";
 import { CovalentResponse } from "src/lib/covalent.types";
 import { NetworkId } from "src/networkDetails";
 export const ActiveProposals = () => {
@@ -74,6 +75,7 @@ export const GetTransactionHistory = () => {
     useInfiniteQuery<CovalentResponse, Error>(
       ["TransactionHistory", networkId],
       async ({ pageParam = 0 }) => {
+        if (!covalent.isSupportedNetwork(networkId)) return { error: true };
         const resp = await axios.get(
           `https://api.covalenthq.com/v1/${networkId}/address/${address}/transactions_v2/?page-number=${pageParam}&page-size=300&key=ckey_337befd4640a4f0d9682373fc34`,
         );
@@ -87,7 +89,7 @@ export const GetTransactionHistory = () => {
         retry: false,
         getNextPageParam: lastPage => {
           if (!lastPage.error) {
-            return lastPage.data.pagination?.has_more ? lastPage.data.pagination.page_number + 1 : false;
+            return lastPage.data.pagination?.has_more ? lastPage.data.pagination?.page_number + 1 : false;
           }
           return false;
         },
@@ -110,6 +112,7 @@ export const GetTransferHistory = (contractAddress: string) => {
     useInfiniteQuery<CovalentResponse>(
       ["TransferHistory", networkId, contractAddress],
       async ({ pageParam = 0 }) => {
+        if (!covalent.isSupportedNetwork(networkId)) return { error: true };
         const resp = await axios.get(
           `https://api.covalenthq.com/v1/${networkId}/address/${address}/transfers_v2/?page-number=${pageParam}&quote-currency=USD&format=JSON&contract-address=${contractAddress}&key=ckey_337befd4640a4f0d9682373fc34`,
         );
@@ -123,7 +126,7 @@ export const GetTransferHistory = (contractAddress: string) => {
         retry: false,
         getNextPageParam: lastPage => {
           if (!lastPage.error) {
-            return lastPage.data.pagination?.has_more ? lastPage.data.pagination.page_number + 1 : false;
+            return lastPage.data.pagination?.has_more ? lastPage.data.pagination?.page_number + 1 : false;
           }
           return false;
         },

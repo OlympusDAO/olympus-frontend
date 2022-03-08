@@ -31,22 +31,6 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
   // also disable discovery on IOS, because of it's 'swipe to go back' feat
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-  const RenderComponent = (props: { component?: string }) => {
-    switch (props.component) {
-      case "calculator":
-        return <Calculator />;
-      case "info":
-        return <Info path={id} />;
-      case "getohm":
-        return <GetOhm />;
-      case "wallet":
-        return <Assets />;
-      case "wallet/history":
-        return <Assets path="history" />;
-      default:
-        return <></>;
-    }
-  };
   const CloseButton = (props: any) => (
     <MuiLink {...props}>
       <Icon name="x" />
@@ -78,7 +62,22 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
             />
           </Box>
           <Box style={{ height: "100%", display: "block", overflow: "scroll", paddingBottom: "100px" }}>
-            <RenderComponent component={props.component} />
+            {(() => {
+              switch (props.component) {
+                case "calculator":
+                  return <Calculator />;
+                case "info":
+                  return <Info path={id} />;
+                case "getohm":
+                  return <GetOhm />;
+                case "wallet":
+                  return <Assets />;
+                case "wallet/history":
+                  return <Assets path="history" />;
+                default:
+                  return <></>;
+              }
+            })()}
           </Box>
         </Box>
       </StyledSwipeableDrawer>

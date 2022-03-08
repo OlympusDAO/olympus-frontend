@@ -31,18 +31,6 @@ export interface OHMInfoProps {
 const Info: FC<OHMInfoProps> = (props: { path?: string }) => {
   const classes = useStyles();
 
-  const RenderComponent = (props: { path?: string }) => {
-    switch (props.path) {
-      case "news":
-        return <News />;
-      case "proposals":
-        return <Proposals />;
-      case "faq":
-        return <Faq />;
-      default:
-        return <News />;
-    }
-  };
   return (
     <Box style={{ height: "100%", display: "block", overflow: "auto" }}>
       <Box display="flex" flexDirection="row" className={classes.tabNav} pt="18px" mb="18px">
@@ -56,7 +44,18 @@ const Info: FC<OHMInfoProps> = (props: { path?: string }) => {
           FAQ
         </Link>
       </Box>
-      <RenderComponent path={props.path} />
+      {(() => {
+        switch (props.path) {
+          case "news":
+            return <News />;
+          case "proposals":
+            return <Proposals />;
+          case "faq":
+            return <Faq />;
+          default:
+            return <News />;
+        }
+      })()}
     </Box>
   );
 };
