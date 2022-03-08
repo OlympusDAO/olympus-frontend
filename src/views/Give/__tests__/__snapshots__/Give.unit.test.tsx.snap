@@ -967,7 +967,7 @@ exports[`<Give/> should render component 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root makeStyles-root-1 makeStyles-root-32 ohm-card secondary MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-32  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -977,10 +977,10 @@ exports[`<Give/> should render component 1`] = `
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="MuiGrid-root give-info MuiGrid-container"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
           >
             <div
-              class="MuiGrid-root give-info-deposit-box MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4"
             >
               <div
                 class="MuiBox-root MuiBox-root-33 sect"
@@ -1049,7 +1049,7 @@ exports[`<Give/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root give-info-vault-box MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4"
             >
               <div
                 class="MuiBox-root MuiBox-root-38 sect"
@@ -1121,7 +1121,7 @@ exports[`<Give/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root give-info-yield-box MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4"
             >
               <div
                 class="MuiBox-root MuiBox-root-43 sect"
@@ -1207,37 +1207,37 @@ exports[`<Give/> should render component 1`] = `
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-48 button-box"
-          >
-            <a
-              aria-disabled="false"
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined learn-more-button MuiButton-outlinedPrimary MuiButton-disableElevation"
-              href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
-              tabindex="0"
-              target="_blank"
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
             >
-              <span
-                class="MuiButton-label"
+              <a
+                aria-disabled="false"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-13 makeStyles-root-48 undefined MuiButton-outlinedPrimary MuiButton-disableElevation"
+                href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
+                tabindex="0"
+                target="_blank"
               >
-                Learn More
                 <span
-                  class="MuiButton-endIcon MuiButton-iconSizeMedium"
+                  class="MuiButton-label"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
-                    focusable="false"
-                    viewBox="0 0 20 20"
+                  Learn More
+                  <span
+                    class="MuiButton-endIcon MuiButton-iconSizeMedium"
                   >
-                    <path
-                      d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
-                    />
-                  </svg>
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+                      focusable="false"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                      />
+                    </svg>
+                  </span>
                 </span>
-              </span>
-            </a>
+              </a>
+            </div>
           </div>
         </div>
       </div>
