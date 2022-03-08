@@ -4,7 +4,7 @@ import { Grid, Link, SvgIcon, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
-import { InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
+import { DataRow, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
@@ -452,61 +452,10 @@ export function ManageDonationModal({
     return (
       <>
         <Box>
-          <Grid container>
-            <Grid item xs={12}>
-              <Typography variant="h5">
-                <Trans>Donation Details</Trans>
-              </Typography>
-            </Grid>
-            <Grid item xs={12} container>
-              <Grid item xs={4}>
-                <Typography variant="h6" className="subtext">
-                  <Trans>Date</Trans>
-                </Typography>
-              </Grid>
-              <Grid item xs>
-                <Typography variant="h6" align="right">
-                  {depositDate}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} container>
-              <Grid item xs={4}>
-                <Typography variant="h6" className="subtext">
-                  <Trans>Recipient</Trans>
-                </Typography>
-              </Grid>
-              <Grid item xs>
-                <Typography variant="h6" align="right">
-                  {getRecipientTitle()}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} container>
-              <Grid item xs={4}>
-                <Typography variant="h6" className="subtext">
-                  <Trans>Deposited</Trans>
-                </Typography>
-              </Grid>
-              <Grid item xs>
-                <Typography variant="h6" align="right">
-                  {depositAmount} sOHM
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} container>
-              <Grid item xs={4}>
-                <Typography variant="h6" className="subtext">
-                  <Trans>Yield Sent</Trans>
-                </Typography>
-              </Grid>
-              <Grid item xs>
-                <Typography variant="h6" align="right">
-                  {yieldSent} sOHM
-                </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
+          <DataRow title={t`Date`} balance={depositDate} />
+          <DataRow title={t`Recipient`} balance={getRecipientTitle()} />
+          <DataRow title={t`Deposited`} balance={`${depositAmount} sOHM`} />
+          <DataRow title={t`Yield Sent`} balance={`${yieldSent} sOHM`} />
         </Box>
       </>
     );
