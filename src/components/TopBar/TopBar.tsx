@@ -1,7 +1,7 @@
 import "./TopBar.scss";
 
 import { i18n } from "@lingui/core";
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { AppBar, Box, Button, SvgIcon, Toolbar, Typography, useTheme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { LocaleSwitcher } from "@olympusdao/component-library";
@@ -47,9 +47,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
     return (
       <Button id="ohm-menu-button" variant="contained" color="secondary" {...props}>
         <SvgIcon component={WalletIcon} style={{ marginRight: theme.spacing(1) }} />
-        <Typography>
-          <Trans>{connected ? `Wallet` : `Connect`}</Trans>
-        </Typography>
+        <Typography>{connected ? t`Wallet` : t`Connect`}</Typography>
       </Button>
     );
   };
