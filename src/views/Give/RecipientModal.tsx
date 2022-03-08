@@ -38,7 +38,7 @@ type RecipientModalProps = {
 export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelFunc, project }: RecipientModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, address, connect, networkId } = useWeb3Context();
+  const { provider, address, networkId } = useWeb3Context();
 
   const _initialDepositAmount = 0;
   const _initialWalletAddress = "";
@@ -322,14 +322,6 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
         helperText={!isWalletAddressValid ? isWalletAddressValidError : ""}
       />
     );
-  };
-
-  const handleConnect = () => {
-    // Close the modal first
-    cancelFunc();
-
-    // Then connect
-    connect();
   };
 
   const handleClose = () => {

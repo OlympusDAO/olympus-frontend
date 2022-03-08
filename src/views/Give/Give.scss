@@ -333,17 +333,6 @@
     align-items: center;
   }
 
-  .give-info {
-    width: 315px;
-
-    .give-info-deposit-box {
-      margin-right: 0px;
-    }
-
-    .give-info-vault-box {
-      margin-right: 0px;
-    }
-  }
   .donation-table {
     .MuiTableBody-root .MuiTableRow-root .MuiTableCell-alignRight {
       &.deposit-manage-cell {
@@ -391,22 +380,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  .give-info {
-    width: 220px;
-
-    .give-info-deposit-box {
-      margin-right: 0px;
-    }
-
-    .give-info-vault-box {
-      margin-right: 0px;
-    }
-
-    .cta-text {
-      white-space: nowrap;
-    }
   }
 
   .donation-table {
@@ -514,20 +487,6 @@
   align-items: center;
   height: auto;
   padding-bottom: 1rem;
-}
-
-.give-yield-title {
-  display: flex;
-  flex-direction: row;
-}
-
-.give-yield-modals {
-  display: flex;
-  flex-direction: row;
-
-  .add-recipient-button {
-    margin-right: 0.33em;
-  }
 }
 
 .ohm-modal {
@@ -782,39 +741,6 @@
   }
 }
 
-.give-confirmation-divider {
-  margin-top: 16px;
-  margin-bottom: 16px;
-
-  .MuiDivider-root {
-    background-color: #f4d092;
-  }
-}
-
-.give-info {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-
-  .give-info-deposit-box {
-    margin-right: 40px;
-  }
-
-  .give-info-vault-box {
-    margin-right: 40px;
-  }
-
-  .subtext {
-    font-weight: 400;
-  }
-
-  .give-info-yield-box {
-    .receives-yield-icon path {
-      fill: none;
-    }
-  }
-}
-
 .arrow-graphic {
   svg path {
     fill: #999999;
@@ -843,28 +769,6 @@
       margin-top: 0rem;
       font-size: 0.875rem;
       line-height: 20px;
-    }
-  }
-}
-
-.project-container {
-  margin-bottom: 7.5rem;
-
-  .very-small {
-    .project-info {
-      margin-left: 0;
-    }
-  }
-
-  .smaller {
-    .project-info {
-      margin-left: 0;
-    }
-  }
-
-  .medium {
-    .project-info {
-      margin-left: 0;
     }
   }
 }

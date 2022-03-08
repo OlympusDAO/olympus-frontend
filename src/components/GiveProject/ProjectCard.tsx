@@ -101,14 +101,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
 
   useEffect(() => {
-    const items = document.getElementsByClassName("project-container");
-    if (items.length > 0) {
-      items[0].scrollIntoView();
-      window.scrollTo(0, 0);
-    }
-  }, [location.pathname]);
-
-  useEffect(() => {
     // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
     // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
     // e.g. the redeem yield page will show someone else's deposited sOHM and redeemable yield
