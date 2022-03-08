@@ -290,6 +290,9 @@ export const getDonationBalances = createAsyncThunk(
         // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
         const depositIds: BigNumber[] = await givingContract.getDepositorIds(address);
         const allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
+
+        // ([0x00000...], [0]) is the null return indicating a user has no deposits
+        // This confirms that we did not receive back a null deposit
         if (allDeposits[0].length != 1 || allDeposits[1][0] != BigNumber.from(0)) {
           for (let i = 0; i < allDeposits[0].length; i++) {
             if (allDeposits[1][i].eq(0)) continue;

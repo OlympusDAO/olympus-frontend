@@ -24,23 +24,35 @@ export const getRedemptionBalancesAsync = async ({ address, networkID, provider 
     agnosticDebt: "0",
   };
 
-  if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
+  if (!(addresses[networkID] && addresses[networkID].GIVING_ADDRESS)) {
+    console.log("Unable to find MOCK_SOHM contract on chain ID " + networkID);
+  } else {
     const gohmContract = new ethers.Contract(addresses[networkID].GOHM_ADDRESS as string, gOHM, provider);
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
 
+    // Get current redeemable balance across all deposits to the user. This is
+    // returned in gOHM, so it has to be converted from gOHM to sOHM to be
+    // represented in the frontend
     const gohmRedeemable = await givingContract.totalRedeemableBalance(address);
     redeemableBalance = await gohmContract.balanceFrom(gohmRedeemable);
 
     try {
       const recipientIds = await givingContract.getRecipientIds(address);
+
+      // Variable to represent the total amount of sOHM debt directed to the user
       let sumDebt = BigNumber.from("0");
+
+      // Variable to represent the total amount of gOHM debt directed to the user
       let sumAgnosticDebt = BigNumber.from("0");
 
       for (let i = 0; i < recipientIds.length; i++) {
         const currDeposit = await givingContract.depositInfo(recipientIds[i]);
+
+        // Adds sOHM principal debt
         sumDebt = sumDebt.add(currDeposit.principalAmount);
       }
 
+      // Converts sOHM principal debt to gOHM equivalent
       sumAgnosticDebt = await gohmContract.balanceTo(sumDebt);
 
       recipientInfo.totalDebt = ethers.utils.formatUnits(sumDebt.toNumber(), "gwei");
@@ -48,8 +60,6 @@ export const getRedemptionBalancesAsync = async ({ address, networkID, provider 
     } catch (e: unknown) {
       console.log(e);
     }
-  } else {
-    console.log("Unable to find MOCK_SOHM contract on chain ID " + networkID);
   }
 
   return {
@@ -100,45 +110,51 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
   but it will work with the new YieldDirector version that indexes event topics
 */
 export const getDonorNumbers = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-  // Addresses in EVM events are zero padded out to 32 characters and are lower case
-  // This matches our inputs with the data we expect to receive from Ethereum
-  const zeroPadAddress = ethers.utils.hexZeroPad(address, 32);
-
-  const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
-
-  // creates a filter looking at all Deposited events on the YieldDirector contract
-  const filter = {
-    address: addresses[networkID].GIVING_ADDRESS,
-    fromBlock: 1,
-    toBlock: "latest",
-    topics: [ethers.utils.id("Deposited(address,address,uint256)"), null, zeroPadAddress], // hash identifying Deposited event
-  };
-
-  // using the filter, get all events
-  const events = await provider.getLogs(filter);
-
-  const donorAddresses: IDonorAddresses = {};
   const donationsToAddress = [];
-  for (let i = 0; i < events.length; i++) {
-    const event = events[i];
 
-    if (event.topics[2] === zeroPadAddress.toLowerCase()) {
-      const donorActiveDonations: [string[], BigNumber[]] = await givingContract.getAllDeposits(
-        ethers.utils.hexDataSlice(event.topics[1], 12),
-      );
-      // make sure the deposit was an active donation and has not been withdrawn
-      for (let j = 0; j < donorActiveDonations[0].length; j++) {
-        // Makes sure that the recipient matches the one we are looking for,
-        // that the deposit amount is not 0, and that the user is not already
-        // counted for donating in a previous Deposited event
-        if (
-          donorActiveDonations[0][j].toLowerCase() == address.toLowerCase() &&
-          donorActiveDonations[1][j] > BigNumber.from(0) &&
-          !donorAddresses[event.topics[1]]
-        ) {
-          donationsToAddress.push(event);
-          // keep track of active donors so multiple deposits are not counted as multiple donors
-          donorAddresses[event.topics[1]] = true;
+  if (!(addresses[networkID] && addresses[networkID].GIVING_ADDRESS)) {
+    console.log("Unable to find MOCK_SOHM contract on chain ID " + networkID);
+    return;
+  } else {
+    // Addresses in EVM events are zero padded out to 32 characters and are lower case
+    // This matches our inputs with the data we expect to receive from Ethereum
+    const zeroPadAddress = ethers.utils.hexZeroPad(address, 32);
+
+    const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
+
+    // creates a filter looking at all Deposited events on the YieldDirector contract
+    const filter = {
+      address: addresses[networkID].GIVING_ADDRESS,
+      fromBlock: 1,
+      toBlock: "latest",
+      topics: [ethers.utils.id("Deposited(address,address,uint256)"), null, zeroPadAddress], // hash identifying Deposited event
+    };
+
+    // using the filter, get all events
+    const events = await provider.getLogs(filter);
+
+    const donorAddresses: IDonorAddresses = {};
+    for (let i = 0; i < events.length; i++) {
+      const event = events[i];
+
+      if (event.topics[2] === zeroPadAddress.toLowerCase()) {
+        const donorActiveDonations: [string[], BigNumber[]] = await givingContract.getAllDeposits(
+          ethers.utils.hexDataSlice(event.topics[1], 12),
+        );
+        // make sure the deposit was an active donation and has not been withdrawn
+        for (let j = 0; j < donorActiveDonations[0].length; j++) {
+          // Makes sure that the recipient matches the one we are looking for,
+          // that the deposit amount is not 0, and that the user is not already
+          // counted for donating in a previous Deposited event
+          if (
+            donorActiveDonations[0][j].toLowerCase() == address.toLowerCase() &&
+            donorActiveDonations[1][j] > BigNumber.from(0) &&
+            !donorAddresses[event.topics[1]]
+          ) {
+            donationsToAddress.push(event);
+            // keep track of active donors so multiple deposits are not counted as multiple donors
+            donorAddresses[event.topics[1]] = true;
+          }
         }
       }
     }

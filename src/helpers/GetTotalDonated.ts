@@ -7,7 +7,10 @@ import { IBaseAddressAsyncThunk, IBaseAddressRecipientAsyncThunk } from "../slic
 
 // Calculate total amount redeemed by a user + their current redeemable balance
 export const getTotalDonated = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-  if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
+  if (!(addresses[networkID] && addresses[networkID].GIVING_ADDRESS)) {
+    console.log("No giving contract on chain ID " + networkID);
+    return "0";
+  } else {
     const gohmContract = new ethers.Contract(addresses[networkID].GOHM_ADDRESS as string, gOHM, provider);
 
     // Addresses in EVM events are zero padded out to 32 characters and are lower case
@@ -41,19 +44,20 @@ export const getTotalDonated = async ({ address, networkID, provider }: IBaseAdd
     const totalDonatedAsSohm = await gohmContract.balanceFrom(totalDonated);
 
     return ethers.utils.formatUnits(totalDonatedAsSohm, "gwei");
-  } else {
-    console.log("No giving contract on chain ID " + networkID);
-    return "0";
   }
 };
 
+// Calculate total yield sent from a given user to a given recipient
 export const getTotalYieldSent = async ({
   address,
   recipient,
   networkID,
   provider,
 }: IBaseAddressRecipientAsyncThunk) => {
-  if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
+  if (!(addresses[networkID] && addresses[networkID].GIVING_ADDRESS)) {
+    console.log("No giving contract on chain ID " + networkID);
+    return BigNumber.from("0");
+  } else {
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
 
     // Get deposit ID
@@ -61,8 +65,10 @@ export const getTotalYieldSent = async ({
     let recipientId = 0;
 
     for (let i = 0; i < depositIds.length; i++) {
+      // Look up recipient address for the given deposit ID
       const currRecipient = await givingContract.recipientLookup(depositIds[i]);
 
+      // If the looked up recipient matches the passed in recipient, capture this deposit ID
       if (currRecipient.toLowerCase() === recipient.toLowerCase()) {
         recipientId = depositIds[i];
         break;
@@ -74,6 +80,8 @@ export const getTotalYieldSent = async ({
     const zeroPadAddress = ethers.utils.hexZeroPad(address.toLowerCase(), 32);
     const zeroPadRecipientAddress = ethers.utils.hexZeroPad(recipient.toLowerCase(), 32);
 
+    // Creates an event filter to look at all events from the first block ever to the current block
+    // and identify events that match the Donated event hash with our user and recipient
     const filter = {
       address: addresses[networkID].GIVING_ADDRESS,
       fromBlock: 1,
@@ -91,11 +99,9 @@ export const getTotalYieldSent = async ({
       totalYield = totalYield.add(events[i].data);
     }
 
+    // Pull the current donated yield that has yet to be redeemed and add to yield that has been redeemed
     const outstandingYield = await givingContract.redeemableBalance(recipientId);
 
     return totalYield.add(outstandingYield);
-  } else {
-    console.log("No giving contract on chain ID " + networkID);
-    return BigNumber.from("0");
   }
 };
