@@ -3,10 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { DottedDataRow, Input, ProgressCircle, Radio, Slider } from "@olympusdao/component-library";
 import { FC, useEffect, useState } from "react";
 import { trim } from "src/helpers";
-import { useAppSelector } from "src/hooks";
-//import { parseBigNumber } from "src/helpers";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useProtocolMetrics } from "src/hooks/useProtocolMetrics";
+import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 //import { useTreasuryMetrics } from "src/views/TreasuryDashboard/hooks/useTreasuryMetrics";
 
 const useStyles = makeStyles<Theme>(theme => ({
@@ -98,9 +97,7 @@ export interface OHMCalculatorProps {
  * Component for Displaying Calculator
  */
 const Calculator: FC<OHMCalculatorProps> = () => {
-  const currentRebaseRate = useAppSelector(state => {
-    return state.app.stakingRebase || 0;
-  });
+  const { data: currentRebaseRate = 0 } = useStakingRebaseRate();
 
   const [initialInvestment, setInitialInvestment] = useState(10000);
   const [duration, setDuration] = useState(365);
