@@ -6,7 +6,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Paper, PrimaryButton, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useHistory } from "react-router";
-import { EnvHelper } from "src/helpers/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isSupportedChain } from "src/slices/GiveThunk";
 
@@ -101,7 +100,7 @@ function Give({ selectedIndex }: GiveProps) {
               aria-label="stake tabs"
             >
               <Tab label={t`Causes`} {...a11yProps(0)} />
-              <Tab label={t`Grants`} {...a11yProps(1)} disabled={!EnvHelper.isGiveGrantsEnabled()} />
+              <Tab label={t`Grants`} {...a11yProps(1)} />
               <Tab label={t`My Donations`} {...a11yProps(2)} />
               <Tab label={t`Redeem`} {...a11yProps(3)} />
             </Tabs>
