@@ -10,6 +10,7 @@ export type CovalentResponse<Data = unknown> =
         next_update_at: string;
         quote_currency: string;
       };
+      type: string;
     }
   | {
       error: true;

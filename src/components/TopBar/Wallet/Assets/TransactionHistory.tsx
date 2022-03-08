@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { OHMTokenProps, OHMTokenStackProps, TransactionRow } from "@olympusdao/component-library";
 import { FC, useRef, useState } from "react";
 import { shorten, trim } from "src/helpers";
-//import { trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { CovalentResponse, CovalentTransaction } from "src/lib/covalent.types";
 import { addresses } from "src/networkDetails";
@@ -289,14 +288,15 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
     loaded &&
     [...transfers, covalentTransactions]
       .reduce((previousGroup: any, currentGroup: any) => {
-        const page = currentGroup.pages.reduce((lastPage: any, currentPage: any) => {
-          let filtered = currentPage.items;
-          if (currentPage.type === "transfer") {
-            filtered = filterTransfers(currentPage);
-          } else {
-            filtered = filterTransactions(currentPage);
+        console.log(currentGroup, "currentGroup", previousGroup, "previousGroup");
+        const page = currentGroup.pages.reduce((lastPage: CovalentTransaction[], currentPage: CovalentResponse) => {
+          console.log(lastPage, "lastPage");
+          console.log(currentPage, "currentPage");
+          if (!currentPage.error) {
+            const filtered =
+              currentPage.type === "transfer" ? filterTransfers(currentPage) : filterTransactions(currentPage);
+            return [...lastPage, ...filtered];
           }
-          return [...lastPage, ...filtered];
         }, []);
         return [...previousGroup, ...page];
       }, [])
@@ -309,7 +309,7 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
       if (type === "all") {
         return transactions;
       } else {
-        return transactions.filter((transaction: any) => {
+        return transactions.filter((transaction: WalletTransaction) => {
           return transaction.type === type;
         });
       }
