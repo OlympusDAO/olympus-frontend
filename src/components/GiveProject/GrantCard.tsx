@@ -233,7 +233,13 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
               <Typography variant="h6">{t`Milestone ${index + 1}: ${new BigNumber(value.amount).toFormat(
                 0,
               )} sOHM`}</Typography>
-              <div dangerouslySetInnerHTML={{ __html: MarkdownIt({ html: true }).render(value.description) }} />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: MarkdownIt({ html: true }).render(
+                    value.description ? value.description : "No milestone information.",
+                  ),
+                }}
+              />
             </div>
           );
         })}
