@@ -32,7 +32,7 @@ const Info: FC<OHMInfoProps> = (props: { path?: string }) => {
   const classes = useStyles();
 
   return (
-    <Box style={{ height: "100%", display: "block", overflow: "auto" }}>
+    <>
       <Box display="flex" flexDirection="row" className={classes.tabNav} pt="18px" mb="18px">
         <Link component={NavLink} to="/info" exact>
           News
@@ -56,7 +56,7 @@ const Info: FC<OHMInfoProps> = (props: { path?: string }) => {
             return <News />;
         }
       })()}
-    </Box>
+    </>
   );
 };
 
