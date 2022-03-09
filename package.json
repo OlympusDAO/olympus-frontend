@@ -160,6 +160,7 @@
     "lingui:compile": "lingui compile",
     "lingui:branch:main": "yarn lingui:deinit && git config -f .gitmodules submodule.src/locales/translations.branch main && yarn lingui:fetch",
     "lingui:branch:develop": "yarn lingui:deinit && git config -f .gitmodules submodule.src/locales/translations.branch develop && yarn lingui:fetch",
+    "lingui:branch:translators": "yarn lingui:deinit && git config -f .gitmodules submodule.src/locales/translations.branch translators && yarn lingui:fetch",
     "lingui:deinit": "git submodule  deinit -f  src/locales/translations",
     "lingui:fetch": "git submodule update --init --remote src/locales/translations",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
