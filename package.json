@@ -36,7 +36,7 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "^3.5.9",
+    "@apollo/client": "^3.5.10",
     "@ethersproject/address": "^5.0.5",
     "@ethersproject/providers": "^5.0.12",
     "@ledgerhq/iframe-provider": "^0.4.2",
