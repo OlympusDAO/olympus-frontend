@@ -24,7 +24,7 @@ import {
   PENDING_TXN_GIVE_APPROVAL,
 } from "src/slices/GiveThunk";
 
-import { ArrowGraphic, VaultGraphic, WalletGraphic, YieldGraphic } from "../../components/EducationCard";
+import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
 
@@ -433,19 +433,19 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
             <Grid item xs={12}>
               <Grid container justifyContent="center" alignItems="flex-start" wrap="nowrap">
                 <Grid item xs={3}>
-                  <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
+                  <CompactWallet quantity={getRetainedAmountDiff().toFixed()} />
                 </Grid>
-                <Grid item xs={1} style={{ marginTop: "30px" }}>
+                <Grid item xs={1}>
                   <ArrowGraphic />
                 </Grid>
                 <Grid item xs={3}>
-                  <VaultGraphic quantity={getDepositAmount().toFixed()} small={false} />
+                  <CompactVault quantity={getDepositAmount().toFixed()} />
                 </Grid>
-                <Grid item xs={1} style={{ marginTop: "30px" }}>
+                <Grid item xs={1}>
                   <ArrowGraphic />
                 </Grid>
                 <Grid item xs={3}>
-                  <YieldGraphic quantity={getDepositAmount().toFixed()} />
+                  <CompactYield quantity={getDepositAmount().toFixed()} />
                 </Grid>
               </Grid>
             </Grid>
