@@ -89,7 +89,7 @@ function Give({ selectedIndex }: GiveProps) {
                 aria-label="stake tabs"
               >
                 <Tab label={t`Causes`} {...a11yProps(0)} />
-                <Tab label={t`Grants`} {...a11yProps(1)} disabled={!EnvHelper.isGiveGrantsEnabled()} />
+                <Tab label={t`Grants`} {...a11yProps(1)} />
                 <Tab label={t`My Donations`} {...a11yProps(2)} />
                 <Tab label={t`Redeem`} {...a11yProps(3)} />
               </Tabs>
