@@ -88,14 +88,10 @@ export const initialInvestment = (quantity: number, purchasePrice: number) => {
   return quantity * purchasePrice;
 };
 
-export interface OHMCalculatorProps {
-  props?: any;
-}
-
 /**
  * Component for Displaying Calculator
  */
-const Calculator: FC<OHMCalculatorProps> = () => {
+const Calculator: FC = () => {
   const { data: currentRebaseRate = 0 } = useStakingRebaseRate();
 
   const [initialInvestment, setInitialInvestment] = useState(10000);
