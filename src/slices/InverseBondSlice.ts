@@ -108,7 +108,7 @@ export const purchaseInverseBond = createAsyncThunk(
 
 export const getSingleBond = createAsyncThunk(
   "inverseBonds/getSingle",
-  async ({ provider, networkID, bondIndex }: IBondV2IndexAsyncThunk, { dispatch }): Promise<IBondV2> => {
+  async ({ provider, networkID, bondIndex }: IBondV2IndexAsyncThunk): Promise<IBondV2> => {
     checkNetwork(networkID);
     // TODO (appleseed-inverse): update this factory & abi to the deployed depository
     const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, provider);
@@ -274,7 +274,7 @@ export const getAllInverseBonds = createAsyncThunk(
 
 export const getUserNotes = createAsyncThunk(
   "inverseBonds/notes",
-  async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch, getState }): Promise<IUserNote[]> => {
+  async ({ provider, networkID, address }: IBaseAddressAsyncThunk): Promise<IUserNote[]> => {
     checkNetwork(networkID);
     const currentTime = Date.now() / 1000;
     const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, provider);
@@ -332,7 +332,7 @@ export const getUserNotes = createAsyncThunk(
 
 export const claimAllNotes = createAsyncThunk(
   "inverseBonds/claimAll",
-  async ({ provider, networkID, address }: IBaseBondV2ClaimAsyncThunk, { dispatch, getState }) => {
+  async ({ provider, networkID, address }: IBaseBondV2ClaimAsyncThunk, { dispatch }) => {
     const signer = provider.getSigner();
     const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, signer);
 
@@ -361,7 +361,7 @@ export const claimAllNotes = createAsyncThunk(
 
 export const claimSingleNote = createAsyncThunk(
   "inverseBonds/claimSingle",
-  async ({ provider, networkID, address, indexes }: IBaseBondV2SingleClaimAsyncThunk, { dispatch, getState }) => {
+  async ({ provider, networkID, address, indexes }: IBaseBondV2SingleClaimAsyncThunk, { dispatch }) => {
     const signer = provider.getSigner();
     const depositoryContract = OlympusProV2__factory.connect(addresses[networkID].OP_BOND_DEPOSITORY, signer);
 
