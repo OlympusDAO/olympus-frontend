@@ -8,14 +8,15 @@ import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { NetworkId } from "src/networkDetails";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
 export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
   const dispatch = useDispatch();
   const client = useQueryClient();
   const networks = useTestableNetworks();
-  const { address, networkId } = useWeb3Context();
-  const balances = useBalance(OHM_ADDRESSES);
+  const { address } = useWeb3Context();
+  const balance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
 
   return useMutation<ContractReceipt, Error, string>(
@@ -25,8 +26,6 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
       const parsedAmount = parseUnits(amount, 9);
 
       if (!parsedAmount.gt(0)) throw new Error(t`Please enter a number greater than 0`);
-
-      const balance = balances[networks.MAINNET].data;
 
       if (!balance) throw new Error(t`Please refresh your page and try again`);
 
@@ -47,8 +46,8 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
       },
       onSuccess: async () => {
         const keysToRefetch = [
-          balanceQueryKey(address, OHM_ADDRESSES, networkId),
-          balanceQueryKey(address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networkId),
+          balanceQueryKey(address, OHM_ADDRESSES, NetworkId.MAINNET),
+          balanceQueryKey(address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, NetworkId.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

@@ -1,17 +1,18 @@
 import { useQuery } from "react-query";
-import { NetworkId } from "src/constants";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { reactQueryErrorHandler } from "src/helpers/react-query/reactQueryErrorHandler";
 import { nonNullable } from "src/helpers/types/nonNullable";
 
 import { useWeb3Context } from ".";
+import { useTestableNetworks } from "./useTestableNetworks";
 
 export const ensQueryKey = (address?: string) => ["useEns", address].filter(nonNullable);
 
 export const useEns = () => {
+  const networks = useTestableNetworks();
   const { provider, address, networkId } = useWeb3Context();
 
-  const isEnsSupported = networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY;
+  const isEnsSupported = networkId === networks.MAINNET;
 
   const key = ensQueryKey(address);
   return useQuery<{ name: string | null; avatar: string | null }, Error>(
