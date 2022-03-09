@@ -330,6 +330,7 @@ function App() {
         provider="olympus"
         lng={i18n.locale}
         themeColors={theme}
+        badgePlacement="bottom"
         theme={theme === "light" ? olympusTheme : customDarkTheme}
       >
         <CssBaseline />
