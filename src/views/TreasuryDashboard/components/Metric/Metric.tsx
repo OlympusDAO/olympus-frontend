@@ -36,7 +36,7 @@ export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
 
   const _props: MetricProps = {
     ...props,
-    label: t`OHM Price`,
+    label: "OHM " + t`Price`,
   };
 
   if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
@@ -50,7 +50,7 @@ export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
 
   const _props: MetricProps = {
     ...props,
-    label: t`sOHM Price`,
+    label: "sOHM " + t`Price`,
   };
 
   if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
@@ -119,9 +119,9 @@ export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
 
   const _props: MetricProps = {
     ...props,
-    label: t`gOHM Price`,
+    label: "gOHM " + t`Price`,
     tooltip:
-      t`gOHM = sOHM * index` +
+      "gOHM = sOHM * index" +
       "\n\n" +
       t`The price of gOHM is equal to the price of OHM multiplied by the current index`,
   };
