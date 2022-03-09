@@ -4,6 +4,7 @@ import "./style.scss";
 // @ts-ignore
 import { extendTheme, MultifarmProvider, olympusDarkTheme, olympusTheme } from "@multifarm/widget";
 
+import { i18n } from "@lingui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
@@ -327,6 +328,7 @@ function App() {
       <MultifarmProvider
         token={MULTIFARM_API_KEY}
         provider="olympus"
+        lng={i18n.locale}
         themeColors={theme}
         theme={theme === "light" ? olympusTheme : customDarkTheme}
       >
