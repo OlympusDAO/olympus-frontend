@@ -5,7 +5,7 @@ import { IERC20, OlympusStaking__factory, OlympusStakingv2__factory, StakingHelp
 import { abi as ierc20ABI } from "../abi/IERC20.json";
 import { abi as StakingHelperABI } from "../abi/StakingHelper.json";
 import { addresses } from "../constants";
-import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
+import { trackGAEvent } from "../helpers/analytics";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { IChangeApprovalWithVersionAsyncThunk, IJsonRPCError, IStakeAsyncThunk } from "./interfaces";
 import { error, info } from "./MessagesSlice";
@@ -213,14 +213,13 @@ export const changeStake = createAsyncThunk(
       return;
     } finally {
       if (stakeTx) {
-        trackSegmentEvent(uaData);
         trackGAEvent({
           category: "Staking",
           action: uaData.type ?? "unknown",
           label: uaData.txHash ?? "unknown",
+          value: Math.round(parseFloat(uaData.value)),
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
-          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(stakeTx.hash));
       }

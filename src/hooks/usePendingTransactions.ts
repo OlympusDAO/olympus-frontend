@@ -1,16 +1,14 @@
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
-import { queryAssertion } from "src/helpers";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
+import { nonNullable } from "src/helpers/types/nonNullable";
 import { covalent } from "src/lib/covalent";
 import { CovalentTransaction } from "src/lib/covalent.types";
 
 import { useWeb3Context } from ".";
 
-export const pendingTransactionsQueryKey = (address?: string, networkId?: NetworkId) => [
-  "usePendingTransactions",
-  address,
-  networkId,
-];
+export const pendingTransactionsQueryKey = (address?: string, networkId?: NetworkId) =>
+  ["usePendingTransactions", address, networkId].filter(nonNullable);
 
 export const usePendingTransactions = () => {
   const { address, networkId } = useWeb3Context();

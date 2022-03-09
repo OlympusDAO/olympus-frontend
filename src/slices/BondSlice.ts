@@ -4,7 +4,7 @@ import { getBondCalculator } from "src/helpers/BondCalculator";
 import { RootState } from "src/store";
 
 import { contractForRedeemHelper } from "../helpers";
-import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
+import { trackGAEvent } from "../helpers/analytics";
 import { calculateUserBondDetails, getBalances } from "./AccountSlice";
 import { findOrLoadMarketPrice } from "./AppSlice";
 import {
@@ -243,14 +243,13 @@ export const bondAsset = createAsyncThunk(
       } else dispatch(error(rpcError.message));
     } finally {
       if (bondTx) {
-        trackSegmentEvent(uaData);
         trackGAEvent({
           category: "Bonds",
           action: uaData.type ?? "unknown",
+          value: Math.round(parseFloat(uaData.value)),
           label: uaData.bondName,
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
-          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(bondTx.hash));
       }
@@ -295,7 +294,6 @@ export const redeemBond = createAsyncThunk(
       dispatch(error((e as IJsonRPCError).message));
     } finally {
       if (redeemTx) {
-        trackSegmentEvent(uaData);
         trackGAEvent({
           category: "Bonds",
           action: uaData.type ?? "unknown",

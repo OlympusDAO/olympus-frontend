@@ -2,7 +2,7 @@
 # source: https://github.com/pooltogether/pooltogether-subgraph-v3/blob/master/schema.graphql
 
 scalar Bytes
-scalar BigInt 
+scalar BigInt
 
 enum PrizePoolState {
   Opened
@@ -16,7 +16,6 @@ enum PrizePoolType {
   Stake
   YieldSource
 }
-
 
 # ID: `${comptroller.address}`
 type Comptroller @entity {
@@ -67,25 +66,21 @@ type PrizePool @entity {
 
   currentPrizeId: BigInt!
   currentState: PrizePoolState!
-  
+
   prizes: [Prize!]! @derivedFrom(field: "prizePool")
   tokenCreditRates: [CreditRate!]! @derivedFrom(field: "prizePool")
   tokenCreditBalances: [CreditBalance!]! @derivedFrom(field: "prizePool")
-
 
   prizePoolAccounts: [PrizePoolAccount!]! @derivedFrom(field: "prizePool")
 
   controlledTokens: [ControlledToken!]! @derivedFrom(field: "controller") # controlled tokens may not exist until transfer is called
 }
 
-
-
 # ID: `${compoundPrizePool.address}`
 type CompoundPrizePool @entity {
   id: ID!
   cToken: Bytes
 }
-
 
 # ID: `${stakePrizePool.address}`
 type StakePrizePool @entity {
@@ -148,7 +143,6 @@ type Prize @entity {
   numberOfExternalAwardedErc20Winners: BigInt
 
   totalTicketSupply: BigInt # cache of num tickets sold when this prize was awarded
-
   awardedControlledTokens: [AwardedControlledToken!]! @derivedFrom(field: "prize")
   awardedExternalErc20Tokens: [AwardedExternalErc20Token!]! @derivedFrom(field: "prize")
   awardedExternalErc721Nfts: [AwardedExternalErc721Nft!]! @derivedFrom(field: "prize")
@@ -163,18 +157,17 @@ type AwardedControlledToken @entity {
   prize: Prize!
 }
 
-
 # ID: `${prize.id}-${token.address} -${winnerAddress} -{Prize::winnerIndex}`
 # dynamically generated type, not mapped to a specific contract
 type AwardedExternalErc20Token @entity {
   id: ID!
 
   address: Bytes!
-  
+
   name: String
   symbol: String
   decimals: BigInt
-  
+
   balanceAwarded: BigInt
   prize: Prize!
   winner: Bytes
@@ -188,11 +181,9 @@ type AwardedExternalErc721Nft @entity {
   address: Bytes!
   tokenIds: [BigInt!]
   prize: Prize
-  
+
   winner: Bytes
 }
-
-
 
 # ID: `${controlledToken.address}`
 type ControlledToken @entity {
@@ -202,13 +193,13 @@ type ControlledToken @entity {
   symbol: String!
   decimals: BigInt
 
-  controller: PrizePool 
+  controller: PrizePool
 
   totalSupply: BigInt!
 
   numberOfHolders: BigInt!
 
-  balances: [ControlledTokenBalance!]! @derivedFrom(field:"controlledToken")
+  balances: [ControlledTokenBalance!]! @derivedFrom(field: "controlledToken")
 }
 
 type ControlledTokenBalance @entity {
@@ -227,7 +218,7 @@ type SingleRandomWinnerExternalErc20Award @entity {
   name: String
   symbol: String
   decimals: BigInt
-  
+
   prizeStrategy: SingleRandomWinnerPrizeStrategy
 }
 
@@ -240,11 +231,10 @@ type SingleRandomWinnerExternalErc721Award @entity {
   prizeStrategy: SingleRandomWinnerPrizeStrategy
 }
 
-# join table 
-type PrizePoolAccount @entity{
+# join table
+type PrizePoolAccount @entity {
   id: ID! #composite prizerpool id - accountid
-
-  prizePool: PrizePool! 
+  prizePool: PrizePool!
   account: Account!
 }
 
@@ -255,8 +245,6 @@ type Account @entity {
   prizePoolAccounts: [PrizePoolAccount!]! @derivedFrom(field: "account")
   controlledTokenBalances: [ControlledTokenBalance!] @derivedFrom(field: "account")
 }
-
-
 
 # ID: `${prizePool.address}-${controlledToken.address}`
 # dynamically generated type, not mapped to a specific contract
@@ -319,7 +307,6 @@ type BalanceDrip @entity {
   deactivated: Boolean!
 }
 
-
 # ID: `${volumeDripId}-${player.address}`
 # dynamically generated type, not mapped to a specific contract
 type VolumeDripPlayer @entity {
@@ -371,31 +358,30 @@ type VolumeDrip @entity {
 type MultipleWinnersPrizeStrategy @entity {
   id: ID!
   owner: Bytes
-  
+
   numberOfWinners: BigInt
-  splitExternalERC20Awards: Boolean 
+  splitExternalERC20Awards: Boolean
 
-
-  tokenListener: Bytes 
-  prizePool: PrizePool 
+  tokenListener: Bytes
+  prizePool: PrizePool
   rng: Bytes
-  
-  ticket: ControlledToken  
+
+  ticket: ControlledToken
   sponsorship: ControlledToken
-  
-  prizePeriodSeconds: BigInt! 
-  prizePeriodStartedAt: BigInt! 
-  prizePeriodEndAt: BigInt! 
+
+  prizePeriodSeconds: BigInt!
+  prizePeriodStartedAt: BigInt!
+  prizePeriodEndAt: BigInt!
 
   prizeSplits: [PrizeSplit!] @derivedFrom(field: "prizeStrategy")
   blockListedAddresses: [Bytes!]
-  
-  externalErc20Awards: [MultipleWinnersExternalErc20Award!]! @derivedFrom(field: "prizeStrategy") 
+
+  externalErc20Awards: [MultipleWinnersExternalErc20Award!]! @derivedFrom(field: "prizeStrategy")
   externalErc721Awards: [MultipleWinnersExternalErc721Award!]! @derivedFrom(field: "prizeStrategy")
 }
 
 # ID: prizeStrategy.address-index
-type PrizeSplit @entity{
+type PrizeSplit @entity {
   id: ID!
   percentage: BigInt!
   target: Bytes!
@@ -412,7 +398,7 @@ type MultipleWinnersExternalErc20Award @entity {
   name: String
   symbol: String
   decimals: BigInt
-  
+
   balanceAwarded: BigInt
   prizeStrategy: MultipleWinnersPrizeStrategy
 }

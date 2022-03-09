@@ -11,27 +11,15 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/useBonds";
 import { useWeb3Context, useAppSelector } from "./hooks";
-import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { shouldTriggerSafetyCheck } from "./helpers";
 
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
 import { getZapTokenBalances } from "./slices/ZapSlice";
-import { info } from "./slices/MessagesSlice";
+import { error, info } from "./slices/MessagesSlice";
 
-import {
-  Stake,
-  TreasuryDashboard,
-  Zap,
-  Wrap,
-  V1Stake,
-  CausesDashboard,
-  DepositYield,
-  RedeemYield,
-  BondV2,
-  ChooseBondV2,
-} from "./views";
+import { Stake, TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar";
 import TopBar from "./components/TopBar/TopBar";
 import CallToAction from "./components/CallToAction/CallToAction";
@@ -43,12 +31,13 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import ProjectInfo from "./views/Give/ProjectInfo";
 import projectData from "src/views/Give/projects.json";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
-import { trackGAEvent, trackSegmentEvent } from "./helpers/analytics";
+import ProjectInfo from "./views/Give/ProjectInfo";
+import { trackGAEvent } from "./helpers/analytics";
+import { getAllInverseBonds } from "./slices/InverseBondSlice";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -94,7 +83,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function App() {
-  useSegmentAnalytics();
   useGoogleAnalytics();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -105,7 +93,8 @@ function App() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const { address, connect, hasCachedProvider, provider, connected, networkId, providerInitialized } = useWeb3Context();
+  const { address, connect, connectionError, hasCachedProvider, provider, connected, networkId, providerInitialized } =
+    useWeb3Context();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalClose = () => {
@@ -124,6 +113,7 @@ function App() {
   const { bonds, expiredBonds } = useBonds(networkId);
 
   const bondIndexes = useAppSelector(state => state.bondingV2.indexes);
+  const inverseBondIndexes = useAppSelector(state => state.inverseBonds.indexes);
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -156,6 +146,7 @@ function App() {
           }
         });
         dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
+        dispatch(getAllInverseBonds({ provider: loadProvider, networkID: networkId, address }));
       }
     },
     [networkId, address],
@@ -249,10 +240,6 @@ function App() {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
-        trackSegmentEvent({
-          type: "connect",
-          context: currentPath,
-        });
         trackGAEvent({
           category: "App",
           action: "connect",
@@ -285,6 +272,10 @@ function App() {
       loadDetails("account");
     }
   }, [connected, networkId, providerInitialized]);
+
+  useEffect(() => {
+    if (connectionError) dispatch(error(connectionError.text));
+  }, [connectionError]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -366,7 +357,7 @@ function App() {
             </Route>
 
             <Route exact path="/give">
-              <CausesDashboard />
+              <Give />
             </Route>
             <Redirect from="/olympusgive" to="/give" />
             <Redirect from="/tyche" to="/give" />
@@ -385,11 +376,11 @@ function App() {
             </Route>
 
             <Route exact path="/give/donations">
-              <DepositYield />
+              <Give selectedIndex={1} />
             </Route>
 
             <Route exact path="/give/redeem">
-              <RedeemYield />
+              <Give selectedIndex={2} />
             </Route>
 
             <Route path="/wrap">
@@ -414,7 +405,14 @@ function App() {
               {bondIndexes.map(index => {
                 return (
                   <Route exact key={index} path={`/bonds/${index}`}>
-                    <BondV2 index={index} />
+                    <BondV2 index={index} inverseBond={false} />
+                  </Route>
+                );
+              })}
+              {inverseBondIndexes.map(index => {
+                return (
+                  <Route exact key={index} path={`/bonds/inverse/${index}`}>
+                    <BondV2 index={index} inverseBond={true} />
                   </Route>
                 );
               })}
