@@ -331,8 +331,9 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
       {loaded && (
         <>
           <Box display="flex" flexDirection="row" className={classes.tabNav} mb="18px">
-            {filterList.map(filterItem => (
+            {filterList.map((filterItem, index) => (
               <Typography
+                key={index}
                 className={filter === filterItem.value ? "active" : ""}
                 onClick={() => setFilter(filterItem.value)}
               >
@@ -343,25 +344,24 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
 
           {transactions && (
             <>
-              {filteredTransactions(filter).map((transaction: WalletTransaction) => {
+              {filteredTransactions(filter).map((transaction: WalletTransaction, index) => {
                 return (
-                  <>
-                    <TransactionRow
-                      assetName={
-                        transaction.sender_contract_ticker_symbol
-                          ? transaction.sender_contract_ticker_symbol
-                          : getSymbols(transaction)
-                      }
-                      transactionDetails={
-                        transaction.details
-                          ? transaction.details
-                          : transaction.log_events && transaction.log_events[0]?.decoded.name
-                      }
-                      quantity={trim(Number(transaction.value), 4)}
-                      href={`https://etherscan.io/tx/${transaction.tx_hash}`}
-                      hrefText="View on Etherscan"
-                    />
-                  </>
+                  <TransactionRow
+                    key={index}
+                    assetName={
+                      transaction.sender_contract_ticker_symbol
+                        ? transaction.sender_contract_ticker_symbol
+                        : getSymbols(transaction)
+                    }
+                    transactionDetails={
+                      transaction.details
+                        ? transaction.details
+                        : transaction.log_events && transaction.log_events[0]?.decoded.name
+                    }
+                    quantity={trim(Number(transaction.value), 4)}
+                    href={`https://etherscan.io/tx/${transaction.tx_hash}`}
+                    hrefText="View on Etherscan"
+                  />
                 );
               })}
               {filteredTransactions(filter).length === 0 ? (

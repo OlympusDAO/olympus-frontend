@@ -35,8 +35,8 @@ const Faq = () => {
 
   return (
     <Box>
-      {faqContent.map((faq: { title: string | undefined; content: string | undefined }) => (
-        <InfoCard title={faq.title} content={faq.content} />
+      {faqContent.map((faq: { title: string | undefined; content: string | undefined }, index) => (
+        <InfoCard key={index} title={faq.title} content={faq.content} />
       ))}
     </Box>
   );

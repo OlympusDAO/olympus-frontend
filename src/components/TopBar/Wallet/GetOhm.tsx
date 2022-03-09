@@ -72,8 +72,9 @@ const GetOhm: FC = () => {
       <Typography variant="h6" className={classes.title}>
         Bonds
       </Typography>
-      {bondsV2.map(bond => (
+      {bondsV2.map((bond, index) => (
         <ItemCard
+          key={index}
           tokens={bond.bondIconSvg}
           value={formatCurrency(bond.marketPrice, 2)}
           roi={`${trim(bond.discount * 100, 2)}%`}
@@ -100,8 +101,8 @@ const GetOhm: FC = () => {
       <Typography variant="h6" className={classes.title}>
         Farm Pool
       </Typography>
-      {allPools.map(pool => (
-        <StakePool pool={pool} />
+      {allPools.map((pool, index) => (
+        <StakePool key={index} pool={pool} />
       ))}
       <Typography variant="h6" className={classes.title}>
         Borrow
