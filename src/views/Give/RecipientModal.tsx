@@ -13,7 +13,7 @@ import { useLocation } from "react-router-dom";
 import { Project } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
-import { EnvHelper } from "src/helpers/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
 import {
   changeApproval,
@@ -87,13 +87,13 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    * TODO consider extracting this into a helper file
    */
   const sohmBalance: string = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
       ? state.account.balances && state.account.balances.mockSohm
       : state.account.balances && state.account.balances.sohm;
   });
 
   const giveAllowance: number = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.sohmGive
       : state.account.giving && state.account.giving.sohmGive;
   });
@@ -103,7 +103,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   });
 
   const isGiveLoading: boolean = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
       ? state.account.mockGiving.loading
       : state.account.giving.loading;
   });
@@ -113,7 +113,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   });
 
   const onSeekApproval = async () => {
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
       await dispatch(changeMockApproval({ address, token: "sohm", provider, networkID: networkId }));
     } else {
       await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));

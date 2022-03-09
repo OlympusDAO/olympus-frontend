@@ -1,9 +1,9 @@
 import ReactGA from "react-ga";
 
-import { EnvHelper } from "./Environment";
+import { Environment } from "./environment/Environment/Environment";
 
-const SEGMENT_API_KEY = EnvHelper.getSegmentKey();
-const GA_API_KEY = EnvHelper.getGaKey();
+const SEGMENT_API_KEY = Environment.getSegmentApiKey();
+const GA_API_KEY = Environment.getGoogleAnalyticsApiKey();
 
 declare global {
   interface Window {

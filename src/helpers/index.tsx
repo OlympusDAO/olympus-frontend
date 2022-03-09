@@ -4,8 +4,6 @@ import { formatUnits } from "@ethersproject/units";
 import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
 import { ethers } from "ethers";
-import { QueryKey, useQuery } from "react-query";
-import { IBondV2 } from "src/slices/BondSliceV2";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
@@ -16,15 +14,15 @@ import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
 import { addresses, EPOCH_INTERVAL, NetworkId } from "../constants";
 import { PairContract, RedeemHelper } from "../typechain";
 import { ohm_dai, ohm_daiOld, ohm_weth } from "./AllBonds";
-import { EnvHelper } from "./Environment";
-import { NodeHelper } from "./NodeHelper";
+import { Environment } from "./environment/Environment/Environment";
+import { Providers } from "./providers/Providers/Providers";
 
 /**
  * gets marketPrice from Ohm-DAI v2
  * @returns Number like 333.33
  */
 export async function getMarketPrice() {
-  const mainnetProvider = NodeHelper.getMainnetStaticProvider();
+  const mainnetProvider = Providers.getStaticProvider(NetworkId.MAINNET);
   // v2 price
   const ohm_dai_address = ohm_dai.getAddressForReserve(NetworkId.MAINNET);
   const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
@@ -34,7 +32,7 @@ export async function getMarketPrice() {
 }
 
 export async function getMarketPriceFromWeth() {
-  const mainnetProvider = NodeHelper.getMainnetStaticProvider();
+  const mainnetProvider = Providers.getStaticProvider(NetworkId.MAINNET);
   // v2 price
   const ohm_weth_address = ohm_weth.getAddressForReserve(NetworkId.MAINNET);
   const wethBondContract = ohm_weth.getContractForBond(NetworkId.MAINNET, mainnetProvider);
@@ -48,7 +46,7 @@ export async function getMarketPriceFromWeth() {
 }
 
 export async function getV1MarketPrice() {
-  const mainnetProvider = NodeHelper.getMainnetStaticProvider();
+  const mainnetProvider = Providers.getStaticProvider(NetworkId.MAINNET);
   // v1 price
   const ohm_dai_address = ohm_daiOld.getAddressForReserve(NetworkId.MAINNET);
   const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
@@ -70,7 +68,7 @@ export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
     };
     tokenPrice = ohmResp.data.coingeckoTicker.value;
   } catch (e) {
-    console.warn(`Error accessing OHM API ${priceApiURL} . Falling back to coingecko API`, e);
+    console.warn(`Error accessing OHM API ${priceApiURL} . Falling back to coingecko API`);
     // fallback to coingecko
     const cgResp = (await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`,
@@ -118,11 +116,11 @@ export async function getTokenIdByContract(contractAddress: string): Promise<str
   }
 }
 
-export const getEtherscanUrl = ({ bond, networkId }: { bond: IBondV2; networkId: NetworkId }) => {
+export const getEtherscanUrl = ({ tokenAddress, networkId }: { tokenAddress: string; networkId: NetworkId }) => {
   if (networkId === NetworkId.TESTNET_RINKEBY) {
-    return `https://rinkeby.etherscan.io/address/${bond.quoteToken}`;
+    return `https://rinkeby.etherscan.io/address/${tokenAddress}`;
   }
-  return `https://etherscan.io/address/${bond.quoteToken}`;
+  return `https://etherscan.io/address/${tokenAddress}`;
 };
 
 export function shorten(str: string) {
@@ -204,7 +202,7 @@ export function contractForRedeemHelper({
  * returns false if SafetyCheck has fired in this Session. True otherwise
  * @returns boolean
  */
-export const shouldTriggerSafetyCheck = () => {
+export function shouldTriggerSafetyCheck() {
   const _storage = window.sessionStorage;
   const _safetyCheckKey = "-oly-safety";
   // check if sessionStorage item exists for SafetyCheck
@@ -213,7 +211,7 @@ export const shouldTriggerSafetyCheck = () => {
     return true;
   }
   return false;
-};
+}
 
 export const toBN = (num: number) => {
   return BigNumber.from(num);
@@ -224,30 +222,13 @@ export const bnToNum = (bigNum: BigNumber) => {
 };
 
 export const handleContractError = (e: any) => {
-  if (EnvHelper.env.NODE_ENV !== "production") console.warn("caught error in slices; usually network related", e);
+  if (Environment.env.NODE_ENV !== "production") console.warn("caught error in slices; usually network related", e);
 };
 
 /**
  * Determines if app is viewed within an <iframe></iframe>
  */
 export const isIFrame = () => window.location !== window.parent.location;
-
-/**
- * Assertion function helpful for asserting `enabled`
- * values from within a `react-query` function.
- * @param value The value(s) to assert
- * @param queryKey Key of current query
- */
-export function queryAssertion(value: unknown, queryKey: any = "not specified"): asserts value {
-  if (!value) throw new Error(`Failed react-query assertion for key: ${queryKey}`);
-}
-
-/**
- * Assertion function
- */
-export function assert(value: unknown, message: string | Error): asserts value {
-  if (!value) throw message instanceof Error ? message : new Error(message);
-}
 
 /**
  * Converts gOHM to OHM. Mimics `balanceFrom()` gOHM contract function.
@@ -279,25 +260,6 @@ export const formatNumber = (number: number, precision = 0) => {
     maximumFractionDigits: precision,
   }).format(number);
 };
-
-/**
- * Used to build a `useQuery` function for fetching necessary data in parallel for a query,
- * using that queries `queryKey`
- *
- * Please refer to the `useStakePoolTVL` function for an example on why this function is handy.
- */
-export const createDependentQuery = (baseQueryKey: QueryKey) => {
-  return <TData,>(key: string, fn: () => Promise<TData>, enabled?: boolean) => {
-    return useQuery([baseQueryKey, key].filter(Boolean), fn, { enabled }).data;
-  };
-};
-
-/**
- * Type safe check for non defined values
- */
-export function nonNullable<Type>(value: Type): value is NonNullable<Type> {
-  return value !== null && value !== undefined;
-}
 
 interface ICheckBalance extends IBaseAsyncThunk {
   readonly sOHMbalance: string;
