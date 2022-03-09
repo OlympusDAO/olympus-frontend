@@ -69,6 +69,10 @@ export default function CausesDashboard() {
         }),
       );
     } else {
+      // Since the new version of the YieldDirector contract uses IDs as a deposit indexing system
+      // the async thunk used to interact with the contract needs to have an ID passed to it
+      // here we use the ID of "-1" to indicate to the thunk that this is a new deposit and thus
+      // does not yet have a properly defined ID
       await dispatch(
         changeGive({
           action: ACTION_GIVE,

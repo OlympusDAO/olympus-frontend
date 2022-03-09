@@ -300,29 +300,28 @@ export const getDonationBalances = createAsyncThunk(
             const sohmValue = await gohmContract.balanceFrom(allDeposits[1][i]);
             const depositAmount = ethers.utils.formatUnits(sohmValue, "gwei");
             const recipient = allDeposits[0][i];
-            const firstDonationDate: string = await GetDonationDate({
+
+            const getDatePromise = GetDonationDate({
+              address: address,
+              recipient: recipient,
+              networkID: networkID,
+              provider: provider,
+            });
+            const getYieldPromise = getTotalYieldSent({
               address: address,
               recipient: recipient,
               networkID: networkID,
               provider: provider,
             });
 
-            // NOTE: Bad fix, but since no rebases on testnet this would throw an error otherwise
-            const yieldSent: BigNumber =
-              networkID === 1
-                ? await getTotalYieldSent({
-                    address: address,
-                    recipient: recipient,
-                    networkID: networkID,
-                    provider: provider,
-                  })
-                : BigNumber.from("0");
-            const sohmYieldSent = await gohmContract.balanceFrom(yieldSent);
+            const resultsArr = await Promise.all([getDatePromise, getYieldPromise]);
+
+            const sohmYieldSent = await gohmContract.balanceFrom(resultsArr[1]);
             const formattedYieldSent = ethers.utils.formatUnits(sohmYieldSent, "gwei");
 
             donationInfo.push({
               id: depositId.toString(),
-              date: firstDonationDate,
+              date: resultsArr[0],
               deposit: depositAmount,
               recipient: recipient,
               yieldDonated: formattedYieldSent,
@@ -383,6 +382,8 @@ export const getMockDonationBalances = createAsyncThunk(
             const yieldSent: BigNumber = await givingContract.donatedTo(address, recipient);
             const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
 
+            // ID of 1 is just a placeholder for now since the new YieldDirector contract was not set up with
+            // MockSohm
             donationInfo.push({
               id: "1",
               date: firstDonationDate,

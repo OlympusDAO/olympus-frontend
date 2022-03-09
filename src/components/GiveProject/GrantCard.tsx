@@ -32,7 +32,7 @@ import {
   isSupportedChain,
 } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
-import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
+import { CancelCallback, SubmitCallback, SubmitEditCallback } from "src/views/Give/Interfaces";
 import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
@@ -76,7 +76,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const [totalDonated, setTotalDonated] = useState("");
   const [donorCount, setDonorCount] = useState(0);
   const [isUserDonating, setIsUserDonating] = useState(false);
-  const [donationId, setDonationId] = useState(0);
+  const [donationId, setDonationId] = useState(-1);
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
@@ -350,6 +350,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           action: ACTION_GIVE,
           value: depositAmount.toFixed(),
           recipient: walletAddress,
+          id: "-1",
           provider,
           address,
           networkID: networkId,
@@ -367,12 +368,17 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     setIsGiveModalOpen(false);
   };
 
-  const handleEditModalSubmit: SubmitCallback = async (
+  const handleEditModalSubmit: SubmitEditCallback = async (
     walletAddress,
+    depositId,
     eventSource,
     depositAmount,
     depositAmountDiff,
   ) => {
+    if (donationId == -1) {
+      return dispatch(error(t`No wallet set or user is not donating to this recipient`));
+    }
+
     if (!depositAmountDiff) {
       return dispatch(error(t`Please enter a value!`));
     }
@@ -401,6 +407,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           action: ACTION_GIVE_EDIT,
           value: depositAmountDiff.toFixed(),
           recipient: walletAddress,
+          id: depositId,
           provider,
           address,
           networkID: networkId,
@@ -414,14 +421,25 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     setIsManageModalOpen(false);
   };
 
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
+    walletAddress,
+    depositId,
+    eventSource,
+    depositAmount,
+  ) => {
+    if (donationId == -1) {
+      return dispatch(error(t`No wallet set or user is not donating to this recipient`));
+    }
+
+    const bnDeposit = new BigNumber(depositAmount);
+
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
+          value: bnDeposit.toFixed(),
           recipient: walletAddress,
           provider,
           address,
@@ -435,8 +453,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       await dispatch(
         changeGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
+          value: bnDeposit.toFixed(),
           recipient: walletAddress,
+          id: depositId,
           provider,
           address,
           networkID: networkId,
@@ -705,6 +724,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
             depositDate={donationInfo[donationId].date}
             yieldSent={donationInfo[donationId].yieldDonated}
             project={grant}
+            currentDepositId={donationInfo[donationId].id}
             recordType={RecordType.GRANT}
             key={"manage-modal-" + donationInfo[donationId].recipient}
           />

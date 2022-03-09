@@ -20,7 +20,7 @@ import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "
 
 import { ArrowGraphic } from "../../components/EducationCard";
 import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
-import { CancelCallback, DonationInfoState } from "./Interfaces";
+import { CancelCallback, DonationInfoState, SubmitEditCallback } from "./Interfaces";
 
 export type WithdrawSubmitCallback = {
   (walletAddress: string, id: string, eventSource: string, depositAmount: BigNumber): void;
