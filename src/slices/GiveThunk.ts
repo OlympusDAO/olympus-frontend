@@ -55,7 +55,12 @@ export const hasPendingGiveTxn = (pendingTransactions: IPendingTxn[]): boolean =
   );
 };
 
-// Approves Give address to spend user's sOHM
+/**
+ * Approves Give contract to spend user's sOHM
+ * @param provider Ethereum network provider object
+ * @param address Current user's Ethereum address
+ * @param networkID ID number of the network the user is currently connected to
+ */
 export const changeApproval = createAsyncThunk(
   "give/changeApproval",
   async ({ provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
@@ -97,7 +102,12 @@ export const changeApproval = createAsyncThunk(
   },
 );
 
-// Approves MockGive address to spend user's MocksOHM on Rinkeby
+/**
+ * Approves Mock Give contract to spend user's Mock sOHM on Rinkeby
+ * @param provider Ethereum network provider object
+ * @param address Current user's Ethereum address
+ * @param networkID ID number of the network the user is currently connected to
+ */
 export const changeMockApproval = createAsyncThunk(
   "give/changeMockApproval",
   async ({ provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
@@ -133,10 +143,8 @@ export const changeMockApproval = createAsyncThunk(
       }
     }
 
-    /*
-      The pseudo-sOHM contract used on testnet does not have a functional allowance
-      mapping. Instead approval calls write allowaces to a mapping title _allowedValue
-    */
+    // The pseudo-sOHM contract used on testnet does not have a functional allowance
+    // mapping. Instead approval calls write allowaces to a mapping title _allowedValue
     const giveAllowance = await sohmContract._allowedValue(address, addresses[networkID].MOCK_GIVING_ADDRESS);
 
     return dispatch(
@@ -149,7 +157,15 @@ export const changeMockApproval = createAsyncThunk(
   },
 );
 
-// Submits transactions to deposit, edit or withdraw to Give contract
+/**
+ * Submits transactions to deposit, edit, or withdraw donations to the Give contract
+ * @param action The action to take on the contract (New deposit, edit deposit, or withdraw deposit)
+ * @param value Amount to either deposit, increase deposit, or reduce deposit
+ * @param id The ID number of the deposit to edit or withdraw (pass "-1" in the case of a new deposit)
+ * @param provider Ethereum network provider object
+ * @param networkID ID number of the network the user is currently connected to
+ * @param eventSource Origination point of the call to changeGive
+ */
 export const changeGive = createAsyncThunk(
   "give/changeGive",
   async (
@@ -235,7 +251,14 @@ export const changeGive = createAsyncThunk(
   },
 );
 
-// Submits transactions to deposit, edit or withdraw to Give contract
+/**
+ * Submits transactions to deposit, edit, or withdraw donations to the Give contract
+ * @param action The action to take on the contract (New deposit, edit deposit, or withdraw deposit)
+ * @param value Amount to either deposit, increase deposit, or reduce deposit
+ * @param provider Ethereum network provider object
+ * @param networkID ID number of the network the user is currently connected to
+ * @param eventSource Origination point of the call to changeGive
+ */
 export const changeMockGive = createAsyncThunk(
   "give/changeMockGive",
   async (

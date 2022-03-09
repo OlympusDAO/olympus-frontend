@@ -3,6 +3,14 @@ import { ethers } from "ethers";
 import { addresses } from "../constants";
 import { IBaseAddressRecipientAsyncThunk } from "../slices/interfaces";
 
+/**
+ * Gets the date of the first time a user donated to a specific recipient
+ * @param address Current user's address
+ * @param recipient The donation target of the current user
+ * @param networkID ID number of the network the user is currently connected to
+ * @param provider Network provider object
+ * @returns String representation of the date as Month Day, Year
+ */
 export const GetDonationDate = async ({ address, recipient, networkID, provider }: IBaseAddressRecipientAsyncThunk) => {
   if (!addresses[networkID] || !addresses[networkID].GIVING_ADDRESS) {
     console.log("No giving contract on chain ID " + networkID);

@@ -96,6 +96,8 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
 
   const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
 
+  // Resets the viewport to the top of the page when pathnames change rather than
+  // preserving vertical position of the page you are coming from
   useEffect(() => {
     const items = document.getElementsByClassName("project-container");
     if (items.length > 0) {
@@ -141,7 +143,14 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       .catch(e => console.log(e));
   }, [connected, networkId, isGiveModalOpen]);
 
+  // Determine if the current user is donating to the project whose page they are
+  // currently viewing and if so tracks the index of the recipient in the user's
+  // donationInfo array
   useEffect(() => {
+    if (!donationInfo) {
+      return;
+    }
+
     for (let i = 0; i < donationInfo.length; i++) {
       if (donationInfo[i].recipient.toLowerCase() === wallet.toLowerCase()) {
         setIsUserDonating(true);
@@ -149,8 +158,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
         break;
       }
     }
-  }, [donationInfo]);
+  }, [donationInfo, location.pathname]);
 
+  // Reset donation states when user switches network
   useEffect(() => {
     setIsUserDonating(false);
     setDonationId(0);
@@ -330,6 +340,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
+    // We use an ID of -1 to indicate that this is a new deposit
     if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({

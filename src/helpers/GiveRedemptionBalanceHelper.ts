@@ -17,6 +17,15 @@ interface IDonorAddresses {
 // Gets a recipient's info. Separating it out into a helper allows us to call it on addresses
 // other than the current user's without overwriting the data in Redux store. This is needed
 // to pull data on our partner projects
+/**
+ * Gets a recipient's donation info including redeemable value (denominated in sOHM),
+ * current sOHM principal directed towards them earning yield, and the gOHM equivalent
+ * value of the principal directed towards them
+ * @param address The address of the user or recipient we wish to pull this info for
+ * @param networkID ID number of network the user is currently connected to
+ * @param provider Ethereum network provider object
+ * @returns Redeemable sOHM plus recipientInfo object (totalDebt and agnosticDebt)
+ */
 export const getRedemptionBalancesAsync = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
   let redeemableBalance = 0;
   const recipientInfo: IUserRecipientInfo = {
@@ -105,10 +114,14 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
   };
 };
 
-/*
-  With the old YieldDirector contract hooked to MockSohm this will no longer work
-  but it will work with the new YieldDirector version that indexes event topics
-*/
+/**
+ * Gets the number of active donations (roughly, determining active donations is tricky)
+ * to a specific recipient's address
+ * @param address Ethereum address of the target recipient
+ * @param networkID ID number of the network the user is currently connected to
+ * @param provider Ethereum network provider object
+ * @returns Number of active donations to the provided address
+ */
 export const getDonorNumbers = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
   const donationsToAddress = [];
 

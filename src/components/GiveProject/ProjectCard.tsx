@@ -111,6 +111,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
 
+  // Resets the viewport to the top of the page when pathnames change rather than
+  // preserving vertical position of the page you are coming from
   useEffect(() => {
     const items = document.getElementsByClassName("project-container");
     if (items.length > 0) {
@@ -119,6 +121,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     }
   }, [location.pathname]);
 
+  // Reset donation states when user switches network
   useEffect(() => {
     setIsUserDonating(false);
     setDonationId(0);
@@ -161,6 +164,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       .catch(e => console.log(e));
   }, [connected, networkId, isGiveModalOpen]);
 
+  // Determine if the current user is donating to the project whose page they are
+  // currently viewing and if so tracks the index of the recipient in the user's
+  // donationInfo array
   useEffect(() => {
     if (!donationInfo) {
       return;

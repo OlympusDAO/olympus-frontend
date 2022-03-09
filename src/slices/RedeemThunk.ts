@@ -18,7 +18,13 @@ interface IUAData {
   type: string;
 }
 
-// Redeems a user's redeemable balance from the Give contract
+/**
+ * Redeems a user's redeemable balance from the Give contract
+ * @param provider Ethereum network provider object
+ * @param address Current user's Ethereum address
+ * @param networkID ID number of the network the user is currently connected to
+ * @param eventSource Origination point of the call to redeemBalance
+ */
 export const redeemBalance = createAsyncThunk(
   "redeem/redeemBalance",
   async ({ provider, address, networkID, eventSource }: IRedeemAsyncThunk, { dispatch }) => {
@@ -75,7 +81,13 @@ export const redeemBalance = createAsyncThunk(
   },
 );
 
-// Redeem a user's redeemable balance from the MockGive contract on Rinkeby
+/**
+ * Redeems a user's mock redeemable balance from the Mock Give contract on Rinkeby
+ * @param provider Ethereum network provider object
+ * @param address Current user's Ethereum address
+ * @param networkID ID number of the network the user is currently connected to
+ * @param eventSource Origination point of the call to redeemBalance
+ */
 export const redeemMockBalance = createAsyncThunk(
   "redeem/redeemMockBalance",
   async ({ provider, address, networkID, eventSource }: IRedeemAsyncThunk, { dispatch }) => {

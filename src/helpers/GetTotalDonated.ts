@@ -6,6 +6,14 @@ import { addresses } from "../constants";
 import { IBaseAddressAsyncThunk, IBaseAddressRecipientAsyncThunk } from "../slices/interfaces";
 
 // Calculate total amount redeemed by a user + their current redeemable balance
+/**
+ * Calculates the total amount redeemed by a user + their current redeemable balance
+ * @param address Current user's Ethereum address
+ * @param networkID ID number of the network the user is currently connected to
+ * @param provider Ethereum network provider object
+ * @returns BigNumber representation of the sOHM value of the total amount redeemed by a user
+ *          plus their current redeemable balance
+ */
 export const getTotalDonated = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
   if (!addresses[networkID] || !addresses[networkID].GIVING_ADDRESS) {
     console.log("No giving contract on chain ID " + networkID);
@@ -49,6 +57,11 @@ export const getTotalDonated = async ({ address, networkID, provider }: IBaseAdd
 
 /**
  * Calculate total yield sent from a given user to a given recipient
+ * @param address Current user's Ethereum address
+ * @param recipient Address of the donation target of the current user
+ * @param networkID  ID number of the network the user is currently connected to
+ * @param provider Ethereum network provider object
+ * @returns BigNumber representing the amount of gOHM donated to the recipient
  */
 export const getTotalYieldSent = async ({
   address,

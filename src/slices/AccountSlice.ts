@@ -301,6 +301,7 @@ export const getDonationBalances = createAsyncThunk(
             const depositAmount = ethers.utils.formatUnits(sohmValue, "gwei");
             const recipient = allDeposits[0][i];
 
+            // Create promises to batch together
             const getDatePromise = GetDonationDate({
               address: address,
               recipient: recipient,
@@ -316,6 +317,7 @@ export const getDonationBalances = createAsyncThunk(
 
             const resultsArr = await Promise.all([getDatePromise, getYieldPromise]);
 
+            // Can't batch this one as it relies on getYieldPromise being fulfilled
             const sohmYieldSent = await gohmContract.balanceFrom(resultsArr[1]);
             const formattedYieldSent = ethers.utils.formatUnits(sohmYieldSent, "gwei");
 
