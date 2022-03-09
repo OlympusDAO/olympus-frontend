@@ -1,7 +1,7 @@
 import "./ProjectCard.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQuery } from "@material-ui/core";
+import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
@@ -227,11 +227,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     if (depositGoal === 0) return <></>;
 
-    // TODO remove custom marginBottom
     return (
       <>
-        <Grid container alignItems="center">
-          <Grid item style={{ paddingRight: "6px" }}>
+        <Grid container alignItems="center" spacing={1}>
+          <Grid item>
             <Icon name="sohm-yield-goal" />
           </Grid>
           <Grid item>
@@ -243,13 +242,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               }
               arrow
             >
-              <Typography variant="body1" style={{ marginBottom: "0px" }}>
+              <Typography variant="body1">
                 <strong>{recipientInfoIsLoading ? <Skeleton width={20} /> : formattedGoalCompletion}</strong>
+                <Trans>% of goal</Trans>
               </Typography>
             </Tooltip>
-          </Grid>
-          <Grid item xs>
-            <Typography style={{ marginBottom: "0px" }}>% of goal</Typography>
           </Grid>
         </Grid>
       </>
@@ -544,9 +541,26 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getCardContent = () => {
     return (
       <>
-        <Box style={{ width: "100%", borderRadius: "10px", marginBottom: "60px" }}>
-          <Grid container key={title} spacing={3}>
-            {!isBreakpointLarge ? (
+        <Grid container key={title} spacing={3}>
+          {!isBreakpointLarge ? (
+            <Grid item xs={12}>
+              <Link
+                href={`#/give/projects/${project.slug}`}
+                onClick={() => handleProjectDetailsButtonClick("Title Link")}
+              >
+                <Typography variant="h4">
+                  <strong>{getTitle()}</strong>
+                </Typography>
+              </Link>
+            </Grid>
+          ) : (
+            <></>
+          )}
+          <Grid item xs={12} sm={5} lg={4}>
+            {getProjectImage()}
+          </Grid>
+          <Grid item container xs alignContent="space-between">
+            {isBreakpointLarge ? (
               <Grid item xs={12}>
                 <Link
                   href={`#/give/projects/${project.slug}`}
@@ -560,48 +574,29 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             ) : (
               <></>
             )}
-            <Grid item xs={12} sm={5} lg={4}>
-              {getProjectImage()}
+            <Grid item xs={12}>
+              <Typography variant="body1" className="project-content">
+                <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
+              </Typography>
             </Grid>
-            <Grid item container xs alignContent="space-between">
-              {isBreakpointLarge ? (
-                <Grid item xs={12}>
-                  <Link
-                    href={`#/give/projects/${project.slug}`}
-                    onClick={() => handleProjectDetailsButtonClick("Title Link")}
-                  >
-                    <Typography variant="h4">
-                      <strong>{getTitle()}</strong>
-                    </Typography>
-                  </Link>
-                </Grid>
-              ) : (
-                <></>
-              )}
-              <Grid item xs={12}>
-                <Typography variant="body1" style={{ lineHeight: "20px" }}>
-                  <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
-                </Typography>
+            <Grid item xs />
+            <Grid item container xs={12} alignItems="flex-end">
+              <Grid item xs={12} lg={8}>
+                {renderGoalCompletion()}
               </Grid>
-              <Grid item xs />
-              <Grid item container xs={12} alignItems="flex-end">
-                <Grid item xs={12} lg={8}>
-                  {renderGoalCompletion()}
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                  <Link
-                    href={`#/give/projects/${project.slug}`}
-                    onClick={() => handleProjectDetailsButtonClick("View Details Button")}
-                  >
-                    <PrimaryButton fullWidth>
-                      <Trans>View Details</Trans>
-                    </PrimaryButton>
-                  </Link>
-                </Grid>
+              <Grid item xs={12} lg={4}>
+                <Link
+                  href={`#/give/projects/${project.slug}`}
+                  onClick={() => handleProjectDetailsButtonClick("View Details Button")}
+                >
+                  <PrimaryButton fullWidth>
+                    <Trans>View Details</Trans>
+                  </PrimaryButton>
+                </Link>
               </Grid>
             </Grid>
           </Grid>
-        </Box>
+        </Grid>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
           eventSource="Project List"
@@ -649,32 +644,34 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Grid item xs={12} sm={6} lg={12}>
                       {getProjectImage()}
                     </Grid>
-                    <Grid item container xs>
-                      <Grid item xs={12} style={{ paddingTop: "10px" }}>
-                        {renderDepositData()}
-                      </Grid>
-                      <Grid item xs={12} style={{ paddingTop: "27px" }}>
-                        {renderGoalCompletionDetailed()}
-                      </Grid>
-                      <Grid item xs={12} style={{ paddingTop: "26px" }}>
-                        {!connected ? (
-                          <PrimaryButton onClick={connect} fullWidth>
-                            <Trans>Connect Wallet</Trans>
-                          </PrimaryButton>
-                        ) : isUserDonating ? (
-                          <></>
-                        ) : (
-                          <PrimaryButton
-                            onClick={() => handleGiveButtonClick()}
-                            disabled={!isSupportedChain(networkId)}
-                            fullWidth
-                          >
-                            <Trans>Donate Yield</Trans>
-                          </PrimaryButton>
-                        )}
-                      </Grid>
-                      <Grid item xs={12} style={{ paddingTop: "24px" }}>
-                        {renderCountdownDetailed()}
+                    <Grid item xs>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          {renderDepositData()}
+                        </Grid>
+                        <Grid item xs={12}>
+                          {renderGoalCompletionDetailed()}
+                        </Grid>
+                        <Grid item xs={12}>
+                          {!connected ? (
+                            <PrimaryButton onClick={connect} fullWidth>
+                              <Trans>Connect Wallet</Trans>
+                            </PrimaryButton>
+                          ) : isUserDonating ? (
+                            <></>
+                          ) : (
+                            <PrimaryButton
+                              onClick={() => handleGiveButtonClick()}
+                              disabled={!isSupportedChain(networkId)}
+                              fullWidth
+                            >
+                              <Trans>Donate Yield</Trans>
+                            </PrimaryButton>
+                          )}
+                        </Grid>
+                        <Grid item xs={12}>
+                          {renderCountdownDetailed()}
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -685,7 +682,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   <></>
                 ) : (
                   <Paper headerText={t`Your Donations`}>
-                    <Grid container alignItems="flex-end">
+                    <Grid container alignItems="flex-end" spacing={2}>
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="flex-start">
                           <Grid item container justifyContent="flex-start" alignItems="center" spacing={1}>
@@ -726,12 +723,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                           </Grid>
                         </Grid>
                       </Grid>
-                      <Box width="100%" />
                       <Grid item xs={12}>
                         <PrimaryButton
                           onClick={() => handleEditButtonClick()}
                           disabled={!isSupportedChain(networkId)}
-                          style={{ marginTop: "24px" }}
                           fullWidth
                         >
                           <Trans>Edit Donation</Trans>
@@ -764,7 +759,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           project={project}
           key={title}
         />
-        {isUserDonating ? (
+        {isUserDonating && donationInfo[donationId] ? (
           <ManageDonationModal
             isModalOpen={isManageModalOpen}
             eventSource={"Project Details"}

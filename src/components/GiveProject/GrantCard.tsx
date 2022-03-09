@@ -58,18 +58,7 @@ type State = {
 export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const location = useLocation();
   const { provider, address, connected, connect, networkId } = useWeb3Context();
-  const {
-    title,
-    owner,
-    shortDescription,
-    details,
-    finishDate,
-    photos,
-    wallet,
-    depositGoal,
-    milestones,
-    latestMilestoneCompleted,
-  } = grant;
+  const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
@@ -479,6 +468,12 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   };
 
   const getCardContent = () => {
+    /**
+     * NOTE: We want the project title to be positioned above the image when the breakpoint < "lg",
+     * but to the right of the image when the breakpoint = "lg". There was no clear way to do this
+     * using the Grid (flexbox) component, so we check for the breakpoint manually and show/hide
+     * accordingly. Happy to be proven wrong.
+     */
     return (
       <>
         <Box style={{ width: "100%", borderRadius: "10px", marginBottom: "60px" }}>
@@ -497,6 +492,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
             <Grid item xs={12} sm={5} lg={4}>
               {getProjectImage()}
             </Grid>
+            {/* We shove the title, details and buttons into another container, so they move together in relation to the image. */}
             <Grid item container xs alignContent="space-between">
               {isBreakpointLarge ? (
                 <Grid item xs={12}>

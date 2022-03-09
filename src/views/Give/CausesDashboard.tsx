@@ -32,7 +32,13 @@ export default function CausesDashboard() {
 
   const renderProjects = useMemo(() => {
     return projects.map(project => {
-      return <ProjectCard key={seed(project.title)} project={project} mode={ProjectDetailsMode.Card} />;
+      return (
+        <>
+          <Grid item xs={12}>
+            <ProjectCard key={seed(project.title)} project={project} mode={ProjectDetailsMode.Card} />
+          </Grid>
+        </>
+      );
     });
   }, [projects]);
 
@@ -91,29 +97,31 @@ export default function CausesDashboard() {
   return (
     <Zoom in={true}>
       <Container>
-        <Grid container justifyContent="center" alignItems="center">
+        <Grid container justifyContent="center" alignItems="center" spacing={4}>
           {renderProjects}
-        </Grid>
-        {/* Paper defaults to 97%, which would result in this being out of alignment with the projects listing */}
-        <Paper style={{ width: "100%" }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant="h4" align="center">
-                <Trans>Want to give to a different cause?</Trans>
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="body1" align="center">
-                <Trans>You can direct your yield to a recipient of your choice</Trans>
-              </Typography>
-            </Grid>
-            <Grid item xs={12} container justifyContent="center">
-              <TertiaryButton onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
-                <Trans>Custom Recipient</Trans>
-              </TertiaryButton>
-            </Grid>
+          <Grid item xs={12}>
+            {/* Paper defaults to 97%, which would result in this being out of alignment with the projects listing */}
+            <Paper style={{ width: "100%" }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant="h4" align="center">
+                    <Trans>Want to give to a different cause?</Trans>
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body1" align="center">
+                    <Trans>You can direct your yield to a recipient of your choice</Trans>
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} container justifyContent="center">
+                  <TertiaryButton onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
+                    <Trans>Custom Recipient</Trans>
+                  </TertiaryButton>
+                </Grid>
+              </Grid>
+            </Paper>
           </Grid>
-        </Paper>
+        </Grid>
         <RecipientModal
           isModalOpen={isCustomGiveModalOpen}
           eventSource="Custom Recipient Button"

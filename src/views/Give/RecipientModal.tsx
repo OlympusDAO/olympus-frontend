@@ -510,6 +510,9 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   <></>
                 )}
                 <Grid item xs={12} sm={4}>
+                  {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
+                      whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
+                      alignment accordingly. */}
                   <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
                     <Grid item xs={12}>
                       <Typography variant="body1" className="modal-confirmation-title">

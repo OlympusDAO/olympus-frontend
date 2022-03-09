@@ -16,6 +16,7 @@ type GenericEducationGraphicProps = {
   message: string;
 };
 
+// TODO migrate to responsive components
 export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
