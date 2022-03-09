@@ -2,6 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { Box, FormControl, Grid, MenuItem, Select, Typography } from "@material-ui/core";
 import { Input, PrimaryButton } from "@olympusdao/component-library";
 import { formatUnits } from "ethers/lib/utils";
+import { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { MIGRATOR_ADDRESSES, WSOHM_ADDRESSES } from "src/constants/addresses";
 import { assert } from "src/helpers/types/assert";
@@ -15,16 +16,20 @@ export const MigrateInputArea = () => {
   const networks = useTestableNetworks();
   const { networkId } = useWeb3Context();
 
+  // Max balance stuff
   assert(
     networkId === networks.ARBITRUM || networkId === networks.AVALANCHE,
     "Component should only be mounted when connected to Arbitrum or Avalanche",
   );
+  const [amount, setAmount] = useState("");
   const balance = useBalance(WSOHM_ADDRESSES)[networkId].data;
+  const setMax = () => balance && setAmount(formatUnits(balance, 18));
 
+  // Mutation stuff
   const migrateMutation = useMigrateWsohm();
   const handleSubmit = (event: React.FormEvent<WrapFormElement>) => {
     event.preventDefault();
-    migrateMutation.mutate();
+    migrateMutation.mutate(amount);
   };
 
   return (
@@ -63,13 +68,15 @@ export const MigrateInputArea = () => {
             <Grid container>
               <Grid item xs={12} sm={8} style={{ paddingRight: "4px" }}>
                 <Input
-                  disabled
                   labelWidth={0}
+                  value={amount}
                   id="amount-input"
                   endString={t`Max`}
                   name="amount-input"
+                  endStringOnClick={setMax}
                   label={t`Enter an amount of wsOHM`}
-                  value={balance && formatUnits(balance)}
+                  disabled={migrateMutation.isLoading}
+                  onChange={event => setAmount(event.target.value)}
                 />
               </Grid>
 

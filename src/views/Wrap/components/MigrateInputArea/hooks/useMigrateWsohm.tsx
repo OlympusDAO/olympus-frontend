@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
 import { ContractReceipt } from "ethers";
+import { parseUnits } from "ethers/lib/utils";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, MIGRATOR_ADDRESSES, WSOHM_ADDRESSES } from "src/constants/addresses";
@@ -17,17 +18,24 @@ export const useMigrateWsohm = () => {
   const { address, networkId } = useWeb3Context();
   const contract = useDynamicMigratorContract(MIGRATOR_ADDRESSES, true);
 
-  return useMutation<ContractReceipt, Error>(
-    async () => {
+  return useMutation<ContractReceipt, Error, string>(
+    async amount => {
+      if (!amount || isNaN(Number(amount))) throw new Error(t`Please enter a number`);
+
+      const parsedAmount = parseUnits(amount, 18);
+
+      if (!parsedAmount.gt(0)) throw new Error(t`Please enter a number greater than 0`);
+
       if (!contract || (networkId !== networks.AVALANCHE && networkId !== networks.ARBITRUM))
         throw new Error(t`Please switch to the Abritrum or Avalanche networks to migrate`);
 
       const balance = balances[networkId].data;
 
       if (!balance) throw new Error(t`Please refresh your page and try again`);
-      if (balance.eq(0)) throw new Error(t`You have already migrated all of your wsOHM`);
 
-      const transaction = await contract.migrate(balance);
+      if (parsedAmount.gt(balance)) throw new Error(t`You cannot migrate more than your wsOHM balance`);
+
+      const transaction = await contract.migrate(parsedAmount);
       return transaction.wait();
     },
     {
