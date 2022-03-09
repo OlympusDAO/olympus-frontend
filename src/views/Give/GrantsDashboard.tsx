@@ -10,7 +10,7 @@ import { useUIDSeed } from "react-uid";
 import GrantCard, { GrantDetailsMode } from "src/components/GiveProject/GrantCard";
 import { Grant } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
-import { EnvHelper } from "src/helpers/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ACTION_GIVE, changeGive, changeMockGive, isSupportedChain } from "src/slices/GiveThunk";
@@ -63,7 +63,7 @@ export default function GrantsDashboard() {
 
     // If on Rinkeby and using Mock Sohm, use the changeMockGive async thunk
     // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE,
