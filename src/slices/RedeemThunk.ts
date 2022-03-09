@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { addresses } from "../constants";
-import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
+import { trackGAEvent } from "../helpers/analytics";
 import { getBalances, getMockRedemptionBalances, getRedemptionBalances } from "./AccountSlice";
 import { IJsonRPCError, IRedeemAsyncThunk } from "./interfaces";
 import { error } from "./MessagesSlice";
@@ -58,7 +58,6 @@ export const redeemBalance = createAsyncThunk(
       return;
     } finally {
       if (redeemTx) {
-        trackSegmentEvent(uaData);
         trackGAEvent({
           category: "Olympus Give",
           action: uaData.type,
@@ -120,7 +119,6 @@ export const redeemMockBalance = createAsyncThunk(
       return;
     } finally {
       if (redeemTx) {
-        trackSegmentEvent(uaData);
         trackGAEvent({
           category: "Olympus Give",
           action: uaData.type,

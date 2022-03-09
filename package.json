@@ -36,7 +36,7 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "^3.5.9",
+    "@apollo/client": "^3.5.10",
     "@ethersproject/address": "^5.0.5",
     "@ethersproject/providers": "^5.0.12",
     "@ledgerhq/iframe-provider": "^0.4.2",
@@ -98,7 +98,7 @@
     "@types/markdown-it": "^12.2.3",
     "@types/puppeteer": "^5.4.5",
     "@types/react": "^17.0.15",
-    "@types/react-dom": "^17.0.11",
+    "@types/react-dom": "^17.0.13",
     "@types/react-router-dom": "^5.3.3",
     "@types/shelljs": "^0.8.9",
     "@types/uuid": "^8.3.1",
@@ -160,6 +160,7 @@
     "lingui:compile": "lingui compile",
     "lingui:branch:main": "yarn lingui:deinit && git config -f .gitmodules submodule.src/locales/translations.branch main && yarn lingui:fetch",
     "lingui:branch:develop": "yarn lingui:deinit && git config -f .gitmodules submodule.src/locales/translations.branch develop && yarn lingui:fetch",
+    "lingui:branch:translators": "yarn lingui:deinit && git config -f .gitmodules submodule.src/locales/translations.branch translators && yarn lingui:fetch",
     "lingui:deinit": "git submodule  deinit -f  src/locales/translations",
     "lingui:fetch": "git submodule update --init --remote src/locales/translations",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",

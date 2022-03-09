@@ -71,7 +71,7 @@ function ChooseInverseBond() {
           </TableContainer>
         </Grid>
       )}
-      <Box mt={2} mb={isSmallScreen && 2} className="help-text">
+      <Box mt={2} mb={isSmallScreen && 1} className="help-text">
         <em>
           <Typography variant="body2">
             <Trans>

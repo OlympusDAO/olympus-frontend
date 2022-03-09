@@ -9,7 +9,7 @@ import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { addresses } from "../constants";
 import { setAll } from "../helpers";
 import { getCreditMaturationDaysAndLimitPercentage } from "../helpers/33Together";
-import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
+import { trackGAEvent } from "../helpers/analytics";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import {
   IActionAsyncThunk,
@@ -182,7 +182,6 @@ export const poolDeposit = createAsyncThunk(
       if (poolTx) {
         uaData.txHash = poolTx.hash;
         uaData.approved = true;
-        trackSegmentEvent(uaData);
         trackGAEvent({
           category: "Pool",
           action: uaData.type,
@@ -302,7 +301,6 @@ export const poolWithdraw = createAsyncThunk(
       }
     }
     uaData.approved = true;
-    trackSegmentEvent(uaData);
     trackGAEvent({
       category: "Pool",
       action: uaData.type,
