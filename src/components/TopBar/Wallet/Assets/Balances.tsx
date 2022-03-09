@@ -1,4 +1,4 @@
-import { AssetCard } from "@olympusdao/component-library";
+import { AssetCard, OHMTokenStackProps } from "@olympusdao/component-library";
 import { FC } from "react";
 import { formatCurrency } from "src/helpers";
 
@@ -6,7 +6,7 @@ import { GetTokenPrice } from "../queries";
 
 interface TokenArray {
   assetValue: number;
-  symbol: any;
+  symbol?: OHMTokenStackProps["tokens"];
   balance?: string;
   label?: string;
   timeRemaining?: string;
@@ -34,15 +34,16 @@ const Balances: FC<OHMAssetsProps> = ({ assets }) => {
           (
             token: TokenArray = {
               label: "",
-              symbol: undefined,
               assetValue: 0,
             },
+            index,
           ) => {
             const extraProps =
               token.ctaText && token.ctaOnClick ? { ctaText: token.ctaText, ctaOnClick: token.ctaOnClick } : {};
 
             return (
               <AssetCard
+                key={index}
                 token={token.symbol}
                 label={token.label}
                 assetValue={formatCurrency(token.assetValue, 2)}

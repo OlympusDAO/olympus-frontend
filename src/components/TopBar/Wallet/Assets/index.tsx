@@ -1,14 +1,13 @@
 import { Box, Link, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { WalletBalance } from "@olympusdao/component-library";
-import { BigNumber, BigNumberish } from "ethers";
+import { OHMTokenStackProps, WalletBalance } from "@olympusdao/component-library";
+import { BigNumber } from "ethers";
 import { FC } from "react";
-import { UseQueryResult } from "react-query";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
+import { formatCurrency, parseBigNumber, trim } from "src/helpers";
 import { prettifySeconds } from "src/helpers/timeUtil";
-import { useAppSelector, useWeb3Context } from "src/hooks";
+import { useAppSelector } from "src/hooks";
 import {
   useFuseBalance,
   useGohmBalance,
@@ -22,14 +21,12 @@ import {
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { NetworkId } from "src/networkDetails";
 import { IUserNote } from "src/slices/BondSliceV2";
 import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
 
-import Balances from "./Assets/Balances";
-import TransactionHistory from "./Assets/TransactionHistory";
-import { GetTokenPrice } from "./queries";
-//import { useWallet } from "./Token";
+import { GetTokenPrice } from "../queries";
+import Balances from "./Balances";
+import TransactionHistory from "./TransactionHistory";
 
 const useStyles = makeStyles<Theme>(theme => ({
   selector: {
@@ -54,32 +51,10 @@ const useStyles = makeStyles<Theme>(theme => ({
     },
   },
 }));
-const DECIMAL_PLACES_SHOWN = 4;
-
-// export interface OHMAssetsProps {}
 
 /**
  * Component for Displaying Assets
  */
-
-const formatBalance = (balance?: BigNumber, units: BigNumberish = 9) =>
-  balance && formatNumber(parseBigNumber(balance, units), DECIMAL_PLACES_SHOWN);
-
-const sumBalances = (
-  balances: Record<NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, UseQueryResult<BigNumber, unknown>>,
-) => {
-  const balArray = Object.entries(balances).map(e => ({ ...e[1], networkId: e[0] }));
-
-  const bal = balArray
-    .map(balance => {
-      if (balance.data) {
-        return parseBigNumber(balance.data);
-      }
-      return 0;
-    })
-    .reduce((a, b) => a + b);
-  return bal;
-};
 
 export interface OHMAssetsProps {
   path?: string;
@@ -87,7 +62,6 @@ export interface OHMAssetsProps {
 const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const history = useHistory();
   const networks = useTestableNetworks();
-  const { address: userAddress, networkId, providerInitialized } = useWeb3Context();
   const { data: ohmPrice = 0 } = useOhmPrice();
   const { data: priceFeed = { usd_24h_change: -0 } } = GetTokenPrice();
   const { data: currentIndex = 0 as unknown as BigNumber } = useCurrentIndex();
@@ -115,19 +89,19 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const gOhmPrice = ohmPrice * parseBigNumber(currentIndex);
   const tokenArray = [
     {
-      symbol: ["OHM"],
+      symbol: ["OHM"] as OHMTokenStackProps["tokens"],
       balance: formattedohmBalance,
       assetValue: Number(formattedohmBalance) * ohmPrice,
       alwaysShow: true,
     },
     {
-      symbol: ["OHM"],
+      symbol: ["OHM"] as OHMTokenStackProps["tokens"],
       balance: formattedV1OhmBalance,
       label: "(v1)",
       assetValue: Number(formattedV1OhmBalance) * ohmPrice,
     },
     {
-      symbol: ["sOHM"],
+      symbol: ["sOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedSOhmBalance,
       timeRemaining:
         nextRebaseDate && `Stakes in ${prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}`,
@@ -135,7 +109,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       alwaysShow: true,
     },
     {
-      symbol: ["sOHM"],
+      symbol: ["sOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedV1SohmBalance,
       label: "(v1)",
       timeRemaining:
@@ -143,12 +117,12 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       assetValue: Number(formattedV1SohmBalance) * ohmPrice,
     },
     {
-      symbol: ["wsOHM"],
+      symbol: ["wsOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedWsOhmBalance,
       assetValue: gOhmPrice * Number(formattedWsOhmBalance),
     },
     {
-      symbol: ["gOHM"],
+      symbol: ["gOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedgOhmBalance,
       assetValue: gOhmPrice * Number(formattedgOhmBalance),
       pnl: Number(gOhmBalance) === 0 ? 0 : formatCurrency(parseBigNumber(gOhmBalance, 18) * gOhmPriceChange, 2),
@@ -156,7 +130,8 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     },
   ];
 
-  const bondsArray = accountNotes.map(note => ({
+  const bondsArray = accountNotes.map((note, index) => ({
+    key: index,
     symbol: note.bondIconSvg,
     balance: trim(note.payout, 4),
     label: "(Bond)",
@@ -168,11 +143,6 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     ctaOnClick: () => history.push("/bonds"),
   }));
 
-  console.log(accountNotes);
-
-  // const tokens = useWallet(userAddress, networkId, providerInitialized);
-  // const alwaysShowTokens = [tokens.ohm, tokens.sohm, tokens.gohm];
-  // const onlyShowWhenBalanceTokens = [tokens.wsohm, tokens.pool];
   const classes = useStyles();
 
   const assets = [...tokenArray, ...bondsArray];

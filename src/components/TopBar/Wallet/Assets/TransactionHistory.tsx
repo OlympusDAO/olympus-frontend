@@ -290,8 +290,6 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
       .reduce((previousGroup: any, currentGroup: any) => {
         if (currentGroup && currentGroup.pages) {
           const page = currentGroup.pages.reduce((lastPage: CovalentTransaction[], currentPage: CovalentResponse) => {
-            console.log(lastPage, "lastPage");
-            console.log(currentPage, "currentPage");
             if (!currentPage.error) {
               const filtered =
                 currentPage.type === "transfer" ? filterTransfers(currentPage) : filterTransactions(currentPage);

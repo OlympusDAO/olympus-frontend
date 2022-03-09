@@ -6,7 +6,6 @@ import { trim } from "src/helpers";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useProtocolMetrics } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
-//import { useTreasuryMetrics } from "src/views/TreasuryDashboard/hooks/useTreasuryMetrics";
 
 const useStyles = makeStyles<Theme>(theme => ({
   title: {

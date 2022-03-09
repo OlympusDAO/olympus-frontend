@@ -1,7 +1,15 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Link as MuiLink, makeStyles, SwipeableDrawer, Theme, Typography, withStyles } from "@material-ui/core";
+import {
+  Box,
+  Link as MuiLink,
+  LinkProps,
+  makeStyles,
+  SwipeableDrawer,
+  Theme,
+  Typography,
+  withStyles,
+} from "@material-ui/core";
 import { Icon, OHMTokenProps, PrimaryButton, TabBar, TertiaryButton, Token } from "@olympusdao/component-library";
-import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { NETWORKS } from "src/constants";
 import { shorten } from "src/helpers";
@@ -11,7 +19,6 @@ import Assets from "./Assets";
 import Calculator from "./Calculator";
 import GetOhm from "./GetOhm";
 import Info from "./Info";
-//import InitialWalletView from "./InitialWalletView";
 
 const StyledSwipeableDrawer = withStyles(theme => ({
   root: {
@@ -37,12 +44,9 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-export function Wallet(props: { open?: boolean; component?: string; currentPath?: any }) {
+export function Wallet(props: { open?: boolean; component?: string }) {
   const classes = useStyles();
-  const [isWalletOpen, setWalletOpen] = useState(false);
   const { address, connect, connected, networkId } = useWeb3Context();
-  const closeWallet = () => setWalletOpen(false);
-  const openWallet = () => setWalletOpen(true);
   const { id } = useParams<{ id: string }>();
 
   // only enable backdrop transition on ios devices,
@@ -50,26 +54,26 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
   // also disable discovery on IOS, because of it's 'swipe to go back' feat
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-  const CloseButton = (props: any) => (
+  const CloseButton = (props: LinkProps) => (
     <MuiLink {...props}>
       <Icon name="x" />
     </MuiLink>
   );
-  const WalletButtonTop = (props: any) => {
+  const WalletButtonTop = () => {
     const onClick = !connected ? connect : undefined;
     const label = connected ? t`Wallet` : t`Connect Wallet`;
     return (
-      <PrimaryButton className={classes.connectButton} color="secondary" {...props} onClick={onClick}>
+      <PrimaryButton className={classes.connectButton} color="secondary" onClick={onClick}>
         <Icon name="wallet" />
         <Typography>{label}</Typography>
       </PrimaryButton>
     );
   };
-  const WalletButtonBottom = (props: any) => {
+  const WalletButtonBottom = () => {
     const onClick = !connected ? connect : undefined;
     const label = connected ? t`Wallet` : t`Connect Wallet`;
     return (
-      <PrimaryButton {...props} onClick={onClick}>
+      <PrimaryButton onClick={onClick}>
         <Typography>{label}</Typography>
       </PrimaryButton>
     );
@@ -97,8 +101,8 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
         disableDiscovery={isIOS}
         anchor="right"
         open={props.open ? true : false}
-        onOpen={openWallet}
-        onClose={closeWallet}
+        onOpen={() => null}
+        onClose={() => null}
       >
         <Box p="30px 15px" style={{ overflow: "hidden" }}>
           <Box style={{ top: 0, position: "sticky" }}>
