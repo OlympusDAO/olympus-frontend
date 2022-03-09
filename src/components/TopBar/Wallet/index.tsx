@@ -133,9 +133,9 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
             style={{
               height: "100vh",
               display: "block",
-              overflow: "scroll",
-              overscrollBehaviorX: "none",
-              paddingBottom: connected ? "240px" : "150px",
+              overflowY: "scroll",
+              overflowX: "hidden",
+              paddingBottom: "45vh",
             }}
           >
             {(() => {
