@@ -131,10 +131,11 @@ export function Wallet(props: { open?: boolean; component?: string; currentPath?
           </Box>
           <Box
             style={{
-              height: "calc(100% - 100px)",
+              height: "100vh",
               display: "block",
               overflowY: "scroll",
               overflowX: "hidden",
+              paddingBottom: "calc(65%)",
             }}
           >
             {(() => {
