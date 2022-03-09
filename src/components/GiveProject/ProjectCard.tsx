@@ -162,7 +162,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         setTotalDonated(donatedAmount);
       })
       .catch(e => console.log(e));
-  }, [connected, networkId, isGiveModalOpen]);
+  }, [connected, networkId, isGiveModalOpen, donationInfo]);
 
   // Determine if the current user is donating to the project whose page they are
   // currently viewing and if so tracks the index of the recipient in the user's

@@ -87,7 +87,7 @@ export function ManageDonationModal({
         })
         .catch(e => console.log(e));
     }
-  }, [connected, networkId]);
+  }, [connected, networkId, isModalOpen]);
 
   useEffect(() => {
     checkIsWalletAddressValid(getWalletAddress());
@@ -98,6 +98,7 @@ export function ManageDonationModal({
       // When we close the modal, we ensure button click states are reset
       setIsEditing(false);
       setIsWithdrawing(false);
+      setIsAmountSet(false);
     }
   }, [isModalOpen]);
 
@@ -449,7 +450,7 @@ export function ManageDonationModal({
             <Typography variant="h6" className="row-title">
               Deposited
             </Typography>
-            <Typography variant="h6">{depositAmount} sOHM</Typography>
+            <Typography variant="h6">{currentDepositAmount.toFixed(2)} sOHM</Typography>
           </div>
           <div className="details-row">
             <Typography variant="h6" className="row-title">
