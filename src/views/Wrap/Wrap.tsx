@@ -195,7 +195,7 @@ const Wrap: FC = () => {
                   isLoading={currentIndex ? false : true}
                 />
                 <Metric
-                  label={t`gOHM ${t`Price`}`}
+                  label={`gOHM ${t`Price`}`}
                   metric={formatCurrency(gOhmPrice, 2)}
                   isLoading={gOhmPrice ? false : true}
                   tooltip={`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of sOHM multiplied by the current index`}
