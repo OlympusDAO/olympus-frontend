@@ -83,8 +83,6 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
 
-  const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
-
   useEffect(() => {
     // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
     // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
@@ -662,7 +660,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   headerText="About"
                   topRight={
                     <Link href={grant.website} target="_blank">
-                      <Icon name="website" fill={svgFillColour} />
+                      <Icon name="website" />
                     </Link>
                   }
                 >
