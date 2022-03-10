@@ -40,7 +40,7 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
     networkIds.map(networkId => ({
       queryKey: balanceQueryKey(address, tokenAddressMap, networkId),
       queryFn: () => contracts[networkId as NetworkId].balanceOf(address),
-      enabled: !!address && isTestMode ? isTestnet(networkId) : !isTestnet(networkId),
+      enabled: !!address && (isTestMode ? isTestnet(networkId) : !isTestnet(networkId)),
     })),
   );
 
