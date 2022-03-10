@@ -18,6 +18,7 @@ import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { error } from "../../slices/MessagesSlice";
+import { NEW_DEPOSIT } from "./constants";
 import data from "./grants.json";
 
 export default function GrantsDashboard() {
@@ -83,7 +84,7 @@ export default function GrantsDashboard() {
           action: ACTION_GIVE,
           value: depositAmount.toFixed(),
           recipient: walletAddress,
-          id: "-1",
+          id: NEW_DEPOSIT,
           provider,
           address,
           networkID: networkId,

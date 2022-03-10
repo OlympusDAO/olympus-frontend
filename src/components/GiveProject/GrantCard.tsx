@@ -32,6 +32,7 @@ import {
   isSupportedChain,
 } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { NEW_DEPOSIT } from "src/views/Give/constants";
 import { CancelCallback, SubmitCallback, SubmitEditCallback } from "src/views/Give/Interfaces";
 import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
@@ -76,6 +77,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const [totalDonated, setTotalDonated] = useState("");
   const [donorCount, setDonorCount] = useState(0);
   const [isUserDonating, setIsUserDonating] = useState(false);
+
+  // We use an initial value of -1 rather than 0 because 0 could be a valid donation ID whereas
+  // -1 could not be, makes it simple to check if this has been loaded and changed
   const [donationId, setDonationId] = useState(-1);
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
@@ -99,11 +103,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   // Resets the viewport to the top of the page when pathnames change rather than
   // preserving vertical position of the page you are coming from
   useEffect(() => {
-    const items = document.getElementsByClassName("project-container");
-    if (items.length > 0) {
-      items[0].scrollIntoView();
-      window.scrollTo(0, 0);
-    }
+    const item = document.getElementById("outer-container");
+    item?.scrollIntoView();
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   useEffect(() => {
@@ -361,7 +363,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           action: ACTION_GIVE,
           value: depositAmount.toFixed(),
           recipient: walletAddress,
-          id: "-1",
+          id: NEW_DEPOSIT,
           provider,
           address,
           networkID: networkId,
@@ -582,7 +584,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const getPageContent = () => {
     return (
       <>
-        <Container className={`project-container`}>
+        <Container id="outer-container">
           <Grid container className="project" spacing={3} alignItems="flex-start">
             <Grid container item xs={12} lg={5}>
               <Grid item xs={12}>

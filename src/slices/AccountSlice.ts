@@ -18,7 +18,7 @@ import { abi as sOHMv2 } from "../abi/sOhmv2.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
 import { addresses, NetworkId } from "../constants";
 import { handleContractError, setAll } from "../helpers";
-import { GetDonationDate } from "../helpers/GetDonationDate";
+import { GetFirstDonationDate } from "../helpers/GetDonationDate";
 import { getTotalYieldSent } from "../helpers/GetTotalDonated";
 import { getMockRedemptionBalancesAsync, getRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
@@ -48,6 +48,22 @@ interface IUserBalances {
     fiatDaowsohm: string;
     mockSohm: string;
     pool: string;
+  };
+}
+
+interface IUserGiving {
+  giving: {
+    sohmGive: number;
+    donationInfo: IUserDonationInfo[];
+    loading: boolean;
+  };
+}
+
+interface IUserMockGiving {
+  mockGiving: {
+    sohmGive: number;
+    donationInfo: IUserDonationInfo[];
+    loading: boolean;
   };
 }
 
@@ -272,69 +288,65 @@ export const getBalances = createAsyncThunk(
  */
 export const getDonationBalances = createAsyncThunk(
   "account/getDonationBalances",
-  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+  async ({ address, networkID, provider }: IBaseAddressAsyncThunk): Promise<IUserGiving> => {
     let giveAllowance = 0;
     const donationInfo: IUserDonationInfo[] = [];
 
-    if (addresses[networkID] && addresses[networkID].GIVING_ADDRESS) {
-      const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider);
-      const gohmContract = new ethers.Contract(addresses[networkID].GOHM_ADDRESS as string, gOHM, provider);
-      giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
-      const givingContract = new ethers.Contract(
-        addresses[networkID].GIVING_ADDRESS as string,
-        OlympusGiving,
-        provider,
-      );
+    if (!(addresses[networkID] && addresses[networkID].GIVING_ADDRESS)) {
+      console.log("Unable to find MOCK_SOHM contract on chain ID " + networkID);
+    }
 
-      try {
-        // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
-        const depositIds: BigNumber[] = await givingContract.getDepositorIds(address);
-        const allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
+    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider);
+    const gohmContract = new ethers.Contract(addresses[networkID].GOHM_ADDRESS as string, gOHM, provider);
+    giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+    const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
 
-        // ([0x00000...], [0]) is the null return indicating a user has no deposits
-        // This confirms that we did not receive back a null deposit
-        if (allDeposits[0].length != 1 || allDeposits[1][0] != BigNumber.from(0)) {
-          for (let i = 0; i < allDeposits[0].length; i++) {
-            if (allDeposits[1][i].eq(0)) continue;
-            const depositId = depositIds[i];
-            const sohmValue = await gohmContract.balanceFrom(allDeposits[1][i]);
-            const depositAmount = ethers.utils.formatUnits(sohmValue, "gwei");
-            const recipient = allDeposits[0][i];
+    try {
+      // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
+      const depositIds: BigNumber[] = await givingContract.getDepositorIds(address);
+      const allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
 
-            // Create promises to batch together
-            const getDatePromise = GetDonationDate({
-              address: address,
-              recipient: recipient,
-              networkID: networkID,
-              provider: provider,
-            });
-            const getYieldPromise = getTotalYieldSent({
-              address: address,
-              recipient: recipient,
-              networkID: networkID,
-              provider: provider,
-            });
+      // ([0x00000...], [0]) is the null return indicating a user has no deposits
+      // This confirms that we did not receive back a null deposit
+      if (allDeposits[0].length != 1 || allDeposits[1][0] != BigNumber.from(0)) {
+        for (let i = 0; i < allDeposits[0].length; i++) {
+          if (allDeposits[1][i].eq(0)) continue;
+          const depositId = depositIds[i];
+          const sohmValue = await gohmContract.balanceFrom(allDeposits[1][i]);
+          const depositAmount = ethers.utils.formatUnits(sohmValue, "gwei");
+          const recipient = allDeposits[0][i];
 
-            const resultsArr = await Promise.all([getDatePromise, getYieldPromise]);
+          // Create promises to batch together
+          const getDatePromise = GetFirstDonationDate({
+            address: address,
+            recipient: recipient,
+            networkID: networkID,
+            provider: provider,
+          });
+          const getYieldPromise = getTotalYieldSent({
+            address: address,
+            recipient: recipient,
+            networkID: networkID,
+            provider: provider,
+          });
 
-            // Can't batch this one as it relies on getYieldPromise being fulfilled
-            const sohmYieldSent = await gohmContract.balanceFrom(resultsArr[1]);
-            const formattedYieldSent = ethers.utils.formatUnits(sohmYieldSent, "gwei");
+          const resultsArr = await Promise.all([getDatePromise, getYieldPromise]);
 
-            donationInfo.push({
-              id: depositId.toString(),
-              date: resultsArr[0],
-              deposit: depositAmount,
-              recipient: recipient,
-              yieldDonated: formattedYieldSent,
-            });
-          }
+          // Can't batch this one as it relies on getYieldPromise being fulfilled
+          const sohmYieldSent = await gohmContract.balanceFrom(resultsArr[1]);
+          const formattedYieldSent = ethers.utils.formatUnits(sohmYieldSent, "gwei");
+
+          donationInfo.push({
+            id: depositId.toString(),
+            date: resultsArr[0],
+            deposit: depositAmount,
+            recipient: recipient,
+            yieldDonated: formattedYieldSent,
+          });
         }
-      } catch (e: unknown) {
-        console.log(e);
       }
-    } else {
-      console.log("Unable to find GIVING_ADDRESS contract on chain ID " + networkID);
+    } catch (e: unknown) {
+      console.log(e);
     }
 
     return {
@@ -355,7 +367,7 @@ export const getDonationBalances = createAsyncThunk(
  */
 export const getMockDonationBalances = createAsyncThunk(
   "account/getMockDonationBalances",
-  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+  async ({ address, networkID, provider }: IBaseAddressAsyncThunk): Promise<IUserMockGiving> => {
     let giveAllowance = 0;
     const donationInfo: IUserDonationInfo[] = [];
 
@@ -375,7 +387,7 @@ export const getMockDonationBalances = createAsyncThunk(
           if (allDeposits[1][i] !== BigNumber.from(0)) {
             const depositAmount = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
             const recipient = allDeposits[0][i];
-            const firstDonationDate: string = await GetDonationDate({
+            const firstDonationDate: string = await GetFirstDonationDate({
               address: address,
               recipient: recipient,
               networkID: networkID,

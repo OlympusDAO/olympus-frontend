@@ -14,6 +14,20 @@ interface IDonorAddresses {
   [key: string]: boolean;
 }
 
+interface IUserRedeeming {
+  redeeming: {
+    sohmRedeemable: string;
+    recipientInfo: IUserRecipientInfo;
+  };
+}
+
+interface IUserMockRedeeming {
+  mockRedeeming: {
+    sohmRedeemable: string;
+    recipientInfo: IUserRecipientInfo;
+  };
+}
+
 // Gets a recipient's info. Separating it out into a helper allows us to call it on addresses
 // other than the current user's without overwriting the data in Redux store. This is needed
 // to pull data on our partner projects
@@ -26,7 +40,11 @@ interface IDonorAddresses {
  * @param provider Ethereum network provider object
  * @returns Redeemable sOHM plus recipientInfo object (totalDebt and agnosticDebt)
  */
-export const getRedemptionBalancesAsync = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+export const getRedemptionBalancesAsync = async ({
+  address,
+  networkID,
+  provider,
+}: IBaseAddressAsyncThunk): Promise<IUserRedeeming> => {
   let redeemableBalance = 0;
   const recipientInfo: IUserRecipientInfo = {
     totalDebt: "0",
@@ -80,7 +98,11 @@ export const getRedemptionBalancesAsync = async ({ address, networkID, provider 
 };
 
 // Gets a recipient's info but from the MockGive contract on Rinkeby
-export const getMockRedemptionBalancesAsync = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+export const getMockRedemptionBalancesAsync = async ({
+  address,
+  networkID,
+  provider,
+}: IBaseAddressAsyncThunk): Promise<IUserMockRedeeming> => {
   let redeemableBalance = 0;
   const recipientInfo: IUserRecipientInfo = {
     totalDebt: "",
@@ -122,12 +144,15 @@ export const getMockRedemptionBalancesAsync = async ({ address, networkID, provi
  * @param provider Ethereum network provider object
  * @returns Number of active donations to the provided address
  */
-export const getDonorNumbers = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+export const getDonorNumbers = async ({
+  address,
+  networkID,
+  provider,
+}: IBaseAddressAsyncThunk): Promise<ethers.providers.Log[]> => {
   const donationsToAddress = [];
 
   if (!(addresses[networkID] && addresses[networkID].GIVING_ADDRESS)) {
     console.log("Unable to find MOCK_SOHM contract on chain ID " + networkID);
-    return;
   } else {
     // Addresses in EVM events are zero padded out to 32 characters and are lower case
     // This matches our inputs with the data we expect to receive from Ethereum
@@ -150,24 +175,26 @@ export const getDonorNumbers = async ({ address, networkID, provider }: IBaseAdd
     for (let i = 0; i < events.length; i++) {
       const event = events[i];
 
-      if (event.topics[2] === zeroPadAddress.toLowerCase()) {
-        const donorActiveDonations: [string[], BigNumber[]] = await givingContract.getAllDeposits(
-          ethers.utils.hexDataSlice(event.topics[1], 12),
-        );
-        // make sure the deposit was an active donation and has not been withdrawn
-        for (let j = 0; j < donorActiveDonations[0].length; j++) {
-          // Makes sure that the recipient matches the one we are looking for,
-          // that the deposit amount is not 0, and that the user is not already
-          // counted for donating in a previous Deposited event
-          if (
-            donorActiveDonations[0][j].toLowerCase() == address.toLowerCase() &&
-            donorActiveDonations[1][j] > BigNumber.from(0) &&
-            !donorAddresses[event.topics[1]]
-          ) {
-            donationsToAddress.push(event);
-            // keep track of active donors so multiple deposits are not counted as multiple donors
-            donorAddresses[event.topics[1]] = true;
-          }
+      if (event.topics[2] !== zeroPadAddress.toLowerCase()) {
+        continue;
+      }
+
+      const donorActiveDonations: [string[], BigNumber[]] = await givingContract.getAllDeposits(
+        ethers.utils.hexDataSlice(event.topics[1], 12),
+      );
+      // make sure the deposit was an active donation and has not been withdrawn
+      for (let j = 0; j < donorActiveDonations[0].length; j++) {
+        // Makes sure that the recipient matches the one we are looking for,
+        // that the deposit amount is not 0, and that the user is not already
+        // counted for donating in a previous Deposited event
+        if (
+          donorActiveDonations[0][j].toLowerCase() == address.toLowerCase() &&
+          donorActiveDonations[1][j] > BigNumber.from(0) &&
+          !donorAddresses[event.topics[1]]
+        ) {
+          donationsToAddress.push(event);
+          // keep track of active donors so multiple deposits are not counted as multiple donors
+          donorAddresses[event.topics[1]] = true;
         }
       }
     }

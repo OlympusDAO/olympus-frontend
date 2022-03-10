@@ -9,9 +9,15 @@ import { IBaseAddressRecipientAsyncThunk } from "../slices/interfaces";
  * @param recipient The donation target of the current user
  * @param networkID ID number of the network the user is currently connected to
  * @param provider Network provider object
- * @returns String representation of the date as Month Day, Year
+ * @returns String representation of the date as Month Abbreviation DD, YYYY
+ *          i.e. Feb 13, 2022
  */
-export const GetDonationDate = async ({ address, recipient, networkID, provider }: IBaseAddressRecipientAsyncThunk) => {
+export const GetFirstDonationDate = async ({
+  address,
+  recipient,
+  networkID,
+  provider,
+}: IBaseAddressRecipientAsyncThunk) => {
   if (!addresses[networkID] || !addresses[networkID].GIVING_ADDRESS) {
     console.log("No giving contract on chain ID " + networkID);
     return "";

@@ -18,6 +18,7 @@ import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { error } from "../../slices/MessagesSlice";
+import { NEW_DEPOSIT } from "./constants";
 import data from "./projects.json";
 
 export default function CausesDashboard() {
@@ -69,16 +70,12 @@ export default function CausesDashboard() {
         }),
       );
     } else {
-      // Since the new version of the YieldDirector contract uses IDs as a deposit indexing system
-      // the async thunk used to interact with the contract needs to have an ID passed to it
-      // here we use the ID of "-1" to indicate to the thunk that this is a new deposit and thus
-      // does not yet have a properly defined ID
       await dispatch(
         changeGive({
           action: ACTION_GIVE,
           value: depositAmount.toFixed(),
           recipient: walletAddress,
-          id: "-1",
+          id: NEW_DEPOSIT,
           provider,
           address,
           networkID: networkId,

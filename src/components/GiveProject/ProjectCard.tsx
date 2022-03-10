@@ -40,6 +40,7 @@ import {
   isSupportedChain,
 } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { NEW_DEPOSIT } from "src/views/Give/constants";
 import { CancelCallback, SubmitCallback, SubmitEditCallback } from "src/views/Give/Interfaces";
 import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
@@ -114,11 +115,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   // Resets the viewport to the top of the page when pathnames change rather than
   // preserving vertical position of the page you are coming from
   useEffect(() => {
-    const items = document.getElementsByClassName("project-container");
-    if (items.length > 0) {
-      items[0].scrollIntoView();
-      window.scrollTo(0, 0);
-    }
+    const item = document.getElementById("outer-container");
+    item?.scrollIntoView();
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   // Reset donation states when user switches network
@@ -452,7 +451,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           action: ACTION_GIVE,
           value: depositAmount.toFixed(),
           recipient: walletAddress,
-          id: "-1",
+          id: NEW_DEPOSIT,
           provider,
           address,
           networkID: networkId,
@@ -715,7 +714,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getPageContent = () => {
     return (
       <>
-        <Container style={{ display: "flex", justifyContent: "center" }} className="project-container">
+        <Container style={{ display: "flex", justifyContent: "center" }} id="outer-container">
           <div
             className={`${isMediumScreen ? "medium" : ""}
             ${isSmallScreen ? "smaller" : ""}
