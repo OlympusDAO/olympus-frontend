@@ -8,14 +8,13 @@ import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { NetworkId } from "src/networkDetails";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
 export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const networks = useTestableNetworks();
   const { address } = useWeb3Context();
+  const networks = useTestableNetworks();
   const balance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
 
@@ -46,8 +45,8 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
       },
       onSuccess: async () => {
         const keysToRefetch = [
-          balanceQueryKey(address, OHM_ADDRESSES, NetworkId.MAINNET),
-          balanceQueryKey(address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, NetworkId.MAINNET),
+          balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

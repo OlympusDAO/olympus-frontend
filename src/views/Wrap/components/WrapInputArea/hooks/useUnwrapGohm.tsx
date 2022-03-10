@@ -13,8 +13,8 @@ import { error as createErrorToast, info as createInfoToast } from "src/slices/M
 export const useUnwrapGohm = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
+  const { address } = useWeb3Context();
   const networks = useTestableNetworks();
-  const { address, networkId } = useWeb3Context();
   const balance = useBalance(GOHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
 
@@ -43,8 +43,8 @@ export const useUnwrapGohm = () => {
       },
       onSuccess: async () => {
         const keysToRefetch = [
-          balanceQueryKey(address, SOHM_ADDRESSES, networkId),
-          balanceQueryKey(address, GOHM_ADDRESSES, networkId),
+          balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

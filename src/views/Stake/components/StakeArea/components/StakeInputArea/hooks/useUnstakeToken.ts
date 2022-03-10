@@ -8,7 +8,6 @@ import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { NetworkId } from "src/networkDetails";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
 export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
@@ -49,8 +48,8 @@ export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
       },
       onSuccess: async () => {
         const keysToRefetch = [
-          balanceQueryKey(address, addresses, NetworkId.MAINNET),
-          balanceQueryKey(address, OHM_ADDRESSES, NetworkId.MAINNET),
+          balanceQueryKey(address, addresses, networks.MAINNET),
+          balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
