@@ -5,20 +5,19 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import { render, RenderOptions, RenderResult } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import React, { ReactElement, ReactNode } from "react";
-import { QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import { Web3ContextProvider } from "./hooks/web3Context";
-import { queryClient } from "./lib/react-query";
+import { ReactQueryProvider } from "./lib/react-query";
 import defaultStore from "./store";
 import { light as lightTheme } from "./themes/light.js";
 
 const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOptions): RenderResult => {
   const ProviderWrapper = ({ children }: { children?: ReactNode }) => (
     <Web3ContextProvider>
-      <QueryClientProvider client={queryClient}>
+      <ReactQueryProvider>
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
             <BrowserRouter basename={"/#"}>
@@ -29,7 +28,7 @@ const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOp
             </BrowserRouter>
           </I18nProvider>
         </Provider>
-      </QueryClientProvider>
+      </ReactQueryProvider>
     </Web3ContextProvider>
   );
   return render(ui, { wrapper: ProviderWrapper, ...options });
@@ -40,7 +39,7 @@ const renderRoute = function (route: string, store = defaultStore) {
   history.push(route);
   return render(
     <Web3ContextProvider>
-      <QueryClientProvider client={queryClient}>
+      <ReactQueryProvider>
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
             <BrowserRouter basename={"/#"}>
@@ -48,7 +47,7 @@ const renderRoute = function (route: string, store = defaultStore) {
             </BrowserRouter>
           </I18nProvider>
         </Provider>
-      </QueryClientProvider>
+      </ReactQueryProvider>
     </Web3ContextProvider>,
   );
 };
