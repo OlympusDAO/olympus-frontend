@@ -1,7 +1,7 @@
 import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
-import { addresses, NetworkId, UnknownDetails, V2BondDetails, v2BondDetails } from "src/constants";
+import { addresses, NetworkId, UnknownDetails, V2BondDetails, V2BondParser } from "src/constants";
 import { RootState } from "src/store";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
 
@@ -281,13 +281,14 @@ async function processBond(
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
 ): Promise<IBondV2> {
   const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
-  let v2BondDetail: V2BondDetails = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
+  const bondParser = new V2BondParser(bond.quoteToken.toLowerCase(), networkID, provider);
+  let v2BondDetail: V2BondDetails = await bondParser.details();
 
   if (!v2BondDetail) {
     v2BondDetail = UnknownDetails;
     console.error(`Add details for bond index=${index}`);
   }
-  const quoteTokenPrice = await v2BondDetail.pricingFunction(provider, bond.quoteToken);
+  const quoteTokenPrice = await v2BondDetail.pricingFunction();
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
   const bondPrice = +bondPriceBigNumber / Math.pow(10, BASE_TOKEN_DECIMALS);
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
@@ -326,7 +327,7 @@ async function processBond(
     expiration: new Date(terms.vesting * 1000).toDateString(),
     duration,
     isLP: v2BondDetail.isLP,
-    lpUrl: v2BondDetail.isLP ? v2BondDetail.lpUrl[networkID] : "",
+    lpUrl: v2BondDetail.isLP ? v2BondDetail.lpUrl : "",
     marketPrice: ohmPrice,
     quoteToken: bond.quoteToken.toLowerCase(),
     baseToken: "OHM",
@@ -388,7 +389,8 @@ export const getUserNotes = createAsyncThunk(
     const bonds = await Promise.all(
       Array.from(new Set(userNotes.map(note => note.marketID))).map(async id => {
         const bond = await depositoryContract.markets(id);
-        const bondDetail = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
+        const bondParser = new V2BondParser(bond.quoteToken.toLowerCase(), networkID, provider);
+        const bondDetail: V2BondDetails = await bondParser.details();
         return { index: id, quoteToken: bond.quoteToken, ...bondDetail };
       }),
     ).then(result => Object.fromEntries(result.map(bond => [bond.index, bond])));

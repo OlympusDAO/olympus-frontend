@@ -11,7 +11,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/useBonds";
 import { useWeb3Context, useAppSelector } from "./hooks";
-import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { shouldTriggerSafetyCheck } from "./helpers";
 
 import { calcBondDetails } from "./slices/BondSlice";
@@ -37,7 +36,7 @@ import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import ProjectInfo from "./views/Give/ProjectInfo";
-import { trackGAEvent, trackSegmentEvent } from "./helpers/analytics";
+import { trackGAEvent } from "./helpers/analytics";
 import Wallet from "./components/TopBar/Wallet";
 import { getAllInverseBonds } from "./slices/InverseBondSlice";
 
@@ -85,7 +84,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function App() {
-  useSegmentAnalytics();
   useGoogleAnalytics();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -243,10 +241,6 @@ function App() {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
-        trackSegmentEvent({
-          type: "connect",
-          context: currentPath,
-        });
         trackGAEvent({
           category: "App",
           action: "connect",
