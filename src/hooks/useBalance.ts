@@ -16,7 +16,6 @@ import {
 } from "src/constants/addresses";
 import { isTestnet } from "src/helpers";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
-import { reactQueryErrorHandler } from "src/helpers/react-query/reactQueryErrorHandler";
 import { nonNullable } from "src/helpers/types/nonNullable";
 
 import { useWeb3Context } from ".";
@@ -42,7 +41,6 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
       queryKey: balanceQueryKey(address, tokenAddressMap, networkId),
       queryFn: () => contracts[networkId as NetworkId].balanceOf(address),
       enabled: !!address && isTestMode ? isTestnet(networkId) : !isTestnet(networkId),
-      onError: reactQueryErrorHandler(balanceQueryKey(address, tokenAddressMap, networkId)),
     })),
   );
 

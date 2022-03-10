@@ -1,5 +1,4 @@
 import { useQuery } from "react-query";
-import { reactQueryErrorHandler } from "src/helpers/react-query/reactQueryErrorHandler";
 import apollo from "src/lib/apolloClient";
 
 const query = `
@@ -101,7 +100,7 @@ export const useProtocolMetrics = <TSelectData = unknown>(select: (data: Protoco
         ),
       );
     },
-    { select, onError: reactQueryErrorHandler(key) },
+    { select },
   );
 };
 

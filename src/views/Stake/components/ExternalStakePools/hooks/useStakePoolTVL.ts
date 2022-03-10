@@ -3,7 +3,6 @@ import { GOHM_ADDRESSES } from "src/constants/addresses";
 import { getTokenPrice, parseBigNumber } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
-import { reactQueryErrorHandler } from "src/helpers/react-query/reactQueryErrorHandler";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import { useStaticPairContract } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
@@ -50,7 +49,6 @@ export const useStakePoolTVL = (pool: ExternalPool) => {
     {
       enabled:
         !!gohmPrice && !!stakedBalance && !!poolTokenSupply && !!reserves && !!nonGohmTokenPrice && !!firstTokenAddress,
-      onError: reactQueryErrorHandler(key),
     },
   );
 };

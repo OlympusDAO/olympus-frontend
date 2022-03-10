@@ -5,7 +5,6 @@ import { OHM_DAI_RESERVE_CONTRACT_DECIMALS, STAKING_CONTRACT_DECIMALS } from "sr
 import { parseBigNumber } from "src/helpers";
 import { ohm_dai } from "src/helpers/AllBonds";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
-import { reactQueryErrorHandler } from "src/helpers/react-query/reactQueryErrorHandler";
 import { assert } from "src/helpers/types/assert";
 import { nonNullable } from "src/helpers/types/nonNullable";
 
@@ -24,15 +23,11 @@ export const useOhmPrice = () => {
   const reserveContract = useStaticPairContract(address, NetworkId.MAINNET);
 
   const key = ohmPriceQueryKey();
-  return useQuery<number, Error>(
-    key,
-    async () => {
-      const [ohm, dai] = await reserveContract.getReserves();
+  return useQuery<number, Error>(key, async () => {
+    const [ohm, dai] = await reserveContract.getReserves();
 
-      return parseBigNumber(dai.div(ohm), OHM_DAI_RESERVE_CONTRACT_DECIMALS);
-    },
-    { onError: reactQueryErrorHandler(key) },
-  );
+    return parseBigNumber(dai.div(ohm), OHM_DAI_RESERVE_CONTRACT_DECIMALS);
+  });
 };
 
 export const gohmPriceQueryKey = (marketPrice?: number, currentIndex?: BigNumber) =>
@@ -53,6 +48,6 @@ export const useGohmPrice = () => {
 
       return parseBigNumber(currentIndex, STAKING_CONTRACT_DECIMALS) * ohmPrice;
     },
-    { enabled: !!ohmPrice && !!currentIndex, onError: reactQueryErrorHandler(key) },
+    { enabled: !!ohmPrice && !!currentIndex },
   );
 };

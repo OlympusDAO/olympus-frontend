@@ -2,7 +2,6 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { STAKING_ADDRESSES } from "src/constants/addresses";
-import { reactQueryErrorHandler } from "src/helpers/react-query/reactQueryErrorHandler";
 
 import { useStaticStakingContract } from "./useContract";
 
@@ -12,5 +11,5 @@ export const useCurrentIndex = () => {
   const stakingContract = useStaticStakingContract(STAKING_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
 
   const key = currentIndexQueryKey();
-  return useQuery<BigNumber, Error>(key, () => stakingContract.index(), { onError: reactQueryErrorHandler(key) });
+  return useQuery<BigNumber, Error>(key, () => stakingContract.index());
 };

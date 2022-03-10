@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
-import { reactQueryErrorHandler } from "src/helpers/react-query/reactQueryErrorHandler";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import { covalent } from "src/lib/covalent";
 import { CovalentTransaction } from "src/lib/covalent.types";
@@ -29,6 +28,6 @@ export const usePendingTransactions = () => {
 
       return transactions.filter(transaction => !transaction.successful);
     },
-    { enabled: !!address && !!networkId, onError: reactQueryErrorHandler(key) },
+    { enabled: !!address && !!networkId },
   );
 };

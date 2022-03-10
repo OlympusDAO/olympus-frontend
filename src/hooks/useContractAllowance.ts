@@ -3,7 +3,6 @@ import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { AddressMap } from "src/constants/addresses";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
-import { reactQueryErrorHandler } from "src/helpers/react-query/reactQueryErrorHandler";
 import { nonNullable } from "src/helpers/types/nonNullable";
 
 import { useWeb3Context } from ".";
@@ -33,6 +32,6 @@ export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressM
 
       return token.allowance(address, contractAddress);
     },
-    { enabled: !!address && !!connected, onError: reactQueryErrorHandler(key) },
+    { enabled: !!address && !!connected },
   );
 };

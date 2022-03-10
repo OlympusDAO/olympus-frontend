@@ -1,6 +1,5 @@
 import { useQuery } from "react-query";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
-import { reactQueryErrorHandler } from "src/helpers/react-query/reactQueryErrorHandler";
 import { nonNullable } from "src/helpers/types/nonNullable";
 
 import { useWeb3Context } from ".";
@@ -26,6 +25,6 @@ export const useEns = () => {
       return { name, avatar };
     },
 
-    { enabled: !!address && isEnsSupported, onError: reactQueryErrorHandler(key) },
+    { enabled: !!address && isEnsSupported },
   );
 };
