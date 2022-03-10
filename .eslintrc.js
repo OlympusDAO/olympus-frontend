@@ -20,7 +20,12 @@ module.exports = {
   ],
   plugins: ["@typescript-eslint", "simple-import-sort", "unused-imports"],
   rules: {
-    "prettier/prettier": ["error"],
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
     "import/prefer-default-export": "off",
     "prefer-destructuring": "off",
     "prefer-template": "off",
