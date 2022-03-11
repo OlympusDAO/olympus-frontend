@@ -259,7 +259,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
-    const goalProgress = 70; // parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
+    const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
 
     if (depositGoal === 0) return <></>;
 
