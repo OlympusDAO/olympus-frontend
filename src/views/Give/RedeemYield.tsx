@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { Grid, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -21,6 +21,8 @@ import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
 import { DonationInfoState } from "./Interfaces";
 import data from "./projects.json";
 import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
+
+const DECIMAL_PLACES = 2;
 
 export default function RedeemYield() {
   const location = useLocation();
@@ -88,16 +90,16 @@ export default function RedeemYield() {
     }
   }, [connected]);
 
-  // Get project sOHM yield goal and return as a number
-  const getRecipientGoal = (address: string): number => {
+  // Get project sOHM yield goal and return as a BigNumber
+  const getRecipientGoal = (address: string): BigNumber => {
     const project = projectMap.get(address);
-    if (project) return parseFloat(project.depositGoal.toFixed(2));
+    if (project) return new BigNumber(project.depositGoal);
 
-    return 0;
+    return new BigNumber(0);
   };
 
-  // Get the amount of sOHM yield donated by the current user and return as a number
-  const getRecipientDonated = (address: string): number => {
+  // Get the amount of sOHM yield donated by the current user and return as a BigNumber
+  const getRecipientDonated = (address: string): BigNumber => {
     const project = projectMap.get(address);
     if (project) {
       getTotalDonated({
@@ -106,12 +108,12 @@ export default function RedeemYield() {
         address: address,
       })
         .then(donatedAmount => {
-          return parseFloat(donatedAmount).toFixed(2);
+          return new BigNumber(donatedAmount);
         })
         .catch(e => console.log(e));
     }
 
-    return 0;
+    return new BigNumber(0);
   };
 
   // Checks that the current user can redeem some quantity of sOHM
@@ -150,7 +152,7 @@ export default function RedeemYield() {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h3" align="center">
-          {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toFixed(2)} sOHM
+          {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toFormat(DECIMAL_PLACES)} sOHM
         </Typography>
         <Typography variant="body1" align="center" className="subtext">
           Redeemable Yield
@@ -172,25 +174,35 @@ export default function RedeemYield() {
           <Grid container spacing={1}>
             <Grid item xs={4}>
               <Box>
-                <Typography variant="h5">{getRecipientGoal(address)}</Typography>
-                <Typography variant="body1" className="subtext">
-                  sOHM Goal
+                <Typography variant="h5" align="center">
+                  {getRecipientGoal(address).toFormat(DECIMAL_PLACES)}
+                </Typography>
+                <Typography variant="body1" align="center" className="subtext">
+                  <Trans>sOHM Goal</Trans>
                 </Typography>
               </Box>
             </Grid>
             <Grid item xs={4}>
               <Box>
-                <Typography variant="h5">{getRecipientDonated(address)}</Typography>
-                <Typography variant="body1" className="subtext">
-                  {isSmallScreen ? "Total Donated" : "Total sOHM Donated"}
+                <Typography variant="h5" align="center">
+                  {getRecipientDonated(address).toFormat(DECIMAL_PLACES)}
+                </Typography>
+                <Typography variant="body1" align="center" className="subtext">
+                  {isSmallScreen ? t`Total Donated` : t`Total sOHM Donated`}
                 </Typography>
               </Box>
             </Grid>
             <Grid item xs={4}>
               <Box>
-                <Typography variant="h5">{getRecipientDonated(address) / getRecipientGoal(address)}%</Typography>
-                <Typography variant="body1" className="subtext">
-                  of sOHM Goal
+                <Typography variant="h5" align="center">
+                  {getRecipientDonated(address)
+                    .div(getRecipientGoal(address))
+                    .multipliedBy(100)
+                    .toFormat(DECIMAL_PLACES)}
+                  %
+                </Typography>
+                <Typography variant="body1" align="center" className="subtext">
+                  <Trans>of sOHM Goal</Trans>
                 </Typography>
               </Box>
             </Grid>
