@@ -89,15 +89,15 @@ function ChooseBondV2() {
               aria-label="bond tabs"
               indicatorColor="primary"
               key={`true`}
-              className="bond-tab-buttons"
+              className="bond-tab-container"
               value={currentAction}
               //hides the tab underline sliding animation in while <Zoom> is loading
               TabIndicatorProps={!true ? { style: { display: "none" } } : undefined}
               onChange={changeView}
             >
-              <Tab aria-label="bond-button" label={t`Bond`} />
+              <Tab aria-label="bond-button" label={t`Bond`} className="bond-tab-button" />
 
-              <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} />
+              <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} className="bond-tab-button" />
             </Tabs>
           )}
           {showTabs && currentAction === 1 ? <ChooseInverseBond /> : <ChooseStraightBond />}

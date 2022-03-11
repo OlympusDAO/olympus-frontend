@@ -17,13 +17,6 @@ export class Environment {
     return args.first ? value : value.split(" ");
   }
 
-  public static getSegmentApiKey = () =>
-    this._get({
-      first: true,
-      key: "REACT_APP_SEGMENT_API_KEY",
-      err: "Please provide a Segment analytics API key in your .env file",
-    });
-
   public static getGoogleAnalyticsApiKey = () =>
     this._get({
       first: true,

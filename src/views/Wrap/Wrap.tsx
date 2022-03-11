@@ -185,7 +185,7 @@ const Wrap: FC = () => {
             <Grid item style={{ padding: "0 0 2rem 0" }}>
               <MetricCollection>
                 <Metric
-                  label={t`${"sOHM"} Price`}
+                  label={`sOHM ${t`Price`}`}
                   metric={formatCurrency(sOhmPrice, 2)}
                   isLoading={sOhmPrice ? false : true}
                 />
@@ -195,7 +195,7 @@ const Wrap: FC = () => {
                   isLoading={currentIndex ? false : true}
                 />
                 <Metric
-                  label={t`${"gOHM"} Price`}
+                  label={`gOHM ${t`Price`}`}
                   metric={formatCurrency(gOhmPrice, 2)}
                   isLoading={gOhmPrice ? false : true}
                   tooltip={`gOHM = sOHM * index\n\nThe price of gOHM is equal to the price of sOHM multiplied by the current index`}
