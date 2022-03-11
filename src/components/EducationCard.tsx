@@ -84,7 +84,7 @@ export function ArrowGraphic() {
   // We hard-code 25px so that the arrows are vertically center-aligned with other graphics
   return (
     <Grid container style={{ marginTop: "25px" }}>
-      <Grid item xs={12}>
+      <Grid item xs={12} style={{ textAlign: "center" }}>
         <Icon name="arrow-right" style={{ fontSize: 70, fill: "#999999" }} opacity={0.6} />{" "}
       </Grid>
     </Grid>
