@@ -10,12 +10,16 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
       class="MuiTabs-root makeStyles-root-1 undefined"
     >
       <div
-        class="MuiTabs-scroller MuiTabs-fixed"
-        style="overflow: hidden;"
+        class="MuiTabs-scrollable"
+        style="width: 99px; height: 99px; position: absolute; top: -9999px; overflow: scroll;"
+      />
+      <div
+        class="MuiTabs-scroller MuiTabs-scrollable"
+        style="margin-bottom: 0px;"
       >
         <div
-          aria-label=""
-          class="MuiTabs-flexContainer MuiTabs-centered"
+          aria-label="dashboard-tabs"
+          class="MuiTabs-flexContainer"
           role="tablist"
         >
           <button
@@ -64,6 +68,38 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
               class="MuiTab-wrapper"
             >
               Revenue
+            </span>
+          </button>
+          <button
+            aria-controls="simple-tabpanel-3"
+            aria-label="olympus-pro"
+            aria-selected="false"
+            class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
+            id="simple-tab-3"
+            role="tab"
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              class="MuiTab-wrapper"
+            >
+              Olympus Pro
+            </span>
+          </button>
+          <button
+            aria-controls="simple-tabpanel-4"
+            aria-label="proteus"
+            aria-selected="false"
+            class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
+            id="simple-tab-4"
+            role="tab"
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              class="MuiTab-wrapper"
+            >
+              Proteus
             </span>
           </button>
         </div>
@@ -600,6 +636,20 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
         aria-labelledby="simple-tab-2"
         hidden=""
         id="simple-tabpanel-2"
+        role="tabpanel"
+        style="overflow: hidden;"
+      />
+      <div
+        aria-labelledby="simple-tab-3"
+        hidden=""
+        id="simple-tabpanel-3"
+        role="tabpanel"
+        style="overflow: hidden;"
+      />
+      <div
+        aria-labelledby="simple-tab-4"
+        hidden=""
+        id="simple-tabpanel-4"
         role="tabpanel"
         style="overflow: hidden;"
       />
