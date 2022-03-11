@@ -172,24 +172,30 @@ export default function RedeemYield() {
           <Grid container spacing={1}>
             <Grid item xs={4}>
               <Box>
-                <Typography variant="h5">{getRecipientGoal(address)}</Typography>
-                <Typography variant="body1" className="subtext">
+                <Typography variant="h5" align="center">
+                  {getRecipientGoal(address)}
+                </Typography>
+                <Typography variant="body1" align="center" className="subtext">
                   sOHM Goal
                 </Typography>
               </Box>
             </Grid>
             <Grid item xs={4}>
               <Box>
-                <Typography variant="h5">{getRecipientDonated(address)}</Typography>
-                <Typography variant="body1" className="subtext">
+                <Typography variant="h5" align="center">
+                  {getRecipientDonated(address)}
+                </Typography>
+                <Typography variant="body1" align="center" className="subtext">
                   {isSmallScreen ? "Total Donated" : "Total sOHM Donated"}
                 </Typography>
               </Box>
             </Grid>
             <Grid item xs={4}>
               <Box>
-                <Typography variant="h5">{getRecipientDonated(address) / getRecipientGoal(address)}%</Typography>
-                <Typography variant="body1" className="subtext">
+                <Typography variant="h5" align="center">
+                  {getRecipientDonated(address) / getRecipientGoal(address)}%
+                </Typography>
+                <Typography variant="body1" align="center" className="subtext">
                   of sOHM Goal
                 </Typography>
               </Box>
