@@ -7,7 +7,7 @@ import { abi as MockSohm } from "../abi/MockSohm.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
 import { addresses, NetworkId } from "../constants";
-import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
+import { trackGAEvent } from "../helpers/analytics";
 import { getGiveProjectName } from "../helpers/GiveProjectNameHelper";
 import { fetchAccountSuccess, getBalances, getDonationBalances, getMockDonationBalances } from "./AccountSlice";
 import {
@@ -213,7 +213,6 @@ export const changeGive = createAsyncThunk(
       return;
     } finally {
       if (giveTx) {
-        trackSegmentEvent(uaData);
         trackGAEvent({
           category: "Olympus Give",
           action: uaData.type ?? "unknown",
@@ -297,7 +296,6 @@ export const changeMockGive = createAsyncThunk(
       return;
     } finally {
       if (giveTx) {
-        trackSegmentEvent(uaData);
         trackGAEvent({
           category: "Olympus Give",
           action: uaData.type ?? "unknown",
