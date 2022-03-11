@@ -42,6 +42,8 @@ type ManageModalProps = {
   recordType?: string;
 };
 
+const DECIMAL_PLACES = 2;
+
 export function ManageDonationModal({
   isModalOpen,
   eventSource,
@@ -414,7 +416,7 @@ export function ManageDonationModal({
         <Grid item xs={4}>
           <Box>
             <Typography variant="h5" align="center">
-              {project ? project.depositGoal.toFixed(2) : "N/A"}
+              {project ? new BigNumber(project.depositGoal).toFormat(DECIMAL_PLACES) : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
               {isSmallScreen ? "Goal" : "sOHM Goal"}
@@ -424,7 +426,7 @@ export function ManageDonationModal({
         <Grid item xs={4}>
           <Box>
             <Typography variant="h5" align="center">
-              {project ? parseFloat(totalDebt).toFixed(2) : "N/A"}
+              {project ? new BigNumber(totalDebt).toFormat(DECIMAL_PLACES) : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
               {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
@@ -434,7 +436,9 @@ export function ManageDonationModal({
         <Grid item xs={4}>
           <Box>
             <Typography variant="h5" align="center">
-              {project ? ((parseFloat(totalDonated) / project.depositGoal) * 100).toFixed(1) + "%" : "N/A"}
+              {project
+                ? new BigNumber(totalDebt).div(project.depositGoal).multipliedBy(100).toFixed(DECIMAL_PLACES) + "%"
+                : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
               {isSmallScreen ? "of Goal" : "of sOHM Goal"}
@@ -563,9 +567,10 @@ export function ManageDonationModal({
                   type="number"
                   placeholder={t`Enter an amount`}
                   value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+                  // We need to inform the user about their deposit, so this is a specific value
                   helperText={
                     isDepositAmountValid
-                      ? t`Your current deposit is ${currentDepositAmount.toFixed(2)} sOHM`
+                      ? t`Your current deposit is ${currentDepositAmount.toFormat()} sOHM`
                       : isDepositAmountValidError
                   }
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -573,6 +578,7 @@ export function ManageDonationModal({
                   error={!isDepositAmountValid}
                   startAdornment="sOHM"
                   endString={t`Max`}
+                  // This uses toFixed() as it is a specific value and not formatted
                   endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
                 />
               </Grid>
@@ -602,7 +608,8 @@ export function ManageDonationModal({
             <Typography variant="body1" className="modal-confirmation-title">
               <Trans>Current sOHM deposit</Trans>
             </Typography>
-            <Typography variant="h6">{currentDepositAmount.toFixed(2)} sOHM</Typography>
+            {/* Referring to the current deposit, so we need to be specific */}
+            <Typography variant="h6">{currentDepositAmount.toFixed()} sOHM</Typography>
           </Grid>
           {!isSmallScreen ? (
             <Grid item sm={4}>
@@ -620,7 +627,8 @@ export function ManageDonationModal({
                 <Typography variant="body1" className="modal-confirmation-title">
                   <Trans>New sOHM deposit</Trans>
                 </Typography>
-                <Typography variant="h6">{isWithdrawing ? 0 : depositAmount.toFixed(2)} sOHM</Typography>
+                {/* Referring to the new deposit, so we need to be specific */}
+                <Typography variant="h6">{isWithdrawing ? 0 : depositAmount.toFixed()} sOHM</Typography>
               </Grid>
             </Grid>
           </Grid>
