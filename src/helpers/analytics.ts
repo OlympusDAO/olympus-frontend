@@ -23,6 +23,6 @@ export const trackGAEvent = (event: ReactGA.EventArgs) => {
       ReactGA.event(event);
     }
   } catch (e) {
-    console.log("trackGAEvent", e);
+    console.error("trackGAEvent", e);
   }
 };

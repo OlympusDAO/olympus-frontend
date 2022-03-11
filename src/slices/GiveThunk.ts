@@ -216,8 +216,9 @@ export const changeGive = createAsyncThunk(
         trackGAEvent({
           category: "Olympus Give",
           action: uaData.type ?? "unknown",
-          value: Math.round(parseFloat(uaData.value)),
           label: getGiveProjectName(uaData.recipient) ?? "unknown",
+          value: Math.round(parseFloat(uaData.value)),
+          metric1: parseFloat(uaData.value),
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
         });
@@ -300,10 +301,10 @@ export const changeMockGive = createAsyncThunk(
           category: "Olympus Give",
           action: uaData.type ?? "unknown",
           label: getGiveProjectName(uaData.recipient) ?? "unknown",
+          value: Math.round(parseFloat(uaData.value)),
+          metric1: parseFloat(uaData.value),
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
-          metric1: parseFloat(uaData.value),
-          value: Math.round(parseFloat(uaData.value)),
         });
         dispatch(clearPendingTxn(giveTx.hash));
       }

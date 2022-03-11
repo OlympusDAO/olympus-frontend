@@ -62,9 +62,10 @@ export const redeemBalance = createAsyncThunk(
           category: "Olympus Give",
           action: uaData.type,
           label: uaData.txHash ?? "unknown",
+          value: Math.round(parseFloat(uaData.value)),
+          metric1: parseFloat(uaData.value),
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
-          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(redeemTx.hash));
       }
@@ -123,9 +124,10 @@ export const redeemMockBalance = createAsyncThunk(
           category: "Olympus Give",
           action: uaData.type,
           label: uaData.txHash ?? "unknown",
+          value: Math.round(parseFloat(uaData.value)),
+          metric1: parseFloat(uaData.value),
           dimension1: uaData.txHash ?? "unknown",
           dimension2: uaData.address,
-          metric1: parseFloat(uaData.value),
         });
         dispatch(clearPendingTxn(redeemTx.hash));
       }
