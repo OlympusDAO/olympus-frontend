@@ -30,7 +30,7 @@ export class DecimalBigNumber {
   }
 
   /**
-   * Use when performing accurate calculations with
+   * Used when performing accurate calculations with
    * the number where precision is important.
    */
   public toBigNumber(): BigNumber {
@@ -45,7 +45,7 @@ export class DecimalBigNumber {
   }
 
   /**
-   * Use when performing approximate calculations with
+   * Used when performing approximate calculations with
    * the number where precision __is not__ important.
    */
   public toApproxNumber(): number {
