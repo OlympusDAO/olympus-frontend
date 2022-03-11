@@ -11,7 +11,6 @@ import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { NetworkId } from "src/constants";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { loadAccountDetails } from "src/slices/AccountSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -22,7 +21,8 @@ import { DonationInfoState } from "./Interfaces";
 import data from "./projects.json";
 import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 
-const DECIMAL_PLACES = 2;
+// Consistent with staking page
+const DECIMAL_PLACES = 4;
 
 export default function RedeemYield() {
   const location = useLocation();
@@ -69,17 +69,6 @@ export default function RedeemYield() {
 
   const isProject = projectMap.get(address);
 
-  /**
-   * This ensures that the formatted string has a maximum of 4
-   * decimal places, while trimming trailing zeroes.
-   *
-   * @param number
-   * @returns string
-   */
-  const getTrimmedBigNumber = (number: BigNumber) => {
-    return number.decimalPlaces(4).toString();
-  };
-
   const isRecipientInfoLoading = recipientInfo.totalDebt == "";
 
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
@@ -90,7 +79,12 @@ export default function RedeemYield() {
     }
   }, [connected]);
 
-  // Get project sOHM yield goal and return as a BigNumber
+  /**
+   * Get project sOHM yield goal and return as a BigNumber
+   *
+   * @param address
+   * @returns
+   */
   const getRecipientGoal = (address: string): BigNumber => {
     const project = projectMap.get(address);
     if (project) return new BigNumber(project.depositGoal);
@@ -98,25 +92,11 @@ export default function RedeemYield() {
     return new BigNumber(0);
   };
 
-  // Get the amount of sOHM yield donated by the current user and return as a BigNumber
-  const getRecipientDonated = (address: string): BigNumber => {
-    const project = projectMap.get(address);
-    if (project) {
-      getTotalDonated({
-        networkID: networkId,
-        provider: provider,
-        address: address,
-      })
-        .then(donatedAmount => {
-          return new BigNumber(donatedAmount);
-        })
-        .catch(e => console.log(e));
-    }
-
-    return new BigNumber(0);
-  };
-
-  // Checks that the current user can redeem some quantity of sOHM
+  /**
+   * Checks that the current user can redeem some quantity of sOHM
+   *
+   * @returns
+   */
   const canRedeem = () => {
     if (!address) return false;
 
@@ -185,7 +165,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center">
-                  {getRecipientDonated(address).toFormat(DECIMAL_PLACES)}
+                  {totalDeposit.toFormat(DECIMAL_PLACES)}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   {isSmallScreen ? t`Total Donated` : t`Total sOHM Donated`}
@@ -195,11 +175,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center">
-                  {getRecipientDonated(address)
-                    .div(getRecipientGoal(address))
-                    .multipliedBy(100)
-                    .toFormat(DECIMAL_PLACES)}
-                  %
+                  {totalDeposit.div(getRecipientGoal(address)).multipliedBy(100).toFormat(DECIMAL_PLACES)}%
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   <Trans>of sOHM Goal</Trans>
@@ -215,27 +191,30 @@ export default function RedeemYield() {
         <Box>
           <DataRow
             title={t`Deposited sOHM`}
-            balance={`${getTrimmedBigNumber(totalDeposit)} ${t`sOHM`}`}
+            // Exact number
+            balance={`${totalDeposit.toFormat()} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
           />
           <DataRow
             title={t`Redeemable Amount`}
-            balance={`${getTrimmedBigNumber(redeemableBalanceNumber)} ${t`sOHM`}`}
+            // Exact number
+            balance={`${redeemableBalanceNumber.toFormat()} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
           />
           <DataRow
             title={t`Next Reward Amount`}
-            balance={`${getTrimmedBigNumber(nextRewardValue)} ${t`sOHM`}`}
+            // Exact number
+            balance={`${nextRewardValue.toFormat(DECIMAL_PLACES)} ${t`sOHM`}`}
             isLoading={isAppLoading}
           />
           <DataRow
             title={t`Next Reward Yield`}
-            balance={`${getTrimmedBigNumber(stakingRebasePercentage)}%`}
+            balance={`${stakingRebasePercentage.toFormat(DECIMAL_PLACES)}%`}
             isLoading={isAppLoading}
           />
           <DataRow
             title={t`ROI (5-Day Rate)`}
-            balance={`${getTrimmedBigNumber(fiveDayRateValue)}%`}
+            balance={`${fiveDayRateValue.toFormat(DECIMAL_PLACES)}%`}
             isLoading={isAppLoading}
           />
         </Box>
