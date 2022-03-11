@@ -41,17 +41,17 @@ describe("DecimalBigNumber", () => {
 
   it("should multiply by a number correctly", () => {
     // gOHM to OHM
-    const gohm = new DecimalBigNumber("1", 18); // 90 OHM
+    const gohm = new DecimalBigNumber("2", 18); // 180 OHM
     const index = new DecimalBigNumber("90", 9); // Index of 90
-    expect(gohm.mul(index, 9).toAccurateString()).toEqual("90.0");
-    expect(index.mul(gohm, 9).toAccurateString()).toEqual("90.0");
+    expect(gohm.mul(index, 9).toAccurateString()).toEqual("180.0");
+    expect(index.mul(gohm, 9).toAccurateString()).toEqual("180.0");
   });
 
   it("should divide by a number correctly", () => {
     // OHM to gOHM
-    const ohm = new DecimalBigNumber("90", 9); // 90 OHM
+    const ohm = new DecimalBigNumber("180", 9); // 2 gOHM
     const index = new DecimalBigNumber("90", 9); // Index of 90
-    expect(ohm.div(index, 18).toAccurateString()).toEqual("1.0");
-    expect(index.div(ohm, 18).toAccurateString()).toEqual("1.0");
+    expect(ohm.div(index, 18).toAccurateString()).toEqual("2.0");
+    expect(index.div(ohm, 18).toAccurateString()).toEqual("0.5");
   });
 });
