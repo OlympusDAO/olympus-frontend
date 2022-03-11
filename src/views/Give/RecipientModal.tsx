@@ -440,7 +440,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
           value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
           helperText={
             isDepositAmountValid
-              ? t`Your current Staked Balance is ${getSOhmBalance().toFixed(2)} sOHM`
+              ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toFixed(2)} sOHM`
               : isDepositAmountValidError
           }
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
