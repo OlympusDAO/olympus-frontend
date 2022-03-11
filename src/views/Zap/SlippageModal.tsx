@@ -76,7 +76,7 @@ function SlippageModal(
           <Input
             id="slippage"
             type="number"
-            label="Slippage Tolerance"
+            placeholder="Slippage Tolerance"
             value={proposedSlippage}
             onChange={e => handleChangeProposedSlippage(e.target.value)}
             endString="%"
