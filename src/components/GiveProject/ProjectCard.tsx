@@ -70,12 +70,16 @@ type State = {
   app: IAppData;
 };
 
+const DECIMAL_PLACES = 2;
+
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const location = useLocation();
   const { provider, address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
+  const [totalDonatedIsLoading, setTotalDonatedIsLoading] = useState(true);
+  const [donationInfoIsLoading, setDonationInfoIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
   const [totalDonated, setTotalDonated] = useState("");
   const [donorCount, setDonorCount] = useState(0);
@@ -131,11 +135,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     })
       .then(donatedAmount => {
         setTotalDonated(donatedAmount);
+        setTotalDonatedIsLoading(false);
       })
       .catch(e => console.log(e));
   }, [connected, networkId, isGiveModalOpen]);
 
   useEffect(() => {
+    setDonationInfoIsLoading(false);
+
     for (let i = 0; i < donationInfo.length; i++) {
       if (donationInfo[i].recipient.toLowerCase() === wallet.toLowerCase()) {
         setIsUserDonating(true);
@@ -253,7 +260,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
     const goalProgress = 70; // parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
-    const formattedTotalDonated = new BigNumber(parseFloat(totalDonated).toFixed(2)).toFormat();
+    const formattedTotalDonated = new BigNumber(totalDonated).toFixed(DECIMAL_PLACES);
 
     if (depositGoal === 0) return <></>;
 
@@ -266,7 +273,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <Icon name="sohm-yield" />
               </Grid>
               <Grid item className="metric">
-                {recipientInfoIsLoading ? <Skeleton /> : formattedTotalDonated}
+                {totalDonatedIsLoading ? <Skeleton /> : formattedTotalDonated}
               </Grid>
             </Grid>
             <Grid item className="subtext">
@@ -282,7 +289,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="sohm-yield-goal" />
                   </Grid>
                   <Grid item className="metric">
-                    {new BigNumber(depositGoal).toFormat()}
+                    {new BigNumber(depositGoal).toFixed(DECIMAL_PLACES)}
                   </Grid>
                 </Grid>
               </Grid>
@@ -328,7 +335,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="sohm-total" />
                   </Grid>
                   <Grid item className="metric">
-                    {recipientInfoIsLoading ? <Skeleton /> : <strong>{parseFloat(totalDebt).toFixed(2)}</strong>}
+                    {recipientInfoIsLoading ? (
+                      <Skeleton />
+                    ) : (
+                      <strong>{new BigNumber(totalDebt).toFixed(DECIMAL_PLACES)}</strong>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -689,9 +700,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             </Grid>
                             <Grid item>
                               <Typography className="metric">
-                                {donationInfo[donationId]
-                                  ? parseFloat(donationInfo[donationId].deposit).toFixed(2)
-                                  : "0"}
+                                {donationInfoIsLoading ? (
+                                  <Skeleton />
+                                ) : donationInfo[donationId] ? (
+                                  // This amount is deliberately specific
+                                  new BigNumber(donationInfo[donationId].deposit).toFixed()
+                                ) : (
+                                  "0"
+                                )}
                               </Typography>
                             </Grid>
                           </Grid>
@@ -709,9 +725,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                               </Grid>
                               <Grid item>
                                 <Typography className="metric">
-                                  {donationInfo[donationId]
-                                    ? parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)
-                                    : "0"}
+                                  {donationInfoIsLoading ? (
+                                    <Skeleton />
+                                  ) : donationInfo[donationId] ? (
+                                    // This amount is deliberately specific
+                                    new BigNumber(donationInfo[donationId].yieldDonated).toFixed(DECIMAL_PLACES)
+                                  ) : (
+                                    "0"
+                                  )}
                                 </Typography>
                               </Grid>
                             </Grid>
