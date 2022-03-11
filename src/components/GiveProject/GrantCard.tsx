@@ -55,12 +55,16 @@ type State = {
   app: IAppData;
 };
 
+const DECIMAL_PLACES = 2;
+
 export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const location = useLocation();
   const { provider, address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
+  const [totalDonatedIsLoading, setTotalDonatedIsLoading] = useState(true);
+  const [donationInfoIsLoading, setDonationInfoIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
   const [totalDonated, setTotalDonated] = useState("");
   const [donorCount, setDonorCount] = useState(0);
@@ -116,11 +120,14 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     })
       .then(donatedAmount => {
         setTotalDonated(donatedAmount);
+        setTotalDonatedIsLoading(false);
       })
       .catch(e => console.log(e));
   }, [connected, networkId, isGiveModalOpen]);
 
   useEffect(() => {
+    setDonationInfoIsLoading(false);
+
     for (let i = 0; i < donationInfo.length; i++) {
       if (donationInfo[i].recipient.toLowerCase() === wallet.toLowerCase()) {
         setIsUserDonating(true);
@@ -236,7 +243,11 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Icon name="donors" />
                   </Grid>
                   <Grid item className="metric">
-                    {donorCountIsLoading ? <Skeleton className="skeleton-inline" /> : donorCount}
+                    {donorCountIsLoading ? (
+                      <Skeleton className="skeleton-inline" />
+                    ) : (
+                      new BigNumber(donorCount).toFormat()
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -253,7 +264,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Icon name="sohm-total" />
                   </Grid>
                   <Grid item className="metric">
-                    {totalMilestoneAmount.toFormat(0)}
+                    {totalMilestoneAmount.toFormat(DECIMAL_PLACES)}
                   </Grid>
                 </Grid>
               </Grid>
@@ -601,12 +612,15 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                             <Grid item>
                               <Icon name="deposited" />
                             </Grid>
-                            <Grid item>
-                              <Typography className="metric">
-                                {donationInfo[donationId]
-                                  ? parseFloat(donationInfo[donationId].deposit).toFixed(2)
-                                  : "0"}
-                              </Typography>
+                            <Grid item className="metric">
+                              {donationInfoIsLoading ? (
+                                <Skeleton />
+                              ) : donationInfo[donationId] ? (
+                                // This amount is deliberately specific
+                                new BigNumber(donationInfo[donationId].deposit).toFormat()
+                              ) : (
+                                "0.00"
+                              )}
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
@@ -621,12 +635,14 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                               <Grid item>
                                 <Icon name="sohm-yield-sent" />
                               </Grid>
-                              <Grid item>
-                                <Typography className="metric">
-                                  {donationInfo[donationId]
-                                    ? parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)
-                                    : "0"}
-                                </Typography>
+                              <Grid item className="metric">
+                                {donationInfoIsLoading ? (
+                                  <Skeleton />
+                                ) : donationInfo[donationId] ? (
+                                  new BigNumber(donationInfo[donationId].yieldDonated).toFormat(DECIMAL_PLACES)
+                                ) : (
+                                  "0.00"
+                                )}
                               </Grid>
                             </Grid>
                           </Grid>
