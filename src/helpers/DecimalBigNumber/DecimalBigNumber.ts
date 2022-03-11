@@ -21,7 +21,7 @@ export class DecimalBigNumber {
     this._number = number;
   }
 
-  private _omitIrrelevantDecimals(number: string, decimals: number) {
+  private _omitIrrelevantDecimals(number: string, decimals: number): string {
     const [integer, _decimals] = number.split(".");
 
     if (!_decimals) return integer;
@@ -63,7 +63,7 @@ export class DecimalBigNumber {
   /**
    * Subtracts this number by the value provided
    */
-  public sub(value: DecimalBigNumber) {
+  public sub(value: DecimalBigNumber): DecimalBigNumber {
     // Normalize precision to the largest of the two values
     const decimals = Math.max(value._decimals, this._decimals);
 
@@ -76,7 +76,7 @@ export class DecimalBigNumber {
   /**
    * Adds the value provided to this number
    */
-  public add(value: DecimalBigNumber) {
+  public add(value: DecimalBigNumber): DecimalBigNumber {
     // Normalize precision to the largest of the two values
     const decimals = Math.max(value._decimals, this._decimals);
 
@@ -90,7 +90,7 @@ export class DecimalBigNumber {
   /**
    * Determines if this number is greater than the provided value
    */
-  public gt(value: DecimalBigNumber) {
+  public gt(value: DecimalBigNumber): boolean {
     // Normalize precision to the largest of the two values
     const decimals = Math.max(value._decimals, this._decimals);
 
@@ -105,7 +105,7 @@ export class DecimalBigNumber {
    * Multiplies this number by the provided value
    * @param decimals The expected number of decimals of the output value
    */
-  public mul(value: DecimalBigNumber, decimals: number) {
+  public mul(value: DecimalBigNumber, decimals: number): DecimalBigNumber {
     const product = this._number.mul(value._number);
 
     // Multiplying two BigNumbers produces a product whose precision
@@ -123,7 +123,7 @@ export class DecimalBigNumber {
    * Divides this number by the provided value
    * @param decimals The expected number of decimals of the output value
    */
-  public div(value: DecimalBigNumber, decimals: number) {
+  public div(value: DecimalBigNumber, decimals: number): DecimalBigNumber {
     // When we divide two BigNumbers, the result will never
     // include any decimal places because BigNumber only deals
     // with whole integer values. Therefore, in order for us to
