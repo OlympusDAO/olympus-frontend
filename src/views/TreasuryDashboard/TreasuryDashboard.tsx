@@ -1,8 +1,7 @@
 import "./TreasuryDashboard.scss";
 
 import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
-// @ts-ignore - (keith): fix types issue with multifarm lib
-import { TotalIncome, TreasuryAllocation } from "@multifarm/widget";
+import { DashboardPro, Proteus, TotalIncome, TreasuryAllocation } from "@multifarm/widget";
 import { Metric, MetricCollection, Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { ChangeEvent, memo, useState } from "react";
 
@@ -29,10 +28,21 @@ const TreasuryDashboard = memo(() => {
 
   return (
     <div id="treasury-dashboard-view" className={`${isSmallScreen && "smaller"} ${isVerySmallScreen && "very-small"}`}>
-      <Tabs centered value={view} textColor="primary" indicatorColor="primary" onChange={changeView} aria-label="">
+      <Tabs
+        centered
+        value={view}
+        variant="scrollable"
+        scrollButtons="auto"
+        textColor="primary"
+        indicatorColor="primary"
+        onChange={changeView}
+        aria-label="dashboard-tabs"
+      >
         <Tab aria-label="key-metrics" label="Overview" />
         <Tab aria-label="treasury-allocation" label="Treasury" />
         <Tab aria-label="revenue" label="Revenue" />
+        <Tab aria-label="olympus-pro" label="Olympus Pro" />
+        <Tab aria-label="proteus" label="Proteus" />
       </Tabs>
       <Container
         style={{
@@ -127,6 +137,16 @@ const TreasuryDashboard = memo(() => {
         <TabPanel value={view} index={2}>
           <Box className="income">
             <TotalIncome />
+          </Box>
+        </TabPanel>
+        <TabPanel value={view} index={3}>
+          <Box className="dashboard-pro">
+            <DashboardPro />
+          </Box>
+        </TabPanel>
+        <TabPanel value={view} index={4}>
+          <Box className="proteus">
+            <Proteus />
           </Box>
         </TabPanel>
       </Container>

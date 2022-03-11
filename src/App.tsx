@@ -1,11 +1,9 @@
 // eslint-disable-next-line simple-import-sort/imports
 import "./style.scss";
 
-// @ts-ignore
-import { extendTheme, MultifarmProvider, olympusDarkTheme, olympusTheme } from "@multifarm/widget";
-
 import { i18n } from "@lingui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
+import { MultifarmProvider } from "@multifarm/widget";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -35,6 +33,7 @@ import NotFound from "./views/404/NotFound";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
+import { multifarmLightTheme, multifarmDarkTheme } from "./themes/multifarm";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import projectData from "src/views/Give/projects.json";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
@@ -42,12 +41,6 @@ import { NetworkId } from "./constants";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import { trackGAEvent, trackSegmentEvent } from "./helpers/analytics";
 import { getAllInverseBonds } from "./slices/InverseBondSlice";
-
-const customDarkTheme = extendTheme(olympusDarkTheme, {
-  text: {
-    highlight: "#fff",
-  },
-});
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -331,7 +324,7 @@ function App() {
         lng={i18n.locale}
         themeColors={theme}
         badgePlacement="bottom"
-        theme={theme === "light" ? olympusTheme : customDarkTheme}
+        theme={theme === "light" ? multifarmLightTheme : multifarmDarkTheme}
       >
         <CssBaseline />
         <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>

@@ -15,18 +15,19 @@
     padding: 22px 0;
   }
 
-  & .multifarm-widget-mb-10 {
-    margin-bottom: 0;
-  }
+  // & .multifarm-widget-mb-10 {
+  //   margin-bottom: 0;
+  // }
 
   & .multifarm-widget-table {
     border-spacing: 0 0.75rem;
   }
 
-  & .multifarm-widget-accordion,
-  & .multifarm-widget-dashboard__spacing-5 {
+  & .multifarm-widget-accordion {
     margin-bottom: 0.75rem;
   }
+  // & .multifarm-widget-dashboard__spacing-5 {
+  // }
 
   & .multifarm-widget-income-view-per-type__pie-charts,
   & .multifarm-widget-dashboard__pie-charts {
@@ -134,6 +135,9 @@
 }
 
 .smaller {
+  .MuiTabs-root {
+    width: 100%;
+  }
 
   .multifarm-widget-table__top-pagination {
     margin-right: 10px;
@@ -234,6 +238,8 @@
   }
 }
 
+.dashboard-pro,
+.proteus,
 .treasury {
   margin-top: 15px;
 }
@@ -245,19 +251,8 @@
   }
 }
 
+.multifarm-widget-dashboard-pro,
 .multifarm-widget-dashboard__tab-container {
-  // .multifarm-widget-dashboard-tabs {
-  //   width: auto;
-  //   display: flex;
-  //   justify-content: center;
-  // }
-
-  // .multifarm-widget-dashboard-tabs__tab {
-  //   margin: 0 15px;
-  //   width: inherit;
-  //   padding: 0;
-  // }'
-
   .multifarm-widget-incomes-bar__text {
     font-size: 1rem;
     margin: 8px auto;
@@ -313,41 +308,24 @@
       height: 39px;
     }
   }
-
-  a.multifarm-widget-dashboard__tab-badge {
-    display: none;
-  }
 }
 
 .light {
   .multifarm-widget-dashboard__tab-container {
-    .multifarm-widget-tabs {
-      background: #fff; // todo: (keith) use variable
-    }
     .multifarm-widget-dashboard-tabs__tab[data-active="true"] .multifarm-widget-dashboard-tabs__tab-text {
-      border-bottom: 2px solid #000; // todo: (keith) use variable
-      color: #000; // todo: (keith) use variable
+      color: #000;
       font-weight: 400;
+      border-color: #000;
     }
   }
 }
 
 .dark {
   .multifarm-widget-dashboard__tab-container {
-    .multifarm-widget-tabs {
-      background: #1d2026; // todo: (keith) use variable
-    }
     .multifarm-widget-dashboard-tabs__tab[data-active="true"] .multifarm-widget-dashboard-tabs__tab-text {
-      border-bottom: 2px solid #f8cc82; // todo: (keith) use variable
-      color: #f8cc82; // todo: (keith) use variable
+      color: var(--ohm-gold);
       font-weight: 400;
-    }
-    .multifarm-widget-table-cell {
-      background: #1d2026;
-    }
-    .multifarm-widget-powered-by-badge {
-      color: #fff;
-      background: var(--card-bg-primary);
+      border-color: var(--ohm-gold);
     }
   }
 }
