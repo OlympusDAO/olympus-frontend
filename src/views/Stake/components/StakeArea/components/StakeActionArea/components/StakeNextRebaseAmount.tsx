@@ -1,7 +1,8 @@
 import { t } from "@lingui/macro";
 import { DataRow } from "@olympusdao/component-library";
-import { formatNumber, nonNullable } from "src/helpers";
+import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { nonNullable } from "src/helpers/types/nonNullable";
 import {
   useFuseBalance,
   useGohmBalance,

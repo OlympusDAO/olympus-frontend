@@ -9,7 +9,8 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import ConnectButton from "../../components/ConnectButton/ConnectButton";
-import { prettifySeconds, prettyVestingPeriod, secondsUntilBlock, trim } from "../../helpers";
+import { trim } from "../../helpers";
+import { prettifySeconds, prettyVestingPeriod, secondsUntilBlock } from "../../helpers/timeUtil";
 import { redeemBond } from "../../slices/BondSlice";
 import { DisplayBondDiscount } from "./Bond";
 

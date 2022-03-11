@@ -38,6 +38,27 @@ body {
   border-right: 0 !important;
 }
 
+#choose-bond-view {
+  .bond-data-card {
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+      margin: 12px 0px;
+    }
+  
+    .data-row-centered {
+      display: flex;
+      justify-content: center;
+      flex-flow: row wrap;
+      margin: 12px 0px;
+      .marginedBtn {
+        margin: 0.3rem;
+      }
+    }
+  }
+}
+
 .ohm-card {
   max-width: 833px;
   .card-header {

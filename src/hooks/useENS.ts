@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
-import { nonNullable, queryAssertion } from "src/helpers";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
+import { nonNullable } from "src/helpers/types/nonNullable";
 
 import { useWeb3Context } from ".";
 
