@@ -8,6 +8,7 @@ exports[`<ArrowGraphic/> should render component 1`] = `
   >
     <div
       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      style="text-align: center;"
     >
       <svg
         aria-hidden="true"
