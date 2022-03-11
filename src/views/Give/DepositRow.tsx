@@ -31,6 +31,8 @@ interface DepositRowProps {
   depositObject: IUserDonationInfo;
 }
 
+const DECIMAL_PLACES = 2;
+
 export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -156,12 +158,13 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         </TableCell>
         {!isSmallScreen && (
           <TableCell align="right" className="deposit-deposited-cell">
-            <Typography variant="h6">{parseFloat(depositObject.deposit).toFixed(2)} sOHM</Typography>
+            {/* Exact amount as this is what the user has deposited */}
+            <Typography variant="h6">{new BigNumber(depositObject.deposit).toFormat()} sOHM</Typography>
           </TableCell>
         )}
         <TableCell align="right" className="deposit-yield-cell">
           <Typography variant={isSmallScreen ? "body1" : "h6"}>
-            {parseFloat(depositObject.yieldDonated).toFixed(2)} sOHM
+            {new BigNumber(depositObject.yieldDonated).toFormat(DECIMAL_PLACES)} sOHM
           </Typography>
         </TableCell>
         <TableCell align="right" className="deposit-manage-cell">
