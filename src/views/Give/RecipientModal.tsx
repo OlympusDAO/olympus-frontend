@@ -36,6 +36,8 @@ type RecipientModalProps = {
   project?: Project;
 };
 
+const DECIMAL_PLACES = 2;
+
 export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelFunc, project }: RecipientModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -404,9 +406,10 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               placeholder={t`Enter an amount`}
               type="number"
               value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+              // We need to inform the user about their wallet balance, so this is a specific value
               helperText={
                 isDepositAmountValid
-                  ? t`Your current Staked Balance is ${getSOhmBalance().toFixed(2)} sOHM`
+                  ? t`Your current Staked Balance is ${getSOhmBalance().toFormat()} sOHM`
                   : isDepositAmountValidError
               }
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -414,6 +417,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               error={!isDepositAmountValid}
               startAdornment="sOHM"
               endString={t`Max`}
+              // This uses toFixed() as it is a specific value and not formatted
               endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
             />
           </Grid>
@@ -438,19 +442,21 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                    *
                    * For the numbers related to what the user is depositing, we give exact numbers.
                    */}
-                  <CompactWallet quantity={getRetainedAmountDiff().toFixed(4)} isQuantityExact={false} />
+                  <CompactWallet quantity={getRetainedAmountDiff().toFixed(DECIMAL_PLACES)} isQuantityExact={false} />
                 </Grid>
                 <Grid item xs={1}>
                   <ArrowGraphic />
                 </Grid>
                 <Grid item xs={3}>
-                  <CompactVault quantity={getDepositAmount().toFixed()} isQuantityExact={true} />
+                  {/* This is deliberately a specific value */}
+                  <CompactVault quantity={getDepositAmount().toFormat()} isQuantityExact={true} />
                 </Grid>
                 <Grid item xs={1}>
                   <ArrowGraphic />
                 </Grid>
                 <Grid item xs={3}>
-                  <CompactYield quantity={getDepositAmount().toFixed()} isQuantityExact={true} />
+                  {/* This is deliberately a specific value */}
+                  <CompactYield quantity={getDepositAmount().toFormat()} isQuantityExact={true} />
                 </Grid>
               </Grid>
             </Grid>
@@ -504,7 +510,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   <Grid xs={12}>
                     <Typography variant="h6">
                       {/* As this is the amount being deposited, the user needs to see the exact amount. */}
-                      <strong>{getDepositAmount().toFixed()} sOHM</strong>
+                      <strong>{getDepositAmount().toFormat()} sOHM</strong>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -549,7 +555,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   {txnButtonText(
                     pendingTransactions,
                     PENDING_TXN_GIVE,
-                    `${t`Confirm `} ${getDepositAmount().toFixed()} sOHM`,
+                    `${t`Confirm `} ${getDepositAmount().toFormat()} sOHM`,
                   )}
                 </PrimaryButton>
               </Grid>
