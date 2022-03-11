@@ -64,9 +64,10 @@ export class DecimalBigNumber {
    * Subtracts this number by the value provided
    */
   public sub(value: DecimalBigNumber) {
+    // Normalize precision to the largest of the two values
     const decimals = Math.max(value._decimals, this._decimals);
 
-    // Normalize decimal places
+    // Normalize values to correct precision
     const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
     const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
 
@@ -76,9 +77,10 @@ export class DecimalBigNumber {
    * Adds the value provided to this number
    */
   public add(value: DecimalBigNumber) {
+    // Normalize precision to the largest of the two values
     const decimals = Math.max(value._decimals, this._decimals);
 
-    // Normalize decimal places
+    // Normalize values to correct precision
     const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
     const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
 
@@ -89,9 +91,10 @@ export class DecimalBigNumber {
    * Determines if this number is greater than the provided value
    */
   public gt(value: DecimalBigNumber) {
+    // Normalize precision to the largest of the two values
     const decimals = Math.max(value._decimals, this._decimals);
 
-    // Normalize decimal places
+    // Normalize values to correct precision
     const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
     const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
 
@@ -103,9 +106,17 @@ export class DecimalBigNumber {
    * @param decimals The expected number of decimals of the output value
    */
   public mul(value: DecimalBigNumber, decimals: number) {
-    const product = new DecimalBigNumber(this._number.mul(value._number), this._decimals + value._decimals);
+    const product = this._number.mul(value._number);
 
-    return new DecimalBigNumber(product.toAccurateString(), decimals);
+    // Multiplying two BigNumbers produces a product whose precision
+    // is the sum of the precisions of the two input numbers
+    const _decimals = this._decimals + value._decimals;
+
+    // Normalize the product
+    const normalized = new DecimalBigNumber(product, _decimals);
+
+    // Return result with the expected precision
+    return new DecimalBigNumber(normalized.toAccurateString(), decimals);
   }
 
   /**
@@ -113,10 +124,20 @@ export class DecimalBigNumber {
    * @param decimals The expected number of decimals of the output value
    */
   public div(value: DecimalBigNumber, decimals: number) {
-    const _this = new DecimalBigNumber(this.toAccurateString(), decimals + value._decimals);
+    // When we divide two BigNumbers, the result will never
+    // include any decimal places because BigNumber only deals
+    // with whole integer values. Therefore, in order for us to
+    // include precision in our calculation, we need to normalize
+    // the precision of the two numbers, such that the difference
+    // in precision is equal to the expected precision of the result.
+    const _decimals = decimals + value._decimals;
+
+    // Normalize according to the resultant precision calculated earlier
+    const _this = new DecimalBigNumber(this.toAccurateString(), _decimals);
 
     const quotient = _this._number.div(value._number);
 
+    // Return result with the expected precision
     return new DecimalBigNumber(quotient, decimals);
   }
 }
