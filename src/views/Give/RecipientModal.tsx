@@ -433,19 +433,24 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
             <Grid item xs={12}>
               <Grid container justifyContent="center" alignItems="flex-start" wrap="nowrap">
                 <Grid item xs={3}>
-                  <CompactWallet quantity={getRetainedAmountDiff().toFixed()} />
+                  {/**
+                   * Wallet balances are rarely whole numbers, so we give an approximate number here.
+                   *
+                   * For the numbers related to what the user is depositing, we give exact numbers.
+                   */}
+                  <CompactWallet quantity={getRetainedAmountDiff().toFixed(4)} isQuantityExact={false} />
                 </Grid>
                 <Grid item xs={1}>
                   <ArrowGraphic />
                 </Grid>
                 <Grid item xs={3}>
-                  <CompactVault quantity={getDepositAmount().toFixed()} />
+                  <CompactVault quantity={getDepositAmount().toFixed()} isQuantityExact={true} />
                 </Grid>
                 <Grid item xs={1}>
                   <ArrowGraphic />
                 </Grid>
                 <Grid item xs={3}>
-                  <CompactYield quantity={getDepositAmount().toFixed()} />
+                  <CompactYield quantity={getDepositAmount().toFixed()} isQuantityExact={true} />
                 </Grid>
               </Grid>
             </Grid>
@@ -498,7 +503,8 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   </Grid>
                   <Grid xs={12}>
                     <Typography variant="h6">
-                      <strong>{getDepositAmount().toFixed(2)} sOHM</strong>
+                      {/* As this is the amount being deposited, the user needs to see the exact amount. */}
+                      <strong>{getDepositAmount().toFixed()} sOHM</strong>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -539,10 +545,11 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               <Grid item xs />
               <Grid item xs={8}>
                 <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
+                  {/* We display the exact amount being deposited. */}
                   {txnButtonText(
                     pendingTransactions,
                     PENDING_TXN_GIVE,
-                    `${t`Confirm `} ${getDepositAmount().toFixed(2)} sOHM`,
+                    `${t`Confirm `} ${getDepositAmount().toFixed()} sOHM`,
                   )}
                 </PrimaryButton>
               </Grid>
