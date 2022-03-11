@@ -260,7 +260,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
     const goalProgress = 70; // parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
-    const formattedTotalDonated = new BigNumber(totalDonated).toFixed(DECIMAL_PLACES);
 
     if (depositGoal === 0) return <></>;
 
@@ -273,7 +272,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <Icon name="sohm-yield" />
               </Grid>
               <Grid item className="metric">
-                {totalDonatedIsLoading ? <Skeleton /> : formattedTotalDonated}
+                {totalDonatedIsLoading ? <Skeleton /> : new BigNumber(totalDonated).toFormat(DECIMAL_PLACES)}
               </Grid>
             </Grid>
             <Grid item className="subtext">
@@ -289,7 +288,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="sohm-yield-goal" />
                   </Grid>
                   <Grid item className="metric">
-                    {new BigNumber(depositGoal).toFixed(DECIMAL_PLACES)}
+                    {new BigNumber(depositGoal).toFormat(DECIMAL_PLACES)}
                   </Grid>
                 </Grid>
               </Grid>
@@ -338,7 +337,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     {recipientInfoIsLoading ? (
                       <Skeleton />
                     ) : (
-                      <strong>{new BigNumber(totalDebt).toFixed(DECIMAL_PLACES)}</strong>
+                      <strong>{new BigNumber(totalDebt).toFormat(DECIMAL_PLACES)}</strong>
                     )}
                   </Grid>
                 </Grid>
@@ -698,17 +697,15 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             <Grid item>
                               <Icon name="deposited" />
                             </Grid>
-                            <Grid item>
-                              <Typography className="metric">
-                                {donationInfoIsLoading ? (
-                                  <Skeleton />
-                                ) : donationInfo[donationId] ? (
-                                  // This amount is deliberately specific
-                                  new BigNumber(donationInfo[donationId].deposit).toFixed()
-                                ) : (
-                                  "0"
-                                )}
-                              </Typography>
+                            <Grid item className="metric">
+                              {donationInfoIsLoading ? (
+                                <Skeleton />
+                              ) : donationInfo[donationId] ? (
+                                // This amount is deliberately specific
+                                new BigNumber(donationInfo[donationId].deposit).toFormat()
+                              ) : (
+                                "0.00"
+                              )}
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
@@ -723,17 +720,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                               <Grid item>
                                 <Icon name="sohm-yield-sent" />
                               </Grid>
-                              <Grid item>
-                                <Typography className="metric">
-                                  {donationInfoIsLoading ? (
-                                    <Skeleton />
-                                  ) : donationInfo[donationId] ? (
-                                    // This amount is deliberately specific
-                                    new BigNumber(donationInfo[donationId].yieldDonated).toFixed(DECIMAL_PLACES)
-                                  ) : (
-                                    "0"
-                                  )}
-                                </Typography>
+                              <Grid item className="metric">
+                                {donationInfoIsLoading ? (
+                                  <Skeleton />
+                                ) : donationInfo[donationId] ? (
+                                  new BigNumber(donationInfo[donationId].yieldDonated).toFormat(DECIMAL_PLACES)
+                                ) : (
+                                  "0.00"
+                                )}
                               </Grid>
                             </Grid>
                           </Grid>
