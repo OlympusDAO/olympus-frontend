@@ -1,17 +1,25 @@
 import { t } from "@lingui/macro";
 import { Grid, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { GetOnButton, ItemCard } from "@olympusdao/component-library";
+import { GetOnButton, ItemCard, OHMItemCardProps } from "@olympusdao/component-library";
 import { FC } from "react";
 import sushiswapImg from "src/assets/sushiswap.png";
 import uniswapImg from "src/assets/uniswap.png";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
-import { formatCurrency, parseBigNumber, trim } from "src/helpers";
-import allPools from "src/helpers/AllExternalPools";
+import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
+import { beetsPools, joePools, spiritPools, sushiPools, zipPools } from "src/helpers/AllExternalPools";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { ExternalPool } from "src/lib/ExternalPool";
-import { useStakePoolTVL } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
+import { NetworkId } from "src/networkDetails";
+import {
+  BeetsPoolAPY,
+  JoePoolAPY,
+  SpiritPoolAPY,
+  SushiPoolAPY,
+  ZipPoolAPY,
+} from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolAPY";
+import { BalancerPoolTVL, useStakePoolTVL } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
 
 import { SupplyRatePerBlock } from "./queries";
 
@@ -101,8 +109,20 @@ const GetOhm: FC = () => {
       <Typography variant="h6" className={classes.title}>
         Farm Pool
       </Typography>
-      {allPools.map((pool, index) => (
-        <StakePool key={index} pool={pool} />
+      {sushiPools.map((pool, index) => (
+        <SushiPools key={index} pool={pool} />
+      ))}
+      {joePools.map((pool, index) => (
+        <JoePools key={index} pool={pool} />
+      ))}
+      {spiritPools.map((pool, index) => (
+        <SpiritPools key={index} pool={pool} />
+      ))}
+      {beetsPools.map((pool, index) => (
+        <BeetsPools key={index} pool={pool} />
+      ))}
+      {zipPools.map((pool, index) => (
+        <ZipPools key={index} pool={pool} />
       ))}
       <Typography variant="h6" className={classes.title}>
         Borrow
@@ -122,16 +142,47 @@ const GetOhm: FC = () => {
 
 export default GetOhm;
 
-const StakePool: React.FC<{ pool: ExternalPool }> = props => {
+const SushiPools: React.FC<{ pool: ExternalPool }> = props => {
   const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+  const { apy } = SushiPoolAPY(props.pool);
+  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
+};
+
+const JoePools: React.FC<{ pool: ExternalPool }> = props => {
+  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+  const { apy } = JoePoolAPY(props.pool);
+  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
+};
+const SpiritPools: React.FC<{ pool: ExternalPool }> = props => {
+  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+  const { apy } = SpiritPoolAPY(props.pool);
+  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
+};
+const BeetsPools: React.FC<{ pool: ExternalPool }> = props => {
+  const { data: totalValueLocked } = BalancerPoolTVL(props.pool);
+  const { apy } = BeetsPoolAPY(props.pool);
+  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
+};
+
+const ZipPools: React.FC<{ pool: ExternalPool }> = props => {
+  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+  console.log(totalValueLocked, "data");
+  const { apy } = ZipPoolAPY(props.pool);
+  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
+};
+
+const PoolCard = (props: { pool: ExternalPool; value: OHMItemCardProps["value"]; roi: OHMItemCardProps["roi"] }) => {
+  const networkName = NetworkId[props.pool.networkID] as OHMItemCardProps["networkName"];
   return (
     <ItemCard
       tokens={props.pool.icons}
       title={props.pool.poolName}
-      value={totalValueLocked && formatCurrency(totalValueLocked)}
       href={props.pool.href}
       external
       disableFlip
+      value={props.value}
+      roi={`${props.roi && formatNumber(Number(props.roi) * 100, 2)} %`}
+      networkName={networkName}
     />
   );
 };

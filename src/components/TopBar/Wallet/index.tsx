@@ -11,9 +11,9 @@ import {
 } from "@material-ui/core";
 import { Icon, OHMTokenProps, PrimaryButton, TabBar, TertiaryButton, Token } from "@olympusdao/component-library";
 import { Link, useParams } from "react-router-dom";
-import { NETWORKS } from "src/constants";
 import { shorten } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
+import { NetworkId } from "src/networkDetails";
 
 import Assets from "./Assets";
 import Calculator from "./Calculator";
@@ -111,10 +111,9 @@ export function Wallet(props: { open?: boolean; component?: string }) {
                 {!connected && <WalletButtonTop />}
                 {connected && (
                   <Box display="flex" className={classes.networkSelector}>
-                    <Token
-                      name={NETWORKS[networkId].nativeCurrency.symbol as OHMTokenProps["name"]}
-                      style={{ fontSize: "21px" }}
-                    />
+                    {NetworkId[networkId] && (
+                      <Token name={NetworkId[networkId] as OHMTokenProps["name"]} style={{ fontSize: "21px" }} />
+                    )}
                     <Typography style={{ marginLeft: "6px" }}> {shorten(address)}</Typography>
                   </Box>
                 )}
