@@ -19,12 +19,8 @@ export class Providers {
    * Returns a static provider for a given network
    */
   public static getStaticProvider(networkId: NetworkId) {
-    try {
-      if (!this._providerCache[networkId])
-        this._providerCache[networkId] = new StaticJsonRpcProvider(this.getProviderUrl(networkId));
-    } catch {
-      console.log("error");
-    }
+    if (!this._providerCache[networkId])
+      this._providerCache[networkId] = new StaticJsonRpcProvider(this.getProviderUrl(networkId));
     return this._providerCache[networkId];
   }
 }
