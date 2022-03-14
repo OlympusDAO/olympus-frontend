@@ -41,6 +41,7 @@ import { NetworkId } from "./constants";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import { trackGAEvent, trackSegmentEvent } from "./helpers/analytics";
 import { getAllInverseBonds } from "./slices/InverseBondSlice";
+import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -325,6 +326,8 @@ function App() {
         themeColors={theme}
         badgePlacement="bottom"
         theme={theme === "light" ? multifarmLightTheme : multifarmDarkTheme}
+        categoryTypesConfig={categoryTypesConfig}
+        strategyTypesConfig={strategyTypesConfig}
       >
         <CssBaseline />
         <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
