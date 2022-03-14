@@ -15,6 +15,8 @@ interface TokenArray {
   alwaysShow?: boolean;
   ctaOnClick?: () => void;
   ctaText?: string;
+  lineThreeValue?: string | number;
+  lineThreeLabel?: string;
 }
 export interface OHMAssetsProps {
   assets: TokenArray[];
@@ -38,9 +40,12 @@ const Balances: FC<OHMAssetsProps> = ({ assets }) => {
             },
             index,
           ) => {
+            const lineThree =
+              token.lineThreeLabel && token.lineThreeValue
+                ? { lineThreeLabel: token.lineThreeLabel, lineThreeValue: token.lineThreeValue }
+                : {};
             const extraProps =
               token.ctaText && token.ctaOnClick ? { ctaText: token.ctaText, ctaOnClick: token.ctaOnClick } : {};
-
             return (
               <AssetCard
                 key={index}
@@ -60,6 +65,7 @@ const Balances: FC<OHMAssetsProps> = ({ assets }) => {
                 }
                 timeRemaining={token.timeRemaining}
                 {...extraProps}
+                {...lineThree}
               />
             );
           },

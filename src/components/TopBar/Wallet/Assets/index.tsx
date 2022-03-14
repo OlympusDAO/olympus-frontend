@@ -20,6 +20,7 @@ import {
 } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useOhmPrice } from "src/hooks/usePrices";
+import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { IUserNote } from "src/slices/BondSliceV2";
 import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
@@ -66,6 +67,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const { data: priceFeed = { usd_24h_change: -0 } } = GetTokenPrice();
   const { data: currentIndex = 0 as unknown as BigNumber } = useCurrentIndex();
   const { data: nextRebaseDate } = useNextRebaseDate();
+  const { data: rebaseRate = 0 } = useStakingRebaseRate();
   const { data: ohmBalance = 0 as unknown as BigNumber } = useOhmBalance()[networks.MAINNET];
   const { data: v1OhmBalance = 0 as unknown as BigNumber } = useV1OhmBalance()[networks.MAINNET];
   const { data: v1SohmBalance = 0 as unknown as BigNumber } = useV1SohmBalance()[networks.MAINNET];
@@ -87,6 +89,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const formattedSOhmBalance = trim(parseBigNumber(sOhmBalance), 4);
   const gOhmPriceChange = priceFeed.usd_24h_change * parseBigNumber(currentIndex);
   const gOhmPrice = ohmPrice * parseBigNumber(currentIndex);
+  const rebaseAmountPerDay = rebaseRate * Number(formattedSOhmBalance) * 3;
   const tokenArray = [
     {
       symbol: ["OHM"] as OHMTokenStackProps["tokens"],
@@ -107,6 +110,8 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
         nextRebaseDate && `Stakes in ${prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}`,
       assetValue: Number(formattedSOhmBalance) * ohmPrice,
       alwaysShow: true,
+      lineThreeLabel: "Rebases per day",
+      lineThreeValue: `${trim(rebaseAmountPerDay, 3)} sOHM / ${formatCurrency(rebaseAmountPerDay * ohmPrice, 2)}`,
     },
     {
       symbol: ["sOHM"] as OHMTokenStackProps["tokens"],
