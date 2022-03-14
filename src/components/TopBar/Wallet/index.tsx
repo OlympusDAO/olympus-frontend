@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { Icon, OHMTokenProps, PrimaryButton, TabBar, TertiaryButton, Token } from "@olympusdao/component-library";
 import { Link, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { shorten } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { NetworkId } from "src/networkDetails";
@@ -46,6 +47,7 @@ const useStyles = makeStyles<Theme>(theme => ({
 
 export function Wallet(props: { open?: boolean; component?: string }) {
   const classes = useStyles();
+  const history = useHistory();
   const { address, connect, connected, networkId } = useWeb3Context();
   const { id } = useParams<{ id: string }>();
 
@@ -102,7 +104,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
         anchor="right"
         open={props.open ? true : false}
         onOpen={() => null}
-        onClose={() => null}
+        onClose={() => history.push("/stake")}
       >
         <Box p="30px 15px" style={{ overflow: "hidden" }}>
           <Box style={{ top: 0, position: "sticky" }}>
