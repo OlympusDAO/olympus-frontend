@@ -1,9 +1,9 @@
 import { t } from "@lingui/macro";
 import { ContractReceipt } from "ethers";
-import { parseUnits } from "ethers/lib/utils";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
@@ -22,19 +22,19 @@ export const useWrapSohm = () => {
     async amount => {
       if (!amount || isNaN(Number(amount))) throw new Error(t`Please enter a number`);
 
-      const parsedAmount = parseUnits(amount, 9);
+      const _amount = new DecimalBigNumber(amount, 9);
 
-      if (!parsedAmount.gt(0)) throw new Error(t`Please enter a number greater than 0`);
+      if (!_amount.gt(new DecimalBigNumber("0", 9))) throw new Error(t`Please enter a number greater than 0`);
 
       if (!balance) throw new Error(t`Please refresh your page and try again`);
 
-      if (parsedAmount.gt(balance)) throw new Error(t`You cannot wrap more than your sOHM balance`);
+      if (_amount.gt(balance)) throw new Error(t`You cannot wrap more than your sOHM balance`);
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network to wrap your sOHM`);
 
       if (!address) throw new Error(t`Please refresh your page and try again`);
 
-      const transaction = await contract.wrap(address, parsedAmount);
+      const transaction = await contract.wrap(address, _amount.toBigNumber());
       return transaction.wait();
     },
     {

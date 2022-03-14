@@ -1,7 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, FormControl, Grid, MenuItem, Select, Typography } from "@material-ui/core";
 import { Input, PrimaryButton } from "@olympusdao/component-library";
-import { formatUnits } from "ethers/lib/utils";
 import { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { GOHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
@@ -19,7 +18,7 @@ export const WrapInputArea = () => {
   // Max balance stuff
   const addresses = currentAction === "WRAP" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
   const balance = useBalance(addresses)[networks.MAINNET].data;
-  const setMax = () => balance && setAmount(formatUnits(balance, currentAction === "UNWRAP" ? 18 : 9));
+  const setMax = () => balance && setAmount(balance.toAccurateString());
 
   // Mutation stuff
   const wrapMutation = useWrapSohm();

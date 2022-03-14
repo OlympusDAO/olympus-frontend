@@ -1,6 +1,5 @@
 import { t } from "@lingui/macro";
 import { DataRow } from "@olympusdao/component-library";
-import { formatNumber, parseBigNumber } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { useGohmBalance, useSohmBalance, useWsohmBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -23,14 +22,14 @@ export const WrapBalances = () => {
     return (
       <>
         <DataRow
-          title={t`wsOHM Balance (Avalanche)`}
           isLoading={!wsohmAvax}
-          balance={wsohmAvax && `${formatNumber(parseBigNumber(wsohmAvax, 18), 4)} wsOHM`}
+          title={t`wsOHM Balance (Avalanche)`}
+          balance={wsohmAvax?.toFormattedString(4) + ` wsOHM`}
         />
         <DataRow
-          title={t`gOHM Balance (Avalanche)`}
           isLoading={!gohmAvax}
-          balance={gohmAvax && `${formatNumber(parseBigNumber(gohmAvax, 18), 4)} gOHM`}
+          title={t`gOHM Balance (Avalanche)`}
+          balance={gohmAvax?.toFormattedString(4) + ` gOHM`}
         />
       </>
     );
@@ -39,30 +38,22 @@ export const WrapBalances = () => {
     return (
       <>
         <DataRow
-          title={t`wsOHM Balance (Arbitrum)`}
           isLoading={!wsohmArb}
-          balance={wsohmArb && `${formatNumber(parseBigNumber(wsohmArb, 18), 4)} wsOHM`}
+          title={t`wsOHM Balance (Arbitrum)`}
+          balance={wsohmArb?.toFormattedString(4) + ` wsOHM`}
         />
         <DataRow
-          title={t`gOHM Balance (Arbitrum)`}
           isLoading={!gohmArb}
-          balance={gohmArb && `${formatNumber(parseBigNumber(gohmArb, 18), 4)} gOHM`}
+          title={t`gOHM Balance (Arbitrum)`}
+          balance={gohmArb?.toFormattedString(4) + ` gOHM`}
         />
       </>
     );
 
   return (
     <>
-      <DataRow
-        title={t`sOHM Balance`}
-        isLoading={!sohmBalance}
-        balance={sohmBalance && `${formatNumber(parseBigNumber(sohmBalance), 4)} sOHM`}
-      />
-      <DataRow
-        title={t`gOHM Balance`}
-        isLoading={!gohmMainnet}
-        balance={gohmMainnet && `${formatNumber(parseBigNumber(gohmMainnet, 18), 4)} gOHM`}
-      />
+      <DataRow title={t`sOHM Balance`} isLoading={!sohmBalance} balance={sohmBalance?.toFormattedString(4) + ` sOHM`} />
+      <DataRow title={t`gOHM Balance`} isLoading={!gohmMainnet} balance={gohmMainnet?.toFormattedString(4) + ` gOHM`} />
     </>
   );
 };

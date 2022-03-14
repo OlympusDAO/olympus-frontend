@@ -1,7 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, FormControl, Grid, MenuItem, Select, Typography } from "@material-ui/core";
 import { Input, PrimaryButton } from "@olympusdao/component-library";
-import { formatUnits } from "ethers/lib/utils";
 import { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { MIGRATOR_ADDRESSES, WSOHM_ADDRESSES } from "src/constants/addresses";
@@ -23,7 +22,7 @@ export const MigrateInputArea = () => {
   );
   const [amount, setAmount] = useState("");
   const balance = useBalance(WSOHM_ADDRESSES)[networkId].data;
-  const setMax = () => balance && setAmount(formatUnits(balance, 18));
+  const setMax = () => balance && setAmount(balance.toAccurateString());
 
   // Mutation stuff
   const migrateMutation = useMigrateWsohm();
