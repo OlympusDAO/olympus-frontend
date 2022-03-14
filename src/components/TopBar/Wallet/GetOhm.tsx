@@ -166,7 +166,6 @@ const BeetsPools: React.FC<{ pool: ExternalPool }> = props => {
 
 const ZipPools: React.FC<{ pool: ExternalPool }> = props => {
   const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  console.log(totalValueLocked, "data");
   const { apy } = ZipPoolAPY(props.pool);
   return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
 };
