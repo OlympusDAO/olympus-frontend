@@ -1,9 +1,9 @@
-import { BigNumber } from "@ethersproject/bignumber";
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
-import { OHM_DAI_RESERVE_CONTRACT_DECIMALS, STAKING_CONTRACT_DECIMALS } from "src/constants/decimals";
+import { OHM_DAI_RESERVE_CONTRACT_DECIMALS } from "src/constants/decimals";
 import { parseBigNumber } from "src/helpers";
 import { ohm_dai } from "src/helpers/AllBonds";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { assert } from "src/helpers/types/assert";
 import { nonNullable } from "src/helpers/types/nonNullable";
@@ -30,7 +30,7 @@ export const useOhmPrice = () => {
   });
 };
 
-export const gohmPriceQueryKey = (marketPrice?: number, currentIndex?: BigNumber) =>
+export const gohmPriceQueryKey = (marketPrice?: number, currentIndex?: DecimalBigNumber) =>
   ["useGOHMPrice", marketPrice, currentIndex].filter(nonNullable);
 
 /**
@@ -46,7 +46,7 @@ export const useGohmPrice = () => {
     async () => {
       queryAssertion(ohmPrice && currentIndex, key);
 
-      return parseBigNumber(currentIndex, STAKING_CONTRACT_DECIMALS) * ohmPrice;
+      return currentIndex.toApproxNumber() * ohmPrice;
     },
     { enabled: !!ohmPrice && !!currentIndex },
   );

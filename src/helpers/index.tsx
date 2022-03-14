@@ -231,20 +231,6 @@ export const handleContractError = (e: any) => {
 export const isIFrame = () => window.location !== window.parent.location;
 
 /**
- * Converts gOHM to OHM. Mimics `balanceFrom()` gOHM contract function.
- */
-export const convertGohmToOhm = (amount: BigNumber, index: BigNumber) => {
-  return amount.div(10 ** 9).mul(index);
-};
-
-/**
- * Converts OHM to gOHM. Mimics `balanceTo()` gOHM contract function.
- */
-export const convertOhmToGohm = (amount: BigNumber, index: BigNumber) => {
-  return amount.mul(10 ** 9).div(index);
-};
-
-/**
  * Converts a BigNumber to a number
  */
 export const parseBigNumber = (value: BigNumber, units: BigNumberish = 9) => {

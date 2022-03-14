@@ -1,7 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Grid, makeStyles, Paper, Switch, Tab, Tabs, Theme } from "@material-ui/core";
 import { InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
-import { formatUnits } from "ethers/lib/utils";
 import React, { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
@@ -54,7 +53,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const [amount, setAmount] = useState("");
   const addresses = fromToken === "OHM" ? OHM_ADDRESSES : fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
   const balance = useBalance(addresses)[networks.MAINNET].data;
-  const setMax = () => balance && setAmount(formatUnits(balance, fromToken === "gOHM" ? 18 : 9));
+  const setMax = () => balance && setAmount(balance.toAccurateString());
 
   // Staking/unstaking mutation stuff
   const stakeMutation = useStakeToken(stakedAssetType);
