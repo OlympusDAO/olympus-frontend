@@ -24,7 +24,7 @@ const useStyles = makeStyles<Theme>(theme => ({
     fontWeight: 400,
     color: theme.colors.gray[90],
     " & span": {
-      color: theme.colors.gray[10],
+      color: theme.palette.primary.main,
     },
   },
   progressMetric: {
@@ -48,10 +48,10 @@ const useStyles = makeStyles<Theme>(theme => ({
       cursor: "pointer",
       color: theme.colors.gray[90],
       "&.active": {
-        color: theme.colors.gray[10],
+        color: theme.palette.type === "light" ? theme.palette.primary.main : theme.colors.gray[10],
       },
       "&.active-primary": {
-        color: theme.colors.primary[300],
+        color: theme.palette.type === "light" ? theme.palette.primary.main : theme.colors.primary[300],
       },
     },
     "& p:last-child": {

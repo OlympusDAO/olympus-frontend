@@ -47,7 +47,7 @@ const useStyles = makeStyles<Theme>(theme => ({
       marginRight: 0,
     },
     "& .active": {
-      color: theme.colors.primary[300],
+      color: theme.palette.type === "light" ? theme.palette.primary.main : theme.colors.primary[300],
       textDecoration: "inherit",
     },
   },

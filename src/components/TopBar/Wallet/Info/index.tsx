@@ -15,7 +15,7 @@ const useStyles = makeStyles<Theme>(theme => ({
       color: theme.colors.gray[90],
       padding: "8px 18px 10px 18px",
       "&.active": {
-        color: theme.colors.primary[300],
+        color: theme.palette.type === "light" ? theme.palette.primary.main : theme.colors.primary[300],
       },
     },
   },

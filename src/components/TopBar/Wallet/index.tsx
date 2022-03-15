@@ -42,6 +42,9 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
   connectButton: {
     background: theme.colors.paper.card,
+    "&:hover": {
+      background: theme.colors.paper.cardHover,
+    },
   },
 }));
 

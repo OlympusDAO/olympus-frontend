@@ -36,7 +36,7 @@ const useStyles = makeStyles<Theme>(() => ({
  * Component for Displaying GetOhm
  */
 const GetOhm: FC = () => {
-  const { networkId, address, provider } = useWeb3Context();
+  const { networkId } = useWeb3Context();
   const { data: supplyRate } = SupplyRatePerBlock();
   const { data: rebaseRate = 0 } = useStakingRebaseRate();
   const ethMantissa = 1e18;

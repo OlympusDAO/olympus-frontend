@@ -7,7 +7,7 @@ import commonSettings from "./global.js";
 // then set the values in darkTheme using the global color variables
 
 const darkTheme = {
-  color: "#FCFCFC",
+  color: "#FAFAFB",
   gold: "#F8CC82",
   gray: "#A3A3A3",
   textHighlightColor: "#F4D092",
@@ -69,7 +69,7 @@ export const dark = responsiveFontSizes(
           500: "#3F4552",
           90: "#676B74",
           40: "#A3A3A3",
-          10: "#FAFAFB",
+          10: darkTheme.color,
         },
         primary: {
           300: "#F8CC82",
