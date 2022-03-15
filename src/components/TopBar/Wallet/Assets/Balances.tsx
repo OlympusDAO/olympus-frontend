@@ -44,6 +44,7 @@ const Balances: FC<OHMAssetsProps> = ({ assets }) => {
               token.lineThreeLabel && token.lineThreeValue
                 ? { lineThreeLabel: token.lineThreeLabel, lineThreeValue: token.lineThreeValue }
                 : {};
+            console.log(token.lineThreeValue, "ineThree");
             const extraProps =
               token.ctaText && token.ctaOnClick ? { ctaText: token.ctaText, ctaOnClick: token.ctaOnClick } : {};
             return (

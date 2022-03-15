@@ -51,6 +51,15 @@ const useStyles = makeStyles<Theme>(theme => ({
       textDecoration: "inherit",
     },
   },
+  forecast: {
+    textAlign: "right",
+    "& .number": {
+      fontWeight: 400,
+    },
+    "& .numberSmall": {
+      justifyContent: "flex-end",
+    },
+  },
 }));
 
 /**
@@ -90,6 +99,16 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const gOhmPriceChange = priceFeed.usd_24h_change * parseBigNumber(currentIndex);
   const gOhmPrice = ohmPrice * parseBigNumber(currentIndex);
   const rebaseAmountPerDay = rebaseRate * Number(formattedSOhmBalance) * 3;
+  const totalAsSohm =
+    parseBigNumber(gOhmBalance, 18) * parseBigNumber(currentIndex) +
+    parseBigNumber(wsOhmBalance, 18) * parseBigNumber(currentIndex) +
+    parseBigNumber(sOhmBalance) +
+    parseBigNumber(v1SohmBalance);
+
+  console.log(totalAsSohm, "totalAsSohm");
+
+  const sOHMDailyForecast = trim(totalAsSohm * rebaseRate * 3, 2);
+  const usdDailyForecast = formatCurrency(Number(sOHMDailyForecast) * ohmPrice, 2);
   const tokenArray = [
     {
       symbol: ["OHM"] as OHMTokenStackProps["tokens"],
@@ -111,7 +130,10 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       assetValue: Number(formattedSOhmBalance) * ohmPrice,
       alwaysShow: true,
       lineThreeLabel: "Rebases per day",
-      lineThreeValue: `${trim(rebaseAmountPerDay, 3)} sOHM / ${formatCurrency(rebaseAmountPerDay * ohmPrice, 2)}`,
+      lineThreeValue:
+        Number(formattedSOhmBalance) > 0
+          ? `${trim(rebaseAmountPerDay, 3)} sOHM / ${formatCurrency(rebaseAmountPerDay * ohmPrice, 2)}`
+          : undefined,
     },
     {
       symbol: ["sOHM"] as OHMTokenStackProps["tokens"],
@@ -155,11 +177,19 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
 
   return (
     <>
-      <WalletBalance
-        title="Balance"
-        usdBalance={formatCurrency(walletTotalValueUSD, 2)}
-        underlyingBalance={`${trim(walletTotalValueUSD / ohmPrice, 2)} OHM`}
-      />
+      <Box display="flex" flexDirection="row" justifyContent="space-between">
+        <WalletBalance
+          title="Balance"
+          usdBalance={formatCurrency(walletTotalValueUSD, 2)}
+          underlyingBalance={`${trim(walletTotalValueUSD / ohmPrice, 2)} OHM`}
+        />
+        <WalletBalance
+          className={classes.forecast}
+          title="Today's Forecast"
+          usdBalance={`+ ${usdDailyForecast}`}
+          underlyingBalance={`+${sOHMDailyForecast} OHM`}
+        />
+      </Box>
       <Box display="flex" flexDirection="row" className={classes.selector} mb="18px" mt="18px">
         <Link exact component={NavLink} to="/wallet">
           <Typography>My Wallet</Typography>
