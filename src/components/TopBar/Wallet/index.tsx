@@ -143,7 +143,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
               display: "block",
               overflowY: "scroll",
               overflowX: "hidden",
-              paddingBottom: "calc(65%)",
+              paddingBottom: "calc(85%)",
             }}
           >
             {(() => {
