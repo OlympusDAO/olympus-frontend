@@ -47,7 +47,7 @@ const News: FC<OHMNewsProps> = () => {
                 imageSrc={article.thumbnail}
                 content={truncate(parseFeedContent(article.content))}
                 href={article.link}
-                publishDate={new Date(article.pubDate).toString()}
+                publishDate={new Date(article.pubDate).toDateString()}
                 key={index}
               />
             );
