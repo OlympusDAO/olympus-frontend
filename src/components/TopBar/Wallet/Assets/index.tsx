@@ -1,11 +1,11 @@
 import { Box, Link, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { OHMTokenStackProps, WalletBalance } from "@olympusdao/component-library";
-import { BigNumber } from "ethers";
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { formatCurrency, parseBigNumber, trim } from "src/helpers";
+import { formatCurrency, trim } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { prettifySeconds } from "src/helpers/timeUtil";
 import { useAppSelector } from "src/hooks";
 import {
@@ -74,38 +74,33 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const networks = useTestableNetworks();
   const { data: ohmPrice = 0 } = useOhmPrice();
   const { data: priceFeed = { usd_24h_change: -0 } } = GetTokenPrice();
-  const { data: currentIndex = 0 as unknown as BigNumber } = useCurrentIndex();
+  const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
   const { data: nextRebaseDate } = useNextRebaseDate();
   const { data: rebaseRate = 0 } = useStakingRebaseRate();
-  const { data: ohmBalance = 0 as unknown as BigNumber } = useOhmBalance()[networks.MAINNET];
-  const { data: v1OhmBalance = 0 as unknown as BigNumber } = useV1OhmBalance()[networks.MAINNET];
-  const { data: v1SohmBalance = 0 as unknown as BigNumber } = useV1SohmBalance()[networks.MAINNET];
-  const { data: sOhmBalance = 0 as unknown as BigNumber } = useSohmBalance()[networks.MAINNET];
-  const { data: wsOhmBalance = 0 as unknown as BigNumber } = useWsohmBalance()[networks.MAINNET];
-  const { data: gOhmBalance = 0 as unknown as BigNumber } = useGohmBalance()[networks.MAINNET];
-  const { data: fuseBalance = 0 as unknown as BigNumber } = useFuseBalance()[1];
-  const { data: gohmTokemakBalance = 0 as unknown as BigNumber } = useGohmTokemakBalance()[1];
+  const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[networks.MAINNET];
+  const { data: v1OhmBalance = new DecimalBigNumber("0", 9) } = useV1OhmBalance()[networks.MAINNET];
+  const { data: v1SohmBalance = new DecimalBigNumber("0", 9) } = useV1SohmBalance()[networks.MAINNET];
+  const { data: sOhmBalance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
+  const { data: wsOhmBalance = new DecimalBigNumber("0", 18) } = useWsohmBalance()[networks.MAINNET];
+  const { data: gOhmBalance = new DecimalBigNumber("0", 18) } = useGohmBalance()[networks.MAINNET];
+  const { data: fuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[1];
+  const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[1];
 
   const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
-  const formattedohmBalance = trim(parseBigNumber(ohmBalance), 4);
-  const formattedV1OhmBalance = trim(parseBigNumber(v1OhmBalance), 4);
-  const formattedV1SohmBalance = trim(parseBigNumber(v1SohmBalance), 4);
-  const formattedWsOhmBalance = trim(parseBigNumber(wsOhmBalance), 4);
-  const formattedgOhmBalance = trim(
-    parseBigNumber(gOhmBalance, 18) + parseBigNumber(fuseBalance, 18) + parseBigNumber(gohmTokemakBalance, 18),
-    4,
-  );
-  const formattedSOhmBalance = trim(parseBigNumber(sOhmBalance), 4);
-  const gOhmPriceChange = priceFeed.usd_24h_change * parseBigNumber(currentIndex);
-  const gOhmPrice = ohmPrice * parseBigNumber(currentIndex);
+  const formattedohmBalance = ohmBalance?.toFormattedString(4);
+  const formattedV1OhmBalance = v1OhmBalance?.toFormattedString(4);
+  const formattedV1SohmBalance = v1SohmBalance?.toFormattedString(4);
+  const formattedWsOhmBalance = wsOhmBalance?.toFormattedString(4);
+  const formattedgOhmBalance = gOhmBalance.add(fuseBalance).add(gohmTokemakBalance).toFormattedString(4);
+  const formattedSOhmBalance = sOhmBalance?.toFormattedString(4);
+  const gOhmPriceChange = priceFeed.usd_24h_change * currentIndex.toApproxNumber();
+  const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
   const rebaseAmountPerDay = rebaseRate * Number(formattedSOhmBalance) * 3;
   const totalAsSohm =
-    parseBigNumber(gOhmBalance, 18) * parseBigNumber(currentIndex) +
-    parseBigNumber(wsOhmBalance, 18) * parseBigNumber(currentIndex) +
-    parseBigNumber(sOhmBalance) +
-    parseBigNumber(v1SohmBalance);
-
-  console.log(totalAsSohm, "totalAsSohm");
+    gOhmBalance.toApproxNumber() * currentIndex.toApproxNumber() +
+    wsOhmBalance.toApproxNumber() * currentIndex.toApproxNumber() +
+    sOhmBalance.toApproxNumber() +
+    v1SohmBalance.toApproxNumber();
 
   const sOHMDailyForecast = trim(totalAsSohm * rebaseRate * 3, 2);
   const usdDailyForecast = formatCurrency(Number(sOHMDailyForecast) * ohmPrice, 2);
@@ -152,7 +147,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       symbol: ["gOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedgOhmBalance,
       assetValue: gOhmPrice * Number(formattedgOhmBalance),
-      pnl: Number(gOhmBalance) === 0 ? 0 : formatCurrency(parseBigNumber(gOhmBalance, 18) * gOhmPriceChange, 2),
+      pnl: Number(gOhmBalance) === 0 ? 0 : formatCurrency(gOhmBalance.toApproxNumber() * gOhmPriceChange, 2),
       alwaysShow: true,
     },
   ];
