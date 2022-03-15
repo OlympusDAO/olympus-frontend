@@ -7,6 +7,7 @@ import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
+import { toInteger } from "lodash";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
@@ -36,7 +37,7 @@ import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
-import { countDecimals, roundToDecimal, toInteger } from "./utils";
+import { countDecimals } from "./utils";
 
 type CountdownProps = {
   total: number;
@@ -215,13 +216,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     const totalDonatedNumber = new BigNumber(totalDonated);
 
-    return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed();
+    return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed(2);
   };
 
   const renderGoalCompletion = (): JSX.Element => {
     const goalCompletion = getGoalCompletion();
-    const formattedGoalCompletion =
-      countDecimals(goalCompletion) === 0 ? toInteger(goalCompletion) : roundToDecimal(goalCompletion);
+    const hasDecimals = countDecimals(goalCompletion) !== 0;
+    const formattedGoalCompletion = hasDecimals ? goalCompletion : toInteger(goalCompletion);
 
     if (depositGoal === 0) return <></>;
 

@@ -131,7 +131,7 @@ const ZapStakeAction: React.FC = () => {
 
   const sOhmBalance = useAppSelector(state => Number(state.account?.balances?.sohm ?? 0.0));
   const gOhmBalance = useAppSelector(state => Number(state.account?.balances?.gohm ?? 0.0));
-  const currentIndex = Number(useCurrentIndex().data?.div(1e9));
+  const currentIndex = Number(useCurrentIndex().data?.toBigNumber().div(1e9));
 
   const exchangeRate = useMemo(
     () =>
