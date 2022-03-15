@@ -3,7 +3,7 @@ import { Box, makeStyles, Typography, useTheme, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, Paper, SecondaryButton, TokenStack } from "@olympusdao/component-library";
-import { formatCurrency, formatNumber, parseBigNumber } from "src/helpers";
+import { formatCurrency } from "src/helpers";
 import allPools from "src/helpers/AllExternalPools";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ExternalPool } from "src/lib/ExternalPool";
@@ -94,19 +94,11 @@ const StakePool: React.FC<{ pool: ExternalPool }> = props => {
       </Box>
 
       <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-        {totalValueLocked ? formatCurrency(totalValueLocked) : <Skeleton width={80} />}
+        {!totalValueLocked ? <Skeleton width={80} /> : formatCurrency(totalValueLocked)}
       </Typography>
 
       <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-        {connected ? (
-          userBalance ? (
-            `${formatNumber(parseBigNumber(userBalance, 18), 4)} LP`
-          ) : (
-            <Skeleton width={80} />
-          )
-        ) : (
-          ""
-        )}
+        {!connected ? "" : !userBalance ? <Skeleton width={80} /> : `${userBalance.toFormattedString(4)} LP`}
       </Typography>
 
       <Box sx={{ display: "flex", flexBasis: "100px", flexGrow: 1, maxWidth: "500px" }}>
@@ -146,7 +138,7 @@ const MobileStakePool: React.FC<{ pool: ExternalPool }> = props => {
         <DataRow
           title={t`Balance`}
           isLoading={!userBalance}
-          balance={userBalance && `${formatNumber(parseBigNumber(userBalance, 18), 4)} LP`}
+          balance={userBalance && `${userBalance.toFormattedString(4)} LP`}
         />
       )}
 

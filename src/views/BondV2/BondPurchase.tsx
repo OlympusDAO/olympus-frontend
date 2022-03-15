@@ -85,7 +85,7 @@ function BondPurchase({
       if (inverseBond) {
         dispatch(
           purchaseInverseBond({
-            amounts: [ethers.utils.parseUnits(quantity, "gwei"), 0],
+            amounts: [ethers.utils.parseUnits(trim(Number(quantity), 9), "gwei"), 0],
             networkID: networkId,
             provider,
             bond,

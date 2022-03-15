@@ -1,7 +1,6 @@
 import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
-import { STAKING_CONTRACT_DECIMALS } from "src/constants/decimals";
-import { formatCurrency, formatNumber, parseBigNumber } from "src/helpers";
+import { formatCurrency, formatNumber } from "src/helpers";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
@@ -94,7 +93,7 @@ export const CurrentIndex: React.FC<AbstractedMetricProps> = props => {
     tooltip: t`The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held 1 OHM from launch.`,
   };
 
-  if (currentIndex) _props.metric = `${parseBigNumber(currentIndex, STAKING_CONTRACT_DECIMALS).toFixed(2)} sOHM`;
+  if (currentIndex) _props.metric = `${currentIndex.toFormattedString(2)} sOHM`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;

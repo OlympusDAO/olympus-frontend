@@ -1,4 +1,3 @@
-import { BigNumber } from "@ethersproject/bignumber";
 import { useQueries, useQuery, UseQueryResult } from "react-query";
 import { NetworkId } from "src/constants";
 import {
@@ -14,6 +13,7 @@ import {
   V1_SOHM_ADDRESSES,
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
 
@@ -36,14 +36,20 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
   const results = useQueries(
     networkIds.map(networkId => ({
       enabled: !!address,
-      queryFn: () => contracts[networkId as NetworkId].balanceOf(address),
+      queryFn: async () => {
+        const contract = contracts[networkId as NetworkId];
+
+        const [balance, decimals] = await Promise.all([contract.balanceOf(address), contract.decimals()]);
+
+        return new DecimalBigNumber(balance, decimals);
+      },
       queryKey: balanceQueryKey(address, tokenAddressMap, networkId),
     })),
   );
 
   return networkIds.reduce(
     (prev, networkId, index) => Object.assign(prev, { [networkId]: results[index] }),
-    {} as Record<keyof typeof tokenAddressMap, UseQueryResult<BigNumber>>,
+    {} as Record<keyof typeof tokenAddressMap, UseQueryResult<DecimalBigNumber, Error>>,
   );
 };
 
@@ -57,23 +63,28 @@ export const useFuseBalance = () => {
   const pool18Contract = useStaticFuseContract(FUSE_POOL_18_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
   const pool36Contract = useStaticFuseContract(FUSE_POOL_36_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
 
-  return {
-    [NetworkId.MAINNET]: useQuery<BigNumber, Error>(
-      fuseBalanceQueryKey(address),
-      async () => {
-        queryAssertion(address, fuseBalanceQueryKey(address));
+  const query = useQuery<DecimalBigNumber, Error>(
+    fuseBalanceQueryKey(address),
+    async () => {
+      queryAssertion(address, fuseBalanceQueryKey(address));
 
-        const promises = [pool6Contract, pool18Contract, pool36Contract].map(async contract => {
-          return contract.callStatic.balanceOfUnderlying(address);
-        });
+      const results = await Promise.all(
+        [pool6Contract, pool18Contract, pool36Contract].map(async contract => {
+          const [balance, decimals] = await Promise.all([
+            contract.callStatic.balanceOfUnderlying(address),
+            contract.decimals(),
+          ]);
 
-        const results = await Promise.all(promises);
+          return new DecimalBigNumber(balance, decimals);
+        }),
+      );
 
-        return results.reduce((prev, bal) => prev.add(bal), BigNumber.from(0));
-      },
-      { enabled: !!address },
-    ),
-  };
+      return results.reduce((prev, bal) => prev.add(bal), new DecimalBigNumber("0", 9));
+    },
+    { enabled: !!address },
+  );
+
+  return { [NetworkId.MAINNET]: query } as Record<NetworkId.MAINNET, typeof query>;
 };
 
 export const useOhmBalance = () => useBalance(OHM_ADDRESSES);
