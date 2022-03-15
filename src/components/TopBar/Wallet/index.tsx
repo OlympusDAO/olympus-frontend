@@ -9,7 +9,7 @@ import {
   Typography,
   withStyles,
 } from "@material-ui/core";
-import { Icon, OHMTokenProps, PrimaryButton, TabBar, TertiaryButton, Token } from "@olympusdao/component-library";
+import { Icon, OHMTokenProps, PrimaryButton, SecondaryButton, TabBar, Token } from "@olympusdao/component-library";
 import { Link, useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { shorten } from "src/helpers";
@@ -87,9 +87,9 @@ export function Wallet(props: { open?: boolean; component?: string }) {
   const DisconnectButton = () => {
     const { disconnect } = useWeb3Context();
     return (
-      <TertiaryButton onClick={disconnect}>
+      <SecondaryButton onClick={disconnect}>
         <Trans>Disconnect</Trans>
-      </TertiaryButton>
+      </SecondaryButton>
     );
   };
 
