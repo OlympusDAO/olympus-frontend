@@ -565,6 +565,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                       </Grid>
                     </Grid>
                   }
+                  fullWidth
                 >
                   <Grid container spacing={2}>
                     <Grid item xs={12} sm={6} lg={12}>
@@ -599,7 +600,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                 {!isUserDonating ? (
                   <></>
                 ) : (
-                  <Paper headerText={t`Your Donations`}>
+                  <Paper headerText={t`Your Donations`} fullWidth>
                     <Grid container alignItems="flex-end">
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="flex-start">
@@ -659,7 +660,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
             </Grid>
             <Grid container item xs={12} lg={7}>
               <Grid item xs={12}>
-                <Paper headerText="Milestones">{renderMilestoneDetails()}</Paper>
+                <Paper headerText="Milestones" fullWidth>
+                  {renderMilestoneDetails()}
+                </Paper>
               </Grid>
               <Grid item xs={12}>
                 <Paper
@@ -669,6 +672,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                       <Icon name="website" />
                     </Link>
                   }
+                  fullWidth
                 >
                   <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
                 </Paper>
