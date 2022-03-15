@@ -41,13 +41,14 @@ const News: FC<OHMNewsProps> = () => {
             },
             index: Key | null | undefined,
           ) => {
+            const dateNoTime = article.pubDate.toString().split(" ")[0];
             return (
               <ArticleCard
                 title={article.title}
                 imageSrc={article.thumbnail}
                 content={truncate(parseFeedContent(article.content))}
                 href={article.link}
-                publishDate={new Date(article.pubDate).toDateString()}
+                publishDate={new Date(dateNoTime).toDateString()}
                 key={index}
               />
             );
