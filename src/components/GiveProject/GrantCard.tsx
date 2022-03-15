@@ -58,18 +58,7 @@ type State = {
 export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const location = useLocation();
   const { provider, address, connected, connect, networkId } = useWeb3Context();
-  const {
-    title,
-    owner,
-    shortDescription,
-    details,
-    finishDate,
-    photos,
-    wallet,
-    depositGoal,
-    milestones,
-    latestMilestoneCompleted,
-  } = grant;
+  const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
@@ -93,16 +82,6 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
-
-  const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
-
-  useEffect(() => {
-    const items = document.getElementsByClassName("project-container");
-    if (items.length > 0) {
-      items[0].scrollIntoView();
-      window.scrollTo(0, 0);
-    }
-  }, [location.pathname]);
 
   useEffect(() => {
     // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
@@ -254,7 +233,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
 
     return (
       <>
-        <Grid container className="grant-data" spacing={3} alignItems="flex-end">
+        <Grid container spacing={3} alignItems="flex-end">
           <Grid item xs={5}>
             <Grid container direction="column" alignItems="flex-start">
               <Grid item>
@@ -263,7 +242,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Icon name="donors" />
                   </Grid>
                   <Grid item className="metric">
-                    {donorCountIsLoading ? <Skeleton /> : donorCount}
+                    {donorCountIsLoading ? <Skeleton className="skeleton-inline" /> : donorCount}
                   </Grid>
                 </Grid>
               </Grid>
@@ -299,21 +278,26 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   };
 
   const getProjectImage = (): JSX.Element => {
+    let imageElement;
     // We return an empty image with a set width, so that the spacing remains the same.
-    if (!photos || photos.length < 1)
-      return (
-        <div className="grant-image">
-          <img height="100%" src="" />
-        </div>
-      );
-
+    if (!photos || photos.length < 1) {
+      imageElement = <img height="100%" src="" />;
+    }
     // For the moment, we only display the first photo
-    return (
-      <div className="grant-image">
+    else {
+      imageElement = (
         <Link href={`#/give/grants/${grant.slug}`} onClick={() => handleGrantDetailsButtonClick("Image")}>
           <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
         </Link>
-      </div>
+      );
+    }
+
+    return (
+      <Grid container alignContent="center" style={{ maxHeight: "184px", overflow: "hidden", borderRadius: "16px" }}>
+        <Grid item xs>
+          {imageElement}
+        </Grid>
+      </Grid>
     );
   };
 
@@ -488,6 +472,12 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   };
 
   const getCardContent = () => {
+    /**
+     * NOTE: We want the project title to be positioned above the image when the breakpoint < "lg",
+     * but to the right of the image when the breakpoint = "lg". There was no clear way to do this
+     * using the Grid (flexbox) component, so we check for the breakpoint manually and show/hide
+     * accordingly. Happy to be proven wrong.
+     */
     return (
       <>
         <Box style={{ width: "100%", borderRadius: "10px", marginBottom: "60px" }}>
@@ -503,9 +493,10 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
             ) : (
               <></>
             )}
-            <Grid item xs={12} md={5} lg={4}>
+            <Grid item xs={12} sm={5} lg={4}>
               {getProjectImage()}
             </Grid>
+            {/* We shove the title, details and buttons into another container, so they move together in relation to the image. */}
             <Grid item container xs alignContent="space-between">
               {isBreakpointLarge ? (
                 <Grid item xs={12}>
@@ -531,7 +522,6 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                 <Grid item xs={12} lg={4}>
                   <Link
                     href={`#/give/grants/${grant.slug}`}
-                    className="cause-link"
                     onClick={() => handleGrantDetailsButtonClick("View Details Button")}
                   >
                     <PrimaryButton fullWidth>
@@ -558,8 +548,8 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const getPageContent = () => {
     return (
       <>
-        <Container className={`project-container`}>
-          <Grid container className="project" spacing={3} alignItems="flex-start">
+        <Container>
+          <Grid container spacing={3} alignItems="flex-start">
             <Grid container item xs={12} lg={5}>
               <Grid item xs={12}>
                 <Paper
@@ -567,11 +557,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Grid container spacing={2} alignItems="center">
                       <Grid item>
                         <Link href={"#/give/grants"}>
-                          <ChevronLeft
-                            className="back-to-causes"
-                            viewBox="6 6 12 12"
-                            style={{ width: "12px", height: "12px" }}
-                          />
+                          <ChevronLeft viewBox="6 6 12 12" style={{ width: "12px", height: "12px" }} />
                         </Link>
                       </Grid>
                       <Grid item>
@@ -581,7 +567,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   }
                 >
                   <Grid container spacing={2}>
-                    <Grid item xs={12} md={4} lg={12}>
+                    <Grid item xs={12} sm={6} lg={12}>
                       {getProjectImage()}
                     </Grid>
                     <Grid item container xs>
@@ -614,7 +600,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   <></>
                 ) : (
                   <Paper headerText={t`Your Donations`}>
-                    <Grid container alignItems="flex-end" className="grant-data">
+                    <Grid container alignItems="flex-end">
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="flex-start">
                           <Grid item container justifyContent="flex-start" alignItems="center" spacing={1}>
@@ -680,7 +666,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   headerText="About"
                   topRight={
                     <Link href={grant.website} target="_blank">
-                      <Icon name="website" fill={svgFillColour} />
+                      <Icon name="website" />
                     </Link>
                   }
                 >

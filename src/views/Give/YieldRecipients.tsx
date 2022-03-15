@@ -1,6 +1,7 @@
+import "./YieldRecipients.scss";
+
 import { Trans } from "@lingui/macro";
 import {
-  Box,
   Divider,
   Grid,
   Table,
@@ -10,12 +11,14 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useTheme,
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { TertiaryButton } from "@olympusdao/component-library";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { NetworkId } from "src/constants";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -30,7 +33,8 @@ type RecipientModalProps = {
 export default function YieldRecipients({ changeView }: RecipientModalProps) {
   const location = useLocation();
   const { networkId } = useWeb3Context();
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
   const donationInfo = useSelector((state: DonationInfoState) => {
@@ -48,65 +52,67 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
 
   if (!donationInfo || donationInfo.length == 0) {
     return (
-      <Box
-        className="no-donations"
-        style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px 40px 20px 40px" }}
-      >
-        <Typography variant="body1">
-          <Trans>Looks like you haven’t made any donations yet</Trans>
-        </Typography>
-        <TertiaryButton onClick={() => changeView(0)}>
-          <Trans>Donate to a cause</Trans>
-        </TertiaryButton>
+      <Box>
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item xs={12} container justifyContent="center">
+            <Typography variant="body1">
+              <Trans>Looks like you haven’t made any donations yet</Trans>
+            </Typography>
+          </Grid>
+          <Grid item xs={12} container justifyContent="center">
+            <TertiaryButton onClick={() => changeView(0)}>
+              <Trans>Donate to a cause</Trans>
+            </TertiaryButton>
+          </Grid>
+        </Grid>
       </Box>
     );
   }
 
+  // TODO extract the table and styles into a common component
   return (
-    <Grid container item className="card-content">
-      <TableContainer>
-        <Table className="donation-table">
-          <TableHead>
-            <TableRow>
-              {!isSmallScreen && (
-                <TableCell align="left">
-                  <Typography variant="body1">
-                    <Trans>DATE</Trans>
-                  </Typography>
-                </TableCell>
-              )}
+    <TableContainer>
+      <Table className="donation-table">
+        <TableHead>
+          <TableRow>
+            {!isSmallScreen && (
               <TableCell align="left">
                 <Typography variant="body1">
-                  <Trans>RECIPIENT</Trans>
+                  <Trans>DATE</Trans>
                 </Typography>
               </TableCell>
-              {!isSmallScreen && (
-                <TableCell align="right">
-                  <Typography variant="body1">
-                    <Trans>DEPOSITED</Trans>
-                  </Typography>
-                </TableCell>
-              )}
+            )}
+            <TableCell align="left">
+              <Typography variant="body1">
+                <Trans>RECIPIENT</Trans>
+              </Typography>
+            </TableCell>
+            {!isSmallScreen && (
               <TableCell align="right">
                 <Typography variant="body1">
-                  <Trans>YIELD SENT</Trans>
+                  <Trans>DEPOSITED</Trans>
                 </Typography>
               </TableCell>
-              <TableCell align="right" className="manage-cell"></TableCell>
-            </TableRow>
-          </TableHead>
-          <Divider className="table-head-divider" />
-          <TableBody>
-            {isLoading ? (
-              <Skeleton />
-            ) : (
-              donationInfo.map(donation => {
-                return <DepositTableRow depositObject={donation} key={donation.recipient} />;
-              })
             )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Grid>
+            <TableCell align="right">
+              <Typography variant="body1">
+                <Trans>YIELD SENT</Trans>
+              </Typography>
+            </TableCell>
+            <TableCell align="right" className="manage-cell"></TableCell>
+          </TableRow>
+        </TableHead>
+        <Divider className="table-head-divider" />
+        <TableBody>
+          {isLoading ? (
+            <Skeleton />
+          ) : (
+            donationInfo.map(donation => {
+              return <DepositTableRow depositObject={donation} key={donation.recipient} />;
+            })
+          )}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }

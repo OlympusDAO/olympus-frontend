@@ -20,37 +20,17 @@
   }
 }
 
-.grant-data {
-  .MuiSkeleton-text {
-    // Force the Skeleton to not break onto a new line
-    display: inline;
-  }
-
-  .metric {
-    font-weight: 600;
-    font-size: 14px;
-  }
-
-  .subtext {
-    color: #999999;
-    padding-top: 2px;
-  }
+.skeleton-inline.MuiSkeleton-text {
+  // Force the Skeleton to not break onto a new line
+  display: inline;
 }
 
-.grant-image {
-  display: flex;
-  align-items: center;
-  border-radius: 16px;
-  width: 100%;
-  max-height: 184px;
-  overflow: hidden;
-  padding-bottom: 0px !important;
+.metric {
+  font-weight: 600;
+  font-size: 14px;
+}
 
-  a {
-    width: 100%;
-  }
-
-  &.medium {
-    max-height: 117px;
-  }
+.subtext {
+  color: #999999;
+  padding-top: 2px;
 }

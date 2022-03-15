@@ -1,15 +1,12 @@
 import { render } from "../../testUtils";
 import {
   ArrowGraphic,
-  CurrPositionGraphic,
-  DepositSohm,
-  LockInVault,
-  NewPositionGraphic,
-  ReceivesYield,
-  RedeemGraphic,
-  VaultGraphic,
-  WalletGraphic,
-  YieldGraphic,
+  CompactVault,
+  CompactWallet,
+  CompactYield,
+  LargeVault,
+  LargeWallet,
+  LargeYield,
 } from "../EducationCard";
 
 describe("<ArrowGraphic/>", () => {
@@ -19,65 +16,44 @@ describe("<ArrowGraphic/>", () => {
   });
 });
 
-describe("<NewPositionGraphic/>", () => {
+describe("<CompactYield/>", () => {
   it("should render component", () => {
-    const { container } = render(<NewPositionGraphic quantity={"1"} />);
+    const { container } = render(<CompactYield quantity={"1"} />);
     expect(container).toMatchSnapshot();
   });
 });
 
-describe("<CurrPositionGraphic/>", () => {
+describe("<CompactVault/>", () => {
   it("should render component", () => {
-    const { container } = render(<CurrPositionGraphic quantity={"1"} />);
+    const { container } = render(<CompactVault quantity={"1"} />);
     expect(container).toMatchSnapshot();
   });
 });
 
-describe("<ReceivesYield/>", () => {
+describe("<CompactWallet/>", () => {
   it("should render component", () => {
-    const { container } = render(<ReceivesYield message={"test123"} />);
+    const { container } = render(<CompactWallet quantity={"1"} />);
     expect(container).toMatchSnapshot();
   });
 });
 
-describe("<RedeemGraphic/>", () => {
+describe("<LargeWallet/>", () => {
   it("should render component", () => {
-    const { container } = render(<RedeemGraphic quantity={"1"} />);
+    const { container } = render(<LargeWallet />);
     expect(container).toMatchSnapshot();
   });
 });
 
-describe("<YieldGraphic/>", () => {
+describe("<LargeVault/>", () => {
   it("should render component", () => {
-    const { container } = render(<YieldGraphic quantity={"1"} />);
+    const { container } = render(<LargeVault />);
     expect(container).toMatchSnapshot();
   });
 });
 
-describe("<VaultGraphic/>", () => {
+describe("<LargeYield/>", () => {
   it("should render component", () => {
-    const { container } = render(<VaultGraphic quantity={"1"} />);
-    expect(container).toMatchSnapshot();
-  });
-});
-
-describe("<DepositSohm/>", () => {
-  it("should render component", () => {
-    const { container } = render(<DepositSohm message={"test123"} />);
-    expect(container).toMatchSnapshot();
-  });
-});
-
-describe("<LockInVault/>", () => {
-  it("should render component", () => {
-    const { container } = render(<LockInVault message={"test123"} />);
-    expect(container).toMatchSnapshot();
-  });
-});
-
-describe("<WalletGraphic/>", () => {
-  it("should render component", () => {
-    const { container } = render(<WalletGraphic quantity={"1"} />);
+    const { container } = render(<LargeYield />);
     expect(container).toMatchSnapshot();
   });
 });
