@@ -68,7 +68,7 @@ const useStyles = makeStyles<Theme>(theme => ({
     lineHeight: "24px",
     "& span": {
       marginLeft: "18px",
-      color: theme.colors.gray[40],
+      color: theme.palette.type == "light" ? theme.colors.gray[90] : theme.colors.gray[40],
     },
   },
   ctaTitle: {

@@ -7,7 +7,7 @@ const lightTheme = {
   color: "#181A1D",
   gold: "#F8CC82",
   gray: "#A3A3A3",
-  blueish_gray: "#768299",
+  blueish_gray: "#676B74",
   textHighlightColor: "#93AEBC", // "#F4D092",
   backgroundColor: "#AFCDE9",
   // background:
@@ -61,7 +61,7 @@ export const light = responsiveFontSizes(
           700: "#181A1D",
           600: "#292C32",
           500: "#3F4552",
-          90: "#676B74",
+          90: lightTheme.blueish_gray,
           40: "#A3A3A3",
           10: "#FAFAFB",
         },
