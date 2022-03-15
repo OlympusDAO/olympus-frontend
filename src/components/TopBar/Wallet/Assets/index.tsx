@@ -87,12 +87,12 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[1];
 
   const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
-  const formattedohmBalance = ohmBalance?.toFormattedString(4);
-  const formattedV1OhmBalance = v1OhmBalance?.toFormattedString(4);
-  const formattedV1SohmBalance = v1SohmBalance?.toFormattedString(4);
-  const formattedWsOhmBalance = wsOhmBalance?.toFormattedString(4);
+  const formattedohmBalance = ohmBalance.toFormattedString(4);
+  const formattedV1OhmBalance = v1OhmBalance.toFormattedString(4);
+  const formattedV1SohmBalance = v1SohmBalance.toFormattedString(4);
+  const formattedWsOhmBalance = wsOhmBalance.toFormattedString(4);
   const formattedgOhmBalance = gOhmBalance.add(fuseBalance).add(gohmTokemakBalance).toFormattedString(4);
-  const formattedSOhmBalance = sOhmBalance?.toFormattedString(4);
+  const formattedSOhmBalance = sOhmBalance.toFormattedString(4);
   const gOhmPriceChange = priceFeed.usd_24h_change * currentIndex.toApproxNumber();
   const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
   const rebaseAmountPerDay = rebaseRate * Number(formattedSOhmBalance) * 3;
@@ -147,7 +147,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       symbol: ["gOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedgOhmBalance,
       assetValue: gOhmPrice * Number(formattedgOhmBalance),
-      pnl: Number(gOhmBalance) === 0 ? 0 : formatCurrency(gOhmBalance.toApproxNumber() * gOhmPriceChange, 2),
+      pnl: formattedgOhmBalance ? 0 : formatCurrency(gOhmBalance.toApproxNumber() * gOhmPriceChange, 2),
       alwaysShow: true,
     },
   ];
