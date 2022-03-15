@@ -1,15 +1,14 @@
-import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryProvider } from "src/lib/react-query";
 
 import { render } from "../../../testUtils";
 import ChooseBondV2 from "../ChooseBondV2";
-const queryClient = new QueryClient();
 
 describe("<ChooseBondV2/>", () => {
   it("should render component", () => {
     const { container } = render(
-      <QueryClientProvider client={queryClient}>
+      <ReactQueryProvider>
         <ChooseBondV2 />
-      </QueryClientProvider>,
+      </ReactQueryProvider>,
     );
     expect(container).toMatchSnapshot();
   });

@@ -1,5 +1,6 @@
 import { Contract, ContractInterface } from "@ethersproject/contracts";
 import { useMemo } from "react";
+import { abi as CROSS_CHAIN_MIGRATOR_ABI } from "src/abi/CrossChainMigrator.json";
 import { abi as FUSE_PROXY_ABI } from "src/abi/FuseProxy.json";
 import { abi as IERC20_ABI } from "src/abi/IERC20.json";
 import { abi as GIVE_ABI } from "src/abi/OlympusGiving.json";
@@ -11,6 +12,7 @@ import { AddressMap } from "src/constants/addresses";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
 import {
+  CrossChainMigrator,
   FuseProxy,
   IERC20,
   OlympusGiving,
@@ -86,6 +88,7 @@ export const useStaticMockGiveContract = createStaticContract<OlympusMockGiving>
 export const useDynamicTokenContract = createDynamicContract<IERC20>(IERC20_ABI);
 export const useDynamicStakingContract = createDynamicContract<OlympusStakingv2>(STAKING_ABI);
 export const useDynamicGiveContract = createDynamicContract<OlympusGiving>(GIVE_ABI);
+export const useDynamicMigratorContract = createDynamicContract<CrossChainMigrator>(CROSS_CHAIN_MIGRATOR_ABI);
 
 // Multiple static contracts
 export const useMultipleTokenContracts = createMultipleStaticContracts<IERC20>(IERC20_ABI);

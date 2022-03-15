@@ -43,13 +43,13 @@ export const StakeBalances = () => {
     gohmFuseBalance,
     gohmTokemakBalance,
     gohmBalances[networks.MAINNET].data,
-    gohmBalances[NetworkId.ARBITRUM].data,
-    gohmBalances[NetworkId.AVALANCHE].data,
+    gohmBalances[networks.ARBITRUM].data,
+    gohmBalances[networks.AVALANCHE].data,
     gohmBalances[NetworkId.POLYGON].data,
     gohmBalances[NetworkId.FANTOM].data,
-    wsohmBalances[NetworkId.MAINNET].data,
-    wsohmBalances[NetworkId.ARBITRUM].data,
-    wsohmBalances[NetworkId.AVALANCHE].data,
+    wsohmBalances[networks.MAINNET].data,
+    wsohmBalances[networks.ARBITRUM].data,
+    wsohmBalances[networks.AVALANCHE].data,
   ];
 
   const totalSohmBalance = sohmTokens

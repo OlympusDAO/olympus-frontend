@@ -1,9 +1,9 @@
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { Box, Grid, makeStyles, Paper, Switch, Tab, Tabs, Theme } from "@material-ui/core";
 import { InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
 import React, { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
-import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
+import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 
@@ -52,8 +52,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   // Max balance stuff
   const [amount, setAmount] = useState("");
   const addresses = fromToken === "OHM" ? OHM_ADDRESSES : fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
-  const balances = useBalance(addresses);
-  const balance = balances[networks.MAINNET].data;
+  const balance = useBalance(addresses)[networks.MAINNET].data;
   const setMax = () => balance && setAmount(balance.toAccurateString());
 
   // Staking/unstaking mutation stuff
@@ -67,7 +66,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   };
 
   return (
-    <Box className="stake-action-area">
+    <Box my={3}>
       <Tabs
         centered
         textColor="primary"
@@ -86,7 +85,25 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
       </Tabs>
 
       <Box my={2}>
-        <TokenAllowanceGuard token={fromToken}>
+        <TokenAllowanceGuard
+          tokenAddressMap={addresses}
+          spenderAddressMap={STAKING_ADDRESSES}
+          message={
+            currentAction === "STAKE" ? (
+              <>
+                <Trans>First time staking</Trans> <b>OHM</b>?
+                <br />
+                <Trans>Please approve Olympus DAO to use your</Trans> <b>OHM</b> <Trans>for staking</Trans>.
+              </>
+            ) : (
+              <>
+                <Trans>First time unstaking</Trans> <b>{fromToken}</b>?
+                <br />
+                <Trans>Please approve Olympus DAO to use your</Trans> <b>{fromToken}</b> <Trans>for unstaking</Trans>.
+              </>
+            )
+          }
+        >
           <form onSubmit={handleSubmit}>
             <Grid container className={classes.inputRow}>
               <Grid item xs={12} sm={8} className={classes.gridItem}>

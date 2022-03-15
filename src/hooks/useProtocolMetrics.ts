@@ -84,8 +84,9 @@ type ProtocolMetricsNumbers = Record<keyof ProtocolMetrics, number>;
 export const protocolMetricsQueryKey = () => ["useProtocolMetrics"];
 
 export const useProtocolMetrics = <TSelectData = unknown>(select: (data: ProtocolMetricsNumbers[]) => TSelectData) => {
+  const key = protocolMetricsQueryKey();
   return useQuery<ProtocolMetricsNumbers[], Error, TSelectData>(
-    protocolMetricsQueryKey(),
+    key,
     async () => {
       const response = await apollo<{ protocolMetrics: ProtocolMetrics[] }>(query);
 
