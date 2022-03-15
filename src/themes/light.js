@@ -154,6 +154,11 @@ export const light = responsiveFontSizes(
             backgroundColor: "rgba(255,255,255, 0)",
           },
         },
+        MuiAlert: {
+          root: {
+            background: "transparent",
+          },
+        },
         MuiLink: {
           root: {
             color: lightTheme.color,

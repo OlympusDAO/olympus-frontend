@@ -46,7 +46,6 @@ const Balances: FC<OHMAssetsProps> = ({ assets }) => {
                 : {};
             const extraProps =
               token.ctaText && token.ctaOnClick ? { ctaText: token.ctaText, ctaOnClick: token.ctaOnClick } : {};
-            console.log(token.balance, token.symbol);
             return (
               <AssetCard
                 key={index}

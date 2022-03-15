@@ -119,6 +119,11 @@ export const dark = responsiveFontSizes(
             backgroundColor: darkTheme.switchBg,
           },
         },
+        MuiAlert: {
+          root: {
+            background: "transparent",
+          },
+        },
         MuiCssBaseline: {
           "@global": {
             "@font-face": fonts,
