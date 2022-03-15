@@ -62,7 +62,7 @@ export const light = responsiveFontSizes(
           600: "#292C32",
           500: "#3F4552",
           90: lightTheme.blueish_gray,
-          40: "#A3A3A3",
+          40: lightTheme.blueish_gray,
           10: "#FAFAFB",
         },
         primary: {
