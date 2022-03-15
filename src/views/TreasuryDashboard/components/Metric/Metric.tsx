@@ -148,3 +148,17 @@ export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
 
   return <Metric {..._props} />;
 };
+
+export const TreasuryBalance: React.FC<AbstractedMetricProps> = props => {
+  const { data: treasuryMarketValue } = useTreasuryMarketValue();
+
+  const _props: MetricProps = {
+    ...props,
+    label: t`Treasury Balance`,
+  };
+
+  if (treasuryMarketValue) _props.metric = formatCurrency(treasuryMarketValue);
+  else _props.isLoading = true;
+
+  return <Metric {..._props} />;
+};

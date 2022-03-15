@@ -2,16 +2,16 @@ import "./ChooseBond.scss";
 
 import { t } from "@lingui/macro";
 import { Zoom } from "@material-ui/core";
-import { Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
+import { MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
 import isEmpty from "lodash/isEmpty";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { formatCurrency } from "src/helpers";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { IUserNote } from "src/slices/BondSliceV2";
 
+import { OHMPrice, TreasuryBalance } from "../TreasuryDashboard/components/Metric/Metric";
 import ChooseStraightBond from "./ChooseStraightBond";
 import ClaimBonds from "./ClaimBonds";
 import ChooseInverseBond from "./InverseBond/ChooseInverseBond";
@@ -22,19 +22,6 @@ function ChooseBondV2() {
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
   const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
-
-  const marketPrice: number | undefined = useAppSelector(state => {
-    return state.app.marketPrice;
-  });
-
-  const treasuryBalance = useAppSelector(state => state.app.treasuryMarketValue);
-
-  const formattedTreasuryBalance = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-    minimumFractionDigits: 0,
-  }).format(Number(treasuryBalance));
 
   const v1AccountBonds: IUserBondDetails[] = useAppSelector(state => {
     const withInterestDue = [];
@@ -70,16 +57,8 @@ function ChooseBondV2() {
       <Zoom in={true}>
         <Paper headerText={currentAction === 1 ? `${t`Inverse Bond`} (3,1)` : `${t`Bond`} (4,4)`}>
           <MetricCollection>
-            <Metric
-              label={t`Treasury Balance`}
-              metric={formattedTreasuryBalance}
-              isLoading={!!treasuryBalance ? false : true}
-            />
-            <Metric
-              label={t`OHM Price`}
-              metric={formatCurrency(Number(marketPrice), 2)}
-              isLoading={marketPrice ? false : true}
-            />
+            <TreasuryBalance />
+            <OHMPrice />
           </MetricCollection>
 
           {showTabs && (
