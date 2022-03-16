@@ -6,7 +6,7 @@ import { LargeVault, LargeWallet, LargeYield } from "src/components/EducationCar
 export function GiveInfo() {
   return (
     <>
-      <Paper>
+      <Paper fullWidth>
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
             <LargeWallet />

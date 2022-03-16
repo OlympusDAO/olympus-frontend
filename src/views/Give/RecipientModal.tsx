@@ -409,7 +409,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               // We need to inform the user about their wallet balance, so this is a specific value
               helperText={
                 isDepositAmountValid
-                  ? t`Your current Staked Balance is ${getSOhmBalance().toFormat()} sOHM`
+                  ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toFormat()} sOHM`
                   : isDepositAmountValidError
               }
               // eslint-disable-next-line @typescript-eslint/no-explicit-any

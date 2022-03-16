@@ -69,9 +69,10 @@ function Give({ selectedIndex }: GiveProps) {
   return (
     <>
       <Grid container direction="column" alignItems="center">
-        <Grid item xs={12}>
+        <Grid item xs />
+        <Grid item xs={12} sm={10} md={10} lg={8}>
           <Zoom in={true} onEntered={() => setZoomed(true)}>
-            <Paper headerText={t`Give`} childPaperBackground={true}>
+            <Paper headerText={t`Give`} childPaperBackground={true} fullWidth className="no-container-padding">
               {!isSupportedChain(networkId) ? (
                 <Typography variant="h6">
                   Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
@@ -113,6 +114,7 @@ function Give({ selectedIndex }: GiveProps) {
             <GiveInfo />
           </Zoom>
         </Grid>
+        <Grid item xs />
       </Grid>
     </>
   );
