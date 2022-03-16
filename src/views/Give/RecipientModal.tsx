@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project } from "src/components/GiveProject/project.type";
-import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
+import { GiveTokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { NetworkId } from "src/constants";
 import { GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { shorten } from "src/helpers";
@@ -351,17 +351,13 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     return (
       <>
         <Grid container alignItems="center" spacing={2}>
-          <TokenAllowanceGuard
+          <GiveTokenAllowanceGuard
             tokenAddressMap={SOHM_ADDRESSES}
             spenderAddressMap={GIVE_ADDRESSES}
             message={
               <>
-                <Grid item xs={12}>
-                  <Typography variant="h6">
-                    <Trans>Is this your first time donating</Trans> <b>sOHM</b>?{" "}
-                    <Trans>Please approve Olympus DAO to use your</Trans> <b>sOHM</b> <Trans>for donating</Trans>.
-                  </Typography>
-                </Grid>
+                <Trans>Is this your first time donating</Trans> <b>sOHM</b>?{" "}
+                <Trans>Please approve Olympus DAO to use your</Trans> <b>sOHM</b> <Trans>for donating</Trans>.
               </>
             }
           >
@@ -439,7 +435,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                 <Grid item xs />
               </Grid>
             </Grid>
-          </TokenAllowanceGuard>
+          </GiveTokenAllowanceGuard>
         </Grid>
       </>
     );

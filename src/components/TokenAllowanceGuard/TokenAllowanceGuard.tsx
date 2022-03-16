@@ -81,3 +81,48 @@ export const TokenAllowanceGuard: React.FC<{
 
   return <>{props.children}</>;
 };
+
+export const GiveTokenAllowanceGuard: React.FC<{
+  message: ReactNode;
+  tokenAddressMap: AddressMap;
+  spenderAddressMap: AddressMap;
+}> = props => {
+  const classes = useStyles();
+  const approveMutation = useApproveToken(props.tokenAddressMap, props.spenderAddressMap);
+  const { data: allowance } = useContractAllowance(props.tokenAddressMap, props.spenderAddressMap);
+
+  if (!allowance)
+    return (
+      <Grid container className={classes.inputRow}>
+        <Skeleton width="150px" />
+      </Grid>
+    );
+
+  if (allowance.eq(0))
+    return (
+      <Grid container className={classes.inputRow} style={{ display: "flex", flexDirection: "column" }}>
+        <Grid item xs={12} sm={8} className={classes.gridItem} style={{ marginBottom: "40px" }}>
+          <Box sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Typography variant="h6" align="center" className="stake-note" color="textSecondary">
+              {props.message}
+            </Typography>
+          </Box>
+        </Grid>
+
+        <Grid item xs={12} sm={4} className={classes.gridItem}>
+          <Box sx={{ marginTop: { xs: 1, sm: 0 } }}>
+            <PrimaryButton
+              fullWidth
+              className={classes.button}
+              onClick={approveMutation.mutate}
+              disabled={approveMutation.isLoading}
+            >
+              {approveMutation.isLoading ? "Approving..." : "Approve"}
+            </PrimaryButton>
+          </Box>
+        </Grid>
+      </Grid>
+    );
+
+  return <>{props.children}</>;
+};

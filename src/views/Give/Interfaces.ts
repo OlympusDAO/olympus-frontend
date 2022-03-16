@@ -25,3 +25,10 @@ export interface GiveData {
   amount: string;
   recipient: string;
 }
+
+interface IUserDonationInfo {
+  date: string;
+  deposit: string;
+  recipient: string;
+  yieldDonated: string;
+}
