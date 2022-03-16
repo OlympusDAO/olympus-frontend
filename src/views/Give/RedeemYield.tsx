@@ -175,7 +175,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center">
-                  {totalDeposit.div(getRecipientGoal(address)).multipliedBy(100).toFormat(DECIMAL_PLACES)}%
+                  {totalDeposit.multipliedBy(100).div(getRecipientGoal(address)).toFormat(DECIMAL_PLACES)}%
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   <Trans>of sOHM Goal</Trans>

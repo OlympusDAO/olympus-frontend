@@ -222,7 +222,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     const totalDonatedNumber = new BigNumber(totalDonated);
 
-    return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed();
+    return totalDonatedNumber.multipliedBy(100).div(depositGoal).toFixed();
   };
 
   const renderGoalCompletion = (): JSX.Element => {

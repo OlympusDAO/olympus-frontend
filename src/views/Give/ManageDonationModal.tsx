@@ -437,7 +437,7 @@ export function ManageDonationModal({
           <Box>
             <Typography variant="h5" align="center">
               {project
-                ? new BigNumber(totalDebt).div(project.depositGoal).multipliedBy(100).toFixed(DECIMAL_PLACES) + "%"
+                ? new BigNumber(totalDebt).multipliedBy(100).div(project.depositGoal).toFixed(DECIMAL_PLACES) + "%"
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
