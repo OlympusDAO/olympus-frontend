@@ -12,20 +12,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project } from "src/components/GiveProject/project.type";
+import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { NetworkId } from "src/constants";
+import { GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { shorten } from "src/helpers";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
-import {
-  changeApproval,
-  changeMockApproval,
-  hasPendingGiveTxn,
-  PENDING_TXN_GIVE,
-  PENDING_TXN_GIVE_APPROVAL,
-} from "src/slices/GiveThunk";
+import { changeApproval, changeMockApproval, hasPendingGiveTxn, PENDING_TXN_GIVE } from "src/slices/GiveThunk";
 
 import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
-import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
+import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
@@ -351,118 +347,99 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     // If we are loading the state, add a placeholder
     if (isAccountLoading || isGiveLoading) return <Skeleton />;
 
-    // If there is no approval
-    if (!hasAllowance()) {
-      return (
-        <>
-          <Grid container spacing={2} justifyContent="flex-end">
+    // Let the user enter the amount, but implement allowance guard
+    return (
+      <>
+        <Grid container alignItems="center" spacing={2}>
+          <TokenAllowanceGuard
+            tokenAddressMap={SOHM_ADDRESSES}
+            spenderAddressMap={GIVE_ADDRESSES}
+            message={
+              <>
+                <Grid item xs={12}>
+                  <Typography variant="h6">
+                    <Trans>Is this your first time donating</Trans> <b>sOHM</b>?{" "}
+                    <Trans>Please approve Olympus DAO to use your</Trans> <b>sOHM</b> <Trans>for donating</Trans>.
+                  </Typography>
+                </Grid>
+              </>
+            }
+          >
             <Grid item xs={12}>
-              <Typography variant="h6" className="stream-note" color="textSecondary">
-                <Trans>
-                  Is this your first time donating sOHM? Please approve OlympusDAO to use your sOHM for donating.
-                </Trans>
+              <Typography variant="body1">
+                <Trans>sOHM Allocation</Trans>
+                <InfoTooltip
+                  message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                  children={null}
+                />
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Grid container alignItems="center">
+              <Input
+                id="amount-input"
+                placeholder={t`Enter an amount`}
+                type="number"
+                value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+                helperText={
+                  isDepositAmountValid
+                    ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toFixed(2)} sOHM`
+                    : isDepositAmountValidError
+                }
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onChange={(e: any) => handleSetDepositAmount(e.target.value)}
+                error={!isDepositAmountValid}
+                startAdornment="sOHM"
+                endString={t`Max`}
+                endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="body1">
+                <Trans>Recipient</Trans>
+                <InfoTooltip
+                  message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+                  children={null}
+                />
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              {getRecipientInputField()}
+            </Grid>
+            {!isSmallScreen ? (
+              <Grid item xs={12}>
+                <Grid container justifyContent="center" alignItems="flex-start" wrap="nowrap">
+                  <Grid item xs={3}>
+                    <CompactWallet quantity={getRetainedAmountDiff().toFixed()} />
+                  </Grid>
+                  <Grid item xs={1}>
+                    <ArrowGraphic />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <CompactVault quantity={getDepositAmount().toFixed()} />
+                  </Grid>
+                  <Grid item xs={1}>
+                    <ArrowGraphic />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <CompactYield quantity={getDepositAmount().toFixed()} />
+                  </Grid>
+                </Grid>
+              </Grid>
+            ) : (
+              <></>
+            )}
+            <Grid item xs={12}>
+              <Grid container justifyContent="center" alignContent="center">
                 <Grid item xs />
                 <Grid item xs={8}>
-                  <PrimaryButton
-                    disabled={
-                      isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading || !address
-                    }
-                    onClick={onSeekApproval}
-                    fullWidth
-                  >
-                    {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, t`Approve`)}
+                  <PrimaryButton disabled={!canSubmit()} onClick={handleContinue} fullWidth>
+                    <Trans>Continue</Trans>
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs />
               </Grid>
             </Grid>
-          </Grid>
-        </>
-      );
-    }
-
-    // Otherwise we let the user enter the amount
-    return (
-      <>
-        <Grid container alignItems="center" spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="body1">
-              <Trans>sOHM Allocation</Trans>
-              <InfoTooltip
-                message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
-                children={null}
-              />
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Input
-              id="amount-input"
-              placeholder={t`Enter an amount`}
-              type="number"
-              value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
-              helperText={
-                isDepositAmountValid
-                  ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toFixed(2)} sOHM`
-                  : isDepositAmountValidError
-              }
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              onChange={(e: any) => handleSetDepositAmount(e.target.value)}
-              error={!isDepositAmountValid}
-              startAdornment="sOHM"
-              endString={t`Max`}
-              endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="body1">
-              <Trans>Recipient</Trans>
-              <InfoTooltip
-                message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
-                children={null}
-              />
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            {getRecipientInputField()}
-          </Grid>
-          {!isSmallScreen ? (
-            <Grid item xs={12}>
-              <Grid container justifyContent="center" alignItems="flex-start" wrap="nowrap">
-                <Grid item xs={3}>
-                  <CompactWallet quantity={getRetainedAmountDiff().toFixed()} />
-                </Grid>
-                <Grid item xs={1}>
-                  <ArrowGraphic />
-                </Grid>
-                <Grid item xs={3}>
-                  <CompactVault quantity={getDepositAmount().toFixed()} />
-                </Grid>
-                <Grid item xs={1}>
-                  <ArrowGraphic />
-                </Grid>
-                <Grid item xs={3}>
-                  <CompactYield quantity={getDepositAmount().toFixed()} />
-                </Grid>
-              </Grid>
-            </Grid>
-          ) : (
-            <></>
-          )}
-          <Grid item xs={12}>
-            <Grid container justifyContent="center" alignContent="center">
-              <Grid item xs />
-              <Grid item xs={8}>
-                <PrimaryButton disabled={!canSubmit()} onClick={handleContinue} fullWidth>
-                  <Trans>Continue</Trans>
-                </PrimaryButton>
-              </Grid>
-              <Grid item xs />
-            </Grid>
-          </Grid>
+          </TokenAllowanceGuard>
         </Grid>
       </>
     );

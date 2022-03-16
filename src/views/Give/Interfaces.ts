@@ -20,3 +20,8 @@ export interface DonationInfoState {
 export interface IButtonChangeView {
   (newView: number): void;
 }
+
+export interface GiveData {
+  amount: string;
+  recipient: string;
+}
