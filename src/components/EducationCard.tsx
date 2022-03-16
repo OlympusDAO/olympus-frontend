@@ -55,7 +55,7 @@ export function CompactWallet({ quantity, isQuantityExact, verb = "retained" }: 
     <CompactGraphic
       title={t`Wallet`}
       icon={<Icon name="vault-wallet" fontSize="large" />}
-      subtext={`${isQuantityExact ? "" : "~"}${quantity} sOHM ${verb}`}
+      subtext={`${isQuantityExact ? "" : "≈ "}${quantity} sOHM ${verb}`}
     />
   );
 }
@@ -65,7 +65,7 @@ export function CompactVault({ quantity, isQuantityExact, verb = "deposited", is
     <CompactGraphic
       title={t`Vault`}
       icon={<Icon name="vault-lock" fontSize="large" />}
-      subtext={`${isQuantityExact ? "" : "~"}${quantity} sOHM ${verb}`}
+      subtext={`${isQuantityExact ? "" : "≈ "}${quantity} sOHM ${verb}`}
       isSubtextContentLoading={isLoading}
     />
   );
@@ -76,7 +76,7 @@ export function CompactYield({ quantity, isQuantityExact }: EducationGraphicProp
     <CompactGraphic
       title={t`Recipient`}
       icon={<Icon name="vault-recipient" fontSize="large" />}
-      subtext={`${t`Receives yield from`} ${isQuantityExact ? "" : "~"}${quantity} sOHM`}
+      subtext={`${t`Receives yield from`} ${isQuantityExact ? "" : "≈ "}${quantity} sOHM`}
     />
   );
 }
