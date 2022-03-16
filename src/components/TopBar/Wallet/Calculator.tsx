@@ -3,9 +3,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import { DottedDataRow, Input, ProgressCircle, Radio, Slider } from "@olympusdao/component-library";
 import { FC, useEffect, useState } from "react";
 import { trim } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useProtocolMetrics } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 
 const useStyles = makeStyles<Theme>(theme => ({
   title: {
@@ -92,7 +96,13 @@ export const initialInvestment = (quantity: number, purchasePrice: number) => {
  * Component for Displaying Calculator
  */
 const Calculator: FC = () => {
+  const networks = useTestableNetworks();
   const { data: currentRebaseRate = 0 } = useStakingRebaseRate();
+  const { data: gOhmBalance = new DecimalBigNumber("0", 18) } = useGohmBalance()[networks.MAINNET];
+  const { data: sOhmBalance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
+  const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
+
+  const walletSohm = gOhmBalance.toApproxNumber() * currentIndex.toApproxNumber() + sOhmBalance.toApproxNumber();
 
   const [initialInvestment, setInitialInvestment] = useState(10000);
   const [duration, setDuration] = useState(365);
@@ -129,6 +139,10 @@ const Calculator: FC = () => {
   useEffect(() => {
     setManualOhmPrice(+trim(ohmPrice, 2));
   }, [ohmPrice]);
+
+  useEffect(() => {
+    setInitialInvestment(walletSohm * ohmPrice);
+  }, [walletSohm]);
   //Solving for duration (rebases/3) aka breakeven days
   const breakevenDays =
     (Math.log(totalsOHM / (initialInvestment / futureOhmPrice)) / Math.log(1 + rebaseRate) / 3 - duration) * -1;
@@ -285,10 +299,14 @@ const Calculator: FC = () => {
               Runway: <span>{runway} Days</span>
             </Typography>
           </Box>
-          <Slider value={duration} onChange={handleDurationChange} min={1} max={1825} />
+          <Box ml="12px" mr="12px">
+            <Slider value={duration} onChange={handleDurationChange} min={1} max={1825} />
+          </Box>
         </>
       ) : (
-        <Slider value={initialInvestment} min={500} max={100000} step={100} onChange={handleChange} />
+        <Box ml="12px" mr="12x">
+          <Slider value={initialInvestment} min={0} max={100000} step={100} onChange={handleChange} />
+        </Box>
       )}
       {!advanced && (
         <>
@@ -340,7 +358,13 @@ const Calculator: FC = () => {
         </>
       )}
       <DottedDataRow title="Total sOHM" value={formattedTotalsOHM} bold />
-      <DottedDataRow title="Estimated Profits" value={formattedProfits} bold />
+      <DottedDataRow title="Estimated Total" value={formattedProfits} bold />
+      <Box display="flex" justifyContent="center" mt={"15px"} textAlign="center">
+        <p>
+          This is strictly a tool to help Ohmies better estimate potential ROI. The estimates above are based on current
+          market conditions and should not be interpreted as financial advice in any way
+        </p>
+      </Box>
     </Box>
   );
 };
