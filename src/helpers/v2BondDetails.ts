@@ -6,6 +6,9 @@ import {
   BalancerV2Pool,
   BalancerV2Pool__factory,
   BalancerVault__factory,
+  CurveETHSwapPool,
+  CurveETHSwapPool__factory,
+  CurveFactory__factory,
   GUniV3Lp,
   GUniV3Lp__factory,
   IERC20__factory,
@@ -33,8 +36,12 @@ interface UniswapV3Pool {
   type: "uniswapV3";
   instance: GUniV3Lp;
 }
+interface CurveSwapPool {
+  type: "curveSwap";
+  instance: CurveETHSwapPool;
+}
 
-type SupportedPools = BalancerPool | UniswapV2Pool | UniswapV3Pool;
+type SupportedPools = BalancerPool | UniswapV2Pool | UniswapV3Pool | CurveSwapPool;
 
 const OhmDetails: V2BondDetails = {
   name: "OHM",
@@ -262,7 +269,7 @@ export class V2BondParser {
         lpUrl = `https://app.balancer.fi/#/pool/${poolId}`;
         break;
       case "uniswapV2":
-        tokens = await this._uniswapTokenAddress(contract.instance);
+        tokens = await this._uniswapTokenAddresses(contract.instance);
         ({ useBondIcons, name } = this._lpIconsAndName(tokens));
         totalSupply = await this._totalSupply(contract.instance);
         reserves = await this._uniswapV2Reserves(contract.instance);
@@ -270,12 +277,20 @@ export class V2BondParser {
         lpUrl = await this._lpUrl(tokens[0], tokens[1], contract.instance);
         break;
       case "uniswapV3": {
-        tokens = await this._uniswapTokenAddress(contract.instance);
+        tokens = await this._uniswapTokenAddresses(contract.instance);
         ({ useBondIcons, name } = this._lpIconsAndName(tokens));
         totalSupply = await this._totalSupply(contract.instance);
         reserves = await this._uniswapV3Reserves(contract.instance);
         totalValue = await this._totalPoolValue(tokens, reserves);
         lpUrl = await this._lpUrl(tokens[0], tokens[1], contract.instance);
+        break;
+      }
+      case "curveSwap": {
+        tokens = await this._curveTokenAddresses(contract.instance);
+        ({ useBondIcons, name } = this._lpIconsAndName(tokens));
+        totalValue = await +contract.instance.lp_price();
+        totalSupply = 1;
+        lpUrl = `https://curve.fi/factory-crypto/21`;
         break;
       }
       default: {
@@ -325,6 +340,8 @@ export class V2BondParser {
       if (gUniV3) return gUniV3;
       const balancerPool = await this._isBalancerLp();
       if (balancerPool) return balancerPool;
+      const curveSwapPool = await this._isCurveSwapLP();
+      if (curveSwapPool) return curveSwapPool;
       return false;
     } catch {
       // Something went wrong. If we got here, either contract calls failed or it's an unsupported LP.
@@ -365,9 +382,23 @@ export class V2BondParser {
    * @returns Contract if true, or false
    */
   async _isBalancerLp() {
-    const balancerContract = BalancerV2Pool__factory.connect(this.assetAddress, this.provider);
+    const contract = BalancerV2Pool__factory.connect(this.assetAddress, this.provider);
     try {
-      if (await balancerContract.getVault()) return { type: "balancer" as const, instance: balancerContract };
+      if (await contract.getVault()) return { type: "balancer" as const, instance: contract };
+      return false;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Checks to determine if the LP is a Curve Swap LP
+   * @returns Contract if true, or false
+   */
+  async _isCurveSwapLP() {
+    const contract = CurveETHSwapPool__factory.connect(this.assetAddress, this.provider);
+    try {
+      if (await contract.factory()) return { type: "curveSwap" as const, instance: contract };
       return false;
     } catch {
       return false;
@@ -379,7 +410,7 @@ export class V2BondParser {
    * @param contract
    * @returns Array of LP Tokens
    */
-  async _uniswapTokenAddress(contract: UniswapV2Lp | GUniV3Lp) {
+  async _uniswapTokenAddresses(contract: UniswapV2Lp | GUniV3Lp) {
     const token0 = await contract.token0();
     const token1 = await contract.token1();
     return [token0, token1];
@@ -416,6 +447,18 @@ export class V2BondParser {
     const vaultContract = BalancerVault__factory.connect(vault, this.provider);
     const poolTokens = await vaultContract.getPoolTokens(poolId);
     return { poolTokens, poolId };
+  }
+
+  /**
+   * Returns token addresses associated with a Curve LP
+   * @param contract
+   * @returns Array of LP Tokens
+   */
+  async _curveTokenAddresses(contract: CurveETHSwapPool) {
+    const factoryAddress = await contract.factory();
+    const factoryContract = CurveFactory__factory.connect(factoryAddress, this.provider);
+    const tokens = await factoryContract.get_coins(contract.address);
+    return tokens;
   }
 
   /**
