@@ -69,7 +69,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
     const label = connected ? t`Wallet` : t`Connect Wallet`;
     return (
       <PrimaryButton className={classes.connectButton} color="secondary" onClick={onClick}>
-        <Icon name="wallet" />
+        <Icon name="wallet" style={{ marginRight: "9px" }} />
         <Typography>{label}</Typography>
       </PrimaryButton>
     );

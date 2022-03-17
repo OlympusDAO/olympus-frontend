@@ -124,16 +124,68 @@ const GetOhm: FC = () => {
       {zipPools.map((pool, index) => (
         <ZipPools key={index} pool={pool} />
       ))}
+
+      <Typography variant="h6" className={classes.title}>
+        Vaults
+      </Typography>
+      <ItemCard
+        tokens={["DOPEX"]}
+        title={t`Deposit on Dopex`}
+        href={`https://app.dopex.io/ssov`}
+        networkName="ARBITRUM"
+        external
+        disableFlip
+      />
+      <ItemCard
+        tokens={["JONES"]}
+        title={t`Deposit on Jones DAO`}
+        href={`https://jonesdao.io/vaults/gOHM`}
+        networkName="ARBITRUM"
+        external
+        disableFlip
+      />
+      <ItemCard
+        tokens={["TOKEMAK"]}
+        title={t`Deposit on Tokemak`}
+        href={`https://www.tokemak.xyz/`}
+        external
+        disableFlip
+      />
+
       <Typography variant="h6" className={classes.title}>
         Borrow
       </Typography>
       <ItemCard
         tokens={["RARI"]}
-        title={t`Get Loans on Rari`}
+        title={t`Borrow on Rari`}
         href={`https://app.rari.capital/fuse/pool/18`}
         external
         roi={`${fuseSupplyApy}%`}
         days="APY"
+        disableFlip
+      />
+      <ItemCard
+        tokens={["MARKET"]}
+        title={t`Borrow on Market.xyz`}
+        networkName={"POLYGON"}
+        href={`https://polygon.market.xyz/pool/8`}
+        external
+        disableFlip
+      />
+      <ItemCard
+        tokens={["MARKET"]}
+        title={t`Borrow on Market.xyz`}
+        networkName={"AVAX"}
+        href={`https://avax.market.xyz/pool/3`}
+        external
+        disableFlip
+      />
+      <ItemCard
+        tokens={["VST"]}
+        title={t`Borrow on VestaFinance`}
+        networkName="ARBITRUM"
+        href={`https://vestafinance.xyz/products/gohm`}
+        external
         disableFlip
       />
     </>
