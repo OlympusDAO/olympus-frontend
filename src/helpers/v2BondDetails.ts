@@ -23,16 +23,18 @@ export interface V2BondDetails {
 }
 interface BalancerPool {
   type: "balancer";
-  contract: BalancerV2Pool;
+  instance: BalancerV2Pool;
 }
 interface UniswapV2Pool {
   type: "uniswapV2";
-  contract: UniswapV2Lp;
+  instance: UniswapV2Lp;
 }
 interface UniswapV3Pool {
   type: "uniswapV3";
-  contract: GUniV3Lp;
+  instance: GUniV3Lp;
 }
+
+type SupportedPools = BalancerPool | UniswapV2Pool | UniswapV3Pool;
 
 const OhmDetails: V2BondDetails = {
   name: "OHM",
@@ -200,14 +202,12 @@ export const singleSidedBondDetails: { [key: number]: { [key: string]: V2BondDet
 export class V2BondParser {
   assetAddress: string;
   networkId: NetworkId;
-  baseContract: UniswapV2Lp;
   provider: ethers.providers.JsonRpcProvider;
 
   constructor(assetAddress: string, networkId: NetworkId, provider: ethers.providers.JsonRpcProvider) {
     this.assetAddress = assetAddress;
     this.networkId = networkId;
     this.provider = provider;
-    this.baseContract = UniswapV2Lp__factory.connect(this.assetAddress, this.provider);
   }
 
   /**
@@ -240,7 +240,7 @@ export class V2BondParser {
    * @param contract
    * @returns {V2BondDetails} `V2BondDetails`
    */
-  async _lpDetails(contract: BalancerPool | UniswapV2Pool | UniswapV3Pool) {
+  async _lpDetails(contract: SupportedPools) {
     let tokens: string[];
     let reserves: BigNumber[];
     let useBondIcons: OHMTokenStackProps["tokens"];
@@ -255,27 +255,27 @@ export class V2BondParser {
         ({
           poolTokens: { tokens, balances: reserves },
           poolId,
-        } = await this._balancerTokenAddresses(contract.contract));
+        } = await this._balancerTokenAddresses(contract.instance));
         ({ useBondIcons, name } = this._lpIconsAndName(tokens));
-        totalSupply = await this._totalSupply(contract.contract);
+        totalSupply = await this._totalSupply(contract.instance);
         totalValue = await this._totalPoolValue(tokens, reserves);
         lpUrl = `https://app.balancer.fi/#/pool/${poolId}`;
         break;
       case "uniswapV2":
-        tokens = await this._uniswapTokenAddress(contract.contract);
+        tokens = await this._uniswapTokenAddress(contract.instance);
         ({ useBondIcons, name } = this._lpIconsAndName(tokens));
-        totalSupply = await this._totalSupply(contract.contract);
-        reserves = await this._uniswapV2Reserves(contract.contract);
+        totalSupply = await this._totalSupply(contract.instance);
+        reserves = await this._uniswapV2Reserves(contract.instance);
         totalValue = await this._totalPoolValue(tokens, reserves);
-        lpUrl = await this._lpUrl(tokens[0], tokens[1]);
+        lpUrl = await this._lpUrl(tokens[0], tokens[1], contract.instance);
         break;
       case "uniswapV3": {
-        tokens = await this._uniswapTokenAddress(contract.contract);
+        tokens = await this._uniswapTokenAddress(contract.instance);
         ({ useBondIcons, name } = this._lpIconsAndName(tokens));
-        totalSupply = await this._totalSupply(contract.contract);
-        reserves = await this._uniswapV3Reserves(contract.contract);
+        totalSupply = await this._totalSupply(contract.instance);
+        reserves = await this._uniswapV3Reserves(contract.instance);
         totalValue = await this._totalPoolValue(tokens, reserves);
-        lpUrl = await this._lpUrl(tokens[0], tokens[1]);
+        lpUrl = await this._lpUrl(tokens[0], tokens[1], contract.instance);
         break;
       }
       default: {
@@ -300,8 +300,8 @@ export class V2BondParser {
    * @param token1
    * @returns {string} `string` URL of LP
    */
-  async _lpUrl(token0: string, token1: string) {
-    const lpName = await this.baseContract.name();
+  async _lpUrl(token0: string, token1: string, contract: UniswapV2Lp | GUniV3Lp) {
+    const lpName = await contract.name();
     if (lpName.indexOf("Gelato") >= 0) {
       return `https://www.sorbet.finance/#/pools/${this.assetAddress}`;
     } else if (lpName.indexOf("Sushi") >= 0) {
@@ -337,8 +337,9 @@ export class V2BondParser {
    * @returns Contract if true, or false
    */
   async _isUniV2Lp() {
+    const contract = UniswapV2Lp__factory.connect(this.assetAddress, this.provider);
     try {
-      if (await this.baseContract.getReserves()) return { type: "uniswapV2" as const, contract: this.baseContract };
+      if (await contract.getReserves()) return { type: "uniswapV2" as const, instance: contract };
       return false;
     } catch {
       return false;
@@ -352,7 +353,7 @@ export class V2BondParser {
   async _isGUniV3Lp() {
     const contract = GUniV3Lp__factory.connect(this.assetAddress, this.provider);
     try {
-      if (await contract.getUnderlyingBalances()) return { type: "uniswapV3" as const, contract: contract };
+      if (await contract.getUnderlyingBalances()) return { type: "uniswapV3" as const, instance: contract };
       return false;
     } catch {
       return false;
@@ -366,7 +367,7 @@ export class V2BondParser {
   async _isBalancerLp() {
     const balancerContract = BalancerV2Pool__factory.connect(this.assetAddress, this.provider);
     try {
-      if (await balancerContract.getVault()) return { type: "balancer" as const, contract: balancerContract };
+      if (await balancerContract.getVault()) return { type: "balancer" as const, instance: balancerContract };
       return false;
     } catch {
       return false;
