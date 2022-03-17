@@ -302,7 +302,6 @@ export class V2BondParser {
    */
   async _lpUrl(token0: string, token1: string) {
     const lpName = await this.baseContract.name();
-    console.log("lpName", lpName.indexOf("Sushi"));
     if (lpName.indexOf("Gelato") >= 0) {
       return `https://www.sorbet.finance/#/pools/${this.assetAddress}`;
     } else if (lpName.indexOf("Sushi") >= 0) {
