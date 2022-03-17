@@ -1,7 +1,8 @@
 import { t } from "@lingui/macro";
 import { DataRow } from "@olympusdao/component-library";
-import { BigNumber } from "ethers";
-import { convertGohmToOhm, formatNumber, nonNullable, parseBigNumber } from "src/helpers";
+import { formatNumber } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { nonNullable } from "src/helpers/types/nonNullable";
 import {
   useFuseBalance,
   useGohmBalance,
@@ -29,7 +30,9 @@ export const StakeNextRebaseAmount = () => {
   const { data: currentIndex } = useCurrentIndex();
 
   const sohmTokens = [sohmBalances[networks.MAINNET].data, v1sohmBalances[networks.MAINNET].data];
-  const totalSohmBalance = sohmTokens.filter(nonNullable).reduce((res, bal) => res.add(bal), BigNumber.from(0));
+  const totalSohmBalance = sohmTokens
+    .filter(nonNullable)
+    .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 9));
 
   const gohmTokens = [
     gohmBalances[networks.MAINNET].data,
@@ -43,16 +46,14 @@ export const StakeNextRebaseAmount = () => {
     gohmFuseBalances[NetworkId.MAINNET].data,
     gohmTokemakBalances[NetworkId.MAINNET].data,
   ];
-  const totalGohmBalance = gohmTokens.filter(nonNullable).reduce((res, bal) => res.add(bal), BigNumber.from(0));
+  const totalGohmBalance = gohmTokens
+    .filter(nonNullable)
+    .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
   const props: PropsOf<typeof DataRow> = { title: t`Next Reward Amount` };
 
   if (rebaseRate && sohmBalances && totalGohmBalance && currentIndex) {
-    const gohmBalanceAsSohm = convertGohmToOhm(totalGohmBalance, currentIndex);
-
-    const totalCombinedBalance = parseBigNumber(gohmBalanceAsSohm, 18) + parseBigNumber(totalSohmBalance);
-
-    const nextRewardAmount = rebaseRate * totalCombinedBalance;
+    const nextRewardAmount = rebaseRate * totalGohmBalance.mul(currentIndex, 9).add(totalSohmBalance).toApproxNumber();
     props.balance = `${formatNumber(nextRewardAmount, 4)} sOHM`;
   } else props.isLoading = true;
 

@@ -4,7 +4,7 @@ import { IERC20, OlympusStakingv2__factory } from "src/typechain";
 
 import { abi as ierc20ABI } from "../abi/IERC20.json";
 import { addresses } from "../constants";
-import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
+import { trackGAEvent } from "../helpers/analytics";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IChangeApprovalAsyncThunk, IJsonRPCError } from "./interfaces";
 import { error, info } from "./MessagesSlice";
@@ -126,7 +126,6 @@ export const changeWrapV2 = createAsyncThunk(
       if (wrapTx) {
         uaData.txHash = wrapTx.hash;
         await wrapTx.wait();
-        trackSegmentEvent(uaData);
         trackGAEvent({
           category: "Wrap",
           action: uaData.type,

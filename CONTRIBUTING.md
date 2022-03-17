@@ -51,7 +51,7 @@ We actively welcome your pull requests:
 6. Submit that pull request!
 
 Consult
-[Github Flow](https://guides.github.com/introduction/flow/index.html) and
+[Github Flow](https://docs.github.com/en/get-started/quickstart/github-flow) and
 [About GitHub Pull Requests](https://help.github.com/articles/about-pull-requests/) for more
 information on using pull requests.
 

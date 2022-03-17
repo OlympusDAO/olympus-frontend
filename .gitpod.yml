@@ -13,7 +13,7 @@ tasks:
         git remote set-url --push origin https://${GITHUB_OHM_PERSONAL_ACCESS_TOKEN}@github.com/OlympusDAO/olympus-frontend.git;
       fi
       #  create a default .env file if none present
-      if [ ! -f .env ]; then cp ".env.test" ".env"; fi
+      if [ ! -f .env ]; then cp ".env.example" ".env"; fi
       yarn && \
       gp sync-done install
     command: REACT_APP_PROVIDER=$(gp url 8545) yarn start
@@ -24,10 +24,10 @@ tasks:
       yarn test:unit
     openMode: split-right
   - name: Shell
-# The ~/.ssh directory will be removed between workspace runs
-# We store it on /workspace/ instead and link it
-# We also ensure that ssh-agent is added
-# Your own keys will need to be added through ssh-add or ~/.ssh/config
+    # The ~/.ssh directory will be removed between workspace runs
+    # We store it on /workspace/ instead and link it
+    # We also ensure that ssh-agent is added
+    # Your own keys will need to be added through ssh-add or ~/.ssh/config
     before: |
       echo "Setting up SSH environment"
       rm -rf ~/.ssh
