@@ -5,7 +5,7 @@ import { setAll } from "src/helpers";
 import { ZapHelper, ZapperToken } from "src/helpers/ZapHelper";
 import { IERC20__factory, Zap__factory } from "src/typechain";
 
-import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
+import { trackGAEvent } from "../helpers/analytics";
 import { getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IValueAsyncThunk, IZapAsyncThunk } from "./interfaces";
 import { error, info } from "./MessagesSlice";
@@ -64,7 +64,6 @@ export const changeZapTokenAllowance = createAsyncThunk(
         approved: true,
         type: "Zap Approval Request Success",
       };
-      trackSegmentEvent(uaData);
       trackGAEvent({
         category: "OlyZaps",
         action: uaData.type,
@@ -80,7 +79,6 @@ export const changeZapTokenAllowance = createAsyncThunk(
         approved: false,
         type: "Zap Approval Request Failure",
       };
-      trackSegmentEvent(uaData);
       trackGAEvent({
         category: "OlyZaps",
         action: uaData.type,
@@ -170,7 +168,6 @@ export const executeZap = createAsyncThunk(
         slippage: slippage,
         approved: true,
       };
-      trackSegmentEvent(uaData);
       trackGAEvent({
         category: "OlyZaps",
         action: uaData.type,
@@ -186,7 +183,6 @@ export const executeZap = createAsyncThunk(
         slippage: slippage,
         approved: false,
       };
-      trackSegmentEvent(uaData);
       trackGAEvent({
         category: "OlyZaps",
         action: uaData.type,

@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { addresses, NetworkId } from "src/constants";
-import { EnvHelper } from "src/helpers/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 
 export type Token = {
   contractAddress: string;
@@ -16,7 +16,7 @@ export type Token = {
 };
 
 const CovalentApi = "https://api.covalenthq.com/v1";
-const COVALENT_KEY = EnvHelper.getCovalentKey();
+const COVALENT_KEY = Environment.getCovalentApiKey();
 
 const fetchBalances = (addressOrENS: string, NetworkId: NetworkId, quoteCurrency = "usd") =>
   fetch(

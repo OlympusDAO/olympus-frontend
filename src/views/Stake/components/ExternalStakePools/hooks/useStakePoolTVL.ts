@@ -1,6 +1,9 @@
 import { useQuery } from "react-query";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
-import { createDependentQuery, getTokenPrice, nonNullable, parseBigNumber, queryAssertion } from "src/helpers";
+import { getTokenPrice, parseBigNumber } from "src/helpers";
+import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
+import { nonNullable } from "src/helpers/types/nonNullable";
 import { useStaticPairContract } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { ExternalPool } from "src/lib/ExternalPool";

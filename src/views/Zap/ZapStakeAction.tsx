@@ -28,7 +28,7 @@ import { ReactComponent as ZapperIcon } from "../../assets/icons/powered-by-zapp
 import { ReactComponent as FirstStepIcon } from "../../assets/icons/step-1.svg";
 import { ReactComponent as SecondStepIcon } from "../../assets/icons/step-2.svg";
 import { ReactComponent as CompleteStepIcon } from "../../assets/icons/step-complete.svg";
-import { trackGAEvent, trackSegmentEvent } from "../../helpers/analytics";
+import { trackGAEvent } from "../../helpers/analytics";
 import SelectTokenModal from "./SelectTokenModal";
 import SlippageModal from "./SlippageModal";
 import ZapStakeHeader from "./ZapStakeHeader";
@@ -78,7 +78,6 @@ const ZapStakeAction: React.FC = () => {
       token: token,
       address: address,
     };
-    trackSegmentEvent(uaData);
     trackGAEvent({
       category: "OlyZaps",
       action: uaData.type,
@@ -121,7 +120,6 @@ const ZapStakeAction: React.FC = () => {
       token: zapToken,
       minOutput: outputQuantity,
     };
-    trackSegmentEvent(uaData);
     trackGAEvent({
       category: "OlyZaps",
       action: uaData.type ?? "unknown",
@@ -133,7 +131,7 @@ const ZapStakeAction: React.FC = () => {
 
   const sOhmBalance = useAppSelector(state => Number(state.account?.balances?.sohm ?? 0.0));
   const gOhmBalance = useAppSelector(state => Number(state.account?.balances?.gohm ?? 0.0));
-  const currentIndex = Number(useCurrentIndex().data?.div(1e9));
+  const currentIndex = Number(useCurrentIndex().data?.toBigNumber().div(1e9));
 
   const exchangeRate = useMemo(
     () =>

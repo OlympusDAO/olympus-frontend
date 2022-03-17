@@ -15,9 +15,9 @@
     padding: 22px 0;
   }
 
-  // & .multifarm-widget-mb-10 {
-  //   margin-bottom: 0;
-  // }
+  & .flex {
+    display: flex;
+  }
 
   & .multifarm-widget-table {
     border-spacing: 0 0.75rem;
@@ -26,8 +26,6 @@
   & .multifarm-widget-accordion {
     margin-bottom: 0.75rem;
   }
-  // & .multifarm-widget-dashboard__spacing-5 {
-  // }
 
   & .multifarm-widget-income-view-per-type__pie-charts,
   & .multifarm-widget-dashboard__pie-charts {

@@ -16,6 +16,7 @@ import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
+import { toInteger } from "lodash";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
@@ -24,7 +25,7 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { ReactComponent as GiveSohm } from "src/assets/icons/give_sohm.svg";
 import { NetworkId } from "src/constants";
-import { EnvHelper } from "src/helpers/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { useAppDispatch } from "src/hooks";
@@ -46,7 +47,7 @@ import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
-import { countDecimals, roundToDecimal, toInteger } from "./utils";
+import { countDecimals } from "./utils";
 
 type CountdownProps = {
   total: number;
@@ -99,7 +100,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
 
   const donationInfo = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
@@ -234,13 +235,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     const totalDonatedNumber = new BigNumber(totalDonated);
 
-    return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed();
+    return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed(2);
   };
 
   const renderGoalCompletion = (): JSX.Element => {
     const goalCompletion = getGoalCompletion();
-    const formattedGoalCompletion =
-      countDecimals(goalCompletion) === 0 ? toInteger(goalCompletion) : roundToDecimal(goalCompletion);
+    const hasDecimals = countDecimals(goalCompletion) !== 0;
+    const formattedGoalCompletion = hasDecimals ? goalCompletion : toInteger(goalCompletion);
 
     return (
       <>
@@ -376,7 +377,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE,
@@ -427,7 +428,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_EDIT,
@@ -463,7 +464,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_WITHDRAW,
