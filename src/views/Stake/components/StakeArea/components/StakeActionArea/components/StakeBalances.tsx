@@ -87,7 +87,7 @@ export const StakeBalances = () => {
           <DataRow
             indented
             title={t`sOHM`}
-            id="user-staked-balance"
+            id="sohm-balance"
             isLoading={!sohmBalance}
             balance={`${formatBalance(sohmBalance)} sOHM`}
           />
