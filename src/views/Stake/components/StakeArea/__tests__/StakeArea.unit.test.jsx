@@ -1,10 +1,10 @@
 import { render, screen } from "src/testUtils";
 
-import { StakeActionArea } from "../StakeActionArea";
+import { StakeArea } from "../StakeArea";
 
-describe("<StakeActionArea/>", () => {
+describe("<StakeArea/>", () => {
   it("should ask user to connect wallet", async () => {
-    const stakeActionArea = <StakeActionArea isZoomed={true} />;
+    const stakeActionArea = <StakeArea isZoomed={true} />;
     const { container } = render(stakeActionArea);
     // there should be a header inviting user to migrate v1 tokens to v2
     expect(await screen.getByText("Connect Wallet")).toBeInTheDocument();
