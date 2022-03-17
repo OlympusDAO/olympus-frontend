@@ -157,8 +157,6 @@ async function processBond(
   // ... in other words, 20 bond_in_token / 1 payout_token w/ payout_token decimals (X bond_in_token per 1 payout_token)
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
   const bondPrice = +bondPriceBigNumber / Math.pow(10, metadata.baseDecimals);
-  // bond price appears to be in OHM decimals, not payout decimals
-  // const bondPrice = +bondPriceBigNumber / Math.pow(10, 2 * BASE_TOKEN_DECIMALS);
   // bondPriceUsd === $X/payoutToken
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
 
@@ -168,21 +166,18 @@ async function processBond(
   let capacityInBaseToken: string, capacityInQuoteToken: string;
   if (bond.capacityInQuote) {
     capacityInBaseToken = ethers.utils.formatUnits(
-      bond.capacity.mul(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)).div(bondPriceBigNumber),
-      BASE_TOKEN_DECIMALS,
+      bond.capacity.mul(Math.pow(10, metadata.baseDecimals - metadata.quoteDecimals)).div(bondPriceBigNumber),
+      metadata.quoteDecimals,
     );
     capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, metadata.quoteDecimals);
   } else {
-    capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, BASE_TOKEN_DECIMALS);
-    capacityInQuoteToken = ethers.utils.formatUnits(
-      bond.capacity.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
-      metadata.quoteDecimals,
-    );
+    capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, metadata.baseDecimals);
+    capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity.mul(bondPriceBigNumber), metadata.baseDecimals * 2);
   }
-  const maxPayoutInBaseToken: string = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
+  const maxPayoutInBaseToken: string = ethers.utils.formatUnits(bond.maxPayout, metadata.baseDecimals);
   const maxPayoutInQuoteToken: string = ethers.utils.formatUnits(
-    bond.maxPayout.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
-    metadata.quoteDecimals,
+    bond.maxPayout.mul(bondPriceBigNumber),
+    metadata.baseDecimals * 2,
   );
   let seconds = 0;
   if (terms.fixedTerm) {
