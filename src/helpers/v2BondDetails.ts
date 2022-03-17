@@ -265,7 +265,6 @@ export class V2BondParser {
     if (singleSidedBondDetails[this.networkId] && singleSidedBondDetails[this.networkId][this.assetAddress]) {
       return singleSidedBondDetails[this.networkId][this.assetAddress];
     } else if (await this.isLP()) {
-      console.log("in isLP if");
       return this._lpDetails();
     } else {
       // return DAI as default
@@ -284,10 +283,8 @@ export class V2BondParser {
     if (!token0 || !token1) {
       return UnknownDetails;
     }
-    console.log("tokens", token0.toLowerCase(), token1.toLowerCase());
     const token0Details: V2BondDetails = singleSidedBondDetails[this.networkId][token0.toLowerCase()];
     const token1Details: V2BondDetails = singleSidedBondDetails[this.networkId][token1.toLowerCase()];
-    console.log("tokens", token0Details, token1Details);
     const name = token0Details.name.concat("-", token1Details.name, " LP");
 
     let useBondIcons = UnknownDetails.bondIconSvg;
@@ -357,7 +354,6 @@ export class V2BondParser {
 
   async _lpUrl(token0: string, token1: string) {
     const lpName = await this.baseContract.name();
-    console.log("lpName", lpName.indexOf("Sushi"));
     if (lpName.indexOf("Gelato") >= 0) {
       return `https://www.sorbet.finance/#/pools/${this.assetAddress}`;
     } else if (lpName.indexOf("Sushi") >= 0) {
