@@ -309,6 +309,13 @@
 }
 
 .light {
+  .multifarm-widget-chart-tooltip__trigger {
+    cursor: pointer;
+    &:hover {
+      color: var(--list-text-primary);
+    }
+  }
+
   .multifarm-widget-dashboard__tab-container {
     .multifarm-widget-dashboard-tabs__tab[data-active="true"] .multifarm-widget-dashboard-tabs__tab-text {
       color: #000;
@@ -319,6 +326,13 @@
 }
 
 .dark {
+  .multifarm-widget-chart-tooltip__trigger {
+    cursor: pointer;
+    &:hover {
+      color: var(--ohm-gold);
+    }
+  }
+
   .multifarm-widget-dashboard__tab-container {
     .multifarm-widget-dashboard-tabs__tab[data-active="true"] .multifarm-widget-dashboard-tabs__tab-text {
       color: var(--ohm-gold);
