@@ -211,7 +211,6 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
                   {assets.map(asset => (
                     <Balances token={asset} />
                   ))}
-                  ;
                 </>
               );
           }
