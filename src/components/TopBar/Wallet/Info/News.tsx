@@ -1,3 +1,4 @@
+import { Box, Fade } from "@material-ui/core";
 import { ArticleCard } from "@olympusdao/component-library";
 import { FC, Key } from "react";
 
@@ -28,33 +29,35 @@ const News: FC<OHMNewsProps> = () => {
     return str.length > 400 ? str.substring(0, 397) + "..." : str;
   };
   return (
-    <>
-      {isFetched &&
-        data.items.map(
-          (
-            article: {
-              title: string;
-              thumbnail: string;
-              content: string;
-              link: string | undefined;
-              pubDate: string | number | Date;
+    <Fade in={true}>
+      <Box>
+        {isFetched &&
+          data.items.map(
+            (
+              article: {
+                title: string;
+                thumbnail: string;
+                content: string;
+                link: string | undefined;
+                pubDate: string | number | Date;
+              },
+              index: Key | null | undefined,
+            ) => {
+              const dateNoTime = article.pubDate.toString().split(" ")[0];
+              return (
+                <ArticleCard
+                  title={article.title}
+                  imageSrc={article.thumbnail}
+                  content={truncate(parseFeedContent(article.content))}
+                  href={article.link}
+                  publishDate={new Date(dateNoTime).toDateString()}
+                  key={index}
+                />
+              );
             },
-            index: Key | null | undefined,
-          ) => {
-            const dateNoTime = article.pubDate.toString().split(" ")[0];
-            return (
-              <ArticleCard
-                title={article.title}
-                imageSrc={article.thumbnail}
-                content={truncate(parseFeedContent(article.content))}
-                href={article.link}
-                publishDate={new Date(dateNoTime).toDateString()}
-                key={index}
-              />
-            );
-          },
-        )}
-    </>
+          )}
+      </Box>
+    </Fade>
   );
 };
 

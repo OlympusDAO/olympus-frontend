@@ -1,15 +1,23 @@
-import { Box, Grid, RadioGroup, Theme, Typography } from "@material-ui/core";
+import { Box, Fade, Grid, RadioGroup, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { DottedDataRow, Input, ProgressCircle, Radio, Slider } from "@olympusdao/component-library";
 import { FC, useEffect, useState } from "react";
 import { trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
+import {
+  useFuseBalance,
+  useGohmBalance,
+  useGohmTokemakBalance,
+  useSohmBalance,
+  useV1SohmBalance,
+  useWsohmBalance,
+} from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useProtocolMetrics } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { NetworkId } from "src/networkDetails";
 
 const useStyles = makeStyles<Theme>(theme => ({
   title: {
@@ -101,8 +109,18 @@ const Calculator: FC = () => {
   const { data: gOhmBalance = new DecimalBigNumber("0", 18) } = useGohmBalance()[networks.MAINNET];
   const { data: sOhmBalance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
   const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
+  const { data: fuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
+  const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[NetworkId.MAINNET];
+  const { data: wsOhmBalance = new DecimalBigNumber("0", 18) } = useWsohmBalance()[networks.MAINNET];
+  const { data: v1SohmBalance = new DecimalBigNumber("0", 9) } = useV1SohmBalance()[networks.MAINNET];
 
-  const walletSohm = gOhmBalance.toApproxNumber() * currentIndex.toApproxNumber() + sOhmBalance.toApproxNumber();
+  const walletSohm =
+    gOhmBalance.toApproxNumber() * currentIndex.toApproxNumber() +
+    wsOhmBalance.toApproxNumber() * currentIndex.toApproxNumber() +
+    fuseBalance.toApproxNumber() * currentIndex.toApproxNumber() +
+    gohmTokemakBalance.toApproxNumber() * currentIndex.toApproxNumber() +
+    sOhmBalance.toApproxNumber() +
+    v1SohmBalance.toApproxNumber();
 
   const [initialInvestment, setInitialInvestment] = useState(10000);
   const [duration, setDuration] = useState(365);
@@ -213,159 +231,161 @@ const Calculator: FC = () => {
   ];
 
   return (
-    <Box>
-      <Box display="flex" flexDirection="column" mb="21px">
-        <Box display="flex" flexDirection="row" className={classes.selector} mb="30px">
-          <Typography
-            className={!advanced ? "active-primary" : ""}
-            onClick={() => {
-              setAdvanced(false);
-              setFutureOhmPrice(0);
-            }}
-          >
-            Simple
-          </Typography>
-          <Typography className={advanced ? "active-primary" : ""} onClick={() => setAdvanced(true)}>
-            Advanced
-          </Typography>
+    <Fade in={true}>
+      <Box>
+        <Box display="flex" flexDirection="column" mb="21px">
+          <Box display="flex" flexDirection="row" className={classes.selector} mb="30px">
+            <Typography
+              className={!advanced ? "active-primary" : ""}
+              onClick={() => {
+                setAdvanced(false);
+                setFutureOhmPrice(0);
+              }}
+            >
+              Simple
+            </Typography>
+            <Typography className={advanced ? "active-primary" : ""} onClick={() => setAdvanced(true)}>
+              Advanced
+            </Typography>
+          </Box>
+          {!advanced && (
+            <>
+              <Box display="flex" justifyContent="center" mb="3px">
+                <Typography className={classes.title}>Investment Amount:</Typography>
+              </Box>
+              <Box display="flex" justifyContent="center" mb="18px">
+                <Typography className={classes.investmentAmount}>{formattedInitialInvestment}</Typography>
+              </Box>
+              <Box display="flex" justifyContent="center">
+                <Typography className={classes.runway}>
+                  Runway: <span>{runway} Days</span>
+                </Typography>
+              </Box>
+            </>
+          )}
         </Box>
-        {!advanced && (
+
+        {advanced ? (
           <>
-            <Box display="flex" justifyContent="center" mb="3px">
-              <Typography className={classes.title}>Investment Amount:</Typography>
-            </Box>
-            <Box display="flex" justifyContent="center" mb="18px">
-              <Typography className={classes.investmentAmount}>{formattedInitialInvestment}</Typography>
-            </Box>
-            <Box display="flex" justifyContent="center">
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <Input
+                  id="amount"
+                  label="sOHM Amount"
+                  value={amountOfOhmPurchased ? +trim(amountOfOhmPurchased, 4) : ""}
+                  onChange={e => setInitialInvestment(Number(e.target.value) * currentOhmPrice)}
+                  type="number"
+                  inputProps={{ inputMode: "numeric" }}
+                />
+                <Box mt="9px">
+                  <Input
+                    id="purchaseAmount"
+                    label="OHM Purchase Price"
+                    value={currentOhmPrice}
+                    onChange={e => setManualOhmPrice(Number(e.target.value))}
+                    inputProps={{ inputMode: "numeric" }}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  id="rebaseRate"
+                  label="Rebase Rate"
+                  value={rebaseRate * 100}
+                  onChange={e => setManualRebaseRate(Number(e.target.value) / 100)}
+                  type="number"
+                  endString="%"
+                  inputProps={{ inputMode: "numeric" }}
+                />
+                <Box mt="9px">
+                  <Input
+                    id="futureOhmPrice"
+                    label="Future OHM Price"
+                    value={futureOhmPrice > 0 ? futureOhmPrice : ""}
+                    onChange={e => setFutureOhmPrice(Number(e.target.value))}
+                    type="number"
+                    inputProps={{ inputMode: "numeric" }}
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Box display="flex" flexDirection="row" justifyContent="space-between" mt="30px" mb="30px">
+              <Typography className={classes.targetDate}>
+                {duration} Days <span>Target date</span>
+              </Typography>
               <Typography className={classes.runway}>
                 Runway: <span>{runway} Days</span>
               </Typography>
             </Box>
+            <Box ml="12px" mr="12px">
+              <Slider value={duration} onChange={handleDurationChange} min={1} max={1825} />
+            </Box>
+          </>
+        ) : (
+          <Box ml="12px" mr="12x">
+            <Slider value={initialInvestment} min={0} max={100000} step={100} onChange={handleChange} />
+          </Box>
+        )}
+        {!advanced && (
+          <>
+            <Box display="flex" justifyContent="space-around" alignItems="center" mt="18px" mb="18px">
+              <Box display="flex" flexDirection="column" textAlign="right" flexGrow={0.33}>
+                <Typography className={classes.progressMetric}>{formattedInitialInvestment}</Typography>
+                <Typography className={classes.progressLabel}>Invested</Typography>
+              </Box>
+              <Box position="relative">
+                <ProgressCircle balance={totalValue.toString()} label="Total Value" progress={pieValue} />
+              </Box>
+              <Box display="flex" flexDirection="column" textAlign="left" flexGrow={0.33}>
+                <Typography className={classes.progressMetric}>{formattedProfits}</Typography>
+                <Typography className={classes.progressLabel}>ROI in {duration} days</Typography>
+              </Box>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              alignItems="center"
+              className={classes.selector}
+              justifyContent="center"
+            >
+              {durations.map((dur, index) => (
+                <Typography
+                  key={index}
+                  className={duration === dur.days ? "active" : ""}
+                  onClick={() => setDuration(dur.days)}
+                >
+                  {dur.label}
+                </Typography>
+              ))}
+            </Box>
           </>
         )}
-      </Box>
-
-      {advanced ? (
-        <>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Input
-                id="amount"
-                label="sOHM Amount"
-                value={amountOfOhmPurchased ? +trim(amountOfOhmPurchased, 4) : ""}
-                onChange={e => setInitialInvestment(Number(e.target.value) * currentOhmPrice)}
-                type="number"
-                inputProps={{ inputMode: "numeric" }}
-              />
-              <Box mt="9px">
-                <Input
-                  id="purchaseAmount"
-                  label="OHM Purchase Price"
-                  value={currentOhmPrice}
-                  onChange={e => setManualOhmPrice(Number(e.target.value))}
-                  inputProps={{ inputMode: "numeric" }}
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Input
-                id="rebaseRate"
-                label="Rebase Rate"
-                value={rebaseRate * 100}
-                onChange={e => setManualRebaseRate(Number(e.target.value) / 100)}
-                type="number"
-                endString="%"
-                inputProps={{ inputMode: "numeric" }}
-              />
-              <Box mt="9px">
-                <Input
-                  id="futureOhmPrice"
-                  label="Future OHM Price"
-                  value={futureOhmPrice > 0 ? futureOhmPrice : ""}
-                  onChange={e => setFutureOhmPrice(Number(e.target.value))}
-                  type="number"
-                  inputProps={{ inputMode: "numeric" }}
-                />
-              </Box>
-            </Grid>
-          </Grid>
-
-          <Box display="flex" flexDirection="row" justifyContent="space-between" mt="30px" mb="30px">
-            <Typography className={classes.targetDate}>
-              {duration} Days <span>Target date</span>
-            </Typography>
-            <Typography className={classes.runway}>
-              Runway: <span>{runway} Days</span>
-            </Typography>
-          </Box>
-          <Box ml="12px" mr="12px">
-            <Slider value={duration} onChange={handleDurationChange} min={1} max={1825} />
-          </Box>
-        </>
-      ) : (
-        <Box ml="12px" mr="12x">
-          <Slider value={initialInvestment} min={0} max={100000} step={100} onChange={handleChange} />
+        <DottedDataRow title="Initial Investment" value={formattedInitialInvestment} />
+        {!advanced && <DottedDataRow title="OHM Purchase Price" value={currentOhmPrice} />}
+        {!advanced && <DottedDataRow title="Amount Purchased" value={`${formattedAmountPurchased} OHM`} />}
+        {!advanced && <DottedDataRow title="Price Multiplier" value={<RadioSelector />} />}
+        {!advanced && <DottedDataRow title="Rebase Rate" value={formattedCurrentRebaseRate} />}
+        <DottedDataRow title="ROI" value={ROI} />
+        {advanced && (
+          <>
+            <DottedDataRow title="Breakeven Price" value={trim(breakEvenPrice, 2)} />
+            <DottedDataRow
+              title="Days to Breakeven"
+              value={`${Number(formattedBreakEvenDays) > 0 ? formattedBreakEvenDays : 0} Days`}
+            />
+          </>
+        )}
+        <DottedDataRow title="Total sOHM" value={formattedTotalsOHM} bold />
+        <DottedDataRow title="Estimated Total" value={formattedProfits} bold />
+        <Box display="flex" justifyContent="center" mt={"15px"} textAlign="center">
+          <p>
+            This is strictly a tool to help Ohmies better estimate potential ROI. The estimates above are based on
+            current market conditions and should not be interpreted as financial advice in any way
+          </p>
         </Box>
-      )}
-      {!advanced && (
-        <>
-          <Box display="flex" justifyContent="space-around" alignItems="center" mt="18px" mb="18px">
-            <Box display="flex" flexDirection="column" textAlign="right" flexGrow={0.33}>
-              <Typography className={classes.progressMetric}>{formattedInitialInvestment}</Typography>
-              <Typography className={classes.progressLabel}>Invested</Typography>
-            </Box>
-            <Box position="relative">
-              <ProgressCircle balance={totalValue.toString()} label="Total Value" progress={pieValue} />
-            </Box>
-            <Box display="flex" flexDirection="column" textAlign="left" flexGrow={0.33}>
-              <Typography className={classes.progressMetric}>{formattedProfits}</Typography>
-              <Typography className={classes.progressLabel}>ROI in {duration} days</Typography>
-            </Box>
-          </Box>
-          <Box
-            display="flex"
-            flexDirection="row"
-            alignItems="center"
-            className={classes.selector}
-            justifyContent="center"
-          >
-            {durations.map((dur, index) => (
-              <Typography
-                key={index}
-                className={duration === dur.days ? "active" : ""}
-                onClick={() => setDuration(dur.days)}
-              >
-                {dur.label}
-              </Typography>
-            ))}
-          </Box>
-        </>
-      )}
-      <DottedDataRow title="Initial Investment" value={formattedInitialInvestment} />
-      {!advanced && <DottedDataRow title="OHM Purchase Price" value={currentOhmPrice} />}
-      {!advanced && <DottedDataRow title="Amount Purchased" value={`${formattedAmountPurchased} OHM`} />}
-      {!advanced && <DottedDataRow title="Price Multiplier" value={<RadioSelector />} />}
-      {!advanced && <DottedDataRow title="Rebase Rate" value={formattedCurrentRebaseRate} />}
-      <DottedDataRow title="ROI" value={ROI} />
-      {advanced && (
-        <>
-          <DottedDataRow title="Breakeven Price" value={trim(breakEvenPrice, 2)} />
-          <DottedDataRow
-            title="Days to Breakeven"
-            value={`${Number(formattedBreakEvenDays) > 0 ? formattedBreakEvenDays : 0} Days`}
-          />
-        </>
-      )}
-      <DottedDataRow title="Total sOHM" value={formattedTotalsOHM} bold />
-      <DottedDataRow title="Estimated Total" value={formattedProfits} bold />
-      <Box display="flex" justifyContent="center" mt={"15px"} textAlign="center">
-        <p>
-          This is strictly a tool to help Ohmies better estimate potential ROI. The estimates above are based on current
-          market conditions and should not be interpreted as financial advice in any way
-        </p>
       </Box>
-    </Box>
+    </Fade>
   );
 };
 

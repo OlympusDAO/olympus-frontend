@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core";
+import { Box, Fade } from "@material-ui/core";
 import { InfoCard } from "@olympusdao/component-library";
 
 /**
@@ -34,11 +34,13 @@ const Faq = () => {
   ];
 
   return (
-    <Box>
-      {faqContent.map((faq: { title: string | undefined; content: string | undefined }, index) => (
-        <InfoCard key={index} title={faq.title} content={faq.content} />
-      ))}
-    </Box>
+    <Fade in={true}>
+      <Box>
+        {faqContent.map((faq: { title: string | undefined; content: string | undefined }, index) => (
+          <InfoCard key={index} title={faq.title} content={faq.content} />
+        ))}
+      </Box>
+    </Fade>
   );
 };
 

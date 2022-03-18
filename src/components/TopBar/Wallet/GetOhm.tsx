@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Grid, Theme, Typography } from "@material-ui/core";
+import { Box, Fade, Grid, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { GetOnButton, ItemCard, OHMItemCardProps } from "@olympusdao/component-library";
 import { FC } from "react";
@@ -52,143 +52,145 @@ const GetOhm: FC = () => {
   const fiveDayRate = Math.pow(1 + rebaseRate, 5 * 3) - 1;
 
   return (
-    <>
-      <Typography variant="h6" className={classes.title}>
-        Exchanges
-      </Typography>
-      <Grid container spacing={1}>
-        <Grid item xs={6}>
-          <GetOnButton
-            href={`https://app.sushi.com/swap/?outputCurrency=${
-              GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
-            }`}
-            logo={<img src={sushiswapImg}></img>}
-            exchangeName="Sushiswap"
-          />
+    <Fade in={true}>
+      <Box>
+        <Typography variant="h6" className={classes.title}>
+          Exchanges
+        </Typography>
+        <Grid container spacing={1}>
+          <Grid item xs={6}>
+            <GetOnButton
+              href={`https://app.sushi.com/swap/?outputCurrency=${
+                GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
+              }`}
+              logo={<img src={sushiswapImg}></img>}
+              exchangeName="Sushiswap"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <GetOnButton
+              href={`https://app.uniswap.org/#/swap?outputCurrency=${
+                GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
+              }`}
+              logo={<img src={uniswapImg}></img>}
+              exchangeName="Uniswap"
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <GetOnButton
-            href={`https://app.uniswap.org/#/swap?outputCurrency=${
-              GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
-            }`}
-            logo={<img src={uniswapImg}></img>}
-            exchangeName="Uniswap"
-          />
-        </Grid>
-      </Grid>
-      <Typography variant="h6" className={classes.title}>
-        Zap
-      </Typography>
-      <ItemCard tokens={["wETH", "wBTC", "USDC", "DAI"]} title={t`Zap with more assets`} href={`/zap`} disableFlip />
+        <Typography variant="h6" className={classes.title}>
+          Zap
+        </Typography>
+        <ItemCard tokens={["wETH", "wBTC", "USDC", "DAI"]} title={t`Zap with more assets`} href={`/zap`} disableFlip />
 
-      <Typography variant="h6" className={classes.title}>
-        Bonds
-      </Typography>
-      {bondsV2.map((bond, index) => (
+        <Typography variant="h6" className={classes.title}>
+          Bonds
+        </Typography>
+        {bondsV2.map((bond, index) => (
+          <ItemCard
+            key={index}
+            tokens={bond.bondIconSvg}
+            value={formatCurrency(bond.marketPrice, 2)}
+            roi={`${trim(bond.discount * 100, 2)}%`}
+            days={bond.duration}
+            href={`/bonds/${bond.index}`}
+            hrefText={t` Bond ${bond.displayName}`}
+          />
+        ))}
+        <Typography variant="h6" className={classes.title}>
+          Stake
+        </Typography>
         <ItemCard
-          key={index}
-          tokens={bond.bondIconSvg}
-          value={formatCurrency(bond.marketPrice, 2)}
-          roi={`${trim(bond.discount * 100, 2)}%`}
-          days={bond.duration}
-          href={`/bonds/${bond.index}`}
-          hrefText={t` Bond ${bond.displayName}`}
+          tokens={["sOHM", "wsOHM"]}
+          title={t`Stake Now`}
+          roi={`${trim(Number(fiveDayRate) * 100, 2)}%`}
+          days={t`5 Days`}
+          href={`/stake`}
+          disableFlip
         />
-      ))}
-      <Typography variant="h6" className={classes.title}>
-        Stake
-      </Typography>
-      <ItemCard
-        tokens={["sOHM", "wsOHM"]}
-        title={t`Stake Now`}
-        roi={`${trim(Number(fiveDayRate) * 100, 2)}%`}
-        days={t`5 Days`}
-        href={`/stake`}
-        disableFlip
-      />
-      <Typography variant="h6" className={classes.title}>
-        Farm Pool
-      </Typography>
-      {sushiPools.map((pool, index) => (
-        <SushiPools key={index} pool={pool} />
-      ))}
-      {joePools.map((pool, index) => (
-        <JoePools key={index} pool={pool} />
-      ))}
-      {spiritPools.map((pool, index) => (
-        <SpiritPools key={index} pool={pool} />
-      ))}
-      {beetsPools.map((pool, index) => (
-        <BeetsPools key={index} pool={pool} />
-      ))}
-      {zipPools.map((pool, index) => (
-        <ZipPools key={index} pool={pool} />
-      ))}
+        <Typography variant="h6" className={classes.title}>
+          Farm Pool
+        </Typography>
+        {sushiPools.map((pool, index) => (
+          <SushiPools key={index} pool={pool} />
+        ))}
+        {joePools.map((pool, index) => (
+          <JoePools key={index} pool={pool} />
+        ))}
+        {spiritPools.map((pool, index) => (
+          <SpiritPools key={index} pool={pool} />
+        ))}
+        {beetsPools.map((pool, index) => (
+          <BeetsPools key={index} pool={pool} />
+        ))}
+        {zipPools.map((pool, index) => (
+          <ZipPools key={index} pool={pool} />
+        ))}
 
-      <Typography variant="h6" className={classes.title}>
-        Vaults
-      </Typography>
-      <ItemCard
-        tokens={["DOPEX"]}
-        title={t`Deposit on Dopex`}
-        href={`https://app.dopex.io/ssov`}
-        networkName="ARBITRUM"
-        external
-        disableFlip
-      />
-      <ItemCard
-        tokens={["JONES"]}
-        title={t`Deposit on Jones DAO`}
-        href={`https://jonesdao.io/vaults/gOHM`}
-        networkName="ARBITRUM"
-        external
-        disableFlip
-      />
-      <ItemCard
-        tokens={["TOKEMAK"]}
-        title={t`Deposit on Tokemak`}
-        href={`https://www.tokemak.xyz/`}
-        external
-        disableFlip
-      />
+        <Typography variant="h6" className={classes.title}>
+          Vaults
+        </Typography>
+        <ItemCard
+          tokens={["DOPEX"]}
+          title={t`Deposit on Dopex`}
+          href={`https://app.dopex.io/ssov`}
+          networkName="ARBITRUM"
+          external
+          disableFlip
+        />
+        <ItemCard
+          tokens={["JONES"]}
+          title={t`Deposit on Jones DAO`}
+          href={`https://jonesdao.io/vaults/gOHM`}
+          networkName="ARBITRUM"
+          external
+          disableFlip
+        />
+        <ItemCard
+          tokens={["TOKEMAK"]}
+          title={t`Deposit on Tokemak`}
+          href={`https://www.tokemak.xyz/`}
+          external
+          disableFlip
+        />
 
-      <Typography variant="h6" className={classes.title}>
-        Borrow
-      </Typography>
-      <ItemCard
-        tokens={["RARI"]}
-        title={t`Borrow on Rari`}
-        href={`https://app.rari.capital/fuse/pool/18`}
-        external
-        roi={`${fuseSupplyApy}%`}
-        days="APY"
-        disableFlip
-      />
-      <ItemCard
-        tokens={["MARKET"]}
-        title={t`Borrow on Market.xyz`}
-        networkName={"POLYGON"}
-        href={`https://polygon.market.xyz/pool/8`}
-        external
-        disableFlip
-      />
-      <ItemCard
-        tokens={["MARKET"]}
-        title={t`Borrow on Market.xyz`}
-        networkName={"AVAX"}
-        href={`https://avax.market.xyz/pool/3`}
-        external
-        disableFlip
-      />
-      <ItemCard
-        tokens={["VST"]}
-        title={t`Borrow on VestaFinance`}
-        networkName="ARBITRUM"
-        href={`https://vestafinance.xyz/products/gohm`}
-        external
-        disableFlip
-      />
-    </>
+        <Typography variant="h6" className={classes.title}>
+          Borrow
+        </Typography>
+        <ItemCard
+          tokens={["RARI"]}
+          title={t`Borrow on Rari`}
+          href={`https://app.rari.capital/fuse/pool/18`}
+          external
+          roi={`${fuseSupplyApy}%`}
+          days="APY"
+          disableFlip
+        />
+        <ItemCard
+          tokens={["MARKET"]}
+          title={t`Borrow on Market.xyz`}
+          networkName={"POLYGON"}
+          href={`https://polygon.market.xyz/pool/8`}
+          external
+          disableFlip
+        />
+        <ItemCard
+          tokens={["MARKET"]}
+          title={t`Borrow on Market.xyz`}
+          networkName={"AVAX"}
+          href={`https://avax.market.xyz/pool/3`}
+          external
+          disableFlip
+        />
+        <ItemCard
+          tokens={["VST"]}
+          title={t`Borrow on VestaFinance`}
+          networkName="ARBITRUM"
+          href={`https://vestafinance.xyz/products/gohm`}
+          external
+          disableFlip
+        />
+      </Box>
+    </Fade>
   );
 };
 

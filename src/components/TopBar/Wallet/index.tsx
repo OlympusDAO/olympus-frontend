@@ -155,11 +155,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
                 case "utility":
                   return <GetOhm />;
                 case "wallet":
-                  if (!connected) {
-                    return <ConnectMessage />;
-                  } else {
-                    return <Assets />;
-                  }
+                  return <>{!connected ? <ConnectMessage /> : <Assets />}</>;
                 case "wallet/history":
                   return <Assets path="history" />;
                 default:

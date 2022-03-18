@@ -1,10 +1,10 @@
-import { Box, Link, Theme, Typography } from "@material-ui/core";
+import { Box, Fade, Link, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { OHMTokenStackProps, WalletBalance } from "@olympusdao/component-library";
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { formatCurrency, trim } from "src/helpers";
+import { formatCurrency, formatNumber, trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { prettifySeconds } from "src/helpers/timeUtil";
 import { useAppSelector } from "src/hooks";
@@ -22,6 +22,7 @@ import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { NetworkId } from "src/networkDetails";
 import { IUserNote } from "src/slices/BondSliceV2";
 import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
 
@@ -83,8 +84,8 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const { data: sOhmBalance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
   const { data: wsOhmBalance = new DecimalBigNumber("0", 18) } = useWsohmBalance()[networks.MAINNET];
   const { data: gOhmBalance = new DecimalBigNumber("0", 18) } = useGohmBalance()[networks.MAINNET];
-  const { data: fuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[1];
-  const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[1];
+  const { data: fuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
+  const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[NetworkId.MAINNET];
 
   const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
   const formattedohmBalance = ohmBalance.toFormattedString(4);
@@ -104,7 +105,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     sOhmBalance.toApproxNumber() +
     v1SohmBalance.toApproxNumber();
 
-  const sOHMDailyForecast = trim(totalAsSohm * rebaseRate * 3, 2);
+  const sOHMDailyForecast = formatNumber(totalAsSohm * rebaseRate * 3, 2);
   const usdDailyForecast = formatCurrency(Number(sOHMDailyForecast) * ohmPrice, 2);
   const tokenArray = [
     {
@@ -173,39 +174,41 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const walletTotalValueUSD = Object.values(assets).reduce((totalValue, token) => totalValue + token.assetValue, 0);
 
   return (
-    <>
-      <Box display="flex" flexDirection="row" justifyContent="space-between">
-        <WalletBalance
-          title="Balance"
-          usdBalance={formatCurrency(walletTotalValueUSD, 2)}
-          underlyingBalance={`${trim(walletTotalValueUSD / ohmPrice, 2)} OHM`}
-        />
-        <WalletBalance
-          className={classes.forecast}
-          title="Today's Forecast"
-          usdBalance={`+ ${usdDailyForecast}`}
-          underlyingBalance={`+${sOHMDailyForecast} OHM`}
-        />
+    <Fade in={true}>
+      <Box>
+        <Box display="flex" flexDirection="row" justifyContent="space-between">
+          <WalletBalance
+            title="Balance"
+            usdBalance={formatCurrency(walletTotalValueUSD, 2)}
+            underlyingBalance={`${formatNumber(walletTotalValueUSD / ohmPrice, 2)} OHM`}
+          />
+          <WalletBalance
+            className={classes.forecast}
+            title="Today's Forecast"
+            usdBalance={`+ ${usdDailyForecast}`}
+            underlyingBalance={`+${sOHMDailyForecast} OHM`}
+          />
+        </Box>
+        <Box display="flex" flexDirection="row" className={classes.selector} mb="18px" mt="18px">
+          <Link exact component={NavLink} to="/wallet">
+            <Typography>My Wallet</Typography>
+          </Link>
+          <Link component={NavLink} to="/wallet/history">
+            <Typography>History</Typography>
+          </Link>
+        </Box>
+        {(() => {
+          switch (props.path) {
+            case "history":
+              return <TransactionHistory />;
+            case "assets":
+              return <Balances assets={assets} />;
+            default:
+              return <Balances assets={assets} />;
+          }
+        })()}
       </Box>
-      <Box display="flex" flexDirection="row" className={classes.selector} mb="18px" mt="18px">
-        <Link exact component={NavLink} to="/wallet">
-          <Typography>My Wallet</Typography>
-        </Link>
-        <Link component={NavLink} to="/wallet/history">
-          <Typography>History</Typography>
-        </Link>
-      </Box>
-      {(() => {
-        switch (props.path) {
-          case "history":
-            return <TransactionHistory />;
-          case "assets":
-            return <Balances assets={assets} />;
-          default:
-            return <Balances assets={assets} />;
-        }
-      })()}
-    </>
+    </Fade>
   );
 };
 

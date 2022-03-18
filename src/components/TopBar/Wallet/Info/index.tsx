@@ -1,4 +1,4 @@
-import { Box, Link, Theme } from "@material-ui/core";
+import { Box, Fade, Link, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
@@ -44,12 +44,21 @@ const Info: FC<OHMInfoProps> = (props: { path?: string }) => {
           FAQ
         </Link>
       </Box>
+
       {(() => {
         switch (props.path) {
           case "news":
-            return <News />;
+            return (
+              <Fade in={true}>
+                <News />
+              </Fade>
+            );
           case "proposals":
-            return <Proposals />;
+            return (
+              <Fade in={true}>
+                <Proposals />
+              </Fade>
+            );
           case "faq":
             return <Faq />;
           default:
