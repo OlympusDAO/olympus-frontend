@@ -107,6 +107,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
 
   const sOHMDailyForecast = formatNumber(totalAsSohm * rebaseRate * 3, 2);
   const usdDailyForecast = formatCurrency(Number(sOHMDailyForecast) * ohmPrice, 2);
+
   const tokenArray = [
     {
       symbol: ["OHM"] as OHMTokenStackProps["tokens"],
@@ -145,6 +146,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       symbol: ["wsOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedWsOhmBalance,
       assetValue: gOhmPrice * Number(formattedWsOhmBalance),
+      geckoTicker: "governance-ohm",
     },
     {
       symbol: ["gOHM"] as OHMTokenStackProps["tokens"],
@@ -152,6 +154,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       assetValue: gOhmPrice * Number(formattedgOhmBalance),
       pnl: formattedgOhmBalance ? 0 : formatCurrency(gOhmBalance.toApproxNumber() * gOhmPriceChange, 2),
       alwaysShow: true,
+      geckoTicker: "governance-ohm",
     },
   ];
 
@@ -166,6 +169,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     pnl: Number(note.payout) === 0 ? 0 : formatCurrency(note.payout * gOhmPriceChange, 2),
     ctaText: "Claim",
     ctaOnClick: () => history.push("/bonds"),
+    geckoTicker: "governance-ohm",
   }));
 
   const classes = useStyles();
@@ -201,10 +205,15 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
           switch (props.path) {
             case "history":
               return <TransactionHistory />;
-            case "assets":
-              return <Balances assets={assets} />;
             default:
-              return <Balances assets={assets} />;
+              return (
+                <>
+                  {assets.map(asset => (
+                    <Balances token={asset} />
+                  ))}
+                  ;
+                </>
+              );
           }
         })()}
       </Box>

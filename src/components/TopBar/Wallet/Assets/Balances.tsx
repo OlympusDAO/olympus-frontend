@@ -1,5 +1,4 @@
 import { AssetCard, OHMTokenStackProps } from "@olympusdao/component-library";
-import { FC } from "react";
 import { formatCurrency } from "src/helpers";
 
 import { GetTokenPrice } from "../queries";
@@ -17,61 +16,47 @@ interface TokenArray {
   ctaText?: string;
   lineThreeValue?: string | number;
   lineThreeLabel?: string;
+  geckoTicker?: string;
 }
-export interface OHMAssetsProps {
-  assets: TokenArray[];
-}
-
 /**
  * Component for Displaying Assets
  */
-const Balances: FC<OHMAssetsProps> = ({ assets }) => {
-  const { data: priceFeed = { usd_24h_change: -0 } } = GetTokenPrice();
-
-  return (
-    <>
-      {assets
-        .filter(asset => Number(asset.balance) > 0 || asset.alwaysShow)
-        .map(
-          (
-            token: TokenArray = {
-              label: "",
-              assetValue: 0,
-            },
-            index,
-          ) => {
-            const lineThree =
-              token.lineThreeLabel && token.lineThreeValue
-                ? { lineThreeLabel: token.lineThreeLabel, lineThreeValue: token.lineThreeValue }
-                : {};
-            const extraProps =
-              token.ctaText && token.ctaOnClick ? { ctaText: token.ctaText, ctaOnClick: token.ctaOnClick } : {};
-            return (
-              <AssetCard
-                key={index}
-                token={token.symbol}
-                label={token.label}
-                assetValue={formatCurrency(token.assetValue, 2)}
-                assetBalance={`${token.balance} ${token.underlyingSymbol ? token.underlyingSymbol : token.symbol}`}
-                pnl={
-                  token.pnl
-                    ? token.pnl
-                    : Number(token.balance) > 0
-                    ? formatCurrency(
-                        Number(token.balance) === 0 ? 0 : Number(token.balance) * priceFeed.usd_24h_change,
-                        2,
-                      )
-                    : ""
-                }
-                timeRemaining={token.timeRemaining}
-                {...extraProps}
-                {...lineThree}
-              />
-            );
-          },
-        )}
-    </>
-  );
+const Balances = (props: { token: TokenArray }) => {
+  const { data: priceFeed = { usd_24h_change: -0 } } = GetTokenPrice(props.token.geckoTicker);
+  const lineThree =
+    props.token.lineThreeLabel && props.token.lineThreeValue
+      ? { lineThreeLabel: props.token.lineThreeLabel, lineThreeValue: props.token.lineThreeValue }
+      : {};
+  const extraProps =
+    props.token.ctaText && props.token.ctaOnClick
+      ? { ctaText: props.token.ctaText, ctaOnClick: props.token.ctaOnClick }
+      : {};
+  if (Number(props.token.balance) > 0 || props.token.alwaysShow) {
+    return (
+      <AssetCard
+        token={props.token.symbol}
+        label={props.token.label}
+        assetValue={formatCurrency(props.token.assetValue, 2)}
+        assetBalance={`${props.token.balance} ${
+          props.token.underlyingSymbol ? props.token.underlyingSymbol : props.token.symbol
+        }`}
+        pnl={
+          props.token.pnl
+            ? props.token.pnl
+            : Number(props.token.balance) > 0
+            ? formatCurrency(
+                Number(props.token.balance) === 0 ? 0 : Number(props.token.balance) * priceFeed.usd_24h_change,
+                2,
+              )
+            : ""
+        }
+        timeRemaining={props.token.timeRemaining}
+        {...extraProps}
+        {...lineThree}
+      />
+    );
+  }
+  return <> </>;
 };
 
 export default Balances;
