@@ -54,7 +54,7 @@ const GetOhm: FC = () => {
   return (
     <>
       <Typography variant="h6" className={classes.title}>
-        Our Partners
+        Exchanges
       </Typography>
       <Grid container spacing={1}>
         <Grid item xs={6}>
@@ -76,6 +76,10 @@ const GetOhm: FC = () => {
           />
         </Grid>
       </Grid>
+      <Typography variant="h6" className={classes.title}>
+        Zap
+      </Typography>
+      <ItemCard tokens={["wETH", "wBTC", "USDC", "DAI"]} title={t`Zap with more assets`} href={`/zap`} disableFlip />
 
       <Typography variant="h6" className={classes.title}>
         Bonds
@@ -102,10 +106,6 @@ const GetOhm: FC = () => {
         href={`/stake`}
         disableFlip
       />
-      <Typography variant="h6" className={classes.title}>
-        Zap
-      </Typography>
-      <ItemCard tokens={["wETH", "wBTC", "USDC", "DAI"]} title={t`Zap with more assets`} href={`/zap`} disableFlip />
       <Typography variant="h6" className={classes.title}>
         Farm Pool
       </Typography>

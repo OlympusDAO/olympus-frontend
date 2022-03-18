@@ -99,6 +99,8 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const totalAsSohm =
     gOhmBalance.toApproxNumber() * currentIndex.toApproxNumber() +
     wsOhmBalance.toApproxNumber() * currentIndex.toApproxNumber() +
+    fuseBalance.toApproxNumber() * currentIndex.toApproxNumber() +
+    gohmTokemakBalance.toApproxNumber() * currentIndex.toApproxNumber() +
     sOhmBalance.toApproxNumber() +
     v1SohmBalance.toApproxNumber();
 

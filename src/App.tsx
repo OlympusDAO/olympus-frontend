@@ -428,8 +428,8 @@ function App() {
             <Route path={"/info"}>
               <Wallet open={true} component="info" />
             </Route>
-            <Route path={"/get-ohm"}>
-              <Wallet open={true} component="getohm" />
+            <Route path={"/utility"}>
+              <Wallet open={true} component="utility" />
             </Route>
             <Route path={"/wallet/history"}>
               <Wallet open={true} component="wallet/history" />

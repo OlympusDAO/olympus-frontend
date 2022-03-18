@@ -130,7 +130,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
             <TabBar
               items={[
                 { label: "Wallet", to: "/wallet" },
-                { label: "Get OHM", to: "/get-ohm" },
+                { label: "Utility", to: "/utility" },
                 { label: "Calculator", to: "/calculator" },
                 { label: "Info", to: "/info" },
               ]}
@@ -152,7 +152,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
                   return <Calculator />;
                 case "info":
                   return <Info path={id} />;
-                case "getohm":
+                case "utility":
                   return <GetOhm />;
                 case "wallet":
                   if (!connected) {
