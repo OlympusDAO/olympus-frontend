@@ -45,7 +45,9 @@ const Balances = (props: { token: TokenArray }) => {
             ? props.token.pnl
             : Number(props.token.balance) > 0
             ? formatCurrency(
-                Number(props.token.balance) === 0 ? 0 : Number(props.token.balance) * priceFeed.usd_24h_change,
+                Number(props.token.balance) === 0
+                  ? 0
+                  : props.token.assetValue - Number(props.token.assetValue) / (1 + priceFeed.usd_24h_change / 100),
                 2,
               )
             : ""
