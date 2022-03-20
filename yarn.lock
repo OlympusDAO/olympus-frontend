@@ -2412,10 +2412,10 @@
   resolved "https://registry.yarnpkg.com/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz#af577b477c683fad17c619a78208cede06f9605c"
   integrity sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==
 
-"@multifarm/widget@^0.0.92":
-  version "0.0.92"
-  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.92.tgz#69549cde235a42ab9b9a64db07268a8bb1644acb"
-  integrity sha512-U+T0T8f2klewToOAeZ3SdCuohetMOJNM3tEoeEZUzL18h2Vh1nf+u6fdTF4Yn2rQFRPRRWMGJveVrML+SK21lw==
+"@multifarm/widget@^0.0.93":
+  version "0.0.93"
+  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.93.tgz#3965e5d8606ad9fe90830d4fcb9fe8177abdc0a0"
+  integrity sha512-AnRyolqYFxTyNWy7Mhb4FH7Xi2tJ3gYFnalmNY9h8efwpInHTvkq/S48ieNsWQMWj1FSbR0dXMD93XEI2qkmSw==
   dependencies:
     "@tippyjs/react" "^4.2.6"
     clsx "^1.1.1"
