@@ -45,6 +45,9 @@ export const categoryTypesConfig = {
     cols: {
       progress: false,
     },
+    colsNames: {
+      farm: "Protocol",
+    },
   },
   Incubator: {
     cols: {
