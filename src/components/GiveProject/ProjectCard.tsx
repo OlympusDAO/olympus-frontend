@@ -22,15 +22,10 @@ import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
-import {
-  ACTION_GIVE,
-  ACTION_GIVE_EDIT,
-  ACTION_GIVE_WITHDRAW,
-  changeGive,
-  changeMockGive,
-  isSupportedChain,
-} from "src/slices/GiveThunk";
+import { isSupportedChain } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
+import { useGive } from "src/views/Give/hooks/useGive";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
@@ -91,6 +86,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
+
+  const giveMutation = useGive();
+  const increaseMutation = useIncreaseGive();
+  const decreaseMutation = useDecreaseGive();
+
+  const isMutating = giveMutation.isLoading || increaseMutation.isLoading || decreaseMutation.isLoading;
 
   const theme = useTheme();
   const isBreakpointLarge = useMediaQuery(theme.breakpoints.up("lg"));
@@ -216,7 +217,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     const totalDonatedNumber = new BigNumber(totalDonated);
 
-    return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed(2);
+    return totalDonatedNumber.div(depositGoal).multipliedBy(100).toNumber().toFixed(2);
   };
 
   const renderGoalCompletion = (): JSX.Element => {
@@ -254,7 +255,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
     const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
-    const formattedTotalDonated = new BigNumber(parseFloat(totalDonated).toFixed(2)).toFormat();
+    const formattedTotalDonated = new BigNumber(totalDonated).toNumber().toFixed(2);
 
     if (depositGoal === 0) return <></>;
 
@@ -283,7 +284,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="sohm-yield-goal" />
                   </Grid>
                   <Grid item className="metric">
-                    {new BigNumber(depositGoal).toFormat()}
+                    {new BigNumber(depositGoal).toNumber().toFixed()}
                   </Grid>
                 </Grid>
               </Grid>
@@ -380,41 +381,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     eventSource: string,
     depositAmount: BigNumber,
   ) => {
-    if (depositAmount.isEqualTo(new BigNumber(0))) {
+    if (depositAmount.isEqualTo(new BigNumber("0"))) {
       return dispatch(error(t`Please enter a value!`));
     }
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE,
-          value: depositAmount.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource: eventSource,
-        }),
-      );
-    } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE,
-          value: depositAmount.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource: eventSource,
-        }),
-      );
-    }
+
+    giveMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
 
     setIsGiveModalOpen(false);
   };
@@ -433,75 +407,20 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
+    if (depositAmountDiff.isEqualTo(new BigNumber("0"))) return;
 
-    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
-    // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
+    if (depositAmountDiff.isGreaterThan(new BigNumber("0"))) {
+      increaseMutation.mutate({ amount: depositAmountDiff.toFixed(), recipient: walletAddress });
     } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
+      const subtractionAmount = depositAmountDiff.multipliedBy(new BigNumber("-1"));
+      decreaseMutation.mutate({ amount: subtractionAmount.toFixed(), recipient: walletAddress });
     }
 
     setIsManageModalOpen(false);
   };
 
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
-    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
-    // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
-    } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
-    }
+    decreaseMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
 
     setIsManageModalOpen(false);
   };

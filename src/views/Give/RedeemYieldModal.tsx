@@ -62,7 +62,7 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
                 <Typography variant="body1" className="modal-confirmation-title">
                   <Trans>Redeemable Yield</Trans>
                 </Typography>
-                <Typography variant="h6">{redeemableBalance.toFixed(2)} sOHM</Typography>
+                <Typography variant="h6">{redeemableBalance.toNumber().toFixed(2)} sOHM</Typography>
               </Grid>
               {!isSmallScreen ? (
                 <Grid item sm={4}>
@@ -92,7 +92,11 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
             <Grid item xs />
             <Grid item xs={12} md={6}>
               <PrimaryButton disabled={!canSubmit()} onClick={() => handleSubmit()} fullWidth>
-                {txnButtonText(pendingTransactions, "redeeming", t`Confirm ${redeemableBalance.toFixed(2)} sOHM`)}
+                {txnButtonText(
+                  pendingTransactions,
+                  "redeeming",
+                  t`Confirm ${redeemableBalance.toNumber().toFixed(2)} sOHM`,
+                )}
               </PrimaryButton>
             </Grid>
             <Grid item xs />

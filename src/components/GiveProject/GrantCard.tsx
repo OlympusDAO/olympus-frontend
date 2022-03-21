@@ -182,7 +182,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                 <Step key={`step-${humanIndex}`}>
                   {({}) => (
                     <div className="step-label" style={milestoneAccomplished ? accomplishedStyle : unaccomplishedStyle}>
-                      {new BigNumber(value.amount).toFormat(0)}
+                      {new BigNumber(value.amount).toFixed(0)}
                     </div>
                   )}
                 </Step>
@@ -209,7 +209,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
         {milestones.map((value, index) => {
           return (
             <div key={`milestone-${index}`}>
-              <Typography variant="h6">{t`Milestone ${index + 1}: ${new BigNumber(value.amount).toFormat(
+              <Typography variant="h6">{t`Milestone ${index + 1}: ${new BigNumber(value.amount).toFixed(
                 0,
               )} sOHM`}</Typography>
               <div
@@ -259,7 +259,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Icon name="sohm-total" />
                   </Grid>
                   <Grid item className="metric">
-                    {totalMilestoneAmount.toFormat(0)}
+                    {totalMilestoneAmount.toNumber().toFixed(0)}
                   </Grid>
                 </Grid>
               </Grid>
@@ -411,7 +411,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
+          value: depositAmount.toNumber().toFixed(),
           recipient: walletAddress,
           provider,
           address,
@@ -425,7 +425,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       await dispatch(
         changeGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
+          value: depositAmount.toNumber().toFixed(),
           recipient: walletAddress,
           provider,
           address,

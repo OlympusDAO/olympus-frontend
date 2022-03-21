@@ -12,6 +12,7 @@ import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { NetworkId } from "src/constants";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
+import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { loadAccountDetails } from "src/slices/AccountSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -44,13 +45,9 @@ export default function RedeemYield() {
     return state.account.redeeming && state.account.redeeming.recipientInfo;
   });
 
-  const stakingRebase = useSelector((state: DonationInfoState) => {
-    return state.app.stakingRebase;
-  });
+  const stakingRebase = useStakingRebaseRate().data;
 
-  const fiveDayRate = useSelector((state: DonationInfoState) => {
-    return state.app.fiveDayRate;
-  });
+  const fiveDayRate = stakingRebase ? Math.pow(1 + stakingRebase, 5 * 3) - 1 : 0;
 
   const pendingTransactions = useSelector((state: DonationInfoState) => {
     return state.pendingTransactions;
@@ -75,7 +72,7 @@ export default function RedeemYield() {
    * @returns string
    */
   const getTrimmedBigNumber = (number: BigNumber) => {
-    return number.decimalPlaces(4).toString();
+    return number.toNumber().toFixed(4).toString();
   };
 
   const isRecipientInfoLoading = recipientInfo.totalDebt == "";
@@ -122,7 +119,7 @@ export default function RedeemYield() {
 
     if (isPendingTxn(pendingTransactions, "redeeming")) return false;
 
-    if (redeemableBalanceNumber.isEqualTo(0))
+    if (redeemableBalanceNumber.eq(0))
       // If the available amount is 0
       return false;
 
@@ -150,7 +147,7 @@ export default function RedeemYield() {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h3" align="center">
-          {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toFixed(2)} sOHM
+          {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toNumber().toFixed(2)} sOHM
         </Typography>
         <Typography variant="body1" align="center" className="subtext">
           Redeemable Yield

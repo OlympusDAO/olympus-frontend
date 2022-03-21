@@ -8,15 +8,13 @@ import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useUIDSeed } from "react-uid";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
-import { NetworkId } from "src/constants";
-import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { ACTION_GIVE, changeGive, changeMockGive } from "src/slices/GiveThunk";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { error } from "../../slices/MessagesSlice";
+import { useGive } from "./hooks/useGive";
 import data from "./projects.json";
 
 export default function CausesDashboard() {
@@ -24,6 +22,9 @@ export default function CausesDashboard() {
   const { provider, address, networkId } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const { projects } = data;
+
+  const giveMutation = useGive();
+  const isMutating = giveMutation.isLoading;
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
@@ -55,37 +56,9 @@ export default function CausesDashboard() {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    // If on Rinkeby and using Mock Sohm, use the changeMockGive async thunk
-    // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE,
-          value: depositAmount.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource: eventSource,
-        }),
-      );
-    } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE,
-          value: depositAmount.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource: eventSource,
-        }),
-      );
-    }
+    const amount = depositAmount.toFixed();
+    console.log(amount);
+    giveMutation.mutate({ amount: amount, recipient: walletAddress });
 
     setIsCustomGiveModalOpen(false);
   };

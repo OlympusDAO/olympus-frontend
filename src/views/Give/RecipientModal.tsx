@@ -7,7 +7,7 @@ import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
@@ -16,7 +16,10 @@ import { GiveTokenAllowanceGuard } from "src/components/TokenAllowanceGuard/Toke
 import { NetworkId } from "src/constants";
 import { GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { shorten } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
+import { useSohmBalance } from "src/hooks/useBalance";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { changeApproval, changeMockApproval, hasPendingGiveTxn, PENDING_TXN_GIVE } from "src/slices/GiveThunk";
 
@@ -36,6 +39,8 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   const location = useLocation();
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
+
+  const networks = useTestableNetworks();
 
   const _initialDepositAmount = 0;
   const _initialWalletAddress = "";
@@ -65,7 +70,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   useEffect(() => {
-    checkIsDepositAmountValid(getDepositAmount().toFixed());
+    checkIsDepositAmountValid(getDepositAmount().toNumber().toFixed());
     checkIsWalletAddressValid(getWalletAddress());
   }, []);
 
@@ -85,17 +90,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    *
    * TODO consider extracting this into a helper file
    */
-  const sohmBalance: string = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.balances && state.account.balances.mockSohm
-      : state.account.balances && state.account.balances.sohm;
-  });
-
-  const giveAllowance: number = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving && state.account.mockGiving.sohmGive
-      : state.account.giving && state.account.giving.sohmGive;
-  });
+  const sohmBalance: DecimalBigNumber | undefined = useSohmBalance()[networks.MAINNET]?.data;
 
   const isAccountLoading: boolean = useSelector((state: DonationInfoState) => {
     return state.account.loading;
@@ -119,12 +114,8 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     }
   };
 
-  const hasAllowance = useCallback(() => {
-    return giveAllowance > 0;
-  }, [giveAllowance]);
-
   const getSOhmBalance = (): BigNumber => {
-    return new BigNumber(sohmBalance);
+    return sohmBalance ? new BigNumber(sohmBalance.toAccurateString()) : new BigNumber("0");
   };
 
   /**
@@ -135,7 +126,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    * @returns BigNumber
    */
   const getMaximumDepositAmount = (): BigNumber => {
-    return new BigNumber(sohmBalance);
+    return getSOhmBalance();
   };
 
   const handleSetDepositAmount = (value: string) => {
@@ -147,24 +138,24 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     const valueNumber = new BigNumber(value);
     const sOhmBalanceNumber = getSOhmBalance();
 
-    if (!value || value == "" || valueNumber.isEqualTo(0)) {
+    if (!value || value == "" || valueNumber.eq(0)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Please enter a value`);
       return;
     }
 
-    if (valueNumber.isLessThan(0)) {
+    if (valueNumber.lt(0)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Value must be positive`);
       return;
     }
 
-    if (sOhmBalanceNumber.isEqualTo(0)) {
+    if (sOhmBalanceNumber.eq(0)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
     }
 
-    if (valueNumber.isGreaterThan(getMaximumDepositAmount())) {
+    if (valueNumber.gt(getMaximumDepositAmount())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Value cannot be more than your sOHM balance of ${getMaximumDepositAmount()}`);
       return;
@@ -248,7 +239,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    * @returns BigNumber instance
    */
   const getRetainedAmountDiff = (): BigNumber => {
-    return new BigNumber(sohmBalance).minus(getDepositAmount());
+    return getSOhmBalance().minus(getDepositAmount());
   };
 
   /**
@@ -257,7 +248,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    * @returns
    */
   const getDepositAmount = (): BigNumber => {
-    if (!depositAmount) return new BigNumber(0);
+    if (!depositAmount) return new BigNumber("0");
 
     return new BigNumber(depositAmount);
   };
@@ -375,10 +366,10 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                 id="amount-input"
                 placeholder={t`Enter an amount`}
                 type="number"
-                value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+                value={getDepositAmount().eq(0) ? null : getDepositAmount()}
                 helperText={
                   isDepositAmountValid
-                    ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toFixed(2)} sOHM`
+                    ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toNumber().toFixed(2)} sOHM`
                     : isDepositAmountValidError
                 }
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -386,7 +377,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                 error={!isDepositAmountValid}
                 startAdornment="sOHM"
                 endString={t`Max`}
-                endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
+                endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toNumber().toFixed())}
               />
             </Grid>
             <Grid item xs={12}>
@@ -471,7 +462,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   </Grid>
                   <Grid xs={12}>
                     <Typography variant="h6">
-                      <strong>{getDepositAmount().toFixed(2)} sOHM</strong>
+                      <strong>{getDepositAmount().toNumber().toFixed(2)} sOHM</strong>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -515,7 +506,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   {txnButtonText(
                     pendingTransactions,
                     PENDING_TXN_GIVE,
-                    `${t`Confirm `} ${getDepositAmount().toFixed(2)} sOHM`,
+                    `${t`Confirm `} ${getDepositAmount().toNumber().toFixed(2)} sOHM`,
                   )}
                 </PrimaryButton>
               </Grid>

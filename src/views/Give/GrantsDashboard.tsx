@@ -54,7 +54,7 @@ export default function GrantsDashboard() {
     eventSource: string,
     depositAmount: BigNumber,
   ) => {
-    if (depositAmount.isEqualTo(new BigNumber(0))) {
+    if (depositAmount.eq(new BigNumber(0))) {
       return dispatch(error(t`Please enter a value!`));
     }
 

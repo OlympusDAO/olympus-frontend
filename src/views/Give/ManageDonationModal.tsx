@@ -14,9 +14,12 @@ import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project, RecordType } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
+import { useSohmBalance } from "src/hooks/useBalance";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 
@@ -61,6 +64,8 @@ export function ManageDonationModal({
   const [totalDonated, setTotalDonated] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
+
+  const networks = useTestableNetworks();
 
   useEffect(() => {
     // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
@@ -125,11 +130,7 @@ export function ManageDonationModal({
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const sohmBalance: string = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.balances && state.account.balances.mockSohm
-      : state.account.balances && state.account.balances.sohm;
-  });
+  const sohmBalance: DecimalBigNumber | undefined = useSohmBalance()[networks.MAINNET]?.data;
 
   const isAccountLoading: boolean = useSelector((state: DonationInfoState) => {
     return state.account.loading;
@@ -202,7 +203,7 @@ export function ManageDonationModal({
 
     if (!address) return false;
     if (hasPendingGiveTxn(pendingTransactions)) return false;
-    if (getDepositAmountDiff().isEqualTo(0)) return false;
+    if (getDepositAmountDiff().isEqualTo(new BigNumber("0"))) return false;
 
     return true;
   };
@@ -215,7 +216,7 @@ export function ManageDonationModal({
   };
 
   const getSOhmBalance = (): BigNumber => {
-    return new BigNumber(sohmBalance);
+    return sohmBalance ? new BigNumber(sohmBalance.toAccurateString()) : new BigNumber(0);
   };
 
   const getCurrentDepositAmount = (): BigNumber => {
@@ -232,7 +233,7 @@ export function ManageDonationModal({
    * @returns BigNumber
    */
   const getMaximumDepositAmount = (): BigNumber => {
-    return new BigNumber(sohmBalance).plus(currentDepositAmount ? currentDepositAmount : 0);
+    return getSOhmBalance().plus(currentDepositAmount ? currentDepositAmount : 0);
   };
 
   const getDepositAmountDiff = (): BigNumber => {
@@ -562,10 +563,10 @@ export function ManageDonationModal({
                   id="amount-input"
                   type="number"
                   placeholder={t`Enter an amount`}
-                  value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+                  value={getDepositAmount().eq(0) ? null : getDepositAmount()}
                   helperText={
                     isDepositAmountValid
-                      ? t`Your current deposit is ${currentDepositAmount.toFixed(2)} sOHM`
+                      ? t`Your current deposit is ${currentDepositAmount.toNumber().toFixed(2)} sOHM`
                       : isDepositAmountValidError
                   }
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -573,7 +574,7 @@ export function ManageDonationModal({
                   error={!isDepositAmountValid}
                   startAdornment="sOHM"
                   endString={t`Max`}
-                  endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
+                  endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toNumber().toFixed())}
                 />
               </Grid>
             </Grid>
@@ -602,7 +603,7 @@ export function ManageDonationModal({
             <Typography variant="body1" className="modal-confirmation-title">
               <Trans>Current sOHM deposit</Trans>
             </Typography>
-            <Typography variant="h6">{currentDepositAmount.toFixed(2)} sOHM</Typography>
+            <Typography variant="h6">{currentDepositAmount.toNumber().toFixed(2)} sOHM</Typography>
           </Grid>
           {!isSmallScreen ? (
             <Grid item sm={4}>
