@@ -96,6 +96,11 @@ We use [React Testing Library](https://testing-library.com/docs/react-testing-li
 Here is an [example component test](src/components/Migration/__tests__/MigrationModal.unit.test.jsx).
 Here is a useful [cheat sheet](https://testing-library.com/docs/react-testing-library/cheatsheet).
 
+### Mocking React Hooks
+
+When testing components that use React Hooks to third party libraries such as React Query or Web3Provider, it is sometimes convenient to mock these hooks in order to simulate various data inputs and edge cases.
+
+[Here is an example test case](src/views/Stake/components/StakeArea/components/StakeActionArea/components/__tests__/StakeBalances.unit.test.jsx) that shows how to mock React Hooks that use Web3Provider and React Query APIs.
 ### Troubleshooting
 
 If all tests are failing in your local environment (in particular, due to a "cannot find module" error with `node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/interopRequireDefault.js`), but they should be passing (and the CI tests are passing), it's likely to be an issue with your local cache. Run the following command: `yarn test --clearCache`

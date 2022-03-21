@@ -8,7 +8,6 @@ import {
   useOhmCirculatingSupply,
   useTotalSupply,
   useTotalValueDeposited,
-  useTreasuryMarketValue,
   useTreasuryTotalBacking,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
@@ -61,24 +60,16 @@ export const CircSupply: React.FC<AbstractedMetricProps> = props => {
 
 export const BackingPerOHM: React.FC<AbstractedMetricProps> = props => {
   const { data: circSupply } = useOhmCirculatingSupply();
-  const { data: treasuryValue } = useTreasuryMarketValue();
   const { data: treasuryBacking } = useTreasuryTotalBacking();
 
   const _props: MetricProps = {
     ...props,
-    label: t`Backing per OHM` + "\n\n" + t`(total / liquid)`,
-    tooltip:
-      t`Total Treasury MV backing is the total USD budget the Treasury has per OHM to spend on all market operations (LP, swaps, revenue generation, bonds and inverse bonds, etc).` +
-      "\n\n" +
-      t`Liquid Treasury Backing does not include LP OHM, locked assets, or reserves used for RFV backing. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc)
+    label: t`Liquid Backing per OHM`,
+    tooltip: t`Liquid Treasury Backing does not include LP OHM, locked assets, or reserves used for RFV backing. It represents the budget the Treasury has for specific market operations which cannot use OHM (inverse bonds, some liquidity provision, OHM incentives, etc)
     `,
   };
 
-  if (treasuryValue && circSupply && treasuryBacking)
-    _props.metric = `${formatCurrency(treasuryValue / circSupply, 2)} / ${formatCurrency(
-      treasuryBacking / circSupply,
-      2,
-    )}`;
+  if (circSupply && treasuryBacking) _props.metric = `${formatCurrency(treasuryBacking / circSupply, 2)}`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;
