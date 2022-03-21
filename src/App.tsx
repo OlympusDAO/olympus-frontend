@@ -1,7 +1,9 @@
 // eslint-disable-next-line simple-import-sort/imports
 import "./style.scss";
 
+import { i18n } from "@lingui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
+import { MultifarmProvider } from "@multifarm/widget";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -11,6 +13,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/useBonds";
 import { useWeb3Context, useAppSelector } from "./hooks";
+import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { shouldTriggerSafetyCheck } from "./helpers";
 
 import { calcBondDetails } from "./slices/BondSlice";
@@ -26,18 +29,18 @@ import CallToAction from "./components/CallToAction/CallToAction";
 import NavDrawer from "./components/Sidebar/NavDrawer";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
-import MigrationModal from "src/components/Migration/MigrationModal";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
+import { multifarmLightTheme, multifarmDarkTheme } from "./themes/multifarm";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import projectData from "src/views/Give/projects.json";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
-import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import { trackGAEvent } from "./helpers/analytics";
 import { getAllInverseBonds } from "./slices/InverseBondSlice";
+import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -81,6 +84,8 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
   },
 }));
+
+const MULTIFARM_API_KEY = getMultiFarmApiKey();
 
 function App() {
   useGoogleAnalytics();
@@ -308,125 +313,133 @@ function App() {
 
   return (
     <ThemeProvider theme={themeMode}>
-      <CssBaseline />
-      <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
-        <Messages />
-        <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
-        <nav className={classes.drawer}>
-          {isSmallerScreen ? (
-            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-          ) : (
-            <Sidebar />
-          )}
-        </nav>
+      <MultifarmProvider
+        token={MULTIFARM_API_KEY}
+        provider="olympus"
+        lng={i18n.locale}
+        themeColors={theme}
+        badgePlacement="bottom"
+        theme={theme === "light" ? multifarmLightTheme : multifarmDarkTheme}
+        categoryTypesConfig={categoryTypesConfig}
+        strategyTypesConfig={strategyTypesConfig}
+      >
+        <CssBaseline />
+        <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+          <Messages />
+          <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+          <nav className={classes.drawer}>
+            {isSmallerScreen ? (
+              <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            ) : (
+              <Sidebar />
+            )}
+          </nav>
 
-        <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-          {oldAssetsDetected &&
-            !hasActiveV1Bonds &&
-            trimmedPath.indexOf("dashboard") === -1 &&
-            oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+          <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+            {oldAssetsDetected &&
+              !hasActiveV1Bonds &&
+              trimmedPath.indexOf("dashboard") === -1 &&
+              oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
-          <Switch>
-            <Route exact path="/dashboard">
-              <TreasuryDashboard />
-            </Route>
+            <Switch>
+              {/* (keith): leave this route here temporarily to 
+              be able to reference the old dashboard */}
+              <Route exact path="/dashboard">
+                <TreasuryDashboard />
+              </Route>
 
-            <Route exact path="/">
-              <Redirect to="/stake" />
-            </Route>
+              <Route exact path="/">
+                <Redirect to="/stake" />
+              </Route>
 
-            <Route path="/stake">
-              {/* if newAssets or 0 assets */}
-              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
-                <Stake />
-              ) : (
+              <Route path="/stake">
+                {/* if newAssets or 0 assets */}
+                {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
+                  <Stake />
+                ) : (
+                  <V1Stake
+                    hasActiveV1Bonds={hasActiveV1Bonds}
+                    oldAssetsDetected={oldAssetsDetected}
+                    setMigrationModalOpen={setMigrationModalOpen}
+                  />
+                )}
+              </Route>
+
+              <Route path="/v1-stake">
                 <V1Stake
                   hasActiveV1Bonds={hasActiveV1Bonds}
                   oldAssetsDetected={oldAssetsDetected}
                   setMigrationModalOpen={setMigrationModalOpen}
                 />
-              )}
-            </Route>
-
-            <Route path="/v1-stake">
-              <V1Stake
-                hasActiveV1Bonds={hasActiveV1Bonds}
-                oldAssetsDetected={oldAssetsDetected}
-                setMigrationModalOpen={setMigrationModalOpen}
-              />
-            </Route>
-
-            <Route exact path="/give">
-              <Give />
-            </Route>
-            <Redirect from="/olympusgive" to="/give" />
-            <Redirect from="/tyche" to="/give" />
-            <Redirect from="/olygive" to="/give" />
-            <Redirect from="/olympusdaogive" to="/give" />
-            <Redirect from="/ohmgive" to="/give" />
-
-            <Route path="/give/projects">
-              {projects.map(project => {
-                return (
-                  <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
-                    <ProjectInfo project={project} />
-                  </Route>
-                );
-              })}
-            </Route>
-
-            <Route exact path="/give/donations">
-              <Give selectedIndex={1} />
-            </Route>
-
-            <Route exact path="/give/redeem">
-              <Give selectedIndex={2} />
-            </Route>
-
-            <Route path="/wrap">
-              <Route exact path={`/wrap`}>
-                <Wrap />
               </Route>
-            </Route>
 
-            <Route path="/zap">
-              <Route exact path={`/zap`}>
-                <Zap />
+              <Route exact path="/give">
+                <Give />
               </Route>
-            </Route>
+              <Redirect from="/olympusgive" to="/give" />
+              <Redirect from="/tyche" to="/give" />
+              <Redirect from="/olygive" to="/give" />
+              <Redirect from="/olympusdaogive" to="/give" />
+              <Redirect from="/ohmgive" to="/give" />
 
-            {/* <Route path="/33-together">
+              <Route path="/give/projects">
+                {projects.map(project => {
+                  return (
+                    <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
+                      <ProjectInfo project={project} />
+                    </Route>
+                  );
+                })}
+              </Route>
+
+              <Route exact path="/give/donations">
+                <Give selectedIndex={1} />
+              </Route>
+
+              <Route exact path="/give/redeem">
+                <Give selectedIndex={2} />
+              </Route>
+
+              <Route path="/wrap">
+                <Route exact path={`/wrap`}>
+                  <Wrap />
+                </Route>
+              </Route>
+
+              <Route path="/zap">
+                <Route exact path={`/zap`}>
+                  <Zap />
+                </Route>
+              </Route>
+
+              {/* <Route path="/33-together">
               <PoolTogether />
             </Route> */}
 
-            <Redirect from="/bonds-v1" to="/bonds" />
+              <Redirect from="/bonds-v1" to="/bonds" />
 
-            <Route path="/bonds">
-              {bondIndexes.map(index => {
-                return (
-                  <Route exact key={index} path={`/bonds/${index}`}>
-                    <BondV2 index={index} inverseBond={false} />
-                  </Route>
-                );
-              })}
-              {inverseBondIndexes.map(index => {
-                return (
-                  <Route exact key={index} path={`/bonds/inverse/${index}`}>
-                    <BondV2 index={index} inverseBond={true} />
-                  </Route>
-                );
-              })}
-              <ChooseBondV2 />
-            </Route>
-            <Route component={NotFound} />
-          </Switch>
+              <Route path="/bonds">
+                {bondIndexes.map(index => {
+                  return (
+                    <Route exact key={index} path={`/bonds/${index}`}>
+                      <BondV2 index={index} inverseBond={false} />
+                    </Route>
+                  );
+                })}
+                {inverseBondIndexes.map(index => {
+                  return (
+                    <Route exact key={index} path={`/bonds/inverse/${index}`}>
+                      <BondV2 index={index} inverseBond={true} />
+                    </Route>
+                  );
+                })}
+                <ChooseBondV2 />
+              </Route>
+              <Route component={NotFound} />
+            </Switch>
+          </div>
         </div>
-        {hasDust ? (
-          <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
-        ) : (
-          <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
-        )}
-      </div>
+      </MultifarmProvider>
     </ThemeProvider>
   );
 }
