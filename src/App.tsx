@@ -13,7 +13,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/useBonds";
 import { useWeb3Context, useAppSelector } from "./hooks";
-import { Environment } from "./helpers/environment/Environment/Environment";
+import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { shouldTriggerSafetyCheck } from "./helpers";
 
 import { calcBondDetails } from "./slices/BondSlice";
@@ -85,7 +85,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const MULTIFARM_API_KEY = Environment.getMultiFarmApiKey();
+const MULTIFARM_API_KEY = getMultiFarmApiKey();
 
 function App() {
   useGoogleAnalytics();
