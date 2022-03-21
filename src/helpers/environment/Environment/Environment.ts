@@ -24,13 +24,6 @@ export class Environment {
       err: "Please provide an Google Analytics API key in your .env file",
     });
 
-  public static getMultiFarmApiKey = () =>
-    this._get({
-      first: true,
-      key: "REACT_APP_MULTIFARM_API",
-      err: "Please provide a Multifarm API key in your .env file",
-    });
-
   public static getCovalentApiKey = () =>
     this._get({
       first: true,
