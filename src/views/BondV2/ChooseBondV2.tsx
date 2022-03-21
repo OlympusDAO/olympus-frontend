@@ -1,13 +1,11 @@
 import "./ChooseBond.scss";
 
-import { t } from "@lingui/macro";
-import { Zoom } from "@material-ui/core";
-import { MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
+import { t, Trans } from "@lingui/macro";
+import { Box, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
+import { MetricCollection, Paper } from "@olympusdao/component-library";
 import isEmpty from "lodash/isEmpty";
-import { ChangeEvent, useEffect, useState } from "react";
-import { useHistory } from "react-router";
-import { useAppSelector, useWeb3Context } from "src/hooks";
-import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { Suspense, useEffect, useState } from "react";
+import { useAppSelector } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { IUserNote } from "src/slices/BondSliceV2";
 
@@ -17,9 +15,9 @@ import ClaimBonds from "./ClaimBonds";
 import ChooseInverseBond from "./InverseBond/ChooseInverseBond";
 
 function ChooseBondV2() {
-  const { networkId } = useWeb3Context();
-  const history = useHistory();
-  usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
+  const [showTabs, setShowTabs] = useState<boolean>(false);
+  const [isZoomed, setIsZoomed] = useState<boolean>(false);
+  const [currentAction, setCurrentAction] = useState<number>(0);
 
   const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
 
@@ -32,6 +30,7 @@ function ChooseBondV2() {
     }
     return withInterestDue;
   });
+
   const inverseBonds = useAppSelector(state => {
     return state.inverseBonds.indexes
       .map(index => state.inverseBonds.bonds[index])
@@ -45,16 +44,11 @@ function ChooseBondV2() {
     }
   }, [inverseBonds.length]);
 
-  const [currentAction, setCurrentAction] = useState<number>(0);
-  const [showTabs, setShowTabs] = useState<boolean>(false);
-  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
-    setCurrentAction(newView);
-  };
   return (
     <div id="choose-bond-view">
       {(!isEmpty(accountNotes) || !isEmpty(v1AccountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
-      {/* standard bonds for desktop, mobile is below */}
-      <Zoom in={true}>
+
+      <Zoom in onEntered={() => setIsZoomed(true)}>
         <Paper headerText={currentAction === 1 ? `${t`Inverse Bond`} (3,1)` : `${t`Bond`} (4,4)`}>
           <MetricCollection>
             <TreasuryBalance />
@@ -65,21 +59,35 @@ function ChooseBondV2() {
             <Tabs
               centered
               textColor="primary"
+              value={currentAction}
               aria-label="bond tabs"
               indicatorColor="primary"
-              key={`true`}
               className="bond-tab-container"
-              value={currentAction}
-              //hides the tab underline sliding animation in while <Zoom> is loading
-              TabIndicatorProps={!true ? { style: { display: "none" } } : undefined}
-              onChange={changeView}
+              onChange={(_, view) => setCurrentAction(view)}
+              // Hides the tab underline while <Zoom> is zooming
+              TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
             >
               <Tab aria-label="bond-button" label={t`Bond`} className="bond-tab-button" />
 
               <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} className="bond-tab-button" />
             </Tabs>
           )}
-          {showTabs && currentAction === 1 ? <ChooseInverseBond /> : <ChooseStraightBond />}
+
+          <Suspense fallback={null}>
+            {showTabs && currentAction === 1 ? <ChooseInverseBond /> : <ChooseStraightBond />}
+
+            <Box mt={2} mb={[1, 0]} className="help-text">
+              <em>
+                <Typography variant="body2">
+                  <Trans>
+                    {currentAction === 1
+                      ? "Important: Inverse bonds allow you to bond your OHM for treasury assets. Vesting time is 0 and payouts are instant."
+                      : "Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as sOHM or gOHM at the end of the term."}
+                  </Trans>
+                </Typography>
+              </em>
+            </Box>
+          </Suspense>
         </Paper>
       </Zoom>
     </div>

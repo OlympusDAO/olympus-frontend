@@ -1,5 +1,6 @@
 import { Contract, ContractInterface } from "@ethersproject/contracts";
 import { useMemo } from "react";
+import { abi as BOND_ABI } from "src/abi/BondDepository.json";
 import { abi as FUSE_PROXY_ABI } from "src/abi/FuseProxy.json";
 import { abi as IERC20_ABI } from "src/abi/IERC20.json";
 import STAKING_ABI from "src/abi/OlympusStakingv2.json";
@@ -8,7 +9,7 @@ import { abi as SOHM_ABI } from "src/abi/sOhmv2.json";
 import { AddressMap } from "src/constants/addresses";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
-import { FuseProxy, IERC20, OlympusStakingv2, PairContract, SOhmv2 } from "src/typechain";
+import { BondDepository, FuseProxy, IERC20, OlympusStakingv2, PairContract, SOhmv2 } from "src/typechain";
 
 import { useWeb3Context } from ".";
 
@@ -70,6 +71,7 @@ export const useStaticTokenContract = createStaticContract<IERC20>(IERC20_ABI);
 export const useStaticFuseContract = createStaticContract<FuseProxy>(FUSE_PROXY_ABI);
 export const useStaticPairContract = createStaticContract<PairContract>(PAIR_CONTRACT_ABI);
 export const useStaticStakingContract = createStaticContract<OlympusStakingv2>(STAKING_ABI);
+export const useStaticBondContract = createStaticContract<BondDepository>(BOND_ABI);
 
 // Dynamic contracts
 export const useDynamicTokenContract = createDynamicContract<IERC20>(IERC20_ABI);
