@@ -2412,7 +2412,7 @@
   resolved "https://registry.yarnpkg.com/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz#af577b477c683fad17c619a78208cede06f9605c"
   integrity sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==
 
-"@multifarm/widget@~0.0.107":
+"@multifarm/widget@^0.0.107":
   version "0.0.107"
   resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.107.tgz#695c3cdb8598e31c4e1a3d30f84b627f081e724f"
   integrity sha512-Zx+dMBUFcATf+iNUlAWyy2aQUifxniu4miCrVE+LxTdNVcKIv+7WiIoZKKeTRruKfcwRhbhojZiTSZZAi3ZktQ==
