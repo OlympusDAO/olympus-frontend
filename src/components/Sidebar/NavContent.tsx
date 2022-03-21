@@ -81,7 +81,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
             <div className="dapp-nav" id="navbarNav">
               {networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY ? (
                 <>
-                  <NavItem to="/dashboard" icon={"dashboard"} label={t`Dashboard`} />
+                  <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
                   <NavItem to="/bonds" icon="bond" label={t`Bond`} />
                   <div className="dapp-menu-data discounts">
                     <div className="bond-discounts">
