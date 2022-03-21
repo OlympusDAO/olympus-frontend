@@ -8,6 +8,7 @@ import {
   useOhmCirculatingSupply,
   useTotalSupply,
   useTotalValueDeposited,
+  useTreasuryMarketValue,
   useTreasuryTotalBacking,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
