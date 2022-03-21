@@ -1,3 +1,5 @@
+export const getMultiFarmApiKey = () => "ZawByKd4WLczzLcLOBS2aEG3uNXkyitk";
+
 export const categoryTypesConfig = {
   "Reserve Assets": {
     cols: {
