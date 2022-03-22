@@ -115,7 +115,7 @@ export const GetTransferHistory = (contractAddress: string) => {
     useInfiniteQuery<CovalentResponse>(
       ["TransferHistory", networkId, contractAddress],
       async ({ pageParam = 0 }) => {
-        if (!covalent.isSupportedNetwork(networkId)) return { error: true };
+        if (!covalent.isSupportedNetwork(networkId) || !contractAddress) return { error: true };
         const resp = await axios.get(
           `https://api.covalenthq.com/v1/${networkId}/address/${address}/transfers_v2/?page-number=${pageParam}&quote-currency=USD&format=JSON&contract-address=${contractAddress}&key=${COVALENT_KEY}`,
         );

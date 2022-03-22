@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { formatCurrency, formatNumber, trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { prettifySeconds } from "src/helpers/timeUtil";
+import { nonNullable } from "src/helpers/types/nonNullable";
 import { useAppSelector } from "src/hooks";
 import {
   useFuseBalance,
@@ -82,30 +83,52 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const { data: v1OhmBalance = new DecimalBigNumber("0", 9) } = useV1OhmBalance()[networks.MAINNET];
   const { data: v1SohmBalance = new DecimalBigNumber("0", 9) } = useV1SohmBalance()[networks.MAINNET];
   const { data: sOhmBalance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
-  const { data: wsOhmBalance = new DecimalBigNumber("0", 18) } = useWsohmBalance()[networks.MAINNET];
-  const { data: gOhmBalance = new DecimalBigNumber("0", 18) } = useGohmBalance()[networks.MAINNET];
-  const { data: fuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
+  const wsohmBalances = useWsohmBalance();
+  const gohmBalances = useGohmBalance();
+  const { data: gohmFuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
   const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[NetworkId.MAINNET];
+
+  const gohmTokens = [
+    gohmFuseBalance,
+    gohmTokemakBalance,
+    gohmBalances[networks.MAINNET].data,
+    gohmBalances[NetworkId.ARBITRUM].data,
+    gohmBalances[NetworkId.AVALANCHE].data,
+    gohmBalances[NetworkId.POLYGON].data,
+    gohmBalances[NetworkId.FANTOM].data,
+    gohmBalances[NetworkId.OPTIMISM].data,
+  ];
+  const wsohmTokens = [
+    wsohmBalances[NetworkId.MAINNET].data,
+    wsohmBalances[NetworkId.ARBITRUM].data,
+    wsohmBalances[NetworkId.AVALANCHE].data,
+  ];
+
+  const totalGohmBalance = gohmTokens
+    .filter(nonNullable)
+    .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
+
+  const totalWsohmBalance = wsohmTokens
+    .filter(nonNullable)
+    .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
   const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
   const formattedohmBalance = ohmBalance.toFormattedString(4);
   const formattedV1OhmBalance = v1OhmBalance.toFormattedString(4);
   const formattedV1SohmBalance = v1SohmBalance.toFormattedString(4);
-  const formattedWsOhmBalance = wsOhmBalance.toFormattedString(4);
-  const formattedgOhmBalance = gOhmBalance.add(fuseBalance).add(gohmTokemakBalance).toFormattedString(4);
+  const formattedWsOhmBalance = totalWsohmBalance.toFormattedString(4);
+  const formattedgOhmBalance = totalGohmBalance.toFormattedString(4);
   const formattedSOhmBalance = sOhmBalance.toFormattedString(4);
   const gOhmPriceChange = priceFeed.usd_24h_change * currentIndex.toApproxNumber();
   const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
   const rebaseAmountPerDay = rebaseRate * Number(formattedSOhmBalance) * 3;
-  const totalAsSohm =
-    gOhmBalance.toApproxNumber() * currentIndex.toApproxNumber() +
-    wsOhmBalance.toApproxNumber() * currentIndex.toApproxNumber() +
-    fuseBalance.toApproxNumber() * currentIndex.toApproxNumber() +
-    gohmTokemakBalance.toApproxNumber() * currentIndex.toApproxNumber() +
-    sOhmBalance.toApproxNumber() +
-    v1SohmBalance.toApproxNumber();
+  const totalAsSohm = totalGohmBalance
+    .mul(currentIndex, 9)
+    .add(totalWsohmBalance.mul(currentIndex, 9))
+    .add(sOhmBalance)
+    .add(v1SohmBalance);
 
-  const sOHMDailyForecast = formatNumber(totalAsSohm * rebaseRate * 3, 2);
+  const sOHMDailyForecast = formatNumber(totalAsSohm.toApproxNumber() * rebaseRate * 3, 2);
   const usdDailyForecast = formatCurrency(Number(sOHMDailyForecast) * ohmPrice, 2);
 
   const tokenArray = [
@@ -152,7 +175,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       symbol: ["gOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedgOhmBalance,
       assetValue: gOhmPrice * Number(formattedgOhmBalance),
-      pnl: formattedgOhmBalance ? 0 : formatCurrency(gOhmBalance.toApproxNumber() * gOhmPriceChange, 2),
+      pnl: formattedgOhmBalance ? 0 : formatCurrency(totalGohmBalance.toApproxNumber() * gOhmPriceChange, 2),
       alwaysShow: true,
       geckoTicker: "governance-ohm",
     },

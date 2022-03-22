@@ -77,36 +77,44 @@ const GetOhm: FC = () => {
             />
           </Grid>
         </Grid>
-        <Typography variant="h6" className={classes.title}>
-          Zap
-        </Typography>
-        <ItemCard tokens={["wETH", "wBTC", "USDC", "DAI"]} title={t`Zap with more assets`} href={`/zap`} disableFlip />
-
-        <Typography variant="h6" className={classes.title}>
-          Bonds
-        </Typography>
-        {bondsV2.map((bond, index) => (
-          <ItemCard
-            key={index}
-            tokens={bond.bondIconSvg}
-            value={formatCurrency(bond.marketPrice, 2)}
-            roi={`${trim(bond.discount * 100, 2)}%`}
-            days={bond.duration}
-            href={`/bonds/${bond.index}`}
-            hrefText={t` Bond ${bond.displayName}`}
-          />
-        ))}
-        <Typography variant="h6" className={classes.title}>
-          Stake
-        </Typography>
-        <ItemCard
-          tokens={["sOHM", "wsOHM"]}
-          title={t`Stake Now`}
-          roi={`${trim(Number(fiveDayRate) * 100, 2)}%`}
-          days={t`5 Days`}
-          href={`/stake`}
-          disableFlip
-        />
+        {NetworkId.MAINNET === networkId && (
+          <>
+            <Typography variant="h6" className={classes.title}>
+              Zap
+            </Typography>
+            <ItemCard
+              tokens={["wETH", "wBTC", "USDC", "DAI"]}
+              title={t`Zap with more assets`}
+              href={`/zap`}
+              disableFlip
+            />
+            <Typography variant="h6" className={classes.title}>
+              Bonds
+            </Typography>
+            {bondsV2.map((bond, index) => (
+              <ItemCard
+                key={index}
+                tokens={bond.bondIconSvg}
+                value={formatCurrency(bond.marketPrice, 2)}
+                roi={`${trim(bond.discount * 100, 2)}%`}
+                days={bond.duration}
+                href={`/bonds/${bond.index}`}
+                hrefText={t` Bond ${bond.displayName}`}
+              />
+            ))}
+            <Typography variant="h6" className={classes.title}>
+              Stake
+            </Typography>
+            <ItemCard
+              tokens={["sOHM", "wsOHM"]}
+              title={t`Stake Now`}
+              roi={`${trim(Number(fiveDayRate) * 100, 2)}%`}
+              days={t`5 Days`}
+              href={`/stake`}
+              disableFlip
+            />
+          </>
+        )}
         <Typography variant="h6" className={classes.title}>
           Farm Pool
         </Typography>
