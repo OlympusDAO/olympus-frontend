@@ -4,16 +4,16 @@ import fonts from "./fonts";
 import commonSettings, { handleBackdropFilter } from "./global.js";
 
 const lightTheme = {
-  color: "#253449",
+  color: "#181A1D",
   gold: "#F8CC82",
   gray: "#A3A3A3",
-  blueish_gray: "#768299",
+  blueish_gray: "#676B74",
   textHighlightColor: "#93AEBC", // "#F4D092",
   backgroundColor: "#AFCDE9",
   // background:
   // "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
-  background: "linear-gradient(180deg, #AFCDE9 1%, #F7FBE7 100%)",
-  paperBg: "rgba(255, 255, 255, 0.6)",
+  background: "linear-gradient(180.37deg, #B3BFC5 0.49%, #D1D5D4 26.3%, #EEEAE3 99.85%)",
+  paperBg: "linear-gradient(65.7deg, #F5F5F5 8.35%, #FFFFFF 100%)",
   modalBg: "#FAFAFAEF",
   popoverBg: "rgba(255, 255, 255, 0.95)",
   menuBg: handleBackdropFilter("rgba(255, 255, 255, 0.5)"),
@@ -31,7 +31,7 @@ const lightTheme = {
   outlinedPrimaryButtonHoverColor: "#333333",
   outlinedSecondaryButtonHoverBG: "#FCFCFC",
   outlinedSecondaryButtonHoverColor: "#333333",
-  containedSecondaryButtonHoverBG: "#33333333",
+  containedSecondaryButtonHoverBG: "#333333",
   graphStrokeColor: "rgba(37, 52, 73, .2)",
   gridButtonHoverBackground: "rgba(118, 130, 153, 0.2)",
   gridButtonActiveBackground: "rgba(118, 130, 153, 0.7)",
@@ -43,6 +43,34 @@ export const light = responsiveFontSizes(
     {
       primary: {
         main: lightTheme.color,
+      },
+      colors: {
+        paper: {
+          background: lightTheme.paperBg,
+          card: "#F0F0F0",
+          cardHover: "#E0E2E3",
+        },
+        feedback: {
+          success: "#94B9A1",
+          userFeedback: "#49A1F2",
+          error: "#FF6767",
+          warning: "#FC8E5F",
+          pnlGain: "#3D9C70",
+        },
+        gray: {
+          700: "#181A1D",
+          600: "#292C32",
+          500: "#3F4552",
+          90: lightTheme.blueish_gray,
+          40: lightTheme.blueish_gray,
+          10: "#FAFAFB",
+        },
+        primary: {
+          300: "#F8CC82",
+          100: "#EAD8B8",
+          "300/A75": " rgba(248, 204, 130,0.75)",
+          "300/A50": " rgba(248, 204, 130,0.5)",
+        },
       },
       palette: {
         type: "light",
@@ -94,12 +122,12 @@ export const light = responsiveFontSizes(
         },
         MuiPaper: {
           root: {
-            backgroundColor: lightTheme.paperBg,
+            background: lightTheme.paperBg,
             "&.ohm-card": {
-              backgroundColor: lightTheme.paperBg,
+              background: lightTheme.paperBg,
             },
             "&.MuiPaper-root.tooltip-container": {
-              backgroundColor: lightTheme.paperBg,
+              background: lightTheme.paperBg,
             },
             "&.ohm-modal": {
               backgroundColor: lightTheme.modalBg,
@@ -117,13 +145,18 @@ export const light = responsiveFontSizes(
         },
         MuiDrawer: {
           paper: {
-            backgroundColor: lightTheme.backdropBg,
+            background: lightTheme.paperBg,
             zIndex: 7,
           },
         },
         MuiBackdrop: {
           root: {
             backgroundColor: "rgba(255,255,255, 0)",
+          },
+        },
+        MuiAlert: {
+          root: {
+            background: "transparent",
           },
         },
         MuiLink: {
@@ -186,7 +219,7 @@ export const light = responsiveFontSizes(
         },
         MuiToggleButton: {
           root: {
-            backgroundColor: lightTheme.paperBg,
+            background: lightTheme.paperBg,
             "&:hover": {
               color: lightTheme.color,
               backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
@@ -197,11 +230,11 @@ export const light = responsiveFontSizes(
             "@media (hover:none)": {
               "&:hover": {
                 color: lightTheme.color,
-                backgroundColor: lightTheme.paperBg,
+                background: lightTheme.paperBg,
               },
               "&:focus": {
                 color: lightTheme.color,
-                backgroundColor: lightTheme.paperBg,
+                background: lightTheme.paperBg,
               },
             },
           },
@@ -246,17 +279,15 @@ export const light = responsiveFontSizes(
           },
           containedSecondary: {
             color: lightTheme.color,
-            backgroundColor: lightTheme.paperBg,
+            background: lightTheme.paperBg,
             "&:hover": {
-              color: "#FCFCFC",
-              backgroundColor: `${lightTheme.containedSecondaryButtonHoverBG} !important`,
+              color: "#333333",
             },
             "@media (hover:none)": {
               color: lightTheme.color,
-              backgroundColor: lightTheme.paperBg,
+              background: lightTheme.paperBg,
               "&:hover": {
                 color: "#FCFCFC",
-                backgroundColor: `${lightTheme.containedSecondaryButtonHoverBG} !important`,
               },
             },
           },

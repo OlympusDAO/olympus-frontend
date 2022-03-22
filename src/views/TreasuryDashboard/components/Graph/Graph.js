@@ -111,6 +111,7 @@ export const ProtocolOwnedLiquidityGraph = () => {
       type="area"
       data={data}
       dataFormat="percent"
+      margin={{ left: 30 }}
       itemNames={tooltipItems.pol}
       itemType={itemType.percentage}
       dataKey={["treasuryOhmDaiPOL"]}
@@ -146,6 +147,7 @@ export const OHMStakedGraph = () => {
       dataFormat="percent"
       headerText={t`OHM Staked`}
       stopColor={[["#55EBC7", "#47ACEB"]]}
+      margin={{ left: 30 }}
       bulletpointColors={bulletpoints.staked}
       infoTooltipMessage={tooltipInfoMessages().staked}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
@@ -177,6 +179,7 @@ export const RunwayAvailableGraph = () => {
       bulletpointColors={runwayBulletpoints}
       itemNames={tooltipItems.runway}
       itemType={""}
+      margin={{ left: 30 }}
       infoTooltipMessage={tooltipInfoMessages().runway}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
     />

@@ -98,7 +98,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
                   name="amount-input"
                   className={classes.input}
                   endStringOnClick={setMax}
-                  label={t`Enter an amount of` + ` ${fromToken}`}
+                  placeholder={t`Enter an amount of` + ` ${fromToken}`}
                   onChange={event => setAmount(event.target.value)}
                   disabled={isMutating}
                 />

@@ -47,6 +47,7 @@ export const StakeBalances = () => {
     gohmBalances[NetworkId.AVALANCHE].data,
     gohmBalances[NetworkId.POLYGON].data,
     gohmBalances[NetworkId.FANTOM].data,
+    gohmBalances[NetworkId.OPTIMISM].data,
     wsohmBalances[NetworkId.MAINNET].data,
     wsohmBalances[NetworkId.ARBITRUM].data,
     wsohmBalances[NetworkId.AVALANCHE].data,
@@ -132,6 +133,15 @@ export const StakeBalances = () => {
               title={t`gOHM (Fantom)`}
               isLoading={!gohmBalances[NetworkId.FANTOM].data}
               balance={`${formatBalance(gohmBalances[NetworkId.FANTOM].data)} gOHM`}
+            />
+          )}
+
+          {hasVisibleBalance(gohmBalances[NetworkId.OPTIMISM].data) && (
+            <DataRow
+              indented
+              title={t`gOHM (Optimism)`}
+              isLoading={!gohmBalances[NetworkId.OPTIMISM].data}
+              balance={`${formatBalance(gohmBalances[NetworkId.OPTIMISM].data)} gOHM`}
             />
           )}
 
