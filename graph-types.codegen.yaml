@@ -2,9 +2,12 @@
 # generates .d.ts files using graphql schemas
 # https://www.graphql-code-generator.com/docs/getting-started/codegen-config
 
-schema: https://api.thegraph.com/subgraphs/name/pooltogether/rinkeby-v3_4_3
+hooks:
+  afterAllFileWrite:
+    - prettier --write
 generates:
   ./src/typechain/PoolTogether.d.ts:
+    schema: https://api.thegraph.com/subgraphs/name/pooltogether/rinkeby-v3_4_3
     documents: ./src/**/poolTogether*.graphql
     plugins:
       - typescript

@@ -4,7 +4,8 @@ import { ethers } from "ethers";
 
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { addresses } from "../constants";
-import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
+import { trackGAEvent } from "../helpers/analytics";
+import { getGiveProjectName } from "../helpers/GiveProjectNameHelper";
 import { getBalances, getMockRedemptionBalances, getRedemptionBalances } from "./AccountSlice";
 import { IJsonRPCError, IRedeemAsyncThunk } from "./interfaces";
 import { error } from "./MessagesSlice";
@@ -17,6 +18,18 @@ interface IUAData {
   txHash: string | null;
   type: string;
 }
+
+const trackGiveEvent = (uaData: IUAData, eventAction?: string) => {
+  trackGAEvent({
+    category: "Olympus Give",
+    action: eventAction ? eventAction : uaData.type ? uaData.type : "unknown",
+    label: getGiveProjectName(uaData.address) ?? "unknown",
+    value: Math.round(parseFloat(uaData.value)),
+    metric1: parseFloat(uaData.value),
+    dimension1: uaData.txHash ?? "unknown",
+    dimension2: uaData.address,
+  });
+};
 
 // Redeems a user's redeemable balance from the Give contract
 export const redeemBalance = createAsyncThunk(
@@ -37,11 +50,14 @@ export const redeemBalance = createAsyncThunk(
       value: redeemableBalance,
       approved: true,
       txHash: null,
-      type: "",
+      type: "redeem",
     };
 
+    // Before we submit the transaction, record the event.
+    // This lets us track if the user rejects/ignores the confirmation dialog.
+    trackGiveEvent(uaData, uaData.type + "-before");
+
     try {
-      uaData.type = "redeem";
       redeemTx = await giving.redeem();
       const pendingTxnType = "redeeming";
       uaData.txHash = redeemTx.hash;
@@ -58,15 +74,8 @@ export const redeemBalance = createAsyncThunk(
       return;
     } finally {
       if (redeemTx) {
-        trackSegmentEvent(uaData);
-        trackGAEvent({
-          category: "Olympus Give",
-          action: uaData.type,
-          label: uaData.txHash ?? "unknown",
-          dimension1: uaData.txHash ?? "unknown",
-          dimension2: uaData.address,
-          metric1: parseFloat(uaData.value),
-        });
+        trackGiveEvent(uaData);
+
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
@@ -99,11 +108,14 @@ export const redeemMockBalance = createAsyncThunk(
       value: redeemableBalance,
       approved: true,
       txHash: null,
-      type: "",
+      type: "redeem",
     };
 
+    // Before we submit the transaction, record the event.
+    // This lets us track if the user rejects/ignores the confirmation dialog.
+    trackGiveEvent(uaData, uaData.type + "-before");
+
     try {
-      uaData.type = "redeem";
       redeemTx = await giving.redeem();
       const pendingTxnType = "redeeming";
       uaData.txHash = redeemTx.hash;
@@ -120,15 +132,8 @@ export const redeemMockBalance = createAsyncThunk(
       return;
     } finally {
       if (redeemTx) {
-        trackSegmentEvent(uaData);
-        trackGAEvent({
-          category: "Olympus Give",
-          action: uaData.type,
-          label: uaData.txHash ?? "unknown",
-          dimension1: uaData.txHash ?? "unknown",
-          dimension2: uaData.address,
-          metric1: parseFloat(uaData.value),
-        });
+        trackGiveEvent(uaData);
+
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }

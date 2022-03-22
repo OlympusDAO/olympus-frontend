@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
-import { EnvHelper } from "src/helpers/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { loadAccountDetails } from "src/slices/AccountSlice";
@@ -32,7 +32,7 @@ export default function RedeemYield() {
   const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
 
   const redeemableBalance = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
       ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
       : state.account.redeeming && state.account.redeeming.sohmRedeemable;
   });
@@ -131,7 +131,7 @@ export default function RedeemYield() {
   };
 
   const handleRedeemYieldModalSubmit = async () => {
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
       await dispatch(redeemMockBalance({ address, provider, networkID: networkId, eventSource: "Redeem" }));
     } else {
       await dispatch(redeemBalance({ address, provider, networkID: networkId, eventSource: "Redeem" }));
