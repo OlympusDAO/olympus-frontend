@@ -19,6 +19,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
 import { ReactComponent as Fullscreen } from "src/assets/icons/fullscreen.svg";
 import { formatCurrency, trim } from "src/helpers";
 
@@ -45,7 +46,7 @@ const renderAreaChart = (
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
   isPOL: boolean,
-  margin: any,
+  margin: CategoricalChartProps["margin"],
 ) => (
   <AreaChart data={data} margin={margin}>
     <defs>
@@ -106,7 +107,7 @@ const renderStackedAreaChart = (
   itemType: string,
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
-  margin: any,
+  margin: CategoricalChartProps["margin"],
 ) => (
   <AreaChart data={data} margin={margin}>
     <defs>
@@ -234,7 +235,7 @@ const renderLineChart = (
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
   scale: string,
-  margin: any,
+  margin: CategoricalChartProps["margin"],
 ) => (
   <LineChart data={data} margin={margin}>
     <XAxis
@@ -278,7 +279,7 @@ const renderMultiLineChart = (
   itemType: string,
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
-  margin: any,
+  margin: CategoricalChartProps["margin"],
 ) => (
   <LineChart data={data} margin={margin}>
     <XAxis
@@ -322,7 +323,7 @@ const renderBarChart = (
   itemType: string,
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
-  margin: any,
+  margin: CategoricalChartProps["margin"],
 ) => (
   <BarChart data={data} margin={margin}>
     <XAxis
@@ -370,7 +371,12 @@ function Chart({
   infoTooltipMessage,
   expandedGraphStrokeColor,
   isPOL,
-  margin = {},
+  margin = {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  },
 }: {
   type: string;
   data: any[];
@@ -389,7 +395,7 @@ function Chart({
   infoTooltipMessage: string;
   expandedGraphStrokeColor: string;
   isPOL: boolean;
-  margin?: any;
+  margin?: CategoricalChartProps["margin"];
 }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
