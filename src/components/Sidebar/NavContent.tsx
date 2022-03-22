@@ -39,7 +39,7 @@ const NavContent: React.VFC = () => {
             <div className="dapp-nav" id="navbarNav">
               {networkId === networks.MAINNET ? (
                 <>
-                  <NavItem to="/dashboard" icon={"dashboard"} label={t`Dashboard`} />
+                  <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
 
                   <NavItem to="/bonds" icon="bond" label={t`Bond`} />
 
