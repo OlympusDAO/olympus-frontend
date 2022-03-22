@@ -52,7 +52,7 @@ exports[`<StakeBalances/> should render balances and rebase info 1`] = `
             id="user-staked-balance"
             style="text-align: right;"
           >
-            120,628.0000 sOHM
+            134,228.0000 sOHM
           </p>
         </div>
       </div>
@@ -224,6 +224,26 @@ exports[`<StakeBalances/> should render balances and rebase info 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
                   >
+                    gOHM (Optimism)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  style="text-align: right;"
+                >
+                  136.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-12"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
                     gOHM (Tokemak)
                   </p>
                 </div>
@@ -239,7 +259,7 @@ exports[`<StakeBalances/> should render balances and rebase info 1`] = `
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-12"
+                  class="MuiBox-root MuiBox-root-13"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
@@ -259,7 +279,7 @@ exports[`<StakeBalances/> should render balances and rebase info 1`] = `
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-13"
+                  class="MuiBox-root MuiBox-root-14"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
@@ -279,7 +299,7 @@ exports[`<StakeBalances/> should render balances and rebase info 1`] = `
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-14"
+                  class="MuiBox-root MuiBox-root-15"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
@@ -299,7 +319,7 @@ exports[`<StakeBalances/> should render balances and rebase info 1`] = `
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-15"
+                  class="MuiBox-root MuiBox-root-16"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
@@ -319,7 +339,7 @@ exports[`<StakeBalances/> should render balances and rebase info 1`] = `
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-16"
+                  class="MuiBox-root MuiBox-root-17"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"

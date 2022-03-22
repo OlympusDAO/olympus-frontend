@@ -297,6 +297,7 @@
   }
 
   .multifarm-widget-tabs__tab {
+    font-weight: 500;
     font-size: 0.85rem;
     &[data-active="true"] {
       border-radius: 6px;
@@ -306,6 +307,10 @@
 }
 
 .light {
+  .multifarm-widget-accordion {
+    background: var(--light-paper-bg);
+  }
+
   .multifarm-widget-chart-tooltip__trigger {
     cursor: pointer;
     &:hover {
@@ -323,6 +328,10 @@
 }
 
 .dark {
+  .multifarm-widget-accordion {
+    background: var(--dark-paper-bg);
+  }
+
   .multifarm-widget-chart-tooltip__trigger {
     cursor: pointer;
     &:hover {

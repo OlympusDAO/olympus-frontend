@@ -9,14 +9,14 @@ exports[`<App/> should not render a connection error message when user wallet is
       <div />
     </div>
     <header
-      class="MuiPaper-root MuiAppBar-root MuiAppBar-positionSticky MuiAppBar-colorPrimary makeStyles-appBar-190 MuiPaper-elevation0"
+      class="MuiPaper-root MuiAppBar-root MuiAppBar-positionSticky MuiAppBar-colorPrimary makeStyles-appBar-179 MuiPaper-elevation0"
     >
       <div
         class="MuiToolbar-root MuiToolbar-regular dapp-topbar"
       >
         <button
           aria-label="open drawer"
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-menuButton-191 MuiButton-containedSecondary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-menuButton-180 MuiButton-containedSecondary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
           id="hamburger"
           tabindex="0"
           type="button"
@@ -35,13 +35,14 @@ exports[`<App/> should not render a connection error message when user wallet is
           </span>
         </button>
         <div
-          class="MuiBox-root MuiBox-root-192"
+          class="MuiBox-root MuiBox-root-181"
         >
-          <button
+          <a
+            aria-disabled="false"
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
+            href="/#/wallet"
             id="ohm-menu-button"
             tabindex="0"
-            type="button"
           >
             <span
               class="MuiButton-label"
@@ -58,14 +59,10 @@ exports[`<App/> should not render a connection error message when user wallet is
               <p
                 class="MuiTypography-root MuiTypography-body1"
               >
-                Connect Wallet
+                Connect
               </p>
             </span>
-          </button>
-          <div
-            class="PrivateSwipeArea-root-195 PrivateSwipeArea-anchorRight-197"
-            style="width: 20px;"
-          />
+          </a>
           <button
             class="MuiButtonBase-root MuiToggleButton-root toggle-button"
             tabindex="0"
@@ -90,7 +87,7 @@ exports[`<App/> should not render a connection error message when user wallet is
           </button>
           <button
             aria-describedby="locales-popper"
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-toggleButton-201 MuiButton-containedSecondary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-toggleButton-183 MuiButton-containedSecondary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
             tabindex="0"
             title="Change locale"
             type="button"
@@ -137,7 +134,7 @@ exports[`<App/> should not render a connection error message when user wallet is
       </div>
     </header>
     <nav
-      class="makeStyles-drawer-112"
+      class="makeStyles-drawer-103"
     >
       <div
         class="sidebar"
@@ -153,13 +150,13 @@ exports[`<App/> should not render a connection error message when user wallet is
               class="MuiPaper-root dapp-sidebar MuiPaper-elevation0 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-204 dapp-sidebar-inner"
+                class="MuiBox-root MuiBox-root-186 dapp-sidebar-inner"
               >
                 <div
                   class="dapp-menu-top"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-205 branding-header"
+                    class="MuiBox-root MuiBox-root-187 branding-header"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -185,7 +182,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                       id="navbarNav"
                     >
                       <div
-                        class="makeStyles-root-206 nav-item-container"
+                        class="makeStyles-root-188 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -195,7 +192,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-207"
+                              class="MuiBox-root MuiBox-root-189"
                             >
                               <div>
                                 <svg
@@ -215,7 +212,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-206 nav-item-container"
+                        class="makeStyles-root-188 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -225,7 +222,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-208"
+                              class="MuiBox-root MuiBox-root-190"
                             >
                               <div>
                                 <svg
@@ -252,7 +249,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                         />
                       </div>
                       <div
-                        class="makeStyles-root-206 nav-item-container"
+                        class="makeStyles-root-188 nav-item-container"
                       >
                         <a
                           aria-current="page"
@@ -263,7 +260,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-209"
+                              class="MuiBox-root MuiBox-root-191"
                             >
                               <div>
                                 <svg
@@ -283,7 +280,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-206 nav-item-container"
+                        class="makeStyles-root-188 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -293,7 +290,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-210"
+                              class="MuiBox-root MuiBox-root-192"
                             >
                               <div>
                                 <svg
@@ -313,7 +310,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-206 nav-item-container"
+                        class="makeStyles-root-188 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -323,7 +320,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-211"
+                              class="MuiBox-root MuiBox-root-193"
                             >
                               <div>
                                 <svg
@@ -352,7 +349,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-206 nav-item-container"
+                        class="makeStyles-root-188 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -362,7 +359,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-212"
+                              class="MuiBox-root MuiBox-root-194"
                             >
                               <div>
                                 <svg
@@ -382,7 +379,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-206 nav-item-container"
+                        class="makeStyles-root-188 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -393,7 +390,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-213"
+                              class="MuiBox-root MuiBox-root-195"
                             >
                               <div>
                                 <svg
@@ -423,14 +420,14 @@ exports[`<App/> should not render a connection error message when user wallet is
                         </a>
                       </div>
                       <div
-                        class="MuiBox-root MuiBox-root-214 menu-divider"
+                        class="MuiBox-root MuiBox-root-196 menu-divider"
                       >
                         <hr
                           class="MuiDivider-root"
                         />
                       </div>
                       <div
-                        class="makeStyles-root-206 nav-item-container"
+                        class="makeStyles-root-188 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -441,7 +438,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-215"
+                              class="MuiBox-root MuiBox-root-197"
                             >
                               <div>
                                 <svg
@@ -471,14 +468,14 @@ exports[`<App/> should not render a connection error message when user wallet is
                         </a>
                       </div>
                       <div
-                        class="MuiBox-root MuiBox-root-216 menu-divider"
+                        class="MuiBox-root MuiBox-root-198 menu-divider"
                       >
                         <hr
                           class="MuiDivider-root"
                         />
                       </div>
                       <div
-                        class="makeStyles-root-206 nav-item-container"
+                        class="makeStyles-root-188 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -489,7 +486,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-217"
+                              class="MuiBox-root MuiBox-root-199"
                             >
                               <div>
                                 <svg
@@ -519,7 +516,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-206 nav-item-container"
+                        class="makeStyles-root-188 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -530,7 +527,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-218"
+                              class="MuiBox-root MuiBox-root-200"
                             >
                               <div>
                                 <svg
@@ -560,7 +557,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-206 nav-item-container"
+                        class="makeStyles-root-188 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -571,7 +568,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-219"
+                              class="MuiBox-root MuiBox-root-201"
                             >
                               <div>
                                 <svg
@@ -601,7 +598,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-206 nav-item-container"
+                        class="makeStyles-root-188 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -612,7 +609,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-220"
+                              class="MuiBox-root MuiBox-root-202"
                             >
                               <div>
                                 <svg
@@ -642,7 +639,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-206 nav-item-container"
+                        class="makeStyles-root-188 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -653,7 +650,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-221"
+                              class="MuiBox-root MuiBox-root-203"
                             >
                               <div>
                                 <svg
@@ -686,7 +683,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-222 dapp-menu-social"
+                  class="MuiBox-root MuiBox-root-204 dapp-menu-social"
                 >
                   <div
                     class="social-row"
@@ -764,13 +761,13 @@ exports[`<App/> should not render a connection error message when user wallet is
       </div>
     </nav>
     <div
-      class="makeStyles-content-113 false"
+      class="makeStyles-content-104 false"
     >
       <div
         id="stake-view"
       >
         <div
-          class="MuiPaper-root makeStyles-root-223 makeStyles-root-224  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-205 makeStyles-root-206  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -780,10 +777,10 @@ exports[`<App/> should not render a connection error message when user wallet is
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-225"
+                class="MuiBox-root MuiBox-root-207"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-226"
+                  class="MuiBox-root MuiBox-root-208"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -796,10 +793,10 @@ exports[`<App/> should not render a connection error message when user wallet is
                 />
               </div>
               <div
-                class="MuiBox-root MuiBox-root-227"
+                class="MuiBox-root MuiBox-root-209"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-228 rebase-timer"
+                  class="MuiBox-root MuiBox-root-210 rebase-timer"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2"
@@ -822,7 +819,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                   class="MuiGrid-root MuiGrid-item"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-229"
+                    class="MuiBox-root MuiBox-root-211"
                   >
                     <div
                       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
@@ -831,10 +828,10 @@ exports[`<App/> should not render a connection error message when user wallet is
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                       >
                         <div
-                          class="makeStyles-root-230 stake-apy"
+                          class="makeStyles-root-212 stake-apy"
                         >
                           <div
-                            class="MuiBox-root MuiBox-root-231"
+                            class="MuiBox-root MuiBox-root-213"
                           >
                             <h5
                               class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
@@ -857,10 +854,10 @@ exports[`<App/> should not render a connection error message when user wallet is
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                       >
                         <div
-                          class="makeStyles-root-230 stake-tvl"
+                          class="makeStyles-root-212 stake-tvl"
                         >
                           <div
-                            class="MuiBox-root MuiBox-root-232"
+                            class="MuiBox-root MuiBox-root-214"
                           >
                             <h5
                               class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
@@ -883,21 +880,21 @@ exports[`<App/> should not render a connection error message when user wallet is
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                       >
                         <div
-                          class="makeStyles-root-230 stake-index"
+                          class="makeStyles-root-212 stake-index"
                         >
                           <div
-                            class="MuiBox-root MuiBox-root-233"
+                            class="MuiBox-root MuiBox-root-215"
                           >
                             <h5
                               class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
                             >
                               Current Index
                               <div
-                                class="MuiBox-root MuiBox-root-234"
+                                class="MuiBox-root MuiBox-root-216"
                                 style="font-size: 16px;"
                               >
                                 <div
-                                  class="MuiBox-root MuiBox-root-235"
+                                  class="MuiBox-root MuiBox-root-217"
                                   style="display: inline-flex; justify-content: center; align-self: center;"
                                 >
                                   <svg
@@ -940,7 +937,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                       id="wallet-menu"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-236 makeStyles-root-237 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-218 makeStyles-root-219 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
                         style="font-size: 1.2857rem;"
                         tabindex="0"
                         type="button"
@@ -964,7 +961,7 @@ exports[`<App/> should not render a connection error message when user wallet is
           </div>
         </div>
         <div
-          class="MuiPaper-root makeStyles-root-223 makeStyles-root-242  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-205 makeStyles-root-224  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -974,10 +971,10 @@ exports[`<App/> should not render a connection error message when user wallet is
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-243"
+                class="MuiBox-root MuiBox-root-225"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-244"
+                  class="MuiBox-root MuiBox-root-226"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -994,38 +991,38 @@ exports[`<App/> should not render a connection error message when user wallet is
               class="MuiGrid-root MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-245 makeStyles-stakePoolsWrapper-238"
+                class="MuiBox-root MuiBox-root-227 makeStyles-stakePoolsWrapper-220"
                 style="gap: 12px; margin-bottom: 0.5rem;"
               >
                 <p
-                  class="MuiTypography-root makeStyles-stakePoolHeaderText-239 MuiTypography-body1"
+                  class="MuiTypography-root makeStyles-stakePoolHeaderText-221 MuiTypography-body1"
                   style="margin-left: 75px;"
                 >
                   Asset
                 </p>
                 <p
-                  class="MuiTypography-root makeStyles-stakePoolHeaderText-239 MuiTypography-body1"
+                  class="MuiTypography-root makeStyles-stakePoolHeaderText-221 MuiTypography-body1"
                   style="padding-left: 3px;"
                 >
                   TVL
                 </p>
                 <p
-                  class="MuiTypography-root makeStyles-stakePoolHeaderText-239 MuiTypography-body1"
+                  class="MuiTypography-root makeStyles-stakePoolHeaderText-221 MuiTypography-body1"
                 />
               </div>
               <div
-                class="MuiBox-root MuiBox-root-246"
+                class="MuiBox-root MuiBox-root-228"
                 style="gap: 32px; padding: 16px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-247 makeStyles-stakePoolsWrapper-238"
+                  class="MuiBox-root MuiBox-root-229 makeStyles-stakePoolsWrapper-220"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-248"
+                    class="MuiBox-root MuiBox-root-230"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-249"
+                      class="MuiBox-root MuiBox-root-231"
                     >
                       <svg
                         aria-hidden="true"
@@ -1114,11 +1111,11 @@ exports[`<App/> should not render a connection error message when user wallet is
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root MuiBox-root-251"
+                    class="MuiBox-root MuiBox-root-233"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-236 makeStyles-root-252 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-218 makeStyles-root-234 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                       href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                       tabindex="0"
                       target="_blank"
@@ -1148,14 +1145,14 @@ exports[`<App/> should not render a connection error message when user wallet is
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-253 makeStyles-stakePoolsWrapper-238"
+                  class="MuiBox-root MuiBox-root-235 makeStyles-stakePoolsWrapper-220"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-254"
+                    class="MuiBox-root MuiBox-root-236"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-255"
+                      class="MuiBox-root MuiBox-root-237"
                     >
                       <svg
                         aria-hidden="true"
@@ -1274,11 +1271,11 @@ exports[`<App/> should not render a connection error message when user wallet is
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root MuiBox-root-256"
+                    class="MuiBox-root MuiBox-root-238"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-236 makeStyles-root-257 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-218 makeStyles-root-239 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                       href="https://app.sushi.com/farm?filter=2x"
                       tabindex="0"
                       target="_blank"
@@ -1308,14 +1305,14 @@ exports[`<App/> should not render a connection error message when user wallet is
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-258 makeStyles-stakePoolsWrapper-238"
+                  class="MuiBox-root MuiBox-root-240 makeStyles-stakePoolsWrapper-220"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-259"
+                    class="MuiBox-root MuiBox-root-241"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-260"
+                      class="MuiBox-root MuiBox-root-242"
                     >
                       <svg
                         aria-hidden="true"
@@ -1434,11 +1431,11 @@ exports[`<App/> should not render a connection error message when user wallet is
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root MuiBox-root-261"
+                    class="MuiBox-root MuiBox-root-243"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-236 makeStyles-root-262 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-218 makeStyles-root-244 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                       href="https://app.sushi.com/farm?filter=2x"
                       tabindex="0"
                       target="_blank"
@@ -1468,14 +1465,14 @@ exports[`<App/> should not render a connection error message when user wallet is
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-263 makeStyles-stakePoolsWrapper-238"
+                  class="MuiBox-root MuiBox-root-245 makeStyles-stakePoolsWrapper-220"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-264"
+                    class="MuiBox-root MuiBox-root-246"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-265"
+                      class="MuiBox-root MuiBox-root-247"
                     >
                       <svg
                         aria-hidden="true"
@@ -1596,11 +1593,11 @@ exports[`<App/> should not render a connection error message when user wallet is
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root MuiBox-root-266"
+                    class="MuiBox-root MuiBox-root-248"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-236 makeStyles-root-267 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-218 makeStyles-root-249 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                       href="https://app.spiritswap.finance/#/farms/allfarms"
                       tabindex="0"
                       target="_blank"
@@ -1648,14 +1645,14 @@ exports[`<App/> should not render an error message when user wallet is connected
       <div />
     </div>
     <header
-      class="MuiPaper-root MuiAppBar-root MuiAppBar-positionSticky MuiAppBar-colorPrimary makeStyles-appBar-34 MuiPaper-elevation0"
+      class="MuiPaper-root MuiAppBar-root MuiAppBar-positionSticky MuiAppBar-colorPrimary makeStyles-appBar-32 MuiPaper-elevation0"
     >
       <div
         class="MuiToolbar-root MuiToolbar-regular dapp-topbar"
       >
         <button
           aria-label="open drawer"
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-menuButton-35 MuiButton-containedSecondary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-menuButton-33 MuiButton-containedSecondary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
           id="hamburger"
           tabindex="0"
           type="button"
@@ -1674,13 +1671,14 @@ exports[`<App/> should not render an error message when user wallet is connected
           </span>
         </button>
         <div
-          class="MuiBox-root MuiBox-root-36"
+          class="MuiBox-root MuiBox-root-34"
         >
-          <button
+          <a
+            aria-disabled="false"
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
+            href="/#/wallet"
             id="ohm-menu-button"
             tabindex="0"
-            type="button"
           >
             <span
               class="MuiButton-label"
@@ -1697,14 +1695,10 @@ exports[`<App/> should not render an error message when user wallet is connected
               <p
                 class="MuiTypography-root MuiTypography-body1"
               >
-                Connect Wallet
+                Connect
               </p>
             </span>
-          </button>
-          <div
-            class="PrivateSwipeArea-root-39 PrivateSwipeArea-anchorRight-41"
-            style="width: 20px;"
-          />
+          </a>
           <button
             class="MuiButtonBase-root MuiToggleButton-root toggle-button"
             tabindex="0"
@@ -1729,7 +1723,7 @@ exports[`<App/> should not render an error message when user wallet is connected
           </button>
           <button
             aria-describedby="locales-popper"
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-toggleButton-45 MuiButton-containedSecondary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-toggleButton-36 MuiButton-containedSecondary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
             tabindex="0"
             title="Change locale"
             type="button"
@@ -1792,13 +1786,13 @@ exports[`<App/> should not render an error message when user wallet is connected
               class="MuiPaper-root dapp-sidebar MuiPaper-elevation0 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-48 dapp-sidebar-inner"
+                class="MuiBox-root MuiBox-root-39 dapp-sidebar-inner"
               >
                 <div
                   class="dapp-menu-top"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-49 branding-header"
+                    class="MuiBox-root MuiBox-root-40 branding-header"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -1824,7 +1818,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                       id="navbarNav"
                     >
                       <div
-                        class="makeStyles-root-50 nav-item-container"
+                        class="makeStyles-root-41 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -1834,7 +1828,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-51"
+                              class="MuiBox-root MuiBox-root-42"
                             >
                               <div>
                                 <svg
@@ -1854,7 +1848,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-50 nav-item-container"
+                        class="makeStyles-root-41 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -1864,7 +1858,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-52"
+                              class="MuiBox-root MuiBox-root-43"
                             >
                               <div>
                                 <svg
@@ -1891,7 +1885,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                         />
                       </div>
                       <div
-                        class="makeStyles-root-50 nav-item-container"
+                        class="makeStyles-root-41 nav-item-container"
                       >
                         <a
                           aria-current="page"
@@ -1902,7 +1896,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-53"
+                              class="MuiBox-root MuiBox-root-44"
                             >
                               <div>
                                 <svg
@@ -1922,7 +1916,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-50 nav-item-container"
+                        class="makeStyles-root-41 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -1932,7 +1926,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-54"
+                              class="MuiBox-root MuiBox-root-45"
                             >
                               <div>
                                 <svg
@@ -1952,7 +1946,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-50 nav-item-container"
+                        class="makeStyles-root-41 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -1962,7 +1956,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-55"
+                              class="MuiBox-root MuiBox-root-46"
                             >
                               <div>
                                 <svg
@@ -1991,7 +1985,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-50 nav-item-container"
+                        class="makeStyles-root-41 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -2001,7 +1995,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-56"
+                              class="MuiBox-root MuiBox-root-47"
                             >
                               <div>
                                 <svg
@@ -2021,7 +2015,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-50 nav-item-container"
+                        class="makeStyles-root-41 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -2032,7 +2026,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-57"
+                              class="MuiBox-root MuiBox-root-48"
                             >
                               <div>
                                 <svg
@@ -2062,14 +2056,14 @@ exports[`<App/> should not render an error message when user wallet is connected
                         </a>
                       </div>
                       <div
-                        class="MuiBox-root MuiBox-root-58 menu-divider"
+                        class="MuiBox-root MuiBox-root-49 menu-divider"
                       >
                         <hr
                           class="MuiDivider-root"
                         />
                       </div>
                       <div
-                        class="makeStyles-root-50 nav-item-container"
+                        class="makeStyles-root-41 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -2080,7 +2074,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-59"
+                              class="MuiBox-root MuiBox-root-50"
                             >
                               <div>
                                 <svg
@@ -2110,14 +2104,14 @@ exports[`<App/> should not render an error message when user wallet is connected
                         </a>
                       </div>
                       <div
-                        class="MuiBox-root MuiBox-root-60 menu-divider"
+                        class="MuiBox-root MuiBox-root-51 menu-divider"
                       >
                         <hr
                           class="MuiDivider-root"
                         />
                       </div>
                       <div
-                        class="makeStyles-root-50 nav-item-container"
+                        class="makeStyles-root-41 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -2128,7 +2122,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-61"
+                              class="MuiBox-root MuiBox-root-52"
                             >
                               <div>
                                 <svg
@@ -2158,7 +2152,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-50 nav-item-container"
+                        class="makeStyles-root-41 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -2169,7 +2163,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-62"
+                              class="MuiBox-root MuiBox-root-53"
                             >
                               <div>
                                 <svg
@@ -2199,7 +2193,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-50 nav-item-container"
+                        class="makeStyles-root-41 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -2210,7 +2204,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-63"
+                              class="MuiBox-root MuiBox-root-54"
                             >
                               <div>
                                 <svg
@@ -2240,7 +2234,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-50 nav-item-container"
+                        class="makeStyles-root-41 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -2251,7 +2245,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-64"
+                              class="MuiBox-root MuiBox-root-55"
                             >
                               <div>
                                 <svg
@@ -2281,7 +2275,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-50 nav-item-container"
+                        class="makeStyles-root-41 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -2292,7 +2286,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-65"
+                              class="MuiBox-root MuiBox-root-56"
                             >
                               <div>
                                 <svg
@@ -2325,7 +2319,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-66 dapp-menu-social"
+                  class="MuiBox-root MuiBox-root-57 dapp-menu-social"
                 >
                   <div
                     class="social-row"
@@ -2409,7 +2403,7 @@ exports[`<App/> should not render an error message when user wallet is connected
         id="stake-view"
       >
         <div
-          class="MuiPaper-root makeStyles-root-67 makeStyles-root-68  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-58 makeStyles-root-59  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -2419,10 +2413,10 @@ exports[`<App/> should not render an error message when user wallet is connected
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-69"
+                class="MuiBox-root MuiBox-root-60"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-70"
+                  class="MuiBox-root MuiBox-root-61"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -2435,10 +2429,10 @@ exports[`<App/> should not render an error message when user wallet is connected
                 />
               </div>
               <div
-                class="MuiBox-root MuiBox-root-71"
+                class="MuiBox-root MuiBox-root-62"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-72 rebase-timer"
+                  class="MuiBox-root MuiBox-root-63 rebase-timer"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2"
@@ -2461,7 +2455,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                   class="MuiGrid-root MuiGrid-item"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-73"
+                    class="MuiBox-root MuiBox-root-64"
                   >
                     <div
                       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
@@ -2470,10 +2464,10 @@ exports[`<App/> should not render an error message when user wallet is connected
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                       >
                         <div
-                          class="makeStyles-root-74 stake-apy"
+                          class="makeStyles-root-65 stake-apy"
                         >
                           <div
-                            class="MuiBox-root MuiBox-root-75"
+                            class="MuiBox-root MuiBox-root-66"
                           >
                             <h5
                               class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
@@ -2496,10 +2490,10 @@ exports[`<App/> should not render an error message when user wallet is connected
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                       >
                         <div
-                          class="makeStyles-root-74 stake-tvl"
+                          class="makeStyles-root-65 stake-tvl"
                         >
                           <div
-                            class="MuiBox-root MuiBox-root-76"
+                            class="MuiBox-root MuiBox-root-67"
                           >
                             <h5
                               class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
@@ -2522,21 +2516,21 @@ exports[`<App/> should not render an error message when user wallet is connected
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                       >
                         <div
-                          class="makeStyles-root-74 stake-index"
+                          class="makeStyles-root-65 stake-index"
                         >
                           <div
-                            class="MuiBox-root MuiBox-root-77"
+                            class="MuiBox-root MuiBox-root-68"
                           >
                             <h5
                               class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
                             >
                               Current Index
                               <div
-                                class="MuiBox-root MuiBox-root-78"
+                                class="MuiBox-root MuiBox-root-69"
                                 style="font-size: 16px;"
                               >
                                 <div
-                                  class="MuiBox-root MuiBox-root-79"
+                                  class="MuiBox-root MuiBox-root-70"
                                   style="display: inline-flex; justify-content: center; align-self: center;"
                                 >
                                   <svg
@@ -2579,7 +2573,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                       id="wallet-menu"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-80 makeStyles-root-81 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-71 makeStyles-root-72 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
                         style="font-size: 1.2857rem;"
                         tabindex="0"
                         type="button"
@@ -2603,7 +2597,7 @@ exports[`<App/> should not render an error message when user wallet is connected
           </div>
         </div>
         <div
-          class="MuiPaper-root makeStyles-root-67 makeStyles-root-86  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-58 makeStyles-root-77  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -2613,10 +2607,10 @@ exports[`<App/> should not render an error message when user wallet is connected
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-87"
+                class="MuiBox-root MuiBox-root-78"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-88"
+                  class="MuiBox-root MuiBox-root-79"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -2633,38 +2627,38 @@ exports[`<App/> should not render an error message when user wallet is connected
               class="MuiGrid-root MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-89 makeStyles-stakePoolsWrapper-82"
+                class="MuiBox-root MuiBox-root-80 makeStyles-stakePoolsWrapper-73"
                 style="gap: 12px; margin-bottom: 0.5rem;"
               >
                 <p
-                  class="MuiTypography-root makeStyles-stakePoolHeaderText-83 MuiTypography-body1"
+                  class="MuiTypography-root makeStyles-stakePoolHeaderText-74 MuiTypography-body1"
                   style="margin-left: 75px;"
                 >
                   Asset
                 </p>
                 <p
-                  class="MuiTypography-root makeStyles-stakePoolHeaderText-83 MuiTypography-body1"
+                  class="MuiTypography-root makeStyles-stakePoolHeaderText-74 MuiTypography-body1"
                   style="padding-left: 3px;"
                 >
                   TVL
                 </p>
                 <p
-                  class="MuiTypography-root makeStyles-stakePoolHeaderText-83 MuiTypography-body1"
+                  class="MuiTypography-root makeStyles-stakePoolHeaderText-74 MuiTypography-body1"
                 />
               </div>
               <div
-                class="MuiBox-root MuiBox-root-90"
+                class="MuiBox-root MuiBox-root-81"
                 style="gap: 32px; padding: 16px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-91 makeStyles-stakePoolsWrapper-82"
+                  class="MuiBox-root MuiBox-root-82 makeStyles-stakePoolsWrapper-73"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-92"
+                    class="MuiBox-root MuiBox-root-83"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-93"
+                      class="MuiBox-root MuiBox-root-84"
                     >
                       <svg
                         aria-hidden="true"
@@ -2753,11 +2747,11 @@ exports[`<App/> should not render an error message when user wallet is connected
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root MuiBox-root-95"
+                    class="MuiBox-root MuiBox-root-86"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-80 makeStyles-root-96 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-71 makeStyles-root-87 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                       href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                       tabindex="0"
                       target="_blank"
@@ -2787,14 +2781,14 @@ exports[`<App/> should not render an error message when user wallet is connected
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-97 makeStyles-stakePoolsWrapper-82"
+                  class="MuiBox-root MuiBox-root-88 makeStyles-stakePoolsWrapper-73"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-98"
+                    class="MuiBox-root MuiBox-root-89"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-99"
+                      class="MuiBox-root MuiBox-root-90"
                     >
                       <svg
                         aria-hidden="true"
@@ -2913,11 +2907,11 @@ exports[`<App/> should not render an error message when user wallet is connected
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root MuiBox-root-100"
+                    class="MuiBox-root MuiBox-root-91"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-80 makeStyles-root-101 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-71 makeStyles-root-92 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                       href="https://app.sushi.com/farm?filter=2x"
                       tabindex="0"
                       target="_blank"
@@ -2947,14 +2941,14 @@ exports[`<App/> should not render an error message when user wallet is connected
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-102 makeStyles-stakePoolsWrapper-82"
+                  class="MuiBox-root MuiBox-root-93 makeStyles-stakePoolsWrapper-73"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-103"
+                    class="MuiBox-root MuiBox-root-94"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-104"
+                      class="MuiBox-root MuiBox-root-95"
                     >
                       <svg
                         aria-hidden="true"
@@ -3073,11 +3067,11 @@ exports[`<App/> should not render an error message when user wallet is connected
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root MuiBox-root-105"
+                    class="MuiBox-root MuiBox-root-96"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-80 makeStyles-root-106 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-71 makeStyles-root-97 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                       href="https://app.sushi.com/farm?filter=2x"
                       tabindex="0"
                       target="_blank"
@@ -3107,14 +3101,14 @@ exports[`<App/> should not render an error message when user wallet is connected
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-107 makeStyles-stakePoolsWrapper-82"
+                  class="MuiBox-root MuiBox-root-98 makeStyles-stakePoolsWrapper-73"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-108"
+                    class="MuiBox-root MuiBox-root-99"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-109"
+                      class="MuiBox-root MuiBox-root-100"
                     >
                       <svg
                         aria-hidden="true"
@@ -3235,11 +3229,11 @@ exports[`<App/> should not render an error message when user wallet is connected
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root MuiBox-root-110"
+                    class="MuiBox-root MuiBox-root-101"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-80 makeStyles-root-111 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-71 makeStyles-root-102 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                       href="https://app.spiritswap.finance/#/farms/allfarms"
                       tabindex="0"
                       target="_blank"
@@ -3287,14 +3281,14 @@ exports[`<App/> should render an error message when user wallet is connected and
       <div />
     </div>
     <header
-      class="MuiPaper-root MuiAppBar-root MuiAppBar-positionSticky MuiAppBar-colorPrimary makeStyles-appBar-359 MuiPaper-elevation0"
+      class="MuiPaper-root MuiAppBar-root MuiAppBar-positionSticky MuiAppBar-colorPrimary makeStyles-appBar-339 MuiPaper-elevation0"
     >
       <div
         class="MuiToolbar-root MuiToolbar-regular dapp-topbar"
       >
         <button
           aria-label="open drawer"
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-menuButton-360 MuiButton-containedSecondary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-menuButton-340 MuiButton-containedSecondary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
           id="hamburger"
           tabindex="0"
           type="button"
@@ -3313,13 +3307,14 @@ exports[`<App/> should render an error message when user wallet is connected and
           </span>
         </button>
         <div
-          class="MuiBox-root MuiBox-root-361"
+          class="MuiBox-root MuiBox-root-341"
         >
-          <button
+          <a
+            aria-disabled="false"
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
+            href="/#/wallet"
             id="ohm-menu-button"
             tabindex="0"
-            type="button"
           >
             <span
               class="MuiButton-label"
@@ -3336,14 +3331,10 @@ exports[`<App/> should render an error message when user wallet is connected and
               <p
                 class="MuiTypography-root MuiTypography-body1"
               >
-                Connect Wallet
+                Connect
               </p>
             </span>
-          </button>
-          <div
-            class="PrivateSwipeArea-root-364 PrivateSwipeArea-anchorRight-366"
-            style="width: 20px;"
-          />
+          </a>
           <button
             class="MuiButtonBase-root MuiToggleButton-root toggle-button"
             tabindex="0"
@@ -3368,7 +3359,7 @@ exports[`<App/> should render an error message when user wallet is connected and
           </button>
           <button
             aria-describedby="locales-popper"
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-toggleButton-370 MuiButton-containedSecondary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-toggleButton-343 MuiButton-containedSecondary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
             tabindex="0"
             title="Change locale"
             type="button"
@@ -3415,7 +3406,7 @@ exports[`<App/> should render an error message when user wallet is connected and
       </div>
     </header>
     <nav
-      class="makeStyles-drawer-281"
+      class="makeStyles-drawer-263"
     >
       <div
         class="sidebar"
@@ -3431,13 +3422,13 @@ exports[`<App/> should render an error message when user wallet is connected and
               class="MuiPaper-root dapp-sidebar MuiPaper-elevation0 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-373 dapp-sidebar-inner"
+                class="MuiBox-root MuiBox-root-346 dapp-sidebar-inner"
               >
                 <div
                   class="dapp-menu-top"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-374 branding-header"
+                    class="MuiBox-root MuiBox-root-347 branding-header"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -3463,7 +3454,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                       id="navbarNav"
                     >
                       <div
-                        class="makeStyles-root-375 nav-item-container"
+                        class="makeStyles-root-348 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -3473,7 +3464,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-376"
+                              class="MuiBox-root MuiBox-root-349"
                             >
                               <div>
                                 <svg
@@ -3493,7 +3484,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-375 nav-item-container"
+                        class="makeStyles-root-348 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -3503,7 +3494,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-377"
+                              class="MuiBox-root MuiBox-root-350"
                             >
                               <div>
                                 <svg
@@ -3530,7 +3521,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                         />
                       </div>
                       <div
-                        class="makeStyles-root-375 nav-item-container"
+                        class="makeStyles-root-348 nav-item-container"
                       >
                         <a
                           aria-current="page"
@@ -3541,7 +3532,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-378"
+                              class="MuiBox-root MuiBox-root-351"
                             >
                               <div>
                                 <svg
@@ -3561,7 +3552,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-375 nav-item-container"
+                        class="makeStyles-root-348 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -3571,7 +3562,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-379"
+                              class="MuiBox-root MuiBox-root-352"
                             >
                               <div>
                                 <svg
@@ -3591,7 +3582,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-375 nav-item-container"
+                        class="makeStyles-root-348 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -3601,7 +3592,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-380"
+                              class="MuiBox-root MuiBox-root-353"
                             >
                               <div>
                                 <svg
@@ -3630,7 +3621,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-375 nav-item-container"
+                        class="makeStyles-root-348 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
@@ -3640,7 +3631,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-381"
+                              class="MuiBox-root MuiBox-root-354"
                             >
                               <div>
                                 <svg
@@ -3660,7 +3651,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-375 nav-item-container"
+                        class="makeStyles-root-348 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -3671,7 +3662,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-382"
+                              class="MuiBox-root MuiBox-root-355"
                             >
                               <div>
                                 <svg
@@ -3701,14 +3692,14 @@ exports[`<App/> should render an error message when user wallet is connected and
                         </a>
                       </div>
                       <div
-                        class="MuiBox-root MuiBox-root-383 menu-divider"
+                        class="MuiBox-root MuiBox-root-356 menu-divider"
                       >
                         <hr
                           class="MuiDivider-root"
                         />
                       </div>
                       <div
-                        class="makeStyles-root-375 nav-item-container"
+                        class="makeStyles-root-348 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -3719,7 +3710,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-384"
+                              class="MuiBox-root MuiBox-root-357"
                             >
                               <div>
                                 <svg
@@ -3749,14 +3740,14 @@ exports[`<App/> should render an error message when user wallet is connected and
                         </a>
                       </div>
                       <div
-                        class="MuiBox-root MuiBox-root-385 menu-divider"
+                        class="MuiBox-root MuiBox-root-358 menu-divider"
                       >
                         <hr
                           class="MuiDivider-root"
                         />
                       </div>
                       <div
-                        class="makeStyles-root-375 nav-item-container"
+                        class="makeStyles-root-348 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -3767,7 +3758,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-386"
+                              class="MuiBox-root MuiBox-root-359"
                             >
                               <div>
                                 <svg
@@ -3797,7 +3788,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-375 nav-item-container"
+                        class="makeStyles-root-348 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -3808,7 +3799,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-387"
+                              class="MuiBox-root MuiBox-root-360"
                             >
                               <div>
                                 <svg
@@ -3838,7 +3829,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-375 nav-item-container"
+                        class="makeStyles-root-348 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -3849,7 +3840,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-388"
+                              class="MuiBox-root MuiBox-root-361"
                             >
                               <div>
                                 <svg
@@ -3879,7 +3870,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-375 nav-item-container"
+                        class="makeStyles-root-348 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -3890,7 +3881,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-389"
+                              class="MuiBox-root MuiBox-root-362"
                             >
                               <div>
                                 <svg
@@ -3920,7 +3911,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-375 nav-item-container"
+                        class="makeStyles-root-348 nav-item-container"
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -3931,7 +3922,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiTypography-root MuiTypography-h6"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-390"
+                              class="MuiBox-root MuiBox-root-363"
                             >
                               <div>
                                 <svg
@@ -3964,7 +3955,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-391 dapp-menu-social"
+                  class="MuiBox-root MuiBox-root-364 dapp-menu-social"
                 >
                   <div
                     class="social-row"
@@ -4042,13 +4033,13 @@ exports[`<App/> should render an error message when user wallet is connected and
       </div>
     </nav>
     <div
-      class="makeStyles-content-282 false"
+      class="makeStyles-content-264 false"
     >
       <div
         id="stake-view"
       >
         <div
-          class="MuiPaper-root makeStyles-root-392 makeStyles-root-393  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-365 makeStyles-root-366  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -4058,10 +4049,10 @@ exports[`<App/> should render an error message when user wallet is connected and
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-394"
+                class="MuiBox-root MuiBox-root-367"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-395"
+                  class="MuiBox-root MuiBox-root-368"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -4074,10 +4065,10 @@ exports[`<App/> should render an error message when user wallet is connected and
                 />
               </div>
               <div
-                class="MuiBox-root MuiBox-root-396"
+                class="MuiBox-root MuiBox-root-369"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-397 rebase-timer"
+                  class="MuiBox-root MuiBox-root-370 rebase-timer"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2"
@@ -4100,7 +4091,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                   class="MuiGrid-root MuiGrid-item"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-398"
+                    class="MuiBox-root MuiBox-root-371"
                   >
                     <div
                       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
@@ -4109,10 +4100,10 @@ exports[`<App/> should render an error message when user wallet is connected and
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                       >
                         <div
-                          class="makeStyles-root-399 stake-apy"
+                          class="makeStyles-root-372 stake-apy"
                         >
                           <div
-                            class="MuiBox-root MuiBox-root-400"
+                            class="MuiBox-root MuiBox-root-373"
                           >
                             <h5
                               class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
@@ -4135,10 +4126,10 @@ exports[`<App/> should render an error message when user wallet is connected and
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                       >
                         <div
-                          class="makeStyles-root-399 stake-tvl"
+                          class="makeStyles-root-372 stake-tvl"
                         >
                           <div
-                            class="MuiBox-root MuiBox-root-401"
+                            class="MuiBox-root MuiBox-root-374"
                           >
                             <h5
                               class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
@@ -4161,21 +4152,21 @@ exports[`<App/> should render an error message when user wallet is connected and
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                       >
                         <div
-                          class="makeStyles-root-399 stake-index"
+                          class="makeStyles-root-372 stake-index"
                         >
                           <div
-                            class="MuiBox-root MuiBox-root-402"
+                            class="MuiBox-root MuiBox-root-375"
                           >
                             <h5
                               class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
                             >
                               Current Index
                               <div
-                                class="MuiBox-root MuiBox-root-403"
+                                class="MuiBox-root MuiBox-root-376"
                                 style="font-size: 16px;"
                               >
                                 <div
-                                  class="MuiBox-root MuiBox-root-404"
+                                  class="MuiBox-root MuiBox-root-377"
                                   style="display: inline-flex; justify-content: center; align-self: center;"
                                 >
                                   <svg
@@ -4218,7 +4209,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                       id="wallet-menu"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-405 makeStyles-root-406 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-378 makeStyles-root-379 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
                         style="font-size: 1.2857rem;"
                         tabindex="0"
                         type="button"
@@ -4242,7 +4233,7 @@ exports[`<App/> should render an error message when user wallet is connected and
           </div>
         </div>
         <div
-          class="MuiPaper-root makeStyles-root-392 makeStyles-root-411  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-365 makeStyles-root-384  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -4252,10 +4243,10 @@ exports[`<App/> should render an error message when user wallet is connected and
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-412"
+                class="MuiBox-root MuiBox-root-385"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-413"
+                  class="MuiBox-root MuiBox-root-386"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -4272,38 +4263,38 @@ exports[`<App/> should render an error message when user wallet is connected and
               class="MuiGrid-root MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-414 makeStyles-stakePoolsWrapper-407"
+                class="MuiBox-root MuiBox-root-387 makeStyles-stakePoolsWrapper-380"
                 style="gap: 12px; margin-bottom: 0.5rem;"
               >
                 <p
-                  class="MuiTypography-root makeStyles-stakePoolHeaderText-408 MuiTypography-body1"
+                  class="MuiTypography-root makeStyles-stakePoolHeaderText-381 MuiTypography-body1"
                   style="margin-left: 75px;"
                 >
                   Asset
                 </p>
                 <p
-                  class="MuiTypography-root makeStyles-stakePoolHeaderText-408 MuiTypography-body1"
+                  class="MuiTypography-root makeStyles-stakePoolHeaderText-381 MuiTypography-body1"
                   style="padding-left: 3px;"
                 >
                   TVL
                 </p>
                 <p
-                  class="MuiTypography-root makeStyles-stakePoolHeaderText-408 MuiTypography-body1"
+                  class="MuiTypography-root makeStyles-stakePoolHeaderText-381 MuiTypography-body1"
                 />
               </div>
               <div
-                class="MuiBox-root MuiBox-root-415"
+                class="MuiBox-root MuiBox-root-388"
                 style="gap: 32px; padding: 16px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-416 makeStyles-stakePoolsWrapper-407"
+                  class="MuiBox-root MuiBox-root-389 makeStyles-stakePoolsWrapper-380"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-417"
+                    class="MuiBox-root MuiBox-root-390"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-418"
+                      class="MuiBox-root MuiBox-root-391"
                     >
                       <svg
                         aria-hidden="true"
@@ -4392,11 +4383,11 @@ exports[`<App/> should render an error message when user wallet is connected and
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root MuiBox-root-420"
+                    class="MuiBox-root MuiBox-root-393"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-405 makeStyles-root-421 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-378 makeStyles-root-394 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                       href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                       tabindex="0"
                       target="_blank"
@@ -4426,14 +4417,14 @@ exports[`<App/> should render an error message when user wallet is connected and
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-422 makeStyles-stakePoolsWrapper-407"
+                  class="MuiBox-root MuiBox-root-395 makeStyles-stakePoolsWrapper-380"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-423"
+                    class="MuiBox-root MuiBox-root-396"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-424"
+                      class="MuiBox-root MuiBox-root-397"
                     >
                       <svg
                         aria-hidden="true"
@@ -4552,11 +4543,11 @@ exports[`<App/> should render an error message when user wallet is connected and
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root MuiBox-root-425"
+                    class="MuiBox-root MuiBox-root-398"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-405 makeStyles-root-426 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-378 makeStyles-root-399 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                       href="https://app.sushi.com/farm?filter=2x"
                       tabindex="0"
                       target="_blank"
@@ -4586,14 +4577,14 @@ exports[`<App/> should render an error message when user wallet is connected and
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-427 makeStyles-stakePoolsWrapper-407"
+                  class="MuiBox-root MuiBox-root-400 makeStyles-stakePoolsWrapper-380"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-428"
+                    class="MuiBox-root MuiBox-root-401"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-429"
+                      class="MuiBox-root MuiBox-root-402"
                     >
                       <svg
                         aria-hidden="true"
@@ -4712,11 +4703,11 @@ exports[`<App/> should render an error message when user wallet is connected and
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root MuiBox-root-430"
+                    class="MuiBox-root MuiBox-root-403"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-405 makeStyles-root-431 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-378 makeStyles-root-404 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                       href="https://app.sushi.com/farm?filter=2x"
                       tabindex="0"
                       target="_blank"
@@ -4746,14 +4737,14 @@ exports[`<App/> should render an error message when user wallet is connected and
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root MuiBox-root-432 makeStyles-stakePoolsWrapper-407"
+                  class="MuiBox-root MuiBox-root-405 makeStyles-stakePoolsWrapper-380"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-433"
+                    class="MuiBox-root MuiBox-root-406"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-434"
+                      class="MuiBox-root MuiBox-root-407"
                     >
                       <svg
                         aria-hidden="true"
@@ -4874,11 +4865,11 @@ exports[`<App/> should render an error message when user wallet is connected and
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root MuiBox-root-435"
+                    class="MuiBox-root MuiBox-root-408"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-405 makeStyles-root-436 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-378 makeStyles-root-409 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
                       href="https://app.spiritswap.finance/#/farms/allfarms"
                       tabindex="0"
                       target="_blank"

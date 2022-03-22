@@ -8,56 +8,56 @@ exports[`<Root/> should render component 1`] = `
     <div>
       <div>
         <div
-          class="MuiSnackbar-root-202 MuiSnackbar-anchorOriginTopCenter-203"
+          class="MuiSnackbar-root-200 MuiSnackbar-anchorOriginTopCenter-201"
         >
           <div
-            class="MuiPaper-root-225 MuiAlert-root-209 MuiAlert-filledInfo-219 MuiPaper-elevation0-228"
+            class="MuiPaper-root-223 MuiAlert-root-207 MuiAlert-filledInfo-217 MuiPaper-elevation0-226"
             direction="down"
             role="alert"
             style="opacity: 1; transform: scale(1, 1); word-break: break-word; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
-              class="MuiAlert-message-223"
+              class="MuiAlert-message-221"
             >
               <div
-                class="MuiTypography-root-254 MuiAlertTitle-root-253 MuiTypography-body1-256 MuiTypography-gutterBottom-274"
+                class="MuiTypography-root-252 MuiAlertTitle-root-251 MuiTypography-body1-254 MuiTypography-gutterBottom-272"
               >
                 Information
               </div>
               Safety Check: Always verify you're on app.olympusdao.finance!
               <div
-                class="makeStyles-root-284"
+                class="makeStyles-root-282"
               >
                 <div
                   aria-valuemax="100"
                   aria-valuemin="0"
                   aria-valuenow="100"
-                  class="MuiLinearProgress-root-285 MuiLinearProgress-colorPrimary-286 MuiLinearProgress-determinate-288"
+                  class="MuiLinearProgress-root-283 MuiLinearProgress-colorPrimary-284 MuiLinearProgress-determinate-286"
                   role="progressbar"
                 >
                   <div
-                    class="MuiLinearProgress-bar-295 MuiLinearProgress-barColorPrimary-296 MuiLinearProgress-bar1Determinate-299"
+                    class="MuiLinearProgress-bar-293 MuiLinearProgress-barColorPrimary-294 MuiLinearProgress-bar1Determinate-297"
                     style="transform: translateX(0%);"
                   />
                 </div>
               </div>
             </div>
             <div
-              class="MuiAlert-action-224"
+              class="MuiAlert-action-222"
             >
               <button
                 aria-label="Close"
-                class="MuiButtonBase-root-314 MuiIconButton-root-306 MuiIconButton-colorInherit-309 MuiIconButton-sizeSmall-312"
+                class="MuiButtonBase-root-312 MuiIconButton-root-304 MuiIconButton-colorInherit-307 MuiIconButton-sizeSmall-310"
                 tabindex="0"
                 title="Close"
                 type="button"
               >
                 <span
-                  class="MuiIconButton-label-313"
+                  class="MuiIconButton-label-311"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                    class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                     focusable="false"
                     viewBox="0 0 20 20"
                   >
@@ -73,24 +73,24 @@ exports[`<Root/> should render component 1`] = `
       </div>
     </div>
     <header
-      class="MuiPaper-root-225 MuiAppBar-root-326 MuiAppBar-positionSticky-329 MuiAppBar-colorPrimary-333 makeStyles-appBar-324 MuiPaper-elevation0-228"
+      class="MuiPaper-root-223 MuiAppBar-root-324 MuiAppBar-positionSticky-327 MuiAppBar-colorPrimary-331 makeStyles-appBar-322 MuiPaper-elevation0-226"
     >
       <div
-        class="MuiToolbar-root-337 MuiToolbar-regular-339 dapp-topbar"
+        class="MuiToolbar-root-335 MuiToolbar-regular-337 dapp-topbar"
       >
         <button
           aria-label="open drawer"
-          class="MuiButtonBase-root-314 MuiButton-root-341 MuiButton-contained-349 makeStyles-menuButton-325 MuiButton-containedSecondary-351 MuiButton-containedSizeLarge-359 MuiButton-sizeLarge-361 MuiButton-disableElevation-352"
+          class="MuiButtonBase-root-312 MuiButton-root-339 MuiButton-contained-347 makeStyles-menuButton-323 MuiButton-containedSecondary-349 MuiButton-containedSizeLarge-357 MuiButton-sizeLarge-359 MuiButton-disableElevation-350"
           id="hamburger"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiButton-label-342"
+            class="MuiButton-label-340"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+              class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
               focusable="false"
               viewBox="0 0 20 20"
             >
@@ -99,20 +99,21 @@ exports[`<Root/> should render component 1`] = `
           </span>
         </button>
         <div
-          class="MuiBox-root-368 MuiBox-root-369"
+          class="MuiBox-root-366 MuiBox-root-367"
         >
-          <button
-            class="MuiButtonBase-root-314 MuiButton-root-341 MuiButton-contained-349 MuiButton-containedSecondary-351 MuiButton-disableElevation-352"
+          <a
+            aria-disabled="false"
+            class="MuiButtonBase-root-312 MuiButton-root-339 MuiButton-contained-347 MuiButton-containedSecondary-349 MuiButton-disableElevation-350"
+            href="/#/wallet"
             id="ohm-menu-button"
             tabindex="0"
-            type="button"
           >
             <span
-              class="MuiButton-label-342"
+              class="MuiButton-label-340"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                 focusable="false"
                 style="margin-right: 8px;"
                 viewBox="0 0 20 20"
@@ -120,29 +121,25 @@ exports[`<Root/> should render component 1`] = `
                 wallet.svg
               </svg>
               <p
-                class="MuiTypography-root-254 MuiTypography-body1-256"
+                class="MuiTypography-root-252 MuiTypography-body1-254"
               >
-                Connect Wallet
+                Connect
               </p>
             </span>
-          </button>
-          <div
-            class="PrivateSwipeArea-root-384 PrivateSwipeArea-anchorRight-386"
-            style="width: 20px;"
-          />
+          </a>
           <button
-            class="MuiButtonBase-root-314 MuiToggleButton-root-389 toggle-button"
+            class="MuiButtonBase-root-312 MuiToggleButton-root-368 toggle-button"
             tabindex="0"
             title="Change Theme"
             type="button"
             value="check"
           >
             <span
-              class="MuiToggleButton-label-390"
+              class="MuiToggleButton-label-369"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-315 MuiSvgIcon-colorPrimary-316 MuiSvgIcon-fontSizeSmall-322"
+                class="MuiSvgIcon-root-313 MuiSvgIcon-colorPrimary-314 MuiSvgIcon-fontSizeSmall-320"
                 focusable="false"
                 viewBox="0 0 20 20"
               >
@@ -154,17 +151,17 @@ exports[`<Root/> should render component 1`] = `
           </button>
           <button
             aria-describedby="locales-popper"
-            class="MuiButtonBase-root-314 MuiButton-root-341 MuiButton-contained-349 makeStyles-toggleButton-394 MuiButton-containedSecondary-351 MuiButton-containedSizeLarge-359 MuiButton-sizeLarge-361 MuiButton-disableElevation-352"
+            class="MuiButtonBase-root-312 MuiButton-root-339 MuiButton-contained-347 makeStyles-toggleButton-373 MuiButton-containedSecondary-349 MuiButton-containedSizeLarge-357 MuiButton-sizeLarge-359 MuiButton-disableElevation-350"
             tabindex="0"
             title="Change locale"
             type="button"
           >
             <span
-              class="MuiButton-label-342"
+              class="MuiButton-label-340"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                 focusable="false"
                 viewBox="0 0 20 20"
               >
@@ -208,31 +205,31 @@ exports[`<Root/> should render component 1`] = `
         id="sidebarContent"
       >
         <div
-          class="MuiDrawer-root-372 MuiDrawer-docked-373"
+          class="MuiDrawer-root-376 MuiDrawer-docked-377"
         >
           <div
-            class="MuiPaper-root-225 MuiDrawer-paper-374 MuiDrawer-paperAnchorLeft-375 MuiDrawer-paperAnchorDockedLeft-379 MuiPaper-elevation0-228"
+            class="MuiPaper-root-223 MuiDrawer-paper-378 MuiDrawer-paperAnchorLeft-379 MuiDrawer-paperAnchorDockedLeft-383 MuiPaper-elevation0-226"
           >
             <div
-              class="MuiPaper-root-225 dapp-sidebar MuiPaper-elevation0-228 MuiPaper-rounded-226"
+              class="MuiPaper-root-223 dapp-sidebar MuiPaper-elevation0-226 MuiPaper-rounded-224"
             >
               <div
-                class="MuiBox-root-368 MuiBox-root-397 dapp-sidebar-inner"
+                class="MuiBox-root-366 MuiBox-root-388 dapp-sidebar-inner"
               >
                 <div
                   class="dapp-menu-top"
                 >
                   <div
-                    class="MuiBox-root-368 MuiBox-root-398 branding-header"
+                    class="MuiBox-root-366 MuiBox-root-389 branding-header"
                   >
                     <a
-                      class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 MuiTypography-colorPrimary-277"
+                      class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 MuiTypography-colorPrimary-275"
                       href="https://olympusdao.finance"
                       target="_blank"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-315 MuiSvgIcon-colorPrimary-316 MuiSvgIcon-fontSizeSmall-322"
+                        class="MuiSvgIcon-root-313 MuiSvgIcon-colorPrimary-314 MuiSvgIcon-fontSizeSmall-320"
                         focusable="false"
                         style="min-width: 151px; min-height: 98px; width: 151px;"
                         viewBox="0 0 151 100"
@@ -249,22 +246,22 @@ exports[`<Root/> should render component 1`] = `
                       id="navbarNav"
                     >
                       <div
-                        class="makeStyles-root-404 nav-item-container"
+                        class="makeStyles-root-395 nav-item-container"
                       >
                         <a
-                          class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 button-dapp-menu  MuiTypography-colorPrimary-277"
+                          class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 button-dapp-menu  MuiTypography-colorPrimary-275"
                           href="/#/dashboard"
                         >
                           <h6
-                            class="MuiTypography-root-254 MuiTypography-h6-264"
+                            class="MuiTypography-root-252 MuiTypography-h6-262"
                           >
                             <div
-                              class="MuiBox-root-368 MuiBox-root-627"
+                              class="MuiBox-root-366 MuiBox-root-618"
                             >
                               <div>
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -279,22 +276,22 @@ exports[`<Root/> should render component 1`] = `
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-404 nav-item-container"
+                        class="makeStyles-root-395 nav-item-container"
                       >
                         <a
-                          class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 button-dapp-menu  MuiTypography-colorPrimary-277"
+                          class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 button-dapp-menu  MuiTypography-colorPrimary-275"
                           href="/#/bonds"
                         >
                           <h6
-                            class="MuiTypography-root-254 MuiTypography-h6-264"
+                            class="MuiTypography-root-252 MuiTypography-h6-262"
                           >
                             <div
-                              class="MuiBox-root-368 MuiBox-root-628"
+                              class="MuiBox-root-366 MuiBox-root-619"
                             >
                               <div>
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -316,23 +313,23 @@ exports[`<Root/> should render component 1`] = `
                         />
                       </div>
                       <div
-                        class="makeStyles-root-404 nav-item-container"
+                        class="makeStyles-root-395 nav-item-container"
                       >
                         <a
                           aria-current="page"
-                          class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 button-dapp-menu  MuiTypography-colorPrimary-277 active"
+                          class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 button-dapp-menu  MuiTypography-colorPrimary-275 active"
                           href="/#/stake"
                         >
                           <h6
-                            class="MuiTypography-root-254 MuiTypography-h6-264"
+                            class="MuiTypography-root-252 MuiTypography-h6-262"
                           >
                             <div
-                              class="MuiBox-root-368 MuiBox-root-629"
+                              class="MuiBox-root-366 MuiBox-root-620"
                             >
                               <div>
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -347,22 +344,22 @@ exports[`<Root/> should render component 1`] = `
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-404 nav-item-container"
+                        class="makeStyles-root-395 nav-item-container"
                       >
                         <a
-                          class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 button-dapp-menu  MuiTypography-colorPrimary-277"
+                          class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 button-dapp-menu  MuiTypography-colorPrimary-275"
                           href="/#/zap"
                         >
                           <h6
-                            class="MuiTypography-root-254 MuiTypography-h6-264"
+                            class="MuiTypography-root-252 MuiTypography-h6-262"
                           >
                             <div
-                              class="MuiBox-root-368 MuiBox-root-630"
+                              class="MuiBox-root-366 MuiBox-root-621"
                             >
                               <div>
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -377,22 +374,22 @@ exports[`<Root/> should render component 1`] = `
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-404 nav-item-container"
+                        class="makeStyles-root-395 nav-item-container"
                       >
                         <a
-                          class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 button-dapp-menu  MuiTypography-colorPrimary-277"
+                          class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 button-dapp-menu  MuiTypography-colorPrimary-275"
                           href="/#/give"
                         >
                           <h6
-                            class="MuiTypography-root-254 MuiTypography-h6-264"
+                            class="MuiTypography-root-252 MuiTypography-h6-262"
                           >
                             <div
-                              class="MuiBox-root-368 MuiBox-root-631"
+                              class="MuiBox-root-366 MuiBox-root-622"
                             >
                               <div>
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -403,10 +400,10 @@ exports[`<Root/> should render component 1`] = `
                                 Give
                               </div>
                               <div
-                                class="MuiChip-root-410 MuiChip-colorPrimary-412 MuiChip-sizeSmall-411"
+                                class="MuiChip-root-401 MuiChip-colorPrimary-403 MuiChip-sizeSmall-402"
                               >
                                 <span
-                                  class="MuiChip-label-431 MuiChip-labelSmall-432"
+                                  class="MuiChip-label-422 MuiChip-labelSmall-423"
                                 >
                                   New
                                 </span>
@@ -416,22 +413,22 @@ exports[`<Root/> should render component 1`] = `
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-404 nav-item-container"
+                        class="makeStyles-root-395 nav-item-container"
                       >
                         <a
-                          class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 button-dapp-menu  MuiTypography-colorPrimary-277"
+                          class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 button-dapp-menu  MuiTypography-colorPrimary-275"
                           href="/#/wrap"
                         >
                           <h6
-                            class="MuiTypography-root-254 MuiTypography-h6-264"
+                            class="MuiTypography-root-252 MuiTypography-h6-262"
                           >
                             <div
-                              class="MuiBox-root-368 MuiBox-root-632"
+                              class="MuiBox-root-366 MuiBox-root-623"
                             >
                               <div>
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -446,23 +443,23 @@ exports[`<Root/> should render component 1`] = `
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-404 nav-item-container"
+                        class="makeStyles-root-395 nav-item-container"
                       >
                         <a
-                          class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 external-site-link  MuiTypography-colorPrimary-277"
+                          class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 external-site-link  MuiTypography-colorPrimary-275"
                           href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
                           target="_blank"
                         >
                           <h6
-                            class="MuiTypography-root-254 MuiTypography-h6-264"
+                            class="MuiTypography-root-252 MuiTypography-h6-262"
                           >
                             <div
-                              class="MuiBox-root-368 MuiBox-root-633"
+                              class="MuiBox-root-366 MuiBox-root-624"
                             >
                               <div>
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -473,7 +470,7 @@ exports[`<Root/> should render component 1`] = `
                                 Bridge
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 external-site-link-icon MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 external-site-link-icon MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -487,30 +484,30 @@ exports[`<Root/> should render component 1`] = `
                         </a>
                       </div>
                       <div
-                        class="MuiBox-root-368 MuiBox-root-441 menu-divider"
+                        class="MuiBox-root-366 MuiBox-root-432 menu-divider"
                       >
                         <hr
-                          class="MuiDivider-root-442"
+                          class="MuiDivider-root-433"
                         />
                       </div>
                       <div
-                        class="makeStyles-root-404 nav-item-container"
+                        class="makeStyles-root-395 nav-item-container"
                       >
                         <a
-                          class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 external-site-link  MuiTypography-colorPrimary-277"
+                          class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 external-site-link  MuiTypography-colorPrimary-275"
                           href="https://pro.olympusdao.finance/"
                           target="_blank"
                         >
                           <h6
-                            class="MuiTypography-root-254 MuiTypography-h6-264"
+                            class="MuiTypography-root-252 MuiTypography-h6-262"
                           >
                             <div
-                              class="MuiBox-root-368 MuiBox-root-634"
+                              class="MuiBox-root-366 MuiBox-root-625"
                             >
                               <div>
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -521,7 +518,7 @@ exports[`<Root/> should render component 1`] = `
                                 Olympus Pro
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 external-site-link-icon MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 external-site-link-icon MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -535,30 +532,30 @@ exports[`<Root/> should render component 1`] = `
                         </a>
                       </div>
                       <div
-                        class="MuiBox-root-368 MuiBox-root-450 menu-divider"
+                        class="MuiBox-root-366 MuiBox-root-441 menu-divider"
                       >
                         <hr
-                          class="MuiDivider-root-442"
+                          class="MuiDivider-root-433"
                         />
                       </div>
                       <div
-                        class="makeStyles-root-404 nav-item-container"
+                        class="makeStyles-root-395 nav-item-container"
                       >
                         <a
-                          class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 external-site-link  MuiTypography-colorPrimary-277"
+                          class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 external-site-link  MuiTypography-colorPrimary-275"
                           href="https://forum.olympusdao.finance/"
                           target="_blank"
                         >
                           <h6
-                            class="MuiTypography-root-254 MuiTypography-h6-264"
+                            class="MuiTypography-root-252 MuiTypography-h6-262"
                           >
                             <div
-                              class="MuiBox-root-368 MuiBox-root-635"
+                              class="MuiBox-root-366 MuiBox-root-626"
                             >
                               <div>
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -569,7 +566,7 @@ exports[`<Root/> should render component 1`] = `
                                 Forum
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 external-site-link-icon MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 external-site-link-icon MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -583,23 +580,23 @@ exports[`<Root/> should render component 1`] = `
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-404 nav-item-container"
+                        class="makeStyles-root-395 nav-item-container"
                       >
                         <a
-                          class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 external-site-link  MuiTypography-colorPrimary-277"
+                          class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 external-site-link  MuiTypography-colorPrimary-275"
                           href="https://vote.olympusdao.finance/"
                           target="_blank"
                         >
                           <h6
-                            class="MuiTypography-root-254 MuiTypography-h6-264"
+                            class="MuiTypography-root-252 MuiTypography-h6-262"
                           >
                             <div
-                              class="MuiBox-root-368 MuiBox-root-636"
+                              class="MuiBox-root-366 MuiBox-root-627"
                             >
                               <div>
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -610,7 +607,7 @@ exports[`<Root/> should render component 1`] = `
                                 Governance
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 external-site-link-icon MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 external-site-link-icon MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -624,23 +621,23 @@ exports[`<Root/> should render component 1`] = `
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-404 nav-item-container"
+                        class="makeStyles-root-395 nav-item-container"
                       >
                         <a
-                          class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 external-site-link  MuiTypography-colorPrimary-277"
+                          class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 external-site-link  MuiTypography-colorPrimary-275"
                           href="https://docs.olympusdao.finance/"
                           target="_blank"
                         >
                           <h6
-                            class="MuiTypography-root-254 MuiTypography-h6-264"
+                            class="MuiTypography-root-252 MuiTypography-h6-262"
                           >
                             <div
-                              class="MuiBox-root-368 MuiBox-root-637"
+                              class="MuiBox-root-366 MuiBox-root-628"
                             >
                               <div>
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -651,7 +648,7 @@ exports[`<Root/> should render component 1`] = `
                                 Docs
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 external-site-link-icon MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 external-site-link-icon MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -665,23 +662,23 @@ exports[`<Root/> should render component 1`] = `
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-404 nav-item-container"
+                        class="makeStyles-root-395 nav-item-container"
                       >
                         <a
-                          class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 external-site-link  MuiTypography-colorPrimary-277"
+                          class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 external-site-link  MuiTypography-colorPrimary-275"
                           href="https://immunefi.com/bounty/olympus/"
                           target="_blank"
                         >
                           <h6
-                            class="MuiTypography-root-254 MuiTypography-h6-264"
+                            class="MuiTypography-root-252 MuiTypography-h6-262"
                           >
                             <div
-                              class="MuiBox-root-368 MuiBox-root-638"
+                              class="MuiBox-root-366 MuiBox-root-629"
                             >
                               <div>
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -692,7 +689,7 @@ exports[`<Root/> should render component 1`] = `
                                 Bug Bounty
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 external-site-link-icon MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 external-site-link-icon MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -706,23 +703,23 @@ exports[`<Root/> should render component 1`] = `
                         </a>
                       </div>
                       <div
-                        class="makeStyles-root-404 nav-item-container"
+                        class="makeStyles-root-395 nav-item-container"
                       >
                         <a
-                          class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 external-site-link  MuiTypography-colorPrimary-277"
+                          class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 external-site-link  MuiTypography-colorPrimary-275"
                           href="https://grants.olympusdao.finance/"
                           target="_blank"
                         >
                           <h6
-                            class="MuiTypography-root-254 MuiTypography-h6-264"
+                            class="MuiTypography-root-252 MuiTypography-h6-262"
                           >
                             <div
-                              class="MuiBox-root-368 MuiBox-root-639"
+                              class="MuiBox-root-366 MuiBox-root-630"
                             >
                               <div>
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -733,7 +730,7 @@ exports[`<Root/> should render component 1`] = `
                                 Grants
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root-315 external-site-link-icon MuiSvgIcon-fontSizeSmall-322"
+                                  class="MuiSvgIcon-root-313 external-site-link-icon MuiSvgIcon-fontSizeSmall-320"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -750,19 +747,19 @@ exports[`<Root/> should render component 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root-368 MuiBox-root-456 dapp-menu-social"
+                  class="MuiBox-root-366 MuiBox-root-447 dapp-menu-social"
                 >
                   <div
                     class="social-row"
                   >
                     <a
-                      class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 MuiTypography-colorPrimary-277"
+                      class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 MuiTypography-colorPrimary-275"
                       href="https://github.com/OlympusDAO"
                       target="_blank"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                        class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -772,13 +769,13 @@ exports[`<Root/> should render component 1`] = `
                       </svg>
                     </a>
                     <a
-                      class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 MuiTypography-colorPrimary-277"
+                      class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 MuiTypography-colorPrimary-275"
                       href="https://olympusdao.medium.com/"
                       target="_blank"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                        class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -788,13 +785,13 @@ exports[`<Root/> should render component 1`] = `
                       </svg>
                     </a>
                     <a
-                      class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 MuiTypography-colorPrimary-277"
+                      class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 MuiTypography-colorPrimary-275"
                       href="https://twitter.com/OlympusDAO"
                       target="_blank"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                        class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -804,13 +801,13 @@ exports[`<Root/> should render component 1`] = `
                       </svg>
                     </a>
                     <a
-                      class="MuiTypography-root-254 MuiLink-root-399 MuiLink-underlineNone-400 MuiTypography-colorPrimary-277"
+                      class="MuiTypography-root-252 MuiLink-root-390 MuiLink-underlineNone-391 MuiTypography-colorPrimary-275"
                       href="https://discord.gg/6QjjtUcfM4"
                       target="_blank"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeSmall-322"
+                        class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeSmall-320"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -834,23 +831,23 @@ exports[`<Root/> should render component 1`] = `
         id="stake-view"
       >
         <div
-          class="MuiPaper-root-225 makeStyles-root-457 makeStyles-root-458  MuiPaper-elevation0-228 MuiPaper-rounded-226"
+          class="MuiPaper-root-223 makeStyles-root-448 makeStyles-root-449  MuiPaper-elevation0-226 MuiPaper-rounded-224"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
-            class="MuiGrid-root-459 MuiGrid-container-460 MuiGrid-spacing-xs-2-483 MuiGrid-direction-xs-column-463"
+            class="MuiGrid-root-450 MuiGrid-container-451 MuiGrid-spacing-xs-2-474 MuiGrid-direction-xs-column-454"
           >
             <div
-              class="MuiGrid-root-459 card-header MuiGrid-item-461"
+              class="MuiGrid-root-450 card-header MuiGrid-item-452"
             >
               <div
-                class="MuiBox-root-368 MuiBox-root-562"
+                class="MuiBox-root-366 MuiBox-root-553"
               >
                 <div
-                  class="MuiBox-root-368 MuiBox-root-563"
+                  class="MuiBox-root-366 MuiBox-root-554"
                 >
                   <h5
-                    class="MuiTypography-root-254 header-text MuiTypography-h5-263"
+                    class="MuiTypography-root-252 header-text MuiTypography-h5-261"
                   >
                     Single Stake (3, 3)
                   </h5>
@@ -860,16 +857,16 @@ exports[`<Root/> should render component 1`] = `
                 />
               </div>
               <div
-                class="MuiBox-root-368 MuiBox-root-564"
+                class="MuiBox-root-366 MuiBox-root-555"
               >
                 <div
-                  class="MuiBox-root-368 MuiBox-root-565 rebase-timer"
+                  class="MuiBox-root-366 MuiBox-root-556 rebase-timer"
                 >
                   <p
-                    class="MuiTypography-root-254 MuiTypography-body2-255"
+                    class="MuiTypography-root-252 MuiTypography-body2-253"
                   >
                     <span
-                      class="MuiSkeleton-root-566 MuiSkeleton-text-567 MuiSkeleton-pulse-570"
+                      class="MuiSkeleton-root-557 MuiSkeleton-text-558 MuiSkeleton-pulse-561"
                       style="width: 155px;"
                     />
                   </p>
@@ -877,40 +874,40 @@ exports[`<Root/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-459 MuiGrid-item-461"
+              class="MuiGrid-root-450 MuiGrid-item-452"
             >
               <div
-                class="MuiGrid-root-459 MuiGrid-container-460 MuiGrid-spacing-xs-2-483 MuiGrid-direction-xs-column-463"
+                class="MuiGrid-root-450 MuiGrid-container-451 MuiGrid-spacing-xs-2-474 MuiGrid-direction-xs-column-454"
               >
                 <div
-                  class="MuiGrid-root-459 MuiGrid-item-461"
+                  class="MuiGrid-root-450 MuiGrid-item-452"
                 >
                   <div
-                    class="MuiBox-root-368 MuiBox-root-577"
+                    class="MuiBox-root-366 MuiBox-root-568"
                   >
                     <div
-                      class="MuiGrid-root-459 MuiGrid-container-460 MuiGrid-spacing-xs-2-483 MuiGrid-align-items-xs-flex-end-470"
+                      class="MuiGrid-root-450 MuiGrid-container-451 MuiGrid-spacing-xs-2-474 MuiGrid-align-items-xs-flex-end-461"
                     >
                       <div
-                        class="MuiGrid-root-459 MuiGrid-item-461 MuiGrid-grid-xs-12-505 MuiGrid-grid-sm-4-511"
+                        class="MuiGrid-root-450 MuiGrid-item-452 MuiGrid-grid-xs-12-496 MuiGrid-grid-sm-4-502"
                       >
                         <div
-                          class="makeStyles-root-578 stake-apy"
+                          class="makeStyles-root-569 stake-apy"
                         >
                           <div
-                            class="MuiBox-root-368 MuiBox-root-579"
+                            class="MuiBox-root-366 MuiBox-root-570"
                           >
                             <h5
-                              class="MuiTypography-root-254 MuiTypography-h5-263 MuiTypography-colorTextSecondary-280"
+                              class="MuiTypography-root-252 MuiTypography-h5-261 MuiTypography-colorTextSecondary-278"
                             >
                               APY
                             </h5>
                             <h4
-                              class="MuiTypography-root-254 MuiTypography-h4-262"
+                              class="MuiTypography-root-252 MuiTypography-h4-260"
                               style="width: 100%;"
                             >
                               <span
-                                class="MuiSkeleton-root-580 MuiSkeleton-text-581 MuiSkeleton-pulse-584"
+                                class="MuiSkeleton-root-571 MuiSkeleton-text-572 MuiSkeleton-pulse-575"
                                 style="width: 100%;"
                               />
                             </h4>
@@ -918,25 +915,25 @@ exports[`<Root/> should render component 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root-459 MuiGrid-item-461 MuiGrid-grid-xs-12-505 MuiGrid-grid-sm-4-511"
+                        class="MuiGrid-root-450 MuiGrid-item-452 MuiGrid-grid-xs-12-496 MuiGrid-grid-sm-4-502"
                       >
                         <div
-                          class="makeStyles-root-578 stake-tvl"
+                          class="makeStyles-root-569 stake-tvl"
                         >
                           <div
-                            class="MuiBox-root-368 MuiBox-root-591"
+                            class="MuiBox-root-366 MuiBox-root-582"
                           >
                             <h5
-                              class="MuiTypography-root-254 MuiTypography-h5-263 MuiTypography-colorTextSecondary-280"
+                              class="MuiTypography-root-252 MuiTypography-h5-261 MuiTypography-colorTextSecondary-278"
                             >
                               Total Value Deposited
                             </h5>
                             <h4
-                              class="MuiTypography-root-254 MuiTypography-h4-262"
+                              class="MuiTypography-root-252 MuiTypography-h4-260"
                               style="width: 100%;"
                             >
                               <span
-                                class="MuiSkeleton-root-580 MuiSkeleton-text-581 MuiSkeleton-pulse-584"
+                                class="MuiSkeleton-root-571 MuiSkeleton-text-572 MuiSkeleton-pulse-575"
                                 style="width: 100%;"
                               />
                             </h4>
@@ -944,29 +941,29 @@ exports[`<Root/> should render component 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root-459 MuiGrid-item-461 MuiGrid-grid-xs-12-505 MuiGrid-grid-sm-4-511"
+                        class="MuiGrid-root-450 MuiGrid-item-452 MuiGrid-grid-xs-12-496 MuiGrid-grid-sm-4-502"
                       >
                         <div
-                          class="makeStyles-root-578 stake-index"
+                          class="makeStyles-root-569 stake-index"
                         >
                           <div
-                            class="MuiBox-root-368 MuiBox-root-592"
+                            class="MuiBox-root-366 MuiBox-root-583"
                           >
                             <h5
-                              class="MuiTypography-root-254 MuiTypography-h5-263 MuiTypography-colorTextSecondary-280"
+                              class="MuiTypography-root-252 MuiTypography-h5-261 MuiTypography-colorTextSecondary-278"
                             >
                               Current Index
                               <div
-                                class="MuiBox-root-368 MuiBox-root-593"
+                                class="MuiBox-root-366 MuiBox-root-584"
                                 style="font-size: 16px;"
                               >
                                 <div
-                                  class="MuiBox-root-368 MuiBox-root-594"
+                                  class="MuiBox-root-366 MuiBox-root-585"
                                   style="display: inline-flex; justify-content: center; align-self: center;"
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root-315 info-icon MuiSvgIcon-fontSizeSmall-322"
+                                    class="MuiSvgIcon-root-313 info-icon MuiSvgIcon-fontSizeSmall-320"
                                     focusable="false"
                                     style="margin: 0px 5px; font-size: 1em;"
                                     viewBox="0 0 20 20"
@@ -979,11 +976,11 @@ exports[`<Root/> should render component 1`] = `
                               </div>
                             </h5>
                             <h4
-                              class="MuiTypography-root-254 MuiTypography-h4-262"
+                              class="MuiTypography-root-252 MuiTypography-h4-260"
                               style="width: 100%;"
                             >
                               <span
-                                class="MuiSkeleton-root-580 MuiSkeleton-text-581 MuiSkeleton-pulse-584"
+                                class="MuiSkeleton-root-571 MuiSkeleton-text-572 MuiSkeleton-pulse-575"
                                 style="width: 100%;"
                               />
                             </h4>
@@ -1004,20 +1001,20 @@ exports[`<Root/> should render component 1`] = `
                       id="wallet-menu"
                     >
                       <button
-                        class="MuiButtonBase-root-314 MuiButton-root-341 MuiButton-contained-349 makeStyles-root-595 makeStyles-root-596 undefined MuiButton-containedPrimary-350 MuiButton-containedSizeLarge-359 MuiButton-sizeLarge-361 MuiButton-disableElevation-352"
+                        class="MuiButtonBase-root-312 MuiButton-root-339 MuiButton-contained-347 makeStyles-root-586 makeStyles-root-587 undefined MuiButton-containedPrimary-348 MuiButton-containedSizeLarge-357 MuiButton-sizeLarge-359 MuiButton-disableElevation-350"
                         style="font-size: 1.2857rem;"
                         tabindex="0"
                         type="button"
                       >
                         <span
-                          class="MuiButton-label-342"
+                          class="MuiButton-label-340"
                         >
                           Connect Wallet
                         </span>
                       </button>
                     </div>
                     <h6
-                      class="MuiTypography-root-254 MuiTypography-h6-264"
+                      class="MuiTypography-root-252 MuiTypography-h6-262"
                     >
                       Connect your wallet to stake OHM
                     </h6>
@@ -1028,23 +1025,23 @@ exports[`<Root/> should render component 1`] = `
           </div>
         </div>
         <div
-          class="MuiPaper-root-225 makeStyles-root-457 makeStyles-root-601  MuiPaper-elevation0-228 MuiPaper-rounded-226"
+          class="MuiPaper-root-223 makeStyles-root-448 makeStyles-root-592  MuiPaper-elevation0-226 MuiPaper-rounded-224"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
-            class="MuiGrid-root-459 MuiGrid-container-460 MuiGrid-spacing-xs-2-483 MuiGrid-direction-xs-column-463"
+            class="MuiGrid-root-450 MuiGrid-container-451 MuiGrid-spacing-xs-2-474 MuiGrid-direction-xs-column-454"
           >
             <div
-              class="MuiGrid-root-459 card-header MuiGrid-item-461"
+              class="MuiGrid-root-450 card-header MuiGrid-item-452"
             >
               <div
-                class="MuiBox-root-368 MuiBox-root-602"
+                class="MuiBox-root-366 MuiBox-root-593"
               >
                 <div
-                  class="MuiBox-root-368 MuiBox-root-603"
+                  class="MuiBox-root-366 MuiBox-root-594"
                 >
                   <h5
-                    class="MuiTypography-root-254 header-text MuiTypography-h5-263"
+                    class="MuiTypography-root-252 header-text MuiTypography-h5-261"
                   >
                     Farm Pool
                   </h5>
@@ -1055,45 +1052,45 @@ exports[`<Root/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-459 MuiGrid-item-461"
+              class="MuiGrid-root-450 MuiGrid-item-452"
             >
               <div
-                class="MuiBox-root-368 MuiBox-root-604 makeStyles-stakePoolsWrapper-597"
+                class="MuiBox-root-366 MuiBox-root-595 makeStyles-stakePoolsWrapper-588"
                 style="gap: 12px; margin-bottom: 0.5rem;"
               >
                 <p
-                  class="MuiTypography-root-254 makeStyles-stakePoolHeaderText-598 MuiTypography-body1-256"
+                  class="MuiTypography-root-252 makeStyles-stakePoolHeaderText-589 MuiTypography-body1-254"
                   style="margin-left: 75px;"
                 >
                   Asset
                 </p>
                 <p
-                  class="MuiTypography-root-254 makeStyles-stakePoolHeaderText-598 MuiTypography-body1-256"
+                  class="MuiTypography-root-252 makeStyles-stakePoolHeaderText-589 MuiTypography-body1-254"
                   style="padding-left: 3px;"
                 >
                   TVL
                 </p>
                 <p
-                  class="MuiTypography-root-254 makeStyles-stakePoolHeaderText-598 MuiTypography-body1-256"
+                  class="MuiTypography-root-252 makeStyles-stakePoolHeaderText-589 MuiTypography-body1-254"
                 />
               </div>
               <div
-                class="MuiBox-root-368 MuiBox-root-605"
+                class="MuiBox-root-366 MuiBox-root-596"
                 style="gap: 32px; padding: 16px 0px;"
               >
                 <div
-                  class="MuiBox-root-368 MuiBox-root-606 makeStyles-stakePoolsWrapper-597"
+                  class="MuiBox-root-366 MuiBox-root-597 makeStyles-stakePoolsWrapper-588"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root-368 MuiBox-root-607"
+                    class="MuiBox-root-366 MuiBox-root-598"
                   >
                     <div
-                      class="MuiBox-root-368 MuiBox-root-608"
+                      class="MuiBox-root-366 MuiBox-root-599"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeLarge-323"
+                        class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeLarge-321"
                         focusable="false"
                         style="z-index: 1;"
                         viewBox="0 0 32 32"
@@ -1142,7 +1139,7 @@ exports[`<Root/> should render component 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeLarge-323"
+                        class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeLarge-321"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1;"
                         viewBox="0 0 32 32"
@@ -1158,47 +1155,47 @@ exports[`<Root/> should render component 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root-254 MuiTypography-body1-256"
+                      class="MuiTypography-root-252 MuiTypography-body1-254"
                       style="line-height: 1.4; margin-left: 10px;"
                     >
                       gOHM-AVAX
                     </p>
                   </div>
                   <p
-                    class="MuiTypography-root-254 MuiTypography-body1-256"
+                    class="MuiTypography-root-252 MuiTypography-body1-254"
                     style="line-height: 1.4;"
                   >
                     <span
-                      class="MuiSkeleton-root-566 MuiSkeleton-text-567 MuiSkeleton-pulse-570"
+                      class="MuiSkeleton-root-557 MuiSkeleton-text-558 MuiSkeleton-pulse-561"
                       style="width: 80px;"
                     />
                   </p>
                   <p
-                    class="MuiTypography-root-254 MuiTypography-body1-256"
+                    class="MuiTypography-root-252 MuiTypography-body1-254"
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root-368 MuiBox-root-610"
+                    class="MuiBox-root-366 MuiBox-root-601"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root-314 MuiButton-root-341 MuiButton-outlined-346 makeStyles-root-595 makeStyles-root-611 undefined MuiButton-outlinedSecondary-348 MuiButton-disableElevation-352 MuiButton-fullWidth-362"
+                      class="MuiButtonBase-root-312 MuiButton-root-339 MuiButton-outlined-344 makeStyles-root-586 makeStyles-root-602 undefined MuiButton-outlinedSecondary-346 MuiButton-disableElevation-350 MuiButton-fullWidth-360"
                       href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                       tabindex="0"
                       target="_blank"
                     >
                       <span
-                        class="MuiButton-label-342"
+                        class="MuiButton-label-340"
                       >
                         Stake on
                          
                         Trader Joe (Avalanche)
                         <span
-                          class="MuiButton-endIcon-364 MuiButton-iconSizeMedium-366"
+                          class="MuiButton-endIcon-362 MuiButton-iconSizeMedium-364"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeLarge-323"
+                            class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeLarge-321"
                             focusable="false"
                             viewBox="0 0 20 20"
                           >
@@ -1212,18 +1209,18 @@ exports[`<Root/> should render component 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root-368 MuiBox-root-612 makeStyles-stakePoolsWrapper-597"
+                  class="MuiBox-root-366 MuiBox-root-603 makeStyles-stakePoolsWrapper-588"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root-368 MuiBox-root-613"
+                    class="MuiBox-root-366 MuiBox-root-604"
                   >
                     <div
-                      class="MuiBox-root-368 MuiBox-root-614"
+                      class="MuiBox-root-366 MuiBox-root-605"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeLarge-323"
+                        class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeLarge-321"
                         focusable="false"
                         style="z-index: 1;"
                         viewBox="0 0 32 32"
@@ -1272,7 +1269,7 @@ exports[`<Root/> should render component 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeLarge-323"
+                        class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeLarge-321"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1;"
                         viewBox="0 0 32 32"
@@ -1318,47 +1315,47 @@ exports[`<Root/> should render component 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root-254 MuiTypography-body1-256"
+                      class="MuiTypography-root-252 MuiTypography-body1-254"
                       style="line-height: 1.4; margin-left: 10px;"
                     >
                       gOHM-wETH
                     </p>
                   </div>
                   <p
-                    class="MuiTypography-root-254 MuiTypography-body1-256"
+                    class="MuiTypography-root-252 MuiTypography-body1-254"
                     style="line-height: 1.4;"
                   >
                     <span
-                      class="MuiSkeleton-root-566 MuiSkeleton-text-567 MuiSkeleton-pulse-570"
+                      class="MuiSkeleton-root-557 MuiSkeleton-text-558 MuiSkeleton-pulse-561"
                       style="width: 80px;"
                     />
                   </p>
                   <p
-                    class="MuiTypography-root-254 MuiTypography-body1-256"
+                    class="MuiTypography-root-252 MuiTypography-body1-254"
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root-368 MuiBox-root-615"
+                    class="MuiBox-root-366 MuiBox-root-606"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root-314 MuiButton-root-341 MuiButton-outlined-346 makeStyles-root-595 makeStyles-root-616 undefined MuiButton-outlinedSecondary-348 MuiButton-disableElevation-352 MuiButton-fullWidth-362"
+                      class="MuiButtonBase-root-312 MuiButton-root-339 MuiButton-outlined-344 makeStyles-root-586 makeStyles-root-607 undefined MuiButton-outlinedSecondary-346 MuiButton-disableElevation-350 MuiButton-fullWidth-360"
                       href="https://app.sushi.com/farm?filter=2x"
                       tabindex="0"
                       target="_blank"
                     >
                       <span
-                        class="MuiButton-label-342"
+                        class="MuiButton-label-340"
                       >
                         Stake on
                          
                         Sushi (Arbitrum)
                         <span
-                          class="MuiButton-endIcon-364 MuiButton-iconSizeMedium-366"
+                          class="MuiButton-endIcon-362 MuiButton-iconSizeMedium-364"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeLarge-323"
+                            class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeLarge-321"
                             focusable="false"
                             viewBox="0 0 20 20"
                           >
@@ -1372,18 +1369,18 @@ exports[`<Root/> should render component 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root-368 MuiBox-root-617 makeStyles-stakePoolsWrapper-597"
+                  class="MuiBox-root-366 MuiBox-root-608 makeStyles-stakePoolsWrapper-588"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root-368 MuiBox-root-618"
+                    class="MuiBox-root-366 MuiBox-root-609"
                   >
                     <div
-                      class="MuiBox-root-368 MuiBox-root-619"
+                      class="MuiBox-root-366 MuiBox-root-610"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeLarge-323"
+                        class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeLarge-321"
                         focusable="false"
                         style="z-index: 1;"
                         viewBox="0 0 32 32"
@@ -1432,7 +1429,7 @@ exports[`<Root/> should render component 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeLarge-323"
+                        class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeLarge-321"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1;"
                         viewBox="0 0 32 32"
@@ -1478,47 +1475,47 @@ exports[`<Root/> should render component 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root-254 MuiTypography-body1-256"
+                      class="MuiTypography-root-252 MuiTypography-body1-254"
                       style="line-height: 1.4; margin-left: 10px;"
                     >
                       gOHM-wETH
                     </p>
                   </div>
                   <p
-                    class="MuiTypography-root-254 MuiTypography-body1-256"
+                    class="MuiTypography-root-252 MuiTypography-body1-254"
                     style="line-height: 1.4;"
                   >
                     <span
-                      class="MuiSkeleton-root-566 MuiSkeleton-text-567 MuiSkeleton-pulse-570"
+                      class="MuiSkeleton-root-557 MuiSkeleton-text-558 MuiSkeleton-pulse-561"
                       style="width: 80px;"
                     />
                   </p>
                   <p
-                    class="MuiTypography-root-254 MuiTypography-body1-256"
+                    class="MuiTypography-root-252 MuiTypography-body1-254"
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root-368 MuiBox-root-620"
+                    class="MuiBox-root-366 MuiBox-root-611"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root-314 MuiButton-root-341 MuiButton-outlined-346 makeStyles-root-595 makeStyles-root-621 undefined MuiButton-outlinedSecondary-348 MuiButton-disableElevation-352 MuiButton-fullWidth-362"
+                      class="MuiButtonBase-root-312 MuiButton-root-339 MuiButton-outlined-344 makeStyles-root-586 makeStyles-root-612 undefined MuiButton-outlinedSecondary-346 MuiButton-disableElevation-350 MuiButton-fullWidth-360"
                       href="https://app.sushi.com/farm?filter=2x"
                       tabindex="0"
                       target="_blank"
                     >
                       <span
-                        class="MuiButton-label-342"
+                        class="MuiButton-label-340"
                       >
                         Stake on
                          
                         Sushi (Polygon)
                         <span
-                          class="MuiButton-endIcon-364 MuiButton-iconSizeMedium-366"
+                          class="MuiButton-endIcon-362 MuiButton-iconSizeMedium-364"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeLarge-323"
+                            class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeLarge-321"
                             focusable="false"
                             viewBox="0 0 20 20"
                           >
@@ -1532,18 +1529,18 @@ exports[`<Root/> should render component 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root-368 MuiBox-root-622 makeStyles-stakePoolsWrapper-597"
+                  class="MuiBox-root-366 MuiBox-root-613 makeStyles-stakePoolsWrapper-588"
                   style="gap: 12px;"
                 >
                   <div
-                    class="MuiBox-root-368 MuiBox-root-623"
+                    class="MuiBox-root-366 MuiBox-root-614"
                   >
                     <div
-                      class="MuiBox-root-368 MuiBox-root-624"
+                      class="MuiBox-root-366 MuiBox-root-615"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeLarge-323"
+                        class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeLarge-321"
                         focusable="false"
                         style="z-index: 1;"
                         viewBox="0 0 32 32"
@@ -1592,7 +1589,7 @@ exports[`<Root/> should render component 1`] = `
                       </svg>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeLarge-323"
+                        class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeLarge-321"
                         focusable="false"
                         style="margin-left: -6px; z-index: 1;"
                         viewBox="0 0 32 32"
@@ -1640,47 +1637,47 @@ exports[`<Root/> should render component 1`] = `
                       </svg>
                     </div>
                     <p
-                      class="MuiTypography-root-254 MuiTypography-body1-256"
+                      class="MuiTypography-root-252 MuiTypography-body1-254"
                       style="line-height: 1.4; margin-left: 10px;"
                     >
                       gOHM-FTM
                     </p>
                   </div>
                   <p
-                    class="MuiTypography-root-254 MuiTypography-body1-256"
+                    class="MuiTypography-root-252 MuiTypography-body1-254"
                     style="line-height: 1.4;"
                   >
                     <span
-                      class="MuiSkeleton-root-566 MuiSkeleton-text-567 MuiSkeleton-pulse-570"
+                      class="MuiSkeleton-root-557 MuiSkeleton-text-558 MuiSkeleton-pulse-561"
                       style="width: 80px;"
                     />
                   </p>
                   <p
-                    class="MuiTypography-root-254 MuiTypography-body1-256"
+                    class="MuiTypography-root-252 MuiTypography-body1-254"
                     style="line-height: 1.4;"
                   />
                   <div
-                    class="MuiBox-root-368 MuiBox-root-625"
+                    class="MuiBox-root-366 MuiBox-root-616"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root-314 MuiButton-root-341 MuiButton-outlined-346 makeStyles-root-595 makeStyles-root-626 undefined MuiButton-outlinedSecondary-348 MuiButton-disableElevation-352 MuiButton-fullWidth-362"
+                      class="MuiButtonBase-root-312 MuiButton-root-339 MuiButton-outlined-344 makeStyles-root-586 makeStyles-root-617 undefined MuiButton-outlinedSecondary-346 MuiButton-disableElevation-350 MuiButton-fullWidth-360"
                       href="https://app.spiritswap.finance/#/farms/allfarms"
                       tabindex="0"
                       target="_blank"
                     >
                       <span
-                        class="MuiButton-label-342"
+                        class="MuiButton-label-340"
                       >
                         Stake on
                          
                         Spirit (Fantom)
                         <span
-                          class="MuiButton-endIcon-364 MuiButton-iconSizeMedium-366"
+                          class="MuiButton-endIcon-362 MuiButton-iconSizeMedium-364"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root-315 MuiSvgIcon-fontSizeLarge-323"
+                            class="MuiSvgIcon-root-313 MuiSvgIcon-fontSizeLarge-321"
                             focusable="false"
                             viewBox="0 0 20 20"
                           >

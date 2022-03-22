@@ -90,6 +90,16 @@ export class Environment {
           key: `REACT_APP_FANTOM_TESTNET_NODE_URL`,
           fallback: "https://rpc.testnet.fantom.network/",
         });
+      case NetworkId.OPTIMISM:
+        return this._get({
+          key: `REACT_APP_OPTIMISM_NODE_URL`,
+          fallback: "https://mainnet.optimism.io/",
+        });
+      case NetworkId.OPTIMISM_TESTNET:
+        return this._get({
+          key: `REACT_APP_OPTIMISM_TESTNET_NODE_URL`,
+          fallback: "https://kovan.optimism.io/",
+        });
     }
   };
 

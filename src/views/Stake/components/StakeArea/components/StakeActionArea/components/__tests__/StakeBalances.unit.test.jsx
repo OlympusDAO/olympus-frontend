@@ -38,6 +38,7 @@ describe("<StakeBalances/>", () => {
       bals[NetworkId.AVALANCHE] = { data: new DecimalBigNumber("133", 18) };
       bals[NetworkId.POLYGON] = { data: new DecimalBigNumber("134", 18) };
       bals[NetworkId.FANTOM] = { data: new DecimalBigNumber("135", 18) };
+      bals[NetworkId.OPTIMISM] = { data: new DecimalBigNumber("136", 18) };
       return bals;
     });
     useGohmTokemakBalance.mockImplementation(function () {
@@ -74,13 +75,14 @@ describe("<StakeBalances/>", () => {
     // expect to find the correct token balances on the staking screen
     var bals = {
       "Unstaked Balance": "15.0000 OHM",
-      "Total Staked Balance": "120,628.0000 sOHM",
+      "Total Staked Balance": "134,228.0000 sOHM",
       sOHM: "12.0000 sOHM",
       gOHM: "131.0000 gOHM",
       "gOHM (Arbitrum)": "132.0000 gOHM",
       "gOHM (Avalanche)": "133.0000 gOHM",
       "gOHM (Polygon)": "134.0000 gOHM",
       "gOHM (Fantom)": "135.0000 gOHM",
+      "gOHM (Optimism)": "136.0000 gOHM",
       "gOHM (Tokemak)": "14.0000 gOHM",
       "gOHM (Fuse)": "11.0000 gOHM",
       "sOHM (v1)": "16.0000 sOHM",
