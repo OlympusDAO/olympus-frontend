@@ -14,17 +14,17 @@ export class Contract<TContract extends EthersContract = EthersContract, TAddres
    * Preferably, this should be kept in-sync with
    * the contract name tag on Etherscan.
    */
-  name: string;
+  name: ContractConfig<TAddressMap>["name"];
 
   /**
    * Map of addresses for each network this contract exists
    */
-  addresses: TAddressMap;
+  addresses: ContractConfig<TAddressMap>["addresses"];
 
   /**
    * Generated json ABI for the contract
    */
-  private _abi: ContractInterface;
+  private _abi: ContractConfig<TAddressMap>["abi"];
 
   /**
    * Cache used for contracts to prevent recomputing them repeatedly

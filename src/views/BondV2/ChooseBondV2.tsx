@@ -9,15 +9,14 @@ import { useAppSelector } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { IUserNote } from "src/slices/BondSliceV2";
 
+import { BondList } from "../Bond/components/BondList/BondList";
 import { OHMPrice, TreasuryBalance } from "../TreasuryDashboard/components/Metric/Metric";
-import ChooseStraightBond from "./ChooseStraightBond";
 import ClaimBonds from "./ClaimBonds";
-import ChooseInverseBond from "./InverseBond/ChooseInverseBond";
 
 function ChooseBondV2() {
-  const [showTabs, setShowTabs] = useState<boolean>(false);
-  const [isZoomed, setIsZoomed] = useState<boolean>(false);
-  const [currentAction, setCurrentAction] = useState<number>(0);
+  const [showTabs, setShowTabs] = useState(false);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [currentAction, setCurrentAction] = useState(0);
 
   const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
 
@@ -55,39 +54,40 @@ function ChooseBondV2() {
             <OHMPrice />
           </MetricCollection>
 
-          {showTabs && (
-            <Tabs
-              centered
-              textColor="primary"
-              value={currentAction}
-              aria-label="bond tabs"
-              indicatorColor="primary"
-              className="bond-tab-container"
-              onChange={(_, view) => setCurrentAction(view)}
-              // Hides the tab underline while <Zoom> is zooming
-              TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
-            >
-              <Tab aria-label="bond-button" label={t`Bond`} className="bond-tab-button" />
+          <Box mt="24px">
+            {showTabs && (
+              <Tabs
+                centered
+                textColor="primary"
+                value={currentAction}
+                aria-label="bond tabs"
+                indicatorColor="primary"
+                className="bond-tab-container"
+                onChange={(_, view) => setCurrentAction(view)}
+                // Hides the tab underline while <Zoom> is zooming
+                TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
+              >
+                <Tab aria-label="bond-button" label={t`Bond`} className="bond-tab-button" />
+                <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} className="bond-tab-button" />
+              </Tabs>
+            )}
 
-              <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} className="bond-tab-button" />
-            </Tabs>
-          )}
+            <Suspense fallback={null}>
+              <BondList />
 
-          <Suspense fallback={null}>
-            {showTabs && currentAction === 1 ? <ChooseInverseBond /> : <ChooseStraightBond />}
-
-            <Box mt={2} mb={[1, 0]} className="help-text">
-              <em>
-                <Typography variant="body2">
-                  <Trans>
-                    {currentAction === 1
-                      ? "Important: Inverse bonds allow you to bond your OHM for treasury assets. Vesting time is 0 and payouts are instant."
-                      : "Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as sOHM or gOHM at the end of the term."}
-                  </Trans>
-                </Typography>
-              </em>
-            </Box>
-          </Suspense>
+              <Box mt="24px" className="help-text">
+                <em>
+                  <Typography variant="body2">
+                    <Trans>
+                      {currentAction === 1
+                        ? "Important: Inverse bonds allow you to bond your OHM for treasury assets. Vesting time is 0 and payouts are instant."
+                        : "Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as sOHM or gOHM at the end of the term."}
+                    </Trans>
+                  </Typography>
+                </em>
+              </Box>
+            </Suspense>
+          </Box>
         </Paper>
       </Zoom>
     </div>

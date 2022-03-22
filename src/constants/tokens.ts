@@ -1,22 +1,21 @@
-import { Token } from "src/helpers/contracts/Token/Token";
+import { ERC20 } from "src/helpers/contracts/ERC20";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { getCoingeckoPrice } from "src/helpers/misc/getCoingeckoPrice";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
 
-import { OHM_ADDRESSES } from "../addresses";
-import { OHM_DAI_POOL, OHM_LUSD_POOL } from "./pools";
+import { OHM_ADDRESSES, OHM_DAI_LP_ADDRESSES, OHM_LUSD_LP_ADDRESSES, OHM_WETH_LP_ADDRESSES } from "./addresses";
+import { OHM_DAI_LP, OHM_LUSD_LP } from "./pools";
 
-export const OHM_TOKEN = new Token({
+export const OHM_TOKEN = new ERC20({
   icons: ["OHM"],
   name: "OHM",
   decimals: 9,
   addresses: OHM_ADDRESSES,
   purchaseUrl:
     "https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
-  async getPrice() {
+  getPrice: async () => {
     const provider = Providers.getStaticProvider(NetworkId.MAINNET);
-    const contract = OHM_DAI_POOL.getEthersContract(NetworkId.MAINNET).connect(provider);
+    const contract = OHM_DAI_LP.getEthersContract(NetworkId.MAINNET).connect(provider);
 
     const [ohm, dai] = await contract.getReserves();
 
@@ -24,32 +23,26 @@ export const OHM_TOKEN = new Token({
   },
 });
 
-export const WETH_TOKEN = new Token({
-  icons: ["wETH"],
-  name: "wETH",
+export const OHM_WETH_LP_TOKEN = new ERC20({
+  icons: ["OHM", "wETH"],
+  name: "OHM-ETH LP",
   decimals: 18,
-  addresses: {
-    [NetworkId.MAINNET]: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-  },
+  addresses: OHM_WETH_LP_ADDRESSES,
   purchaseUrl: "",
   async getPrice() {
-    const price = await getCoingeckoPrice(NetworkId.MAINNET, "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2");
-
-    return new DecimalBigNumber(price.toString(), 0);
+    return new DecimalBigNumber("19563703.22", 2);
   },
 });
 
-export const LUSD_OHM_LP_TOKEN = new Token({
-  icons: ["LUSD", "OHM"],
-  name: "LUSD-OHM LP",
+export const OHM_LUSD_LP_TOKEN = new ERC20({
+  icons: ["OHM", "LUSD"],
+  name: "OHM-LUSD LP",
   decimals: 18,
   purchaseUrl: "",
-  addresses: {
-    [NetworkId.MAINNET]: "0x46E4D8A1322B9448905225E52F914094dBd6dDdF",
-  },
+  addresses: OHM_LUSD_LP_ADDRESSES,
   async getPrice() {
     const provider = Providers.getStaticProvider(NetworkId.MAINNET);
-    const contract = OHM_LUSD_POOL.getEthersContract(NetworkId.MAINNET).connect(provider);
+    const contract = OHM_LUSD_LP.getEthersContract(NetworkId.MAINNET).connect(provider);
 
     const [reserves, totalSupply] = await Promise.all([contract.getReserves(), contract.totalSupply()]);
     const [lusd, ohm] = reserves;
@@ -58,7 +51,7 @@ export const LUSD_OHM_LP_TOKEN = new Token({
     const _lusd = new DecimalBigNumber(lusd, 18);
     const _totalSupply = new DecimalBigNumber(totalSupply, 18);
 
-    const ohmPerUsd = _lusd.div(_ohm, 9);
+    const ohmPerUsd = await OHM_TOKEN.getPrice(NetworkId.MAINNET);
 
     const totalValueOfLpInUsd = _ohm.mul(ohmPerUsd, 9).add(_lusd);
 
@@ -66,23 +59,21 @@ export const LUSD_OHM_LP_TOKEN = new Token({
   },
 });
 
-export const OHM_DAI_LP_TOKEN = new Token({
+export const OHM_DAI_LP_TOKEN = new ERC20({
   name: "OHM-DAI LP",
   icons: ["OHM", "DAI"],
   decimals: 18,
   purchaseUrl:
     "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x6b175474e89094c44da98b954eedeac495271d0f",
-  addresses: {
-    [NetworkId.MAINNET]: "0x34d7d7Aaf50AD4944B70B320aCB24C95fa2def7c",
-  },
+  addresses: OHM_DAI_LP_ADDRESSES,
   async getPrice() {
     const provider = Providers.getStaticProvider(NetworkId.MAINNET);
-    const contract = OHM_DAI_POOL.getEthersContract(NetworkId.MAINNET).connect(provider);
+    const contract = OHM_DAI_LP.getEthersContract(NetworkId.MAINNET).connect(provider);
 
     const [reserves, totalSupply] = await Promise.all([contract.getReserves(), contract.totalSupply()]);
     const [ohm, dai] = reserves;
 
-    const _ohm = new DecimalBigNumber(ohm, OHM_TOKEN.decimals);
+    const _ohm = new DecimalBigNumber(ohm, 9);
     const _dai = new DecimalBigNumber(dai, 18);
     const _totalSupply = new DecimalBigNumber(totalSupply, 18);
 

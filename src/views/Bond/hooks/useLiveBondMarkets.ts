@@ -1,18 +1,27 @@
 import { useQuery } from "react-query";
-import { BOND_DEPOSITORY_ADDRESSES } from "src/constants/addresses";
-import { useStaticBondContract } from "src/hooks/useContract";
+import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
+import { Providers } from "src/helpers/providers/Providers/Providers";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 
-export const liveBondMarketsQueryKey = () => ["useLiveBondMarkets"];
+export const liveBondMarketsQueryKey = (isInverseBond: boolean) => ["useLiveBondMarkets", isInverseBond];
 
-export const useLiveBondMarkets = () => {
+export const useLiveBondMarkets = ({
+  isInverseBond = false,
+  shouldSuspend = false,
+}: {
+  isInverseBond?: boolean;
+  shouldSuspend?: boolean;
+} = {}) => {
   const networks = useTestableNetworks();
-  const contract = useStaticBondContract(BOND_DEPOSITORY_ADDRESSES[networks.MAINNET], networks.MAINNET);
 
   return useQuery<string[], Error>(
-    liveBondMarketsQueryKey(),
+    liveBondMarketsQueryKey(isInverseBond),
     async () => {
-      const markets = await contract.liveMarkets();
+      const provider = Providers.getStaticProvider(networks.MAINNET);
+      const contract = isInverseBond ? OP_BOND_DEPOSITORY_CONTRACT : BOND_DEPOSITORY_CONTRACT;
+      const bonds = contract.getEthersContract(networks.MAINNET).connect(provider);
+
+      const markets = await bonds.liveMarkets();
 
       return markets.map(market => market.toString());
     },
@@ -24,7 +33,7 @@ export const useLiveBondMarkets = () => {
        * suspense to suspend the UI until all the data is loaded and
        * prevent ugly CLS.
        */
-      suspense: true,
+      suspense: shouldSuspend,
       /**
        * By default, when suspense is set to `true`. Errors will also
        * be thrown to nearest ErrorBoundary so we turn that functionality

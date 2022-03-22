@@ -4,7 +4,7 @@ import { BigNumber, ethers } from "ethers";
 import { useQuery } from "react-query";
 import { addresses, NetworkId, UnknownDetails, V2BondDetails, V2BondParser } from "src/constants";
 import { BOND_DEPOSITORY_ADDRESSES } from "src/constants/addresses";
-import { getBondById } from "src/helpers/bonds/getBondById";
+import { BONDS } from "src/constants/bonds";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
@@ -23,7 +23,7 @@ export const useLiveBondData = (id: string) => {
   const networks = useTestableNetworks();
   const contract = useStaticBondContract(BOND_DEPOSITORY_ADDRESSES[networks.MAINNET], networks.MAINNET);
 
-  const bond = getBondById(id);
+  const bond = BONDS[id];
 
   // Dependent data
   const key = liveBondDataQueryKey(id);
