@@ -4,7 +4,7 @@ import { ExternalPool } from "src/lib/ExternalPool";
 export const tj_gohm_wavax = new ExternalPool({
   poolName: "gOHM-AVAX",
   icons: ["wsOHM", "AVAX"],
-  stakeOn: "Trader Joe (Avalanche)",
+  stakeOn: "Trader Joe",
   pairGecko: "avalanche-2",
   rewardGecko: "joe",
   href: "https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00",
@@ -18,7 +18,7 @@ export const tj_gohm_wavax = new ExternalPool({
 export const beets_ftm_gohm_wFTM = new ExternalPool({
   poolName: "gOHM-wFTM",
   icons: ["gOHM", "FANTOM"],
-  stakeOn: "Beethoven (Fantom)",
+  stakeOn: "Beethoven",
   pairGecko: "fantom",
   rewardGecko: "beethoven-x",
   href: "https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198",
@@ -33,7 +33,7 @@ export const beets_ftm_gohm_wFTM = new ExternalPool({
 export const sushi_arb_gohm_weth = new ExternalPool({
   poolName: "gOHM-wETH",
   icons: ["wsOHM", "wETH"],
-  stakeOn: "Sushi (Arbitrum)",
+  stakeOn: "Sushi",
   pairGecko: "ethereum",
   rewardGecko: "sushi",
   href: "https://app.sushi.com/farm?filter=2x",
@@ -47,7 +47,7 @@ export const sushi_arb_gohm_weth = new ExternalPool({
 export const sushi_poly_gohm_weth = new ExternalPool({
   poolName: "gOHM-wETH",
   icons: ["wsOHM", "wETH"],
-  stakeOn: "Sushi (Polygon)",
+  stakeOn: "Sushi",
   pairGecko: "ethereum",
   rewardGecko: "sushi",
   href: "https://app.sushi.com/farm?filter=2x",
@@ -61,7 +61,7 @@ export const sushi_poly_gohm_weth = new ExternalPool({
 export const spirit_gohm_ftm = new ExternalPool({
   poolName: "gOHM-FTM",
   icons: ["wsOHM", "FANTOM"],
-  stakeOn: "Spirit (Fantom)",
+  stakeOn: "Spirit",
   pairGecko: "fantom",
   rewardGecko: "spiritswap",
   href: "https://app.spiritswap.finance/#/farms/allfarms",
@@ -75,7 +75,7 @@ export const spirit_gohm_ftm = new ExternalPool({
 export const zip_gohm_weth = new ExternalPool({
   poolName: "gOHM-wETH",
   icons: ["gOHM", "wETH"],
-  stakeOn: "Zipswap (Optimism)",
+  stakeOn: "Zipswap",
   pairGecko: "ethereum",
   rewardGecko: "zipswap",
   href: "https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1",
