@@ -132,7 +132,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
                 { label: "Wallet", to: "/wallet" },
                 { label: "Utility", to: "/utility" },
                 { label: "Calculator", to: "/calculator" },
-                { label: "Info", to: "/info" },
+                { label: "Info", to: `${process.env.REACT_APP_DISABLE_NEWS ? "/info/proposals" : "/info"}` },
               ]}
               mb={"18px"}
             />
