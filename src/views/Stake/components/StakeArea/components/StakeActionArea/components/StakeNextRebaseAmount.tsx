@@ -40,6 +40,7 @@ export const StakeNextRebaseAmount = () => {
     gohmBalances[NetworkId.AVALANCHE].data,
     gohmBalances[NetworkId.POLYGON].data,
     gohmBalances[NetworkId.FANTOM].data,
+    gohmBalances[NetworkId.OPTIMISM].data,
     wsohmBalances[NetworkId.MAINNET].data,
     wsohmBalances[NetworkId.ARBITRUM].data,
     wsohmBalances[NetworkId.AVALANCHE].data,

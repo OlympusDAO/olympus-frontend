@@ -38,6 +38,7 @@ describe("<StakeBalances/>", () => {
       bals[NetworkId.AVALANCHE] = { data: new DecimalBigNumber("133", 18) };
       bals[NetworkId.POLYGON] = { data: new DecimalBigNumber("134", 18) };
       bals[NetworkId.FANTOM] = { data: new DecimalBigNumber("135", 18) };
+      bals[NetworkId.OPTIMISM] = { data: new DecimalBigNumber("136", 18) };
       return bals;
     });
     useGohmTokemakBalance.mockImplementation(function () {
