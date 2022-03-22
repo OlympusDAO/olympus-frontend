@@ -33,32 +33,27 @@ const Info: FC<OHMInfoProps> = (props: { path?: string }) => {
 
   return (
     <>
-      <Box display="flex" flexDirection="row" className={classes.tabNav} pt="18px" mb="18px">
-        <Link component={NavLink} to="/info" exact>
-          News
-        </Link>
-        <Link component={NavLink} to="/info/proposals">
-          Votes
-        </Link>
-        <Link component={NavLink} to="/info/faq">
-          FAQ
-        </Link>
-      </Box>
-
+      <Fade in={true}>
+        <Box display="flex" flexDirection="row" className={classes.tabNav} pt="18px" mb="18px">
+          {!process.env.REACT_APP_DISABLE_NEWS && (
+            <Link component={NavLink} to="/info" exact>
+              News
+            </Link>
+          )}
+          <Link component={NavLink} to="/info/proposals">
+            Votes
+          </Link>
+          <Link component={NavLink} to="/info/faq">
+            FAQ
+          </Link>
+        </Box>
+      </Fade>
       {(() => {
         switch (props.path) {
           case "news":
-            return (
-              <Fade in={true}>
-                <News />
-              </Fade>
-            );
+            return <News />;
           case "proposals":
-            return (
-              <Fade in={true}>
-                <Proposals />
-              </Fade>
-            );
+            return <Proposals />;
           case "faq":
             return <Faq />;
           default:
