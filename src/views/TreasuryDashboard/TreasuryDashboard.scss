@@ -306,6 +306,10 @@
 }
 
 .light {
+  .multifarm-widget-accordion {
+    background: var(--light-paper-bg);
+  }
+
   .multifarm-widget-chart-tooltip__trigger {
     cursor: pointer;
     &:hover {
@@ -323,6 +327,10 @@
 }
 
 .dark {
+  .multifarm-widget-accordion {
+    background: var(--dark-paper-bg);
+  }
+
   .multifarm-widget-chart-tooltip__trigger {
     cursor: pointer;
     &:hover {

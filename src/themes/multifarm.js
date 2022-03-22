@@ -1,6 +1,11 @@
 import { extendTheme, olympusDarkTheme, olympusTheme } from "@multifarm/widget";
 
 const multifarmLightTheme = extendTheme(olympusTheme, {
+  card: {
+    background: {
+      primary: "var(--light-paper-bg)",
+    },
+  },
   badge: {
     background: {
       primary: "rgba(255, 255, 255, 0.6)",
@@ -17,6 +22,11 @@ const multifarmLightTheme = extendTheme(olympusTheme, {
 });
 
 const multifarmDarkTheme = extendTheme(olympusDarkTheme, {
+  card: {
+    background: {
+      primary: "var(--dark-paper-bg)",
+    },
+  },
   text: {
     highlight: "#fff",
   },
