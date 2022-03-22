@@ -7,7 +7,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
     id="treasury-dashboard-view"
   >
     <div
-      class="MuiTabs-root makeStyles-root-1 undefined"
+      class="MuiTabs-root makeStyles-root-1 "
     >
       <div
         class="MuiTabs-scrollable"
