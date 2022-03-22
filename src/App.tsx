@@ -15,7 +15,8 @@ import useBonds from "./hooks/useBonds";
 import { useWeb3Context, useAppSelector } from "./hooks";
 import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { shouldTriggerSafetyCheck } from "./helpers";
-
+import MigrationModal from "./components/Migration/MigrationModal";
+import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
@@ -39,6 +40,7 @@ import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import { trackGAEvent } from "./helpers/analytics";
+import Wallet from "./components/TopBar/Wallet";
 import { getAllInverseBonds } from "./slices/InverseBondSlice";
 import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
 
@@ -435,10 +437,34 @@ function App() {
                 })}
                 <ChooseBondV2 />
               </Route>
+              <Route exact path="/calculator">
+                <Wallet open={true} component="calculator" />
+              </Route>
+              <Route path={"/info/:id"}>
+                <Wallet open={true} component="info" />
+              </Route>
+              <Route path={"/info"}>
+                <Wallet open={true} component="info" />
+              </Route>
+              <Route path={"/utility"}>
+                <Wallet open={true} component="utility" />
+              </Route>
+              <Route path={"/wallet/history"}>
+                <Wallet open={true} component="wallet/history" />
+              </Route>
+              <Route path="/wallet">
+                <Wallet open={true} component="wallet" />
+              </Route>
+
               <Route component={NotFound} />
             </Switch>
           </div>
         </div>
+        {hasDust ? (
+          <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
+        ) : (
+          <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
+        )}
       </MultifarmProvider>
     </ThemeProvider>
   );

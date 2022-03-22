@@ -1,0 +1,260 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "contract IERC20", "name": "_rewardToken", "type": "address" },
+        { "internalType": "contract IZipRewards", "name": "_zipRewards", "type": "address" }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" },
+        { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "address", "name": "user", "type": "address" },
+        { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" },
+        { "indexed": true, "internalType": "address", "name": "to", "type": "address" }
+      ],
+      "name": "SecondaryDeposit",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "address", "name": "user", "type": "address" },
+        { "indexed": false, "internalType": "address", "name": "recipient", "type": "address" },
+        { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }
+      ],
+      "name": "SecondaryHarvest",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "uint256", "name": "lastRewardTime", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "lpSupply", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "accZipPerShare", "type": "uint256" }
+      ],
+      "name": "SecondaryLogUpdatePool",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [{ "indexed": false, "internalType": "uint256", "name": "zipPerSecond", "type": "uint256" }],
+      "name": "SecondaryLogZipPerSecond",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "address", "name": "user", "type": "address" },
+        { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }
+      ],
+      "name": "SecondaryWithdraw",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "accZipPerShare",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "inputs": [], "name": "acceptOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [{ "internalType": "address", "name": "who", "type": "address" }],
+      "name": "forceSyncDeposit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "lastRewardTime",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "lpSupply",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "masterFarmPid",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "pid", "type": "uint256" },
+        { "internalType": "uint256", "name": "depositedAmount", "type": "uint256" },
+        { "internalType": "uint256", "name": "_finalBalance", "type": "uint256" },
+        { "internalType": "address", "name": "sender", "type": "address" },
+        { "internalType": "address", "name": "to", "type": "address" }
+      ],
+      "name": "notify_onDeposit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "pid", "type": "uint256" },
+        { "internalType": "uint256", "name": "zipAmount", "type": "uint256" },
+        { "internalType": "address", "name": "user", "type": "address" },
+        { "internalType": "address", "name": "recipient", "type": "address" }
+      ],
+      "name": "notify_onHarvest",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "pid", "type": "uint256" },
+        { "internalType": "uint256", "name": "withdrawnAmount", "type": "uint256" },
+        { "internalType": "uint256", "name": "remainingAmount", "type": "uint256" },
+        { "internalType": "address", "name": "user", "type": "address" },
+        { "internalType": "address", "name": "to", "type": "address" }
+      ],
+      "name": "notify_onWithdrawal",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "_masterFarmPid", "type": "uint256" }],
+      "name": "ownerSetMasterFarmPid",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "contract IERC20", "name": "_token", "type": "address" },
+        { "internalType": "address", "name": "recipient", "type": "address" },
+        { "internalType": "uint256", "name": "amount", "type": "uint256" }
+      ],
+      "name": "ownerWithdrawToken",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "user", "type": "address" }],
+      "name": "pendingTokens",
+      "outputs": [
+        { "internalType": "contract IERC20[]", "name": "rewardTokens", "type": "address[]" },
+        { "internalType": "uint256[]", "name": "rewardAmounts", "type": "uint256[]" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [],
+      "name": "rewardRates",
+      "outputs": [
+        { "internalType": "contract IERC20[]", "name": "", "type": "address[]" },
+        { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint128", "name": "newZipPerSecond", "type": "uint128" }],
+      "name": "setRewardTokenPerSecond",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalAccumulatedRewardsLastSetTimestamp",
+      "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalAccumulatedZipRewards",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalPaidRewards",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "_newOwner", "type": "address" }],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    { "inputs": [], "name": "updatePool", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "name": "userInfo",
+      "outputs": [
+        { "internalType": "uint128", "name": "amount", "type": "uint128" },
+        { "internalType": "int128", "name": "rewardDebt", "type": "int128" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "zipPerSecond",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "zipRewards",
+      "outputs": [{ "internalType": "contract IZipRewards", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "zipRewardsSpentTime",
+      "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "zipToken",
+      "outputs": [{ "internalType": "contract IERC20", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}
