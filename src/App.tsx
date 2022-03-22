@@ -15,7 +15,8 @@ import useBonds from "./hooks/useBonds";
 import { useWeb3Context, useAppSelector } from "./hooks";
 import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { shouldTriggerSafetyCheck } from "./helpers";
-
+import MigrationModal from "./components/Migration/MigrationModal";
+import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
@@ -459,6 +460,11 @@ function App() {
             </Switch>
           </div>
         </div>
+        {hasDust ? (
+          <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
+        ) : (
+          <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
+        )}
       </MultifarmProvider>
     </ThemeProvider>
   );
