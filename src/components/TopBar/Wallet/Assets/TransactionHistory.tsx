@@ -5,7 +5,7 @@ import { FC, useRef, useState } from "react";
 import { shorten, trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { CovalentResponse, CovalentTransaction } from "src/lib/covalent.types";
-import { addresses } from "src/networkDetails";
+import { addresses, NetworkId } from "src/networkDetails";
 
 import useIntersectionObserver from "../helpers";
 import { GetTransactionHistory, GetTransferHistory } from "../queries";
@@ -101,7 +101,7 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
     throw new Error("Invalid Transfer");
   };
   const filterTransactions = (transactions: CovalentResponse) => {
-    if (!transactions.error) {
+    if (!transactions.error && NetworkId.MAINNET === networkId) {
       return transactions.data.items
         .filter(transaction => {
           return (
@@ -241,7 +241,7 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
         })
         .filter((transaction: any) => transaction.type);
     }
-    throw new Error("No transactions found");
+    return [];
   };
 
   const getSymbols = (transaction: WalletTransaction) => {
