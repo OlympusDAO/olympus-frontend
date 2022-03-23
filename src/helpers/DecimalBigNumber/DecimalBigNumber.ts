@@ -73,10 +73,20 @@ export class DecimalBigNumber {
 
   /**
    * Used to display a formatted approximate value to the user
-   * @param decimals The number of decimal places to show
+   *
+   * @param decimals The number of decimal places to show, otherwise the object's configured decimal places
    */
-  public toFormattedString(decimals = 0): string {
-    return formatNumber(this.toApproxNumber(), decimals);
+  public toFormattedString(decimals?: number): string {
+    return formatNumber(this.toApproxNumber(), decimals !== undefined ? decimals : this._decimals);
+  }
+
+  /**
+   * Used to display a formatted approximate value to the user with trailing zeroes trimmed
+   *
+   * @param decimals The number of decimal places to show, otherwise the object's configured decimal places
+   */
+  public toFormattedStringTrimmed(decimals?: number): string {
+    return this.toFormattedString(decimals).replace(/(?:\.|(\..*?))0+$/, "$1");
   }
 
   /**
@@ -109,6 +119,7 @@ export class DecimalBigNumber {
 
     return new DecimalBigNumber(_this._number.sub(_value._number), decimals);
   }
+
   /**
    * Adds the value provided to this number
    */
