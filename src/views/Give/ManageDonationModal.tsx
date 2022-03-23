@@ -204,7 +204,7 @@ export function ManageDonationModal({
 
     if (!address) return false;
     if (hasPendingGiveTxn(pendingTransactions)) return false;
-    if (getDepositAmountDiff().isEqualTo(0)) return false;
+    if (getDepositAmountDiff().eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) return false;
 
     return true;
   };
@@ -262,19 +262,19 @@ export function ManageDonationModal({
     const valueNumber = new DecimalBigNumber(value, OHM_DECIMAL_PLACES);
     const sOhmBalanceNumber = getSOhmBalance();
 
-    if (!value || value == "" || valueNumber.toBigNumber().eq(0)) {
+    if (!value || value == "" || valueNumber.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Please enter a value`);
       return;
     }
 
-    if (valueNumber.isLessThan(0)) {
+    if (valueNumber.lt(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Value must be positive`);
       return;
     }
 
-    if (sOhmBalanceNumber.toBigNumber().eq(0)) {
+    if (sOhmBalanceNumber.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
     }
@@ -410,12 +410,16 @@ export function ManageDonationModal({
    * Elements to display project statistics, such as donation sOHM, yield and goal achievement.
    */
   const getProjectStats = () => {
+    const depositGoalNumber = project
+      ? new DecimalBigNumber(project.depositGoal, OHM_DECIMAL_PLACES)
+      : new DecimalBigNumber(0, OHM_DECIMAL_PLACES);
+
     return (
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <Box>
             <Typography variant="h5" align="center">
-              {project ? new BigNumber(project.depositGoal).toFormat(DECIMAL_PLACES) : "N/A"}
+              {project ? depositGoalNumber.toFormattedString(DECIMAL_PLACES) : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
               {isSmallScreen ? "Goal" : "sOHM Goal"}
@@ -425,7 +429,7 @@ export function ManageDonationModal({
         <Grid item xs={4}>
           <Box>
             <Typography variant="h5" align="center">
-              {project ? new BigNumber(totalDebt).toFormat(DECIMAL_PLACES) : "N/A"}
+              {project ? new DecimalBigNumber(totalDebt, OHM_DECIMAL_PLACES).toFormattedString(DECIMAL_PLACES) : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
               {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
@@ -436,7 +440,10 @@ export function ManageDonationModal({
           <Box>
             <Typography variant="h5" align="center">
               {project
-                ? new BigNumber(totalDebt).multipliedBy(100).div(project.depositGoal).toFixed(DECIMAL_PLACES) + "%"
+                ? new DecimalBigNumber(totalDebt, OHM_DECIMAL_PLACES)
+                    .mul(new DecimalBigNumber(100, OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES)
+                    .div(depositGoalNumber, OHM_DECIMAL_PLACES)
+                    .toFormattedString(DECIMAL_PLACES) + "%"
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
@@ -565,11 +572,11 @@ export function ManageDonationModal({
                   id="amount-input"
                   type="number"
                   placeholder={t`Enter an amount`}
-                  value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+                  value={getDepositAmount().eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES)) ? null : getDepositAmount()}
                   // We need to inform the user about their deposit, so this is a specific value
                   helperText={
                     isDepositAmountValid
-                      ? t`Your current deposit is ${currentDepositAmount.toFormat()} sOHM`
+                      ? t`Your current deposit is ${currentDepositAmount.toFormattedString(OHM_DECIMAL_PLACES)} sOHM`
                       : isDepositAmountValidError
                   }
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -578,7 +585,7 @@ export function ManageDonationModal({
                   startAdornment="sOHM"
                   endString={t`Max`}
                   // This uses toFixed() as it is a specific value and not formatted
-                  endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
+                  endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toAccurateString())}
                 />
               </Grid>
             </Grid>
@@ -608,7 +615,7 @@ export function ManageDonationModal({
               <Trans>Current sOHM deposit</Trans>
             </Typography>
             {/* Referring to the current deposit, so we need to be specific */}
-            <Typography variant="h6">{currentDepositAmount.toFixed()} sOHM</Typography>
+            <Typography variant="h6">{currentDepositAmount.toFormattedString(OHM_DECIMAL_PLACES)} sOHM</Typography>
           </Grid>
           {!isSmallScreen ? (
             <Grid item sm={4}>
