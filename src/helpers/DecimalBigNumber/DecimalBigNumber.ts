@@ -7,18 +7,28 @@ export class DecimalBigNumber {
   private _decimals: number;
   private _number: BigNumber;
 
-  constructor(number: BigNumber | string, decimals: number) {
+  constructor(number: BigNumber | string | number, decimals: number) {
     this._decimals = decimals;
 
     if (typeof number === "string") {
-      const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
+      const formatted = this._prepareInputString(number, decimals);
+      this._number = parseUnits(formatted, decimals);
+      return;
+    }
 
-      const formatted = this._omitIrrelevantDecimals(_number, decimals);
+    if (typeof number === "number") {
+      const formatted = this._prepareInputString(number.toString(), decimals);
       this._number = parseUnits(formatted, decimals);
       return;
     }
 
     this._number = number;
+  }
+
+  private _prepareInputString(number: string, decimals: number): string {
+    const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
+
+    return this._omitIrrelevantDecimals(_number, decimals);
   }
 
   private _omitIrrelevantDecimals(number: string, decimals: number): string {
