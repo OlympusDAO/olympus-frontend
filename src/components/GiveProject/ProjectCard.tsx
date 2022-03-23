@@ -617,7 +617,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
           project={project}
-          key={title}
+          key={"recipient-modal-" + title}
         />
       </>
     );
