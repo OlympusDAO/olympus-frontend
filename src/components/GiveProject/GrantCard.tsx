@@ -631,7 +631,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                                 new DecimalBigNumber(
                                   donationInfo[donationId].deposit,
                                   OHM_DECIMAL_PLACES,
-                                ).toAccurateString()
+                                ).toFormattedString(OHM_DECIMAL_PLACES)
                               ) : (
                                 "0.00"
                               )}
