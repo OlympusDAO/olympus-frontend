@@ -103,24 +103,18 @@ export function ManageDonationModal({
     }
   }, [isModalOpen]);
 
-  const _initialDepositAmount = 0;
-  const _initialWalletAddress = "";
+  const _initialDepositAmount = currentDepositAmount.toAccurateString();
+  const _initialWalletAddress = currentWalletAddress;
   const _initialDepositAmountValid = false;
   const _initialDepositAmountValidError = "";
   const _initialWalletAddressValid = false;
   const _initialIsAmountSet = false;
 
-  const getInitialDepositAmount = () => {
-    return currentDepositAmount ? currentDepositAmount.toApproxNumber() : _initialDepositAmount;
-  };
-  const [depositAmount, setDepositAmount] = useState(getInitialDepositAmount());
+  const [depositAmount, setDepositAmount] = useState(_initialDepositAmount);
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(_initialDepositAmountValid);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState(_initialDepositAmountValidError);
 
-  const getInitialWalletAddress = () => {
-    return currentWalletAddress ? currentWalletAddress : _initialWalletAddress;
-  };
-  const [walletAddress, setWalletAddress] = useState(getInitialWalletAddress());
+  const [walletAddress, setWalletAddress] = useState(_initialWalletAddress);
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(_initialWalletAddressValid);
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
@@ -242,20 +236,9 @@ export function ManageDonationModal({
     return new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES).sub(getCurrentDepositAmount());
   };
 
-  /**
-   * Ensures that the depositAmount returned is a valid number.
-   *
-   * @returns
-   */
-  const getDepositAmount = (): DecimalBigNumber => {
-    if (!depositAmount) return new DecimalBigNumber(0, OHM_DECIMAL_PLACES);
-
-    return new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES);
-  };
-
   const handleSetDepositAmount = (value: string) => {
     checkIsDepositAmountValid(value);
-    setDepositAmount(parseFloat(value));
+    setDepositAmount(value);
   };
 
   const checkIsDepositAmountValid = (value: string) => {
@@ -419,7 +402,7 @@ export function ManageDonationModal({
         <Grid item xs={4}>
           <Box>
             <Typography variant="h5" align="center">
-              {project ? depositGoalNumber.toFormattedString(DECIMAL_PLACES) : "N/A"}
+              {project ? depositGoalNumber.toFormattedStringTrimmed(DECIMAL_PLACES) : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
               {isSmallScreen ? "Goal" : "sOHM Goal"}
@@ -429,7 +412,9 @@ export function ManageDonationModal({
         <Grid item xs={4}>
           <Box>
             <Typography variant="h5" align="center">
-              {project ? new DecimalBigNumber(totalDebt, OHM_DECIMAL_PLACES).toFormattedString(DECIMAL_PLACES) : "N/A"}
+              {project
+                ? new DecimalBigNumber(totalDebt, OHM_DECIMAL_PLACES).toFormattedStringTrimmed(DECIMAL_PLACES)
+                : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
               {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
@@ -443,7 +428,7 @@ export function ManageDonationModal({
                 ? new DecimalBigNumber(totalDebt, OHM_DECIMAL_PLACES)
                     .mul(new DecimalBigNumber(100, OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES)
                     .div(depositGoalNumber, OHM_DECIMAL_PLACES)
-                    .toFormattedString(DECIMAL_PLACES) + "%"
+                    .toFormattedStringTrimmed(DECIMAL_PLACES) + "%"
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
@@ -464,8 +449,14 @@ export function ManageDonationModal({
         <Box>
           <DataRow title={t`Date`} balance={depositDate} />
           <DataRow title={t`Recipient`} balance={getRecipientTitle()} />
-          <DataRow title={t`Deposited`} balance={`${depositAmount} sOHM`} />
-          <DataRow title={t`Yield Sent`} balance={`${yieldSent} sOHM`} />
+          <DataRow
+            title={t`Deposited`}
+            balance={`${new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES).toFormattedStringTrimmed()} sOHM`}
+          />
+          <DataRow
+            title={t`Yield Sent`}
+            balance={`${new DecimalBigNumber(yieldSent, OHM_DECIMAL_PLACES).toFormattedStringTrimmed()} sOHM`}
+          />
         </Box>
       </>
     );
@@ -572,11 +563,11 @@ export function ManageDonationModal({
                   id="amount-input"
                   type="number"
                   placeholder={t`Enter an amount`}
-                  value={getDepositAmount().eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES)) ? null : getDepositAmount()}
+                  value={depositAmount}
                   // We need to inform the user about their deposit, so this is a specific value
                   helperText={
                     isDepositAmountValid
-                      ? t`Your current deposit is ${currentDepositAmount.toFormattedString(OHM_DECIMAL_PLACES)} sOHM`
+                      ? t`Your current deposit is ${currentDepositAmount.toFormattedStringTrimmed()} sOHM`
                       : isDepositAmountValidError
                   }
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -615,7 +606,7 @@ export function ManageDonationModal({
               <Trans>Current sOHM deposit</Trans>
             </Typography>
             {/* Referring to the current deposit, so we need to be specific */}
-            <Typography variant="h6">{currentDepositAmount.toFormattedString(OHM_DECIMAL_PLACES)} sOHM</Typography>
+            <Typography variant="h6">{currentDepositAmount.toFormattedStringTrimmed()} sOHM</Typography>
           </Grid>
           {!isSmallScreen ? (
             <Grid item sm={4}>
@@ -634,7 +625,12 @@ export function ManageDonationModal({
                   <Trans>New sOHM deposit</Trans>
                 </Typography>
                 {/* Referring to the new deposit, so we need to be specific */}
-                <Typography variant="h6">{isWithdrawing ? 0 : depositAmount.toFixed()} sOHM</Typography>
+                <Typography variant="h6">
+                  {isWithdrawing
+                    ? "0"
+                    : new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES).toFormattedStringTrimmed()}{" "}
+                  sOHM
+                </Typography>
               </Grid>
             </Grid>
           </Grid>
@@ -713,14 +709,6 @@ export function ManageDonationModal({
       </Grid>
     );
   };
-
-  // NOTE: the following warning is caused by the amount-input field:
-  // Warning: `value` prop on `%s` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.%s
-  // This is caused by this line (currently 423):
-  // value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
-  // If we set the value to an empty string instead of null, any decimal number that is entered will not be accepted
-  // This appears to be due to the following bug (which is still not resolved);
-  // https://github.com/facebook/react/issues/11877
 
   return (
     <Modal
