@@ -25,6 +25,15 @@ export class DecimalBigNumber {
     this._number = number;
   }
 
+  /**
+   * Returns a copy of the current DecimalBigNumber
+   *
+   * @returns a new instance of DecimalBigNumber
+   */
+  public copy(): DecimalBigNumber {
+    return new DecimalBigNumber(this._number, this._decimals);
+  }
+
   private _prepareInputString(number: string, decimals: number): string {
     const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
 
