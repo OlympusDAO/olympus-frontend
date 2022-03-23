@@ -80,6 +80,23 @@ export class DecimalBigNumber {
   }
 
   /**
+   * Determines if the two values are equal
+   *
+   * @param value the number to compare gainst
+   * @returns true if equal
+   */
+  public eq(value: DecimalBigNumber): boolean {
+    // Normalize precision to the largest of the two values
+    const decimals = Math.max(value._decimals, this._decimals);
+
+    // Normalize values to correct precision
+    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
+    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+
+    return _this._number.eq(_value._number);
+  }
+
+  /**
    * Subtracts this number by the value provided
    */
   public sub(value: DecimalBigNumber): DecimalBigNumber {
@@ -118,6 +135,20 @@ export class DecimalBigNumber {
     const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
 
     return _this._number.gt(_value._number);
+  }
+
+  /**
+   * Determines if this number is less than the provided value
+   */
+  public lt(value: DecimalBigNumber): boolean {
+    // Normalize precision to the largest of the two values
+    const decimals = Math.max(value._decimals, this._decimals);
+
+    // Normalize values to correct precision
+    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
+    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+
+    return _this._number.lt(_value._number);
   }
 
   /**
