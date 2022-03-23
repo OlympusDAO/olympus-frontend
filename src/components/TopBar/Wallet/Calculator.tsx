@@ -1,9 +1,10 @@
-import { Box, Fade, Grid, RadioGroup, Theme, Typography } from "@material-ui/core";
+import { Box, Fade, Grid, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { DottedDataRow, Input, ProgressCircle, Radio, Slider } from "@olympusdao/component-library";
+import { DottedDataRow, Input, ProgressCircle, Slider } from "@olympusdao/component-library";
 import { FC, useEffect, useState } from "react";
-import { trim } from "src/helpers";
+import { formatNumber, trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { nonNullable } from "src/helpers/types/nonNullable";
 import {
   useFuseBalance,
   useGohmBalance,
@@ -13,7 +14,6 @@ import {
   useWsohmBalance,
 } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useOhmPrice } from "src/hooks/usePrices";
 import { useProtocolMetrics } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -96,42 +96,57 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-export const initialInvestment = (quantity: number, purchasePrice: number) => {
-  return quantity * purchasePrice;
-};
-
 /**
  * Component for Displaying Calculator
  */
 const Calculator: FC = () => {
   const networks = useTestableNetworks();
   const { data: currentRebaseRate = 0 } = useStakingRebaseRate();
-  const { data: gOhmBalance = new DecimalBigNumber("0", 18) } = useGohmBalance()[networks.MAINNET];
+  const gohmBalances = useGohmBalance();
   const { data: sOhmBalance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
   const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
-  const { data: fuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
+  const { data: gohmFuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
   const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[NetworkId.MAINNET];
-  const { data: wsOhmBalance = new DecimalBigNumber("0", 18) } = useWsohmBalance()[networks.MAINNET];
+  const wsohmBalances = useWsohmBalance();
   const { data: v1SohmBalance = new DecimalBigNumber("0", 9) } = useV1SohmBalance()[networks.MAINNET];
 
-  const walletSohm =
-    gOhmBalance.toApproxNumber() * currentIndex.toApproxNumber() +
-    wsOhmBalance.toApproxNumber() * currentIndex.toApproxNumber() +
-    fuseBalance.toApproxNumber() * currentIndex.toApproxNumber() +
-    gohmTokemakBalance.toApproxNumber() * currentIndex.toApproxNumber() +
-    sOhmBalance.toApproxNumber() +
-    v1SohmBalance.toApproxNumber();
+  const gohmTokens = [
+    gohmFuseBalance,
+    gohmTokemakBalance,
+    gohmBalances[networks.MAINNET].data,
+    gohmBalances[NetworkId.ARBITRUM].data,
+    gohmBalances[NetworkId.AVALANCHE].data,
+    gohmBalances[NetworkId.POLYGON].data,
+    gohmBalances[NetworkId.FANTOM].data,
+    gohmBalances[NetworkId.OPTIMISM].data,
+  ];
+  const wsohmTokens = [
+    wsohmBalances[NetworkId.MAINNET].data,
+    wsohmBalances[NetworkId.ARBITRUM].data,
+    wsohmBalances[NetworkId.AVALANCHE].data,
+  ];
 
-  const [initialInvestment, setInitialInvestment] = useState(10000);
+  const totalGohmBalance = gohmTokens
+    .filter(nonNullable)
+    .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
+
+  const totalWsohmBalance = wsohmTokens
+    .filter(nonNullable)
+    .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
+
+  const walletSohm = totalGohmBalance
+    .mul(currentIndex, 9)
+    .add(totalWsohmBalance.mul(currentIndex, 9))
+    .add(sOhmBalance)
+    .add(v1SohmBalance)
+    .toApproxNumber();
+
+  const [initialInvestment, setInitialInvestment] = useState(0);
   const [duration, setDuration] = useState(365);
-  const [multiplier, setMultiplier] = useState(1);
-  const [futureOhmPrice, setFutureOhmPrice] = useState(0);
-  const [manualOhmPrice, setManualOhmPrice] = useState(0);
   const [manualRebaseRate, setManualRebaseRate] = useState(0);
   const [advanced, setAdvanced] = useState(false);
   const classes = useStyles();
   const rebases = duration * 3;
-  const { data: ohmPrice = 0 } = useOhmPrice();
   const { data: runwayData } = useProtocolMetrics();
 
   //protocol metrics hook is causing this ts error. disabling for now.
@@ -139,40 +154,20 @@ const Calculator: FC = () => {
   const runway = runwayData && trim(runwayData[0].runwayCurrent, 1);
 
   //If values are set on the Advanced view.
-  const currentOhmPrice = advanced ? manualOhmPrice : ohmPrice;
   const rebaseRate = advanced ? manualRebaseRate : +trim(currentRebaseRate, 7);
 
-  const predictedOhmPrice = futureOhmPrice > 0 ? futureOhmPrice : currentOhmPrice * multiplier;
-  const amountOfOhmPurchased = initialInvestment / currentOhmPrice;
-  const totalsOHM = (1 + rebaseRate) ** rebases * amountOfOhmPurchased;
-  const usdProfit = totalsOHM * predictedOhmPrice - initialInvestment;
-  const usdValue = totalsOHM * predictedOhmPrice;
-  const pieValue = (usdProfit / (totalsOHM * predictedOhmPrice)) * 100;
-  const breakEvenPrice = initialInvestment / totalsOHM;
-
+  const totalsOHM = (1 + rebaseRate) ** rebases * initialInvestment;
+  const sohmProfit = totalsOHM - initialInvestment;
+  const pieValue = (sohmProfit / totalsOHM) * 100;
   useEffect(() => {
     setManualRebaseRate(+trim(currentRebaseRate, 7));
   }, [currentRebaseRate]);
 
   useEffect(() => {
-    setManualOhmPrice(+trim(ohmPrice, 2));
-  }, [ohmPrice]);
-
-  useEffect(() => {
-    setInitialInvestment(walletSohm * ohmPrice);
+    setInitialInvestment(walletSohm);
   }, [walletSohm]);
-  //Solving for duration (rebases/3) aka breakeven days
-  const breakevenDays =
-    (Math.log(totalsOHM / (initialInvestment / futureOhmPrice)) / Math.log(1 + rebaseRate) / 3 - duration) * -1;
 
-  const ROI = new Intl.NumberFormat("en-US", {
-    style: "percent",
-  }).format(usdProfit / initialInvestment);
-
-  const formattedCurrentRebaseRate = new Intl.NumberFormat("en-US", {
-    style: "percent",
-    minimumFractionDigits: 4,
-  }).format(rebaseRate);
+  const ROI = formatNumber((sohmProfit / initialInvestment) * 100);
 
   const handleChange: any = (event: Event, newValue: number | number[]) => {
     if (typeof newValue === "number") {
@@ -186,41 +181,8 @@ const Calculator: FC = () => {
     }
   };
 
-  const usdPie = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  });
-  const usd = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
-  const ohm = new Intl.NumberFormat("en-US", {
-    style: "decimal",
-  });
-  const totalValue = usdPie.format(usdValue);
-  const formattedProfits = usd.format(usdProfit);
-  const formattedInitialInvestment = usd.format(initialInvestment);
-  const formattedTotalsOHM = ohm.format(totalsOHM);
-  const formattedAmountPurchased = ohm.format(amountOfOhmPurchased);
-  const formattedBreakEvenDays = new Intl.NumberFormat("en-US", {
-    style: "decimal",
-    maximumFractionDigits: 0,
-  }).format(breakevenDays);
-
-  const RadioSelector = () => (
-    <RadioGroup
-      name="multiplierGroup"
-      value={multiplier}
-      onChange={e => setMultiplier(Number(e.target.value))}
-      row
-      className={classes.radioGroup}
-    >
-      <Radio label="1x" value={1} />
-      <Radio label="2x" value={2} />
-      <Radio label="3x" value={3} />
-    </RadioGroup>
-  );
+  const formattedProfits = formatNumber(sohmProfit, 2);
+  const formattedInitialInvestment = formatNumber(initialInvestment, 2);
 
   const durations = [
     { days: 365, label: "12 months" },
@@ -239,7 +201,6 @@ const Calculator: FC = () => {
               className={!advanced ? "active-primary" : ""}
               onClick={() => {
                 setAdvanced(false);
-                setFutureOhmPrice(0);
               }}
             >
               Simple
@@ -254,7 +215,7 @@ const Calculator: FC = () => {
                 <Typography className={classes.title}>Investment Amount:</Typography>
               </Box>
               <Box display="flex" justifyContent="center" mb="18px">
-                <Typography className={classes.investmentAmount}>{formattedInitialInvestment}</Typography>
+                <Typography className={classes.investmentAmount}>{formattedInitialInvestment} OHM</Typography>
               </Box>
               <Box display="flex" justifyContent="center">
                 <Typography className={classes.runway}>
@@ -272,20 +233,11 @@ const Calculator: FC = () => {
                 <Input
                   id="amount"
                   label="sOHM Amount"
-                  value={amountOfOhmPurchased ? +trim(amountOfOhmPurchased, 4) : ""}
-                  onChange={e => setInitialInvestment(Number(e.target.value) * currentOhmPrice)}
+                  value={initialInvestment}
+                  onChange={e => setInitialInvestment(Number(e.target.value))}
                   type="number"
                   inputProps={{ inputMode: "numeric" }}
                 />
-                <Box mt="9px">
-                  <Input
-                    id="purchaseAmount"
-                    label="OHM Purchase Price"
-                    value={currentOhmPrice}
-                    onChange={e => setManualOhmPrice(Number(e.target.value))}
-                    inputProps={{ inputMode: "numeric" }}
-                  />
-                </Box>
               </Grid>
               <Grid item xs={6}>
                 <Input
@@ -297,16 +249,6 @@ const Calculator: FC = () => {
                   endString="%"
                   inputProps={{ inputMode: "numeric" }}
                 />
-                <Box mt="9px">
-                  <Input
-                    id="futureOhmPrice"
-                    label="Future OHM Price"
-                    value={futureOhmPrice > 0 ? futureOhmPrice : ""}
-                    onChange={e => setFutureOhmPrice(Number(e.target.value))}
-                    type="number"
-                    inputProps={{ inputMode: "numeric" }}
-                  />
-                </Box>
               </Grid>
             </Grid>
 
@@ -324,21 +266,21 @@ const Calculator: FC = () => {
           </>
         ) : (
           <Box ml="12px" mr="12x">
-            <Slider value={initialInvestment} min={0} max={100000} step={100} onChange={handleChange} />
+            <Slider value={initialInvestment} min={0} max={5000} step={1} onChange={handleChange} />
           </Box>
         )}
         {!advanced && (
           <>
             <Box display="flex" justifyContent="space-around" alignItems="center" mt="18px" mb="18px">
               <Box display="flex" flexDirection="column" textAlign="right" flexGrow={0.33}>
-                <Typography className={classes.progressMetric}>{formattedInitialInvestment}</Typography>
+                <Typography className={classes.progressMetric}>{formattedInitialInvestment} OHM</Typography>
                 <Typography className={classes.progressLabel}>Invested</Typography>
               </Box>
               <Box position="relative">
-                <ProgressCircle balance={totalValue.toString()} label="Total Value" progress={pieValue} />
+                <ProgressCircle balance={formatNumber(totalsOHM, 2)} label="Total OHM" progress={pieValue} />
               </Box>
               <Box display="flex" flexDirection="column" textAlign="left" flexGrow={0.33}>
-                <Typography className={classes.progressMetric}>{formattedProfits}</Typography>
+                <Typography className={classes.progressMetric}>{formattedProfits} OHM</Typography>
                 <Typography className={classes.progressLabel}>ROI in {duration} days</Typography>
               </Box>
             </Box>
@@ -361,23 +303,10 @@ const Calculator: FC = () => {
             </Box>
           </>
         )}
-        <DottedDataRow title="Initial Investment" value={formattedInitialInvestment} />
-        {!advanced && <DottedDataRow title="OHM Purchase Price" value={currentOhmPrice} />}
-        {!advanced && <DottedDataRow title="Amount Purchased" value={`${formattedAmountPurchased} OHM`} />}
-        {!advanced && <DottedDataRow title="Price Multiplier" value={<RadioSelector />} />}
-        {!advanced && <DottedDataRow title="Rebase Rate" value={formattedCurrentRebaseRate} />}
-        <DottedDataRow title="ROI" value={ROI} />
-        {advanced && (
-          <>
-            <DottedDataRow title="Breakeven Price" value={trim(breakEvenPrice, 2)} />
-            <DottedDataRow
-              title="Days to Breakeven"
-              value={`${Number(formattedBreakEvenDays) > 0 ? formattedBreakEvenDays : 0} Days`}
-            />
-          </>
-        )}
-        <DottedDataRow title="Total sOHM" value={formattedTotalsOHM} bold />
-        <DottedDataRow title="Estimated Total" value={formattedProfits} bold />
+        <DottedDataRow title="Initial Investment" value={`${formattedInitialInvestment} OHM`} />
+        {!advanced && <DottedDataRow title="Rebase Rate" value={`${formatNumber(rebaseRate * 100, 4)} %`} />}
+        <DottedDataRow title="ROI" value={`${initialInvestment > 0 ? ROI : "0"}%`} />
+        <DottedDataRow title="Total sOHM" value={formatNumber(totalsOHM, 2)} bold />
         <Box display="flex" justifyContent="center" mt={"15px"} textAlign="center">
           <p>
             This is strictly a tool to help Ohmies better estimate potential ROI. The estimates above are based on
