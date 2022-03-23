@@ -5,15 +5,15 @@ import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
 import { DataRow, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "bignumber.js";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project, RecordType } from "src/components/GiveProject/project.type";
-import { NetworkId } from "src/constants";
+import { NetworkId, OHM_DECIMAL_PLACES } from "src/constants";
 import { shorten } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
@@ -25,7 +25,7 @@ import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
 
 export type WithdrawSubmitCallback = {
-  (walletAddress: string, eventSource: string, depositAmount: BigNumber): void;
+  (walletAddress: string, eventSource: string, depositAmount: DecimalBigNumber): void;
 };
 
 type ManageModalProps = {
@@ -36,7 +36,7 @@ type ManageModalProps = {
   cancelFunc: CancelCallback;
   project?: Project;
   currentWalletAddress: string;
-  currentDepositAmount: BigNumber; // As per IUserDonationInfo
+  currentDepositAmount: DecimalBigNumber; // As per IUserDonationInfo
   depositDate: string;
   yieldSent: string;
   recordType?: string;
@@ -111,7 +111,7 @@ export function ManageDonationModal({
   const _initialIsAmountSet = false;
 
   const getInitialDepositAmount = () => {
-    return currentDepositAmount ? currentDepositAmount.toNumber() : _initialDepositAmount;
+    return currentDepositAmount ? currentDepositAmount.toApproxNumber() : _initialDepositAmount;
   };
   const [depositAmount, setDepositAmount] = useState(getInitialDepositAmount());
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(_initialDepositAmountValid);
@@ -171,13 +171,13 @@ export function ManageDonationModal({
   };
 
   const handleEditSubmit = () => {
-    const depositAmountBig = new BigNumber(depositAmount);
+    const depositAmountBig: DecimalBigNumber = new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES);
 
     submitEdit(getWalletAddress(), eventSource, depositAmountBig, getDepositAmountDiff());
   };
 
   const handleWithdrawSubmit = () => {
-    const depositAmountBig = new BigNumber(depositAmount);
+    const depositAmountBig: DecimalBigNumber = new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES);
 
     submitWithdraw(getWalletAddress(), eventSource, depositAmountBig);
   };
@@ -216,12 +216,12 @@ export function ManageDonationModal({
     return true;
   };
 
-  const getSOhmBalance = (): BigNumber => {
-    return new BigNumber(sohmBalance);
+  const getSOhmBalance = (): DecimalBigNumber => {
+    return new DecimalBigNumber(sohmBalance, OHM_DECIMAL_PLACES);
   };
 
-  const getCurrentDepositAmount = (): BigNumber => {
-    if (!currentDepositAmount) return new BigNumber(0);
+  const getCurrentDepositAmount = (): DecimalBigNumber => {
+    if (!currentDepositAmount) return new DecimalBigNumber(0, OHM_DECIMAL_PLACES);
 
     return new BigNumber(currentDepositAmount);
   };
