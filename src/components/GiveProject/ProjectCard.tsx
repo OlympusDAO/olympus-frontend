@@ -277,7 +277,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 {totalDonatedIsLoading ? (
                   <Skeleton />
                 ) : (
-                  new DecimalBigNumber(totalDonated, OHM_DECIMAL_PLACES).toFormattedString(DECIMAL_PLACES)
+                  new DecimalBigNumber(totalDonated, OHM_DECIMAL_PLACES).toFormattedStringTrimmed(DECIMAL_PLACES)
                 )}
               </Grid>
             </Grid>
@@ -294,7 +294,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="sohm-yield-goal" />
                   </Grid>
                   <Grid item className="metric">
-                    {new DecimalBigNumber(depositGoal, OHM_DECIMAL_PLACES).toFormattedString(DECIMAL_PLACES)}
+                    {new DecimalBigNumber(depositGoal, OHM_DECIMAL_PLACES).toFormattedStringTrimmed(DECIMAL_PLACES)}
                   </Grid>
                 </Grid>
               </Grid>
@@ -344,7 +344,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                       <Skeleton />
                     ) : (
                       <strong>
-                        {new DecimalBigNumber(totalDebt, OHM_DECIMAL_PLACES).toFormattedString(DECIMAL_PLACES)}
+                        {new DecimalBigNumber(totalDebt, OHM_DECIMAL_PLACES).toFormattedStringTrimmed(DECIMAL_PLACES)}
                       </strong>
                     )}
                   </Grid>
@@ -713,7 +713,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                                 new DecimalBigNumber(
                                   donationInfo[donationId].deposit,
                                   OHM_DECIMAL_PLACES,
-                                ).toFormattedString(OHM_DECIMAL_PLACES)
+                                ).toFormattedStringTrimmed()
                               ) : (
                                 "0.00"
                               )}
@@ -738,7 +738,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                                   new DecimalBigNumber(
                                     donationInfo[donationId].yieldDonated,
                                     OHM_DECIMAL_PLACES,
-                                  ).toFormattedString(DECIMAL_PLACES)
+                                  ).toFormattedStringTrimmed(DECIMAL_PLACES)
                                 ) : (
                                   "0.00"
                                 )}
