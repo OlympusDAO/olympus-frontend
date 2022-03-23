@@ -42,9 +42,9 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("1000.1", 2).toFormattedString()).toEqual("1,000.10");
     expect(new DecimalBigNumber(".1", 2).toFormattedString()).toEqual("0.10");
     expect(new DecimalBigNumber(".1", 10).toFormattedString()).toEqual("0.1000000000");
-    expect(new DecimalBigNumber("1.1", 1).toAccurateString()).toEqual("1.1");
-    expect(new DecimalBigNumber("1.123", 3).toAccurateString()).toEqual("1.123");
-    expect(new DecimalBigNumber("-1.123", 3).toAccurateString()).toEqual("-1.123");
+    expect(new DecimalBigNumber("1.1", 1).toFormattedString()).toEqual("1.1");
+    expect(new DecimalBigNumber("1.123", 3).toFormattedString()).toEqual("1.123");
+    expect(new DecimalBigNumber("-1.123", 3).toFormattedString()).toEqual("-1.123");
 
     expect(new DecimalBigNumber(".1", 1).toFormattedString(0)).toEqual("0");
     expect(new DecimalBigNumber("1.222", 3).toFormattedString(0)).toEqual("1");
