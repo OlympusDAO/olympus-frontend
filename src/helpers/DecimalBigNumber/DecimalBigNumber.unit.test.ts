@@ -17,6 +17,12 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("1.12345678913139872398723", 9).toAccurateString()).toEqual("1.123456789");
   });
 
+  it("should copy objects", () => {
+    const originalNumber = new DecimalBigNumber("1.1", 9);
+    expect(originalNumber.copy().toAccurateString()).toEqual("1.1");
+    expect(originalNumber.copy()).not.toBe(originalNumber);
+  });
+
   it("should handle number inputs", () => {
     expect(new DecimalBigNumber(1, 9).toAccurateString()).toEqual("1.0");
     expect(new DecimalBigNumber(1.2, 9).toAccurateString()).toEqual("1.2");
