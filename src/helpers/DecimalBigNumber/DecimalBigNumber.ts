@@ -73,10 +73,11 @@ export class DecimalBigNumber {
 
   /**
    * Used to display a formatted approximate value to the user
-   * @param decimals The number of decimal places to show
+   *
+   * @param decimals The number of decimal places to show, otherwise the object's configured decimal places
    */
-  public toFormattedString(decimals = 0): string {
-    return formatNumber(this.toApproxNumber(), decimals);
+  public toFormattedString(decimals?: number): string {
+    return formatNumber(this.toApproxNumber(), decimals !== undefined ? decimals : this._decimals);
   }
 
   /**
@@ -109,6 +110,7 @@ export class DecimalBigNumber {
 
     return new DecimalBigNumber(_this._number.sub(_value._number), decimals);
   }
+
   /**
    * Adds the value provided to this number
    */
