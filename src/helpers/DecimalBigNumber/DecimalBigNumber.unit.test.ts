@@ -59,6 +59,8 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber(".1", 10).toFormattedStringTrimmed()).toEqual("0.1");
     expect(new DecimalBigNumber("100.1", 10).toFormattedString()).toEqual("100.1000000000");
     expect(new DecimalBigNumber("100.1", 10).toFormattedStringTrimmed()).toEqual("100.1");
+    expect(new DecimalBigNumber("100.0", 5).toFormattedString()).toEqual("100.00000");
+    expect(new DecimalBigNumber("100.0", 5).toFormattedStringTrimmed()).toEqual("100");
   });
 
   it("should add another number correctly", () => {
