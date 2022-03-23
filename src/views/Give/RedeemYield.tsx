@@ -144,7 +144,8 @@ export default function RedeemYield() {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h3" align="center">
-          {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toFormattedString(DECIMAL_PLACES)} sOHM
+          {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toFormattedStringTrimmed(DECIMAL_PLACES)}{" "}
+          sOHM
         </Typography>
         <Typography variant="body1" align="center" className="subtext">
           Redeemable Yield
@@ -167,7 +168,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center">
-                  {getRecipientGoal(address).toFormattedString(DECIMAL_PLACES)}
+                  {getRecipientGoal(address).toFormattedStringTrimmed(DECIMAL_PLACES)}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   <Trans>sOHM Goal</Trans>
@@ -177,7 +178,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center">
-                  {totalDeposit.toFormattedString(DECIMAL_PLACES)}
+                  {totalDeposit.toFormattedStringTrimmed(DECIMAL_PLACES)}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   {isSmallScreen ? t`Total Donated` : t`Total sOHM Donated`}
@@ -190,7 +191,7 @@ export default function RedeemYield() {
                   {totalDeposit
                     .mul(new DecimalBigNumber(100, OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES)
                     .div(getRecipientGoal(address), OHM_DECIMAL_PLACES)
-                    .toFormattedString(DECIMAL_PLACES)}
+                    .toFormattedStringTrimmed(DECIMAL_PLACES)}
                   %
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
@@ -208,29 +209,29 @@ export default function RedeemYield() {
           <DataRow
             title={t`Deposited sOHM`}
             // Exact number
-            balance={`${totalDeposit.toFormattedString(OHM_DECIMAL_PLACES)} ${t`sOHM`}`}
+            balance={`${totalDeposit.toFormattedStringTrimmed()} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
           />
           <DataRow
             title={t`Redeemable Amount`}
             // Exact number
-            balance={`${redeemableBalanceNumber.toFormattedString(OHM_DECIMAL_PLACES)} ${t`sOHM`}`}
+            balance={`${redeemableBalanceNumber.toFormattedStringTrimmed()} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
           />
           <DataRow
             title={t`Next Reward Amount`}
             // Exact number
-            balance={`${nextRewardValue.toFormattedString(DECIMAL_PLACES)} ${t`sOHM`}`}
+            balance={`${nextRewardValue.toFormattedStringTrimmed(DECIMAL_PLACES)} ${t`sOHM`}`}
             isLoading={isAppLoading}
           />
           <DataRow
             title={t`Next Reward Yield`}
-            balance={`${stakingRebasePercentage.toFormattedString(DECIMAL_PLACES)}%`}
+            balance={`${stakingRebasePercentage.toFormattedStringTrimmed(DECIMAL_PLACES)}%`}
             isLoading={isAppLoading}
           />
           <DataRow
             title={t`ROI (5-Day Rate)`}
-            balance={`${fiveDayRateValue.toFormattedString(DECIMAL_PLACES)}%`}
+            balance={`${fiveDayRateValue.toFormattedStringTrimmed(DECIMAL_PLACES)}%`}
             isLoading={isAppLoading}
           />
         </Box>
