@@ -161,12 +161,14 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         {!isSmallScreen && (
           <TableCell align="right" className="deposit-deposited-cell">
             {/* Exact amount as this is what the user has deposited */}
-            <Typography variant="h6">{depositNumber.toFormattedString(OHM_DECIMAL_PLACES)} sOHM</Typography>
+            <Typography variant="h6">{depositNumber.toFormattedStringTrimmed()} sOHM</Typography>
           </TableCell>
         )}
         <TableCell align="right" className="deposit-yield-cell">
           <Typography variant={isSmallScreen ? "body1" : "h6"}>
-            {new DecimalBigNumber(depositObject.yieldDonated, OHM_DECIMAL_PLACES).toFormattedString(DECIMAL_PLACES)}{" "}
+            {new DecimalBigNumber(depositObject.yieldDonated, OHM_DECIMAL_PLACES).toFormattedStringTrimmed(
+              DECIMAL_PLACES,
+            )}{" "}
             sOHM
           </Typography>
         </TableCell>
