@@ -554,7 +554,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
           project={grant}
-          key={title}
+          key={"recipient-modal-" + title}
         />
       </>
     );
@@ -712,7 +712,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
           project={grant}
-          key={title}
+          key={"recipient-modal-" + title}
         />
 
         {isUserDonating ? (
