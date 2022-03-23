@@ -274,7 +274,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Icon name="sohm-total" />
                   </Grid>
                   <Grid item className="metric">
-                    {totalMilestoneAmount.toFormattedString(DECIMAL_PLACES)}
+                    {totalMilestoneAmount.toFormattedStringTrimmed(DECIMAL_PLACES)}
                   </Grid>
                 </Grid>
               </Grid>
@@ -631,9 +631,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                                 new DecimalBigNumber(
                                   donationInfo[donationId].deposit,
                                   OHM_DECIMAL_PLACES,
-                                ).toFormattedString(OHM_DECIMAL_PLACES)
+                                ).toFormattedStringTrimmed()
                               ) : (
-                                "0.00"
+                                "0"
                               )}
                             </Grid>
                           </Grid>
@@ -656,9 +656,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                                   new DecimalBigNumber(
                                     donationInfo[donationId].yieldDonated,
                                     OHM_DECIMAL_PLACES,
-                                  ).toFormattedString(DECIMAL_PLACES)
+                                  ).toFormattedStringTrimmed(DECIMAL_PLACES)
                                 ) : (
-                                  "0.00"
+                                  "0"
                                 )}
                               </Grid>
                             </Grid>
