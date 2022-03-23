@@ -9,7 +9,8 @@ export const nextRebaseDateQueryKey = () => ["useNextRebaseDate"];
 export const useNextRebaseDate = () => {
   const contract = useStaticStakingContract(STAKING_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
 
-  return useQuery<Date, Error>(nextRebaseDateQueryKey(), async () => {
+  const key = nextRebaseDateQueryKey();
+  return useQuery<Date, Error>(key, async () => {
     const secondsToRebase = await contract.secondsToNextEpoch();
 
     const parsedSeconds = parseBigNumber(secondsToRebase, 0);

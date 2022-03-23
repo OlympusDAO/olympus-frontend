@@ -1,15 +1,14 @@
-import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryProvider } from "src/lib/react-query";
 import { render } from "src/testUtils";
 
 import ChooseInverseBond from "../ChooseInverseBond";
-const queryClient = new QueryClient();
 
 describe("<ChooseInverseBond/>", () => {
   it("should render component", () => {
     const { container } = render(
-      <QueryClientProvider client={queryClient}>
+      <ReactQueryProvider>
         <ChooseInverseBond />
-      </QueryClientProvider>,
+      </ReactQueryProvider>,
     );
     expect(container).toMatchSnapshot();
   });
