@@ -50,6 +50,17 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("1.222", 3).toFormattedString(0)).toEqual("1");
   });
 
+  it("should strip trailing zeroes from formatted string output", () => {
+    expect(new DecimalBigNumber("1.1", 1).toFormattedString()).toEqual("1.1");
+    expect(new DecimalBigNumber("1.1", 1).toFormattedStringTrimmed()).toEqual("1.1");
+    expect(new DecimalBigNumber("1.001", 5).toFormattedString()).toEqual("1.00100");
+    expect(new DecimalBigNumber("1.001", 5).toFormattedStringTrimmed()).toEqual("1.001");
+    expect(new DecimalBigNumber(".1", 10).toFormattedString()).toEqual("0.1000000000");
+    expect(new DecimalBigNumber(".1", 10).toFormattedStringTrimmed()).toEqual("0.1");
+    expect(new DecimalBigNumber("100.1", 10).toFormattedString()).toEqual("100.1000000000");
+    expect(new DecimalBigNumber("100.1", 10).toFormattedStringTrimmed()).toEqual("100.1");
+  });
+
   it("should add another number correctly", () => {
     expect(new DecimalBigNumber("1.1", 9).add(new DecimalBigNumber("1.2", 18)).toAccurateString()).toEqual("2.3");
     expect(new DecimalBigNumber("-1.1", 9).add(new DecimalBigNumber("-1.2", 18)).toAccurateString()).toEqual("-2.3");

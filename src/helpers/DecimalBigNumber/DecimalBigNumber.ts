@@ -81,6 +81,15 @@ export class DecimalBigNumber {
   }
 
   /**
+   * Used to display a formatted approximate value to the user with trailing zeroes trimmed
+   *
+   * @param decimals The number of decimal places to show, otherwise the object's configured decimal places
+   */
+  public toFormattedStringTrimmed(decimals?: number): string {
+    return this.toFormattedString(decimals).replace(/(?:\.|(\..*?))0+$/, "$1");
+  }
+
+  /**
    * Determines if the two values are equal
    *
    * @param value the number to compare gainst
