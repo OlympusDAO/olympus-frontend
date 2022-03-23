@@ -43,7 +43,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
 
-  const _initialDepositAmount = 0;
+  const _initialDepositAmount = "0";
   const _initialWalletAddress = "";
   const _initialDepositAmountValid = false;
   const _initialDepositAmountValidError = "";
@@ -51,17 +51,14 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   const _initialWalletAddressValidError = "";
   const _initialIsAmountSet = false;
 
-  const getInitialDepositAmount = () => {
-    return _initialDepositAmount;
-  };
-  const [depositAmount, setDepositAmount] = useState(getInitialDepositAmount());
+  /**
+   * depositAmount is kept as a string, to avoid unnecessary application of number rules while being edited
+   */
+  const [depositAmount, setDepositAmount] = useState(_initialDepositAmount);
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(_initialDepositAmountValid);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState(_initialDepositAmountValidError);
 
-  const getInitialWalletAddress = () => {
-    return _initialWalletAddress;
-  };
-  const [walletAddress, setWalletAddress] = useState(getInitialWalletAddress());
+  const [walletAddress, setWalletAddress] = useState(_initialWalletAddress);
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(_initialWalletAddressValid);
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState(_initialWalletAddressValidError);
 
@@ -78,8 +75,8 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   useEffect(() => {
     // When we close the modal, we ensure that the state is also reset to default
     if (!isModalOpen) {
-      handleSetDepositAmount(getInitialDepositAmount().toFixed());
-      handleSetWallet(getInitialWalletAddress());
+      handleSetDepositAmount(_initialDepositAmount);
+      handleSetWallet(_initialWalletAddress);
       setIsAmountSet(_initialIsAmountSet);
     }
   }, [isModalOpen]);
@@ -138,7 +135,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    *
    * This is equal to the current wallet balance.
    *
-   * @returns BigNumber
+   * @returns DecimalBigNumber
    */
   const getMaximumDepositAmount = (): DecimalBigNumber => {
     return new DecimalBigNumber(sohmBalance, OHM_DECIMAL_PLACES);
@@ -146,7 +143,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
 
   const handleSetDepositAmount = (value: string) => {
     checkIsDepositAmountValid(value);
-    setDepositAmount(parseFloat(value));
+    setDepositAmount(value);
   };
 
   const checkIsDepositAmountValid = (value: string) => {
@@ -173,7 +170,9 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
 
     if (valueNumber.gt(getMaximumDepositAmount())) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`Value cannot be more than your sOHM balance of ${getMaximumDepositAmount()}`);
+      setIsDepositAmountValidError(
+        t`Value cannot be more than your sOHM balance of ${getMaximumDepositAmount().toFormattedStringTrimmed()}`,
+      );
       return;
     }
 
@@ -406,13 +405,14 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               id="amount-input"
               placeholder={t`Enter an amount`}
               type="number"
-              value={getDepositAmount().eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES)) ? null : getDepositAmount()}
+              // We used to use BigNumber/DecimalBigNumber here, but it behaves
+              // weirdly and would refuse to recognise some numbers, e.g. 100
+              // Better to keep it simple
+              value={depositAmount}
               // We need to inform the user about their wallet balance, so this is a specific value
               helperText={
                 isDepositAmountValid
-                  ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toFormattedString(
-                      OHM_DECIMAL_PLACES,
-                    )} sOHM`
+                  ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toFormattedStringTrimmed()} sOHM`
                   : isDepositAmountValidError
               }
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -420,7 +420,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               error={!isDepositAmountValid}
               startAdornment="sOHM"
               endString={t`Max`}
-              // This uses toFixed() as it is a specific value and not formatted
+              // This uses toAccurateString() as it is a specific value and not formatted
               endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toAccurateString())}
             />
           </Grid>
@@ -446,7 +446,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                    * For the numbers related to what the user is depositing, we give exact numbers.
                    */}
                   <CompactWallet
-                    quantity={getRetainedAmountDiff().toFormattedString(DECIMAL_PLACES)}
+                    quantity={getRetainedAmountDiff().toFormattedStringTrimmed(DECIMAL_PLACES)}
                     isQuantityExact={false}
                   />
                 </Grid>
@@ -455,20 +455,14 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                 </Grid>
                 <Grid item xs={3}>
                   {/* This is deliberately a specific value */}
-                  <CompactVault
-                    quantity={getDepositAmount().toFormattedString(OHM_DECIMAL_PLACES)}
-                    isQuantityExact={true}
-                  />
+                  <CompactVault quantity={getDepositAmount().toFormattedStringTrimmed()} isQuantityExact={true} />
                 </Grid>
                 <Grid item xs={1}>
                   <ArrowGraphic />
                 </Grid>
                 <Grid item xs={3}>
                   {/* This is deliberately a specific value */}
-                  <CompactYield
-                    quantity={getDepositAmount().toFormattedString(OHM_DECIMAL_PLACES)}
-                    isQuantityExact={true}
-                  />
+                  <CompactYield quantity={getDepositAmount().toFormattedStringTrimmed()} isQuantityExact={true} />
                 </Grid>
               </Grid>
             </Grid>
@@ -522,7 +516,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   <Grid xs={12}>
                     <Typography variant="h6">
                       {/* As this is the amount being deposited, the user needs to see the exact amount. */}
-                      <strong>{getDepositAmount().toFormattedString(OHM_DECIMAL_PLACES)} sOHM</strong>
+                      <strong>{getDepositAmount().toFormattedStringTrimmed()} sOHM</strong>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -567,7 +561,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   {txnButtonText(
                     pendingTransactions,
                     PENDING_TXN_GIVE,
-                    `${t`Confirm `} ${getDepositAmount().toFormattedString(OHM_DECIMAL_PLACES)} sOHM`,
+                    `${t`Confirm `} ${getDepositAmount().toFormattedStringTrimmed()} sOHM`,
                   )}
                 </PrimaryButton>
               </Grid>
@@ -579,14 +573,6 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     );
   };
 
-  // NOTE: the following warning is caused by the amount-input field:
-  // Warning: `value` prop on `%s` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.%s
-  // This is caused by this line (currently 423):
-  // value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
-  // If we set the value to an empty string instead of null, any decimal number that is entered will not be accepted
-  // This appears to be due to the following bug (which is still not resolved);
-  // https://github.com/facebook/react/issues/11877
-
   return (
     <Modal
       open={isModalOpen}
@@ -594,7 +580,6 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
       headerText={getTitle()}
       closePosition="right"
       topLeft={getEscapeComponent()}
-      className={`ohm-modal ${isSmallScreen ? "smaller" : ""}`}
       minHeight="300px"
     >
       {shouldShowConfirmationScreen() ? getConfirmationScreen() : getAmountScreen()}
