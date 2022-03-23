@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/macro";
 import { Button, Typography } from "@material-ui/core";
 import { NETWORKS } from "src/constants";
 import { useWeb3Context } from "src/hooks";
@@ -37,7 +38,9 @@ export const WrapSwitchNetwork = () => {
   return (
     <>
       <Typography variant="body1" style={{ margin: "15px 0 10px 0" }}>
-        Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
+        <Trans>
+          Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
+        </Trans>
       </Typography>
 
       <Button onClick={() => mutate(NetworkId.AVALANCHE)} variant="outlined" style={{ margin: "0.3rem" }}>
