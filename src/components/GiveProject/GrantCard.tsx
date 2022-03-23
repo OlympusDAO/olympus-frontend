@@ -329,7 +329,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     eventSource: string,
     depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.toBigNumber().eq(0)) {
+    if (depositAmount.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) {
       return dispatch(error(t`Please enter a value!`));
     }
 
@@ -382,7 +382,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.toBigNumber().eq(0)) return;
+    if (depositAmountDiff.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) return;
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
