@@ -3,10 +3,11 @@ import { Grid, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Modal, PrimaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "bignumber.js";
 import { useSelector } from "react-redux";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
+import { OHM_DECIMAL_PLACES } from "src/constants";
 import { shorten } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useWeb3Context } from "src/hooks/web3Context";
 
 import { ArrowGraphic } from "../../components/EducationCard";
@@ -26,8 +27,8 @@ type RedeemModalProps = {
   isModalOpen: boolean;
   callbackFunc: RedeemSubmitCallback;
   cancelFunc: RedeemCancelCallback;
-  deposit: BigNumber;
-  redeemableBalance: BigNumber;
+  deposit: DecimalBigNumber;
+  redeemableBalance: DecimalBigNumber;
 };
 
 const DECIMAL_PLACES = 2;
@@ -43,7 +44,7 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
   const canSubmit = () => {
     if (!address) return false;
     if (isPendingTxn(pendingTransactions, "redeeming")) return false;
-    if (redeemableBalance.isLessThanOrEqualTo(new BigNumber(0))) return false;
+    if (redeemableBalance.lt(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) return false;
 
     return true;
   };
@@ -65,7 +66,7 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
                 <Typography variant="body1" className="modal-confirmation-title">
                   <Trans>Redeemable Yield</Trans>
                 </Typography>
-                <Typography variant="h6">{redeemableBalance.toFormat(DECIMAL_PLACES)} sOHM</Typography>
+                <Typography variant="h6">{redeemableBalance.toFormattedString(DECIMAL_PLACES)} sOHM</Typography>
               </Grid>
               {!isSmallScreen ? (
                 <Grid item sm={4}>
@@ -98,7 +99,7 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
                 {txnButtonText(
                   pendingTransactions,
                   "redeeming",
-                  t`Confirm ${redeemableBalance.toFixed(DECIMAL_PLACES)} sOHM`,
+                  t`Confirm ${redeemableBalance.toFormattedString(DECIMAL_PLACES)} sOHM`,
                 )}
               </PrimaryButton>
             </Grid>

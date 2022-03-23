@@ -5,11 +5,11 @@ import { Box, Divider, TableCell, TableRow, Tooltip, Typography } from "@materia
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { SecondaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "bignumber.js";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { NetworkId } from "src/constants";
+import { NetworkId, OHM_DECIMAL_PLACES } from "src/constants";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { SubmitCallback } from "src/views/Give/Interfaces";
@@ -67,7 +67,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
+    if (depositAmountDiff.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) return;
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
@@ -75,7 +75,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
+          value: depositAmountDiff.toAccurateString(),
           recipient: walletAddress,
           provider,
           address,
@@ -89,7 +89,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       await dispatch(
         changeGive({
           action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
+          value: depositAmountDiff.toAccurateString(),
           recipient: walletAddress,
           provider,
           address,
@@ -112,7 +112,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
+          value: depositAmount.toAccurateString(),
           recipient: walletAddress,
           provider,
           address,
@@ -126,7 +126,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       await dispatch(
         changeGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
+          value: depositAmount.toAccurateString(),
           recipient: walletAddress,
           provider,
           address,
@@ -140,6 +140,8 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
 
     setIsManageModalOpen(false);
   };
+
+  const depositNumber = new DecimalBigNumber(depositObject.deposit, OHM_DECIMAL_PLACES);
 
   return (
     <Box>
@@ -159,12 +161,13 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         {!isSmallScreen && (
           <TableCell align="right" className="deposit-deposited-cell">
             {/* Exact amount as this is what the user has deposited */}
-            <Typography variant="h6">{new BigNumber(depositObject.deposit).toFormat()} sOHM</Typography>
+            <Typography variant="h6">{depositNumber.toFormattedString(OHM_DECIMAL_PLACES)} sOHM</Typography>
           </TableCell>
         )}
         <TableCell align="right" className="deposit-yield-cell">
           <Typography variant={isSmallScreen ? "body1" : "h6"}>
-            {new BigNumber(depositObject.yieldDonated).toFormat(DECIMAL_PLACES)} sOHM
+            {new DecimalBigNumber(depositObject.yieldDonated, OHM_DECIMAL_PLACES).toFormattedString(DECIMAL_PLACES)}{" "}
+            sOHM
           </Typography>
         </TableCell>
         <TableCell align="right" className="deposit-manage-cell">
@@ -181,7 +184,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         submitWithdraw={handleWithdrawModalSubmit}
         cancelFunc={handleManageModalCancel}
         currentWalletAddress={depositObject.recipient}
-        currentDepositAmount={new BigNumber(depositObject.deposit)}
+        currentDepositAmount={depositNumber}
         depositDate={depositObject.date}
         yieldSent={depositObject.yieldDonated}
         project={projectMap.get(depositObject.recipient)}

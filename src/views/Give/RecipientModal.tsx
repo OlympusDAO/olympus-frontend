@@ -6,14 +6,14 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project } from "src/components/GiveProject/project.type";
-import { NetworkId } from "src/constants";
+import { NetworkId, OHM_DECIMAL_PLACES } from "src/constants";
 import { shorten } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
 import {
@@ -71,7 +71,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   useEffect(() => {
-    checkIsDepositAmountValid(getDepositAmount().toFixed());
+    checkIsDepositAmountValid(getDepositAmount().toAccurateString());
     checkIsWalletAddressValid(getWalletAddress());
   }, []);
 
@@ -129,8 +129,8 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     return giveAllowance > 0;
   }, [giveAllowance]);
 
-  const getSOhmBalance = (): BigNumber => {
-    return new BigNumber(sohmBalance);
+  const getSOhmBalance = (): DecimalBigNumber => {
+    return new DecimalBigNumber(sohmBalance, OHM_DECIMAL_PLACES);
   };
 
   /**
@@ -140,8 +140,8 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    *
    * @returns BigNumber
    */
-  const getMaximumDepositAmount = (): BigNumber => {
-    return new BigNumber(sohmBalance);
+  const getMaximumDepositAmount = (): DecimalBigNumber => {
+    return new DecimalBigNumber(sohmBalance, OHM_DECIMAL_PLACES);
   };
 
   const handleSetDepositAmount = (value: string) => {
@@ -150,27 +150,28 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   };
 
   const checkIsDepositAmountValid = (value: string) => {
-    const valueNumber = new BigNumber(value);
+    const valueNumber = new DecimalBigNumber(value, OHM_DECIMAL_PLACES);
     const sOhmBalanceNumber = getSOhmBalance();
+    const zeroNumber = new DecimalBigNumber(0, OHM_DECIMAL_PLACES);
 
-    if (!value || value == "" || valueNumber.isEqualTo(0)) {
+    if (!value || value == "" || valueNumber.eq(zeroNumber)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Please enter a value`);
       return;
     }
 
-    if (valueNumber.isLessThan(0)) {
+    if (valueNumber.lt(zeroNumber)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Value must be positive`);
       return;
     }
 
-    if (sOhmBalanceNumber.isEqualTo(0)) {
+    if (sOhmBalanceNumber.eq(zeroNumber)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
     }
 
-    if (valueNumber.isGreaterThan(getMaximumDepositAmount())) {
+    if (valueNumber.gt(getMaximumDepositAmount())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Value cannot be more than your sOHM balance of ${getMaximumDepositAmount()}`);
       return;
@@ -251,10 +252,10 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    *
    * If a yield direction is being created, it returns the current sOHM balance minus the entered deposit.
    *
-   * @returns BigNumber instance
+   * @returns DecimalBigNumber instance
    */
-  const getRetainedAmountDiff = (): BigNumber => {
-    return new BigNumber(sohmBalance).minus(getDepositAmount());
+  const getRetainedAmountDiff = (): DecimalBigNumber => {
+    return new DecimalBigNumber(sohmBalance, OHM_DECIMAL_PLACES).sub(getDepositAmount());
   };
 
   /**
@@ -262,10 +263,10 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    *
    * @returns
    */
-  const getDepositAmount = (): BigNumber => {
-    if (!depositAmount) return new BigNumber(0);
+  const getDepositAmount = (): DecimalBigNumber => {
+    if (!depositAmount) return new DecimalBigNumber(0, OHM_DECIMAL_PLACES);
 
-    return new BigNumber(depositAmount);
+    return new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES);
   };
 
   /**
@@ -304,7 +305,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    * Calls the submission callback function that is provided to the component.
    */
   const handleSubmit = () => {
-    const depositAmountBig = new BigNumber(depositAmount);
+    const depositAmountBig = new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES);
 
     callbackFunc(getWalletAddress(), eventSource, depositAmountBig, getDepositAmount());
   };
@@ -405,11 +406,13 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               id="amount-input"
               placeholder={t`Enter an amount`}
               type="number"
-              value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
+              value={getDepositAmount().eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES)) ? null : getDepositAmount()}
               // We need to inform the user about their wallet balance, so this is a specific value
               helperText={
                 isDepositAmountValid
-                  ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toFormat()} sOHM`
+                  ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toFormattedString(
+                      OHM_DECIMAL_PLACES,
+                    )} sOHM`
                   : isDepositAmountValidError
               }
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -418,7 +421,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               startAdornment="sOHM"
               endString={t`Max`}
               // This uses toFixed() as it is a specific value and not formatted
-              endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
+              endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toAccurateString())}
             />
           </Grid>
           <Grid item xs={12}>
@@ -442,21 +445,30 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                    *
                    * For the numbers related to what the user is depositing, we give exact numbers.
                    */}
-                  <CompactWallet quantity={getRetainedAmountDiff().toFixed(DECIMAL_PLACES)} isQuantityExact={false} />
+                  <CompactWallet
+                    quantity={getRetainedAmountDiff().toFormattedString(DECIMAL_PLACES)}
+                    isQuantityExact={false}
+                  />
                 </Grid>
                 <Grid item xs={1}>
                   <ArrowGraphic />
                 </Grid>
                 <Grid item xs={3}>
                   {/* This is deliberately a specific value */}
-                  <CompactVault quantity={getDepositAmount().toFormat()} isQuantityExact={true} />
+                  <CompactVault
+                    quantity={getDepositAmount().toFormattedString(OHM_DECIMAL_PLACES)}
+                    isQuantityExact={true}
+                  />
                 </Grid>
                 <Grid item xs={1}>
                   <ArrowGraphic />
                 </Grid>
                 <Grid item xs={3}>
                   {/* This is deliberately a specific value */}
-                  <CompactYield quantity={getDepositAmount().toFormat()} isQuantityExact={true} />
+                  <CompactYield
+                    quantity={getDepositAmount().toFormattedString(OHM_DECIMAL_PLACES)}
+                    isQuantityExact={true}
+                  />
                 </Grid>
               </Grid>
             </Grid>
@@ -510,7 +522,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   <Grid xs={12}>
                     <Typography variant="h6">
                       {/* As this is the amount being deposited, the user needs to see the exact amount. */}
-                      <strong>{getDepositAmount().toFormat()} sOHM</strong>
+                      <strong>{getDepositAmount().toFormattedString(OHM_DECIMAL_PLACES)} sOHM</strong>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -555,7 +567,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   {txnButtonText(
                     pendingTransactions,
                     PENDING_TXN_GIVE,
-                    `${t`Confirm `} ${getDepositAmount().toFormat()} sOHM`,
+                    `${t`Confirm `} ${getDepositAmount().toFormattedString(OHM_DECIMAL_PLACES)} sOHM`,
                   )}
                 </PrimaryButton>
               </Grid>
