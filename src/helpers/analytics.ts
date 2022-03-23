@@ -11,11 +11,6 @@ declare global {
   }
 }
 
-type SegmentEvent = {
-  type: string;
-  [key: string]: any;
-};
-
 export const trackGAEvent = (event: ReactGA.EventArgs) => {
   try {
     // Universal GA (using react-ga)
@@ -23,6 +18,6 @@ export const trackGAEvent = (event: ReactGA.EventArgs) => {
       ReactGA.event(event);
     }
   } catch (e) {
-    console.log("trackGAEvent", e);
+    console.error("trackGAEvent", e);
   }
 };

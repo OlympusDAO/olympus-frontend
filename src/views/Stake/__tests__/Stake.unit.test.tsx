@@ -34,23 +34,15 @@ describe("<Stake/>", () => {
       </QueryClientProvider>,
     );
     expect(await screen.getByText("gOHM-AVAX")).toBeInTheDocument();
-    expect(await screen.getByText("Stake on Trader Joe (Avalanche)").closest("a")).toHaveAttribute(
+    expect(await screen.getByText("Stake on Trader Joe").closest("a")).toHaveAttribute(
       "href",
       "https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00",
     );
     // there should be two sushi contracts, one on Arbitrum and the other on Polygon
     const sushiContracts = await screen.findAllByText("gOHM-wETH");
-    expect(sushiContracts).toHaveLength(2);
-    expect(await screen.getByText("Stake on Sushi (Arbitrum)").closest("a")).toHaveAttribute(
-      "href",
-      "https://app.sushi.com/farm?filter=2x",
-    );
-    expect(await screen.getByText("Stake on Sushi (Polygon)").closest("a")).toHaveAttribute(
-      "href",
-      "https://app.sushi.com/farm?filter=2x",
-    );
+    expect(sushiContracts).toHaveLength(3);
     expect(await screen.getByText("gOHM-FTM")).toBeInTheDocument();
-    expect(await screen.getByText("Stake on Spirit (Fantom)").closest("a")).toHaveAttribute(
+    expect(await screen.getByText("Stake on Spirit").closest("a")).toHaveAttribute(
       "href",
       "https://app.spiritswap.finance/#/farms/allfarms",
     );

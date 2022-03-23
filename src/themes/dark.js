@@ -1,13 +1,13 @@
 import { createTheme, responsiveFontSizes } from "@material-ui/core/styles";
 
 import fonts from "./fonts";
-import commonSettings, { handleBackdropFilter } from "./global.js";
+import commonSettings from "./global.js";
 
 // TODO: Break repeated use color values out into list of consts declared here
 // then set the values in darkTheme using the global color variables
 
 const darkTheme = {
-  color: "#FCFCFC",
+  color: "#FAFAFB",
   gold: "#F8CC82",
   gray: "#A3A3A3",
   textHighlightColor: "#F4D092",
@@ -21,11 +21,11 @@ const darkTheme = {
     radial-gradient(circle at 10% 0%, rgba(187, 211, 204, 0.33), rgba(187,211,204,0) 35%),
     radial-gradient(circle at 11% 100%, rgba(131, 165, 203, 0.3), rgba(131, 165, 203, 0) 30%)
     `,
-  paperBg: "rgba(54, 56, 64, 0.6)",
+  paperBg: "linear-gradient(237.43deg, #2B313D -12.81%, #171A20 132.72%)",
   modalBg: "#24242699",
   popoverBg: "rgba(54, 56, 64, 0.99)",
-  menuBg: handleBackdropFilter("rgba(54, 56, 64, 0.5)"),
-  backdropBg: "rgba(54, 56, 64, 0.5)",
+  menuBg: "linear-gradient(237.43deg, #2B313D -12.81%, #171A20 132.72%)",
+  backdropBg: "linear-gradient(237.43deg, #2B313D -12.81%, #171A20 132.72%)",
   largeTextColor: "#F4D092",
   activeLinkColor: "#F5DDB4",
   activeLinkSvgColor:
@@ -50,6 +50,34 @@ export const dark = responsiveFontSizes(
     {
       primary: {
         main: darkTheme.color,
+      },
+      colors: {
+        paper: {
+          background: darkTheme.paperBg,
+          card: "#1D2026",
+          cardHover: "#343C49",
+        },
+        feedback: {
+          success: "#94B9A1",
+          userFeedback: "#49A1F2",
+          error: "#FF6767",
+          warning: "#FC8E5F",
+          pnlGain: "#3D9C70",
+        },
+        gray: {
+          700: "#181A1D",
+          600: "#292C32",
+          500: "#3F4552",
+          90: "#676B74",
+          40: "#A3A3A3",
+          10: darkTheme.color,
+        },
+        primary: {
+          300: "#F8CC82",
+          100: "#EAD8B8",
+          "300/A75": " rgba(248, 204, 130,0.75)",
+          "300/A50": " rgba(248, 204, 130,0.5)",
+        },
       },
       palette: {
         type: "dark",
@@ -92,6 +120,11 @@ export const dark = responsiveFontSizes(
             backgroundColor: darkTheme.switchBg,
           },
         },
+        MuiAlert: {
+          root: {
+            background: "transparent",
+          },
+        },
         MuiCssBaseline: {
           "@global": {
             "@font-face": fonts,
@@ -102,7 +135,7 @@ export const dark = responsiveFontSizes(
         },
         MuiDrawer: {
           paper: {
-            backgroundColor: darkTheme.paperBg,
+            background: darkTheme.paperBg,
             zIndex: 7,
           },
         },
@@ -113,18 +146,21 @@ export const dark = responsiveFontSizes(
         },
         MuiPaper: {
           root: {
-            backgroundColor: darkTheme.paperBg,
+            "&.MuiAccordion-root": {
+              background: "transparent",
+            },
+            background: darkTheme.paperBg,
             "&.ohm-card": {
-              backgroundColor: darkTheme.paperBg,
+              background: darkTheme.paperBg,
             },
             "&.ohm-modal": {
               backgroundColor: darkTheme.modalBg,
             },
             "&.MuiPaper-root.tooltip-container": {
-              backgroundColor: darkTheme.paperBg,
+              background: darkTheme.paperBg,
             },
             "&.ohm-menu": {
-              backgroundColor: darkTheme.menuBg,
+              background: darkTheme.menuBg,
               backdropFilter: "blur(33px)",
             },
             "&.ohm-popover": {
@@ -136,7 +172,7 @@ export const dark = responsiveFontSizes(
         },
         MuiBackdrop: {
           root: {
-            backgroundColor: darkTheme.backdropBg,
+            background: darkTheme.backdropBg,
           },
         },
         MuiLink: {
@@ -188,7 +224,7 @@ export const dark = responsiveFontSizes(
         },
         MuiToggleButton: {
           root: {
-            backgroundColor: darkTheme.paperBg,
+            background: darkTheme.paperBg,
             "&:hover": {
               color: darkTheme.color,
               backgroundColor: `${darkTheme.containedSecondaryButtonHoverBG} !important`,
@@ -199,11 +235,11 @@ export const dark = responsiveFontSizes(
             "@media (hover:none)": {
               "&:hover": {
                 color: darkTheme.color,
-                backgroundColor: darkTheme.paperBg,
+                background: darkTheme.paperBg,
               },
               "&:focus": {
                 color: darkTheme.color,
-                backgroundColor: darkTheme.paperBg,
+                background: darkTheme.paperBg,
                 borderColor: "transparent",
                 outline: "#00000000",
               },
@@ -231,7 +267,7 @@ export const dark = responsiveFontSizes(
             },
           },
           containedSecondary: {
-            backgroundColor: darkTheme.paperBg,
+            background: darkTheme.paperBg,
             color: darkTheme.color,
             "&:hover": {
               backgroundColor: `${darkTheme.containedSecondaryButtonHoverBG} !important`,
@@ -240,11 +276,11 @@ export const dark = responsiveFontSizes(
               backgroundColor: darkTheme.containedSecondaryButtonHoverBG,
             },
             "&:focus": {
-              backgroundColor: darkTheme.paperBg,
+              background: darkTheme.paperBg,
             },
             "@media (hover:none)": {
               color: darkTheme.color,
-              backgroundColor: darkTheme.paperBg,
+              background: darkTheme.paperBg,
               "&:hover": {
                 backgroundColor: `${darkTheme.containedSecondaryButtonHoverBG} !important`,
               },

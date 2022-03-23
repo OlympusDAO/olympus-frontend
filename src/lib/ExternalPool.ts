@@ -13,6 +13,10 @@ export class ExternalPool {
   readonly address: string;
   readonly masterchef: string;
   readonly networkID: NetworkId;
+  readonly rewarder: string;
+  readonly poolId: number;
+  readonly rewardGecko: string;
+  readonly vault: string;
 
   constructor(poolOpts: StakePoolOpts) {
     this.poolName = poolOpts.poolName;
@@ -24,6 +28,10 @@ export class ExternalPool {
     this.address = poolOpts.address;
     this.masterchef = poolOpts.masterchef;
     this.networkID = poolOpts.networkID;
+    this.rewarder = poolOpts.rewarder;
+    this.poolId = poolOpts.poolId;
+    this.rewardGecko = poolOpts.rewardGecko;
+    this.vault = poolOpts.vault ? poolOpts.vault : "";
   }
 }
 
@@ -36,6 +44,10 @@ export interface StakePoolOpts {
   address: string;
   masterchef: string;
   networkID: NetworkId;
+  rewarder: string;
+  poolId: number;
+  rewardGecko: string;
+  vault?: string;
 }
 
 export interface ExternalPoolwBalance extends ExternalPool {

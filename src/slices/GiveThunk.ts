@@ -37,6 +37,18 @@ export const ACTION_GIVE = "give";
 export const ACTION_GIVE_EDIT = "editGive";
 export const ACTION_GIVE_WITHDRAW = "endGive";
 
+const trackGiveEvent = (uaData: IUAData, eventAction?: string) => {
+  trackGAEvent({
+    category: "Olympus Give",
+    action: eventAction ? eventAction : uaData.type ? uaData.type : "unknown",
+    label: getGiveProjectName(uaData.recipient) ?? "unknown",
+    value: Math.round(parseFloat(uaData.value)),
+    metric1: parseFloat(uaData.value),
+    dimension1: uaData.txHash ?? "unknown",
+    dimension2: uaData.address,
+  });
+};
+
 export const isSupportedChain = (chainID: NetworkId): boolean => {
   // Give is only supported on Ethereum mainnet (1) and rinkeby (4) for the moment.
   if (chainID === NetworkId.MAINNET || chainID === NetworkId.TESTNET_RINKEBY) return true;
@@ -147,6 +159,16 @@ export const changeMockApproval = createAsyncThunk(
   },
 );
 
+const getTypeFromAction = (action: string): string => {
+  if (action === ACTION_GIVE) return ACTION_GIVE;
+
+  if (action === ACTION_GIVE_EDIT) return ACTION_GIVE_EDIT;
+
+  if (action === ACTION_GIVE_WITHDRAW) return ACTION_GIVE_WITHDRAW;
+
+  return "";
+};
+
 // Submits transactions to deposit, edit or withdraw to Give contract
 export const changeGive = createAsyncThunk(
   "give/changeGive",
@@ -169,19 +191,21 @@ export const changeGive = createAsyncThunk(
       recipient: recipient,
       approved: true,
       txHash: null,
-      type: "",
+      type: getTypeFromAction(action),
     };
+
+    // Before we submit the transaction, record the event.
+    // This lets us track if the user rejects/ignores the confirmation dialog.
+    trackGiveEvent(uaData, uaData.type + "-before");
 
     try {
       let pendingTxnType = "";
       if (action === ACTION_GIVE) {
         // If the desired action is a new deposit
-        uaData.type = ACTION_GIVE;
         pendingTxnType = PENDING_TXN_GIVE;
         giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
       } else if (action === ACTION_GIVE_EDIT) {
         // If the desired action is adjusting a deposit
-        uaData.type = ACTION_GIVE_EDIT;
         pendingTxnType = PENDING_TXN_EDIT_GIVE;
         if (parseFloat(value) > 0) {
           // If the user is increasing the amount of sOHM directing yield to recipient
@@ -193,7 +217,6 @@ export const changeGive = createAsyncThunk(
         }
       } else if (action === ACTION_GIVE_WITHDRAW) {
         // If the desired action is to remove all sOHM from deposit
-        uaData.type = ACTION_GIVE_WITHDRAW;
         pendingTxnType = PENDING_TXN_WITHDRAW;
         giveTx = await giving.withdraw(ethers.utils.parseUnits(value, "gwei"), recipient);
       }
@@ -213,14 +236,7 @@ export const changeGive = createAsyncThunk(
       return;
     } finally {
       if (giveTx) {
-        trackGAEvent({
-          category: "Olympus Give",
-          action: uaData.type ?? "unknown",
-          value: Math.round(parseFloat(uaData.value)),
-          label: getGiveProjectName(uaData.recipient) ?? "unknown",
-          dimension1: uaData.txHash ?? "unknown",
-          dimension2: uaData.address,
-        });
+        trackGiveEvent(uaData);
 
         dispatch(clearPendingTxn(giveTx.hash));
       }
@@ -252,19 +268,21 @@ export const changeMockGive = createAsyncThunk(
       recipient: recipient,
       approved: true,
       txHash: null,
-      type: "",
+      type: getTypeFromAction(action),
     };
+
+    // Before we submit the transaction, record the event.
+    // This lets us track if the user rejects/ignores the confirmation dialog.
+    trackGiveEvent(uaData, uaData.type + "-before");
 
     try {
       let pendingTxnType = "";
       if (action === ACTION_GIVE) {
         // If the desired action is a new deposit
-        uaData.type = ACTION_GIVE;
         pendingTxnType = PENDING_TXN_GIVE;
         giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
       } else if (action === ACTION_GIVE_EDIT) {
         // If the desired action is adjusting a deposit
-        uaData.type = ACTION_GIVE_EDIT;
         pendingTxnType = PENDING_TXN_EDIT_GIVE;
         if (parseFloat(value) > 0) {
           // If the user is increasing the amount of sOHM directing yield to recipient
@@ -276,7 +294,6 @@ export const changeMockGive = createAsyncThunk(
         }
       } else if (action === ACTION_GIVE_WITHDRAW) {
         // If the desired action is to remove all sOHM from deposit
-        uaData.type = ACTION_GIVE_WITHDRAW;
         pendingTxnType = PENDING_TXN_WITHDRAW;
         giveTx = await giving.withdraw(ethers.utils.parseUnits(value, "gwei"), recipient);
       }
@@ -296,15 +313,8 @@ export const changeMockGive = createAsyncThunk(
       return;
     } finally {
       if (giveTx) {
-        trackGAEvent({
-          category: "Olympus Give",
-          action: uaData.type ?? "unknown",
-          label: getGiveProjectName(uaData.recipient) ?? "unknown",
-          dimension1: uaData.txHash ?? "unknown",
-          dimension2: uaData.address,
-          metric1: parseFloat(uaData.value),
-          value: Math.round(parseFloat(uaData.value)),
-        });
+        trackGiveEvent(uaData);
+
         dispatch(clearPendingTxn(giveTx.hash));
       }
     }
