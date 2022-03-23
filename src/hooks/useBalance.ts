@@ -70,12 +70,9 @@ export const useFuseBalance = () => {
 
       const results = await Promise.all(
         [pool6Contract, pool18Contract, pool36Contract].map(async contract => {
-          const [balance, decimals] = await Promise.all([
-            contract.callStatic.balanceOfUnderlying(address),
-            contract.decimals(),
-          ]);
+          const balance = await contract.callStatic.balanceOfUnderlying(address);
 
-          return new DecimalBigNumber(balance, decimals);
+          return new DecimalBigNumber(balance, 18);
         }),
       );
 

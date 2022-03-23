@@ -21,7 +21,6 @@ export class Providers {
   public static getStaticProvider(networkId: NetworkId) {
     if (!this._providerCache[networkId])
       this._providerCache[networkId] = new StaticJsonRpcProvider(this.getProviderUrl(networkId));
-
     return this._providerCache[networkId];
   }
 }
