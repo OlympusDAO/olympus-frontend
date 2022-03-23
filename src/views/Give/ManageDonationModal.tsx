@@ -223,7 +223,7 @@ export function ManageDonationModal({
   const getCurrentDepositAmount = (): DecimalBigNumber => {
     if (!currentDepositAmount) return new DecimalBigNumber(0, OHM_DECIMAL_PLACES);
 
-    return new BigNumber(currentDepositAmount);
+    return currentDepositAmount;
   };
 
   /**
@@ -233,14 +233,13 @@ export function ManageDonationModal({
    *
    * @returns BigNumber
    */
-  const getMaximumDepositAmount = (): BigNumber => {
-    return new BigNumber(sohmBalance).plus(currentDepositAmount ? currentDepositAmount : 0);
+  const getMaximumDepositAmount = (): DecimalBigNumber => {
+    return new DecimalBigNumber(sohmBalance, OHM_DECIMAL_PLACES).add(getCurrentDepositAmount());
   };
 
-  const getDepositAmountDiff = (): BigNumber => {
+  const getDepositAmountDiff = (): DecimalBigNumber => {
     // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
-    const depositAmountBig = new BigNumber(depositAmount);
-    return depositAmountBig.minus(getCurrentDepositAmount());
+    return new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES).sub(getCurrentDepositAmount());
   };
 
   /**
@@ -248,10 +247,10 @@ export function ManageDonationModal({
    *
    * @returns
    */
-  const getDepositAmount = (): BigNumber => {
-    if (!depositAmount) return new BigNumber(0);
+  const getDepositAmount = (): DecimalBigNumber => {
+    if (!depositAmount) return new DecimalBigNumber(0, OHM_DECIMAL_PLACES);
 
-    return new BigNumber(depositAmount);
+    return new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES);
   };
 
   const handleSetDepositAmount = (value: string) => {
@@ -260,10 +259,10 @@ export function ManageDonationModal({
   };
 
   const checkIsDepositAmountValid = (value: string) => {
-    const valueNumber = new BigNumber(value);
+    const valueNumber = new DecimalBigNumber(value, OHM_DECIMAL_PLACES);
     const sOhmBalanceNumber = getSOhmBalance();
 
-    if (!value || value == "" || valueNumber.isEqualTo(0)) {
+    if (!value || value == "" || valueNumber.toBigNumber().eq(0)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Please enter a value`);
       return;
@@ -275,12 +274,12 @@ export function ManageDonationModal({
       return;
     }
 
-    if (sOhmBalanceNumber.isEqualTo(0)) {
+    if (sOhmBalanceNumber.toBigNumber().eq(0)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
     }
 
-    if (valueNumber.isGreaterThan(getMaximumDepositAmount())) {
+    if (valueNumber.gt(getMaximumDepositAmount())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Value cannot be more than your sOHM balance of ` + getMaximumDepositAmount());
       return;
