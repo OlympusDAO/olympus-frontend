@@ -8,7 +8,6 @@ import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "bignumber.js";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
 import ReactGA from "react-ga";
@@ -16,6 +15,7 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { ProgressBar, Step } from "react-step-progress-bar";
 import { NetworkId } from "src/constants";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
@@ -56,6 +56,8 @@ type State = {
 };
 
 const DECIMAL_PLACES = 2;
+const OHM_DECIMAL_PLACES = 9;
+const GOHM_DECIMAL_PLACES = 18;
 
 export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const location = useLocation();
@@ -189,7 +191,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                 <Step key={`step-${humanIndex}`}>
                   {({}) => (
                     <div className="step-label" style={milestoneAccomplished ? accomplishedStyle : unaccomplishedStyle}>
-                      {new BigNumber(value.amount).toFormat(0)}
+                      {new DecimalBigNumber(value.amount, OHM_DECIMAL_PLACES).toFormattedString(0)}
                     </div>
                   )}
                 </Step>
@@ -216,9 +218,10 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
         {milestones.map((value, index) => {
           return (
             <div key={`milestone-${index}`}>
-              <Typography variant="h6">{t`Milestone ${index + 1}: ${new BigNumber(value.amount).toFormat(
-                0,
-              )} sOHM`}</Typography>
+              <Typography variant="h6">{t`Milestone ${index + 1}: ${new DecimalBigNumber(
+                value.amount,
+                OHM_DECIMAL_PLACES,
+              ).toFormattedString(0)} sOHM`}</Typography>
               <div
                 dangerouslySetInnerHTML={{
                   __html: MarkdownIt({ html: true }).render(
@@ -234,9 +237,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   };
 
   const renderDepositData = (): JSX.Element => {
-    const totalMilestoneAmount: BigNumber = !milestones
-      ? new BigNumber(0)
-      : milestones.reduce((total, value) => total.plus(value.amount), new BigNumber(0));
+    const totalMilestoneAmount: DecimalBigNumber = !milestones
+      ? new DecimalBigNumber(0, OHM_DECIMAL_PLACES)
+      : milestones.reduce((total, value) => total.add(value.amount), new DecimalBigNumber(0, OHM_DECIMAL_PLACES));
 
     return (
       <>
