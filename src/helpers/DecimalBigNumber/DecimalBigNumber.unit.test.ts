@@ -17,17 +17,11 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("1.12345678913139872398723", 9).toAccurateString()).toEqual("1.123456789");
   });
 
-  it("should copy objects", () => {
-    const originalNumber = new DecimalBigNumber("1.1", 9);
-    expect(originalNumber.copy().toAccurateString()).toEqual("1.1");
-    expect(originalNumber.copy()).not.toBe(originalNumber);
-  });
-
   it("should handle number inputs", () => {
-    expect(new DecimalBigNumber(1, 9).toAccurateString()).toEqual("1.0");
-    expect(new DecimalBigNumber(1.2, 9).toAccurateString()).toEqual("1.2");
-    expect(new DecimalBigNumber(-1.2, 9).toAccurateString()).toEqual("-1.2");
-    expect(new DecimalBigNumber(1.12345678913, 9).toAccurateString()).toEqual("1.123456789");
+    expect(new DecimalBigNumber((1).toString(), 9).toAccurateString()).toEqual("1.0");
+    expect(new DecimalBigNumber((1.2).toString(), 9).toAccurateString()).toEqual("1.2");
+    expect(new DecimalBigNumber((-1.2).toString(), 9).toAccurateString()).toEqual("-1.2");
+    expect(new DecimalBigNumber((1.12345678913).toString(), 9).toAccurateString()).toEqual("1.123456789");
   });
 
   it("should accurately format number to an accurate string", () => {
@@ -38,6 +32,8 @@ describe("DecimalBigNumber", () => {
   });
 
   it("should accurately format string output", () => {
+    expect(new DecimalBigNumber(".1", 1).toFormattedString()).toEqual("0");
+    expect(new DecimalBigNumber("1000.1", 2).toFormattedString()).toEqual("1,000");
     expect(new DecimalBigNumber(".1", 1).toFormattedString(1)).toEqual("0.1");
     expect(new DecimalBigNumber("1000.1", 2).toFormattedString(2)).toEqual("1,000.10");
     expect(new DecimalBigNumber(".1", 2).toFormattedString(2)).toEqual("0.10");
@@ -83,8 +79,8 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("1.111111111", 9).eq(new DecimalBigNumber("1.111111111111111111", 18))).toEqual(false);
     expect(new DecimalBigNumber("1.111111111", 9).eq(new DecimalBigNumber("1.111111111222222222", 18))).toEqual(false);
     expect(new DecimalBigNumber("1.1", 9).eq(new DecimalBigNumber("1.2", 9))).toEqual(false);
-    expect(new DecimalBigNumber(1.1, 9).eq(new DecimalBigNumber(0, 9))).toEqual(false);
-    expect(new DecimalBigNumber(0, 9).eq(new DecimalBigNumber(0, 9))).toEqual(true);
+    expect(new DecimalBigNumber("1.1", 9).eq(new DecimalBigNumber("0", 9))).toEqual(false);
+    expect(new DecimalBigNumber("0", 9).eq(new DecimalBigNumber("0", 9))).toEqual(true);
   });
 
   it("should multiply by a number correctly", () => {

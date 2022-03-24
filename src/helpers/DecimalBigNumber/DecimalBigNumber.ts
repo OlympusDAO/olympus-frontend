@@ -7,28 +7,35 @@ export class DecimalBigNumber {
   private _decimals: number;
   private _number: BigNumber;
 
-  constructor(number: BigNumber | string | number, decimals: number) {
+  /**
+   * Creates a new instance of `DecimalBigNumber`.
+   *
+   * This class expects and suggests that numbers be handled using `DecimalBigNumber`, instead of the inherently inaccurate
+   * use of `number` and `string` types.
+   *
+   * The constructor accepts the following as inputs to the number parameter:
+   * - `BigNumber` (from @ethersproject/bignumber): to easily shift from `BigNumber` used in smart contracts to `DecimalBigNumber`
+   * - `string`: to take input from the user
+   *
+   * Given these design decisions, there are some recommended approaches:
+   * - Obtain user input with type text, instead of a number, in order to retain precision. e.g. `<input type="text" />`
+   * - Where a `number` value is present, convert it to a `DecimalBigNumber` in the manner the developer deems appropriate. This will most commonly be `new DecimalBigNumber(1000222000.2222.toString(), 4)`. While a convenience method could be offered, it could lead to unexpected behaviour around precision.
+   *
+   * @param number the BigNumber or string used to initialise the object
+   * @param decimals the number of decimal places supported by the number
+   * @returns a new, immutable instance of `DecimalBigNumber`
+   */
+  constructor(number: BigNumber | string, decimals: number) {
     this._decimals = decimals;
 
     if (typeof number === "string") {
-      const formatted = this._prepareInputString(number, decimals);
-      this._number = parseUnits(formatted, decimals);
-      return;
-    }
-
-    if (typeof number === "number") {
-      const formatted = this._prepareInputString(number.toString(), decimals);
+      const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
+      const formatted = this._omitIrrelevantDecimals(_number, decimals);
       this._number = parseUnits(formatted, decimals);
       return;
     }
 
     this._number = number;
-  }
-
-  private _prepareInputString(number: string, decimals: number): string {
-    const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
-
-    return this._omitIrrelevantDecimals(_number, decimals);
   }
 
   private _omitIrrelevantDecimals(number: string, decimals: number): string {
@@ -37,15 +44,6 @@ export class DecimalBigNumber {
     if (!_decimals) return integer;
 
     return integer + "." + _decimals.substring(0, decimals);
-  }
-
-  /**
-   * Returns a copy of the current DecimalBigNumber
-   *
-   * @returns a new instance of DecimalBigNumber
-   */
-  public copy(): DecimalBigNumber {
-    return new DecimalBigNumber(this._number, this._decimals);
   }
 
   /**
