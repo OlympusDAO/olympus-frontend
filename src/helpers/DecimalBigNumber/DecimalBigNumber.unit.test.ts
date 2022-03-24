@@ -38,29 +38,22 @@ describe("DecimalBigNumber", () => {
   });
 
   it("should accurately format string output", () => {
-    expect(new DecimalBigNumber(".1", 1).toFormattedString()).toEqual("0.1");
-    expect(new DecimalBigNumber("1000.1", 2).toFormattedString()).toEqual("1,000.10");
-    expect(new DecimalBigNumber(".1", 2).toFormattedString()).toEqual("0.10");
-    expect(new DecimalBigNumber(".1", 10).toFormattedString()).toEqual("0.1000000000");
-    expect(new DecimalBigNumber("1.1", 1).toFormattedString()).toEqual("1.1");
-    expect(new DecimalBigNumber("1.123", 3).toFormattedString()).toEqual("1.123");
-    expect(new DecimalBigNumber("-1.123", 3).toFormattedString()).toEqual("-1.123");
-
+    expect(new DecimalBigNumber(".1", 1).toFormattedString(1)).toEqual("0.1");
+    expect(new DecimalBigNumber("1000.1", 2).toFormattedString(2)).toEqual("1,000.10");
+    expect(new DecimalBigNumber(".1", 2).toFormattedString(2)).toEqual("0.10");
+    expect(new DecimalBigNumber(".1", 10).toFormattedString(10)).toEqual("0.1000000000");
+    expect(new DecimalBigNumber("1.1", 1).toFormattedString(1)).toEqual("1.1");
+    expect(new DecimalBigNumber("1.123", 3).toFormattedString(3)).toEqual("1.123");
+    expect(new DecimalBigNumber("-1.123", 3).toFormattedString(3)).toEqual("-1.123");
     expect(new DecimalBigNumber(".1", 1).toFormattedString(0)).toEqual("0");
     expect(new DecimalBigNumber("1.222", 3).toFormattedString(0)).toEqual("1");
   });
 
   it("should strip trailing zeroes from formatted string output", () => {
-    expect(new DecimalBigNumber("1.1", 1).toFormattedString()).toEqual("1.1");
-    expect(new DecimalBigNumber("1.1", 1).toFormattedStringTrimmed()).toEqual("1.1");
-    expect(new DecimalBigNumber("1.001", 5).toFormattedString()).toEqual("1.00100");
-    expect(new DecimalBigNumber("1.001", 5).toFormattedStringTrimmed()).toEqual("1.001");
-    expect(new DecimalBigNumber(".1", 10).toFormattedString()).toEqual("0.1000000000");
-    expect(new DecimalBigNumber(".1", 10).toFormattedStringTrimmed()).toEqual("0.1");
-    expect(new DecimalBigNumber("100.1", 10).toFormattedString()).toEqual("100.1000000000");
-    expect(new DecimalBigNumber("100.1", 10).toFormattedStringTrimmed()).toEqual("100.1");
-    expect(new DecimalBigNumber("100.0", 5).toFormattedString()).toEqual("100.00000");
-    expect(new DecimalBigNumber("100.0", 5).toFormattedStringTrimmed()).toEqual("100");
+    expect(new DecimalBigNumber("1.1", 3).toFormattedString(3)).toEqual("1.100");
+    expect(new DecimalBigNumber("1.1", 3).toFormattedString({ decimals: 3, trimTrailingZeroes: true })).toEqual("1.1");
+    expect(new DecimalBigNumber(".1", 3).toFormattedString(3)).toEqual("0.100");
+    expect(new DecimalBigNumber(".1", 3).toFormattedString({ decimals: 3, trimTrailingZeroes: true })).toEqual("0.1");
   });
 
   it("should add another number correctly", () => {
