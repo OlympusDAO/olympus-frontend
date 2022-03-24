@@ -56,6 +56,7 @@ type State = {
 };
 
 const DECIMAL_PLACES = 2;
+const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0", OHM_DECIMAL_PLACES);
 
 export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const location = useLocation();
@@ -189,7 +190,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                 <Step key={`step-${humanIndex}`}>
                   {({}) => (
                     <div className="step-label" style={milestoneAccomplished ? accomplishedStyle : unaccomplishedStyle}>
-                      {new DecimalBigNumber(value.amount, OHM_DECIMAL_PLACES).toFormattedString(0)}
+                      {new DecimalBigNumber(value.amount.toString(), OHM_DECIMAL_PLACES).toFormattedString(0)}
                     </div>
                   )}
                 </Step>
@@ -217,7 +218,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           return (
             <div key={`milestone-${index}`}>
               <Typography variant="h6">{t`Milestone ${index + 1}: ${new DecimalBigNumber(
-                value.amount,
+                value.amount.toString(),
                 OHM_DECIMAL_PLACES,
               ).toFormattedString(0)} sOHM`}</Typography>
               <div
@@ -236,10 +237,10 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
 
   const renderDepositData = (): JSX.Element => {
     const totalMilestoneAmount: DecimalBigNumber = !milestones
-      ? new DecimalBigNumber(0, OHM_DECIMAL_PLACES)
+      ? ZERO_NUMBER
       : milestones.reduce(
-          (total, value) => total.add(new DecimalBigNumber(value.amount, OHM_DECIMAL_PLACES)),
-          new DecimalBigNumber(0, OHM_DECIMAL_PLACES),
+          (total, value) => total.add(new DecimalBigNumber(value.amount.toString(), OHM_DECIMAL_PLACES)),
+          ZERO_NUMBER,
         );
 
     return (
@@ -256,7 +257,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     {donorCountIsLoading ? (
                       <Skeleton className="skeleton-inline" />
                     ) : (
-                      new DecimalBigNumber(donorCount, 0).toFormattedString(0)
+                      new DecimalBigNumber(donorCount.toString(), 0).toFormattedString(0)
                     )}
                   </Grid>
                 </Grid>
@@ -274,7 +275,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Icon name="sohm-total" />
                   </Grid>
                   <Grid item className="metric">
-                    {totalMilestoneAmount.toFormattedStringTrimmed(DECIMAL_PLACES)}
+                    {totalMilestoneAmount.toFormattedString({ decimals: DECIMAL_PLACES, trimTrailingZeroes: true })}
                   </Grid>
                 </Grid>
               </Grid>
@@ -329,7 +330,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     eventSource: string,
     depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) {
+    if (depositAmount.eq(ZERO_NUMBER)) {
       return dispatch(error(t`Please enter a value!`));
     }
 
@@ -382,7 +383,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) return;
+    if (depositAmountDiff.eq(ZERO_NUMBER)) return;
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
@@ -631,7 +632,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                                 new DecimalBigNumber(
                                   donationInfo[donationId].deposit,
                                   OHM_DECIMAL_PLACES,
-                                ).toFormattedStringTrimmed()
+                                ).toFormattedString({ decimals: OHM_DECIMAL_PLACES, trimTrailingZeroes: true })
                               ) : (
                                 "0"
                               )}
@@ -656,7 +657,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                                   new DecimalBigNumber(
                                     donationInfo[donationId].yieldDonated,
                                     OHM_DECIMAL_PLACES,
-                                  ).toFormattedStringTrimmed(DECIMAL_PLACES)
+                                  ).toFormattedString({ decimals: DECIMAL_PLACES, trimTrailingZeroes: true })
                                 ) : (
                                   "0"
                                 )}

@@ -51,7 +51,7 @@ export default function CausesDashboard() {
     eventSource: string,
     depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) {
+    if (depositAmount.eq(new DecimalBigNumber("0", OHM_DECIMAL_PLACES))) {
       return dispatch(error(t`Please enter a value!`));
     }
 

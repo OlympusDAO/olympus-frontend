@@ -37,6 +37,7 @@ type RecipientModalProps = {
 };
 
 const DECIMAL_PLACES = 2;
+const ZERO_NUMBER = new DecimalBigNumber("0", OHM_DECIMAL_PLACES);
 
 export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelFunc, project }: RecipientModalProps) {
   const location = useLocation();
@@ -149,7 +150,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   const checkIsDepositAmountValid = (value: string) => {
     const valueNumber = new DecimalBigNumber(value, OHM_DECIMAL_PLACES);
     const sOhmBalanceNumber = getSOhmBalance();
-    const zeroNumber = new DecimalBigNumber(0, OHM_DECIMAL_PLACES);
+    const zeroNumber = ZERO_NUMBER;
 
     if (!value || value == "" || valueNumber.eq(zeroNumber)) {
       setIsDepositAmountValid(false);
@@ -171,7 +172,10 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     if (valueNumber.gt(getMaximumDepositAmount())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        t`Value cannot be more than your sOHM balance of ${getMaximumDepositAmount().toFormattedStringTrimmed()}`,
+        t`Value cannot be more than your sOHM balance of ${getMaximumDepositAmount().toFormattedString({
+          decimals: OHM_DECIMAL_PLACES,
+          trimTrailingZeroes: true,
+        })}`,
       );
       return;
     }
@@ -263,7 +267,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    * @returns
    */
   const getDepositAmount = (): DecimalBigNumber => {
-    if (!depositAmount) return new DecimalBigNumber(0, OHM_DECIMAL_PLACES);
+    if (!depositAmount) return ZERO_NUMBER;
 
     return new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES);
   };
@@ -412,7 +416,10 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               // We need to inform the user about their wallet balance, so this is a specific value
               helperText={
                 isDepositAmountValid
-                  ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toFormattedStringTrimmed()} sOHM`
+                  ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toFormattedString({
+                      decimals: OHM_DECIMAL_PLACES,
+                      trimTrailingZeroes: true,
+                    })} sOHM`
                   : isDepositAmountValidError
               }
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -446,7 +453,10 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                    * For the numbers related to what the user is depositing, we give exact numbers.
                    */}
                   <CompactWallet
-                    quantity={getRetainedAmountDiff().toFormattedStringTrimmed(DECIMAL_PLACES)}
+                    quantity={getRetainedAmountDiff().toFormattedString({
+                      decimals: DECIMAL_PLACES,
+                      trimTrailingZeroes: true,
+                    })}
                     isQuantityExact={false}
                   />
                 </Grid>
@@ -455,14 +465,26 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                 </Grid>
                 <Grid item xs={3}>
                   {/* This is deliberately a specific value */}
-                  <CompactVault quantity={getDepositAmount().toFormattedStringTrimmed()} isQuantityExact={true} />
+                  <CompactVault
+                    quantity={getDepositAmount().toFormattedString({
+                      decimals: OHM_DECIMAL_PLACES,
+                      trimTrailingZeroes: true,
+                    })}
+                    isQuantityExact={true}
+                  />
                 </Grid>
                 <Grid item xs={1}>
                   <ArrowGraphic />
                 </Grid>
                 <Grid item xs={3}>
                   {/* This is deliberately a specific value */}
-                  <CompactYield quantity={getDepositAmount().toFormattedStringTrimmed()} isQuantityExact={true} />
+                  <CompactYield
+                    quantity={getDepositAmount().toFormattedString({
+                      decimals: OHM_DECIMAL_PLACES,
+                      trimTrailingZeroes: true,
+                    })}
+                    isQuantityExact={true}
+                  />
                 </Grid>
               </Grid>
             </Grid>
@@ -516,7 +538,13 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   <Grid xs={12}>
                     <Typography variant="h6">
                       {/* As this is the amount being deposited, the user needs to see the exact amount. */}
-                      <strong>{getDepositAmount().toFormattedStringTrimmed()} sOHM</strong>
+                      <strong>
+                        {getDepositAmount().toFormattedString({
+                          decimals: OHM_DECIMAL_PLACES,
+                          trimTrailingZeroes: true,
+                        })}{" "}
+                        sOHM
+                      </strong>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -561,7 +589,10 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   {txnButtonText(
                     pendingTransactions,
                     PENDING_TXN_GIVE,
-                    `${t`Confirm `} ${getDepositAmount().toFormattedStringTrimmed()} sOHM`,
+                    `${t`Confirm `} ${getDepositAmount().toFormattedString({
+                      decimals: OHM_DECIMAL_PLACES,
+                      trimTrailingZeroes: true,
+                    })} sOHM`,
                   )}
                 </PrimaryButton>
               </Grid>

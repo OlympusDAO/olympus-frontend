@@ -70,6 +70,7 @@ type State = {
 };
 
 const DECIMAL_PLACES = 2;
+const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0", OHM_DECIMAL_PLACES);
 
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const location = useLocation();
@@ -216,14 +217,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const getGoalCompletion = (): DecimalBigNumber => {
     if (!depositGoal || recipientInfoIsLoading || !totalDonated) {
-      return new DecimalBigNumber(0, OHM_DECIMAL_PLACES);
+      return ZERO_NUMBER;
     }
 
     const totalDonatedNumber = new DecimalBigNumber(totalDonated, OHM_DECIMAL_PLACES);
 
     return totalDonatedNumber
-      .mul(new DecimalBigNumber(100, OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES)
-      .div(new DecimalBigNumber(depositGoal, OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES);
+      .mul(new DecimalBigNumber("100", OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES)
+      .div(new DecimalBigNumber(depositGoal.toString(), OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES);
   };
 
   const renderGoalCompletion = (): JSX.Element => {
@@ -259,7 +260,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
-    const goalProgress: number = getGoalCompletion().gt(new DecimalBigNumber(100, OHM_DECIMAL_PLACES))
+    const goalProgress: number = getGoalCompletion().gt(new DecimalBigNumber("100", OHM_DECIMAL_PLACES))
       ? 100
       : getGoalCompletion().toApproxNumber();
 
@@ -277,7 +278,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 {totalDonatedIsLoading ? (
                   <Skeleton />
                 ) : (
-                  new DecimalBigNumber(totalDonated, OHM_DECIMAL_PLACES).toFormattedStringTrimmed(DECIMAL_PLACES)
+                  new DecimalBigNumber(totalDonated, OHM_DECIMAL_PLACES).toFormattedString({
+                    decimals: DECIMAL_PLACES,
+                    trimTrailingZeroes: true,
+                  })
                 )}
               </Grid>
             </Grid>
@@ -294,7 +298,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="sohm-yield-goal" />
                   </Grid>
                   <Grid item className="metric">
-                    {new DecimalBigNumber(depositGoal, OHM_DECIMAL_PLACES).toFormattedStringTrimmed(DECIMAL_PLACES)}
+                    {new DecimalBigNumber(depositGoal.toString(), OHM_DECIMAL_PLACES).toFormattedString({
+                      decimals: DECIMAL_PLACES,
+                      trimTrailingZeroes: true,
+                    })}
                   </Grid>
                 </Grid>
               </Grid>
@@ -344,7 +351,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                       <Skeleton />
                     ) : (
                       <strong>
-                        {new DecimalBigNumber(totalDebt, OHM_DECIMAL_PLACES).toFormattedStringTrimmed(DECIMAL_PLACES)}
+                        {new DecimalBigNumber(totalDebt, OHM_DECIMAL_PLACES).toFormattedString({
+                          decimals: DECIMAL_PLACES,
+                          trimTrailingZeroes: true,
+                        })}
                       </strong>
                     )}
                   </Grid>
@@ -397,7 +407,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     eventSource: string,
     depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) {
+    if (depositAmount.eq(ZERO_NUMBER)) {
       return dispatch(error(t`Please enter a value!`));
     }
 
@@ -450,7 +460,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) return;
+    if (depositAmountDiff.eq(ZERO_NUMBER)) return;
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
@@ -713,7 +723,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                                 new DecimalBigNumber(
                                   donationInfo[donationId].deposit,
                                   OHM_DECIMAL_PLACES,
-                                ).toFormattedStringTrimmed()
+                                ).toFormattedString({ decimals: OHM_DECIMAL_PLACES, trimTrailingZeroes: true })
                               ) : (
                                 "0"
                               )}
@@ -738,7 +748,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                                   new DecimalBigNumber(
                                     donationInfo[donationId].yieldDonated,
                                     OHM_DECIMAL_PLACES,
-                                  ).toFormattedStringTrimmed(DECIMAL_PLACES)
+                                  ).toFormattedString({ decimals: DECIMAL_PLACES, trimTrailingZeroes: true })
                                 ) : (
                                   "0"
                                 )}

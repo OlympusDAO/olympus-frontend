@@ -23,6 +23,7 @@ import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 
 // Consistent with staking page
 const DECIMAL_PLACES = 4;
+const ZERO_NUMBER = new DecimalBigNumber("0", OHM_DECIMAL_PLACES);
 
 export default function RedeemYield() {
   const location = useLocation();
@@ -60,24 +61,22 @@ export default function RedeemYield() {
 
   const redeemableBalanceNumber: DecimalBigNumber = new DecimalBigNumber(redeemableBalance, OHM_DECIMAL_PLACES);
 
-  const totalDeposit = new DecimalBigNumber(
-    recipientInfo && recipientInfo.totalDebt ? recipientInfo.totalDebt : 0,
-    OHM_DECIMAL_PLACES,
-  );
+  const totalDeposit =
+    recipientInfo && recipientInfo.totalDebt
+      ? new DecimalBigNumber(recipientInfo.totalDebt.toString(), OHM_DECIMAL_PLACES)
+      : ZERO_NUMBER;
 
-  const stakingRebasePercentage = new DecimalBigNumber(stakingRebase ? stakingRebase : 0, OHM_DECIMAL_PLACES).mul(
-    new DecimalBigNumber(100, OHM_DECIMAL_PLACES),
-    OHM_DECIMAL_PLACES,
-  );
-  const nextRewardValue = new DecimalBigNumber(stakingRebase ? stakingRebase : 0, OHM_DECIMAL_PLACES).mul(
-    totalDeposit,
-    OHM_DECIMAL_PLACES,
-  );
+  const stakingRebasePercentage = (
+    stakingRebase ? new DecimalBigNumber(stakingRebase.toString(), OHM_DECIMAL_PLACES) : ZERO_NUMBER
+  ).mul(new DecimalBigNumber("100", OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES);
 
-  const fiveDayRateValue = new DecimalBigNumber(fiveDayRate ? fiveDayRate : 0, OHM_DECIMAL_PLACES).mul(
-    new DecimalBigNumber(100, OHM_DECIMAL_PLACES),
-    OHM_DECIMAL_PLACES,
-  );
+  const nextRewardValue = (
+    stakingRebase ? new DecimalBigNumber(stakingRebase.toString(), OHM_DECIMAL_PLACES) : ZERO_NUMBER
+  ).mul(new DecimalBigNumber(totalDeposit.toString(), OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES);
+
+  const fiveDayRateValue = (
+    fiveDayRate ? new DecimalBigNumber(fiveDayRate.toString(), OHM_DECIMAL_PLACES) : ZERO_NUMBER
+  ).mul(new DecimalBigNumber("100", OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES);
 
   const isProject = projectMap.get(address);
 
@@ -99,9 +98,9 @@ export default function RedeemYield() {
    */
   const getRecipientGoal = (address: string): DecimalBigNumber => {
     const project = projectMap.get(address);
-    if (project) return new DecimalBigNumber(project.depositGoal, OHM_DECIMAL_PLACES);
+    if (project) return new DecimalBigNumber(project.depositGoal.toString(), OHM_DECIMAL_PLACES);
 
-    return new DecimalBigNumber(0, OHM_DECIMAL_PLACES);
+    return ZERO_NUMBER;
   };
 
   /**
@@ -116,7 +115,7 @@ export default function RedeemYield() {
 
     if (isPendingTxn(pendingTransactions, "redeeming")) return false;
 
-    if (redeemableBalanceNumber.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES)))
+    if (redeemableBalanceNumber.eq(ZERO_NUMBER))
       // If the available amount is 0
       return false;
 
@@ -144,7 +143,11 @@ export default function RedeemYield() {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h3" align="center">
-          {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toFormattedStringTrimmed(DECIMAL_PLACES)}{" "}
+          {isRecipientInfoLoading ? (
+            <Skeleton />
+          ) : (
+            redeemableBalanceNumber.toFormattedString({ decimals: DECIMAL_PLACES, trimTrailingZeroes: true })
+          )}{" "}
           sOHM
         </Typography>
         <Typography variant="body1" align="center" className="subtext">
@@ -168,7 +171,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center">
-                  {getRecipientGoal(address).toFormattedStringTrimmed(DECIMAL_PLACES)}
+                  {getRecipientGoal(address).toFormattedString({ decimals: DECIMAL_PLACES, trimTrailingZeroes: true })}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   <Trans>sOHM Goal</Trans>
@@ -178,7 +181,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center">
-                  {totalDeposit.toFormattedStringTrimmed(DECIMAL_PLACES)}
+                  {totalDeposit.toFormattedString({ decimals: DECIMAL_PLACES, trimTrailingZeroes: true })}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   {isSmallScreen ? t`Total Donated` : t`Total sOHM Donated`}
@@ -189,9 +192,9 @@ export default function RedeemYield() {
               <Box>
                 <Typography variant="h5" align="center">
                   {totalDeposit
-                    .mul(new DecimalBigNumber(100, OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES)
+                    .mul(new DecimalBigNumber("100", OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES)
                     .div(getRecipientGoal(address), OHM_DECIMAL_PLACES)
-                    .toFormattedStringTrimmed(DECIMAL_PLACES)}
+                    .toFormattedString({ decimals: DECIMAL_PLACES, trimTrailingZeroes: true })}
                   %
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
@@ -209,29 +212,41 @@ export default function RedeemYield() {
           <DataRow
             title={t`Deposited sOHM`}
             // Exact number
-            balance={`${totalDeposit.toFormattedStringTrimmed()} ${t`sOHM`}`}
+            balance={`${totalDeposit.toFormattedString({
+              decimals: OHM_DECIMAL_PLACES,
+              trimTrailingZeroes: true,
+            })} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
           />
           <DataRow
             title={t`Redeemable Amount`}
             // Exact number
-            balance={`${redeemableBalanceNumber.toFormattedStringTrimmed()} ${t`sOHM`}`}
+            balance={`${redeemableBalanceNumber.toFormattedString({
+              decimals: OHM_DECIMAL_PLACES,
+              trimTrailingZeroes: true,
+            })} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
           />
           <DataRow
             title={t`Next Reward Amount`}
             // Exact number
-            balance={`${nextRewardValue.toFormattedStringTrimmed(DECIMAL_PLACES)} ${t`sOHM`}`}
+            balance={`${nextRewardValue.toFormattedString({
+              decimals: DECIMAL_PLACES,
+              trimTrailingZeroes: true,
+            })} ${t`sOHM`}`}
             isLoading={isAppLoading}
           />
           <DataRow
             title={t`Next Reward Yield`}
-            balance={`${stakingRebasePercentage.toFormattedStringTrimmed(DECIMAL_PLACES)}%`}
+            balance={`${stakingRebasePercentage.toFormattedString({
+              decimals: DECIMAL_PLACES,
+              trimTrailingZeroes: true,
+            })}%`}
             isLoading={isAppLoading}
           />
           <DataRow
             title={t`ROI (5-Day Rate)`}
-            balance={`${fiveDayRateValue.toFormattedStringTrimmed(DECIMAL_PLACES)}%`}
+            balance={`${fiveDayRateValue.toFormattedString({ decimals: DECIMAL_PLACES, trimTrailingZeroes: true })}%`}
             isLoading={isAppLoading}
           />
         </Box>

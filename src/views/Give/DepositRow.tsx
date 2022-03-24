@@ -67,7 +67,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) return;
+    if (depositAmountDiff.eq(new DecimalBigNumber("0", OHM_DECIMAL_PLACES))) return;
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
@@ -161,14 +161,17 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         {!isSmallScreen && (
           <TableCell align="right" className="deposit-deposited-cell">
             {/* Exact amount as this is what the user has deposited */}
-            <Typography variant="h6">{depositNumber.toFormattedStringTrimmed()} sOHM</Typography>
+            <Typography variant="h6">
+              {depositNumber.toFormattedString({ decimals: OHM_DECIMAL_PLACES, trimTrailingZeroes: true })} sOHM
+            </Typography>
           </TableCell>
         )}
         <TableCell align="right" className="deposit-yield-cell">
           <Typography variant={isSmallScreen ? "body1" : "h6"}>
-            {new DecimalBigNumber(depositObject.yieldDonated, OHM_DECIMAL_PLACES).toFormattedStringTrimmed(
-              DECIMAL_PLACES,
-            )}{" "}
+            {new DecimalBigNumber(depositObject.yieldDonated, OHM_DECIMAL_PLACES).toFormattedString({
+              decimals: DECIMAL_PLACES,
+              trimTrailingZeroes: true,
+            })}{" "}
             sOHM
           </Typography>
         </TableCell>

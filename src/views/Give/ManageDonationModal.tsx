@@ -43,6 +43,7 @@ type ManageModalProps = {
 };
 
 const DECIMAL_PLACES = 2;
+const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0", OHM_DECIMAL_PLACES);
 
 export function ManageDonationModal({
   isModalOpen,
@@ -198,7 +199,7 @@ export function ManageDonationModal({
 
     if (!address) return false;
     if (hasPendingGiveTxn(pendingTransactions)) return false;
-    if (getDepositAmountDiff().eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) return false;
+    if (getDepositAmountDiff().eq(ZERO_NUMBER)) return false;
 
     return true;
   };
@@ -215,7 +216,7 @@ export function ManageDonationModal({
   };
 
   const getCurrentDepositAmount = (): DecimalBigNumber => {
-    if (!currentDepositAmount) return new DecimalBigNumber(0, OHM_DECIMAL_PLACES);
+    if (!currentDepositAmount) return ZERO_NUMBER;
 
     return currentDepositAmount;
   };
@@ -245,19 +246,19 @@ export function ManageDonationModal({
     const valueNumber = new DecimalBigNumber(value, OHM_DECIMAL_PLACES);
     const sOhmBalanceNumber = getSOhmBalance();
 
-    if (!value || value == "" || valueNumber.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) {
+    if (!value || value == "" || valueNumber.eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Please enter a value`);
       return;
     }
 
-    if (valueNumber.lt(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) {
+    if (valueNumber.lt(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Value must be positive`);
       return;
     }
 
-    if (sOhmBalanceNumber.eq(new DecimalBigNumber(0, OHM_DECIMAL_PLACES))) {
+    if (sOhmBalanceNumber.eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
     }
@@ -394,15 +395,17 @@ export function ManageDonationModal({
    */
   const getProjectStats = () => {
     const depositGoalNumber = project
-      ? new DecimalBigNumber(project.depositGoal, OHM_DECIMAL_PLACES)
-      : new DecimalBigNumber(0, OHM_DECIMAL_PLACES);
+      ? new DecimalBigNumber(project.depositGoal.toString(), OHM_DECIMAL_PLACES)
+      : ZERO_NUMBER;
 
     return (
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <Box>
             <Typography variant="h5" align="center">
-              {project ? depositGoalNumber.toFormattedStringTrimmed(DECIMAL_PLACES) : "N/A"}
+              {project
+                ? depositGoalNumber.toFormattedString({ decimals: DECIMAL_PLACES, trimTrailingZeroes: true })
+                : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
               {isSmallScreen ? "Goal" : "sOHM Goal"}
@@ -413,7 +416,10 @@ export function ManageDonationModal({
           <Box>
             <Typography variant="h5" align="center">
               {project
-                ? new DecimalBigNumber(totalDebt, OHM_DECIMAL_PLACES).toFormattedStringTrimmed(DECIMAL_PLACES)
+                ? new DecimalBigNumber(totalDebt, OHM_DECIMAL_PLACES).toFormattedString({
+                    decimals: DECIMAL_PLACES,
+                    trimTrailingZeroes: true,
+                  })
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
@@ -426,9 +432,9 @@ export function ManageDonationModal({
             <Typography variant="h5" align="center">
               {project
                 ? new DecimalBigNumber(totalDebt, OHM_DECIMAL_PLACES)
-                    .mul(new DecimalBigNumber(100, OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES)
+                    .mul(new DecimalBigNumber("100", OHM_DECIMAL_PLACES), OHM_DECIMAL_PLACES)
                     .div(depositGoalNumber, OHM_DECIMAL_PLACES)
-                    .toFormattedStringTrimmed(DECIMAL_PLACES) + "%"
+                    .toFormattedString({ decimals: DECIMAL_PLACES, trimTrailingZeroes: true }) + "%"
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
@@ -451,11 +457,17 @@ export function ManageDonationModal({
           <DataRow title={t`Recipient`} balance={getRecipientTitle()} />
           <DataRow
             title={t`Deposited`}
-            balance={`${new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES).toFormattedStringTrimmed()} sOHM`}
+            balance={`${new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES).toFormattedString({
+              decimals: OHM_DECIMAL_PLACES,
+              trimTrailingZeroes: true,
+            })} sOHM`}
           />
           <DataRow
             title={t`Yield Sent`}
-            balance={`${new DecimalBigNumber(yieldSent, OHM_DECIMAL_PLACES).toFormattedStringTrimmed()} sOHM`}
+            balance={`${new DecimalBigNumber(yieldSent, OHM_DECIMAL_PLACES).toFormattedString({
+              decimals: OHM_DECIMAL_PLACES,
+              trimTrailingZeroes: true,
+            })} sOHM`}
           />
         </Box>
       </>
@@ -567,7 +579,10 @@ export function ManageDonationModal({
                   // We need to inform the user about their deposit, so this is a specific value
                   helperText={
                     isDepositAmountValid
-                      ? t`Your current deposit is ${currentDepositAmount.toFormattedStringTrimmed()} sOHM`
+                      ? t`Your current deposit is ${currentDepositAmount.toFormattedString({
+                          decimals: OHM_DECIMAL_PLACES,
+                          trimTrailingZeroes: true,
+                        })} sOHM`
                       : isDepositAmountValidError
                   }
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -606,7 +621,9 @@ export function ManageDonationModal({
               <Trans>Current sOHM deposit</Trans>
             </Typography>
             {/* Referring to the current deposit, so we need to be specific */}
-            <Typography variant="h6">{currentDepositAmount.toFormattedStringTrimmed()} sOHM</Typography>
+            <Typography variant="h6">
+              {currentDepositAmount.toFormattedString({ decimals: OHM_DECIMAL_PLACES, trimTrailingZeroes: true })} sOHM
+            </Typography>
           </Grid>
           {!isSmallScreen ? (
             <Grid item sm={4}>
@@ -628,7 +645,10 @@ export function ManageDonationModal({
                 <Typography variant="h6">
                   {isWithdrawing
                     ? "0"
-                    : new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES).toFormattedStringTrimmed()}{" "}
+                    : new DecimalBigNumber(depositAmount, OHM_DECIMAL_PLACES).toFormattedString({
+                        decimals: OHM_DECIMAL_PLACES,
+                        trimTrailingZeroes: true,
+                      })}{" "}
                   sOHM
                 </Typography>
               </Grid>
