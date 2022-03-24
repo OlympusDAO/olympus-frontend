@@ -12,7 +12,9 @@ import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { NetworkId } from "src/constants";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
+import { useRedeemableBalance } from "src/hooks/useGiveInfo";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { loadAccountDetails } from "src/slices/AccountSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -32,14 +34,11 @@ export default function RedeemYield() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
+  const networks = useTestableNetworks();
 
   const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
 
-  const redeemableBalance = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
-      : state.account.redeeming && state.account.redeeming.sohmRedeemable;
-  });
+  const redeemableBalance = useRedeemableBalance(address)[networks.MAINNET].data;
 
   const recipientInfo = useSelector((state: DonationInfoState) => {
     return state.account.redeeming && state.account.redeeming.recipientInfo;
@@ -53,7 +52,7 @@ export default function RedeemYield() {
     return state.pendingTransactions;
   });
 
-  const redeemableBalanceNumber: BigNumber = new BigNumber(redeemableBalance);
+  const redeemableBalanceNumber: BigNumber = redeemableBalance ? new BigNumber(redeemableBalance) : new BigNumber(0);
 
   const totalDeposit = new BigNumber(recipientInfo && recipientInfo.totalDebt ? recipientInfo.totalDebt : 0);
 

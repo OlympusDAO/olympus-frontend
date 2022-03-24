@@ -12,13 +12,9 @@ import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import ReactGA from "react-ga";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { NetworkId } from "src/constants";
-import { Environment } from "src/helpers/environment/Environment/Environment";
-import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { useAppDispatch } from "src/hooks";
-import { useDonorNumbers, useRecipientInfo } from "src/hooks/useGiveInfo";
+import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalDonated } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
@@ -71,8 +67,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const location = useLocation();
   const { provider, address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
-  const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
-  const [totalDonated, setTotalDonated] = useState("");
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(0);
   const networks = useTestableNetworks();
@@ -80,14 +74,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
 
-  const donationInfo = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving && state.account.mockGiving.donationInfo
-      : state.account.giving && state.account.giving.donationInfo;
-  });
+  const rawDonationInfo = useDonationInfo()[networks.MAINNET].data;
+  const donationInfo = rawDonationInfo ? rawDonationInfo : [];
 
-  const totalDebt = useRecipientInfo(wallet)[0].data?.totalDebt;
+  const totalDebt = useRecipientInfo(wallet)[networks.MAINNET].data?.totalDebt;
   const donorCount = useDonorNumbers(wallet)[networks.MAINNET].data;
+  const totalDonated = useTotalDonated(wallet)[networks.MAINNET].data;
 
   const giveMutation = useGive();
   const increaseMutation = useIncreaseGive();
@@ -101,22 +93,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
-    // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
-    // e.g. the redeem yield page will show someone else's deposited sOHM and redeemable yield
-
-    getTotalDonated({
-      networkID: networkId,
-      provider: provider,
-      address: wallet,
-    })
-      .then(donatedAmount => {
-        setTotalDonated(donatedAmount);
-      })
-      .catch(e => console.log(e));
-  }, [connected, networkId, isGiveModalOpen]);
 
   useEffect(() => {
     for (let i = 0; i < donationInfo.length; i++) {
@@ -236,7 +212,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
     const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
-    const formattedTotalDonated = new BigNumber(totalDonated).toNumber().toFixed(2);
+    const formattedTotalDonated = !totalDonated
+      ? new BigNumber("0")
+      : new BigNumber(totalDonated).toNumber().toFixed(2);
 
     if (depositGoal === 0) return <></>;
 
@@ -249,7 +227,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <Icon name="sohm-yield" />
               </Grid>
               <Grid item className="metric">
-                {!totalDebt ? <Skeleton /> : formattedTotalDonated}
+                {!totalDonated ? <Skeleton /> : formattedTotalDonated}
               </Grid>
             </Grid>
             <Grid item className="subtext">

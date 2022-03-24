@@ -12,26 +12,18 @@ import { BigNumber } from "bignumber.js";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
 import ReactGA from "react-ga";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { ProgressBar, Step } from "react-step-progress-bar";
-import { NetworkId } from "src/constants";
-import { Environment } from "src/helpers/environment/Environment/Environment";
-import { getTotalDonated } from "src/helpers/GetTotalDonated";
-import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { useAppDispatch } from "src/hooks";
+import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalDonated } from "src/hooks/useGiveInfo";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
-import {
-  ACTION_GIVE,
-  ACTION_GIVE_EDIT,
-  ACTION_GIVE_WITHDRAW,
-  changeGive,
-  changeMockGive,
-  isSupportedChain,
-} from "src/slices/GiveThunk";
+import { isSupportedChain } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
+import { useGive } from "src/views/Give/hooks/useGive";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
@@ -59,22 +51,23 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const location = useLocation();
   const { provider, address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
-  const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
-  const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
-  const [totalDebt, setTotalDebt] = useState("");
-  const [totalDonated, setTotalDonated] = useState("");
-  const [donorCount, setDonorCount] = useState(0);
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(0);
+  const networks = useTestableNetworks();
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
 
-  const donationInfo = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving && state.account.mockGiving.donationInfo
-      : state.account.giving && state.account.giving.donationInfo;
-  });
+  const rawDonationInfo = useDonationInfo()[networks.MAINNET].data;
+  const donationInfo = rawDonationInfo ? rawDonationInfo : [];
+
+  const totalDebt = useRecipientInfo(wallet)[networks.MAINNET].data?.totalDebt;
+  const donorCount = useDonorNumbers(wallet)[networks.MAINNET].data;
+  const totalDonated = useTotalDonated(wallet)[networks.MAINNET].data;
+
+  const giveMutation = useGive();
+  const increaseMutation = useIncreaseGive();
+  const decreaseMutation = useDecreaseGive();
 
   const theme = useTheme();
   const isBreakpointLarge = useMediaQuery(theme.breakpoints.up("lg"));
@@ -82,43 +75,6 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
-    // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
-    // e.g. the redeem yield page will show someone else's deposited sOHM and redeemable yield
-    getRedemptionBalancesAsync({
-      networkID: networkId,
-      provider: provider,
-      address: wallet,
-    })
-      .then(resultAction => {
-        setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
-        setRecipientInfoIsLoading(false);
-      })
-      .catch(e => console.log(e));
-
-    getDonorNumbers({
-      networkID: networkId,
-      provider: provider,
-      address: wallet,
-    })
-      .then(resultAction => {
-        setDonorCount(!resultAction ? 0 : resultAction.length);
-        setDonorCountIsLoading(false);
-      })
-      .catch(e => console.log(e));
-
-    getTotalDonated({
-      networkID: networkId,
-      provider: provider,
-      address: wallet,
-    })
-      .then(donatedAmount => {
-        setTotalDonated(donatedAmount);
-      })
-      .catch(e => console.log(e));
-  }, [connected, networkId, isGiveModalOpen]);
 
   useEffect(() => {
     for (let i = 0; i < donationInfo.length; i++) {
@@ -242,7 +198,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Icon name="donors" />
                   </Grid>
                   <Grid item className="metric">
-                    {donorCountIsLoading ? <Skeleton className="skeleton-inline" /> : donorCount}
+                    {!donorCount ? <Skeleton className="skeleton-inline" /> : donorCount}
                   </Grid>
                 </Grid>
               </Grid>
@@ -259,7 +215,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Icon name="sohm-total" />
                   </Grid>
                   <Grid item className="metric">
-                    {totalMilestoneAmount.toNumber().toFixed(0)}
+                    {totalMilestoneAmount.toFixed(0)}
                   </Grid>
                 </Grid>
               </Grid>
@@ -318,37 +274,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
-    // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE,
-          value: depositAmount.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource: eventSource,
-        }),
-      );
-    } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE,
-          value: depositAmount.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource: eventSource,
-        }),
-      );
-    }
+    giveMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
 
     setIsGiveModalOpen(false);
   };
@@ -369,73 +295,18 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
 
     if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
 
-    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
-    // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
+    if (depositAmountDiff.isGreaterThan(new BigNumber("0"))) {
+      increaseMutation.mutate({ amount: depositAmountDiff.toFixed(), recipient: walletAddress });
     } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
+      const subtractionAmount = depositAmountDiff.multipliedBy(new BigNumber("-1"));
+      decreaseMutation.mutate({ amount: subtractionAmount.toFixed(), recipient: walletAddress });
     }
 
     setIsManageModalOpen(false);
   };
 
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
-    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
-    // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toNumber().toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
-    } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toNumber().toFixed(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
-    }
+    decreaseMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
 
     setIsManageModalOpen(false);
   };

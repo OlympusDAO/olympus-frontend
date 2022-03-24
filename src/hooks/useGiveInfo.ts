@@ -1,19 +1,13 @@
 import { t } from "@lingui/macro";
-// import { IUserDonationInfo } from "src/views/Give/Interfaces";
-// import { t } from "@lingui/macro";
-// import { GetDonationDate } from "src/helpers/GetDonationDate";
 import { BigNumber, ethers } from "ethers";
 import { useQuery } from "react-query";
 import { GIVE_ADDRESSES } from "src/constants/addresses";
+import { GetDonationDate } from "src/helpers/GetDonationDate";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
-// import { BigNumber } from "ethers";
-// import { isTestnet } from "src/helpers";
-// import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-// import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
+import { IUserDonationInfo } from "src/views/Give/Interfaces";
 
 import { useWeb3Context } from ".";
-// import { useWeb3Context } from ".";
 import { useDynamicGiveContract } from "./useContract";
 import { useTestableNetworks } from "./useTestableNetworks";
 import { useTestMode } from "./useTestMode";
@@ -29,11 +23,9 @@ interface IUserRecipientInfo {
   indexAtLastChange: string;
 }
 
-/*
 export const donationInfoQueryKey = (address: string) => ["useDonationInfo", address].filter(nonNullable);
-export useDonationInfo = () => {
-  const isTestMode = useTestMode();
-  const { address } = useWeb3Context();
+export const useDonationInfo = () => {
+  const { address, provider } = useWeb3Context();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
   const networks = useTestableNetworks();
 
@@ -54,13 +46,53 @@ export useDonationInfo = () => {
           address: address,
           recipient: allDeposits[0][i],
           networkID: networks.MAINNET,
-          provider
-        })
+          provider,
+        });
+        const yieldSentPromise = contract.donatedTo(address, allDeposits[0][i]);
+
+        const [firstDonationDate, yieldSent]: [string, BigNumber] = await Promise.all([
+          firstDonationDatePromise,
+          yieldSentPromise,
+        ]);
+
+        const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
+
+        donationInfo.push({
+          date: firstDonationDate,
+          deposit: ethers.utils.formatUnits(allDeposits[1][i], "gwei"),
+          recipient: allDeposits[0][i],
+          yieldDonated: formattedYieldSent,
+        });
       }
-    }
-  )
-}
-*/
+
+      return donationInfo;
+    },
+    { enabled: !!address },
+  );
+
+  return { [networks.MAINNET]: query } as Record<typeof networks.MAINNET, typeof query>;
+};
+
+export const redeemableBalanceQueryKey = (address: string) => ["useRedeemableBalance", address].filter(nonNullable);
+export const useRedeemableBalance = (address: string) => {
+  const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  const networks = useTestableNetworks();
+
+  const query = useQuery<string, Error>(
+    redeemableBalanceQueryKey(address),
+    async () => {
+      queryAssertion(address, redeemableBalanceQueryKey(address));
+
+      if (!contract) throw new Error(t`Please switch to the Ethereum network`);
+
+      const redeemableBalance = await contract.redeemableBalance(address);
+      return ethers.utils.formatUnits(redeemableBalance, "gwei");
+    },
+    { enabled: !!address },
+  );
+
+  return { [networks.MAINNET]: query } as Record<typeof networks.MAINNET, typeof query>;
+};
 
 export const recipientInfoQueryKey = (address: string) => ["useRecipientInfo", address].filter(nonNullable);
 export const useRecipientInfo = (address: string) => {
@@ -88,14 +120,12 @@ export const useRecipientInfo = (address: string) => {
       recipientInfo.agnosticDebt = ethers.utils.formatUnits(recipientInfoData.agnosticDebt, "gwei");
       recipientInfo.indexAtLastChange = ethers.utils.formatUnits(recipientInfoData.indexAtLastChange, "gwei");
 
-      console.log(recipientInfoData);
-
       return recipientInfo;
     },
     { enabled: !!address },
   );
 
-  return { 0: query } as Record<0, typeof query>;
+  return { [networks.MAINNET]: query } as Record<typeof networks.MAINNET, typeof query>;
 };
 
 export const totalDonatedQueryKey = (address: string) => ["useTotalDonated", address].filter(nonNullable);

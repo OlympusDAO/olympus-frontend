@@ -26,7 +26,7 @@ export interface GiveData {
   recipient: string;
 }
 
-interface IUserDonationInfo {
+export interface IUserDonationInfo {
   date: string;
   deposit: string;
   recipient: string;
