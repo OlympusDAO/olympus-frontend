@@ -38,7 +38,7 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
   const networks = useTestableNetworks();
 
   const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
-  const rawDonationInfo = useDonationInfo()[networks.MAINNET].data;
+  const rawDonationInfo = useDonationInfo().data;
   const donationInfo = rawDonationInfo ? rawDonationInfo : [];
 
   const isDonationInfoLoading = useSelector((state: DonationInfoState) => state.account.loading);

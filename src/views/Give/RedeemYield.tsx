@@ -38,7 +38,7 @@ export default function RedeemYield() {
 
   const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
 
-  const redeemableBalance = useRedeemableBalance(address)[networks.MAINNET].data;
+  const redeemableBalance = useRedeemableBalance(address).data;
 
   const recipientInfo = useSelector((state: DonationInfoState) => {
     return state.account.redeeming && state.account.redeeming.recipientInfo;

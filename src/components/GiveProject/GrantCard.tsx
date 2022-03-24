@@ -58,12 +58,12 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
 
-  const rawDonationInfo = useDonationInfo()[networks.MAINNET].data;
+  const rawDonationInfo = useDonationInfo().data;
   const donationInfo = rawDonationInfo ? rawDonationInfo : [];
 
-  const totalDebt = useRecipientInfo(wallet)[networks.MAINNET].data?.totalDebt;
-  const donorCount = useDonorNumbers(wallet)[networks.MAINNET].data;
-  const totalDonated = useTotalDonated(wallet)[networks.MAINNET].data;
+  const totalDebt = useRecipientInfo(wallet).data?.totalDebt;
+  const donorCount = useDonorNumbers(wallet).data;
+  const totalDonated = useTotalDonated(wallet).data;
 
   const giveMutation = useGive();
   const increaseMutation = useIncreaseGive();

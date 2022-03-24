@@ -1,6 +1,7 @@
 import { t } from "@lingui/macro";
 import { BigNumber, ethers } from "ethers";
 import { useQuery } from "react-query";
+import { NetworkId } from "src/constants";
 import { GIVE_ADDRESSES } from "src/constants/addresses";
 import { GetDonationDate } from "src/helpers/GetDonationDate";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
@@ -10,7 +11,6 @@ import { IUserDonationInfo } from "src/views/Give/Interfaces";
 import { useWeb3Context } from ".";
 import { useDynamicGiveContract } from "./useContract";
 import { useTestableNetworks } from "./useTestableNetworks";
-import { useTestMode } from "./useTestMode";
 
 interface IDonorAddresses {
   [key: string]: boolean;
@@ -23,16 +23,17 @@ interface IUserRecipientInfo {
   indexAtLastChange: string;
 }
 
-export const donationInfoQueryKey = (address: string) => ["useDonationInfo", address].filter(nonNullable);
+export const donationInfoQueryKey = (address: string, networkId: NetworkId) =>
+  ["useDonationInfo", address, networkId].filter(nonNullable);
 export const useDonationInfo = () => {
-  const { address, provider } = useWeb3Context();
+  const { address, provider, networkId } = useWeb3Context();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
   const networks = useTestableNetworks();
 
   const query = useQuery<IUserDonationInfo[] | null, Error>(
-    donationInfoQueryKey(address),
+    donationInfoQueryKey(address, networkId),
     async () => {
-      queryAssertion(address, donationInfoQueryKey(address));
+      queryAssertion([address, networkId], donationInfoQueryKey(address, networkId));
 
       const donationInfo: IUserDonationInfo[] = [];
 
@@ -70,18 +71,20 @@ export const useDonationInfo = () => {
     { enabled: !!address },
   );
 
-  return { [networks.MAINNET]: query } as Record<typeof networks.MAINNET, typeof query>;
+  return query as typeof query;
 };
 
-export const redeemableBalanceQueryKey = (address: string) => ["useRedeemableBalance", address].filter(nonNullable);
+export const redeemableBalanceQueryKey = (address: string, networkId: NetworkId) =>
+  ["useRedeemableBalance", address, networkId].filter(nonNullable);
 export const useRedeemableBalance = (address: string) => {
+  const { networkId } = useWeb3Context();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
   const networks = useTestableNetworks();
 
   const query = useQuery<string, Error>(
-    redeemableBalanceQueryKey(address),
+    redeemableBalanceQueryKey(address, networkId),
     async () => {
-      queryAssertion(address, redeemableBalanceQueryKey(address));
+      queryAssertion([address, networkId], redeemableBalanceQueryKey(address, networkId));
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network`);
 
@@ -91,19 +94,20 @@ export const useRedeemableBalance = (address: string) => {
     { enabled: !!address },
   );
 
-  return { [networks.MAINNET]: query } as Record<typeof networks.MAINNET, typeof query>;
+  return query as typeof query;
 };
 
-export const recipientInfoQueryKey = (address: string) => ["useRecipientInfo", address].filter(nonNullable);
+export const recipientInfoQueryKey = (address: string, networkId: NetworkId) =>
+  ["useRecipientInfo", address, networkId].filter(nonNullable);
 export const useRecipientInfo = (address: string) => {
-  const isTestMode = useTestMode();
+  const { networkId } = useWeb3Context();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
   const networks = useTestableNetworks();
 
   const query = useQuery<IUserRecipientInfo, Error>(
-    recipientInfoQueryKey(address),
+    recipientInfoQueryKey(address, networkId),
     async () => {
-      queryAssertion(address, recipientInfoQueryKey(address));
+      queryAssertion([address, networkId], recipientInfoQueryKey(address, networkId));
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network`);
 
@@ -125,12 +129,13 @@ export const useRecipientInfo = (address: string) => {
     { enabled: !!address },
   );
 
-  return { [networks.MAINNET]: query } as Record<typeof networks.MAINNET, typeof query>;
+  return query as typeof query;
 };
 
-export const totalDonatedQueryKey = (address: string) => ["useTotalDonated", address].filter(nonNullable);
+export const totalDonatedQueryKey = (address: string, networkId: NetworkId) =>
+  ["useTotalDonated", address, networkId].filter(nonNullable);
 export const useTotalDonated = (address: string) => {
-  const { provider } = useWeb3Context();
+  const { provider, networkId } = useWeb3Context();
 
   const zeroPadAddress = ethers.utils.hexZeroPad(address === "" ? ethers.utils.hexlify(0) : address, 32);
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
@@ -144,9 +149,9 @@ export const useTotalDonated = (address: string) => {
   };
 
   const query = useQuery<string, Error>(
-    totalDonatedQueryKey(address),
+    totalDonatedQueryKey(address, networkId),
     async () => {
-      queryAssertion(address, totalDonatedQueryKey(address));
+      queryAssertion([address, networkId], totalDonatedQueryKey(address, networkId));
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network`);
 
@@ -167,14 +172,14 @@ export const useTotalDonated = (address: string) => {
     { enabled: !!address },
   );
 
-  return { [networks.MAINNET]: query } as Record<typeof networks.MAINNET, typeof query>;
+  return query as typeof query;
 };
 
-export const donorNumbersQueryKey = (address: string) => ["useDonorNumbers", address].filter(nonNullable);
+export const donorNumbersQueryKey = (address: string, networkId: NetworkId) =>
+  ["useDonorNumbers", address, networkId].filter(nonNullable);
 export const useDonorNumbers = (address: string) => {
-  const { provider } = useWeb3Context();
+  const { provider, networkId } = useWeb3Context();
 
-  const isTestMode = useTestMode();
   const zeroPadAddress = ethers.utils.hexZeroPad(address === "" ? ethers.utils.hexlify(0) : address, 32);
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
   const networks = useTestableNetworks();
@@ -187,9 +192,9 @@ export const useDonorNumbers = (address: string) => {
   };
 
   const query = useQuery<number, Error>(
-    donorNumbersQueryKey(address),
+    donorNumbersQueryKey(address, networkId),
     async () => {
-      queryAssertion(address, donorNumbersQueryKey(address));
+      queryAssertion([address, networkId], donorNumbersQueryKey(address, networkId));
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network`);
 
@@ -224,5 +229,5 @@ export const useDonorNumbers = (address: string) => {
     { enabled: !!address },
   );
 
-  return { [networks.MAINNET]: query } as Record<typeof networks.MAINNET, typeof query>;
+  return query as typeof query;
 };
