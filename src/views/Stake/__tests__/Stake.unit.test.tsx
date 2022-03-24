@@ -1,24 +1,23 @@
-import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryProvider } from "src/lib/react-query";
 
 import { render, screen } from "../../../testUtils";
 import Stake from "../Stake";
-const queryClient = new QueryClient();
 
 describe("<Stake/>", () => {
   it("should render component", async () => {
     const { container } = await render(
-      <QueryClientProvider client={queryClient}>
+      <ReactQueryProvider>
         <Stake />
-      </QueryClientProvider>,
+      </ReactQueryProvider>,
     );
     expect(container).toMatchSnapshot();
   });
 
   it("should render correct staking headers", async () => {
     const { container } = await render(
-      <QueryClientProvider client={queryClient}>
+      <ReactQueryProvider>
         <Stake />
-      </QueryClientProvider>,
+      </ReactQueryProvider>,
     );
     // there should be a header inviting user to Stake
     expect(await screen.getByText("Single Stake (3, 3)")).toBeInTheDocument();
@@ -29,9 +28,9 @@ describe("<Stake/>", () => {
 
   it("should render all supported multi chain staking contracts", async () => {
     const { container } = await render(
-      <QueryClientProvider client={queryClient}>
+      <ReactQueryProvider>
         <Stake />
-      </QueryClientProvider>,
+      </ReactQueryProvider>,
     );
     expect(await screen.getByText("gOHM-AVAX")).toBeInTheDocument();
     expect(await screen.getByText("Stake on Trader Joe").closest("a")).toHaveAttribute(

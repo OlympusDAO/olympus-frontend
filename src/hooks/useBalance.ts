@@ -13,12 +13,14 @@ import {
   V1_SOHM_ADDRESSES,
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
+import { isTestnet } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
 
 import { useWeb3Context } from ".";
 import { useMultipleTokenContracts, useStaticFuseContract } from "./useContract";
+import { useTestMode } from "./useTestMode";
 
 export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, networkId?: NetworkId) =>
   ["useBalance", address, tokenAddressMap, networkId].filter(nonNullable);
@@ -28,6 +30,7 @@ export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, 
  * @param addressMap Address map of the token you want the balance of.
  */
 export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAddressMap: TAddressMap) => {
+  const isTestMode = useTestMode();
   const { address } = useWeb3Context();
   const contracts = useMultipleTokenContracts(tokenAddressMap);
 
@@ -35,7 +38,8 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
 
   const results = useQueries(
     networkIds.map(networkId => ({
-      enabled: !!address,
+      queryKey: balanceQueryKey(address, tokenAddressMap, networkId),
+      enabled: !!address && (isTestMode ? isTestnet(networkId) : !isTestnet(networkId)),
       queryFn: async () => {
         const contract = contracts[networkId as NetworkId];
 
@@ -43,7 +47,6 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
 
         return new DecimalBigNumber(balance, decimals);
       },
-      queryKey: balanceQueryKey(address, tokenAddressMap, networkId),
     })),
   );
 
