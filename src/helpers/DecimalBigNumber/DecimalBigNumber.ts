@@ -56,6 +56,8 @@ export class DecimalBigNumber {
 
   /**
    * Used to display the value accurately to the user
+   *
+   * Trailing zeroes are trimmed from the output
    */
   public toAccurateString(): string {
     return formatUnits(this._number, this._decimals);

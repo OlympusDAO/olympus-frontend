@@ -26,6 +26,10 @@ describe("DecimalBigNumber", () => {
 
   it("should accurately format number to an accurate string", () => {
     expect(new DecimalBigNumber(".1", 1).toAccurateString()).toEqual("0.1");
+    expect(new DecimalBigNumber("1.1", 0).toAccurateString()).toEqual("1");
+  });
+
+  it("should accurately format number to an accurate string and strip trailing zeroes", () => {
     expect(new DecimalBigNumber("1.1", 9).toAccurateString()).toEqual("1.1");
     expect(new DecimalBigNumber("1.123", 9).toAccurateString()).toEqual("1.123");
     expect(new DecimalBigNumber("-1.123", 9).toAccurateString()).toEqual("-1.123");
@@ -89,6 +93,10 @@ describe("DecimalBigNumber", () => {
     const index = new DecimalBigNumber("90", 9); // Index of 90
     expect(gohm.mul(index, 9).toAccurateString()).toEqual("180.0");
     expect(index.mul(gohm, 9).toAccurateString()).toEqual("180.0");
+
+    const decimalNumber = new DecimalBigNumber("20.12", 9);
+    const secondDecimalNumber = new DecimalBigNumber("1.12", 9);
+    expect(decimalNumber.mul(secondDecimalNumber, 9).toAccurateString()).toEqual("22.5344");
   });
 
   it("should divide by a number correctly", () => {
