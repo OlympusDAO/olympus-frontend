@@ -8491,12 +8491,12 @@ fancy-log@^1.3.2, fancy-log@^1.3.3:
     parse-node-version "^1.0.0"
     time-stamp "^1.0.0"
 
-fast-check@^2.23.0:
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-2.23.0.tgz#adc2c7ec91f43ce314c15c4fafe901a812bfad10"
-  integrity sha512-aV1kOi6zUCytkICuhu9s8MBtJjlAos6MIU5NYCcgt5u2UVdgaAsqTI+u0n6Cea1hKFXdfSmfz6wfxce6Ozcj2w==
+fast-check@^2.23.2:
+  version "2.23.2"
+  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-2.23.2.tgz#375c01827a9d58916c8a0ad463d1f17fe8e6ae4b"
+  integrity sha512-ECYuSlp6NLpvOj8eScKsqoz1ihtCpSDuEC2ofdGvgsEu1obHYEGqreJ/iPzkJFy73yoU0kCFea7PHUQDNM0VNg==
   dependencies:
-    pure-rand "^5.0.0"
+    pure-rand "^5.0.1"
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
@@ -15140,10 +15140,10 @@ puppeteer@^13.5.1:
     unbzip2-stream "1.4.3"
     ws "8.5.0"
 
-pure-rand@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/pure-rand/-/pure-rand-5.0.0.tgz#87f5bdabeadbd8904e316913a5c0b8caac517b37"
-  integrity sha512-lD2/y78q+7HqBx2SaT6OT4UcwtvXNRfEpzYEzl0EQ+9gZq2Qi3fa0HDnYPeqQwhlHJFBUhT7AO3mLU3+8bynHA==
+pure-rand@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/pure-rand/-/pure-rand-5.0.1.tgz#97a287b4b4960b2a3448c0932bf28f2405cac51d"
+  integrity sha512-ksWccjmXOHU2gJBnH0cK1lSYdvSZ0zLoCMSz/nTGh6hDvCSgcRxDyIcOBD6KNxFz3xhMPm/T267Tbe2JRymKEQ==
 
 q@^1.1.2:
   version "1.5.1"
