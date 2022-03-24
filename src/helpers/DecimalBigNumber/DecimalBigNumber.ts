@@ -7,37 +7,35 @@ export class DecimalBigNumber {
   private _decimals: number;
   private _number: BigNumber;
 
-  constructor(number: BigNumber | string | number, decimals: number) {
+  /**
+   * Creates a new instance of `DecimalBigNumber`.
+   *
+   * This class expects and suggests that numbers be handled using `DecimalBigNumber`, instead of the inherently inaccurate
+   * use of `number` and `string` types.
+   *
+   * The constructor accepts the following as inputs to the number parameter:
+   * - `BigNumber` (from @ethersproject/bignumber): to easily shift from `BigNumber` used in smart contracts to `DecimalBigNumber`
+   * - `string`: to take input from the user
+   *
+   * Given these design decisions, there are some recommended approaches:
+   * - Obtain user input with type text, instead of a number, in order to retain precision. e.g. `<input type="text" />`
+   * - Where a `number` value is present, convert it to a `DecimalBigNumber` in the manner the developer deems appropriate. This will most commonly be `new DecimalBigNumber(1000222000.2222.toString(), 4)`. While a convenience method could be offered, it could lead to unexpected behaviour around precision.
+   *
+   * @param number the BigNumber or string used to initialise the object
+   * @param decimals the number of decimal places supported by the number
+   * @returns a new, immutable instance of `DecimalBigNumber`
+   */
+  constructor(number: BigNumber | string, decimals: number) {
     this._decimals = decimals;
 
     if (typeof number === "string") {
-      const formatted = this._prepareInputString(number, decimals);
-      this._number = parseUnits(formatted, decimals);
-      return;
-    }
-
-    if (typeof number === "number") {
-      const formatted = this._prepareInputString(number.toString(), decimals);
+      const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
+      const formatted = this._omitIrrelevantDecimals(_number, decimals);
       this._number = parseUnits(formatted, decimals);
       return;
     }
 
     this._number = number;
-  }
-
-  /**
-   * Returns a copy of the current DecimalBigNumber
-   *
-   * @returns a new instance of DecimalBigNumber
-   */
-  public copy(): DecimalBigNumber {
-    return new DecimalBigNumber(this._number, this._decimals);
-  }
-
-  private _prepareInputString(number: string, decimals: number): string {
-    const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
-
-    return this._omitIrrelevantDecimals(_number, decimals);
   }
 
   private _omitIrrelevantDecimals(number: string, decimals: number): string {
@@ -58,6 +56,8 @@ export class DecimalBigNumber {
 
   /**
    * Used to display the value accurately to the user
+   *
+   * Trailing zeroes are trimmed from the output
    */
   public toAccurateString(): string {
     return formatUnits(this._number, this._decimals);
@@ -74,26 +74,34 @@ export class DecimalBigNumber {
   /**
    * Used to display a formatted approximate value to the user
    *
-   * @param decimals The number of decimal places to show, otherwise the object's configured decimal places
+   * @param decimals The number of decimal places to show.
+   *                 Defaults to 0 decimal places
    */
-  public toFormattedString(decimals?: number): string {
-    return formatNumber(this.toApproxNumber(), decimals !== undefined ? decimals : this._decimals);
-  }
+  public toFormattedString: {
+    (decimals?: number): string;
+    (options?: {
+      decimals?: number;
+      /**
+       * Removes unnecessary trailing zeroes from the result.
+       * Defaults to `false`
+       */
+      trimTrailingZeroes?: boolean;
+    }): string;
+  } = decimalsOrOptions => {
+    if (typeof decimalsOrOptions === "object") {
+      const options = decimalsOrOptions || {};
+      const string = formatNumber(this.toApproxNumber(), options.decimals);
 
-  /**
-   * Used to display a formatted approximate value to the user with trailing zeroes trimmed
-   *
-   * @param decimals The number of decimal places to show, otherwise the object's configured decimal places
-   */
-  public toFormattedStringTrimmed(decimals?: number): string {
-    return this.toFormattedString(decimals).replace(/(?:\.|(\..*?))0+$/, "$1");
-  }
+      return options.trimTrailingZeroes ? string.replace(/(?:\.|(\..*?))0+$/, "$1") : string;
+    }
+
+    return formatNumber(this.toApproxNumber(), decimalsOrOptions || 0);
+  };
 
   /**
    * Determines if the two values are equal
    *
-   * @param value the number to compare gainst
-   * @returns true if equal
+   * @param value the number to compare against
    */
   public eq(value: DecimalBigNumber): boolean {
     // Normalize precision to the largest of the two values
