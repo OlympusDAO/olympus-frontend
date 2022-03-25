@@ -1,6 +1,24 @@
+import { BigNumber } from "@ethersproject/bignumber";
+
 import { DecimalBigNumber } from "./DecimalBigNumber";
 
 describe("DecimalBigNumber", () => {
+  it("should initialise with BigNumber", () => {
+    expect(new DecimalBigNumber(BigNumber.from("101"), 1).toAccurateString()).toEqual("10.1");
+    expect(() => {
+      new DecimalBigNumber(BigNumber.from("101"));
+    }).toThrow(); // decimals is required
+  });
+
+  it("should determine decimal places at initialisation", () => {
+    expect(new DecimalBigNumber("100").toAccurateString()).toEqual("100");
+    expect(new DecimalBigNumber("1").toAccurateString()).toEqual("1");
+    expect(new DecimalBigNumber("1", 0).toAccurateString()).toEqual("1");
+    expect(new DecimalBigNumber("1.1", 0).toAccurateString()).toEqual("1");
+    expect(new DecimalBigNumber("1.1").toAccurateString()).toEqual("1.1");
+    expect(new DecimalBigNumber("1.222333").toAccurateString()).toEqual("1.222333");
+  });
+
   it("should handle unexpected inputs when initialized", () => {
     expect(new DecimalBigNumber("", 9).toAccurateString()).toEqual("0.0");
     expect(new DecimalBigNumber("      ", 9).toAccurateString()).toEqual("0.0");

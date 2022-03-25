@@ -19,23 +19,33 @@ export class DecimalBigNumber {
    *
    * Given these design decisions, there are some recommended approaches:
    * - Obtain user input with type text, instead of a number, in order to retain precision. e.g. `<input type="text" />`
-   * - Where a `number` value is present, convert it to a `DecimalBigNumber` in the manner the developer deems appropriate. This will most commonly be `new DecimalBigNumber(1000222000.2222.toString(), 4)`. While a convenience method could be offered, it could lead to unexpected behaviour around precision.
+   * - Where a `number` value is present, convert it to a `DecimalBigNumber` in the manner the developer deems appropriate. This will most commonly be `new DecimalBigNumber((1000222000.2222).toString(), 4)`. While a convenience method could be offered, it could lead to unexpected behaviour around precision.
    *
    * @param number the BigNumber or string used to initialise the object
-   * @param decimals the number of decimal places supported by the number
+   * @param decimals the number of decimal places supported by the number. If `number` is a string, this parameter is optional.
    * @returns a new, immutable instance of `DecimalBigNumber`
    */
-  constructor(number: BigNumber | string, decimals: number) {
-    this._decimals = decimals;
-
+  constructor(number: BigNumber | string, decimals?: number) {
     if (typeof number === "string") {
+      const stringDecimals = decimals === undefined ? this._parseDecimals(number) : decimals;
       const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
-      const formatted = this._omitIrrelevantDecimals(_number, decimals);
-      this._number = parseUnits(formatted, decimals);
+      const formatted = this._omitIrrelevantDecimals(_number, stringDecimals);
+      this._number = parseUnits(formatted, stringDecimals);
+      this._decimals = stringDecimals;
       return;
     }
 
+    if (decimals === undefined) throw new Error("Decimals is required when initialising with a BigNumber");
+
     this._number = number;
+    this._decimals = decimals;
+  }
+
+  private _parseDecimals(number: string): number {
+    // Source: https://stackoverflow.com/a/53739569
+    const text = number.toString();
+    const index = text.indexOf(".");
+    return index == -1 ? 0 : text.length - index - 1;
   }
 
   private _omitIrrelevantDecimals(number: string, decimals: number): string {
