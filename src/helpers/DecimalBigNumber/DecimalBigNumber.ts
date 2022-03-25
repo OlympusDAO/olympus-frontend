@@ -64,6 +64,25 @@ export class DecimalBigNumber {
     return this._number;
   }
 
+  private _fixDecimals(number: string, decimals: number): string {
+    const trimmedNumber = this._omitIrrelevantDecimals(number, decimals);
+
+    return trimmedNumber;
+  }
+
+  public toString(args?: { decimals?: number; trim?: boolean; format?: boolean }): string {
+    if (args && args.decimals !== undefined && args.decimals < 0)
+      throw new Error("The decimals parameter must be 0 or positive");
+
+    let formattedString = formatUnits(this._number, this._decimals);
+
+    if (args && args.decimals != undefined) formattedString = this._fixDecimals(formattedString, args.decimals);
+
+    if (!args || args.trim !== false) formattedString = formattedString.replace(/(?:\.|(\..*?))0+$/, "$1");
+
+    return formattedString;
+  }
+
   /**
    * Used to display the value accurately to the user
    *
