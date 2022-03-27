@@ -201,6 +201,14 @@ const GetOhm: FC = () => {
           external
           disableFlip
         />
+        <ItemCard
+          tokens={["IMPERMAX"]}
+          title={t`Borrow on Impermax`}
+          networkName="ARBITRUM"
+          href={`https://arbitrum.impermax.finance/lending-pool/0x6d94f7e67c6ae0b0257c35754e059fdfb249d998`}
+          external
+          disableFlip
+        />
       </Box>
     </Fade>
   );
