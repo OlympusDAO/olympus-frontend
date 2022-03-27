@@ -107,7 +107,6 @@ export const JonesPoolAPY = (pool: ExternalPool) => {
   const jonesChef = useStaticJonesContract(pool.masterchef, pool.networkID);
   const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
     const periodFinish = await jonesChef.periodFinish();
-    console.log("periodFinish", parseBigNumber(periodFinish, 0), Date.now() / 1000);
     const rewardRate = await jonesChef.rewardRateJONES();
     const boost = await jonesChef.boost();
     const boostedFinish = await jonesChef.boostedFinish();
