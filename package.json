@@ -39,7 +39,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@multifarm/widget": "^0.0.111",
-    "@olympusdao/component-library": "^1.8.2",
+    "@olympusdao/component-library": "^1.8.4",
     "@reduxjs/toolkit": "^1.8.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.3",
