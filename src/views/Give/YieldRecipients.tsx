@@ -1,18 +1,7 @@
 import "./YieldRecipients.scss";
 
 import { Trans } from "@lingui/macro";
-import {
-  Divider,
-  Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
+import { Divider, Grid, Typography, useTheme } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { TertiaryButton } from "@olympusdao/component-library";
@@ -34,7 +23,7 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
   const location = useLocation();
   const { networkId } = useWeb3Context();
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
   const donationInfo = useSelector((state: DonationInfoState) => {
@@ -69,50 +58,46 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
     );
   }
 
-  // TODO extract the table and styles into a common component
   return (
-    <TableContainer>
-      <Table className="donation-table">
-        <TableHead>
-          <TableRow>
-            {!isSmallScreen && (
-              <TableCell align="left">
-                <Typography variant="body1">
-                  <Trans>DATE</Trans>
-                </Typography>
-              </TableCell>
-            )}
-            <TableCell align="left">
-              <Typography variant="body1">
-                <Trans>RECIPIENT</Trans>
-              </Typography>
-            </TableCell>
-            {!isSmallScreen && (
-              <TableCell align="right">
-                <Typography variant="body1">
-                  <Trans>DEPOSITED</Trans>
-                </Typography>
-              </TableCell>
-            )}
-            <TableCell align="right">
-              <Typography variant="body1">
-                <Trans>YIELD SENT</Trans>
-              </Typography>
-            </TableCell>
-            <TableCell align="right" className="manage-cell"></TableCell>
-          </TableRow>
-        </TableHead>
-        <Divider className="table-head-divider" />
-        <TableBody>
-          {isLoading ? (
-            <Skeleton />
-          ) : (
-            donationInfo.map(donation => {
-              return <DepositTableRow depositObject={donation} key={donation.recipient} />;
-            })
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Grid container spacing={2}>
+      <Grid item xs={12} container>
+        {!isSmallScreen && (
+          <Grid item xs={2}>
+            <Typography variant="body1" className="grey">
+              <Trans>DATE</Trans>
+            </Typography>
+          </Grid>
+        )}
+        <Grid item xs={4} sm={3}>
+          <Typography variant="body1" className="grey">
+            <Trans>RECIPIENT</Trans>
+          </Typography>
+        </Grid>
+        {!isSmallScreen && (
+          <Grid item xs={2} style={{ textAlign: "right" }}>
+            <Typography variant="body1" className="grey">
+              <Trans>DEPOSITED</Trans>
+            </Typography>
+          </Grid>
+        )}
+        <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
+          <Typography variant="body1" className="grey">
+            <Trans>YIELD SENT</Trans>
+          </Typography>
+        </Grid>
+        <Grid item xs={4} sm={3} />
+      </Grid>
+      <Grid item xs={12}>
+        <Divider />
+      </Grid>
+      {donationInfo.map(donation => {
+        return (
+          <Grid item xs={12}>
+            <DepositTableRow depositObject={donation} key={donation.recipient} />
+            <Divider style={{ marginTop: "10px" }} />
+          </Grid>
+        );
+      })}
+    </Grid>
   );
 }
