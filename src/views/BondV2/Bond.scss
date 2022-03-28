@@ -30,12 +30,12 @@
   margin: 5px !important;
 }
 
-.payout-token-tabs {
+.payout-token-tabs, .bond-tab-container {
   font-size: 1rem !important;
   width: 100%;
 }
 
-.payout-token-tab {
+.payout-token-tab, .bond-tab-button {
   font-size: 1rem !important;
 }
 .payout-options-header {
@@ -80,7 +80,7 @@
 }
 
 .web3modal-modal-lightbox {
-  z-index: 70 !important;
+  z-index: 10000 !important;
 }
 
 .bond_discount_positive {

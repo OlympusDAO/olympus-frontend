@@ -1,8 +1,8 @@
-import { Trans } from "@lingui/macro";
 import { Box, Grid, makeStyles, Theme, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { PrimaryButton } from "@olympusdao/component-library";
-import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import React, { ReactNode } from "react";
+import { AddressMap } from "src/constants/addresses";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 
 import { useApproveToken } from "./hooks/useApproveToken";
@@ -37,13 +37,14 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-export const TokenAllowanceGuard: React.FC<{ token: "OHM" | "sOHM" | "gOHM" }> = props => {
+export const TokenAllowanceGuard: React.FC<{
+  message: ReactNode;
+  tokenAddressMap: AddressMap;
+  spenderAddressMap: AddressMap;
+}> = props => {
   const classes = useStyles();
-
-  const addresses = props.token === "OHM" ? OHM_ADDRESSES : props.token === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
-
-  const approveMutation = useApproveToken(addresses, STAKING_ADDRESSES);
-  const { data: allowance } = useContractAllowance(addresses, STAKING_ADDRESSES);
+  const approveMutation = useApproveToken(props.tokenAddressMap, props.spenderAddressMap);
+  const { data: allowance } = useContractAllowance(props.tokenAddressMap, props.spenderAddressMap);
 
   if (!allowance)
     return (
@@ -58,20 +59,7 @@ export const TokenAllowanceGuard: React.FC<{ token: "OHM" | "sOHM" | "gOHM" }> =
         <Grid item xs={12} sm={8} className={classes.gridItem}>
           <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Typography variant="body1" className="stake-note" color="textSecondary">
-              {props.token === "OHM" ? (
-                <>
-                  <Trans>First time staking</Trans> <b>OHM</b>?
-                  <br />
-                  <Trans>Please approve Olympus Dao to use your</Trans> <b>OHM</b> <Trans>for staking</Trans>.
-                </>
-              ) : (
-                <>
-                  <Trans>First time unstaking</Trans> <b>{props.token}</b>?
-                  <br />
-                  <Trans>Please approve Olympus Dao to use your</Trans> <b>{props.token}</b>{" "}
-                  <Trans>for unstaking</Trans>.
-                </>
-              )}
+              {props.message}
             </Typography>
           </Box>
         </Grid>

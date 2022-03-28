@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ChooseInverseBond/> should render component 1`] = `
+<div>
+  <div
+    class="MuiBox-root MuiBox-root-1"
+  >
+    <h4
+      class="MuiTypography-root MuiTypography-h4"
+    >
+      No active bonds
+    </h4>
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-2 help-text"
+  >
+    <em>
+      <p
+        class="MuiTypography-root MuiTypography-body2"
+      >
+        Important: Inverse bonds allow you to bond your OHM for treasury assets. Vesting time is 0 and payouts are instant.
+      </p>
+    </em>
+  </div>
+</div>
+`;

@@ -9,7 +9,8 @@ import { useAppSelector, useBonds, useWeb3Context } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
-import { prettyVestingPeriod, trim } from "../../helpers";
+import { trim } from "../../helpers";
+import { prettyVestingPeriod } from "../../helpers/timeUtil";
 import { redeemBond } from "../../slices/BondSlice";
 
 export function ClaimBondTableData({ userBond }: { userBond: [string, IUserBondDetails] }) {

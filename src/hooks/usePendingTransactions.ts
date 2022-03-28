@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
-import { nonNullable, queryAssertion } from "src/helpers";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
+import { nonNullable } from "src/helpers/types/nonNullable";
 import { covalent } from "src/lib/covalent";
 import { CovalentTransaction } from "src/lib/covalent.types";
 
@@ -12,10 +13,11 @@ export const pendingTransactionsQueryKey = (address?: string, networkId?: Networ
 export const usePendingTransactions = () => {
   const { address, networkId } = useWeb3Context();
 
+  const key = pendingTransactionsQueryKey(address, networkId);
   return useQuery<CovalentTransaction[], Error>(
-    pendingTransactionsQueryKey(address, networkId),
+    key,
     async () => {
-      queryAssertion(address && networkId, pendingTransactionsQueryKey(address));
+      queryAssertion(address && networkId, key);
 
       if (!covalent.isSupportedNetwork(networkId)) return [];
 

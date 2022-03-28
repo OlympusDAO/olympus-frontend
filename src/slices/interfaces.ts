@@ -131,6 +131,12 @@ export interface IBondV2PurchaseAsyncThunk extends IBaseAddressAsyncThunk {
   readonly amount: BigNumberish;
 }
 
+export interface IBondInversePurchaseAsyncThunk extends IBaseAddressAsyncThunk {
+  readonly bond: IBondV2;
+  readonly maxPrice: BigNumberish;
+  readonly amounts: BigNumberish[];
+}
+
 export interface IApproveBondAsyncThunk extends IBaseBondAsyncThunk {
   readonly address: string;
 }
