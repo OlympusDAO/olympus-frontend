@@ -56,6 +56,17 @@ export class DecimalBigNumber {
     return integer + "." + _decimals.substring(0, decimals);
   }
 
+  private _padRequiredDecimals(number: string, decimals: number): string {
+    const [integer, _decimals] = number.split(".");
+
+    if (!_decimals) return integer;
+
+    const decimalsRequired: number = decimals - _decimals.length;
+    console.log("decimals = " + decimalsRequired);
+
+    return integer + "." + _decimals.substring(0, decimals) + "0".repeat(decimalsRequired);
+  }
+
   /**
    * Used when performing accurate calculations with
    * the number where precision is important.
@@ -65,9 +76,7 @@ export class DecimalBigNumber {
   }
 
   private _fixDecimals(number: string, decimals: number): string {
-    const trimmedNumber = this._omitIrrelevantDecimals(number, decimals);
-
-    return trimmedNumber;
+    return this._padRequiredDecimals(this._omitIrrelevantDecimals(number, decimals), decimals);
   }
 
   public toString(args?: { decimals?: number; trim?: boolean; format?: boolean }): string {
@@ -76,9 +85,15 @@ export class DecimalBigNumber {
 
     let formattedString = formatUnits(this._number, this._decimals);
 
-    if (args && args.decimals != undefined) formattedString = this._fixDecimals(formattedString, args.decimals);
+    // We default to the number of decimal places specified in the instance
+    // But adjust that if there is an override
+    formattedString = this._fixDecimals(
+      formattedString,
+      args && args.decimals !== undefined ? args.decimals : this._decimals,
+    );
 
-    if (!args || args.trim !== false) formattedString = formattedString.replace(/(?:\.|(\..*?))0+$/, "$1");
+    // We default to trimming trailing zeroes (and decimal points), unless there is an override
+    if (!args || args.trim !== false) formattedString = formattedString.replace(/(?:\.|(\..*?))\.?0*$/, "$1");
 
     return formattedString;
   }

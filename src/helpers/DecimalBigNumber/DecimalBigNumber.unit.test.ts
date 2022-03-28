@@ -20,15 +20,15 @@ describe("DecimalBigNumber", () => {
   });
 
   it("should handle unexpected inputs when initialized", () => {
-    expect(new DecimalBigNumber("", 9).toString()).toEqual("0.0");
-    expect(new DecimalBigNumber("      ", 9).toString()).toEqual("0.0");
-    expect(new DecimalBigNumber("text", 1).toString()).toEqual("0.0");
-    expect(new DecimalBigNumber(".0", 1).toString()).toEqual("0.0");
-    expect(new DecimalBigNumber(".", 1).toString()).toEqual("0.0");
-    expect(new DecimalBigNumber("....", 1).toString()).toEqual("0.0");
-    expect(new DecimalBigNumber("1.1.1.1.1", 1).toString()).toEqual("0.0");
-    expect(new DecimalBigNumber("-", 1).toString()).toEqual("0.0");
-    expect(new DecimalBigNumber("-0.", 1).toString()).toEqual("0.0");
+    expect(new DecimalBigNumber("", 9).toString()).toEqual("0");
+    expect(new DecimalBigNumber("      ", 9).toString()).toEqual("0");
+    expect(new DecimalBigNumber("text", 1).toString()).toEqual("0");
+    expect(new DecimalBigNumber(".0", 1).toString()).toEqual("0");
+    expect(new DecimalBigNumber(".", 1).toString()).toEqual("0");
+    expect(new DecimalBigNumber("....", 1).toString()).toEqual("0");
+    expect(new DecimalBigNumber("1.1.1.1.1", 1).toString()).toEqual("0");
+    expect(new DecimalBigNumber("-", 1).toString()).toEqual("0");
+    expect(new DecimalBigNumber("-0.", 1).toString()).toEqual("0");
   });
 
   it("should discard irrelevant precision when initialized", () => {
@@ -36,10 +36,8 @@ describe("DecimalBigNumber", () => {
   });
 
   it("should handle number inputs", () => {
-    expect(new DecimalBigNumber((1).toString(), 9).toString()).toEqual("1.0");
-    expect(new DecimalBigNumber((1.2).toString(), 9).toString()).toEqual("1.2");
-    expect(new DecimalBigNumber((-1.2).toString(), 9).toString()).toEqual("-1.2");
-    expect(new DecimalBigNumber((1.12345678913).toString(), 9).toString()).toEqual("1.123456789");
+    expect(new DecimalBigNumber((1).toString()).toString()).toEqual("1");
+    expect(new DecimalBigNumber((1.2).toString()).toString()).toEqual("1.2");
   });
 
   it("should reject invalid decimals parameter", () => {
@@ -73,6 +71,13 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("-1000.1", 2).toString({ decimals: 4 })).toEqual("-1000.1");
     expect(new DecimalBigNumber("1000.1", 2).toString({ decimals: 4, trim: false })).toEqual("1000.1000");
     expect(new DecimalBigNumber("-1000.1", 2).toString({ decimals: 4, trim: false })).toEqual("-1000.1000");
+  });
+
+  it("should preserve decimal places when trim is disabled", () => {
+    expect(new DecimalBigNumber("1000.23", 2).toString({ trim: false })).toEqual("1000.23");
+    expect(new DecimalBigNumber("1000", 2).toString({ trim: false })).toEqual("1000.00");
+    expect(new DecimalBigNumber("-1.2", 9).toString({ trim: false })).toEqual("-1.200000000");
+    expect(new DecimalBigNumber("1.12345678913", 9).toString({ trim: false })).toEqual("1.123456789");
   });
 
   it("should add another number correctly", () => {
@@ -110,8 +115,8 @@ describe("DecimalBigNumber", () => {
     // gOHM to OHM
     const gohm = new DecimalBigNumber("2", 18); // 180 OHM
     const index = new DecimalBigNumber("90", 9); // Index of 90
-    expect(gohm.mul(index, 9).toString()).toEqual("180.0");
-    expect(index.mul(gohm, 9).toString()).toEqual("180.0");
+    expect(gohm.mul(index, 9).toString()).toEqual("180");
+    expect(index.mul(gohm, 9).toString()).toEqual("180");
 
     const decimalNumber = new DecimalBigNumber("20.12", 9);
     const secondDecimalNumber = new DecimalBigNumber("1.12", 9);
@@ -122,7 +127,7 @@ describe("DecimalBigNumber", () => {
     // OHM to gOHM
     const ohm = new DecimalBigNumber("180", 9); // 2 gOHM
     const index = new DecimalBigNumber("90", 9); // Index of 90
-    expect(ohm.div(index, 18).toString()).toEqual("2.0");
+    expect(ohm.div(index, 18).toString()).toEqual("2");
     expect(index.div(ohm, 18).toString()).toEqual("0.5");
   });
 });
