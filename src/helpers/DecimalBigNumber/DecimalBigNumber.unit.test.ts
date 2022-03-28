@@ -80,6 +80,13 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("-1000.1", 2).toString({ decimals: 4, trim: false })).toEqual("-1000.1000");
   });
 
+  it("should return an approximate number", () => {
+    expect(new DecimalBigNumber("1000.23").toApproxNumber()).toEqual(1000.23);
+    expect(new DecimalBigNumber("1000").toApproxNumber()).toEqual(1000);
+    expect(new DecimalBigNumber("-1000").toApproxNumber()).toEqual(-1000);
+    expect(new DecimalBigNumber("0").toApproxNumber()).toEqual(0);
+  });
+
   it("should add another number correctly", () => {
     expect(new DecimalBigNumber("1.1", 9).add(new DecimalBigNumber("1.2", 18)).toString()).toEqual("2.3");
     expect(new DecimalBigNumber("-1.1", 9).add(new DecimalBigNumber("-1.2", 18)).toString()).toEqual("-2.3");

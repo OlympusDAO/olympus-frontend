@@ -66,6 +66,9 @@ export class DecimalBigNumber {
     return integer + "." + _decimals.substring(0, decimals) + "0".repeat(decimalsRequired);
   }
 
+  /**
+   * Adds thousands separators to a number string.
+   */
   private _formatNumber(number: string): string {
     const [integer, _decimals] = number.split(".");
 
@@ -80,10 +83,34 @@ export class DecimalBigNumber {
     return this._number;
   }
 
+  /**
+   * Ensures that the number string has the required number of decimal places
+   *
+   * Padding is performed last, in case the given number string has fewer decimal places than required.
+   *
+   * @param number input number string
+   * @param decimals number of decimal places
+   * @returns a number string with padded decimal places
+   */
   private _fixDecimals(number: string, decimals: number): string {
     return this._padRequiredDecimals(this._omitIrrelevantDecimals(number, decimals), decimals);
   }
 
+  /**
+   * Converts the number to a string
+   *
+   * By default, the string returned will:
+   * - Have the same number of decimal places that it was initialised with
+   * - Have trailing zeroes removed
+   * - Not have thousands separators
+   *
+   * This ensures that the number string is accurate.
+   *
+   * To override any of these settings, add the `args` object as a parameter.
+   *
+   * @param args an object containing any of the properties: decimals, trim, format
+   * @returns a string version of the number
+   */
   public toString(args?: { decimals?: number; trim?: boolean; format?: boolean }): string {
     if (args && args.decimals !== undefined && args.decimals < 0)
       throw new Error("The decimals parameter must be 0 or positive");
@@ -122,7 +149,7 @@ export class DecimalBigNumber {
    * the number where precision __is not__ important.
    */
   public toApproxNumber(): number {
-    return parseFloat(this.toAccurateString());
+    return parseFloat(this.toString());
   }
 
   /**
