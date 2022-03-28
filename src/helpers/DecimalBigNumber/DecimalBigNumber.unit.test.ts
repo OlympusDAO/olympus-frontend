@@ -69,8 +69,6 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("-1000.1", 2).toString({ decimals: 0, format: true })).toEqual("-1,000");
     expect(new DecimalBigNumber("1000.1", 2).toString({ decimals: 4 })).toEqual("1000.1");
     expect(new DecimalBigNumber("-1000.1", 2).toString({ decimals: 4 })).toEqual("-1000.1");
-    expect(new DecimalBigNumber("1000.1", 2).toString({ decimals: 4, trim: false })).toEqual("1000.1000");
-    expect(new DecimalBigNumber("-1000.1", 2).toString({ decimals: 4, trim: false })).toEqual("-1000.1000");
   });
 
   it("should preserve decimal places when trim is disabled", () => {
@@ -78,6 +76,8 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("1000", 2).toString({ trim: false })).toEqual("1000.00");
     expect(new DecimalBigNumber("-1.2", 9).toString({ trim: false })).toEqual("-1.200000000");
     expect(new DecimalBigNumber("1.12345678913", 9).toString({ trim: false })).toEqual("1.123456789");
+    expect(new DecimalBigNumber("1000.1", 2).toString({ decimals: 4, trim: false })).toEqual("1000.1000");
+    expect(new DecimalBigNumber("-1000.1", 2).toString({ decimals: 4, trim: false })).toEqual("-1000.1000");
   });
 
   it("should add another number correctly", () => {

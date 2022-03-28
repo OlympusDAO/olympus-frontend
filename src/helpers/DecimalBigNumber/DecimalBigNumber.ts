@@ -62,9 +62,14 @@ export class DecimalBigNumber {
     if (!_decimals) return integer;
 
     const decimalsRequired: number = decimals - _decimals.length;
-    console.log("decimals = " + decimalsRequired);
 
     return integer + "." + _decimals.substring(0, decimals) + "0".repeat(decimalsRequired);
+  }
+
+  private _formatNumber(number: string): string {
+    const [integer, _decimals] = number.split(".");
+
+    return integer.replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1,") + "." + _decimals;
   }
 
   /**
@@ -85,6 +90,10 @@ export class DecimalBigNumber {
 
     let formattedString = formatUnits(this._number, this._decimals);
 
+    // Add thousands separators
+    // Default: FALSE
+    if (args && args.format) formattedString = this._formatNumber(formattedString);
+
     // We default to the number of decimal places specified in the instance
     // But adjust that if there is an override
     formattedString = this._fixDecimals(
@@ -93,6 +102,7 @@ export class DecimalBigNumber {
     );
 
     // We default to trimming trailing zeroes (and decimal points), unless there is an override
+    // Default: TRUE
     if (!args || args.trim !== false) formattedString = formattedString.replace(/(?:\.|(\..*?))\.?0*$/, "$1");
 
     return formattedString;
