@@ -22,7 +22,8 @@ export const useOhmPrice = () => {
 
   const reserveContract = useStaticPairContract(address, NetworkId.MAINNET);
 
-  return useQuery<number, Error>(ohmPriceQueryKey(), async () => {
+  const key = ohmPriceQueryKey();
+  return useQuery<number, Error>(key, async () => {
     const [ohm, dai] = await reserveContract.getReserves();
 
     return parseBigNumber(dai.div(ohm), OHM_DAI_RESERVE_CONTRACT_DECIMALS);
@@ -39,10 +40,11 @@ export const useGohmPrice = () => {
   const { data: ohmPrice } = useOhmPrice();
   const { data: currentIndex } = useCurrentIndex();
 
+  const key = gohmPriceQueryKey(ohmPrice, currentIndex);
   return useQuery<number, Error>(
-    gohmPriceQueryKey(ohmPrice, currentIndex),
+    key,
     async () => {
-      queryAssertion(ohmPrice && currentIndex, gohmPriceQueryKey(ohmPrice, currentIndex));
+      queryAssertion(ohmPrice && currentIndex, key);
 
       return currentIndex.toApproxNumber() * ohmPrice;
     },

@@ -16,9 +16,10 @@ export const stakePoolTVLQueryKey = (poolAddress: string) => ["useStakePoolTVL",
 
 export const useStakePoolTVL = (pool: ExternalPool) => {
   const contract = useStaticPairContract(pool.address, pool.networkID);
-  const useDependentQuery = createDependentQuery(stakePoolTVLQueryKey(pool.address));
 
   // Get dependent data in parallel
+  const key = stakePoolTVLQueryKey(pool.address);
+  const useDependentQuery = createDependentQuery(key);
   const { data: gohmPrice } = useGohmPrice();
   const reserves = useDependentQuery("reserves", () => contract.getReserves());
   const firstTokenAddress = useDependentQuery("firstTokenAddress", () => contract.token0());
@@ -27,11 +28,11 @@ export const useStakePoolTVL = (pool: ExternalPool) => {
   const nonGohmTokenPrice = useDependentQuery("nonGohmTokenPrice", () => getTokenPrice(pool.pairGecko));
 
   return useQuery<number, Error>(
-    stakePoolTVLQueryKey(pool.address),
+    key,
     async () => {
       queryAssertion(
         gohmPrice && stakedBalance && poolTokenSupply && reserves && nonGohmTokenPrice && firstTokenAddress,
-        stakePoolTVLQueryKey(pool.address),
+        key,
       );
 
       const isFirstTokenGohm =

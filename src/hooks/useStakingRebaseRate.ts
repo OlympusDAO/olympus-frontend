@@ -12,15 +12,17 @@ export const useStakingRebaseRate = () => {
   const sohmContract = useStaticSohmContract(SOHM_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
   const stakingContract = useStaticStakingContract(STAKING_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
 
+  const key = stakingRebaseRateQueryKey();
+
   // Get dependent data in parallel
-  const useDependentQuery = createDependentQuery(stakingRebaseRateQueryKey());
+  const useDependentQuery = createDependentQuery(key);
   const stakingEpoch = useDependentQuery("stakingEpoch", () => stakingContract.epoch());
   const sohmCirculatingSupply = useDependentQuery("sohmCirculatingSupply", () => sohmContract.circulatingSupply());
 
   return useQuery<number, Error>(
-    stakingRebaseRateQueryKey(),
+    key,
     async () => {
-      queryAssertion(stakingEpoch && sohmCirculatingSupply, stakingRebaseRateQueryKey());
+      queryAssertion(stakingEpoch && sohmCirculatingSupply, key);
 
       const circulatingSupply = parseBigNumber(sohmCirculatingSupply);
       const stakingReward = parseBigNumber(stakingEpoch.distribute);
