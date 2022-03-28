@@ -12,10 +12,8 @@ import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import ReactGA from "react-ga";
-import { useLocation } from "react-router-dom";
 import { useAppDispatch } from "src/hooks";
 import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalDonated } from "src/hooks/useGiveInfo";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
@@ -64,12 +62,10 @@ type State = {
 };
 
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
-  const location = useLocation();
-  const { provider, address, connected, connect, networkId } = useWeb3Context();
+  const { address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(0);
-  const networks = useTestableNetworks();
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
@@ -84,8 +80,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const giveMutation = useGive();
   const increaseMutation = useIncreaseGive();
   const decreaseMutation = useDecreaseGive();
-
-  const isMutating = giveMutation.isLoading || increaseMutation.isLoading || decreaseMutation.isLoading;
 
   const theme = useTheme();
   const isBreakpointLarge = useMediaQuery(theme.breakpoints.up("lg"));

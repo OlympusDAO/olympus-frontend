@@ -55,8 +55,6 @@ export const useDecreaseGive = () => {
 
   return useMutation<ContractReceipt, Error, GiveData>(
     async ({ amount: amount_, recipient: recipient_ }) => {
-      if (parseFloat(amount_) >= 0) throw new Error(t`A decrease Give amount must be positive`);
-
       if (!contract) throw new Error(t`Please switch to the Ethereum network to donate yield`);
 
       const transaction = await contract.withdraw(ethers.utils.parseUnits(amount_, "gwei"), recipient_);

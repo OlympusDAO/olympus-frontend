@@ -39,31 +39,38 @@ export const useDonationInfo = () => {
 
       if (!contract) return donationInfo;
 
-      const allDeposits: [string[], BigNumber[]] = await contract.getAllDeposits(address);
-      for (let i = 0; i < allDeposits[0].length; i++) {
-        if (allDeposits[1][i].eq(0)) continue;
+      try {
+        const allDeposits: [string[], BigNumber[]] = await contract.getAllDeposits(address);
+        for (let i = 0; i < allDeposits[0].length; i++) {
+          if (allDeposits[1][i].eq(0)) continue;
 
-        const firstDonationDatePromise = GetDonationDate({
-          address: address,
-          recipient: allDeposits[0][i],
-          networkID: networks.MAINNET,
-          provider,
-        });
-        const yieldSentPromise = contract.donatedTo(address, allDeposits[0][i]);
+          const firstDonationDatePromise = GetDonationDate({
+            address: address,
+            recipient: allDeposits[0][i],
+            networkID: networks.MAINNET,
+            provider,
+          });
+          const yieldSentPromise = contract.donatedTo(address, allDeposits[0][i]);
 
-        const [firstDonationDate, yieldSent]: [string, BigNumber] = await Promise.all([
-          firstDonationDatePromise,
-          yieldSentPromise,
-        ]);
+          const [firstDonationDate, yieldSent]: [string, BigNumber] = await Promise.all([
+            firstDonationDatePromise,
+            yieldSentPromise,
+          ]);
 
-        const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
+          const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
 
-        donationInfo.push({
-          date: firstDonationDate,
-          deposit: ethers.utils.formatUnits(allDeposits[1][i], "gwei"),
-          recipient: allDeposits[0][i],
-          yieldDonated: formattedYieldSent,
-        });
+          donationInfo.push({
+            date: firstDonationDate,
+            deposit: ethers.utils.formatUnits(allDeposits[1][i], "gwei"),
+            recipient: allDeposits[0][i],
+            yieldDonated: formattedYieldSent,
+          });
+        }
+      } catch (e: unknown) {
+        console.log(
+          "If the following error contains 'user is not donating', then it is an expected error. No need to report it!",
+        );
+        console.log(e);
       }
 
       return donationInfo;
@@ -79,7 +86,6 @@ export const redeemableBalanceQueryKey = (address: string, networkId: NetworkId)
 export const useRedeemableBalance = (address: string) => {
   const { networkId } = useWeb3Context();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
-  const networks = useTestableNetworks();
 
   const query = useQuery<string, Error>(
     redeemableBalanceQueryKey(address, networkId),
@@ -88,7 +94,14 @@ export const useRedeemableBalance = (address: string) => {
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network`);
 
-      const redeemableBalance = await contract.redeemableBalance(address);
+      let redeemableBalance = BigNumber.from("0");
+
+      try {
+        redeemableBalance = await contract.redeemableBalance(address);
+      } catch (e: unknown) {
+        console.log(e);
+      }
+
       return ethers.utils.formatUnits(redeemableBalance, "gwei");
     },
     { enabled: !!address },
@@ -102,7 +115,6 @@ export const recipientInfoQueryKey = (address: string, networkId: NetworkId) =>
 export const useRecipientInfo = (address: string) => {
   const { networkId } = useWeb3Context();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
-  const networks = useTestableNetworks();
 
   const query = useQuery<IUserRecipientInfo, Error>(
     recipientInfoQueryKey(address, networkId),
@@ -118,11 +130,15 @@ export const useRecipientInfo = (address: string) => {
         indexAtLastChange: "",
       };
 
-      const recipientInfoData = await contract.recipientInfo(address);
-      recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt, "gwei");
-      recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry, "gwei");
-      recipientInfo.agnosticDebt = ethers.utils.formatUnits(recipientInfoData.agnosticDebt, "gwei");
-      recipientInfo.indexAtLastChange = ethers.utils.formatUnits(recipientInfoData.indexAtLastChange, "gwei");
+      try {
+        const recipientInfoData = await contract.recipientInfo(address);
+        recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt, "gwei");
+        recipientInfo.carry = ethers.utils.formatUnits(recipientInfoData.carry, "gwei");
+        recipientInfo.agnosticDebt = ethers.utils.formatUnits(recipientInfoData.agnosticDebt, "gwei");
+        recipientInfo.indexAtLastChange = ethers.utils.formatUnits(recipientInfoData.indexAtLastChange, "gwei");
+      } catch (e: unknown) {
+        console.log(e);
+      }
 
       return recipientInfo;
     },
@@ -139,7 +155,6 @@ export const useTotalDonated = (address: string) => {
 
   const zeroPadAddress = ethers.utils.hexZeroPad(address === "" ? ethers.utils.hexlify(0) : address, 32);
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
-  const networks = useTestableNetworks();
 
   const filter = {
     address: contract?.address,
@@ -156,16 +171,21 @@ export const useTotalDonated = (address: string) => {
       if (!contract) throw new Error(t`Please switch to the Ethereum network`);
 
       let totalRedeemed = BigNumber.from("0");
+      let totalDonated = BigNumber.from("0");
 
-      const events = await provider.getLogs(filter);
+      try {
+        const events = await provider.getLogs(filter);
 
-      for (let i = 0; i < events.length; i++) {
-        totalRedeemed = totalRedeemed.add(events[i].data);
+        for (let i = 0; i < events.length; i++) {
+          totalRedeemed = totalRedeemed.add(events[i].data);
+        }
+
+        const redeemableBalance = await contract.redeemableBalance(address);
+
+        totalDonated = totalRedeemed.add(redeemableBalance);
+      } catch (e: unknown) {
+        console.log(e);
       }
-
-      const redeemableBalance = await contract.redeemableBalance(address);
-
-      const totalDonated = totalRedeemed.add(redeemableBalance);
 
       return ethers.utils.formatUnits(totalDonated, "gwei");
     },
@@ -182,7 +202,6 @@ export const useDonorNumbers = (address: string) => {
 
   const zeroPadAddress = ethers.utils.hexZeroPad(address === "" ? ethers.utils.hexlify(0) : address, 32);
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
-  const networks = useTestableNetworks();
 
   const filter = {
     address: contract?.address,
@@ -201,27 +220,31 @@ export const useDonorNumbers = (address: string) => {
       const donorAddresses: IDonorAddresses = {};
       const donationsToAddress: ethers.providers.Log[] = [];
 
-      const events = await provider.getLogs(filter);
+      try {
+        const events = await provider.getLogs(filter);
 
-      for (let i = 0; i < events.length; i++) {
-        const event = events[i];
+        for (let i = 0; i < events.length; i++) {
+          const event = events[i];
 
-        if (event.topics[2] === zeroPadAddress.toLowerCase()) {
-          const donorActiveDonations: [string[], BigNumber[]] = await contract.getAllDeposits(
-            ethers.utils.hexDataSlice(event.topics[1], 12),
-          );
+          if (event.topics[2] === zeroPadAddress.toLowerCase()) {
+            const donorActiveDonations: [string[], BigNumber[]] = await contract.getAllDeposits(
+              ethers.utils.hexDataSlice(event.topics[1], 12),
+            );
 
-          for (let j = 0; j < donorActiveDonations[0].length; j++) {
-            if (
-              donorActiveDonations[0][j].toLowerCase() === address.toLowerCase() &&
-              donorActiveDonations[1][j] > BigNumber.from("0") &&
-              !donorAddresses[event.topics[1]]
-            ) {
-              donationsToAddress.push(event);
-              donorAddresses[event.topics[1]] = true;
+            for (let j = 0; j < donorActiveDonations[0].length; j++) {
+              if (
+                donorActiveDonations[0][j].toLowerCase() === address.toLowerCase() &&
+                donorActiveDonations[1][j] > BigNumber.from("0") &&
+                !donorAddresses[event.topics[1]]
+              ) {
+                donationsToAddress.push(event);
+                donorAddresses[event.topics[1]] = true;
+              }
             }
           }
         }
+      } catch (e: unknown) {
+        console.log(e);
       }
 
       return donationsToAddress.length;

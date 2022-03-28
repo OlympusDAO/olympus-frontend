@@ -12,11 +12,9 @@ import { BigNumber } from "bignumber.js";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
 import ReactGA from "react-ga";
-import { useLocation } from "react-router-dom";
 import { ProgressBar, Step } from "react-step-progress-bar";
 import { useAppDispatch } from "src/hooks";
-import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalDonated } from "src/hooks/useGiveInfo";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { useDonationInfo, useDonorNumbers } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
@@ -48,12 +46,10 @@ type State = {
 };
 
 export default function GrantCard({ grant, mode }: GrantDetailsProps) {
-  const location = useLocation();
-  const { provider, address, connected, connect, networkId } = useWeb3Context();
+  const { address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(0);
-  const networks = useTestableNetworks();
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
@@ -61,9 +57,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const rawDonationInfo = useDonationInfo().data;
   const donationInfo = rawDonationInfo ? rawDonationInfo : [];
 
-  const totalDebt = useRecipientInfo(wallet).data?.totalDebt;
   const donorCount = useDonorNumbers(wallet).data;
-  const totalDonated = useTotalDonated(wallet).data;
 
   const giveMutation = useGive();
   const increaseMutation = useIncreaseGive();

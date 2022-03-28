@@ -17,11 +17,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { TertiaryButton } from "@olympusdao/component-library";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { useDonationInfo } from "src/hooks/useGiveInfo";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { DonationInfoState, IButtonChangeView } from "src/views/Give/Interfaces";
 
 import { DepositTableRow } from "./DepositRow";
@@ -31,15 +28,13 @@ type RecipientModalProps = {
 };
 
 export default function YieldRecipients({ changeView }: RecipientModalProps) {
-  const location = useLocation();
-  const { networkId } = useWeb3Context();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const networks = useTestableNetworks();
 
   const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
   const rawDonationInfo = useDonationInfo().data;
   const donationInfo = rawDonationInfo ? rawDonationInfo : [];
+  console.log(donationInfo);
 
   const isDonationInfoLoading = useSelector((state: DonationInfoState) => state.account.loading);
   const isLoading = isAppLoading || isDonationInfoLoading;

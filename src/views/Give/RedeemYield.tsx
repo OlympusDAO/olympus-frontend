@@ -11,10 +11,8 @@ import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { NetworkId } from "src/constants";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-import { getTotalDonated } from "src/helpers/GetTotalDonated";
-import { useRedeemableBalance } from "src/hooks/useGiveInfo";
+import { useRecipientInfo, useRedeemableBalance, useTotalDonated } from "src/hooks/useGiveInfo";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { loadAccountDetails } from "src/slices/AccountSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
@@ -34,15 +32,14 @@ export default function RedeemYield() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
-  const networks = useTestableNetworks();
 
   const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
 
   const redeemableBalance = useRedeemableBalance(address).data;
 
-  const recipientInfo = useSelector((state: DonationInfoState) => {
-    return state.account.redeeming && state.account.redeeming.recipientInfo;
-  });
+  const recipientInfo = useRecipientInfo(address).data;
+
+  const totalDonated = useTotalDonated(projectMap.get(address) ? address : "").data;
 
   const stakingRebase = useStakingRebaseRate().data;
 
@@ -74,7 +71,7 @@ export default function RedeemYield() {
     return number.toNumber().toFixed(4).toString();
   };
 
-  const isRecipientInfoLoading = recipientInfo.totalDebt == "";
+  const isRecipientInfoLoading = !recipientInfo || recipientInfo?.totalDebt == "";
 
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
   useEffect(() => {
@@ -93,21 +90,10 @@ export default function RedeemYield() {
   };
 
   // Get the amount of sOHM yield donated by the current user and return as a number
-  const getRecipientDonated = (address: string): number => {
-    const project = projectMap.get(address);
-    if (project) {
-      getTotalDonated({
-        networkID: networkId,
-        provider: provider,
-        address: address,
-      })
-        .then(donatedAmount => {
-          return parseFloat(donatedAmount).toFixed(2);
-        })
-        .catch(e => console.log(e));
-    }
+  const getRecipientDonated = (): number => {
+    if (!totalDonated) return 0;
 
-    return 0;
+    return parseFloat(totalDonated);
   };
 
   // Checks that the current user can redeem some quantity of sOHM
@@ -179,7 +165,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center">
-                  {getRecipientDonated(address)}
+                  {getRecipientDonated()}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   {isSmallScreen ? "Total Donated" : "Total sOHM Donated"}
@@ -189,7 +175,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center">
-                  {getRecipientDonated(address) / getRecipientGoal(address)}%
+                  {getRecipientDonated() / getRecipientGoal(address)}%
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   of sOHM Goal

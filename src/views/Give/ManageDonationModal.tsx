@@ -16,9 +16,8 @@ import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-import { getTotalDonated } from "src/helpers/GetTotalDonated";
-import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { useSohmBalance } from "src/hooks/useBalance";
+import { useRecipientInfo, useTotalDonated } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
@@ -59,40 +58,14 @@ export function ManageDonationModal({
   recordType = RecordType.PROJECT,
 }: ManageModalProps) {
   const location = useLocation();
-  const { provider, address, connected, networkId } = useWeb3Context();
-  const [totalDebt, setTotalDebt] = useState("");
-  const [totalDonated, setTotalDonated] = useState("");
+  const { address, networkId } = useWeb3Context();
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
+  const totalDebt = useRecipientInfo(project ? project.wallet : "").data?.totalDebt;
+  const totalDonated = useTotalDonated(project ? project.wallet : "").data;
+
   const networks = useTestableNetworks();
-
-  useEffect(() => {
-    // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
-    // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
-    // e.g. the redeem yield page will show someone else's deposited sOHM and redeemable yield
-    if (project) {
-      getRedemptionBalancesAsync({
-        networkID: networkId,
-        provider: provider,
-        address: project.wallet,
-      })
-        .then(resultAction => {
-          setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
-        })
-        .catch(e => console.log(e));
-
-      getTotalDonated({
-        networkID: networkId,
-        provider: provider,
-        address: project.wallet,
-      })
-        .then(donatedAmount => {
-          setTotalDonated(donatedAmount);
-        })
-        .catch(e => console.log(e));
-    }
-  }, [connected, networkId]);
 
   useEffect(() => {
     checkIsWalletAddressValid(getWalletAddress());
@@ -217,6 +190,14 @@ export function ManageDonationModal({
 
   const getSOhmBalance = (): BigNumber => {
     return sohmBalance ? new BigNumber(sohmBalance.toAccurateString()) : new BigNumber(0);
+  };
+
+  const getTotalDebt = (): string => {
+    return totalDebt ? totalDebt : "";
+  };
+
+  const getTotalDonated = (): string => {
+    return totalDonated ? totalDonated : "";
   };
 
   const getCurrentDepositAmount = (): BigNumber => {
@@ -425,7 +406,7 @@ export function ManageDonationModal({
         <Grid item xs={4}>
           <Box>
             <Typography variant="h5" align="center">
-              {project ? parseFloat(totalDebt).toFixed(2) : "N/A"}
+              {project ? parseFloat(getTotalDebt()).toFixed(2) : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
               {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
@@ -435,7 +416,7 @@ export function ManageDonationModal({
         <Grid item xs={4}>
           <Box>
             <Typography variant="h5" align="center">
-              {project ? ((parseFloat(totalDonated) / project.depositGoal) * 100).toFixed(1) + "%" : "N/A"}
+              {project ? ((parseFloat(getTotalDonated()) / project.depositGoal) * 100).toFixed(1) + "%" : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
               {isSmallScreen ? "of Goal" : "of sOHM Goal"}

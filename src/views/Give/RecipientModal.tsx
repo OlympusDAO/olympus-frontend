@@ -21,7 +21,7 @@ import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useSohmBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { changeApproval, changeMockApproval, hasPendingGiveTxn, PENDING_TXN_GIVE } from "src/slices/GiveThunk";
+import { hasPendingGiveTxn, PENDING_TXN_GIVE } from "src/slices/GiveThunk";
 
 import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
 import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
@@ -105,14 +105,6 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   const pendingTransactions: IPendingTxn[] = useSelector((state: DonationInfoState) => {
     return state.pendingTransactions;
   });
-
-  const onSeekApproval = async () => {
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(changeMockApproval({ address, token: "sohm", provider, networkID: networkId }));
-    } else {
-      await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));
-    }
-  };
 
   const getSOhmBalance = (): BigNumber => {
     return sohmBalance ? new BigNumber(sohmBalance.toAccurateString()) : new BigNumber("0");

@@ -5,7 +5,6 @@ import { Container, Grid, Typography, Zoom } from "@material-ui/core";
 import { Paper, TertiaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { useUIDSeed } from "react-uid";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
 import { useAppDispatch } from "src/hooks";
@@ -18,13 +17,11 @@ import { useGive } from "./hooks/useGive";
 import data from "./projects.json";
 
 export default function CausesDashboard() {
-  const location = useLocation();
-  const { provider, address, networkId } = useWeb3Context();
+  const { address } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const { projects } = data;
 
   const giveMutation = useGive();
-  const isMutating = giveMutation.isLoading;
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
@@ -57,7 +54,6 @@ export default function CausesDashboard() {
     }
 
     const amount = depositAmount.toFixed();
-    console.log(amount);
     giveMutation.mutate({ amount: amount, recipient: walletAddress });
 
     setIsCustomGiveModalOpen(false);

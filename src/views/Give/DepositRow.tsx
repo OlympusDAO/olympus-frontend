@@ -8,8 +8,6 @@ import { SecondaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { SubmitCallback } from "src/views/Give/Interfaces";
 
 import { Project } from "../../components/GiveProject/project.type";
@@ -30,9 +28,7 @@ interface DepositRowProps {
 }
 
 export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
-  const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, address, networkId } = useWeb3Context();
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
@@ -42,8 +38,6 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
 
   const increaseMutation = useIncreaseGive();
   const decreaseMutation = useDecreaseGive();
-
-  const isMutating = increaseMutation.isLoading || decreaseMutation.isLoading;
 
   const getRecipientTitle = (address: string): string => {
     const project = projectMap.get(address);
@@ -68,7 +62,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.eq(new BigNumber(0))) return;
+    if (depositAmountDiff.eq(new BigNumber("0"))) return;
 
     if (depositAmountDiff.isGreaterThan(new BigNumber("0"))) {
       increaseMutation.mutate({ amount: depositAmountDiff.toFixed(), recipient: walletAddress });
