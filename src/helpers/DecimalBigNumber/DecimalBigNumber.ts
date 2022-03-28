@@ -1,8 +1,6 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { formatUnits, parseUnits } from "@ethersproject/units";
 
-import { formatNumber } from "..";
-
 export class DecimalBigNumber {
   private _decimals: number;
   private _number: BigNumber;
@@ -142,33 +140,6 @@ export class DecimalBigNumber {
   public toApproxNumber(): number {
     return parseFloat(this.toString());
   }
-
-  /**
-   * Used to display a formatted approximate value to the user
-   *
-   * @param decimals The number of decimal places to show.
-   *                 Defaults to 0 decimal places
-   */
-  public toFormattedString: {
-    (decimals?: number): string;
-    (options?: {
-      decimals?: number;
-      /**
-       * Removes unnecessary trailing zeroes from the result.
-       * Defaults to `false`
-       */
-      trimTrailingZeroes?: boolean;
-    }): string;
-  } = decimalsOrOptions => {
-    if (typeof decimalsOrOptions === "object") {
-      const options = decimalsOrOptions || {};
-      const string = formatNumber(this.toApproxNumber(), options.decimals);
-
-      return options.trimTrailingZeroes ? string.replace(/(?:\.|(\..*?))0+$/, "$1") : string;
-    }
-
-    return formatNumber(this.toApproxNumber(), decimalsOrOptions || 0);
-  };
 
   /**
    * Determines if the two values are equal

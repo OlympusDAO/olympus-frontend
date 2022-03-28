@@ -121,7 +121,13 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
       </TableCell>
       <TableCell>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!connected ? "" : !userBalance ? <Skeleton width={80} /> : `${userBalance.toFormattedString(4)} LP`}
+          {!connected ? (
+            ""
+          ) : !userBalance ? (
+            <Skeleton width={80} />
+          ) : (
+            `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`
+          )}
         </Typography>
       </TableCell>
       <TableCell>
@@ -164,7 +170,7 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
         <DataRow
           title={t`Balance`}
           isLoading={!userBalance}
-          balance={userBalance && `${userBalance.toFormattedString(4)} LP`}
+          balance={userBalance && `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`}
         />
       )}
 
