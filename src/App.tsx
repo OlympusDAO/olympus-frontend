@@ -412,11 +412,11 @@ function App() {
               </Route>
 
               <Route exact path="/give/donations">
-                <Give selectedIndex={1} />
+                <Give selectedIndex={2} />
               </Route>
 
               <Route exact path="/give/redeem">
-                <Give selectedIndex={2} />
+                <Give selectedIndex={3} />
               </Route>
 
               <Route path="/wrap">
