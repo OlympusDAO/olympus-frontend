@@ -54,7 +54,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   const addresses = fromToken === "OHM" ? OHM_ADDRESSES : fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
   const balances = useBalance(addresses);
   const balance = balances[networks.MAINNET].data;
-  const setMax = () => balance && setAmount(balance.toAccurateString());
+  const setMax = () => balance && setAmount(balance.toString());
 
   // Staking/unstaking mutation stuff
   const stakeMutation = useStakeToken(stakedAssetType);
