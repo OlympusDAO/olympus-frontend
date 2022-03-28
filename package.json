@@ -137,8 +137,7 @@
     "shelljs": "^0.8.5",
     "surge": "^0.21.5",
     "type-graphql": "^1.1.1",
-    "typechain": "^6.0.2",
-    "webpack-cli": "^4.9.2"
+    "typechain": "^6.0.2"
   },
   "scripts": {
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
