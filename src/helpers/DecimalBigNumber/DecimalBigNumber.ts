@@ -189,8 +189,8 @@ export class DecimalBigNumber {
     const decimals = Math.max(value._decimals, this._decimals);
 
     // Normalize values to correct precision
-    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
-    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+    const _this = new DecimalBigNumber(this.toString(), decimals);
+    const _value = new DecimalBigNumber(value.toString(), decimals);
 
     return _this._number.eq(_value._number);
   }
@@ -203,8 +203,8 @@ export class DecimalBigNumber {
     const decimals = Math.max(value._decimals, this._decimals);
 
     // Normalize values to correct precision
-    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
-    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+    const _this = new DecimalBigNumber(this.toString(), decimals);
+    const _value = new DecimalBigNumber(value.toString(), decimals);
 
     return new DecimalBigNumber(_this._number.sub(_value._number), decimals);
   }
@@ -217,8 +217,8 @@ export class DecimalBigNumber {
     const decimals = Math.max(value._decimals, this._decimals);
 
     // Normalize values to correct precision
-    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
-    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+    const _this = new DecimalBigNumber(this.toString(), decimals);
+    const _value = new DecimalBigNumber(value.toString(), decimals);
 
     return new DecimalBigNumber(_this._number.add(_value._number), decimals);
   }
@@ -231,8 +231,8 @@ export class DecimalBigNumber {
     const decimals = Math.max(value._decimals, this._decimals);
 
     // Normalize values to correct precision
-    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
-    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+    const _this = new DecimalBigNumber(this.toString(), decimals);
+    const _value = new DecimalBigNumber(value.toString(), decimals);
 
     return _this._number.gt(_value._number);
   }
@@ -245,8 +245,8 @@ export class DecimalBigNumber {
     const decimals = Math.max(value._decimals, this._decimals);
 
     // Normalize values to correct precision
-    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
-    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+    const _this = new DecimalBigNumber(this.toString(), decimals);
+    const _value = new DecimalBigNumber(value.toString(), decimals);
 
     return _this._number.lt(_value._number);
   }
@@ -266,7 +266,7 @@ export class DecimalBigNumber {
     const normalized = new DecimalBigNumber(product, _decimals);
 
     // Return result with the expected precision
-    return new DecimalBigNumber(normalized.toAccurateString(), decimals);
+    return new DecimalBigNumber(normalized.toString(), decimals);
   }
 
   /**
@@ -283,7 +283,7 @@ export class DecimalBigNumber {
     const _decimals = decimals + value._decimals;
 
     // Normalize according to the resultant precision calculated earlier
-    const _this = new DecimalBigNumber(this.toAccurateString(), _decimals);
+    const _this = new DecimalBigNumber(this.toString(), _decimals);
 
     const quotient = _this._number.div(value._number);
 
