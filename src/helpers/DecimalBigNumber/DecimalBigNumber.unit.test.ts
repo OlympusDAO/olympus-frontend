@@ -145,5 +145,16 @@ describe("DecimalBigNumber", () => {
     expect(index.div(ohm, 18).toString()).toEqual("0.5");
     expect(index.div(ohm).toString()).toEqual("0.5");
     expect(index.div(ohm, 0).toString()).toEqual("0");
+
+    const decimalNumber = new DecimalBigNumber("2.123", 3);
+    const secondDecimalNumber = new DecimalBigNumber("1.1", 1);
+    expect(decimalNumber.div(secondDecimalNumber).toString()).toEqual("1.93");
+    expect(decimalNumber.div(secondDecimalNumber, 1).toString()).toEqual("1.9");
+
+    const thirdDecimalNumber = new DecimalBigNumber("2.123", 3);
+    const fourthDecimalNumber = new DecimalBigNumber("1.01", 2);
+    expect(thirdDecimalNumber.div(fourthDecimalNumber, 2).toString({ trim: false })).toEqual("2.10");
+    expect(thirdDecimalNumber.div(fourthDecimalNumber, 9).toString()).toEqual("2.101980198");
+    expect(thirdDecimalNumber.div(fourthDecimalNumber).toString()).toEqual("2.10198");
   });
 });
