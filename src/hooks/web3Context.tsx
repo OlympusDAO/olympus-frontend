@@ -100,7 +100,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [providerUri, setProviderUri] = useState("");
   const [providerInitialized, setProviderInitialized] = useState(false);
 
-  const [web3Modal, setWeb3Modal] = useState<Web3Modal>(initModal);
+  const [web3Modal] = useState<Web3Modal>(initModal);
 
   function hasCachedProvider(): boolean {
     return checkCachedProvider(web3Modal);
@@ -114,7 +114,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       if (!rawProvider.on) {
         return;
       }
-      rawProvider.on("accountsChanged", async (accounts: string[]) => {
+      rawProvider.on("accountsChanged", async () => {
         setTimeout(() => window.location.reload(), 1);
       });
 

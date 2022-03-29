@@ -59,10 +59,10 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const location = useLocation();
   const { provider, address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
-  const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
+  const [, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
-  const [totalDebt, setTotalDebt] = useState("");
-  const [totalDonated, setTotalDonated] = useState("");
+  const [, setTotalDebt] = useState("");
+  const [, setTotalDonated] = useState("");
   const [donorCount, setDonorCount] = useState(0);
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(0);
