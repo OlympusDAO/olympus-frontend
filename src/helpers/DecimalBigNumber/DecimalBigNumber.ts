@@ -96,15 +96,14 @@ export class DecimalBigNumber {
     format = false,
     trim = true,
   }: { decimals?: number; trim?: boolean; format?: boolean } = {}): string {
-    if (decimals !== undefined && decimals < 0) throw new Error("The decimals parameter must be 0 or positive");
-
     let result = formatUnits(this._number, this._decimals);
 
     // Add thousands separators
     if (format) result = commify(result);
 
     // We default to the number of decimal places specified
-    result = this._setDecimalAmount(result, decimals === undefined ? this._decimals : decimals);
+    const _decimals = decimals === undefined ? this._decimals : Math.max(0, decimals);
+    result = this._setDecimalAmount(result, _decimals);
 
     // We default to trimming trailing zeroes (and decimal points), unless there is an override
     if (trim) result = result.replace(/(?:\.|(\..*?))\.?0*$/, "$1");

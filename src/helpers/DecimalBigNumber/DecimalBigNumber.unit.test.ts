@@ -37,10 +37,8 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber((1.2).toString()).toString()).toEqual("1.2");
   });
 
-  it("should reject invalid decimals parameter", () => {
-    expect(() => {
-      new DecimalBigNumber(".1", 1).toString({ decimals: -1 });
-    }).toThrow(); // decimals should be 0 or positive
+  it("should set an invalid decimals value to 0 decimals", () => {
+    expect(new DecimalBigNumber(".1", 1).toString({ decimals: -1 })).toEqual("0");
   });
 
   it("should accurately format number to an accurate string", () => {
