@@ -103,22 +103,19 @@ export class DecimalBigNumber {
    * @param args an object containing any of the properties: decimals, trim, format
    * @returns a string version of the number
    */
-  public toString(args?: { decimals?: number; trim?: boolean; format?: boolean }): string {
-    if (args && args.decimals !== undefined && args.decimals < 0)
+  public toString(args: { decimals?: number; trim?: boolean; format?: boolean } = {}): string {
+    if (args.decimals !== undefined && args.decimals < 0)
       throw new Error("The decimals parameter must be 0 or positive");
 
     let formattedString = formatUnits(this._number, this._decimals);
 
     // Add thousands separators
     // Default: FALSE
-    if (args && args.format) formattedString = this._formatNumber(formattedString);
+    if (args.format) formattedString = this._formatNumber(formattedString);
 
     // We default to the number of decimal places specified in the instance
     // But adjust that if there is an override
-    formattedString = this._fixDecimals(
-      formattedString,
-      args && args.decimals !== undefined ? args.decimals : this._decimals,
-    );
+    formattedString = this._fixDecimals(formattedString, args.decimals !== undefined ? args.decimals : this._decimals);
 
     // We default to trimming trailing zeroes (and decimal points), unless there is an override
     // Default: TRUE
