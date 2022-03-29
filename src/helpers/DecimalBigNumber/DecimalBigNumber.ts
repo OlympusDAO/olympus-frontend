@@ -201,39 +201,40 @@ export class DecimalBigNumber {
    * Multiplies this number by the provided value
    * @param decimals The expected number of decimals of the output value
    */
-  public mul(value: DecimalBigNumber, decimals: number): DecimalBigNumber {
+  public mul(value: DecimalBigNumber, decimals?: number): DecimalBigNumber {
+    const _decimals = decimals === undefined ? Math.min(this._decimals, value._decimals) : decimals;
+
     const product = this._number.mul(value._number);
 
     // Multiplying two BigNumbers produces a product whose precision
-    // is the sum of the precisions of the two input numbers
-    const _decimals = this._decimals + value._decimals;
-
-    // Normalize the product
-    const normalized = new DecimalBigNumber(product, _decimals);
+    // is the sum of the precisions of the two input numbers,
+    // so we have to normalize the product
+    const normalized = new DecimalBigNumber(product, this._decimals + value._decimals);
 
     // Return result with the expected precision
-    return new DecimalBigNumber(normalized.toString(), decimals);
+    return new DecimalBigNumber(normalized.toString(), _decimals);
   }
 
   /**
    * Divides this number by the provided value
    * @param decimals The expected number of decimals of the output value
    */
-  public div(value: DecimalBigNumber, decimals: number): DecimalBigNumber {
+  public div(value: DecimalBigNumber, decimals?: number): DecimalBigNumber {
+    // We default the output decimals to the smaller decimal value of the two numbers
+    const _decimals = decimals === undefined ? Math.min(this._decimals, value._decimals) : decimals;
+
     // When we divide two BigNumbers, the result will never
     // include any decimal places because BigNumber only deals
     // with whole integer values. Therefore, in order for us to
     // include precision in our calculation, we need to normalize
     // the precision of the two numbers, such that the difference
-    // in precision is equal to the expected precision of the result.
-    const _decimals = decimals + value._decimals;
-
-    // Normalize according to the resultant precision calculated earlier
-    const _this = new DecimalBigNumber(this.toString(), _decimals);
+    // in precision is equal to the expected precision of the result,
+    // before we do the calculation
+    const _this = new DecimalBigNumber(this.toString(), _decimals + value._decimals);
 
     const quotient = _this._number.div(value._number);
 
-    // Return result with the expected precision
-    return new DecimalBigNumber(quotient, decimals);
+    // Return result with the expected output decimals
+    return new DecimalBigNumber(quotient, _decimals);
   }
 }
