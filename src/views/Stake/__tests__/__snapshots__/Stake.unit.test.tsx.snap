@@ -220,41 +220,6 @@ exports[`<Stake/> should render component 1`] = `
         <div
           class="MuiGrid-root MuiGrid-item"
         >
-<<<<<<< HEAD
-          <div
-            class="MuiBox-root MuiBox-root-26 makeStyles-stakePoolsWrapper-19"
-            style="gap: 12px; margin-bottom: 0.5rem;"
-          >
-            <p
-              class="MuiTypography-root makeStyles-stakePoolHeaderText-20 MuiTypography-body1"
-              style="margin-left: 75px;"
-            >
-              Asset
-            </p>
-            <p
-              class="MuiTypography-root makeStyles-stakePoolHeaderText-20 MuiTypography-body1"
-              style="padding-left: 3px;"
-            >
-              TVL
-            </p>
-            <p
-              class="MuiTypography-root makeStyles-stakePoolHeaderText-20 MuiTypography-body1"
-            />
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-27"
-            style="gap: 32px; padding: 16px 0px;"
-          >
-            <div
-              class="MuiBox-root MuiBox-root-28 makeStyles-stakePoolsWrapper-19"
-              style="gap: 12px;"
-            >
-              <div
-                class="MuiBox-root MuiBox-root-29"
-              >
-                <div
-                  class="MuiBox-root MuiBox-root-30"
-=======
           <table
             class="MuiTable-root"
           >
@@ -296,7 +261,6 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <div
                   class="MuiBox-root MuiBox-root-26"
->>>>>>> develop
                 >
                   <div
                     class="MuiBox-root MuiBox-root-27"
@@ -744,20 +708,6 @@ exports[`<Stake/> should render component 1`] = `
                   class="MuiTypography-root MuiTypography-body1"
                   style="line-height: 1.4;"
                 />
-<<<<<<< HEAD
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-                style="line-height: 1.4;"
-              />
-              <div
-                class="MuiBox-root MuiBox-root-32"
-              >
-                <a
-                  aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-33 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
-                  href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
-=======
               </td>
               <td
                 class="MuiTableCell-root"
@@ -766,7 +716,6 @@ exports[`<Stake/> should render component 1`] = `
                   aria-disabled="false"
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-29 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://app.sushi.com/farm?filter=2x"
->>>>>>> develop
                   tabindex="0"
                   target="_blank"
                 >
@@ -792,19 +741,6 @@ exports[`<Stake/> should render component 1`] = `
                     </span>
                   </span>
                 </a>
-<<<<<<< HEAD
-              </div>
-            </div>
-            <div
-              class="MuiBox-root MuiBox-root-34 makeStyles-stakePoolsWrapper-19"
-              style="gap: 12px;"
-            >
-              <div
-                class="MuiBox-root MuiBox-root-35"
-              >
-                <div
-                  class="MuiBox-root MuiBox-root-36"
-=======
               </td>
             </tr>
             <tr
@@ -815,7 +751,6 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <div
                   class="MuiBox-root MuiBox-root-30"
->>>>>>> develop
                 >
                   <div
                     class="MuiBox-root MuiBox-root-31"
@@ -967,19 +902,6 @@ exports[`<Stake/> should render component 1`] = `
                   class="MuiTypography-root MuiTypography-body1"
                   style="line-height: 1.4;"
                 />
-<<<<<<< HEAD
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-                style="line-height: 1.4;"
-              />
-              <div
-                class="MuiBox-root MuiBox-root-37"
-              >
-                <a
-                  aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-38 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
-=======
               </td>
               <td
                 class="MuiTableCell-root"
@@ -987,7 +909,6 @@ exports[`<Stake/> should render component 1`] = `
                 <a
                   aria-disabled="false"
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-32 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
->>>>>>> develop
                   href="https://app.sushi.com/farm?filter=2x"
                   tabindex="0"
                   target="_blank"
@@ -1014,19 +935,6 @@ exports[`<Stake/> should render component 1`] = `
                     </span>
                   </span>
                 </a>
-<<<<<<< HEAD
-              </div>
-            </div>
-            <div
-              class="MuiBox-root MuiBox-root-39 makeStyles-stakePoolsWrapper-19"
-              style="gap: 12px;"
-            >
-              <div
-                class="MuiBox-root MuiBox-root-40"
-              >
-                <div
-                  class="MuiBox-root MuiBox-root-41"
-=======
               </td>
             </tr>
             <tr
@@ -1037,7 +945,6 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <div
                   class="MuiBox-root MuiBox-root-33"
->>>>>>> develop
                 >
                   <div
                     class="MuiBox-root MuiBox-root-34"
@@ -1163,20 +1070,6 @@ exports[`<Stake/> should render component 1`] = `
                   class="MuiTypography-root MuiTypography-body1"
                   style="line-height: 1.4;"
                 />
-<<<<<<< HEAD
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-                style="line-height: 1.4;"
-              />
-              <div
-                class="MuiBox-root MuiBox-root-42"
-              >
-                <a
-                  aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-43 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
-                  href="https://app.sushi.com/farm?filter=2x"
-=======
               </td>
               <td
                 class="MuiTableCell-root"
@@ -1185,7 +1078,6 @@ exports[`<Stake/> should render component 1`] = `
                   aria-disabled="false"
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-35 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
->>>>>>> develop
                   tabindex="0"
                   target="_blank"
                 >
@@ -1211,19 +1103,6 @@ exports[`<Stake/> should render component 1`] = `
                     </span>
                   </span>
                 </a>
-<<<<<<< HEAD
-              </div>
-            </div>
-            <div
-              class="MuiBox-root MuiBox-root-44 makeStyles-stakePoolsWrapper-19"
-              style="gap: 12px;"
-            >
-              <div
-                class="MuiBox-root MuiBox-root-45"
-              >
-                <div
-                  class="MuiBox-root MuiBox-root-46"
-=======
               </td>
             </tr>
             <tr
@@ -1234,7 +1113,6 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <div
                   class="MuiBox-root MuiBox-root-36"
->>>>>>> develop
                 >
                   <div
                     class="MuiBox-root MuiBox-root-37"
@@ -1424,19 +1302,6 @@ exports[`<Stake/> should render component 1`] = `
                   class="MuiTypography-root MuiTypography-body1"
                   style="line-height: 1.4;"
                 />
-<<<<<<< HEAD
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-                style="line-height: 1.4;"
-              />
-              <div
-                class="MuiBox-root MuiBox-root-47"
-              >
-                <a
-                  aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-48 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
-=======
               </td>
               <td
                 class="MuiTableCell-root"
@@ -1444,7 +1309,6 @@ exports[`<Stake/> should render component 1`] = `
                 <a
                   aria-disabled="false"
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-38 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
->>>>>>> develop
                   href="https://app.spiritswap.finance/#/farms/allfarms"
                   tabindex="0"
                   target="_blank"
@@ -1471,272 +1335,6 @@ exports[`<Stake/> should render component 1`] = `
                     </span>
                   </span>
                 </a>
-<<<<<<< HEAD
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`<Stake/> should render correct staking headers 1`] = `
-<div>
-  <div
-    id="stake-view"
-  >
-    <div
-      class="MuiPaper-root makeStyles-root-49 makeStyles-root-50  MuiPaper-elevation0 MuiPaper-rounded"
-      style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
-    >
-      <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
-      >
-        <div
-          class="MuiGrid-root card-header MuiGrid-item"
-        >
-          <div
-            class="MuiBox-root MuiBox-root-51"
-          >
-            <div
-              class="MuiBox-root MuiBox-root-52"
-            >
-              <h5
-                class="MuiTypography-root header-text MuiTypography-h5"
-              >
-                Single Stake (3, 3)
-              </h5>
-            </div>
-            <div
-              class="top-right"
-            />
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-53"
-          >
-            <div
-              class="MuiBox-root MuiBox-root-54 rebase-timer"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body2"
-              >
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                  style="width: 155px;"
-                />
-              </p>
-            </div>
-          </div>
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item"
-        >
-          <div
-            class="MuiGrid-root"
-          >
-            <div
-              class="MuiBox-root MuiBox-root-55"
-            >
-              <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
-              >
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-                >
-                  <div
-                    class="makeStyles-root-56 stake-apy"
-                  >
-                    <div
-                      class="MuiBox-root MuiBox-root-57"
-                    >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
-                      >
-                        APY
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                          style="width: 100%;"
-                        />
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-                >
-                  <div
-                    class="makeStyles-root-56 stake-tvl"
-                  >
-                    <div
-                      class="MuiBox-root MuiBox-root-58"
-                    >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
-                      >
-                        Total Value Deposited
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                          style="width: 100%;"
-                        />
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-                >
-                  <div
-                    class="makeStyles-root-56 stake-index"
-                  >
-                    <div
-                      class="MuiBox-root MuiBox-root-59"
-                    >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
-                      >
-                        Current Index
-                        <div
-                          class="MuiBox-root MuiBox-root-60"
-                          style="font-size: 16px;"
-                        >
-                          <div
-                            class="MuiBox-root MuiBox-root-61"
-                            style="display: inline-flex; justify-content: center; align-self: center;"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
-                              focusable="false"
-                              style="margin: 0px 5px; font-size: 1em;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                          style="width: 100%;"
-                        />
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-63"
-          >
-            <div
-              class="MuiBox-root MuiBox-root-64"
-            >
-              <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-65 makeStyles-root-66 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
-                style="font-size: 1.2857rem;"
-                tabindex="0"
-                type="button"
-              >
-                <span
-                  class="MuiButton-label"
-                >
-                  Connect Wallet
-                </span>
-              </button>
-              <h6
-                class="MuiTypography-root MuiTypography-h6"
-              >
-                Connect your wallet to stake OHM
-              </h6>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="MuiPaper-root makeStyles-root-49 makeStyles-root-71  MuiPaper-elevation0 MuiPaper-rounded"
-      style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
-    >
-      <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
-      >
-        <div
-          class="MuiGrid-root card-header MuiGrid-item"
-        >
-          <div
-            class="MuiBox-root MuiBox-root-72"
-          >
-            <div
-              class="MuiBox-root MuiBox-root-73"
-            >
-              <h5
-                class="MuiTypography-root header-text MuiTypography-h5"
-              >
-                Farm Pool
-              </h5>
-            </div>
-            <div
-              class="top-right"
-            />
-          </div>
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item"
-        >
-          <div
-            class="MuiBox-root MuiBox-root-74 makeStyles-stakePoolsWrapper-67"
-            style="gap: 12px; margin-bottom: 0.5rem;"
-          >
-            <p
-              class="MuiTypography-root makeStyles-stakePoolHeaderText-68 MuiTypography-body1"
-              style="margin-left: 75px;"
-            >
-              Asset
-            </p>
-            <p
-              class="MuiTypography-root makeStyles-stakePoolHeaderText-68 MuiTypography-body1"
-              style="padding-left: 3px;"
-            >
-              TVL
-            </p>
-            <p
-              class="MuiTypography-root makeStyles-stakePoolHeaderText-68 MuiTypography-body1"
-            />
-          </div>
-          <div
-            class="MuiBox-root MuiBox-root-75"
-            style="gap: 32px; padding: 16px 0px;"
-          >
-            <div
-              class="MuiBox-root MuiBox-root-76 makeStyles-stakePoolsWrapper-67"
-              style="gap: 12px;"
-            >
-              <div
-                class="MuiBox-root MuiBox-root-77"
-              >
-                <div
-                  class="MuiBox-root MuiBox-root-78"
-                >
-=======
               </td>
             </tr>
             <tr
@@ -1855,7 +1453,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   >
                     gOHM-wFTM
                   </p>
->>>>>>> develop
                   <svg
                     aria-hidden="true"
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
@@ -3830,19 +3427,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   class="MuiTypography-root MuiTypography-body1"
                   style="line-height: 1.4;"
                 />
-<<<<<<< HEAD
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-                style="line-height: 1.4;"
-              />
-              <div
-                class="MuiBox-root MuiBox-root-80"
-              >
-                <a
-                  aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-65 makeStyles-root-81 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
-=======
               </td>
               <td
                 class="MuiTableCell-root"
@@ -3850,7 +3434,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 <a
                   aria-disabled="false"
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-64 makeStyles-root-82 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
->>>>>>> develop
                   href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                   tabindex="0"
                   target="_blank"
@@ -3877,19 +3460,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                     </span>
                   </span>
                 </a>
-<<<<<<< HEAD
-              </div>
-            </div>
-            <div
-              class="MuiBox-root MuiBox-root-82 makeStyles-stakePoolsWrapper-67"
-              style="gap: 12px;"
-            >
-              <div
-                class="MuiBox-root MuiBox-root-83"
-              >
-                <div
-                  class="MuiBox-root MuiBox-root-84"
-=======
               </td>
             </tr>
             <tr
@@ -3900,7 +3470,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
               >
                 <div
                   class="MuiBox-root MuiBox-root-83"
->>>>>>> develop
                 >
                   <div
                     class="MuiBox-root MuiBox-root-84"
@@ -4322,20 +3891,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   class="MuiTypography-root MuiTypography-body1"
                   style="line-height: 1.4;"
                 />
-<<<<<<< HEAD
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-                style="line-height: 1.4;"
-              />
-              <div
-                class="MuiBox-root MuiBox-root-85"
-              >
-                <a
-                  aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-65 makeStyles-root-86 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
-                  href="https://app.sushi.com/farm?filter=2x"
-=======
               </td>
               <td
                 class="MuiTableCell-root"
@@ -4344,7 +3899,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   aria-disabled="false"
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-64 makeStyles-root-88 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
->>>>>>> develop
                   tabindex="0"
                   target="_blank"
                 >
@@ -4370,16 +3924,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                     </span>
                   </span>
                 </a>
-<<<<<<< HEAD
-              </div>
-            </div>
-            <div
-              class="MuiBox-root MuiBox-root-87 makeStyles-stakePoolsWrapper-67"
-              style="gap: 12px;"
-            >
-              <div
-                class="MuiBox-root MuiBox-root-88"
-=======
               </td>
             </tr>
             <tr
@@ -4387,7 +3931,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
             >
               <td
                 class="MuiTableCell-root"
->>>>>>> develop
               >
                 <div
                   class="MuiBox-root MuiBox-root-89"
@@ -4552,20 +4095,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   class="MuiTypography-root MuiTypography-body1"
                   style="line-height: 1.4;"
                 />
-<<<<<<< HEAD
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-                style="line-height: 1.4;"
-              />
-              <div
-                class="MuiBox-root MuiBox-root-90"
-              >
-                <a
-                  aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-65 makeStyles-root-91 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
-                  href="https://app.sushi.com/farm?filter=2x"
-=======
               </td>
               <td
                 class="MuiTableCell-root"
@@ -4574,7 +4103,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   aria-disabled="false"
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-64 makeStyles-root-91 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1"
->>>>>>> develop
                   tabindex="0"
                   target="_blank"
                 >
@@ -4600,19 +4128,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                     </span>
                   </span>
                 </a>
-<<<<<<< HEAD
-              </div>
-            </div>
-            <div
-              class="MuiBox-root MuiBox-root-92 makeStyles-stakePoolsWrapper-67"
-              style="gap: 12px;"
-            >
-              <div
-                class="MuiBox-root MuiBox-root-93"
-              >
-                <div
-                  class="MuiBox-root MuiBox-root-94"
-=======
               </td>
             </tr>
             <tr
@@ -4623,7 +4138,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
               >
                 <div
                   class="MuiBox-root MuiBox-root-92"
->>>>>>> develop
                 >
                   <div
                     class="MuiBox-root MuiBox-root-93"
@@ -5157,20 +4671,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   class="MuiTypography-root MuiTypography-body1"
                   style="line-height: 1.4;"
                 />
-<<<<<<< HEAD
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-                style="line-height: 1.4;"
-              />
-              <div
-                class="MuiBox-root MuiBox-root-95"
-              >
-                <a
-                  aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-65 makeStyles-root-96 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
-                  href="https://app.spiritswap.finance/#/farms/allfarms"
-=======
               </td>
               <td
                 class="MuiTableCell-root"
@@ -5179,7 +4679,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                   aria-disabled="false"
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-64 makeStyles-root-94 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://jonesdao.io/farms"
->>>>>>> develop
                   tabindex="0"
                   target="_blank"
                 >
