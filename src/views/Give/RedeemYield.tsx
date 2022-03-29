@@ -68,7 +68,7 @@ export default function RedeemYield() {
    * @returns string
    */
   const getTrimmedBigNumber = (number: BigNumber) => {
-    return number.toNumber().toFixed(4).toString();
+    return number.toFixed(4).toString();
   };
 
   const isRecipientInfoLoading = !recipientInfo || recipientInfo?.totalDebt == "";
@@ -90,10 +90,10 @@ export default function RedeemYield() {
   };
 
   // Get the amount of sOHM yield donated by the current user and return as a number
-  const getRecipientDonated = (): number => {
-    if (!totalDonated) return 0;
+  const getRecipientDonated = (): BigNumber => {
+    if (!totalDonated) return new BigNumber(0);
 
-    return parseFloat(totalDonated);
+    return new BigNumber(totalDonated);
   };
 
   // Checks that the current user can redeem some quantity of sOHM
@@ -175,7 +175,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center">
-                  {getRecipientDonated() / getRecipientGoal(address)}%
+                  {getRecipientDonated().dividedBy(new BigNumber(getRecipientGoal(address)))}%
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   of sOHM Goal

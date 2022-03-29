@@ -39,6 +39,8 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
   const increaseMutation = useIncreaseGive();
   const decreaseMutation = useDecreaseGive();
 
+  const isMutating = increaseMutation.isLoading || decreaseMutation.isLoading;
+
   const getRecipientTitle = (address: string): string => {
     const project = projectMap.get(address);
     if (!project) return isMediumScreen || isSmallScreen ? "Custom" : "Custom Recipient";
@@ -66,10 +68,10 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
     if (depositAmountDiff.eq(new BigNumber("0"))) return;
 
     if (depositAmountDiff.isGreaterThan(new BigNumber("0"))) {
-      increaseMutation.mutate({ amount: depositAmountDiff.toFixed(), recipient: walletAddress });
+      await increaseMutation.mutate({ amount: depositAmountDiff.toFixed(), recipient: walletAddress });
     } else {
       const subtractionAmount = depositAmountDiff.multipliedBy(new BigNumber("-1"));
-      decreaseMutation.mutate({ amount: subtractionAmount.toFixed(), recipient: walletAddress });
+      await decreaseMutation.mutate({ amount: subtractionAmount.toFixed(), recipient: walletAddress });
     }
 
     setIsManageModalOpen(false);
@@ -78,7 +80,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
   // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
   // Else use standard call
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
-    decreaseMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
+    await decreaseMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
 
     setIsManageModalOpen(false);
   };
@@ -110,6 +112,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       </Grid>
       <ManageDonationModal
         isModalOpen={isManageModalOpen}
+        isMutationLoading={isMutating}
         submitEdit={handleEditModalSubmit}
         submitWithdraw={handleWithdrawModalSubmit}
         cancelFunc={handleManageModalCancel}

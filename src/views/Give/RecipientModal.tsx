@@ -21,21 +21,28 @@ import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useSohmBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { hasPendingGiveTxn, PENDING_TXN_GIVE } from "src/slices/GiveThunk";
 
 import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
-import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
+import { IPendingTxn } from "../../slices/PendingTxnsSlice";
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
+  isMutationLoading: boolean;
   eventSource: string;
   callbackFunc: SubmitCallback;
   cancelFunc: CancelCallback;
   project?: Project;
 };
 
-export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelFunc, project }: RecipientModalProps) {
+export function RecipientModal({
+  isModalOpen,
+  isMutationLoading,
+  eventSource,
+  callbackFunc,
+  cancelFunc,
+  project,
+}: RecipientModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
@@ -70,7 +77,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   useEffect(() => {
-    checkIsDepositAmountValid(getDepositAmount().toNumber().toFixed());
+    checkIsDepositAmountValid(getDepositAmount().toFixed());
     checkIsWalletAddressValid(getWalletAddress());
   }, []);
 
@@ -218,7 +225,8 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     if (!isProjectMode() && !isWalletAddressValid) return false;
 
     if (!address) return false;
-    if (hasPendingGiveTxn(pendingTransactions)) return false;
+
+    if (isMutationLoading) return false;
 
     return true;
   };
@@ -361,7 +369,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                 value={getDepositAmount().eq(0) ? null : getDepositAmount()}
                 helperText={
                   isDepositAmountValid
-                    ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toNumber().toFixed(2)} sOHM`
+                    ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toFixed(2)} sOHM`
                     : isDepositAmountValidError
                 }
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -369,7 +377,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                 error={!isDepositAmountValid}
                 startAdornment="sOHM"
                 endString={t`Max`}
-                endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toNumber().toFixed())}
+                endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
               />
             </Grid>
             <Grid item xs={12}>
@@ -454,7 +462,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   </Grid>
                   <Grid xs={12}>
                     <Typography variant="h6">
-                      <strong>{getDepositAmount().toNumber().toFixed(2)} sOHM</strong>
+                      <strong>{getDepositAmount().toFixed(2)} sOHM</strong>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -495,11 +503,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               <Grid item xs />
               <Grid item xs={8}>
                 <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
-                  {txnButtonText(
-                    pendingTransactions,
-                    PENDING_TXN_GIVE,
-                    `${t`Confirm `} ${getDepositAmount().toNumber().toFixed(2)} sOHM`,
-                  )}
+                  {isMutationLoading ? t`Depositing sOHM` : `${t`Confirm `} ${getDepositAmount().toFixed(2)} sOHM`}
                 </PrimaryButton>
               </Grid>
               <Grid item xs />

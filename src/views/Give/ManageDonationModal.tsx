@@ -20,10 +20,8 @@ import { useSohmBalance } from "src/hooks/useBalance";
 import { useRecipientInfo, useTotalDonated } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 
 import { ArrowGraphic } from "../../components/EducationCard";
-import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
 
 export type WithdrawSubmitCallback = {
@@ -32,6 +30,7 @@ export type WithdrawSubmitCallback = {
 
 type ManageModalProps = {
   isModalOpen: boolean;
+  isMutationLoading: boolean;
   eventSource: string;
   submitEdit: SubmitCallback;
   submitWithdraw: WithdrawSubmitCallback;
@@ -46,6 +45,7 @@ type ManageModalProps = {
 
 export function ManageDonationModal({
   isModalOpen,
+  isMutationLoading,
   eventSource,
   submitEdit,
   submitWithdraw,
@@ -115,10 +115,6 @@ export function ManageDonationModal({
       : state.account.giving.loading;
   });
 
-  const pendingTransactions: IPendingTxn[] = useSelector((state: DonationInfoState) => {
-    return state.pendingTransactions;
-  });
-
   /**
    * Checks if the provided wallet address is valid.
    *
@@ -175,15 +171,15 @@ export function ManageDonationModal({
     if (!project && !isWalletAddressValid) return false;
 
     if (!address) return false;
-    if (hasPendingGiveTxn(pendingTransactions)) return false;
     if (getDepositAmountDiff().isEqualTo(new BigNumber("0"))) return false;
+
+    if (isMutationLoading) return false;
 
     return true;
   };
 
   const canWithdraw = () => {
     if (!address) return false;
-    if (hasPendingGiveTxn(pendingTransactions)) return false;
 
     return true;
   };
@@ -634,7 +630,7 @@ export function ManageDonationModal({
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
-                    {txnButtonText(pendingTransactions, PENDING_TXN_WITHDRAW, t`Withdraw`)}
+                    {isMutationLoading ? t`Withdrawing sOHM` : t`Withdraw`}
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
@@ -672,7 +668,7 @@ export function ManageDonationModal({
             <Grid item xs />
             <Grid item xs={6}>
               <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
-                {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Confirm New sOHM`)}
+                {isMutationLoading ? t`Depositing sOHM` : t`Confirm New sOHM`}
               </PrimaryButton>
             </Grid>
             <Grid item xs />

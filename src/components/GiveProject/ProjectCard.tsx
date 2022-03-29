@@ -17,8 +17,8 @@ import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalDonated } f
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
-import { isSupportedChain } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { isSupportedChain } from "src/views/Give/Give";
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { useGive } from "src/views/Give/hooks/useGive";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
@@ -84,6 +84,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const increaseMutation = useIncreaseGive();
   const decreaseMutation = useDecreaseGive();
 
+  const isMutating = giveMutation.isLoading || increaseMutation.isLoading || decreaseMutation.isLoading;
+
   const theme = useTheme();
   const isBreakpointLarge = useMediaQuery(theme.breakpoints.up("lg"));
 
@@ -105,6 +107,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       }
     }
   }, [donationInfo, networkId]);
+
+  useEffect(() => {
+    if (isGiveModalOpen) setIsGiveModalOpen(false);
+  }, [giveMutation.isSuccess]);
+
+  useEffect(() => {
+    if (isManageModalOpen) setIsManageModalOpen(false);
+  }, [increaseMutation.isSuccess, decreaseMutation.isSuccess]);
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
@@ -171,7 +181,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     const totalDonatedNumber = new BigNumber(totalDonated);
 
-    return totalDonatedNumber.div(depositGoal).multipliedBy(100).toNumber().toFixed(2);
+    return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed(2);
   };
 
   const renderGoalCompletion = (): JSX.Element => {
@@ -209,9 +219,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
     const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
-    const formattedTotalDonated = !totalDonated
-      ? new BigNumber("0")
-      : new BigNumber(totalDonated).toNumber().toFixed(2);
+    const formattedTotalDonated = !totalDonated ? new BigNumber("0") : new BigNumber(totalDonated).toFixed(2);
 
     if (depositGoal === 0) return <></>;
 
@@ -343,12 +351,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
-    // Else use standard call
-
-    giveMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
-
-    setIsGiveModalOpen(false);
+    await giveMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
   };
 
   const handleGiveModalCancel: CancelCallback = () => {
@@ -368,17 +371,15 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     if (depositAmountDiff.isEqualTo(new BigNumber("0"))) return;
 
     if (depositAmountDiff.isGreaterThan(new BigNumber("0"))) {
-      increaseMutation.mutate({ amount: depositAmountDiff.toFixed(), recipient: walletAddress });
+      await increaseMutation.mutate({ amount: depositAmountDiff.toFixed(), recipient: walletAddress });
     } else {
       const subtractionAmount = depositAmountDiff.multipliedBy(new BigNumber("-1"));
-      decreaseMutation.mutate({ amount: subtractionAmount.toFixed(), recipient: walletAddress });
+      await decreaseMutation.mutate({ amount: subtractionAmount.toFixed(), recipient: walletAddress });
     }
-
-    setIsManageModalOpen(false);
   };
 
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
-    decreaseMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
+    await decreaseMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
 
     setIsManageModalOpen(false);
   };
@@ -475,6 +476,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         </Grid>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
+          isMutationLoading={isMutating}
           eventSource="Project List"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
@@ -629,6 +631,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         </Container>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
+          isMutationLoading={isMutating}
           eventSource="Project Details"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
@@ -638,6 +641,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         {isUserDonating && donationInfo[donationId] ? (
           <ManageDonationModal
             isModalOpen={isManageModalOpen}
+            isMutationLoading={isMutating}
             eventSource={"Project Details"}
             submitEdit={handleEditModalSubmit}
             submitWithdraw={handleWithdrawModalSubmit}

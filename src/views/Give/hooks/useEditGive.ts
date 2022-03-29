@@ -31,7 +31,10 @@ export const useIncreaseGive = () => {
       if (parseFloat(amount_) <= 0) throw new Error(t`An increase Give amount must be positive`);
 
       // Confirm that the user is on a chain where YieldDirector exists
-      if (!contract) throw new Error(t`Please switch to the Ethereum network to donate yield`);
+      if (!contract)
+        throw new Error(
+          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+        );
 
       // Create transaction to deposit passed amount to the passed recipient
       const transaction = await contract.deposit(ethers.utils.parseUnits(amount_, "gwei"), recipient_);
@@ -51,7 +54,7 @@ export const useIncreaseGive = () => {
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
         await Promise.all(promises);
 
-        dispatch(createInfoToast(t`Successfully deposited sOHM`));
+        dispatch(createInfoToast(t`Successfully increased sOHM deposit`));
       },
     },
   );
@@ -76,7 +79,10 @@ export const useDecreaseGive = () => {
       if (parseFloat(amount_) <= 0) throw new Error(t`A decrease Give amount must be positive`);
 
       // Confirm that the user is on a chain where YieldDirector exists
-      if (!contract) throw new Error(t`Please switch to the Ethereum network to donate yield`);
+      if (!contract)
+        throw new Error(
+          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+        );
 
       // Create transaction to withdraw passed amount from the passed recipient
       const transaction = await contract.withdraw(ethers.utils.parseUnits(amount_, "gwei"), recipient_);
@@ -96,7 +102,7 @@ export const useDecreaseGive = () => {
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
         await Promise.all(promises);
 
-        dispatch(createInfoToast(t`Successfully deposited sOHM`));
+        dispatch(createInfoToast(t`Successfully decreased sOHM deposit`));
       },
     },
   );

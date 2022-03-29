@@ -31,7 +31,10 @@ export const useGive = () => {
       if (parseFloat(amount_) <= 0) throw new Error(t`A give amount must be positive`);
 
       // Confirm that the user is on a chain where YieldDirector exists
-      if (!contract) throw new Error(t`Please switch to the Ethereum network to donate yield`);
+      if (!contract)
+        throw new Error(
+          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+        );
 
       // Create transaction to deposit passed amount to the passed recipient
       const transaction = await contract.deposit(ethers.utils.parseUnits(amount_, "gwei"), recipient_);

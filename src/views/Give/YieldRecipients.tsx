@@ -18,7 +18,7 @@ type RecipientModalProps = {
 
 export default function YieldRecipients({ changeView }: RecipientModalProps) {
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
   const rawDonationInfo = useDonationInfo().data;
@@ -50,7 +50,6 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
     );
   }
 
-  // TODO extract the table and styles into a common component
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} container>

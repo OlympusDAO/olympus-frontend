@@ -8,7 +8,7 @@ import { Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { isSupportedChain } from "src/slices/GiveThunk";
+import { NetworkId } from "src/networkDetails";
 
 import CausesDashboard from "./CausesDashboard";
 import { GiveInfo } from "./GiveInfo";
@@ -22,6 +22,13 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+
+export const isSupportedChain = (chainID: NetworkId): boolean => {
+  // Give is only supported on Ethereum mainnet (1) and rinkeby (4) for the moment.
+  if (chainID === NetworkId.MAINNET || chainID === NetworkId.TESTNET_RINKEBY) return true;
+
+  return false;
+};
 
 /**
  * selectedIndex values:

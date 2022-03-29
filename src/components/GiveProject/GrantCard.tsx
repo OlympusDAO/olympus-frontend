@@ -18,8 +18,8 @@ import { useDonationInfo, useDonorNumbers } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
-import { isSupportedChain } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
+import { isSupportedChain } from "src/views/Give/Give";
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { useGive } from "src/views/Give/hooks/useGive";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
@@ -66,6 +66,8 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const increaseMutation = useIncreaseGive();
   const decreaseMutation = useDecreaseGive();
 
+  const isMutating = giveMutation.isLoading || increaseMutation.isLoading || decreaseMutation.isLoading;
+
   const theme = useTheme();
   const isBreakpointLarge = useMediaQuery(theme.breakpoints.up("lg"));
 
@@ -87,6 +89,14 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       }
     }
   }, [donationInfo, networkId]);
+
+  useEffect(() => {
+    if (isGiveModalOpen) setIsGiveModalOpen(false);
+  }, [giveMutation.isSuccess]);
+
+  useEffect(() => {
+    if (isManageModalOpen) setIsManageModalOpen(false);
+  }, [increaseMutation.isSuccess, decreaseMutation.isSuccess]);
 
   /**
    * Returns the milestone completion:
@@ -272,8 +282,6 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     }
 
     giveMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
-
-    setIsGiveModalOpen(false);
   };
 
   const handleGiveModalCancel: CancelCallback = () => {
@@ -293,19 +301,15 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
 
     if (depositAmountDiff.isGreaterThan(new BigNumber("0"))) {
-      increaseMutation.mutate({ amount: depositAmountDiff.toFixed(), recipient: walletAddress });
+      await increaseMutation.mutate({ amount: depositAmountDiff.toFixed(), recipient: walletAddress });
     } else {
       const subtractionAmount = depositAmountDiff.multipliedBy(new BigNumber("-1"));
-      decreaseMutation.mutate({ amount: subtractionAmount.toFixed(), recipient: walletAddress });
+      await decreaseMutation.mutate({ amount: subtractionAmount.toFixed(), recipient: walletAddress });
     }
-
-    setIsManageModalOpen(false);
   };
 
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
-    decreaseMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
-
-    setIsManageModalOpen(false);
+    await decreaseMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
   };
 
   const handleManageModalCancel = () => {
@@ -403,6 +407,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
         </Box>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
+          isMutationLoading={isMutating}
           eventSource="Grants List"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
@@ -550,6 +555,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
         </Container>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
+          isMutationLoading={isMutating}
           eventSource="Grant Details"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
@@ -560,6 +566,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
         {isUserDonating ? (
           <ManageDonationModal
             isModalOpen={isManageModalOpen}
+            isMutationLoading={isMutating}
             eventSource={"Grant Details"}
             submitEdit={handleEditModalSubmit}
             submitWithdraw={handleWithdrawModalSubmit}

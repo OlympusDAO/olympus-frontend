@@ -53,8 +53,11 @@ export const useDonationInfo = () => {
       // Set default return value
       const donationInfo: IUserDonationInfo[] = [];
 
-      // If there's no contract (i.e. on a non-ETH network), return the default value
-      if (!contract) return donationInfo;
+      // If there's no contract (i.e. on a non-ETH network), throw error
+      if (!contract)
+        throw new Error(
+          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+        );
 
       // Get set of all a user's deposits and begin to iterate through them
       const allDeposits: [string[], BigNumber[]] = await contract.getAllDeposits(address);
@@ -129,7 +132,10 @@ export const useRedeemableBalance = (address: string) => {
       queryAssertion([address, networkId], redeemableBalanceQueryKey(address, networkId));
 
       // If no contract is established throw an error to switch to ETH
-      if (!contract) throw new Error(t`Please switch to the Ethereum network`);
+      if (!contract)
+        throw new Error(
+          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+        );
 
       // Set default redeemable balance value
       let redeemableBalance = BigNumber.from("0");
@@ -177,7 +183,10 @@ export const useRecipientInfo = (address: string) => {
       queryAssertion([address, networkId], recipientInfoQueryKey(address, networkId));
 
       // If no contract object was successfully created, tell the user to switch to ETH
-      if (!contract) throw new Error(t`Please switch to the Ethereum network`);
+      if (!contract)
+        throw new Error(
+          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+        );
 
       // Create recipient info object with default values
       const recipientInfo: IUserRecipientInfo = {
@@ -247,7 +256,10 @@ export const useTotalDonated = (address: string) => {
       queryAssertion([address, networkId], totalDonatedQueryKey(address, networkId));
 
       // If no contract object was successfully created, tell the user to switch to ETH
-      if (!contract) throw new Error(t`Please switch to the Ethereum network`);
+      if (!contract)
+        throw new Error(
+          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+        );
 
       // Default values for totalRedeemed and totalDonated
       let totalRedeemed = BigNumber.from("0");
@@ -315,7 +327,10 @@ export const useDonorNumbers = (address: string) => {
       queryAssertion([address, networkId], donorNumbersQueryKey(address, networkId));
 
       // If no contract object was successfully created, tell the user to switch to ETH
-      if (!contract) throw new Error(t`Please switch to the Ethereum network`);
+      if (!contract)
+        throw new Error(
+          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+        );
 
       // Initialize donorAddresses and donationsToAddress
       const donorAddresses: IDonorAddresses = {};

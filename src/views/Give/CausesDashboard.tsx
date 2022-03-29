@@ -4,7 +4,7 @@ import { t, Trans } from "@lingui/macro";
 import { Container, Grid, Typography, Zoom } from "@material-ui/core";
 import { Paper, TertiaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useUIDSeed } from "react-uid";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
 import { useAppDispatch } from "src/hooks";
@@ -22,6 +22,12 @@ export default function CausesDashboard() {
   const { projects } = data;
 
   const giveMutation = useGive();
+
+  const isMutating = giveMutation.isLoading;
+
+  useEffect(() => {
+    if (isCustomGiveModalOpen) setIsCustomGiveModalOpen(false);
+  }, [giveMutation.isSuccess]);
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
@@ -54,9 +60,7 @@ export default function CausesDashboard() {
     }
 
     const amount = depositAmount.toFixed();
-    giveMutation.mutate({ amount: amount, recipient: walletAddress });
-
-    setIsCustomGiveModalOpen(false);
+    await giveMutation.mutate({ amount: amount, recipient: walletAddress });
   };
 
   const handleCustomGiveModalCancel: CancelCallback = () => {
@@ -92,6 +96,7 @@ export default function CausesDashboard() {
         </Grid>
         <RecipientModal
           isModalOpen={isCustomGiveModalOpen}
+          isMutationLoading={isMutating}
           eventSource="Custom Recipient Button"
           callbackFunc={handleCustomGiveModalSubmit}
           cancelFunc={handleCustomGiveModalCancel}
