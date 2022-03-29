@@ -102,13 +102,11 @@ exports[`<ChooseBondV2/> should render component 1`] = `
               class="MuiBox-root MuiBox-root-10 help-text"
               style="display: none;"
             >
-              <em>
-                <p
-                  class="MuiTypography-root MuiTypography-body2"
-                >
-                  Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as sOHM or gOHM at the end of the term.
-                </p>
-              </em>
+              <p
+                class="MuiTypography-root MuiTypography-body2"
+              >
+                Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as sOHM or gOHM at the end of the term.
+              </p>
             </div>
           </div>
         </div>
