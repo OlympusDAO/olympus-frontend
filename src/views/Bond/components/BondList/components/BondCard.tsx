@@ -3,26 +3,25 @@ import { Box, Link, SvgIcon, Typography } from "@material-ui/core";
 import { TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
 import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
-import { BONDS } from "src/constants/bonds";
-import { useLiveBondData } from "src/views/Bond/hooks/useLiveBondData";
+import { Bond } from "src/helpers/bonds/Bond";
+import { useBondData } from "src/views/Bond/hooks/useBondData";
 
-import { BondDiscount } from "./BondDiscount";
-import { BondDuration } from "./BondDuration";
-import { BondPrice } from "./BondPrice";
+import { BondDiscount } from "../../BondDiscount";
+import { BondDuration } from "../../BondDuration";
+import { BondPrice } from "../../BondPrice";
 
-export const BondCard: React.VFC<{ id: string; isInverseBond?: boolean }> = ({ id, isInverseBond = false }) => {
-  const bond = BONDS[id];
-  const info = useLiveBondData(id).data;
+export const BondCard: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = props => {
+  const info = useBondData(props.bond).data;
 
   return (
-    <Box id={`${id}--bond`}>
+    <Box id={props.bond.id + `--bond`}>
       <Box display="flex" alignItems="center" mb="16px">
-        <TokenStack tokens={bond.quoteToken.icons} />
+        <TokenStack tokens={props.bond.quoteToken.icons} />
 
         <Box display="flex" flexDirection="column" ml="8px">
-          <Typography>{bond.quoteToken.name}</Typography>
+          <Typography>{props.bond.quoteToken.name}</Typography>
 
-          <Link href={bond.quoteToken.purchaseUrl} target="_blank">
+          <Link href={props.bond.quoteToken.purchaseUrl} target="_blank">
             <Box display="flex" alignItems="center">
               <Typography>
                 <Trans>Get Asset</Trans>
@@ -41,7 +40,9 @@ export const BondCard: React.VFC<{ id: string; isInverseBond?: boolean }> = ({ i
           <Trans>Price</Trans>
         </Typography>
 
-        <BondPrice price={info?.price} />
+        <Typography>
+          <BondPrice price={info?.price} />
+        </Typography>
       </Box>
 
       <Box display="flex" justifyContent="space-between" mt="8px">
@@ -49,20 +50,22 @@ export const BondCard: React.VFC<{ id: string; isInverseBond?: boolean }> = ({ i
           <Trans>Discount</Trans>
         </Typography>
 
-        <BondDiscount discount={info?.discount} />
+        <Typography>
+          <BondDiscount discount={info?.discount} />
+        </Typography>
       </Box>
 
-      {isInverseBond && (
+      {props.isInverseBond && (
         <Box display="flex" justifyContent="space-between" mt="8px">
           <Typography>
             <Trans>Payout</Trans>
           </Typography>
 
-          <Typography>{bond.baseToken.name}</Typography>
+          <Typography>{props.bond.baseToken.name}</Typography>
         </Box>
       )}
 
-      {!isInverseBond && (
+      {!props.isInverseBond && (
         <Box display="flex" justifyContent="space-between" mt="8px">
           <Typography>
             <Trans>Duration</Trans>
@@ -73,11 +76,14 @@ export const BondCard: React.VFC<{ id: string; isInverseBond?: boolean }> = ({ i
       )}
 
       <Box mt="16px">
-        <Link component={NavLink} to={isInverseBond ? `/bonds/inverse/${id}` : `/bonds/${id}`}>
+        <Link
+          component={NavLink}
+          to={props.isInverseBond ? `/bonds/inverse/${props.bond.id}` : `/bonds/${props.bond.id}`}
+        >
           <TertiaryButton fullWidth>
-            {isInverseBond
-              ? `${t`Bond`} ${bond.quoteToken.name} ${t`for`} ${bond.baseToken.name}`
-              : `${t`Bond`} ${bond.quoteToken.name}`}
+            {props.isInverseBond
+              ? `${t`Bond`} ${props.bond.quoteToken.name} ${t`for`} ${props.bond.baseToken.name}`
+              : `${t`Bond`} ${props.bond.quoteToken.name}`}
           </TertiaryButton>
         </Link>
       </Box>

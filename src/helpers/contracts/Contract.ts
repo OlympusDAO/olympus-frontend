@@ -1,5 +1,8 @@
 import { Contract as EthersContract, ContractInterface } from "@ethersproject/contracts";
 import { AddressMap } from "src/constants/addresses";
+import { NetworkId } from "src/networkDetails";
+
+import { Providers } from "../providers/Providers/Providers";
 
 export interface ContractConfig<TAddressMap extends AddressMap = AddressMap> {
   name: string;
@@ -42,19 +45,20 @@ export class Contract<TContract extends EthersContract = EthersContract, TAddres
   };
 
   /**
-   * Returns a disconnected ethers version of this contract for a given network.
+   * Returns a ethers version of this contract for a given network.
    *
-   * Disconnected means the contract isn't tied to any provider, that can
-   * be done by calling `connect()` on the contract returned by this function,
-   * that will return a **new instance** of this contract that **is** tied to a provider.
+   * By default, the contract is connected to a StaticJsonRpcProvider.
+   * If you wish to connect the contract to the wallet's signer, simply
+   * call the `connect()` method on the returned contract
    *
    * @param networkId The network you want the contract on
    */
   getEthersContract = (networkId: keyof TAddressMap): TContract => {
     if (!this._ethersContractCache[networkId]) {
       const address = this.getAddress(networkId);
+      const provider = Providers.getStaticProvider(networkId as NetworkId);
 
-      this._ethersContractCache[networkId] = new EthersContract(address, this._abi);
+      this._ethersContractCache[networkId] = new EthersContract(address, this._abi, provider);
     }
 
     return this._ethersContractCache[networkId] as TContract;

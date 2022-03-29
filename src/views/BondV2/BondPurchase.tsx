@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, FormControl, Slide, Typography } from "@material-ui/core";
+import { Box, FormControl, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, Input, PrimaryButton } from "@olympusdao/component-library";
 import { ethers } from "ethers";
@@ -15,6 +15,7 @@ import { AppDispatch } from "src/store";
 import ConnectButton from "../../components/ConnectButton/ConnectButton";
 import { shorten, trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
+import { BondInfoText } from "../Bond/components/BondInfoText";
 import { DisplayBondDiscount } from "./BondV2";
 
 function BondPurchase({
@@ -37,10 +38,6 @@ function BondPurchase({
 
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
-
-  const helpText = inverseBond
-    ? t`Important: Inverse Bonds have 0 vesting time & payout instantly.`
-    : t`Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as sOHM or gOHM at the end of the term.`;
 
   const isBondLoading = useAppSelector(state => {
     if (inverseBond) {
@@ -221,61 +218,65 @@ function BondPurchase({
         )}
       </Box>
 
-      <Slide direction="left" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
-        <Box className="bond-data">
+      <Box className="bond-data">
+        <DataRow
+          title={t`Your Balance`}
+          balance={`${trim(balanceNumber, 4)} ${bond.displayName}`}
+          isLoading={isBondLoading}
+        />
+
+        <DataRow
+          title={t`You Will Get`}
+          balance={
+            inverseBond
+              ? `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ${bond.payoutName}`
+              : `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` +
+                `sOHM (≈${trim(+quantity / bond.priceToken / +currentIndex, 4) || "0"} gOHM)`
+          }
+          tooltip={t`The total amount of payout asset you will recieve from this bond purhcase. (sOHM amount will be higher due to rebasing)`}
+          isLoading={isBondLoading}
+        />
+
+        <DataRow
+          title={t`Max You Can Buy`}
+          balance={
+            inverseBond
+              ? `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} ${bond.payoutName} (≈${
+                  trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
+                } ${bond.displayName})`
+              : `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
+                  trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
+                } ${bond.displayName})`
+          }
+          isLoading={isBondLoading}
+          tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
+        />
+
+        <DataRow
+          title={t`Discount`}
+          balance={<DisplayBondDiscount key={bond.displayName} bond={bond} />}
+          tooltip={t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between OHM's market value and the bond's price.`}
+          isLoading={isBondLoading}
+        />
+
+        {!inverseBond && (
           <DataRow
-            title={t`Your Balance`}
-            balance={`${trim(balanceNumber, 4)} ${bond.displayName}`}
+            title={t`Duration`}
+            balance={bond.duration}
             isLoading={isBondLoading}
+            tooltip={t`The duration of the Bond whereby the bond can be claimed in it’s entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
           />
-          <DataRow
-            title={t`You Will Get`}
-            balance={
-              inverseBond
-                ? `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ${bond.payoutName}`
-                : `${trim(Number(quantity) / bond.priceToken, 4) || "0"} ` +
-                  `sOHM (≈${trim(+quantity / bond.priceToken / +currentIndex, 4) || "0"} gOHM)`
-            }
-            tooltip={t`The total amount of payout asset you will recieve from this bond purhcase. (sOHM amount will be higher due to rebasing)`}
-            isLoading={isBondLoading}
-          />
-          <DataRow
-            title={t`Max You Can Buy`}
-            balance={
-              inverseBond
-                ? `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} ${bond.payoutName} (≈${
-                    trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
-                  } ${bond.displayName})`
-                : `${trim(+bond.maxPayoutOrCapacityInBase, 4) || "0"} sOHM (≈${
-                    trim(+bond.maxPayoutOrCapacityInQuote, 4) || "0"
-                  } ${bond.displayName})`
-            }
-            isLoading={isBondLoading}
-            tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
-          />
-          <DataRow
-            title={t`Discount`}
-            balance={<DisplayBondDiscount key={bond.displayName} bond={bond} />}
-            tooltip={t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between OHM's market value and the bond's price.`}
-            isLoading={isBondLoading}
-          />
-          {!inverseBond && (
-            <DataRow
-              title={t`Duration`}
-              balance={bond.duration}
-              isLoading={isBondLoading}
-              tooltip={t`The duration of the Bond whereby the bond can be claimed in it’s entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
-            />
-          )}
-          {recipientAddress !== address && (
-            <DataRow title={t`Recipient`} balance={shorten(recipientAddress)} isLoading={isBondLoading} />
-          )}
-        </Box>
-      </Slide>
+        )}
+
+        {recipientAddress !== address && (
+          <DataRow title={t`Recipient`} balance={shorten(recipientAddress)} isLoading={isBondLoading} />
+        )}
+      </Box>
+
       <div className="help-text">
-        <em>
-          <Typography variant="body2">{helpText}</Typography>
-        </em>
+        <Typography variant="body2">
+          <BondInfoText isInverseBond={inverseBond} />
+        </Typography>
       </div>
     </Box>
   );

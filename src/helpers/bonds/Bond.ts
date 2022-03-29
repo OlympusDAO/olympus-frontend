@@ -1,23 +1,32 @@
-import { ERC20 } from "src/helpers/contracts/ERC20";
+import { Token } from "src/helpers/contracts/Token";
+
+import { LPToken } from "../contracts/LPToken";
 
 export interface BondConfig {
-  baseToken: ERC20;
-  quoteToken: ERC20;
+  id: string;
+  baseToken: Token;
+  quoteToken: Token | LPToken;
 }
 
 export class Bond {
   /**
-   * The token the user buys from the protocol
+   * Bond market id
    */
-  baseToken: ERC20;
+  id: BondConfig["id"];
 
   /**
-   * The token that the user sells to the protocol
+   * The token the market buys from the protocol
    */
-  quoteToken: ERC20;
+  baseToken: BondConfig["baseToken"];
+
+  /**
+   * The token that the market sells to the protocol
+   */
+  quoteToken: BondConfig["quoteToken"];
 
   constructor(config: BondConfig) {
-    this.quoteToken = config.quoteToken;
+    this.id = config.id;
     this.baseToken = config.baseToken;
+    this.quoteToken = config.quoteToken;
   }
 }

@@ -1,48 +1,48 @@
-// eslint-disable-next-line simple-import-sort/imports
 import "./style.scss";
 
 import { i18n } from "@lingui/core";
-import { ThemeProvider } from "@material-ui/core/styles";
-import { MultifarmProvider } from "@multifarm/widget";
-import { useEffect, useState, useCallback } from "react";
-import { Route, Redirect, Switch, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { useMediaQuery } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import useTheme from "./hooks/useTheme";
-import useBonds from "./hooks/useBonds";
-import { useWeb3Context, useAppSelector } from "./hooks";
-import { getMultiFarmApiKey } from "./helpers/multifarm";
-import { shouldTriggerSafetyCheck } from "./helpers";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
+import { MultifarmProvider } from "@multifarm/widget";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Redirect, Route, Switch, useLocation } from "react-router-dom";
+import projectData from "src/views/Give/projects.json";
+
+import CallToAction from "./components/CallToAction/CallToAction";
+import Messages from "./components/Messages/Messages";
 import MigrationModal from "./components/Migration/MigrationModal";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
-import { calcBondDetails } from "./slices/BondSlice";
-import { loadAppDetails } from "./slices/AppSlice";
-import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
-import { getZapTokenBalances } from "./slices/ZapSlice";
-import { error, info } from "./slices/MessagesSlice";
-
-import { Stake, TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2 } from "./views";
+import NavDrawer from "./components/Sidebar/NavDrawer";
 import Sidebar from "./components/Sidebar/Sidebar";
 import TopBar from "./components/TopBar/TopBar";
-import CallToAction from "./components/CallToAction/CallToAction";
-import NavDrawer from "./components/Sidebar/NavDrawer";
-import Messages from "./components/Messages/Messages";
-import NotFound from "./views/404/NotFound";
-import { dark as darkTheme } from "./themes/dark.js";
-import { light as lightTheme } from "./themes/light.js";
-import { girth as gTheme } from "./themes/girth.js";
-import { multifarmLightTheme, multifarmDarkTheme } from "./themes/multifarm";
-import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import projectData from "src/views/Give/projects.json";
-import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
-import { NetworkId } from "./constants";
-import ProjectInfo from "./views/Give/ProjectInfo";
-import { trackGAEvent } from "./helpers/analytics";
 import Wallet from "./components/TopBar/Wallet";
-import { getAllInverseBonds } from "./slices/InverseBondSlice";
+import { NetworkId } from "./constants";
+import { shouldTriggerSafetyCheck } from "./helpers";
+import { trackGAEvent } from "./helpers/analytics";
+import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
+import { useAppSelector, useWeb3Context } from "./hooks";
+import useBonds from "./hooks/useBonds";
+import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
+import useTheme from "./hooks/useTheme";
+import { calculateUserBondDetails, getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
+import { loadAppDetails } from "./slices/AppSlice";
+import { calcBondDetails } from "./slices/BondSlice";
+import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
+import { getAllInverseBonds } from "./slices/InverseBondSlice";
+import { error, info } from "./slices/MessagesSlice";
+import { getZapTokenBalances } from "./slices/ZapSlice";
+import { dark as darkTheme } from "./themes/dark.js";
+import { girth as gTheme } from "./themes/girth.js";
+import { light as lightTheme } from "./themes/light.js";
+import { multifarmDarkTheme, multifarmLightTheme } from "./themes/multifarm";
+import { ChooseBondV2, Give, Stake, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
+import NotFound from "./views/404/NotFound";
+import { BondModalContainer } from "./views/Bond/components/BondModal/BondModal";
+import ProjectInfo from "./views/Give/ProjectInfo";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -94,7 +94,6 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [theme, toggleTheme] = useTheme();
-  const currentPath = location.pathname + location.hash + location.search;
   const trimmedPath = location.pathname + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -118,9 +117,6 @@ function App() {
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
   const { bonds, expiredBonds } = useBonds(networkId);
-
-  const bondIndexes = useAppSelector(state => state.bondingV2.indexes);
-  const inverseBondIndexes = useAppSelector(state => state.inverseBonds.indexes);
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -421,22 +417,11 @@ function App() {
               <Redirect from="/bonds-v1" to="/bonds" />
 
               <Route path="/bonds">
-                {bondIndexes.map(index => {
-                  return (
-                    <Route exact key={index} path={`/bonds/${index}`}>
-                      <BondV2 index={index} inverseBond={false} />
-                    </Route>
-                  );
-                })}
-                {inverseBondIndexes.map(index => {
-                  return (
-                    <Route exact key={index} path={`/bonds/inverse/${index}`}>
-                      <BondV2 index={index} inverseBond={true} />
-                    </Route>
-                  );
-                })}
                 <ChooseBondV2 />
+                <Route path="/bonds/:id" component={BondModalContainer} />
+                <Route path="/bonds/inverse/:id" component={BondModalContainer} />
               </Route>
+
               <Route exact path="/calculator">
                 <Wallet open={true} component="calculator" />
               </Route>

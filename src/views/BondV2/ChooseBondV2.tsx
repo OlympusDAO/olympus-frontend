@@ -1,6 +1,6 @@
 import "./ChooseBond.scss";
 
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { Box, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import isEmpty from "lodash/isEmpty";
@@ -9,6 +9,7 @@ import { useAppSelector } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { IUserNote } from "src/slices/BondSliceV2";
 
+import { BondInfoText } from "../Bond/components/BondInfoText";
 import { BondList } from "../Bond/components/BondList/BondList";
 import { OHMPrice, TreasuryBalance } from "../TreasuryDashboard/components/Metric/Metric";
 import ClaimBonds from "./ClaimBonds";
@@ -76,15 +77,9 @@ function ChooseBondV2() {
               <BondList />
 
               <Box mt="24px" className="help-text">
-                <em>
-                  <Typography variant="body2">
-                    <Trans>
-                      {currentAction === 1
-                        ? "Important: Inverse bonds allow you to bond your OHM for treasury assets. Vesting time is 0 and payouts are instant."
-                        : "Important: New bonds are auto-staked (accrue rebase rewards) and no longer vest linearly. Simply claim as sOHM or gOHM at the end of the term."}
-                    </Trans>
-                  </Typography>
-                </em>
+                <Typography variant="body2">
+                  <BondInfoText isInverseBond={currentAction === 1} />
+                </Typography>
               </Box>
             </Suspense>
           </Box>

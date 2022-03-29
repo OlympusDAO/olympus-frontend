@@ -3,13 +3,13 @@ import { Box, Divider, Link, Paper, SvgIcon, Typography } from "@material-ui/cor
 import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { BONDS } from "src/constants/bonds";
+import { Bond } from "src/helpers/bonds/Bond";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { BondDiscount } from "src/views/Bond/components/BondList/components/BondDiscount";
-import { useLiveBondData } from "src/views/Bond/hooks/useLiveBondData";
-import { useLiveBondMarkets } from "src/views/Bond/hooks/useLiveBondMarkets";
+import { BondDiscount } from "src/views/Bond/components/BondDiscount";
+import { useActiveBonds } from "src/views/Bond/hooks/useActiveBonds";
+import { useBondData } from "src/views/Bond/hooks/useBondData";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
@@ -117,29 +117,31 @@ const NavContent: React.VFC = () => {
 };
 
 const Bonds: React.VFC = () => {
-  const markets = useLiveBondMarkets().data;
-  const inverseMarkets = useLiveBondMarkets({ isInverseBond: true }).data;
+  const bonds = useActiveBonds().data;
+  const inverseBonds = useActiveBonds({ isInverseBond: true }).data;
 
-  if (!markets || !inverseMarkets) return null;
+  if (!bonds || !inverseBonds) return null;
 
   return (
     <Box paddingLeft="62px" paddingRight="32px" paddingY="8px">
-      {markets.length > 0 && markets.map(id => <BondInfo key={id} id={id} />)}
+      {bonds.length > 0 && bonds.map(bond => <BondInfo key={bond.id} bond={bond} />)}
 
-      {inverseMarkets.length > 0 && inverseMarkets.map(id => <BondInfo key={id} id={id} />)}
+      {inverseBonds.length > 0 && inverseBonds.map(bond => <BondInfo key={bond.id} bond={bond} />)}
     </Box>
   );
 };
 
-const BondInfo: React.VFC<{ id: string }> = ({ id }) => {
-  const bond = BONDS[id];
-  const info = useLiveBondData(id).data;
+const BondInfo: React.VFC<{ bond: Bond }> = props => {
+  const info = useBondData(props.bond).data;
 
   return (
-    <Link component={NavLink} to={`/bonds/${id}`}>
+    <Link component={NavLink} to={`/bonds/${props.bond.id}`}>
       <Box display="flex" alignItems="center" justifyContent="space-between" paddingY="4px">
-        <Typography variant="body2">{bond.quoteToken.name}</Typography>
-        <BondDiscount isSmallText discount={info?.discount} />
+        <Typography variant="body2">{props.bond.quoteToken.name}</Typography>
+
+        <Typography variant="body2">
+          <BondDiscount discount={info?.discount} />
+        </Typography>
       </Box>
     </Link>
   );

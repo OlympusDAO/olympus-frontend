@@ -1,86 +1,88 @@
-import { ERC20 } from "src/helpers/contracts/ERC20";
+import { LPToken } from "src/helpers/contracts/LPToken";
+import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
 
-import { OHM_ADDRESSES, OHM_DAI_LP_ADDRESSES, OHM_LUSD_LP_ADDRESSES, OHM_WETH_LP_ADDRESSES } from "./addresses";
-import { OHM_DAI_LP, OHM_LUSD_LP } from "./pools";
+import {
+  DAI_ADDRESSES,
+  LUSD_ADDRESSES,
+  OHM_ADDRESSES,
+  OHM_DAI_LP_ADDRESSES,
+  OHM_LUSD_LP_ADDRESSES,
+  OHM_WETH_LP_ADDRESSES,
+  WETH_ADDRESSES,
+} from "./addresses";
 
-export const OHM_TOKEN = new ERC20({
+export const OHM_TOKEN = new Token({
   icons: ["OHM"],
   name: "OHM",
   decimals: 9,
   addresses: OHM_ADDRESSES,
   purchaseUrl:
     "https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
-  getPrice: async () => {
-    const provider = Providers.getStaticProvider(NetworkId.MAINNET);
-    const contract = OHM_DAI_LP.getEthersContract(NetworkId.MAINNET).connect(provider);
-
-    const [ohm, dai] = await contract.getReserves();
-
-    return new DecimalBigNumber(dai.div(ohm), 9);
-  },
 });
 
-export const OHM_WETH_LP_TOKEN = new ERC20({
+/**
+ * We have to add the custom pricing func after
+ * the token has been initialised to prevent
+ * circular references during initialisation.
+ */
+OHM_TOKEN.customPricingFunc = async () => {
+  const contract = OHM_DAI_LP_TOKEN.getEthersContract(NetworkId.MAINNET);
+  const [ohm, dai] = await contract.getReserves();
+  return new DecimalBigNumber(dai.div(ohm), 9);
+};
+
+export const WETH_TOKEN = new Token({
+  icons: ["wETH"],
+  name: "WETH",
+  decimals: 18,
+  addresses: WETH_ADDRESSES,
+  purchaseUrl: "",
+});
+
+export const DAI_TOKEN = new Token({
+  icons: ["DAI"],
+  name: "DAI",
+  decimals: 18,
+  addresses: DAI_ADDRESSES,
+  purchaseUrl: "",
+});
+
+export const LUSD_TOKEN = new Token({
+  icons: ["LUSD"],
+  name: "LUSD",
+  decimals: 18,
+  addresses: LUSD_ADDRESSES,
+  purchaseUrl: "",
+});
+
+export const OHM_WETH_LP_TOKEN = new LPToken({
+  decimals: 18,
+  name: "OHM-WETH LP",
   icons: ["OHM", "wETH"],
-  name: "OHM-ETH LP",
-  decimals: 18,
+  tokens: [OHM_TOKEN, WETH_TOKEN],
   addresses: OHM_WETH_LP_ADDRESSES,
-  purchaseUrl: "",
-  async getPrice() {
-    return new DecimalBigNumber("19563703.22", 2);
-  },
+  purchaseUrl:
+    "https://app.sushi.com/add/0x64aa3364F17a4D01c6f1751Fd97C2BD3D7e7f1D5/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
 });
 
-export const OHM_LUSD_LP_TOKEN = new ERC20({
-  icons: ["OHM", "LUSD"],
-  name: "OHM-LUSD LP",
+export const OHM_LUSD_LP_TOKEN = new LPToken({
   decimals: 18,
-  purchaseUrl: "",
+  name: "OHM-LUSD LP",
+  icons: ["OHM", "LUSD"],
+  tokens: [LUSD_TOKEN, OHM_TOKEN],
   addresses: OHM_LUSD_LP_ADDRESSES,
-  async getPrice() {
-    const provider = Providers.getStaticProvider(NetworkId.MAINNET);
-    const contract = OHM_LUSD_LP.getEthersContract(NetworkId.MAINNET).connect(provider);
-
-    const [reserves, totalSupply] = await Promise.all([contract.getReserves(), contract.totalSupply()]);
-    const [lusd, ohm] = reserves;
-
-    const _ohm = new DecimalBigNumber(ohm, OHM_TOKEN.decimals);
-    const _lusd = new DecimalBigNumber(lusd, 18);
-    const _totalSupply = new DecimalBigNumber(totalSupply, 18);
-
-    const ohmPerUsd = await OHM_TOKEN.getPrice(NetworkId.MAINNET);
-
-    const totalValueOfLpInUsd = _ohm.mul(ohmPerUsd, 9).add(_lusd);
-
-    return totalValueOfLpInUsd.div(_totalSupply, 9);
-  },
+  purchaseUrl:
+    "https://app.sushi.com/add/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0/0x64aa3364F17a4D01c6f1751Fd97C2BD3D7e7f1D5",
 });
 
-export const OHM_DAI_LP_TOKEN = new ERC20({
+export const OHM_DAI_LP_TOKEN = new LPToken({
+  decimals: 18,
   name: "OHM-DAI LP",
   icons: ["OHM", "DAI"],
-  decimals: 18,
+  tokens: [OHM_TOKEN, DAI_TOKEN],
+  addresses: OHM_DAI_LP_ADDRESSES,
   purchaseUrl:
     "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x6b175474e89094c44da98b954eedeac495271d0f",
-  addresses: OHM_DAI_LP_ADDRESSES,
-  async getPrice() {
-    const provider = Providers.getStaticProvider(NetworkId.MAINNET);
-    const contract = OHM_DAI_LP.getEthersContract(NetworkId.MAINNET).connect(provider);
-
-    const [reserves, totalSupply] = await Promise.all([contract.getReserves(), contract.totalSupply()]);
-    const [ohm, dai] = reserves;
-
-    const _ohm = new DecimalBigNumber(ohm, 9);
-    const _dai = new DecimalBigNumber(dai, 18);
-    const _totalSupply = new DecimalBigNumber(totalSupply, 18);
-
-    const ohmPerUsd = _dai.div(_ohm, 9);
-
-    const totalValueOfLpInUsd = _ohm.mul(ohmPerUsd, 9).add(_dai);
-
-    return totalValueOfLpInUsd.div(_totalSupply, 9);
-  },
 });
