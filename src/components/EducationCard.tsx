@@ -1,306 +1,154 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Typography } from "@material-ui/core";
+import { t } from "@lingui/macro";
+import { Grid, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, Token } from "@olympusdao/component-library";
-
-const iconStyle = { height: "64px", width: "64px", margin: "auto" };
-const smallIconStyle = { height: "32px", width: "32px", margin: "auto" };
+import { Icon } from "@olympusdao/component-library";
 
 type EducationGraphicProps = {
   quantity: string;
   verb?: string;
   isLoading?: boolean;
-  small?: boolean;
 };
 
-type GenericEducationGraphicProps = {
-  message: string;
+type CompactGraphicProps = {
+  title: string;
+  icon: JSX.Element;
+  subtext: string;
+  isSubtextContentLoading?: boolean;
 };
 
-export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicProps) {
-  return (
-    <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
-      <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="cta-text">
-          <Trans>Wallet</Trans>
-        </Typography>
-      </Box>
-      <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" m={2}>
-        <Token name="sOHM" style={{ fontSize: 64 }} />
-      </Box>
-      <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="message-text">
-          {parseFloat(quantity).toFixed(2)} sOHM {verb}
-        </Typography>
-      </Box>
-    </Box>
-  );
-}
+type LargeGraphicProps = {
+  title: string;
+  icon: JSX.Element;
+  subtitle: string;
+  subtext: string;
+};
 
-export function DepositSohm({ message }: GenericEducationGraphicProps) {
+// ***
+// Compact components without explanatory text
+function CompactGraphic({ title, icon, subtext, isSubtextContentLoading }: CompactGraphicProps) {
   return (
-    <Box display="flex" flexDirection="column" className="sect" style={{ marginBottom: "16px" }}>
-      <Box className="graphic">
-        <Box
-          display="flex"
-          flex="1"
-          alignItems="center"
-          alignContent="center"
-          justifyContent="center"
-          m={2}
-          style={{ marginBottom: "8px" }}
-        >
-          <Token name="sOHM" />
-        </Box>
-        <Box
-          display="flex"
-          flex="1"
-          alignItems="center"
-          justifyContent="center"
-          style={{ marginBottom: "16px", color: "#999999" }}
-        >
-          <Typography variant="body1" className="subtext">
-            <Trans>Wallet</Trans>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Typography variant="h6" align="center">
+          {title}
+        </Typography>
+      </Grid>
+      <Grid item xs={12} container justifyContent="center">
+        {icon}
+      </Grid>
+      <Grid item xs={12}>
+        {isSubtextContentLoading ? (
+          <Skeleton width={120} />
+        ) : (
+          <Typography variant="h6" align="center">
+            {subtext}
           </Typography>
-        </Box>
-      </Box>
-      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
-        <Typography variant="body1" align="center" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          {message}
-        </Typography>
-        <Typography variant="body2" align="center" className="education-message" style={{ lineHeight: "16px" }}>
-          <Trans>
-            Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first
-            step is depositing your sOHM and specifying a recipient.
-          </Trans>
-        </Typography>
-      </Box>
-    </Box>
+        )}
+      </Grid>
+    </Grid>
   );
 }
 
-export function VaultGraphic({ quantity, verb = "deposited", isLoading, small = true }: EducationGraphicProps) {
+export function CompactWallet({ quantity, verb = "retained" }: EducationGraphicProps) {
   return (
-    <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="cta-text">
-          <Trans>Vault</Trans>
-        </Typography>
-      </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <Icon name="vault-lock" htmlColor="#fff" style={small ? smallIconStyle : iconStyle} />
-      </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="message-text">
-          {isLoading ? <Skeleton width={120} /> : `${parseFloat(quantity).toFixed(2)} sOHM ${verb}`}
-        </Typography>
-      </Box>
-    </Box>
+    <CompactGraphic
+      title={t`Wallet`}
+      icon={<Icon name="vault-wallet" fontSize="large" />}
+      subtext={`${parseFloat(quantity).toFixed(2)} sOHM ${verb}`}
+    />
   );
 }
 
-export function LockInVault({ message }: GenericEducationGraphicProps) {
+export function CompactVault({ quantity, verb = "deposited", isLoading }: EducationGraphicProps) {
   return (
-    <Box className="sect" display="flex" flexDirection="column" minWidth={"33%"} style={{ marginBottom: "16px" }}>
-      <Box>
-        <Box
-          display="flex"
-          flex="1"
-          alignItems="center"
-          justifyContent="center"
-          alignContent="center"
-          m={2}
-          style={{ marginBottom: "8px" }}
-        >
-          <Icon name="vault-lock" htmlColor="#fff" fontSize="large" />
-        </Box>
-        <Box
-          display="flex"
-          flex="1"
-          alignItems="center"
-          justifyContent="center"
-          style={{ marginBottom: "16px", color: "#999999" }}
-        >
-          <Typography variant="body1" className="subtext">
-            <Trans>Vault</Trans>
-          </Typography>
-        </Box>
-      </Box>
-      <Box display="flex" flex="1" flexDirection="column" alignContent="left" justifyContent="center" className="text">
-        <Typography variant="body1" align="center" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          {message}
-        </Typography>
-        <Typography variant="body2" align="center" className="education-message" style={{ lineHeight: "16px" }}>
-          <Trans>
-            Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient.
-            You can withdraw or edit your principal sOHM amount at any time.
-          </Trans>
-        </Typography>
-      </Box>
-    </Box>
+    <CompactGraphic
+      title={t`Vault`}
+      icon={<Icon name="vault-lock" fontSize="large" />}
+      subtext={`${parseFloat(quantity).toFixed(2)} sOHM ${verb}`}
+      isSubtextContentLoading={isLoading}
+    />
   );
 }
 
-export function YieldGraphic({ quantity }: EducationGraphicProps) {
+export function CompactYield({ quantity }: EducationGraphicProps) {
   return (
-    <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="cta-text">
-          <Trans>Recipient</Trans>
-        </Typography>
-      </Box>
-      <Box
-        className="yield-graphic"
-        display="flex"
-        flex="1"
-        alignItems="center"
-        justifyContent="center"
-        alignContent="center"
-        m={2}
-      >
-        <Icon name="yield" style={iconStyle} />
-      </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="message-text">
-          {`${t`Receives yield from`} ${parseFloat(quantity).toFixed(2)} sOHM`}
-        </Typography>
-      </Box>
-    </Box>
-  );
-}
-
-// TODO this is currently unused. Remove?
-export function RedeemGraphic({ quantity, isLoading }: EducationGraphicProps) {
-  return (
-    <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="cta-text">
-          <Trans>You</Trans>
-        </Typography>
-      </Box>
-      <Box
-        display="flex"
-        flex="1"
-        alignItems="center"
-        justifyContent="center"
-        alignContent="center"
-        m={2}
-        className="yield-graphic"
-      >
-        <Icon name="yield" style={smallIconStyle} />
-      </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="cta-text">
-          {isLoading ? <Skeleton width={120} /> : `${t`Redeem`} ${parseFloat(quantity).toFixed(2)} ${`sOHM in yield`}`}
-        </Typography>
-      </Box>
-    </Box>
-  );
-}
-
-export function ReceivesYield({ message }: GenericEducationGraphicProps) {
-  return (
-    <Box className="sect" display="flex" flexDirection="column" style={{ marginBottom: "16px" }}>
-      <Box>
-        <Box
-          display="flex"
-          flex="1"
-          alignItems="center"
-          justifyContent="center"
-          alignContent="center"
-          m={2}
-          style={{ marginBottom: "8px" }}
-        >
-          <Icon name="yield" style={smallIconStyle} className="receives-yield-icon" />
-        </Box>
-        <Box
-          display="flex"
-          flex="1"
-          alignItems="center"
-          justifyContent="center"
-          style={{ marginBottom: "16px", color: "#999999" }}
-        >
-          <Typography variant="body1" className="subtext">
-            <Trans>Recipient</Trans>
-          </Typography>
-        </Box>
-      </Box>
-      <Box
-        display="flex"
-        flex="1"
-        flexDirection="column"
-        alignContent="center"
-        justifyContent="center"
-        className="text"
-      >
-        <Typography variant="body1" align="center" className="cta-text" style={{ paddingBottom: "0.33rem" }}>
-          {message}
-        </Typography>
-        <Typography variant="body2" align="center" className="education-message" style={{ lineHeight: "16px" }}>
-          <Trans>
-            The recipient you specified, or the project you selected, will then receive the rebases associated with your
-            sOHM deposit until you withdraw your sOHM principal from the vault.
-          </Trans>
-        </Typography>
-      </Box>
-    </Box>
-  );
-}
-
-export function CurrPositionGraphic({ quantity }: EducationGraphicProps) {
-  return (
-    <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="cta-text">
-          <Trans>Current Deposit</Trans>
-        </Typography>
-      </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <Token name="sOHM" style={{ fontSize: 64 }} />
-      </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="cta-text">
-          {parseFloat(quantity).toFixed(2)} sOHM
-        </Typography>
-      </Box>
-    </Box>
-  );
-}
-
-export function NewPositionGraphic({ quantity }: EducationGraphicProps) {
-  return (
-    <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="cta-text">
-          <Trans>Updated Deposit</Trans>
-        </Typography>
-      </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" m={2}>
-        <Token name="sOHM" style={{ fontSize: 64 }} />
-      </Box>
-      <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
-        <Typography variant="h6" align="center" className="cta-text">
-          {parseFloat(quantity).toFixed(2)} sOHM
-        </Typography>
-      </Box>
-    </Box>
+    <CompactGraphic
+      title={t`Recipient`}
+      icon={<Icon name="vault-recipient" fontSize="large" />}
+      subtext={`${t`Receives yield from`} ${parseFloat(quantity).toFixed(2)} sOHM`}
+    />
   );
 }
 
 export function ArrowGraphic() {
+  // We hard-code 25px so that the arrows are vertically center-aligned with other graphics
   return (
-    <Box className="sect" minWidth={"2%"} style={{ marginTop: "0px", marginBottom: "0px" }}>
-      <Box
-        className="arrow-graphic"
-        display="flex"
-        flex="1"
-        alignItems="center"
-        justifyContent="center"
-        m={2}
-        style={{ height: "20px" }}
-      >
-        <Icon name="arrow-right" style={{ fontSize: 70 }} opacity={0.6} />
-      </Box>
-    </Box>
+    <Grid container style={{ marginTop: "25px" }}>
+      <Grid item xs={12} style={{ textAlign: "center" }}>
+        <Icon name="arrow-right" style={{ fontSize: 70, fill: "#999999" }} opacity={0.6} />{" "}
+      </Grid>
+    </Grid>
+  );
+}
+
+// ***
+// Larger components with explanatory text
+function LargeGraphic({ title, icon, subtitle, subtext }: LargeGraphicProps) {
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={12} container justifyContent="center">
+        {icon}
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="body1" align="center" className="subtext">
+          {title}
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="body1" align="center">
+          {subtitle}
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="body2" align="center">
+          {subtext}
+        </Typography>
+      </Grid>
+    </Grid>
+  );
+}
+
+export function LargeWallet() {
+  return (
+    <LargeGraphic
+      icon={<Icon name="vault-wallet" fontSize="large" />}
+      title={t`Wallet`}
+      subtitle={t`Deposit sOHM from wallet`}
+      subtext={t`Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step is depositing your sOHM and specifying a recipient.`}
+    />
+  );
+}
+
+export function LargeVault() {
+  return (
+    <LargeGraphic
+      icon={<Icon name="vault-lock" fontSize="large" />}
+      title={t`Vault`}
+      subtitle={t`Lock sOHM in vault`}
+      subtext={t`Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient.
+      You can withdraw or edit your principal sOHM amount at any time.`}
+    />
+  );
+}
+
+export function LargeYield() {
+  return (
+    <LargeGraphic
+      icon={<Icon name="vault-recipient" fontSize="large" />}
+      title={t`Recipient`}
+      subtitle={t`Recipient earns sOHM rebases`}
+      subtext={t`The recipient you specified, or the project you selected, will then receive the rebases associated with your
+      sOHM deposit until you withdraw your sOHM principal from the vault.`}
+    />
   );
 }

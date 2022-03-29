@@ -2,12 +2,12 @@ import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Container, Grid, Typography, Zoom } from "@material-ui/core";
-import { Paper, TertiaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useUIDSeed } from "react-uid";
-import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
+import GrantCard, { GrantDetailsMode } from "src/components/GiveProject/GrantCard";
+import { Grant } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useAppDispatch } from "src/hooks";
@@ -17,34 +17,37 @@ import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { error } from "../../slices/MessagesSlice";
-import data from "./projects.json";
+import data from "./grants.json";
 
-export default function CausesDashboard() {
+export default function GrantsDashboard() {
   const location = useLocation();
   const { provider, address, networkId } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
-  const { projects } = data;
+  const grants: Grant[] = data.grants;
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
   const seed = useUIDSeed();
 
-  const renderProjects = useMemo(() => {
-    return projects.map(project => {
-      return (
-        <>
-          <Grid item xs={12}>
-            <ProjectCard key={seed(project.title)} project={project} mode={ProjectDetailsMode.Card} />
-          </Grid>
-        </>
-      );
-    });
-  }, [projects]);
+  const renderGrants = useMemo(() => {
+    let activeGrants = 0;
 
-  const handleCustomGiveButtonClick = () => {
-    setIsCustomGiveModalOpen(true);
-  };
+    const grantElements: JSX.Element[] = grants.map(grant => {
+      if (grant.disabled) return <></>;
+
+      activeGrants++;
+      return <GrantCard key={seed(grant.title)} grant={grant} mode={GrantDetailsMode.Card} />;
+    });
+
+    if (activeGrants > 0) return grantElements;
+
+    return (
+      <Typography variant="body2">
+        <Trans>We don't have any grants open right now, but check back soon!</Trans>
+      </Typography>
+    );
+  }, [grants]);
 
   const handleCustomGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
@@ -97,28 +100,22 @@ export default function CausesDashboard() {
   return (
     <Zoom in={true}>
       <Container>
-        <Grid container justifyContent="center" alignItems="center" spacing={4}>
-          {renderProjects}
+        <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Paper fullWidth>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Typography variant="h4" align="center">
-                    <Trans>Want to give to a different cause?</Trans>
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="body1" align="center">
-                    <Trans>You can direct your yield to a recipient of your choice</Trans>
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} container justifyContent="center">
-                  <TertiaryButton onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
-                    <Trans>Custom Recipient</Trans>
-                  </TertiaryButton>
-                </Grid>
-              </Grid>
-            </Paper>
+            <Typography variant="body1">
+              <Trans>
+                Upon receiving an Olympus Grant, you gain exposure to the Olympus Give ecosystem where your performance
+                is rewarded every 8 hours through the yield your grant generates; you then can also receive support from
+                other Ohmies and this acts as a loop that compounds value and amplifies the reach and growth of your
+                mission.
+              </Trans>
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            {/* Custom padding so that the "no grants" text isn't cut off at the bottom */}
+            <Grid container justifyContent="center" style={{ paddingBottom: "10px" }}>
+              {renderGrants}
+            </Grid>
           </Grid>
         </Grid>
         <RecipientModal
