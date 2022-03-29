@@ -31,7 +31,7 @@ export class DecimalBigNumber {
     if (typeof number === "string") {
       const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
       const stringDecimals = decimals === undefined ? this._inferDecimalAmount(number) : decimals;
-      const formatted = this._omitIrrelevantDecimals(_number, stringDecimals);
+      const formatted = this._setDecimalAmount(_number, stringDecimals);
       this._number = parseUnits(formatted, stringDecimals);
       this._decimals = stringDecimals;
       return;
@@ -44,24 +44,28 @@ export class DecimalBigNumber {
   }
 
   private _inferDecimalAmount(number: string): number {
-    const [, decimals] = number.split(".");
+    const [, decimalsOrUndefined] = number.split(".");
 
-    return decimals?.length || 0;
-  }
-
-  private _omitIrrelevantDecimals(number: string, decimals: number): string {
-    const [integer, _decimals] = number.split(".");
-    const _safeDecimals: string = _decimals || "";
-    const paddedDecimalsRequired: number = decimals > _safeDecimals.length ? decimals - _safeDecimals.length : 0;
-
-    return integer + "." + _safeDecimals.substring(0, decimals) + "0".repeat(paddedDecimalsRequired);
+    return decimalsOrUndefined?.length || 0;
   }
 
   /**
-   * Adds thousands separators to a number string.
+   * Ensures that the number has the expected number of decimal places
+   *
+   * Trims unnecessary decimals places
+   * Or pads decimals if needed
+   *
+   * @param number input number string
+   * @param decimals number of decimal places
    */
-  private _formatNumber(number: string): string {
-    return commify(number);
+  private _setDecimalAmount(number: string, decimals: number): string {
+    const [integer, _decimalsOrUndefined] = number.split(".");
+
+    const _decimals = _decimalsOrUndefined || "";
+
+    const paddedDecimalsRequired = decimals > _decimals.length ? decimals - _decimals.length : 0;
+
+    return integer + "." + _decimals.substring(0, decimals) + "0".repeat(paddedDecimalsRequired);
   }
 
   /**
@@ -70,19 +74,6 @@ export class DecimalBigNumber {
    */
   public toBigNumber(): BigNumber {
     return this._number;
-  }
-
-  /**
-   * Ensures that the number string has the required number of decimal places
-   *
-   * Padding is performed last, in case the given number string has fewer decimal places than required.
-   *
-   * @param number input number string
-   * @param decimals number of decimal places
-   * @returns a number string with padded decimal places
-   */
-  private _fixDecimals(number: string, decimals: number): string {
-    return this._omitIrrelevantDecimals(number, decimals);
   }
 
   /**
@@ -100,28 +91,33 @@ export class DecimalBigNumber {
    * @param args an object containing any of the properties: decimals, trim, format
    * @returns a string version of the number
    */
-  public toString(args: { decimals?: number; trim?: boolean; format?: boolean } = {}): string {
-    if (args.decimals !== undefined && args.decimals < 0)
-      throw new Error("The decimals parameter must be 0 or positive");
+  public toString({
+    decimals,
+    format = false,
+    trim = true,
+  }: { decimals?: number; trim?: boolean; format?: boolean } = {}): string {
+    if (decimals !== undefined && decimals < 0) throw new Error("The decimals parameter must be 0 or positive");
 
-    let formattedString = formatUnits(this._number, this._decimals);
+    let result = formatUnits(this._number, this._decimals);
 
     // Add thousands separators
-    // Default: FALSE
-    if (args.format) formattedString = this._formatNumber(formattedString);
+    if (format) result = commify(result);
 
-    // We default to the number of decimal places specified in the instance
-    // But adjust that if there is an override
-    formattedString = this._fixDecimals(formattedString, args.decimals !== undefined ? args.decimals : this._decimals);
+    // We default to the number of decimal places specified
+    result = this._setDecimalAmount(result, decimals === undefined ? this._decimals : decimals);
 
     // We default to trimming trailing zeroes (and decimal points), unless there is an override
-    // Default: TRUE
-    if (!args || args.trim !== false) formattedString = formattedString.replace(/(?:\.|(\..*?))\.?0*$/, "$1");
+    if (trim) result = result.replace(/(?:\.|(\..*?))\.?0*$/, "$1");
 
-    return formattedString;
+    return result;
   }
 
   /**
+   * @deprecated
+   * Please avoid using this method.
+   * If used for calculations: rather than converting this DecimalBigNumber
+   * "down" to a number, convert the other number "up" to a DecimalBigNumber.
+   *
    * Used when performing approximate calculations with
    * the number where precision __is not__ important.
    */
