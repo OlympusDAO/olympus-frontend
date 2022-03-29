@@ -84,7 +84,6 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                 <>
                   <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
                   <NavItem to="/bonds" icon="bond" label={t`Bond`}>
-                    <p>Highest Return</p>
                     {sortedBonds.map((bond, i) => (
                       <NavItem
                         to={`/bonds/${bond.index}`}
@@ -95,44 +94,17 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                         chipColor={bond.discount && bond.discount < 0 ? "error" : "success"}
                       />
                     ))}
+                    {sortedInverseBonds.map((bond, i) => (
+                      <NavItem
+                        to={`/bonds/inverse/${bond.index}`}
+                        key={i}
+                        onClick={handleDrawerToggle}
+                        label={bond.displayName}
+                        chip={`${bond.discount && trim(bond.discount * 100, 2)}%`}
+                        chipColor={bond.discount && bond.discount < 0 ? "error" : "success"}
+                      />
+                    ))}
                   </NavItem>
-                  {/* <div className="dapp-menu-data discounts">
-                    <div className="bond-discounts">
-                      {sortedInverseBonds.length > 0 && (
-                        <Accordion className="discounts-accordion" square defaultExpanded={true}>
-                          <AccordionSummary
-                            expandIcon={
-                              <ExpandMore className="discounts-expand" style={{ width: "18px", height: "18px" }} />
-                            }
-                          >
-                            <Typography variant="body2">
-                              <Trans>Inverse Bonds</Trans>
-                            </Typography>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            {sortedInverseBonds.map((bond, i) => {
-                              return (
-                                <Link
-                                  component={NavLink}
-                                  to={`/bonds/inverse/${bond.index}`}
-                                  key={i}
-                                  className={"bond"}
-                                  onClick={handleDrawerToggle}
-                                >
-                                  <Typography variant="body2">
-                                    {bond.displayName}
-                                    <span className="bond-pair-roi">
-                                      <DisplayBondDiscount key={bond.index} bond={bond} />
-                                    </span>
-                                  </Typography>
-                                </Link>
-                              );
-                            })}
-                          </AccordionDetails>
-                        </Accordion>
-                      )}
-                    </div>
-                  </div> */}
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
 
                   {/* NOTE (appleseed-olyzaps): OlyZaps disabled until v2 contracts */}
