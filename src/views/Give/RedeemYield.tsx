@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
-import { NetworkId, OHM_DECIMAL_PLACES } from "src/constants";
+import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -66,17 +66,14 @@ export default function RedeemYield() {
 
   const stakingRebasePercentage = (stakingRebase ? new DecimalBigNumber(stakingRebase.toString()) : ZERO_NUMBER).mul(
     new DecimalBigNumber("100"),
-    OHM_DECIMAL_PLACES,
   );
 
   const nextRewardValue = (stakingRebase ? new DecimalBigNumber(stakingRebase.toString()) : ZERO_NUMBER).mul(
     new DecimalBigNumber(totalDeposit.toString()),
-    OHM_DECIMAL_PLACES,
   );
 
   const fiveDayRateValue = (fiveDayRate ? new DecimalBigNumber(fiveDayRate.toString()) : ZERO_NUMBER).mul(
     new DecimalBigNumber("100"),
-    OHM_DECIMAL_PLACES,
   );
 
   const isProject = projectMap.get(address);
@@ -193,8 +190,8 @@ export default function RedeemYield() {
               <Box>
                 <Typography variant="h5" align="center">
                   {totalDeposit
-                    .mul(new DecimalBigNumber("100"), OHM_DECIMAL_PLACES)
-                    .div(getRecipientGoal(address), OHM_DECIMAL_PLACES)
+                    .mul(new DecimalBigNumber("100"))
+                    .div(getRecipientGoal(address))
                     .toString({ decimals: DECIMAL_PLACES, format: true })}
                   %
                 </Typography>

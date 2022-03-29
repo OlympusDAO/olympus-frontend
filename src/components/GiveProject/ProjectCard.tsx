@@ -12,7 +12,7 @@ import Countdown from "react-countdown";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { NetworkId, OHM_DECIMAL_PLACES } from "src/constants";
+import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
@@ -166,9 +166,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     const totalDonatedNumber = new DecimalBigNumber(totalDonated);
 
     setGoalCompletion(
-      totalDonatedNumber
-        .mul(new DecimalBigNumber("100"), OHM_DECIMAL_PLACES)
-        .div(new DecimalBigNumber(depositGoal.toString()), OHM_DECIMAL_PLACES),
+      totalDonatedNumber.mul(new DecimalBigNumber("100")).div(new DecimalBigNumber(depositGoal.toString())),
     );
   }, [donorCountIsLoading, recipientInfoIsLoading, totalDonatedIsLoading]);
 

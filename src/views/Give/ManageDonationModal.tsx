@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project, RecordType } from "src/components/GiveProject/project.type";
-import { NetworkId, OHM_DECIMAL_PLACES } from "src/constants";
+import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
@@ -428,8 +428,8 @@ export function ManageDonationModal({
             <Typography variant="h5" align="center">
               {project
                 ? new DecimalBigNumber(totalDebt)
-                    .mul(new DecimalBigNumber("100"), OHM_DECIMAL_PLACES)
-                    .div(depositGoalNumber, OHM_DECIMAL_PLACES)
+                    .mul(new DecimalBigNumber("100"))
+                    .div(depositGoalNumber)
                     .toString({ decimals: DECIMAL_PLACES, format: true }) + "%"
                 : "N/A"}
             </Typography>
