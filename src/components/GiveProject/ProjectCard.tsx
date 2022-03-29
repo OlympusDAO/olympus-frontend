@@ -158,7 +158,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   useEffect(() => {
     // We calculate the level of goal completion here, so that it is updated whenever one of the dependencies change
-    if (donorCountIsLoading || recipientInfoIsLoading || totalDonatedIsLoading) {
+    if (recipientInfoIsLoading || totalDonatedIsLoading) {
       setGoalCompletion(ZERO_NUMBER);
       return;
     }
@@ -168,7 +168,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     setGoalCompletion(
       totalDonatedNumber.mul(new DecimalBigNumber("100")).div(new DecimalBigNumber(depositGoal.toString())),
     );
-  }, [donorCountIsLoading, recipientInfoIsLoading, totalDonatedIsLoading]);
+  }, [recipientInfoIsLoading, totalDonatedIsLoading, totalDonated, depositGoal]);
 
   useEffect(() => {
     setIsUserDonating(false);
