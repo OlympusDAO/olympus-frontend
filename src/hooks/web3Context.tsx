@@ -114,7 +114,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       if (!rawProvider.on) {
         return;
       }
-      rawProvider.on("accountsChanged", async (accounts: string[]) => {
+      rawProvider.on("accountsChanged", async () => {
         setTimeout(() => window.location.reload(), 1);
       });
 
