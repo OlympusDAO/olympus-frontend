@@ -1,37 +1,28 @@
-import { t, Trans } from "@lingui/macro";
-import { Box, Grid, useMediaQuery } from "@material-ui/core";
+import { Trans } from "@lingui/macro";
+import { Grid } from "@material-ui/core";
 import { Paper, TertiaryButton } from "@olympusdao/component-library";
-
-import { DepositSohm, LockInVault, ReceivesYield } from "../../components/EducationCard";
+import { LargeVault, LargeWallet, LargeYield } from "src/components/EducationCard";
 
 export function GiveInfo() {
-  const isLargeScreen = useMediaQuery("(min-width: 1024px)");
-
   return (
     <>
-      <Paper className={"ohm-card secondary"}>
-        {/* On large screens, we want educational information to be horizontal. 
-            The style override works around an inability to override the grid container */}
-        <Grid container className={"give-info"} style={isLargeScreen ? { flexWrap: "nowrap" } : undefined}>
-          <Grid item className="give-info-deposit-box">
-            <DepositSohm message={t`Deposit sOHM from wallet`} />
+      <Paper fullWidth>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={4}>
+            <LargeWallet />
           </Grid>
-          <Grid item className="give-info-vault-box">
-            <LockInVault message={t`Lock sOHM in vault`} />
+          <Grid item xs={12} md={4}>
+            <LargeVault />
           </Grid>
-          <Grid item className="give-info-yield-box">
-            <ReceivesYield message={t`Recipient earns sOHM rebases`} />
+          <Grid item xs={12} md={4}>
+            <LargeYield />
+          </Grid>
+          <Grid item xs={12} container justifyContent="center">
+            <TertiaryButton href="https://docs.olympusdao.finance/main/basics/basics/olympusgive" target="_blank">
+              <Trans>Learn More</Trans>
+            </TertiaryButton>
           </Grid>
         </Grid>
-        <Box className="button-box">
-          <TertiaryButton
-            href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
-            target="_blank"
-            className="learn-more-button"
-          >
-            <Trans>Learn More</Trans>
-          </TertiaryButton>
-        </Box>
       </Paper>
     </>
   );

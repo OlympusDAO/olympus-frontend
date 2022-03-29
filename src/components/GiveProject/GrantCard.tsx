@@ -1,19 +1,20 @@
-import "./ProjectCard.scss";
+import "react-step-progress-bar/styles.css";
+// We import this AFTER the styles for react-step-progress-bar, so that we can override it
+import "./GrantCard.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQuery } from "@material-ui/core";
+import { Box, Container, Grid, Link, Typography, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
-import { toInteger } from "lodash";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
-import Countdown from "react-countdown";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { ProgressBar, Step } from "react-step-progress-bar";
 import { NetworkId } from "src/constants";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
@@ -36,33 +37,16 @@ import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/Mana
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { error } from "../../slices/MessagesSlice";
-import { Project } from "./project.type";
-import { countDecimals } from "./utils";
+import { Grant, RecordType } from "./project.type";
 
-type CountdownProps = {
-  total: number;
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-  milliseconds: number;
-  completed: boolean;
-  formatted: {
-    days: string;
-    hours: string;
-    minutes: string;
-    seconds: string;
-  };
-};
-
-export enum ProjectDetailsMode {
+export enum GrantDetailsMode {
   Card = "Card",
   Page = "Page",
 }
 
-type ProjectDetailsProps = {
-  project: Project;
-  mode: ProjectDetailsMode;
+type GrantDetailsProps = {
+  grant: Grant;
+  mode: GrantDetailsMode;
 };
 
 type State = {
@@ -71,10 +55,10 @@ type State = {
   app: IAppData;
 };
 
-export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
+export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const location = useLocation();
   const { provider, address, connected, connect, networkId } = useWeb3Context();
-  const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
+  const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState("");
@@ -151,168 +135,114 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     setDonationId(0);
   }, [networkId]);
 
-  // The JSON file returns a string, so we convert it
-  const finishDateObject = finishDate ? new Date(finishDate) : null;
+  /**
+   * Returns the milestone completion:
+   * - 0: no milestones completed
+   * - Otherwise, the completed milestone is indexed from 1
+   */
+  const getLatestMilestoneCompleted = (): number => {
+    return !latestMilestoneCompleted ? 0 : latestMilestoneCompleted;
+  };
 
-  const remainingStyle = { color: "#999999" };
+  const renderMilestoneCompletion = (): JSX.Element => {
+    if (milestones === undefined || milestones.length === 0) {
+      return <Typography>No milestones are defined for this grant.</Typography>;
+    }
 
-  // Removed for now. Will leave this function in for when we re-add this feature
-  const countdownRendererDetailed = ({ completed, formatted }: CountdownProps) => {
-    if (completed)
-      return (
-        <>
-          <Grid container spacing={1} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Icon name="time-remaining" />
-            </Grid>
-            <Grid item>
-              <Typography variant="h6">
-                <strong>00:00:00</strong>
-              </Typography>
-            </Grid>
-            <Grid>
-              <Typography variant="body1" style={remainingStyle}>
-                <Trans>Completed</Trans>
-              </Typography>
-            </Grid>
-          </Grid>
-        </>
-      );
+    // Expects a percentage between 0 and 100
+    // Examples for 2 milestones:
+    // Start: getLatestMilestoneCompleted() = 0, percentComplete should equal 0
+    // Milestone 1 complete: getLatestMilestoneCompleted() = 1, percentComplete should equal 50
+    const percentComplete = (100 * getLatestMilestoneCompleted()) / milestones.length;
+    const accomplishedStyle = {
+      color: `${theme.palette.text.primary}`,
+    };
+    const unaccomplishedStyle = {
+      color: `${theme.palette.text.secondary}`,
+    };
 
     return (
       <>
-        <>
-          <Grid container spacing={1} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Icon name="time-remaining" />
-            </Grid>
-            <Grid item>
-              <Tooltip
-                title={!finishDateObject ? "" : t`Finishes at ${finishDateObject.toLocaleString()} in your timezone`}
-                arrow
-              >
-                <Typography variant="h6">
-                  <strong>
-                    {formatted.days}:{formatted.hours}:{formatted.minutes}
-                  </strong>
-                </Typography>
-              </Tooltip>
-            </Grid>
-            <Grid item>
-              <Typography variant="body1" style={remainingStyle}>
-                <Trans>Remaining</Trans>
-              </Typography>
-            </Grid>
-          </Grid>
-        </>
+        <div className={`project-milestone-progress`}>
+          <ProgressBar
+            percent={percentComplete}
+            unfilledBackground="rgb(172, 177, 185)"
+            filledBackground="linear-gradient(269deg, rgba(112, 139, 150, 1) 0%, rgba(247, 251, 231, 1) 100%)"
+          >
+            {
+              // We add a dummy step at the start, so that steps are right-aligned
+              <Step key={`step-0`}>{({}) => <></>}</Step>
+            }
+            {milestones.map((value, index) => {
+              const humanIndex: number = index + 1;
+              const currentMilestonePercentage: number = (100 * humanIndex) / milestones.length;
+              const milestoneAccomplished: boolean = percentComplete >= currentMilestonePercentage;
+
+              return (
+                <Step key={`step-${humanIndex}`}>
+                  {({}) => (
+                    <div className="step-label" style={milestoneAccomplished ? accomplishedStyle : unaccomplishedStyle}>
+                      {new BigNumber(value.amount).toFormat(0)}
+                    </div>
+                  )}
+                </Step>
+              );
+            })}
+          </ProgressBar>
+        </div>
       </>
     );
   };
 
-  const getGoalCompletion = (): string => {
-    if (!depositGoal) return "0";
-    if (recipientInfoIsLoading) return "0"; // This shouldn't be needed, but just to be sure...
-    if (!totalDonated) return "0";
-
-    const totalDonatedNumber = new BigNumber(totalDonated);
-
-    return totalDonatedNumber.div(depositGoal).multipliedBy(100).toFixed(2);
-  };
-
-  const renderGoalCompletion = (): JSX.Element => {
-    const goalCompletion = getGoalCompletion();
-    const hasDecimals = countDecimals(goalCompletion) !== 0;
-    const formattedGoalCompletion = hasDecimals ? goalCompletion : toInteger(goalCompletion);
-
-    if (depositGoal === 0) return <></>;
+  /**
+   * Returns the details of the next milestone.
+   *
+   * If the last milestone has been completed, display that.
+   */
+  const renderMilestoneDetails = (): JSX.Element => {
+    if (milestones === undefined || milestones.length === 0) {
+      return <></>;
+    }
 
     return (
-      <>
-        <Grid container alignItems="center" spacing={1}>
-          <Grid item>
-            <Icon name="sohm-yield-goal" />
-          </Grid>
-          <Grid item>
-            <Tooltip
-              title={
-                !address
-                  ? t`Connect your wallet to view the fundraising progress`
-                  : `${totalDonated} of ${depositGoal} sOHM raised`
-              }
-              arrow
-            >
-              <Typography variant="body1">
-                <strong>{recipientInfoIsLoading ? <Skeleton width={20} /> : formattedGoalCompletion}</strong>
-                <Trans>% of goal</Trans>
-              </Typography>
-            </Tooltip>
-          </Grid>
-        </Grid>
-      </>
-    );
-  };
-
-  const renderGoalCompletionDetailed = (): JSX.Element => {
-    const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
-    const formattedTotalDonated = new BigNumber(parseFloat(totalDonated).toFixed(2)).toFormat();
-
-    if (depositGoal === 0) return <></>;
-
-    return (
-      <>
-        <Grid container alignItems="flex-end">
-          <Grid item xs={5}>
-            <Grid container justifyContent="flex-start" alignItems="center" spacing={1}>
-              <Grid item>
-                <Icon name="sohm-yield" />
-              </Grid>
-              <Grid item className="metric">
-                {recipientInfoIsLoading ? <Skeleton /> : formattedTotalDonated}
-              </Grid>
-            </Grid>
-            <Grid item className="subtext">
-              <Trans>sOHM Yield</Trans>
-            </Grid>
-          </Grid>
-          <Grid item xs={2} />
-          <Grid item xs={5}>
-            <Grid container direction="column" alignItems="flex-end">
-              <Grid item>
-                <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
-                  <Grid item>
-                    <Icon name="sohm-yield-goal" />
-                  </Grid>
-                  <Grid item className="metric">
-                    {new BigNumber(depositGoal).toFormat()}
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item className="subtext">
-                <Trans>sOHM Yield Goal</Trans>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} className="project-goal-progress">
-            <LinearProgress variant="determinate" value={goalProgress} />
-          </Grid>
-        </Grid>
-      </>
+      <div className="milestone-deliverables">
+        {milestones.map((value, index) => {
+          return (
+            <div key={`milestone-${index}`}>
+              <Typography variant="h6">{t`Milestone ${index + 1}: ${new BigNumber(value.amount).toFormat(
+                0,
+              )} sOHM`}</Typography>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: MarkdownIt({ html: true }).render(
+                    value.description ? value.description : "No milestone information.",
+                  ),
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
     );
   };
 
   const renderDepositData = (): JSX.Element => {
+    const totalMilestoneAmount: BigNumber = !milestones
+      ? new BigNumber(0)
+      : milestones.reduce((total, value) => total.plus(value.amount), new BigNumber(0));
+
     return (
       <>
         <Grid container spacing={3} alignItems="flex-end">
           <Grid item xs={5}>
             <Grid container direction="column" alignItems="flex-start">
               <Grid item>
-                <Grid container justifyContent="flex-start" alignItems="center" spacing={1}>
+                <Grid container justifyContent="flex-start" alignItems="center" wrap="nowrap" spacing={1}>
                   <Grid item>
                     <Icon name="donors" />
                   </Grid>
                   <Grid item className="metric">
-                    {donorCountIsLoading ? <Skeleton /> : donorCount}
+                    {donorCountIsLoading ? <Skeleton className="skeleton-inline" /> : donorCount}
                   </Grid>
                 </Grid>
               </Grid>
@@ -329,14 +259,18 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="sohm-total" />
                   </Grid>
                   <Grid item className="metric">
-                    {recipientInfoIsLoading ? <Skeleton /> : <strong>{parseFloat(totalDebt).toFixed(2)}</strong>}
+                    {totalMilestoneAmount.toFormat(0)}
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                <Trans>Total Active sOHM</Trans>
+                <Trans>Total Milestone Amount</Trans>
               </Grid>
             </Grid>
+          </Grid>
+          <Box width="100%" />
+          <Grid item xs={12}>
+            {renderMilestoneCompletion()}
           </Grid>
         </Grid>
       </>
@@ -352,7 +286,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     // For the moment, we only display the first photo
     else {
       imageElement = (
-        <Link href={`#/give/projects/${project.slug}`} onClick={() => handleProjectDetailsButtonClick("Image")}>
+        <Link href={`#/give/grants/${grant.slug}`} onClick={() => handleGrantDetailsButtonClick("Image")}>
           <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
         </Link>
       );
@@ -527,10 +461,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
    *
    * Primarily, this will record the event in Google Analytics.
    */
-  const handleProjectDetailsButtonClick = (source: string) => {
+  const handleGrantDetailsButtonClick = (source: string) => {
     ReactGA.event({
       category: "Olympus Give",
-      action: "View Project",
+      action: "View Grants Project",
       label: title,
       dimension1: address ?? "unknown",
       dimension2: source,
@@ -538,33 +472,19 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const getCardContent = () => {
+    /**
+     * NOTE: We want the project title to be positioned above the image when the breakpoint < "lg",
+     * but to the right of the image when the breakpoint = "lg". There was no clear way to do this
+     * using the Grid (flexbox) component, so we check for the breakpoint manually and show/hide
+     * accordingly. Happy to be proven wrong.
+     */
     return (
       <>
-        <Grid container key={title} spacing={3}>
-          {!isBreakpointLarge ? (
-            <Grid item xs={12}>
-              <Link
-                href={`#/give/projects/${project.slug}`}
-                onClick={() => handleProjectDetailsButtonClick("Title Link")}
-              >
-                <Typography variant="h4">
-                  <strong>{getTitle()}</strong>
-                </Typography>
-              </Link>
-            </Grid>
-          ) : (
-            <></>
-          )}
-          <Grid item xs={12} sm={5} lg={4}>
-            {getProjectImage()}
-          </Grid>
-          <Grid item container xs alignContent="space-between">
-            {isBreakpointLarge ? (
+        <Box style={{ width: "100%", borderRadius: "10px", marginBottom: "60px" }}>
+          <Grid container key={title} spacing={3}>
+            {!isBreakpointLarge ? (
               <Grid item xs={12}>
-                <Link
-                  href={`#/give/projects/${project.slug}`}
-                  onClick={() => handleProjectDetailsButtonClick("Title Link")}
-                >
+                <Link href={`#/give/grants/${grant.slug}`} onClick={() => handleGrantDetailsButtonClick("Title Link")}>
                   <Typography variant="h4">
                     <strong>{getTitle()}</strong>
                   </Typography>
@@ -573,48 +493,55 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             ) : (
               <></>
             )}
-            <Grid item xs={12}>
-              <Typography variant="body1" className="project-content">
-                <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
-              </Typography>
+            <Grid item xs={12} sm={5} lg={4}>
+              {getProjectImage()}
             </Grid>
-            <Grid item xs />
-            <Grid item container xs={12} alignItems="flex-end">
-              <Grid item xs={12} lg={8}>
-                {renderGoalCompletion()}
+            {/* We shove the title, details and buttons into another container, so they move together in relation to the image. */}
+            <Grid item container xs alignContent="space-between">
+              {isBreakpointLarge ? (
+                <Grid item xs={12}>
+                  <Link
+                    href={`#/give/grants/${grant.slug}`}
+                    onClick={() => handleGrantDetailsButtonClick("Title Link")}
+                  >
+                    <Typography variant="h4">
+                      <strong>{getTitle()}</strong>
+                    </Typography>
+                  </Link>
+                </Grid>
+              ) : (
+                <></>
+              )}
+              <Grid item xs={12}>
+                <Typography variant="body1" style={{ lineHeight: "20px" }}>
+                  <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
+                </Typography>
               </Grid>
-              <Grid item xs={12} lg={4}>
-                <Link
-                  href={`#/give/projects/${project.slug}`}
-                  onClick={() => handleProjectDetailsButtonClick("View Details Button")}
-                >
-                  <PrimaryButton fullWidth>
-                    <Trans>View Details</Trans>
-                  </PrimaryButton>
-                </Link>
+              <Grid item container xs={12}>
+                <Grid item xs />
+                <Grid item xs={12} lg={4}>
+                  <Link
+                    href={`#/give/grants/${grant.slug}`}
+                    onClick={() => handleGrantDetailsButtonClick("View Details Button")}
+                  >
+                    <PrimaryButton fullWidth>
+                      <Trans>View Details</Trans>
+                    </PrimaryButton>
+                  </Link>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </Box>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
-          eventSource="Project List"
+          eventSource="Grants List"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
-          project={project}
+          project={grant}
           key={title}
         />
       </>
-    );
-  };
-
-  const renderCountdownDetailed = () => {
-    if (!finishDateObject) return <></>;
-
-    return (
-      <div className="project-countdown">
-        <Countdown date={finishDateObject} renderer={countdownRendererDetailed} />
-      </div>
     );
   };
 
@@ -629,7 +556,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                   topLeft={
                     <Grid container spacing={2} alignItems="center">
                       <Grid item>
-                        <Link href={"#/give/"}>
+                        <Link href={"#/give/grants"}>
                           <ChevronLeft viewBox="6 6 12 12" style={{ width: "12px", height: "12px" }} />
                         </Link>
                       </Grid>
@@ -638,39 +565,32 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                       </Grid>
                     </Grid>
                   }
+                  fullWidth
                 >
                   <Grid container spacing={2}>
                     <Grid item xs={12} sm={6} lg={12}>
                       {getProjectImage()}
                     </Grid>
-                    <Grid item xs>
-                      <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                          {renderDepositData()}
-                        </Grid>
-                        <Grid item xs={12}>
-                          {renderGoalCompletionDetailed()}
-                        </Grid>
-                        <Grid item xs={12}>
-                          {!connected ? (
-                            <PrimaryButton onClick={connect} fullWidth>
-                              <Trans>Connect Wallet</Trans>
-                            </PrimaryButton>
-                          ) : isUserDonating ? (
-                            <></>
-                          ) : (
-                            <PrimaryButton
-                              onClick={() => handleGiveButtonClick()}
-                              disabled={!isSupportedChain(networkId)}
-                              fullWidth
-                            >
-                              <Trans>Donate Yield</Trans>
-                            </PrimaryButton>
-                          )}
-                        </Grid>
-                        <Grid item xs={12}>
-                          {renderCountdownDetailed()}
-                        </Grid>
+                    <Grid item container xs>
+                      <Grid item xs={12}>
+                        {renderDepositData()}
+                      </Grid>
+                      <Grid item xs={12} style={{ paddingTop: "45px" }}>
+                        {!connected ? (
+                          <PrimaryButton onClick={connect} fullWidth>
+                            <Trans>Connect Wallet</Trans>
+                          </PrimaryButton>
+                        ) : isUserDonating ? (
+                          <></>
+                        ) : (
+                          <PrimaryButton
+                            onClick={() => handleGiveButtonClick()}
+                            disabled={!isSupportedChain(networkId)}
+                            fullWidth
+                          >
+                            <Trans>Donate Yield</Trans>
+                          </PrimaryButton>
+                        )}
                       </Grid>
                     </Grid>
                   </Grid>
@@ -680,8 +600,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 {!isUserDonating ? (
                   <></>
                 ) : (
-                  <Paper headerText={t`Your Donations`}>
-                    <Grid container alignItems="flex-end" spacing={2}>
+                  <Paper headerText={t`Your Donations`} fullWidth>
+                    <Grid container alignItems="flex-end">
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="flex-start">
                           <Grid item container justifyContent="flex-start" alignItems="center" spacing={1}>
@@ -722,10 +642,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                           </Grid>
                         </Grid>
                       </Grid>
+                      <Box width="100%" />
                       <Grid item xs={12}>
                         <PrimaryButton
                           onClick={() => handleEditButtonClick()}
                           disabled={!isSupportedChain(networkId)}
+                          style={{ marginTop: "24px" }}
                           fullWidth
                         >
                           <Trans>Edit Donation</Trans>
@@ -736,32 +658,41 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 )}
               </Grid>
             </Grid>
-            <Grid item xs={12} lg={7}>
-              <Paper
-                headerText="About"
-                topRight={
-                  <Link href={project.website} target="_blank">
-                    <Icon name="website" />
-                  </Link>
-                }
-              >
-                <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
-              </Paper>
+            <Grid container item xs={12} lg={7}>
+              <Grid item xs={12}>
+                <Paper headerText="Milestones" fullWidth>
+                  {renderMilestoneDetails()}
+                </Paper>
+              </Grid>
+              <Grid item xs={12}>
+                <Paper
+                  headerText="About"
+                  topRight={
+                    <Link href={grant.website} target="_blank">
+                      <Icon name="website" />
+                    </Link>
+                  }
+                  fullWidth
+                >
+                  <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
+                </Paper>
+              </Grid>
             </Grid>
           </Grid>
         </Container>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
-          eventSource="Project Details"
+          eventSource="Grant Details"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
-          project={project}
+          project={grant}
           key={title}
         />
-        {isUserDonating && donationInfo[donationId] ? (
+
+        {isUserDonating ? (
           <ManageDonationModal
             isModalOpen={isManageModalOpen}
-            eventSource={"Project Details"}
+            eventSource={"Grant Details"}
             submitEdit={handleEditModalSubmit}
             submitWithdraw={handleWithdrawModalSubmit}
             cancelFunc={handleManageModalCancel}
@@ -769,7 +700,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             currentDepositAmount={new BigNumber(donationInfo[donationId].deposit)}
             depositDate={donationInfo[donationId].date}
             yieldSent={donationInfo[donationId].yieldDonated}
-            project={project}
+            project={grant}
+            recordType={RecordType.GRANT}
             key={"manage-modal-" + donationInfo[donationId].recipient}
           />
         ) : (
@@ -779,6 +711,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     );
   };
 
-  if (mode == ProjectDetailsMode.Card) return getCardContent();
+  if (mode == GrantDetailsMode.Card) return getCardContent();
   else return getPageContent();
 }
