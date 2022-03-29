@@ -264,6 +264,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     if (depositGoal === 0) return <></>;
 
+    if (depositGoal === 0) return <></>;
+
     return (
       <>
         <Grid container alignItems="flex-end">

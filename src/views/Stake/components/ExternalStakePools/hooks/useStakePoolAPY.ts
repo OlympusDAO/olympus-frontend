@@ -10,6 +10,7 @@ import {
   useStaticGaugeContract,
   useStaticJoeChefContract,
   useStaticJoeRewarderContract,
+  useStaticJonesContract,
   useStaticZipRewarderContract,
   useStaticZipSecondaryRewardercontract,
 } from "src/hooks/useContract";
@@ -97,6 +98,29 @@ export const ZipPoolAPY = (pool: ExternalPool) => {
     const poolRewardsPerWeek = (parseBigNumber(poolInfo.allocPoint, 18) / totalAllocPoint) * rewardsPerWeek;
     return { poolRewardsPerWeek, rewarderRewardsPerSecond };
   });
+  const { data: apy = 0 } = APY(pool, tvl, data);
+  return { apy, isFetched, isLoading };
+};
+export const JonesPoolAPY = (pool: ExternalPool) => {
+  const { data: tvl = 0 } = useStakePoolTVL(pool);
+  //Spirit uses a Masterchef, Guage, and rewarder contract. Rewarder Not currently used for our FP.
+  const jonesChef = useStaticJonesContract(pool.masterchef, pool.networkID);
+  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
+    const periodFinish = await jonesChef.periodFinish();
+    const rewardRate = await jonesChef.rewardRateJONES();
+    const boost = await jonesChef.boost();
+    const boostedFinish = await jonesChef.boostedFinish();
+    const poolRewardsPerWeek =
+      Date.now() / 1000 > parseBigNumber(periodFinish, 0)
+        ? 0
+        : ((Date.now() / 1000 > parseBigNumber(boostedFinish, 0)
+            ? parseBigNumber(rewardRate, 0)
+            : parseBigNumber(rewardRate) * parseBigNumber(boost)) /
+            1e18) *
+          604800;
+    return { poolRewardsPerWeek, rewarderRewardsPerSecond: 0 };
+  });
+
   const { data: apy = 0 } = APY(pool, tvl, data);
   return { apy, isFetched, isLoading };
 };

@@ -13,8 +13,8 @@ import { error as createErrorToast, info as createInfoToast } from "src/slices/M
 export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
   const dispatch = useDispatch();
   const client = useQueryClient();
+  const { address } = useWeb3Context();
   const networks = useTestableNetworks();
-  const { address, networkId } = useWeb3Context();
   const balance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
 
@@ -45,8 +45,8 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
       },
       onSuccess: async () => {
         const keysToRefetch = [
-          balanceQueryKey(address, OHM_ADDRESSES, networkId),
-          balanceQueryKey(address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networkId),
+          balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

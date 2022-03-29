@@ -311,7 +311,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
 
   const getRecipientInputField = () => {
     if (isProjectMode()) {
-      return <Input id="wallet-input" label={getRecipientTitle()} disabled={true} />;
+      return <Input id="wallet-input" placeholder={getRecipientTitle()} disabled={true} />;
     }
 
     return (
