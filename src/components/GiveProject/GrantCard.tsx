@@ -57,6 +57,8 @@ type State = {
 
 const DECIMAL_PLACES = 2;
 const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
+// We restrict DP to a reasonable number, but trim if unnecessary
+const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 
 export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const location = useLocation();
@@ -277,7 +279,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Icon name="sohm-total" />
                   </Grid>
                   <Grid item className="metric">
-                    {totalMilestoneAmount.toString({ decimals: DECIMAL_PLACES, format: true })}
+                    {totalMilestoneAmount.toString(DEFAULT_FORMAT)}
                   </Grid>
                 </Grid>
               </Grid>
@@ -654,10 +656,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                                 {donationInfoIsLoading ? (
                                   <Skeleton />
                                 ) : donationInfo[donationId] ? (
-                                  new DecimalBigNumber(donationInfo[donationId].yieldDonated).toString({
-                                    decimals: DECIMAL_PLACES,
-                                    format: true,
-                                  })
+                                  new DecimalBigNumber(donationInfo[donationId].yieldDonated).toString(DEFAULT_FORMAT)
                                 ) : (
                                   "0"
                                 )}
