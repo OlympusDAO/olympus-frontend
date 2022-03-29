@@ -29,8 +29,8 @@ export class DecimalBigNumber {
   constructor(number: string, decimals?: number);
   constructor(number: BigNumber | string, decimals?: number) {
     if (typeof number === "string") {
-      const stringDecimals = decimals === undefined ? this._parseDecimals(number) : decimals;
       const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
+      const stringDecimals = decimals === undefined ? this._parseDecimals(number) : decimals;
       const formatted = this._omitIrrelevantDecimals(_number, stringDecimals);
       this._number = parseUnits(formatted, stringDecimals);
       this._decimals = stringDecimals;
