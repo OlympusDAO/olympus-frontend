@@ -114,7 +114,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       if (!rawProvider.on) {
         return;
       }
-      rawProvider.on("accountsChanged", async () => {
+      rawProvider.on("accountsChanged", async (accounts: string[]) => {
         setTimeout(() => window.location.reload(), 1);
       });
 
@@ -166,7 +166,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     // Eventually we'll be fine without doing network validations.
     setAddress(connectedAddress);
     const networkHash = await initNetworkFunc({ provider: connectedProvider });
-    console.log("networkHash", networkHash);
     setNetworkId(networkHash.networkId);
     setNetworkName(networkHash.networkName);
     setProviderUri(networkHash.uri);
