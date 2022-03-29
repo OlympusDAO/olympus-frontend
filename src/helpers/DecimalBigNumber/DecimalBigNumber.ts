@@ -1,5 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { formatUnits, parseUnits } from "@ethersproject/units";
+import { commify, formatUnits, parseUnits } from "@ethersproject/units";
 
 import { assert } from "../types/assert";
 
@@ -62,9 +62,7 @@ export class DecimalBigNumber {
    * Adds thousands separators to a number string.
    */
   private _formatNumber(number: string): string {
-    const [integer, _decimals] = number.split(".");
-
-    return integer.replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1,") + "." + (_decimals || "");
+    return commify(number);
   }
 
   /**
