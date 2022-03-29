@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
-import { Box, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, PrimaryButton } from "@olympusdao/component-library";
@@ -7,6 +8,7 @@ import { BigNumber } from "bignumber.js";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { NetworkId } from "src/constants";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
@@ -25,7 +27,8 @@ export default function RedeemYield() {
   const dispatch = useDispatch();
   const { provider, address, connected, networkId } = useWeb3Context();
   const [isRedeemYieldModalOpen, setIsRedeemYieldModalOpen] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
 
@@ -144,78 +147,102 @@ export default function RedeemYield() {
   };
 
   return (
-    <div className="redeem-view">
-      <div className="redeemable-container">
-        <div className="redeemable-balance">
-          <Typography variant="h3">
-            {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toFixed(2)} sOHM
-          </Typography>
-          <Typography variant="body1" className="subtext">
-            Redeemable Yield
-          </Typography>
-        </div>
-        <PrimaryButton className="redeem-button" onClick={() => handleRedeemButtonClick()} disabled={!canRedeem()}>
-          {txnButtonText(pendingTransactions, "redeeming", t`Redeem Yield`)}
-        </PrimaryButton>
-      </div>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Typography variant="h3" align="center">
+          {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toFixed(2)} sOHM
+        </Typography>
+        <Typography variant="body1" align="center" className="subtext">
+          Redeemable Yield
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Grid container>
+          <Grid item xs />
+          <Grid item xs={12} sm={6}>
+            <PrimaryButton onClick={() => handleRedeemButtonClick()} disabled={!canRedeem()} fullWidth>
+              {txnButtonText(pendingTransactions, "redeeming", t`Redeem Yield`)}
+            </PrimaryButton>
+          </Grid>
+          <Grid item xs />
+        </Grid>
+      </Grid>
       {isProject ? (
-        <div className="projects-redeemable-data">
-          <Box className="projects-redeemable-box">
-            <Typography variant="h5">{getRecipientGoal(address)}</Typography>
-            <Typography variant="body1" className="subtext">
-              sOHM Goal
-            </Typography>
-          </Box>
-          <Box className="projects-redeemable-box">
-            <Typography variant="h5">{getRecipientDonated(address)}</Typography>
-            <Typography variant="body1" className="subtext">
-              {isSmallScreen ? "Total Donated" : "Total sOHM Donated"}
-            </Typography>
-          </Box>
-          <Box className="projects-redeemable-box">
-            <Typography variant="h5">{getRecipientDonated(address) / getRecipientGoal(address)}%</Typography>
-            <Typography variant="body1" className="subtext">
-              of sOHM Goal
-            </Typography>
-          </Box>
-        </div>
+        <Grid item xs={12}>
+          <Grid container spacing={1}>
+            <Grid item xs={4}>
+              <Box>
+                <Typography variant="h5" align="center">
+                  {getRecipientGoal(address)}
+                </Typography>
+                <Typography variant="body1" align="center" className="subtext">
+                  sOHM Goal
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box>
+                <Typography variant="h5" align="center">
+                  {getRecipientDonated(address)}
+                </Typography>
+                <Typography variant="body1" align="center" className="subtext">
+                  {isSmallScreen ? "Total Donated" : "Total sOHM Donated"}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box>
+                <Typography variant="h5" align="center">
+                  {getRecipientDonated(address) / getRecipientGoal(address)}%
+                </Typography>
+                <Typography variant="body1" align="center" className="subtext">
+                  of sOHM Goal
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Grid>
       ) : (
         <></>
       )}
-      <Box className="main-redeemable-box">
-        <DataRow
-          title={t`Deposited sOHM`}
-          balance={`${getTrimmedBigNumber(totalDeposit)} ${t`sOHM`}`}
-          isLoading={isRecipientInfoLoading}
+      <Grid item xs={12}>
+        <Box>
+          <DataRow
+            title={t`Deposited sOHM`}
+            balance={`${getTrimmedBigNumber(totalDeposit)} ${t`sOHM`}`}
+            isLoading={isRecipientInfoLoading}
+          />
+          <DataRow
+            title={t`Redeemable Amount`}
+            balance={`${getTrimmedBigNumber(redeemableBalanceNumber)} ${t`sOHM`}`}
+            isLoading={isRecipientInfoLoading}
+          />
+          <DataRow
+            title={t`Next Reward Amount`}
+            balance={`${getTrimmedBigNumber(nextRewardValue)} ${t`sOHM`}`}
+            isLoading={isAppLoading}
+          />
+          <DataRow
+            title={t`Next Reward Yield`}
+            balance={`${getTrimmedBigNumber(stakingRebasePercentage)}%`}
+            isLoading={isAppLoading}
+          />
+          <DataRow
+            title={t`ROI (5-Day Rate)`}
+            balance={`${getTrimmedBigNumber(fiveDayRateValue)}%`}
+            isLoading={isAppLoading}
+          />
+        </Box>
+      </Grid>
+      <Grid item>
+        <RedeemYieldModal
+          isModalOpen={isRedeemYieldModalOpen}
+          callbackFunc={handleRedeemYieldModalSubmit}
+          cancelFunc={handleRedeemYieldModalCancel}
+          deposit={totalDeposit}
+          redeemableBalance={redeemableBalanceNumber}
         />
-        <DataRow
-          title={t`Redeemable Amount`}
-          balance={`${getTrimmedBigNumber(redeemableBalanceNumber)} ${t`sOHM`}`}
-          isLoading={isRecipientInfoLoading}
-        />
-        <DataRow
-          title={t`Next Reward Amount`}
-          balance={`${getTrimmedBigNumber(nextRewardValue)} ${t`sOHM`}`}
-          isLoading={isAppLoading}
-        />
-        <DataRow
-          title={t`Next Reward Yield`}
-          balance={`${getTrimmedBigNumber(stakingRebasePercentage)}%`}
-          isLoading={isAppLoading}
-        />
-        <DataRow
-          title={t`ROI (5-Day Rate)`}
-          balance={`${getTrimmedBigNumber(fiveDayRateValue)}%`}
-          isLoading={isAppLoading}
-        />
-      </Box>
-      <RedeemYieldModal
-        isModalOpen={isRedeemYieldModalOpen}
-        callbackFunc={handleRedeemYieldModalSubmit}
-        cancelFunc={handleRedeemYieldModalCancel}
-        deposit={totalDeposit}
-        redeemableBalance={redeemableBalanceNumber}
-      />
-    </div>
+      </Grid>
+    </Grid>
   );
 }

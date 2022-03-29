@@ -1,0 +1,36 @@
+.project-milestone-progress {
+  .RSPBstep {
+    // The step labels are shifted left by 50%, so we override that
+    // This forces the labels to not exceed the width of the progress bar
+    transform: translateX(-100%);
+  }
+
+  .step-label {
+    padding-top: 40px;
+  }
+}
+
+.milestone-deliverables {
+  line-height: 2rem;
+  font-size: 16px;
+  font-family: "Euclid Square";
+
+  li {
+    font-size: 16px;
+  }
+}
+
+.skeleton-inline.MuiSkeleton-text {
+  // Force the Skeleton to not break onto a new line
+  display: inline;
+}
+
+.metric {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.subtext {
+  color: #999999;
+  padding-top: 2px;
+}
