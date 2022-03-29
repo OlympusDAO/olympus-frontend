@@ -30,7 +30,7 @@ export class DecimalBigNumber {
   constructor(number: BigNumber | string, decimals?: number) {
     if (typeof number === "string") {
       const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
-      const stringDecimals = decimals === undefined ? this._parseDecimals(number) : decimals;
+      const stringDecimals = decimals === undefined ? this._inferDecimalAmount(number) : decimals;
       const formatted = this._omitIrrelevantDecimals(_number, stringDecimals);
       this._number = parseUnits(formatted, stringDecimals);
       this._decimals = stringDecimals;
@@ -43,11 +43,10 @@ export class DecimalBigNumber {
     this._decimals = decimals;
   }
 
-  private _parseDecimals(number: string): number {
-    // Source: https://stackoverflow.com/a/53739569
-    const text = number.toString();
-    const index = text.indexOf(".");
-    return index == -1 ? 0 : text.length - index - 1;
+  private _inferDecimalAmount(number: string): number {
+    const [, decimals] = number.split(".");
+
+    return decimals?.length || 0;
   }
 
   private _omitIrrelevantDecimals(number: string, decimals: number): string {
