@@ -208,8 +208,7 @@ export class DecimalBigNumber {
    * @param decimals The expected number of decimals of the output value
    */
   public mul(value: DecimalBigNumber, decimals?: number): DecimalBigNumber {
-    const _decimals =
-      decimals === undefined ? Math.min(this._decimals, value._decimals) : this._ensurePositive(decimals);
+    const _decimals = decimals === undefined ? this._decimals + value._decimals : this._ensurePositive(decimals);
 
     const product = this._number.mul(value._number);
 

@@ -129,6 +129,12 @@ describe("DecimalBigNumber", () => {
     expect(decimalNumber.mul(secondDecimalNumber, 9).toString()).toEqual("22.5344");
     expect(decimalNumber.mul(secondDecimalNumber).toString()).toEqual("22.5344");
     expect(decimalNumber.mul(secondDecimalNumber, 2).toString()).toEqual("22.53");
+
+    const thirdDecimalNumber = new DecimalBigNumber("1.12", 2);
+    const fourthDecimalNumber = new DecimalBigNumber("1.123", 3);
+    expect(thirdDecimalNumber.mul(fourthDecimalNumber, 9).toString()).toEqual("1.25776");
+    expect(thirdDecimalNumber.mul(fourthDecimalNumber).toString()).toEqual("1.25776");
+    expect(thirdDecimalNumber.mul(fourthDecimalNumber, 2).toString()).toEqual("1.25");
   });
 
   it("should divide by a number correctly", () => {
