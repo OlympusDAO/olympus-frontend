@@ -54,11 +54,14 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
 
+  // Pulls a user's donation info
   const rawDonationInfo = useDonationInfo().data;
   const donationInfo = rawDonationInfo ? rawDonationInfo : [];
 
+  // Gets the number of donors for a given grant's wallet
   const donorCount = useDonorNumbers(wallet).data;
 
+  // Contract interactions: new donation, increase donation, decrease donation
   const giveMutation = useGive();
   const increaseMutation = useIncreaseGive();
   const decreaseMutation = useDecreaseGive();
@@ -71,6 +74,11 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    setIsUserDonating(false);
+    setDonationId(0);
+  }, [networkId]);
+
+  useEffect(() => {
     for (let i = 0; i < donationInfo.length; i++) {
       if (donationInfo[i].recipient.toLowerCase() === wallet.toLowerCase()) {
         setIsUserDonating(true);
@@ -78,12 +86,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
         break;
       }
     }
-  }, [donationInfo]);
-
-  useEffect(() => {
-    setIsUserDonating(false);
-    setDonationId(0);
-  }, [networkId]);
+  }, [donationInfo, networkId]);
 
   /**
    * Returns the milestone completion:

@@ -70,13 +70,16 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
 
+  // Pull a user's donation info
   const rawDonationInfo = useDonationInfo().data;
   const donationInfo = rawDonationInfo ? rawDonationInfo : [];
 
+  // Pull data for a specific partner's wallet
   const totalDebt = useRecipientInfo(wallet).data?.totalDebt;
   const donorCount = useDonorNumbers(wallet).data;
   const totalDonated = useTotalDonated(wallet).data;
 
+  // Contract interactions: new donation, increase donation, decrease donation
   const giveMutation = useGive();
   const increaseMutation = useIncreaseGive();
   const decreaseMutation = useDecreaseGive();

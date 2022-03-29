@@ -23,10 +23,25 @@ interface IUserRecipientInfo {
   indexAtLastChange: string;
 }
 
+/**
+ * Query key for useDonationInfo, will refresh on address changes or
+ * networkId changes
+ */
 export const donationInfoQueryKey = (address: string, networkId: NetworkId) =>
   ["useDonationInfo", address, networkId].filter(nonNullable);
+
+/**
+ * @notice Uses the currently connected address and networkId to request
+ * donation amount, yield sent, first donation date, and recipient for
+ * all recipients the current user is donating to
+ * @returns query object in which the data attribute holds an array of
+ * these donation info items
+ */
 export const useDonationInfo = () => {
   const { address, provider, networkId } = useWeb3Context();
+
+  // Hook to establish dynamic contract, meaning it will connect to the network
+  // the user is currently connected to
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
   const networks = useTestableNetworks();
 
@@ -35,14 +50,20 @@ export const useDonationInfo = () => {
     async () => {
       queryAssertion([address, networkId], donationInfoQueryKey(address, networkId));
 
+      // Set default return value
       const donationInfo: IUserDonationInfo[] = [];
 
+      // If there's no contract (i.e. on a non-ETH network), return the default value
       if (!contract) return donationInfo;
 
+      // Get set of all a user's deposits and begin to iterate through them
       const allDeposits: [string[], BigNumber[]] = await contract.getAllDeposits(address);
       for (let i = 0; i < allDeposits[0].length; i++) {
+        // Should not actually be necessary with the mainnet contract which should clear
+        // out donations with zero values, but leaving it just to be safe
         if (allDeposits[1][i].eq(0)) continue;
 
+        // Get the first donation date for a donation to a specific recipient
         const firstDonationDate = await GetDonationDate({
           address: address,
           recipient: allDeposits[0][i],
@@ -50,6 +71,7 @@ export const useDonationInfo = () => {
           provider,
         });
 
+        // Set default yieldSent value in case donatedTo throws an error
         let yieldSent: BigNumber = BigNumber.from("0");
         try {
           yieldSent = await contract.donatedTo(address, allDeposits[0][i]);
@@ -60,8 +82,10 @@ export const useDonationInfo = () => {
           console.log(e);
         }
 
+        // Convert to 9 decimals
         const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
 
+        // Push all data to the donationInfo array
         donationInfo.push({
           date: firstDonationDate,
           deposit: ethers.utils.formatUnits(allDeposits[1][i], "gwei"),
@@ -70,18 +94,33 @@ export const useDonationInfo = () => {
         });
       }
 
+      // Return donationInfo array as the data attribute
       return donationInfo;
     },
-    { enabled: !!address },
+    { enabled: !!address }, // will run as long as an address is connected
   );
 
+  // Return query
   return query as typeof query;
 };
 
+/**
+ * Query key for useRedeemableBalance, will refresh on address changes or
+ * networkId changes
+ */
 export const redeemableBalanceQueryKey = (address: string, networkId: NetworkId) =>
   ["useRedeemableBalance", address, networkId].filter(nonNullable);
+
+/**
+ * @notice Pulls a given address's redeemable sOHM balance from the YieldDirector contract
+ * @param address The address we would like to fetch the redeemable balance for
+ * @returns query object in which the data attribute holds the redeemable balance
+ */
 export const useRedeemableBalance = (address: string) => {
   const { networkId } = useWeb3Context();
+
+  // Hook to establish dynamic contract, meaning it will connect to the network
+  // the user is currently connected to
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
 
   const query = useQuery<string, Error>(
@@ -89,8 +128,10 @@ export const useRedeemableBalance = (address: string) => {
     async () => {
       queryAssertion([address, networkId], redeemableBalanceQueryKey(address, networkId));
 
+      // If no contract is established throw an error to switch to ETH
       if (!contract) throw new Error(t`Please switch to the Ethereum network`);
 
+      // Set default redeemable balance value
       let redeemableBalance = BigNumber.from("0");
 
       try {
@@ -99,18 +140,35 @@ export const useRedeemableBalance = (address: string) => {
         console.log(e);
       }
 
+      // Convert to proper decimals and return
       return ethers.utils.formatUnits(redeemableBalance, "gwei");
     },
     { enabled: !!address },
   );
 
+  // Return query
   return query as typeof query;
 };
 
+/**
+ * Query key for useRecipientInfo, will refresh on address changes or
+ * networkId changes
+ */
 export const recipientInfoQueryKey = (address: string, networkId: NetworkId) =>
   ["useRecipientInfo", address, networkId].filter(nonNullable);
+
+/**
+ * @notice Fetches total debt, carry, agnostic debt, and index at
+ * last change for a given wallet address
+ * @param address The wallet we would like to fetch the data for
+ * @returns query object in which the data attribute holds the
+ * recipient info object
+ */
 export const useRecipientInfo = (address: string) => {
   const { networkId } = useWeb3Context();
+
+  // Hook to establish dynamic contract, meaning it will connect to the network
+  // the user is currently connected to
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
 
   const query = useQuery<IUserRecipientInfo, Error>(
@@ -118,8 +176,10 @@ export const useRecipientInfo = (address: string) => {
     async () => {
       queryAssertion([address, networkId], recipientInfoQueryKey(address, networkId));
 
+      // If no contract object was successfully created, tell the user to switch to ETH
       if (!contract) throw new Error(t`Please switch to the Ethereum network`);
 
+      // Create recipient info object with default values
       const recipientInfo: IUserRecipientInfo = {
         totalDebt: "",
         carry: "",
@@ -127,6 +187,8 @@ export const useRecipientInfo = (address: string) => {
         indexAtLastChange: "",
       };
 
+      // Pull relevant data from the contract, put in the right format, and push to
+      // the recipient info object
       try {
         const recipientInfoData = await contract.recipientInfo(address);
         recipientInfo.totalDebt = ethers.utils.formatUnits(recipientInfoData.totalDebt, "gwei");
@@ -142,17 +204,36 @@ export const useRecipientInfo = (address: string) => {
     { enabled: !!address },
   );
 
+  // return query
   return query as typeof query;
 };
 
+/**
+ * Query key for useTotalDonated, will refresh on address changes or
+ * networkId changes
+ */
 export const totalDonatedQueryKey = (address: string, networkId: NetworkId) =>
   ["useTotalDonated", address, networkId].filter(nonNullable);
+
+/**
+ * @notice Fetches total amount of sOHM yield donated to a specific
+ * wallet throughout its history
+ * @param address The wallet we would like to fetch the data for
+ * @returns query object in which the data attribute holds the
+ * total donated amount
+ */
 export const useTotalDonated = (address: string) => {
   const { provider, networkId } = useWeb3Context();
 
+  // Event logs use data values that are padded with zeros, so to match that we
+  // pad the given wallet address with zeros
   const zeroPadAddress = ethers.utils.hexZeroPad(address === "" ? ethers.utils.hexlify(0) : address, 32);
+
+  // Hook to establish dynamic contract, meaning it will connect to the network
+  // the user is currently connected to
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
 
+  // Filter to search through event logs and find all redeemed events for a given address
   const filter = {
     address: contract?.address,
     fromBlock: 1,
@@ -165,37 +246,62 @@ export const useTotalDonated = (address: string) => {
     async () => {
       queryAssertion([address, networkId], totalDonatedQueryKey(address, networkId));
 
+      // If no contract object was successfully created, tell the user to switch to ETH
       if (!contract) throw new Error(t`Please switch to the Ethereum network`);
 
+      // Default values for totalRedeemed and totalDonated
       let totalRedeemed = BigNumber.from("0");
       let totalDonated = BigNumber.from("0");
 
+      // Get all event logs using our filter
       const events = await provider.getLogs(filter);
 
+      // Sum up all redemption events to totalRedeemed
       for (let i = 0; i < events.length; i++) {
         totalRedeemed = totalRedeemed.add(events[i].data);
       }
 
+      // Fetch redeemable balance from YieldDirector
       const redeemableBalance = await contract.redeemableBalance(address);
 
+      // Sum all redemption events with redeemable balance
       totalDonated = totalRedeemed.add(redeemableBalance);
 
+      // Return formatted total donated value
       return ethers.utils.formatUnits(totalDonated, "gwei");
     },
     { enabled: !!address },
   );
 
+  // Return query object
   return query as typeof query;
 };
 
+/**
+ * Query key for useDonorNumbers, will refresh on address changes or
+ * networkId changes
+ */
 export const donorNumbersQueryKey = (address: string, networkId: NetworkId) =>
   ["useDonorNumbers", address, networkId].filter(nonNullable);
+
+/**
+ * @notice Fetches number of users donating to a specific address
+ * @param address The wallet we would like to fetch donors for
+ * @returns query object in which the data attribute holds the
+ * donor numbers
+ */
 export const useDonorNumbers = (address: string) => {
   const { provider, networkId } = useWeb3Context();
 
+  // Event logs use data values that are padded with zeros, so to match that we
+  // pad the given wallet address with zeros
   const zeroPadAddress = ethers.utils.hexZeroPad(address === "" ? ethers.utils.hexlify(0) : address, 32);
+
+  // Hook to establish dynamic contract, meaning it will connect to the network
+  // the user is currently connected to
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
 
+  // Filter to search through event logs and find all Deposited events for a given address as recipient
   const filter = {
     address: contract?.address,
     fromBlock: 1,
@@ -208,22 +314,29 @@ export const useDonorNumbers = (address: string) => {
     async () => {
       queryAssertion([address, networkId], donorNumbersQueryKey(address, networkId));
 
+      // If no contract object was successfully created, tell the user to switch to ETH
       if (!contract) throw new Error(t`Please switch to the Ethereum network`);
 
+      // Initialize donorAddresses and donationsToAddress
       const donorAddresses: IDonorAddresses = {};
       const donationsToAddress: ethers.providers.Log[] = [];
 
+      // Get all event logs using our filter
       const events = await provider.getLogs(filter);
 
       for (let i = 0; i < events.length; i++) {
         const event = events[i];
 
+        // If the recipient matches the desired wallet, pull all donations for the relevant
+        // depositor
         if (event.topics[2] === zeroPadAddress.toLowerCase()) {
           const donorActiveDonations: [string[], BigNumber[]] = await contract.getAllDeposits(
             ethers.utils.hexDataSlice(event.topics[1], 12),
           );
 
           for (let j = 0; j < donorActiveDonations[0].length; j++) {
+            // Confirm again recipient matches desired wallet, the current deposit is non-zero,
+            // and that we haven't already counted this donor
             if (
               donorActiveDonations[0][j].toLowerCase() === address.toLowerCase() &&
               donorActiveDonations[1][j] > BigNumber.from("0") &&
@@ -236,10 +349,12 @@ export const useDonorNumbers = (address: string) => {
         }
       }
 
+      // Return number of donors
       return donationsToAddress.length;
     },
     { enabled: !!address },
   );
 
+  // Return query object
   return query as typeof query;
 };
