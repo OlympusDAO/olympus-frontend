@@ -182,7 +182,7 @@ function BondPurchase({
                       type="number"
                       value={quantity}
                       onChange={e => setQuantity(e.target.value)}
-                      label={t`Amount`}
+                      placeholder={t`Amount`}
                       endStringOnClick={setMax}
                       labelWidth={55}
                     />

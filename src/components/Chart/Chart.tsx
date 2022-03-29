@@ -19,6 +19,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { CategoricalChartProps } from "recharts/types/chart/generateCategoricalChart";
 import { ReactComponent as Fullscreen } from "src/assets/icons/fullscreen.svg";
 import { formatCurrency, trim } from "src/helpers";
 
@@ -45,8 +46,9 @@ const renderAreaChart = (
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
   isPOL: boolean,
+  margin: CategoricalChartProps["margin"],
 ) => (
-  <AreaChart data={data}>
+  <AreaChart data={data} margin={margin}>
     <defs>
       <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor={stopColor[0][0]} stopOpacity={1} />
@@ -105,8 +107,9 @@ const renderStackedAreaChart = (
   itemType: string,
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
+  margin: CategoricalChartProps["margin"],
 ) => (
-  <AreaChart data={data}>
+  <AreaChart data={data} margin={margin}>
     <defs>
       <linearGradient id={`color-${dataKey[0]}`} x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor={stopColor[0][0]} stopOpacity={1} />
@@ -232,8 +235,9 @@ const renderLineChart = (
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
   scale: string,
+  margin: CategoricalChartProps["margin"],
 ) => (
-  <LineChart data={data}>
+  <LineChart data={data} margin={margin}>
     <XAxis
       dataKey="timestamp"
       interval={100}
@@ -275,8 +279,9 @@ const renderMultiLineChart = (
   itemType: string,
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
+  margin: CategoricalChartProps["margin"],
 ) => (
-  <LineChart data={data}>
+  <LineChart data={data} margin={margin}>
     <XAxis
       dataKey="timestamp"
       interval={30}
@@ -318,8 +323,9 @@ const renderBarChart = (
   itemType: string,
   isExpanded: boolean,
   expandedGraphStrokeColor: string,
+  margin: CategoricalChartProps["margin"],
 ) => (
-  <BarChart data={data}>
+  <BarChart data={data} margin={margin}>
     <XAxis
       dataKey="timestamp"
       interval={30}
@@ -365,6 +371,12 @@ function Chart({
   infoTooltipMessage,
   expandedGraphStrokeColor,
   isPOL,
+  margin = {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  },
 }: {
   type: string;
   data: any[];
@@ -383,6 +395,7 @@ function Chart({
   infoTooltipMessage: string;
   expandedGraphStrokeColor: string;
   isPOL: boolean;
+  margin?: CategoricalChartProps["margin"];
 }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -409,6 +422,7 @@ function Chart({
         isExpanded,
         expandedGraphStrokeColor,
         scale,
+        margin,
       );
     if (type === "area")
       return renderAreaChart(
@@ -424,6 +438,7 @@ function Chart({
         isExpanded,
         expandedGraphStrokeColor,
         isPOL,
+        margin,
       );
     if (type === "stack")
       return renderStackedAreaChart(
@@ -437,6 +452,7 @@ function Chart({
         itemType,
         isExpanded,
         expandedGraphStrokeColor,
+        margin,
       );
     if (type === "multi")
       return renderMultiLineChart(
@@ -450,6 +466,7 @@ function Chart({
         itemType,
         isExpanded,
         expandedGraphStrokeColor,
+        margin,
       );
 
     if (type === "bar")
@@ -463,6 +480,7 @@ function Chart({
         itemType,
         isExpanded,
         expandedGraphStrokeColor,
+        margin,
       );
     return <></>;
   };

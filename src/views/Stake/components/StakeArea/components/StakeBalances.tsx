@@ -50,6 +50,7 @@ export const StakeBalances = () => {
     wsohmBalances[networks.MAINNET].data,
     wsohmBalances[networks.ARBITRUM].data,
     wsohmBalances[networks.AVALANCHE].data,
+    gohmBalances[NetworkId.OPTIMISM].data,
   ];
 
   const totalSohmBalance = sohmTokens
@@ -87,7 +88,7 @@ export const StakeBalances = () => {
           <DataRow
             indented
             title={t`sOHM`}
-            id="user-staked-balance"
+            id="sohm-balance"
             isLoading={!sohmBalance}
             balance={`${formatBalance(sohmBalance)} sOHM`}
           />
@@ -132,6 +133,15 @@ export const StakeBalances = () => {
               title={t`gOHM (Fantom)`}
               isLoading={!gohmBalances[NetworkId.FANTOM].data}
               balance={`${formatBalance(gohmBalances[NetworkId.FANTOM].data)} gOHM`}
+            />
+          )}
+
+          {hasVisibleBalance(gohmBalances[NetworkId.OPTIMISM].data) && (
+            <DataRow
+              indented
+              title={t`gOHM (Optimism)`}
+              isLoading={!gohmBalances[NetworkId.OPTIMISM].data}
+              balance={`${formatBalance(gohmBalances[NetworkId.OPTIMISM].data)} gOHM`}
             />
           )}
 

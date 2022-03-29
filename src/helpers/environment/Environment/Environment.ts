@@ -83,6 +83,16 @@ export class Environment {
           key: `REACT_APP_FANTOM_TESTNET_NODE_URL`,
           fallback: "https://rpc.testnet.fantom.network/",
         });
+      case NetworkId.OPTIMISM:
+        return this._get({
+          key: `REACT_APP_OPTIMISM_NODE_URL`,
+          fallback: "https://mainnet.optimism.io/",
+        });
+      case NetworkId.OPTIMISM_TESTNET:
+        return this._get({
+          key: `REACT_APP_OPTIMISM_TESTNET_NODE_URL`,
+          fallback: "https://kovan.optimism.io/",
+        });
     }
   };
 
@@ -93,6 +103,17 @@ export class Environment {
    */
   public static isGiveEnabled() {
     const isDisabled = this.env.REACT_APP_GIVE_ENABLED === "false";
+
+    return !isDisabled;
+  }
+
+  /**
+   * Indicates whether the multifarm dashboard feature is enabled.
+   *
+   * Defaults to true. Only false when `REACT_APP_MULTIFARM_DASHBOARD_ENABLED` === "false"
+   */
+  public static isMultifarmDashboardEnabled() {
+    const isDisabled = this.env.REACT_APP_MULTIFARM_DASHBOARD_ENABLED === "false";
 
     return !isDisabled;
   }

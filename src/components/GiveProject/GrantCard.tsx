@@ -132,7 +132,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                 <Step key={`step-${humanIndex}`}>
                   {({}) => (
                     <div className="step-label" style={milestoneAccomplished ? accomplishedStyle : unaccomplishedStyle}>
-                      {new BigNumber(value.amount).toFixed(0)}
+                      {new BigNumber(value.amount).toFormat(0)}
                     </div>
                   )}
                 </Step>
@@ -159,7 +159,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
         {milestones.map((value, index) => {
           return (
             <div key={`milestone-${index}`}>
-              <Typography variant="h6">{t`Milestone ${index + 1}: ${new BigNumber(value.amount).toFixed(
+              <Typography variant="h6">{t`Milestone ${index + 1}: ${new BigNumber(value.amount).toFormat(
                 0,
               )} sOHM`}</Typography>
               <div
@@ -209,7 +209,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Icon name="sohm-total" />
                   </Grid>
                   <Grid item className="metric">
-                    {totalMilestoneAmount.toFixed(0)}
+                    {totalMilestoneAmount.toFormat(0)}
                   </Grid>
                 </Grid>
               </Grid>

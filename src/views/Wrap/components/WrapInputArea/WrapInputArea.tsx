@@ -98,7 +98,7 @@ export const WrapInputArea = () => {
                   disabled={isMutating}
                   endStringOnClick={setMax}
                   onChange={event => setAmount(event.target.value)}
-                  label={t`Enter an amount of` + ` ${currentAction === "WRAP" ? "sOHM" : "gOHM"}`}
+                  placeholder={t`Enter an amount of` + ` ${currentAction === "WRAP" ? "sOHM" : "gOHM"}`}
                 />
               </Grid>
 

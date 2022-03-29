@@ -544,10 +544,10 @@ export function ManageDonationModal({
                   id="amount-input"
                   type="number"
                   placeholder={t`Enter an amount`}
-                  value={getDepositAmount().eq(0) ? null : getDepositAmount()}
+                  value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
                   helperText={
                     isDepositAmountValid
-                      ? t`Your current deposit is ${currentDepositAmount.toNumber().toFixed(2)} sOHM`
+                      ? t`Your current deposit is ${currentDepositAmount.toFixed(2)} sOHM`
                       : isDepositAmountValidError
                   }
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -555,7 +555,7 @@ export function ManageDonationModal({
                   error={!isDepositAmountValid}
                   startAdornment="sOHM"
                   endString={t`Max`}
-                  endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toNumber().toFixed())}
+                  endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
                 />
               </Grid>
             </Grid>
@@ -584,7 +584,7 @@ export function ManageDonationModal({
             <Typography variant="body1" className="modal-confirmation-title">
               <Trans>Current sOHM deposit</Trans>
             </Typography>
-            <Typography variant="h6">{currentDepositAmount.toNumber().toFixed(2)} sOHM</Typography>
+            <Typography variant="h6">{currentDepositAmount.toFixed(2)} sOHM</Typography>
           </Grid>
           {!isSmallScreen ? (
             <Grid item sm={4}>

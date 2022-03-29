@@ -1,0 +1,364 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StakeBalances/> should render balances and rebase info 1`] = `
+<div>
+  <div
+    class="makeStyles-root-1 data-row"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-3"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+      >
+        Unstaked Balance
+      </p>
+    </div>
+    <p
+      class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+      id="user-balance"
+      style="text-align: right;"
+    >
+      15.0000 OHM
+    </p>
+  </div>
+  <div
+    class="MuiPaper-root MuiAccordion-root stake-accordion Mui-expanded MuiPaper-elevation0"
+  >
+    <div
+      aria-disabled="false"
+      aria-expanded="true"
+      class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="MuiAccordionSummary-content Mui-expanded"
+      >
+        <div
+          class="makeStyles-root-1 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-4"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Total Staked Balance
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            id="user-staked-balance"
+            style="text-align: right;"
+          >
+            134,228.0000 sOHM
+          </p>
+        </div>
+      </div>
+      <div
+        aria-disabled="false"
+        aria-hidden="true"
+        class="MuiButtonBase-root MuiIconButton-root MuiAccordionSummary-expandIcon Mui-expanded MuiIconButton-edgeEnd"
+      >
+        <span
+          class="MuiIconButton-label"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root stake-expand MuiSvgIcon-fontSizeSmall"
+            focusable="false"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div
+      class="MuiCollapse-root MuiCollapse-entered"
+      style="min-height: 0px;"
+    >
+      <div
+        class="MuiCollapse-wrapper"
+      >
+        <div
+          class="MuiCollapse-wrapperInner"
+        >
+          <div
+            role="region"
+          >
+            <div
+              class="MuiAccordionDetails-root"
+            >
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-5"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    sOHM
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  id="sohm-balance"
+                  style="text-align: right;"
+                >
+                  12.0000 sOHM
+                </p>
+              </div>
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-6"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    gOHM
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  style="text-align: right;"
+                >
+                  131.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    gOHM (Arbitrum)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  style="text-align: right;"
+                >
+                  132.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-8"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    gOHM (Avalanche)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  style="text-align: right;"
+                >
+                  133.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-9"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    gOHM (Polygon)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  style="text-align: right;"
+                >
+                  134.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-10"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    gOHM (Fantom)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  style="text-align: right;"
+                >
+                  135.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-11"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    gOHM (Optimism)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  style="text-align: right;"
+                >
+                  136.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-12"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    gOHM (Tokemak)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  style="text-align: right;"
+                >
+                  14.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-13"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    gOHM (Fuse)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  style="text-align: right;"
+                >
+                  11.0000 gOHM
+                </p>
+              </div>
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-14"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    sOHM (v1)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  style="text-align: right;"
+                >
+                  16.0000 sOHM
+                </p>
+              </div>
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-15"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    wsOHM
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  style="text-align: right;"
+                >
+                  171.0000 wsOHM
+                </p>
+              </div>
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-16"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    wsOHM (Arbitrum)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  style="text-align: right;"
+                >
+                  172.0000 wsOHM
+                </p>
+              </div>
+              <div
+                class="makeStyles-root-1 data-row"
+                style="padding-left: 10px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-17"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  >
+                    wsOHM (Avalanche)
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  style="text-align: right;"
+                >
+                  173.0000 wsOHM
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

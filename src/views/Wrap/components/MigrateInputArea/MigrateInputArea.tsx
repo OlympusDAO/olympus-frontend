@@ -73,7 +73,7 @@ export const MigrateInputArea = () => {
                   endString={t`Max`}
                   name="amount-input"
                   endStringOnClick={setMax}
-                  label={t`Enter an amount of wsOHM`}
+                  placeholder={t`Enter an amount of wsOHM`}
                   disabled={migrateMutation.isLoading}
                   onChange={event => setAmount(event.target.value)}
                 />

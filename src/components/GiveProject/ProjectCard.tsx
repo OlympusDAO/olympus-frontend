@@ -212,6 +212,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     if (depositGoal === 0) return <></>;
 
+    if (depositGoal === 0) return <></>;
+
     return (
       <>
         <Grid container alignItems="flex-end">
@@ -237,7 +239,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="sohm-yield-goal" />
                   </Grid>
                   <Grid item className="metric">
-                    {new BigNumber(depositGoal).toNumber().toFixed()}
+                    {new BigNumber(depositGoal).toFormat()}
                   </Grid>
                 </Grid>
               </Grid>
