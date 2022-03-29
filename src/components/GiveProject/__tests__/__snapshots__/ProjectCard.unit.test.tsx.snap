@@ -729,25 +729,20 @@ exports[`<ProjectCard/> should render page 1`] = `
                             >
                               <h6
                                 class="MuiTypography-root MuiTypography-h6"
-                                title="Finishes at 30/03/2100, 22:00:00 in your timezone"
                               >
                                 <strong>
-                                  28495
-                                  :
-                                  05
-                                  :
-                                  36
+                                  00:00:00
                                 </strong>
                               </h6>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item"
+                              class="MuiGrid-root"
                             >
                               <p
                                 class="MuiTypography-root MuiTypography-body1"
                                 style="color: rgb(153, 153, 153);"
                               >
-                                Remaining
+                                Completed
                               </p>
                             </div>
                           </div>
@@ -1744,25 +1739,20 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                             >
                               <h6
                                 class="MuiTypography-root MuiTypography-h6"
-                                title="Finishes at 30/03/2100, 22:00:00 in your timezone"
                               >
                                 <strong>
-                                  28495
-                                  :
-                                  05
-                                  :
-                                  36
+                                  00:00:00
                                 </strong>
                               </h6>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item"
+                              class="MuiGrid-root"
                             >
                               <p
                                 class="MuiTypography-root MuiTypography-body1"
                                 style="color: rgb(153, 153, 153);"
                               >
-                                Remaining
+                                Completed
                               </p>
                             </div>
                           </div>
