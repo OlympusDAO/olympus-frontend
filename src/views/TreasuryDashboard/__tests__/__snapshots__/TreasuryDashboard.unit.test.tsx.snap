@@ -10,16 +10,12 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
       class="MuiTabs-root makeStyles-root-1 "
     >
       <div
-        class="MuiTabs-scrollable"
-        style="width: 99px; height: 99px; position: absolute; top: -9999px; overflow: scroll;"
-      />
-      <div
-        class="MuiTabs-scroller MuiTabs-scrollable"
-        style="margin-bottom: 0px;"
+        class="MuiTabs-scroller MuiTabs-fixed"
+        style="overflow: hidden;"
       >
         <div
           aria-label="dashboard-tabs"
-          class="MuiTabs-flexContainer"
+          class="MuiTabs-flexContainer MuiTabs-centered"
           role="tablist"
         >
           <button
