@@ -5,9 +5,6 @@ import { DecimalBigNumber } from "./DecimalBigNumber";
 describe("DecimalBigNumber", () => {
   it("should initialise with BigNumber", () => {
     expect(new DecimalBigNumber(BigNumber.from("101"), 1).toString()).toEqual("10.1");
-    expect(() => {
-      new DecimalBigNumber(BigNumber.from("101"));
-    }).toThrow(); // decimals is required
   });
 
   it("should determine decimal places at initialisation", () => {
@@ -40,10 +37,8 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber((1.2).toString()).toString()).toEqual("1.2");
   });
 
-  it("should reject invalid decimals parameter", () => {
-    expect(() => {
-      new DecimalBigNumber(".1", 1).toString({ decimals: -1 });
-    }).toThrow(); // decimals should be 0 or positive
+  it("should set an invalid decimals value to 0 decimals", () => {
+    expect(new DecimalBigNumber(".1", 1).toString({ decimals: -1 })).toEqual("0");
   });
 
   it("should accurately format number to an accurate string", () => {
@@ -132,6 +127,8 @@ describe("DecimalBigNumber", () => {
     const decimalNumber = new DecimalBigNumber("20.12", 9);
     const secondDecimalNumber = new DecimalBigNumber("1.12", 9);
     expect(decimalNumber.mul(secondDecimalNumber, 9).toString()).toEqual("22.5344");
+    expect(decimalNumber.mul(secondDecimalNumber).toString()).toEqual("22.5344");
+    expect(decimalNumber.mul(secondDecimalNumber, 2).toString()).toEqual("22.53");
   });
 
   it("should divide by a number correctly", () => {
@@ -140,5 +137,7 @@ describe("DecimalBigNumber", () => {
     const index = new DecimalBigNumber("90", 9); // Index of 90
     expect(ohm.div(index, 18).toString()).toEqual("2");
     expect(index.div(ohm, 18).toString()).toEqual("0.5");
+    expect(index.div(ohm).toString()).toEqual("0.5");
+    expect(index.div(ohm, 0).toString()).toEqual("0");
   });
 });

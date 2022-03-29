@@ -1,5 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { formatUnits, parseUnits } from "@ethersproject/units";
+import { commify, formatUnits, parseUnits } from "@ethersproject/units";
+
+import { assert } from "../types/assert";
 
 export class DecimalBigNumber {
   private _decimals: number;
@@ -23,44 +25,54 @@ export class DecimalBigNumber {
    * @param decimals the number of decimal places supported by the number. If `number` is a string, this parameter is optional.
    * @returns a new, immutable instance of `DecimalBigNumber`
    */
+  constructor(number: BigNumber, decimals: number);
+  constructor(number: string, decimals?: number);
   constructor(number: BigNumber | string, decimals?: number) {
     if (typeof number === "string") {
-      const stringDecimals = decimals === undefined ? this._parseDecimals(number) : decimals;
       const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
-      const formatted = this._omitIrrelevantDecimals(_number, stringDecimals);
+      const stringDecimals = decimals === undefined ? this._inferDecimalAmount(number) : this._ensurePositive(decimals);
+      const formatted = this._setDecimalAmount(_number, stringDecimals);
       this._number = parseUnits(formatted, stringDecimals);
       this._decimals = stringDecimals;
       return;
     }
 
-    if (decimals === undefined) throw new Error("Decimals is required when initialising with a BigNumber");
+    assert(decimals !== undefined, "Decimal cannot be undefined");
 
     this._number = number;
     this._decimals = decimals;
   }
 
-  private _parseDecimals(number: string): number {
-    // Source: https://stackoverflow.com/a/53739569
-    const text = number.toString();
-    const index = text.indexOf(".");
-    return index == -1 ? 0 : text.length - index - 1;
-  }
+  private _inferDecimalAmount(number: string): number {
+    const [, decimalsOrUndefined] = number.split(".");
 
-  private _omitIrrelevantDecimals(number: string, decimals: number): string {
-    const [integer, _decimals] = number.split(".");
-    const _safeDecimals: string = _decimals || "";
-    const paddedDecimalsRequired: number = decimals > _safeDecimals.length ? decimals - _safeDecimals.length : 0;
-
-    return integer + "." + _safeDecimals.substring(0, decimals) + "0".repeat(paddedDecimalsRequired);
+    return decimalsOrUndefined?.length || 0;
   }
 
   /**
-   * Adds thousands separators to a number string.
+   * Ensures that the number has the expected number of decimal places
+   *
+   * Trims unnecessary decimals places
+   * Or pads decimals if needed
+   *
+   * @param number input number string
+   * @param decimals number of decimal places
    */
-  private _formatNumber(number: string): string {
-    const [integer, _decimals] = number.split(".");
+  private _setDecimalAmount(number: string, decimals: number): string {
+    const [integer, _decimalsOrUndefined] = number.split(".");
 
-    return integer.replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1,") + "." + (_decimals || "");
+    const _decimals = _decimalsOrUndefined || "";
+
+    const paddingRequired = Math.max(0, decimals - _decimals.length);
+
+    return integer + "." + _decimals.substring(0, decimals) + "0".repeat(paddingRequired);
+  }
+
+  /**
+   * Ensures a decimal value is positive
+   */
+  private _ensurePositive(decimals: number) {
+    return Math.max(0, decimals);
   }
 
   /**
@@ -69,19 +81,6 @@ export class DecimalBigNumber {
    */
   public toBigNumber(): BigNumber {
     return this._number;
-  }
-
-  /**
-   * Ensures that the number string has the required number of decimal places
-   *
-   * Padding is performed last, in case the given number string has fewer decimal places than required.
-   *
-   * @param number input number string
-   * @param decimals number of decimal places
-   * @returns a number string with padded decimal places
-   */
-  private _fixDecimals(number: string, decimals: number): string {
-    return this._omitIrrelevantDecimals(number, decimals);
   }
 
   /**
@@ -99,31 +98,32 @@ export class DecimalBigNumber {
    * @param args an object containing any of the properties: decimals, trim, format
    * @returns a string version of the number
    */
-  public toString(args?: { decimals?: number; trim?: boolean; format?: boolean }): string {
-    if (args && args.decimals !== undefined && args.decimals < 0)
-      throw new Error("The decimals parameter must be 0 or positive");
-
-    let formattedString = formatUnits(this._number, this._decimals);
+  public toString({
+    decimals,
+    format = false,
+    trim = true,
+  }: { decimals?: number; trim?: boolean; format?: boolean } = {}): string {
+    let result = formatUnits(this._number, this._decimals);
 
     // Add thousands separators
-    // Default: FALSE
-    if (args && args.format) formattedString = this._formatNumber(formattedString);
+    if (format) result = commify(result);
 
-    // We default to the number of decimal places specified in the instance
-    // But adjust that if there is an override
-    formattedString = this._fixDecimals(
-      formattedString,
-      args && args.decimals !== undefined ? args.decimals : this._decimals,
-    );
+    // We default to the number of decimal places specified
+    const _decimals = decimals === undefined ? this._decimals : this._ensurePositive(decimals);
+    result = this._setDecimalAmount(result, _decimals);
 
     // We default to trimming trailing zeroes (and decimal points), unless there is an override
-    // Default: TRUE
-    if (!args || args.trim !== false) formattedString = formattedString.replace(/(?:\.|(\..*?))\.?0*$/, "$1");
+    if (trim) result = result.replace(/(?:\.|(\..*?))\.?0*$/, "$1");
 
-    return formattedString;
+    return result;
   }
 
   /**
+   * @deprecated
+   * Please avoid using this method.
+   * If used for calculations: rather than converting this DecimalBigNumber
+   * "down" to a number, convert the other number "up" to a DecimalBigNumber.
+   *
    * Used when performing approximate calculations with
    * the number where precision __is not__ important.
    */
@@ -207,39 +207,42 @@ export class DecimalBigNumber {
    * Multiplies this number by the provided value
    * @param decimals The expected number of decimals of the output value
    */
-  public mul(value: DecimalBigNumber, decimals: number): DecimalBigNumber {
+  public mul(value: DecimalBigNumber, decimals?: number): DecimalBigNumber {
+    const _decimals =
+      decimals === undefined ? Math.min(this._decimals, value._decimals) : this._ensurePositive(decimals);
+
     const product = this._number.mul(value._number);
 
     // Multiplying two BigNumbers produces a product whose precision
-    // is the sum of the precisions of the two input numbers
-    const _decimals = this._decimals + value._decimals;
-
-    // Normalize the product
-    const normalized = new DecimalBigNumber(product, _decimals);
+    // is the sum of the precisions of the two input numbers,
+    // so we have to normalize the product
+    const normalized = new DecimalBigNumber(product, this._decimals + value._decimals);
 
     // Return result with the expected precision
-    return new DecimalBigNumber(normalized.toString(), decimals);
+    return new DecimalBigNumber(normalized.toString(), _decimals);
   }
 
   /**
    * Divides this number by the provided value
    * @param decimals The expected number of decimals of the output value
    */
-  public div(value: DecimalBigNumber, decimals: number): DecimalBigNumber {
+  public div(value: DecimalBigNumber, decimals?: number): DecimalBigNumber {
+    // We default the output decimals to the smaller decimal value of the two numbers
+    const _decimals =
+      decimals === undefined ? Math.min(this._decimals, value._decimals) : this._ensurePositive(decimals);
+
     // When we divide two BigNumbers, the result will never
     // include any decimal places because BigNumber only deals
     // with whole integer values. Therefore, in order for us to
     // include precision in our calculation, we need to normalize
     // the precision of the two numbers, such that the difference
-    // in precision is equal to the expected precision of the result.
-    const _decimals = decimals + value._decimals;
-
-    // Normalize according to the resultant precision calculated earlier
-    const _this = new DecimalBigNumber(this.toString(), _decimals);
+    // in precision is equal to the expected precision of the result,
+    // before we do the calculation
+    const _this = new DecimalBigNumber(this.toString(), _decimals + value._decimals);
 
     const quotient = _this._number.div(value._number);
 
-    // Return result with the expected precision
-    return new DecimalBigNumber(quotient, decimals);
+    // Return result with the expected output decimals
+    return new DecimalBigNumber(quotient, _decimals);
   }
 }
