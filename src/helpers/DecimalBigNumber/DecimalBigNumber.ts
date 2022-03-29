@@ -48,20 +48,10 @@ export class DecimalBigNumber {
 
   private _omitIrrelevantDecimals(number: string, decimals: number): string {
     const [integer, _decimals] = number.split(".");
+    const _safeDecimals: string = _decimals || "";
+    const paddedDecimalsRequired: number = decimals > _safeDecimals.length ? decimals - _safeDecimals.length : 0;
 
-    if (!_decimals) return integer;
-
-    return integer + "." + _decimals.substring(0, decimals);
-  }
-
-  private _padRequiredDecimals(number: string, decimals: number): string {
-    const [integer, _decimals] = number.split(".");
-
-    if (!_decimals) return integer;
-
-    const decimalsRequired: number = decimals - _decimals.length;
-
-    return integer + "." + _decimals.substring(0, decimals) + "0".repeat(decimalsRequired);
+    return integer + "." + _safeDecimals.substring(0, decimals) + "0".repeat(paddedDecimalsRequired);
   }
 
   /**
@@ -70,7 +60,7 @@ export class DecimalBigNumber {
   private _formatNumber(number: string): string {
     const [integer, _decimals] = number.split(".");
 
-    return integer.replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1,") + "." + _decimals;
+    return integer.replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1,") + "." + (_decimals || "");
   }
 
   /**
@@ -91,7 +81,7 @@ export class DecimalBigNumber {
    * @returns a number string with padded decimal places
    */
   private _fixDecimals(number: string, decimals: number): string {
-    return this._padRequiredDecimals(this._omitIrrelevantDecimals(number, decimals), decimals);
+    return this._omitIrrelevantDecimals(number, decimals);
   }
 
   /**
