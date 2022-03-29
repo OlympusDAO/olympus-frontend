@@ -30,7 +30,7 @@ export class DecimalBigNumber {
   constructor(number: BigNumber | string, decimals?: number) {
     if (typeof number === "string") {
       const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
-      const stringDecimals = decimals === undefined ? this._inferDecimalAmount(number) : decimals;
+      const stringDecimals = decimals === undefined ? this._inferDecimalAmount(number) : this._ensurePositive(decimals);
       const formatted = this._setDecimalAmount(_number, stringDecimals);
       this._number = parseUnits(formatted, stringDecimals);
       this._decimals = stringDecimals;
@@ -69,6 +69,13 @@ export class DecimalBigNumber {
   }
 
   /**
+   * Ensures a decimal value is positive
+   */
+  private _ensurePositive(decimals: number) {
+    return Math.max(0, decimals);
+  }
+
+  /**
    * Used when performing accurate calculations with
    * the number where precision is important.
    */
@@ -102,7 +109,7 @@ export class DecimalBigNumber {
     if (format) result = commify(result);
 
     // We default to the number of decimal places specified
-    const _decimals = decimals === undefined ? this._decimals : Math.max(0, decimals);
+    const _decimals = decimals === undefined ? this._decimals : this._ensurePositive(decimals);
     result = this._setDecimalAmount(result, _decimals);
 
     // We default to trimming trailing zeroes (and decimal points), unless there is an override
@@ -201,7 +208,8 @@ export class DecimalBigNumber {
    * @param decimals The expected number of decimals of the output value
    */
   public mul(value: DecimalBigNumber, decimals?: number): DecimalBigNumber {
-    const _decimals = decimals === undefined ? Math.min(this._decimals, value._decimals) : decimals;
+    const _decimals =
+      decimals === undefined ? Math.min(this._decimals, value._decimals) : this._ensurePositive(decimals);
 
     const product = this._number.mul(value._number);
 
@@ -220,7 +228,8 @@ export class DecimalBigNumber {
    */
   public div(value: DecimalBigNumber, decimals?: number): DecimalBigNumber {
     // We default the output decimals to the smaller decimal value of the two numbers
-    const _decimals = decimals === undefined ? Math.min(this._decimals, value._decimals) : decimals;
+    const _decimals =
+      decimals === undefined ? Math.min(this._decimals, value._decimals) : this._ensurePositive(decimals);
 
     // When we divide two BigNumbers, the result will never
     // include any decimal places because BigNumber only deals
