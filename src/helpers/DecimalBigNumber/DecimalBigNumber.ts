@@ -7,12 +7,29 @@ export class DecimalBigNumber {
   private _decimals: number;
   private _number: BigNumber;
 
+  /**
+   * Creates a new instance of `DecimalBigNumber`.
+   *
+   * This class expects and suggests that numbers be handled using `DecimalBigNumber`, instead of the inherently inaccurate
+   * use of `number` and `string` types.
+   *
+   * The constructor accepts the following as inputs to the number parameter:
+   * - `BigNumber` (from @ethersproject/bignumber): to easily shift from `BigNumber` used in smart contracts to `DecimalBigNumber`
+   * - `string`: to take input from the user
+   *
+   * Given these design decisions, there are some recommended approaches:
+   * - Obtain user input with type text, instead of a number, in order to retain precision. e.g. `<input type="text" />`
+   * - Where a `number` value is present, convert it to a `DecimalBigNumber` in the manner the developer deems appropriate. This will most commonly be `new DecimalBigNumber(1000222000.2222.toString(), 4)`. While a convenience method could be offered, it could lead to unexpected behaviour around precision.
+   *
+   * @param number the BigNumber or string used to initialise the object
+   * @param decimals the number of decimal places supported by the number
+   * @returns a new, immutable instance of `DecimalBigNumber`
+   */
   constructor(number: BigNumber | string, decimals: number) {
     this._decimals = decimals;
 
     if (typeof number === "string") {
       const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
-
       const formatted = this._omitIrrelevantDecimals(_number, decimals);
       this._number = parseUnits(formatted, decimals);
       return;
@@ -39,6 +56,8 @@ export class DecimalBigNumber {
 
   /**
    * Used to display the value accurately to the user
+   *
+   * Trailing zeroes are trimmed from the output
    */
   public toAccurateString(): string {
     return formatUnits(this._number, this._decimals);
@@ -54,10 +73,45 @@ export class DecimalBigNumber {
 
   /**
    * Used to display a formatted approximate value to the user
-   * @param decimals The number of decimal places to show
+   *
+   * @param decimals The number of decimal places to show.
+   *                 Defaults to 0 decimal places
    */
-  public toFormattedString(decimals = 0): string {
-    return formatNumber(this.toApproxNumber(), decimals);
+  public toFormattedString: {
+    (decimals?: number): string;
+    (options?: {
+      decimals?: number;
+      /**
+       * Removes unnecessary trailing zeroes from the result.
+       * Defaults to `false`
+       */
+      trimTrailingZeroes?: boolean;
+    }): string;
+  } = decimalsOrOptions => {
+    if (typeof decimalsOrOptions === "object") {
+      const options = decimalsOrOptions || {};
+      const string = formatNumber(this.toApproxNumber(), options.decimals);
+
+      return options.trimTrailingZeroes ? string.replace(/(?:\.|(\..*?))0+$/, "$1") : string;
+    }
+
+    return formatNumber(this.toApproxNumber(), decimalsOrOptions || 0);
+  };
+
+  /**
+   * Determines if the two values are equal
+   *
+   * @param value the number to compare against
+   */
+  public eq(value: DecimalBigNumber): boolean {
+    // Normalize precision to the largest of the two values
+    const decimals = Math.max(value._decimals, this._decimals);
+
+    // Normalize values to correct precision
+    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
+    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+
+    return _this._number.eq(_value._number);
   }
 
   /**
@@ -73,6 +127,7 @@ export class DecimalBigNumber {
 
     return new DecimalBigNumber(_this._number.sub(_value._number), decimals);
   }
+
   /**
    * Adds the value provided to this number
    */
@@ -99,6 +154,20 @@ export class DecimalBigNumber {
     const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
 
     return _this._number.gt(_value._number);
+  }
+
+  /**
+   * Determines if this number is less than the provided value
+   */
+  public lt(value: DecimalBigNumber): boolean {
+    // Normalize precision to the largest of the two values
+    const decimals = Math.max(value._decimals, this._decimals);
+
+    // Normalize values to correct precision
+    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
+    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+
+    return _this._number.lt(_value._number);
   }
 
   /**

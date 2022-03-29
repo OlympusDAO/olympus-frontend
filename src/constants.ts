@@ -10,5 +10,8 @@ export const POOL_GRAPH_URLS: IPoolGraphURLS = {
   1: "https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-v3_4_3",
 };
 
+export const OHM_DECIMAL_PLACES = 9;
+export const GOHM_DECIMAL_PLACES = 18;
+
 export * from "./networkDetails";
 export * from "./helpers/v2BondDetails";
