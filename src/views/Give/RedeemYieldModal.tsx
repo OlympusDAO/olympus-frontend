@@ -5,7 +5,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Modal, PrimaryButton } from "@olympusdao/component-library";
 import { useSelector } from "react-redux";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
-import { OHM_DECIMAL_PLACES } from "src/constants";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -44,7 +43,7 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
   const canSubmit = () => {
     if (!address) return false;
     if (isPendingTxn(pendingTransactions, "redeeming")) return false;
-    if (redeemableBalance.lt(new DecimalBigNumber("0", OHM_DECIMAL_PLACES))) return false;
+    if (redeemableBalance.lt(new DecimalBigNumber("0"))) return false;
 
     return true;
   };
@@ -67,7 +66,7 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
                   <Trans>Redeemable Yield</Trans>
                 </Typography>
                 <Typography variant="h6">
-                  {redeemableBalance.toFormattedString({ decimals: DECIMAL_PLACES, trimTrailingZeroes: true })} sOHM
+                  {redeemableBalance.toString({ decimals: DECIMAL_PLACES, format: true })} sOHM
                 </Typography>
               </Grid>
               {!isSmallScreen ? (
@@ -101,9 +100,9 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
                 {txnButtonText(
                   pendingTransactions,
                   "redeeming",
-                  t`Confirm ${redeemableBalance.toFormattedString({
+                  t`Confirm ${redeemableBalance.toString({
                     decimals: DECIMAL_PLACES,
-                    trimTrailingZeroes: true,
+                    format: true,
                   })} sOHM`,
                 )}
               </PrimaryButton>

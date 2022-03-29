@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useUIDSeed } from "react-uid";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
-import { NetworkId, OHM_DECIMAL_PLACES } from "src/constants";
+import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useAppDispatch } from "src/hooks";
@@ -51,7 +51,7 @@ export default function CausesDashboard() {
     eventSource: string,
     depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.eq(new DecimalBigNumber("0", OHM_DECIMAL_PLACES))) {
+    if (depositAmount.eq(new DecimalBigNumber("0"))) {
       return dispatch(error(t`Please enter a value!`));
     }
 
@@ -61,7 +61,7 @@ export default function CausesDashboard() {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE,
-          value: depositAmount.toAccurateString(),
+          value: depositAmount.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -75,7 +75,7 @@ export default function CausesDashboard() {
       await dispatch(
         changeGive({
           action: ACTION_GIVE,
-          value: depositAmount.toAccurateString(),
+          value: depositAmount.toString(),
           recipient: walletAddress,
           provider,
           address,

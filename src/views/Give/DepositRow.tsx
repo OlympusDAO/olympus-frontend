@@ -8,7 +8,7 @@ import { SecondaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { NetworkId, OHM_DECIMAL_PLACES } from "src/constants";
+import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -68,7 +68,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.eq(new DecimalBigNumber("0", OHM_DECIMAL_PLACES))) return;
+    if (depositAmountDiff.eq(new DecimalBigNumber("0"))) return;
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
@@ -76,7 +76,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toAccurateString(),
+          value: depositAmountDiff.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -90,7 +90,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       await dispatch(
         changeGive({
           action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toAccurateString(),
+          value: depositAmountDiff.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -113,7 +113,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toAccurateString(),
+          value: depositAmount.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -127,7 +127,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       await dispatch(
         changeGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toAccurateString(),
+          value: depositAmount.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -142,7 +142,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
     setIsManageModalOpen(false);
   };
 
-  const depositNumber = new DecimalBigNumber(depositObject.deposit, OHM_DECIMAL_PLACES);
+  const depositNumber = new DecimalBigNumber(depositObject.deposit);
 
   return (
     <Grid container alignItems="center" spacing={2}>
@@ -159,16 +159,14 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       {!isSmallScreen && (
         <Grid item xs={2} style={{ textAlign: "right" }}>
           {/* Exact amount as this is what the user has deposited */}
-          <Typography variant="body1">
-            {depositNumber.toFormattedString({ decimals: OHM_DECIMAL_PLACES, trimTrailingZeroes: true })} sOHM
-          </Typography>
+          <Typography variant="body1">{depositNumber.toString({ format: true })} sOHM</Typography>
         </Grid>
       )}
       <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
         <Typography variant="body1">
-          {new DecimalBigNumber(depositObject.yieldDonated, OHM_DECIMAL_PLACES).toFormattedString({
+          {new DecimalBigNumber(depositObject.yieldDonated).toString({
             decimals: DECIMAL_PLACES,
-            trimTrailingZeroes: true,
+            format: true,
           })}{" "}
           sOHM
         </Typography>
