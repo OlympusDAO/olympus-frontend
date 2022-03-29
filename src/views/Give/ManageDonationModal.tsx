@@ -265,7 +265,9 @@ export function ManageDonationModal({
 
     if (valueNumber.gt(getMaximumDepositAmount())) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`Value cannot be more than your sOHM balance of ` + getMaximumDepositAmount());
+      setIsDepositAmountValidError(
+        t`Value cannot be more than your sOHM balance of ` + " " + getMaximumDepositAmount(),
+      );
       return;
     }
 
