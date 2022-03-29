@@ -123,7 +123,6 @@ const TreasuryDashboard = memo(() => {
       ) : (
         <>
           <Tabs
-            centered
             value={view}
             variant="scrollable"
             scrollButtons="auto"
