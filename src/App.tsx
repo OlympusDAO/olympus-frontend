@@ -96,7 +96,6 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [theme, toggleTheme] = useTheme();
-  const currentPath = location.pathname + location.hash + location.search;
   const trimmedPath = location.pathname + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
