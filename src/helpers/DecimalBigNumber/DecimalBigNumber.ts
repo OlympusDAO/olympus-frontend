@@ -1,6 +1,8 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { formatUnits, parseUnits } from "@ethersproject/units";
 
+import { assert } from "../types/assert";
+
 export class DecimalBigNumber {
   private _decimals: number;
   private _number: BigNumber;
@@ -23,6 +25,8 @@ export class DecimalBigNumber {
    * @param decimals the number of decimal places supported by the number. If `number` is a string, this parameter is optional.
    * @returns a new, immutable instance of `DecimalBigNumber`
    */
+  constructor(number: BigNumber, decimals: number);
+  constructor(number: string, decimals?: number);
   constructor(number: BigNumber | string, decimals?: number) {
     if (typeof number === "string") {
       const stringDecimals = decimals === undefined ? this._parseDecimals(number) : decimals;
@@ -33,7 +37,7 @@ export class DecimalBigNumber {
       return;
     }
 
-    if (decimals === undefined) throw new Error("Decimals is required when initialising with a BigNumber");
+    assert(decimals, "Decimal cannot be undefined if we reach here, not sure why TS can't pick this up");
 
     this._number = number;
     this._decimals = decimals;

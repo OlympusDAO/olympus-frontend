@@ -5,9 +5,6 @@ import { DecimalBigNumber } from "./DecimalBigNumber";
 describe("DecimalBigNumber", () => {
   it("should initialise with BigNumber", () => {
     expect(new DecimalBigNumber(BigNumber.from("101"), 1).toString()).toEqual("10.1");
-    expect(() => {
-      new DecimalBigNumber(BigNumber.from("101"));
-    }).toThrow(); // decimals is required
   });
 
   it("should determine decimal places at initialisation", () => {
