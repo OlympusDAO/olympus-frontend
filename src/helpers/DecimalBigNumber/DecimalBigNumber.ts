@@ -63,9 +63,9 @@ export class DecimalBigNumber {
 
     const _decimals = _decimalsOrUndefined || "";
 
-    const paddedDecimalsRequired = decimals > _decimals.length ? decimals - _decimals.length : 0;
+    const paddingRequired = Math.max(0, decimals - _decimals.length);
 
-    return integer + "." + _decimals.substring(0, decimals) + "0".repeat(paddedDecimalsRequired);
+    return integer + "." + _decimals.substring(0, decimals) + "0".repeat(paddingRequired);
   }
 
   /**
