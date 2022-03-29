@@ -71,6 +71,8 @@ type State = {
 
 const DECIMAL_PLACES = 2;
 const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
+// We restrict DP to a reasonable number, but trim if unnecessary
+const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const location = useLocation();
@@ -88,6 +90,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
+
+  const [goalCompletion, setGoalCompletion] = useState(new DecimalBigNumber("0"));
 
   const donationInfo = useSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
@@ -153,6 +157,22 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   }, [donationInfo]);
 
   useEffect(() => {
+    // We calculate the level of goal completion here, so that it is updated whenever one of the dependencies change
+    if (donorCountIsLoading || recipientInfoIsLoading || totalDonatedIsLoading) {
+      setGoalCompletion(ZERO_NUMBER);
+      return;
+    }
+
+    const totalDonatedNumber = new DecimalBigNumber(totalDonated);
+
+    setGoalCompletion(
+      totalDonatedNumber
+        .mul(new DecimalBigNumber("100"), OHM_DECIMAL_PLACES)
+        .div(new DecimalBigNumber(depositGoal.toString()), OHM_DECIMAL_PLACES),
+    );
+  }, [donorCountIsLoading, recipientInfoIsLoading, totalDonatedIsLoading]);
+
+  useEffect(() => {
     setIsUserDonating(false);
     setDonationId(0);
   }, [networkId]);
@@ -215,20 +235,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     );
   };
 
-  const getGoalCompletion = (): DecimalBigNumber => {
-    if (!depositGoal || recipientInfoIsLoading || !totalDonated) {
-      return ZERO_NUMBER;
-    }
-
-    const totalDonatedNumber = new DecimalBigNumber(totalDonated);
-
-    return totalDonatedNumber
-      .mul(new DecimalBigNumber("100"), OHM_DECIMAL_PLACES)
-      .div(new DecimalBigNumber(depositGoal.toString()), OHM_DECIMAL_PLACES);
-  };
-
   const renderGoalCompletion = (): JSX.Element => {
-    const goalCompletion = getGoalCompletion();
+    // No point in displaying decimals in the progress bar
     const formattedGoalCompletion = goalCompletion.toString({ decimals: 0, format: true });
 
     if (depositGoal === 0) return <></>;
@@ -260,11 +268,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
-    const goalProgress: number = getGoalCompletion().gt(new DecimalBigNumber("100"))
-      ? 100
-      : getGoalCompletion().toApproxNumber();
-
-    if (depositGoal === 0) return <></>;
+    const goalProgress: number = goalCompletion.gt(new DecimalBigNumber("100")) ? 100 : goalCompletion.toApproxNumber();
 
     if (depositGoal === 0) return <></>;
 
@@ -277,14 +281,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <Icon name="sohm-yield" />
               </Grid>
               <Grid item className="metric">
-                {totalDonatedIsLoading ? (
-                  <Skeleton />
-                ) : (
-                  new DecimalBigNumber(totalDonated).toString({
-                    decimals: DECIMAL_PLACES,
-                    format: true,
-                  })
-                )}
+                {totalDonatedIsLoading ? <Skeleton /> : new DecimalBigNumber(totalDonated).toString(DEFAULT_FORMAT)}
               </Grid>
             </Grid>
             <Grid item className="subtext">
@@ -300,10 +297,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="sohm-yield-goal" />
                   </Grid>
                   <Grid item className="metric">
-                    {new DecimalBigNumber(depositGoal.toString()).toString({
-                      decimals: DECIMAL_PLACES,
-                      format: true,
-                    })}
+                    {new DecimalBigNumber(depositGoal.toString()).toString(DEFAULT_FORMAT)}
                   </Grid>
                 </Grid>
               </Grid>
@@ -352,12 +346,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     {recipientInfoIsLoading ? (
                       <Skeleton />
                     ) : (
-                      <strong>
-                        {new DecimalBigNumber(totalDebt).toString({
-                          decimals: DECIMAL_PLACES,
-                          format: true,
-                        })}
-                      </strong>
+                      <strong>{new DecimalBigNumber(totalDebt).toString(DEFAULT_FORMAT)}</strong>
                     )}
                   </Grid>
                 </Grid>
@@ -746,10 +735,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                                 {donationInfoIsLoading ? (
                                   <Skeleton />
                                 ) : donationInfo[donationId] ? (
-                                  new DecimalBigNumber(donationInfo[donationId].yieldDonated).toString({
-                                    decimals: DECIMAL_PLACES,
-                                    format: true,
-                                  })
+                                  new DecimalBigNumber(donationInfo[donationId].yieldDonated).toString(DEFAULT_FORMAT)
                                 ) : (
                                   "0"
                                 )}
