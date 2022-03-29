@@ -37,7 +37,7 @@ export class DecimalBigNumber {
       return;
     }
 
-    assert(decimals, "Decimal cannot be undefined if we reach here, not sure why TS can't pick this up");
+    assert(decimals !== undefined, "Decimal cannot be undefined");
 
     this._number = number;
     this._decimals = decimals;
