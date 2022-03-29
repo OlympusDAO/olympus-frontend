@@ -39,38 +39,35 @@ export const useDonationInfo = () => {
 
       if (!contract) return donationInfo;
 
-      try {
-        const allDeposits: [string[], BigNumber[]] = await contract.getAllDeposits(address);
-        for (let i = 0; i < allDeposits[0].length; i++) {
-          if (allDeposits[1][i].eq(0)) continue;
+      const allDeposits: [string[], BigNumber[]] = await contract.getAllDeposits(address);
+      for (let i = 0; i < allDeposits[0].length; i++) {
+        if (allDeposits[1][i].eq(0)) continue;
 
-          const firstDonationDatePromise = GetDonationDate({
-            address: address,
-            recipient: allDeposits[0][i],
-            networkID: networks.MAINNET,
-            provider,
-          });
-          const yieldSentPromise = contract.donatedTo(address, allDeposits[0][i]);
+        const firstDonationDate = await GetDonationDate({
+          address: address,
+          recipient: allDeposits[0][i],
+          networkID: networks.MAINNET,
+          provider,
+        });
 
-          const [firstDonationDate, yieldSent]: [string, BigNumber] = await Promise.all([
-            firstDonationDatePromise,
-            yieldSentPromise,
-          ]);
-
-          const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
-
-          donationInfo.push({
-            date: firstDonationDate,
-            deposit: ethers.utils.formatUnits(allDeposits[1][i], "gwei"),
-            recipient: allDeposits[0][i],
-            yieldDonated: formattedYieldSent,
-          });
+        let yieldSent: BigNumber = BigNumber.from("0");
+        try {
+          yieldSent = await contract.donatedTo(address, allDeposits[0][i]);
+        } catch (e: unknown) {
+          console.log(
+            "If the following error contains 'user is not donating', then it is an expected error. No need to report it!",
+          );
+          console.log(e);
         }
-      } catch (e: unknown) {
-        console.log(
-          "If the following error contains 'user is not donating', then it is an expected error. No need to report it!",
-        );
-        console.log(e);
+
+        const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
+
+        donationInfo.push({
+          date: firstDonationDate,
+          deposit: ethers.utils.formatUnits(allDeposits[1][i], "gwei"),
+          recipient: allDeposits[0][i],
+          yieldDonated: formattedYieldSent,
+        });
       }
 
       return donationInfo;
@@ -173,19 +170,15 @@ export const useTotalDonated = (address: string) => {
       let totalRedeemed = BigNumber.from("0");
       let totalDonated = BigNumber.from("0");
 
-      try {
-        const events = await provider.getLogs(filter);
+      const events = await provider.getLogs(filter);
 
-        for (let i = 0; i < events.length; i++) {
-          totalRedeemed = totalRedeemed.add(events[i].data);
-        }
-
-        const redeemableBalance = await contract.redeemableBalance(address);
-
-        totalDonated = totalRedeemed.add(redeemableBalance);
-      } catch (e: unknown) {
-        console.log(e);
+      for (let i = 0; i < events.length; i++) {
+        totalRedeemed = totalRedeemed.add(events[i].data);
       }
+
+      const redeemableBalance = await contract.redeemableBalance(address);
+
+      totalDonated = totalRedeemed.add(redeemableBalance);
 
       return ethers.utils.formatUnits(totalDonated, "gwei");
     },
@@ -220,31 +213,27 @@ export const useDonorNumbers = (address: string) => {
       const donorAddresses: IDonorAddresses = {};
       const donationsToAddress: ethers.providers.Log[] = [];
 
-      try {
-        const events = await provider.getLogs(filter);
+      const events = await provider.getLogs(filter);
 
-        for (let i = 0; i < events.length; i++) {
-          const event = events[i];
+      for (let i = 0; i < events.length; i++) {
+        const event = events[i];
 
-          if (event.topics[2] === zeroPadAddress.toLowerCase()) {
-            const donorActiveDonations: [string[], BigNumber[]] = await contract.getAllDeposits(
-              ethers.utils.hexDataSlice(event.topics[1], 12),
-            );
+        if (event.topics[2] === zeroPadAddress.toLowerCase()) {
+          const donorActiveDonations: [string[], BigNumber[]] = await contract.getAllDeposits(
+            ethers.utils.hexDataSlice(event.topics[1], 12),
+          );
 
-            for (let j = 0; j < donorActiveDonations[0].length; j++) {
-              if (
-                donorActiveDonations[0][j].toLowerCase() === address.toLowerCase() &&
-                donorActiveDonations[1][j] > BigNumber.from("0") &&
-                !donorAddresses[event.topics[1]]
-              ) {
-                donationsToAddress.push(event);
-                donorAddresses[event.topics[1]] = true;
-              }
+          for (let j = 0; j < donorActiveDonations[0].length; j++) {
+            if (
+              donorActiveDonations[0][j].toLowerCase() === address.toLowerCase() &&
+              donorActiveDonations[1][j] > BigNumber.from("0") &&
+              !donorAddresses[event.topics[1]]
+            ) {
+              donationsToAddress.push(event);
+              donorAddresses[event.topics[1]] = true;
             }
           }
         }
-      } catch (e: unknown) {
-        console.log(e);
       }
 
       return donationsToAddress.length;

@@ -89,6 +89,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    setIsUserDonating(false);
+    setDonationId(0);
+  }, [networkId]);
+
+  useEffect(() => {
     for (let i = 0; i < donationInfo.length; i++) {
       if (donationInfo[i].recipient.toLowerCase() === wallet.toLowerCase()) {
         setIsUserDonating(true);
@@ -96,12 +101,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         break;
       }
     }
-  }, [donationInfo]);
-
-  useEffect(() => {
-    setIsUserDonating(false);
-    setDonationId(0);
-  }, [networkId]);
+  }, [donationInfo, networkId]);
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;

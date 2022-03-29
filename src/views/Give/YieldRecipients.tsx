@@ -34,7 +34,6 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
   const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
   const rawDonationInfo = useDonationInfo().data;
   const donationInfo = rawDonationInfo ? rawDonationInfo : [];
-  console.log(donationInfo);
 
   const isDonationInfoLoading = useSelector((state: DonationInfoState) => state.account.loading);
   const isLoading = isAppLoading || isDonationInfoLoading;
