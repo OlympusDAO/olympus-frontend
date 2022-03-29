@@ -9,6 +9,7 @@ import { MultifarmProvider } from "@multifarm/widget";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
+import grantData from "src/views/Give/grants.json";
 import projectData from "src/views/Give/projects.json";
 
 import CallToAction from "./components/CallToAction/CallToAction";
@@ -42,6 +43,7 @@ import { multifarmDarkTheme, multifarmLightTheme } from "./themes/multifarm";
 import { ChooseBondV2, Give, Stake, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
 import NotFound from "./views/404/NotFound";
 import { BondModalContainer } from "./views/Bond/components/BondModal/BondModal";
+import GrantInfo from "./views/Give/GrantInfo";
 import ProjectInfo from "./views/Give/ProjectInfo";
 
 // 😬 Sorry for all the console logging
@@ -113,6 +115,7 @@ function App() {
 
   const [walletChecked, setWalletChecked] = useState(false);
 
+  const { grants } = grantData;
   const { projects } = projectData;
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
@@ -390,12 +393,26 @@ function App() {
                 })}
               </Route>
 
-              <Route exact path="/give/donations">
+              <Route exact path="/give/grants">
                 <Give selectedIndex={1} />
               </Route>
 
-              <Route exact path="/give/redeem">
+              <Route path="/give/grants">
+                {grants.map(grant => {
+                  return (
+                    <Route exact key={grant.slug} path={`/give/grants/${grant.slug}`}>
+                      <GrantInfo grant={grant} />
+                    </Route>
+                  );
+                })}
+              </Route>
+
+              <Route exact path="/give/donations">
                 <Give selectedIndex={2} />
+              </Route>
+
+              <Route exact path="/give/redeem">
+                <Give selectedIndex={3} />
               </Route>
 
               <Route path="/wrap">
