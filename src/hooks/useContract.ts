@@ -9,6 +9,7 @@ import { abi as GAUGE_ABI } from "src/abi/Gauge.json";
 import { abi as IERC20_ABI } from "src/abi/IERC20.json";
 import { abi as JOECHEF_ABI } from "src/abi/JoeChef.json";
 import { abi as JOE_REWARDER_ABI } from "src/abi/JoeRewarder.json";
+import { abi as JONES_ABI } from "src/abi/Jones.json";
 import STAKING_ABI from "src/abi/OlympusStakingv2.json";
 import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
 import { abi as SOHM_ABI } from "src/abi/sOhmv2.json";
@@ -19,7 +20,7 @@ import { abi as ZIP_SECONDARY_REWARDER_ABI } from "src/abi/ZipSecondaryRewarder.
 import { AddressMap } from "src/constants/addresses";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
-import { CrossChainMigrator, FuseProxy, IERC20, OlympusStakingv2, PairContract, SOhmv2 } from "src/typechain";
+import { CrossChainMigrator, FuseProxy, IERC20, Jones, OlympusStakingv2, PairContract, SOhmv2 } from "src/typechain";
 import { BalancerV2Pool } from "src/typechain/BalancerV2Pool";
 import { BalancerVault } from "src/typechain/BalancerVault";
 import { BeethovenChef } from "src/typechain/BeethovenChef";
@@ -102,6 +103,8 @@ export const useStaticBalancerVaultContract = createStaticContract<BalancerVault
 export const useStaticZipRewarderContract = createStaticContract<ZipRewarder>(ZIP_REWARDER_ABI);
 export const useStaticZipSecondaryRewardercontract =
   createStaticContract<ZipSecondaryRewarder>(ZIP_SECONDARY_REWARDER_ABI);
+export const useStaticJonesContract = createStaticContract<Jones>(JONES_ABI);
+
 // Dynamic contracts
 export const useDynamicTokenContract = createDynamicContract<IERC20>(IERC20_ABI);
 export const useDynamicStakingContract = createDynamicContract<OlympusStakingv2>(STAKING_ABI);
