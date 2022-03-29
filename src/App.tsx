@@ -344,9 +344,7 @@ function App() {
               oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
             <Switch>
-              {/* (keith): leave this route here temporarily to 
-              be able to reference the old dashboard */}
-              <Route exact path="/dashboard">
+              <Route path="/dashboard">
                 <TreasuryDashboard />
               </Route>
 

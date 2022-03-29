@@ -3,7 +3,8 @@ import "./TreasuryDashboard.scss";
 import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
 import { DashboardPro, Proteus, TotalIncome, TreasuryAllocation } from "@multifarm/widget";
 import { Metric, MetricCollection, Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
-import { ChangeEvent, memo, useState } from "react";
+import { ChangeEvent, memo, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import {
@@ -100,11 +101,40 @@ const MetricsDashboard = () => (
   </>
 );
 
+enum DashboardTab {
+  OP = "/dashboard/olympuspro",
+  Proteus = "/dashboard/proteus",
+  Revenue = "/dashboard/revenue",
+  Treasury = "/dashboard/treasury",
+}
+
 const TreasuryDashboard = memo(() => {
+  const location = useLocation();
   const [view, setView] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
 
+  useEffect(() => {
+    switch (location.pathname) {
+      case DashboardTab.Treasury:
+        setView(1);
+        break;
+      case DashboardTab.Revenue:
+        setView(2);
+        break;
+      case DashboardTab.OP:
+        setView(3);
+        break;
+      case DashboardTab.Proteus:
+        setView(4);
+        break;
+      default:
+        setView(0);
+        break;
+    }
+  }, [location]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
   };
@@ -123,9 +153,9 @@ const TreasuryDashboard = memo(() => {
       ) : (
         <>
           <Tabs
-            centered
             value={view}
-            variant="scrollable"
+            variant={!(isSmallScreen || isVerySmallScreen) ? "standard" : "scrollable"}
+            centered={!(isSmallScreen || isVerySmallScreen)}
             scrollButtons="auto"
             textColor="primary"
             indicatorColor="primary"
