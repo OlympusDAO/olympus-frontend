@@ -102,7 +102,6 @@
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
     "autoprefixer": "^10.2.4",
-    "eslint": "^7.11.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-babel": "^5.3.1",
