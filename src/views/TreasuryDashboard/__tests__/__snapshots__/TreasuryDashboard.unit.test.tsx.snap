@@ -20,7 +20,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
         >
           <button
             aria-controls="simple-tabpanel-0"
-            aria-label="key-metrics"
+            aria-label="dashboard"
             aria-selected="true"
             class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected"
             id="simple-tab-0"
@@ -36,7 +36,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
           </button>
           <button
             aria-controls="simple-tabpanel-1"
-            aria-label="treasury-allocation"
+            aria-label="treasury"
             aria-selected="false"
             class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
             id="simple-tab-1"
@@ -68,7 +68,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
           </button>
           <button
             aria-controls="simple-tabpanel-3"
-            aria-label="olympus-pro"
+            aria-label="olympuspro"
             aria-selected="false"
             class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
             id="simple-tab-3"

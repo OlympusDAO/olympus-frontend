@@ -3,8 +3,8 @@ import "./TreasuryDashboard.scss";
 import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
 import { DashboardPro, Proteus, TotalIncome, TreasuryAllocation } from "@multifarm/widget";
 import { Metric, MetricCollection, Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
-import { ChangeEvent, memo, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { ChangeEvent, memo, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import {
@@ -101,42 +101,24 @@ const MetricsDashboard = () => (
   </>
 );
 
-enum DashboardTab {
-  OP = "/dashboard/olympuspro",
-  Proteus = "/dashboard/proteus",
-  Revenue = "/dashboard/revenue",
-  Treasury = "/dashboard/treasury",
-}
+const dashboardTabs = [
+  { pathname: "dashboard", label: "Overview" },
+  { pathname: "treasury", label: "Treasury" },
+  { pathname: "revenue", label: "Revenue" },
+  { pathname: "olympuspro", label: "Olympus Pro" },
+  { pathname: "proteus", label: "Proteus" },
+];
 
-const TreasuryDashboard = memo(() => {
-  const location = useLocation();
-  const [view, setView] = useState(0);
+const TreasuryDashboard: React.FC<{ activeView: number }> = ({ activeView = 0 }) => {
+  const history = useHistory();
+  const [view, setView] = useState(activeView);
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
-
-  useEffect(() => {
-    switch (location.pathname) {
-      case DashboardTab.Treasury:
-        setView(1);
-        break;
-      case DashboardTab.Revenue:
-        setView(2);
-        break;
-      case DashboardTab.OP:
-        setView(3);
-        break;
-      case DashboardTab.Proteus:
-        setView(4);
-        break;
-      default:
-        setView(0);
-        break;
-    }
-  }, [location]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
+    history.push(newView === 0 ? "/dashboard" : `/dashboard/${dashboardTabs[newView].pathname}`);
   };
 
   return (
@@ -162,11 +144,9 @@ const TreasuryDashboard = memo(() => {
             onChange={changeView}
             aria-label="dashboard-tabs"
           >
-            <Tab aria-label="key-metrics" label="Overview" />
-            <Tab aria-label="treasury-allocation" label="Treasury" />
-            <Tab aria-label="revenue" label="Revenue" />
-            <Tab aria-label="olympus-pro" label="Olympus Pro" />
-            <Tab aria-label="proteus" label="Proteus" />
+            {dashboardTabs.map(({ pathname, label }, key) => (
+              <Tab key={key} aria-label={pathname} label={label} />
+            ))}
           </Tabs>
           <Container
             style={{
@@ -204,6 +184,6 @@ const TreasuryDashboard = memo(() => {
       )}
     </div>
   );
-});
+};
 
-export default TreasuryDashboard;
+export default memo(TreasuryDashboard);

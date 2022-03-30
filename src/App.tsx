@@ -344,10 +344,6 @@ function App() {
               oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
             <Switch>
-              <Route path="/dashboard">
-                <TreasuryDashboard />
-              </Route>
-
               <Route exact path="/">
                 <Redirect to="/stake" />
               </Route>
@@ -435,6 +431,23 @@ function App() {
                 })}
                 <ChooseBondV2 />
               </Route>
+
+              <Route exact path="/dashboard">
+                <TreasuryDashboard activeView={0} />
+              </Route>
+              <Route path="/dashboard/treasury">
+                <TreasuryDashboard activeView={1} />
+              </Route>
+              <Route path="/dashboard/revenue">
+                <TreasuryDashboard activeView={2} />
+              </Route>
+              <Route path="/dashboard/olympuspro">
+                <TreasuryDashboard activeView={3} />
+              </Route>
+              <Route path="/dashboard/proteus">
+                <TreasuryDashboard activeView={4} />
+              </Route>
+
               <Route exact path="/calculator">
                 <Wallet open={true} component="calculator" />
               </Route>
