@@ -6,7 +6,7 @@ import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { SecondaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { SubmitCallback } from "src/views/Give/Interfaces";
 
@@ -41,6 +41,10 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
 
   const isMutating = increaseMutation.isLoading || decreaseMutation.isLoading;
 
+  useEffect(() => {
+    if (isManageModalOpen) setIsManageModalOpen(false);
+  }, [increaseMutation.isSuccess, decreaseMutation.isSuccess]);
+
   const getRecipientTitle = (address: string): string => {
     const project = projectMap.get(address);
     if (!project) return isMediumScreen || isSmallScreen ? "Custom" : "Custom Recipient";
@@ -73,16 +77,12 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       const subtractionAmount = depositAmountDiff.multipliedBy(new BigNumber("-1"));
       await decreaseMutation.mutate({ amount: subtractionAmount.toFixed(), recipient: walletAddress });
     }
-
-    setIsManageModalOpen(false);
   };
 
   // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
   // Else use standard call
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
     await decreaseMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
-
-    setIsManageModalOpen(false);
   };
 
   return (

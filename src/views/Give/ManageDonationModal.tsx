@@ -181,6 +181,8 @@ export function ManageDonationModal({
   const canWithdraw = () => {
     if (!address) return false;
 
+    if (isMutationLoading) return false;
+
     return true;
   };
 

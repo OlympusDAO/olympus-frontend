@@ -11,6 +11,7 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
 import { GiveData } from "../Interfaces";
+import { IUAData, trackGiveEvent } from "../utils/googleAnalytics";
 
 /**
  * @notice Increases the value of an active donation
@@ -38,6 +39,17 @@ export const useIncreaseGive = () => {
 
       // Create transaction to deposit passed amount to the passed recipient
       const transaction = await contract.deposit(ethers.utils.parseUnits(amount_, "gwei"), recipient_);
+
+      const uaData: IUAData = {
+        address: address,
+        value: amount_,
+        recipient: recipient_,
+        approved: true,
+        txHash: transaction.hash,
+        type: "editGive",
+      };
+      trackGiveEvent(uaData);
+
       return transaction.wait();
     },
     {
@@ -86,6 +98,17 @@ export const useDecreaseGive = () => {
 
       // Create transaction to withdraw passed amount from the passed recipient
       const transaction = await contract.withdraw(ethers.utils.parseUnits(amount_, "gwei"), recipient_);
+
+      const uaData: IUAData = {
+        address: address,
+        value: amount_,
+        recipient: recipient_,
+        approved: true,
+        txHash: transaction.hash,
+        type: "editGive",
+      };
+      trackGiveEvent(uaData);
+
       return transaction.wait();
     },
     {

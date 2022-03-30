@@ -11,6 +11,7 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
 import { GiveData } from "../Interfaces";
+import { IUAData, trackGiveEvent } from "../utils/googleAnalytics";
 
 /**
  * @notice Creates a new deposit
@@ -38,6 +39,17 @@ export const useGive = () => {
 
       // Create transaction to deposit passed amount to the passed recipient
       const transaction = await contract.deposit(ethers.utils.parseUnits(amount_, "gwei"), recipient_);
+
+      const uaData: IUAData = {
+        address: address,
+        value: amount_,
+        recipient: recipient_,
+        approved: true,
+        txHash: transaction.hash,
+        type: "give",
+      };
+      trackGiveEvent(uaData);
+
       return transaction.wait();
     },
     {
