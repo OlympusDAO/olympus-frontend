@@ -5,10 +5,9 @@ import { Divider, Grid, Typography, useTheme } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { TertiaryButton } from "@olympusdao/component-library";
-import { useSelector } from "react-redux";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { useDonationInfo } from "src/hooks/useGiveInfo";
-import { DonationInfoState, IButtonChangeView } from "src/views/Give/Interfaces";
+import { IButtonChangeView } from "src/views/Give/Interfaces";
 
 import { DepositTableRow } from "./DepositRow";
 
@@ -20,12 +19,11 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
   const rawDonationInfo = useDonationInfo().data;
   const donationInfo = rawDonationInfo ? rawDonationInfo : [];
+  const isDonationInfoLoading = useDonationInfo().isLoading;
 
-  const isDonationInfoLoading = useSelector((state: DonationInfoState) => state.account.loading);
-  const isLoading = isAppLoading || isDonationInfoLoading;
+  const isLoading = isDonationInfoLoading;
 
   if (isLoading) {
     return <Skeleton />;
