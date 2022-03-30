@@ -18,6 +18,7 @@ const queryClient = new QueryClient({
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       notifyOnChangeProps: "tracked",
+      retry: Environment.env.NODE_ENV === "development" ? false : 3,
     },
   },
 });

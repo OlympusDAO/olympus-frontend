@@ -1,9 +1,11 @@
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { Box, FormControl, Typography } from "@material-ui/core";
 import { DataRow, Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
+import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { shorten } from "src/helpers";
 import { Bond } from "src/helpers/bonds/Bond";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -26,51 +28,50 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: number; recipientA
 
   const currentIndex = useCurrentIndex().data;
   const info = useBondData(props.bond).data;
-  const balance = useBalance(props.bond.quoteToken.addresses)[networks.MAINNET].data;
 
   const [amount, setAmount] = useState("");
-
-  const setMax = () => {
-    //
-  };
+  const balance = useBalance(props.bond.quoteToken.addresses)[networks.MAINNET].data;
+  const setMax = () => balance && setAmount(balance.toAccurateString());
 
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" justifyContent="space-around" flexWrap="wrap">
         <WalletConnectedGuard message="Please connect your wallet to purchase bonds">
-          {/* <TokenAllowanceGuard tokenAddressMap={} spenderAddressMap={} message={<div className="help-text">
-              <em>
-                <Typography variant="body1" align="center" color="textSecondary">
-                  <Trans>First time bonding</Trans> <b>{props.bond.displayName}</b>? <br />{" "}
-                  <Trans>Please approve Olympus Dao to use your</Trans> <b>{props.bond.displayName}</b>{" "}
-                  <Trans>for bonding</Trans>.
-                </Typography>
-              </em>
-            </div>}> */}
-
-          <FormControl className="ohm-input" fullWidth>
-            <Input
-              type="number"
-              labelWidth={55}
-              value={amount}
-              endString={t`Max`}
-              placeholder={t`Amount`}
-              endStringOnClick={setMax}
-              id="outlined-adornment-amount"
-              onChange={event => setAmount(event.currentTarget.value)}
-            />
-          </FormControl>
-
-          <PrimaryButton
-            id="bond-btn"
-            className="transaction-button"
-            onClick={() => {
-              //
-            }}
+          <TokenAllowanceGuard
+            isVertical
+            tokenAddressMap={props.bond.quoteToken.addresses}
+            spenderAddressMap={BOND_DEPOSITORY_CONTRACT.addresses}
+            message={
+              <>
+                <Trans>First time bonding</Trans> <b>{props.bond.quoteToken.name}</b>? <br />{" "}
+                <Trans>Please approve Olympus DAO to use your</Trans> <b>{props.bond.quoteToken.name}</b>{" "}
+                <Trans>for bonding</Trans>.
+              </>
+            }
           >
-            Bond
-          </PrimaryButton>
-          {/* </TokenAllowanceGuard> */}
+            <FormControl className="ohm-input" fullWidth>
+              <Input
+                type="number"
+                labelWidth={55}
+                value={amount}
+                endString={t`Max`}
+                placeholder={t`Amount`}
+                endStringOnClick={setMax}
+                id="outlined-adornment-amount"
+                onChange={event => setAmount(event.currentTarget.value)}
+              />
+            </FormControl>
+
+            <PrimaryButton
+              id="bond-btn"
+              className="transaction-button"
+              onClick={() => {
+                //
+              }}
+            >
+              Bond
+            </PrimaryButton>
+          </TokenAllowanceGuard>
         </WalletConnectedGuard>
       </Box>
 
