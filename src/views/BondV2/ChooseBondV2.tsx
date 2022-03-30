@@ -4,7 +4,7 @@ import { t } from "@lingui/macro";
 import { Box, Tab, Tabs, Typography, Zoom } from "@material-ui/core";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import isEmpty from "lodash/isEmpty";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "src/hooks";
 import { IUserBondDetails } from "src/slices/AccountSlice";
 import { IUserNote } from "src/slices/BondSliceV2";
@@ -73,15 +73,13 @@ function ChooseBondV2() {
               </Tabs>
             )}
 
-            <Suspense fallback={null}>
-              <BondList />
+            <BondList />
 
-              <Box mt="24px" className="help-text">
-                <Typography variant="body2">
-                  <BondInfoText isInverseBond={currentAction === 1} />
-                </Typography>
-              </Box>
-            </Suspense>
+            <Box mt="24px" className="help-text">
+              <Typography variant="body2">
+                <BondInfoText isInverseBond={currentAction === 1} />
+              </Typography>
+            </Box>
           </Box>
         </Paper>
       </Zoom>

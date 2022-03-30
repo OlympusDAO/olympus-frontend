@@ -62,19 +62,15 @@ export const BondRow: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = props
       )}
 
       <TableCell style={{ padding: "8px 0" }}>
-        <Typography>
-          <BondPrice price={info?.price} />
-        </Typography>
+        <Typography>{info?.isSoldOut ? "--" : <BondPrice price={info?.price} />}</Typography>
       </TableCell>
 
       <TableCell style={{ padding: "8px 0" }}>
-        <Typography>
-          <BondDiscount discount={info?.discount} />
-        </Typography>
+        <Typography>{info?.isSoldOut ? "--" : <BondDiscount discount={info?.discount} />}</Typography>
       </TableCell>
 
       <TableCell style={{ padding: "8px 0" }}>
-        <BondDuration duration={info?.duration} />
+        {info?.isSoldOut ? "--" : <BondDuration duration={info?.duration} />}
       </TableCell>
 
       <TableCell style={{ padding: "8px 0" }}>
@@ -82,7 +78,9 @@ export const BondRow: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = props
           component={NavLink}
           to={props.isInverseBond ? `/bonds/inverse/${props.bond.id}` : `/bonds/${props.bond.id}`}
         >
-          <TertiaryButton fullWidth>{t`do_bond`}</TertiaryButton>
+          <TertiaryButton fullWidth disabled={info?.isSoldOut}>
+            {info?.isSoldOut ? "Sold Out" : t`do_bond`}
+          </TertiaryButton>
         </Link>
       </TableCell>
     </TableRow>
