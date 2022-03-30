@@ -232,7 +232,7 @@ export class DecimalBigNumber {
    * NOTE: It is really difficult to predict the number of decimal places when dividing
    * a decimal number by another. Instead of entering into a recursive loop to determine
    * this, we take a slight hit in precision and use the sum of the decimal places of the
-   * inouts. If additional precision is needed, specify it as a parameter
+   * inputs. If additional precision is needed, specify it as a parameter
    *
    * @param decimals The expected number of decimals of the output value
    */
