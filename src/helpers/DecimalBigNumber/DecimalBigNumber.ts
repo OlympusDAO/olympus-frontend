@@ -21,19 +21,21 @@ export class DecimalBigNumber {
    * - Obtain user input with type text, instead of a number, in order to retain precision. e.g. `<input type="text" />`
    * - Where a `number` value is present, convert it to a `DecimalBigNumber` in the manner the developer deems appropriate. This will most commonly be `new DecimalBigNumber((1000222000.2222).toString(), 4)`. While a convenience method could be offered, it could lead to unexpected behaviour around precision.
    *
-   * @param number the BigNumber or string used to initialise the object
+   * @param value the BigNumber or string used to initialise the object
    * @param precision the number of decimal places supported by the number. If `number` is a string, this parameter is optional.
    * @returns a new, immutable instance of `DecimalBigNumber`
    */
-  constructor(value: BigNumber, precision: number);
   constructor(value: string, precision?: number);
+  constructor(value: BigNumber, precision: number);
   constructor(value: BigNumber | string, precision?: number) {
     if (typeof value === "string") {
       const _value = value.trim() === "" || isNaN(Number(value)) ? "0" : value;
-      const stringPrecision = precision === undefined ? this._inferPrecision(value) : this._ensurePositive(precision);
-      const formatted = this._setPrecision(_value, stringPrecision);
-      this._value = parseUnits(formatted, stringPrecision);
-      this._precision = stringPrecision;
+      const _precision = precision === undefined ? this._inferPrecision(value) : this._ensurePositive(precision);
+      const formatted = this._setPrecision(_value, _precision);
+
+      this._value = parseUnits(formatted, _precision);
+      this._precision = _precision;
+
       return;
     }
 
@@ -69,25 +71,27 @@ export class DecimalBigNumber {
   }
 
   /**
-   * Ensures a decimal value is positive
+   * Ensures the desired precision is positive
    */
   private _ensurePositive(precision: number) {
     return Math.max(0, precision);
   }
 
   /**
-   * Used when performing accurate calculations with
-   * the number where precision is important.
+   * Converts this value to a BigNumber
+   *
+   * Often used when passing this value as
+   * an argument to a contract method
    */
   public toBigNumber(): BigNumber {
     return this._value;
   }
 
   /**
-   * Converts the number to a string
+   * Converts this value to a string
    *
    * By default, the string returned will:
-   * - Have the same number of decimal places that it was initialised with
+   * - Have the same precision that it was initialised with
    * - Have trailing zeroes removed
    * - Not have thousands separators
    *
@@ -134,7 +138,7 @@ export class DecimalBigNumber {
   /**
    * Determines if the two values are equal
    *
-   * @param value the number to compare against
+   * @param value the va;ie to compare against
    */
   public eq(value: DecimalBigNumber): boolean {
     // Normalize precision to the largest of the two values
@@ -148,7 +152,7 @@ export class DecimalBigNumber {
   }
 
   /**
-   * Subtracts this number by the value provided
+   * Subtracts this value by the value provided
    */
   public sub(value: DecimalBigNumber): DecimalBigNumber {
     // Normalize precision to the largest of the two values
@@ -162,7 +166,7 @@ export class DecimalBigNumber {
   }
 
   /**
-   * Adds the value provided to this number
+   * Sums this value and the value provided
    */
   public add(value: DecimalBigNumber): DecimalBigNumber {
     // Normalize precision to the largest of the two values
@@ -176,7 +180,7 @@ export class DecimalBigNumber {
   }
 
   /**
-   * Determines if this number is greater than the provided value
+   * Determines if this va;ie is greater than the provided value
    */
   public gt(value: DecimalBigNumber): boolean {
     // Normalize precision to the largest of the two values
@@ -190,7 +194,7 @@ export class DecimalBigNumber {
   }
 
   /**
-   * Determines if this number is less than the provided value
+   * Determines if this value is less than the provided value
    */
   public lt(value: DecimalBigNumber): boolean {
     // Normalize precision to the largest of the two values
@@ -204,7 +208,7 @@ export class DecimalBigNumber {
   }
 
   /**
-   * Multiplies this number by the provided value
+   * Multiplies this value by the provided value
    */
   public mul(value: DecimalBigNumber): DecimalBigNumber {
     const product = this._value.mul(value._value);
@@ -215,10 +219,10 @@ export class DecimalBigNumber {
   }
 
   /**
-   * Divides this number by the provided value
+   * Divides this value by the provided value
    *
-   * By default, this returns a number with a precision equal
-   * to the sum of the precisions of the two numbers used.
+   * By default, this returns a value whose precision is equal
+   * to the sum of the precisions of the two values used.
    * If this isn't enough, you can specify a desired
    * precision using the second function argument.
    *
