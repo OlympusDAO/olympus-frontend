@@ -205,36 +205,24 @@ export class DecimalBigNumber {
 
   /**
    * Multiplies this number by the provided value
-   * 
-   * By default, the sum of decimal places from both numbers will be used.
-
-   * @param decimals The expected number of decimals of the output value
    */
-  public mul(value: DecimalBigNumber, decimals?: number): DecimalBigNumber {
-    const _decimals = decimals === undefined ? this._decimals + value._decimals : this._ensurePositive(decimals);
-
+  public mul(value: DecimalBigNumber): DecimalBigNumber {
     const product = this._number.mul(value._number);
 
-    // Multiplying two BigNumbers produces a product whose precision
-    // is the sum of the precisions of the two input numbers,
-    // so we have to normalize the product
-    const normalized = new DecimalBigNumber(product, this._decimals + value._decimals);
-
-    // Return result with the expected precision
-    return new DecimalBigNumber(normalized.toString(), _decimals);
+    // Multiplying two BigNumbers produces a product with a decimal
+    // value equal to the sum of the decimal values of the two input numbers
+    return new DecimalBigNumber(product, this._decimals + value._decimals);
   }
 
   /**
    * Divides this number by the provided value
    *
-   * By default, the sum of decimal places from both numbers will be used.
+   * By default, this returns a number with a precision equal
+   * to the sum of the precisions of the two numbers used.
+   * If this isn't enough, you can specify a desired
+   * precision using the second function argument.
    *
-   * NOTE: It is really difficult to predict the number of decimal places when dividing
-   * a decimal number by another. Instead of entering into a recursive loop to determine
-   * this, we take a slight hit in precision and use the sum of the decimal places of the
-   * inputs. If additional precision is needed, specify it as a parameter
-   *
-   * @param decimals The expected number of decimals of the output value
+   * @param decimals The expected precision of the output value
    */
   public div(value: DecimalBigNumber, decimals?: number): DecimalBigNumber {
     const _decimals = decimals === undefined ? this._decimals + value._decimals : this._ensurePositive(decimals);
@@ -246,6 +234,20 @@ export class DecimalBigNumber {
     // the precision of the two numbers, such that the difference
     // in precision is equal to the expected precision of the result,
     // before we do the calculation
+    //
+    // E.g:
+    // 22/5 = 4.4
+    //
+    // But ethers would return:
+    // 22/5 = 4 (no decimals)
+    //
+    // So before we calculate, we add n decimals to the numerator,
+    // where n is the expected precision of the result:
+    // 220/5 = 44
+    //
+    // Normalized to the expected precision of the result
+    // 4.4
+
     const _this = new DecimalBigNumber(this.toString(), _decimals + value._decimals);
 
     const quotient = _this._number.div(value._number);
