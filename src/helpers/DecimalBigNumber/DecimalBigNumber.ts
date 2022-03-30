@@ -4,8 +4,8 @@ import { commify, formatUnits, parseUnits } from "@ethersproject/units";
 import { assert } from "../types/assert";
 
 export class DecimalBigNumber {
-  private _decimals: number;
-  private _number: BigNumber;
+  private _precision: number;
+  private _value: BigNumber;
 
   /**
    * Creates a new instance of `DecimalBigNumber`.
@@ -22,57 +22,57 @@ export class DecimalBigNumber {
    * - Where a `number` value is present, convert it to a `DecimalBigNumber` in the manner the developer deems appropriate. This will most commonly be `new DecimalBigNumber((1000222000.2222).toString(), 4)`. While a convenience method could be offered, it could lead to unexpected behaviour around precision.
    *
    * @param number the BigNumber or string used to initialise the object
-   * @param decimals the number of decimal places supported by the number. If `number` is a string, this parameter is optional.
+   * @param precision the number of decimal places supported by the number. If `number` is a string, this parameter is optional.
    * @returns a new, immutable instance of `DecimalBigNumber`
    */
-  constructor(number: BigNumber, decimals: number);
-  constructor(number: string, decimals?: number);
-  constructor(number: BigNumber | string, decimals?: number) {
-    if (typeof number === "string") {
-      const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
-      const stringDecimals = decimals === undefined ? this._inferDecimalAmount(number) : this._ensurePositive(decimals);
-      const formatted = this._setDecimalAmount(_number, stringDecimals);
-      this._number = parseUnits(formatted, stringDecimals);
-      this._decimals = stringDecimals;
+  constructor(value: BigNumber, precision: number);
+  constructor(value: string, precision?: number);
+  constructor(value: BigNumber | string, precision?: number) {
+    if (typeof value === "string") {
+      const _value = value.trim() === "" || isNaN(Number(value)) ? "0" : value;
+      const stringPrecision = precision === undefined ? this._inferPrecision(value) : this._ensurePositive(precision);
+      const formatted = this._setPrecision(_value, stringPrecision);
+      this._value = parseUnits(formatted, stringPrecision);
+      this._precision = stringPrecision;
       return;
     }
 
-    assert(decimals !== undefined, "Decimal cannot be undefined");
+    assert(precision !== undefined, "Decimal cannot be undefined");
 
-    this._number = number;
-    this._decimals = decimals;
+    this._value = value;
+    this._precision = precision;
   }
 
-  private _inferDecimalAmount(number: string): number {
-    const [, decimalsOrUndefined] = number.split(".");
+  private _inferPrecision(value: string): number {
+    const [, precisionOrUndefined] = value.split(".");
 
-    return decimalsOrUndefined?.length || 0;
+    return precisionOrUndefined?.length || 0;
   }
 
   /**
-   * Ensures that the number has the expected number of decimal places
+   * Ensures that the value has the expected precision
    *
-   * Trims unnecessary decimals places
-   * Or pads decimals if needed
+   * Trims unnecessary precision
+   * Or pads precision if needed
    *
-   * @param number input number string
-   * @param decimals number of decimal places
+   * @param value Input value as a string
+   * @param precision Desired precision
    */
-  private _setDecimalAmount(number: string, decimals: number): string {
-    const [integer, _decimalsOrUndefined] = number.split(".");
+  private _setPrecision(value: string, precision: number): string {
+    const [integer, _precisionOrUndefined] = value.split(".");
 
-    const _decimals = _decimalsOrUndefined || "";
+    const _precision = _precisionOrUndefined || "";
 
-    const paddingRequired = Math.max(0, decimals - _decimals.length);
+    const paddingRequired = Math.max(0, precision - _precision.length);
 
-    return integer + "." + _decimals.substring(0, decimals) + "0".repeat(paddingRequired);
+    return integer + "." + _precision.substring(0, precision) + "0".repeat(paddingRequired);
   }
 
   /**
    * Ensures a decimal value is positive
    */
-  private _ensurePositive(decimals: number) {
-    return Math.max(0, decimals);
+  private _ensurePositive(precision: number) {
+    return Math.max(0, precision);
   }
 
   /**
@@ -80,7 +80,7 @@ export class DecimalBigNumber {
    * the number where precision is important.
    */
   public toBigNumber(): BigNumber {
-    return this._number;
+    return this._value;
   }
 
   /**
@@ -95,22 +95,22 @@ export class DecimalBigNumber {
    *
    * To override any of these settings, add the `args` object as a parameter.
    *
-   * @param args an object containing any of the properties: decimals, trim, format
+   * @param args an object containing any of the properties: precision, trim, format
    * @returns a string version of the number
    */
   public toString({
-    decimals,
+    precision,
     format = false,
     trim = true,
-  }: { decimals?: number; trim?: boolean; format?: boolean } = {}): string {
-    let result = formatUnits(this._number, this._decimals);
+  }: { precision?: number; trim?: boolean; format?: boolean } = {}): string {
+    let result = formatUnits(this._value, this._precision);
 
     // Add thousands separators
     if (format) result = commify(result);
 
     // We default to the number of decimal places specified
-    const _decimals = decimals === undefined ? this._decimals : this._ensurePositive(decimals);
-    result = this._setDecimalAmount(result, _decimals);
+    const _precision = precision === undefined ? this._precision : this._ensurePositive(precision);
+    result = this._setPrecision(result, _precision);
 
     // We default to trimming trailing zeroes (and decimal points), unless there is an override
     if (trim) result = result.replace(/(?:\.|(\..*?))\.?0*$/, "$1");
@@ -138,13 +138,13 @@ export class DecimalBigNumber {
    */
   public eq(value: DecimalBigNumber): boolean {
     // Normalize precision to the largest of the two values
-    const decimals = Math.max(value._decimals, this._decimals);
+    const precision = Math.max(value._precision, this._precision);
 
     // Normalize values to correct precision
-    const _this = new DecimalBigNumber(this.toString(), decimals);
-    const _value = new DecimalBigNumber(value.toString(), decimals);
+    const _this = new DecimalBigNumber(this.toString(), precision);
+    const _value = new DecimalBigNumber(value.toString(), precision);
 
-    return _this._number.eq(_value._number);
+    return _this._value.eq(_value._value);
   }
 
   /**
@@ -152,13 +152,13 @@ export class DecimalBigNumber {
    */
   public sub(value: DecimalBigNumber): DecimalBigNumber {
     // Normalize precision to the largest of the two values
-    const decimals = Math.max(value._decimals, this._decimals);
+    const precision = Math.max(value._precision, this._precision);
 
     // Normalize values to correct precision
-    const _this = new DecimalBigNumber(this.toString(), decimals);
-    const _value = new DecimalBigNumber(value.toString(), decimals);
+    const _this = new DecimalBigNumber(this.toString(), precision);
+    const _value = new DecimalBigNumber(value.toString(), precision);
 
-    return new DecimalBigNumber(_this._number.sub(_value._number), decimals);
+    return new DecimalBigNumber(_this._value.sub(_value._value), precision);
   }
 
   /**
@@ -166,13 +166,13 @@ export class DecimalBigNumber {
    */
   public add(value: DecimalBigNumber): DecimalBigNumber {
     // Normalize precision to the largest of the two values
-    const decimals = Math.max(value._decimals, this._decimals);
+    const precision = Math.max(value._precision, this._precision);
 
     // Normalize values to correct precision
-    const _this = new DecimalBigNumber(this.toString(), decimals);
-    const _value = new DecimalBigNumber(value.toString(), decimals);
+    const _this = new DecimalBigNumber(this.toString(), precision);
+    const _value = new DecimalBigNumber(value.toString(), precision);
 
-    return new DecimalBigNumber(_this._number.add(_value._number), decimals);
+    return new DecimalBigNumber(_this._value.add(_value._value), precision);
   }
 
   /**
@@ -180,13 +180,13 @@ export class DecimalBigNumber {
    */
   public gt(value: DecimalBigNumber): boolean {
     // Normalize precision to the largest of the two values
-    const decimals = Math.max(value._decimals, this._decimals);
+    const precision = Math.max(value._precision, this._precision);
 
     // Normalize values to correct precision
-    const _this = new DecimalBigNumber(this.toString(), decimals);
-    const _value = new DecimalBigNumber(value.toString(), decimals);
+    const _this = new DecimalBigNumber(this.toString(), precision);
+    const _value = new DecimalBigNumber(value.toString(), precision);
 
-    return _this._number.gt(_value._number);
+    return _this._value.gt(_value._value);
   }
 
   /**
@@ -194,24 +194,24 @@ export class DecimalBigNumber {
    */
   public lt(value: DecimalBigNumber): boolean {
     // Normalize precision to the largest of the two values
-    const decimals = Math.max(value._decimals, this._decimals);
+    const precision = Math.max(value._precision, this._precision);
 
     // Normalize values to correct precision
-    const _this = new DecimalBigNumber(this.toString(), decimals);
-    const _value = new DecimalBigNumber(value.toString(), decimals);
+    const _this = new DecimalBigNumber(this.toString(), precision);
+    const _value = new DecimalBigNumber(value.toString(), precision);
 
-    return _this._number.lt(_value._number);
+    return _this._value.lt(_value._value);
   }
 
   /**
    * Multiplies this number by the provided value
    */
   public mul(value: DecimalBigNumber): DecimalBigNumber {
-    const product = this._number.mul(value._number);
+    const product = this._value.mul(value._value);
 
     // Multiplying two BigNumbers produces a product with a decimal
     // value equal to the sum of the decimal values of the two input numbers
-    return new DecimalBigNumber(product, this._decimals + value._decimals);
+    return new DecimalBigNumber(product, this._precision + value._precision);
   }
 
   /**
@@ -222,10 +222,10 @@ export class DecimalBigNumber {
    * If this isn't enough, you can specify a desired
    * precision using the second function argument.
    *
-   * @param decimals The expected precision of the output value
+   * @param precision The expected precision of the output value
    */
-  public div(value: DecimalBigNumber, decimals?: number): DecimalBigNumber {
-    const _decimals = decimals === undefined ? this._decimals + value._decimals : this._ensurePositive(decimals);
+  public div(value: DecimalBigNumber, precision?: number): DecimalBigNumber {
+    const _precision = precision === undefined ? this._precision + value._precision : this._ensurePositive(precision);
 
     // When we divide two BigNumbers, the result will never
     // include any decimal places because BigNumber only deals
@@ -239,20 +239,20 @@ export class DecimalBigNumber {
     // 22/5 = 4.4
     //
     // But ethers would return:
-    // 22/5 = 4 (no decimals)
+    // 22/5 = 4 (no precision)
     //
-    // So before we calculate, we add n decimals to the numerator,
+    // So before we calculate, we add n precision to the numerator,
     // where n is the expected precision of the result:
     // 220/5 = 44
     //
     // Normalized to the expected precision of the result
     // 4.4
 
-    const _this = new DecimalBigNumber(this.toString(), _decimals + value._decimals);
+    const _this = new DecimalBigNumber(this.toString(), _precision + value._precision);
 
-    const quotient = _this._number.div(value._number);
+    const quotient = _this._value.div(value._value);
 
-    // Return result with the expected output decimals
-    return new DecimalBigNumber(quotient, _decimals);
+    // Return result with the expected output precision
+    return new DecimalBigNumber(quotient, _precision);
   }
 }

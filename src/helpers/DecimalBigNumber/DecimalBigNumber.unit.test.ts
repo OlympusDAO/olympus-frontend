@@ -37,16 +37,16 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber((1.2).toString()).toString()).toEqual("1.2");
   });
 
-  it("should set an invalid decimals value to 0 decimals", () => {
-    expect(new DecimalBigNumber(".1", 1).toString({ decimals: -1 })).toEqual("0");
+  it("should set an negative precision value to 0", () => {
+    expect(new DecimalBigNumber(".1", 1).toString({ precision: -1 })).toEqual("0");
   });
 
   it("should accurately format number to an accurate string", () => {
     expect(new DecimalBigNumber(".1", 1).toString()).toEqual("0.1");
     expect(new DecimalBigNumber("1.1", 0).toString()).toEqual("1");
-    expect(new DecimalBigNumber(".1", 1).toString({ decimals: 0 })).toEqual("0");
-    expect(new DecimalBigNumber(".1", 1).toString({ decimals: 1 })).toEqual("0.1");
-    expect(new DecimalBigNumber("1.123").toString({ decimals: 2 })).toEqual("1.12");
+    expect(new DecimalBigNumber(".1", 1).toString({ precision: 0 })).toEqual("0");
+    expect(new DecimalBigNumber(".1", 1).toString({ precision: 1 })).toEqual("0.1");
+    expect(new DecimalBigNumber("1.123").toString({ precision: 2 })).toEqual("1.12");
   });
 
   it("should accurately format number to an accurate string and strip trailing zeroes", () => {
@@ -60,10 +60,10 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("-1000", 2).toString({ format: true })).toEqual("-1,000");
     expect(new DecimalBigNumber("1000.1", 2).toString({ format: true })).toEqual("1,000.1");
     expect(new DecimalBigNumber("-1000.1", 2).toString({ format: true })).toEqual("-1,000.1");
-    expect(new DecimalBigNumber("1000.1", 2).toString({ decimals: 0, format: true })).toEqual("1,000");
-    expect(new DecimalBigNumber("-1000.1", 2).toString({ decimals: 0, format: true })).toEqual("-1,000");
-    expect(new DecimalBigNumber("1000.1", 2).toString({ decimals: 4 })).toEqual("1000.1");
-    expect(new DecimalBigNumber("-1000.1", 2).toString({ decimals: 4 })).toEqual("-1000.1");
+    expect(new DecimalBigNumber("1000.1", 2).toString({ precision: 0, format: true })).toEqual("1,000");
+    expect(new DecimalBigNumber("-1000.1", 2).toString({ precision: 0, format: true })).toEqual("-1,000");
+    expect(new DecimalBigNumber("1000.1", 2).toString({ precision: 4 })).toEqual("1000.1");
+    expect(new DecimalBigNumber("-1000.1", 2).toString({ precision: 4 })).toEqual("-1000.1");
   });
 
   it("should preserve decimal places when trim is disabled", () => {
@@ -71,12 +71,12 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber("1000", 2).toString({ trim: false })).toEqual("1000.00");
     expect(new DecimalBigNumber("-1.2", 9).toString({ trim: false })).toEqual("-1.200000000");
     expect(new DecimalBigNumber("1.12345678913", 9).toString({ trim: false })).toEqual("1.123456789");
-    expect(new DecimalBigNumber("1000.1", 2).toString({ decimals: 4, trim: false })).toEqual("1000.1000");
-    expect(new DecimalBigNumber("-1000.1", 2).toString({ decimals: 4, trim: false })).toEqual("-1000.1000");
-    expect(new DecimalBigNumber("1000").toString({ decimals: 4, trim: false })).toEqual("1000.0000");
-    expect(new DecimalBigNumber("-1000").toString({ decimals: 4, trim: false })).toEqual("-1000.0000");
-    expect(new DecimalBigNumber("1000").toString({ decimals: 4, trim: false, format: true })).toEqual("1,000.0000");
-    expect(new DecimalBigNumber("-1000").toString({ decimals: 4, trim: false, format: true })).toEqual("-1,000.0000");
+    expect(new DecimalBigNumber("1000.1", 2).toString({ precision: 4, trim: false })).toEqual("1000.1000");
+    expect(new DecimalBigNumber("-1000.1", 2).toString({ precision: 4, trim: false })).toEqual("-1000.1000");
+    expect(new DecimalBigNumber("1000").toString({ precision: 4, trim: false })).toEqual("1000.0000");
+    expect(new DecimalBigNumber("-1000").toString({ precision: 4, trim: false })).toEqual("-1000.0000");
+    expect(new DecimalBigNumber("1000").toString({ precision: 4, trim: false, format: true })).toEqual("1,000.0000");
+    expect(new DecimalBigNumber("-1000").toString({ precision: 4, trim: false, format: true })).toEqual("-1,000.0000");
   });
 
   it("should return an approximate number", () => {
@@ -127,13 +127,13 @@ describe("DecimalBigNumber", () => {
     const decimalNumber = new DecimalBigNumber("20.12", 9);
     const secondDecimalNumber = new DecimalBigNumber("1.12", 9);
     expect(decimalNumber.mul(secondDecimalNumber).toString()).toEqual("22.5344");
-    expect(decimalNumber.mul(secondDecimalNumber).toString({ decimals: 2 })).toEqual("22.53");
+    expect(decimalNumber.mul(secondDecimalNumber).toString({ precision: 2 })).toEqual("22.53");
 
     const thirdDecimalNumber = new DecimalBigNumber("1.12", 2);
     const fourthDecimalNumber = new DecimalBigNumber("1.123", 3);
     expect(thirdDecimalNumber.mul(fourthDecimalNumber).toString()).toEqual("1.25776");
     expect(thirdDecimalNumber.mul(fourthDecimalNumber).toString()).toEqual("1.25776");
-    expect(thirdDecimalNumber.mul(fourthDecimalNumber).toString({ decimals: 2 })).toEqual("1.25");
+    expect(thirdDecimalNumber.mul(fourthDecimalNumber).toString({ precision: 2 })).toEqual("1.25");
   });
 
   it("should divide by a number correctly", () => {
