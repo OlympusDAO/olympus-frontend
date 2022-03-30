@@ -62,7 +62,7 @@ export const StakeBalances = () => {
     .filter(nonNullable)
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
-  const totalStakedBalance = currentIndex && formatBalance(totalGohmBalance.mul(currentIndex, 9).add(totalSohmBalance));
+  const totalStakedBalance = currentIndex && formatBalance(totalGohmBalance.mul(currentIndex).add(totalSohmBalance));
 
   const allBalancesLoaded = sohmTokens.every(Boolean) && gohmTokens.every(Boolean);
 

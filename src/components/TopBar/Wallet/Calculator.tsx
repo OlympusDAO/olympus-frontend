@@ -135,8 +135,8 @@ const Calculator: FC = () => {
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
   const walletSohm = totalGohmBalance
-    .mul(currentIndex, 9)
-    .add(totalWsohmBalance.mul(currentIndex, 9))
+    .mul(currentIndex)
+    .add(totalWsohmBalance.mul(currentIndex))
     .add(sOhmBalance)
     .add(v1SohmBalance)
     .toApproxNumber();
