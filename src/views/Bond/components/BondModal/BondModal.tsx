@@ -15,6 +15,7 @@ import { useBondData } from "src/views/Bond/hooks/useBondData";
 
 import { useActiveBonds } from "../../hooks/useActiveBonds";
 import { BondDuration } from "../BondDuration";
+import { BondInfoText } from "../BondInfoText";
 import { BondPrice } from "../BondPrice";
 import { BondInputArea } from "./components/BondInputArea/BondInputArea";
 import { BondSettingsModal } from "./components/BondSettingsModal";
@@ -39,7 +40,7 @@ export const BondModalContainer: React.VFC = () => {
   return <BondModal bond={bond} isInverseBond={pathname.includes("/inverse/")} />;
 };
 
-const BondModal: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = props => {
+const BondModal: React.VFC<{ bond: Bond; isInverseBond: boolean }> = props => {
   const history = useHistory();
   const { address } = useWeb3Context();
 
@@ -112,7 +113,7 @@ const BondModal: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = props => {
             </Typography>
 
             <Typography variant="h3" className="price" color="primary">
-              <BondPrice price={info?.price} />
+              {info?.isSoldOut ? "--" : <BondPrice price={info?.price} />}
             </Typography>
           </div>
 
@@ -128,6 +129,12 @@ const BondModal: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = props => {
         </Box>
 
         <BondInputArea bond={props.bond} slippage={slippage} recipientAddress={recipientAddress} />
+
+        <Box mt="8px" className="help-text">
+          <Typography variant="body2">
+            <BondInfoText isInverseBond={props.isInverseBond} />
+          </Typography>
+        </Box>
       </>
     </Modal>
   );

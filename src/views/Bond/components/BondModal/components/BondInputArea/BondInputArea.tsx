@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, FormControl, Typography } from "@material-ui/core";
+import { Box, FormControl } from "@material-ui/core";
 import { DataRow, Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -17,7 +17,6 @@ import { useBondData } from "src/views/Bond/hooks/useBondData";
 
 import { BondDiscount } from "../../../BondDiscount";
 import { BondDuration } from "../../../BondDuration";
-import { BondInfoText } from "../../../BondInfoText";
 
 export const BondInputArea: React.VFC<{ bond: Bond; slippage: number; recipientAddress: string }> = props => {
   const { pathname } = useLocation();
@@ -100,8 +99,16 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: number; recipientA
           tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
           balance={
             <span>
-              {info?.maxPayout.inBaseToken.toFormattedString(4)} sOHM (≈
-              {info?.maxPayout.inQuoteToken.toFormattedString(4)} {props.bond.quoteToken.name})
+              {(info?.maxPayout.inBaseToken.gt(info?.capacity.inBaseToken)
+                ? info?.capacity.inBaseToken
+                : info?.maxPayout.inBaseToken
+              )?.toFormattedString(4)}{" "}
+              sOHM (≈
+              {(info?.maxPayout.inQuoteToken.gt(info?.capacity.inQuoteToken)
+                ? info?.capacity.inQuoteToken
+                : info?.maxPayout.inQuoteToken
+              )?.toFormattedString(4)}{" "}
+              {props.bond.quoteToken.name})
             </span>
           }
         />
@@ -126,12 +133,6 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: number; recipientA
           <DataRow title={t`Recipient`} balance={shorten(props.recipientAddress)} isLoading={!info} />
         )}
       </Box>
-
-      <div className="help-text">
-        <Typography variant="body2">
-          <BondInfoText isInverseBond={isInverseBond} />
-        </Typography>
-      </div>
     </Box>
   );
 };
