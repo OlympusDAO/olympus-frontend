@@ -192,13 +192,13 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiBox-root MuiBox-root-385 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-386 makeStyles-title-290"
+                              class="MuiBox-root MuiBox-root-386 makeStyles-title-290 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -234,13 +234,13 @@ exports[`<App/> should not render a connection error message when user wallet is
                                   class="MuiBox-root MuiBox-root-387 link-container"
                                 >
                                   <div
-                                    class="MuiBox-root MuiBox-root-388 makeStyles-title-290"
+                                    class="MuiBox-root MuiBox-root-388 makeStyles-title-290 title"
                                   >
                                     <svg
                                       aria-hidden="true"
                                       class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                       focusable="false"
-                                      style="font-size: 27px;"
+                                      style="font-size: 21px;"
                                       viewBox="0 0 20 20"
                                     >
                                       <path
@@ -308,13 +308,13 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiBox-root MuiBox-root-389 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-390 makeStyles-title-290"
+                              class="MuiBox-root MuiBox-root-390 makeStyles-title-290 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -337,13 +337,13 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiBox-root MuiBox-root-391 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-392 makeStyles-title-290"
+                              class="MuiBox-root MuiBox-root-392 makeStyles-title-290 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -366,13 +366,13 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiBox-root MuiBox-root-393 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-394 makeStyles-title-290"
+                              class="MuiBox-root MuiBox-root-394 makeStyles-title-290 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -395,13 +395,13 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiBox-root MuiBox-root-395 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-396 makeStyles-title-290"
+                              class="MuiBox-root MuiBox-root-396 makeStyles-title-290 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -425,13 +425,13 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiBox-root MuiBox-root-397 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-398 makeStyles-title-290"
+                              class="MuiBox-root MuiBox-root-398 makeStyles-title-290 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -472,13 +472,13 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiBox-root MuiBox-root-399 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-400 makeStyles-title-290"
+                              class="MuiBox-root MuiBox-root-400 makeStyles-title-290 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -519,13 +519,13 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiBox-root MuiBox-root-401 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-402 makeStyles-title-290"
+                              class="MuiBox-root MuiBox-root-402 makeStyles-title-290 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -559,13 +559,13 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiBox-root MuiBox-root-403 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-404 makeStyles-title-290"
+                              class="MuiBox-root MuiBox-root-404 makeStyles-title-290 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -599,13 +599,13 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiBox-root MuiBox-root-405 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-406 makeStyles-title-290"
+                              class="MuiBox-root MuiBox-root-406 makeStyles-title-290 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -639,13 +639,13 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiBox-root MuiBox-root-407 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-408 makeStyles-title-290"
+                              class="MuiBox-root MuiBox-root-408 makeStyles-title-290 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -679,13 +679,13 @@ exports[`<App/> should not render a connection error message when user wallet is
                             class="MuiBox-root MuiBox-root-409 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-410 makeStyles-title-290"
+                              class="MuiBox-root MuiBox-root-410 makeStyles-title-290 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -3341,13 +3341,13 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiBox-root MuiBox-root-77 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-78 makeStyles-title-75"
+                              class="MuiBox-root MuiBox-root-78 makeStyles-title-75 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -3383,13 +3383,13 @@ exports[`<App/> should not render an error message when user wallet is connected
                                   class="MuiBox-root MuiBox-root-81 link-container"
                                 >
                                   <div
-                                    class="MuiBox-root MuiBox-root-82 makeStyles-title-75"
+                                    class="MuiBox-root MuiBox-root-82 makeStyles-title-75 title"
                                   >
                                     <svg
                                       aria-hidden="true"
                                       class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                       focusable="false"
-                                      style="font-size: 27px;"
+                                      style="font-size: 21px;"
                                       viewBox="0 0 20 20"
                                     >
                                       <path
@@ -3457,13 +3457,13 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiBox-root MuiBox-root-84 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-85 makeStyles-title-75"
+                              class="MuiBox-root MuiBox-root-85 makeStyles-title-75 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -3486,13 +3486,13 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiBox-root MuiBox-root-87 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-88 makeStyles-title-75"
+                              class="MuiBox-root MuiBox-root-88 makeStyles-title-75 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -3515,13 +3515,13 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiBox-root MuiBox-root-90 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-91 makeStyles-title-75"
+                              class="MuiBox-root MuiBox-root-91 makeStyles-title-75 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -3544,13 +3544,13 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiBox-root MuiBox-root-93 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-94 makeStyles-title-75"
+                              class="MuiBox-root MuiBox-root-94 makeStyles-title-75 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -3574,13 +3574,13 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiBox-root MuiBox-root-96 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-97 makeStyles-title-75"
+                              class="MuiBox-root MuiBox-root-97 makeStyles-title-75 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -3621,13 +3621,13 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiBox-root MuiBox-root-100 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-101 makeStyles-title-75"
+                              class="MuiBox-root MuiBox-root-101 makeStyles-title-75 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -3668,13 +3668,13 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiBox-root MuiBox-root-104 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-105 makeStyles-title-75"
+                              class="MuiBox-root MuiBox-root-105 makeStyles-title-75 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -3708,13 +3708,13 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiBox-root MuiBox-root-107 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-108 makeStyles-title-75"
+                              class="MuiBox-root MuiBox-root-108 makeStyles-title-75 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -3748,13 +3748,13 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiBox-root MuiBox-root-110 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-111 makeStyles-title-75"
+                              class="MuiBox-root MuiBox-root-111 makeStyles-title-75 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -3788,13 +3788,13 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiBox-root MuiBox-root-113 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-114 makeStyles-title-75"
+                              class="MuiBox-root MuiBox-root-114 makeStyles-title-75 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -3828,13 +3828,13 @@ exports[`<App/> should not render an error message when user wallet is connected
                             class="MuiBox-root MuiBox-root-116 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-117 makeStyles-title-75"
+                              class="MuiBox-root MuiBox-root-117 makeStyles-title-75 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -6490,13 +6490,13 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiBox-root MuiBox-root-533 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-534 makeStyles-title-531"
+                              class="MuiBox-root MuiBox-root-534 makeStyles-title-531 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -6532,13 +6532,13 @@ exports[`<App/> should render an error message when user wallet is connected and
                                   class="MuiBox-root MuiBox-root-537 link-container"
                                 >
                                   <div
-                                    class="MuiBox-root MuiBox-root-538 makeStyles-title-531"
+                                    class="MuiBox-root MuiBox-root-538 makeStyles-title-531 title"
                                   >
                                     <svg
                                       aria-hidden="true"
                                       class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                       focusable="false"
-                                      style="font-size: 27px;"
+                                      style="font-size: 21px;"
                                       viewBox="0 0 20 20"
                                     >
                                       <path
@@ -6606,13 +6606,13 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiBox-root MuiBox-root-540 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-541 makeStyles-title-531"
+                              class="MuiBox-root MuiBox-root-541 makeStyles-title-531 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -6635,13 +6635,13 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiBox-root MuiBox-root-543 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-544 makeStyles-title-531"
+                              class="MuiBox-root MuiBox-root-544 makeStyles-title-531 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -6664,13 +6664,13 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiBox-root MuiBox-root-546 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-547 makeStyles-title-531"
+                              class="MuiBox-root MuiBox-root-547 makeStyles-title-531 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -6693,13 +6693,13 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiBox-root MuiBox-root-549 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-550 makeStyles-title-531"
+                              class="MuiBox-root MuiBox-root-550 makeStyles-title-531 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -6723,13 +6723,13 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiBox-root MuiBox-root-552 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-553 makeStyles-title-531"
+                              class="MuiBox-root MuiBox-root-553 makeStyles-title-531 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -6770,13 +6770,13 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiBox-root MuiBox-root-556 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-557 makeStyles-title-531"
+                              class="MuiBox-root MuiBox-root-557 makeStyles-title-531 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -6817,13 +6817,13 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiBox-root MuiBox-root-560 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-561 makeStyles-title-531"
+                              class="MuiBox-root MuiBox-root-561 makeStyles-title-531 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -6857,13 +6857,13 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiBox-root MuiBox-root-563 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-564 makeStyles-title-531"
+                              class="MuiBox-root MuiBox-root-564 makeStyles-title-531 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -6897,13 +6897,13 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiBox-root MuiBox-root-566 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-567 makeStyles-title-531"
+                              class="MuiBox-root MuiBox-root-567 makeStyles-title-531 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -6937,13 +6937,13 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiBox-root MuiBox-root-569 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-570 makeStyles-title-531"
+                              class="MuiBox-root MuiBox-root-570 makeStyles-title-531 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path
@@ -6977,13 +6977,13 @@ exports[`<App/> should render an error message when user wallet is connected and
                             class="MuiBox-root MuiBox-root-572 link-container"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-573 makeStyles-title-531"
+                              class="MuiBox-root MuiBox-root-573 makeStyles-title-531 title"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                 focusable="false"
-                                style="font-size: 27px;"
+                                style="font-size: 21px;"
                                 viewBox="0 0 20 20"
                               >
                                 <path

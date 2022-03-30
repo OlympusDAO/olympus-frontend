@@ -58,13 +58,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiBox-root MuiBox-root-6 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-7 makeStyles-title-4"
+                          class="MuiBox-root MuiBox-root-7 makeStyles-title-4 title"
                         >
                           <svg
                             aria-hidden="true"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                             focusable="false"
-                            style="font-size: 27px;"
+                            style="font-size: 21px;"
                             viewBox="0 0 20 20"
                           >
                             <path
@@ -100,13 +100,13 @@ exports[`<Sidebar/> should render component 1`] = `
                               class="MuiBox-root MuiBox-root-11 link-container"
                             >
                               <div
-                                class="MuiBox-root MuiBox-root-12 makeStyles-title-4"
+                                class="MuiBox-root MuiBox-root-12 makeStyles-title-4 title"
                               >
                                 <svg
                                   aria-hidden="true"
                                   class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                                   focusable="false"
-                                  style="font-size: 27px;"
+                                  style="font-size: 21px;"
                                   viewBox="0 0 20 20"
                                 >
                                   <path
@@ -173,13 +173,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiBox-root MuiBox-root-14 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-15 makeStyles-title-4"
+                          class="MuiBox-root MuiBox-root-15 makeStyles-title-4 title"
                         >
                           <svg
                             aria-hidden="true"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                             focusable="false"
-                            style="font-size: 27px;"
+                            style="font-size: 21px;"
                             viewBox="0 0 20 20"
                           >
                             <path
@@ -202,13 +202,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiBox-root MuiBox-root-17 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-18 makeStyles-title-4"
+                          class="MuiBox-root MuiBox-root-18 makeStyles-title-4 title"
                         >
                           <svg
                             aria-hidden="true"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                             focusable="false"
-                            style="font-size: 27px;"
+                            style="font-size: 21px;"
                             viewBox="0 0 20 20"
                           >
                             <path
@@ -231,13 +231,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiBox-root MuiBox-root-20 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-21 makeStyles-title-4"
+                          class="MuiBox-root MuiBox-root-21 makeStyles-title-4 title"
                         >
                           <svg
                             aria-hidden="true"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                             focusable="false"
-                            style="font-size: 27px;"
+                            style="font-size: 21px;"
                             viewBox="0 0 20 20"
                           >
                             <path
@@ -260,13 +260,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiBox-root MuiBox-root-23 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-24 makeStyles-title-4"
+                          class="MuiBox-root MuiBox-root-24 makeStyles-title-4 title"
                         >
                           <svg
                             aria-hidden="true"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                             focusable="false"
-                            style="font-size: 27px;"
+                            style="font-size: 21px;"
                             viewBox="0 0 20 20"
                           >
                             <path
@@ -290,13 +290,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiBox-root MuiBox-root-26 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-27 makeStyles-title-4"
+                          class="MuiBox-root MuiBox-root-27 makeStyles-title-4 title"
                         >
                           <svg
                             aria-hidden="true"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                             focusable="false"
-                            style="font-size: 27px;"
+                            style="font-size: 21px;"
                             viewBox="0 0 20 20"
                           >
                             <path
@@ -337,13 +337,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiBox-root MuiBox-root-30 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-31 makeStyles-title-4"
+                          class="MuiBox-root MuiBox-root-31 makeStyles-title-4 title"
                         >
                           <svg
                             aria-hidden="true"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                             focusable="false"
-                            style="font-size: 27px;"
+                            style="font-size: 21px;"
                             viewBox="0 0 20 20"
                           >
                             <path
@@ -384,13 +384,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiBox-root MuiBox-root-34 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-35 makeStyles-title-4"
+                          class="MuiBox-root MuiBox-root-35 makeStyles-title-4 title"
                         >
                           <svg
                             aria-hidden="true"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                             focusable="false"
-                            style="font-size: 27px;"
+                            style="font-size: 21px;"
                             viewBox="0 0 20 20"
                           >
                             <path
@@ -424,13 +424,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiBox-root MuiBox-root-37 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-38 makeStyles-title-4"
+                          class="MuiBox-root MuiBox-root-38 makeStyles-title-4 title"
                         >
                           <svg
                             aria-hidden="true"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                             focusable="false"
-                            style="font-size: 27px;"
+                            style="font-size: 21px;"
                             viewBox="0 0 20 20"
                           >
                             <path
@@ -464,13 +464,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiBox-root MuiBox-root-40 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-41 makeStyles-title-4"
+                          class="MuiBox-root MuiBox-root-41 makeStyles-title-4 title"
                         >
                           <svg
                             aria-hidden="true"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                             focusable="false"
-                            style="font-size: 27px;"
+                            style="font-size: 21px;"
                             viewBox="0 0 20 20"
                           >
                             <path
@@ -504,13 +504,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiBox-root MuiBox-root-43 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-44 makeStyles-title-4"
+                          class="MuiBox-root MuiBox-root-44 makeStyles-title-4 title"
                         >
                           <svg
                             aria-hidden="true"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                             focusable="false"
-                            style="font-size: 27px;"
+                            style="font-size: 21px;"
                             viewBox="0 0 20 20"
                           >
                             <path
@@ -544,13 +544,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         class="MuiBox-root MuiBox-root-46 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-47 makeStyles-title-4"
+                          class="MuiBox-root MuiBox-root-47 makeStyles-title-4 title"
                         >
                           <svg
                             aria-hidden="true"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
                             focusable="false"
-                            style="font-size: 27px;"
+                            style="font-size: 21px;"
                             viewBox="0 0 20 20"
                           >
                             <path
