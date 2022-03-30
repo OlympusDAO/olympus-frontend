@@ -4,12 +4,19 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, OHMTokenProps, Paper, SecondaryButton, Token, TokenStack } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
-import { beetsPools, joePools, spiritPools, sushiPools, zipPools } from "src/helpers/AllExternalPools";
+import { beetsPools, joePools, jonesPools, spiritPools, sushiPools, zipPools } from "src/helpers/AllExternalPools";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
 
-import { BeetsPoolAPY, JoePoolAPY, SpiritPoolAPY, SushiPoolAPY, ZipPoolAPY } from "./hooks/useStakePoolAPY";
+import {
+  BeetsPoolAPY,
+  JoePoolAPY,
+  JonesPoolAPY,
+  SpiritPoolAPY,
+  SushiPoolAPY,
+  ZipPoolAPY,
+} from "./hooks/useStakePoolAPY";
 import { useStakePoolBalance } from "./hooks/useStakePoolBalance";
 import { BalancerPoolTVL, useStakePoolTVL } from "./hooks/useStakePoolTVL";
 
@@ -51,6 +58,9 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     ))}
     {zipPools.map(pool => (
       <ZipPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+    {jonesPools.map(pool => (
+      <JonesPools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
   </>
 );
@@ -216,6 +226,16 @@ const BeetsPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = pro
 const ZipPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
   const { data: totalValueLocked } = useStakePoolTVL(props.pool);
   const { apy } = ZipPoolAPY(props.pool);
+  return props.isSmallScreen ? (
+    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+  ) : (
+    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+  );
+};
+
+const JonesPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
+  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+  const { apy } = JonesPoolAPY(props.pool);
   return props.isSmallScreen ? (
     <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
   ) : (

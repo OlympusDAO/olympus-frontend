@@ -1,7 +1,8 @@
-import "./Give.scss";
+import "./YieldRecipients.scss";
 
 import { t } from "@lingui/macro";
-import { Box, Divider, TableCell, TableRow, Tooltip, Typography } from "@material-ui/core";
+import { Grid, Tooltip, Typography } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { SecondaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
@@ -37,14 +38,16 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
-  const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const getRecipientTitle = (address: string): string => {
     const project = projectMap.get(address);
     if (!project) return isMediumScreen || isSmallScreen ? "Custom" : "Custom Recipient";
 
-    if (!project.owner) return isSmallScreen ? project.title.substring(0, 9) + "..." : project.title;
+    if (!project.owner)
+      return isSmallScreen && project.title.length > 16 ? project.title.substring(0, 16) + "..." : project.title;
 
     return project.owner + " - " + project.title;
   };
@@ -138,38 +141,30 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
   };
 
   return (
-    <Box>
-      <TableRow>
-        {!isSmallScreen && (
-          <TableCell align="left" className="deposit-date-cell">
-            <Typography variant="h6">{depositObject.date}</Typography>
-          </TableCell>
-        )}
-        <TableCell align="left" className="deposit-recipient-cell">
-          <Tooltip title={depositObject.recipient} arrow>
-            <Typography variant={isSmallScreen ? "body1" : "h6"}>
-              {getRecipientTitle(depositObject.recipient)}
-            </Typography>
-          </Tooltip>
-        </TableCell>
-        {!isSmallScreen && (
-          <TableCell align="right" className="deposit-deposited-cell">
-            <Typography variant="h6">{parseFloat(depositObject.deposit).toFixed(2)} sOHM</Typography>
-          </TableCell>
-        )}
-        <TableCell align="right" className="deposit-yield-cell">
-          <Typography variant={isSmallScreen ? "body1" : "h6"}>
-            {parseFloat(depositObject.yieldDonated).toFixed(2)} sOHM
-          </Typography>
-        </TableCell>
-        <TableCell align="right" className="deposit-manage-cell">
-          <SecondaryButton onClick={() => setIsManageModalOpen(true)} fullWidth>
-            Manage
-          </SecondaryButton>
-        </TableCell>
-      </TableRow>
-      <Divider />
-
+    <Grid container alignItems="center" spacing={2}>
+      {!isSmallScreen && (
+        <Grid item xs={2}>
+          <Typography variant="body1">{depositObject.date}</Typography>
+        </Grid>
+      )}
+      <Grid item xs={4} sm={3}>
+        <Tooltip title={depositObject.recipient} arrow>
+          <Typography variant="body1">{getRecipientTitle(depositObject.recipient)}</Typography>
+        </Tooltip>
+      </Grid>
+      {!isSmallScreen && (
+        <Grid item xs={2} style={{ textAlign: "right" }}>
+          <Typography variant="body1">{parseFloat(depositObject.deposit).toFixed(2)} sOHM</Typography>
+        </Grid>
+      )}
+      <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
+        <Typography variant="body1">{parseFloat(depositObject.yieldDonated).toFixed(2)} sOHM</Typography>
+      </Grid>
+      <Grid item xs={4} sm={3} style={{ textAlign: "right" }}>
+        <SecondaryButton onClick={() => setIsManageModalOpen(true)} size="small" fullWidth>
+          Manage
+        </SecondaryButton>
+      </Grid>
       <ManageDonationModal
         isModalOpen={isManageModalOpen}
         submitEdit={handleEditModalSubmit}
@@ -183,6 +178,6 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         key={"manage-modal-" + depositObject.recipient}
         eventSource={"My Donations"}
       />
-    </Box>
+    </Grid>
   );
 };

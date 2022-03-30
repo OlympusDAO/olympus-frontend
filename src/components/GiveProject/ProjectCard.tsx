@@ -1,16 +1,7 @@
+import "./ProjectCard.scss";
+
 import { t, Trans } from "@lingui/macro";
-import {
-  Box,
-  Container,
-  Grid,
-  LinearProgress,
-  Link,
-  Paper as MuiPaper,
-  SvgIcon,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-} from "@material-ui/core";
+import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
@@ -23,7 +14,6 @@ import Countdown from "react-countdown";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { ReactComponent as GiveSohm } from "src/assets/icons/give_sohm.svg";
 import { NetworkId } from "src/constants";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
@@ -83,9 +73,6 @@ type State = {
 
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const location = useLocation();
-  const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
-  const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
-  const isMediumScreen = useMediaQuery("(max-width: 960px) and (min-width: 600px)") && !isSmallScreen;
   const { provider, address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
   const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
@@ -106,19 +93,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   });
 
   const theme = useTheme();
+  const isBreakpointLarge = useMediaQuery(theme.breakpoints.up("lg"));
+
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
-
-  const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
-
-  useEffect(() => {
-    const items = document.getElementsByClassName("project-container");
-    if (items.length > 0) {
-      items[0].scrollIntoView();
-      window.scrollTo(0, 0);
-    }
-  }, [location.pathname]);
 
   useEffect(() => {
     // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
@@ -175,24 +154,26 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
 
+  const remainingStyle = { color: "#999999" };
+
   // Removed for now. Will leave this function in for when we re-add this feature
   const countdownRendererDetailed = ({ completed, formatted }: CountdownProps) => {
     if (completed)
       return (
         <>
-          <Grid container className="countdown-container">
-            <Grid item xs={3}>
-              <Icon name="clock" />
+          <Grid container spacing={1} alignItems="center" justifyContent="center">
+            <Grid item>
+              <Icon name="time-remaining" />
             </Grid>
-            <Grid item xs={9} className="project-countdown-text">
-              <div>
-                <div className="cause-info-main-text">
-                  <strong>00:00:00</strong>
-                </div>
-                <span className="cause-info-bottom-text">
-                  <Trans>Completed</Trans>
-                </span>
-              </div>
+            <Grid item>
+              <Typography variant="h6">
+                <strong>00:00:00</strong>
+              </Typography>
+            </Grid>
+            <Grid>
+              <Typography variant="body1" style={remainingStyle}>
+                <Trans>Completed</Trans>
+              </Typography>
             </Grid>
           </Grid>
         </>
@@ -201,11 +182,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     return (
       <>
         <>
-          <Grid container className="countdown-container">
-            <Grid item className="countdown-object">
-              <Icon name="clock" />
+          <Grid container spacing={1} alignItems="center" justifyContent="center">
+            <Grid item>
+              <Icon name="time-remaining" />
             </Grid>
-            <Grid item className="project-countdown-text">
+            <Grid item>
               <Tooltip
                 title={!finishDateObject ? "" : t`Finishes at ${finishDateObject.toLocaleString()} in your timezone`}
                 arrow
@@ -217,8 +198,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 </Typography>
               </Tooltip>
             </Grid>
-            <Grid item className="cause-info-bottom-text">
-              <Typography variant="body1">
+            <Grid item>
+              <Typography variant="body1" style={remainingStyle}>
                 <Trans>Remaining</Trans>
               </Typography>
             </Grid>
@@ -243,30 +224,30 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     const hasDecimals = countDecimals(goalCompletion) !== 0;
     const formattedGoalCompletion = hasDecimals ? goalCompletion : toInteger(goalCompletion);
 
+    if (depositGoal === 0) return <></>;
+
     return (
       <>
-        <div className="cause-info-icon">
-          <Icon name="check-circle" style={{ marginRight: "0.33rem" }} />
-        </div>
-        <div>
-          <Tooltip
-            title={
-              !address
-                ? t`Connect your wallet to view the fundraising progress`
-                : `${totalDonated} of ${depositGoal} sOHM raised`
-            }
-            arrow
-          >
-            <div>
-              <div className="cause-info-main-text">
-                <Typography variant="body1">
-                  <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedGoalCompletion}% </strong>
-                  of goal
-                </Typography>
-              </div>
-            </div>
-          </Tooltip>
-        </div>
+        <Grid container alignItems="center" spacing={1}>
+          <Grid item>
+            <Icon name="sohm-yield-goal" />
+          </Grid>
+          <Grid item>
+            <Tooltip
+              title={
+                !address
+                  ? t`Connect your wallet to view the fundraising progress`
+                  : `${totalDonated} of ${depositGoal} sOHM raised`
+              }
+              arrow
+            >
+              <Typography variant="body1">
+                <strong>{recipientInfoIsLoading ? <Skeleton width={20} /> : formattedGoalCompletion}</strong>
+                <Trans>% of goal</Trans>
+              </Typography>
+            </Tooltip>
+          </Grid>
+        </Grid>
       </>
     );
   };
@@ -275,36 +256,46 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
     const formattedTotalDonated = new BigNumber(parseFloat(totalDonated).toFixed(2)).toFormat();
 
+    if (depositGoal === 0) return <></>;
+
     return (
       <>
-        <Grid container className="project-goal">
-          <Grid item xs={5} className="project-donated">
-            <div className="project-donated-icon">
-              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-              <Typography variant="h6">
-                <strong>{recipientInfoIsLoading ? <Skeleton /> : formattedTotalDonated}</strong>
-              </Typography>
-            </div>
-            <div className="subtext">
+        <Grid container alignItems="flex-end">
+          <Grid item xs={5}>
+            <Grid container justifyContent="flex-start" alignItems="center" spacing={1}>
+              <Grid item>
+                <Icon name="sohm-yield" />
+              </Grid>
+              <Grid item className="metric">
+                {recipientInfoIsLoading ? <Skeleton /> : formattedTotalDonated}
+              </Grid>
+            </Grid>
+            <Grid item className="subtext">
               <Trans>sOHM Yield</Trans>
-            </div>
+            </Grid>
           </Grid>
           <Grid item xs={2} />
-          <Grid item xs={5} className="project-completion">
-            <div className="project-completion-icon">
-              <Icon name="goal" style={{ marginRight: "0.33rem" }} />
-              <Typography variant="h6">
-                <strong>{new BigNumber(depositGoal).toFormat()}</strong>
-              </Typography>
-            </div>
-            <div className="subtext">
-              <Trans>sOHM Yield Goal</Trans>
-            </div>
+          <Grid item xs={5}>
+            <Grid container direction="column" alignItems="flex-end">
+              <Grid item>
+                <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
+                  <Grid item>
+                    <Icon name="sohm-yield-goal" />
+                  </Grid>
+                  <Grid item className="metric">
+                    {new BigNumber(depositGoal).toFormat()}
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item className="subtext">
+                <Trans>sOHM Yield Goal</Trans>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} className="project-goal-progress">
+            <LinearProgress variant="determinate" value={goalProgress} />
           </Grid>
         </Grid>
-        <div className={`project-goal-progress ${isUserDonating ? "donating" : ""}`}>
-          <LinearProgress variant="determinate" value={goalProgress} />
-        </div>
       </>
     );
   };
@@ -312,27 +303,40 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const renderDepositData = (): JSX.Element => {
     return (
       <>
-        <Grid container className="project-top-data">
-          <Grid item xs={5} className="project-donors">
-            <div className="project-data-icon">
-              <Icon name="donors" style={{ marginRight: "0.33rem" }} />
-              <Typography variant="h6">{donorCountIsLoading ? <Skeleton /> : <strong>{donorCount}</strong>}</Typography>
-            </div>
-            <div className="subtext">
-              <Trans>Donors</Trans>
-            </div>
+        <Grid container spacing={3} alignItems="flex-end">
+          <Grid item xs={5}>
+            <Grid container direction="column" alignItems="flex-start">
+              <Grid item>
+                <Grid container justifyContent="flex-start" alignItems="center" spacing={1}>
+                  <Grid item>
+                    <Icon name="donors" />
+                  </Grid>
+                  <Grid item className="metric">
+                    {donorCountIsLoading ? <Skeleton /> : donorCount}
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item className="subtext">
+                <Trans>Donors</Trans>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={2} />
-          <Grid item xs={5} className="project-deposits">
-            <div className="project-data-icon">
-              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-              <Typography variant="h6">
-                {recipientInfoIsLoading ? <Skeleton /> : <strong>{parseFloat(totalDebt).toFixed(2)}</strong>}
-              </Typography>
-            </div>
-            <div className="subtext">
-              <Trans>Total Active sOHM</Trans>
-            </div>
+          <Grid item xs={7}>
+            <Grid container direction="column" alignItems="flex-end">
+              <Grid item>
+                <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
+                  <Grid item>
+                    <Icon name="sohm-total" />
+                  </Grid>
+                  <Grid item className="metric">
+                    {recipientInfoIsLoading ? <Skeleton /> : <strong>{parseFloat(totalDebt).toFixed(2)}</strong>}
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item className="subtext">
+                <Trans>Total Active sOHM</Trans>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </>
@@ -340,21 +344,26 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const getProjectImage = (): JSX.Element => {
+    let imageElement;
     // We return an empty image with a set width, so that the spacing remains the same.
-    if (!photos || photos.length < 1)
-      return (
-        <div className="cause-image">
-          <img height="100%" src="" />
-        </div>
-      );
-
+    if (!photos || photos.length < 1) {
+      imageElement = <img height="100%" src="" />;
+    }
     // For the moment, we only display the first photo
-    return (
-      <div className={`cause-image ${isUserDonating ? "donating" : ""}`}>
+    else {
+      imageElement = (
         <Link href={`#/give/projects/${project.slug}`} onClick={() => handleProjectDetailsButtonClick("Image")}>
           <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
         </Link>
-      </div>
+      );
+    }
+
+    return (
+      <Grid container alignContent="center" style={{ maxHeight: "184px", overflow: "hidden", borderRadius: "16px" }}>
+        <Grid item xs>
+          {imageElement}
+        </Grid>
+      </Grid>
     );
   };
 
@@ -531,101 +540,62 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getCardContent = () => {
     return (
       <>
-        <Box style={{ width: "100%", borderRadius: "10px" }}>
-          {!isMediumScreen && !isSmallScreen && !isVerySmallScreen ? (
-            <Grid item className={isVerySmallScreen ? "cause-card very-small" : "cause-card"} key={title}>
-              <div style={{ display: "flex", width: "100%" }}>
-                {getProjectImage()}
-                <div className="cause-content">
-                  <div className="cause-title">
-                    <Link
-                      href={`#/give/projects/${project.slug}`}
-                      onClick={() => handleProjectDetailsButtonClick("Title Link")}
-                    >
-                      <Typography variant="h4">
-                        <strong>{getTitle()}</strong>
-                      </Typography>
-                    </Link>
-                  </div>
-                  <div className="cause-body">
-                    <Typography variant="body1" style={{ lineHeight: "20px" }}>
-                      <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
-                    </Typography>
-                  </div>
-                  <Grid container direction="column" className="cause-misc-info">
-                    <Grid item xs={6} sm={12} md={6}>
-                      {renderGoalCompletion()}
-                    </Grid>
-                    <Grid
-                      item
-                      xs={6}
-                      sm={12}
-                      md={6}
-                      className="give-button-grid"
-                      style={{ justifyContent: "flex-end" }}
-                    >
-                      <Link
-                        href={`#/give/projects/${project.slug}`}
-                        className="cause-link"
-                        onClick={() => handleProjectDetailsButtonClick("View Details Button")}
-                      >
-                        <PrimaryButton className="cause-give-button">
-                          <Trans>View Details</Trans>
-                        </PrimaryButton>
-                      </Link>
-                    </Grid>
-                  </Grid>
-                </div>
-              </div>
+        <Grid container key={title} spacing={3}>
+          {!isBreakpointLarge ? (
+            <Grid item xs={12}>
+              <Link
+                href={`#/give/projects/${project.slug}`}
+                onClick={() => handleProjectDetailsButtonClick("Title Link")}
+              >
+                <Typography variant="h4">
+                  <strong>{getTitle()}</strong>
+                </Typography>
+              </Link>
             </Grid>
           ) : (
-            <Grid
-              item
-              className={isVerySmallScreen ? "cause-card very-small" : "cause-card"}
-              key={title}
-              style={{ flexDirection: "column" }}
-            >
-              <Grid container className="cause-header">
-                <Grid item className="cause-title smaller-size">
-                  <Link
-                    href={`#/give/projects/${project.slug}`}
-                    onClick={() => handleProjectDetailsButtonClick("Title Link")}
-                  >
-                    <Typography variant="h4">
-                      <strong>{getTitle()}</strong>
-                    </Typography>
-                  </Link>
-                </Grid>
-              </Grid>
-              <div style={{ display: "flex", width: "100%" }} className="small-screen-cause">
-                {getProjectImage()}
-                <div className="cause-content">
-                  <div className="cause-body">
-                    <Typography variant="body1" style={{ lineHeight: "20px" }}>
-                      <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
-                    </Typography>
-                  </div>
-                  <Grid container direction="column" className="cause-misc-info">
-                    <Grid item xs={12} md={6}>
-                      {renderGoalCompletion()}
-                    </Grid>
-                    <Grid item xs={12} md={6} className="give-button-grid" style={{ justifyContent: "flex-end" }}>
-                      <Link
-                        href={`#/give/projects/${project.slug}`}
-                        className="cause-link"
-                        onClick={() => handleProjectDetailsButtonClick("View Details Button")}
-                      >
-                        <PrimaryButton className="cause-give-button">
-                          <Trans>View Details</Trans>
-                        </PrimaryButton>
-                      </Link>
-                    </Grid>
-                  </Grid>
-                </div>
-              </div>
-            </Grid>
+            <></>
           )}
-        </Box>
+          <Grid item xs={12} sm={5} lg={4}>
+            {getProjectImage()}
+          </Grid>
+          <Grid item container xs alignContent="space-between">
+            {isBreakpointLarge ? (
+              <Grid item xs={12}>
+                <Link
+                  href={`#/give/projects/${project.slug}`}
+                  onClick={() => handleProjectDetailsButtonClick("Title Link")}
+                >
+                  <Typography variant="h4">
+                    <strong>{getTitle()}</strong>
+                  </Typography>
+                </Link>
+              </Grid>
+            ) : (
+              <></>
+            )}
+            <Grid item xs={12}>
+              <Typography variant="body1" className="project-content">
+                <div dangerouslySetInnerHTML={getRenderedDetails(true)} />
+              </Typography>
+            </Grid>
+            <Grid item xs />
+            <Grid item container xs={12} alignItems="flex-end">
+              <Grid item xs={12} lg={8}>
+                {renderGoalCompletion()}
+              </Grid>
+              <Grid item xs={12} lg={4}>
+                <Link
+                  href={`#/give/projects/${project.slug}`}
+                  onClick={() => handleProjectDetailsButtonClick("View Details Button")}
+                >
+                  <PrimaryButton fullWidth>
+                    <Trans>View Details</Trans>
+                  </PrimaryButton>
+                </Link>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
           eventSource="Project List"
@@ -651,141 +621,134 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const getPageContent = () => {
     return (
       <>
-        <Container style={{ display: "flex", justifyContent: "center" }} className="project-container">
-          <div
-            className={`${isMediumScreen ? "medium" : ""}
-            ${isSmallScreen ? "smaller" : ""}
-            ${isVerySmallScreen ? "very-small" : ""}`}
-          >
-            <Box className="project-content-container">
-              <Grid container className="project">
-                <Grid
-                  item
-                  xs={12}
-                  md={5}
-                  style={{
-                    paddingLeft: "1rem",
-                  }}
-                >
-                  <MuiPaper className="project-sidebar">
-                    <Grid container className="project-intro" justifyContent="space-between">
-                      <Grid item className="project-title">
-                        <Link href={"#/give"}>
-                          <ChevronLeft
-                            className="back-to-causes"
-                            viewBox="6 6 12 12"
-                            style={{ width: "12px", height: "12px" }}
-                          />
+        <Container>
+          <Grid container spacing={3} alignItems="flex-start">
+            <Grid container item xs={12} lg={5}>
+              <Grid item xs={12}>
+                <Paper
+                  topLeft={
+                    <Grid container spacing={2} alignItems="center">
+                      <Grid item>
+                        <Link href={"#/give/"}>
+                          <ChevronLeft viewBox="6 6 12 12" style={{ width: "12px", height: "12px" }} />
                         </Link>
-                        <Typography variant="h5">
-                          <strong>{getTitle()}</strong>
-                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography variant="h5">{getTitle()}</Typography>
                       </Grid>
                     </Grid>
-                    <Grid item className="project-visual-info">
+                  }
+                >
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6} lg={12}>
                       {getProjectImage()}
-                      <Grid item className="goal-graphics">
-                        {renderDepositData()}
-                        {renderGoalCompletionDetailed()}
-                        {connected ? (
-                          isUserDonating ? (
-                            <></>
-                          ) : (
-                            <div className="project-give-button">
-                              <PrimaryButton
-                                onClick={() => handleGiveButtonClick()}
-                                disabled={!isSupportedChain(networkId)}
-                              >
-                                <Trans>Donate Yield</Trans>
-                              </PrimaryButton>
-                            </div>
-                          )
-                        ) : (
-                          <div className="project-give-button">
-                            <PrimaryButton onClick={connect}>
+                    </Grid>
+                    <Grid item xs>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          {renderDepositData()}
+                        </Grid>
+                        <Grid item xs={12}>
+                          {renderGoalCompletionDetailed()}
+                        </Grid>
+                        <Grid item xs={12}>
+                          {!connected ? (
+                            <PrimaryButton onClick={connect} fullWidth>
                               <Trans>Connect Wallet</Trans>
                             </PrimaryButton>
-                          </div>
-                        )}
-                        {renderCountdownDetailed()}
+                          ) : isUserDonating ? (
+                            <></>
+                          ) : (
+                            <PrimaryButton
+                              onClick={() => handleGiveButtonClick()}
+                              disabled={!isSupportedChain(networkId)}
+                              fullWidth
+                            >
+                              <Trans>Donate Yield</Trans>
+                            </PrimaryButton>
+                          )}
+                        </Grid>
+                        <Grid item xs={12}>
+                          {renderCountdownDetailed()}
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </MuiPaper>
-                  {isUserDonating ? (
-                    <MuiPaper className="project-sidebar">
-                      <div className="project-sidebar-header">
-                        <Typography variant="h5">
-                          <strong>
-                            <Trans>Your Donations</Trans>
-                          </strong>
-                        </Typography>
-                      </div>
-                      <div className="project-donations">
-                        <Grid container className="project-donation-data">
-                          <Grid item className="project-deposited">
-                            <Typography variant="h6">
-                              <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-                              <strong>{parseFloat(donationInfo[donationId].deposit).toFixed(2)}</strong>
-                            </Typography>
-                            <Typography variant="body1" className="subtext">
-                              sOHM Deposited
-                            </Typography>
-                          </Grid>
-                          <Grid item className="project-yield-sent">
-                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end" }}>
-                              <Typography variant="h6" align="right">
-                                <SvgIcon component={GiveSohm} style={{ marginRight: "0.33rem" }} />
-                                <strong>{parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)}</strong>
+                  </Grid>
+                </Paper>
+              </Grid>
+              <Grid item xs={12}>
+                {!isUserDonating ? (
+                  <></>
+                ) : (
+                  <Paper headerText={t`Your Donations`}>
+                    <Grid container alignItems="flex-end" spacing={2}>
+                      <Grid item xs={6}>
+                        <Grid container direction="column" alignItems="flex-start">
+                          <Grid item container justifyContent="flex-start" alignItems="center" spacing={1}>
+                            <Grid item>
+                              <Icon name="deposited" />
+                            </Grid>
+                            <Grid item>
+                              <Typography className="metric">
+                                {donationInfo[donationId]
+                                  ? parseFloat(donationInfo[donationId].deposit).toFixed(2)
+                                  : "0"}
                               </Typography>
-                            </div>
-                            <Typography variant="body1" align="right" className="subtext">
-                              sOHM Yield Sent
-                            </Typography>
+                            </Grid>
+                          </Grid>
+                          <Grid item className="subtext">
+                            <Trans>sOHM Deposited</Trans>
                           </Grid>
                         </Grid>
-                        <div className="project-edit-button">
-                          <PrimaryButton
-                            onClick={() => handleEditButtonClick()}
-                            disabled={!isSupportedChain(networkId)}
-                          >
-                            <Trans>Edit Donation</Trans>
-                          </PrimaryButton>
-                        </div>
-                      </div>
-                    </MuiPaper>
-                  ) : (
-                    <></>
-                  )}
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                  style={{
-                    marginBottom: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                    paddingRight: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                    paddingLeft: isMediumScreen || isSmallScreen || isVerySmallScreen ? "1rem" : 0,
-                  }}
-                >
-                  <Paper className="project-info">
-                    <div className="project-info-header">
-                      <Typography variant="h5" className="project-about-header">
-                        <strong>
-                          <Trans>About</Trans>
-                        </strong>
-                      </Typography>
-                      <Grid item className="project-link">
-                        <Link href={project.website} target="_blank">
-                          <Icon name="website" fill={svgFillColour} />
-                        </Link>
                       </Grid>
-                    </div>
-                    <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
+                      <Grid item xs={6}>
+                        <Grid container direction="column" alignItems="flex-end">
+                          <Grid item>
+                            <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
+                              <Grid item>
+                                <Icon name="sohm-yield-sent" />
+                              </Grid>
+                              <Grid item>
+                                <Typography className="metric">
+                                  {donationInfo[donationId]
+                                    ? parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)
+                                    : "0"}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item className="subtext">
+                            <Trans>sOHM Yield Sent</Trans>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <PrimaryButton
+                          onClick={() => handleEditButtonClick()}
+                          disabled={!isSupportedChain(networkId)}
+                          fullWidth
+                        >
+                          <Trans>Edit Donation</Trans>
+                        </PrimaryButton>
+                      </Grid>
+                    </Grid>
                   </Paper>
-                </Grid>
+                )}
               </Grid>
-            </Box>
-          </div>
+            </Grid>
+            <Grid item xs={12} lg={7}>
+              <Paper
+                headerText="About"
+                topRight={
+                  <Link href={project.website} target="_blank">
+                    <Icon name="website" />
+                  </Link>
+                }
+              >
+                <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
+              </Paper>
+            </Grid>
+          </Grid>
         </Container>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
@@ -795,8 +758,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           project={project}
           key={title}
         />
-
-        {isUserDonating ? (
+        {isUserDonating && donationInfo[donationId] ? (
           <ManageDonationModal
             isModalOpen={isManageModalOpen}
             eventSource={"Project Details"}
