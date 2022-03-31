@@ -1,21 +1,24 @@
-import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
 import { AddressMap } from "src/constants/addresses";
 import { NetworkId } from "src/networkDetails";
-import { PairContract } from "src/typechain";
 
 import { DecimalBigNumber } from "../DecimalBigNumber/DecimalBigNumber";
+import { Factory } from "./Contract";
 import { Token, TokenConfig } from "./Token";
 
-export interface LPTokenConfig<TAddressMap extends AddressMap = AddressMap> extends TokenConfig<TAddressMap> {
+export interface LPTokenConfig<TFactory extends Factory = Factory, TAddressMap extends AddressMap = AddressMap>
+  extends TokenConfig<TFactory, TAddressMap> {
   tokens: [Token, Token];
 }
 
-export class LPToken<TAddressMap extends AddressMap = AddressMap> extends Token<PairContract, TAddressMap> {
-  constructor(config: LPTokenConfig<TAddressMap>) {
+export class LPToken<TFactory extends Factory = Factory, TAddressMap extends AddressMap = AddressMap> extends Token<
+  TFactory,
+  TAddressMap
+> {
+  constructor(config: LPTokenConfig<TFactory, TAddressMap>) {
     super({
       name: config.name,
       icons: config.icons,
-      abi: PAIR_CONTRACT_ABI,
+      factory: config.factory,
       decimals: config.decimals,
       addresses: config.addresses,
       purchaseUrl: config.purchaseUrl,

@@ -1,18 +1,16 @@
-import { abi as BOND_ABI } from "src/abi/BondDepository.json";
-import { abi as OLYMPUS_PRO_ABI } from "src/abi/OlympusProV2.json";
 import { Contract } from "src/helpers/contracts/Contract";
-import { BondDepository, OlympusProV2 } from "src/typechain";
+import { BondDepository__factory, OlympusProV2__factory } from "src/typechain";
 
 import { BOND_DEPOSITORY_ADDRESSES, OP_BOND_DEPOSITORY_ADDRESSES } from "./addresses";
 
-export const BOND_DEPOSITORY_CONTRACT = new Contract<BondDepository, typeof BOND_DEPOSITORY_ADDRESSES>({
-  abi: BOND_ABI,
+export const BOND_DEPOSITORY_CONTRACT = new Contract({
+  factory: BondDepository__factory,
   name: "Bond Depository Contract",
   addresses: BOND_DEPOSITORY_ADDRESSES,
 });
 
-export const OP_BOND_DEPOSITORY_CONTRACT = new Contract<OlympusProV2, typeof OP_BOND_DEPOSITORY_ADDRESSES>({
-  abi: OLYMPUS_PRO_ABI,
+export const OP_BOND_DEPOSITORY_CONTRACT = new Contract({
+  factory: OlympusProV2__factory,
   name: "Olympus Pro Bond Depository Contract",
   addresses: OP_BOND_DEPOSITORY_ADDRESSES,
 });

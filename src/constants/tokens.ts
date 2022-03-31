@@ -2,6 +2,7 @@ import { LPToken } from "src/helpers/contracts/LPToken";
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { NetworkId } from "src/networkDetails";
+import { IERC20__factory, PairContract__factory } from "src/typechain";
 
 import {
   DAI_ADDRESSES,
@@ -18,6 +19,7 @@ export const OHM_TOKEN = new Token({
   name: "OHM",
   decimals: 9,
   addresses: OHM_ADDRESSES,
+  factory: IERC20__factory,
   purchaseUrl:
     "https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
 });
@@ -38,6 +40,7 @@ export const WETH_TOKEN = new Token({
   name: "WETH",
   decimals: 18,
   addresses: WETH_ADDRESSES,
+  factory: IERC20__factory,
   purchaseUrl: "",
 });
 
@@ -46,6 +49,7 @@ export const DAI_TOKEN = new Token({
   name: "DAI",
   decimals: 18,
   addresses: DAI_ADDRESSES,
+  factory: IERC20__factory,
   purchaseUrl: "",
 });
 
@@ -54,6 +58,7 @@ export const LUSD_TOKEN = new Token({
   name: "LUSD",
   decimals: 18,
   addresses: LUSD_ADDRESSES,
+  factory: IERC20__factory,
   purchaseUrl: "",
 });
 
@@ -61,6 +66,7 @@ export const OHM_WETH_LP_TOKEN = new LPToken({
   decimals: 18,
   name: "OHM-WETH LP",
   icons: ["OHM", "wETH"],
+  factory: PairContract__factory,
   tokens: [OHM_TOKEN, WETH_TOKEN],
   addresses: OHM_WETH_LP_ADDRESSES,
   purchaseUrl:
@@ -71,6 +77,7 @@ export const OHM_LUSD_LP_TOKEN = new LPToken({
   decimals: 18,
   name: "OHM-LUSD LP",
   icons: ["OHM", "LUSD"],
+  factory: PairContract__factory,
   tokens: [LUSD_TOKEN, OHM_TOKEN],
   addresses: OHM_LUSD_LP_ADDRESSES,
   purchaseUrl:
@@ -81,6 +88,7 @@ export const OHM_DAI_LP_TOKEN = new LPToken({
   decimals: 18,
   name: "OHM-DAI LP",
   icons: ["OHM", "DAI"],
+  factory: PairContract__factory,
   tokens: [OHM_TOKEN, DAI_TOKEN],
   addresses: OHM_DAI_LP_ADDRESSES,
   purchaseUrl:
