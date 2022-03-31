@@ -41,7 +41,7 @@ export const BondCard: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = prop
         </Typography>
 
         <Typography>
-          <BondPrice price={info?.price} />
+          <BondPrice price={info?.price.inUsd} />
         </Typography>
       </Box>
 

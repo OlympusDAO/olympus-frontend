@@ -5,11 +5,11 @@ import { ChangeEvent } from "react";
 
 export const BondSettingsModal: React.VFC<{
   open: boolean;
-  slippage: number;
+  slippage: string;
   handleClose: () => void;
   recipientAddress: string;
-  onSlippageChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onRecipientAddressChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onSlippageChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onRecipientAddressChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }> = props => {
   return (
     <Modal
@@ -27,8 +27,8 @@ export const BondSettingsModal: React.VFC<{
 
         <FormControl variant="outlined" color="primary" fullWidth>
           <OutlinedInput
+            type="text"
             id="slippage"
-            type="number"
             value={props.slippage}
             onChange={props.onSlippageChange}
             endAdornment={<InputAdornment position="end">%</InputAdornment>}

@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, FormControl } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import { DataRow, Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -17,62 +17,76 @@ import { useBondData } from "src/views/Bond/hooks/useBondData";
 
 import { BondDiscount } from "../../../BondDiscount";
 import { BondDuration } from "../../../BondDuration";
+import { usePurchaseBond } from "./hooks/usePurchaseBond";
 
-export const BondInputArea: React.VFC<{ bond: Bond; slippage: number; recipientAddress: string }> = props => {
+export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientAddress: string }> = props => {
   const { pathname } = useLocation();
-  const isInverseBond = pathname.includes("inverse");
+  const isInverseBond: boolean = pathname.includes("inverse");
 
   const { address } = useWeb3Context();
   const networks = useTestableNetworks();
 
-  const currentIndex = useCurrentIndex().data;
   const info = useBondData(props.bond).data;
+  const currentIndex = useCurrentIndex().data;
+  const balance = useBalance(props.bond.quoteToken.addresses)[networks.MAINNET].data;
 
   const [amount, setAmount] = useState("");
-  const balance = useBalance(props.bond.quoteToken.addresses)[networks.MAINNET].data;
+  const parsedAmount = new DecimalBigNumber(amount, props.bond.quoteToken.decimals);
+  const amountInBaseToken = parsedAmount.div(info?.price.inBaseToken || new DecimalBigNumber("1", 0), 4);
   const setMax = () => balance && setAmount(balance.toAccurateString());
+
+  const purchaseBondMutation = usePurchaseBond(props.bond);
+  const handleSubmit = (event: React.FormEvent<StakeFormElement>) => {
+    event.preventDefault();
+    // TODO: If bond has existing unclaimed rewards
+    const amount = event.currentTarget.elements["amount"].value;
+    purchaseBondMutation.mutate({ amount, slippage: props.slippage, recipientAddress: props.recipientAddress });
+  };
 
   return (
     <Box display="flex" flexDirection="column">
-      <Box display="flex" justifyContent="space-around" flexWrap="wrap">
-        <WalletConnectedGuard message="Please connect your wallet to purchase bonds">
-          <TokenAllowanceGuard
-            isVertical
-            tokenAddressMap={props.bond.quoteToken.addresses}
-            spenderAddressMap={BOND_DEPOSITORY_CONTRACT.addresses}
-            message={
-              <>
-                <Trans>First time bonding</Trans> <b>{props.bond.quoteToken.name}</b>? <br />{" "}
-                <Trans>Please approve Olympus DAO to use your</Trans> <b>{props.bond.quoteToken.name}</b>{" "}
-                <Trans>for bonding</Trans>.
-              </>
-            }
-          >
-            <FormControl className="ohm-input" fullWidth>
-              <Input
-                type="number"
-                labelWidth={55}
-                value={amount}
-                endString={t`Max`}
-                placeholder={t`Amount`}
-                endStringOnClick={setMax}
-                id="outlined-adornment-amount"
-                onChange={event => setAmount(event.currentTarget.value)}
-              />
-            </FormControl>
+      <WalletConnectedGuard message="Please connect your wallet to purchase bonds">
+        <form onSubmit={handleSubmit}>
+          <Box display="flex" justifyContent="center">
+            <Box display="flex" flexDirection="column" width="60%">
+              <TokenAllowanceGuard
+                isVertical
+                tokenAddressMap={props.bond.quoteToken.addresses}
+                spenderAddressMap={BOND_DEPOSITORY_CONTRACT.addresses}
+                message={
+                  <>
+                    <Trans>First time bonding</Trans> <b>{props.bond.quoteToken.name}</b>? <br />{" "}
+                    <Trans>Please approve Olympus DAO to use your</Trans> <b>{props.bond.quoteToken.name}</b>{" "}
+                    <Trans>for bonding</Trans>.
+                  </>
+                }
+              >
+                <Input
+                  type="string"
+                  name="amount"
+                  value={amount}
+                  endString={t`Max`}
+                  endStringOnClick={setMax}
+                  id="outlined-adornment-amount"
+                  onChange={event => setAmount(event.currentTarget.value)}
+                  placeholder={t`Enter an amount of` + ` ${props.bond.quoteToken.name}`}
+                />
 
-            <PrimaryButton
-              id="bond-btn"
-              className="transaction-button"
-              onClick={() => {
-                //
-              }}
-            >
-              Bond
-            </PrimaryButton>
-          </TokenAllowanceGuard>
-        </WalletConnectedGuard>
-      </Box>
+                <Box mt="8px">
+                  <PrimaryButton
+                    fullWidth
+                    className=""
+                    type="submit"
+                    disabled={info?.isSoldOut || purchaseBondMutation.isLoading}
+                  >
+                    {purchaseBondMutation.isLoading ? "Bonding..." : "Bond"}
+                  </PrimaryButton>
+                </Box>
+              </TokenAllowanceGuard>
+            </Box>
+          </Box>
+        </form>
+      </WalletConnectedGuard>
 
       <Box className="bond-data">
         <DataRow
@@ -85,8 +99,8 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: number; recipientA
           isLoading={!info}
           title={t`You Will Get`}
           balance={
-            `${new DecimalBigNumber(amount, props.bond.quoteToken.decimals).toFormattedString(4)} ` +
-            `sOHM (≈${new DecimalBigNumber(amount, props.bond.quoteToken.decimals)
+            `${amountInBaseToken.toFormattedString(4)} ` +
+            `sOHM (≈${amountInBaseToken
               .div(currentIndex || new DecimalBigNumber("1", 0), 4)
               .toFormattedString(4)} gOHM)`
           }
@@ -136,3 +150,7 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: number; recipientA
     </Box>
   );
 };
+
+interface StakeFormElement extends HTMLFormElement {
+  elements: HTMLFormControlsCollection & { amount: HTMLInputElement };
+}

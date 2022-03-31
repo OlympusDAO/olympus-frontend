@@ -22,14 +22,11 @@ import { BondSettingsModal } from "./components/BondSettingsModal";
 
 export const BondModalContainer: React.VFC = () => {
   const history = useHistory();
-  const { networkId } = useWeb3Context();
-  usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
-
   const { pathname } = useLocation();
-
-  const { id } = useParams<{ id: string }>();
-
   const bonds = useActiveBonds().data;
+  const { networkId } = useWeb3Context();
+  const { id } = useParams<{ id: string }>();
+  usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
   if (!bonds) return null;
 
@@ -46,7 +43,7 @@ const BondModal: React.VFC<{ bond: Bond; isInverseBond: boolean }> = props => {
 
   const info = useBondData(props.bond).data;
 
-  const [slippage, setSlippage] = useState(0.5);
+  const [slippage, setSlippage] = useState("0.5");
   const [isSettingsOpen, setSettingsOpen] = useState(false);
   const [recipientAddress, setRecipientAddress] = useState("");
 
@@ -56,7 +53,6 @@ const BondModal: React.VFC<{ bond: Bond; isInverseBond: boolean }> = props => {
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [history, isSettingsOpen]);
 
@@ -88,8 +84,8 @@ const BondModal: React.VFC<{ bond: Bond; isInverseBond: boolean }> = props => {
           open={isSettingsOpen}
           recipientAddress={recipientAddress}
           handleClose={() => setSettingsOpen(false)}
-          onSlippageChange={event => setSlippage(Number(event.currentTarget.value))}
           onRecipientAddressChange={event => setRecipientAddress(event.currentTarget.value)}
+          onSlippageChange={event => setSlippage(event.currentTarget.value)}
         />
 
         <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
@@ -113,7 +109,7 @@ const BondModal: React.VFC<{ bond: Bond; isInverseBond: boolean }> = props => {
             </Typography>
 
             <Typography variant="h3" className="price" color="primary">
-              {info?.isSoldOut ? "--" : <BondPrice price={info?.price} />}
+              {info?.isSoldOut ? "--" : <BondPrice price={info?.price.inUsd} />}
             </Typography>
           </div>
 
@@ -130,7 +126,7 @@ const BondModal: React.VFC<{ bond: Bond; isInverseBond: boolean }> = props => {
 
         <BondInputArea bond={props.bond} slippage={slippage} recipientAddress={recipientAddress} />
 
-        <Box mt="8px" className="help-text">
+        <Box mt="16px" className="help-text">
           <Typography variant="body2">
             <BondInfoText isInverseBond={props.isInverseBond} />
           </Typography>

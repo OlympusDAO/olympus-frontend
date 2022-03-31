@@ -62,7 +62,7 @@ export const BondRow: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = props
       )}
 
       <TableCell style={{ padding: "8px 0" }}>
-        <Typography>{info?.isSoldOut ? "--" : <BondPrice price={info?.price} />}</Typography>
+        <Typography>{info?.isSoldOut ? "--" : <BondPrice price={info?.price.inUsd} />}</Typography>
       </TableCell>
 
       <TableCell style={{ padding: "8px 0" }}>

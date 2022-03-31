@@ -30,9 +30,9 @@ export const useBondData = (bond: Bond) => {
     async () => {
       queryAssertion(baseTokenPerUsd && quoteTokenPerUsd && terms && markets && quoteTokenPerBaseToken, key);
 
-      const price = quoteTokenPerUsd.mul(quoteTokenPerBaseToken, 9);
+      const priceInUsd = quoteTokenPerUsd.mul(quoteTokenPerBaseToken, 9);
 
-      const discount = baseTokenPerUsd.sub(price).div(baseTokenPerUsd, 9);
+      const discount = baseTokenPerUsd.sub(priceInUsd).div(baseTokenPerUsd, 9);
 
       /**
        * Bonds mature with a cliff at a set timestamp
@@ -90,9 +90,12 @@ export const useBondData = (bond: Bond) => {
 
       return {
         /**
-         * Price of token the user is buying denominated in USD
+         * Price of the bond
          */
-        price,
+        price: {
+          inUsd: priceInUsd,
+          inBaseToken: quoteTokenPerBaseToken,
+        },
         /**
          * The discount relative to the current market price of the token being sold
          */
