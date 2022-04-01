@@ -1,15 +1,14 @@
-import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryProvider } from "src/lib/react-query";
 
 import { render } from "../../../testUtils";
 import TreasuryDashboard from "../TreasuryDashboard";
 
 describe("<TreasuryDashboard/>", () => {
-  const queryClient = new QueryClient();
   it("should render component", () => {
     const { container } = render(
-      <QueryClientProvider client={queryClient}>
+      <ReactQueryProvider>
         <TreasuryDashboard />
-      </QueryClientProvider>,
+      </ReactQueryProvider>,
     );
     expect(container).toMatchSnapshot();
   });

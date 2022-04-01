@@ -25,30 +25,22 @@ describe("<Stake/>", () => {
 
   it("should render all supported multi chain staking contracts", async () => {
     render(<Stake />);
-    expect(screen.getByText("gOHM-AVAX")).toBeInTheDocument();
-    expect(screen.getByText("Stake on Trader Joe (Avalanche)").closest("a")).toHaveAttribute(
+    expect(await screen.getByText("gOHM-AVAX")).toBeInTheDocument();
+    expect(await screen.getByText("Stake on Trader Joe").closest("a")).toHaveAttribute(
       "href",
       "https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00",
     );
     // there should be two sushi contracts, one on Arbitrum and the other on Polygon
     const sushiContracts = await screen.findAllByText("gOHM-wETH");
-    expect(sushiContracts).toHaveLength(2);
-    expect(screen.getByText("Stake on Sushi (Arbitrum)").closest("a")).toHaveAttribute(
-      "href",
-      "https://app.sushi.com/farm?filter=2x",
-    );
-    expect(screen.getByText("Stake on Sushi (Polygon)").closest("a")).toHaveAttribute(
-      "href",
-      "https://app.sushi.com/farm?filter=2x",
-    );
-    expect(screen.getByText("gOHM-FTM")).toBeInTheDocument();
-    expect(screen.getByText("Stake on Spirit (Fantom)").closest("a")).toHaveAttribute(
+    expect(sushiContracts).toHaveLength(3);
+    expect(await screen.getByText("gOHM-FTM")).toBeInTheDocument();
+    expect(await screen.getByText("Stake on Spirit").closest("a")).toHaveAttribute(
       "href",
       "https://app.spiritswap.finance/#/farms/allfarms",
     );
   });
 
-  it.only("approve button should change to stake once contract is approved", async () => {
+  it("approve button should change to stake once contract is approved", async () => {
     Web3Modal.prototype.connect = async () => {
       return (method: string) => {
         return new Promise(resolve => {

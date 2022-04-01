@@ -19,6 +19,9 @@ export enum NetworkId {
 
   FANTOM = 250,
   FANTOM_TESTNET = 4002,
+
+  OPTIMISM = 10,
+  OPTIMISM_TESTNET = 69,
 }
 
 interface IAddresses {
@@ -185,6 +188,10 @@ export const addresses: IAddresses = {
   },
   [NetworkId.FANTOM]: {
     GOHM_ADDRESS: "0x91fa20244fb509e8289ca630e5db3e9166233fdc",
+  },
+
+  [NetworkId.OPTIMISM]: {
+    GOHM_ADDRESS: "0x0b5740c6b4a97f90eF2F0220651Cca420B868FfB",
   },
 };
 
