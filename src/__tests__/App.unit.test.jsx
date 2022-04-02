@@ -27,7 +27,7 @@ describe("<App/>", () => {
     expect(screen.getByText("Connect your wallet to stake OHM")).toBeInTheDocument();
   });
 
-  it.only("should not render an error message when user wallet is connected and cached but not locked", async () => {
+  it("should not render an error message when user wallet is connected and cached but not locked", async () => {
     Web3Modal.prototype.connect = jest.fn().mockImplementation(async () => {
       // mock connection promise that never resolves
       return new Promise(function (resolve, reject) {
