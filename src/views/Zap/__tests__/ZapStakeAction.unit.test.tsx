@@ -70,6 +70,7 @@ describe("<ZapStakeAction/> ", () => {
 
     const store = configureStore({
       reducer,
+      middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
       preloadedState,
     }) as any; //eslint-disable-line
 
