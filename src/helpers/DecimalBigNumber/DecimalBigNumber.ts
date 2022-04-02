@@ -178,7 +178,7 @@ export class DecimalBigNumber {
   }
 
   /**
-   * Determines if this va;ie is greater than the provided value
+   * Determines if this value is greater than the provided value
    */
   public gt(value: DecimalBigNumber): boolean {
     // Normalize decimals to the largest of the two values
