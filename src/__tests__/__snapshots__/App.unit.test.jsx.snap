@@ -40,7 +40,7 @@ exports[`<App/> should not render a connection error message when user wallet is
           <a
             aria-disabled="false"
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
-            href="/#/wallet"
+            href="/wallet"
             id="ohm-menu-button"
             tabindex="0"
           >
@@ -186,7 +186,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/dashboard"
+                          href="/dashboard"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -216,7 +216,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/bonds"
+                          href="/bonds"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -254,7 +254,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                         <a
                           aria-current="page"
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary active"
-                          href="/#/stake"
+                          href="/stake"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -284,7 +284,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/zap"
+                          href="/zap"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -314,7 +314,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/give"
+                          href="/give"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -353,7 +353,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/wrap"
+                          href="/wrap"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -3161,7 +3161,7 @@ exports[`<App/> should not render an error message when user wallet is connected
           <a
             aria-disabled="false"
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
-            href="/#/wallet"
+            href="/wallet"
             id="ohm-menu-button"
             tabindex="0"
           >
@@ -3307,7 +3307,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/dashboard"
+                          href="/dashboard"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -3337,7 +3337,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/bonds"
+                          href="/bonds"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -3375,7 +3375,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                         <a
                           aria-current="page"
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary active"
-                          href="/#/stake"
+                          href="/stake"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -3405,7 +3405,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/zap"
+                          href="/zap"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -3435,7 +3435,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/give"
+                          href="/give"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -3474,7 +3474,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/wrap"
+                          href="/wrap"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -6282,7 +6282,7 @@ exports[`<App/> should render an error message when user wallet is connected and
           <a
             aria-disabled="false"
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
-            href="/#/wallet"
+            href="/wallet"
             id="ohm-menu-button"
             tabindex="0"
           >
@@ -6428,7 +6428,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/dashboard"
+                          href="/dashboard"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -6458,7 +6458,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/bonds"
+                          href="/bonds"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -6496,7 +6496,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                         <a
                           aria-current="page"
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary active"
-                          href="/#/stake"
+                          href="/stake"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -6526,7 +6526,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/zap"
+                          href="/zap"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -6556,7 +6556,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/give"
+                          href="/give"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"
@@ -6595,7 +6595,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/#/wrap"
+                          href="/wrap"
                         >
                           <h6
                             class="MuiTypography-root MuiTypography-h6"

@@ -52,7 +52,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                      href="/#/dashboard"
+                      href="/dashboard"
                     >
                       <h6
                         class="MuiTypography-root MuiTypography-h6"
@@ -82,7 +82,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                      href="/#/bonds"
+                      href="/bonds"
                     >
                       <h6
                         class="MuiTypography-root MuiTypography-h6"
@@ -119,7 +119,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                      href="/#/stake"
+                      href="/stake"
                     >
                       <h6
                         class="MuiTypography-root MuiTypography-h6"
@@ -149,7 +149,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                      href="/#/zap"
+                      href="/zap"
                     >
                       <h6
                         class="MuiTypography-root MuiTypography-h6"
@@ -179,7 +179,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                      href="/#/give"
+                      href="/give"
                     >
                       <h6
                         class="MuiTypography-root MuiTypography-h6"
@@ -218,7 +218,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                      href="/#/wrap"
+                      href="/wrap"
                     >
                       <h6
                         class="MuiTypography-root MuiTypography-h6"
