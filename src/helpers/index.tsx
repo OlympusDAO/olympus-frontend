@@ -4,8 +4,6 @@ import { formatUnits } from "@ethersproject/units";
 import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
 import { ethers } from "ethers";
-import { IBaseAsyncThunk } from "src/slices/interfaces";
-import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
 import { abi as PairContractABI } from "../abi/PairContract.json";
 import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
@@ -257,14 +255,4 @@ export const isTestnet = (networkId: NetworkId) => {
   ];
 
   return testnets.includes(networkId);
-};
-
-interface ICheckBalance extends IBaseAsyncThunk {
-  readonly sOHMbalance: string;
-}
-
-export const getGohmBalFromSohm = async ({ provider, networkID, sOHMbalance }: ICheckBalance) => {
-  const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
-  const formattedGohmBal = await gOhmContract.balanceTo(ethers.utils.parseUnits(sOHMbalance, "gwei").toString());
-  return ethers.utils.formatEther(formattedGohmBal);
 };

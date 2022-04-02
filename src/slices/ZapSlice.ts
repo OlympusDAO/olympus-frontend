@@ -1,6 +1,7 @@
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
 import { addresses, NetworkId } from "src/constants";
+import { GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { setAll } from "src/helpers";
 import { ZapHelper, ZapperToken } from "src/helpers/ZapHelper";
 import { IERC20__factory, Zap__factory } from "src/typechain";
@@ -140,7 +141,9 @@ export const executeZap = createAsyncThunk(
         tx = await zapContract.ZapStake(
           tokenAddress,
           sellAmount,
-          gOHM ? addresses[networkID].GOHM_ADDRESS : addresses[networkID].SOHM_V2,
+          gOHM
+            ? GOHM_ADDRESSES[networkID as keyof typeof GOHM_ADDRESSES]
+            : SOHM_ADDRESSES[networkID as keyof typeof SOHM_ADDRESSES],
           ethers.utils.parseUnits(minimumAmount, gOHM ? 18 : 9),
           rawTransactionData.to,
           rawTransactionData.data,
@@ -151,7 +154,9 @@ export const executeZap = createAsyncThunk(
         tx = await zapContract.ZapStake(
           tokenAddress,
           sellAmount,
-          gOHM ? addresses[networkID].GOHM_ADDRESS : addresses[networkID].SOHM_V2,
+          gOHM
+            ? GOHM_ADDRESSES[networkID as keyof typeof GOHM_ADDRESSES]
+            : SOHM_ADDRESSES[networkID as keyof typeof SOHM_ADDRESSES],
           ethers.utils.parseUnits(minimumAmount, gOHM ? 18 : 9),
           rawTransactionData.to,
           rawTransactionData.data,

@@ -1,6 +1,7 @@
 import { t } from "@lingui/macro";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
+import { SOHM_ADDRESSES } from "src/constants/addresses";
 
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as MockSohm } from "../abi/MockSohm.json";
@@ -75,7 +76,11 @@ export const changeApproval = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, signer);
+    const sohmContract = new ethers.Contract(
+      SOHM_ADDRESSES[networkID as keyof typeof SOHM_ADDRESSES] as string,
+      ierc20Abi,
+      signer,
+    );
     let approveTx;
     try {
       approveTx = await sohmContract.approve(
