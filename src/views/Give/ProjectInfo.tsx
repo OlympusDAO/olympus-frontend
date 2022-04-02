@@ -3,8 +3,17 @@ import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/Proj
 
 type ProjectInfoProps = {
   project: Project;
+  giveAssetType: string;
+  changeAssetType: (checked: boolean) => void;
 };
 
-export default function ProjectInfo({ project }: ProjectInfoProps) {
-  return <ProjectCard project={project} mode={ProjectDetailsMode.Page} />;
+export default function ProjectInfo({ project, giveAssetType, changeAssetType }: ProjectInfoProps) {
+  return (
+    <ProjectCard
+      project={project}
+      giveAssetType={giveAssetType}
+      changeAssetType={changeAssetType}
+      mode={ProjectDetailsMode.Page}
+    />
+  );
 }

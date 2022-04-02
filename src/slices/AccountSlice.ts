@@ -54,6 +54,7 @@ interface IUserBalances {
 interface IUserGiving {
   giving: {
     sohmGive: number;
+    gohmGive: number;
     donationInfo: IUserDonationInfo[];
     loading: boolean;
   };
@@ -62,6 +63,7 @@ interface IUserGiving {
 interface IUserMockGiving {
   mockGiving: {
     sohmGive: number;
+    gohmGive: number;
     donationInfo: IUserDonationInfo[];
     loading: boolean;
   };
@@ -289,7 +291,8 @@ export const getBalances = createAsyncThunk(
 export const getDonationBalances = createAsyncThunk(
   "account/getDonationBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk): Promise<IUserGiving> => {
-    let giveAllowance = 0;
+    let sohmAllowance = 0;
+    let gohmAllowance = 0;
     const donationInfo: IUserDonationInfo[] = [];
 
     if (!(addresses[networkID] && addresses[networkID].GIVING_ADDRESS)) {
@@ -298,7 +301,8 @@ export const getDonationBalances = createAsyncThunk(
 
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, provider);
     const gohmContract = new ethers.Contract(addresses[networkID].GOHM_ADDRESS as string, gOHM, provider);
-    giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+    sohmAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+    gohmAllowance = await gohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
 
     try {
@@ -312,8 +316,7 @@ export const getDonationBalances = createAsyncThunk(
         for (let i = 0; i < allDeposits[0].length; i++) {
           if (allDeposits[1][i].eq(0)) continue;
           const depositId = depositIds[i];
-          const sohmValue = await gohmContract.balanceFrom(allDeposits[1][i]);
-          const depositAmount = ethers.utils.formatUnits(sohmValue, "gwei");
+          const depositAmount = ethers.utils.formatUnits(allDeposits[1][i], 18);
           const recipient = allDeposits[0][i];
 
           // Create promises to batch together
@@ -330,15 +333,13 @@ export const getDonationBalances = createAsyncThunk(
             provider: provider,
           });
 
-          const resultsArr = await Promise.all([getDatePromise, getYieldPromise]);
+          const [firstDate, yieldSent] = await Promise.all([getDatePromise, getYieldPromise]);
 
-          // Can't batch this one as it relies on getYieldPromise being fulfilled
-          const sohmYieldSent = await gohmContract.balanceFrom(resultsArr[1]);
-          const formattedYieldSent = ethers.utils.formatUnits(sohmYieldSent, "gwei");
+          const formattedYieldSent = ethers.utils.formatUnits(yieldSent, 18);
 
           donationInfo.push({
             id: depositId.toString(),
-            date: resultsArr[0],
+            date: firstDate,
             deposit: depositAmount,
             recipient: recipient,
             yieldDonated: formattedYieldSent,
@@ -351,7 +352,8 @@ export const getDonationBalances = createAsyncThunk(
 
     return {
       giving: {
-        sohmGive: +giveAllowance,
+        sohmGive: +sohmAllowance,
+        gohmGive: +gohmAllowance,
         donationInfo: donationInfo,
         loading: false,
       },
@@ -420,6 +422,7 @@ export const getMockDonationBalances = createAsyncThunk(
     return {
       mockGiving: {
         sohmGive: +giveAllowance,
+        gohmGive: +giveAllowance,
         donationInfo: donationInfo,
         loading: false,
       },
@@ -637,8 +640,8 @@ export const calculateUserBondDetails = createAsyncThunk(
 );
 
 export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
-  giving: { sohmGive: number; donationInfo: IUserDonationInfo[]; loading: boolean };
-  mockGiving: { sohmGive: number; donationInfo: IUserDonationInfo[]; loading: boolean };
+  giving: { sohmGive: number; gohmGive: number; donationInfo: IUserDonationInfo[]; loading: boolean };
+  mockGiving: { sohmGive: number; gohmGive: number; donationInfo: IUserDonationInfo[]; loading: boolean };
   redeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   mockRedeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   bonds: { [key: string]: IUserBondDetails };
@@ -718,8 +721,8 @@ const initialState: IAccountSlice = {
     pool: "",
     mockSohm: "",
   },
-  giving: { sohmGive: 0, donationInfo: [], loading: true },
-  mockGiving: { sohmGive: 0, donationInfo: [], loading: true },
+  giving: { sohmGive: 0, gohmGive: 0, donationInfo: [], loading: true },
+  mockGiving: { sohmGive: 0, gohmGive: 0, donationInfo: [], loading: true },
   redeeming: {
     sohmRedeemable: "",
     recipientInfo: {

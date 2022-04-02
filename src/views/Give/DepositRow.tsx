@@ -10,6 +10,8 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
+import { GetCorrectContractUnits } from "src/helpers/GetCorrectUnits";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { SubmitEditCallback } from "src/views/Give/Interfaces";
 
@@ -29,9 +31,11 @@ interface IUserDonationInfo {
 
 interface DepositRowProps {
   depositObject: IUserDonationInfo;
+  giveAssetType: string;
+  changeAssetType: (checked: boolean) => void;
 }
 
-export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
+export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType }: DepositRowProps) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
@@ -41,6 +45,8 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
 
+  const { data: currentIndex } = useCurrentIndex();
+
   const getRecipientTitle = (address: string): string => {
     const project = projectMap.get(address);
     if (!project) return isMediumScreen || isSmallScreen ? "Custom" : "Custom Recipient";
@@ -48,6 +54,14 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
     if (!project.owner) return isSmallScreen ? project.title.substring(0, 9) + "..." : project.title;
 
     return project.owner + " - " + project.title;
+  };
+
+  const getDeposit = () => {
+    return new BigNumber(GetCorrectContractUnits(depositObject.deposit, giveAssetType, currentIndex));
+  };
+
+  const getYieldDonated = () => {
+    return new BigNumber(GetCorrectContractUnits(depositObject.yieldDonated, giveAssetType, currentIndex));
   };
 
   const handleManageModalCancel = () => {
@@ -88,6 +102,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         changeGive({
           action: ACTION_GIVE_EDIT,
           value: depositAmountDiff.toFixed(),
+          token: giveAssetType,
           recipient: walletAddress,
           id: depositId,
           provider,
@@ -131,6 +146,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         changeGive({
           action: ACTION_GIVE_WITHDRAW,
           value: depositAmount.toFixed(),
+          token: giveAssetType,
           recipient: walletAddress,
           id: depositId,
           provider,
@@ -163,12 +179,14 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         </TableCell>
         {!isSmallScreen && (
           <TableCell align="right" className="deposit-deposited-cell">
-            <Typography variant="h6">{parseFloat(depositObject.deposit).toFixed(2)} sOHM</Typography>
+            <Typography variant="h6">
+              {getDeposit().toFixed(2)} {giveAssetType}
+            </Typography>
           </TableCell>
         )}
         <TableCell align="right" className="deposit-yield-cell">
           <Typography variant={isSmallScreen ? "body1" : "h6"}>
-            {parseFloat(depositObject.yieldDonated).toFixed(2)} sOHM
+            {getYieldDonated().toFixed(2)} {giveAssetType}
           </Typography>
         </TableCell>
         <TableCell align="right" className="deposit-manage-cell">
@@ -186,6 +204,8 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         cancelFunc={handleManageModalCancel}
         currentWalletAddress={depositObject.recipient}
         currentDepositAmount={new BigNumber(depositObject.deposit)}
+        giveAssetType={giveAssetType}
+        changeAssetType={changeAssetType}
         depositDate={depositObject.date}
         yieldSent={depositObject.yieldDonated}
         project={projectMap.get(depositObject.recipient)}

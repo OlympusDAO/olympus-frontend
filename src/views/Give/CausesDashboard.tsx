@@ -21,7 +21,12 @@ import { error } from "../../slices/MessagesSlice";
 import { NEW_DEPOSIT } from "./constants";
 import data from "./projects.json";
 
-export default function CausesDashboard() {
+type CausesDashboardProps = {
+  giveAssetType: string;
+  changeAssetType: (checked: boolean) => void;
+};
+
+export default function CausesDashboard({ giveAssetType, changeAssetType }: CausesDashboardProps) {
   const location = useLocation();
   const { provider, address, networkId } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
@@ -36,7 +41,15 @@ export default function CausesDashboard() {
 
   const renderProjects = useMemo(() => {
     return projects.map(project => {
-      return <ProjectCard key={seed(project.title)} project={project} mode={ProjectDetailsMode.Card} />;
+      return (
+        <ProjectCard
+          key={seed(project.title)}
+          project={project}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeAssetType}
+          mode={ProjectDetailsMode.Card}
+        />
+      );
     });
   }, [projects]);
 
@@ -74,6 +87,7 @@ export default function CausesDashboard() {
         changeGive({
           action: ACTION_GIVE,
           value: depositAmount.toFixed(),
+          token: giveAssetType,
           recipient: walletAddress,
           id: NEW_DEPOSIT,
           provider,
@@ -139,6 +153,8 @@ export default function CausesDashboard() {
             eventSource="Custom Recipient Button"
             callbackFunc={handleCustomGiveModalSubmit}
             cancelFunc={handleCustomGiveModalCancel}
+            giveAssetType={giveAssetType}
+            changeAssetType={changeAssetType}
           />
         </Box>
       </Zoom>

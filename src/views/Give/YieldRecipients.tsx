@@ -25,9 +25,11 @@ import { DepositTableRow } from "./DepositRow";
 
 type RecipientModalProps = {
   changeView: IButtonChangeView;
+  giveAssetType: string;
+  changeAssetType: (checked: boolean) => void;
 };
 
-export default function YieldRecipients({ changeView }: RecipientModalProps) {
+export default function YieldRecipients({ changeView, giveAssetType, changeAssetType }: RecipientModalProps) {
   const location = useLocation();
   const { networkId } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
@@ -101,7 +103,14 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
               <Skeleton />
             ) : (
               donationInfo.map(donation => {
-                return <DepositTableRow depositObject={donation} key={donation.recipient} />;
+                return (
+                  <DepositTableRow
+                    depositObject={donation}
+                    key={donation.recipient}
+                    giveAssetType={giveAssetType}
+                    changeAssetType={changeAssetType}
+                  />
+                );
               })
             )}
           </TableBody>

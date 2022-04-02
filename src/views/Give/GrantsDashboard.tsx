@@ -21,7 +21,12 @@ import { error } from "../../slices/MessagesSlice";
 import { NEW_DEPOSIT } from "./constants";
 import data from "./grants.json";
 
-export default function GrantsDashboard() {
+type GrantsDashboardProps = {
+  giveAssetType: string;
+  changeAssetType: (checked: boolean) => void;
+};
+
+export default function GrantsDashboard({ giveAssetType, changeAssetType }: GrantsDashboardProps) {
   const location = useLocation();
   const { provider, address, networkId } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
@@ -41,7 +46,15 @@ export default function GrantsDashboard() {
       if (grant.disabled) return <></>;
 
       activeGrants++;
-      return <GrantCard key={seed(grant.title)} grant={grant} mode={GrantDetailsMode.Card} />;
+      return (
+        <GrantCard
+          key={seed(grant.title)}
+          grant={grant}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeAssetType}
+          mode={GrantDetailsMode.Card}
+        />
+      );
     });
 
     if (activeGrants > 0) return grantElements;
@@ -83,6 +96,7 @@ export default function GrantsDashboard() {
         changeGive({
           action: ACTION_GIVE,
           value: depositAmount.toFixed(),
+          token: giveAssetType,
           recipient: walletAddress,
           id: NEW_DEPOSIT,
           provider,
@@ -136,6 +150,8 @@ export default function GrantsDashboard() {
             eventSource="Custom Recipient Button"
             callbackFunc={handleCustomGiveModalSubmit}
             cancelFunc={handleCustomGiveModalCancel}
+            giveAssetType={giveAssetType}
+            changeAssetType={changeAssetType}
           />
         </Box>
       </Zoom>

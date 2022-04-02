@@ -7,6 +7,7 @@ const smallIconStyle = { height: "32px", width: "32px", margin: "auto" };
 
 type EducationGraphicProps = {
   quantity: string;
+  asset: string;
   verb?: string;
   isLoading?: boolean;
   small?: boolean;
@@ -16,7 +17,7 @@ type GenericEducationGraphicProps = {
   message: string;
 };
 
-export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicProps) {
+export function WalletGraphic({ quantity, asset, verb = "retained" }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
@@ -29,7 +30,7 @@ export function WalletGraphic({ quantity, verb = "retained" }: EducationGraphicP
       </Box>
       <Box display="flex" flex="1" alignItems="center" alignContent="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
-          {parseFloat(quantity).toFixed(2)} sOHM {verb}
+          {parseFloat(quantity).toFixed(2)} {asset} {verb}
         </Typography>
       </Box>
     </Box>
@@ -78,7 +79,7 @@ export function DepositSohm({ message }: GenericEducationGraphicProps) {
   );
 }
 
-export function VaultGraphic({ quantity, verb = "deposited", isLoading, small = true }: EducationGraphicProps) {
+export function VaultGraphic({ quantity, asset, verb = "deposited", isLoading, small = true }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
@@ -91,7 +92,7 @@ export function VaultGraphic({ quantity, verb = "deposited", isLoading, small = 
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
-          {isLoading ? <Skeleton width={120} /> : `${parseFloat(quantity).toFixed(2)} sOHM ${verb}`}
+          {isLoading ? <Skeleton width={120} /> : `${parseFloat(quantity).toFixed(2)} ${asset} ${verb}`}
         </Typography>
       </Box>
     </Box>
@@ -140,7 +141,7 @@ export function LockInVault({ message }: GenericEducationGraphicProps) {
   );
 }
 
-export function YieldGraphic({ quantity }: EducationGraphicProps) {
+export function YieldGraphic({ quantity, asset }: EducationGraphicProps) {
   return (
     <Box className="sect" minWidth={"33%"} style={{ marginBottom: "16px" }}>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
@@ -161,7 +162,7 @@ export function YieldGraphic({ quantity }: EducationGraphicProps) {
       </Box>
       <Box display="flex" flex="1" alignItems="center" justifyContent="center" className="text">
         <Typography variant="h6" align="center" className="message-text">
-          {`${t`Receives yield from`} ${parseFloat(quantity).toFixed(2)} sOHM`}
+          {`${t`Receives yield from`} ${parseFloat(quantity).toFixed(2)} ${asset}`}
         </Typography>
       </Box>
     </Box>

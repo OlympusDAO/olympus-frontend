@@ -12,6 +12,7 @@ import { isSupportedChain } from "src/slices/GiveThunk";
 
 import CausesDashboard from "./CausesDashboard";
 import { GiveInfo } from "./GiveInfo";
+import { GohmToggle } from "./GohmToggle";
 import GrantsDashboard from "./GrantsDashboard";
 import RedeemYield from "./RedeemYield";
 import YieldRecipients from "./YieldRecipients";
@@ -32,9 +33,11 @@ function a11yProps(index: number) {
  */
 type GiveProps = {
   selectedIndex?: number;
+  giveAssetType: string;
+  changeAssetType: (checked: boolean) => void;
 };
 
-function Give({ selectedIndex }: GiveProps) {
+function Give({ selectedIndex, giveAssetType, changeAssetType }: GiveProps) {
   const { networkId, connect } = useWeb3Context();
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(selectedIndex || 0);
@@ -106,15 +109,21 @@ function Give({ selectedIndex }: GiveProps) {
               <Tab label={t`Redeem`} {...a11yProps(3)} />
             </Tabs>
 
+            <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
+
             <TabPanel value={view} index={0}>
-              <CausesDashboard />
+              <CausesDashboard giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
             </TabPanel>
             <TabPanel value={view} index={1}>
-              <GrantsDashboard />
+              <GrantsDashboard giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
             </TabPanel>
             <TabPanel value={view} index={2}>
               {/* We have a button to switch tabs in this child component, so need to pass the handler. */}
-              <YieldRecipients changeView={buttonChangeView} />
+              <YieldRecipients
+                changeView={buttonChangeView}
+                giveAssetType={giveAssetType}
+                changeAssetType={changeAssetType}
+              />
             </TabPanel>
             <TabPanel value={view} index={3}>
               <RedeemYield />

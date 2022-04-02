@@ -17,9 +17,11 @@ import { useLocation } from "react-router-dom";
 import { ProgressBar, Step } from "react-step-progress-bar";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
+import { GetCorrectContractUnits } from "src/helpers/GetCorrectUnits";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { useAppDispatch } from "src/hooks";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
@@ -47,6 +49,8 @@ export enum GrantDetailsMode {
 
 type GrantDetailsProps = {
   grant: Grant;
+  giveAssetType: string;
+  changeAssetType: (checked: boolean) => void;
   mode: GrantDetailsMode;
 };
 
@@ -56,7 +60,7 @@ type State = {
   app: IAppData;
 };
 
-export default function GrantCard({ grant, mode }: GrantDetailsProps) {
+export default function GrantCard({ grant, giveAssetType, changeAssetType, mode }: GrantDetailsProps) {
   const location = useLocation();
   const { provider, address, connected, connect, networkId } = useWeb3Context();
   const {
@@ -77,6 +81,8 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const [totalDonated, setTotalDonated] = useState("");
   const [donorCount, setDonorCount] = useState(0);
   const [isUserDonating, setIsUserDonating] = useState(false);
+
+  const { data: currentIndex } = useCurrentIndex();
 
   // We use an initial value of -1 rather than 0 because 0 could be a valid donation ID whereas
   // -1 could not be, makes it simple to check if this has been loaded and changed
@@ -118,7 +124,13 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       address: wallet,
     })
       .then(resultAction => {
-        setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
+        const correctUnitDebt = GetCorrectContractUnits(
+          resultAction.redeeming.recipientInfo.totalDebt,
+          giveAssetType,
+          currentIndex,
+        );
+
+        setTotalDebt(correctUnitDebt);
         setRecipientInfoIsLoading(false);
       })
       .catch(e => console.log(e));
@@ -140,7 +152,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       address: wallet,
     })
       .then(donatedAmount => {
-        setTotalDonated(donatedAmount);
+        const correctUnitDonated = GetCorrectContractUnits(donatedAmount, giveAssetType, currentIndex);
+
+        setTotalDonated(correctUnitDonated);
       })
       .catch(e => console.log(e));
   }, [connected, networkId, isGiveModalOpen]);
@@ -244,7 +258,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
             <div key={`milestone-${index}`}>
               <Typography variant="h6">{t`Milestone ${index + 1}: ${new BigNumber(value.amount).toFormat(
                 0,
-              )} sOHM`}</Typography>
+              )} ${giveAssetType}`}</Typography>
               <div dangerouslySetInnerHTML={{ __html: MarkdownIt({ html: true }).render(value.description) }} />
             </div>
           );
@@ -362,6 +376,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
         changeGive({
           action: ACTION_GIVE,
           value: depositAmount.toFixed(),
+          token: giveAssetType,
           recipient: walletAddress,
           id: NEW_DEPOSIT,
           provider,
@@ -419,6 +434,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
         changeGive({
           action: ACTION_GIVE_EDIT,
           value: depositAmountDiff.toFixed(),
+          token: giveAssetType,
           recipient: walletAddress,
           id: depositId,
           provider,
@@ -467,6 +483,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
         changeGive({
           action: ACTION_GIVE_WITHDRAW,
           value: bnDeposit.toFixed(),
+          token: giveAssetType,
           recipient: walletAddress,
           id: depositId,
           provider,
@@ -574,6 +591,8 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           eventSource="Grants List"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeAssetType}
           project={grant}
           key={title}
         />
@@ -656,7 +675,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            <Trans>sOHM Deposited</Trans>
+                            <Trans>{giveAssetType} Deposited</Trans>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -677,7 +696,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            <Trans>sOHM Yield Sent</Trans>
+                            <Trans>{giveAssetType} Yield Sent</Trans>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -721,6 +740,8 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
           eventSource="Grant Details"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeAssetType}
           project={grant}
           key={title}
         />
@@ -732,6 +753,8 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
             submitEdit={handleEditModalSubmit}
             submitWithdraw={handleWithdrawModalSubmit}
             cancelFunc={handleManageModalCancel}
+            giveAssetType={giveAssetType}
+            changeAssetType={changeAssetType}
             currentWalletAddress={donationInfo[donationId].recipient}
             currentDepositAmount={new BigNumber(donationInfo[donationId].deposit)}
             depositDate={donationInfo[donationId].date}

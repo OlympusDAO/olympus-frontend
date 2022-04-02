@@ -25,6 +25,7 @@ import {
 
 import { ArrowGraphic, VaultGraphic, WalletGraphic, YieldGraphic } from "../../components/EducationCard";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
+import { GohmToggle } from "./GohmToggle";
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
@@ -32,10 +33,20 @@ type RecipientModalProps = {
   eventSource: string;
   callbackFunc: SubmitCallback;
   cancelFunc: CancelCallback;
+  giveAssetType: string;
+  changeAssetType: (checked: boolean) => void;
   project?: Project;
 };
 
-export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelFunc, project }: RecipientModalProps) {
+export function RecipientModal({
+  isModalOpen,
+  eventSource,
+  callbackFunc,
+  cancelFunc,
+  giveAssetType,
+  changeAssetType,
+  project,
+}: RecipientModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
   const { provider, address, connect, networkId } = useWeb3Context();
@@ -92,10 +103,18 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
       : state.account.balances && state.account.balances.sohm;
   });
 
-  const giveAllowance: number = useSelector((state: DonationInfoState) => {
+  const gohmBalance: string = useSelector((state: DonationInfoState) => {
+    return state.account.balances && state.account.balances.gohm;
+  });
+
+  const sohmAllowance: number = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.sohmGive
       : state.account.giving && state.account.giving.sohmGive;
+  });
+
+  const gohmAllowance: number = useSelector((state: DonationInfoState) => {
+    return state.account.giving && state.account.giving.gohmGive;
   });
 
   const isAccountLoading: boolean = useSelector((state: DonationInfoState) => {
@@ -121,22 +140,18 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   };
 
   const hasAllowance = useCallback(() => {
-    return giveAllowance > 0;
-  }, [giveAllowance]);
+    if (giveAssetType === "sOHM") {
+      return sohmAllowance > 0;
+    }
+    return gohmAllowance > 0;
+  }, [sohmAllowance, gohmAllowance, giveAssetType]);
 
   const getSOhmBalance = (): BigNumber => {
     return new BigNumber(sohmBalance);
   };
 
-  /**
-   * Returns the maximum deposit that can be directed to the recipient.
-   *
-   * This is equal to the current wallet balance.
-   *
-   * @returns BigNumber
-   */
-  const getMaximumDepositAmount = (): BigNumber => {
-    return new BigNumber(sohmBalance);
+  const getBalance = (): BigNumber => {
+    return giveAssetType === "sOHM" ? new BigNumber(sohmBalance) : new BigNumber(gohmBalance);
   };
 
   const handleSetDepositAmount = (value: string) => {
@@ -160,14 +175,14 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
       return;
     }
 
-    if (sOhmBalanceNumber.isEqualTo(0)) {
+    if (getBalance().isEqualTo(0)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
+      setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }
 
-    if (valueNumber.isGreaterThan(getMaximumDepositAmount())) {
+    if (valueNumber.isGreaterThan(getBalance())) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`Value cannot be more than your sOHM balance of ${getMaximumDepositAmount()}`);
+      setIsDepositAmountValidError(t`Value cannot be more than your ${giveAssetType} balance of ${getBalance()}`);
       return;
     }
 
@@ -249,7 +264,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    * @returns BigNumber instance
    */
   const getRetainedAmountDiff = (): BigNumber => {
-    return new BigNumber(sohmBalance).minus(getDepositAmount());
+    return getBalance().minus(getDepositAmount());
   };
 
   /**
@@ -423,9 +438,10 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     // Otherwise we let the user enter the amount
     return (
       <>
+        <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
         <div className="give-modal-alloc-tip">
           <Typography variant="body1">
-            <Trans>sOHM Allocation</Trans>
+            <Trans>{giveAssetType} Deposit</Trans>
           </Typography>
           <InfoTooltip
             message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
@@ -438,27 +454,25 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
           type="number"
           value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
           helperText={
-            isDepositAmountValid
-              ? t`Your current Staked Balance is ${getSOhmBalance().toFixed(2)} sOHM`
-              : isDepositAmountValidError
+            isDepositAmountValid ? t`Balance: ${getBalance().toFixed(2)} ${giveAssetType}` : isDepositAmountValidError
           }
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={(e: any) => handleSetDepositAmount(e.target.value)}
           error={!isDepositAmountValid}
           startAdornment="sOHM"
           endString={t`Max`}
-          endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toFixed())}
+          endStringOnClick={() => handleSetDepositAmount(getBalance().toFixed())}
         />
         {getRecipientElements()}
         {
           /* We collapse the education graphics on mobile screens */
           !isSmallScreen ? (
             <div className={`give-education-graphics`}>
-              <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} />
+              <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} asset={giveAssetType} />
               {!isSmallScreen && <ArrowGraphic />}
-              <VaultGraphic quantity={getDepositAmount().toFixed()} small={false} />
+              <VaultGraphic quantity={getDepositAmount().toFixed()} asset={giveAssetType} small={false} />
               {!isSmallScreen && <ArrowGraphic />}
-              <YieldGraphic quantity={getDepositAmount().toFixed()} />
+              <YieldGraphic quantity={getDepositAmount().toFixed()} asset={giveAssetType} />
             </div>
           ) : (
             <></>

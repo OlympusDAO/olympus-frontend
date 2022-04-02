@@ -25,9 +25,11 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
+import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/helpers/GetCorrectUnits";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { useAppDispatch } from "src/hooks";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
@@ -72,6 +74,8 @@ export enum ProjectDetailsMode {
 
 type ProjectDetailsProps = {
   project: Project;
+  giveAssetType: string;
+  changeAssetType: (checked: boolean) => void;
   mode: ProjectDetailsMode;
 };
 
@@ -81,7 +85,7 @@ type State = {
   app: IAppData;
 };
 
-export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
+export default function ProjectCard({ project, giveAssetType, changeAssetType, mode }: ProjectDetailsProps) {
   const location = useLocation();
   const isVerySmallScreen = useMediaQuery("(max-width: 375px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px) and (min-width: 375px)") && !isVerySmallScreen;
@@ -95,6 +99,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const [donorCount, setDonorCount] = useState(0);
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(0);
+
+  const { data: currentIndex } = useCurrentIndex();
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
@@ -136,7 +142,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       address: wallet,
     })
       .then(resultAction => {
-        setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
+        const correctUnitDebt = GetCorrectContractUnits(
+          resultAction.redeeming.recipientInfo.totalDebt,
+          giveAssetType,
+          currentIndex,
+        );
+
+        setTotalDebt(correctUnitDebt);
         setRecipientInfoIsLoading(false);
       })
       .catch(e => console.log(e));
@@ -158,7 +170,9 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       address: wallet,
     })
       .then(donatedAmount => {
-        setTotalDonated(donatedAmount);
+        const correctUnitDonated = GetCorrectContractUnits(donatedAmount, giveAssetType, currentIndex);
+
+        setTotalDonated(correctUnitDonated);
       })
       .catch(e => console.log(e));
   }, [connected, networkId, isGiveModalOpen, donationInfo]);
@@ -263,7 +277,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             title={
               !address
                 ? t`Connect your wallet to view the fundraising progress`
-                : `${totalDonated} of ${depositGoal} sOHM raised`
+                : `${totalDonated} of ${depositGoal} ${giveAssetType} raised`
             }
             arrow
           >
@@ -307,7 +321,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               </Grid>
             </Grid>
             <Grid item className="subtext">
-              <Trans>sOHM Yield</Trans>
+              <Trans>{giveAssetType} Yield</Trans>
             </Grid>
           </Grid>
           <Grid item xs={2} />
@@ -326,12 +340,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="sohm-yield-goal" />
                   </Grid>
                   <Grid item className="metric">
-                    {new BigNumber(depositGoal).toFormat()}
+                    {new BigNumber(
+                      GetCorrectStaticUnits(depositGoal.toString(), giveAssetType, currentIndex),
+                    ).toFormat()}
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                <Trans>sOHM Yield Goal</Trans>
+                <Trans>{giveAssetType} Yield Goal</Trans>
               </Grid>
             </Grid>
           </Grid>
@@ -381,11 +397,17 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <Icon name="sohm-total" />
               </Grid>
               <Grid item className="metric">
-                {recipientInfoIsLoading ? <Skeleton /> : <strong>{parseFloat(totalDebt).toFixed(2)}</strong>}
+                {recipientInfoIsLoading ? (
+                  <Skeleton />
+                ) : (
+                  <strong>
+                    {new BigNumber(GetCorrectStaticUnits(totalDebt, giveAssetType, currentIndex)).toFixed(2)}
+                  </strong>
+                )}
               </Grid>
             </Grid>
             <div className="subtext">
-              <Trans>Total Active sOHM</Trans>
+              <Trans>Total Active {giveAssetType}</Trans>
             </div>
           </Grid>
         </Grid>
@@ -450,6 +472,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         changeGive({
           action: ACTION_GIVE,
           value: depositAmount.toFixed(),
+          token: giveAssetType,
           recipient: walletAddress,
           id: NEW_DEPOSIT,
           provider,
@@ -503,6 +526,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         changeGive({
           action: ACTION_GIVE_EDIT,
           value: depositAmountDiff.toFixed(),
+          token: giveAssetType,
           recipient: walletAddress,
           id: depositId,
           provider,
@@ -545,6 +569,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         changeGive({
           action: ACTION_GIVE_WITHDRAW,
           value: depositAmount.toFixed(),
+          token: giveAssetType,
           recipient: walletAddress,
           id: depositId,
           provider,
@@ -694,6 +719,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           eventSource="Project List"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeAssetType}
           project={project}
           key={title}
         />
@@ -806,7 +833,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                               </Grid>
                             </Grid>
                             <Grid item className="subtext">
-                              <Trans>sOHM Deposited</Trans>
+                              <Trans>{giveAssetType} Deposited</Trans>
                             </Grid>
                           </Grid>
                           <Grid item xs={5} className="project-donated">
@@ -831,7 +858,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                                 </Grid>
                               </Grid>
                               <Grid item className="subtext">
-                                <Trans>sOHM Yield Sent</Trans>
+                                <Trans>{giveAssetType} Yield Sent</Trans>
                               </Grid>
                             </Grid>
                           </Grid>
@@ -883,6 +910,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           eventSource="Project Details"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeAssetType}
           project={project}
           key={title}
         />
@@ -894,6 +923,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             submitEdit={handleEditModalSubmit}
             submitWithdraw={handleWithdrawModalSubmit}
             cancelFunc={handleManageModalCancel}
+            giveAssetType={giveAssetType}
+            changeAssetType={changeAssetType}
             currentWalletAddress={donationInfo[donationId].recipient}
             currentDepositId={donationInfo[donationId].id}
             currentDepositAmount={new BigNumber(donationInfo[donationId].deposit)}

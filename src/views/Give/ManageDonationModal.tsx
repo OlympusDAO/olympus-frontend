@@ -13,13 +13,16 @@ import { Project, RecordType } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { EnvHelper } from "src/helpers/Environment";
+import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/helpers/GetCorrectUnits";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 
 import { ArrowGraphic } from "../../components/EducationCard";
 import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
+import { GohmToggle } from "./GohmToggle";
 import { CancelCallback, DonationInfoState, SubmitEditCallback } from "./Interfaces";
 
 export type WithdrawSubmitCallback = {
@@ -37,6 +40,8 @@ type ManageModalProps = {
   currentWalletAddress: string;
   currentDepositAmount: BigNumber; // As per IUserDonationInfo
   depositDate: string;
+  giveAssetType: string;
+  changeAssetType: (checked: boolean) => void;
   yieldSent: string;
   recordType?: string;
 };
@@ -52,6 +57,8 @@ export function ManageDonationModal({
   currentWalletAddress,
   currentDepositAmount,
   depositDate,
+  giveAssetType,
+  changeAssetType,
   yieldSent,
   recordType = RecordType.PROJECT,
 }: ManageModalProps) {
@@ -61,6 +68,8 @@ export function ManageDonationModal({
   const [totalDonated, setTotalDonated] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
+
+  const { data: currentIndex } = useCurrentIndex();
 
   useEffect(() => {
     // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
@@ -73,7 +82,13 @@ export function ManageDonationModal({
         address: project.wallet,
       })
         .then(resultAction => {
-          setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
+          const correctUnitDebt = GetCorrectContractUnits(
+            resultAction.redeeming.recipientInfo.totalDebt,
+            giveAssetType,
+            currentIndex,
+          );
+
+          setTotalDebt(correctUnitDebt);
         })
         .catch(e => console.log(e));
 
@@ -83,7 +98,9 @@ export function ManageDonationModal({
         address: project.wallet,
       })
         .then(donatedAmount => {
-          setTotalDonated(donatedAmount);
+          const correctUnitDonated = GetCorrectContractUnits(donatedAmount, giveAssetType, currentIndex);
+
+          setTotalDonated(correctUnitDonated);
         })
         .catch(e => console.log(e));
     }
@@ -110,7 +127,9 @@ export function ManageDonationModal({
   const _initialIsAmountSet = false;
 
   const getInitialDepositAmount = () => {
-    return currentDepositAmount ? currentDepositAmount.toNumber() : _initialDepositAmount;
+    return currentDepositAmount
+      ? GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex)
+      : _initialDepositAmount;
   };
   const [depositAmount, setDepositAmount] = useState(getInitialDepositAmount());
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(_initialDepositAmountValid);
@@ -130,6 +149,10 @@ export function ManageDonationModal({
     return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
       ? state.account.balances && state.account.balances.mockSohm
       : state.account.balances && state.account.balances.sohm;
+  });
+
+  const gohmBalance: string = useSelector((state: DonationInfoState) => {
+    return state.account.balances && state.account.balances.gohm;
   });
 
   const isAccountLoading: boolean = useSelector((state: DonationInfoState) => {
@@ -170,13 +193,13 @@ export function ManageDonationModal({
   };
 
   const handleEditSubmit = () => {
-    const depositAmountBig = new BigNumber(depositAmount);
+    const depositAmountBig = getCurrentDepositAmount();
 
     submitEdit(getWalletAddress(), currentDepositId, eventSource, depositAmountBig, getDepositAmountDiff());
   };
 
   const handleWithdrawSubmit = () => {
-    const depositAmountBig = new BigNumber(depositAmount);
+    const depositAmountBig = getCurrentDepositAmount();
 
     submitWithdraw(getWalletAddress(), currentDepositId, eventSource, depositAmountBig);
   };
@@ -215,14 +238,16 @@ export function ManageDonationModal({
     return true;
   };
 
-  const getSOhmBalance = (): BigNumber => {
-    return new BigNumber(sohmBalance);
+  const getBalance = (): BigNumber => {
+    return giveAssetType === "sOHM" ? new BigNumber(sohmBalance) : new BigNumber(gohmBalance);
   };
 
   const getCurrentDepositAmount = (): BigNumber => {
     if (!currentDepositAmount) return new BigNumber(0);
 
-    return new BigNumber(currentDepositAmount);
+    const currentDepositAmountBN = new BigNumber(currentDepositAmount);
+
+    return currentDepositAmountBN;
   };
 
   /**
@@ -233,13 +258,12 @@ export function ManageDonationModal({
    * @returns BigNumber
    */
   const getMaximumDepositAmount = (): BigNumber => {
-    return new BigNumber(sohmBalance).plus(currentDepositAmount ? currentDepositAmount : 0);
+    return getBalance().plus(currentDepositAmount ? getCurrentDepositAmount() : 0);
   };
 
   const getDepositAmountDiff = (): BigNumber => {
     // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
-    const depositAmountBig = new BigNumber(depositAmount);
-    return depositAmountBig.minus(getCurrentDepositAmount());
+    return getDepositAmount().minus(getCurrentDepositAmount());
   };
 
   /**
@@ -260,7 +284,7 @@ export function ManageDonationModal({
 
   const checkIsDepositAmountValid = (value: string) => {
     const valueNumber = new BigNumber(value);
-    const sOhmBalanceNumber = getSOhmBalance();
+    const balanceNumber = getBalance();
 
     if (!value || value == "" || valueNumber.isEqualTo(0)) {
       setIsDepositAmountValid(false);
@@ -274,14 +298,16 @@ export function ManageDonationModal({
       return;
     }
 
-    if (sOhmBalanceNumber.isEqualTo(0)) {
+    if (balanceNumber.isEqualTo(0)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
+      setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }
 
     if (valueNumber.isGreaterThan(getMaximumDepositAmount())) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`Value cannot be more than your sOHM balance of ` + getMaximumDepositAmount());
+      setIsDepositAmountValidError(
+        t`Value cannot be more than your ${giveAssetType} balance of ` + getMaximumDepositAmount(),
+      );
       return;
     }
 
@@ -369,6 +395,7 @@ export function ManageDonationModal({
   const getInitialScreen = () => {
     return (
       <div>
+        <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
         <div className="manage-project-info">{getRecipientDetails()}</div>
         {recordType === RecordType.PROJECT ? (
           <div className="manage-project-stats-container">{getProjectStats()}</div>
@@ -396,26 +423,30 @@ export function ManageDonationModal({
       <div className="manage-project-stats">
         <Box className="project-stats-box">
           <Typography variant="h5" align="center" className="project-stat-top">
-            {project ? project.depositGoal.toFixed(2) : "N/A"}
+            {project
+              ? new BigNumber(
+                  GetCorrectStaticUnits(project.depositGoal.toString(), giveAssetType, currentIndex),
+                ).toFixed(2)
+              : "N/A"}
           </Typography>
           <Typography variant="body1" align="center" className="subtext">
-            {isSmallScreen ? "Goal" : "sOHM Goal"}
+            {isSmallScreen ? "Goal" : `${giveAssetType} Goal`}
           </Typography>
         </Box>
         <Box className="project-stats-box center-item">
           <Typography variant="h5" align="center" className="project-stat-top">
-            {project ? parseFloat(totalDebt).toFixed(2) : "N/A"}
+            {project ? new BigNumber(totalDebt).toFixed(2) : "N/A"}
           </Typography>
           <Typography variant="body1" align="center" className="subtext">
-            {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
+            {isSmallScreen ? `Total ${giveAssetType}` : `Total ${giveAssetType} Donated`}
           </Typography>
         </Box>
         <Box className="project-stats-box">
           <Typography variant="h5" align="center" className="project-stat-top">
-            {project ? ((parseFloat(totalDonated) / project.depositGoal) * 100).toFixed(1) + "%" : "N/A"}
+            {project ? new BigNumber((parseFloat(totalDonated) / project.depositGoal) * 100).toFixed(1) + "%" : "N/A"}
           </Typography>
           <Typography variant="body1" align="center" className="subtext">
-            {isSmallScreen ? "of Goal" : "of sOHM Goal"}
+            {isSmallScreen ? "of Goal" : `of ${giveAssetType} Goal`}
           </Typography>
         </Box>
       </div>
@@ -450,13 +481,20 @@ export function ManageDonationModal({
             <Typography variant="h6" className="row-title">
               Deposited
             </Typography>
-            <Typography variant="h6">{currentDepositAmount.toFixed(2)} sOHM</Typography>
+            <Typography variant="h6">
+              {new BigNumber(
+                GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex),
+              ).toFixed(2)}{" "}
+              {giveAssetType}
+            </Typography>
           </div>
           <div className="details-row">
             <Typography variant="h6" className="row-title">
               Yield Sent
             </Typography>
-            <Typography variant="h6">{yieldSent} sOHM</Typography>
+            <Typography variant="h6">
+              {yieldSent} {giveAssetType}
+            </Typography>
           </div>
         </div>
       </>
@@ -533,6 +571,7 @@ export function ManageDonationModal({
   const getEditDonationScreen = () => {
     return (
       <div>
+        <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
         <div className="manage-project-info">{getRecipientDetails()}</div>
         <div className="manage-project-stats-container">{getProjectStats()}</div>
         <div className="manage-donation-details">
@@ -540,10 +579,10 @@ export function ManageDonationModal({
             <div className="edit-entry-section">
               <div className="give-modal-alloc-tip">
                 <Typography variant="body1">
-                  <Trans>New sOHM Amount</Trans>
+                  <Trans>New {giveAssetType} Amount</Trans>
                 </Typography>
                 <InfoTooltip
-                  message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                  message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                   children={null}
                 />
               </div>
@@ -554,7 +593,7 @@ export function ManageDonationModal({
                 value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
                 helperText={
                   isDepositAmountValid
-                    ? t`Your current deposit is ${currentDepositAmount.toFixed(2)} sOHM`
+                    ? t`Your current deposit is ${getCurrentDepositAmount().toFixed(2)} ${giveAssetType}`
                     : isDepositAmountValidError
                 }
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -579,6 +618,7 @@ export function ManageDonationModal({
   const getStopDonationScreen = () => {
     return (
       <div>
+        <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
         <div className="manage-project-info">{getRecipientDetails()}</div>
         <div className="manage-project-stats-container">{getProjectStats()}</div>
         <div className="manage-donation-details">
@@ -586,16 +626,20 @@ export function ManageDonationModal({
             <div className="details-row">
               <div className="sohm-allocation-col">
                 <Typography variant="body1">
-                  <Trans>Current sOHM deposit</Trans>
+                  <Trans>Current {giveAssetType} deposit</Trans>
                 </Typography>
-                <Typography variant="h6">{currentDepositAmount.toFixed(2)} sOHM</Typography>
+                <Typography variant="h6">
+                  {getCurrentDepositAmount().toFixed(2)} {giveAssetType}
+                </Typography>
               </div>
               {!isSmallScreen && <ArrowGraphic />}
               <div className="recipient-address-col">
                 <Typography variant="body1">
-                  <Trans>New sOHM deposit</Trans>
+                  <Trans>New {giveAssetType} deposit</Trans>
                 </Typography>
-                <Typography variant="h6">{isWithdrawing ? 0 : depositAmount.toFixed(2)} sOHM</Typography>
+                <Typography variant="h6">
+                  {isWithdrawing ? 0 : getCurrentDepositAmount().toFixed(2)} {giveAssetType}
+                </Typography>
               </div>
             </div>
           </Box>
@@ -620,23 +664,27 @@ export function ManageDonationModal({
             <div className="details-row">
               <div className="sohm-allocation-col">
                 <Typography variant="body1">
-                  <Trans>Current sOHM deposit</Trans>
+                  <Trans>Current {giveAssetType} deposit</Trans>
                 </Typography>
-                <Typography variant="h6">{currentDepositAmount.toFixed(2)} sOHM</Typography>
+                <Typography variant="h6">
+                  {getCurrentDepositAmount().toFixed(2)} {giveAssetType}
+                </Typography>
               </div>
               {!isSmallScreen && <ArrowGraphic />}
               <div className="recipient-address-col">
                 <Typography variant="body1">
-                  <Trans>New sOHM deposit</Trans>
+                  <Trans>New {giveAssetType} deposit</Trans>
                 </Typography>
-                <Typography variant="h6">{isWithdrawing ? 0 : depositAmount.toFixed(2)} sOHM</Typography>
+                <Typography variant="h6">
+                  {isWithdrawing ? 0 : getCurrentDepositAmount().toFixed(2)} {giveAssetType}
+                </Typography>
               </div>
             </div>
           </Box>
         </div>
         <div className="manage-buttons">
           <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit}>
-            {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Confirm New sOHM`)}
+            {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Confirm New ${giveAssetType}`)}
           </PrimaryButton>
         </div>
       </div>

@@ -63,19 +63,31 @@ export const hasPendingGiveTxn = (pendingTransactions: IPendingTxn[]): boolean =
  */
 export const changeApproval = createAsyncThunk(
   "give/changeApproval",
-  async ({ provider, address, networkID }: IChangeApprovalAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID, token }: IChangeApprovalAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet`));
       return;
     }
 
+    let contractAddress: string;
+    let tokenDecimals: number;
+
+    if (token === "sOHM") {
+      contractAddress = addresses[networkID].SOHM_V2;
+      tokenDecimals = 9;
+    } else {
+      contractAddress = addresses[networkID].GOHM_ADDRESS;
+      tokenDecimals = 18;
+    }
+
     const signer = provider.getSigner();
-    const sohmContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20Abi, signer);
+    const contract = new ethers.Contract(contractAddress, ierc20Abi, signer);
+
     let approveTx;
     try {
-      approveTx = await sohmContract.approve(
+      approveTx = await contract.approve(
         addresses[networkID].GIVING_ADDRESS,
-        ethers.utils.parseUnits("1000000000", "gwei").toString(),
+        ethers.utils.parseUnits("10000000000", tokenDecimals).toString(),
       );
       const text = "Approve giving";
       const pendingTxnType = PENDING_TXN_GIVE_APPROVAL;
@@ -90,15 +102,25 @@ export const changeApproval = createAsyncThunk(
       }
     }
 
-    const giveAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
+    const giveAllowance = await contract.allowance(address, addresses[networkID].GIVING_ADDRESS);
 
-    return dispatch(
-      fetchAccountSuccess({
-        giving: {
-          sohmGive: +giveAllowance,
-        },
-      }),
-    );
+    if (token === "sOHM") {
+      return dispatch(
+        fetchAccountSuccess({
+          giving: {
+            sohmGive: +giveAllowance,
+          },
+        }),
+      );
+    } else {
+      return dispatch(
+        fetchAccountSuccess({
+          giving: {
+            gohmGive: +giveAllowance,
+          },
+        }),
+      );
+    }
   },
 );
 
@@ -169,7 +191,7 @@ export const changeMockApproval = createAsyncThunk(
 export const changeGive = createAsyncThunk(
   "give/changeGive",
   async (
-    { action, value, recipient, id, provider, address, networkID, eventSource }: IGiveAsyncThunk,
+    { action, value, token, recipient, id, provider, address, networkID, eventSource }: IGiveAsyncThunk,
     { dispatch },
   ) => {
     if (!provider) {
@@ -196,32 +218,50 @@ export const changeGive = createAsyncThunk(
         // If the desired action is a new deposit
         uaData.type = ACTION_GIVE;
         pendingTxnType = PENDING_TXN_GIVE;
-        giveTx = await giving.depositSohm(ethers.utils.parseUnits(value, "gwei"), recipient);
+        giveTx =
+          token === "sOHM"
+            ? await giving.depositSohm(ethers.utils.parseUnits(value, "gwei"), recipient)
+            : await giving.deposit(ethers.utils.parseEther(value), recipient);
       } else if (action === ACTION_GIVE_EDIT) {
         // If the desired action is adjusting a deposit
         uaData.type = ACTION_GIVE_EDIT;
         pendingTxnType = PENDING_TXN_EDIT_GIVE;
         if (parseFloat(value) > 0) {
           // If the user is increasing the amount of sOHM directing yield to recipient
-          giveTx = await giving.addToSohmDeposit(id, ethers.utils.parseUnits(value, "gwei"));
+          giveTx =
+            token === "sOHM"
+              ? await giving.addToSohmDeposit(id, ethers.utils.parseUnits(value, "gwei"))
+              : await giving.addToDeposit(id, ethers.utils.parseEther(value));
         } else if (parseFloat(value) < 0) {
           // If th user is decreasing the amount of sOHM directing yield to recipient
           const reductionAmount = (-1 * parseFloat(value)).toString();
           const gohmAmount = await getGohmBalFromSohm({ provider, networkID: networkID, sOHMbalance: reductionAmount });
-          giveTx = await giving.withdrawPrincipalAsSohm(id, ethers.utils.parseEther(gohmAmount));
+
+          giveTx =
+            token === "sOHM"
+              ? await giving.withdrawPrincipalAsSohm(id, ethers.utils.parseEther(gohmAmount))
+              : await giving.withdrawPrincipal(id, ethers.utils.parseEther(reductionAmount));
         }
       } else if (action === ACTION_GIVE_WITHDRAW) {
         // If the desired action is to remove all sOHM from deposit
         uaData.type = ACTION_GIVE_WITHDRAW;
         pendingTxnType = PENDING_TXN_WITHDRAW;
+
         const gohmAmount = await getGohmBalFromSohm({ provider, networkID: networkID, sOHMbalance: value });
-        giveTx = await giving.withdrawPrincipalAsSohm(id, ethers.utils.parseEther(value));
+
+        giveTx =
+          token === "sOHM"
+            ? await giving.withdrawPrincipalAsSohm(id, ethers.utils.parseEther(gohmAmount))
+            : await giving.withdrawPrincipal(id, ethers.utils.parseEther(value));
       }
+
       uaData.txHash = giveTx.hash;
       dispatch(fetchPendingTxns({ txnHash: giveTx.hash, text: getGivingTypeText(action), type: pendingTxnType }));
+
       await giveTx.wait();
     } catch (e: unknown) {
       uaData.approved = false;
+
       const rpcError = e as IJsonRPCError;
       if (rpcError.code === -32603 && rpcError.message.indexOf("ds-math-sub-underflow") >= 0) {
         dispatch(
