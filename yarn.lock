@@ -2531,10 +2531,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@olympusdao/component-library@^1.8.5-beta.2":
-  version "1.8.5-beta.2"
-  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.8.5-beta.2.tgz#e9a2f1975395e57f36f9dea167ef396b2a531e8e"
-  integrity sha512-pMfzXov9scHVS/j6F/oL/+0y0pdM+//YnoogYt5nUfNluOw8UW/oELFzE4sBH4BzfMQpSC5R0eJ0flblCw65Bw==
+"@olympusdao/component-library@^1.8.5-beta.3":
+  version "1.8.5-beta.3"
+  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.8.5-beta.3.tgz#97cd4f4fb57e9c553d2b74755213029f2caaedba"
+  integrity sha512-MXBnozag5vob0of++D0ae2yUvYc530OtwRQpJTLdkkJFU2r39y6OJeLUM26yUwMMAMf8pI4VrvUYu3hEMJXM6w==
   dependencies:
     "@react-spring/web" "^9.4.2"
 
