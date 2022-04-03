@@ -2,6 +2,9 @@
 
 exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
 <div>
+  <div>
+    <div />
+  </div>
   <div
     id="stake-view"
   >
@@ -481,6 +484,9 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
 
 exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
 <div>
+  <div>
+    <div />
+  </div>
   <div
     id="stake-view"
   >
