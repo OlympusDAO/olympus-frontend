@@ -81,7 +81,13 @@ export const MigrateInputArea = () => {
 
               <Grid item xs={12} sm={4}>
                 <Box mt={[1, 0]}>
-                  <PrimaryButton fullWidth type="submit" className="" disabled={migrateMutation.isLoading}>
+                  <PrimaryButton
+                    fullWidth
+                    type="submit"
+                    className=""
+                    disabled={migrateMutation.isLoading}
+                    data-testid="migrate-button"
+                  >
                     {migrateMutation.isLoading ? "Migrating..." : "Migrate"}
                   </PrimaryButton>
                 </Box>
