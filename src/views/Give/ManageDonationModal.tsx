@@ -46,6 +46,8 @@ type ManageModalProps = {
   recordType?: string;
 };
 
+BigNumber.config({ EXPONENTIAL_AT: [-10, 20] });
+
 export function ManageDonationModal({
   isModalOpen,
   eventSource,
@@ -104,7 +106,7 @@ export function ManageDonationModal({
         })
         .catch(e => console.log(e));
     }
-  }, [connected, networkId, isModalOpen]);
+  }, [connected, networkId, isModalOpen, giveAssetType]);
 
   useEffect(() => {
     checkIsWalletAddressValid(getWalletAddress());
@@ -169,6 +171,10 @@ export function ManageDonationModal({
     return state.pendingTransactions;
   });
 
+  useEffect(() => {
+    setDepositAmount(getInitialDepositAmount());
+  }, [giveAssetType]);
+
   /**
    * Checks if the provided wallet address is valid.
    *
@@ -217,15 +223,22 @@ export function ManageDonationModal({
    * @returns boolean
    */
   const canSubmit = (): boolean => {
+    console.log("1");
     if (!isDepositAmountValid) return false;
-
+    console.log("2");
     if (isAccountLoading || isGiveLoading) return false;
+    console.log("3");
 
     // The wallet address is only set when a project is not given
+    console.log(project);
     if (!project && !isWalletAddressValid) return false;
+    console.log("4");
 
     if (!address) return false;
+    console.log("5");
     if (hasPendingGiveTxn(pendingTransactions)) return false;
+    console.log("6");
+    console.log(getDepositAmountDiff().toString());
     if (getDepositAmountDiff().isEqualTo(0)) return false;
 
     return true;
@@ -245,9 +258,13 @@ export function ManageDonationModal({
   const getCurrentDepositAmount = (): BigNumber => {
     if (!currentDepositAmount) return new BigNumber(0);
 
-    const currentDepositAmountBN = new BigNumber(currentDepositAmount);
+    const correctUnitCurrDeposit = GetCorrectContractUnits(
+      currentDepositAmount.toString(),
+      giveAssetType,
+      currentIndex,
+    );
 
-    return currentDepositAmountBN;
+    return new BigNumber(correctUnitCurrDeposit);
   };
 
   /**
@@ -303,7 +320,7 @@ export function ManageDonationModal({
       setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }
 
-    if (valueNumber.isGreaterThan(getMaximumDepositAmount())) {
+    if (getDepositAmountDiff().isGreaterThan(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
         t`Value cannot be more than your ${giveAssetType} balance of ` + getMaximumDepositAmount(),
@@ -676,7 +693,7 @@ export function ManageDonationModal({
                   <Trans>New {giveAssetType} deposit</Trans>
                 </Typography>
                 <Typography variant="h6">
-                  {isWithdrawing ? 0 : getCurrentDepositAmount().toFixed(2)} {giveAssetType}
+                  {isWithdrawing ? 0 : getDepositAmount().toFixed(2)} {giveAssetType}
                 </Typography>
               </div>
             </div>

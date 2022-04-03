@@ -508,7 +508,7 @@ export function RecipientModal({
           <div className="details-row">
             <div className="sohm-allocation-col">
               <Typography variant="body1">
-                <Trans>sOHM deposit</Trans>
+                <Trans>{giveAssetType} deposit</Trans>
               </Typography>
               <Typography variant="h6">{getDepositAmount().toFixed(2)} sOHM</Typography>
             </div>
@@ -528,7 +528,7 @@ export function RecipientModal({
             {txnButtonText(
               pendingTransactions,
               PENDING_TXN_GIVE,
-              `${t`Confirm `} ${getDepositAmount().toFixed(2)} sOHM`,
+              `${t`Confirm `} ${getDepositAmount().toFixed(2)} ${giveAssetType}`,
             )}
           </PrimaryButton>
         </FormControl>

@@ -4,7 +4,7 @@ import { formatUnits, parseUnits } from "ethers/lib/utils";
 import { convertGohmToOhm, convertOhmToGohm } from ".";
 
 export const GetCorrectContractUnits = (value: string, asset: string, index: BigNumber | undefined): string => {
-  if (isNaN(Number(value)) || !index) return "0";
+  if (isNaN(Number(value)) || value.indexOf("e") != -1 || !index) return "0";
 
   const [integer, decimals] = value.split(".");
 

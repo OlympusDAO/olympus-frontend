@@ -142,7 +142,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
       address: wallet,
     })
       .then(resultAction => {
-        const correctUnitDebt = GetCorrectContractUnits(
+        const correctUnitDebt = GetCorrectStaticUnits(
           resultAction.redeeming.recipientInfo.totalDebt,
           giveAssetType,
           currentIndex,
@@ -193,6 +193,22 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
       }
     }
   }, [donationInfo, location.pathname]);
+
+  const getUserDeposit = () => {
+    const correctUnitDeposit = GetCorrectContractUnits(donationInfo[donationId].deposit, giveAssetType, currentIndex);
+
+    return new BigNumber(correctUnitDeposit);
+  };
+
+  const getUserYieldSent = () => {
+    const correctUnitYield = GetCorrectContractUnits(
+      donationInfo[donationId].yieldDonated,
+      giveAssetType,
+      currentIndex,
+    );
+
+    return new BigNumber(correctUnitYield);
+  };
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
@@ -340,9 +356,9 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                     <Icon name="sohm-yield-goal" />
                   </Grid>
                   <Grid item className="metric">
-                    {new BigNumber(
-                      GetCorrectStaticUnits(depositGoal.toString(), giveAssetType, currentIndex),
-                    ).toFormat()}
+                    {new BigNumber(GetCorrectStaticUnits(depositGoal.toString(), giveAssetType, currentIndex)).toFormat(
+                      2,
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -397,13 +413,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                 <Icon name="sohm-total" />
               </Grid>
               <Grid item className="metric">
-                {recipientInfoIsLoading ? (
-                  <Skeleton />
-                ) : (
-                  <strong>
-                    {new BigNumber(GetCorrectStaticUnits(totalDebt, giveAssetType, currentIndex)).toFixed(2)}
-                  </strong>
-                )}
+                {recipientInfoIsLoading ? <Skeleton /> : <strong>{new BigNumber(totalDebt).toFixed(2)}</strong>}
               </Grid>
             </Grid>
             <div className="subtext">
@@ -827,9 +837,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                                 <Icon name="deposited" />
                               </Grid>
                               <Grid item className="metric">
-                                {!donationInfo[donationId]
-                                  ? "0"
-                                  : parseFloat(donationInfo[donationId].deposit).toFixed(2)}
+                                {!donationInfo[donationId] ? "0" : getUserDeposit().toFixed(2)}
                               </Grid>
                             </Grid>
                             <Grid item className="subtext">
@@ -851,9 +859,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                                     <Icon name="sohm-yield-sent" />
                                   </Grid>
                                   <Grid item className="metric">
-                                    {!donationInfo[donationId]
-                                      ? "0"
-                                      : parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)}
+                                    {!donationInfo[donationId] ? "0" : getUserYieldSent().toFixed(2)}
                                   </Grid>
                                 </Grid>
                               </Grid>
