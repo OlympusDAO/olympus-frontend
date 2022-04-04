@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
+import { OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { IERC20, OlympusStaking__factory, OlympusStakingv2__factory, StakingHelper } from "src/typechain";
 
 import { abi as ierc20ABI } from "../abi/IERC20.json";
@@ -57,13 +58,27 @@ export const changeApproval = createAsyncThunk(
     const signer = provider.getSigner();
     const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
     const sohmContract = new ethers.Contract(addresses[networkID].SOHM_ADDRESS as string, ierc20ABI, signer) as IERC20;
-    const ohmV2Contract = new ethers.Contract(addresses[networkID].OHM_V2 as string, ierc20ABI, signer) as IERC20;
-    const sohmV2Contract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, ierc20ABI, signer) as IERC20;
+    const ohmV2Contract = new ethers.Contract(
+      OHM_ADDRESSES[networkID as keyof typeof OHM_ADDRESSES] as string,
+      ierc20ABI,
+      signer,
+    ) as IERC20;
+    const sohmV2Contract = new ethers.Contract(
+      SOHM_ADDRESSES[networkID as keyof typeof SOHM_ADDRESSES] as string,
+      ierc20ABI,
+      signer,
+    ) as IERC20;
     let approveTx;
     let stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     let unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-    let stakeAllowanceV2 = await ohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
-    let unstakeAllowanceV2 = await sohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
+    let stakeAllowanceV2 = await ohmV2Contract.allowance(
+      address,
+      STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],
+    );
+    let unstakeAllowanceV2 = await sohmV2Contract.allowance(
+      address,
+      STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],
+    );
     // return early if approval has already happened
     if (alreadyApprovedToken(token, stakeAllowance, unstakeAllowance, stakeAllowanceV2, unstakeAllowanceV2, version2)) {
       dispatch(info("Approval completed."));
@@ -83,12 +98,12 @@ export const changeApproval = createAsyncThunk(
       if (version2) {
         if (token === "ohm") {
           approveTx = await ohmV2Contract.approve(
-            addresses[networkID].STAKING_V2,
+            STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],
             ethers.utils.parseUnits("1000000000", "gwei").toString(),
           );
         } else if (token === "sohm") {
           approveTx = await sohmV2Contract.approve(
-            addresses[networkID].STAKING_V2,
+            STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],
             ethers.utils.parseUnits("1000000000", "gwei").toString(),
           );
         }
@@ -125,8 +140,14 @@ export const changeApproval = createAsyncThunk(
     // go get fresh allowances
     stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
-    stakeAllowanceV2 = await ohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
-    unstakeAllowanceV2 = await sohmV2Contract.allowance(address, addresses[networkID].STAKING_V2);
+    stakeAllowanceV2 = await ohmV2Contract.allowance(
+      address,
+      STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],
+    );
+    unstakeAllowanceV2 = await sohmV2Contract.allowance(
+      address,
+      STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],
+    );
 
     return dispatch(
       fetchAccountSuccess({
@@ -159,7 +180,10 @@ export const changeStake = createAsyncThunk(
       signer,
     ) as StakingHelper;
 
-    const stakingV2 = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, signer);
+    const stakingV2 = OlympusStakingv2__factory.connect(
+      STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],
+      signer,
+    );
 
     let stakeTx;
     const uaData: IUAData = {
@@ -171,7 +195,6 @@ export const changeStake = createAsyncThunk(
     };
     try {
       if (version2) {
-        const rebasing = true; // when true stake into sOHM
         if (action === "stake") {
           uaData.type = "stake";
           // 3rd arg is rebase

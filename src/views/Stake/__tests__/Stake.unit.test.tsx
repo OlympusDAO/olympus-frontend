@@ -1,5 +1,4 @@
 import mediaQuery from "css-mediaquery";
-import { ReactQueryProvider } from "src/lib/react-query";
 
 import { render, screen } from "../../../testUtils";
 import Stake from "../Stake";
@@ -20,33 +19,21 @@ function createMatchMedia(width: any) {
 
 describe("<Stake/>", () => {
   it("should render component", async () => {
-    const { container } = await render(
-      <ReactQueryProvider>
-        <Stake />
-      </ReactQueryProvider>,
-    );
+    const { container } = render(<Stake />);
     expect(container).toMatchSnapshot();
   });
 
-  it("should render correct staking headers", async () => {
-    const { container } = await render(
-      <ReactQueryProvider>
-        <Stake />
-      </ReactQueryProvider>,
-    );
+  it("should render correct staking headers", () => {
+    const { container } = render(<Stake />);
     // there should be a header inviting user to Stake
-    expect(await screen.getByText("Single Stake (3, 3)")).toBeInTheDocument();
+    expect(screen.getByText("Single Stake (3, 3)")).toBeInTheDocument();
     //  there should be a Farm Pool table
-    expect(await screen.getByText("Farm Pool")).toBeInTheDocument();
+    expect(screen.getByText("Farm Pool")).toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 
   it("should render all supported multi chain staking contracts", async () => {
-    const { container } = await render(
-      <ReactQueryProvider>
-        <Stake />
-      </ReactQueryProvider>,
-    );
+    render(<Stake />);
     expect(await screen.getByText("gOHM-AVAX")).toBeInTheDocument();
     expect(await screen.getByText("Stake on Trader Joe").closest("a")).toHaveAttribute(
       "href",

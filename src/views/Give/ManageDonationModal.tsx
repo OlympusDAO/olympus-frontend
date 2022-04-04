@@ -118,7 +118,7 @@ export function ManageDonationModal({
   const getInitialWalletAddress = () => {
     return currentWalletAddress ? currentWalletAddress : _initialWalletAddress;
   };
-  const [walletAddress, setWalletAddress] = useState(getInitialWalletAddress());
+  const [walletAddress] = useState(getInitialWalletAddress());
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(_initialWalletAddressValid);
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
