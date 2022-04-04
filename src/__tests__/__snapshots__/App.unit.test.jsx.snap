@@ -38,30 +38,33 @@ exports[`<App/> should not render a connection error message when user wallet is
           class="MuiBox-root MuiBox-root-195"
         >
           <a
-            aria-disabled="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
             href="/#/wallet"
-            id="ohm-menu-button"
-            tabindex="0"
+            style="margin-right: 0px;"
           >
-            <span
-              class="MuiButton-label"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
+              tabindex="0"
+              type="button"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                focusable="false"
-                style="margin-right: 8px;"
-                viewBox="0 0 20 20"
+              <span
+                class="MuiButton-label"
               >
-                wallet.svg
-              </svg>
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                Connect
-              </p>
-            </span>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                  focusable="false"
+                  style="margin-right: 9px;"
+                  viewBox="0 0 20 20"
+                >
+                  wallet.svg
+                </svg>
+                <p
+                  class="MuiTypography-root MuiTypography-body1"
+                >
+                  Connect
+                </p>
+              </span>
+            </button>
           </a>
           <button
             class="MuiButtonBase-root MuiToggleButton-root toggle-button"
@@ -3159,30 +3162,33 @@ exports[`<App/> should not render an error message when user wallet is connected
           class="MuiBox-root MuiBox-root-38"
         >
           <a
-            aria-disabled="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
             href="/#/wallet"
-            id="ohm-menu-button"
-            tabindex="0"
+            style="margin-right: 0px;"
           >
-            <span
-              class="MuiButton-label"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
+              tabindex="0"
+              type="button"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                focusable="false"
-                style="margin-right: 8px;"
-                viewBox="0 0 20 20"
+              <span
+                class="MuiButton-label"
               >
-                wallet.svg
-              </svg>
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                Connect
-              </p>
-            </span>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                  focusable="false"
+                  style="margin-right: 9px;"
+                  viewBox="0 0 20 20"
+                >
+                  wallet.svg
+                </svg>
+                <p
+                  class="MuiTypography-root MuiTypography-body1"
+                >
+                  Connect
+                </p>
+              </span>
+            </button>
           </a>
           <button
             class="MuiButtonBase-root MuiToggleButton-root toggle-button"
@@ -6280,30 +6286,33 @@ exports[`<App/> should render an error message when user wallet is connected and
           class="MuiBox-root MuiBox-root-365"
         >
           <a
-            aria-disabled="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
             href="/#/wallet"
-            id="ohm-menu-button"
-            tabindex="0"
+            style="margin-right: 0px;"
           >
-            <span
-              class="MuiButton-label"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-disableElevation"
+              tabindex="0"
+              type="button"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                focusable="false"
-                style="margin-right: 8px;"
-                viewBox="0 0 20 20"
+              <span
+                class="MuiButton-label"
               >
-                wallet.svg
-              </svg>
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                Connect
-              </p>
-            </span>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                  focusable="false"
+                  style="margin-right: 9px;"
+                  viewBox="0 0 20 20"
+                >
+                  wallet.svg
+                </svg>
+                <p
+                  class="MuiTypography-root MuiTypography-body1"
+                >
+                  Connect
+                </p>
+              </span>
+            </button>
           </a>
           <button
             class="MuiButtonBase-root MuiToggleButton-root toggle-button"

@@ -180,7 +180,7 @@ export const findOrLoadMarketPrice = createAsyncThunk(
  * - falls back to fetch marketPrice from ohm-dai contract
  * - updates the App.slice when it runs
  */
-const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }: IBaseAsyncThunk) => {
+const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({}: IBaseAsyncThunk) => {
   let marketPrice: number;
   try {
     // only get marketPrice from eth mainnet
@@ -237,7 +237,7 @@ const appSlice = createSlice({
         state.loading = false;
         console.error(error.name, error.message, error.stack);
       })
-      .addCase(loadMarketPrice.pending, (state, action) => {
+      .addCase(loadMarketPrice.pending, state => {
         state.loadingMarketPrice = true;
       })
       .addCase(loadMarketPrice.fulfilled, (state, action) => {

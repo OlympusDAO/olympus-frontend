@@ -30,18 +30,10 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
 
   const {
     view,
-    setView,
     changeView,
-    indexV1,
-    currentIndex,
     currentOhmBalance,
     currentSOhmBalance,
     currentWSOhmBalance,
-    wsOhmPrice,
-    gOHMPrice,
-    approvedOhmBalance,
-    approvedSOhmBalance,
-    approvedWSOhmBalance,
     ohmFullApproval,
     sOhmFullApproval,
     wsOhmFullApproval,

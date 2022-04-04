@@ -128,13 +128,7 @@ export const executeZap = createAsyncThunk(
     if (!zapNetworkAvailable(networkID, dispatch)) return;
     try {
       const signer = provider.getSigner();
-      const rawTransactionData = await ZapHelper.executeZapHelper(
-        address,
-        sellAmount,
-        tokenAddress,
-        +slippage / 100,
-        networkID,
-      );
+      const rawTransactionData = await ZapHelper.executeZapHelper(address, sellAmount, tokenAddress, +slippage / 100);
       const zapContract = Zap__factory.connect(addresses[networkID].ZAP, signer);
       let tx: ethers.ContractTransaction;
       if (tokenAddress === ethers.constants.AddressZero) {
@@ -271,7 +265,7 @@ const zapTokenBalancesSlice = createSlice({
         console.error(error.message);
       })
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      .addCase(getZapTokenAllowance.pending, state => {})
+      .addCase(getZapTokenAllowance.pending, () => {})
       .addCase(getZapTokenAllowance.fulfilled, (state, action) => {
         if (!action.payload) return;
         setAll(state.allowances, action.payload);
@@ -282,7 +276,7 @@ const zapTokenBalancesSlice = createSlice({
       .addCase(executeZap.pending, state => {
         state.stakeLoading = true;
       })
-      .addCase(executeZap.fulfilled, (state, action) => {
+      .addCase(executeZap.fulfilled, state => {
         state.stakeLoading = false;
       })
       .addCase(executeZap.rejected, (state, { error }) => {

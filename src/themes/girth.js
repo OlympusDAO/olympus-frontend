@@ -31,6 +31,34 @@ export const girth = responsiveFontSizes(
       primary: {
         main: girthTheme.color,
       },
+      colors: {
+        paper: {
+          background: girthTheme.paperBg,
+          card: "#1D2026",
+          cardHover: "#343C49",
+        },
+        feedback: {
+          success: "#94B9A1",
+          userFeedback: "#49A1F2",
+          error: "#FF6767",
+          warning: "#FC8E5F",
+          pnlGain: "#3D9C70",
+        },
+        gray: {
+          700: "#181A1D",
+          600: "#292C32",
+          500: "#3F4552",
+          90: "#676B74",
+          40: "#A3A3A3",
+          10: girthTheme.color,
+        },
+        primary: {
+          300: "#F8CC82",
+          100: "#EAD8B8",
+          "300/A75": " rgba(248, 204, 130,0.75)",
+          "300/A50": " rgba(248, 204, 130,0.5)",
+        },
+      },
       palette: {
         type: "dark",
         background: {
