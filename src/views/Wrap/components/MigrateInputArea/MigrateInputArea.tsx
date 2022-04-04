@@ -22,7 +22,7 @@ export const MigrateInputArea = () => {
   );
   const [amount, setAmount] = useState("");
   const balance = useBalance(WSOHM_ADDRESSES)[networkId].data;
-  const setMax = () => balance && setAmount(balance.toAccurateString());
+  const setMax = () => balance && setAmount(balance.toString());
 
   // Mutation stuff
   const migrateMutation = useMigrateWsohm();

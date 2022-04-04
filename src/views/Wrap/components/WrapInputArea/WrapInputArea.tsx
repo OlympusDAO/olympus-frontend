@@ -18,7 +18,7 @@ export const WrapInputArea = () => {
   // Max balance stuff
   const addresses = currentAction === "WRAP" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
   const balance = useBalance(addresses)[networks.MAINNET].data;
-  const setMax = () => balance && setAmount(balance.toAccurateString());
+  const setMax = () => balance && setAmount(balance.toString());
 
   // Mutation stuff
   const wrapMutation = useWrapSohm();
