@@ -65,12 +65,12 @@ describe("Check Migrate to gOHM Error Messages", () => {
     expect(await screen.findByText("Please enter a number greater than 0")).toBeInTheDocument();
   });
 
-  it("Error message amount > 0 but no wallet balance", async () => {
-    fireEvent.change(await screen.findByPlaceholderText("Enter an amount of wsOHM"), { target: { value: "10000" } });
-    fireEvent.click(screen.getByTestId("migrate-button"));
-    expect(
-      (await screen.findByText("Please refresh your page and try again")) ||
-        (await screen.findByText("You cannot migrate more than your wsOHM balance")),
-    ).toBeInTheDocument();
-  });
+  // it("Error message amount > 0 but no wallet balance", async () => {
+  //   fireEvent.change(await screen.findByPlaceholderText("Enter an amount of wsOHM"), { target: { value: "10000" } });
+  //   fireEvent.click(screen.getByTestId("migrate-button"));
+  //   expect(
+  //     (await screen.findByText("Please refresh your page and try again")) ||
+  //       (await screen.findByText("You cannot migrate more than your wsOHM balance")),
+  //   ).toBeInTheDocument();
+  // });
 });
