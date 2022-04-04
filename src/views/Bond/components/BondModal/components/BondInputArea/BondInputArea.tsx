@@ -31,7 +31,7 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
   const [amount, setAmount] = useState("");
   const parsedAmount = new DecimalBigNumber(amount, props.bond.quoteToken.decimals);
   const amountInBaseToken = parsedAmount.div(props.bond.price.inBaseToken, 4);
-  const setMax = () => balance && setAmount(balance.toAccurateString());
+  const setMax = () => balance && setAmount(balance.toString());
 
   const purchaseBondMutation = usePurchaseBond(props.bond);
   const handleSubmit = (event: React.FormEvent<StakeFormElement>) => {
@@ -89,16 +89,16 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
         <DataRow
           isLoading={!balance}
           title={t`Your Balance`}
-          balance={`${balance?.toFormattedString(4)} ${props.bond.quoteToken.name}`}
+          balance={`${balance?.toString({ decimals: 4, format: true })} ${props.bond.quoteToken.name}`}
         />
 
         <DataRow
           title={t`You Will Get`}
           balance={
-            `${amountInBaseToken.toFormattedString(4)} ` +
+            `${amountInBaseToken.toString({ decimals: 4, format: true })} ` +
             `sOHM (≈${amountInBaseToken
               .div(currentIndex || new DecimalBigNumber("1", 0), 4)
-              .toFormattedString(4)} gOHM)`
+              .toString({ decimals: 4, format: true })} gOHM)`
           }
           tooltip={t`The total amount of payout asset you will recieve from this bond purchase. (sOHM quantity will be higher due to rebasing)`}
         />
@@ -111,12 +111,12 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
               {(props.bond.maxPayout.inBaseToken.gt(props.bond.capacity.inBaseToken)
                 ? props.bond.capacity.inBaseToken
                 : props.bond.maxPayout.inBaseToken
-              )?.toFormattedString(4)}{" "}
+              )?.toString({ decimals: 4, format: true })}{" "}
               sOHM (≈
               {(props.bond.maxPayout.inQuoteToken.gt(props.bond.capacity.inQuoteToken)
                 ? props.bond.capacity.inQuoteToken
                 : props.bond.maxPayout.inQuoteToken
-              )?.toFormattedString(4)}{" "}
+              )?.toString({ decimals: 4, format: true })}{" "}
               {props.bond.quoteToken.name})
             </span>
           }

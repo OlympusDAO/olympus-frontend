@@ -94,7 +94,7 @@ export const fetchBonds = async (networkId: NetworkId.MAINNET | NetworkId.TESTNE
         contract.marketPrice(id).then(price => new DecimalBigNumber(price, baseToken.decimals)),
       ]);
 
-      const priceInUsd = quoteTokenPerUsd.mul(quoteTokenPerBaseToken, 9);
+      const priceInUsd = quoteTokenPerUsd.mul(quoteTokenPerBaseToken);
       const discount = baseTokenPerUsd.sub(priceInUsd).div(baseTokenPerUsd, 9);
 
       /**
@@ -128,9 +128,7 @@ export const fetchBonds = async (networkId: NetworkId.MAINNET | NetworkId.TESTNE
         market.capacityInQuote ? quoteToken.decimals : baseToken.decimals,
       );
 
-      const capacityInQuoteToken = market.capacityInQuote
-        ? capacity
-        : capacity.mul(quoteTokenPerBaseToken, quoteToken.decimals); // Convert to quoteToken if capacity is denominated in baseToken
+      const capacityInQuoteToken = market.capacityInQuote ? capacity : capacity.mul(quoteTokenPerBaseToken); // Convert to quoteToken if capacity is denominated in baseToken
 
       const capacityInBaseToken = market.capacityInQuote
         ? capacity.div(quoteTokenPerBaseToken, baseToken.decimals) // Convert to baseToken if capacity is denominated in quoteToken
@@ -142,7 +140,7 @@ export const fetchBonds = async (networkId: NetworkId.MAINNET | NetworkId.TESTNE
        * and the preferred deposit interval is 1 day, max payout would be 100 OHM.
        */
       const maxPayoutInBaseToken = new DecimalBigNumber(market.maxPayout, baseToken.decimals);
-      const maxPayoutInQuoteToken = maxPayoutInBaseToken.mul(quoteTokenPerBaseToken, quoteToken.decimals);
+      const maxPayoutInQuoteToken = maxPayoutInBaseToken.mul(quoteTokenPerBaseToken);
 
       /**
        * Bonds are sold out if either there is no capacity left,

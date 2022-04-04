@@ -27,8 +27,8 @@ export const usePurchaseBond = (bond: Bond) => {
       const amount = new DecimalBigNumber(params.amount, bond.quoteToken.decimals);
       const slippage = new DecimalBigNumber(params.slippage, 18);
 
-      if (!amount.gt(new DecimalBigNumber("0", 0))) throw new Error(t`Please enter a number greater than 0`);
-      if (!slippage.gt(new DecimalBigNumber("0", 0))) throw new Error(t`Please enter a slippage amount greater than 0`);
+      if (!amount.gt(new DecimalBigNumber("0"))) throw new Error(t`Please enter a number greater than 0`);
+      if (!slippage.gt(new DecimalBigNumber("0"))) throw new Error(t`Please enter a slippage amount greater than 0`);
 
       if (!balance) throw new Error(t`Please refresh your page and try again`);
       if (amount.gt(balance))
@@ -37,12 +37,12 @@ export const usePurchaseBond = (bond: Bond) => {
       if (amount.gt(bond.maxPayout.inQuoteToken))
         throw new Error(
           t`The maximum you can bond at this time is` +
-            ` ${bond.maxPayout.inQuoteToken.toAccurateString()} ${bond.quoteToken.name}`,
+            ` ${bond.maxPayout.inQuoteToken.toString()} ${bond.quoteToken.name}`,
         );
       if (amount.gt(bond.capacity.inQuoteToken))
         throw new Error(
           t`The maximum you can bond at this time is` +
-            ` ${bond.capacity.inQuoteToken.toAccurateString()} ${bond.quoteToken.name}`,
+            ` ${bond.capacity.inQuoteToken.toString()} ${bond.quoteToken.name}`,
         );
 
       if (!isValidAddress(params.recipientAddress))
@@ -59,10 +59,9 @@ export const usePurchaseBond = (bond: Bond) => {
       const contract = BOND_DEPOSITORY_CONTRACT;
       const depository = contract.getEthersContract(networks.MAINNET).connect(signer);
 
-      const maxPrice = bond.price.inBaseToken.mul(
-        slippage.div(new DecimalBigNumber("100", 0), 18).add(new DecimalBigNumber("1", 0)),
-        bond.baseToken.decimals,
-      );
+      const _slippage = slippage.div(new DecimalBigNumber("100")).add(new DecimalBigNumber("1"));
+      const _maxPrice = bond.price.inBaseToken.mul(_slippage);
+      const maxPrice = new DecimalBigNumber(_maxPrice.toString(), bond.baseToken.decimals);
 
       const transaction = await depository.deposit(
         bond.id,

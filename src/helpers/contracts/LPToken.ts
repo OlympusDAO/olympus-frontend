@@ -41,12 +41,12 @@ export class LPToken<TFactory extends Factory = Factory, TAddressMap extends Add
 
       const _totalSupply = new DecimalBigNumber(totalSupply, this.decimals);
 
-      const tokenOneTotalValue = tokenOneSupply.mul(onePerUsd, 9);
-      const tokenTwoTotalValue = tokenTwoSupply.mul(twoPerUsd, 9);
+      const tokenOneTotalValue = tokenOneSupply.mul(onePerUsd);
+      const tokenTwoTotalValue = tokenTwoSupply.mul(twoPerUsd);
 
       const totalValueOfLpInUsd = tokenOneTotalValue.add(tokenTwoTotalValue);
 
-      return totalValueOfLpInUsd.div(_totalSupply, 9);
+      return totalValueOfLpInUsd.div(_totalSupply);
     };
   }
 }

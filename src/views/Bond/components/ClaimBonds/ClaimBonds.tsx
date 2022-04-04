@@ -57,7 +57,7 @@ export const ClaimBonds = () => {
           </Typography>
 
           <Typography variant="h4" align="center" style={{ marginBottom: "10px" }}>
-            {`${totalClaimableBalance.toFormattedString(4)} gOHM`}
+            {`${totalClaimableBalance.toString({ decimals: 4, format: true })} gOHM`}
           </Typography>
 
           <PrimaryButton className="" fullWidth>
@@ -126,7 +126,7 @@ const BondRow: React.VFC<{ note: BondNote }> = ({ note }) => (
     </TableCell>
 
     <TableCell style={{ padding: "8px 0" }}>
-      {note ? `${note?.payout.toFormattedString(4)} gOHM` : <Skeleton width={60} />}
+      {note ? `${note?.payout.toString({ decimals: 4, format: true })} gOHM` : <Skeleton width={60} />}
     </TableCell>
 
     <TableCell style={{ padding: "8px 0" }}>
