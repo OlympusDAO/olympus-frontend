@@ -113,18 +113,18 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
   const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
-  const formattedohmBalance = ohmBalance.toFormattedString(4);
-  const formattedV1OhmBalance = v1OhmBalance.toFormattedString(4);
-  const formattedV1SohmBalance = v1SohmBalance.toFormattedString(4);
-  const formattedWsOhmBalance = totalWsohmBalance.toFormattedString(4);
-  const formattedgOhmBalance = totalGohmBalance.toFormattedString(4);
-  const formattedSOhmBalance = sOhmBalance.toFormattedString(4);
+  const formattedohmBalance = ohmBalance.toString({ decimals: 4, trim: false, format: true });
+  const formattedV1OhmBalance = v1OhmBalance.toString({ decimals: 4, trim: false, format: true });
+  const formattedV1SohmBalance = v1SohmBalance.toString({ decimals: 4, trim: false, format: true });
+  const formattedWsOhmBalance = totalWsohmBalance.toString({ decimals: 4, trim: false, format: true });
+  const formattedgOhmBalance = totalGohmBalance.toString({ decimals: 4, trim: false, format: true });
+  const formattedSOhmBalance = sOhmBalance.toString({ decimals: 4, trim: false, format: true });
   const gOhmPriceChange = priceFeed.usd_24h_change * currentIndex.toApproxNumber();
   const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
   const rebaseAmountPerDay = rebaseRate * Number(formattedSOhmBalance) * 3;
   const totalAsSohm = totalGohmBalance
-    .mul(currentIndex, 9)
-    .add(totalWsohmBalance.mul(currentIndex, 9))
+    .mul(currentIndex)
+    .add(totalWsohmBalance.mul(currentIndex))
     .add(sOhmBalance)
     .add(v1SohmBalance);
 

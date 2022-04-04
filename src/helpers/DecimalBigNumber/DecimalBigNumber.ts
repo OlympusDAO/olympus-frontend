@@ -1,143 +1,260 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { formatUnits, parseUnits } from "@ethersproject/units";
+import { commify, formatUnits, parseUnits } from "@ethersproject/units";
 
-import { formatNumber } from "..";
+import { assert } from "../types/assert";
 
 export class DecimalBigNumber {
   private _decimals: number;
-  private _number: BigNumber;
+  private _value: BigNumber;
 
-  constructor(number: BigNumber | string, decimals: number) {
-    this._decimals = decimals;
+  /**
+   * Creates a new instance of `DecimalBigNumber`.
+   *
+   * This class expects and suggests that numbers be handled using `DecimalBigNumber`, instead of the inherently inaccurate
+   * use of `number` and `string` types.
+   *
+   * The constructor accepts the following as inputs to the number parameter:
+   * - `BigNumber` (from @ethersproject/bignumber): to easily shift from `BigNumber` used in smart contracts to `DecimalBigNumber`
+   * - `string`: to take input from the user
+   *
+   * Given these design decisions, there are some recommended approaches:
+   * - Obtain user input with type text, instead of a number, in order to retain precision. e.g. `<input type="text" />`
+   * - Where a `number` value is present, convert it to a `DecimalBigNumber` in the manner the developer deems appropriate. This will most commonly be `new DecimalBigNumber((1000222000.2222).toString(), 4)`. While a convenience method could be offered, it could lead to unexpected behaviour around precision.
+   *
+   * @param value the BigNumber or string used to initialise the object
+   * @param decimals the number of decimal places supported by the number. If `number` is a string, this parameter is optional.
+   * @returns a new, immutable instance of `DecimalBigNumber`
+   */
+  constructor(value: string, decimals?: number);
+  constructor(value: BigNumber, decimals: number);
+  constructor(value: BigNumber | string, decimals?: number) {
+    if (typeof value === "string") {
+      const _value = value.trim() === "" || isNaN(Number(value)) ? "0" : value;
+      const _decimals = decimals === undefined ? this._inferDecimalAmount(value) : this._ensurePositive(decimals);
+      const formatted = this._setDecimalAmount(_value, _decimals);
 
-    if (typeof number === "string") {
-      const _number = number.trim() === "" || isNaN(Number(number)) ? "0" : number;
+      this._value = parseUnits(formatted, _decimals);
+      this._decimals = _decimals;
 
-      const formatted = this._omitIrrelevantDecimals(_number, decimals);
-      this._number = parseUnits(formatted, decimals);
       return;
     }
 
-    this._number = number;
+    assert(decimals !== undefined, "Decimal cannot be undefined");
+
+    this._value = value;
+    this._decimals = decimals;
   }
 
-  private _omitIrrelevantDecimals(number: string, decimals: number): string {
-    const [integer, _decimals] = number.split(".");
+  private _inferDecimalAmount(value: string): number {
+    const [, decimalStringOrUndefined] = value.split(".");
 
-    if (!_decimals) return integer;
-
-    return integer + "." + _decimals.substring(0, decimals);
+    return decimalStringOrUndefined?.length || 0;
   }
 
   /**
-   * Used when performing accurate calculations with
-   * the number where precision is important.
+   * Sets a value to a specific decimal amount
+   *
+   * Trims unnecessary decimals
+   * Or pads decimals if needed
+   *
+   * @param value Input value as a string
+   * @param decimals Desired decimal amount
+   */
+  private _setDecimalAmount(value: string, decimals: number): string {
+    const [integer, _decimalsOrUndefined] = value.split(".");
+
+    const _decimals = _decimalsOrUndefined || "";
+
+    const paddingRequired = Math.max(0, decimals - _decimals.length);
+
+    return integer + "." + _decimals.substring(0, decimals) + "0".repeat(paddingRequired);
+  }
+
+  /**
+   * Ensures the desired decimal amount is positive
+   */
+  private _ensurePositive(decimals: number) {
+    return Math.max(0, decimals);
+  }
+
+  /**
+   * Converts this value to a BigNumber
+   *
+   * Often used when passing this value as
+   * an argument to a contract method
    */
   public toBigNumber(): BigNumber {
-    return this._number;
+    return this._value;
   }
 
   /**
-   * Used to display the value accurately to the user
+   * Converts this value to a string
+   *
+   * By default, the string returned will:
+   * - Have the same decimal amount that it was initialised with
+   * - Have trailing zeroes removed
+   * - Not have thousands separators
+   *
+   * This ensures that the number string is accurate.
+   *
+   * To override any of these settings, add the `args` object as a parameter.
+   *
+   * @param args an object containing any of the properties: decimals, trim, format
+   * @returns a string version of the number
    */
-  public toAccurateString(): string {
-    return formatUnits(this._number, this._decimals);
+  public toString({
+    decimals,
+    format = false,
+    trim = true,
+  }: { decimals?: number; trim?: boolean; format?: boolean } = {}): string {
+    let result = formatUnits(this._value, this._decimals);
+
+    // Add thousands separators
+    if (format) result = commify(result);
+
+    // We default to the number of decimal places specified
+    const _decimals = decimals === undefined ? this._decimals : this._ensurePositive(decimals);
+    result = this._setDecimalAmount(result, _decimals);
+
+    // We default to trimming trailing zeroes (and decimal points), unless there is an override
+    if (trim) result = result.replace(/(?:\.|(\..*?))\.?0*$/, "$1");
+
+    return result;
   }
 
   /**
+   * @deprecated
+   * Please avoid using this method.
+   * If used for calculations: rather than converting this DecimalBigNumber
+   * "down" to a number, convert the other number "up" to a DecimalBigNumber.
+   *
    * Used when performing approximate calculations with
    * the number where precision __is not__ important.
    */
   public toApproxNumber(): number {
-    return parseFloat(this.toAccurateString());
+    return parseFloat(this.toString());
   }
 
   /**
-   * Used to display a formatted approximate value to the user
-   * @param decimals The number of decimal places to show
+   * Determines if the two values are equal
    */
-  public toFormattedString(decimals = 0): string {
-    return formatNumber(this.toApproxNumber(), decimals);
+  public eq(value: DecimalBigNumber): boolean {
+    // Normalize decimals to the largest of the two values
+    const decimals = Math.max(value._decimals, this._decimals);
+
+    // Normalize values to the correct decimal amount
+    const _this = new DecimalBigNumber(this.toString(), decimals);
+    const _value = new DecimalBigNumber(value.toString(), decimals);
+
+    return _this._value.eq(_value._value);
   }
 
   /**
-   * Subtracts this number by the value provided
+   * Subtracts this value by the value provided
    */
   public sub(value: DecimalBigNumber): DecimalBigNumber {
-    // Normalize precision to the largest of the two values
+    // Normalize decimals to the largest of the two values
     const decimals = Math.max(value._decimals, this._decimals);
 
-    // Normalize values to correct precision
-    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
-    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+    // Normalize values to the correct decimal amount
+    const _this = new DecimalBigNumber(this.toString(), decimals);
+    const _value = new DecimalBigNumber(value.toString(), decimals);
 
-    return new DecimalBigNumber(_this._number.sub(_value._number), decimals);
+    return new DecimalBigNumber(_this._value.sub(_value._value), decimals);
   }
+
   /**
-   * Adds the value provided to this number
+   * Sums this value and the value provided
    */
   public add(value: DecimalBigNumber): DecimalBigNumber {
-    // Normalize precision to the largest of the two values
+    // Normalize decimals to the largest of the two values
     const decimals = Math.max(value._decimals, this._decimals);
 
-    // Normalize values to correct precision
-    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
-    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+    // Normalize values to the correct decimal amount
+    const _this = new DecimalBigNumber(this.toString(), decimals);
+    const _value = new DecimalBigNumber(value.toString(), decimals);
 
-    return new DecimalBigNumber(_this._number.add(_value._number), decimals);
+    return new DecimalBigNumber(_this._value.add(_value._value), decimals);
   }
 
   /**
-   * Determines if this number is greater than the provided value
+   * Determines if this value is greater than the provided value
    */
   public gt(value: DecimalBigNumber): boolean {
-    // Normalize precision to the largest of the two values
+    // Normalize decimals to the largest of the two values
     const decimals = Math.max(value._decimals, this._decimals);
 
-    // Normalize values to correct precision
-    const _this = new DecimalBigNumber(this.toAccurateString(), decimals);
-    const _value = new DecimalBigNumber(value.toAccurateString(), decimals);
+    // Normalize values to the correct decimal amount
+    const _this = new DecimalBigNumber(this.toString(), decimals);
+    const _value = new DecimalBigNumber(value.toString(), decimals);
 
-    return _this._number.gt(_value._number);
+    return _this._value.gt(_value._value);
   }
 
   /**
-   * Multiplies this number by the provided value
-   * @param decimals The expected number of decimals of the output value
+   * Determines if this value is less than the provided value
    */
-  public mul(value: DecimalBigNumber, decimals: number): DecimalBigNumber {
-    const product = this._number.mul(value._number);
+  public lt(value: DecimalBigNumber): boolean {
+    // Normalize decimals to the largest of the two values
+    const decimals = Math.max(value._decimals, this._decimals);
 
-    // Multiplying two BigNumbers produces a product whose precision
-    // is the sum of the precisions of the two input numbers
-    const _decimals = this._decimals + value._decimals;
+    // Normalize values to the correct decimal amount
+    const _this = new DecimalBigNumber(this.toString(), decimals);
+    const _value = new DecimalBigNumber(value.toString(), decimals);
 
-    // Normalize the product
-    const normalized = new DecimalBigNumber(product, _decimals);
-
-    // Return result with the expected precision
-    return new DecimalBigNumber(normalized.toAccurateString(), decimals);
+    return _this._value.lt(_value._value);
   }
 
   /**
-   * Divides this number by the provided value
-   * @param decimals The expected number of decimals of the output value
+   * Multiplies this value by the provided value
    */
-  public div(value: DecimalBigNumber, decimals: number): DecimalBigNumber {
+  public mul(value: DecimalBigNumber): DecimalBigNumber {
+    const product = this._value.mul(value._value);
+
+    // Multiplying two BigNumbers produces a product with a decimal
+    // amount equal to the sum of the decimal amounts of the two input numbers
+    return new DecimalBigNumber(product, this._decimals + value._decimals);
+  }
+
+  /**
+   * Divides this value by the provided value
+   *
+   * By default, this returns a value whose decimal amount is equal
+   * to the sum of the decimal amounts of the two values used.
+   * If this isn't enough, you can specify a desired
+   * decimal amount using the second function argument.
+   *
+   * @param decimals The expected decimal amount of the output value
+   */
+  public div(value: DecimalBigNumber, decimals?: number): DecimalBigNumber {
+    const _decimals = decimals === undefined ? this._decimals + value._decimals : this._ensurePositive(decimals);
+
     // When we divide two BigNumbers, the result will never
     // include any decimal places because BigNumber only deals
     // with whole integer values. Therefore, in order for us to
-    // include precision in our calculation, we need to normalize
-    // the precision of the two numbers, such that the difference
-    // in precision is equal to the expected precision of the result.
-    const _decimals = decimals + value._decimals;
+    // include a specific decimal amount in our calculation, we need to
+    // normalize the decimal amount of the two numbers, such that the difference
+    // in their decimal amount is equal to the expected decimal amount
+    // of the result, before we do the calculation
+    //
+    // E.g:
+    // 22/5 = 4.4
+    //
+    // But ethers would return:
+    // 22/5 = 4 (no decimals)
+    //
+    // So before we calculate, we add n padding zeros to the
+    // numerator, where n is the expected decimal amount of the result:
+    // 220/5 = 44
+    //
+    // Normalized to the expected decimal amount of the result
+    // 4.4
 
-    // Normalize according to the resultant precision calculated earlier
-    const _this = new DecimalBigNumber(this.toAccurateString(), _decimals);
+    const _this = new DecimalBigNumber(this.toString(), _decimals + value._decimals);
 
-    const quotient = _this._number.div(value._number);
+    const quotient = _this._value.div(value._value);
 
-    // Return result with the expected precision
-    return new DecimalBigNumber(quotient, decimals);
+    // Return result with the expected output decimal amount
+    return new DecimalBigNumber(quotient, _decimals);
   }
 }
