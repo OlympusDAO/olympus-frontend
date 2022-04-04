@@ -25,7 +25,6 @@ interface AwardItem {
 
 const PoolTogether = () => {
   const [view, setView] = useState(0);
-  const [zoomed, setZoomed] = useState(false);
 
   const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
@@ -36,8 +35,8 @@ const PoolTogether = () => {
   const { connect, address, provider, hasCachedProvider, networkId, providerInitialized } = useWeb3Context();
   const dispatch = useDispatch();
   const [graphUrl, setGraphUrl] = useState(POOL_GRAPH_URLS[1]);
-  const [poolData, setPoolData] = useState(null);
-  const [poolDataError, setPoolDataError] = useState(null);
+  const [, setPoolData] = useState(null);
+  const [, setPoolDataError] = useState(null);
   const [graphLoading, setGraphLoading] = useState(true);
   const [walletChecked, setWalletChecked] = useState(false);
   const [winners, setWinners] = useState("--");
@@ -46,7 +45,7 @@ const PoolTogether = () => {
   const [yourOdds, setYourOdds] = useState<number | string>(0);
   const [yourTotalAwards, setYourTotalAwards] = useState(0);
   // TODO (appleseed-33T): create a table for AwardHistory
-  const [yourAwardHistory, setYourAwardHistory] = useState<Array<AwardItem>>([]);
+  const [, setYourAwardHistory] = useState<Array<AwardItem>>([]);
   const [infoTooltipMessage, setInfoTooltipMessage] = useState<Array<string>>([
     "Deposit sOHM to win! Once deposited, you will receive a corresponding amount of 33T and be entered to win until your sOHM is withdrawn.",
   ]);

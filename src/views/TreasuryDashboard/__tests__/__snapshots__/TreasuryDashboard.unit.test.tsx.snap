@@ -10,21 +10,17 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
       class="MuiTabs-root makeStyles-root-1 "
     >
       <div
-        class="MuiTabs-scrollable"
-        style="width: 99px; height: 99px; position: absolute; top: -9999px; overflow: scroll;"
-      />
-      <div
-        class="MuiTabs-scroller MuiTabs-scrollable"
-        style="margin-bottom: 0px;"
+        class="MuiTabs-scroller MuiTabs-fixed"
+        style="overflow: hidden;"
       >
         <div
           aria-label="dashboard-tabs"
-          class="MuiTabs-flexContainer"
+          class="MuiTabs-flexContainer MuiTabs-centered"
           role="tablist"
         >
           <button
             aria-controls="simple-tabpanel-0"
-            aria-label="key-metrics"
+            aria-label="dashboard"
             aria-selected="true"
             class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected"
             id="simple-tab-0"
@@ -40,7 +36,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
           </button>
           <button
             aria-controls="simple-tabpanel-1"
-            aria-label="treasury-allocation"
+            aria-label="treasury"
             aria-selected="false"
             class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
             id="simple-tab-1"
@@ -72,7 +68,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
           </button>
           <button
             aria-controls="simple-tabpanel-3"
-            aria-label="olympus-pro"
+            aria-label="olympuspro"
             aria-selected="false"
             class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
             id="simple-tab-3"

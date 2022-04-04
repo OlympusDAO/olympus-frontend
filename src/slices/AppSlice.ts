@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
+import { SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { RootState } from "src/store";
 
@@ -93,10 +94,17 @@ export const loadAppDetails = createAsyncThunk(
     }
     const currentBlock = await provider.getBlockNumber();
 
-    const stakingContract = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, provider);
+    const stakingContract = OlympusStakingv2__factory.connect(
+      STAKING_ADDRESSES[networkID as keyof typeof STAKING_ADDRESSES],
+      provider,
+    );
     const stakingContractV1 = OlympusStaking__factory.connect(addresses[networkID].STAKING_ADDRESS, provider);
 
-    const sohmMainContract = new ethers.Contract(addresses[networkID].SOHM_V2 as string, sOHMv2, provider) as SOhmv2;
+    const sohmMainContract = new ethers.Contract(
+      SOHM_ADDRESSES[networkID as keyof typeof SOHM_ADDRESSES] as string,
+      sOHMv2,
+      provider,
+    ) as SOhmv2;
 
     // Calculating staking
     const epoch = await stakingContract.epoch();
@@ -172,7 +180,7 @@ export const findOrLoadMarketPrice = createAsyncThunk(
  * - falls back to fetch marketPrice from ohm-dai contract
  * - updates the App.slice when it runs
  */
-const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }: IBaseAsyncThunk) => {
+const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({}: IBaseAsyncThunk) => {
   let marketPrice: number;
   try {
     // only get marketPrice from eth mainnet
@@ -229,7 +237,7 @@ const appSlice = createSlice({
         state.loading = false;
         console.error(error.name, error.message, error.stack);
       })
-      .addCase(loadMarketPrice.pending, (state, action) => {
+      .addCase(loadMarketPrice.pending, state => {
         state.loadingMarketPrice = true;
       })
       .addCase(loadMarketPrice.fulfilled, (state, action) => {

@@ -96,7 +96,6 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [theme, toggleTheme] = useTheme();
-  const currentPath = location.pathname + location.hash + location.search;
   const trimmedPath = location.pathname + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -295,11 +294,7 @@ function App() {
     setIsSidebarExpanded(false);
   };
 
-  let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
-
-  useEffect(() => {
-    themeMode = theme === "light" ? lightTheme : darkTheme;
-  }, [theme]);
+  const themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
@@ -347,12 +342,6 @@ function App() {
               oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
             <Switch>
-              {/* (keith): leave this route here temporarily to 
-              be able to reference the old dashboard */}
-              <Route exact path="/dashboard">
-                <TreasuryDashboard />
-              </Route>
-
               <Route exact path="/">
                 <Redirect to="/stake" />
               </Route>
@@ -454,6 +443,23 @@ function App() {
                 })}
                 <ChooseBondV2 />
               </Route>
+
+              <Route exact path="/dashboard">
+                <TreasuryDashboard activeView={0} />
+              </Route>
+              <Route path="/dashboard/treasury">
+                <TreasuryDashboard activeView={1} />
+              </Route>
+              <Route path="/dashboard/revenue">
+                <TreasuryDashboard activeView={2} />
+              </Route>
+              <Route path="/dashboard/olympuspro">
+                <TreasuryDashboard activeView={3} />
+              </Route>
+              <Route path="/dashboard/proteus">
+                <TreasuryDashboard activeView={4} />
+              </Route>
+
               <Route exact path="/calculator">
                 <Wallet open={true} component="calculator" />
               </Route>

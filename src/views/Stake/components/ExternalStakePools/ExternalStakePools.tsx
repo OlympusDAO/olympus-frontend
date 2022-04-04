@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, makeStyles, Table, TableCell, TableHead, TableRow, Typography, useTheme, Zoom } from "@material-ui/core";
+import { Box, makeStyles, Table, TableCell, TableHead, TableRow, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, OHMTokenProps, Paper, SecondaryButton, Token, TokenStack } from "@olympusdao/component-library";
@@ -66,7 +66,6 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
 );
 
 const ExternalStakePools = () => {
-  const theme = useTheme();
   const styles = useStyles();
   const { connected } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
@@ -101,8 +100,6 @@ const ExternalStakePools = () => {
 };
 
 const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = props => {
-  const theme = useTheme();
-  const styles = useStyles();
   const { connected } = useWeb3Context();
 
   const userBalances = useStakePoolBalance(props.pool);
@@ -131,7 +128,13 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
       </TableCell>
       <TableCell>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!connected ? "" : !userBalance ? <Skeleton width={80} /> : `${userBalance.toFormattedString(4)} LP`}
+          {!connected ? (
+            ""
+          ) : !userBalance ? (
+            <Skeleton width={80} />
+          ) : (
+            `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`
+          )}
         </Typography>
       </TableCell>
       <TableCell>
@@ -174,7 +177,7 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
         <DataRow
           title={t`Balance`}
           isLoading={!userBalance}
-          balance={userBalance && `${userBalance.toFormattedString(4)} LP`}
+          balance={userBalance && `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`}
         />
       )}
 
