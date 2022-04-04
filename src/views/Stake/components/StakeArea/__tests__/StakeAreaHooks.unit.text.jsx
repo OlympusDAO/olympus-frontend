@@ -52,3 +52,25 @@ describe("Check Stake to sOHM Error Messages", () => {
     expect(await screen.findByText("Please refresh your page and try again")).toBeInTheDocument();
   });
 });
+
+describe("Check Unstake sOHM Error Messages", () => {
+  beforeEach(() => {
+    fireEvent.click(screen.getByText("Unstake"));
+  });
+  it("Error message with no amount", async () => {
+    fireEvent.click(await screen.getByText("Unstake sOHM"));
+    expect(await screen.findByText("Please enter a number")).toBeInTheDocument();
+  });
+
+  it("Error message with amount <=0", async () => {
+    fireEvent.input(await screen.findByRole("textbox"), { target: { value: "-1" } });
+    fireEvent.click(await screen.getByText("Unstake sOHM"));
+    expect(await screen.findByText("Please enter a number greater than 0")).toBeInTheDocument();
+  });
+
+  it("Error message amount > 0 but no wallet balance", async () => {
+    fireEvent.input(await screen.findByRole("textbox"), { target: { value: "100" } });
+    fireEvent.click(await screen.getByText("Unstake sOHM"));
+    expect(await screen.findByText("Please refresh your page and try again")).toBeInTheDocument();
+  });
+});
