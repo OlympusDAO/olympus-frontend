@@ -7,13 +7,11 @@ import { Icon, Modal, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
 import { formatCurrency } from "src/helpers";
-import { Bond } from "src/helpers/bonds/Bond";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { useBondData } from "src/views/Bond/hooks/useBondData";
+import { Bond, useBonds } from "src/views/Bond/hooks/useBonds";
 
-import { useActiveBonds } from "../../hooks/useActiveBonds";
 import { BondDuration } from "../BondDuration";
 import { BondInfoText } from "../BondInfoText";
 import { BondPrice } from "../BondPrice";
@@ -22,26 +20,21 @@ import { BondSettingsModal } from "./components/BondSettingsModal";
 
 export const BondModalContainer: React.VFC = () => {
   const history = useHistory();
-  const { pathname } = useLocation();
-  const bonds = useActiveBonds().data;
   const { networkId } = useWeb3Context();
   const { id } = useParams<{ id: string }>();
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
-
-  if (!bonds) return null;
-
-  const bond = bonds.find(bond => bond.id === id);
+  const bond = useBonds(bonds => bonds.find(bond => bond.id === id)).data;
 
   if (!bond) return null;
 
-  return <BondModal bond={bond} isInverseBond={pathname.includes("/inverse/")} />;
+  return <BondModal bond={bond} />;
 };
 
-const BondModal: React.VFC<{ bond: Bond; isInverseBond: boolean }> = props => {
+const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   const history = useHistory();
+  const { pathname } = useLocation();
   const { address } = useWeb3Context();
-
-  const info = useBondData(props.bond).data;
+  const isInverseBond = pathname.includes("/inverse/");
 
   const [slippage, setSlippage] = useState("0.5");
   const [isSettingsOpen, setSettingsOpen] = useState(false);
@@ -70,10 +63,10 @@ const BondModal: React.VFC<{ bond: Bond; isInverseBond: boolean }> = props => {
       topRight={<Icon name="settings" style={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
       headerContent={
         <Box display="flex" flexDirection="row">
-          <TokenStack tokens={props.bond.quoteToken.icons} />
+          <TokenStack tokens={bond.quoteToken.icons} />
 
           <Box display="flex" flexDirection="column" ml={1} justifyContent="center" alignItems="center">
-            <Typography variant="h5">{props.bond.quoteToken.name}</Typography>
+            <Typography variant="h5">{bond.quoteToken.name}</Typography>
           </Box>
         </Box>
       }
@@ -90,13 +83,13 @@ const BondModal: React.VFC<{ bond: Bond; isInverseBond: boolean }> = props => {
 
         <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
           <Typography>
-            {props.isInverseBond ? "Instant Payout" : info?.isFixedTerm ? t`Fixed Term` : t`Fixed Expiration`}
+            {isInverseBond ? "Instant Payout" : bond.isFixedTerm ? t`Fixed Term` : t`Fixed Expiration`}
           </Typography>
 
-          {!props.isInverseBond && (
+          {!isInverseBond && (
             <Box mt="4px">
               <Typography>
-                <BondDuration duration={info?.duration} />
+                <BondDuration duration={bond.duration} />
               </Typography>
             </Box>
           )}
@@ -109,7 +102,7 @@ const BondModal: React.VFC<{ bond: Bond; isInverseBond: boolean }> = props => {
             </Typography>
 
             <Typography variant="h3" className="price" color="primary">
-              {info?.isSoldOut ? "--" : <BondPrice price={info?.price.inUsd} />}
+              {bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} />}
             </Typography>
           </div>
 
@@ -124,11 +117,11 @@ const BondModal: React.VFC<{ bond: Bond; isInverseBond: boolean }> = props => {
           </div>
         </Box>
 
-        <BondInputArea bond={props.bond} slippage={slippage} recipientAddress={recipientAddress} />
+        <BondInputArea bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
 
         <Box mt="16px" className="help-text">
           <Typography variant="body2">
-            <BondInfoText isInverseBond={props.isInverseBond} />
+            <BondInfoText isInverseBond={isInverseBond} />
           </Typography>
         </Box>
       </>

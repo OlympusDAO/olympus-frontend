@@ -4,19 +4,17 @@ import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { DAO_TREASURY_ADDRESSES } from "src/constants/addresses";
 import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
-import { Bond } from "src/helpers/bonds/Bond";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
-import { useBondData } from "src/views/Bond/hooks/useBondData";
+import { Bond } from "src/views/Bond/hooks/useBonds";
 
 export const usePurchaseBond = (bond: Bond) => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const info = useBondData(bond).data;
   const networks = useTestableNetworks();
   const { provider, networkId, address } = useWeb3Context();
   const balance = useBalance(bond.quoteToken.addresses)[networks.MAINNET].data;
@@ -36,16 +34,15 @@ export const usePurchaseBond = (bond: Bond) => {
       if (amount.gt(balance))
         throw new Error(t`You cannot bond more than your` + ` ${bond.quoteToken.name} ` + `balance`);
 
-      if (!info) throw new Error(t`Please refresh your page and try again`);
-      if (amount.gt(info.maxPayout.inQuoteToken))
+      if (amount.gt(bond.maxPayout.inQuoteToken))
         throw new Error(
           t`The maximum you can bond at this time is` +
-            ` ${info.maxPayout.inQuoteToken.toAccurateString()} ${bond.quoteToken.name}`,
+            ` ${bond.maxPayout.inQuoteToken.toAccurateString()} ${bond.quoteToken.name}`,
         );
-      if (amount.gt(info.capacity.inQuoteToken))
+      if (amount.gt(bond.capacity.inQuoteToken))
         throw new Error(
           t`The maximum you can bond at this time is` +
-            ` ${info.capacity.inQuoteToken.toAccurateString()} ${bond.quoteToken.name}`,
+            ` ${bond.capacity.inQuoteToken.toAccurateString()} ${bond.quoteToken.name}`,
         );
 
       if (!isValidAddress(params.recipientAddress))
@@ -62,7 +59,7 @@ export const usePurchaseBond = (bond: Bond) => {
       const contract = BOND_DEPOSITORY_CONTRACT;
       const depository = contract.getEthersContract(networks.MAINNET).connect(signer);
 
-      const maxPrice = info.price.inBaseToken.mul(
+      const maxPrice = bond.price.inBaseToken.mul(
         slippage.div(new DecimalBigNumber("100", 0), 18).add(new DecimalBigNumber("1", 0)),
         bond.baseToken.decimals,
       );

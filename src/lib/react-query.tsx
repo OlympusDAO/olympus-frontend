@@ -3,13 +3,13 @@ import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
-const queryCache = new QueryCache({
+export const queryCache = new QueryCache({
   onError: (error, query) => {
     if (error instanceof Error) console.error({ key: query.queryKey, error: error.message });
   },
 });
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   queryCache,
   defaultOptions: {
     queries: {

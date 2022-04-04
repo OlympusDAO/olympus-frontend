@@ -3,13 +3,12 @@ import { Box, Divider, Link, Paper, SvgIcon, Typography } from "@material-ui/cor
 import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Bond } from "src/helpers/bonds/Bond";
+import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
-import { useActiveBonds } from "src/views/Bond/hooks/useActiveBonds";
-import { useBondData } from "src/views/Bond/hooks/useBondData";
+import { useBonds } from "src/views/Bond/hooks/useBonds";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
@@ -117,33 +116,24 @@ const NavContent: React.VFC = () => {
 };
 
 const Bonds: React.VFC = () => {
-  const bonds = useActiveBonds().data;
-  const inverseBonds = useActiveBonds({ isInverseBond: true }).data;
+  const bonds = useBonds().data;
 
-  if (!bonds || !inverseBonds) return null;
+  if (!bonds) return null;
 
   return (
     <Box paddingLeft="62px" paddingRight="32px" paddingY="8px">
-      {bonds.length > 0 && bonds.map(bond => <BondInfo key={bond.id} bond={bond} />)}
+      {sortByDiscount(bonds).map(bond => (
+        <Link key={bond.id} component={NavLink} to={`/bonds/${bond.id}`}>
+          <Box display="flex" alignItems="center" justifyContent="space-between" paddingY="4px">
+            <Typography variant="body2">{bond.quoteToken.name}</Typography>
 
-      {inverseBonds.length > 0 && inverseBonds.map(bond => <BondInfo key={bond.id} bond={bond} />)}
+            <Typography variant="body2">
+              <BondDiscount discount={bond.discount} />
+            </Typography>
+          </Box>
+        </Link>
+      ))}
     </Box>
-  );
-};
-
-const BondInfo: React.VFC<{ bond: Bond }> = props => {
-  const info = useBondData(props.bond).data;
-
-  return (
-    <Link component={NavLink} to={`/bonds/${props.bond.id}`}>
-      <Box display="flex" alignItems="center" justifyContent="space-between" paddingY="4px">
-        <Typography variant="body2">{props.bond.quoteToken.name}</Typography>
-
-        <Typography variant="body2">
-          <BondDiscount discount={info?.discount} />
-        </Typography>
-      </Box>
-    </Link>
   );
 };
 
