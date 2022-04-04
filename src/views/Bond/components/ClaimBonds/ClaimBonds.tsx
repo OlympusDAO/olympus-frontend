@@ -73,7 +73,7 @@ export const ClaimBonds = () => {
 
       <Box mt="48px">
         {isSmallScreen ? (
-          <ClaimBondsDataCard />
+          <></>
         ) : (
           <TableContainer>
             <Table aria-label="Available bonds" style={{ tableLayout: "fixed" }}>
@@ -139,43 +139,5 @@ export const ClaimBonds = () => {
         )}
       </Box>
     </Paper>
-  );
-};
-
-const ClaimBondsDataCard: React.VFC = () => {
-  return (
-    <>
-      {/* 
-      {!isEmpty(fullyVestedBonds) && (
-        <AccordionSection
-          bonds={fullyVestedBonds}
-          title="Fully Vested Bonds"
-          gOHM={view === 1}
-          vested={true}
-          isSmallScreen={isSmallScreen}
-        />
-      )}
-
-      {!isEmpty(vestingBonds) && (
-        <AccordionSection
-          bonds={vestingBonds}
-          title="Vesting Bonds"
-          gOHM={view === 1}
-          vested={false}
-          isSmallScreen={isSmallScreen}
-        />
-      )}
-
-      {v1AccountBonds.length > 0 && (
-        <Accordion defaultExpanded classes={{ root: "accordion-root" }}>
-          <AccordionSummary expandIcon={<ExpandMore />} aria-controls={`${title}-content`} id={`${title}-header`}>
-            <Typography>V1 Bonds</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <ClaimBondsSubComponent activeBonds={v1AccountBonds} />
-          </AccordionDetails>
-        </Accordion>
-      )} */}
-    </>
   );
 };
