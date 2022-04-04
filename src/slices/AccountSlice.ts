@@ -314,7 +314,9 @@ export const getDonationBalances = createAsyncThunk(
       // This confirms that we did not receive back a null deposit
       if (allDeposits[0].length != 1 || allDeposits[1][0] != BigNumber.from(0)) {
         for (let i = 0; i < allDeposits[0].length; i++) {
-          if (allDeposits[1][i].eq(0)) continue;
+          // If the deposit is less than 1e9 we ignore it, as it is likely a rounding error
+          // since that is 1e-9 of a gOHM
+          if (allDeposits[1][i].lte(1000000000)) continue;
           const depositId = depositIds[i];
           const depositAmount = ethers.utils.formatUnits(allDeposits[1][i], 18);
           const recipient = allDeposits[0][i];
