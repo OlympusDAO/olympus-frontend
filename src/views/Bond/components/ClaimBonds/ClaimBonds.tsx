@@ -19,7 +19,7 @@ import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useScreenSize } from "src/hooks/useScreenSize";
 
 import { BondDuration } from "../BondDuration";
-import { BondNote, useBondNotes } from "./hooks/useBondNotes";
+import { useBondNotes } from "./hooks/useBondNotes";
 
 export const ClaimBonds = () => {
   const notes = useBondNotes().data;
@@ -95,7 +95,43 @@ export const ClaimBonds = () => {
               </TableHead>
               <TableBody>
                 {notes.map(note => (
-                  <BondRow key={note.id} note={note} />
+                  <TableRow>
+                    <TableCell style={{ padding: "8px 0" }}>
+                      {note ? (
+                        <Box display="flex" alignItems="center">
+                          <TokenStack tokens={note.bond.quoteToken.icons} />
+
+                          <Box display="flex" flexDirection="column" ml="16px">
+                            <Typography>{note.bond.quoteToken.name}</Typography>
+                          </Box>
+                        </Box>
+                      ) : (
+                        <Skeleton width={120} />
+                      )}
+                    </TableCell>
+
+                    <TableCell style={{ padding: "8px 0" }}>
+                      <BondDuration duration={note.bond.duration} />
+                    </TableCell>
+
+                    <TableCell style={{ padding: "8px 0" }}>
+                      {Date.now() > note.matured ? (
+                        "Fully Vested"
+                      ) : (
+                        <BondDuration duration={note.matured - Date.now()} />
+                      )}
+                    </TableCell>
+
+                    <TableCell style={{ padding: "8px 0" }}>
+                      {isPayoutGohm
+                        ? `${note.payout.toString({ decimals: 4, format: true })} gOHM`
+                        : `${currentIndex?.mul(note.payout).toString({ decimals: 4, format: true })} sOHM`}
+                    </TableCell>
+
+                    <TableCell style={{ padding: "8px 0" }}>
+                      <TertiaryButton fullWidth>Claim</TertiaryButton>
+                    </TableCell>
+                  </TableRow>
                 ))}
               </TableBody>
             </Table>
@@ -105,40 +141,6 @@ export const ClaimBonds = () => {
     </Paper>
   );
 };
-
-const BondRow: React.VFC<{ note: BondNote }> = ({ note }) => (
-  <TableRow>
-    <TableCell style={{ padding: "8px 0" }}>
-      {note ? (
-        <Box display="flex" alignItems="center">
-          <TokenStack tokens={note.bond.quoteToken.icons} />
-
-          <Box display="flex" flexDirection="column" ml="16px">
-            <Typography>{note.bond.quoteToken.name}</Typography>
-          </Box>
-        </Box>
-      ) : (
-        <Skeleton width={120} />
-      )}
-    </TableCell>
-
-    <TableCell style={{ padding: "8px 0" }}>
-      <BondDuration duration={note?.bond.duration} />
-    </TableCell>
-
-    <TableCell style={{ padding: "8px 0" }}>
-      {Date.now() > note.matured ? "Fully Vested" : <BondDuration duration={(note?.matured || 0) - Date.now()} />}
-    </TableCell>
-
-    <TableCell style={{ padding: "8px 0" }}>
-      {note ? `${note?.payout.toString({ decimals: 4, format: true })} gOHM` : <Skeleton width={60} />}
-    </TableCell>
-
-    <TableCell style={{ padding: "8px 0" }}>
-      <TertiaryButton fullWidth>Claim</TertiaryButton>
-    </TableCell>
-  </TableRow>
-);
 
 const ClaimBondsDataCard: React.VFC = () => {
   return (
