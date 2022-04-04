@@ -15,16 +15,17 @@ import { Skeleton } from "@material-ui/lab";
 import { Paper, PrimaryButton, TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { useState } from "react";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
+import { useScreenSize } from "src/hooks/useScreenSize";
 
 import { BondDuration } from "../BondDuration";
 import { BondNote, useBondNotes } from "./hooks/useBondNotes";
 
 export const ClaimBonds = () => {
-  const [isPayoutGohm, setIsPayoutGohm] = useState(false);
-
-  const isSmallScreen = false;
-
   const notes = useBondNotes().data;
+  const isSmallScreen = useScreenSize("sm");
+  const currentIndex = useCurrentIndex().data;
+  const [isPayoutGohm, setIsPayoutGohm] = useState(false);
 
   if (!notes || notes.length < 1) return null;
 
@@ -56,9 +57,13 @@ export const ClaimBonds = () => {
             Claimable Balance
           </Typography>
 
-          <Typography variant="h4" align="center" style={{ marginBottom: "10px" }}>
-            {`${totalClaimableBalance.toString({ decimals: 4, format: true })} gOHM`}
-          </Typography>
+          <Box mt="4px" mb="8px">
+            <Typography variant="h4" align="center">
+              {isPayoutGohm
+                ? `${totalClaimableBalance.toString({ decimals: 4, format: true })} gOHM`
+                : `${currentIndex?.mul(totalClaimableBalance).toString({ decimals: 4, format: true })} sOHM`}
+            </Typography>
+          </Box>
 
           <PrimaryButton className="" fullWidth>
             Claim All

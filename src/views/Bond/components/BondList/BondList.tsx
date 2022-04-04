@@ -9,9 +9,9 @@ import {
   TableHead,
   TableRow,
   Typography,
-  useMediaQuery,
 } from "@material-ui/core";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
+import { useScreenSize } from "src/hooks/useScreenSize";
 
 import { useBonds } from "../../hooks/useBonds";
 import { BondInfoText } from "../BondInfoText";
@@ -20,7 +20,7 @@ import { BondRow } from "./components/BondRow";
 
 export const BondList: React.VFC<{ isInverseBond: boolean }> = props => {
   const bonds = useBonds().data;
-  const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
+  const isSmallScreen = useScreenSize("sm");
 
   if (!bonds) return null;
 
