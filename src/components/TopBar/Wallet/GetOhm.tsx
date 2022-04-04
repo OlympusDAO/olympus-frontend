@@ -7,7 +7,7 @@ import sushiswapImg from "src/assets/sushiswap.png";
 import uniswapImg from "src/assets/uniswap.png";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
-import { beetsPools, joePools, spiritPools, sushiPools, zipPools } from "src/helpers/AllExternalPools";
+import { beetsPools, joePools, jonesPools, spiritPools, sushiPools, zipPools } from "src/helpers/AllExternalPools";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { ExternalPool } from "src/lib/ExternalPool";
@@ -15,6 +15,7 @@ import { NetworkId } from "src/networkDetails";
 import {
   BeetsPoolAPY,
   JoePoolAPY,
+  JonesPoolAPY,
   SpiritPoolAPY,
   SushiPoolAPY,
   ZipPoolAPY,
@@ -133,6 +134,9 @@ const GetOhm: FC = () => {
         {zipPools.map((pool, index) => (
           <ZipPools key={index} pool={pool} />
         ))}
+        {jonesPools.map((pool, index) => (
+          <JonesPools key={index} pool={pool} />
+        ))}
 
         <Typography variant="h6" className={classes.title}>
           Vaults
@@ -197,6 +201,14 @@ const GetOhm: FC = () => {
           external
           disableFlip
         />
+        <ItemCard
+          tokens={["IMPERMAX"]}
+          title={t`Borrow on Impermax`}
+          networkName="ARBITRUM"
+          href={`https://arbitrum.impermax.finance/lending-pool/0x6d94f7e67c6ae0b0257c35754e059fdfb249d998`}
+          external
+          disableFlip
+        />
       </Box>
     </Fade>
   );
@@ -229,6 +241,12 @@ const BeetsPools: React.FC<{ pool: ExternalPool }> = props => {
 const ZipPools: React.FC<{ pool: ExternalPool }> = props => {
   const { data: totalValueLocked } = useStakePoolTVL(props.pool);
   const { apy } = ZipPoolAPY(props.pool);
+  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
+};
+
+const JonesPools: React.FC<{ pool: ExternalPool }> = props => {
+  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+  const { apy } = JonesPoolAPY(props.pool);
   return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
 };
 

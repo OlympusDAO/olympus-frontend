@@ -22,7 +22,8 @@ const DECIMAL_PLACES_SHOWN = 4;
 const hasVisibleBalance = (balance?: DecimalBigNumber) =>
   balance && balance.toApproxNumber() > 9 / Math.pow(10, DECIMAL_PLACES_SHOWN + 1);
 
-const formatBalance = (balance?: DecimalBigNumber) => balance?.toFormattedString(DECIMAL_PLACES_SHOWN);
+const formatBalance = (balance?: DecimalBigNumber) =>
+  balance?.toString({ decimals: DECIMAL_PLACES_SHOWN, trim: false, format: true });
 
 export const StakeBalances = () => {
   const networks = useTestableNetworks();
@@ -61,7 +62,7 @@ export const StakeBalances = () => {
     .filter(nonNullable)
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
-  const totalStakedBalance = currentIndex && formatBalance(totalGohmBalance.mul(currentIndex, 9).add(totalSohmBalance));
+  const totalStakedBalance = currentIndex && formatBalance(totalGohmBalance.mul(currentIndex).add(totalSohmBalance));
 
   const allBalancesLoaded = sohmTokens.every(Boolean) && gohmTokens.every(Boolean);
 

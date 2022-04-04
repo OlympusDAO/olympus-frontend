@@ -54,7 +54,7 @@ export const StakeNextRebaseAmount = () => {
   const props: PropsOf<typeof DataRow> = { title: t`Next Reward Amount` };
 
   if (rebaseRate && sohmBalances && totalGohmBalance && currentIndex) {
-    const nextRewardAmount = rebaseRate * totalGohmBalance.mul(currentIndex, 9).add(totalSohmBalance).toApproxNumber();
+    const nextRewardAmount = rebaseRate * totalGohmBalance.mul(currentIndex).add(totalSohmBalance).toApproxNumber();
     props.balance = `${formatNumber(nextRewardAmount, 4)} sOHM`;
   } else props.isLoading = true;
 

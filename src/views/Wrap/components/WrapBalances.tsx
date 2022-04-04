@@ -24,12 +24,12 @@ export const WrapBalances = () => {
         <DataRow
           isLoading={!wsohmAvax}
           title={t`wsOHM Balance (Avalanche)`}
-          balance={wsohmAvax?.toFormattedString(4) + ` wsOHM`}
+          balance={wsohmAvax?.toString({ decimals: 4, trim: false, format: true }) + ` wsOHM`}
         />
         <DataRow
           isLoading={!gohmAvax}
           title={t`gOHM Balance (Avalanche)`}
-          balance={gohmAvax?.toFormattedString(4) + ` gOHM`}
+          balance={gohmAvax?.toString({ decimals: 4, trim: false, format: true }) + ` gOHM`}
         />
       </>
     );
@@ -40,20 +40,28 @@ export const WrapBalances = () => {
         <DataRow
           isLoading={!wsohmArb}
           title={t`wsOHM Balance (Arbitrum)`}
-          balance={wsohmArb?.toFormattedString(4) + ` wsOHM`}
+          balance={wsohmArb?.toString({ decimals: 4, trim: false, format: true }) + ` wsOHM`}
         />
         <DataRow
           isLoading={!gohmArb}
           title={t`gOHM Balance (Arbitrum)`}
-          balance={gohmArb?.toFormattedString(4) + ` gOHM`}
+          balance={gohmArb?.toString({ decimals: 4, trim: false, format: true }) + ` gOHM`}
         />
       </>
     );
 
   return (
     <>
-      <DataRow title={t`sOHM Balance`} isLoading={!sohmBalance} balance={sohmBalance?.toFormattedString(4) + ` sOHM`} />
-      <DataRow title={t`gOHM Balance`} isLoading={!gohmMainnet} balance={gohmMainnet?.toFormattedString(4) + ` gOHM`} />
+      <DataRow
+        title={t`sOHM Balance`}
+        isLoading={!sohmBalance}
+        balance={sohmBalance?.toString({ decimals: 4, trim: false, format: true }) + ` sOHM`}
+      />
+      <DataRow
+        title={t`gOHM Balance`}
+        isLoading={!gohmMainnet}
+        balance={gohmMainnet?.toString({ decimals: 4, trim: false, format: true }) + ` gOHM`}
+      />
     </>
   );
 };

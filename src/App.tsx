@@ -35,9 +35,11 @@ import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { multifarmLightTheme, multifarmDarkTheme } from "./themes/multifarm";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
+import grantData from "src/views/Give/grants.json";
 import projectData from "src/views/Give/projects.json";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
+import GrantInfo from "./views/Give/GrantInfo";
 import ProjectInfo from "./views/Give/ProjectInfo";
 import { trackGAEvent } from "./helpers/analytics";
 import Wallet from "./components/TopBar/Wallet";
@@ -94,7 +96,6 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [theme, toggleTheme] = useTheme();
-  const currentPath = location.pathname + location.hash + location.search;
   const trimmedPath = location.pathname + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -114,6 +115,7 @@ function App() {
 
   const [walletChecked, setWalletChecked] = useState(false);
 
+  const { grants } = grantData;
   const { projects } = projectData;
 
   // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
@@ -292,11 +294,7 @@ function App() {
     setIsSidebarExpanded(false);
   };
 
-  let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
-
-  useEffect(() => {
-    themeMode = theme === "light" ? lightTheme : darkTheme;
-  }, [theme]);
+  const themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
@@ -388,12 +386,26 @@ function App() {
                 })}
               </Route>
 
-              <Route exact path="/give/donations">
+              <Route exact path="/give/grants">
                 <Give selectedIndex={1} />
               </Route>
 
-              <Route exact path="/give/redeem">
+              <Route path="/give/grants">
+                {grants.map(grant => {
+                  return (
+                    <Route exact key={grant.slug} path={`/give/grants/${grant.slug}`}>
+                      <GrantInfo grant={grant} />
+                    </Route>
+                  );
+                })}
+              </Route>
+
+              <Route exact path="/give/donations">
                 <Give selectedIndex={2} />
+              </Route>
+
+              <Route exact path="/give/redeem">
+                <Give selectedIndex={3} />
               </Route>
 
               <Route path="/wrap">
