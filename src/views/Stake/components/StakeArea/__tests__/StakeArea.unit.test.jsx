@@ -67,6 +67,6 @@ describe("<StakeArea/> Connected with Approval", () => {
     fireEvent.click(await screen.findByRole("checkbox"));
     expect(screen.getByText("Stake to gOHM")).toBeInTheDocument();
     fireEvent.input(await screen.findByRole("textbox"), { target: { value: "2" } });
-    expect(screen.getByText("Stake 2.0 OHM → 0.2 gOHM")).toBeInTheDocument();
+    expect(screen.getByText("Stake 2 OHM → 0.2 gOHM")).toBeInTheDocument();
   });
 });
