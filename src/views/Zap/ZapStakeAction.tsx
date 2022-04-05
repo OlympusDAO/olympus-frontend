@@ -19,8 +19,11 @@ import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useAppSelector, useWeb3Context } from "src/hooks";
+import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
 import { changeZapTokenAllowance, executeZap, getZapTokenAllowance, zapNetworkCheck } from "src/slices/ZapSlice";
 
@@ -39,6 +42,11 @@ const DISABLE_ZAPS = false;
 const iconStyle = { height: "24px", width: "24px", zIndex: 1 };
 const viewBox = "-8 -12 48 48";
 const buttonIconStyle = { height: "16px", width: "16px", marginInline: "6px" };
+
+const DECIMAL_PLACES_SHOWN = 2;
+
+const formatBalance = (balance?: DecimalBigNumber) =>
+  balance?.toString({ decimals: DECIMAL_PLACES_SHOWN, trim: false, format: true });
 
 const useStyles = makeStyles(theme => ({
   ApprovedButton: {
@@ -132,8 +140,9 @@ const ZapStakeAction: React.FC = () => {
 
   const ohmMarketPrice = useAppSelector(state => state.app.marketPrice || 0);
 
-  const sOhmBalance = useAppSelector(state => Number(state.account?.balances?.sohm ?? 0.0));
-  const gOhmBalance = useAppSelector(state => Number(state.account?.balances?.gohm ?? 0.0));
+  const networks = useTestableNetworks();
+  const sOhmBalance = useSohmBalance()[networks.MAINNET].data;
+  const gOhmBalance = useGohmBalance()[networks.MAINNET].data;
   const currentIndex = Number(useCurrentIndex().data?.toBigNumber().div(1e9));
 
   const exchangeRate = useMemo(
@@ -379,9 +388,9 @@ const ZapStakeAction: React.FC = () => {
                       </ButtonBase>
                     </Box>
                     <Box flexDirection="row" display="flex" alignItems="center">
-                      <Typography color="textSecondary">{`Balance ${trim(
+                      {/* TODO handle DecimalBigNumber */}
+                      <Typography color="textSecondary">{`Balance ${formatBalance(
                         outputToken ? gOhmBalance : sOhmBalance,
-                        2,
                       )}`}</Typography>
                     </Box>
                   </Box>
