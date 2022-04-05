@@ -73,7 +73,7 @@ export const ClaimBonds = () => {
             disabled={claimBondsMutation.isLoading}
             onClick={() => claimBondsMutation.mutate({ isPayoutGohm })}
           >
-            {claimBondsMutation.isLoading && typeof claimBondsMutation.variables?.id === "undefined"
+            {claimBondsMutation.isLoading && claimBondsMutation.variables?.id === "undefined"
               ? t`Claiming all...`
               : t`Claim All`}
           </PrimaryButton>

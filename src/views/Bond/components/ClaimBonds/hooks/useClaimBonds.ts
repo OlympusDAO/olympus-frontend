@@ -19,7 +19,12 @@ export const useClaimBonds = () => {
   return useMutation<ContractReceipt, Error, { id?: string; isPayoutGohm: boolean }>(
     async ({ id, isPayoutGohm }) => {
       if (!provider) throw new Error(t`Please connect a wallet to claim bonds`);
-      if (networkId !== networks.MAINNET) throw new Error(t`Please switch to the Ethereum network to claim bonds`);
+      if (networkId !== networks.MAINNET)
+        throw new Error(
+          typeof id === "undefined"
+            ? t`Please switch to the Ethereum network to claim all bonds`
+            : t`Please switch to the Ethereum network to claim this bond`,
+        );
       if (!isValidAddress(address)) throw new Error(t`Invalid address`);
 
       const signer = provider.getSigner();
@@ -37,14 +42,16 @@ export const useClaimBonds = () => {
       onError: error => {
         dispatch(createErrorToast(error.message));
       },
-      onSuccess: async () => {
+      onSuccess: async (_, { id }) => {
         const keysToRefetch = [bondNotesQueryKey(networks.MAINNET, address)];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
 
         await Promise.all(promises);
 
-        dispatch(createInfoToast(t`Claimed bond successfully`));
+        dispatch(
+          createInfoToast(typeof id === "undefined" ? t`Claimed all bonds successfully` : t`Claimed bond successfully`),
+        );
       },
     },
   );
