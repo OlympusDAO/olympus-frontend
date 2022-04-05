@@ -10,6 +10,7 @@ import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { bondNotesQueryKey } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { Bond } from "src/views/Bond/hooks/useBonds";
 
 export const usePurchaseBond = (bond: Bond) => {
@@ -60,8 +61,7 @@ export const usePurchaseBond = (bond: Bond) => {
       const depository = contract.getEthersContract(networks.MAINNET).connect(signer);
 
       const _slippage = slippage.div(new DecimalBigNumber("100")).add(new DecimalBigNumber("1"));
-      const _maxPrice = bond.price.inBaseToken.mul(_slippage);
-      const maxPrice = new DecimalBigNumber(_maxPrice.toString(), bond.baseToken.decimals);
+      const maxPrice = new DecimalBigNumber(bond.price.inBaseToken.mul(_slippage).toString(), bond.baseToken.decimals);
 
       const transaction = await depository.deposit(
         bond.id,
@@ -78,7 +78,10 @@ export const usePurchaseBond = (bond: Bond) => {
         dispatch(createErrorToast(error.message));
       },
       onSuccess: async () => {
-        const keysToRefetch = [balanceQueryKey(address, bond.quoteToken.addresses, networks.MAINNET)];
+        const keysToRefetch = [
+          bondNotesQueryKey(networks.MAINNET, address),
+          balanceQueryKey(address, bond.quoteToken.addresses, networks.MAINNET),
+        ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
 

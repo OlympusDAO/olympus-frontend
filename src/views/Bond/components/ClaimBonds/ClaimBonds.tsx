@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import {
   Box,
   Tab,
@@ -20,10 +20,12 @@ import { useScreenSize } from "src/hooks/useScreenSize";
 
 import { BondDuration } from "../BondDuration";
 import { useBondNotes } from "./hooks/useBondNotes";
+import { useClaimBonds } from "./hooks/useClaimBonds";
 
 export const ClaimBonds = () => {
   const notes = useBondNotes().data;
   const isSmallScreen = useScreenSize("sm");
+  const claimBondsMutation = useClaimBonds();
   const currentIndex = useCurrentIndex().data;
   const [isPayoutGohm, setIsPayoutGohm] = useState(false);
 
@@ -54,7 +56,7 @@ export const ClaimBonds = () => {
       <Box display="flex" justifyContent="center">
         <Box display="flex" flexDirection="column" alignItems="center" mt="24px" width="50%">
           <Typography variant="h5" align="center" color="textSecondary" style={{ fontSize: "1.2rem" }}>
-            Claimable Balance
+            <Trans>Claimable Balance</Trans>
           </Typography>
 
           <Box mt="4px" mb="8px">
@@ -65,8 +67,15 @@ export const ClaimBonds = () => {
             </Typography>
           </Box>
 
-          <PrimaryButton className="" fullWidth>
-            Claim All
+          <PrimaryButton
+            fullWidth
+            className=""
+            disabled={claimBondsMutation.isLoading}
+            onClick={() => claimBondsMutation.mutate({ isPayoutGohm })}
+          >
+            {claimBondsMutation.isLoading && typeof claimBondsMutation.variables?.id === "undefined"
+              ? t`Claiming all...`
+              : t`Claim All`}
           </PrimaryButton>
         </Box>
       </Box>
@@ -118,7 +127,7 @@ export const ClaimBonds = () => {
                       {Date.now() > note.matured ? (
                         "Fully Vested"
                       ) : (
-                        <BondDuration duration={note.matured - Date.now()} />
+                        <BondDuration duration={(note.matured - Date.now()) / 1000} />
                       )}
                     </TableCell>
 
@@ -129,7 +138,15 @@ export const ClaimBonds = () => {
                     </TableCell>
 
                     <TableCell style={{ padding: "8px 0" }}>
-                      <TertiaryButton fullWidth>Claim</TertiaryButton>
+                      <TertiaryButton
+                        fullWidth
+                        disabled={Date.now() < note.matured || claimBondsMutation.isLoading}
+                        onClick={() => claimBondsMutation.mutate({ id: note.id, isPayoutGohm })}
+                      >
+                        {claimBondsMutation.isLoading && claimBondsMutation.variables?.id === note.id
+                          ? t`Claiming...`
+                          : t`Claim`}
+                      </TertiaryButton>
                     </TableCell>
                   </TableRow>
                 ))}
