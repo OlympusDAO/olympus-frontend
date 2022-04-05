@@ -4,11 +4,11 @@ import { addresses, NetworkId } from "src/constants";
 import { GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { setAll } from "src/helpers";
 import { ZapHelper } from "src/helpers/ZapHelper";
-import { IERC20__factory, Zap__factory } from "src/typechain";
+import { Zap__factory } from "src/typechain";
 
 import { trackGAEvent } from "../helpers/analytics";
 import { getBalances } from "./AccountSlice";
-import { IActionValueAsyncThunk, IValueAsyncThunk, IZapAsyncThunk } from "./interfaces";
+import { IZapAsyncThunk } from "./interfaces";
 import { error, info } from "./MessagesSlice";
 interface IUAData {
   address: string;
@@ -24,71 +24,11 @@ interface IUADataZap {
   slippage: string;
   approved: boolean;
 }
-export const getZapTokenAllowance = createAsyncThunk(
-  "zap/getZapTokenAllowance",
-  async ({ address, value, provider, networkID }: IValueAsyncThunk, { dispatch }) => {
-    if (value === ethers.constants.AddressZero) {
-      return { eth: ethers.constants.MaxUint256 };
-    }
-    try {
-      const tokenContract = IERC20__factory.connect(value, provider);
-      const allowance = await tokenContract.allowance(address, addresses[networkID].ZAP);
-      const symbol = await tokenContract.symbol();
-      return Object.fromEntries([[symbol.toLowerCase(), allowance]]);
-    } catch (e: unknown) {
-      console.error(e);
-      dispatch(error("An error has occurred when fetching token allowance."));
-      throw e;
-    }
-  },
-);
 
 export const zapNetworkCheck = createAsyncThunk(
   "zap/zapNetworkCheck",
   async ({ networkID }: { networkID: NetworkId }, { dispatch }) => {
     zapNetworkAvailable(networkID, dispatch);
-  },
-);
-
-export const changeZapTokenAllowance = createAsyncThunk(
-  "zap/changeZapTokenAllowance",
-  async ({ address, value, provider, action, networkID }: IActionValueAsyncThunk, { dispatch }) => {
-    try {
-      const signer = provider.getSigner();
-      const tokenContract = IERC20__factory.connect(value, signer);
-      const tx = await tokenContract.approve(addresses[networkID].ZAP, ethers.constants.MaxUint256);
-      await tx.wait();
-
-      const uaData: IUAData = {
-        address: address,
-        value: value,
-        approved: true,
-        type: "Zap Approval Request Success",
-      };
-      trackGAEvent({
-        category: "OlyZaps",
-        action: uaData.type,
-        metric1: parseFloat(uaData.value),
-      });
-      dispatch(info("Successfully approved token!"));
-      return Object.fromEntries([[action, BigNumber.from(ethers.constants.MaxUint256)]]);
-    } catch (e: unknown) {
-      const rpcError = e as any;
-      const uaData: IUAData = {
-        address: address,
-        value: value,
-        approved: false,
-        type: "Zap Approval Request Failure",
-      };
-      trackGAEvent({
-        category: "OlyZaps",
-        action: uaData.type,
-        metric1: parseFloat(uaData.value),
-      });
-      console.error(e);
-      dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
-      throw e;
-    }
   },
 );
 
@@ -208,28 +148,6 @@ const zapTokenBalancesSlice = createSlice({
 
   extraReducers: builder => {
     builder
-      .addCase(changeZapTokenAllowance.pending, state => {
-        state.changeAllowanceLoading = true;
-      })
-      .addCase(changeZapTokenAllowance.fulfilled, (state, action) => {
-        if (!action.payload) return;
-        setAll(state.allowances, action.payload);
-        state.changeAllowanceLoading = false;
-      })
-      .addCase(changeZapTokenAllowance.rejected, (state, { error }) => {
-        state.changeAllowanceLoading = false;
-        console.error("Handled error");
-        console.error(error.message);
-      })
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      .addCase(getZapTokenAllowance.pending, () => {})
-      .addCase(getZapTokenAllowance.fulfilled, (state, action) => {
-        if (!action.payload) return;
-        setAll(state.allowances, action.payload);
-      })
-      .addCase(getZapTokenAllowance.rejected, (state, { error }) => {
-        console.error(error.message);
-      })
       .addCase(executeZap.pending, state => {
         state.stakeLoading = true;
       })

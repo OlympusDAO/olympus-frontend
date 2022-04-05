@@ -18,14 +18,18 @@ import { Icon, Token } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useApproveToken } from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
+import { NetworkId } from "src/constants";
+import { ZAP_ADDRESSES } from "src/constants/addresses";
 import { trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useAppSelector, useWeb3Context } from "src/hooks";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
+import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
-import { changeZapTokenAllowance, executeZap, getZapTokenAllowance, zapNetworkCheck } from "src/slices/ZapSlice";
+import { executeZap, zapNetworkCheck } from "src/slices/ZapSlice";
 
 import { ReactComponent as DownIcon } from "../../assets/icons/arrow-down.svg";
 import { ReactComponent as ZapperIcon } from "../../assets/icons/powered-by-zapper.svg";
@@ -68,7 +72,6 @@ const ZapStakeAction: React.FC = () => {
   const zapTokenBalances = useZapTokenBalances();
   const tokens = zapTokenBalances.data?.balances;
 
-  const isChangeAllowanceLoading = useAppSelector(state => state.zap.changeAllowanceLoading);
   const isExecuteZapLoading = useAppSelector(state => state.zap.stakeLoading);
 
   const [outputToken, setOutputToken] = useState<boolean | null>(null);
@@ -145,6 +148,7 @@ const ZapStakeAction: React.FC = () => {
   const gOhmBalance = useGohmBalance()[networks.MAINNET].data;
   const currentIndex = Number(useCurrentIndex().data?.toBigNumber().div(1e9));
 
+  // TODO use DecimalBigNumber
   const exchangeRate = useMemo(
     () =>
       zapToken && outputToken != null && tokens
@@ -193,42 +197,26 @@ const ZapStakeAction: React.FC = () => {
       return [];
     }
   }, [tokens]);
-  const currentTokenAllowance = useAppSelector(state => state.zap.allowances[zapToken ?? ""]?.gt(BigNumber.from(0)));
-  const checkTokenAllowance = (tokenAddress: string, tokenSymbol: string) => {
-    if (tokenAddress && tokenSymbol) {
-      if (currentTokenAllowance == null) {
-        dispatch(getZapTokenAllowance({ value: tokenAddress, address, networkID: networkId, provider }));
-      } else {
-        return currentTokenAllowance;
-      }
-    } else {
-      return false;
-    }
-  };
 
-  const isTokenAllowanceFetched = currentTokenAllowance != null;
+  const { data: tokenAllowance } = useContractAllowance(
+    tokens && zapToken ? { [NetworkId.MAINNET]: tokens[zapToken].address } : { [NetworkId.MAINNET]: "0" },
+    ZAP_ADDRESSES,
+  );
 
-  const initialTokenAllowance = useMemo(() => {
-    if (zapToken && tokens) {
-      return checkTokenAllowance(tokens[zapToken]?.address, zapToken);
-    }
-  }, [zapToken, isTokenAllowanceFetched]);
+  /**
+   * Indicates whether there is currently a token allowed for the selected token, `zapToken`
+   */
+  const hasTokenAllowance = useMemo(() => {
+    return tokenAllowance && tokenAllowance.gt(BigNumber.from(0));
+  }, [tokenAllowance]);
 
-  const isAllowanceTxSuccess =
-    initialTokenAllowance != currentTokenAllowance && initialTokenAllowance != null && currentTokenAllowance != null;
+  const approveMutation = useApproveToken(
+    tokens && zapToken ? { [NetworkId.MAINNET]: tokens[zapToken].address } : { [NetworkId.MAINNET]: "0" },
+    ZAP_ADDRESSES,
+  );
 
   const onSeekApproval = async () => {
-    if (zapToken && tokens) {
-      dispatch(
-        changeZapTokenAllowance({
-          address,
-          value: tokens[zapToken]?.address,
-          provider,
-          action: zapToken,
-          networkID: networkId,
-        }),
-      );
-    }
+    approveMutation.mutate();
   };
 
   const downIcon = <SvgIcon component={DownIcon} viewBox={viewBox} style={iconStyle}></SvgIcon>;
@@ -445,7 +433,7 @@ const ZapStakeAction: React.FC = () => {
           {trim(Number(outputQuantity) * (1 - +customSlippage / 100), 2)} {outputToken ? "gOHM" : "sOHM"}
         </Typography>
       </Box>
-      {initialTokenAllowance ? (
+      {hasTokenAllowance ? (
         <Button
           fullWidth
           className="zap-stake-button"
@@ -483,16 +471,15 @@ const ZapStakeAction: React.FC = () => {
                 zapToken == null ||
                 outputToken == null ||
                 zapTokenBalances.isLoading ||
-                isAllowanceTxSuccess ||
-                isChangeAllowanceLoading ||
+                approveMutation.isLoading ||
                 DISABLE_ZAPS
               }
               onClick={onSeekApproval}
-              classes={isAllowanceTxSuccess ? { disabled: classes.ApprovedButton } : {}}
+              classes={approveMutation.isSuccess ? { disabled: classes.ApprovedButton } : {}}
             >
               {/* {txnButtonText(pendingTransactions, approveTxnName, "Approve")} */}
               <Box display="flex" flexDirection="row">
-                {isAllowanceTxSuccess ? (
+                {approveMutation.isSuccess ? (
                   <>
                     <SvgIcon component={CompleteStepIcon} style={buttonIconStyle} viewBox={"0 0 18 18"} />
                     <Typography classes={{ root: classes.ApprovedText }}>
@@ -503,7 +490,7 @@ const ZapStakeAction: React.FC = () => {
                   <>
                     <SvgIcon component={FirstStepIcon} style={buttonIconStyle} viewBox={"0 0 16 16"} />
                     <Typography>
-                      {isChangeAllowanceLoading ? <Trans>Pending...</Trans> : <Trans>Approve</Trans>}
+                      {approveMutation.isLoading ? <Trans>Pending...</Trans> : <Trans>Approve</Trans>}
                     </Typography>
                   </>
                 )}
@@ -517,7 +504,7 @@ const ZapStakeAction: React.FC = () => {
               variant="contained"
               color="primary"
               disabled={
-                !currentTokenAllowance ||
+                !hasTokenAllowance ||
                 isExecuteZapLoading ||
                 outputQuantity === "" ||
                 (+outputQuantity < 0.5 && !outputToken) ||
