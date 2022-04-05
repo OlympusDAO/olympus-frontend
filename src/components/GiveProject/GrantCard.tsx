@@ -16,7 +16,8 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { ProgressBar, Step } from "react-step-progress-bar";
 import { NetworkId } from "src/constants";
-import { EnvHelper } from "src/helpers/Environment";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { GetCorrectContractUnits } from "src/helpers/GetCorrectUnits";
 import { getTotalDonated } from "src/helpers/GetTotalDonated";
 import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
@@ -60,39 +61,27 @@ type State = {
   app: IAppData;
 };
 
+const ZERO_DBN = new DecimalBigNumber("0");
+
 export default function GrantCard({ grant, giveAssetType, changeAssetType, mode }: GrantDetailsProps) {
   const location = useLocation();
   const { provider, address, connected, connect, networkId } = useWeb3Context();
-  const {
-    title,
-    owner,
-    shortDescription,
-    details,
-    finishDate,
-    photos,
-    wallet,
-    depositGoal,
-    milestones,
-    latestMilestoneCompleted,
-  } = grant;
-  const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
+  const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
+  const [, setRecipientInfoIsLoading] = useState(true);
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
-  const [totalDebt, setTotalDebt] = useState("");
-  const [totalDonated, setTotalDonated] = useState("");
+  const [, setTotalDebt] = useState(new DecimalBigNumber("0"));
+  const [, setTotalDonated] = useState(new DecimalBigNumber("0"));
   const [donorCount, setDonorCount] = useState(0);
   const [isUserDonating, setIsUserDonating] = useState(false);
+  const [donationId, setDonationId] = useState(-1);
 
   const { data: currentIndex } = useCurrentIndex();
-
-  // We use an initial value of -1 rather than 0 because 0 could be a valid donation ID whereas
-  // -1 could not be, makes it simple to check if this has been loaded and changed
-  const [donationId, setDonationId] = useState(-1);
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
 
   const donationInfo = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
@@ -103,16 +92,6 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
-
-  const svgFillColour: string = theme.palette.type === "light" ? "black" : "white";
-
-  // Resets the viewport to the top of the page when pathnames change rather than
-  // preserving vertical position of the page you are coming from
-  useEffect(() => {
-    const item = document.getElementById("outer-container");
-    item?.scrollIntoView();
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
 
   useEffect(() => {
     // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
@@ -174,7 +153,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
         break;
       }
     }
-  }, [donationInfo, location.pathname]);
+  }, [donationInfo]);
 
   // Reset donation states when user switches network
   useEffect(() => {
@@ -258,8 +237,14 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
             <div key={`milestone-${index}`}>
               <Typography variant="h6">{t`Milestone ${index + 1}: ${new BigNumber(value.amount).toFormat(
                 0,
-              )} ${giveAssetType}`}</Typography>
-              <div dangerouslySetInnerHTML={{ __html: MarkdownIt({ html: true }).render(value.description) }} />
+              )} sOHM`}</Typography>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: MarkdownIt({ html: true }).render(
+                    value.description ? value.description : "No milestone information.",
+                  ),
+                }}
+              />
             </div>
           );
         })}
@@ -274,7 +259,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
 
     return (
       <>
-        <Grid container className="grant-data" spacing={3} alignItems="flex-end">
+        <Grid container spacing={3} alignItems="flex-end">
           <Grid item xs={5}>
             <Grid container direction="column" alignItems="flex-start">
               <Grid item>
@@ -283,7 +268,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                     <Icon name="donors" />
                   </Grid>
                   <Grid item className="metric">
-                    {donorCountIsLoading ? <Skeleton /> : donorCount}
+                    {donorCountIsLoading ? <Skeleton className="skeleton-inline" /> : donorCount}
                   </Grid>
                 </Grid>
               </Grid>
@@ -319,21 +304,26 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   };
 
   const getProjectImage = (): JSX.Element => {
+    let imageElement;
     // We return an empty image with a set width, so that the spacing remains the same.
-    if (!photos || photos.length < 1)
-      return (
-        <div className="grant-image">
-          <img height="100%" src="" />
-        </div>
-      );
-
+    if (!photos || photos.length < 1) {
+      imageElement = <img height="100%" src="" />;
+    }
     // For the moment, we only display the first photo
-    return (
-      <div className="grant-image">
+    else {
+      imageElement = (
         <Link href={`#/give/grants/${grant.slug}`} onClick={() => handleGrantDetailsButtonClick("Image")}>
           <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
         </Link>
-      </div>
+      );
+    }
+
+    return (
+      <Grid container alignContent="center" style={{ maxHeight: "184px", overflow: "hidden", borderRadius: "16px" }}>
+        <Grid item xs>
+          {imageElement}
+        </Grid>
+      </Grid>
     );
   };
 
@@ -348,20 +338,19 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   const handleGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
     eventSource: string,
-    depositAmount: BigNumber,
+    depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.isEqualTo(new BigNumber(0))) {
+    if (depositAmount.eq(ZERO_DBN)) {
       return dispatch(error(t`Please enter a value!`));
     }
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
-    // We use an ID of -1 to indicate that this is a new deposit
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE,
-          value: depositAmount.toFixed(),
+          value: depositAmount.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -375,9 +364,9 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       await dispatch(
         changeGive({
           action: ACTION_GIVE,
-          value: depositAmount.toFixed(),
-          token: giveAssetType,
+          value: depositAmount.toString(),
           recipient: walletAddress,
+          token: giveAssetType,
           id: NEW_DEPOSIT,
           provider,
           address,
@@ -411,15 +400,15 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
+    if (depositAmountDiff.eq(ZERO_DBN)) return;
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
+          value: depositAmountDiff.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -433,7 +422,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       await dispatch(
         changeGive({
           action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
+          value: depositAmountDiff.toString(),
           token: giveAssetType,
           recipient: walletAddress,
           id: depositId,
@@ -460,15 +449,13 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       return dispatch(error(t`No wallet set or user is not donating to this recipient`));
     }
 
-    const bnDeposit = new BigNumber(depositAmount);
-
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: bnDeposit.toFixed(),
+          value: depositAmount.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -482,7 +469,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       await dispatch(
         changeGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: bnDeposit.toFixed(),
+          value: depositAmount.toString(),
           token: giveAssetType,
           recipient: walletAddress,
           id: depositId,
@@ -531,6 +518,12 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   };
 
   const getCardContent = () => {
+    /**
+     * NOTE: We want the project title to be positioned above the image when the breakpoint < "lg",
+     * but to the right of the image when the breakpoint = "lg". There was no clear way to do this
+     * using the Grid (flexbox) component, so we check for the breakpoint manually and show/hide
+     * accordingly. Happy to be proven wrong.
+     */
     return (
       <>
         <Box style={{ width: "100%", borderRadius: "10px", marginBottom: "60px" }}>
@@ -546,9 +539,10 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
             ) : (
               <></>
             )}
-            <Grid item xs={12} md={5} lg={4}>
+            <Grid item xs={12} sm={5} lg={4}>
               {getProjectImage()}
             </Grid>
+            {/* We shove the title, details and buttons into another container, so they move together in relation to the image. */}
             <Grid item container xs alignContent="space-between">
               {isBreakpointLarge ? (
                 <Grid item xs={12}>
@@ -574,7 +568,6 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                 <Grid item xs={12} lg={4}>
                   <Link
                     href={`#/give/grants/${grant.slug}`}
-                    className="cause-link"
                     onClick={() => handleGrantDetailsButtonClick("View Details Button")}
                   >
                     <PrimaryButton fullWidth>
@@ -603,8 +596,8 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   const getPageContent = () => {
     return (
       <>
-        <Container id="outer-container">
-          <Grid container className="project" spacing={3} alignItems="flex-start">
+        <Container>
+          <Grid container spacing={3} alignItems="flex-start">
             <Grid container item xs={12} lg={5}>
               <Grid item xs={12}>
                 <Paper
@@ -612,11 +605,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                     <Grid container spacing={2} alignItems="center">
                       <Grid item>
                         <Link href={"#/give/grants"}>
-                          <ChevronLeft
-                            className="back-to-causes"
-                            viewBox="6 6 12 12"
-                            style={{ width: "12px", height: "12px" }}
-                          />
+                          <ChevronLeft viewBox="6 6 12 12" style={{ width: "12px", height: "12px" }} />
                         </Link>
                       </Grid>
                       <Grid item>
@@ -624,9 +613,10 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                       </Grid>
                     </Grid>
                   }
+                  fullWidth
                 >
                   <Grid container spacing={2}>
-                    <Grid item xs={12} md={4} lg={12}>
+                    <Grid item xs={12} sm={6} lg={12}>
                       {getProjectImage()}
                     </Grid>
                     <Grid item container xs>
@@ -658,8 +648,8 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                 {!isUserDonating ? (
                   <></>
                 ) : (
-                  <Paper headerText={t`Your Donations`}>
-                    <Grid container alignItems="flex-end" className="grant-data">
+                  <Paper headerText={t`Your Donations`} fullWidth>
+                    <Grid container alignItems="flex-end">
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="flex-start">
                           <Grid item container justifyContent="flex-start" alignItems="center" spacing={1}>
@@ -718,16 +708,19 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
             </Grid>
             <Grid container item xs={12} lg={7}>
               <Grid item xs={12}>
-                <Paper headerText="Milestones">{renderMilestoneDetails()}</Paper>
+                <Paper headerText="Milestones" fullWidth>
+                  {renderMilestoneDetails()}
+                </Paper>
               </Grid>
               <Grid item xs={12}>
                 <Paper
                   headerText="About"
                   topRight={
                     <Link href={grant.website} target="_blank">
-                      <Icon name="website" fill={svgFillColour} />
+                      <Icon name="website" />
                     </Link>
                   }
+                  fullWidth
                 >
                   <div className="project-content" dangerouslySetInnerHTML={getRenderedDetails(false)} />
                 </Paper>

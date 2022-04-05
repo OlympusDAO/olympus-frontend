@@ -2,14 +2,16 @@ import "./TopBar.scss";
 
 import { i18n } from "@lingui/core";
 import { t } from "@lingui/macro";
-import { AppBar, Box, Button, SvgIcon, Toolbar } from "@material-ui/core";
+import { AppBar, Box, Button, SvgIcon, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { LocaleSwitcher } from "@olympusdao/component-library";
+import { Link } from "react-router-dom";
+import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
+import { useWeb3Context } from "src/hooks";
 
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
 import { locales, selectLocale } from "../../locales";
 import ThemeSwitcher from "./ThemeSwitch";
-import Wallet from "./Wallet";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -38,6 +40,7 @@ interface TopBarProps {
 }
 
 function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
+  const { connected } = useWeb3Context();
   const classes = useStyles();
 
   return (
@@ -54,8 +57,13 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
         >
           <SvgIcon component={MenuIcon} />
         </Button>
-        <Box display="flex">
-          <Wallet />
+        <Box display="flex" alignItems="center">
+          <Link to="/wallet" style={{ marginRight: "0px" }}>
+            <Button variant="contained" color="secondary">
+              <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
+              <Typography>{connected ? t`Wallet` : t`Connect`}</Typography>
+            </Button>
+          </Link>
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
           <LocaleSwitcher
             initialLocale={i18n.locale}

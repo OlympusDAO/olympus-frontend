@@ -7,7 +7,7 @@ import { Token, TokenStack } from "@olympusdao/component-library";
 import React from "react";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { trackGAEvent, trackSegmentEvent } from "../../helpers/analytics";
+import { trackGAEvent } from "../../helpers/analytics";
 
 const useStyles = makeStyles(theme => ({
   infoBox: {
@@ -56,7 +56,7 @@ type ZapInfoProps = {
   address: string;
 };
 
-const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
+const ZapInfo: React.FC<ZapInfoProps> = ({ address }) => {
   const classes = useStyles();
 
   const trackClick = (address: string) => {
@@ -64,7 +64,6 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
       address,
       type: "Learn more OlyZaps",
     };
-    trackSegmentEvent(uaData);
     trackGAEvent({
       category: "OlyZaps",
       action: uaData.type,

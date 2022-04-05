@@ -1,7 +1,8 @@
-import "./Give.scss";
+import "./YieldRecipients.scss";
 
 import { t } from "@lingui/macro";
-import { Box, Divider, TableCell, TableRow, Tooltip, Typography } from "@material-ui/core";
+import { Grid, Tooltip, Typography } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { SecondaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
@@ -9,7 +10,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
-import { EnvHelper } from "src/helpers/Environment";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { GetCorrectContractUnits } from "src/helpers/GetCorrectUnits";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -35,6 +37,8 @@ interface DepositRowProps {
   changeAssetType: (checked: boolean) => void;
 }
 
+const ZERO_DBN = new DecimalBigNumber("0");
+
 export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType }: DepositRowProps) => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -42,8 +46,9 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
-  const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const { data: currentIndex } = useCurrentIndex();
 
@@ -51,17 +56,18 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     const project = projectMap.get(address);
     if (!project) return isMediumScreen || isSmallScreen ? "Custom" : "Custom Recipient";
 
-    if (!project.owner) return isSmallScreen ? project.title.substring(0, 9) + "..." : project.title;
+    if (!project.owner)
+      return isSmallScreen && project.title.length > 16 ? project.title.substring(0, 16) + "..." : project.title;
 
     return project.owner + " - " + project.title;
   };
 
   const getDeposit = () => {
-    return new BigNumber(GetCorrectContractUnits(depositObject.deposit, giveAssetType, currentIndex));
+    return GetCorrectContractUnits(depositObject.deposit, giveAssetType, currentIndex);
   };
 
   const getYieldDonated = () => {
-    return new BigNumber(GetCorrectContractUnits(depositObject.yieldDonated, giveAssetType, currentIndex));
+    return GetCorrectContractUnits(depositObject.yieldDonated, giveAssetType, currentIndex);
   };
 
   const handleManageModalCancel = () => {
@@ -79,15 +85,15 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
+    if (depositAmountDiff.eq(ZERO_DBN)) return;
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
+          value: depositAmountDiff.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -101,7 +107,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
       await dispatch(
         changeGive({
           action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
+          value: depositAmountDiff.toString(),
           token: giveAssetType,
           recipient: walletAddress,
           id: depositId,
@@ -127,11 +133,11 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     depositAmount,
   ) => {
     // Issue withdrawal from smart contract
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
+          value: depositAmount.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -145,7 +151,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
       await dispatch(
         changeGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
+          value: depositAmount.toString(),
           token: giveAssetType,
           recipient: walletAddress,
           id: depositId,
@@ -163,39 +169,34 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
   };
 
   return (
-    <Box>
-      <TableRow>
-        {!isSmallScreen && (
-          <TableCell align="left" className="deposit-date-cell">
-            <Typography variant="h6">{depositObject.date}</Typography>
-          </TableCell>
-        )}
-        <TableCell align="left" className="deposit-recipient-cell">
-          <Tooltip title={depositObject.recipient} arrow>
-            <Typography variant={isSmallScreen ? "body1" : "h6"}>
-              {getRecipientTitle(depositObject.recipient)}
-            </Typography>
-          </Tooltip>
-        </TableCell>
-        {!isSmallScreen && (
-          <TableCell align="right" className="deposit-deposited-cell">
-            <Typography variant="h6">
-              {getDeposit().toFixed(2)} {giveAssetType}
-            </Typography>
-          </TableCell>
-        )}
-        <TableCell align="right" className="deposit-yield-cell">
-          <Typography variant={isSmallScreen ? "body1" : "h6"}>
-            {getYieldDonated().toFixed(2)} {giveAssetType}
+    <Grid container alignItems="center" spacing={2}>
+      {!isSmallScreen && (
+        <Grid item xs={2}>
+          <Typography variant="body1">{depositObject.date}</Typography>
+        </Grid>
+      )}
+      <Grid item xs={4} sm={3}>
+        <Tooltip title={depositObject.recipient} arrow>
+          <Typography variant="body1">{getRecipientTitle(depositObject.recipient)}</Typography>
+        </Tooltip>
+      </Grid>
+      {!isSmallScreen && (
+        <Grid item xs={2} style={{ textAlign: "right" }}>
+          <Typography variant="body1">
+            {getDeposit().toString({ decimals: 2 })} {giveAssetType}
           </Typography>
-        </TableCell>
-        <TableCell align="right" className="deposit-manage-cell">
-          <SecondaryButton onClick={() => setIsManageModalOpen(true)} fullWidth>
-            Manage
-          </SecondaryButton>
-        </TableCell>
-      </TableRow>
-      <Divider />
+        </Grid>
+      )}
+      <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
+        <Typography variant="body1">
+          {getYieldDonated().toString({ decimals: 2 })} {giveAssetType}
+        </Typography>
+      </Grid>
+      <Grid item xs={4} sm={3} style={{ textAlign: "right" }}>
+        <SecondaryButton onClick={() => setIsManageModalOpen(true)} size="small" fullWidth>
+          Manage
+        </SecondaryButton>
+      </Grid>
 
       <ManageDonationModal
         isModalOpen={isManageModalOpen}
@@ -213,6 +214,6 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
         key={"manage-modal-" + depositObject.recipient}
         eventSource={"My Donations"}
       />
-    </Box>
+    </Grid>
   );
 };

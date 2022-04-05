@@ -2,7 +2,8 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
 import { AddressMap } from "src/constants/addresses";
-import { nonNullable, queryAssertion } from "src/helpers";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
+import { nonNullable } from "src/helpers/types/nonNullable";
 
 import { useWeb3Context } from ".";
 import { useDynamicTokenContract } from "./useContract";
@@ -18,10 +19,11 @@ export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressM
   const token = useDynamicTokenContract(tokenMap);
   const { address, networkId, connected } = useWeb3Context();
 
+  const key = contractAllowanceQueryKey(address, networkId, tokenMap, contractMap);
   return useQuery<BigNumber, Error>(
-    contractAllowanceQueryKey(address, networkId, tokenMap, contractMap),
+    key,
     async () => {
-      queryAssertion(address && networkId, contractAllowanceQueryKey(address, networkId, tokenMap, contractMap));
+      queryAssertion(address && networkId, key);
 
       if (!token) throw new Error("Token doesn't exist on current network");
 

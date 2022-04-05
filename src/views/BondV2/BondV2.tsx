@@ -1,7 +1,7 @@
 import "./Bond.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Fade, Grid, Typography } from "@material-ui/core";
+import { Box, Fade, Grid, makeStyles, Theme, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Modal, TokenStack } from "@olympusdao/component-library";
 import { ChangeEvent, Fragment, ReactElement, useEffect, useState } from "react";
@@ -18,10 +18,17 @@ import BondPurchase from "./BondPurchase";
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
-const BondV2 = ({ index }: { index: number }) => {
+const BondV2 = ({ index, inverseBond }: { index: number; inverseBond: boolean }) => {
   const history = useHistory();
 
-  const bond = useAppSelector(state => state.bondingV2.bonds[index]);
+  const bond = useAppSelector(state => {
+    if (inverseBond) {
+      return state.inverseBonds.bonds[index];
+    } else {
+      return state.bondingV2.bonds[index];
+    }
+  });
+
   const { provider, address, networkId } = useWeb3Context();
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
@@ -90,9 +97,11 @@ const BondV2 = ({ index }: { index: number }) => {
         >
           <>
             <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-              <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography>
+              <Typography>
+                {inverseBond ? "Instant Payout" : bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}
+              </Typography>
               <Typography style={{ marginTop: "3px" }}>
-                {bond.fixedTerm ? `${bond.duration}` : `${bond.expiration}`}
+                {inverseBond ? "" : bond.fixedTerm ? `${bond.duration}` : `${bond.expiration}`}
               </Typography>
             </Box>
             <Box display="flex" flexDirection="row" className="bond-price-data-row">
@@ -122,7 +131,12 @@ const BondV2 = ({ index }: { index: number }) => {
               </div>
             </Box>
 
-            <BondPurchase bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
+            <BondPurchase
+              bond={bond}
+              slippage={slippage}
+              recipientAddress={recipientAddress}
+              inverseBond={inverseBond}
+            />
           </>
         </Modal>
       </Grid>
@@ -147,13 +161,20 @@ export const DisplayBondPrice = ({ bond }: { bond: IBondV2 }): ReactElement => {
   );
 };
 
+const useStyles = makeStyles<Theme, { bondDiscount: number }>(theme => ({
+  pnl: {
+    color: ({ bondDiscount }) => (bondDiscount < 0 ? theme.colors.feedback.error : theme.colors.feedback.pnlGain),
+  },
+}));
+
 export const DisplayBondDiscount = ({ bond }: { bond: IBondV2 }): ReactElement => {
+  const classes = useStyles({ bondDiscount: bond.discount });
   if (typeof bond.discount === undefined || bond.soldOut) {
     return <Fragment>--</Fragment>;
   }
   return (
     <Fragment>
-      <span style={bond.discount < 0 ? { color: "red" } : {}}>{bond.discount && trim(bond.discount * 100, 2)}%</span>
+      <span className={classes.pnl}>{bond.discount && trim(bond.discount * 100, 2)}%</span>
     </Fragment>
   );
 };

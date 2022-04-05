@@ -1,23 +1,15 @@
+import "./YieldRecipients.scss";
+
 import { Trans } from "@lingui/macro";
-import {
-  Box,
-  Divider,
-  Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@material-ui/core";
+import { Divider, Grid, Typography, useTheme } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { TertiaryButton } from "@olympusdao/component-library";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { NetworkId } from "src/constants";
-import { EnvHelper } from "src/helpers/Environment";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { DonationInfoState, IButtonChangeView } from "src/views/Give/Interfaces";
 
@@ -32,11 +24,12 @@ type RecipientModalProps = {
 export default function YieldRecipients({ changeView, giveAssetType, changeAssetType }: RecipientModalProps) {
   const location = useLocation();
   const { networkId } = useWeb3Context();
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
   const donationInfo = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.donationInfo
       : state.account.giving && state.account.giving.donationInfo;
   });
@@ -50,72 +43,68 @@ export default function YieldRecipients({ changeView, giveAssetType, changeAsset
 
   if (!donationInfo || donationInfo.length == 0) {
     return (
-      <Box
-        className="no-donations"
-        style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px 40px 20px 40px" }}
-      >
-        <Typography variant="body1">
-          <Trans>Looks like you haven’t made any donations yet</Trans>
-        </Typography>
-        <TertiaryButton onClick={() => changeView(0)}>
-          <Trans>Donate to a cause</Trans>
-        </TertiaryButton>
+      <Box>
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item xs={12} container justifyContent="center">
+            <Typography variant="body1">
+              <Trans>Looks like you haven’t made any donations yet</Trans>
+            </Typography>
+          </Grid>
+          <Grid item xs={12} container justifyContent="center">
+            <TertiaryButton onClick={() => changeView(0)}>
+              <Trans>Donate to a cause</Trans>
+            </TertiaryButton>
+          </Grid>
+        </Grid>
       </Box>
     );
   }
 
   return (
-    <Grid container item className="card-content">
-      <TableContainer>
-        <Table className="donation-table">
-          <TableHead>
-            <TableRow>
-              {!isSmallScreen && (
-                <TableCell align="left">
-                  <Typography variant="body1">
-                    <Trans>DATE</Trans>
-                  </Typography>
-                </TableCell>
-              )}
-              <TableCell align="left">
-                <Typography variant="body1">
-                  <Trans>RECIPIENT</Trans>
-                </Typography>
-              </TableCell>
-              {!isSmallScreen && (
-                <TableCell align="right">
-                  <Typography variant="body1">
-                    <Trans>DEPOSITED</Trans>
-                  </Typography>
-                </TableCell>
-              )}
-              <TableCell align="right">
-                <Typography variant="body1">
-                  <Trans>YIELD SENT</Trans>
-                </Typography>
-              </TableCell>
-              <TableCell align="right" className="manage-cell"></TableCell>
-            </TableRow>
-          </TableHead>
-          <Divider className="table-head-divider" />
-          <TableBody>
-            {isLoading ? (
-              <Skeleton />
-            ) : (
-              donationInfo.map(donation => {
-                return (
-                  <DepositTableRow
-                    depositObject={donation}
-                    key={donation.recipient}
-                    giveAssetType={giveAssetType}
-                    changeAssetType={changeAssetType}
-                  />
-                );
-              })
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <Grid container spacing={2}>
+      <Grid item xs={12} container>
+        {!isSmallScreen && (
+          <Grid item xs={2}>
+            <Typography variant="body1" className="grey">
+              <Trans>DATE</Trans>
+            </Typography>
+          </Grid>
+        )}
+        <Grid item xs={4} sm={3}>
+          <Typography variant="body1" className="grey">
+            <Trans>RECIPIENT</Trans>
+          </Typography>
+        </Grid>
+        {!isSmallScreen && (
+          <Grid item xs={2} style={{ textAlign: "right" }}>
+            <Typography variant="body1" className="grey">
+              <Trans>DEPOSITED</Trans>
+            </Typography>
+          </Grid>
+        )}
+        <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
+          <Typography variant="body1" className="grey">
+            <Trans>YIELD SENT</Trans>
+          </Typography>
+        </Grid>
+        <Grid item xs={4} sm={3} />
+      </Grid>
+      <Grid item xs={12}>
+        <Divider />
+      </Grid>
+      {donationInfo.map(donation => {
+        return (
+          <Grid item xs={12}>
+            <DepositTableRow
+              depositObject={donation}
+              key={donation.recipient}
+              giveAssetType={giveAssetType}
+              changeAssetType={changeAssetType}
+            />
+            <Divider style={{ marginTop: "10px" }} />
+          </Grid>
+        );
+      })}
     </Grid>
   );
 }

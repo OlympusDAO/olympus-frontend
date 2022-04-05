@@ -1,7 +1,9 @@
 // eslint-disable-next-line simple-import-sort/imports
 import "./style.scss";
 
+import { i18n } from "@lingui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
+import { MultifarmProvider } from "@multifarm/widget";
 import { useEffect, useState, useCallback } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -11,14 +13,15 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import useBonds from "./hooks/useBonds";
 import { useWeb3Context, useAppSelector } from "./hooks";
-import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
+import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { shouldTriggerSafetyCheck } from "./helpers";
-
+import MigrationModal from "./components/Migration/MigrationModal";
+import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
 import { getZapTokenBalances } from "./slices/ZapSlice";
-import { info } from "./slices/MessagesSlice";
+import { error, info } from "./slices/MessagesSlice";
 
 import { Stake, TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2 } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -27,19 +30,21 @@ import CallToAction from "./components/CallToAction/CallToAction";
 import NavDrawer from "./components/Sidebar/NavDrawer";
 import Messages from "./components/Messages/Messages";
 import NotFound from "./views/404/NotFound";
-import MigrationModal from "src/components/Migration/MigrationModal";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
+import { multifarmLightTheme, multifarmDarkTheme } from "./themes/multifarm";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import grantData from "src/views/Give/grants.json";
 import projectData from "src/views/Give/projects.json";
 import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
 import { NetworkId } from "./constants";
-import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import GrantInfo from "./views/Give/GrantInfo";
 import ProjectInfo from "./views/Give/ProjectInfo";
-import { trackGAEvent, trackSegmentEvent } from "./helpers/analytics";
+import { trackGAEvent } from "./helpers/analytics";
+import Wallet from "./components/TopBar/Wallet";
+import { getAllInverseBonds } from "./slices/InverseBondSlice";
+import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -84,19 +89,20 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const MULTIFARM_API_KEY = getMultiFarmApiKey();
+
 function App() {
-  useSegmentAnalytics();
   useGoogleAnalytics();
   const location = useLocation();
   const dispatch = useDispatch();
   const [theme, toggleTheme] = useTheme();
-  const currentPath = location.pathname + location.hash + location.search;
   const trimmedPath = location.pathname + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const { address, connect, hasCachedProvider, provider, connected, networkId, providerInitialized } = useWeb3Context();
+  const { address, connect, connectionError, hasCachedProvider, provider, connected, networkId, providerInitialized } =
+    useWeb3Context();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalClose = () => {
@@ -121,6 +127,7 @@ function App() {
   const { bonds, expiredBonds } = useBonds(networkId);
 
   const bondIndexes = useAppSelector(state => state.bondingV2.indexes);
+  const inverseBondIndexes = useAppSelector(state => state.inverseBonds.indexes);
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -153,6 +160,7 @@ function App() {
           }
         });
         dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
+        dispatch(getAllInverseBonds({ provider: loadProvider, networkID: networkId, address }));
       }
     },
     [networkId, address],
@@ -246,10 +254,6 @@ function App() {
       // then user DOES have a wallet
       connect().then(() => {
         setWalletChecked(true);
-        trackSegmentEvent({
-          type: "connect",
-          context: currentPath,
-        });
         trackGAEvent({
           category: "App",
           action: "connect",
@@ -283,6 +287,10 @@ function App() {
     }
   }, [connected, networkId, providerInitialized]);
 
+  useEffect(() => {
+    if (connectionError) dispatch(error(connectionError.text));
+  }, [connectionError]);
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -291,11 +299,7 @@ function App() {
     setIsSidebarExpanded(false);
   };
 
-  let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
-
-  useEffect(() => {
-    themeMode = theme === "light" ? lightTheme : darkTheme;
-  }, [theme]);
+  const themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
@@ -314,136 +318,186 @@ function App() {
 
   return (
     <ThemeProvider theme={themeMode}>
-      <CssBaseline />
-      <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
-        <Messages />
-        <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
-        <nav className={classes.drawer}>
-          {isSmallerScreen ? (
-            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-          ) : (
-            <Sidebar />
-          )}
-        </nav>
+      <MultifarmProvider
+        token={MULTIFARM_API_KEY}
+        provider="olympus"
+        lng={i18n.locale}
+        themeColors={theme}
+        badgePlacement="bottom"
+        theme={theme === "light" ? multifarmLightTheme : multifarmDarkTheme}
+        categoryTypesConfig={categoryTypesConfig}
+        strategyTypesConfig={strategyTypesConfig}
+      >
+        <CssBaseline />
+        <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+          <Messages />
+          <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+          <nav className={classes.drawer}>
+            {isSmallerScreen ? (
+              <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            ) : (
+              <Sidebar />
+            )}
+          </nav>
 
-        <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-          {oldAssetsDetected &&
-            !hasActiveV1Bonds &&
-            trimmedPath.indexOf("dashboard") === -1 &&
-            oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+          <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+            {oldAssetsDetected &&
+              !hasActiveV1Bonds &&
+              trimmedPath.indexOf("dashboard") === -1 &&
+              oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
-          <Switch>
-            <Route exact path="/dashboard">
-              <TreasuryDashboard />
-            </Route>
+            <Switch>
+              <Route exact path="/">
+                <Redirect to="/stake" />
+              </Route>
 
-            <Route exact path="/">
-              <Redirect to="/stake" />
-            </Route>
+              <Route path="/stake">
+                {/* if newAssets or 0 assets */}
+                {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
+                  <Stake />
+                ) : (
+                  <V1Stake
+                    hasActiveV1Bonds={hasActiveV1Bonds}
+                    oldAssetsDetected={oldAssetsDetected}
+                    setMigrationModalOpen={setMigrationModalOpen}
+                  />
+                )}
+              </Route>
 
-            <Route path="/stake">
-              {/* if newAssets or 0 assets */}
-              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
-                <Stake />
-              ) : (
+              <Route path="/v1-stake">
                 <V1Stake
                   hasActiveV1Bonds={hasActiveV1Bonds}
                   oldAssetsDetected={oldAssetsDetected}
                   setMigrationModalOpen={setMigrationModalOpen}
                 />
-              )}
-            </Route>
-
-            <Route path="/v1-stake">
-              <V1Stake
-                hasActiveV1Bonds={hasActiveV1Bonds}
-                oldAssetsDetected={oldAssetsDetected}
-                setMigrationModalOpen={setMigrationModalOpen}
-              />
-            </Route>
-
-            <Route exact path="/give">
-              <Give giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-            </Route>
-            <Redirect from="/olympusgive" to="/give" />
-            <Redirect from="/tyche" to="/give" />
-            <Redirect from="/olygive" to="/give" />
-            <Redirect from="/olympusdaogive" to="/give" />
-            <Redirect from="/ohmgive" to="/give" />
-
-            <Route path="/give/projects">
-              {projects.map(project => {
-                return (
-                  <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
-                    <ProjectInfo
-                      project={project}
-                      giveAssetType={giveAssetType}
-                      changeAssetType={changeGiveAssetType}
-                    />
-                  </Route>
-                );
-              })}
-            </Route>
-
-            <Route exact path="/give/grants">
-              <Give selectedIndex={1} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-            </Route>
-
-            <Route path="/give/grants">
-              {grants.map(grant => {
-                return (
-                  <Route exact key={grant.slug} path={`/give/grants/${grant.slug}`}>
-                    <GrantInfo grant={grant} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-                  </Route>
-                );
-              })}
-            </Route>
-
-            <Route exact path="/give/donations">
-              <Give selectedIndex={2} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-            </Route>
-
-            <Route exact path="/give/redeem">
-              <Give selectedIndex={3} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-            </Route>
-
-            <Route path="/wrap">
-              <Route exact path={`/wrap`}>
-                <Wrap />
               </Route>
-            </Route>
 
-            <Route path="/zap">
-              <Route exact path={`/zap`}>
-                <Zap />
+              <Route exact path="/give">
+                <Give giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
               </Route>
-            </Route>
+              <Redirect from="/olympusgive" to="/give" />
+              <Redirect from="/tyche" to="/give" />
+              <Redirect from="/olygive" to="/give" />
+              <Redirect from="/olympusdaogive" to="/give" />
+              <Redirect from="/ohmgive" to="/give" />
 
-            {/* <Route path="/33-together">
+              <Route path="/give/projects">
+                {projects.map(project => {
+                  return (
+                    <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
+                      <ProjectInfo
+                        project={project}
+                        giveAssetType={giveAssetType}
+                        changeAssetType={changeGiveAssetType}
+                      />
+                    </Route>
+                  );
+                })}
+              </Route>
+
+              <Route exact path="/give/grants">
+                <Give selectedIndex={1} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+              </Route>
+
+              <Route path="/give/grants">
+                {grants.map(grant => {
+                  return (
+                    <Route exact key={grant.slug} path={`/give/grants/${grant.slug}`}>
+                      <GrantInfo grant={grant} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+                    </Route>
+                  );
+                })}
+              </Route>
+
+              <Route exact path="/give/donations">
+                <Give selectedIndex={2} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+              </Route>
+
+              <Route exact path="/give/redeem">
+                <Give selectedIndex={3} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+              </Route>
+
+              <Route path="/wrap">
+                <Route exact path={`/wrap`}>
+                  <Wrap />
+                </Route>
+              </Route>
+
+              <Route path="/zap">
+                <Route exact path={`/zap`}>
+                  <Zap />
+                </Route>
+              </Route>
+
+              {/* <Route path="/33-together">
               <PoolTogether />
             </Route> */}
 
-            <Redirect from="/bonds-v1" to="/bonds" />
+              <Redirect from="/bonds-v1" to="/bonds" />
 
-            <Route path="/bonds">
-              {bondIndexes.map(index => {
-                return (
-                  <Route exact key={index} path={`/bonds/${index}`}>
-                    <BondV2 index={index} />
-                  </Route>
-                );
-              })}
-              <ChooseBondV2 />
-            </Route>
-            <Route component={NotFound} />
-          </Switch>
+              <Route path="/bonds">
+                {bondIndexes.map(index => {
+                  return (
+                    <Route exact key={index} path={`/bonds/${index}`}>
+                      <BondV2 index={index} inverseBond={false} />
+                    </Route>
+                  );
+                })}
+                {inverseBondIndexes.map(index => {
+                  return (
+                    <Route exact key={index} path={`/bonds/inverse/${index}`}>
+                      <BondV2 index={index} inverseBond={true} />
+                    </Route>
+                  );
+                })}
+                <ChooseBondV2 />
+              </Route>
+
+              <Route exact path="/dashboard">
+                <TreasuryDashboard activeView={0} />
+              </Route>
+              <Route path="/dashboard/treasury">
+                <TreasuryDashboard activeView={1} />
+              </Route>
+              <Route path="/dashboard/revenue">
+                <TreasuryDashboard activeView={2} />
+              </Route>
+              <Route path="/dashboard/olympuspro">
+                <TreasuryDashboard activeView={3} />
+              </Route>
+              <Route path="/dashboard/proteus">
+                <TreasuryDashboard activeView={4} />
+              </Route>
+
+              <Route exact path="/calculator">
+                <Wallet open={true} component="calculator" />
+              </Route>
+              <Route path={"/info/:id"}>
+                <Wallet open={true} component="info" />
+              </Route>
+              <Route path={"/info"}>
+                <Wallet open={true} component="info" />
+              </Route>
+              <Route path={"/utility"}>
+                <Wallet open={true} component="utility" />
+              </Route>
+              <Route path={"/wallet/history"}>
+                <Wallet open={true} component="wallet/history" />
+              </Route>
+              <Route path="/wallet">
+                <Wallet open={true} component="wallet" />
+              </Route>
+
+              <Route component={NotFound} />
+            </Switch>
+          </div>
         </div>
         {hasDust ? (
           <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
         ) : (
           <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
         )}
-      </div>
+      </MultifarmProvider>
     </ThemeProvider>
   );
 }

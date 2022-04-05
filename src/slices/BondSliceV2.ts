@@ -1,7 +1,7 @@
 import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
-import { addresses, NetworkId, UnknownDetails, V2BondDetails, v2BondDetails } from "src/constants";
+import { addresses, NetworkId, UnknownDetails, V2BondDetails, V2BondParser } from "src/constants";
 import { RootState } from "src/store";
 import { BondDepository__factory, IERC20__factory } from "src/typechain";
 
@@ -23,9 +23,10 @@ import { clearPendingTxn, fetchPendingTxns } from "./PendingTxnsSlice";
 
 const BASE_TOKEN_DECIMALS = 9;
 
-export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
+export interface IBondV2 extends IBondInverseCore, IBondInverseMeta, IBondV2Terms {
   index: number;
   displayName: string;
+  payoutName: string;
   priceUSD: number;
   priceToken: number;
   priceTokenBigNumber: BigNumber;
@@ -43,6 +44,17 @@ export interface IBondV2 extends IBondV2Core, IBondV2Meta, IBondV2Terms {
   maxPayoutOrCapacityInQuote: string;
   maxPayoutOrCapacityInBase: string;
   bondIconSvg: OHMTokenStackProps["tokens"];
+  payoutIconSvg: OHMTokenStackProps["tokens"];
+}
+
+export interface IBondInverseCore extends IBondV2Core {
+  // creator: string;
+  baseToken: string;
+  // call: boolean;
+}
+
+export interface IBondInverseMeta extends IBondV2Meta {
+  baseDecimals: number;
 }
 
 export interface IBondV2Balance {
@@ -61,7 +73,7 @@ export interface IBondV2Core {
   sold: BigNumber;
 }
 
-interface IBondV2Meta {
+export interface IBondV2Meta {
   lastTune: number;
   lastDecay: number;
   length: number;
@@ -78,12 +90,23 @@ export interface IBondV2Terms {
   maxDebt: ethers.BigNumber;
 }
 
-export interface IUserNote {
-  payout: number;
+export interface IDepoNote {
+  payout: ethers.BigNumber;
   created: number;
   matured: number;
   redeemed: number;
   marketID: number;
+}
+
+export interface IInverseDepoNote extends IDepoNote {
+  token: string;
+}
+
+export interface IUserNoteIsh extends Omit<IInverseDepoNote, "payout"> {
+  payout: number;
+}
+
+export interface IUserNote extends IUserNoteIsh {
   fullyMatured: boolean;
   originalDurationSeconds: number;
   remainingDurationSeconds: number;
@@ -258,13 +281,14 @@ async function processBond(
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
 ): Promise<IBondV2> {
   const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
-  let v2BondDetail: V2BondDetails = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
+  const bondParser = new V2BondParser(bond.quoteToken.toLowerCase(), networkID, provider);
+  let v2BondDetail: V2BondDetails = await bondParser.details();
 
   if (!v2BondDetail) {
     v2BondDetail = UnknownDetails;
     console.error(`Add details for bond index=${index}`);
   }
-  const quoteTokenPrice = await v2BondDetail.pricingFunction(provider, bond.quoteToken);
+  const quoteTokenPrice = await v2BondDetail.pricingFunction();
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
   const bondPrice = +bondPriceBigNumber / Math.pow(10, BASE_TOKEN_DECIMALS);
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
@@ -295,6 +319,7 @@ async function processBond(
     ...terms,
     index: index,
     displayName: `${v2BondDetail.name}`,
+    payoutName: `OHM`,
     priceUSD: bondPriceUSD,
     priceToken: bondPrice,
     priceTokenBigNumber: bondPriceBigNumber,
@@ -302,9 +327,11 @@ async function processBond(
     expiration: new Date(terms.vesting * 1000).toDateString(),
     duration,
     isLP: v2BondDetail.isLP,
-    lpUrl: v2BondDetail.isLP ? v2BondDetail.lpUrl[networkID] : "",
+    lpUrl: v2BondDetail.isLP ? v2BondDetail.lpUrl : "",
     marketPrice: ohmPrice,
     quoteToken: bond.quoteToken.toLowerCase(),
+    baseToken: "OHM",
+    baseDecimals: BASE_TOKEN_DECIMALS,
     maxPayoutInQuoteToken,
     maxPayoutInBaseToken,
     capacityInQuoteToken,
@@ -313,6 +340,7 @@ async function processBond(
     maxPayoutOrCapacityInQuote,
     maxPayoutOrCapacityInBase,
     bondIconSvg: v2BondDetail.bondIconSvg,
+    payoutIconSvg: ["OHM"],
   };
 }
 
@@ -351,35 +379,24 @@ export const getAllBonds = createAsyncThunk(
 
 export const getUserNotes = createAsyncThunk(
   "bondsV2/notes",
-  async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch, getState }): Promise<IUserNote[]> => {
+  async ({ provider, networkID, address }: IBaseAddressAsyncThunk): Promise<IUserNote[]> => {
     checkNetwork(networkID);
     const currentTime = Date.now() / 1000;
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const userNoteIndexes = await depositoryContract.indexesFor(address);
     const userNotePromises = userNoteIndexes.map(async index => await depositoryContract.notes(address, index));
-    const userNotes: {
-      payout: ethers.BigNumber;
-      created: number;
-      matured: number;
-      redeemed: number;
-      marketID: number;
-    }[] = await Promise.all(userNotePromises);
+    const userNotes: IDepoNote[] = await Promise.all(userNotePromises);
     const bonds = await Promise.all(
       Array.from(new Set(userNotes.map(note => note.marketID))).map(async id => {
         const bond = await depositoryContract.markets(id);
-        const bondDetail = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
+        const bondParser = new V2BondParser(bond.quoteToken.toLowerCase(), networkID, provider);
+        const bondDetail: V2BondDetails = await bondParser.details();
         return { index: id, quoteToken: bond.quoteToken, ...bondDetail };
       }),
     ).then(result => Object.fromEntries(result.map(bond => [bond.index, bond])));
     const notes: IUserNote[] = [];
     for (let i = 0; i < userNotes.length; i++) {
-      const rawNote: {
-        payout: ethers.BigNumber;
-        created: number;
-        matured: number;
-        redeemed: number;
-        marketID: number;
-      } = userNotes[i];
+      const rawNote: IDepoNote = userNotes[i];
       const bond = bonds[rawNote.marketID];
       const originalDurationSeconds = Math.max(rawNote.matured - rawNote.created, 0);
       const seconds = Math.max(rawNote.matured - currentTime, 0);
@@ -403,6 +420,7 @@ export const getUserNotes = createAsyncThunk(
         quoteToken: bond.quoteToken.toLowerCase(),
         index: +userNoteIndexes[i],
         bondIconSvg: bond?.bondIconSvg,
+        token: "OHM",
       };
       notes.push(note);
     }
@@ -412,7 +430,7 @@ export const getUserNotes = createAsyncThunk(
 
 export const claimAllNotes = createAsyncThunk(
   "bondsV2/claimAll",
-  async ({ provider, networkID, address, gOHM }: IBaseBondV2ClaimAsyncThunk, { dispatch, getState }) => {
+  async ({ provider, networkID, address, gOHM }: IBaseBondV2ClaimAsyncThunk, { dispatch }) => {
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
 
@@ -441,7 +459,7 @@ export const claimAllNotes = createAsyncThunk(
 
 export const claimSingleNote = createAsyncThunk(
   "bondsV2/claimSingle",
-  async ({ provider, networkID, address, indexes, gOHM }: IBaseBondV2SingleClaimAsyncThunk, { dispatch, getState }) => {
+  async ({ provider, networkID, address, indexes, gOHM }: IBaseBondV2SingleClaimAsyncThunk, { dispatch }) => {
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
 

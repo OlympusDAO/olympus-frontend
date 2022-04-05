@@ -4,7 +4,7 @@ import { getBondCalculator } from "src/helpers/BondCalculator";
 import { RootState } from "src/store";
 
 import { contractForRedeemHelper } from "../helpers";
-import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
+import { trackGAEvent } from "../helpers/analytics";
 import { calculateUserBondDetails, getBalances } from "./AccountSlice";
 import { findOrLoadMarketPrice } from "./AppSlice";
 import {
@@ -205,7 +205,6 @@ export const bondAsset = createAsyncThunk(
     const acceptedSlippage = slippage / 100 || 0.005; // 0.5% as default
     // parseUnits takes String => BigNumber
     const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
-    let balance;
     // Calculate maxPremium based on premium and slippage.
     // const calculatePremium = await bonding.calculatePremium();
     const signer = provider.getSigner();
@@ -243,7 +242,6 @@ export const bondAsset = createAsyncThunk(
       } else dispatch(error(rpcError.message));
     } finally {
       if (bondTx) {
-        trackSegmentEvent(uaData);
         trackGAEvent({
           category: "Bonds",
           action: uaData.type ?? "unknown",
@@ -295,7 +293,6 @@ export const redeemBond = createAsyncThunk(
       dispatch(error((e as IJsonRPCError).message));
     } finally {
       if (redeemTx) {
-        trackSegmentEvent(uaData);
         trackGAEvent({
           category: "Bonds",
           action: uaData.type ?? "unknown",

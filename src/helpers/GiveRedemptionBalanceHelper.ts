@@ -1,4 +1,5 @@
 import { BigNumber, ethers } from "ethers";
+import { GOHM_ADDRESSES } from "src/constants/addresses";
 
 import { abi as gOHM } from "../abi/gOHM.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
@@ -54,7 +55,11 @@ export const getRedemptionBalancesAsync = async ({
   if (!(addresses[networkID] && addresses[networkID].GIVING_ADDRESS)) {
     console.log("Unable to find MOCK_SOHM contract on chain ID " + networkID);
   } else {
-    const gohmContract = new ethers.Contract(addresses[networkID].GOHM_ADDRESS as string, gOHM, provider);
+    const gohmContract = new ethers.Contract(
+      GOHM_ADDRESSES[networkID as keyof typeof GOHM_ADDRESSES] as string,
+      gOHM,
+      provider,
+    );
     const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
 
     // Get current redeemable balance across all deposits to the user. This is
@@ -82,7 +87,7 @@ export const getRedemptionBalancesAsync = async ({
       // Converts sOHM principal debt to gOHM equivalent
       sumAgnosticDebt = await gohmContract.balanceTo(sumDebt);
 
-      recipientInfo.totalDebt = ethers.utils.formatUnits(sumDebt.toNumber(), "gwei");
+      recipientInfo.totalDebt = ethers.utils.formatUnits(sumDebt, "gwei");
       recipientInfo.agnosticDebt = ethers.utils.formatEther(sumAgnosticDebt);
     } catch (e: unknown) {
       console.log(e);

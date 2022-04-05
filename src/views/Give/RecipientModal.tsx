@@ -1,19 +1,20 @@
 import { isAddress } from "@ethersproject/address";
 import { t, Trans } from "@lingui/macro";
-import { Box, Link, SvgIcon, Typography } from "@material-ui/core";
-import { FormControl, FormHelperText } from "@material-ui/core";
+import { Grid, Link, SvgIcon, Typography } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "bignumber.js";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
-import { EnvHelper } from "src/helpers/Environment";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
 import {
   changeApproval,
@@ -23,7 +24,7 @@ import {
   PENDING_TXN_GIVE_APPROVAL,
 } from "src/slices/GiveThunk";
 
-import { ArrowGraphic, VaultGraphic, WalletGraphic, YieldGraphic } from "../../components/EducationCard";
+import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { GohmToggle } from "./GohmToggle";
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
@@ -38,6 +39,8 @@ type RecipientModalProps = {
   project?: Project;
 };
 
+const ZERO_DBN = new DecimalBigNumber("0");
+
 export function RecipientModal({
   isModalOpen,
   eventSource,
@@ -49,9 +52,9 @@ export function RecipientModal({
 }: RecipientModalProps) {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, address, connect, networkId } = useWeb3Context();
+  const { provider, address, networkId } = useWeb3Context();
 
-  const _initialDepositAmount = 0;
+  const _initialDepositAmount = ZERO_DBN;
   const _initialWalletAddress = "";
   const _initialDepositAmountValid = false;
   const _initialDepositAmountValidError = "";
@@ -74,17 +77,19 @@ export function RecipientModal({
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState(_initialWalletAddressValidError);
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   useEffect(() => {
-    checkIsDepositAmountValid(getDepositAmount().toFixed());
+    checkIsDepositAmountValid(getDepositAmount().toString());
     checkIsWalletAddressValid(getWalletAddress());
   }, []);
 
   useEffect(() => {
     // When we close the modal, we ensure that the state is also reset to default
     if (!isModalOpen) {
-      handleSetDepositAmount(getInitialDepositAmount().toFixed());
+      handleSetDepositAmount(getInitialDepositAmount().toString());
       handleSetWallet(getInitialWalletAddress());
       setIsAmountSet(_initialIsAmountSet);
     }
@@ -98,7 +103,7 @@ export function RecipientModal({
    * TODO consider extracting this into a helper file
    */
   const sohmBalance: string = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
       ? state.account.balances && state.account.balances.mockSohm
       : state.account.balances && state.account.balances.sohm;
   });
@@ -108,7 +113,7 @@ export function RecipientModal({
   });
 
   const sohmAllowance: number = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
       ? state.account.mockGiving && state.account.mockGiving.sohmGive
       : state.account.giving && state.account.giving.sohmGive;
   });
@@ -122,7 +127,7 @@ export function RecipientModal({
   });
 
   const isGiveLoading: boolean = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)
+    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
       ? state.account.mockGiving.loading
       : state.account.giving.loading;
   });
@@ -132,7 +137,7 @@ export function RecipientModal({
   });
 
   const onSeekApproval = async () => {
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
       await dispatch(changeMockApproval({ address, token: "sohm", provider, networkID: networkId }));
     } else {
       await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));
@@ -146,41 +151,47 @@ export function RecipientModal({
     return gohmAllowance > 0;
   }, [sohmAllowance, gohmAllowance, giveAssetType]);
 
-  const getSOhmBalance = (): BigNumber => {
-    return new BigNumber(sohmBalance);
+  const getBalance = (): DecimalBigNumber => {
+    return giveAssetType === "sOHM" ? new DecimalBigNumber(sohmBalance, 9) : new DecimalBigNumber(gohmBalance, 18);
   };
 
-  const getBalance = (): BigNumber => {
-    return giveAssetType === "sOHM" ? new BigNumber(sohmBalance) : new BigNumber(gohmBalance);
+  /**
+   * Returns the maximum deposit that can be directed to the recipient.
+   *
+   * This is equal to the current wallet balance.
+   *
+   * @returns DecimalBigNumber
+   */
+  const getMaximumDepositAmount = (): DecimalBigNumber => {
+    return getBalance();
   };
 
   const handleSetDepositAmount = (value: string) => {
     checkIsDepositAmountValid(value);
-    setDepositAmount(parseFloat(value));
+    setDepositAmount(new DecimalBigNumber(value, giveAssetType === "sOHM" ? 9 : 18));
   };
 
   const checkIsDepositAmountValid = (value: string) => {
-    const valueNumber = new BigNumber(value);
-    const sOhmBalanceNumber = getSOhmBalance();
+    const valueNumber = new DecimalBigNumber(value, giveAssetType === "sOHM" ? 9 : 18);
 
-    if (!value || value == "" || valueNumber.isEqualTo(0)) {
+    if (!value || value == "" || valueNumber.eq(ZERO_DBN)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Please enter a value`);
       return;
     }
 
-    if (valueNumber.isLessThan(0)) {
+    if (valueNumber.lt(ZERO_DBN)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Value must be positive`);
       return;
     }
 
-    if (getBalance().isEqualTo(0)) {
+    if (getBalance().eq(ZERO_DBN)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }
 
-    if (valueNumber.isGreaterThan(getBalance())) {
+    if (valueNumber.gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Value cannot be more than your ${giveAssetType} balance of ${getBalance()}`);
       return;
@@ -263,8 +274,8 @@ export function RecipientModal({
    *
    * @returns BigNumber instance
    */
-  const getRetainedAmountDiff = (): BigNumber => {
-    return getBalance().minus(getDepositAmount());
+  const getRetainedAmountDiff = (): DecimalBigNumber => {
+    return getBalance().sub(getDepositAmount());
   };
 
   /**
@@ -272,10 +283,10 @@ export function RecipientModal({
    *
    * @returns
    */
-  const getDepositAmount = (): BigNumber => {
-    if (!depositAmount) return new BigNumber(0);
+  const getDepositAmount = (): DecimalBigNumber => {
+    if (!depositAmount) return ZERO_DBN;
 
-    return new BigNumber(depositAmount);
+    return depositAmount;
   };
 
   /**
@@ -314,57 +325,25 @@ export function RecipientModal({
    * Calls the submission callback function that is provided to the component.
    */
   const handleSubmit = () => {
-    const depositAmountBig = new BigNumber(depositAmount);
-
-    callbackFunc(getWalletAddress(), eventSource, depositAmountBig, getDepositAmount());
+    callbackFunc(getWalletAddress(), eventSource, depositAmount, getDepositAmount());
   };
 
-  const getRecipientElements = () => {
-    // If project mode is enabled, the amount is editable, but the recipient is not
+  const getRecipientInputField = () => {
     if (isProjectMode()) {
-      return (
-        <>
-          <div className="project-modal-top">
-            <Typography variant="body1">
-              <Trans>Recipient</Trans>
-            </Typography>
-          </div>
-          <Input id="wallet-input" label={getRecipientTitle()} disabled={true} />
-        </>
-      );
+      return <Input id="wallet-input" placeholder={getRecipientTitle()} disabled={true} />;
     }
 
     return (
-      <>
-        <div className="give-modal-alloc-tip">
-          <Typography variant="body1">
-            <Trans>Recipient</Trans>
-          </Typography>
-          {/* The main reason for having this tooltip is because it keeps spacing consistent with the sOHM Allocation above */}
-          <InfoTooltip
-            message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
-            children={null}
-          />
-        </div>
-        <Input
-          id="wallet-input"
-          placeholder={t`Enter a wallet address in the form of 0x ...`}
-          value={walletAddress}
-          error={!isWalletAddressValid}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onChange={(e: any) => handleSetWallet(e.target.value)}
-          helperText={!isWalletAddressValid ? isWalletAddressValidError : ""}
-        />
-      </>
+      <Input
+        id="wallet-input"
+        placeholder={t`Enter a wallet address in the form of 0x ...`}
+        value={walletAddress}
+        error={!isWalletAddressValid}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onChange={(e: any) => handleSetWallet(e.target.value)}
+        helperText={!isWalletAddressValid ? isWalletAddressValidError : ""}
+      />
     );
-  };
-
-  const handleConnect = () => {
-    // Close the modal first
-    cancelFunc();
-
-    // Then connect
-    connect();
   };
 
   const handleClose = () => {
@@ -390,25 +369,6 @@ export function RecipientModal({
   };
 
   const getAmountScreen = () => {
-    // If there is no connected wallet, then the user cannot proceed
-    if (!address) {
-      return (
-        <>
-          <FormHelperText>
-            <Trans>
-              You must be logged into your wallet to use this feature. Click on the "Connect Wallet" button and try
-              again.
-            </Trans>
-          </FormHelperText>
-          <FormControl className="ohm-modal-submit">
-            <PrimaryButton onClick={handleConnect}>
-              <Trans>Connect Wallet</Trans>
-            </PrimaryButton>
-          </FormControl>
-        </>
-      );
-    }
-
     // If we are loading the state, add a placeholder
     if (isAccountLoading || isGiveLoading) return <Skeleton />;
 
@@ -416,21 +376,32 @@ export function RecipientModal({
     if (!hasAllowance()) {
       return (
         <>
-          <Box className="help-text">
-            <Typography variant="h6" className="stream-note" color="textSecondary">
-              <Trans>
-                Is this your first time donating sOHM? Please approve OlympusDAO to use your sOHM for donating.
-              </Trans>
-            </Typography>
-          </Box>
-          <FormControl className="ohm-modal-submit">
-            <PrimaryButton
-              disabled={isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading}
-              onClick={onSeekApproval}
-            >
-              {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, t`Approve`)}
-            </PrimaryButton>
-          </FormControl>
+          <Grid container spacing={2} justifyContent="flex-end">
+            <Grid item xs={12}>
+              <Typography variant="h6" className="stream-note" color="textSecondary">
+                <Trans>
+                  Is this your first time donating sOHM? Please approve OlympusDAO to use your sOHM for donating.
+                </Trans>
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container alignItems="center">
+                <Grid item xs />
+                <Grid item xs={8}>
+                  <PrimaryButton
+                    disabled={
+                      isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading || !address
+                    }
+                    onClick={onSeekApproval}
+                    fullWidth
+                  >
+                    {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, t`Approve`)}
+                  </PrimaryButton>
+                </Grid>
+                <Grid item xs />
+              </Grid>
+            </Grid>
+          </Grid>
         </>
       );
     }
@@ -438,51 +409,83 @@ export function RecipientModal({
     // Otherwise we let the user enter the amount
     return (
       <>
-        <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
-        <div className="give-modal-alloc-tip">
-          <Typography variant="body1">
-            <Trans>{giveAssetType} Deposit</Trans>
-          </Typography>
-          <InfoTooltip
-            message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
-            children={null}
-          />
-        </div>
-        <Input
-          id="amount-input"
-          placeholder={t`Enter an amount`}
-          type="number"
-          value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
-          helperText={
-            isDepositAmountValid ? t`Balance: ${getBalance().toFixed(2)} ${giveAssetType}` : isDepositAmountValidError
-          }
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onChange={(e: any) => handleSetDepositAmount(e.target.value)}
-          error={!isDepositAmountValid}
-          startAdornment="sOHM"
-          endString={t`Max`}
-          endStringOnClick={() => handleSetDepositAmount(getBalance().toFixed())}
-        />
-        {getRecipientElements()}
-        {
-          /* We collapse the education graphics on mobile screens */
-          !isSmallScreen ? (
-            <div className={`give-education-graphics`}>
-              <WalletGraphic quantity={getRetainedAmountDiff().toFixed()} asset={giveAssetType} />
-              {!isSmallScreen && <ArrowGraphic />}
-              <VaultGraphic quantity={getDepositAmount().toFixed()} asset={giveAssetType} small={false} />
-              {!isSmallScreen && <ArrowGraphic />}
-              <YieldGraphic quantity={getDepositAmount().toFixed()} asset={giveAssetType} />
-            </div>
+        <Grid container alignItems="center" spacing={2}>
+          <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
+          <Grid item xs={12}>
+            <Typography variant="body1">
+              <Trans>{giveAssetType} Allocation</Trans>
+              <InfoTooltip
+                message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                children={null}
+              />
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Input
+              id="amount-input"
+              placeholder={t`Enter an amount`}
+              type="number"
+              value={getDepositAmount().eq(ZERO_DBN) ? null : getDepositAmount()}
+              helperText={
+                isDepositAmountValid
+                  ? `${t`Your current Staked Balance is`} ${getBalance().toString({ decimals: 2 })} ${giveAssetType}`
+                  : isDepositAmountValidError
+              }
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onChange={(e: any) => handleSetDepositAmount(e.target.value)}
+              error={!isDepositAmountValid}
+              startAdornment="sOHM"
+              endString={t`Max`}
+              endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body1">
+              <Trans>Recipient</Trans>
+              <InfoTooltip
+                message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+                children={null}
+              />
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            {getRecipientInputField()}
+          </Grid>
+          {!isSmallScreen ? (
+            <Grid item xs={12}>
+              <Grid container justifyContent="center" alignItems="flex-start" wrap="nowrap">
+                <Grid item xs={3}>
+                  <CompactWallet quantity={getRetainedAmountDiff().toString()} asset={giveAssetType} />
+                </Grid>
+                <Grid item xs={1}>
+                  <ArrowGraphic />
+                </Grid>
+                <Grid item xs={3}>
+                  <CompactVault quantity={getDepositAmount().toString()} asset={giveAssetType} />
+                </Grid>
+                <Grid item xs={1}>
+                  <ArrowGraphic />
+                </Grid>
+                <Grid item xs={3}>
+                  <CompactYield quantity={getDepositAmount().toString()} asset={giveAssetType} />
+                </Grid>
+              </Grid>
+            </Grid>
           ) : (
             <></>
-          )
-        }
-        <FormControl className="ohm-modal-submit">
-          <PrimaryButton disabled={!canSubmit()} onClick={handleContinue}>
-            <Trans>Continue</Trans>
-          </PrimaryButton>
-        </FormControl>
+          )}
+          <Grid item xs={12}>
+            <Grid container justifyContent="center" alignContent="center">
+              <Grid item xs />
+              <Grid item xs={8}>
+                <PrimaryButton disabled={!canSubmit()} onClick={handleContinue} fullWidth>
+                  <Trans>Continue</Trans>
+                </PrimaryButton>
+              </Grid>
+              <Grid item xs />
+            </Grid>
+          </Grid>
+        </Grid>
       </>
     );
   };
@@ -501,37 +504,76 @@ export function RecipientModal({
   const getConfirmationScreen = () => {
     return (
       <>
-        <Box
-          className="give-confirmation-details"
-          style={{ border: "1px solid #999999", borderRadius: "10px", padding: "20px" }}
-        >
-          <div className="details-row">
-            <div className="sohm-allocation-col">
-              <Typography variant="body1">
-                <Trans>{giveAssetType} deposit</Trans>
-              </Typography>
-              <Typography variant="h6">{getDepositAmount().toFixed(2)} sOHM</Typography>
-            </div>
-            {!isSmallScreen && <ArrowGraphic />}
-            <div className="recipient-address-col">
-              <Typography variant="body1">
-                <Trans>Recipient address</Trans>
-              </Typography>
-              <Typography variant="h6">
-                <strong>{getRecipientTitle()}</strong>
-              </Typography>
-            </div>
-          </div>
-        </Box>{" "}
-        <FormControl className="ohm-modal-submit">
-          <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit}>
-            {txnButtonText(
-              pendingTransactions,
-              PENDING_TXN_GIVE,
-              `${t`Confirm `} ${getDepositAmount().toFixed(2)} ${giveAssetType}`,
-            )}
-          </PrimaryButton>
-        </FormControl>
+        <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <Box>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item container xs={12} sm={4}>
+                  <Grid xs={12}>
+                    <Typography variant="body1" className="modal-confirmation-title">
+                      <Trans>{giveAssetType} deposit</Trans>
+                      <InfoTooltip
+                        message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                        children={null}
+                      />
+                    </Typography>
+                  </Grid>
+                  <Grid xs={12}>
+                    <Typography variant="h6">
+                      <strong>
+                        {getDepositAmount().toString({ decimals: 2 })} {giveAssetType}
+                      </strong>
+                    </Typography>
+                  </Grid>
+                </Grid>
+                {!isSmallScreen ? (
+                  <Grid item xs={4}>
+                    <ArrowGraphic />
+                  </Grid>
+                ) : (
+                  <></>
+                )}
+                <Grid item xs={12} sm={4}>
+                  {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
+                      whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
+                      alignment accordingly. */}
+                  <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
+                    <Grid item xs={12}>
+                      <Typography variant="body1" className="modal-confirmation-title">
+                        <Trans>Recipient address</Trans>
+                        <InfoTooltip
+                          message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+                          children={null}
+                        />
+                      </Typography>
+                    </Grid>
+                    <Grid xs={12}>
+                      {/* 5px to align with the padding on the tooltip */}
+                      <Typography variant="h6" style={{ paddingRight: "5px" }}>
+                        <strong>{getRecipientTitle()}</strong>
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container>
+              <Grid item xs />
+              <Grid item xs={8}>
+                <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
+                  {txnButtonText(
+                    pendingTransactions,
+                    PENDING_TXN_GIVE,
+                    `${t`Confirm `} ${getDepositAmount().toString({ decimals: 2 })} ${giveAssetType}`,
+                  )}
+                </PrimaryButton>
+              </Grid>
+              <Grid item xs />
+            </Grid>
+          </Grid>
+        </Grid>
       </>
     );
   };

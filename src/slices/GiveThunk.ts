@@ -1,14 +1,15 @@
 import { t } from "@lingui/macro";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
+import { GOHM_ADDRESSES } from "src/constants/addresses";
 
+import { abi as gOHM } from "../abi/gOHM.json";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as MockSohm } from "../abi/MockSohm.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
 import { addresses, NetworkId } from "../constants";
-import { getGohmBalFromSohm } from "../helpers";
-import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
+import { trackGAEvent } from "../helpers/analytics";
 import { getGiveProjectName } from "../helpers/GiveProjectNameHelper";
 import { fetchAccountSuccess, getBalances, getDonationBalances, getMockDonationBalances } from "./AccountSlice";
 import {
@@ -39,6 +40,18 @@ export const ACTION_GIVE = "give";
 export const ACTION_GIVE_EDIT = "editGive";
 export const ACTION_GIVE_WITHDRAW = "endGive";
 
+const trackGiveEvent = (uaData: IUAData, eventAction?: string) => {
+  trackGAEvent({
+    category: "Olympus Give",
+    action: eventAction ? eventAction : uaData.type ? uaData.type : "unknown",
+    label: getGiveProjectName(uaData.recipient) ?? "unknown",
+    value: Math.round(parseFloat(uaData.value)),
+    metric1: parseFloat(uaData.value),
+    dimension1: uaData.txHash ?? "unknown",
+    dimension2: uaData.address,
+  });
+};
+
 export const isSupportedChain = (chainID: NetworkId): boolean => {
   // Give is only supported on Ethereum mainnet (1) and rinkeby (4) for the moment.
   if (chainID === NetworkId.MAINNET || chainID === NetworkId.TESTNET_RINKEBY) return true;
@@ -53,6 +66,16 @@ export const hasPendingGiveTxn = (pendingTransactions: IPendingTxn[]): boolean =
     isPendingTxn(pendingTransactions, PENDING_TXN_EDIT_GIVE) ||
     isPendingTxn(pendingTransactions, PENDING_TXN_WITHDRAW)
   );
+};
+
+const getTypeFromAction = (action: string): string => {
+  if (action === ACTION_GIVE) return ACTION_GIVE;
+
+  if (action === ACTION_GIVE_EDIT) return ACTION_GIVE_EDIT;
+
+  if (action === ACTION_GIVE_WITHDRAW) return ACTION_GIVE_WITHDRAW;
+
+  return "";
 };
 
 /**
@@ -76,7 +99,7 @@ export const changeApproval = createAsyncThunk(
       contractAddress = addresses[networkID].SOHM_V2;
       tokenDecimals = 9;
     } else {
-      contractAddress = addresses[networkID].GOHM_ADDRESS;
+      contractAddress = GOHM_ADDRESSES[networkID as keyof typeof GOHM_ADDRESSES];
       tokenDecimals = 18;
     }
 
@@ -201,6 +224,7 @@ export const changeGive = createAsyncThunk(
 
     const signer = provider.getSigner();
     const giving = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, signer);
+    const gohmContract = new ethers.Contract(GOHM_ADDRESSES[networkID as keyof typeof GOHM_ADDRESSES], gOHM, signer);
     let giveTx;
 
     const uaData: IUAData = {
@@ -209,14 +233,17 @@ export const changeGive = createAsyncThunk(
       recipient: recipient,
       approved: true,
       txHash: null,
-      type: "",
+      type: getTypeFromAction(action),
     };
+
+    // Before we submit the transaction, record the event.
+    // This lets us track if the user rejects/ignores the confirmation dialog.
+    trackGiveEvent(uaData, uaData.type + "-before");
 
     try {
       let pendingTxnType = "";
       if (action === ACTION_GIVE) {
         // If the desired action is a new deposit
-        uaData.type = ACTION_GIVE;
         pendingTxnType = PENDING_TXN_GIVE;
         giveTx =
           token === "sOHM"
@@ -224,7 +251,6 @@ export const changeGive = createAsyncThunk(
             : await giving.deposit(ethers.utils.parseEther(value), recipient);
       } else if (action === ACTION_GIVE_EDIT) {
         // If the desired action is adjusting a deposit
-        uaData.type = ACTION_GIVE_EDIT;
         pendingTxnType = PENDING_TXN_EDIT_GIVE;
         if (parseFloat(value) > 0) {
           // If the user is increasing the amount of sOHM directing yield to recipient
@@ -233,21 +259,25 @@ export const changeGive = createAsyncThunk(
               ? await giving.addToSohmDeposit(id, ethers.utils.parseUnits(value, "gwei"))
               : await giving.addToDeposit(id, ethers.utils.parseEther(value));
         } else if (parseFloat(value) < 0) {
-          // If th user is decreasing the amount of sOHM directing yield to recipient
+          // If the user is decreasing the amount of sOHM directing yield to recipient
           const reductionAmount = (-1 * parseFloat(value)).toString();
-          const gohmAmount = await getGohmBalFromSohm({ provider, networkID: networkID, sOHMbalance: reductionAmount });
+
+          // Have to use balanceTo instead of useCurrentIndex because useCurrentIndex
+          // only pulls the current index from mainnet, not the one used on testnet
+          const gohmAmount = await gohmContract.balanceTo(reductionAmount);
 
           giveTx =
             token === "sOHM"
-              ? await giving.withdrawPrincipalAsSohm(id, ethers.utils.parseEther(gohmAmount))
+              ? await giving.withdrawPrincipalAsSohm(id, gohmAmount)
               : await giving.withdrawPrincipal(id, ethers.utils.parseEther(reductionAmount));
         }
       } else if (action === ACTION_GIVE_WITHDRAW) {
         // If the desired action is to remove all sOHM from deposit
-        uaData.type = ACTION_GIVE_WITHDRAW;
         pendingTxnType = PENDING_TXN_WITHDRAW;
 
-        const gohmAmount = await getGohmBalFromSohm({ provider, networkID: networkID, sOHMbalance: value });
+        // Have to use balanceTo instead of useCurrentIndex because useCurrentIndex
+        // only pulls the current index from mainnet, not the one used on testnet
+        const gohmAmount = await gohmContract.balanceTo(value);
 
         giveTx =
           token === "sOHM"
@@ -273,15 +303,7 @@ export const changeGive = createAsyncThunk(
       return;
     } finally {
       if (giveTx) {
-        trackSegmentEvent(uaData);
-        trackGAEvent({
-          category: "Olympus Give",
-          action: uaData.type ?? "unknown",
-          value: Math.round(parseFloat(uaData.value)),
-          label: getGiveProjectName(uaData.recipient) ?? "unknown",
-          dimension1: uaData.txHash ?? "unknown",
-          dimension2: uaData.address,
-        });
+        trackGiveEvent(uaData);
 
         dispatch(clearPendingTxn(giveTx.hash));
       }
@@ -301,10 +323,7 @@ export const changeGive = createAsyncThunk(
  */
 export const changeMockGive = createAsyncThunk(
   "give/changeMockGive",
-  async (
-    { action, value, recipient, provider, address, networkID, eventSource }: IActionValueRecipientAsyncThunk,
-    { dispatch },
-  ) => {
+  async ({ action, value, recipient, provider, address, networkID }: IActionValueRecipientAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet!`));
       return;
@@ -320,19 +339,21 @@ export const changeMockGive = createAsyncThunk(
       recipient: recipient,
       approved: true,
       txHash: null,
-      type: "",
+      type: getTypeFromAction(action),
     };
+
+    // Before we submit the transaction, record the event.
+    // This lets us track if the user rejects/ignores the confirmation dialog.
+    trackGiveEvent(uaData, uaData.type + "-before");
 
     try {
       let pendingTxnType = "";
       if (action === ACTION_GIVE) {
         // If the desired action is a new deposit
-        uaData.type = ACTION_GIVE;
         pendingTxnType = PENDING_TXN_GIVE;
         giveTx = await giving.deposit(ethers.utils.parseUnits(value, "gwei"), recipient);
       } else if (action === ACTION_GIVE_EDIT) {
         // If the desired action is adjusting a deposit
-        uaData.type = ACTION_GIVE_EDIT;
         pendingTxnType = PENDING_TXN_EDIT_GIVE;
         if (parseFloat(value) > 0) {
           // If the user is increasing the amount of sOHM directing yield to recipient
@@ -344,7 +365,6 @@ export const changeMockGive = createAsyncThunk(
         }
       } else if (action === ACTION_GIVE_WITHDRAW) {
         // If the desired action is to remove all sOHM from deposit
-        uaData.type = ACTION_GIVE_WITHDRAW;
         pendingTxnType = PENDING_TXN_WITHDRAW;
         giveTx = await giving.withdraw(ethers.utils.parseUnits(value, "gwei"), recipient);
       }
@@ -364,16 +384,8 @@ export const changeMockGive = createAsyncThunk(
       return;
     } finally {
       if (giveTx) {
-        trackSegmentEvent(uaData);
-        trackGAEvent({
-          category: "Olympus Give",
-          action: uaData.type ?? "unknown",
-          label: getGiveProjectName(uaData.recipient) ?? "unknown",
-          dimension1: uaData.txHash ?? "unknown",
-          dimension2: uaData.address,
-          metric1: parseFloat(uaData.value),
-          value: Math.round(parseFloat(uaData.value)),
-        });
+        trackGiveEvent(uaData);
+
         dispatch(clearPendingTxn(giveTx.hash));
       }
     }

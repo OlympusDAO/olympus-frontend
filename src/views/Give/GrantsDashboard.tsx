@@ -1,19 +1,18 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Typography, Zoom } from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { BigNumber } from "bignumber.js";
+import { Container, Grid, Typography, Zoom } from "@material-ui/core";
 import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useUIDSeed } from "react-uid";
 import GrantCard, { GrantDetailsMode } from "src/components/GiveProject/GrantCard";
 import { Grant } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
-import { EnvHelper } from "src/helpers/Environment";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { ACTION_GIVE, changeGive, changeMockGive, isSupportedChain } from "src/slices/GiveThunk";
+import { ACTION_GIVE, changeGive, changeMockGive } from "src/slices/GiveThunk";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
@@ -26,12 +25,12 @@ type GrantsDashboardProps = {
   changeAssetType: (checked: boolean) => void;
 };
 
+const ZERO_DBN = new DecimalBigNumber("0");
+
 export default function GrantsDashboard({ giveAssetType, changeAssetType }: GrantsDashboardProps) {
   const location = useLocation();
   const { provider, address, networkId } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
-  const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
   const grants: Grant[] = data.grants;
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
@@ -69,19 +68,19 @@ export default function GrantsDashboard({ giveAssetType, changeAssetType }: Gran
   const handleCustomGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
     eventSource: string,
-    depositAmount: BigNumber,
+    depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.isEqualTo(new BigNumber(0))) {
+    if (depositAmount.eq(ZERO_DBN)) {
       return dispatch(error(t`Please enter a value!`));
     }
 
     // If on Rinkeby and using Mock Sohm, use the changeMockGive async thunk
     // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && EnvHelper.isMockSohmEnabled(location.search)) {
+    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE,
-          value: depositAmount.toFixed(),
+          value: depositAmount.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -95,7 +94,7 @@ export default function GrantsDashboard({ giveAssetType, changeAssetType }: Gran
       await dispatch(
         changeGive({
           action: ACTION_GIVE,
-          value: depositAmount.toFixed(),
+          value: depositAmount.toString(),
           token: giveAssetType,
           recipient: walletAddress,
           id: NEW_DEPOSIT,
@@ -117,25 +116,11 @@ export default function GrantsDashboard({ giveAssetType, changeAssetType }: Gran
   };
 
   return (
-    <div
-      id="give-view"
-      className={`${isMediumScreen ? "medium" : ""}
-      ${isSmallScreen ? "smaller" : ""}}`}
-    >
-      <Zoom in={true}>
-        <Box className={`ohm-card secondary causes-container`}>
-          {!isSupportedChain(networkId) ? (
-            <Typography variant="h6">
-              <Trans>
-                Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
-                functionality.
-              </Trans>
-            </Typography>
-          ) : (
-            <></>
-          )}
-          <div className="causes-body">
-            <Typography variant="body1" className="grants-header">
+    <Zoom in={true}>
+      <Container>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="body1">
               <Trans>
                 Upon receiving an Olympus Grant, you gain exposure to the Olympus Give ecosystem where your performance
                 is rewarded every 8 hours through the yield your grant generates; you then can also receive support from
@@ -143,18 +128,23 @@ export default function GrantsDashboard({ giveAssetType, changeAssetType }: Gran
                 mission.
               </Trans>
             </Typography>
-            <Box className="data-grid">{renderGrants}</Box>
-          </div>
-          <RecipientModal
-            isModalOpen={isCustomGiveModalOpen}
-            eventSource="Custom Recipient Button"
-            callbackFunc={handleCustomGiveModalSubmit}
-            cancelFunc={handleCustomGiveModalCancel}
-            giveAssetType={giveAssetType}
-            changeAssetType={changeAssetType}
-          />
-        </Box>
-      </Zoom>
-    </div>
+          </Grid>
+          <Grid item xs={12}>
+            {/* Custom padding so that the "no grants" text isn't cut off at the bottom */}
+            <Grid container justifyContent="center" style={{ paddingBottom: "10px" }}>
+              {renderGrants}
+            </Grid>
+          </Grid>
+        </Grid>
+        <RecipientModal
+          isModalOpen={isCustomGiveModalOpen}
+          eventSource="Custom Recipient Button"
+          callbackFunc={handleCustomGiveModalSubmit}
+          cancelFunc={handleCustomGiveModalCancel}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeAssetType}
+        />
+      </Container>
+    </Zoom>
   );
 }

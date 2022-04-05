@@ -1,11 +1,12 @@
 import { AnyAction, createAsyncThunk, createSelector, createSlice, ThunkDispatch } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
 import { addresses, NetworkId } from "src/constants";
+import { GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { setAll } from "src/helpers";
 import { ZapHelper, ZapperToken } from "src/helpers/ZapHelper";
 import { IERC20__factory, Zap__factory } from "src/typechain";
 
-import { trackGAEvent, trackSegmentEvent } from "../helpers/analytics";
+import { trackGAEvent } from "../helpers/analytics";
 import { getBalances } from "./AccountSlice";
 import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IValueAsyncThunk, IZapAsyncThunk } from "./interfaces";
 import { error, info } from "./MessagesSlice";
@@ -64,7 +65,6 @@ export const changeZapTokenAllowance = createAsyncThunk(
         approved: true,
         type: "Zap Approval Request Success",
       };
-      trackSegmentEvent(uaData);
       trackGAEvent({
         category: "OlyZaps",
         action: uaData.type,
@@ -80,7 +80,6 @@ export const changeZapTokenAllowance = createAsyncThunk(
         approved: false,
         type: "Zap Approval Request Failure",
       };
-      trackSegmentEvent(uaData);
       trackGAEvent({
         category: "OlyZaps",
         action: uaData.type,
@@ -129,20 +128,16 @@ export const executeZap = createAsyncThunk(
     if (!zapNetworkAvailable(networkID, dispatch)) return;
     try {
       const signer = provider.getSigner();
-      const rawTransactionData = await ZapHelper.executeZapHelper(
-        address,
-        sellAmount,
-        tokenAddress,
-        +slippage / 100,
-        networkID,
-      );
+      const rawTransactionData = await ZapHelper.executeZapHelper(address, sellAmount, tokenAddress, +slippage / 100);
       const zapContract = Zap__factory.connect(addresses[networkID].ZAP, signer);
       let tx: ethers.ContractTransaction;
       if (tokenAddress === ethers.constants.AddressZero) {
         tx = await zapContract.ZapStake(
           tokenAddress,
           sellAmount,
-          gOHM ? addresses[networkID].GOHM_ADDRESS : addresses[networkID].SOHM_V2,
+          gOHM
+            ? GOHM_ADDRESSES[networkID as keyof typeof GOHM_ADDRESSES]
+            : SOHM_ADDRESSES[networkID as keyof typeof SOHM_ADDRESSES],
           ethers.utils.parseUnits(minimumAmount, gOHM ? 18 : 9),
           rawTransactionData.to,
           rawTransactionData.data,
@@ -153,7 +148,9 @@ export const executeZap = createAsyncThunk(
         tx = await zapContract.ZapStake(
           tokenAddress,
           sellAmount,
-          gOHM ? addresses[networkID].GOHM_ADDRESS : addresses[networkID].SOHM_V2,
+          gOHM
+            ? GOHM_ADDRESSES[networkID as keyof typeof GOHM_ADDRESSES]
+            : SOHM_ADDRESSES[networkID as keyof typeof SOHM_ADDRESSES],
           ethers.utils.parseUnits(minimumAmount, gOHM ? 18 : 9),
           rawTransactionData.to,
           rawTransactionData.data,
@@ -170,7 +167,6 @@ export const executeZap = createAsyncThunk(
         slippage: slippage,
         approved: true,
       };
-      trackSegmentEvent(uaData);
       trackGAEvent({
         category: "OlyZaps",
         action: uaData.type,
@@ -186,7 +182,6 @@ export const executeZap = createAsyncThunk(
         slippage: slippage,
         approved: false,
       };
-      trackSegmentEvent(uaData);
       trackGAEvent({
         category: "OlyZaps",
         action: uaData.type,
@@ -270,7 +265,7 @@ const zapTokenBalancesSlice = createSlice({
         console.error(error.message);
       })
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      .addCase(getZapTokenAllowance.pending, state => {})
+      .addCase(getZapTokenAllowance.pending, () => {})
       .addCase(getZapTokenAllowance.fulfilled, (state, action) => {
         if (!action.payload) return;
         setAll(state.allowances, action.payload);
@@ -281,7 +276,7 @@ const zapTokenBalancesSlice = createSlice({
       .addCase(executeZap.pending, state => {
         state.stakeLoading = true;
       })
-      .addCase(executeZap.fulfilled, (state, action) => {
+      .addCase(executeZap.fulfilled, state => {
         state.stakeLoading = false;
       })
       .addCase(executeZap.rejected, (state, { error }) => {

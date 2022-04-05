@@ -1,4 +1,5 @@
 import { BigNumber, ethers } from "ethers";
+import { GOHM_ADDRESSES } from "src/constants/addresses";
 
 import { abi as gOHM } from "../abi/gOHM.json";
 import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
@@ -20,7 +21,11 @@ export const getTotalDonated = async ({ address, networkID, provider }: IBaseAdd
     return "0";
   }
 
-  const gohmContract = new ethers.Contract(addresses[networkID].GOHM_ADDRESS as string, gOHM, provider);
+  const gohmContract = new ethers.Contract(
+    GOHM_ADDRESSES[networkID as keyof typeof GOHM_ADDRESSES] as string,
+    gOHM,
+    provider,
+  );
 
   // Addresses in EVM events are zero padded out to 32 characters and are lower case
   // This matches our inputs with the data we expect to receive from Ethereum
