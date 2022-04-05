@@ -11,7 +11,7 @@ import { BondPrice } from "../../BondPrice";
 
 export const BondCard: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = ({ bond, isInverseBond }) => (
   <Box id={bond.id + `--bond`}>
-    <Box display="flex" alignItems="center" mb="16px">
+    <Box display="flex" alignItems="center">
       <TokenStack tokens={bond.quoteToken.icons} />
 
       <Box display="flex" flexDirection="column" ml="8px">
@@ -31,14 +31,12 @@ export const BondCard: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = ({ b
       </Box>
     </Box>
 
-    <Box display="flex" justifyContent="space-between" mt="8px">
+    <Box display="flex" justifyContent="space-between" mt="16px">
       <Typography>
         <Trans>Price</Trans>
       </Typography>
 
-      <Typography>
-        <BondPrice price={bond.price.inUsd} />
-      </Typography>
+      <Typography>{bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} />}</Typography>
     </Box>
 
     <Box display="flex" justifyContent="space-between" mt="8px">
@@ -46,9 +44,7 @@ export const BondCard: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = ({ b
         <Trans>Discount</Trans>
       </Typography>
 
-      <Typography>
-        <BondDiscount discount={bond.discount} />
-      </Typography>
+      <Typography>{bond.isSoldOut ? "--" : <BondDiscount discount={bond.discount} />}</Typography>
     </Box>
 
     {isInverseBond && (
@@ -67,7 +63,9 @@ export const BondCard: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = ({ b
           <Trans>Duration</Trans>
         </Typography>
 
-        <BondDuration duration={bond.duration} />
+        <Typography>
+          <BondDuration duration={bond.duration} />
+        </Typography>
       </Box>
     )}
 
