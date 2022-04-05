@@ -23,7 +23,7 @@ import { useClaimBonds } from "./hooks/useClaimBonds";
 
 export const ClaimBonds = () => {
   const notes = useBondNotes().data;
-  const isSmallScreen = useScreenSize("sm");
+  const isSmallScreen = useScreenSize("md");
   const claimBondsMutation = useClaimBonds();
   const currentIndex = useCurrentIndex().data;
   const [isPayoutGohm, setIsPayoutGohm] = useState(false);

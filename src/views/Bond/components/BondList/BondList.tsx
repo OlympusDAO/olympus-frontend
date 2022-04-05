@@ -10,7 +10,7 @@ import { BondRow } from "./components/BondRow";
 
 export const BondList: React.VFC<{ isInverseBond: boolean }> = props => {
   const bonds = useBonds().data;
-  const isSmallScreen = useScreenSize("sm");
+  const isSmallScreen = useScreenSize("md");
 
   if (!bonds) return null;
 
