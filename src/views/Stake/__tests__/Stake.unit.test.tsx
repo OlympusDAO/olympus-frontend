@@ -1,21 +1,7 @@
-import mediaQuery from "css-mediaquery";
+import { createMatchMedia } from "src/testHelpers";
 
 import { render, screen } from "../../../testUtils";
 import Stake from "../Stake";
-
-function createMatchMedia(width: any) {
-  return (query: string) => ({
-    matches: mediaQuery.match(query, {
-      width,
-    }),
-    addListener: () => {
-      undefined;
-    },
-    removeListener: () => {
-      undefined;
-    },
-  });
-}
 
 describe("<Stake/>", () => {
   it("should render component", async () => {
@@ -51,7 +37,7 @@ describe("<Stake/>", () => {
 
   describe("Mobile Resolution", () => {
     beforeAll(() => {
-      window.matchMedia = createMatchMedia("300px"); //tslint:disable-line
+      window.matchMedia = createMatchMedia("300px");
     });
 
     it("should render all supported multi chain staking contracts for mobile", async () => {

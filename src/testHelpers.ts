@@ -1,4 +1,4 @@
-//import { MockProvider } from "ethereum-waffle";
+import mediaQuery from "css-mediaquery";
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
 
@@ -19,4 +19,18 @@ export const mockWeb3Context = {
   providerUri: "http://localhost:8545",
   providerInitialized: true,
   web3Modal: new Web3Modal(),
+};
+
+export const createMatchMedia = (width: string) => {
+  return (query: string) => ({
+    matches: mediaQuery.match(query, {
+      width,
+    }),
+    addListener: () => {
+      undefined;
+    },
+    removeListener: () => {
+      undefined;
+    },
+  });
 };
