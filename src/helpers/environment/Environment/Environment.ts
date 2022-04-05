@@ -31,6 +31,13 @@ export class Environment {
       err: "Please provide an API key for Covalent (https://www.covalenthq.com) in your .env file",
     });
 
+  public static getZapperApiKey = () =>
+    this._get({
+      first: true,
+      key: "REACT_APP_ZAPPER_API",
+      err: "Please provide an API key for Zapper in your .env file",
+    });
+
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {
       case NetworkId.MAINNET:
