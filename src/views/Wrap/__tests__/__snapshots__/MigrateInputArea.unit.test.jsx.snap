@@ -1,0 +1,458 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
+<div>
+  <div>
+    <div />
+  </div>
+  <div
+    id="stake-view"
+  >
+    <div
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-2  MuiPaper-elevation0 MuiPaper-rounded"
+      style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+      >
+        <div
+          class="MuiGrid-root card-header MuiGrid-item"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-3"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-4"
+            >
+              <h5
+                class="MuiTypography-root header-text MuiTypography-h5"
+              >
+                Wrap / Unwrap
+              </h5>
+            </div>
+            <div
+              class="top-right"
+            >
+              <a
+                aria-label="wsohm-wut"
+                class="MuiTypography-root MuiLink-root MuiLink-underlineNone migrate-sohm-button MuiTypography-colorPrimary"
+                href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
+                style="text-decoration: none;"
+                target="_blank"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1"
+                >
+                  gOHM
+                </p>
+                 
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                  focusable="false"
+                  style="margin-left: 5px;"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item"
+        >
+          <div
+            class="MuiGrid-root"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-6"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                >
+                  <div
+                    class="makeStyles-root-7 "
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-8"
+                    >
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      >
+                        sOHM Price
+                      </h5>
+                      <h4
+                        class="MuiTypography-root MuiTypography-h4"
+                        style="width: 100%;"
+                      >
+                        <span
+                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                          style="width: 100%;"
+                        />
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                >
+                  <div
+                    class="makeStyles-root-7 "
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-9"
+                    >
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      >
+                        Current Index
+                        <div
+                          class="MuiBox-root MuiBox-root-10"
+                          style="font-size: 16px;"
+                        >
+                          <div
+                            class="MuiBox-root MuiBox-root-11"
+                            style="display: inline-flex; justify-content: center; align-self: center;"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                              focusable="false"
+                              style="margin: 0px 5px; font-size: 1em;"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </h5>
+                      <h4
+                        class="MuiTypography-root MuiTypography-h4"
+                        style="width: 100%;"
+                      >
+                        <span
+                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                          style="width: 100%;"
+                        />
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                >
+                  <div
+                    class="makeStyles-root-7 "
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-12"
+                    >
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      >
+                        gOHM Price
+                        <div
+                          class="MuiBox-root MuiBox-root-13"
+                          style="font-size: 16px;"
+                        >
+                          <div
+                            class="MuiBox-root MuiBox-root-14"
+                            style="display: inline-flex; justify-content: center; align-self: center;"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                              focusable="false"
+                              style="margin: 0px 5px; font-size: 1em;"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </h5>
+                      <h4
+                        class="MuiTypography-root MuiTypography-h4"
+                        style="width: 100%;"
+                      >
+                        <span
+                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                          style="width: 100%;"
+                        />
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-15"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-16"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                Migrate
+              </p>
+              <div
+                class="MuiFormControl-root"
+                style="margin: 0px 10px;"
+              >
+                <div
+                  class="MuiInputBase-root MuiInput-root MuiInputBase-formControl MuiInput-formControl"
+                >
+                  <div
+                    aria-haspopup="listbox"
+                    aria-labelledby="asset-select"
+                    class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+                    id="asset-select"
+                    role="button"
+                    tabindex="0"
+                  >
+                    wsOHM
+                  </div>
+                  <input
+                    aria-hidden="true"
+                    class="MuiSelect-nativeInput"
+                    tabindex="-1"
+                    value="wsOHM"
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSelect-icon MuiSvgIcon-fontSizeSmall"
+                    focusable="false"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M7 10l5 5 5-5z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <p
+                class="MuiTypography-root MuiTypography-body1"
+              >
+                <span
+                  class="asset-select-label"
+                >
+                   to 
+                </span>
+              </p>
+              <div
+                class="MuiFormControl-root"
+                style="margin: 0px 10px;"
+              >
+                <div
+                  class="MuiInputBase-root MuiInput-root MuiInputBase-formControl MuiInput-formControl"
+                >
+                  <div
+                    aria-haspopup="listbox"
+                    aria-labelledby="asset-select"
+                    class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+                    id="asset-select"
+                    role="button"
+                    tabindex="0"
+                  >
+                    gOHM
+                  </div>
+                  <input
+                    aria-hidden="true"
+                    class="MuiSelect-nativeInput"
+                    tabindex="-1"
+                    value="gOHM"
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSelect-icon MuiSvgIcon-fontSizeSmall"
+                    focusable="false"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M7 10l5 5 5-5z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-17"
+            >
+              <form
+                class="stake-tab-panel wrap-page"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-container"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
+                    style="padding-right: 4px;"
+                  >
+                    <div
+                      class="MuiFormControl-root makeStyles-root-22 MuiFormControl-fullWidth"
+                    >
+                      <div
+                        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-adornedEnd MuiOutlinedInput-adornedEnd"
+                      >
+                        <input
+                          aria-invalid="false"
+                          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiOutlinedInput-inputAdornedEnd"
+                          id="amount-input"
+                          name="amount-input"
+                          placeholder="Enter an amount of wsOHM"
+                          type="text"
+                          value="1"
+                        />
+                        <div
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd"
+                        >
+                          <button
+                            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-disableElevation"
+                            tabindex="0"
+                            type="button"
+                          >
+                            <span
+                              class="MuiButton-label"
+                            >
+                              Max
+                            </span>
+                          </button>
+                        </div>
+                        <fieldset
+                          aria-hidden="true"
+                          class="PrivateNotchedOutline-root-23 MuiOutlinedInput-notchedOutline"
+                          style="padding-left: 8px;"
+                        >
+                          <legend
+                            class="PrivateNotchedOutline-legend-24"
+                            style="width: 0.01px;"
+                          >
+                            <span>
+                              ​
+                            </span>
+                          </legend>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-27"
+                    >
+                      <button
+                        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                        data-testid="migrate-button"
+                        tabindex="0"
+                        type="submit"
+                      >
+                        <span
+                          class="MuiButton-label"
+                        >
+                          Migrate
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div
+            class="makeStyles-root-30 data-row"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-32"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              >
+                wsOHM Balance (Avalanche)
+              </p>
+            </div>
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              style="text-align: right;"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                style="width: 80px;"
+              />
+            </p>
+          </div>
+          <div
+            class="makeStyles-root-30 data-row"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-33"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              >
+                gOHM Balance (Avalanche)
+              </p>
+            </div>
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              style="text-align: right;"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                style="width: 80px;"
+              />
+            </p>
+          </div>
+          <hr
+            class="MuiDivider-root"
+          />
+          <div
+            class="MuiBox-root MuiBox-root-34"
+          >
+            <h6
+              class="MuiTypography-root MuiTypography-h6"
+              style="margin: 15px 0px 10px 0px;"
+            >
+              Back to Ethereum Mainnet
+            </h6>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-disableElevation"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label"
+              >
+                <img
+                  alt="Ethereum Logo"
+                  height="28px"
+                  src="wETH.svg"
+                  width="28px"
+                />
+                <h6
+                  class="MuiTypography-root MuiTypography-h6"
+                  style="margin-left: 8px;"
+                >
+                  Ethereum
+                </h6>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

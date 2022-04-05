@@ -27,7 +27,7 @@ describe("<App/>", () => {
     expect(screen.getByText("Connect your wallet to stake OHM")).toBeInTheDocument();
   });
 
-  it.only("should not render an error message when user wallet is connected and cached but not locked", async () => {
+  it("should not render an error message when user wallet is connected and cached but not locked", async () => {
     Web3Modal.prototype.connect = jest.fn().mockImplementation(async () => {
       // mock connection promise that never resolves
       return new Promise(function (resolve, reject) {
@@ -48,7 +48,7 @@ describe("<App/>", () => {
     });
   });
 
-  it.only("should not render a connection error message when user wallet is not cached, i.e. user has not connected wallet yet", async () => {
+  it("should not render a connection error message when user wallet is not cached, i.e. user has not connected wallet yet", async () => {
     Web3Modal.prototype.connect = jest.fn();
     // no cached provider
     Web3Modal.prototype.cachedProvider = undefined;
@@ -61,7 +61,7 @@ describe("<App/>", () => {
     expect(errorMessage).toBeNull(); // expect its not found
   });
 
-  it.only("should render an error message when user wallet is connected and cached then locked", async () => {
+  it("should render an error message when user wallet is connected and cached then locked", async () => {
     Web3Modal.prototype.connect = jest.fn().mockImplementation(async () => {
       throw Error("Wallet Locked");
     });
