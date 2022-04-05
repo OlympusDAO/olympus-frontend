@@ -122,17 +122,19 @@ const Bonds: React.VFC = () => {
 
   return (
     <Box paddingLeft="62px" paddingRight="32px" paddingY="8px">
-      {sortByDiscount(bonds).map(bond => (
-        <Link key={bond.id} component={NavLink} to={`/bonds/${bond.id}`}>
-          <Box display="flex" alignItems="center" justifyContent="space-between" paddingY="4px">
-            <Typography variant="body2">{bond.quoteToken.name}</Typography>
+      {sortByDiscount(bonds)
+        .filter(bond => !bond.isSoldOut)
+        .map(bond => (
+          <Link key={bond.id} component={NavLink} to={`/bonds/${bond.id}`}>
+            <Box display="flex" alignItems="center" justifyContent="space-between" paddingY="4px">
+              <Typography variant="body2">{bond.quoteToken.name}</Typography>
 
-            <Typography variant="body2">
-              <BondDiscount discount={bond.discount} />
-            </Typography>
-          </Box>
-        </Link>
-      ))}
+              <Typography variant="body2">
+                <BondDiscount discount={bond.discount} />
+              </Typography>
+            </Box>
+          </Link>
+        ))}
     </Box>
   );
 };
