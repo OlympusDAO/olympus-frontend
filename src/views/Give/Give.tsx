@@ -115,7 +115,7 @@ function Give({ selectedIndex, giveAssetType, changeAssetType }: GiveProps) {
                 />
               </TabPanel>
               <TabPanel value={view} index={3}>
-                <RedeemYield />
+                <RedeemYield giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
               </TabPanel>
             </Paper>
           </Zoom>

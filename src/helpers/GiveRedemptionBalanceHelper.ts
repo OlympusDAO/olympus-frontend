@@ -17,7 +17,7 @@ interface IDonorAddresses {
 
 interface IUserRedeeming {
   redeeming: {
-    sohmRedeemable: string;
+    gohmRedeemable: string;
     recipientInfo: IUserRecipientInfo;
   };
 }
@@ -46,7 +46,7 @@ export const getRedemptionBalancesAsync = async ({
   networkID,
   provider,
 }: IBaseAddressAsyncThunk): Promise<IUserRedeeming> => {
-  let redeemableBalance = 0;
+  let gohmRedeemable = 0;
   const recipientInfo: IUserRecipientInfo = {
     totalDebt: "0",
     agnosticDebt: "0",
@@ -65,8 +65,7 @@ export const getRedemptionBalancesAsync = async ({
     // Get current redeemable balance across all deposits to the user. This is
     // returned in gOHM, so it has to be converted from gOHM to sOHM to be
     // represented in the frontend
-    const gohmRedeemable = await givingContract.totalRedeemableBalance(address);
-    redeemableBalance = await gohmContract.balanceFrom(gohmRedeemable);
+    gohmRedeemable = await givingContract.totalRedeemableBalance(address);
 
     try {
       const recipientIds = await givingContract.getRecipientIds(address);
@@ -96,7 +95,7 @@ export const getRedemptionBalancesAsync = async ({
 
   return {
     redeeming: {
-      sohmRedeemable: ethers.utils.formatUnits(redeemableBalance, "gwei"),
+      gohmRedeemable: ethers.utils.formatEther(gohmRedeemable),
       recipientInfo: recipientInfo,
     },
   };

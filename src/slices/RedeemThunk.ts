@@ -40,7 +40,7 @@ const trackGiveEvent = (uaData: IUAData, eventAction?: string) => {
  */
 export const redeemBalance = createAsyncThunk(
   "redeem/redeemBalance",
-  async ({ provider, address, networkID }: IRedeemAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID, token }: IRedeemAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet!`));
       return;
@@ -65,7 +65,11 @@ export const redeemBalance = createAsyncThunk(
 
     try {
       uaData.type = "redeem";
-      redeemTx = await giving.redeemAllYieldAsSohm();
+      if (token === "sOHM") {
+        redeemTx = await giving.redeemAllYieldAsSohm();
+      } else {
+        redeemTx = await giving.redeemAllYield();
+      }
       const pendingTxnType = "redeeming";
       uaData.txHash = redeemTx.hash;
       dispatch(fetchPendingTxns({ txnHash: redeemTx.hash, text: "Redeeming sOHM", type: pendingTxnType }));
@@ -100,7 +104,7 @@ export const redeemBalance = createAsyncThunk(
  */
 export const redeemMockBalance = createAsyncThunk(
   "redeem/redeemMockBalance",
-  async ({ provider, address, networkID }: IRedeemAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID, token }: IRedeemAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error(t`Please connect your wallet!`));
       return;

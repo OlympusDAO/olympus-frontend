@@ -84,7 +84,7 @@ interface IUserDonationInfo {
 
 interface IUserRecipientInfo {
   totalDebt: string;
-  agnosticAmount: string;
+  agnosticDebt: string;
 }
 
 export const getBalances = createAsyncThunk(
@@ -689,7 +689,7 @@ export const calculateUserBondDetails = createAsyncThunk(
 export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
   giving: { sohmGive: number; gohmGive: number; donationInfo: IUserDonationInfo[]; loading: boolean };
   mockGiving: { sohmGive: number; gohmGive: number; donationInfo: IUserDonationInfo[]; loading: boolean };
-  redeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
+  redeeming: { gohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   mockRedeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   bonds: { [key: string]: IUserBondDetails };
   balances: {
@@ -771,17 +771,17 @@ const initialState: IAccountSlice = {
   giving: { sohmGive: 0, gohmGive: 0, donationInfo: [], loading: true },
   mockGiving: { sohmGive: 0, gohmGive: 0, donationInfo: [], loading: true },
   redeeming: {
-    sohmRedeemable: "",
+    gohmRedeemable: "",
     recipientInfo: {
       totalDebt: "",
-      agnosticAmount: "",
+      agnosticDebt: "",
     },
   },
   mockRedeeming: {
     sohmRedeemable: "",
     recipientInfo: {
       totalDebt: "",
-      agnosticAmount: "",
+      agnosticDebt: "",
     },
   },
   staking: { ohmStakeV1: 0, ohmUnstakeV1: 0, ohmStake: 0, ohmUnstake: 0 },
