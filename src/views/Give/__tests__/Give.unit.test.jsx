@@ -9,7 +9,6 @@ import { render, screen } from "../../../testUtils";
 import CausesDashboard from "../CausesDashboard";
 import Give from "../Give";
 import GrantsDashboard from "../GrantsDashboard";
-import RedeemYield from "../RedeemYield";
 import YieldRecipients from "../YieldRecipients";
 
 const project = {
@@ -53,14 +52,6 @@ describe("Give View Disconnected", () => {
     let container;
     await act(async () => {
       ({ container } = await render(<GrantsDashboard />));
-    });
-    expect(container).toMatchSnapshot();
-  });
-
-  it("should render Redeem Yield Screen", async () => {
-    let container;
-    await act(async () => {
-      ({ container } = await render(<RedeemYield />));
     });
     expect(container).toMatchSnapshot();
   });
@@ -110,7 +101,7 @@ describe("Give View Connected", () => {
   const store = configureStore({
     reducer,
     devTools: true,
-    ...preloadedState,
+    preloadedState,
   });
 
   it("should render project card with Donate Yield Button", async () => {

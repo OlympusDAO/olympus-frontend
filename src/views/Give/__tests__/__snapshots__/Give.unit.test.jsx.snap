@@ -15,7 +15,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
         >
           <div
-            class="MuiPaper-root makeStyles-root-79 makeStyles-root-80  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root makeStyles-root-66 makeStyles-root-67  MuiPaper-elevation0 MuiPaper-rounded"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -25,7 +25,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                 class="MuiGrid-root card-header MuiGrid-item"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-81"
+                  class="MuiBox-root MuiBox-root-68"
                 >
                   <div
                     class="top-left"
@@ -378,7 +378,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-83 makeStyles-root-84 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-70 makeStyles-root-71 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                           tabindex="0"
                           type="button"
                         >
@@ -407,7 +407,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
       >
         <div
-          class="MuiPaper-root makeStyles-root-79 makeStyles-root-85  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-66 makeStyles-root-72  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -417,10 +417,10 @@ exports[`Give View Connected should render project card with Donate Yield Button
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-86"
+                class="MuiBox-root MuiBox-root-73"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-87"
+                  class="MuiBox-root MuiBox-root-74"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -2524,178 +2524,10 @@ exports[`Give View Disconnected should render Grants Dashboard 1`] = `
 </div>
 `;
 
-exports[`Give View Disconnected should render Redeem Yield Screen 1`] = `
-<div>
-  <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
-  >
-    <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-    >
-      <h3
-        class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter"
-      >
-        <span
-          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-        />
-         sOHM
-      </h3>
-      <p
-        class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
-      >
-        Redeemable Yield
-      </p>
-    </div>
-    <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-    >
-      <div
-        class="MuiGrid-root MuiGrid-container"
-      >
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-        />
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6"
-        >
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-51 makeStyles-root-52 undefined MuiButton-containedPrimary MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
-            disabled=""
-            tabindex="-1"
-            type="button"
-          >
-            <span
-              class="MuiButton-label"
-            >
-              Redeem Yield
-            </span>
-          </button>
-        </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-        />
-      </div>
-    </div>
-    <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-    >
-      <div
-        class="MuiBox-root MuiBox-root-53"
-      >
-        <div
-          class="makeStyles-root-54 data-row"
-        >
-          <div
-            class="MuiBox-root MuiBox-root-56"
-          >
-            <p
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
-            >
-              Deposited sOHM
-            </p>
-          </div>
-          <p
-            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
-            style="text-align: right;"
-          >
-            <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-              style="width: 80px;"
-            />
-          </p>
-        </div>
-        <div
-          class="makeStyles-root-54 data-row"
-        >
-          <div
-            class="MuiBox-root MuiBox-root-57"
-          >
-            <p
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
-            >
-              Redeemable Amount
-            </p>
-          </div>
-          <p
-            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
-            style="text-align: right;"
-          >
-            <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-              style="width: 80px;"
-            />
-          </p>
-        </div>
-        <div
-          class="makeStyles-root-54 data-row"
-        >
-          <div
-            class="MuiBox-root MuiBox-root-58"
-          >
-            <p
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
-            >
-              Next Reward Amount
-            </p>
-          </div>
-          <p
-            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
-            style="text-align: right;"
-          >
-            0 sOHM
-          </p>
-        </div>
-        <div
-          class="makeStyles-root-54 data-row"
-        >
-          <div
-            class="MuiBox-root MuiBox-root-59"
-          >
-            <p
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
-            >
-              Next Reward Yield
-            </p>
-          </div>
-          <p
-            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
-            style="text-align: right;"
-          >
-            0%
-          </p>
-        </div>
-        <div
-          class="makeStyles-root-54 data-row"
-        >
-          <div
-            class="MuiBox-root MuiBox-root-60"
-          >
-            <p
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
-            >
-              ROI (5-Day Rate)
-            </p>
-          </div>
-          <p
-            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
-            style="text-align: right;"
-          >
-            0%
-          </p>
-        </div>
-      </div>
-    </div>
-    <div
-      class="MuiGrid-root MuiGrid-item"
-    />
-  </div>
-</div>
-`;
-
 exports[`Give View Disconnected should render Yield Recipients Screen with Donate to a cause button 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-64"
+    class="MuiBox-root MuiBox-root-51"
   >
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-justify-content-xs-center"
@@ -2713,7 +2545,7 @@ exports[`Give View Disconnected should render Yield Recipients Screen with Donat
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-65 makeStyles-root-66 undefined MuiButton-outlinedPrimary MuiButton-disableElevation"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-52 makeStyles-root-53 undefined MuiButton-outlinedPrimary MuiButton-disableElevation"
           tabindex="0"
           type="button"
         >
@@ -2744,7 +2576,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
         >
           <div
-            class="MuiPaper-root makeStyles-root-67 makeStyles-root-68  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root makeStyles-root-54 makeStyles-root-55  MuiPaper-elevation0 MuiPaper-rounded"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -2754,7 +2586,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                 class="MuiGrid-root card-header MuiGrid-item"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-69"
+                  class="MuiBox-root MuiBox-root-56"
                 >
                   <div
                     class="top-left"
@@ -3107,7 +2939,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-71 makeStyles-root-72 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-58 makeStyles-root-59 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                           tabindex="0"
                           type="button"
                         >
@@ -3136,7 +2968,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
       >
         <div
-          class="MuiPaper-root makeStyles-root-67 makeStyles-root-73  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-54 makeStyles-root-60  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -3146,10 +2978,10 @@ exports[`Give View Disconnected should render project card with connect wallet b
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-74"
+                class="MuiBox-root MuiBox-root-61"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-75"
+                  class="MuiBox-root MuiBox-root-62"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
