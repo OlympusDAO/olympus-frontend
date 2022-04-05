@@ -3,12 +3,12 @@ import { BigNumber, ethers } from "ethers";
 import { addresses, NetworkId } from "src/constants";
 import { GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { setAll } from "src/helpers";
-import { ZapHelper, ZapperToken } from "src/helpers/ZapHelper";
+import { ZapHelper } from "src/helpers/ZapHelper";
 import { IERC20__factory, Zap__factory } from "src/typechain";
 
 import { trackGAEvent } from "../helpers/analytics";
 import { getBalances } from "./AccountSlice";
-import { IActionValueAsyncThunk, IBaseAddressAsyncThunk, IValueAsyncThunk, IZapAsyncThunk } from "./interfaces";
+import { IActionValueAsyncThunk, IValueAsyncThunk, IZapAsyncThunk } from "./interfaces";
 import { error, info } from "./MessagesSlice";
 interface IUAData {
   address: string;
@@ -88,33 +88,6 @@ export const changeZapTokenAllowance = createAsyncThunk(
       console.error(e);
       dispatch(error(`${rpcError.message} ${rpcError.data?.message ?? ""}`));
       throw e;
-    }
-  },
-);
-
-export const getZapTokenBalances = createAsyncThunk(
-  "zap/getZapTokenBalances",
-  async ({ address }: IBaseAddressAsyncThunk, { dispatch }) => {
-    if (address) {
-      try {
-        const result = await ZapHelper.getZapTokens(address);
-        if (result.balances["ohm"]) {
-          result.balances["ohm"].hide = true;
-        }
-
-        for (const key in result.balances) {
-          const balance = result.balances[key];
-          const balanceRaw = balance.balanceRaw;
-          const balanceBigNumber = BigNumber.from(balanceRaw);
-          balance.balanceRaw = ethers.utils.formatUnits(balanceBigNumber, balance.decimals);
-        }
-
-        return result;
-      } catch (e: unknown) {
-        console.error(e);
-        dispatch(error("An error has occurred when fetching token balances."));
-        throw e;
-      }
     }
   },
 );
@@ -199,7 +172,7 @@ export const executeZap = createAsyncThunk(
       throw e;
     }
     dispatch(getBalances({ address, provider, networkID }));
-    dispatch(getZapTokenBalances({ address, provider, networkID }));
+    // TODO force refresh of zapTokenBalances
   },
 );
 
@@ -213,16 +186,12 @@ const zapNetworkAvailable = (networkID: NetworkId, dispatch: ThunkDispatch<unkno
 };
 
 export interface IZapSlice {
-  balances: { [key: string]: ZapperToken };
-  balancesLoading: boolean;
   changeAllowanceLoading: boolean;
   stakeLoading: boolean;
   allowances: { [key: string]: BigNumber };
 }
 
 const initialState: IZapSlice = {
-  balances: {},
-  balancesLoading: false,
   allowances: {},
   changeAllowanceLoading: false,
   stakeLoading: false,
@@ -239,18 +208,6 @@ const zapTokenBalancesSlice = createSlice({
 
   extraReducers: builder => {
     builder
-      .addCase(getZapTokenBalances.pending, state => {
-        state.balancesLoading = true;
-      })
-      .addCase(getZapTokenBalances.fulfilled, (state, action) => {
-        if (!action.payload) return;
-        setAll(state, action.payload);
-        state.balancesLoading = false;
-      })
-      .addCase(getZapTokenBalances.rejected, (state, { error }) => {
-        state.balancesLoading = false;
-        console.error(error.message);
-      })
       .addCase(changeZapTokenAllowance.pending, state => {
         state.changeAllowanceLoading = true;
       })

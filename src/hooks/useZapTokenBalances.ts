@@ -67,6 +67,13 @@ export const useZapTokenBalances = () => {
   );
 };
 
+/**
+ * This function formats the `ZapperResponse`.
+ *
+ * @param response JSON-formatted response from Zapper
+ * @param address wallet address (lowercase)
+ * @returns ZapHelperBalancesResponse object
+ */
 const parseResponse = (response: ZapperResponse, address: string): ZapHelperBalancesResponse => {
   const parsed = response[address].products
     .find(product => product.label === "Tokens")
