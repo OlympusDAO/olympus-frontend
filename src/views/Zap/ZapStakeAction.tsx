@@ -152,7 +152,7 @@ const ZapStakeAction: React.FC = () => {
           ? (ohmMarketPrice * currentIndex) / tokens[zapToken]?.price
           : ohmMarketPrice / tokens[zapToken]?.price
         : Number.MAX_VALUE,
-    [zapToken, outputToken],
+    [zapToken, outputToken, tokens, ohmMarketPrice, currentIndex],
   );
 
   useEffect(() => setZapTokenQuantity(inputQuantity), [exchangeRate]);
