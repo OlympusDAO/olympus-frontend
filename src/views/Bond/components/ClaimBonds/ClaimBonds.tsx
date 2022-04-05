@@ -82,7 +82,7 @@ export const ClaimBonds = () => {
       <Box mt="48px">
         {isSmallScreen ? (
           notes.map(note => (
-            <Box style={{ marginBottom: "30px" }}>
+            <Box mt="32px">
               <Box display="flex" alignItems="center">
                 <TokenStack tokens={note.bond.quoteToken.icons} />
 

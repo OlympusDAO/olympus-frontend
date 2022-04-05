@@ -1,15 +1,5 @@
 import { Trans } from "@lingui/macro";
-import {
-  Box,
-  Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@material-ui/core";
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { useScreenSize } from "src/hooks/useScreenSize";
 
@@ -26,19 +16,17 @@ export const BondList: React.VFC<{ isInverseBond: boolean }> = props => {
 
   if (isSmallScreen)
     return (
-      <Grid container spacing={5}>
-        <Box mt="24px" className="help-text">
-          <Typography variant="body2">
+      <>
+        <Box my="24px" textAlign="center" id="test">
+          <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}>
             <BondInfoText isInverseBond={props.isInverseBond} />
           </Typography>
         </Box>
 
         {sortByDiscount(bonds).map(bond => (
-          <Grid item xs={12}>
-            <BondCard key={bond.id} bond={bond} />
-          </Grid>
+          <BondCard key={bond.id} bond={bond} />
         ))}
-      </Grid>
+      </>
     );
 
   return (
@@ -81,8 +69,8 @@ export const BondList: React.VFC<{ isInverseBond: boolean }> = props => {
         </Table>
       </TableContainer>
 
-      <Box mt="24px" className="help-text">
-        <Typography variant="body2">
+      <Box mt="24px" textAlign="center" width="70%" mx="auto">
+        <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}>
           <BondInfoText isInverseBond={props.isInverseBond} />
         </Typography>
       </Box>

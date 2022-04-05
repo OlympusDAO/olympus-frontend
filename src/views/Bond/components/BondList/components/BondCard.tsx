@@ -10,7 +10,7 @@ import { BondDuration } from "../../BondDuration";
 import { BondPrice } from "../../BondPrice";
 
 export const BondCard: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = ({ bond, isInverseBond }) => (
-  <Box id={bond.id + `--bond`}>
+  <Box id={bond.id + `--bond`} mt="32px">
     <Box display="flex" alignItems="center">
       <TokenStack tokens={bond.quoteToken.icons} />
 
