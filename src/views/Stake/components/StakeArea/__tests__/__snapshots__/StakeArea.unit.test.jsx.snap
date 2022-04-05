@@ -1,0 +1,561 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StakeArea/> Connected no Approval should display unstake approval message when clicking unstake 1`] = `
+<div>
+  <div
+    class="MuiPaper-root makeStyles-root-67 makeStyles-root-68  MuiPaper-elevation0 MuiPaper-rounded"
+    style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+    >
+      <div
+        class="MuiGrid-root card-header MuiGrid-item"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-69"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-70"
+          >
+            <h5
+              class="MuiTypography-root header-text MuiTypography-h5"
+            >
+              Single Stake (3, 3)
+            </h5>
+          </div>
+          <div
+            class="top-right"
+          />
+        </div>
+        <div
+          class="MuiBox-root MuiBox-root-71"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-72 rebase-timer"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                style="width: 155px;"
+              />
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item"
+      >
+        <div
+          class="MuiGrid-root"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-73"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+              >
+                <div
+                  class="makeStyles-root-74 stake-apy"
+                >
+                  <div
+                    class="MuiBox-root MuiBox-root-75"
+                  >
+                    <h5
+                      class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                    >
+                      APY
+                    </h5>
+                    <h4
+                      class="MuiTypography-root MuiTypography-h4"
+                      style="width: 100%;"
+                    >
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        style="width: 100%;"
+                      />
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+              >
+                <div
+                  class="makeStyles-root-74 stake-tvl"
+                >
+                  <div
+                    class="MuiBox-root MuiBox-root-76"
+                  >
+                    <h5
+                      class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                    >
+                      Total Value Deposited
+                    </h5>
+                    <h4
+                      class="MuiTypography-root MuiTypography-h4"
+                      style="width: 100%;"
+                    >
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        style="width: 100%;"
+                      />
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+              >
+                <div
+                  class="makeStyles-root-74 stake-index"
+                >
+                  <div
+                    class="MuiBox-root MuiBox-root-77"
+                  >
+                    <h5
+                      class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                    >
+                      Current Index
+                      <div
+                        class="MuiBox-root MuiBox-root-78"
+                        style="font-size: 16px;"
+                      >
+                        <div
+                          class="MuiBox-root MuiBox-root-79"
+                          style="display: inline-flex; justify-content: center; align-self: center;"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                            focusable="false"
+                            style="margin: 0px 5px; font-size: 1em;"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </h5>
+                    <h4
+                      class="MuiTypography-root MuiTypography-h4"
+                      style="width: 100%;"
+                    >
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        style="width: 100%;"
+                      />
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root MuiBox-root-85"
+        >
+          <div
+            class="MuiTabs-root stake-tab-buttons"
+          >
+            <div
+              class="MuiTabs-scroller MuiTabs-fixed"
+              style="overflow: hidden;"
+            >
+              <div
+                aria-label="stake tabs"
+                class="MuiTabs-flexContainer MuiTabs-centered"
+                role="tablist"
+              >
+                <button
+                  aria-label="stake-button"
+                  aria-selected="false"
+                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
+                  role="tab"
+                  tabindex="-1"
+                  type="button"
+                >
+                  <span
+                    class="MuiTab-wrapper"
+                  >
+                    Stake
+                  </span>
+                </button>
+                <button
+                  aria-label="unstake-button"
+                  aria-selected="true"
+                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected"
+                  role="tab"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiTab-wrapper"
+                  >
+                    Unstake
+                  </span>
+                </button>
+              </div>
+              <span
+                class="PrivateTabIndicator-root-86 PrivateTabIndicator-colorPrimary-87 MuiTabs-indicator"
+                style="left: 0px; width: 0px; display: none;"
+              />
+            </div>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-90"
+          >
+            <div
+              class="MuiGrid-root makeStyles-inputRow-91 MuiGrid-container"
+            >
+              <div
+                class="MuiGrid-root makeStyles-gridItem-92 MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-95"
+                >
+                  <p
+                    class="MuiTypography-root stake-note MuiTypography-body1 MuiTypography-colorTextSecondary"
+                  >
+                    First time unstaking
+                     
+                    <b>
+                      sOHM
+                    </b>
+                    ?
+                    <br />
+                    Please approve Olympus DAO to use your
+                     
+                    <b>
+                      sOHM
+                    </b>
+                     
+                    for unstaking
+                    .
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root makeStyles-gridItem-92 MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-96"
+                >
+                  <button
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-94 MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <span
+                      class="MuiButton-label"
+                    >
+                      Approve
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiPaper-root ohm-card confirm-dialog MuiPaper-elevation0 MuiPaper-rounded"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-99"
+            >
+              <label
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item"
+                >
+                  sOHM
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item"
+                >
+                  <span
+                    class="MuiSwitch-root stake-to-ohm-checkbox"
+                  >
+                    <span
+                      aria-disabled="false"
+                      class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-100 MuiSwitch-switchBase MuiSwitch-colorPrimary"
+                    >
+                      <span
+                        class="MuiIconButton-label"
+                      >
+                        <input
+                          aria-label="stake to gohm"
+                          class="PrivateSwitchBase-input-103 MuiSwitch-input"
+                          type="checkbox"
+                          value=""
+                        />
+                        <span
+                          class="MuiSwitch-thumb"
+                        />
+                      </span>
+                    </span>
+                    <span
+                      class="MuiSwitch-track"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item"
+                >
+                  gOHM
+                  <div
+                    class="MuiBox-root MuiBox-root-104"
+                    style="display: inline-flex; justify-content: center; align-self: center;"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                      focusable="false"
+                      style="margin: 0px 5px; font-size: 1em;"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </label>
+              <div
+                class="MuiBox-root MuiBox-root-105"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="makeStyles-root-106 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-108"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Unstaked Balance
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            id="user-balance"
+            style="text-align: right;"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+              style="width: 80px;"
+            />
+          </p>
+        </div>
+        <div
+          class="MuiPaper-root MuiAccordion-root stake-accordion Mui-expanded MuiPaper-elevation0"
+        >
+          <div
+            aria-disabled="false"
+            aria-expanded="true"
+            class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class="MuiAccordionSummary-content Mui-expanded"
+            >
+              <div
+                class="makeStyles-root-106 data-row"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-109"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                  >
+                    Total Staked Balance
+                  </p>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                  id="user-staked-balance"
+                  style="text-align: right;"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                    style="width: 80px;"
+                  />
+                </p>
+              </div>
+            </div>
+            <div
+              aria-disabled="false"
+              aria-hidden="true"
+              class="MuiButtonBase-root MuiIconButton-root MuiAccordionSummary-expandIcon Mui-expanded MuiIconButton-edgeEnd"
+            >
+              <span
+                class="MuiIconButton-label"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root stake-expand MuiSvgIcon-fontSizeSmall"
+                  focusable="false"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                  />
+                </svg>
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiCollapse-root MuiCollapse-entered"
+            style="min-height: 0px;"
+          >
+            <div
+              class="MuiCollapse-wrapper"
+            >
+              <div
+                class="MuiCollapse-wrapperInner"
+              >
+                <div
+                  role="region"
+                >
+                  <div
+                    class="MuiAccordionDetails-root"
+                  >
+                    <div
+                      class="makeStyles-root-106 data-row"
+                      style="padding-left: 10px;"
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-110"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          sOHM
+                        </p>
+                      </div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        id="sohm-balance"
+                        style="text-align: right;"
+                      >
+                        <span
+                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                          style="width: 80px;"
+                        />
+                      </p>
+                    </div>
+                    <div
+                      class="makeStyles-root-106 data-row"
+                      style="padding-left: 10px;"
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-111"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        >
+                          gOHM
+                        </p>
+                      </div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                        style="text-align: right;"
+                      >
+                        <span
+                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                          style="width: 80px;"
+                        />
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr
+          class="MuiDivider-root"
+          color="secondary"
+        />
+        <div
+          class="makeStyles-root-106 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-112"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Next Reward Amount
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+              style="width: 80px;"
+            />
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-106 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-113"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Next Reward Yield
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+              style="width: 80px;"
+            />
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-106 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-114"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              ROI (5-Day Rate)
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+              style="width: 80px;"
+            />
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
