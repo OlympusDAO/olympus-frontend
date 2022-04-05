@@ -246,6 +246,7 @@ const ZapStakeAction: React.FC = () => {
     }
   };
 
+  // TODO shift to tokenguard
   return (
     <>
       <ZapStakeHeader images={inputTokenImages} />
