@@ -240,19 +240,24 @@ const ZapStakeAction: React.FC = () => {
 
   const [customSlippage, setCustomSlippage] = useState<string>("1.0");
 
+  // Number(outputQuantity) * (1 - +customSlippage / 100)
+  const minimumAmount: DecimalBigNumber = new DecimalBigNumber(outputQuantity).mul(
+    new DecimalBigNumber((1 - +customSlippage / 100).toString(), 9),
+  );
+  const minimumAmountString = minimumAmount.toString({ decimals: 4, trim: true });
+
   const onZap = async () => {
     if (zapToken && outputGOHM != null && tokensBalance) {
       zapExecute.mutate({
         slippage: customSlippage,
         sellAmount: ethers.utils.parseUnits(inputQuantity, tokensBalance[zapToken]?.decimals),
         tokenAddress: tokensBalance[zapToken]?.address,
-        minimumAmount: trim(+outputQuantity * (1 - +customSlippage / 100), 2),
+        minimumAmount: minimumAmountString,
         gOHM: outputGOHM,
       });
     }
   };
 
-  // TODO shift to tokenguard
   return (
     <>
       <ZapStakeHeader images={inputTokenImages} />
@@ -438,7 +443,7 @@ const ZapStakeAction: React.FC = () => {
           <Trans>Minimum You Get</Trans>
         </Typography>
         <Typography>
-          {trim(Number(outputQuantity) * (1 - +customSlippage / 100), 2)} {outputGOHM ? "gOHM" : "sOHM"}
+          {minimumAmountString} {outputGOHM ? "gOHM" : "sOHM"}
         </Typography>
       </Box>
       {hasTokenAllowance ? (
@@ -452,6 +457,8 @@ const ZapStakeAction: React.FC = () => {
             outputGOHM == null ||
             zapExecute.isLoading ||
             outputQuantity === "" ||
+            // We cannot pass a minimum amount of 0 to the mutation, so catch it here
+            minimumAmountString === "0" ||
             DISABLE_ZAPS ||
             (+outputQuantity < 0.5 && !outputGOHM)
           }
@@ -459,7 +466,7 @@ const ZapStakeAction: React.FC = () => {
         >
           {zapExecute.isLoading ? (
             <Trans>Pending...</Trans>
-          ) : outputQuantity === "" ? (
+          ) : outputQuantity === "" || minimumAmountString === "0" ? (
             <Trans>Enter Amount</Trans>
           ) : +outputQuantity >= 0.5 || outputGOHM ? (
             <Trans>Zap-Stake</Trans>
