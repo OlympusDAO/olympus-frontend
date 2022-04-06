@@ -72,10 +72,12 @@ export const useZapExecute = () => {
         ...(tokenAddress === ethers.constants.AddressZero && { value: sellAmount }),
       };
 
+      console.debug("Fetching token swap data from Zapper");
       const swapData = await fetchSwapData(address, sellAmount, tokenAddress, +slippage / 100);
       const toToken = gOHM
         ? GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
         : SOHM_ADDRESSES[networkId as keyof typeof SOHM_ADDRESSES];
+      console.debug("Calling Zapper contract");
       const transaction = await contract.ZapStake(
         tokenAddress,
         sellAmount,
@@ -86,6 +88,7 @@ export const useZapExecute = () => {
         address,
         additionalOptions,
       );
+      console.debug("Awaiting transaction");
       return transaction.wait();
     },
     {
@@ -104,7 +107,7 @@ export const useZapExecute = () => {
           metric1: parseFloat(uaData.value),
         });
 
-        console.error(e);
+        console.error(`Encountered error while executing Zap: ${e.message}`);
 
         if (e.message.indexOf("High Slippage") > 0) {
           dispatch(error(`Transaction would fail due to slippage. Please use a higher slippage tolerance value.`));
@@ -113,9 +116,16 @@ export const useZapExecute = () => {
         } else {
           dispatch(error(e.message));
         }
-        throw e;
+
+        /**
+         * NOTE: Previously, ZapSlice would re-throw the error here.
+         * Re-throwing within react-query prevents the states (e.g. `isLoading`)
+         * from being set correctly, so we don't do that.
+         */
       },
       onSuccess: (_data, variables) => {
+        console.debug("Zap successful");
+
         const uaData: IUADataZap = {
           address: address,
           value: variables.sellAmount.toString(),
