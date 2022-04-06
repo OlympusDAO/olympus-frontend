@@ -28,8 +28,9 @@ import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { useZapExecute } from "src/hooks/useZapExecute";
 import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
-import { executeZap, zapNetworkCheck } from "src/slices/ZapSlice";
+import { zapNetworkCheck } from "src/slices/ZapSlice";
 
 import { ReactComponent as DownIcon } from "../../assets/icons/arrow-down.svg";
 import { ReactComponent as ZapperIcon } from "../../assets/icons/powered-by-zapper.svg";
@@ -64,15 +65,14 @@ const useStyles = makeStyles(theme => ({
 type ZapQuantity = string | number | null;
 
 const ZapStakeAction: React.FC = () => {
-  const { address, provider, networkId } = useWeb3Context();
+  const { address, networkId } = useWeb3Context();
 
   const dispatch = useDispatch();
   const classes = useStyles();
 
   const zapTokenBalances = useZapTokenBalances();
   const tokens = zapTokenBalances.data?.balances;
-
-  const isExecuteZapLoading = useAppSelector(state => state.zap.stakeLoading);
+  const zapExecute = useZapExecute();
 
   const [outputToken, setOutputToken] = useState<boolean | null>(null);
   const handleSelectOutputToken = (token: string) => {
@@ -231,18 +231,13 @@ const ZapStakeAction: React.FC = () => {
 
   const onZap = async () => {
     if (zapToken && outputToken != null && tokens) {
-      dispatch(
-        executeZap({
-          address,
-          provider,
-          slippage: customSlippage,
-          sellAmount: ethers.utils.parseUnits(inputQuantity, tokens[zapToken]?.decimals),
-          tokenAddress: tokens[zapToken]?.address,
-          networkID: networkId,
-          minimumAmount: trim(+outputQuantity * (1 - +customSlippage / 100), 2),
-          gOHM: outputToken,
-        }),
-      );
+      zapExecute.mutate({
+        slippage: customSlippage,
+        sellAmount: ethers.utils.parseUnits(inputQuantity, tokens[zapToken]?.decimals),
+        tokenAddress: tokens[zapToken]?.address,
+        minimumAmount: trim(+outputQuantity * (1 - +customSlippage / 100), 2),
+        gOHM: outputToken,
+      });
     }
   };
 
@@ -443,14 +438,14 @@ const ZapStakeAction: React.FC = () => {
           disabled={
             zapToken == null ||
             outputToken == null ||
-            isExecuteZapLoading ||
+            zapExecute.isLoading ||
             outputQuantity === "" ||
             DISABLE_ZAPS ||
             (+outputQuantity < 0.5 && !outputToken)
           }
           onClick={onZap}
         >
-          {isExecuteZapLoading ? (
+          {zapExecute.isLoading ? (
             <Trans>Pending...</Trans>
           ) : outputQuantity === "" ? (
             <Trans>Enter Amount</Trans>
@@ -506,7 +501,7 @@ const ZapStakeAction: React.FC = () => {
               color="primary"
               disabled={
                 !hasTokenAllowance ||
-                isExecuteZapLoading ||
+                zapExecute.isLoading ||
                 outputQuantity === "" ||
                 (+outputQuantity < 0.5 && !outputToken) ||
                 DISABLE_ZAPS
