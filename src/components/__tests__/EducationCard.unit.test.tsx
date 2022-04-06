@@ -17,22 +17,28 @@ describe("<ArrowGraphic/>", () => {
 });
 
 describe("<CompactYield/>", () => {
+  const giveAssetType = "sOHM";
+
   it("should render component", () => {
-    const { container } = render(<CompactYield quantity={"1"} />);
+    const { container } = render(<CompactYield quantity={"1"} asset={giveAssetType} />);
     expect(container).toMatchSnapshot();
   });
 });
 
 describe("<CompactVault/>", () => {
+  const giveAssetType = "sOHM";
+
   it("should render component", () => {
-    const { container } = render(<CompactVault quantity={"1"} />);
+    const { container } = render(<CompactVault quantity={"1"} asset={giveAssetType} />);
     expect(container).toMatchSnapshot();
   });
 });
 
 describe("<CompactWallet/>", () => {
   it("should render component", () => {
-    const { container } = render(<CompactWallet quantity={"1"} />);
+    const giveAssetType = "sOHM";
+
+    const { container } = render(<CompactWallet quantity={"1"} asset={giveAssetType} />);
     expect(container).toMatchSnapshot();
   });
 });

@@ -120,6 +120,50 @@ exports[`<Give/> should render component 1`] = `
                 />
               </div>
             </div>
+            <label
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item"
+              >
+                sOHM
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item"
+              >
+                <span
+                  class="MuiSwitch-root give-sohm-gohm-checkbox"
+                >
+                  <span
+                    aria-disabled="false"
+                    class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-10 MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-checked-11 Mui-checked"
+                  >
+                    <span
+                      class="MuiIconButton-label"
+                    >
+                      <input
+                        aria-label="stake to gohm"
+                        checked=""
+                        class="PrivateSwitchBase-input-13 MuiSwitch-input"
+                        type="checkbox"
+                        value=""
+                      />
+                      <span
+                        class="MuiSwitch-thumb"
+                      />
+                    </span>
+                  </span>
+                  <span
+                    class="MuiSwitch-track"
+                  />
+                </span>
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item"
+              >
+                gOHM
+              </div>
+            </label>
             <div
               aria-labelledby="simple-tab-0"
               id="simple-tabpanel-0"
@@ -127,7 +171,7 @@ exports[`<Give/> should render component 1`] = `
               style="overflow: hidden;"
             >
               <div
-                class="MuiBox-root MuiBox-root-10"
+                class="MuiBox-root MuiBox-root-14"
               >
                 <div
                   class="MuiContainer-root MuiContainer-maxWidthLg"
@@ -137,144 +181,696 @@ exports[`<Give/> should render component 1`] = `
                     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      >
+                        <a
+                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          href="#/give/projects/impact-market"
+                        >
+                          <h4
+                            class="MuiTypography-root MuiTypography-h4"
+                          >
+                            <strong>
+                              Impact Market
+                            </strong>
+                          </h4>
+                        </a>
+                      </div>
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                          style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                        >
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/impact-market"
+                            >
+                              <img
+                                src="/assets/images/give/impact-market/impact-market-logo.svg"
+                                width="100%"
+                              />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
                       >
                         <div
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                         >
-                          <a
-                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                            href="#/give/projects/impact-market"
+                          <p
+                            class="MuiTypography-root project-content MuiTypography-body1"
                           >
-                            <h4
-                              class="MuiTypography-root MuiTypography-h4"
-                            >
-                              <strong>
-                                Impact Market
-                              </strong>
-                            </h4>
-                          </a>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
-                            style="max-height: 184px; overflow: hidden; border-radius: 16px;"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                            >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/impact-market"
-                              >
-                                <img
-                                  src="/assets/images/give/impact-market/impact-market-logo.svg"
-                                  width="100%"
-                                />
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                          >
-                            <p
-                              class="MuiTypography-root project-content MuiTypography-body1"
-                            >
-                              <div>
-                                <p>
-                                  Enables any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income.
-                                </p>
-                                
+                            <div>
+                              <p>
+                                Enables any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income.
+                              </p>
+                              
 
-                              </div>
-                            </p>
-                          </div>
+                            </div>
+                          </p>
+                        </div>
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                        />
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+                        >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                          />
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                class="MuiGrid-root MuiGrid-item"
                               >
-                                <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  focusable="false"
+                                  viewBox="0 0 20 20"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M18 3.5L9.99659 11.5L7 9"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
-                                </div>
-                                <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  <path
+                                    d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                  <path
+                                    d="M18 3.5L9.99659 11.5L7 9"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                </svg>
+                              </div>
+                              <div
+                                class="MuiGrid-root MuiGrid-item"
+                              >
+                                <p
+                                  class="MuiTypography-root MuiTypography-body1"
+                                  title="Connect your wallet to view the fundraising progress"
                                 >
-                                  <p
-                                    class="MuiTypography-root MuiTypography-body1"
-                                    title="Connect your wallet to view the fundraising progress"
-                                  >
-                                    <strong>
-                                      <span
-                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                        style="width: 20px;"
-                                      />
-                                    </strong>
-                                    % of goal
-                                  </p>
-                                </div>
+                                  <strong>
+                                    <span
+                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                      style="width: 20px;"
+                                    />
+                                  </strong>
+                                  % of goal
+                                </p>
                               </div>
                             </div>
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                          </div>
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/impact-market"
                             >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/impact-market"
+                              <button
+                                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-16 makeStyles-root-17 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                                tabindex="0"
+                                type="button"
                               >
-                                <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-12 makeStyles-root-13 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                                  tabindex="0"
-                                  type="button"
+                                <span
+                                  class="MuiButton-label"
                                 >
-                                  <span
-                                    class="MuiButton-label"
-                                  >
-                                    View Details
-                                  </span>
-                                </button>
-                              </a>
+                                  View Details
+                                </span>
+                              </button>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      >
+                        <a
+                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          href="#/give/projects/angel-protocol"
+                        >
+                          <h4
+                            class="MuiTypography-root MuiTypography-h4"
+                          >
+                            <strong>
+                              Angel Protocol
+                            </strong>
+                          </h4>
+                        </a>
+                      </div>
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                          style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                        >
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/angel-protocol"
+                            >
+                              <img
+                                src="/assets/images/give/angel-protocol/angel-protocol-logo.svg"
+                                width="100%"
+                              />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        >
+                          <p
+                            class="MuiTypography-root project-content MuiTypography-body1"
+                          >
+                            <div>
+                              <p>
+                                Enables charities to create an endowment that makes better use of decentralized finance.
+                              </p>
+                              
+
                             </div>
+                          </p>
+                        </div>
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                        />
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+                        >
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                          >
+                            <div
+                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                            >
+                              <div
+                                class="MuiGrid-root MuiGrid-item"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  focusable="false"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                  <path
+                                    d="M18 3.5L9.99659 11.5L7 9"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                </svg>
+                              </div>
+                              <div
+                                class="MuiGrid-root MuiGrid-item"
+                              >
+                                <p
+                                  class="MuiTypography-root MuiTypography-body1"
+                                  title="Connect your wallet to view the fundraising progress"
+                                >
+                                  <strong>
+                                    <span
+                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                      style="width: 20px;"
+                                    />
+                                  </strong>
+                                  % of goal
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/angel-protocol"
+                            >
+                              <button
+                                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-16 makeStyles-root-21 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                                tabindex="0"
+                                type="button"
+                              >
+                                <span
+                                  class="MuiButton-label"
+                                >
+                                  View Details
+                                </span>
+                              </button>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      >
+                        <a
+                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          href="#/give/projects/gitcoin"
+                        >
+                          <h4
+                            class="MuiTypography-root MuiTypography-h4"
+                          >
+                            <strong>
+                              Gitcoin
+                            </strong>
+                          </h4>
+                        </a>
+                      </div>
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                          style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                        >
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/gitcoin"
+                            >
+                              <img
+                                src="/assets/images/give/gitcoin/gitcoin-logo.svg"
+                                width="100%"
+                              />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        >
+                          <p
+                            class="MuiTypography-root project-content MuiTypography-body1"
+                          >
+                            <div>
+                              <p>
+                                Gitcoin Grants uses quadratic funding, ensuring that projects doing the greatest public good get the most support.
+                              </p>
+                              
+
+                            </div>
+                          </p>
+                        </div>
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                        />
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+                        >
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                          >
+                            <div
+                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                            >
+                              <div
+                                class="MuiGrid-root MuiGrid-item"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  focusable="false"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                  <path
+                                    d="M18 3.5L9.99659 11.5L7 9"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                </svg>
+                              </div>
+                              <div
+                                class="MuiGrid-root MuiGrid-item"
+                              >
+                                <p
+                                  class="MuiTypography-root MuiTypography-body1"
+                                  title="Connect your wallet to view the fundraising progress"
+                                >
+                                  <strong>
+                                    <span
+                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                      style="width: 20px;"
+                                    />
+                                  </strong>
+                                  % of goal
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/gitcoin"
+                            >
+                              <button
+                                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-16 makeStyles-root-23 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                                tabindex="0"
+                                type="button"
+                              >
+                                <span
+                                  class="MuiButton-label"
+                                >
+                                  View Details
+                                </span>
+                              </button>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      >
+                        <a
+                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          href="#/give/projects/kolektivo"
+                        >
+                          <h4
+                            class="MuiTypography-root MuiTypography-h4"
+                          >
+                            <strong>
+                              Kolektivo
+                            </strong>
+                          </h4>
+                        </a>
+                      </div>
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                          style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                        >
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/kolektivo"
+                            >
+                              <img
+                                src="/assets/images/give/kolektivo/kolektivo-logo.svg"
+                                width="100%"
+                              />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        >
+                          <p
+                            class="MuiTypography-root project-content MuiTypography-body1"
+                          >
+                            <div>
+                              <p>
+                                Kolektivo enables local communities to create and manage their own regenerative economy to fuel prosperity.
+                              </p>
+                              
+
+                            </div>
+                          </p>
+                        </div>
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                        />
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+                        >
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                          >
+                            <div
+                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                            >
+                              <div
+                                class="MuiGrid-root MuiGrid-item"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  focusable="false"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                  <path
+                                    d="M18 3.5L9.99659 11.5L7 9"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                </svg>
+                              </div>
+                              <div
+                                class="MuiGrid-root MuiGrid-item"
+                              >
+                                <p
+                                  class="MuiTypography-root MuiTypography-body1"
+                                  title="Connect your wallet to view the fundraising progress"
+                                >
+                                  <strong>
+                                    <span
+                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                      style="width: 20px;"
+                                    />
+                                  </strong>
+                                  % of goal
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/kolektivo"
+                            >
+                              <button
+                                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-16 makeStyles-root-25 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                                tabindex="0"
+                                type="button"
+                              >
+                                <span
+                                  class="MuiButton-label"
+                                >
+                                  View Details
+                                </span>
+                              </button>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      >
+                        <a
+                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          href="#/give/projects/popcorndao"
+                        >
+                          <h4
+                            class="MuiTypography-root MuiTypography-h4"
+                          >
+                            <strong>
+                              PopcornDAO
+                            </strong>
+                          </h4>
+                        </a>
+                      </div>
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                          style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                        >
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/popcorndao"
+                            >
+                              <img
+                                src="/assets/images/give/popcorndao/popcorndao-logo.svg"
+                                width="100%"
+                              />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        >
+                          <p
+                            class="MuiTypography-root project-content MuiTypography-body1"
+                          >
+                            <div>
+                              <p>
+                                DAO whose mission is to redirect funds to social impact orgs
+                              </p>
+                              
+
+                            </div>
+                          </p>
+                        </div>
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                        />
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+                        >
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                          >
+                            <div
+                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                            >
+                              <div
+                                class="MuiGrid-root MuiGrid-item"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  focusable="false"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                  <path
+                                    d="M18 3.5L9.99659 11.5L7 9"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                </svg>
+                              </div>
+                              <div
+                                class="MuiGrid-root MuiGrid-item"
+                              >
+                                <p
+                                  class="MuiTypography-root MuiTypography-body1"
+                                  title="Connect your wallet to view the fundraising progress"
+                                >
+                                  <strong>
+                                    <span
+                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                      style="width: 20px;"
+                                    />
+                                  </strong>
+                                  % of goal
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                          >
+                            <a
+                              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                              href="#/give/projects/popcorndao"
+                            >
+                              <button
+                                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-16 makeStyles-root-27 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                                tabindex="0"
+                                type="button"
+                              >
+                                <span
+                                  class="MuiButton-label"
+                                >
+                                  View Details
+                                </span>
+                              </button>
+                            </a>
                           </div>
                         </div>
                       </div>
@@ -283,579 +879,7 @@ exports[`<Give/> should render component 1`] = `
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
-                      >
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        >
-                          <a
-                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                            href="#/give/projects/angel-protocol"
-                          >
-                            <h4
-                              class="MuiTypography-root MuiTypography-h4"
-                            >
-                              <strong>
-                                Angel Protocol
-                              </strong>
-                            </h4>
-                          </a>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
-                            style="max-height: 184px; overflow: hidden; border-radius: 16px;"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                            >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/angel-protocol"
-                              >
-                                <img
-                                  src="/assets/images/give/angel-protocol/angel-protocol-logo.svg"
-                                  width="100%"
-                                />
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                          >
-                            <p
-                              class="MuiTypography-root project-content MuiTypography-body1"
-                            >
-                              <div>
-                                <p>
-                                  Enables charities to create an endowment that makes better use of decentralized finance.
-                                </p>
-                                
-
-                              </div>
-                            </p>
-                          </div>
-                          <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                          />
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
-                            >
-                              <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
-                              >
-                                <div
-                                  class="MuiGrid-root MuiGrid-item"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M18 3.5L9.99659 11.5L7 9"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
-                                </div>
-                                <div
-                                  class="MuiGrid-root MuiGrid-item"
-                                >
-                                  <p
-                                    class="MuiTypography-root MuiTypography-body1"
-                                    title="Connect your wallet to view the fundraising progress"
-                                  >
-                                    <strong>
-                                      <span
-                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                        style="width: 20px;"
-                                      />
-                                    </strong>
-                                    % of goal
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
-                            >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/angel-protocol"
-                              >
-                                <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-12 makeStyles-root-17 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                                  tabindex="0"
-                                  type="button"
-                                >
-                                  <span
-                                    class="MuiButton-label"
-                                  >
-                                    View Details
-                                  </span>
-                                </button>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
-                      >
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        >
-                          <a
-                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                            href="#/give/projects/gitcoin"
-                          >
-                            <h4
-                              class="MuiTypography-root MuiTypography-h4"
-                            >
-                              <strong>
-                                Gitcoin
-                              </strong>
-                            </h4>
-                          </a>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
-                            style="max-height: 184px; overflow: hidden; border-radius: 16px;"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                            >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/gitcoin"
-                              >
-                                <img
-                                  src="/assets/images/give/gitcoin/gitcoin-logo.svg"
-                                  width="100%"
-                                />
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                          >
-                            <p
-                              class="MuiTypography-root project-content MuiTypography-body1"
-                            >
-                              <div>
-                                <p>
-                                  Gitcoin Grants uses quadratic funding, ensuring that projects doing the greatest public good get the most support.
-                                </p>
-                                
-
-                              </div>
-                            </p>
-                          </div>
-                          <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                          />
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
-                            >
-                              <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
-                              >
-                                <div
-                                  class="MuiGrid-root MuiGrid-item"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M18 3.5L9.99659 11.5L7 9"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
-                                </div>
-                                <div
-                                  class="MuiGrid-root MuiGrid-item"
-                                >
-                                  <p
-                                    class="MuiTypography-root MuiTypography-body1"
-                                    title="Connect your wallet to view the fundraising progress"
-                                  >
-                                    <strong>
-                                      <span
-                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                        style="width: 20px;"
-                                      />
-                                    </strong>
-                                    % of goal
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
-                            >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/gitcoin"
-                              >
-                                <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-12 makeStyles-root-19 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                                  tabindex="0"
-                                  type="button"
-                                >
-                                  <span
-                                    class="MuiButton-label"
-                                  >
-                                    View Details
-                                  </span>
-                                </button>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
-                      >
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        >
-                          <a
-                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                            href="#/give/projects/kolektivo"
-                          >
-                            <h4
-                              class="MuiTypography-root MuiTypography-h4"
-                            >
-                              <strong>
-                                Kolektivo
-                              </strong>
-                            </h4>
-                          </a>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
-                            style="max-height: 184px; overflow: hidden; border-radius: 16px;"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                            >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/kolektivo"
-                              >
-                                <img
-                                  src="/assets/images/give/kolektivo/kolektivo-logo.svg"
-                                  width="100%"
-                                />
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                          >
-                            <p
-                              class="MuiTypography-root project-content MuiTypography-body1"
-                            >
-                              <div>
-                                <p>
-                                  Kolektivo enables local communities to create and manage their own regenerative economy to fuel prosperity.
-                                </p>
-                                
-
-                              </div>
-                            </p>
-                          </div>
-                          <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                          />
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
-                            >
-                              <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
-                              >
-                                <div
-                                  class="MuiGrid-root MuiGrid-item"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M18 3.5L9.99659 11.5L7 9"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
-                                </div>
-                                <div
-                                  class="MuiGrid-root MuiGrid-item"
-                                >
-                                  <p
-                                    class="MuiTypography-root MuiTypography-body1"
-                                    title="Connect your wallet to view the fundraising progress"
-                                  >
-                                    <strong>
-                                      <span
-                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                        style="width: 20px;"
-                                      />
-                                    </strong>
-                                    % of goal
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
-                            >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/kolektivo"
-                              >
-                                <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-12 makeStyles-root-21 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                                  tabindex="0"
-                                  type="button"
-                                >
-                                  <span
-                                    class="MuiButton-label"
-                                  >
-                                    View Details
-                                  </span>
-                                </button>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
-                      >
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        >
-                          <a
-                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                            href="#/give/projects/popcorndao"
-                          >
-                            <h4
-                              class="MuiTypography-root MuiTypography-h4"
-                            >
-                              <strong>
-                                PopcornDAO
-                              </strong>
-                            </h4>
-                          </a>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
-                            style="max-height: 184px; overflow: hidden; border-radius: 16px;"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                            >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/popcorndao"
-                              >
-                                <img
-                                  src="/assets/images/give/popcorndao/popcorndao-logo.svg"
-                                  width="100%"
-                                />
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                          >
-                            <p
-                              class="MuiTypography-root project-content MuiTypography-body1"
-                            >
-                              <div>
-                                <p>
-                                  DAO whose mission is to redirect funds to social impact orgs
-                                </p>
-                                
-
-                              </div>
-                            </p>
-                          </div>
-                          <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                          />
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
-                            >
-                              <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
-                              >
-                                <div
-                                  class="MuiGrid-root MuiGrid-item"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
-                                  >
-                                    <path
-                                      d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M18 3.5L9.99659 11.5L7 9"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
-                                </div>
-                                <div
-                                  class="MuiGrid-root MuiGrid-item"
-                                >
-                                  <p
-                                    class="MuiTypography-root MuiTypography-body1"
-                                    title="Connect your wallet to view the fundraising progress"
-                                  >
-                                    <strong>
-                                      <span
-                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                        style="width: 20px;"
-                                      />
-                                    </strong>
-                                    % of goal
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
-                            >
-                              <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/popcorndao"
-                              >
-                                <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-12 makeStyles-root-23 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                                  tabindex="0"
-                                  type="button"
-                                >
-                                  <span
-                                    class="MuiButton-label"
-                                  >
-                                    View Details
-                                  </span>
-                                </button>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                    >
-                      <div
-                        class="MuiPaper-root makeStyles-root-1 makeStyles-root-25  MuiPaper-elevation0 MuiPaper-rounded"
+                        class="MuiPaper-root makeStyles-root-1 makeStyles-root-29  MuiPaper-elevation0 MuiPaper-rounded"
                         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
                       >
                         <div
@@ -889,7 +913,7 @@ exports[`<Give/> should render component 1`] = `
                                 class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-12 makeStyles-root-26 undefined MuiButton-outlinedPrimary MuiButton-disableElevation Mui-disabled Mui-disabled"
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-16 makeStyles-root-30 undefined MuiButton-outlinedPrimary MuiButton-disableElevation Mui-disabled Mui-disabled"
                                   disabled=""
                                   tabindex="-1"
                                   type="button"
@@ -935,7 +959,7 @@ exports[`<Give/> should render component 1`] = `
         </div>
       </div>
       <div
-        class="MuiPaper-root makeStyles-root-1 makeStyles-root-28  MuiPaper-elevation0 MuiPaper-rounded"
+        class="MuiPaper-root makeStyles-root-1 makeStyles-root-32  MuiPaper-elevation0 MuiPaper-rounded"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -1167,7 +1191,7 @@ sOHM deposit until you withdraw your sOHM principal from the vault.
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-12 makeStyles-root-29 undefined MuiButton-outlinedPrimary MuiButton-disableElevation"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-16 makeStyles-root-33 undefined MuiButton-outlinedPrimary MuiButton-disableElevation"
                   href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
                   tabindex="0"
                   target="_blank"
