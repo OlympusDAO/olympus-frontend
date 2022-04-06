@@ -264,7 +264,7 @@ export const changeGive = createAsyncThunk(
 
           // Have to use balanceTo instead of useCurrentIndex because useCurrentIndex
           // only pulls the current index from mainnet, not the one used on testnet
-          const gohmAmount = await gohmContract.balanceTo(reductionAmount);
+          const gohmAmount = await gohmContract.balanceTo(ethers.utils.parseUnits(reductionAmount, "gwei"));
 
           giveTx =
             token === "sOHM"
@@ -277,7 +277,7 @@ export const changeGive = createAsyncThunk(
 
         // Have to use balanceTo instead of useCurrentIndex because useCurrentIndex
         // only pulls the current index from mainnet, not the one used on testnet
-        const gohmAmount = await gohmContract.balanceTo(value);
+        const gohmAmount = await gohmContract.balanceTo(ethers.utils.parseUnits(value, "gwei"));
 
         giveTx =
           token === "sOHM"

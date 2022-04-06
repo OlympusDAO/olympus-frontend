@@ -1,6 +1,9 @@
+import { configureStore } from "@reduxjs/toolkit";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useWeb3Context } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { IBaseAddressAsyncThunk } from "src/slices/interfaces";
+import accountReducer from "src/slices/AccountSlice";
+import { mockWeb3Context } from "src/testHelpers";
 
 import { act, render, screen } from "../../../testUtils";
 import { DepositTableRow } from "../DepositRow";
@@ -17,21 +20,48 @@ interface IUserDonationInfo {
 }
 
 jest.mock("src/hooks/useCurrentIndex");
-jest.mock("src/slices/AccountSlice", () => {
-  const original = jest.requireActual("src/slices/AccountSlice");
-  return {
-    ...original,
-    getRedemptionBalances: async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => ({
-      gohmRedeemable: "0.1",
-      recipientInfo: {
-        totalDebt: "100",
-        agnosticDebt: "1",
-      },
-    }),
-  };
+
+afterEach(() => {
+  jest.restoreAllMocks();
 });
 
 describe("<Give/>", () => {
+  const preloadedState = {
+    account: {
+      giving: {
+        sohmGive: 999999999000000000,
+        gohmGive: 999999999000000000000000000000,
+        donationInfo: [
+          {
+            id: "1",
+            date: "03/16/2022",
+            deposit: "1.2",
+            recipient: "0x8A8b5a97978dB4a54367D7DCF6a50980990F2373",
+            yieldDonated: "0.1",
+          },
+        ],
+        loading: false,
+      },
+      redeeming: {
+        gohmRedeemable: "0.1",
+        recipientInfo: {
+          totalDebt: "100",
+          agnosticDebt: "1",
+        },
+      },
+    },
+  };
+
+  const reducer = {
+    account: accountReducer,
+  };
+
+  const store = configureStore({
+    reducer,
+    devTools: true,
+    preloadedState,
+  });
+
   let giveAssetType = "gOHM";
 
   const changeGiveAssetType = (checked: boolean) => {
@@ -100,15 +130,17 @@ describe("<Give/>", () => {
   it("should render correct units on Redeem Yield", async () => {
     giveAssetType = "gOHM";
     (useCurrentIndex as jest.Mock).mockReturnValue({ data: new DecimalBigNumber("100", 9) });
+    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
+    data.mockReturnValue(mockWeb3Context);
 
     await act(async () => {
-      render(<RedeemYield giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />);
+      render(<RedeemYield />);
     });
 
-    const gohmDeposit = await screen.getByText("1 gOHM");
-    const gohmRedeemable = await screen.getByText("0.1 gOHM");
-    expect(gohmDeposit).toBeInTheDocument();
-    expect(gohmRedeemable).toBeInTheDocument();
+    const sohmDeposit = await screen.getByText("100 sOHM");
+    const sohmRedeemable = await screen.getByText("10 sOHM");
+    expect(sohmDeposit).toBeInTheDocument();
+    expect(sohmRedeemable).toBeInTheDocument();
   });
 
   it("should render correct units on Manage Donation Modal", async () => {
