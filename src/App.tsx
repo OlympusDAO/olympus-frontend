@@ -54,7 +54,7 @@ if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 // 🔭 block explorer URL
 // const blockExplorer = targetNetwork.blockExplorer;
 
-const drawerWidth = 280;
+const drawerWidth = 312;
 const transitionDuration = 969;
 
 const useStyles = makeStyles(theme => ({

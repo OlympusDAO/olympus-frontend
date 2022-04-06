@@ -1,0 +1,578 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ZapStakeAction/>  Submit Button Should be disabled with < 2 tokens selected enabled with two selected 1`] = `
+<div
+  aria-hidden="true"
+>
+  <div
+    class="MuiBox-root MuiBox-root-4"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-container"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-4"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-5"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-6"
+          >
+            <div
+              class="MuiAvatar-root MuiAvatar-circular"
+              style="z-index: 1; height: 35px; width: 35px; margin-bottom: 16px;"
+            >
+              <img
+                class="MuiAvatar-img"
+                src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x6b175474e89094c44da98b954eedeac495271d0f.png"
+              />
+            </div>
+            <div
+              class="MuiAvatar-root MuiAvatar-circular"
+              style="margin-left: -7px; z-index: 1; height: 35px; width: 35px; margin-bottom: 16px;"
+            >
+              <img
+                class="MuiAvatar-img"
+                src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x0000000000000000000000000000000000000000.png"
+              />
+            </div>
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+              focusable="false"
+              style="z-index: 1; margin-bottom: 16px;"
+              viewBox="0 0 32 32"
+            >
+              <circle
+                cx="16"
+                cy="16"
+                fill="#253449"
+                r="16"
+              />
+              <path
+                d="M5.28146 17.313V16.634H6.41546V15.5H7.10146V16.634H8.23546V17.313H7.10146V18.447H6.41546V17.313H5.28146ZM10.7516 19V14.03H11.5006L13.2366 16.809L14.9726 14.03H15.7216V19H14.9026V15.605L13.5236 17.817H12.9636L11.5706 15.598V19H10.7516ZM19.6696 18.545C19.3196 18.895 18.8856 19.07 18.3676 19.07C17.8496 19.07 17.4132 18.895 17.0586 18.545C16.7086 18.1903 16.5336 17.7587 16.5336 17.25C16.5336 16.7413 16.7086 16.312 17.0586 15.962C17.4132 15.6073 17.8496 15.43 18.3676 15.43C18.8856 15.43 19.3196 15.6073 19.6696 15.962C20.0242 16.312 20.2016 16.7413 20.2016 17.25C20.2016 17.7587 20.0242 18.1903 19.6696 18.545ZM18.3676 18.356C18.6709 18.356 18.9206 18.251 19.1166 18.041C19.3172 17.8263 19.4176 17.5627 19.4176 17.25C19.4176 16.9373 19.3172 16.676 19.1166 16.466C18.9206 16.2513 18.6709 16.144 18.3676 16.144C18.0596 16.144 17.8052 16.2513 17.6046 16.466C17.4086 16.676 17.3106 16.9373 17.3106 17.25C17.3106 17.5627 17.4086 17.8263 17.6046 18.041C17.8052 18.251 18.0596 18.356 18.3676 18.356ZM20.976 19V15.5H21.746V15.969C21.816 15.829 21.9327 15.71 22.096 15.612C22.2593 15.514 22.4367 15.465 22.628 15.465C22.754 15.465 22.873 15.479 22.985 15.507L22.873 16.256C22.803 16.228 22.7027 16.214 22.572 16.214C22.4087 16.214 22.2477 16.2607 22.089 16.354C21.935 16.4473 21.8207 16.5803 21.746 16.753V19H20.976ZM25.0395 19.07C24.5075 19.07 24.0688 18.8997 23.7235 18.559C23.3828 18.2183 23.2125 17.782 23.2125 17.25C23.2125 16.732 23.3851 16.3003 23.7305 15.955C24.0758 15.605 24.5121 15.43 25.0395 15.43C25.5248 15.43 25.9261 15.584 26.2435 15.892C26.5655 16.2 26.7265 16.6247 26.7265 17.166C26.7265 17.2593 26.7241 17.3433 26.7195 17.418H23.9685C23.9871 17.7027 24.0968 17.9337 24.2975 18.111C24.4981 18.2837 24.7478 18.37 25.0465 18.37C25.4945 18.37 25.8281 18.1927 26.0475 17.838L26.6355 18.258C26.2995 18.7993 25.7675 19.07 25.0395 19.07ZM24.0035 16.858H25.9495C25.9075 16.6153 25.7978 16.4263 25.6205 16.291C25.4478 16.151 25.2448 16.081 25.0115 16.081C24.7688 16.081 24.5518 16.1487 24.3605 16.284C24.1738 16.4193 24.0548 16.6107 24.0035 16.858Z"
+                fill="white"
+              />
+            </svg>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+          >
+            Select any asset
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-8"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+            focusable="false"
+            style="margin-bottom: 16px;"
+            viewBox="0 0 32 32"
+          >
+            <circle
+              cx="16"
+              cy="16"
+              fill="#8977F5"
+              r="16"
+            />
+            <path
+              clip-rule="evenodd"
+              d="M 24.041 13.382 C 24.39 13.382 24.652 13.556 24.826 13.905 C 25.001 14.167 24.913 14.516 24.739 14.778 L 16.02 25.251 C 15.845 25.513 15.584 25.6 15.322 25.6 C 15.235 25.6 15.06 25.6 14.973 25.513 C 14.624 25.425 14.363 24.989 14.45 24.64 L 15.235 18.618 L 8.346 18.618 C 7.998 18.618 7.736 18.444 7.562 18.182 C 7.387 17.833 7.475 17.484 7.649 17.222 L 16.368 6.749 C 16.63 6.4 17.066 6.313 17.415 6.487 C 17.763 6.575 18.025 7.011 17.938 7.36 L 17.153 13.382 L 24.041 13.382 Z M 17.066 17.832 L 16.543 21.847 L 22.123 15.127 L 16.107 15.127 C 15.932 15.127 15.671 15.039 15.496 14.865 C 15.409 14.69 15.322 14.428 15.322 14.167 L 15.758 10.152 L 10.178 16.872 L 16.194 16.872 C 16.455 16.872 16.717 16.959 16.892 17.134 C 16.979 17.308 17.066 17.57 17.066 17.832 Z"
+              fill="white"
+              fill-rule="evenodd"
+            />
+          </svg>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+          >
+            Swap for OHM
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-9"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-10"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+              focusable="false"
+              style="z-index: 1; margin-bottom: 16px;"
+              viewBox="0 0 32 32"
+            >
+              <defs>
+                <lineargradient
+                  gradientTransform="matrix(0.319996, 0, 0, 0.319996, -0.000007, -1.775952)"
+                  gradientUnits="userSpaceOnUse"
+                  id="paint0_linear"
+                  x1="-83.5339"
+                  x2="189.059"
+                  y1="50"
+                  y2="50"
+                >
+                  <stop
+                    stop-color="#708B96"
+                  />
+                  <stop
+                    offset="1"
+                    stop-color="#F7FBE7"
+                  />
+                </lineargradient>
+              </defs>
+              <path
+                clip-rule="evenodd"
+                d="M 15.982 28.228 C 23.688 28.228 29.934 21.982 29.934 14.276 C 29.934 12.658 29.658 11.104 29.152 9.659 L 29.152 5.11 C 30.947 7.696 32 10.837 32 14.224 C 32 23.06 24.836 30.224 16 30.224 C 7.163 30.224 0 23.06 0 14.224 C 0 10.817 1.065 7.659 2.88 5.064 L 2.88 9.472 C 2.331 10.97 2.031 12.588 2.031 14.276 C 2.031 21.982 8.276 28.228 15.982 28.228 Z"
+                fill="url(#paint0_linear)"
+                fill-rule="evenodd"
+              />
+              <path
+                d="M 3.552 14.224 C 3.552 7.349 9.125 1.776 16 1.776 C 22.875 1.776 28.448 7.349 28.448 14.224 C 28.448 21.099 22.875 26.671 16 26.671 C 9.125 26.671 3.552 21.099 3.552 14.224 Z"
+                fill="#708B96"
+              />
+              <path
+                clip-rule="evenodd"
+                d="M 17.195 19.176 C 17.195 19.176 17.195 19.176 17.195 19.176 L 17.195 19.726 L 21.477 19.726 L 21.477 18.181 L 19.363 18.181 C 20.634 17.219 21.451 15.72 21.451 14.037 C 21.451 11.129 19.011 8.772 16 8.772 C 12.989 8.772 10.548 11.129 10.548 14.037 C 10.548 15.72 11.365 17.219 12.637 18.181 L 10.523 18.181 L 10.523 19.726 L 14.805 19.726 L 14.805 19.176 L 14.805 17.652 C 13.245 17.16 12.116 15.733 12.116 14.05 C 12.116 11.96 13.855 10.266 16 10.266 C 18.145 10.266 19.884 11.96 19.884 14.05 C 19.884 15.733 18.755 17.16 17.195 17.652 L 17.195 19.176 Z"
+                fill="white"
+                fill-rule="evenodd"
+              />
+            </svg>
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+              focusable="false"
+              style="margin-left: -6px; z-index: 1; margin-bottom: 16px;"
+              viewBox="0 0 32 32"
+            >
+              <defs>
+                <lineargradient
+                  gradientTransform="matrix(0.177778, 0, 0, 0.177778, 1.777779, 1.777779)"
+                  gradientUnits="userSpaceOnUse"
+                  id="paint0_linear_359"
+                  x1="80"
+                  x2="80"
+                  y1="-84"
+                  y2="256"
+                >
+                  <stop
+                    offset="0.1949"
+                    stop-color="#708B96"
+                  />
+                  <stop
+                    offset="1"
+                    stop-color="#F7FBE7"
+                  />
+                </lineargradient>
+              </defs>
+              <path
+                d="M 1.778 16 C 1.778 8.145 8.145 1.778 16 1.778 C 23.855 1.778 30.222 8.145 30.222 16 C 30.222 23.855 23.855 30.222 16 30.222 C 8.145 30.222 1.778 23.855 1.778 16 Z"
+                fill="#fff"
+              />
+              <rect
+                fill="#fff"
+                height="12.516"
+                width="12.516"
+                x="9.742"
+                y="9.771"
+              />
+              <path
+                clip-rule="evenodd"
+                d="M 14.635 22.286 L 14.635 19.916 C 12.852 19.355 11.563 17.725 11.563 15.801 C 11.563 13.413 13.549 11.477 16 11.477 C 18.451 11.477 20.437 13.413 20.437 15.801 C 20.437 17.725 19.148 19.355 17.365 19.916 L 17.365 21.658 L 17.365 22.258 L 17.365 22.286 L 22.258 22.286 L 22.258 20.523 L 19.842 20.523 C 21.295 19.421 22.229 17.709 22.229 15.787 C 22.229 12.464 19.44 9.771 16 9.771 C 12.56 9.771 9.771 12.464 9.771 15.787 C 9.771 17.709 10.705 19.421 12.158 20.523 L 9.742 20.523 L 9.742 22.286 Z"
+                fill="#708b96"
+                fill-rule="evenodd"
+              />
+              <path
+                d="M 16 28.444 C 9.127 28.444 3.556 22.873 3.556 16 L 0 16 C 0 24.837 7.163 32 16 32 Z M 28.444 16 C 28.444 22.873 22.873 28.444 16 28.444 L 16 32 C 24.837 32 32 24.837 32 16 Z M 16 3.556 C 22.873 3.556 28.444 9.127 28.444 16 L 32 16 C 32 7.163 24.837 0 16 0 Z M 16 0 C 7.163 0 0 7.163 0 16 L 3.556 16 C 3.556 9.127 9.127 3.556 16 3.556 Z"
+                fill="url(#paint0_linear_359)"
+              />
+            </svg>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+          >
+            Auto staked
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p
+    class="MuiTypography-root MuiTypography-body1"
+  >
+    You Pay
+  </p>
+  <div
+    class="MuiFormControl-root zap-input"
+  >
+    <label
+      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+      data-shrink="true"
+      for="amount-input"
+    />
+    <div
+      class="MuiInputBase-root MuiOutlinedInput-root zap-input MuiInputBase-formControl MuiInputBase-adornedEnd MuiOutlinedInput-adornedEnd"
+    >
+      <input
+        aria-invalid="false"
+        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiOutlinedInput-inputAdornedEnd"
+        data-testid="zap-amount-input"
+        id="zap-amount-input"
+        placeholder="Enter Amount"
+        type="number"
+        value="1"
+      />
+      <div
+        class="MuiInputAdornment-root MuiInputAdornment-positionEnd"
+      >
+        <div
+          style="display: flex; align-items: center; justify-content: space-between; min-width: 50px;"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-37"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-38"
+            >
+              <button
+                class="MuiButtonBase-root"
+                tabindex="0"
+                type="button"
+              >
+                <div
+                  class="MuiAvatar-root MuiAvatar-circular"
+                  style="height: 30px; width: 30px;"
+                >
+                  <img
+                    class="MuiAvatar-img"
+                    src="https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x0000000000000000000000000000000000000000.png"
+                  />
+                </div>
+                <div
+                  class="MuiBox-root MuiBox-root-39"
+                />
+                <p
+                  class="MuiTypography-root MuiTypography-body1"
+                >
+                  ETH
+                </p>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                  focusable="false"
+                  style="height: 24px; width: 24px; z-index: 1;"
+                  viewBox="-8 -12 48 48"
+                >
+                  arrow-down.svg
+                </svg>
+              </button>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-40"
+            />
+            <div
+              class="MuiBox-root MuiBox-root-41"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+              >
+                Balance 1.00
+              </p>
+              <div
+                class="MuiBox-root MuiBox-root-42"
+              />
+              <button
+                class="MuiButtonBase-root"
+                tabindex="0"
+                type="button"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1"
+                >
+                  <b>
+                    Max
+                  </b>
+                </p>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <fieldset
+        aria-hidden="true"
+        class="PrivateNotchedOutline-root-43 MuiOutlinedInput-notchedOutline"
+        style="padding-left: 8px;"
+      >
+        <legend
+          class="PrivateNotchedOutline-legend-44"
+          style="width: 0.01px;"
+        >
+          <span>
+            ​
+          </span>
+        </legend>
+      </fieldset>
+    </div>
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-13"
+  >
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+      focusable="false"
+      style="height: 24px; width: 24px; z-index: 1;"
+      viewBox="-8 -12 48 48"
+    >
+      arrow-down.svg
+    </svg>
+  </div>
+  <p
+    class="MuiTypography-root MuiTypography-body1"
+  >
+    You Get
+  </p>
+  <div
+    class="MuiFormControl-root zap-input"
+  >
+    <label
+      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+      data-shrink="true"
+      for="amount-input"
+    />
+    <div
+      class="MuiInputBase-root MuiOutlinedInput-root zap-input MuiInputBase-formControl MuiInputBase-adornedEnd MuiOutlinedInput-adornedEnd"
+    >
+      <input
+        aria-invalid="false"
+        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiOutlinedInput-inputAdornedEnd"
+        data-testid="zap-amount-output"
+        id="zap-amount-output"
+        placeholder="Enter Amount"
+        type="number"
+        value="NaN"
+      />
+      <div
+        class="MuiInputAdornment-root MuiInputAdornment-positionEnd"
+      >
+        <div
+          style="display: flex; align-items: center; justify-content: space-between; min-width: 50px;"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-47"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-48"
+            >
+              <button
+                class="MuiButtonBase-root"
+                tabindex="0"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+                  focusable="false"
+                  viewBox="0 0 32 32"
+                >
+                  <defs>
+                    <lineargradient
+                      gradientTransform="matrix(0.177778, 0, 0, 0.177778, 1.777779, 1.777779)"
+                      gradientUnits="userSpaceOnUse"
+                      id="paint0_linear_359"
+                      x1="80"
+                      x2="80"
+                      y1="-84"
+                      y2="256"
+                    >
+                      <stop
+                        offset="0.1949"
+                        stop-color="#708B96"
+                      />
+                      <stop
+                        offset="1"
+                        stop-color="#F7FBE7"
+                      />
+                    </lineargradient>
+                  </defs>
+                  <path
+                    d="M 1.778 16 C 1.778 8.145 8.145 1.778 16 1.778 C 23.855 1.778 30.222 8.145 30.222 16 C 30.222 23.855 23.855 30.222 16 30.222 C 8.145 30.222 1.778 23.855 1.778 16 Z"
+                    fill="#fff"
+                  />
+                  <rect
+                    fill="#fff"
+                    height="12.516"
+                    width="12.516"
+                    x="9.742"
+                    y="9.771"
+                  />
+                  <path
+                    clip-rule="evenodd"
+                    d="M 14.635 22.286 L 14.635 19.916 C 12.852 19.355 11.563 17.725 11.563 15.801 C 11.563 13.413 13.549 11.477 16 11.477 C 18.451 11.477 20.437 13.413 20.437 15.801 C 20.437 17.725 19.148 19.355 17.365 19.916 L 17.365 21.658 L 17.365 22.258 L 17.365 22.286 L 22.258 22.286 L 22.258 20.523 L 19.842 20.523 C 21.295 19.421 22.229 17.709 22.229 15.787 C 22.229 12.464 19.44 9.771 16 9.771 C 12.56 9.771 9.771 12.464 9.771 15.787 C 9.771 17.709 10.705 19.421 12.158 20.523 L 9.742 20.523 L 9.742 22.286 Z"
+                    fill="#708b96"
+                    fill-rule="evenodd"
+                  />
+                  <path
+                    d="M 16 28.444 C 9.127 28.444 3.556 22.873 3.556 16 L 0 16 C 0 24.837 7.163 32 16 32 Z M 28.444 16 C 28.444 22.873 22.873 28.444 16 28.444 L 16 32 C 24.837 32 32 24.837 32 16 Z M 16 3.556 C 22.873 3.556 28.444 9.127 28.444 16 L 32 16 C 32 7.163 24.837 0 16 0 Z M 16 0 C 7.163 0 0 7.163 0 16 L 3.556 16 C 3.556 9.127 9.127 3.556 16 3.556 Z"
+                    fill="url(#paint0_linear_359)"
+                  />
+                </svg>
+                <div
+                  class="MuiBox-root MuiBox-root-49"
+                />
+                <p
+                  class="MuiTypography-root MuiTypography-body1"
+                >
+                  gOHM
+                </p>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                  focusable="false"
+                  style="height: 24px; width: 24px; z-index: 1;"
+                  viewBox="-8 -12 48 48"
+                >
+                  arrow-down.svg
+                </svg>
+              </button>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-50"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+              >
+                Balance 0.00
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <fieldset
+        aria-hidden="true"
+        class="PrivateNotchedOutline-root-43 MuiOutlinedInput-notchedOutline"
+        style="padding-left: 8px;"
+      >
+        <legend
+          class="PrivateNotchedOutline-legend-44"
+          style="width: 0.01px;"
+        >
+          <span>
+            ​
+          </span>
+        </legend>
+      </fieldset>
+    </div>
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-16"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body1"
+    >
+      Slippage Tolerance
+    </p>
+    <div
+      class="MuiBox-root MuiBox-root-17"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1"
+      >
+        1.0
+        %
+      </p>
+      <div
+        class="MuiBox-root MuiBox-root-18"
+      />
+      <button
+        class="MuiButtonBase-root MuiIconButton-root zap-settings-icon"
+        name="settings"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiIconButton-label"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root zap-settings-icon MuiSvgIcon-fontSizeSmall"
+            focusable="false"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M9.15332 19.1377H10.8384C11.5771 19.1377 12.1582 18.6812 12.3242 17.9839L12.6396 16.5977L12.8223 16.5312L14.0342 17.2783C14.6484 17.6602 15.3789 17.5605 15.8936 17.0376L17.064 15.8755C17.5869 15.3442 17.6782 14.6221 17.2964 14.0161L16.541 12.8125L16.6074 12.6465L17.9854 12.3145C18.6826 12.1401 19.1392 11.5674 19.1392 10.8369V9.20996C19.1392 8.48779 18.6826 7.89844 17.9854 7.73242L16.6157 7.39209L16.5493 7.21777L17.2964 6.01416C17.6865 5.4165 17.5869 4.69434 17.064 4.15479L15.9019 2.98438C15.3872 2.46973 14.6567 2.37012 14.0425 2.75195L12.8306 3.49072L12.6396 3.41602L12.3242 2.02979C12.1582 1.33252 11.5771 0.875977 10.8384 0.875977H9.15332C8.42285 0.875977 7.8418 1.33252 7.67578 2.02979L7.35205 3.41602L7.16113 3.49072L5.95752 2.75195C5.33496 2.37012 4.60449 2.46973 4.09814 2.98438L2.92773 4.15479C2.40479 4.69434 2.31348 5.4165 2.69531 6.01416L3.45068 7.21777L3.37598 7.39209L2.00635 7.73242C1.30908 7.90674 0.86084 8.48779 0.86084 9.20996V10.8369C0.86084 11.5674 1.31738 12.1484 2.00635 12.3145L3.39258 12.6465L3.45068 12.8125L2.70361 14.0161C2.32178 14.6221 2.41309 15.3442 2.93604 15.8755L4.10645 17.0376C4.61279 17.5605 5.35156 17.6602 5.96582 17.2783L7.17773 16.5312L7.35205 16.5977L7.67578 17.9839C7.8418 18.6812 8.42285 19.1377 9.15332 19.1377ZM9.42725 17.436C9.28613 17.436 9.21973 17.3779 9.20312 17.2534L8.71338 15.228C8.16553 15.1035 7.63428 14.8877 7.18604 14.5972L5.40967 15.6929C5.31006 15.7593 5.21045 15.751 5.11084 15.6597L4.31396 14.8628C4.22266 14.7715 4.22266 14.6719 4.28906 14.564L5.38477 12.7876C5.12744 12.3477 4.89502 11.8247 4.77881 11.2852L2.74512 10.8037C2.62061 10.7788 2.5542 10.7124 2.5542 10.5796V9.46729C2.5542 9.31787 2.6123 9.25977 2.74512 9.23486L4.77051 8.75342C4.89502 8.18896 5.13574 7.64941 5.37646 7.23438L4.28076 5.46631C4.21436 5.3501 4.20605 5.25049 4.30566 5.15918L5.10254 4.37891C5.20215 4.2793 5.29346 4.271 5.40967 4.3374L7.17773 5.4248C7.56787 5.16748 8.15723 4.92676 8.71338 4.78564L9.20312 2.76025C9.21973 2.63574 9.28613 2.57764 9.42725 2.57764H10.5728C10.7139 2.57764 10.772 2.63574 10.7969 2.76025L11.2866 4.80225C11.8511 4.92676 12.3657 5.15918 12.814 5.4248L14.582 4.3457C14.6982 4.2793 14.7812 4.2876 14.8892 4.37891L15.686 5.16748C15.7773 5.25879 15.7773 5.3584 15.7109 5.46631L14.6235 7.23438C14.856 7.64941 15.0967 8.18896 15.2212 8.74512L17.2549 9.23486C17.3794 9.25977 17.4375 9.31787 17.4375 9.46729V10.5796C17.4375 10.7124 17.3794 10.7788 17.2549 10.8037L15.2129 11.2852C15.0967 11.8247 14.8726 12.356 14.6069 12.7876L15.7026 14.564C15.769 14.6636 15.769 14.7632 15.6694 14.8545L14.8809 15.6514C14.7812 15.7427 14.6816 15.751 14.582 15.6846L12.8057 14.5972C12.3491 14.8877 11.8677 15.0952 11.2866 15.228L10.7969 17.2534C10.772 17.3779 10.7139 17.436 10.5728 17.436H9.42725ZM10 13.1528C11.7183 13.1528 13.1294 11.7334 13.1294 10.0068C13.1294 8.28857 11.7183 6.88574 10 6.88574C8.27344 6.88574 6.854 8.28857 6.854 10.0068C6.854 11.7334 8.27344 13.1528 10 13.1528ZM10 11.6006C9.12842 11.6006 8.41455 10.8867 8.41455 10.0068C8.41455 9.14355 9.13672 8.42969 10 8.42969C10.855 8.42969 11.5688 9.15186 11.5688 10.0068C11.5688 10.8784 10.855 11.6006 10 11.6006Z"
+            />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-20"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body1"
+    >
+      Exchange Rate
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body1"
+    >
+      NaN ETH
+       = 1
+       
+      gOHM
+    </p>
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-21"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body1"
+    >
+      Minimum You Get
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body1"
+    >
+      NaN
+       
+      gOHM
+    </p>
+  </div>
+  <button
+    class="MuiButtonBase-root MuiButton-root MuiButton-contained zap-stake-button MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+    tabindex="0"
+    type="button"
+  >
+    <span
+      class="MuiButton-label"
+    >
+      Zap-Stake
+    </span>
+  </button>
+  <div
+    class="MuiBox-root MuiBox-root-24"
+  >
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+      focusable="false"
+      style="width: 200px; height: 40px;"
+      viewBox="85 0 100 80"
+    >
+      powered-by-zapper.svg
+    </svg>
+  </div>
+</div>
+`;
