@@ -14,13 +14,14 @@ export interface OHMInfoProps {
  */
 const Info: FC<OHMInfoProps> = () => {
   const { data, isFetched } = ActiveProposals();
+  console.log(data);
 
   const truncate = (str: string) => {
     return str.length > 200 ? str.substring(0, 197) + "..." : str;
   };
   return (
     <Fade in={true}>
-      <Box>
+      <Box data-testid="proposals">
         {isFetched &&
           data.proposals.map(
             (
