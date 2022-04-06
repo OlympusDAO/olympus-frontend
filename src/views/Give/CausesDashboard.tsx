@@ -41,13 +41,17 @@ export default function CausesDashboard({ giveAssetType, changeAssetType }: Caus
   const renderProjects = useMemo(() => {
     return projects.map(project => {
       return (
-        <ProjectCard
-          key={seed(project.title)}
-          project={project}
-          giveAssetType={giveAssetType}
-          changeAssetType={changeAssetType}
-          mode={ProjectDetailsMode.Card}
-        />
+        <>
+          <Grid item xs={12}>
+            <ProjectCard
+              key={seed(project.title)}
+              project={project}
+              giveAssetType={giveAssetType}
+              changeAssetType={changeAssetType}
+              mode={ProjectDetailsMode.Card}
+            />
+          </Grid>
+        </>
       );
     });
   }, [projects]);
