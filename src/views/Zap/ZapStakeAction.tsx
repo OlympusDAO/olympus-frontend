@@ -23,10 +23,10 @@ import { NetworkId } from "src/constants";
 import { ZAP_ADDRESSES } from "src/constants/addresses";
 import { trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useAppSelector, useWeb3Context } from "src/hooks";
+import { useWeb3Context } from "src/hooks";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
-import { useCurrentIndex } from "src/hooks/useCurrentIndex";
+import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useZapExecute } from "src/hooks/useZapExecute";
 import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
@@ -142,25 +142,24 @@ const ZapStakeAction: React.FC = () => {
     });
   };
 
-  const ohmMarketPrice = useAppSelector(state => state.app.marketPrice || 0);
+  const ohmMarketPrice = useOhmPrice();
+  const gOhmMarketPrice = useGohmPrice();
 
   const networks = useTestableNetworks();
   const sOhmBalance = useSohmBalance()[networks.MAINNET].data;
   const gOhmBalance = useGohmBalance()[networks.MAINNET].data;
-  const currentIndex = Number(useCurrentIndex().data?.toBigNumber().div(1e9));
-  console.log("before = " + currentIndex);
-  console.log("after = " + useCurrentIndex().data?.toString());
 
   // TODO use DecimalBigNumber
-  const exchangeRate = useMemo(
-    () =>
-      zapToken && outputGOHM != null && tokensBalance
-        ? outputGOHM
-          ? (ohmMarketPrice * currentIndex) / tokensBalance[zapToken]?.price
-          : ohmMarketPrice / tokensBalance[zapToken]?.price
-        : Number.MAX_VALUE,
-    [zapToken, outputGOHM, tokensBalance, ohmMarketPrice, currentIndex],
-  );
+  const exchangeRate = useMemo(() => {
+    if (zapToken && tokensBalance && ohmMarketPrice.data && gOhmMarketPrice.data) {
+      return (
+        (outputGOHM === undefined || outputGOHM === null || outputGOHM ? gOhmMarketPrice.data : ohmMarketPrice.data) /
+        tokensBalance[zapToken]?.price
+      );
+    } else {
+      return Number.MAX_VALUE;
+    }
+  }, [zapToken, outputGOHM, tokensBalance, ohmMarketPrice, gOhmMarketPrice]);
 
   useEffect(() => setZapTokenQuantity(inputQuantity), [exchangeRate]);
 
