@@ -39,12 +39,14 @@ export const WrapInputArea = () => {
           <Select
             label="Asset"
             disableUnderline
-            id="asset-select"
+            id="asset-select-first"
             value={currentAction === "WRAP" ? "sOHM" : "gOHM"}
             onChange={event => setCurrentAction(event.target.value === "sOHM" ? "WRAP" : "UNWRAP")}
           >
             <MenuItem value="sOHM">sOHM</MenuItem>
-            <MenuItem value="gOHM">gOHM</MenuItem>
+            <MenuItem value="gOHM" data-testid="gohm-dropdown-select">
+              gOHM
+            </MenuItem>
           </Select>
         </FormControl>
 
@@ -59,6 +61,7 @@ export const WrapInputArea = () => {
             id="asset-select"
             value={currentAction === "WRAP" ? "gOHM" : "sOHM"}
             onChange={event => setCurrentAction(event.target.value === "sOHM" ? "UNWRAP" : "WRAP")}
+            data-testid="second-asset-select"
           >
             <MenuItem value="gOHM">gOHM</MenuItem>
             <MenuItem value="sOHM">sOHM</MenuItem>

@@ -78,7 +78,7 @@ export default function RedeemYield() {
     return number.decimalPlaces(4).toString();
   };
 
-  const isRecipientInfoLoading = recipientInfo.totalDebt == "";
+  const isRecipientInfoLoading = recipientInfo && recipientInfo.totalDebt == "";
 
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
   useEffect(() => {

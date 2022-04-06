@@ -270,6 +270,7 @@ const ZapStakeAction: React.FC = () => {
         {zapToken != null ? (
           <OutlinedInput
             id="zap-amount-input"
+            inputProps={{ "data-testid": "zap-amount-input" }}
             type="number"
             placeholder="Enter Amount"
             className="zap-input"
@@ -322,7 +323,7 @@ const ZapStakeAction: React.FC = () => {
             }
           />
         ) : (
-          <Box className="zap-input">
+          <Box className="zap-input" data-testid="zap-input">
             <Button variant="contained" className="zap-input" onClick={handleOpen} color="primary">
               <Box flexDirection="row" display="flex" alignItems="center" justifyContent="end" flexGrow={1}>
                 <Typography>
@@ -351,6 +352,7 @@ const ZapStakeAction: React.FC = () => {
               onClick={handleOutputOpen}
               color="primary"
               disabled={zapToken == null}
+              data-testid="zap-output"
             >
               <Box flexDirection="row" display="flex" alignItems="center" justifyContent="end" flexGrow={1}>
                 <Typography>
@@ -366,6 +368,7 @@ const ZapStakeAction: React.FC = () => {
             type="number"
             placeholder="Enter Amount"
             className="zap-input"
+            inputProps={{ "data-testid": "zap-amount-output" }}
             value={outputQuantity}
             disabled={zapToken == null}
             onChange={e => setOutputTokenQuantity(e.target.value)}
