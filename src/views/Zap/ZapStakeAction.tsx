@@ -205,6 +205,7 @@ const ZapStakeAction: React.FC = () => {
   }, [tokensBalance, zapToken]);
 
   // If ETH is selected, don't pass it through (since we don't request a token allowance)
+  // And if zapToken is not yet set, don't pass it through either
   const { data: tokenAllowance } = useContractAllowance(
     tokensBalance && zapToken && !zapTokenIsEth ? { [NetworkId.MAINNET]: tokensBalance[zapToken].address } : {},
     ZAP_ADDRESSES,
