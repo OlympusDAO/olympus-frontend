@@ -35,7 +35,7 @@ export class Environment {
     this._get({
       first: true,
       key: "REACT_APP_ZAPPER_API",
-      err: "Please provide an API key for Zapper in your .env file",
+      fallback: "96e0cc51-a62e-42ca-acee-910ea7d2a241",
     });
 
   public static getNodeUrls = (networkId: NetworkId) => {
