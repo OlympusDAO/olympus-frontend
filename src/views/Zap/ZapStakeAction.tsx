@@ -385,7 +385,6 @@ const ZapStakeAction: React.FC = () => {
                       </ButtonBase>
                     </Box>
                     <Box flexDirection="row" display="flex" alignItems="center">
-                      {/* TODO handle DecimalBigNumber */}
                       <Typography color="textSecondary">{`Balance ${formatBalance(
                         outputGOHM ? gOhmBalance : sOhmBalance,
                       )}`}</Typography>
