@@ -13,6 +13,5 @@ describe("News View", () => {
     render(<News />);
     expect(screen.getByTestId("news")).toBeInTheDocument();
     expect(screen.getByText("The Olympus Treasury Dashboard")).toBeInTheDocument();
-    expect(screen.getByText("Thu Mar 24 2022")).toBeInTheDocument();
   });
 });
