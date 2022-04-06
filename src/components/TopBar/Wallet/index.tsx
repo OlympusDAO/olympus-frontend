@@ -101,7 +101,6 @@ export function Wallet(props: { open?: boolean; component?: string }) {
 
   return (
     <>
-      <p>hi</p>
       <StyledSwipeableDrawer
         disableBackdropTransition={!isIOS}
         disableDiscovery={isIOS}
