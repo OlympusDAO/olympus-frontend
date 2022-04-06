@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
 import { addresses, NetworkId } from "src/constants";
+import { GOHM_ADDRESSES, MIGRATOR_ADDRESSES } from "src/constants/addresses";
 import { IERC20, IERC20__factory } from "src/typechain";
 import { OlympusTokenMigrator__factory } from "src/typechain";
 
@@ -30,7 +31,7 @@ const chooseContract = (token: string, networkID: NetworkId, signer: ethers.prov
   } else if (token === "wsohm") {
     address = addresses[networkID].WSOHM_ADDRESS;
   } else if (token === "gohm") {
-    address = addresses[networkID].GOHM_ADDRESS;
+    address = GOHM_ADDRESSES[networkID as keyof typeof GOHM_ADDRESSES];
   } else {
     const message = `Invalid token type: ${token}`;
     console.error(message);
@@ -55,7 +56,10 @@ export const changeMigrationApproval = createAsyncThunk(
 
     let migrateAllowance = BigNumber.from("0");
     let currentBalance = BigNumber.from("0");
-    migrateAllowance = await tokenContract.allowance(address, addresses[networkID].MIGRATOR_ADDRESS);
+    migrateAllowance = await tokenContract.allowance(
+      address,
+      MIGRATOR_ADDRESSES[networkID as keyof typeof MIGRATOR_ADDRESSES],
+    );
     currentBalance = await tokenContract.balanceOf(address);
 
     // return early if approval has already happened
@@ -67,7 +71,7 @@ export const changeMigrationApproval = createAsyncThunk(
     let approveTx: ethers.ContractTransaction | undefined;
     try {
       approveTx = await tokenContract.approve(
-        addresses[networkID].MIGRATOR_ADDRESS,
+        MIGRATOR_ADDRESSES[networkID as keyof typeof MIGRATOR_ADDRESSES],
         ethers.utils.parseUnits("1000000000", token === "wsohm" || token === "gohm" ? "ether" : "gwei").toString(),
       );
 
@@ -100,7 +104,10 @@ export const bridgeBack = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
+    const migrator = OlympusTokenMigrator__factory.connect(
+      MIGRATOR_ADDRESSES[networkID as keyof typeof MIGRATOR_ADDRESSES],
+      signer,
+    );
 
     let unMigrateTx: ethers.ContractTransaction | undefined;
 
@@ -136,7 +143,10 @@ export const migrateSingle = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
+    const migrator = OlympusTokenMigrator__factory.connect(
+      MIGRATOR_ADDRESSES[networkID as keyof typeof MIGRATOR_ADDRESSES],
+      signer,
+    );
 
     let migrateTx: ethers.ContractTransaction | undefined;
     try {
@@ -173,7 +183,10 @@ export const migrateAll = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-    const migrator = OlympusTokenMigrator__factory.connect(addresses[networkID].MIGRATOR_ADDRESS, signer);
+    const migrator = OlympusTokenMigrator__factory.connect(
+      MIGRATOR_ADDRESSES[networkID as keyof typeof MIGRATOR_ADDRESSES],
+      signer,
+    );
 
     let migrateAllTx: ethers.ContractTransaction | undefined;
 

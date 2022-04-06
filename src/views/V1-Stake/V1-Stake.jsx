@@ -31,19 +31,16 @@ import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
-import { getOhmTokenImage, getTokenImage, trim } from "../../helpers";
+import { trim } from "../../helpers";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import ExternalStakePools from "../Stake/components/ExternalStakePools/ExternalStakePools";
 import RebaseTimer from "../Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 
-const sOhmImg = getTokenImage("sohm");
-const ohmImg = getOhmTokenImage(16, 16);
-
 function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds }) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { provider, address, connect, networkId } = useWeb3Context();
+  const { provider, address, networkId } = useWeb3Context();
 
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(0);

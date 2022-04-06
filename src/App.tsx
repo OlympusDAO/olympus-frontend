@@ -291,11 +291,7 @@ function App() {
     setIsSidebarExpanded(false);
   };
 
-  let themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
-
-  useEffect(() => {
-    themeMode = theme === "light" ? lightTheme : darkTheme;
-  }, [theme]);
+  const themeMode = theme === "light" ? lightTheme : theme === "dark" ? darkTheme : gTheme;
 
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
@@ -343,12 +339,6 @@ function App() {
               oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
 
             <Switch>
-              {/* (keith): leave this route here temporarily to 
-              be able to reference the old dashboard */}
-              <Route exact path="/dashboard">
-                <TreasuryDashboard />
-              </Route>
-
               <Route exact path="/">
                 <Redirect to="/stake" />
               </Route>
@@ -437,6 +427,22 @@ function App() {
                 <ChooseBondV2 />
                 <Route path="/bonds/:id" component={BondModalContainer} />
                 <Route path="/bonds/inverse/:id" component={BondModalContainer} />
+              </Route>
+
+              <Route exact path="/dashboard">
+                <TreasuryDashboard activeView={0} />
+              </Route>
+              <Route path="/dashboard/treasury">
+                <TreasuryDashboard activeView={1} />
+              </Route>
+              <Route path="/dashboard/revenue">
+                <TreasuryDashboard activeView={2} />
+              </Route>
+              <Route path="/dashboard/olympuspro">
+                <TreasuryDashboard activeView={3} />
+              </Route>
+              <Route path="/dashboard/proteus">
+                <TreasuryDashboard activeView={4} />
               </Route>
 
               <Route exact path="/calculator">

@@ -1,0 +1,551 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
+<div>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <h3
+        class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+        />
+         sOHM
+      </h3>
+      <p
+        class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
+      >
+        Redeemable Yield
+      </p>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+        />
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-1 makeStyles-root-2 undefined MuiButton-containedPrimary MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
+            disabled=""
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              Redeem Yield
+            </span>
+          </button>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+        />
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-3"
+      >
+        <div
+          class="makeStyles-root-4 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-6"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Deposited sOHM
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+              style="width: 80px;"
+            />
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-4 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-7"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Redeemable Amount
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+              style="width: 80px;"
+            />
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-4 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-8"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Next Reward Amount
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            0 sOHM
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-4 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-9"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Next Reward Yield
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            0%
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-4 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-10"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              ROI (5-Day Rate)
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            0%
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    />
+  </div>
+</div>
+`;
+
+exports[`Redeem Yield should show extra content if project wallet 1`] = `
+<div>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <h3
+        class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter"
+      >
+        100.00
+         sOHM
+      </h3>
+      <p
+        class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
+      >
+        Redeemable Yield
+      </p>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+        />
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-40 makeStyles-root-41 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              Redeem Yield
+            </span>
+          </button>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+        />
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-42"
+          >
+            <h5
+              class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
+            >
+              200
+            </h5>
+            <p
+              class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
+            >
+              sOHM Goal
+            </p>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-43"
+          >
+            <h5
+              class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
+            >
+              0
+            </h5>
+            <p
+              class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
+            >
+              Total sOHM Donated
+            </p>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-44"
+          >
+            <h5
+              class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
+            >
+              0
+              %
+            </h5>
+            <p
+              class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
+            >
+              of sOHM Goal
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-45"
+      >
+        <div
+          class="makeStyles-root-46 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-48"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Deposited sOHM
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            100 sOHM
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-46 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-49"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Redeemable Amount
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            100 sOHM
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-46 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-50"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Next Reward Amount
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            0.2147 sOHM
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-46 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-51"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Next Reward Yield
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            0.2147%
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-46 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-52"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              ROI (5-Day Rate)
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            3.2692%
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    />
+  </div>
+</div>
+`;
+
+exports[`Redeem Yield should show total deposit as 100 sOHM 1`] = `
+<div>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <h3
+        class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter"
+      >
+        100.00
+         sOHM
+      </h3>
+      <p
+        class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
+      >
+        Redeemable Yield
+      </p>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+        />
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-27 makeStyles-root-28 undefined MuiButton-containedPrimary MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
+            disabled=""
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              Redeem Yield
+            </span>
+          </button>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+        />
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-29"
+      >
+        <div
+          class="makeStyles-root-30 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-32"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Deposited sOHM
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            100 sOHM
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-30 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-33"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Redeemable Amount
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            100 sOHM
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-30 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-34"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Next Reward Amount
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            0.2147 sOHM
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-30 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-35"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              Next Reward Yield
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            0.2147%
+          </p>
+        </div>
+        <div
+          class="makeStyles-root-30 data-row"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-36"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            >
+              ROI (5-Day Rate)
+            </p>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            style="text-align: right;"
+          >
+            3.2692%
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    />
+  </div>
+</div>
+`;

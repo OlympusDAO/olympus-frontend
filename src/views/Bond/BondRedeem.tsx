@@ -29,10 +29,6 @@ function BondRedeem({ bond }: { bond: IAllBondData }) {
   const bondingState = useAppSelector(state => {
     return state.bonding && state.bonding[bond.name];
   });
-  const bondDetails = useAppSelector(state => {
-    return state.account.bonds && state.account.bonds[bond.name];
-  });
-
   async function onRedeem({ autostake }: { autostake: boolean }) {
     await dispatch(redeemBond({ address, bond, networkID: networkId, provider, autostake }));
   }

@@ -102,30 +102,33 @@ exports[`<Root/> should render component 1`] = `
           class="MuiBox-root-370 MuiBox-root-371"
         >
           <a
-            aria-disabled="false"
-            class="MuiButtonBase-root-316 MuiButton-root-343 MuiButton-contained-351 MuiButton-containedSecondary-353 MuiButton-disableElevation-354"
             href="/#/wallet"
-            id="ohm-menu-button"
-            tabindex="0"
+            style="margin-right: 0px;"
           >
-            <span
-              class="MuiButton-label-344"
+            <button
+              class="MuiButtonBase-root-316 MuiButton-root-343 MuiButton-contained-351 MuiButton-containedSecondary-353 MuiButton-disableElevation-354"
+              tabindex="0"
+              type="button"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-317 MuiSvgIcon-fontSizeSmall-324"
-                focusable="false"
-                style="margin-right: 8px;"
-                viewBox="0 0 20 20"
+              <span
+                class="MuiButton-label-344"
               >
-                wallet.svg
-              </svg>
-              <p
-                class="MuiTypography-root-256 MuiTypography-body1-258"
-              >
-                Connect
-              </p>
-            </span>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-317 MuiSvgIcon-fontSizeSmall-324"
+                  focusable="false"
+                  style="margin-right: 9px;"
+                  viewBox="0 0 20 20"
+                >
+                  wallet.svg
+                </svg>
+                <p
+                  class="MuiTypography-root-256 MuiTypography-body1-258"
+                >
+                  Connect
+                </p>
+              </span>
+            </button>
           </a>
           <button
             class="MuiButtonBase-root-316 MuiToggleButton-root-372 toggle-button"
