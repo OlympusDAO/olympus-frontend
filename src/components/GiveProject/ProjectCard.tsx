@@ -6,7 +6,6 @@ import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "bignumber.js";
 import { toInteger } from "lodash";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
@@ -822,7 +821,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
             changeAssetType={changeAssetType}
             currentWalletAddress={donationInfo[donationId].recipient}
             currentDepositId={donationInfo[donationId].id}
-            currentDepositAmount={new BigNumber(donationInfo[donationId].deposit)}
+            currentDepositAmount={donationInfo[donationId].deposit}
             depositDate={donationInfo[donationId].date}
             yieldSent={donationInfo[donationId].yieldDonated}
             project={project}

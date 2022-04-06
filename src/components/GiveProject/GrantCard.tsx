@@ -749,7 +749,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
             giveAssetType={giveAssetType}
             changeAssetType={changeAssetType}
             currentWalletAddress={donationInfo[donationId].recipient}
-            currentDepositAmount={new BigNumber(donationInfo[donationId].deposit)}
+            currentDepositAmount={donationInfo[donationId].deposit}
             depositDate={donationInfo[donationId].date}
             yieldSent={donationInfo[donationId].yieldDonated}
             project={grant}

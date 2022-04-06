@@ -1,9 +1,12 @@
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
+import { IBaseAddressAsyncThunk } from "src/slices/interfaces";
 
 import { act, render, screen } from "../../../testUtils";
 import { DepositTableRow } from "../DepositRow";
 import Give from "../Give";
+import { ManageDonationModal } from "../ManageDonationModal";
+import RedeemYield from "../RedeemYield";
 
 interface IUserDonationInfo {
   id: string;
@@ -14,6 +17,19 @@ interface IUserDonationInfo {
 }
 
 jest.mock("src/hooks/useCurrentIndex");
+jest.mock("src/slices/AccountSlice", () => {
+  const original = jest.requireActual("src/slices/AccountSlice");
+  return {
+    ...original,
+    getRedemptionBalances: async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => ({
+      gohmRedeemable: "0.1",
+      recipientInfo: {
+        totalDebt: "100",
+        agnosticDebt: "1",
+      },
+    }),
+  };
+});
 
 describe("<Give/>", () => {
   let giveAssetType = "gOHM";
@@ -78,6 +94,136 @@ describe("<Give/>", () => {
     const sohmBal = await screen.getByText("120 sOHM");
     const sohmYield = await screen.getByText("10 sOHM");
     expect(sohmBal).toBeInTheDocument();
+    expect(sohmYield).toBeInTheDocument();
+  });
+
+  it("should render correct units on Redeem Yield", async () => {
+    giveAssetType = "gOHM";
+    (useCurrentIndex as jest.Mock).mockReturnValue({ data: new DecimalBigNumber("100", 9) });
+
+    await act(async () => {
+      render(<RedeemYield giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />);
+    });
+
+    const gohmDeposit = await screen.getByText("1 gOHM");
+    const gohmRedeemable = await screen.getByText("0.1 gOHM");
+    expect(gohmDeposit).toBeInTheDocument();
+    expect(gohmRedeemable).toBeInTheDocument();
+  });
+
+  it("should render correct units on Manage Donation Modal", async () => {
+    (useCurrentIndex as jest.Mock).mockReturnValue({ data: new DecimalBigNumber("100", 9) });
+
+    const handleEdit = (
+      walletAddress: string,
+      depositId: string,
+      eventSource: string,
+      depositAmount: DecimalBigNumber,
+    ) => {
+      const doNothing = "do nothing";
+    };
+
+    const handleManageModalCancel = () => {
+      const doNothing = "do nothing";
+    };
+
+    const isModalOpen = true;
+    const eventSource = "Project Details";
+    const project = {
+      title: "Impact Market",
+      owner: "",
+      slug: "impact-market",
+      shortDescription:
+        "Enables any vulnerable community to implement poverty alleviation mechanisms, like Unconditional Basic Income.",
+      details:
+        "ImpactMarket is an open, free, censorship-resistant, and borderless impact-driven crowdfinance marketplace to fight poverty.\n\nIt merges the principles of unconditional basic income with blockchain technology to enable any community to have access to a basic income through its own UBI smart contract with specific parameters based on their reality. Beneficiaries added to those contracts can claim cUSD on a regular basis and use it for whatever they want or need.\nimpactMarket is being built to:\n- Accelerate poverty alleviation, access to finance, and wealth redistribution\n- Ensure the primacy of the individual and the social objective over capital\n- Allow democratic governance, autonomous management, and independence of the protocol from public and central authorities.",
+      finishDate: "",
+      photos: ["/assets/images/give/impact-market/impact-market-logo.svg"],
+      category: "Poverty Alleviation",
+      wallet: "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c",
+      depositGoal: 200,
+      website: "https://www.impactmarket.com/",
+    };
+    const currentDepositId = "1";
+    const currentWalletAddress = "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c";
+    const currentDepositAmount = "1.2";
+    const depositDate = "03/16/2022";
+    const yieldSent = "0.1";
+
+    await act(async () => {
+      render(
+        <ManageDonationModal
+          isModalOpen={true}
+          eventSource={eventSource}
+          submitEdit={handleEdit}
+          submitWithdraw={handleEdit}
+          cancelFunc={handleManageModalCancel}
+          project={project}
+          currentDepositId={currentDepositId}
+          currentWalletAddress={currentWalletAddress}
+          currentDepositAmount={currentDepositAmount}
+          depositDate={depositDate}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeGiveAssetType}
+          yieldSent={yieldSent}
+        />,
+      );
+    });
+
+    const gohmGoal = await screen.getByText("2");
+    const goalText = await screen.getByText("gOHM Goal");
+    expect(gohmGoal).toBeInTheDocument();
+    expect(goalText).toBeInTheDocument();
+
+    const gohmDeposit = await screen.getByText("1.2");
+    const depositText = await screen.getByText("Total gOHM Donated");
+    expect(gohmDeposit).toBeInTheDocument();
+    expect(depositText).toBeInTheDocument();
+
+    const pctOfGoal = await screen.getByText("60%");
+    const pctGoalText = await screen.getByText("of gOHM Goal");
+    expect(pctOfGoal).toBeInTheDocument();
+    expect(pctGoalText).toBeInTheDocument();
+
+    const gohmYield = await screen.getByText("0.1 gOHM");
+    expect(gohmYield).toBeInTheDocument();
+
+    giveAssetType = "sOHM";
+    await act(async () => {
+      render(
+        <ManageDonationModal
+          isModalOpen={true}
+          eventSource={eventSource}
+          submitEdit={handleEdit}
+          submitWithdraw={handleEdit}
+          cancelFunc={handleManageModalCancel}
+          project={project}
+          currentDepositId={currentDepositId}
+          currentWalletAddress={currentWalletAddress}
+          currentDepositAmount={currentDepositAmount}
+          depositDate={depositDate}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeGiveAssetType}
+          yieldSent={yieldSent}
+        />,
+      );
+    });
+
+    const sohmGoal = await screen.getByText("200");
+    const sohmGoalText = await screen.getByText("sOHM Goal");
+    expect(sohmGoal).toBeInTheDocument();
+    expect(sohmGoalText).toBeInTheDocument();
+
+    const sohmDeposit = await screen.getByText("120");
+    const sohmDepositText = await screen.getByText("Total sOHM Donated");
+    expect(sohmDeposit).toBeInTheDocument();
+    expect(sohmDepositText).toBeInTheDocument();
+
+    const sohmPctGoalText = await screen.getByText("of sOHM Goal");
+    expect(pctOfGoal).toBeInTheDocument();
+    expect(sohmPctGoalText).toBeInTheDocument();
+
+    const sohmYield = await screen.getByText("10 sOHM");
     expect(sohmYield).toBeInTheDocument();
   });
 });

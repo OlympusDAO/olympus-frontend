@@ -5,7 +5,6 @@ import { Grid, Tooltip, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { SecondaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "bignumber.js";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -204,7 +203,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
         submitWithdraw={handleWithdrawModalSubmit}
         cancelFunc={handleManageModalCancel}
         currentWalletAddress={depositObject.recipient}
-        currentDepositAmount={new BigNumber(depositObject.deposit)}
+        currentDepositAmount={depositObject.deposit}
         giveAssetType={giveAssetType}
         changeAssetType={changeAssetType}
         depositDate={depositObject.date}

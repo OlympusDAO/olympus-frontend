@@ -41,7 +41,7 @@ type ManageModalProps = {
   project?: Project;
   currentDepositId: string;
   currentWalletAddress: string;
-  currentDepositAmount: BigNumber; // As per IUserDonationInfo
+  currentDepositAmount: string; // As per IUserDonationInfo
   depositDate: string;
   giveAssetType: string;
   changeAssetType: (checked: boolean) => void;
@@ -446,7 +446,9 @@ export function ManageDonationModal({
    * Elements to display project statistics, such as donation sOHM, yield and goal achievement.
    */
   const getProjectStats = () => {
-    const depositGoalNumber = project ? new DecimalBigNumber(project.depositGoal.toString()) : ZERO_DBN;
+    const depositGoalNumber = project
+      ? GetCorrectStaticUnits(project.depositGoal.toString(), giveAssetType, currentIndex)
+      : ZERO_DBN;
 
     return (
       <Grid container spacing={2}>
