@@ -161,7 +161,7 @@ const ZapStakeAction: React.FC = () => {
     }
   }, [zapToken, outputGOHM, tokensBalance, ohmMarketPrice, gOhmMarketPrice]);
 
-  useEffect(() => setZapTokenQuantity(inputQuantity), [exchangeRate]);
+  useEffect(() => setZapTokenQuantity(inputQuantity), [exchangeRate, inputQuantity]);
 
   const setZapTokenQuantity = (q: ZapQuantity) => {
     if (q == null || q === "") {
@@ -200,8 +200,13 @@ const ZapStakeAction: React.FC = () => {
     }
   }, [tokensBalance]);
 
+  const zapTokenIsEth = useMemo(() => {
+    return tokensBalance && zapToken && tokensBalance[zapToken].address === ethers.constants.AddressZero;
+  }, [tokensBalance, zapToken]);
+
+  // If ETH is selected, don't pass it through (since we don't request a token allowance)
   const { data: tokenAllowance } = useContractAllowance(
-    tokensBalance && zapToken ? { [NetworkId.MAINNET]: tokensBalance[zapToken].address } : { [NetworkId.MAINNET]: "0" },
+    tokensBalance && zapToken && !zapTokenIsEth ? { [NetworkId.MAINNET]: tokensBalance[zapToken].address } : {},
     ZAP_ADDRESSES,
   );
 
@@ -209,11 +214,13 @@ const ZapStakeAction: React.FC = () => {
    * Indicates whether there is currently a token allowed for the selected token, `zapToken`
    */
   const hasTokenAllowance = useMemo(() => {
+    if (zapTokenIsEth) return ethers.constants.MaxUint256;
+
     return tokenAllowance && tokenAllowance.gt(BigNumber.from(0));
-  }, [tokenAllowance]);
+  }, [tokenAllowance, zapTokenIsEth]);
 
   const approveMutation = useApproveToken(
-    tokensBalance && zapToken ? { [NetworkId.MAINNET]: tokensBalance[zapToken].address } : { [NetworkId.MAINNET]: "0" },
+    tokensBalance && zapToken ? { [NetworkId.MAINNET]: tokensBalance[zapToken].address } : {},
     ZAP_ADDRESSES,
   );
 
