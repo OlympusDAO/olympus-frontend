@@ -8,7 +8,7 @@ type GohmToggleProps = {
 
 export const GohmToggle = ({ giveAssetType, changeAssetType }: GohmToggleProps) => {
   return (
-    <Grid component="label" container alignItems="center" spacing={1} style={{ padding: "16px" }}>
+    <Grid component="label" container alignItems="center" spacing={1} style={{ marginBottom: "20px" }}>
       <Grid item>
         <Switch
           color="primary"

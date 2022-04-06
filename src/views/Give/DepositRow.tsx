@@ -62,11 +62,11 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
   };
 
   const getDeposit = () => {
-    return GetCorrectContractUnits(depositObject.deposit, giveAssetType, currentIndex);
+    return GetCorrectContractUnits(depositObject.deposit, "sOHM", currentIndex);
   };
 
   const getYieldDonated = () => {
-    return GetCorrectContractUnits(depositObject.yieldDonated, giveAssetType, currentIndex);
+    return GetCorrectContractUnits(depositObject.yieldDonated, "sOHM", currentIndex);
   };
 
   const handleManageModalCancel = () => {
@@ -181,15 +181,11 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
       </Grid>
       {!isSmallScreen && (
         <Grid item xs={2} style={{ textAlign: "right" }}>
-          <Typography variant="body1">
-            {getDeposit().toString({ decimals: 2 })} {giveAssetType}
-          </Typography>
+          <Typography variant="body1">{getDeposit().toString({ decimals: 2 })} sOHM</Typography>
         </Grid>
       )}
       <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
-        <Typography variant="body1">
-          {getYieldDonated().toString({ decimals: 2 })} {giveAssetType}
-        </Typography>
+        <Typography variant="body1">{getYieldDonated().toString({ decimals: 2 })} sOHM</Typography>
       </Grid>
       <Grid item xs={4} sm={3} style={{ textAlign: "right" }}>
         <SecondaryButton onClick={() => setIsManageModalOpen(true)} size="small" fullWidth>

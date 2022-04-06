@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 
 import { addresses } from "../constants";
 import { IBaseAddressRecipientAsyncThunk } from "../slices/interfaces";
@@ -45,7 +45,11 @@ export const GetFirstDonationDate = async ({
     return "";
   }
 
-  const firstDonation = events[0];
+  let firstDonation = events[0];
+
+  for (let i = 0; i < events.length; i++) {
+    if (BigNumber.from(events[i].data).gt("0")) firstDonation = events[i];
+  }
 
   // Convert the block number of the event to a Unix timestamp
   const timestamp = (await provider.getBlock(firstDonation.blockNumber)).timestamp;

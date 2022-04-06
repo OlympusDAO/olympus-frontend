@@ -98,12 +98,12 @@ function Give({ selectedIndex, giveAssetType, changeAssetType }: GiveProps) {
                 <Tab label={t`Redeem`} {...a11yProps(3)} />
               </Tabs>
 
-              <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
-
               <TabPanel value={view} index={0}>
+                <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
                 <CausesDashboard giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
               </TabPanel>
               <TabPanel value={view} index={1}>
+                <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
                 <GrantsDashboard giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
               </TabPanel>
               <TabPanel value={view} index={2}>
@@ -115,7 +115,7 @@ function Give({ selectedIndex, giveAssetType, changeAssetType }: GiveProps) {
                 />
               </TabPanel>
               <TabPanel value={view} index={3}>
-                <RedeemYield giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
+                <RedeemYield />
               </TabPanel>
             </Paper>
           </Zoom>
