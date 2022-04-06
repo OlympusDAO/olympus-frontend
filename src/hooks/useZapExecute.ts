@@ -89,13 +89,13 @@ export const useZapExecute = () => {
       return transaction.wait();
     },
     {
-      onError: e => {
+      onError: (e, variables) => {
         const uaData: IUADataZap = {
           address: address,
-          value: sellAmount.toString(),
-          token: tokenAddress,
+          value: variables.sellAmount.toString(),
+          token: variables.tokenAddress,
           type: "Zap Swap Failure",
-          slippage: slippage,
+          slippage: variables.slippage,
           approved: false,
         };
         trackGAEvent({
@@ -115,13 +115,13 @@ export const useZapExecute = () => {
         }
         throw e;
       },
-      onSuccess: () => {
+      onSuccess: (_data, variables) => {
         const uaData: IUADataZap = {
           address: address,
-          value: sellAmount.toString(),
-          token: tokenAddress,
+          value: variables.sellAmount.toString(),
+          token: variables.tokenAddress,
           type: "Zap Swap Success",
-          slippage: slippage,
+          slippage: variables.slippage,
           approved: true,
         };
         trackGAEvent({
