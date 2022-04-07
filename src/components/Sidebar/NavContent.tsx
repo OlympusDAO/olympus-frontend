@@ -1,19 +1,25 @@
 import { t } from "@lingui/macro";
-import { Box, Divider, Link, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Divider, Link, makeStyles, Paper, SvgIcon } from "@material-ui/core";
 import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { BondDiscount } from "src/views/Bond/components/BondDiscount";
 import { useBonds } from "src/views/Bond/hooks/useBonds";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
 
+const useStyles = makeStyles(theme => ({
+  gray: {
+    color: theme.colors.gray[90],
+  },
+}));
+
 const NavContent: React.VFC = () => {
+  const classes = useStyles();
   const { networkId } = useWeb3Context();
   const networks = useTestableNetworks();
 
@@ -40,12 +46,10 @@ const NavContent: React.VFC = () => {
                 <>
                   <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
 
-                  <NavItem to="/bonds" icon="bond" label={t`Bond`} />
-
-                  <Box paddingLeft="62px" paddingRight="32px" py="8px">
+                  <NavItem to="/bonds" icon="bond" label={t`Bond`}>
                     <Bonds />
-                    <InverseBonds />
-                  </Box>
+                    <Bonds isInverseBond />
+                  </NavItem>
 
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
 
@@ -98,19 +102,19 @@ const NavContent: React.VFC = () => {
 
         <Box display="flex" justifyContent="space-between" paddingX="50px" paddingY="24px">
           <Link href="https://github.com/OlympusDAO" target="_blank">
-            <Icon name="github" />
+            <Icon name="github" className={classes.gray} />
           </Link>
 
           <Link href="https://olympusdao.medium.com/" target="_blank">
-            <Icon name="medium" />
+            <Icon name="medium" className={classes.gray} />
           </Link>
 
           <Link href="https://twitter.com/OlympusDAO" target="_blank">
-            <Icon name="twitter" />
+            <Icon name="twitter" className={classes.gray} />
           </Link>
 
           <Link href="https://discord.gg/6QjjtUcfM4" target="_blank">
-            <Icon name="discord" />
+            <Icon name="discord" className={classes.gray} />
           </Link>
         </Box>
       </Box>
@@ -118,8 +122,8 @@ const NavContent: React.VFC = () => {
   );
 };
 
-const Bonds: React.VFC = () => {
-  const bonds = useBonds().data;
+const Bonds: React.VFC<{ isInverseBond?: boolean }> = ({ isInverseBond = false }) => {
+  const bonds = useBonds({ isInverseBond }).data;
 
   if (!bonds) return null;
 
@@ -128,46 +132,15 @@ const Bonds: React.VFC = () => {
       {sortByDiscount(bonds)
         .filter(bond => !bond.isSoldOut)
         .map(bond => (
-          <Link key={bond.id} component={NavLink} to={`/bonds/${bond.id}`}>
-            <Box display="flex" alignItems="center" justifyContent="space-between" paddingY="4px">
-              <Typography variant="body2">{bond.quoteToken.name}</Typography>
-
-              <Typography variant="body2">
-                <BondDiscount discount={bond.discount} />
-              </Typography>
-            </Box>
-          </Link>
+          <NavItem
+            key={bond.id}
+            label={bond.quoteToken.name}
+            to={isInverseBond ? `/bonds/inverse/${bond.id}` : `/bonds/${bond.id}`}
+            chipColor={bond.discount.gt(new DecimalBigNumber("0")) ? "success" : "error"}
+            chip={`${bond.discount.mul(new DecimalBigNumber("100")).toString({ decimals: 2, trim: true })}%`}
+          />
         ))}
     </>
-  );
-};
-
-const InverseBonds: React.VFC = () => {
-  const bonds = useBonds({ isInverseBond: true }).data;
-
-  if (!bonds || bonds.length === 0) return null;
-
-  return (
-    <Box mt="16px">
-      <Typography variant="body2" color="textSecondary">
-        Inverse Bonds
-      </Typography>
-
-      <Box mt="4px">
-        {sortByDiscount(bonds)
-          .filter(bond => !bond.isSoldOut)
-          .map(bond => (
-            <Link key={bond.id} component={NavLink} to={`/bonds/${bond.id}`}>
-              <Box display="flex" alignItems="center" justifyContent="space-between" paddingY="4px">
-                <Typography variant="body2">{bond.quoteToken.name}</Typography>
-                <Typography variant="body2">
-                  <BondDiscount discount={bond.discount} />
-                </Typography>
-              </Box>
-            </Link>
-          ))}
-      </Box>
-    </Box>
   );
 };
 
