@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { NetworkId } from "src/constants";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
 import { trackGAEvent } from "src/helpers/analytics";
+import { isSupportedChain } from "src/helpers/ZapHelper";
 import { addresses } from "src/networkDetails";
 import { error, info } from "src/slices/MessagesSlice";
 
@@ -45,8 +46,6 @@ export const useZapExecute = () => {
   const client = useQueryClient();
   const { address, provider, networkId } = useWeb3Context();
   const signer = provider.getSigner();
-  // We only operate on Ethereum mainnet for the moment, so we can use a static contract
-  const contract = Zap__factory.connect(addresses[networkId].ZAP, signer);
 
   return useMutation<ContractReceipt, Error, ZapExecuteOptions>(
     /**
@@ -56,7 +55,6 @@ export const useZapExecute = () => {
      * So the parameters are moved up a level.
      */
     async ({ slippage, sellAmount, tokenAddress, minimumAmount, gOHM }) => {
-      // TODO throw or dispatch error?
       if (!slippage || isNaN(Number(slippage))) throw new Error(t`Slippage should be a number`);
 
       if (!tokenAddress) throw new Error(t`The tokenAddress parameter must be set`);
@@ -65,8 +63,20 @@ export const useZapExecute = () => {
       if (!minimumAmount || !minimumAmountNumber.gt(new DecimalBigNumber("0")))
         throw new Error(t`Minimum amount must be greater than 0`);
 
-      if (networkId !== NetworkId.MAINNET)
+      if (!isSupportedChain(networkId)) {
+        dispatch(error(t`Zaps are only available on Ethereum Mainnet. Please switch networks.`));
         throw new Error(t`Zaps are only available on Ethereum Mainnet. Please switch networks.`);
+      }
+
+      // We only operate on Ethereum mainnet for the moment, so we can use a static contract
+      const contract = Zap__factory.connect(addresses[networkId].ZAP, signer);
+      if (!contract) throw new Error(t`Unable to access Zap contract on network ${networkId}`);
+
+      const toToken = gOHM
+        ? GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
+        : SOHM_ADDRESSES[networkId as keyof typeof SOHM_ADDRESSES];
+      if (!toToken)
+        throw new Error(t`Unable to fetch address for token (${gOHM ? "gOHM" : "sOHM"}) on network ${networkId}`);
 
       const additionalOptions = {
         ...(tokenAddress === ethers.constants.AddressZero && { value: sellAmount }),
@@ -74,10 +84,8 @@ export const useZapExecute = () => {
 
       console.debug("Fetching token swap data from Zapper");
       const swapData = await fetchSwapData(address, sellAmount, tokenAddress, +slippage / 100);
-      const toToken = gOHM
-        ? GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
-        : SOHM_ADDRESSES[networkId as keyof typeof SOHM_ADDRESSES];
-      console.debug("Calling Zapper contract");
+
+      console.debug("Commencing Zap");
       const transaction = await contract.ZapStake(
         tokenAddress,
         sellAmount,
@@ -88,6 +96,7 @@ export const useZapExecute = () => {
         address,
         additionalOptions,
       );
+
       console.debug("Awaiting transaction");
       return transaction.wait();
     },

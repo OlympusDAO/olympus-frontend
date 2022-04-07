@@ -24,11 +24,11 @@ import { ReactComponent as FirstStepIcon } from "src/assets/icons/step-1.svg";
 import { ReactComponent as SecondStepIcon } from "src/assets/icons/step-2.svg";
 import { ReactComponent as CompleteStepIcon } from "src/assets/icons/step-complete.svg";
 import { useApproveToken } from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
-import { NetworkId } from "src/constants";
 import { ZAP_ADDRESSES } from "src/constants/addresses";
 import { trim } from "src/helpers";
 import { trackGAEvent } from "src/helpers/analytics";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { isSupportedChain } from "src/helpers/ZapHelper";
 import { useWeb3Context } from "src/hooks";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
@@ -108,7 +108,7 @@ const ZapStakeAction: React.FC = () => {
   }, [tokensBalance, zapToken]);
 
   useEffect(() => {
-    if (networkId !== NetworkId.MAINNET)
+    if (!isSupportedChain(networkId))
       dispatch(error(t`Zaps are only available on Ethereum Mainnet. Please switch networks.`));
   }, [dispatch, networkId]);
 
@@ -208,7 +208,7 @@ const ZapStakeAction: React.FC = () => {
   // And if zapToken is not yet set, don't pass it through either
   // useContractAllowance will return null if no token is given
   const { data: tokenAllowance } = useContractAllowance(
-    tokensBalance && zapToken && !zapTokenIsEth ? { [NetworkId.MAINNET]: tokensBalance[zapToken].address } : {},
+    tokensBalance && zapToken && !zapTokenIsEth ? { [networkId]: tokensBalance[zapToken].address } : {},
     ZAP_ADDRESSES,
   );
 
@@ -222,7 +222,7 @@ const ZapStakeAction: React.FC = () => {
   }, [tokenAllowance, zapTokenIsEth]);
 
   const approveMutation = useApproveToken(
-    tokensBalance && zapToken ? { [NetworkId.MAINNET]: tokensBalance[zapToken].address } : {},
+    tokensBalance && zapToken ? { [networkId]: tokensBalance[zapToken].address } : {},
     ZAP_ADDRESSES,
   );
 
