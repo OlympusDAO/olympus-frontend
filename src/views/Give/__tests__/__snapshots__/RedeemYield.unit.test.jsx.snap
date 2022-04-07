@@ -179,7 +179,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
       <h3
         class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter"
       >
-        100.00
+        10
          sOHM
       </h3>
       <p
@@ -321,7 +321,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            100 sOHM
+            10 sOHM
           </p>
         </div>
         <div
@@ -340,7 +340,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            0.2147 sOHM
+            0 sOHM
           </p>
         </div>
         <div
@@ -390,7 +390,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
 </div>
 `;
 
-exports[`Redeem Yield should show total deposit as 100 sOHM 1`] = `
+exports[`Redeem Yield should show recipient info correctly 1`] = `
 <div>
   <div
     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
@@ -401,7 +401,7 @@ exports[`Redeem Yield should show total deposit as 100 sOHM 1`] = `
       <h3
         class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter"
       >
-        100.00
+        10
          sOHM
       </h3>
       <p
@@ -481,7 +481,7 @@ exports[`Redeem Yield should show total deposit as 100 sOHM 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            100 sOHM
+            10 sOHM
           </p>
         </div>
         <div
@@ -500,7 +500,7 @@ exports[`Redeem Yield should show total deposit as 100 sOHM 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            0.2147 sOHM
+            0 sOHM
           </p>
         </div>
         <div

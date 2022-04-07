@@ -1,4 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import * as useWeb3Context from "src/hooks/web3Context";
 import accountReducer from "src/slices/AccountSlice";
 import appReducer from "src/slices/AppSlice";
@@ -8,6 +10,8 @@ import { mockWeb3Context } from "src/testHelpers";
 
 import { act, render, screen } from "../../../testUtils";
 import RedeemYield from "../RedeemYield";
+
+jest.mock("src/hooks/useCurrentIndex");
 
 let store;
 let redeemingStore;
@@ -55,6 +59,7 @@ beforeEach(() => {
     account: {
       giving: {
         sohmGive: 999999999000000000,
+        gohmGive: 999999999000000000000000,
         donationInfo: [
           {
             date: "Mar 30, 2022",
@@ -66,12 +71,10 @@ beforeEach(() => {
         loading: false,
       },
       redeeming: {
-        sohmRedeemable: "100",
+        gohmRedeemable: "0.1",
         recipientInfo: {
-          totalDebt: "100.0",
-          carry: "0.0",
-          agnosticDebt: "0.0",
-          indexAtLastChange: "0.0",
+          totalDebt: "100",
+          agnosticDebt: "1",
         },
       },
     },
@@ -103,6 +106,7 @@ afterEach(() => {
 
 describe("Redeem Yield", () => {
   it("should render Redeem Yield Screen", async () => {
+    useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
     context.mockReturnValue(mockWeb3Context);
     let container;
     await act(async () => {
@@ -112,6 +116,7 @@ describe("Redeem Yield", () => {
   });
 
   it("should have disabled redeem button when there are pending transaction(s)", async () => {
+    useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
     context.mockReturnValue(mockWeb3Context);
     const pending = jest.spyOn(Pending, "isPendingTxn");
     pending.mockReturnValue(true);
@@ -122,7 +127,8 @@ describe("Redeem Yield", () => {
     expect(screen.getByText("Redeem Yield").closest("button")).toHaveAttribute("disabled");
   });
 
-  it("should show total deposit as 100 sOHM", async () => {
+  it("should show recipient info correctly", async () => {
+    useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
     context.mockReturnValue(mockWeb3Context);
     const pending = jest.spyOn(Pending, "isPendingTxn");
     pending.mockReturnValue(true);
@@ -131,10 +137,12 @@ describe("Redeem Yield", () => {
       ({ container } = render(<RedeemYield />, redeemingStore)); //eslint-disable-line
     });
     expect(container).toMatchSnapshot();
-    expect(screen.getByText("100.00 sOHM")).toBeInTheDocument();
+    expect(screen.getByText("100 sOHM")).toBeInTheDocument();
+    expect(screen.getAllByText("10 sOHM")[1]).toBeInTheDocument();
   });
 
   it("should show extra content if project wallet", async () => {
+    useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
     context.mockReturnValue({ ...mockWeb3Context, address: "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c" });
     let container;
     await act(async () => {

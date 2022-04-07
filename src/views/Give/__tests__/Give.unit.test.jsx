@@ -13,7 +13,6 @@ import { DepositTableRow } from "../DepositRow";
 import Give from "../Give";
 import GrantsDashboard from "../GrantsDashboard";
 import { ManageDonationModal } from "../ManageDonationModal";
-import RedeemYield from "../RedeemYield";
 import YieldRecipients from "../YieldRecipients";
 
 const project = {
@@ -39,7 +38,7 @@ afterEach(() => {
 });
 
 describe("Give View Disconnected", () => {
-  const giveAssetType = "sOHM";
+  let giveAssetType = "sOHM";
 
   const changeGiveAssetType = checked => {
     if (checked) {
@@ -50,6 +49,7 @@ describe("Give View Disconnected", () => {
   };
 
   it("should render Causes Dashboard as Default", async () => {
+    useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
     let container;
     await act(async () => {
       ({ container } = await render(<Give giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />));
@@ -58,6 +58,7 @@ describe("Give View Disconnected", () => {
   });
 
   it("should render Causes Dashboard", async () => {
+    useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
     let container;
     await act(async () => {
       ({ container } = await render(
@@ -68,6 +69,7 @@ describe("Give View Disconnected", () => {
   });
 
   it("should render Grants Dashboard", async () => {
+    useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
     let container;
     await act(async () => {
       ({ container } = await render(
@@ -78,6 +80,7 @@ describe("Give View Disconnected", () => {
   });
 
   it("should render Yield Recipients Screen with Donate to a cause button", async () => {
+    useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
     let container;
     await act(async () => {
       ({ container } = await render(
@@ -90,6 +93,7 @@ describe("Give View Disconnected", () => {
   });
 
   it("should render project card with connect wallet button", async () => {
+    useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
     let container;
     await act(async () => {
       ({ container } = render(
@@ -108,7 +112,7 @@ describe("Give View Disconnected", () => {
 });
 
 describe("Give View Connected", () => {
-  const giveAssetType = "sOHM";
+  let giveAssetType = "sOHM";
 
   const changeGiveAssetType = checked => {
     if (checked) {
@@ -122,6 +126,7 @@ describe("Give View Connected", () => {
     account: {
       giving: {
         sohmGive: 999999999000000000,
+        gohmGive: 99999999900000000000000000,
         donationInfo: [
           {
             date: "Mar 30, 2022",
@@ -131,13 +136,6 @@ describe("Give View Connected", () => {
           },
         ],
         loading: false,
-      },
-      redeeming: {
-        gohmRedeemable: "0.1",
-        recipientInfo: {
-          totalDebt: "100",
-          agnosticDebt: "1",
-        },
       },
     },
   };
@@ -153,6 +151,7 @@ describe("Give View Connected", () => {
   });
 
   it("should render project card with Donate Yield Button", async () => {
+    useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
     const data = jest.spyOn(useWeb3Context, "useWeb3Context");
     data.mockReturnValue(mockWeb3Context);
 
@@ -174,6 +173,7 @@ describe("Give View Connected", () => {
   });
 
   it("should render correct units on Deposits Row", async () => {
+    giveAssetType = "gOHM";
     useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
 
     const donationInfo = {
@@ -194,43 +194,10 @@ describe("Give View Connected", () => {
       );
     });
 
-    const gohmBal = await screen.getByText("1.2 gOHM");
-    const gohmYield = await screen.getByText("0.1 gOHM");
-    expect(gohmBal).toBeInTheDocument();
-    expect(gohmYield).toBeInTheDocument();
-
-    giveAssetType = "sOHM";
-
-    await act(async () => {
-      render(
-        <DepositTableRow
-          depositObject={donationInfo}
-          giveAssetType={giveAssetType}
-          changeAssetType={changeGiveAssetType}
-        />,
-      );
-    });
-
     const sohmBal = await screen.getByText("120 sOHM");
     const sohmYield = await screen.getByText("10 sOHM");
     expect(sohmBal).toBeInTheDocument();
     expect(sohmYield).toBeInTheDocument();
-  });
-
-  it("should render correct units on Redeem Yield", async () => {
-    giveAssetType = "gOHM";
-    useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
-    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    data.mockReturnValue(mockWeb3Context);
-
-    await act(async () => {
-      render(<RedeemYield />);
-    });
-
-    const sohmDeposit = await screen.getByText("100 sOHM");
-    const sohmRedeemable = await screen.getByText("10 sOHM");
-    expect(sohmDeposit).toBeInTheDocument();
-    expect(sohmRedeemable).toBeInTheDocument();
   });
 
   it("should render correct units on Manage Donation Modal", async () => {
@@ -284,6 +251,7 @@ describe("Give View Connected", () => {
           changeAssetType={changeGiveAssetType}
           yieldSent={yieldSent}
         />,
+        store,
       );
     });
 
@@ -323,6 +291,7 @@ describe("Give View Connected", () => {
           changeAssetType={changeGiveAssetType}
           yieldSent={yieldSent}
         />,
+        store,
       );
     });
 

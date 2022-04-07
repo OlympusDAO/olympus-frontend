@@ -107,6 +107,10 @@ export default function RedeemYield() {
     return ZERO_DBN;
   };
 
+  const getRedeemableBalance = (): DecimalBigNumber => {
+    return redeemableBalance != undefined ? redeemableBalance : ZERO_DBN;
+  };
+
   // Get the amount of sOHM yield donated by the current user and return as a number
   const getRecipientDonated = (address: string): DecimalBigNumber => {
     const project = projectMap.get(address);
@@ -165,7 +169,7 @@ export default function RedeemYield() {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h3" align="center">
-          {isRecipientInfoLoading ? <Skeleton /> : redeemableBalance.toString({ decimals: 2 })} sOHM
+          {isRecipientInfoLoading ? <Skeleton /> : getRedeemableBalance().toString({ decimals: 2 })} sOHM
         </Typography>
         <Typography variant="body1" align="center" className="subtext">
           Redeemable Yield
@@ -229,7 +233,7 @@ export default function RedeemYield() {
           />
           <DataRow
             title={t`Redeemable Amount`}
-            balance={`${redeemableBalance.toString({ decimals: 4 })} ${t`sOHM`}`}
+            balance={`${getRedeemableBalance().toString({ decimals: 4 })} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
           />
           <DataRow
@@ -255,7 +259,7 @@ export default function RedeemYield() {
           callbackFunc={handleRedeemYieldModalSubmit}
           cancelFunc={handleRedeemYieldModalCancel}
           deposit={totalDeposit}
-          redeemableBalance={redeemableBalance}
+          redeemableBalance={getRedeemableBalance()}
         />
       </Grid>
     </Grid>

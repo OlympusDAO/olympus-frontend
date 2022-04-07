@@ -152,7 +152,15 @@ export function RecipientModal({
   }, [sohmAllowance, gohmAllowance, giveAssetType]);
 
   const getBalance = (): DecimalBigNumber => {
-    return giveAssetType === "sOHM" ? new DecimalBigNumber(sohmBalance, 9) : new DecimalBigNumber(gohmBalance, 18);
+    if (giveAssetType === "sOHM") {
+      if (!sohmBalance) return ZERO_DBN;
+
+      return new DecimalBigNumber(sohmBalance, 9);
+    } else {
+      if (!gohmBalance) return ZERO_DBN;
+
+      return new DecimalBigNumber(gohmBalance, 18);
+    }
   };
 
   /**
