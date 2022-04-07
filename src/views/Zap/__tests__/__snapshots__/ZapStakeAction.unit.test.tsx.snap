@@ -360,7 +360,7 @@ exports[`<ZapStakeAction/>  Submit Button Should be disabled with < 2 tokens sel
         id="zap-amount-output"
         placeholder="Enter Amount"
         type="number"
-        value="NaN"
+        value="1.1325733333333332"
       />
       <div
         class="MuiInputAdornment-root MuiInputAdornment-positionEnd"
@@ -528,9 +528,9 @@ exports[`<ZapStakeAction/>  Submit Button Should be disabled with < 2 tokens sel
     <p
       class="MuiTypography-root MuiTypography-body1"
     >
-      NaN ETH
-       = 1
+      0.8829 ETH
        
+      = 1 
       gOHM
     </p>
   </div>
@@ -545,7 +545,7 @@ exports[`<ZapStakeAction/>  Submit Button Should be disabled with < 2 tokens sel
     <p
       class="MuiTypography-root MuiTypography-body1"
     >
-      NaN
+      1.1212
        
       gOHM
     </p>
