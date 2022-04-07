@@ -1,5 +1,6 @@
 import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
+import { OHM_ADDRESSES } from "src/constants/addresses";
 
 import { NetworkId } from "../networkDetails";
 import {
@@ -47,7 +48,7 @@ const OhmDetails: V2BondDetails = {
   name: "OHM",
   bondIconSvg: ["OHM"],
   pricingFunction: async () => {
-    return getTokenByContract("0x383518188c0c6d7730d91b2c03a03c837814a899");
+    return getTokenByContract(OHM_ADDRESSES[NetworkId.MAINNET]);
   },
   isLP: false,
   lpUrl: "",
@@ -236,7 +237,6 @@ export class V2BondParser {
         return singleSidedBondDetails[NetworkId.MAINNET]["0x6b175474e89094c44da98b954eedeac495271d0f"];
       }
     }
-    return UnknownDetails;
   }
 
   /**
