@@ -160,8 +160,6 @@ async function processBond(
   // bondPriceUsd === $X/payoutToken
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
 
-  console.log({ quoteTokenPrice, bondPrice });
-
   const payoutTokenPrice = await payoutDetail.pricingFunction();
   const bondDiscount = (payoutTokenPrice - bondPriceUSD) / payoutTokenPrice;
 
