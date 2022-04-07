@@ -264,7 +264,12 @@ export const changeGive = createAsyncThunk(
 
           // Have to use balanceTo instead of useCurrentIndex because useCurrentIndex
           // only pulls the current index from mainnet, not the one used on testnet
-          const gohmAmount = await gohmContract.balanceTo(ethers.utils.parseUnits(reductionAmount, "gwei"));
+          // Also have to check if the token is sOHM because if we try converting gOHM
+          // values to 9 decimals we encounter underflow issues. Not sure if this is the
+          // best solution.
+          const gohmAmount = await gohmContract.balanceTo(
+            token === "sOHM" ? ethers.utils.parseUnits(reductionAmount, "gwei") : "0",
+          );
 
           giveTx =
             token === "sOHM"
