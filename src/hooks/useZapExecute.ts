@@ -119,9 +119,9 @@ export const useZapExecute = () => {
         console.error(`Encountered error while executing Zap: ${e.message}`);
 
         if (e.message.indexOf("High Slippage") > 0) {
-          dispatch(error(`Transaction would fail due to slippage. Please use a higher slippage tolerance value.`));
+          dispatch(error(t`Transaction would fail due to slippage. Please use a higher slippage tolerance value.`));
         } else if (e.message.indexOf("TRANSFER_AMOUNT_EXCEEDS_BALANCE") > 0) {
-          dispatch(error(`Insufficient balance.`));
+          dispatch(error(t`Insufficient balance.`));
         } else {
           dispatch(error(e.message));
         }
