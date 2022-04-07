@@ -7,10 +7,10 @@ export const BondDiscount: React.VFC<{ discount: DecimalBigNumber }> = ({ discou
   return (
     <span
       style={{
-        color: new DecimalBigNumber("0", 0).gt(discount) ? theme.colors.feedback.error : theme.colors.feedback.pnlGain,
+        color: new DecimalBigNumber("0").gt(discount) ? theme.colors.feedback.error : theme.colors.feedback.pnlGain,
       }}
     >
-      {discount.mul(new DecimalBigNumber("100", 0)).toString({ decimals: 2 })}%
+      {discount.mul(new DecimalBigNumber("100")).toString({ decimals: 2, trim: false })}%
     </span>
   );
 };
