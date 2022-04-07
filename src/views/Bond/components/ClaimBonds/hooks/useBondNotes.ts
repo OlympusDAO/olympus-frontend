@@ -39,6 +39,8 @@ export const useBondNotes = () => {
   return useQuery<BondNote[], Error>(bondNotesQueryKey(...args), () => fetchBondNotes(...args), { enabled: !!address });
 };
 
+export const bondNotesQueryKey = (networkId: NetworkId, address: string) => ["useBondNotes", networkId, address];
+
 export const fetchBondNotes = async (networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, address: string) => {
   const contract = BOND_DEPOSITORY_CONTRACT.getEthersContract(networkId);
 
@@ -49,7 +51,7 @@ export const fetchBondNotes = async (networkId: NetworkId.MAINNET | NetworkId.TE
       const note = await contract.notes(address, id);
 
       const market = note.marketID.toString();
-      const bond = await getQueryData<Bond[]>(bondsQueryKey(networkId)).then(bonds =>
+      const bond = await getQueryData<Bond[]>(bondsQueryKey(networkId, false)).then(bonds =>
         bonds.find(bond => bond.id === market),
       );
 
@@ -65,5 +67,3 @@ export const fetchBondNotes = async (networkId: NetworkId.MAINNET | NetworkId.TE
     }),
   );
 };
-
-export const bondNotesQueryKey = (networkId: NetworkId, address: string) => ["useBondNotes", networkId, address];

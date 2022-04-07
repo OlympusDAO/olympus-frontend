@@ -6,9 +6,10 @@ import { Skeleton } from "@material-ui/lab";
 import { Icon, Modal, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
-import { formatCurrency } from "src/helpers";
+import { NetworkId } from "src/constants";
+import { Token } from "src/helpers/contracts/Token";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
-import { useOhmPrice } from "src/hooks/usePrices";
+import { useTokenPrice } from "src/hooks/useTokenPrice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { Bond, useBonds } from "src/views/Bond/hooks/useBonds";
 
@@ -23,7 +24,12 @@ export const BondModalContainer: React.VFC = () => {
   const { networkId } = useWeb3Context();
   const { id } = useParams<{ id: string }>();
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
-  const bond = useBonds(bonds => bonds.find(bond => bond.id === id)).data;
+
+  const { pathname } = useLocation();
+  const isInverseBond = pathname.includes("/inverse/");
+
+  const bonds = useBonds({ isInverseBond }).data;
+  const bond = bonds?.find(bond => bond.id === id);
 
   if (!bond) return null;
 
@@ -112,7 +118,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
             </Typography>
 
             <Typography variant="h3" color="primary" className="price">
-              <OhmPrice />
+              <TokenPrice token={bond.baseToken} />
             </Typography>
           </div>
         </Box>
@@ -129,7 +135,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   );
 };
 
-const OhmPrice = () => {
-  const price = useOhmPrice().data;
-  return price ? <>{formatCurrency(price, 2)}</> : <Skeleton width={60} />;
+const TokenPrice: React.VFC<{ token: Token }> = ({ token }) => {
+  const price = useTokenPrice(NetworkId.MAINNET, token).data;
+  return price ? <>${price.toString({ decimals: 2, format: true, trim: false })}</> : <Skeleton width={60} />;
 };

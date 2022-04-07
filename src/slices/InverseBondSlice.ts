@@ -150,6 +150,8 @@ async function processBond(
     console.error(`Add details for bond index=${index}`);
   }
   // quoteTokenPrice === the price of LUSD or DAI or OHM-DAI etc, except with Inverse Bonds == price of OHM
+  console.log(v2BondDetail);
+
   const quoteTokenPrice = await v2BondDetail.pricingFunction();
   // bondPriceBigNumber === the market price of quote_token (bond_in_token) in base_token (payout_token) where base_token is typically OHM
   // ... in other words, 20 bond_in_token / 1 payout_token w/ payout_token decimals (X bond_in_token per 1 payout_token)
@@ -157,6 +159,8 @@ async function processBond(
   const bondPrice = +bondPriceBigNumber / Math.pow(10, metadata.baseDecimals);
   // bondPriceUsd === $X/payoutToken
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
+
+  console.log({ quoteTokenPrice, bondPrice });
 
   const payoutTokenPrice = await payoutDetail.pricingFunction();
   const bondDiscount = (payoutTokenPrice - bondPriceUSD) / payoutTokenPrice;

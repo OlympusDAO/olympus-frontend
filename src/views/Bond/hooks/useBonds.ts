@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
-import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
+import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
 import { LPToken } from "src/helpers/contracts/LPToken";
@@ -66,27 +66,31 @@ export interface Bond {
   };
 }
 
-export const useBonds = <TData = Bond[]>(select?: (data: Bond[]) => TData) => {
+export const useBonds = ({ isInverseBond = false }: { isInverseBond?: boolean } = {}) => {
   const networks = useTestableNetworks();
 
-  const args = [networks.MAINNET] as const;
-  return useQuery<Bond[], Error, TData>(bondsQueryKey(...args), () => fetchBonds(...args), { select });
+  const args = [networks.MAINNET, isInverseBond] as const;
+  return useQuery<Bond[], Error>(bondsQueryKey(...args), () => fetchBonds(...args));
 };
 
-export const bondsQueryKey = (networkId: NetworkId) => ["useBonds", networkId];
+export const bondsQueryKey = (networkId: NetworkId, isInverseBond: boolean) => ["useBonds", networkId, isInverseBond];
 
-export const fetchBonds = async (networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY) => {
-  const contract = BOND_DEPOSITORY_CONTRACT.getEthersContract(networkId);
+export const fetchBonds = async (networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, isInverseBond: boolean) => {
+  const contract = isInverseBond
+    ? OP_BOND_DEPOSITORY_CONTRACT.getEthersContract(networkId)
+    : BOND_DEPOSITORY_CONTRACT.getEthersContract(networkId);
 
   const markets = await contract.liveMarkets().then(ids => ids.map(id => id.toString()));
 
   const promises = await Promise.allSettled(
     markets.map(async id => {
-      const [market, terms] = await Promise.all([contract.markets(id), contract.terms(id)]);
+      const [terms, market] = await Promise.all([contract.terms(id), contract.markets(id)]);
 
-      const baseToken = OHM_TOKEN;
-      const quoteToken = getTokenByAddress(market.quoteToken);
-      assert(quoteToken, `Unknown token address: ${market.quoteToken}`);
+      const baseToken = isInverseBond ? getTokenByAddress((market as any).baseToken) : OHM_TOKEN;
+      assert(baseToken, `Unknown base token address: ${(market as any).baseToken}`);
+
+      const quoteToken = isInverseBond ? OHM_TOKEN : getTokenByAddress(market.quoteToken);
+      assert(quoteToken, `Unknown quote token address: ${market.quoteToken}`);
 
       const [baseTokenPerUsd, quoteTokenPerUsd, quoteTokenPerBaseToken] = await Promise.all([
         baseToken.getPrice(NetworkId.MAINNET),
@@ -94,8 +98,10 @@ export const fetchBonds = async (networkId: NetworkId.MAINNET | NetworkId.TESTNE
         contract.marketPrice(id).then(price => new DecimalBigNumber(price, baseToken.decimals)),
       ]);
 
+      if (isInverseBond) console.log(quoteTokenPerUsd.toString());
+
       const priceInUsd = quoteTokenPerUsd.mul(quoteTokenPerBaseToken);
-      const discount = baseTokenPerUsd.sub(priceInUsd).div(baseTokenPerUsd, 9);
+      const discount = baseTokenPerUsd.sub(priceInUsd).div(baseTokenPerUsd);
 
       /**
        * Bonds mature with a cliff at a set timestamp
@@ -128,10 +134,12 @@ export const fetchBonds = async (networkId: NetworkId.MAINNET | NetworkId.TESTNE
         market.capacityInQuote ? quoteToken.decimals : baseToken.decimals,
       );
 
-      const capacityInQuoteToken = market.capacityInQuote ? capacity : capacity.mul(quoteTokenPerBaseToken); // Convert to quoteToken if capacity is denominated in baseToken
+      const capacityInQuoteToken = market.capacityInQuote
+        ? capacity
+        : new DecimalBigNumber(capacity.mul(quoteTokenPerBaseToken).toString(), quoteToken.decimals); // Convert to quoteToken if capacity is denominated in baseToken
 
       const capacityInBaseToken = market.capacityInQuote
-        ? capacity.div(quoteTokenPerBaseToken, baseToken.decimals) // Convert to baseToken if capacity is denominated in quoteToken
+        ? new DecimalBigNumber(capacity.div(quoteTokenPerBaseToken).toString(), baseToken.decimals) // Convert to baseToken if capacity is denominated in quoteToken
         : capacity;
 
       /*
@@ -140,13 +148,16 @@ export const fetchBonds = async (networkId: NetworkId.MAINNET | NetworkId.TESTNE
        * and the preferred deposit interval is 1 day, max payout would be 100 OHM.
        */
       const maxPayoutInBaseToken = new DecimalBigNumber(market.maxPayout, baseToken.decimals);
-      const maxPayoutInQuoteToken = maxPayoutInBaseToken.mul(quoteTokenPerBaseToken);
+      const maxPayoutInQuoteToken = new DecimalBigNumber(
+        maxPayoutInBaseToken.mul(quoteTokenPerBaseToken).toString(),
+        quoteToken.decimals,
+      );
 
       /**
        * Bonds are sold out if either there is no capacity left,
        * or the maximum has been paid out for a specific interval.
        */
-      const ONE = new DecimalBigNumber("1", 0);
+      const ONE = new DecimalBigNumber("1");
       const isSoldOut = ONE.gt(capacityInBaseToken) || ONE.gt(maxPayoutInBaseToken);
 
       return {

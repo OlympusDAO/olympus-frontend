@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
-import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
+import { BOND_DEPOSITORY_ADDRESSES, OP_BOND_DEPOSITORY_ADDRESSES } from "src/constants/addresses";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useBalance } from "src/hooks/useBalance";
@@ -31,13 +31,42 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
   const [amount, setAmount] = useState("");
   const parsedAmount = new DecimalBigNumber(amount, props.bond.quoteToken.decimals);
   const amountInBaseToken = parsedAmount.div(props.bond.price.inBaseToken, 4);
-  const setMax = () => balance && setAmount(balance.toString());
+
+  /**
+   * Sets the input to the maximum amount a user can bond.
+   * It returns the smallest value of either:
+   *  - Total bond capacity
+   *  - Max payout for this specific bond interval
+   *  - The users balance of the quoteToken
+   */
+  const setMax = () => {
+    if (!balance) return;
+
+    if (props.bond.capacity.inQuoteToken.lt(props.bond.maxPayout.inQuoteToken)) {
+      return setAmount(
+        props.bond.capacity.inQuoteToken.lt(balance)
+          ? props.bond.capacity.inQuoteToken.toString() // Capacity is the smallest
+          : balance.toString(),
+      );
+    }
+
+    setAmount(
+      props.bond.maxPayout.inQuoteToken.lt(balance)
+        ? props.bond.maxPayout.inQuoteToken.toString() // Payout is the smallest
+        : balance.toString(),
+    );
+  };
 
   const purchaseBondMutation = usePurchaseBond(props.bond);
   const handleSubmit = (event: React.FormEvent<StakeFormElement>) => {
     event.preventDefault();
     const amount = event.currentTarget.elements["amount"].value;
-    purchaseBondMutation.mutate({ amount, slippage: props.slippage, recipientAddress: props.recipientAddress });
+    purchaseBondMutation.mutate({
+      amount,
+      isInverseBond,
+      slippage: props.slippage,
+      recipientAddress: props.recipientAddress,
+    });
   };
 
   return (
@@ -49,7 +78,7 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
               <TokenAllowanceGuard
                 isVertical
                 tokenAddressMap={props.bond.quoteToken.addresses}
-                spenderAddressMap={BOND_DEPOSITORY_CONTRACT.addresses}
+                spenderAddressMap={isInverseBond ? OP_BOND_DEPOSITORY_ADDRESSES : BOND_DEPOSITORY_ADDRESSES}
                 message={
                   <>
                     <Trans>First time bonding</Trans> <b>{props.bond.quoteToken.name}</b>? <br />{" "}
@@ -85,20 +114,25 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
         </form>
       </WalletConnectedGuard>
 
-      <Box className="bond-data">
+      <Box mt="24px">
         <DataRow
           isLoading={!balance}
           title={t`Your Balance`}
-          balance={`${balance?.toString({ decimals: 4, format: true })} ${props.bond.quoteToken.name}`}
+          balance={`${balance?.toString({ decimals: 4, format: true, trim: true })} ${props.bond.quoteToken.name}`}
         />
 
         <DataRow
           title={t`You Will Get`}
           balance={
-            `${amountInBaseToken.toString({ decimals: 4, format: true })} ` +
-            `sOHM (≈${amountInBaseToken
-              .div(currentIndex || new DecimalBigNumber("1", 0), 4)
-              .toString({ decimals: 4, format: true })} gOHM)`
+            <span>
+              {amountInBaseToken.toString({ decimals: 4, format: true, trim: true })}{" "}
+              {isInverseBond ? props.bond.baseToken.name : `sOHM`}{" "}
+              {!isInverseBond && !!currentIndex && (
+                <span>
+                  (≈{amountInBaseToken.div(currentIndex).toString({ decimals: 4, format: true, trim: false })} gOHM)
+                </span>
+              )}
+            </span>
           }
           tooltip={t`The total amount of payout asset you will recieve from this bond purchase. (sOHM quantity will be higher due to rebasing)`}
         />
@@ -108,15 +142,15 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
           tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
           balance={
             <span>
-              {(props.bond.maxPayout.inBaseToken.gt(props.bond.capacity.inBaseToken)
-                ? props.bond.capacity.inBaseToken
-                : props.bond.maxPayout.inBaseToken
-              )?.toString({ decimals: 4, format: true })}{" "}
-              sOHM (≈
-              {(props.bond.maxPayout.inQuoteToken.gt(props.bond.capacity.inQuoteToken)
-                ? props.bond.capacity.inQuoteToken
-                : props.bond.maxPayout.inQuoteToken
-              )?.toString({ decimals: 4, format: true })}{" "}
+              {(props.bond.maxPayout.inBaseToken.lt(props.bond.capacity.inBaseToken)
+                ? props.bond.maxPayout.inBaseToken
+                : props.bond.capacity.inBaseToken
+              ).toString({ decimals: 4, format: true })}{" "}
+              {isInverseBond ? props.bond.baseToken.name : `sOHM`} (≈
+              {(props.bond.maxPayout.inQuoteToken.lt(props.bond.capacity.inQuoteToken)
+                ? props.bond.maxPayout.inQuoteToken
+                : props.bond.capacity.inQuoteToken
+              ).toString({ decimals: 4, format: true })}{" "}
               {props.bond.quoteToken.name})
             </span>
           }

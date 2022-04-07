@@ -53,6 +53,23 @@ export const DAI_TOKEN = new Token({
   purchaseUrl: "",
 });
 
+/**
+ * For inverse bonds, we have to use a different DAI testnet token
+ * for compatability. Reason why has something to do with how the
+ * treasury was set up on the rinkeby contract.
+ */
+export const TEST_DAI_TOKEN = new Token({
+  icons: ["DAI"],
+  name: "DAI",
+  decimals: 18,
+  addresses: {
+    [NetworkId.MAINNET]: DAI_ADDRESSES[NetworkId.MAINNET],
+    [NetworkId.TESTNET_RINKEBY]: "0xbc9ee0d911739cbc72cd094ada26f56e0c49eeae",
+  },
+  factory: IERC20__factory,
+  purchaseUrl: "",
+});
+
 export const LUSD_TOKEN = new Token({
   icons: ["LUSD"],
   name: "LUSD",

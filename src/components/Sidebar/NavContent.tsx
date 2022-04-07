@@ -42,7 +42,10 @@ const NavContent: React.VFC = () => {
 
                   <NavItem to="/bonds" icon="bond" label={t`Bond`} />
 
-                  <Bonds />
+                  <Box paddingLeft="62px" paddingRight="32px" py="8px">
+                    <Bonds />
+                    <InverseBonds />
+                  </Box>
 
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
 
@@ -121,7 +124,7 @@ const Bonds: React.VFC = () => {
   if (!bonds) return null;
 
   return (
-    <Box paddingLeft="62px" paddingRight="32px" paddingY="8px">
+    <>
       {sortByDiscount(bonds)
         .filter(bond => !bond.isSoldOut)
         .map(bond => (
@@ -135,6 +138,35 @@ const Bonds: React.VFC = () => {
             </Box>
           </Link>
         ))}
+    </>
+  );
+};
+
+const InverseBonds: React.VFC = () => {
+  const bonds = useBonds({ isInverseBond: true }).data;
+
+  if (!bonds || bonds.length === 0) return null;
+
+  return (
+    <Box mt="16px">
+      <Typography variant="body2" color="textSecondary">
+        Inverse Bonds
+      </Typography>
+
+      <Box mt="4px">
+        {sortByDiscount(bonds)
+          .filter(bond => !bond.isSoldOut)
+          .map(bond => (
+            <Link key={bond.id} component={NavLink} to={`/bonds/${bond.id}`}>
+              <Box display="flex" alignItems="center" justifyContent="space-between" paddingY="4px">
+                <Typography variant="body2">{bond.quoteToken.name}</Typography>
+                <Typography variant="body2">
+                  <BondDiscount discount={bond.discount} />
+                </Typography>
+              </Box>
+            </Link>
+          ))}
+      </Box>
     </Box>
   );
 };
