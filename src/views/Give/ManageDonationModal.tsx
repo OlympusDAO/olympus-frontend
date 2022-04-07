@@ -446,9 +446,10 @@ export function ManageDonationModal({
    * Elements to display project statistics, such as donation sOHM, yield and goal achievement.
    */
   const getProjectStats = () => {
-    const depositGoalNumber = project
-      ? GetCorrectStaticUnits(project.depositGoal.toString(), giveAssetType, currentIndex)
-      : ZERO_DBN;
+    const depositGoalNumber =
+      project && currentIndex
+        ? GetCorrectStaticUnits(project.depositGoal.toString(), giveAssetType, currentIndex)
+        : new DecimalBigNumber("1", 9);
 
     return (
       <Grid container spacing={2}>
