@@ -12,13 +12,13 @@ import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import ReactGA from "react-ga";
+import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useAppDispatch } from "src/hooks";
 import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalDonated } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { IAccountSlice } from "src/slices/AccountSlice";
 import { IAppData } from "src/slices/AppSlice";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
-import { isSupportedChain } from "src/views/Give/Give";
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { useGive } from "src/views/Give/hooks/useGive";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
@@ -61,11 +61,13 @@ type State = {
   app: IAppData;
 };
 
+const NO_DONATION = -1;
+
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const { address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
   const [isUserDonating, setIsUserDonating] = useState(false);
-  const [donationId, setDonationId] = useState(0);
+  const [donationId, setDonationId] = useState(NO_DONATION);
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
@@ -95,7 +97,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   useEffect(() => {
     setIsUserDonating(false);
-    setDonationId(0);
+    setDonationId(NO_DONATION);
   }, [networkId]);
 
   useEffect(() => {
@@ -219,7 +221,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
     const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
-    const formattedTotalDonated = !totalDonated ? new BigNumber("0") : new BigNumber(totalDonated).toFixed(2);
+    const formattedTotalDonated: BigNumber = !totalDonated ? new BigNumber("0") : new BigNumber(totalDonated);
 
     if (depositGoal === 0) return <></>;
 
@@ -234,7 +236,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <Icon name="sohm-yield" />
               </Grid>
               <Grid item className="metric">
-                {!totalDonated ? <Skeleton /> : formattedTotalDonated}
+                {!totalDonated ? <Skeleton /> : formattedTotalDonated.toFixed(2)}
               </Grid>
             </Grid>
             <Grid item className="subtext">
@@ -569,7 +571,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             </Grid>
                             <Grid item>
                               <Typography className="metric">
-                                {donationInfo[donationId]
+                                {donationId != NO_DONATION && donationInfo[donationId]
                                   ? parseFloat(donationInfo[donationId].deposit).toFixed(2)
                                   : "0"}
                               </Typography>
@@ -589,7 +591,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                               </Grid>
                               <Grid item>
                                 <Typography className="metric">
-                                  {donationInfo[donationId]
+                                  {donationId != NO_DONATION && donationInfo[donationId]
                                     ? parseFloat(donationInfo[donationId].yieldDonated).toFixed(2)
                                     : "0"}
                                 </Typography>
@@ -638,7 +640,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           project={project}
           key={title}
         />
-        {isUserDonating && donationInfo[donationId] ? (
+        {isUserDonating && donationId != NO_DONATION && donationInfo[donationId] ? (
           <ManageDonationModal
             isModalOpen={isManageModalOpen}
             isMutationLoading={isMutating}

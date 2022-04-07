@@ -3,6 +3,7 @@ import { ContractReceipt, ethers } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
+import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, getTypeFromAction } from "src/helpers/GiveHelpers";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicGiveContract } from "src/hooks/useContract";
@@ -37,17 +38,23 @@ export const useIncreaseGive = () => {
           t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
 
-      // Create transaction to deposit passed amount to the passed recipient
-      const transaction = await contract.deposit(ethers.utils.parseUnits(amount_, "gwei"), recipient_);
-
       const uaData: IUAData = {
         address: address,
         value: amount_,
         recipient: recipient_,
         approved: true,
-        txHash: transaction.hash,
-        type: "editGive",
+        txHash: null,
+        type: getTypeFromAction(ACTION_GIVE_EDIT),
       };
+
+      // Before we submit the transaction, record the event.
+      // This lets us track if the user rejects/ignores the confirmation dialog.
+      trackGiveEvent(uaData, uaData.type + "-before");
+
+      // Create transaction to deposit passed amount to the passed recipient
+      const transaction = await contract.deposit(ethers.utils.parseUnits(amount_, "gwei"), recipient_);
+
+      uaData.txHash = transaction.hash;
       trackGiveEvent(uaData);
 
       return transaction.wait();
@@ -96,17 +103,23 @@ export const useDecreaseGive = () => {
           t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
 
-      // Create transaction to withdraw passed amount from the passed recipient
-      const transaction = await contract.withdraw(ethers.utils.parseUnits(amount_, "gwei"), recipient_);
-
       const uaData: IUAData = {
         address: address,
         value: amount_,
         recipient: recipient_,
         approved: true,
-        txHash: transaction.hash,
-        type: "editGive",
+        txHash: null,
+        type: getTypeFromAction(ACTION_GIVE_WITHDRAW),
       };
+
+      // Before we submit the transaction, record the event.
+      // This lets us track if the user rejects/ignores the confirmation dialog.
+      trackGiveEvent(uaData, uaData.type + "-before");
+
+      // Create transaction to withdraw passed amount from the passed recipient
+      const transaction = await contract.withdraw(ethers.utils.parseUnits(amount_, "gwei"), recipient_);
+
+      uaData.txHash = transaction.hash;
       trackGiveEvent(uaData);
 
       return transaction.wait();

@@ -67,7 +67,8 @@ export const useDonationInfo = () => {
         if (allDeposits[1][i].eq(0)) continue;
 
         // Get the first donation date for a donation to a specific recipient
-        const firstDonationDate = await GetDonationDate({
+        let firstDonationDate = "";
+        const firstDonationDatePromise = GetDonationDate({
           address: address,
           recipient: allDeposits[0][i],
           networkID: networks.MAINNET,
@@ -76,8 +77,10 @@ export const useDonationInfo = () => {
 
         // Set default yieldSent value in case donatedTo throws an error
         let yieldSent: BigNumber = BigNumber.from("0");
+        const yieldSentPromise = contract.donatedTo(address, allDeposits[0][i]);
+
         try {
-          yieldSent = await contract.donatedTo(address, allDeposits[0][i]);
+          [firstDonationDate, yieldSent] = await Promise.all([firstDonationDatePromise, yieldSentPromise]);
         } catch (e: unknown) {
           console.log(
             "If the following error contains 'user is not donating', then it is an expected error. No need to report it!",
