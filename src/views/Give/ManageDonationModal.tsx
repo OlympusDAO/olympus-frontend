@@ -603,7 +603,7 @@ export function ManageDonationModal({
           <Box>
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <Typography variant="body1">
+                <Typography variant="body1" color="textSecondary">
                   <Trans>New {giveAssetType} Amount</Trans>
                   <InfoTooltip
                     message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}

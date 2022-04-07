@@ -419,14 +419,23 @@ export function RecipientModal({
       <>
         <Grid container alignItems="center" spacing={2}>
           <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
-          <Grid item xs={12}>
-            <Typography variant="body1">
-              <Trans>{giveAssetType} Allocation</Trans>
-              <InfoTooltip
-                message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
-                children={null}
-              />
-            </Typography>
+          <Grid container justifyContent="space-between" spacing={2}>
+            <Grid item xs={6}>
+              <Typography variant="body1" color="textSecondary">
+                <Trans>{giveAssetType} Deposit</Trans>
+                <InfoTooltip
+                  message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                  children={null}
+                />
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1" color="textSecondary" align="right">
+                <Trans>
+                  Balance: {getBalance().toString({ decimals: 2 })} {giveAssetType}
+                </Trans>
+              </Typography>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             <Input
@@ -434,11 +443,7 @@ export function RecipientModal({
               placeholder={t`Enter an amount`}
               type="number"
               value={getDepositAmount().eq(ZERO_DBN) ? null : getDepositAmount()}
-              helperText={
-                isDepositAmountValid
-                  ? `${t`Your current Staked Balance is`} ${getBalance().toString({ decimals: 2 })} ${giveAssetType}`
-                  : isDepositAmountValidError
-              }
+              helperText={isDepositAmountValid ? "" : isDepositAmountValidError}
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onChange={(e: any) => handleSetDepositAmount(e.target.value)}
               error={!isDepositAmountValid}
@@ -448,8 +453,8 @@ export function RecipientModal({
             />
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="body1">
-              <Trans>Recipient</Trans>
+            <Typography variant="body1" color="textSecondary">
+              <Trans>Recipient Address</Trans>
               <InfoTooltip
                 message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
                 children={null}
