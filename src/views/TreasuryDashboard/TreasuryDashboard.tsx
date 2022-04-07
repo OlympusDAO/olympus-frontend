@@ -1,5 +1,6 @@
 import "./TreasuryDashboard.scss";
 
+import { Trans } from "@lingui/macro";
 import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
 import { DashboardPro, Proteus, TotalIncome, TreasuryAllocation } from "@multifarm/widget";
 import { Metric, MetricCollection, Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
@@ -102,11 +103,11 @@ const MetricsDashboard = () => (
 );
 
 const dashboardTabs = [
-  { pathname: "dashboard", label: "Overview" },
-  { pathname: "treasury", label: "Treasury" },
-  { pathname: "revenue", label: "Revenue" },
-  { pathname: "olympuspro", label: "Olympus Pro" },
-  { pathname: "proteus", label: "Proteus" },
+  { pathname: "dashboard", label: <Trans>Overview</Trans> },
+  { pathname: "treasury", label: <Trans>Treasury</Trans> },
+  { pathname: "revenue", label: <Trans>Revenue</Trans> },
+  { pathname: "olympuspro", label: <Trans>Olympus Pro</Trans> },
+  { pathname: "proteus", label: <Trans>Proteus</Trans> },
 ];
 
 const TreasuryDashboard: React.FC<{ activeView: number }> = ({ activeView = 0 }) => {
