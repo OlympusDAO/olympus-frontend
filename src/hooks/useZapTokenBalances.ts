@@ -48,6 +48,7 @@ export const useZapTokenBalances = () => {
       const apiKey = Environment.getZapperApiKey();
       try {
         const addressLower = address.toLowerCase();
+        console.debug("Refetching Zap token balances");
         const response = await fetch(
           `https://api.zapper.fi/v1/protocols/tokens/balances?api_key=${apiKey}&addresses%5B%5D=${addressLower}&newBalances=true`,
         );
