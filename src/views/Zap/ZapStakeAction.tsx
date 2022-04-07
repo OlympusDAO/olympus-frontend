@@ -156,14 +156,14 @@ const ZapStakeAction: React.FC = () => {
   const gOhmBalance = useGohmBalance()[networks.MAINNET].data;
 
   // TODO use DecimalBigNumber
-  const exchangeRate = useMemo(() => {
-    if (selectedTokenBalance && ohmMarketPrice.data && gOhmMarketPrice.data) {
+  const exchangeRate: number | null = useMemo(() => {
+    if (outputGOHM && selectedTokenBalance && ohmMarketPrice.data && gOhmMarketPrice.data) {
       return (
         (outputGOHM === undefined || outputGOHM === null || outputGOHM ? gOhmMarketPrice.data : ohmMarketPrice.data) /
         selectedTokenBalance.price
       );
     } else {
-      return Number.MAX_VALUE;
+      return null;
     }
   }, [outputGOHM, ohmMarketPrice, gOhmMarketPrice, selectedTokenBalance]);
 
@@ -176,7 +176,7 @@ const ZapStakeAction: React.FC = () => {
       return;
     }
     setInputQuantity(q.toString());
-    setOutputQuantity((+q / exchangeRate).toString());
+    setOutputQuantity(exchangeRate ? (+q / exchangeRate).toString() : "");
     if (outputQuantity) {
       olyZapsSwapOfferDisplay(outputQuantity);
     }
@@ -189,7 +189,7 @@ const ZapStakeAction: React.FC = () => {
       return;
     }
     setOutputQuantity(q.toString());
-    setInputQuantity((+q * exchangeRate).toString());
+    setInputQuantity(exchangeRate ? (+q * exchangeRate).toString() : "");
   };
 
   useEffect(() => setZapTokenQuantity(null), [zapToken]);
@@ -247,10 +247,15 @@ const ZapStakeAction: React.FC = () => {
   const [customSlippage, setCustomSlippage] = useState<string>("1.0");
 
   // Number(outputQuantity) * (1 - +customSlippage / 100)
-  const minimumAmount: DecimalBigNumber = new DecimalBigNumber(outputQuantity).mul(
-    new DecimalBigNumber((1 - +customSlippage / 100).toString(), 9),
-  );
-  const minimumAmountString = minimumAmount.toString({ decimals: 4, trim: true });
+  const minimumAmount: DecimalBigNumber = useMemo(() => {
+    if (!outputQuantity || exchangeRate == Number.MAX_VALUE) return new DecimalBigNumber("0");
+
+    return new DecimalBigNumber(outputQuantity).mul(new DecimalBigNumber((1 - +customSlippage / 100).toString(), 9));
+  }, [customSlippage, exchangeRate, outputQuantity]);
+
+  const minimumAmountString: string = useMemo(() => {
+    return minimumAmount.toString({ decimals: 4, trim: true });
+  }, [minimumAmount]);
 
   const onZap = async () => {
     if (outputGOHM != null && selectedTokenBalance) {
@@ -438,7 +443,7 @@ const ZapStakeAction: React.FC = () => {
         <Typography>
           {outputGOHM == null || !selectedTokenBalance
             ? "nil"
-            : `${trim(exchangeRate, 4)} ${selectedTokenBalance.symbol}`}{" "}
+            : `${trim(exchangeRate || 0, 4)} ${selectedTokenBalance.symbol}`}{" "}
           = 1 {outputGOHM ? "gOHM" : "sOHM"}
         </Typography>
       </Box>
