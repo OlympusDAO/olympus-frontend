@@ -19,7 +19,7 @@ function ChooseBondV2() {
   const showTabs = !!inverse && inverse.length > 0 && !!bonds;
 
   return (
-    <div id="choose-bond-view">
+    <Box display="flex" alignItems="center" justifyContent="center">
       <ClaimBonds />
 
       <Zoom in onEntered={() => setIsZoomed(true)}>
@@ -36,14 +36,13 @@ function ChooseBondV2() {
                 textColor="primary"
                 aria-label="bond tabs"
                 indicatorColor="primary"
-                className="bond-tab-container"
                 value={currentAction === "BOND" ? 0 : 1}
                 onChange={(_, view) => setCurrentAction(view === 0 ? "BOND" : "INVERSE")}
                 // Hides the tab underline while <Zoom> is zooming
                 TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
               >
-                <Tab aria-label="bond-button" label={t`Bond`} className="bond-tab-button" />
-                <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} className="bond-tab-button" />
+                <Tab aria-label="bond-button" label={t`Bond`} />
+                <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} />
               </Tabs>
             )}
 
@@ -58,7 +57,7 @@ function ChooseBondV2() {
           </Box>
         </Paper>
       </Zoom>
-    </div>
+    </Box>
   );
 }
 
