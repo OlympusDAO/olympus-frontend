@@ -228,7 +228,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     const goalProgress: number = goalCompletion.gt(new DecimalBigNumber("100")) ? 100 : goalCompletion.toApproxNumber();
 
     if (depositGoal === 0) return <></>;
-    // TODO theme-aware styling of bar
+
     return (
       <>
         <Grid container alignItems="center" spacing={1} style={{ paddingBottom: "8px" }}>
