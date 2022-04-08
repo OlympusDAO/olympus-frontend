@@ -76,7 +76,7 @@
     "web3modal": "^1.9.1"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.17.2",
+    "@babel/runtime": "^7.17.9",
     "@chainsafe/dappeteer": "^2.4.1",
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "^2.4.8",
