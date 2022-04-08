@@ -37,7 +37,7 @@ describe("DecimalBigNumber", () => {
     expect(new DecimalBigNumber((1.2).toString()).toString()).toEqual("1.2");
   });
 
-  it("should set an invalid decimals value to 0 decimals", () => {
+  it("should set an negative precision value to 0", () => {
     expect(new DecimalBigNumber(".1", 1).toString({ decimals: -1 })).toEqual("0");
   });
 
@@ -121,20 +121,19 @@ describe("DecimalBigNumber", () => {
     // gOHM to OHM
     const gohm = new DecimalBigNumber("2", 18); // 180 OHM
     const index = new DecimalBigNumber("90", 9); // Index of 90
-    expect(gohm.mul(index, 9).toString()).toEqual("180");
-    expect(index.mul(gohm, 9).toString()).toEqual("180");
+    expect(gohm.mul(index).toString()).toEqual("180");
+    expect(index.mul(gohm).toString()).toEqual("180");
 
     const decimalNumber = new DecimalBigNumber("20.12", 9);
     const secondDecimalNumber = new DecimalBigNumber("1.12", 9);
-    expect(decimalNumber.mul(secondDecimalNumber, 9).toString()).toEqual("22.5344");
     expect(decimalNumber.mul(secondDecimalNumber).toString()).toEqual("22.5344");
-    expect(decimalNumber.mul(secondDecimalNumber, 2).toString()).toEqual("22.53");
+    expect(decimalNumber.mul(secondDecimalNumber).toString({ decimals: 2 })).toEqual("22.53");
 
     const thirdDecimalNumber = new DecimalBigNumber("1.12", 2);
     const fourthDecimalNumber = new DecimalBigNumber("1.123", 3);
-    expect(thirdDecimalNumber.mul(fourthDecimalNumber, 9).toString()).toEqual("1.25776");
     expect(thirdDecimalNumber.mul(fourthDecimalNumber).toString()).toEqual("1.25776");
-    expect(thirdDecimalNumber.mul(fourthDecimalNumber, 2).toString()).toEqual("1.25");
+    expect(thirdDecimalNumber.mul(fourthDecimalNumber).toString()).toEqual("1.25776");
+    expect(thirdDecimalNumber.mul(fourthDecimalNumber).toString({ decimals: 2 })).toEqual("1.25");
   });
 
   it("should divide by a number correctly", () => {
@@ -156,5 +155,7 @@ describe("DecimalBigNumber", () => {
     expect(thirdDecimalNumber.div(fourthDecimalNumber, 2).toString({ trim: false })).toEqual("2.10");
     expect(thirdDecimalNumber.div(fourthDecimalNumber, 9).toString()).toEqual("2.101980198");
     expect(thirdDecimalNumber.div(fourthDecimalNumber).toString()).toEqual("2.10198");
+
+    expect(new DecimalBigNumber("10").div(new DecimalBigNumber("3"), 10).toString()).toEqual("3.3333333333");
   });
 });

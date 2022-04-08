@@ -123,8 +123,8 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
   const rebaseAmountPerDay = rebaseRate * Number(formattedSOhmBalance) * 3;
   const totalAsSohm = totalGohmBalance
-    .mul(currentIndex, 9)
-    .add(totalWsohmBalance.mul(currentIndex, 9))
+    .mul(currentIndex)
+    .add(totalWsohmBalance.mul(currentIndex))
     .add(sOhmBalance)
     .add(v1SohmBalance);
 

@@ -379,7 +379,7 @@ export const getAllBonds = createAsyncThunk(
 
 export const getUserNotes = createAsyncThunk(
   "bondsV2/notes",
-  async ({ provider, networkID, address }: IBaseAddressAsyncThunk, { dispatch, getState }): Promise<IUserNote[]> => {
+  async ({ provider, networkID, address }: IBaseAddressAsyncThunk): Promise<IUserNote[]> => {
     checkNetwork(networkID);
     const currentTime = Date.now() / 1000;
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
@@ -430,7 +430,7 @@ export const getUserNotes = createAsyncThunk(
 
 export const claimAllNotes = createAsyncThunk(
   "bondsV2/claimAll",
-  async ({ provider, networkID, address, gOHM }: IBaseBondV2ClaimAsyncThunk, { dispatch, getState }) => {
+  async ({ provider, networkID, address, gOHM }: IBaseBondV2ClaimAsyncThunk, { dispatch }) => {
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
 
@@ -459,7 +459,7 @@ export const claimAllNotes = createAsyncThunk(
 
 export const claimSingleNote = createAsyncThunk(
   "bondsV2/claimSingle",
-  async ({ provider, networkID, address, indexes, gOHM }: IBaseBondV2SingleClaimAsyncThunk, { dispatch, getState }) => {
+  async ({ provider, networkID, address, indexes, gOHM }: IBaseBondV2SingleClaimAsyncThunk, { dispatch }) => {
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
 

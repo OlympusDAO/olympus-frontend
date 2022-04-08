@@ -39,10 +39,6 @@ function ChooseBond() {
   const { bonds } = useBonds(networkId);
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
   const isSmallScreen = useMediaQuery("(max-width: 733px)"); // change to breakpoint query
-  const isVerySmallScreen = useMediaQuery("(max-width: 420px)");
-
-  const isAppLoading: boolean = useAppSelector(state => state.app.loading);
-  const isAccountLoading: boolean = useAppSelector(state => state.account.loading);
 
   const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
 

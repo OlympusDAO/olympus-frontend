@@ -38,24 +38,12 @@ export const PoolPrize = () => {
     return state.poolData && state.poolData.isRngRequested;
   });
 
-  // when true we need to cancel award
-  // currently unused
-  const isRngTimedOut = useAppSelector(state => {
-    return state.poolData && state.poolData.isRngTimedOut;
-  });
-
   // when true the award is complete & timer should reset.
   const rngRequestCompleted = useAppSelector(state => {
     return state.poolData && state.poolData.rngRequestCompleted;
   });
 
   const timerInterval = useRef<NodeJS.Timeout>();
-
-  // handleAward not used yet
-  const handleAward = (action: string) => {
-    console.log(`run ${action} on pool`);
-    //dispatch(awardProcess({ action, provider, networkID}));
-  };
 
   const rngQueryFunc = () => {
     dispatch(getRNGStatus({ networkID: networkId, provider: provider }));
