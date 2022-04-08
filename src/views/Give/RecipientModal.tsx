@@ -9,7 +9,6 @@ import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
@@ -393,14 +392,20 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     return (
       <>
         <Grid container alignItems="center" spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="body1">
-              <Trans>sOHM Allocation</Trans>
+          <Grid item xs={6}>
+            <Typography variant="body2" className="subtext">
+              <Trans>sOHM Deposit</Trans>
               <InfoTooltip
                 message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                 children={null}
               />
             </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography align="right" variant="body2" className="subtext">{t`Balance: ${getSOhmBalance().toString({
+              decimals: DECIMAL_PLACES,
+              format: true,
+            })} sOHM`}</Typography>
           </Grid>
           <Grid item xs={12}>
             <Input
@@ -428,9 +433,9 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
           </Grid>
           <Grid item xs={12}>
             <Typography variant="body1">
-              <Trans>Recipient</Trans>
+              <Trans>Recipient Address</Trans>
               <InfoTooltip
-                message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+                message={t`The rebase rewards from the sOHM that you deposit will be redirected to the wallet address that you specify`}
                 children={null}
               />
             </Typography>
@@ -506,56 +511,54 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
       <>
         <Grid container spacing={4}>
           <Grid item xs={12}>
-            <Box>
-              <Grid container spacing={2} alignItems="center">
-                <Grid item container xs={12} sm={4}>
-                  <Grid xs={12}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item container xs={12} sm={4} alignItems="center">
+                <Grid xs={12}>
+                  <Typography variant="body1" className="modal-confirmation-title">
+                    <Trans>sOHM Deposit</Trans>
+                    <InfoTooltip
+                      message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                      children={null}
+                    />
+                  </Typography>
+                </Grid>
+                <Grid xs={12}>
+                  <Typography variant="h6">
+                    {/* As this is the amount being deposited, the user needs to see the exact amount. */}
+                    <strong>{getDepositAmount().toString(EXACT_FORMAT)}</strong>
+                  </Typography>
+                </Grid>
+              </Grid>
+              {!isSmallScreen ? (
+                <Grid item xs={4}>
+                  <ArrowGraphic fill={theme.palette.type === "dark" ? "#F8CC82" : theme.palette.text.secondary} />
+                </Grid>
+              ) : (
+                <></>
+              )}
+              <Grid item xs={12} sm={4}>
+                {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
+                      whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
+                      alignment accordingly. */}
+                <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
+                  <Grid item xs={12}>
                     <Typography variant="body1" className="modal-confirmation-title">
-                      <Trans>sOHM deposit</Trans>
+                      <Trans>Recipient Address</Trans>
                       <InfoTooltip
-                        message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                        message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
                         children={null}
                       />
                     </Typography>
                   </Grid>
                   <Grid xs={12}>
-                    <Typography variant="h6">
-                      {/* As this is the amount being deposited, the user needs to see the exact amount. */}
-                      <strong>{getDepositAmount().toString(EXACT_FORMAT)} sOHM</strong>
+                    {/* 5px to align with the padding on the tooltip */}
+                    <Typography variant="h6" style={{ paddingRight: "5px" }}>
+                      <strong>{getRecipientTitle()}</strong>
                     </Typography>
                   </Grid>
                 </Grid>
-                {!isSmallScreen ? (
-                  <Grid item xs={4}>
-                    <ArrowGraphic />
-                  </Grid>
-                ) : (
-                  <></>
-                )}
-                <Grid item xs={12} sm={4}>
-                  {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
-                      whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
-                      alignment accordingly. */}
-                  <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
-                    <Grid item xs={12}>
-                      <Typography variant="body1" className="modal-confirmation-title">
-                        <Trans>Recipient address</Trans>
-                        <InfoTooltip
-                          message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
-                          children={null}
-                        />
-                      </Typography>
-                    </Grid>
-                    <Grid xs={12}>
-                      {/* 5px to align with the padding on the tooltip */}
-                      <Typography variant="h6" style={{ paddingRight: "5px" }}>
-                        <strong>{getRecipientTitle()}</strong>
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
               </Grid>
-            </Box>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             <Grid container>
@@ -566,7 +569,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   {txnButtonText(
                     pendingTransactions,
                     PENDING_TXN_GIVE,
-                    `${t`Confirm `} ${getDepositAmount().toString(EXACT_FORMAT)} sOHM`,
+                    `${t`Approve `} ${getDepositAmount().toString(EXACT_FORMAT)} sOHM`,
                   )}
                 </PrimaryButton>
               </Grid>

@@ -41,7 +41,7 @@ function CompactGraphic({ title, icon, subtext, isSubtextContentLoading }: Compa
         {isSubtextContentLoading ? (
           <Skeleton width={120} />
         ) : (
-          <Typography variant="h6" align="center">
+          <Typography variant="h6" style={{ color: "#999999" }} align="center">
             {subtext}
           </Typography>
         )}
@@ -50,7 +50,7 @@ function CompactGraphic({ title, icon, subtext, isSubtextContentLoading }: Compa
   );
 }
 
-export function CompactWallet({ quantity, isQuantityExact, verb = "retained" }: EducationGraphicProps) {
+export function CompactWallet({ quantity, isQuantityExact, verb = "Retained" }: EducationGraphicProps) {
   return (
     <CompactGraphic
       title={t`Wallet`}
@@ -60,7 +60,7 @@ export function CompactWallet({ quantity, isQuantityExact, verb = "retained" }: 
   );
 }
 
-export function CompactVault({ quantity, isQuantityExact, verb = "deposited", isLoading }: EducationGraphicProps) {
+export function CompactVault({ quantity, isQuantityExact, verb = "Deposited", isLoading }: EducationGraphicProps) {
   return (
     <CompactGraphic
       title={t`Vault`}
@@ -81,12 +81,12 @@ export function CompactYield({ quantity, isQuantityExact }: EducationGraphicProp
   );
 }
 
-export function ArrowGraphic() {
+export function ArrowGraphic({ fill = "#999999" }) {
   // We hard-code 25px so that the arrows are vertically center-aligned with other graphics
   return (
-    <Grid container style={{ marginTop: "25px" }}>
+    <Grid container>
       <Grid item xs={12} style={{ textAlign: "center" }}>
-        <Icon name="arrow-right" style={{ fontSize: 70, fill: "#999999" }} opacity={0.6} />{" "}
+        <Icon name="arrow-right" style={{ fontSize: 70, fill: fill }} opacity={0.6} />{" "}
       </Grid>
     </Grid>
   );

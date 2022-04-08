@@ -257,14 +257,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Grid item xs={5}>
             <Grid container justifyContent="flex-start" alignItems="center" spacing={1}>
               <Grid item>
-                <Icon name="sohm-yield" />
+                <Icon name="sohm-yield-sent" />
               </Grid>
               <Grid item className="metric">
                 {totalDonatedIsLoading ? <Skeleton /> : new DecimalBigNumber(totalDonated).toString(DEFAULT_FORMAT)}
               </Grid>
             </Grid>
             <Grid item className="subtext">
-              <Trans>sOHM Yield</Trans>
+              <Trans>sOHM Yield Sent</Trans>
             </Grid>
           </Grid>
           <Grid item xs={2} />
@@ -319,7 +319,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               <Grid item>
                 <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Icon name="sohm-total" />
+                    <Icon name="deposited" />
                   </Grid>
                   <Grid item className="metric">
                     {recipientInfoIsLoading ? (
@@ -331,7 +331,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                <Trans>Total Active sOHM</Trans>
+                <Trans>sOHM Deposited</Trans>
               </Grid>
             </Grid>
           </Grid>
@@ -664,9 +664,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                               <Trans>Donate Yield</Trans>
                             </PrimaryButton>
                           )}
-                        </Grid>
-                        <Grid item xs={12}>
-                          {renderCountdownDetailed()}
                         </Grid>
                       </Grid>
                     </Grid>
