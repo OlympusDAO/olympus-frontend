@@ -393,7 +393,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     return (
       <>
         <Grid container alignItems="center" spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={6} style={{ paddingBottom: "0px" }}>
             <Typography variant="body2" className="subtext">
               <Trans>sOHM Deposit</Trans>
               <InfoTooltip
@@ -402,7 +402,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               />
             </Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} style={{ paddingBottom: "0px" }}>
             <Typography align="right" variant="body2" className="subtext">{t`Balance: ${getSOhmBalance().toString({
               decimals: DECIMAL_PLACES,
               format: true,
