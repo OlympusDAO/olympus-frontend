@@ -1,16 +1,7 @@
 import { t, Trans } from "@lingui/macro";
-import {
-  Box,
-  Link as MuiLink,
-  LinkProps,
-  makeStyles,
-  SwipeableDrawer,
-  Theme,
-  Typography,
-  withStyles,
-} from "@material-ui/core";
+import { Box, makeStyles, SwipeableDrawer, Theme, Typography, withStyles } from "@material-ui/core";
 import { Icon, OHMTokenProps, PrimaryButton, SecondaryButton, TabBar, Token } from "@olympusdao/component-library";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { shorten } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
@@ -59,11 +50,6 @@ export function Wallet(props: { open?: boolean; component?: string }) {
   // also disable discovery on IOS, because of it's 'swipe to go back' feat
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-  const CloseButton = (props: LinkProps) => (
-    <MuiLink {...props}>
-      <Icon name="x" />
-    </MuiLink>
-  );
   const WalletButtonTop = () => {
     const onClick = !connected ? connect : undefined;
     const label = connected ? t`Wallet` : t`Connect Wallet`;
@@ -107,7 +93,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
         anchor="right"
         open={props.open ? true : false}
         onOpen={() => null}
-        onClose={() => history.push("/stake")}
+        onClose={() => history.goBack()}
       >
         <Box p="30px 15px" style={{ overflow: "hidden" }}>
           <Box style={{ top: 0, position: "sticky" }}>
@@ -124,7 +110,13 @@ export function Wallet(props: { open?: boolean; component?: string }) {
                 )}
               </Box>
               <Box display="flex" flexDirection="row" justifyContent="flex-end" alignItems="center" textAlign="right">
-                <Link to="/stake" component={CloseButton} />
+                <Icon
+                  onClick={() => {
+                    history.goBack();
+                  }}
+                  style={{ cursor: "pointer" }}
+                  name="x"
+                />
               </Box>
             </Box>
             <TabBar
