@@ -9,7 +9,7 @@ import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
 import { BigNumber } from "bignumber.js";
 import { toInteger } from "lodash";
 import MarkdownIt from "markdown-it";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Countdown from "react-countdown";
 import ReactGA from "react-ga";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
@@ -75,6 +75,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   // Pull a user's donation info
   const rawDonationInfo = useDonationInfo().data;
   const donationInfo = rawDonationInfo ? rawDonationInfo : [];
+  const isDonationInfoLoading = useDonationInfo().loading;
 
   // Pull data for a specific partner's wallet
   const totalDebt = useRecipientInfo(wallet).data?.totalDebt;
@@ -94,6 +95,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
+
+  const currentDonation = useMemo(() => {
+    if (donationId == NO_DONATION) return null;
+
+    return donationInfo[donationId];
+  }, [donationInfo, donationId]);
 
   useEffect(() => {
     setIsUserDonating(false);
@@ -281,7 +288,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="donors" />
                   </Grid>
                   <Grid item className="metric">
-                    {!donorCount ? <Skeleton /> : donorCount}
+                    {isDonationInfoLoading ? <Skeleton /> : donorCount}
                   </Grid>
                 </Grid>
               </Grid>
@@ -571,9 +578,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             </Grid>
                             <Grid item>
                               <Typography className="metric">
-                                {donationId != NO_DONATION && donationInfo[donationId]
-                                  ? parseFloat(donationInfo[donationId].deposit).toFixed(2)
-                                  : "0"}
+                                {currentDonation ? parseFloat(currentDonation.yieldDonated).toFixed(2) : "0"}
                               </Typography>
                             </Grid>
                           </Grid>
