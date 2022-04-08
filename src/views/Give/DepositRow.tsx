@@ -5,11 +5,11 @@ import { Grid, Tooltip, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { SecondaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "bignumber.js";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { SubmitCallback } from "src/views/Give/Interfaces";
@@ -30,6 +30,8 @@ interface IUserDonationInfo {
 interface DepositRowProps {
   depositObject: IUserDonationInfo;
 }
+
+const DECIMAL_PLACES = 2;
 
 export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
   const location = useLocation();
@@ -66,7 +68,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.isEqualTo(new BigNumber(0))) return;
+    if (depositAmountDiff.eq(new DecimalBigNumber("0"))) return;
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
@@ -74,7 +76,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
+          value: depositAmountDiff.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -88,7 +90,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       await dispatch(
         changeGive({
           action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toFixed(),
+          value: depositAmountDiff.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -111,7 +113,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
+          value: depositAmount.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -125,7 +127,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       await dispatch(
         changeGive({
           action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toFixed(),
+          value: depositAmount.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -139,6 +141,8 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
 
     setIsManageModalOpen(false);
   };
+
+  const depositNumber = new DecimalBigNumber(depositObject.deposit);
 
   return (
     <Grid container alignItems="center" spacing={2}>
@@ -154,11 +158,18 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       </Grid>
       {!isSmallScreen && (
         <Grid item xs={2} style={{ textAlign: "right" }}>
-          <Typography variant="body1">{parseFloat(depositObject.deposit).toFixed(2)} sOHM</Typography>
+          {/* Exact amount as this is what the user has deposited */}
+          <Typography variant="body1">{depositNumber.toString({ format: true })} sOHM</Typography>
         </Grid>
       )}
       <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
-        <Typography variant="body1">{parseFloat(depositObject.yieldDonated).toFixed(2)} sOHM</Typography>
+        <Typography variant="body1">
+          {new DecimalBigNumber(depositObject.yieldDonated).toString({
+            decimals: DECIMAL_PLACES,
+            format: true,
+          })}{" "}
+          sOHM
+        </Typography>
       </Grid>
       <Grid item xs={4} sm={3} style={{ textAlign: "right" }}>
         <SecondaryButton onClick={() => setIsManageModalOpen(true)} size="small" fullWidth>
@@ -171,7 +182,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         submitWithdraw={handleWithdrawModalSubmit}
         cancelFunc={handleManageModalCancel}
         currentWalletAddress={depositObject.recipient}
-        currentDepositAmount={new BigNumber(depositObject.deposit)}
+        currentDepositAmount={depositNumber}
         depositDate={depositObject.date}
         yieldSent={depositObject.yieldDonated}
         project={projectMap.get(depositObject.recipient)}
