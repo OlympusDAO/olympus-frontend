@@ -1,11 +1,13 @@
 import { fireEvent } from "@testing-library/react";
 import { BigNumber } from "ethers";
 import Messages from "src/components/Messages/Messages";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 import * as useWeb3Context from "src/hooks/web3Context";
 import { mockWeb3Context } from "src/testHelpers";
 
-import { act, render, screen } from "../../../testUtils";
+import { render, screen } from "../../../testUtils";
 import { MigrateInputArea } from "../components/MigrateInputArea/MigrateInputArea";
 import Wrap from "../Wrap";
 
@@ -15,19 +17,19 @@ let container;
 beforeEach(async () => {
   const data = jest.spyOn(useWeb3Context, "useWeb3Context");
   useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
+  Balance.useBalance = jest.fn().mockReturnValue({ 43114: { data: new DecimalBigNumber("10", 9) } });
+
   data.mockReturnValue({
     ...mockWeb3Context,
     networkId: 43114,
   });
 
-  await act(async () => {
-    ({ container } = render(
-      <>
-        <Messages />
-        <Wrap />
-      </>,
-    ));
-  });
+  ({ container } = render(
+    <>
+      <Messages />
+      <Wrap />
+    </>,
+  ));
 });
 
 afterEach(() => {
@@ -54,6 +56,7 @@ describe("Check Migrate to gOHM Error Messages", () => {
       "Component should only be mounted when connected to Arbitrum or Avalanche",
     );
   });
+
   it("Error message with no amount", async () => {
     fireEvent.click(screen.getByTestId("migrate-button"));
     expect(await screen.findByText("Please enter a number")).toBeInTheDocument();
@@ -65,12 +68,16 @@ describe("Check Migrate to gOHM Error Messages", () => {
     expect(await screen.findByText("Please enter a number greater than 0")).toBeInTheDocument();
   });
 
-  // it("Error message amount > 0 but no wallet balance", async () => {
-  //   fireEvent.change(await screen.findByPlaceholderText("Enter an amount of wsOHM"), { target: { value: "10000" } });
-  //   fireEvent.click(screen.getByTestId("migrate-button"));
-  //   expect(
-  //     (await screen.findByText("Please refresh your page and try again")) ||
-  //       (await screen.findByText("You cannot migrate more than your wsOHM balance")),
-  //   ).toBeInTheDocument();
-  // });
+  it("Error message amount > wallet balance", async () => {
+    fireEvent.change(await screen.findByPlaceholderText("Enter an amount of wsOHM"), { target: { value: "10000" } });
+    fireEvent.click(screen.getByTestId("migrate-button"));
+    expect(await screen.findByText("You cannot migrate more than your wsOHM balance")).toBeInTheDocument();
+  });
+
+  it("Error message amount and no wallet balance", async () => {
+    Balance.useBalance = jest.fn().mockReturnValue({ 43114: { data: undefined } });
+    fireEvent.change(await screen.findByPlaceholderText("Enter an amount of wsOHM"), { target: { value: "10000" } });
+    fireEvent.click(screen.getByTestId("migrate-button"));
+    expect(await screen.findByText("Please refresh your page and try again")).toBeInTheDocument();
+  });
 });
