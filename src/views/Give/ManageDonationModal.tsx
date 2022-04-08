@@ -123,6 +123,7 @@ export function ManageDonationModal({
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const themedArrow = theme.palette.type === "dark" ? "#F8CC82" : theme.palette.text.secondary;
 
   const sohmBalance: string = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
@@ -608,7 +609,7 @@ export function ManageDonationModal({
           </Grid>
           {!isSmallScreen ? (
             <Grid item sm={4}>
-              <ArrowGraphic />
+              <ArrowGraphic fill={themedArrow} />
             </Grid>
           ) : (
             <></>
