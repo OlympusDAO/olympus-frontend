@@ -17,6 +17,11 @@ type CompactGraphicProps = {
   isSubtextContentLoading?: boolean;
 };
 
+type ArrowGraphicProps = {
+  fill?: string;
+  marginTop?: string;
+};
+
 type LargeGraphicProps = {
   title: string;
   icon: JSX.Element;
@@ -76,17 +81,16 @@ export function CompactYield({ quantity, isQuantityExact }: EducationGraphicProp
     <CompactGraphic
       title={t`Recipient`}
       icon={<Icon name="vault-recipient" fontSize="large" />}
-      subtext={`${t`Receives yield from`} ${isQuantityExact ? "" : "≈ "}${quantity} sOHM`}
+      subtext={`${t`Receives Yield from`} ${isQuantityExact ? "" : "≈ "}${quantity} sOHM`}
     />
   );
 }
 
-export function ArrowGraphic({ fill = "#999999" }) {
-  // We hard-code 25px so that the arrows are vertically center-aligned with other graphics
+export function ArrowGraphic({ fill = "#999999", marginTop = "25px" }: ArrowGraphicProps) {
   return (
-    <Grid container>
+    <Grid container style={{ marginTop: marginTop }}>
       <Grid item xs={12} style={{ textAlign: "center" }}>
-        <Icon name="arrow-right" style={{ fontSize: 70, fill: fill }} opacity={0.6} />{" "}
+        <Icon name="arrow-right" style={{ fontSize: 70, fill: fill }} />{" "}
       </Grid>
     </Grid>
   );

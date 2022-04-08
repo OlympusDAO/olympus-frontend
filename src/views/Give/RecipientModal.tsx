@@ -67,6 +67,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const themedArrow = theme.palette.type === "dark" ? "#F8CC82" : theme.palette.text.secondary;
 
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toString());
@@ -461,14 +462,14 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   />
                 </Grid>
                 <Grid item xs={1}>
-                  <ArrowGraphic />
+                  <ArrowGraphic fill={themedArrow} />
                 </Grid>
                 <Grid item xs={3}>
                   {/* This is deliberately a specific value */}
                   <CompactVault quantity={getDepositAmount().toString(EXACT_FORMAT)} isQuantityExact={true} />
                 </Grid>
                 <Grid item xs={1}>
-                  <ArrowGraphic />
+                  <ArrowGraphic fill={themedArrow} />
                 </Grid>
                 <Grid item xs={3}>
                   {/* This is deliberately a specific value */}
@@ -531,7 +532,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               </Grid>
               {!isSmallScreen ? (
                 <Grid item xs={4}>
-                  <ArrowGraphic fill={theme.palette.type === "dark" ? "#F8CC82" : theme.palette.text.secondary} />
+                  <ArrowGraphic fill={themedArrow} />
                 </Grid>
               ) : (
                 <></>

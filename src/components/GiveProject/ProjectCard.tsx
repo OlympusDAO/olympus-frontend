@@ -577,10 +577,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             </Grid>
             <Grid item xs />
             <Grid item container xs={12} alignItems="flex-end">
-              <Grid item xs={12} lg={8}>
+              <Grid item xs={12} sm={8}>
                 {renderGoalCompletion()}
               </Grid>
-              <Grid item xs={12} lg={4}>
+              <Grid item xs={12} sm={4}>
                 <Link
                   href={`#/give/projects/${project.slug}`}
                   onClick={() => handleProjectDetailsButtonClick("View Details Button")}
