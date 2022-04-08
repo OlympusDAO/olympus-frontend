@@ -2,7 +2,8 @@ import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Container, Grid, Typography, Zoom } from "@material-ui/core";
-import { Paper, TertiaryButton } from "@olympusdao/component-library";
+import { useTheme } from "@material-ui/core/styles";
+import { Paper, PrimaryButton } from "@olympusdao/component-library";
 import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useUIDSeed } from "react-uid";
@@ -28,6 +29,7 @@ export default function CausesDashboard() {
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
+  const theme = useTheme();
   const seed = useUIDSeed();
 
   const renderProjects = useMemo(() => {
@@ -112,11 +114,18 @@ export default function CausesDashboard() {
                     <Trans>You can direct your yield to a recipient of your choice</Trans>
                   </Typography>
                 </Grid>
-                <Grid item xs={12} container justifyContent="center">
-                  <TertiaryButton onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
-                    <Trans>Custom Recipient</Trans>
-                  </TertiaryButton>
+                <Grid item xs />
+                <Grid item xs={7} container justifyContent="center">
+                  <PrimaryButton
+                    fullWidth
+                    size="small"
+                    onClick={() => handleCustomGiveButtonClick()}
+                    disabled={!address}
+                  >
+                    <Trans>Select Custom Recipient</Trans>
+                  </PrimaryButton>
                 </Grid>
+                <Grid item xs />
               </Grid>
             </Paper>
           </Grid>

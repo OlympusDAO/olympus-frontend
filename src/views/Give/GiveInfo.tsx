@@ -17,11 +17,18 @@ export function GiveInfo() {
           <Grid item xs={12} md={4}>
             <LargeYield />
           </Grid>
-          <Grid item xs={12} container justifyContent="center">
-            <TertiaryButton href="https://docs.olympusdao.finance/main/basics/basics/olympusgive" target="_blank">
+          <Grid item xs />
+          <Grid item xs={3} container justifyContent="center">
+            <TertiaryButton
+              size="small"
+              fullWidth
+              href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
+              target="_blank"
+            >
               <Trans>Learn More</Trans>
             </TertiaryButton>
           </Grid>
+          <Grid item xs />
         </Grid>
       </Paper>
     </>
