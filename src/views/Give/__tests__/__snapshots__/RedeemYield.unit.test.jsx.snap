@@ -10,6 +10,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
     >
       <h3
         class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter"
+        data-testid="redeemable-balance"
       >
         <span
           class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
@@ -178,8 +179,9 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
     >
       <h3
         class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter"
+        data-testid="redeemable-balance"
       >
-        100.00
+        100
          sOHM
       </h3>
       <p
@@ -231,6 +233,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           >
             <h5
               class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
+              data-testid="project-goal"
             >
               200
             </h5>
@@ -249,8 +252,9 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           >
             <h5
               class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
+              data-testid="project-deposit"
             >
-              0
+              100
             </h5>
             <p
               class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
@@ -267,8 +271,9 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           >
             <h5
               class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
+              data-testid="project-goal-achievement"
             >
-              0
+              50
               %
             </h5>
             <p
@@ -340,7 +345,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            0.2147 sOHM
+            0.2146 sOHM
           </p>
         </div>
         <div
@@ -359,7 +364,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            0.2147%
+            0.2146%
           </p>
         </div>
         <div
@@ -390,7 +395,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
 </div>
 `;
 
-exports[`Redeem Yield should show total deposit as 100 sOHM 1`] = `
+exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
 <div>
   <div
     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
@@ -400,8 +405,9 @@ exports[`Redeem Yield should show total deposit as 100 sOHM 1`] = `
     >
       <h3
         class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter"
+        data-testid="redeemable-balance"
       >
-        100.00
+        100
          sOHM
       </h3>
       <p
@@ -500,7 +506,7 @@ exports[`Redeem Yield should show total deposit as 100 sOHM 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            0.2147 sOHM
+            0.2146 sOHM
           </p>
         </div>
         <div
@@ -519,7 +525,7 @@ exports[`Redeem Yield should show total deposit as 100 sOHM 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            0.2147%
+            0.2146%
           </p>
         </div>
         <div
