@@ -35,7 +35,7 @@ function CompactGraphic({ title, icon, subtext, isSubtextContentLoading }: Compa
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography variant="h6" align="center">
+        <Typography variant="h6" align="center" style={{ color: "#999999" }}>
           {title}
         </Typography>
       </Grid>

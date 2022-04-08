@@ -432,8 +432,8 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
             />
           </Grid>
-          <Grid item xs={12}>
-            <Typography variant="body1">
+          <Grid item xs={12} style={{ paddingBottom: "0px" }}>
+            <Typography variant="body2" className="subtext">
               <Trans>Recipient Address</Trans>
               <InfoTooltip
                 message={t`The rebase rewards from the sOHM that you deposit will be redirected to the wallet address that you specify`}
