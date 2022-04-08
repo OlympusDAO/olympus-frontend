@@ -115,7 +115,7 @@ export default function CausesDashboard() {
                   </Typography>
                 </Grid>
                 <Grid item xs />
-                <Grid item xs={7} container justifyContent="center">
+                <Grid item xs={12} sm={7} container justifyContent="center">
                   <PrimaryButton
                     fullWidth
                     size="small"

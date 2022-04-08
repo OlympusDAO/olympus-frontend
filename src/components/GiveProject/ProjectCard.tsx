@@ -235,10 +235,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Grid item xs={12} className="subtext">
             {renderCountdownDetailed()}
           </Grid>
-          <Grid item xs={9} className="project-goal-progress">
+          <Grid item xs={11} sm={9} className="project-goal-progress">
             <LinearProgress variant="determinate" value={goalProgress} />
           </Grid>
-          <Grid item xs={3} className="subtext">
+          <Grid item xs={1} sm={3} className="subtext">
             {formattedGoalCompletion}%
           </Grid>
         </Grid>
