@@ -16,7 +16,7 @@ export const mockWeb3Context = {
   hasCachedProvider: jest.fn(() => true),
   connectionError: null,
   networkName: "mainnet",
-  providerUri: "http://localhost:8545",
+  providerUri: "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
   providerInitialized: true,
   web3Modal: new Web3Modal(),
 };
