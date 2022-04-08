@@ -159,7 +159,7 @@
     "lingui:branch:develop": "cd src/locales/translations && git checkout develop && yarn lingui:fetch",
     "lingui:branch:translators": "cd src/locales/translations && git checkout translators && yarn lingui:fetch",
     "lingui:fetch": "cd src/locales/translations && git pull",
-    "lingui:prepare": "[ ! -e src/locales/translations/.git ] && git clone https://github.com/OlympusDAO/olympus-translations.git src/locales/translations",
+    "lingui:prepare": "pwd && if [ ! -d src/locales/translations ]; then git clone https://github.com/OlympusDAO/olympus-translations.git src/locales/translations; fi",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "preinstall": "yarn lingui:prepare || exit 0",
     "postinstall": "yarn typechain:build && yarn lingui:compile",
