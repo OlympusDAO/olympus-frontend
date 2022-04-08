@@ -10,7 +10,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout front end code.
+        uses: actions/checkout@v3
+      - name: Checkout translations
+        uses: actions/checkout@v3
+        with:
+          path: src/locales/translations
       - uses: actions/setup-node@v2
         with:
           cache: 'yarn'
