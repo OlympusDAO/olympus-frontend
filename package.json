@@ -100,7 +100,7 @@
     "@types/shelljs": "^0.8.9",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
-    "@typescript-eslint/parser": "^5.12.1",
+    "@typescript-eslint/parser": "^5.18.0",
     "autoprefixer": "^10.2.4",
     "css-mediaquery": "^0.1.2",
     "eslint-config-airbnb": "^19.0.4",
