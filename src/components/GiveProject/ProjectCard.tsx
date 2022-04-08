@@ -73,6 +73,7 @@ const DECIMAL_PLACES = 2;
 const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
 // We restrict DP to a reasonable number, but trim if unnecessary
 const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
+const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const location = useLocation();
@@ -235,7 +236,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const renderGoalCompletion = (): JSX.Element => {
     // No point in displaying decimals in the progress bar
-    const formattedGoalCompletion = goalCompletion.toString({ decimals: 0, format: true });
+    const formattedGoalCompletion = goalCompletion.toString(NO_DECIMALS_FORMAT);
 
     if (depositGoal === 0) return <></>;
 

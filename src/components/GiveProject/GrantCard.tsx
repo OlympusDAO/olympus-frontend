@@ -59,6 +59,7 @@ const DECIMAL_PLACES = 2;
 const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
 // We restrict DP to a reasonable number, but trim if unnecessary
 const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
+const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const location = useLocation();
@@ -194,10 +195,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <div className="step-label" style={milestoneAccomplished ? accomplishedStyle : unaccomplishedStyle}>
                       {
                         // We want a compact number
-                        new DecimalBigNumber(value.amount.toString()).toString({
-                          decimals: 0,
-                          format: true,
-                        })
+                        new DecimalBigNumber(value.amount.toString()).toString(NO_DECIMALS_FORMAT)
                       }
                     </div>
                   )}
@@ -227,7 +225,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
             <div key={`milestone-${index}`}>
               <Typography variant="h6">{t`Milestone ${index + 1}: ${new DecimalBigNumber(
                 value.amount.toString(),
-              ).toString({ decimals: 0, format: true })} sOHM`}</Typography>
+              ).toString(NO_DECIMALS_FORMAT)} sOHM`}</Typography>
               <div
                 dangerouslySetInnerHTML={{
                   __html: MarkdownIt({ html: true }).render(
@@ -261,7 +259,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     {donorCountIsLoading ? (
                       <Skeleton className="skeleton-inline" />
                     ) : (
-                      new DecimalBigNumber(donorCount.toString()).toString({ decimals: 0, format: true })
+                      new DecimalBigNumber(donorCount.toString()).toString(NO_DECIMALS_FORMAT)
                     )}
                   </Grid>
                 </Grid>

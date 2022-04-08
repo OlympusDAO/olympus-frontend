@@ -38,6 +38,7 @@ type RecipientModalProps = {
 
 const DECIMAL_PLACES = 2;
 const ZERO_NUMBER = new DecimalBigNumber("0");
+const EXACT_FORMAT = { format: true };
 
 export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelFunc, project }: RecipientModalProps) {
   const location = useLocation();
@@ -172,9 +173,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     if (valueNumber.gt(getMaximumDepositAmount())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        t`Value cannot be more than your sOHM balance of ${getMaximumDepositAmount().toString({
-          format: true,
-        })}`,
+        t`Value cannot be more than your sOHM balance of ${getMaximumDepositAmount().toString(EXACT_FORMAT)}`,
       );
       return;
     }
@@ -415,9 +414,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               // We need to inform the user about their wallet balance, so this is a specific value
               helperText={
                 isDepositAmountValid
-                  ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toString({
-                      format: true,
-                    })} sOHM`
+                  ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toString(EXACT_FORMAT)} sOHM`
                   : isDepositAmountValidError
               }
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -463,24 +460,14 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                 </Grid>
                 <Grid item xs={3}>
                   {/* This is deliberately a specific value */}
-                  <CompactVault
-                    quantity={getDepositAmount().toString({
-                      format: true,
-                    })}
-                    isQuantityExact={true}
-                  />
+                  <CompactVault quantity={getDepositAmount().toString(EXACT_FORMAT)} isQuantityExact={true} />
                 </Grid>
                 <Grid item xs={1}>
                   <ArrowGraphic />
                 </Grid>
                 <Grid item xs={3}>
                   {/* This is deliberately a specific value */}
-                  <CompactYield
-                    quantity={getDepositAmount().toString({
-                      format: true,
-                    })}
-                    isQuantityExact={true}
-                  />
+                  <CompactYield quantity={getDepositAmount().toString(EXACT_FORMAT)} isQuantityExact={true} />
                 </Grid>
               </Grid>
             </Grid>
@@ -534,12 +521,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   <Grid xs={12}>
                     <Typography variant="h6">
                       {/* As this is the amount being deposited, the user needs to see the exact amount. */}
-                      <strong>
-                        {getDepositAmount().toString({
-                          format: true,
-                        })}{" "}
-                        sOHM
-                      </strong>
+                      <strong>{getDepositAmount().toString(EXACT_FORMAT)} sOHM</strong>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -584,9 +566,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
                   {txnButtonText(
                     pendingTransactions,
                     PENDING_TXN_GIVE,
-                    `${t`Confirm `} ${getDepositAmount().toString({
-                      format: true,
-                    })} sOHM`,
+                    `${t`Confirm `} ${getDepositAmount().toString(EXACT_FORMAT)} sOHM`,
                   )}
                 </PrimaryButton>
               </Grid>

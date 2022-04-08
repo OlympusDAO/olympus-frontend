@@ -24,6 +24,8 @@ import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 // Consistent with staking page
 const DECIMAL_PLACES = 4;
 const ZERO_NUMBER = new DecimalBigNumber("0");
+const DECIMAL_FORMAT = { decimals: DECIMAL_PLACES, format: true };
+const NO_DECIMAL_FORMAT = { format: true };
 
 export default function RedeemYield() {
   const location = useLocation();
@@ -141,12 +143,7 @@ export default function RedeemYield() {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h3" align="center">
-          {isRecipientInfoLoading ? (
-            <Skeleton />
-          ) : (
-            redeemableBalanceNumber.toString({ decimals: DECIMAL_PLACES, format: true })
-          )}{" "}
-          sOHM
+          {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toString(DECIMAL_FORMAT)} sOHM
         </Typography>
         <Typography variant="body1" align="center" className="subtext">
           Redeemable Yield
@@ -169,7 +166,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center">
-                  {getRecipientGoal(address).toString({ decimals: DECIMAL_PLACES, format: true })}
+                  {getRecipientGoal(address).toString(DECIMAL_FORMAT)}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   <Trans>sOHM Goal</Trans>
@@ -179,7 +176,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center">
-                  {totalDeposit.toString({ decimals: DECIMAL_PLACES, format: true })}
+                  {totalDeposit.toString(DECIMAL_FORMAT)}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   {isSmallScreen ? t`Total Donated` : t`Total sOHM Donated`}
@@ -192,7 +189,7 @@ export default function RedeemYield() {
                   {totalDeposit
                     .mul(new DecimalBigNumber("100"))
                     .div(getRecipientGoal(address))
-                    .toString({ decimals: DECIMAL_PLACES, format: true })}
+                    .toString(DECIMAL_FORMAT)}
                   %
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
@@ -210,38 +207,28 @@ export default function RedeemYield() {
           <DataRow
             title={t`Deposited sOHM`}
             // Exact number
-            balance={`${totalDeposit.toString({
-              format: true,
-            })} ${t`sOHM`}`}
+            balance={`${totalDeposit.toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
           />
           <DataRow
             title={t`Redeemable Amount`}
             // Exact number
-            balance={`${redeemableBalanceNumber.toString({
-              format: true,
-            })} ${t`sOHM`}`}
+            balance={`${redeemableBalanceNumber.toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
           />
           <DataRow
             title={t`Next Reward Amount`}
-            balance={`${nextRewardValue.toString({
-              decimals: DECIMAL_PLACES,
-              format: true,
-            })} ${t`sOHM`}`}
+            balance={`${nextRewardValue.toString(DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isAppLoading}
           />
           <DataRow
             title={t`Next Reward Yield`}
-            balance={`${stakingRebasePercentage.toString({
-              decimals: DECIMAL_PLACES,
-              format: true,
-            })}%`}
+            balance={`${stakingRebasePercentage.toString(DECIMAL_FORMAT)}%`}
             isLoading={isAppLoading}
           />
           <DataRow
             title={t`ROI (5-Day Rate)`}
-            balance={`${fiveDayRateValue.toString({ decimals: DECIMAL_PLACES, format: true })}%`}
+            balance={`${fiveDayRateValue.toString(DECIMAL_FORMAT)}%`}
             isLoading={isAppLoading}
           />
         </Box>
