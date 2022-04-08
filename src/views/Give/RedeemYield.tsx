@@ -61,7 +61,7 @@ export default function RedeemYield() {
     return state.pendingTransactions;
   });
 
-  const redeemableBalanceNumber: DecimalBigNumber = new DecimalBigNumber(redeemableBalance);
+  const redeemableBalanceNumber: DecimalBigNumber = new DecimalBigNumber(redeemableBalance || "0");
 
   const totalDeposit =
     recipientInfo && recipientInfo.totalDebt ? new DecimalBigNumber(recipientInfo.totalDebt.toString()) : ZERO_NUMBER;
@@ -80,7 +80,7 @@ export default function RedeemYield() {
 
   const isProject = projectMap.get(address);
 
-  const isRecipientInfoLoading = recipientInfo.totalDebt == "";
+  const isRecipientInfoLoading = !recipientInfo || recipientInfo.totalDebt == "";
 
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
   useEffect(() => {
@@ -142,7 +142,7 @@ export default function RedeemYield() {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography variant="h3" align="center">
+        <Typography variant="h3" align="center" data-testid="redeemable-balance">
           {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toString(DECIMAL_FORMAT)} sOHM
         </Typography>
         <Typography variant="body1" align="center" className="subtext">
@@ -165,7 +165,7 @@ export default function RedeemYield() {
           <Grid container spacing={1}>
             <Grid item xs={4}>
               <Box>
-                <Typography variant="h5" align="center">
+                <Typography variant="h5" align="center" data-testid="project-goal">
                   {getRecipientGoal(address).toString(DECIMAL_FORMAT)}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
@@ -175,7 +175,7 @@ export default function RedeemYield() {
             </Grid>
             <Grid item xs={4}>
               <Box>
-                <Typography variant="h5" align="center">
+                <Typography variant="h5" align="center" data-testid="project-deposit">
                   {totalDeposit.toString(DECIMAL_FORMAT)}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
@@ -185,7 +185,7 @@ export default function RedeemYield() {
             </Grid>
             <Grid item xs={4}>
               <Box>
-                <Typography variant="h5" align="center">
+                <Typography variant="h5" align="center" data-testid="project-goal-achievement">
                   {totalDeposit
                     .mul(new DecimalBigNumber("100"))
                     .div(getRecipientGoal(address))
@@ -209,27 +209,32 @@ export default function RedeemYield() {
             // Exact number
             balance={`${totalDeposit.toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
+            data-testid="data-deposited-sohm"
           />
           <DataRow
             title={t`Redeemable Amount`}
             // Exact number
             balance={`${redeemableBalanceNumber.toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
+            data-testid="data-redeemable-balance"
           />
           <DataRow
             title={t`Next Reward Amount`}
             balance={`${nextRewardValue.toString(DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isAppLoading}
+            data-testid="data-next-reward-amount"
           />
           <DataRow
             title={t`Next Reward Yield`}
             balance={`${stakingRebasePercentage.toString(DECIMAL_FORMAT)}%`}
             isLoading={isAppLoading}
+            data-testid="data-next-reward-yield"
           />
           <DataRow
             title={t`ROI (5-Day Rate)`}
             balance={`${fiveDayRateValue.toString(DECIMAL_FORMAT)}%`}
             isLoading={isAppLoading}
+            data-testid="data-roi"
           />
         </Box>
       </Grid>

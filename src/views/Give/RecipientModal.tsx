@@ -129,7 +129,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   }, [giveAllowance]);
 
   const getSOhmBalance = (): DecimalBigNumber => {
-    return new DecimalBigNumber(sohmBalance);
+    return new DecimalBigNumber(sohmBalance || "0");
   };
 
   /**
@@ -140,7 +140,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    * @returns DecimalBigNumber
    */
   const getMaximumDepositAmount = (): DecimalBigNumber => {
-    return new DecimalBigNumber(sohmBalance);
+    return new DecimalBigNumber(sohmBalance || "0");
   };
 
   const handleSetDepositAmount = (value: string) => {
@@ -256,7 +256,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    * @returns DecimalBigNumber instance
    */
   const getRetainedAmountDiff = (): DecimalBigNumber => {
-    return new DecimalBigNumber(sohmBalance).sub(getDepositAmount());
+    return new DecimalBigNumber(sohmBalance || "0").sub(getDepositAmount());
   };
 
   /**
