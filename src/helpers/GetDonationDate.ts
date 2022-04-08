@@ -48,6 +48,8 @@ export const GetFirstDonationDate = async ({
   let firstDonation = events[0];
 
   for (let i = 0; i < events.length; i++) {
+    // Selects the first event that does not have a deposit of 0. This is the first
+    // donation that is still currently active
     if (BigNumber.from(events[i].data).gt("0")) firstDonation = events[i];
   }
 

@@ -6,16 +6,15 @@ import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
 import { addresses } from "../constants";
 import { IBaseAddressAsyncThunk, IBaseAddressRecipientAsyncThunk } from "../slices/interfaces";
 
-// Calculate total amount redeemed by a user + their current redeemable balance
 /**
- * Calculates the total amount redeemed by a user + their current redeemable balance
+ * @notice Calculates the total amount redeemed by a user + their current redeemable balance
  * @param address Current user's Ethereum address
  * @param networkID ID number of the network the user is currently connected to
  * @param provider Ethereum network provider object
- * @returns BigNumber representation of the sOHM value of the total amount redeemed by a user
+ * @returns String representation of the sOHM value of the total amount redeemed by a user
  *          plus their current redeemable balance
  */
-export const getTotalDonated = async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
+export const getTotalDonated = async ({ address, networkID, provider }: IBaseAddressAsyncThunk): Promise<string> => {
   if (!addresses[networkID] || !addresses[networkID].GIVING_ADDRESS) {
     console.log("No giving contract on chain ID " + networkID);
     return "0";
@@ -73,7 +72,7 @@ export const getTotalYieldSent = async ({
   recipient,
   networkID,
   provider,
-}: IBaseAddressRecipientAsyncThunk) => {
+}: IBaseAddressRecipientAsyncThunk): Promise<BigNumber> => {
   if (!addresses[networkID] || !addresses[networkID].GIVING_ADDRESS || networkID !== 1) {
     console.log("No giving contract on chain ID " + networkID);
     return BigNumber.from("0");
