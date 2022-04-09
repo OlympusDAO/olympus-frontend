@@ -35,7 +35,7 @@ const Faq = () => {
 
   return (
     <Fade in={true}>
-      <Box>
+      <Box data-testid="faq">
         {faqContent.map((faq: { title: string | undefined; content: string | undefined }, index) => (
           <InfoCard key={index} title={faq.title} content={faq.content} />
         ))}

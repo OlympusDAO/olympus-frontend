@@ -30,7 +30,7 @@ const News: FC<OHMNewsProps> = () => {
   };
   return (
     <Fade in={true}>
-      <Box>
+      <Box data-testid="news">
         {isFetched &&
           data.items.map(
             (
