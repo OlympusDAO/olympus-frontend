@@ -40,7 +40,7 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { light as lightTheme } from "./themes/light.js";
 import { multifarmDarkTheme, multifarmLightTheme } from "./themes/multifarm";
-import { ChooseBondV2, Give, Stake, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
+import { Bond, Give, Stake, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
 import NotFound from "./views/404/NotFound";
 import { BondModalContainer } from "./views/Bond/components/BondModal/BondModal";
 import GrantInfo from "./views/Give/GrantInfo";
@@ -424,7 +424,7 @@ function App() {
               <Redirect from="/bonds-v1" to="/bonds" />
 
               <Route path="/bonds">
-                <ChooseBondV2 />
+                <Bond />
                 <Route path="/bonds/:id" component={BondModalContainer} />
                 <Route path="/bonds/inverse/:id" component={BondModalContainer} />
               </Route>
