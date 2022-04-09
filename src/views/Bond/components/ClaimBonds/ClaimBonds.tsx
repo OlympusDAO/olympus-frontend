@@ -229,12 +229,14 @@ const V1BondRow: React.VFC<{ bond: IUserBondDetails }> = ({ bond }) => {
   const onRedeem = () => {
     const currentBond = [...bonds, ...expiredBonds].find(_bond => _bond.name === bond.bond);
 
+    if (!currentBond) return;
+
     dispatch(
       redeemBond({
         address,
         provider,
         autostake: false,
-        bond: currentBond!,
+        bond: currentBond,
         networkID: networkId,
       }),
     );
