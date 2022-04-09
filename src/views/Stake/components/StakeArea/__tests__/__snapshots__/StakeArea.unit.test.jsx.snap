@@ -205,7 +205,7 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
               </div>
               <span
                 class="PrivateTabIndicator-root-86 PrivateTabIndicator-colorPrimary-87 MuiTabs-indicator"
-                style="left: 0px; width: 0px;"
+                style="left: 0px; width: 0px; display: none;"
               />
             </div>
           </div>
@@ -338,7 +338,7 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
           class="makeStyles-root-106 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-115"
+            class="MuiBox-root MuiBox-root-108"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -374,7 +374,7 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
                 class="makeStyles-root-106 data-row"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-116"
+                  class="MuiBox-root MuiBox-root-109"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -436,7 +436,7 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
                       style="padding-left: 10px;"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-117"
+                        class="MuiBox-root MuiBox-root-110"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
@@ -460,7 +460,7 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
                       style="padding-left: 10px;"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-118"
+                        class="MuiBox-root MuiBox-root-111"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
@@ -492,7 +492,7 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
           class="makeStyles-root-106 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-119"
+            class="MuiBox-root MuiBox-root-112"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -514,7 +514,7 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
           class="makeStyles-root-106 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-120"
+            class="MuiBox-root MuiBox-root-113"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -536,7 +536,7 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
           class="makeStyles-root-106 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-121"
+            class="MuiBox-root MuiBox-root-114"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
