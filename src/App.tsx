@@ -32,8 +32,6 @@ import useTheme from "./hooks/useTheme";
 import { calculateUserBondDetails, getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { calcBondDetails } from "./slices/BondSlice";
-import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
-import { getAllInverseBonds } from "./slices/InverseBondSlice";
 import { error, info } from "./slices/MessagesSlice";
 import { getZapTokenBalances } from "./slices/ZapSlice";
 import { dark as darkTheme } from "./themes/dark.js";
@@ -151,8 +149,6 @@ function App() {
             dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
           }
         });
-        dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
-        dispatch(getAllInverseBonds({ provider: loadProvider, networkID: networkId, address }));
       }
     },
     [networkId, address],
@@ -163,7 +159,6 @@ function App() {
       if (!providerInitialized) {
         return;
       }
-      dispatch(getUserNotes({ networkID: networkId, address, provider: loadProvider }));
       dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
       dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
       bonds.map(bond => {
@@ -425,6 +420,7 @@ function App() {
 
               <Route path="/bonds">
                 <Bond />
+
                 <Route path="/bonds/:id" component={BondModalContainer} />
                 <Route path="/bonds/inverse/:id" component={BondModalContainer} />
               </Route>

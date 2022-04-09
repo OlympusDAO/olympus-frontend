@@ -1,5 +1,3 @@
-import "src/views/BondV2/Bond.scss";
-
 import { t, Trans } from "@lingui/macro";
 import { Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";

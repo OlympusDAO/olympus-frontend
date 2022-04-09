@@ -4,7 +4,6 @@ import accountReducer from "./slices/AccountSlice";
 import appReducer from "./slices/AppSlice";
 import bondingReducer from "./slices/BondSlice";
 import { bondingReducerV2 } from "./slices/BondSliceV2";
-import { inverseBondingReducer } from "./slices/InverseBondSlice";
 import messagesReducer from "./slices/MessagesSlice";
 import pendingTransactionsReducer from "./slices/PendingTxnsSlice";
 import poolDataReducer from "./slices/PoolThunk";
@@ -19,7 +18,6 @@ const store = configureStore({
     account: accountReducer,
     bonding: bondingReducer,
     bondingV2: bondingReducerV2,
-    inverseBonds: inverseBondingReducer,
     app: appReducer,
     pendingTransactions: pendingTransactionsReducer,
     poolData: poolDataReducer,
