@@ -19,7 +19,7 @@ function ChooseBondV2() {
   const showTabs = !!inverse && inverse.length > 0 && !!bonds;
 
   return (
-    <Box display="flex" alignItems="center" justifyContent="center">
+    <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
       <ClaimBonds />
 
       <Zoom in onEntered={() => setIsZoomed(true)}>
