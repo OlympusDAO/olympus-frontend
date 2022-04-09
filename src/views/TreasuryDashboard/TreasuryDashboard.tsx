@@ -110,7 +110,7 @@ const dashboardTabs = [
   { pathname: "proteus", label: <Trans>Proteus</Trans> },
 ];
 
-const TreasuryDashboard: React.FC<{ activeView: number }> = ({ activeView = 0 }) => {
+const TreasuryDashboard: React.FC<{ activeView?: number }> = ({ activeView = 0 }) => {
   const history = useHistory();
   const [view, setView] = useState(activeView);
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
