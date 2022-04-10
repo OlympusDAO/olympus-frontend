@@ -89,50 +89,56 @@ export const ClaimBonds = () => {
 
       <Box mt="48px">
         {isSmallScreen ? (
-          notes.map(note => (
-            <Box mt="32px">
-              <Box display="flex" alignItems="center">
-                <TokenStack tokens={note.bond.quoteToken.icons} />
+          <>
+            {notes.map(note => (
+              <Box mt="32px">
+                <Box display="flex" alignItems="center">
+                  <TokenStack tokens={note.bond.quoteToken.icons} />
 
-                <Box ml="8px">
-                  <Typography>{note.bond.quoteToken.name}</Typography>
+                  <Box ml="8px">
+                    <Typography>{note.bond.quoteToken.name}</Typography>
+                  </Box>
+                </Box>
+
+                <Box display="flex" justifyContent="space-between" mt="16px">
+                  <Typography>Payout</Typography>
+
+                  <Typography>
+                    {isPayoutGohm
+                      ? `${note.payout.toString({ decimals: 4, format: true })} gOHM`
+                      : `${currentIndex?.mul(note.payout).toString({ decimals: 4, format: true })} sOHM`}
+                  </Typography>
+                </Box>
+
+                <Box display="flex" justifyContent="space-between" mt="8px">
+                  <Typography>Remaining Duration</Typography>
+                  <Typography>
+                    {Date.now() > note.matured ? (
+                      "Fully Vested"
+                    ) : (
+                      <BondDuration duration={(note.matured - Date.now()) / 1000} />
+                    )}
+                  </Typography>
+                </Box>
+
+                <Box mt="16px">
+                  <TertiaryButton
+                    fullWidth
+                    disabled={Date.now() < note.matured || claimBondsMutation.isLoading}
+                    onClick={() => claimBondsMutation.mutate({ id: note.id, isPayoutGohm })}
+                  >
+                    {claimBondsMutation.isLoading && claimBondsMutation.variables?.id === note.id
+                      ? t`Claiming...`
+                      : t`Claim`}
+                  </TertiaryButton>
                 </Box>
               </Box>
+            ))}
 
-              <Box display="flex" justifyContent="space-between" mt="16px">
-                <Typography>Payout</Typography>
-
-                <Typography>
-                  {isPayoutGohm
-                    ? `${note.payout.toString({ decimals: 4, format: true })} gOHM`
-                    : `${currentIndex?.mul(note.payout).toString({ decimals: 4, format: true })} sOHM`}
-                </Typography>
-              </Box>
-
-              <Box display="flex" justifyContent="space-between" mt="8px">
-                <Typography>Remaining Duration</Typography>
-                <Typography>
-                  {Date.now() > note.matured ? (
-                    "Fully Vested"
-                  ) : (
-                    <BondDuration duration={(note.matured - Date.now()) / 1000} />
-                  )}
-                </Typography>
-              </Box>
-
-              <Box mt="16px">
-                <TertiaryButton
-                  fullWidth
-                  disabled={Date.now() < note.matured || claimBondsMutation.isLoading}
-                  onClick={() => claimBondsMutation.mutate({ id: note.id, isPayoutGohm })}
-                >
-                  {claimBondsMutation.isLoading && claimBondsMutation.variables?.id === note.id
-                    ? t`Claiming...`
-                    : t`Claim`}
-                </TertiaryButton>
-              </Box>
-            </Box>
-          ))
+            {v1.map(([id, bond]) => (
+              <V1BondCard key={id} bond={bond} />
+            ))}
+          </>
         ) : (
           <TableContainer>
             <Table aria-label="Available bonds" style={{ tableLayout: "fixed" }}>
@@ -270,5 +276,65 @@ const V1BondRow: React.VFC<{ bond: IUserBondDetails }> = ({ bond }) => {
         </TertiaryButton>
       </TableCell>
     </TableRow>
+  );
+};
+
+const V1BondCard: React.VFC<{ bond: IUserBondDetails }> = ({ bond }) => {
+  const dispatch = useDispatch();
+  const { address, networkId, provider } = useWeb3Context();
+  const { bonds, expiredBonds } = useBonds(networkId);
+  const pendingTransactions = useAppSelector(state => state.pendingTransactions);
+
+  const isLoading =
+    isPendingTxn(pendingTransactions, "redeem_bond_" + bond.displayName) ||
+    isPendingTxn(pendingTransactions, "redeem_all_bonds") ||
+    isPendingTxn(pendingTransactions, "redeem_all_bonds_autostake");
+
+  const onRedeem = () => {
+    const currentBond = [...bonds, ...expiredBonds].find(_bond => _bond.name === bond.bond);
+
+    if (!currentBond) return;
+
+    dispatch(
+      redeemBond({
+        address,
+        provider,
+        autostake: false,
+        bond: currentBond,
+        networkID: networkId,
+      }),
+    );
+  };
+
+  return (
+    <Box mt="32px">
+      <Box display="flex" alignItems="center">
+        <TokenStack tokens={bond.bondIconSvg} />
+
+        <Box ml="8px">
+          <Typography>{bond.displayName}</Typography>
+        </Box>
+      </Box>
+
+      <Box display="flex" justifyContent="space-between" mt="16px">
+        <Typography>Payout</Typography>
+
+        <Typography>{trim(bond.interestDue, 4)}</Typography>
+      </Box>
+
+      <Box display="flex" justifyContent="space-between" mt="8px">
+        <Typography>Remaining Duration</Typography>
+
+        <Typography>
+          <Trans>Fully Vested</Trans>
+        </Typography>
+      </Box>
+
+      <Box mt="16px">
+        <TertiaryButton fullWidth disabled={isLoading} onClick={onRedeem}>
+          {isLoading ? t`Claiming...` : t`Claim`}
+        </TertiaryButton>
+      </Box>
+    </Box>
   );
 };
