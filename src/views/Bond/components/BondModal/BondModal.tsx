@@ -38,7 +38,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   const history = useHistory();
   const { pathname } = useLocation();
   const { address } = useWeb3Context();
-  const isInverseBond = pathname.includes("/inverse/");
+  const isInverseBond: boolean = pathname.includes("/inverse/");
 
   const [slippage, setSlippage] = useState("0.5");
   const [isSettingsOpen, setSettingsOpen] = useState(false);
@@ -60,7 +60,6 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   return (
     <Modal
       open
-      id="bond-view"
       minHeight="auto"
       closePosition="left"
       onClose={() => history.push(`/bonds`)}
@@ -75,7 +74,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
         </Box>
       }
     >
-      <>
+      <Box display="flex" flexDirection="column" alignItems="center">
         <BondSettingsModal
           slippage={slippage}
           open={isSettingsOpen}
@@ -85,50 +84,50 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
           onSlippageChange={event => setSlippage(event.currentTarget.value)}
         />
 
-        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-          <Typography>
-            {isInverseBond ? "Instant Payout" : bond.isFixedTerm ? t`Fixed Term` : t`Fixed Expiration`}
-          </Typography>
+        <Typography>
+          {isInverseBond ? "Instant Payout" : bond.isFixedTerm ? t`Fixed Term` : t`Fixed Expiration`}
+        </Typography>
 
-          {!isInverseBond && (
-            <Box mt="4px">
-              <Typography>
-                <BondDuration duration={bond.duration} />
-              </Typography>
-            </Box>
-          )}
-        </Box>
+        {!isInverseBond && (
+          <Box mt="4px">
+            <Typography>
+              <BondDuration duration={bond.duration} />
+            </Typography>
+          </Box>
+        )}
 
-        <Box display="flex" flexDirection="row" className="bond-price-data-row">
-          <div className="bond-price-data">
+        <Box display="flex" justifyContent="space-between" width="70%" mt="24px">
+          <Box textAlign="center">
             <Typography variant="h5" color="textSecondary">
               <Trans>Bond Price</Trans>
             </Typography>
 
-            <Typography variant="h3" className="price" color="primary">
+            <Typography variant="h3" style={{ fontWeight: "bold" }}>
               {bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} />}
             </Typography>
-          </div>
+          </Box>
 
-          <div className="bond-price-data">
+          <Box textAlign="center">
             <Typography variant="h5" color="textSecondary">
               <Trans>Market Price</Trans>
             </Typography>
 
-            <Typography variant="h3" color="primary" className="price">
+            <Typography variant="h3" style={{ fontWeight: "bold" }}>
               <TokenPrice token={bond.baseToken} />
             </Typography>
-          </div>
+          </Box>
         </Box>
 
-        <BondInputArea bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
+        <Box width="100%" mt="24px">
+          <BondInputArea bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
+        </Box>
 
-        <Box mt="16px" className="help-text">
-          <Typography variant="body2">
+        <Box mt="24px" textAlign="center" width="70%">
+          <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}>
             <BondInfoText isInverseBond={isInverseBond} />
           </Typography>
         </Box>
-      </>
+      </Box>
     </Modal>
   );
 };
