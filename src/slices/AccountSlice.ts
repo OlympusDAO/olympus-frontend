@@ -240,7 +240,6 @@ export const getBalances = createAsyncThunk(
       handleContractError(e);
     }
 
-    console.log("returning");
     return {
       balances: {
         gohm: ethers.utils.formatEther(gOhmBalance),

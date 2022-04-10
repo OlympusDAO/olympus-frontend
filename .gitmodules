@@ -1,5 +1,0 @@
-[submodule "src/locales/translations"]
-	path = src/locales/translations
-	url = https://github.com/OlympusDAO/olympus-translations.git
-	branch = main
-	ignore = all

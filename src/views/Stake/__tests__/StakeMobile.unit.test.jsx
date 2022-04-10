@@ -1,24 +1,13 @@
+import { createMatchMedia } from "src/testHelpers";
+
 import { render, screen } from "../../../testUtils";
 import Stake from "../Stake";
-
-describe("<Stake/>", () => {
-  it("should render component", async () => {
-    const { container } = render(<Stake />);
-    expect(container).toMatchSnapshot();
-  });
-
-  it("should render correct staking headers", () => {
-    const { container } = render(<Stake />);
-    // there should be a header inviting user to Stake
-    expect(screen.getByText("Single Stake (3, 3)")).toBeInTheDocument();
-    //  there should be a Farm Pool table
-
-    expect(screen.getByText("Farm Pool")).toBeInTheDocument();
-    expect(container).toMatchSnapshot();
-  });
-
-  it("should render all supported multi chain staking contracts", async () => {
-    render(<Stake />);
+beforeAll(() => {
+  window.matchMedia = createMatchMedia("300px");
+});
+describe("Mobile Resolution", () => {
+  it("should render all supported multi chain staking contracts for mobile", async () => {
+    const { container } = await render(<Stake />);
     expect(await screen.getByText("gOHM-AVAX")).toBeInTheDocument();
     expect(await screen.getByText("Stake on Trader Joe").closest("a")).toHaveAttribute(
       "href",
@@ -32,5 +21,6 @@ describe("<Stake/>", () => {
       "href",
       "https://app.spiritswap.finance/#/farms/allfarms",
     );
+    expect(container).toMatchSnapshot();
   });
 });
