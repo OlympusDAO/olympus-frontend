@@ -4,12 +4,22 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, OHMTokenProps, Paper, SecondaryButton, Token, TokenStack } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
-import { beetsPools, joePools, jonesPools, spiritPools, sushiPools, zipPools } from "src/helpers/AllExternalPools";
+import {
+  balancerPools,
+  beetsPools,
+  joePools,
+  jonesPools,
+  spiritPools,
+  sushiPools,
+  zipPools,
+} from "src/helpers/AllExternalPools";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
 
 import {
+  BalancerPoolAPY,
+  BalancerSwapFees,
   BeetsPoolAPY,
   JoePoolAPY,
   JonesPoolAPY,
@@ -62,6 +72,9 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     {jonesPools.map(pool => (
       <JonesPools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
+    {balancerPools.map(pool => (
+      <BalancerPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
   </>
 );
 
@@ -108,7 +121,7 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
   return (
     <TableRow>
       <TableCell>
-        <Box display="flex" flexDirection="row" alignItems="center">
+        <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
           <TokenStack tokens={props.pool.icons} />
           <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px", marginRight: "10px" }}>
             {props.pool.poolName}
@@ -243,6 +256,15 @@ const JonesPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = pro
     <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
   ) : (
     <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+  );
+};
+const BalancerPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
+  const { data } = BalancerSwapFees(props.pool.address);
+  const { apy } = BalancerPoolAPY(props.pool);
+  return props.isSmallScreen ? (
+    <MobileStakePool pool={props.pool} tvl={data.totalLiquidity} apy={apy} />
+  ) : (
+    <StakePool pool={props.pool} tvl={data.totalLiquidity} apy={apy} />
   );
 };
 
