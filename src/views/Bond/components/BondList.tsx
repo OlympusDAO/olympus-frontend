@@ -27,7 +27,14 @@ import { BondPrice } from "./BondPrice";
 export const BondList: React.VFC<{ bonds: Bond[]; isInverseBond: boolean }> = ({ bonds, isInverseBond }) => {
   const isSmallScreen = useScreenSize("md");
 
-  // TODO no active bonds
+  if (bonds.length === 0)
+    return (
+      <Box display="flex" justifyContent="center">
+        <Typography variant="h4">
+          <Trans>No active bonds</Trans>
+        </Typography>
+      </Box>
+    );
 
   if (isSmallScreen)
     return (
