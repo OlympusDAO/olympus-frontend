@@ -74,7 +74,7 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
       <WalletConnectedGuard message="Please connect your wallet to purchase bonds">
         <form onSubmit={handleSubmit}>
           <Box display="flex" justifyContent="center">
-            <Box display="flex" flexDirection="column" width="70%">
+            <Box display="flex" flexDirection="column" width={["100%", "70%"]}>
               <TokenAllowanceGuard
                 isVertical
                 tokenAddressMap={props.bond.quoteToken.addresses}

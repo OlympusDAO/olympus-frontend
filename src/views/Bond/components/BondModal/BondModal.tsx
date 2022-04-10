@@ -96,7 +96,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
           </Box>
         )}
 
-        <Box display="flex" justifyContent="space-between" width="70%" mt="24px">
+        <Box display="flex" justifyContent="space-between" width={["100%", "70%"]} mt="24px">
           <Box textAlign="center">
             <Typography variant="h5" color="textSecondary">
               <Trans>Bond Price</Trans>
@@ -122,7 +122,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
           <BondInputArea bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
         </Box>
 
-        <Box mt="24px" textAlign="center" width="70%">
+        <Box mt="24px" textAlign="center" width={["100%", "70%"]}>
           <Typography variant="body2" color="textSecondary" style={{ fontSize: "1.075em" }}>
             <BondInfoText isInverseBond={isInverseBond} />
           </Typography>
