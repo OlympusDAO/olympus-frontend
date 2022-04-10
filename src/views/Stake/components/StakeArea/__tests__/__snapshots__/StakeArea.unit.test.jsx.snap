@@ -3,7 +3,7 @@
 exports[`<StakeArea/> Connected no Approval should display unstake approval message when clicking unstake 1`] = `
 <div>
   <div
-    class="MuiPaper-root makeStyles-root-67 makeStyles-root-68  MuiPaper-elevation0 MuiPaper-rounded"
+    class="MuiPaper-root makeStyles-root-65 makeStyles-root-66  MuiPaper-elevation0 MuiPaper-rounded"
     style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   >
     <div
@@ -13,10 +13,10 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
         class="MuiGrid-root card-header MuiGrid-item"
       >
         <div
-          class="MuiBox-root MuiBox-root-69"
+          class="MuiBox-root MuiBox-root-67"
         >
           <div
-            class="MuiBox-root MuiBox-root-70"
+            class="MuiBox-root MuiBox-root-68"
           >
             <h5
               class="MuiTypography-root header-text MuiTypography-h5"
@@ -29,10 +29,10 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
           />
         </div>
         <div
-          class="MuiBox-root MuiBox-root-71"
+          class="MuiBox-root MuiBox-root-69"
         >
           <div
-            class="MuiBox-root MuiBox-root-72 rebase-timer"
+            class="MuiBox-root MuiBox-root-70 rebase-timer"
           >
             <p
               class="MuiTypography-root MuiTypography-body2"
@@ -49,110 +49,114 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
         class="MuiGrid-root MuiGrid-item"
       >
         <div
-          class="MuiGrid-root"
+          class="MuiBox-root MuiBox-root-71"
         >
           <div
-            class="MuiBox-root MuiBox-root-73"
+            class="MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
+              class="MuiBox-root MuiBox-root-72"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
               >
                 <div
-                  class="makeStyles-root-74 stake-apy"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-75"
+                    class="makeStyles-root-73 stake-apy"
                   >
-                    <h5
-                      class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                    <div
+                      class="MuiBox-root MuiBox-root-74"
                     >
-                      APY
-                    </h5>
-                    <h4
-                      class="MuiTypography-root MuiTypography-h4"
-                      style="width: 100%;"
-                    >
-                      <span
-                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
-                      />
-                    </h4>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-              >
-                <div
-                  class="makeStyles-root-74 stake-tvl"
-                >
-                  <div
-                    class="MuiBox-root MuiBox-root-76"
-                  >
-                    <h5
-                      class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
-                    >
-                      Total Value Deposited
-                    </h5>
-                    <h4
-                      class="MuiTypography-root MuiTypography-h4"
-                      style="width: 100%;"
-                    >
-                      <span
-                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
-                      />
-                    </h4>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-              >
-                <div
-                  class="makeStyles-root-74 stake-index"
-                >
-                  <div
-                    class="MuiBox-root MuiBox-root-77"
-                  >
-                    <h5
-                      class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
-                    >
-                      Current Index
-                      <div
-                        class="MuiBox-root MuiBox-root-78"
-                        style="font-size: 16px;"
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
                       >
-                        <div
-                          class="MuiBox-root MuiBox-root-79"
-                          style="display: inline-flex; justify-content: center; align-self: center;"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
-                            focusable="false"
-                            style="margin: 0px 5px; font-size: 1em;"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </h5>
-                    <h4
-                      class="MuiTypography-root MuiTypography-h4"
-                      style="width: 100%;"
-                    >
-                      <span
-                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        APY
+                      </h5>
+                      <h4
+                        class="MuiTypography-root MuiTypography-h4"
                         style="width: 100%;"
-                      />
-                    </h4>
+                      >
+                        <span
+                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                          style="width: 100%;"
+                        />
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                >
+                  <div
+                    class="makeStyles-root-73 stake-tvl"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-75"
+                    >
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      >
+                        Total Value Deposited
+                      </h5>
+                      <h4
+                        class="MuiTypography-root MuiTypography-h4"
+                        style="width: 100%;"
+                      >
+                        <span
+                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                          style="width: 100%;"
+                        />
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                >
+                  <div
+                    class="makeStyles-root-73 stake-index"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-76"
+                    >
+                      <h5
+                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      >
+                        Current Index
+                        <div
+                          class="MuiBox-root MuiBox-root-77"
+                          style="font-size: 16px;"
+                        >
+                          <div
+                            class="MuiBox-root MuiBox-root-78"
+                            style="display: inline-flex; justify-content: center; align-self: center;"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                              focusable="false"
+                              style="margin: 0px 5px; font-size: 1em;"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </h5>
+                      <h4
+                        class="MuiTypography-root MuiTypography-h4"
+                        style="width: 100%;"
+                      >
+                        <span
+                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                          style="width: 100%;"
+                        />
+                      </h4>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -160,7 +164,7 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-85"
+          class="MuiBox-root MuiBox-root-84"
         >
           <div
             class="MuiTabs-root stake-tab-buttons"
@@ -204,52 +208,54 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
                 </button>
               </div>
               <span
-                class="PrivateTabIndicator-root-86 PrivateTabIndicator-colorPrimary-87 MuiTabs-indicator"
+                class="PrivateTabIndicator-root-85 PrivateTabIndicator-colorPrimary-86 MuiTabs-indicator"
                 style="left: 0px; width: 0px; display: none;"
               />
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-90"
+            class="MuiBox-root MuiBox-root-89"
           >
             <div
-              class="MuiGrid-root makeStyles-inputRow-91 MuiGrid-container"
+              class="MuiGrid-root MuiGrid-container"
             >
               <div
-                class="MuiGrid-root makeStyles-gridItem-92 MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-95"
+                  class="MuiBox-root MuiBox-root-90"
                 >
                   <p
-                    class="MuiTypography-root stake-note MuiTypography-body1 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
                   >
-                    First time unstaking
-                     
-                    <b>
-                      sOHM
-                    </b>
-                    ?
-                    <br />
-                    Please approve Olympus DAO to use your
-                     
-                    <b>
-                      sOHM
-                    </b>
-                     
-                    for unstaking
-                    .
+                    <em>
+                      First time unstaking
+                       
+                      <b>
+                        sOHM
+                      </b>
+                      ?
+                      <br />
+                      Please approve Olympus DAO to use your
+                       
+                      <b>
+                        sOHM
+                      </b>
+                       
+                      for unstaking
+                      .
+                    </em>
                   </p>
                 </div>
               </div>
               <div
-                class="MuiGrid-root makeStyles-gridItem-92 MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-96"
+                  class="MuiBox-root MuiBox-root-91"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-94 MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                     tabindex="0"
                     type="button"
                   >
@@ -267,7 +273,7 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
             class="MuiPaper-root ohm-card confirm-dialog MuiPaper-elevation0 MuiPaper-rounded"
           >
             <div
-              class="MuiBox-root MuiBox-root-99"
+              class="MuiBox-root MuiBox-root-94"
             >
               <label
                 class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
@@ -285,14 +291,14 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
                   >
                     <span
                       aria-disabled="false"
-                      class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-100 MuiSwitch-switchBase MuiSwitch-colorPrimary"
+                      class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-95 MuiSwitch-switchBase MuiSwitch-colorPrimary"
                     >
                       <span
                         class="MuiIconButton-label"
                       >
                         <input
                           aria-label="stake to gohm"
-                          class="PrivateSwitchBase-input-103 MuiSwitch-input"
+                          class="PrivateSwitchBase-input-98 MuiSwitch-input"
                           type="checkbox"
                           value=""
                         />
@@ -311,7 +317,7 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
                 >
                   gOHM
                   <div
-                    class="MuiBox-root MuiBox-root-104"
+                    class="MuiBox-root MuiBox-root-99"
                     style="display: inline-flex; justify-content: center; align-self: center;"
                   >
                     <svg
@@ -329,16 +335,16 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
                 </div>
               </label>
               <div
-                class="MuiBox-root MuiBox-root-105"
+                class="MuiBox-root MuiBox-root-100"
               />
             </div>
           </div>
         </div>
         <div
-          class="makeStyles-root-106 data-row"
+          class="makeStyles-root-101 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-108"
+            class="MuiBox-root MuiBox-root-103"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -371,10 +377,10 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
               class="MuiAccordionSummary-content Mui-expanded"
             >
               <div
-                class="makeStyles-root-106 data-row"
+                class="makeStyles-root-101 data-row"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-109"
+                  class="MuiBox-root MuiBox-root-104"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -432,11 +438,11 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
                     class="MuiAccordionDetails-root"
                   >
                     <div
-                      class="makeStyles-root-106 data-row"
+                      class="makeStyles-root-101 data-row"
                       style="padding-left: 10px;"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-110"
+                        class="MuiBox-root MuiBox-root-105"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
@@ -456,11 +462,11 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
                       </p>
                     </div>
                     <div
-                      class="makeStyles-root-106 data-row"
+                      class="makeStyles-root-101 data-row"
                       style="padding-left: 10px;"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-111"
+                        class="MuiBox-root MuiBox-root-106"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
@@ -489,10 +495,10 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
           color="secondary"
         />
         <div
-          class="makeStyles-root-106 data-row"
+          class="makeStyles-root-101 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-112"
+            class="MuiBox-root MuiBox-root-107"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -511,10 +517,10 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
           </p>
         </div>
         <div
-          class="makeStyles-root-106 data-row"
+          class="makeStyles-root-101 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-113"
+            class="MuiBox-root MuiBox-root-108"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -533,10 +539,10 @@ exports[`<StakeArea/> Connected no Approval should display unstake approval mess
           </p>
         </div>
         <div
-          class="makeStyles-root-106 data-row"
+          class="makeStyles-root-101 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-114"
+            class="MuiBox-root MuiBox-root-109"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
