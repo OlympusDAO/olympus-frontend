@@ -97,7 +97,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
         )}
 
         <Box display="flex" justifyContent="space-between" width={["100%", "70%"]} mt="24px">
-          <Box textAlign="center">
+          <Box display="flex" flexDirection="column" alignItems="center">
             <Typography variant="h5" color="textSecondary">
               <Trans>Bond Price</Trans>
             </Typography>
@@ -107,7 +107,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
             </Typography>
           </Box>
 
-          <Box textAlign="center">
+          <Box display="flex" flexDirection="column" alignItems="center">
             <Typography variant="h5" color="textSecondary">
               <Trans>Market Price</Trans>
             </Typography>
