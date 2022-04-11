@@ -642,35 +642,22 @@ const fuseSupplyTransaction = {
 
 export const mockTransactions = {
   data: {
-    pages: [
-      {
-        data: {
-          address: "0xDd1E5f42baA201050c4686FDF4e3FDE16A58BC6F",
-          updated_at: "2022-04-08T16:39:12.373854515Z",
-          next_update_at: "2022-04-08T16:44:12.373854855Z",
-          quote_currency: "USD",
-          chain_id: 1,
-          items: [bondPurchaseTransaction, bondClaimTransaction, fuseSupplyTransaction],
-          pagination: {
-            has_more: false,
-            page_number: 0,
-            page_size: 300,
-            total_count: null,
-          },
-        },
-        error: false,
-        error_message: null,
-        error_code: null,
-        type: "transaction",
-      },
-    ],
-    pageParams: [null],
+    address: "0xDd1E5f42baA201050c4686FDF4e3FDE16A58BC6F",
+    updated_at: "2022-04-08T16:39:12.373854515Z",
+    next_update_at: "2022-04-08T16:44:12.373854855Z",
+    quote_currency: "USD",
+    chain_id: 1,
+    items: [bondPurchaseTransaction, bondClaimTransaction, fuseSupplyTransaction],
+    pagination: {
+      has_more: false,
+      page_number: 0,
+      page_size: 300,
+      total_count: null,
+    },
   },
-  isFetched: true,
-  isLoading: false,
-  isPreviousData: false,
-  hasNextPage: false,
-  isFetchingNextPage: false,
+  error: false,
+  error_message: null,
+  error_code: null,
 };
 
 export const emptyTransfer = {
@@ -708,33 +695,20 @@ export const emptyTransfer = {
 
 export const emptyTransaction = {
   data: {
-    pages: [
-      {
-        data: {
-          address: "0xDd1E5f42baA201050c4686FDF4e3FDE16A58BC6F",
-          updated_at: "2022-04-08T16:39:12.373854515Z",
-          next_update_at: "2022-04-08T16:44:12.373854855Z",
-          quote_currency: "USD",
-          chain_id: 1,
-          items: [],
-          pagination: {
-            has_more: false,
-            page_number: 0,
-            page_size: 300,
-            total_count: null,
-          },
-        },
-        error: false,
-        error_message: null,
-        error_code: null,
-        type: "transaction",
-      },
-    ],
-    pageParams: [null],
+    address: "0xDd1E5f42baA201050c4686FDF4e3FDE16A58BC6F",
+    updated_at: "2022-04-08T16:39:12.373854515Z",
+    next_update_at: "2022-04-08T16:44:12.373854855Z",
+    quote_currency: "USD",
+    chain_id: 1,
+    items: [],
+    pagination: {
+      has_more: false,
+      page_number: 0,
+      page_size: 300,
+      total_count: null,
+    },
   },
-  isFetched: true,
-  isLoading: false,
-  isPreviousData: false,
-  hasNextPage: false,
-  isFetchingNextPage: false,
+  error: false,
+  error_message: null,
+  error_code: null,
 };
