@@ -62,6 +62,7 @@ export const useDonationInfo = () => {
       // Get set of all a user's deposits and begin to iterate through them
       const allDeposits: [string[], BigNumber[]] = await contract.getAllDeposits(address);
 
+      // Define empty arrays to push promises and non-zero deposits into
       const selectedDeposits = [];
       const firstDonationDatePromises: Promise<string>[] = [];
       const yieldSentPromises: Promise<BigNumber>[] = [];
@@ -80,6 +81,7 @@ export const useDonationInfo = () => {
           networkID: networks.MAINNET,
           provider,
         });
+        firstDonationDatePromises.push(firstDonationDatePromise);
 
         const yieldSentPromise: Promise<BigNumber> = contract
           .donatedTo(address, allDeposits[0][i])
@@ -90,11 +92,10 @@ export const useDonationInfo = () => {
             console.error(e);
             return ethers.constants.Zero;
           });
-
-        firstDonationDatePromises.push(firstDonationDatePromise);
         yieldSentPromises.push(yieldSentPromise);
       }
 
+      // Define arrays to push data from resolved promises into
       let firstDonationData: string[] = [];
       let yieldSentData: BigNumber[] = [];
       try {
@@ -108,14 +109,11 @@ export const useDonationInfo = () => {
       }
 
       for (let i = 0; i < firstDonationData.length; i++) {
-        // format to 18 decimals
-        const formattedYieldSent = ethers.utils.formatUnits(yieldSentData[i], "gwei");
-
         donationInfo.push({
           date: firstDonationData[i],
           deposit: ethers.utils.formatUnits(allDeposits[1][selectedDeposits[i]], "gwei"),
           recipient: allDeposits[0][selectedDeposits[i]],
-          yieldDonated: formattedYieldSent,
+          yieldDonated: ethers.utils.formatUnits(yieldSentData[i], "gwei"),
         });
       }
 
