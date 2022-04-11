@@ -25,7 +25,7 @@ type CausesDashboardProps = {
   changeAssetType: (checked: boolean) => void;
 };
 
-const ZERO_DBN = new DecimalBigNumber("0");
+const ZERO_NUMBER = new DecimalBigNumber("0");
 
 export default function CausesDashboard({ giveAssetType, changeAssetType }: CausesDashboardProps) {
   const location = useLocation();
@@ -65,7 +65,7 @@ export default function CausesDashboard({ giveAssetType, changeAssetType }: Caus
     eventSource: string,
     depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.eq(ZERO_DBN)) {
+    if (depositAmount.eq(ZERO_NUMBER)) {
       return dispatch(error(t`Please enter a value!`));
     }
 

@@ -39,7 +39,9 @@ type RecipientModalProps = {
   project?: Project;
 };
 
-const ZERO_DBN = new DecimalBigNumber("0");
+const DECIMAL_PLACES = 2;
+const ZERO_NUMBER = new DecimalBigNumber("0");
+const EXACT_FORMAT = { format: true };
 
 export function RecipientModal({
   isModalOpen,
@@ -54,7 +56,7 @@ export function RecipientModal({
   const dispatch = useDispatch();
   const { provider, address, networkId } = useWeb3Context();
 
-  const _initialDepositAmount = ZERO_DBN;
+  const _initialDepositAmount = ZERO_NUMBER;
   const _initialWalletAddress = "";
   const _initialDepositAmountValid = false;
   const _initialDepositAmountValidError = "";
@@ -62,17 +64,14 @@ export function RecipientModal({
   const _initialWalletAddressValidError = "";
   const _initialIsAmountSet = false;
 
-  const getInitialDepositAmount = () => {
-    return _initialDepositAmount;
-  };
-  const [depositAmount, setDepositAmount] = useState(getInitialDepositAmount());
+  /**
+   * depositAmount is kept as a string, to avoid unnecessary application of number rules while being edited
+   */
+  const [depositAmount, setDepositAmount] = useState(_initialDepositAmount);
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(_initialDepositAmountValid);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState(_initialDepositAmountValidError);
 
-  const getInitialWalletAddress = () => {
-    return _initialWalletAddress;
-  };
-  const [walletAddress, setWalletAddress] = useState(getInitialWalletAddress());
+  const [walletAddress, setWalletAddress] = useState(_initialWalletAddress);
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(_initialWalletAddressValid);
   const [isWalletAddressValidError, setIsWalletAddressValidError] = useState(_initialWalletAddressValidError);
 
@@ -153,11 +152,11 @@ export function RecipientModal({
 
   const getBalance = (): DecimalBigNumber => {
     if (giveAssetType === "sOHM") {
-      if (!sohmBalance) return ZERO_DBN;
+      if (!sohmBalance) return ZERO_NUMBER;
 
       return new DecimalBigNumber(sohmBalance, 9);
     } else {
-      if (!gohmBalance) return ZERO_DBN;
+      if (!gohmBalance) return ZERO_NUMBER;
 
       return new DecimalBigNumber(gohmBalance, 18);
     }
@@ -182,19 +181,19 @@ export function RecipientModal({
   const checkIsDepositAmountValid = (value: string) => {
     const valueNumber = new DecimalBigNumber(value, giveAssetType === "sOHM" ? 9 : 18);
 
-    if (!value || value == "" || valueNumber.eq(ZERO_DBN)) {
+    if (!value || value == "" || valueNumber.eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Please enter a value`);
       return;
     }
 
-    if (valueNumber.lt(ZERO_DBN)) {
+    if (valueNumber.lt(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Value must be positive`);
       return;
     }
 
-    if (getBalance().eq(ZERO_DBN)) {
+    if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }
@@ -280,7 +279,7 @@ export function RecipientModal({
    *
    * If a yield direction is being created, it returns the current sOHM balance minus the entered deposit.
    *
-   * @returns BigNumber instance
+   * @returns DecimalBigNumber instance
    */
   const getRetainedAmountDiff = (): DecimalBigNumber => {
     return getBalance().sub(getDepositAmount());
@@ -292,7 +291,7 @@ export function RecipientModal({
    * @returns
    */
   const getDepositAmount = (): DecimalBigNumber => {
-    if (!depositAmount) return ZERO_DBN;
+    if (!depositAmount) return ZERO_NUMBER;
 
     return depositAmount;
   };
@@ -432,7 +431,7 @@ export function RecipientModal({
             <Grid item xs={6}>
               <Typography variant="body1" color="textSecondary" align="right">
                 <Trans>
-                  Balance: {getBalance().toString({ decimals: 2 })} {giveAssetType}
+                  Balance: {getBalance().toString(EXACT_FORMAT)} {giveAssetType}
                 </Trans>
               </Typography>
             </Grid>
@@ -442,14 +441,18 @@ export function RecipientModal({
               id="amount-input"
               placeholder={t`Enter an amount`}
               type="number"
-              value={getDepositAmount().eq(ZERO_DBN) ? null : getDepositAmount()}
+              // We used to use BigNumber/DecimalBigNumber here, but it behaves
+              // weirdly and would refuse to recognise some numbers, e.g. 100
+              // Better to keep it simple
+              value={getDepositAmount()}
               helperText={isDepositAmountValid ? "" : isDepositAmountValidError}
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onChange={(e: any) => handleSetDepositAmount(e.target.value)}
               error={!isDepositAmountValid}
               startAdornment="sOHM"
               endString={t`Max`}
-              endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
+              // This uses toString() as it is a specific value and not formatted
+              endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString(EXACT_FORMAT))}
             />
           </Grid>
           <Grid item xs={12}>
@@ -468,19 +471,40 @@ export function RecipientModal({
             <Grid item xs={12}>
               <Grid container justifyContent="center" alignItems="flex-start" wrap="nowrap">
                 <Grid item xs={3}>
-                  <CompactWallet quantity={getRetainedAmountDiff().toString()} asset={giveAssetType} />
+                  {/**
+                   * Wallet balances are rarely whole numbers, so we give an approximate number here.
+                   *
+                   * For the numbers related to what the user is depositing, we give exact numbers.
+                   */}
+                  <CompactWallet
+                    quantity={getRetainedAmountDiff().toString({
+                      decimals: DECIMAL_PLACES,
+                      format: true,
+                    })}
+                    isQuantityExact={false}
+                    asset={giveAssetType}
+                  />
                 </Grid>
                 <Grid item xs={1}>
                   <ArrowGraphic />
                 </Grid>
                 <Grid item xs={3}>
-                  <CompactVault quantity={getDepositAmount().toString()} asset={giveAssetType} />
+                  {/* This is deliberately a specific value */}
+                  <CompactVault
+                    quantity={getDepositAmount().toString(EXACT_FORMAT)}
+                    isQuantityExact={true}
+                    asset={giveAssetType}
+                  />
                 </Grid>
                 <Grid item xs={1}>
                   <ArrowGraphic />
                 </Grid>
                 <Grid item xs={3}>
-                  <CompactYield quantity={getDepositAmount().toString()} asset={giveAssetType} />
+                  <CompactYield
+                    quantity={getDepositAmount().toString(EXACT_FORMAT)}
+                    isQuantityExact={true}
+                    asset={giveAssetType}
+                  />
                 </Grid>
               </Grid>
             </Grid>
@@ -534,7 +558,7 @@ export function RecipientModal({
                   <Grid xs={12}>
                     <Typography variant="h6">
                       <strong>
-                        {getDepositAmount().toString({ decimals: 2 })} {giveAssetType}
+                        {getDepositAmount().toString(EXACT_FORMAT)} {giveAssetType}
                       </strong>
                     </Typography>
                   </Grid>
@@ -576,10 +600,11 @@ export function RecipientModal({
               <Grid item xs />
               <Grid item xs={8}>
                 <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
+                  {/* We display the exact amount being deposited. */}
                   {txnButtonText(
                     pendingTransactions,
                     PENDING_TXN_GIVE,
-                    `${t`Confirm `} ${getDepositAmount().toString({ decimals: 2 })} ${giveAssetType}`,
+                    `${t`Confirm `} ${getDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`,
                   )}
                 </PrimaryButton>
               </Grid>
@@ -591,14 +616,6 @@ export function RecipientModal({
     );
   };
 
-  // NOTE: the following warning is caused by the amount-input field:
-  // Warning: `value` prop on `%s` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.%s
-  // This is caused by this line (currently 423):
-  // value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
-  // If we set the value to an empty string instead of null, any decimal number that is entered will not be accepted
-  // This appears to be due to the following bug (which is still not resolved);
-  // https://github.com/facebook/react/issues/11877
-
   return (
     <Modal
       open={isModalOpen}
@@ -606,7 +623,6 @@ export function RecipientModal({
       headerText={getTitle()}
       closePosition="right"
       topLeft={getEscapeComponent()}
-      className={`ohm-modal ${isSmallScreen ? "smaller" : ""}`}
       minHeight="300px"
     >
       {shouldShowConfirmationScreen() ? getConfirmationScreen() : getAmountScreen()}

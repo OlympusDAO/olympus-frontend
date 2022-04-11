@@ -6,7 +6,6 @@ import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
-import { toInteger } from "lodash";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
@@ -40,7 +39,6 @@ import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
-import { countDecimals } from "./utils";
 
 type CountdownProps = {
   total: number;
@@ -76,7 +74,11 @@ type State = {
   app: IAppData;
 };
 
-const ZERO_DBN = new DecimalBigNumber("0");
+const DECIMAL_PLACES = 2;
+const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
+// We restrict DP to a reasonable number, but trim if unnecessary
+const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
+const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function ProjectCard({ project, giveAssetType, changeAssetType, mode }: ProjectDetailsProps) {
   const location = useLocation();
@@ -86,6 +88,8 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
   const [totalDebt, setTotalDebt] = useState(new DecimalBigNumber("0"));
   const [totalDonated, setTotalDonated] = useState(new DecimalBigNumber("0"));
+  const [totalDonatedIsLoading, setTotalDonatedIsLoading] = useState(true);
+  const [donationInfoIsLoading, setDonationInfoIsLoading] = useState(true);
   const [donorCount, setDonorCount] = useState(0);
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(0);
@@ -94,6 +98,8 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
+
+  const [goalCompletion, setGoalCompletion] = useState(new DecimalBigNumber("0"));
 
   const donationInfo = useSelector((state: State) => {
     return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
@@ -149,6 +155,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
         const correctUnitDonated = GetCorrectContractUnits(donatedAmount, giveAssetType, currentIndex);
 
         setTotalDonated(correctUnitDonated);
+        setTotalDonatedIsLoading(false);
       })
       .catch(e => console.log(e));
   }, [connected, networkId, isGiveModalOpen, donationInfo]);
@@ -168,6 +175,8 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
         break;
       }
     }
+
+    setDonationInfoIsLoading(false);
   }, [donationInfo, location.pathname]);
 
   const getUserDeposit = () => {
@@ -256,9 +265,8 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   };
 
   const renderGoalCompletion = (): JSX.Element => {
-    const goalCompletion = getGoalCompletion();
-    const hasDecimals = countDecimals(goalCompletion) !== 0;
-    const formattedGoalCompletion = hasDecimals ? goalCompletion : toInteger(goalCompletion);
+    // No point in displaying decimals in the progress bar
+    const formattedGoalCompletion = goalCompletion.toString(NO_DECIMALS_FORMAT);
 
     if (depositGoal === 0) return <></>;
 
@@ -305,7 +313,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                 <Icon name="sohm-yield" />
               </Grid>
               <Grid item className="metric">
-                {recipientInfoIsLoading ? <Skeleton /> : formattedTotalDonated}
+                {totalDonatedIsLoading ? <Skeleton /> : totalDonated.toString(DEFAULT_FORMAT)}
               </Grid>
             </Grid>
             <Grid item className="subtext">
@@ -321,9 +329,9 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                     <Icon name="sohm-yield-goal" />
                   </Grid>
                   <Grid item className="metric">
-                    {GetCorrectStaticUnits(depositGoal.toString(), giveAssetType, currentIndex).toString({
-                      decimals: 2,
-                    })}
+                    {GetCorrectStaticUnits(depositGoal.toString(), giveAssetType, currentIndex).toString(
+                      DEFAULT_FORMAT,
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -369,7 +377,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                     <Icon name="sohm-total" />
                   </Grid>
                   <Grid item className="metric">
-                    {recipientInfoIsLoading ? <Skeleton /> : <strong>{totalDebt.toString({ decimals: 2 })}</strong>}
+                    {recipientInfoIsLoading ? <Skeleton /> : <strong>{totalDebt.toString(DEFAULT_FORMAT)}</strong>}
                   </Grid>
                 </Grid>
               </Grid>
@@ -420,7 +428,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     eventSource: string,
     depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.eq(ZERO_DBN)) {
+    if (depositAmount.eq(ZERO_NUMBER)) {
       return dispatch(error(t`Please enter a value!`));
     }
 
@@ -476,7 +484,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.eq(ZERO_DBN)) return;
+    if (depositAmountDiff.eq(ZERO_NUMBER)) return;
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
@@ -656,7 +664,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
           giveAssetType={giveAssetType}
           changeAssetType={changeAssetType}
           project={project}
-          key={title}
+          key={"recipient-modal-" + title}
         />
       </>
     );
@@ -744,7 +752,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                             </Grid>
                             <Grid item>
                               <Typography className="metric">
-                                {!donationInfo[donationId] ? "0" : getUserDeposit().toString({ decimals: 2 })}
+                                {!donationInfo[donationId] ? "0" : getUserDeposit().toString({ format: true })}
                               </Typography>
                             </Grid>
                           </Grid>
@@ -762,7 +770,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                               </Grid>
                               <Grid item>
                                 <Typography className="metric">
-                                  {!donationInfo[donationId] ? "0" : getUserYieldSent().toString({ decimals: 2 })}
+                                  {!donationInfo[donationId] ? "0" : getUserYieldSent().toString(DEFAULT_FORMAT)}
                                 </Typography>
                               </Grid>
                             </Grid>
@@ -808,7 +816,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
           giveAssetType={giveAssetType}
           changeAssetType={changeAssetType}
           project={project}
-          key={title}
+          key={"recipient-modal-" + title}
         />
         {isUserDonating && donationInfo[donationId] ? (
           <ManageDonationModal

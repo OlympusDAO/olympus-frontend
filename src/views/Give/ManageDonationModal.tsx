@@ -5,7 +5,6 @@ import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
 import { DataRow, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "bignumber.js";
 import MarkdownIt from "markdown-it";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -49,8 +48,10 @@ type ManageModalProps = {
   recordType?: string;
 };
 
-BigNumber.config({ EXPONENTIAL_AT: [-10, 20] });
-const ZERO_DBN = new DecimalBigNumber("0");
+const DECIMAL_PLACES = 2;
+const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
+const DECIMAL_FORMAT = { decimals: DECIMAL_PLACES, format: true };
+const EXACT_FORMAT = { format: true };
 
 export function ManageDonationModal({
   isModalOpen,
@@ -70,8 +71,8 @@ export function ManageDonationModal({
 }: ManageModalProps) {
   const location = useLocation();
   const { provider, address, connected, networkId } = useWeb3Context();
-  const [totalDebt, setTotalDebt] = useState(ZERO_DBN);
-  const [totalDonated, setTotalDonated] = useState(ZERO_DBN);
+  const [totalDebt, setTotalDebt] = useState(ZERO_NUMBER);
+  const [, setTotalDonated] = useState(ZERO_NUMBER);
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
@@ -125,7 +126,7 @@ export function ManageDonationModal({
     }
   }, [isModalOpen]);
 
-  const _initialDepositAmount = ZERO_DBN;
+  const _initialDepositAmount = ZERO_NUMBER;
   const _initialWalletAddress = "";
   const _initialDepositAmountValid = false;
   const _initialDepositAmountValidError = "";
@@ -141,10 +142,7 @@ export function ManageDonationModal({
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(_initialDepositAmountValid);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState(_initialDepositAmountValidError);
 
-  const getInitialWalletAddress = () => {
-    return currentWalletAddress ? currentWalletAddress : _initialWalletAddress;
-  };
-  const [walletAddress] = useState(getInitialWalletAddress());
+  const [walletAddress] = useState(_initialWalletAddress);
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(_initialWalletAddressValid);
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
@@ -231,7 +229,7 @@ export function ManageDonationModal({
 
     if (!address) return false;
     if (hasPendingGiveTxn(pendingTransactions)) return false;
-    if (getDepositAmountDiff().eq(ZERO_DBN)) return false;
+    if (getDepositAmountDiff().eq(ZERO_NUMBER)) return false;
 
     return true;
   };
@@ -248,7 +246,7 @@ export function ManageDonationModal({
   };
 
   const getCurrentDepositAmount = (): DecimalBigNumber => {
-    if (!currentDepositAmount) return ZERO_DBN;
+    if (!currentDepositAmount) return ZERO_NUMBER;
 
     const correctUnitCurrDeposit = GetCorrectContractUnits(
       currentDepositAmount.toString(),
@@ -267,7 +265,7 @@ export function ManageDonationModal({
    * @returns BigNumber
    */
   const getMaximumDepositAmount = (): DecimalBigNumber => {
-    return getBalance().add(currentDepositAmount ? getCurrentDepositAmount() : ZERO_DBN);
+    return getBalance().add(currentDepositAmount ? getCurrentDepositAmount() : ZERO_NUMBER);
   };
 
   const getDepositAmountDiff = (): DecimalBigNumber => {
@@ -281,7 +279,7 @@ export function ManageDonationModal({
    * @returns
    */
   const getDepositAmount = (): DecimalBigNumber => {
-    if (!depositAmount) return ZERO_DBN;
+    if (!depositAmount) return ZERO_NUMBER;
 
     return depositAmount;
   };
@@ -292,22 +290,22 @@ export function ManageDonationModal({
   };
 
   const checkIsDepositAmountValid = (value: string) => {
-    const valueNumber = new BigNumber(value);
+    const valueNumber = new DecimalBigNumber(value);
     const balanceNumber = getBalance();
 
-    if (!value || value == "" || valueNumber.isEqualTo(0)) {
+    if (!value || value == "" || valueNumber.eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Please enter a value`);
       return;
     }
 
-    if (valueNumber.isLessThan(0)) {
+    if (valueNumber.lt(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Value must be positive`);
       return;
     }
 
-    if (balanceNumber.eq(ZERO_DBN)) {
+    if (balanceNumber.eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }
@@ -446,6 +444,7 @@ export function ManageDonationModal({
    * Elements to display project statistics, such as donation sOHM, yield and goal achievement.
    */
   const getProjectStats = () => {
+    // Has to have a default value of 1 because it is used in division
     const depositGoalNumber =
       project && currentIndex
         ? GetCorrectStaticUnits(project.depositGoal.toString(), giveAssetType, currentIndex)
@@ -457,9 +456,9 @@ export function ManageDonationModal({
           <Box>
             <Typography variant="h5" align="center">
               {project
-                ? GetCorrectStaticUnits(project.depositGoal.toString(), giveAssetType, currentIndex).toString({
-                    decimals: 2,
-                  })
+                ? GetCorrectStaticUnits(project.depositGoal.toString(), giveAssetType, currentIndex).toString(
+                    DECIMAL_FORMAT,
+                  )
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
@@ -470,7 +469,7 @@ export function ManageDonationModal({
         <Grid item xs={4}>
           <Box>
             <Typography variant="h5" align="center">
-              {project ? totalDebt.toString({ decimals: 2 }) : "N/A"}
+              {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
               {isSmallScreen ? `Total ${giveAssetType}` : `Total ${giveAssetType} Donated`}
@@ -481,7 +480,7 @@ export function ManageDonationModal({
           <Box>
             <Typography variant="h5" align="center">
               {project
-                ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString({ decimals: 2 }) + "%"
+                ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString(DECIMAL_FORMAT) + "%"
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
@@ -504,9 +503,9 @@ export function ManageDonationModal({
           <DataRow title={t`Recipient`} balance={getRecipientTitle()} />
           <DataRow
             title={t`Deposited`}
-            balance={`${GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex).toString({
-              decimals: 2,
-            })} ${giveAssetType}`}
+            balance={`${GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex).toString(
+              EXACT_FORMAT,
+            )} ${giveAssetType}`}
           />
           <DataRow title={t`Yield Sent`} balance={`${yieldSent} ${giveAssetType}`} />
         </Box>
@@ -616,12 +615,10 @@ export function ManageDonationModal({
                   id="amount-input"
                   type="number"
                   placeholder={t`Enter an amount`}
-                  value={getDepositAmount().eq(ZERO_DBN) ? null : getDepositAmount()}
+                  value={getDepositAmount().eq(ZERO_NUMBER)}
                   helperText={
                     isDepositAmountValid
-                      ? t`Your current deposit is ${getCurrentDepositAmount().toString({
-                          decimals: 2,
-                        })} ${giveAssetType}`
+                      ? t`Your current deposit is ${getCurrentDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`
                       : isDepositAmountValidError
                   }
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -629,7 +626,8 @@ export function ManageDonationModal({
                   error={!isDepositAmountValid}
                   startAdornment="sOHM"
                   endString={t`Max`}
-                  endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
+                  // This uses toFixed() as it is a specific value and not formatted
+                  endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString(EXACT_FORMAT))}
                 />
               </Grid>
             </Grid>
@@ -659,7 +657,7 @@ export function ManageDonationModal({
               <Trans>Current {giveAssetType} deposit</Trans>
             </Typography>
             <Typography variant="h6">
-              {getCurrentDepositAmount().toString({ decimals: 2 })} {giveAssetType}
+              {getCurrentDepositAmount().toString(EXACT_FORMAT)} {giveAssetType}
             </Typography>
           </Grid>
           {!isSmallScreen ? (
@@ -679,7 +677,7 @@ export function ManageDonationModal({
                   <Trans>New {giveAssetType} deposit</Trans>
                 </Typography>
                 <Typography variant="h6">
-                  {isWithdrawing ? 0 : getDepositAmount().toString({ decimals: 2 })} {giveAssetType}
+                  {isWithdrawing ? 0 : getDepositAmount().toString(EXACT_FORMAT)} {giveAssetType}
                 </Typography>
               </Grid>
             </Grid>
@@ -759,14 +757,6 @@ export function ManageDonationModal({
       </Grid>
     );
   };
-
-  // NOTE: the following warning is caused by the amount-input field:
-  // Warning: `value` prop on `%s` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.%s
-  // This is caused by this line (currently 423):
-  // value={getDepositAmount().isEqualTo(0) ? null : getDepositAmount()}
-  // If we set the value to an empty string instead of null, any decimal number that is entered will not be accepted
-  // This appears to be due to the following bug (which is still not resolved);
-  // https://github.com/facebook/react/issues/11877
 
   return (
     <Modal

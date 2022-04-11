@@ -127,7 +127,7 @@ describe("Redeem Yield", () => {
     expect(screen.getByText("Redeem Yield").closest("button")).toHaveAttribute("disabled");
   });
 
-  it("should show recipient info correctly", async () => {
+  it("should show redeemable balance as 100 sOHM", async () => {
     useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
     context.mockReturnValue(mockWeb3Context);
     const pending = jest.spyOn(Pending, "isPendingTxn");
@@ -137,7 +137,7 @@ describe("Redeem Yield", () => {
       ({ container } = render(<RedeemYield />, redeemingStore)); //eslint-disable-line
     });
     expect(container).toMatchSnapshot();
-    expect(screen.getByText("100 sOHM")).toBeInTheDocument();
+    expect(screen.getByTestId("redeemable-balance")).toHaveTextContent("100 sOHM");
     expect(screen.getAllByText("10 sOHM")[1]).toBeInTheDocument();
   });
 

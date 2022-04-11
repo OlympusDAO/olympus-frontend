@@ -30,6 +30,8 @@ type RedeemModalProps = {
   redeemableBalance: DecimalBigNumber;
 };
 
+const DECIMAL_PLACES = 2;
+
 export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeemableBalance }: RedeemModalProps) {
   const { address } = useWeb3Context();
   const pendingTransactions = useSelector((state: DonationInfoState) => {
@@ -41,6 +43,7 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
   const canSubmit = () => {
     if (!address) return false;
     if (isPendingTxn(pendingTransactions, "redeeming")) return false;
+    if (redeemableBalance.lt(new DecimalBigNumber("0"))) return false;
 
     return true;
   };
@@ -62,7 +65,9 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
                 <Typography variant="body1" className="modal-confirmation-title">
                   <Trans>Redeemable Yield</Trans>
                 </Typography>
-                <Typography variant="h6">{redeemableBalance.toString({ decimals: 2 })} sOHM</Typography>
+                <Typography variant="h6">
+                  {redeemableBalance.toString({ decimals: DECIMAL_PLACES, format: true })} sOHM
+                </Typography>
               </Grid>
               {!isSmallScreen ? (
                 <Grid item sm={4}>
@@ -95,7 +100,10 @@ export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeem
                 {txnButtonText(
                   pendingTransactions,
                   "redeeming",
-                  t`Confirm ${redeemableBalance.toString({ decimals: 2 })} sOHM`,
+                  t`Confirm ${redeemableBalance.toString({
+                    decimals: DECIMAL_PLACES,
+                    format: true,
+                  })} sOHM`,
                 )}
               </PrimaryButton>
             </Grid>

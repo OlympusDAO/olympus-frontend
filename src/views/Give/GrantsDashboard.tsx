@@ -25,7 +25,7 @@ type GrantsDashboardProps = {
   changeAssetType: (checked: boolean) => void;
 };
 
-const ZERO_DBN = new DecimalBigNumber("0");
+const ZERO_NUMBER = new DecimalBigNumber("0");
 
 export default function GrantsDashboard({ giveAssetType, changeAssetType }: GrantsDashboardProps) {
   const location = useLocation();
@@ -70,7 +70,7 @@ export default function GrantsDashboard({ giveAssetType, changeAssetType }: Gran
     eventSource: string,
     depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.eq(ZERO_DBN)) {
+    if (depositAmount.eq(ZERO_NUMBER)) {
       return dispatch(error(t`Please enter a value!`));
     }
 

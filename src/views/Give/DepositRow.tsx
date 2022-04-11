@@ -36,7 +36,8 @@ interface DepositRowProps {
   changeAssetType: (checked: boolean) => void;
 }
 
-const ZERO_DBN = new DecimalBigNumber("0");
+const ZERO_NUMBER = new DecimalBigNumber("0");
+const DECIMAL_PLACES = 2;
 
 export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType }: DepositRowProps) => {
   const location = useLocation();
@@ -84,7 +85,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.eq(ZERO_DBN)) return;
+    if (depositAmountDiff.eq(ZERO_NUMBER)) return;
 
     // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
     // Else use standard call
@@ -167,6 +168,8 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     setIsManageModalOpen(false);
   };
 
+  const depositNumber = new DecimalBigNumber(depositObject.deposit);
+
   return (
     <Grid container alignItems="center" spacing={2}>
       {!isSmallScreen && (
@@ -181,11 +184,13 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
       </Grid>
       {!isSmallScreen && (
         <Grid item xs={2} style={{ textAlign: "right" }}>
-          <Typography variant="body1">{getDeposit().toString({ decimals: 2 })} sOHM</Typography>
+          <Typography variant="body1">{getDeposit().toString({ format: true })} sOHM</Typography>
         </Grid>
       )}
       <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
-        <Typography variant="body1">{getYieldDonated().toString({ decimals: 2 })} sOHM</Typography>
+        <Typography variant="body1">
+          {getYieldDonated().toString({ decimals: DECIMAL_PLACES, format: true })} sOHM
+        </Typography>
       </Grid>
       <Grid item xs={4} sm={3} style={{ textAlign: "right" }}>
         <SecondaryButton onClick={() => setIsManageModalOpen(true)} size="small" fullWidth>
