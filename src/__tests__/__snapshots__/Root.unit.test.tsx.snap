@@ -1554,8 +1554,10 @@ exports[`<Root/> should render component 1`] = `
                       class="MuiTypography-root-275 MuiTypography-body1-277"
                       style="line-height: 1.4;"
                     >
-                      0
-                      %
+                      <span
+                        class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
+                        style="width: 80px;"
+                      />
                     </p>
                   </td>
                   <td
@@ -1749,8 +1751,10 @@ exports[`<Root/> should render component 1`] = `
                       class="MuiTypography-root-275 MuiTypography-body1-277"
                       style="line-height: 1.4;"
                     >
-                      0
-                      %
+                      <span
+                        class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
+                        style="width: 80px;"
+                      />
                     </p>
                   </td>
                   <td
@@ -1918,8 +1922,10 @@ exports[`<Root/> should render component 1`] = `
                       class="MuiTypography-root-275 MuiTypography-body1-277"
                       style="line-height: 1.4;"
                     >
-                      0
-                      %
+                      <span
+                        class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
+                        style="width: 80px;"
+                      />
                     </p>
                   </td>
                   <td
@@ -2151,8 +2157,10 @@ exports[`<Root/> should render component 1`] = `
                       class="MuiTypography-root-275 MuiTypography-body1-277"
                       style="line-height: 1.4;"
                     >
-                      0
-                      %
+                      <span
+                        class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
+                        style="width: 80px;"
+                      />
                     </p>
                   </td>
                   <td
@@ -2384,8 +2392,10 @@ exports[`<Root/> should render component 1`] = `
                       class="MuiTypography-root-275 MuiTypography-body1-277"
                       style="line-height: 1.4;"
                     >
-                      0
-                      %
+                      <span
+                        class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
+                        style="width: 80px;"
+                      />
                     </p>
                   </td>
                   <td
@@ -2589,8 +2599,10 @@ exports[`<Root/> should render component 1`] = `
                       class="MuiTypography-root-275 MuiTypography-body1-277"
                       style="line-height: 1.4;"
                     >
-                      0
-                      %
+                      <span
+                        class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
+                        style="width: 80px;"
+                      />
                     </p>
                   </td>
                   <td
@@ -3166,8 +3178,10 @@ exports[`<Root/> should render component 1`] = `
                       class="MuiTypography-root-275 MuiTypography-body1-277"
                       style="line-height: 1.4;"
                     >
-                      0
-                      %
+                      <span
+                        class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
+                        style="width: 80px;"
+                      />
                     </p>
                   </td>
                   <td

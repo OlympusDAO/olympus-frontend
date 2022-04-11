@@ -136,7 +136,7 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
       </TableCell>
       <TableCell>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!props.apy ? 0 : formatNumber(props.apy * 100, 2)}%
+          {!props.apy ? <Skeleton width={80} /> : `${formatNumber(props.apy * 100, 2)}%`}
         </Typography>
       </TableCell>
       <TableCell>
@@ -183,7 +183,7 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
       <DataRow
         title={`APY`}
         isLoading={!props.apy}
-        balance={props.apy ? `${formatNumber(props.apy * 100, 2)} %` : "0"}
+        balance={props.apy ? `${formatNumber(props.apy * 100, 2)} %` : undefined}
       />
 
       {connected && (
