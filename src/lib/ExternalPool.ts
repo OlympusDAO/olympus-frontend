@@ -14,7 +14,7 @@ export class ExternalPool {
   readonly masterchef: string;
   readonly networkID: NetworkId;
   readonly rewarder: string;
-  readonly poolId: number;
+  readonly poolId: number | string;
   readonly rewardGecko: string;
   readonly vault: string;
 
@@ -45,7 +45,7 @@ export interface StakePoolOpts {
   masterchef: string;
   networkID: NetworkId;
   rewarder: string;
-  poolId: number;
+  poolId: number | string;
   rewardGecko: string;
   vault?: string;
 }
