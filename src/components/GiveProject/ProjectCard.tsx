@@ -235,12 +235,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               title={
                 !address
                   ? t`Connect your wallet to view the fundraising progress`
-                  : `${totalDonated} of ${depositGoal} sOHM raised`
+                  : `${totalDebt} of ${depositGoal} sOHM raised`
               }
               arrow
             >
               <Typography variant="body1">
-                <strong>{!totalDebt ? <Skeleton width={20} /> : formattedGoalCompletion}</strong>
+                <strong>{!totalDonatedIsLoading ? <Skeleton width={20} /> : formattedGoalCompletion}</strong>
                 <Trans>% of goal</Trans>
               </Typography>
             </Tooltip>
