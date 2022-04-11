@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import * as GiveInfo from "src/hooks/useGiveInfo";
 import * as useWeb3Context from "src/hooks/web3Context";
 import accountReducer from "src/slices/AccountSlice";
 import appReducer from "src/slices/AppSlice";
@@ -126,6 +127,9 @@ describe("Redeem Yield", () => {
     context.mockReturnValue(mockWeb3Context);
     const pending = jest.spyOn(Pending, "isPendingTxn");
     pending.mockReturnValue(true);
+    const redeemable = jest.spyOn(GiveInfo, "useRedeemableBalance");
+    redeemable.mockReturnValue({ data: "100" });
+
     let container;
     await act(async () => {
       ({ container } = render(<RedeemYield />, redeemingStore)); //eslint-disable-line
@@ -136,6 +140,9 @@ describe("Redeem Yield", () => {
 
   it("should show extra content if project wallet", async () => {
     context.mockReturnValue({ ...mockWeb3Context, address: "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c" });
+    const redeemable = jest.spyOn(GiveInfo, "useRedeemableBalance");
+    redeemable.mockReturnValue({ data: "100" });
+
     let container;
     await act(async () => {
       ({ container } = render(<RedeemYield />, redeemingStore)); //eslint-disable-line
