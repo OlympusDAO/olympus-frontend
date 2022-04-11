@@ -6,11 +6,14 @@ import { IERC20__factory, PairContract__factory } from "src/typechain";
 
 import {
   DAI_ADDRESSES,
+  FRAX_ADDRESSES,
   LUSD_ADDRESSES,
   OHM_ADDRESSES,
   OHM_DAI_LP_ADDRESSES,
   OHM_LUSD_LP_ADDRESSES,
   OHM_WETH_LP_ADDRESSES,
+  UST_ADDRESSES,
+  WBTC_ADDRESSES,
   WETH_ADDRESSES,
 } from "./addresses";
 
@@ -110,4 +113,31 @@ export const OHM_DAI_LP_TOKEN = new LPToken({
   addresses: OHM_DAI_LP_ADDRESSES,
   purchaseUrl:
     "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x6b175474e89094c44da98b954eedeac495271d0f",
+});
+
+export const UST_TOKEN = new Token({
+  icons: ["UST"],
+  name: "UST",
+  decimals: 6,
+  addresses: UST_ADDRESSES,
+  factory: IERC20__factory,
+  purchaseUrl: "",
+});
+
+export const FRAX_TOKEN = new Token({
+  icons: ["FRAX"],
+  name: "FRAX",
+  decimals: 18,
+  addresses: FRAX_ADDRESSES,
+  factory: IERC20__factory,
+  purchaseUrl: "",
+});
+
+export const WBTC_TOKEN = new Token({
+  icons: ["wBTC"],
+  name: "WBTC",
+  decimals: 8,
+  addresses: WBTC_ADDRESSES,
+  factory: IERC20__factory,
+  purchaseUrl: "",
 });
