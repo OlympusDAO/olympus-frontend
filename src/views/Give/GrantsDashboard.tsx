@@ -3,13 +3,11 @@ import "./Give.scss";
 import { t, Trans } from "@lingui/macro";
 import { Container, Grid, Typography, Zoom } from "@material-ui/core";
 import { useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { useUIDSeed } from "react-uid";
 import GrantCard, { GrantDetailsMode } from "src/components/GiveProject/GrantCard";
 import { Grant } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useAppDispatch } from "src/hooks";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
@@ -18,8 +16,6 @@ import data from "./grants.json";
 import { useGive } from "./hooks/useGive";
 
 export default function GrantsDashboard() {
-  const location = useLocation();
-  const { provider, address, networkId } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const grants: Grant[] = data.grants;
 
