@@ -3332,8 +3332,10 @@ exports[`<App/> should not render a connection error message when user wallet is
                       class="MuiTypography-root MuiTypography-body1"
                       style="line-height: 1.4;"
                     >
-                      0
-                      %
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        style="width: 80px;"
+                      />
                     </p>
                   </td>
                   <td
@@ -6721,8 +6723,10 @@ exports[`<App/> should not render an error message when user wallet is connected
                       class="MuiTypography-root MuiTypography-body1"
                       style="line-height: 1.4;"
                     >
-                      0
-                      %
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        style="width: 80px;"
+                      />
                     </p>
                   </td>
                   <td
@@ -10110,8 +10114,10 @@ exports[`<App/> should render an error message when user wallet is connected and
                       class="MuiTypography-root MuiTypography-body1"
                       style="line-height: 1.4;"
                     >
-                      0
-                      %
+                      <span
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        style="width: 80px;"
+                      />
                     </p>
                   </td>
                   <td
