@@ -30,6 +30,21 @@ export const beets_ftm_gohm_wFTM = new ExternalPool({
   networkID: NetworkId.FANTOM,
 });
 
+export const balancer_ohm_dai_weth = new ExternalPool({
+  poolName: "OHM-DAI-wETH",
+  icons: ["OHM", "DAI", "wETH"],
+  stakeOn: "Balancer",
+  pairGecko: "ethereum",
+  rewardGecko: "gOHM",
+  href: "https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e",
+  address: "0xc45D42f801105e861e86658648e3678aD7aa70f9",
+  masterchef: "0xc45D42f801105e861e86658648e3678aD7aa70f9", //not currenly incentivized
+  rewarder: "", //not currenly incentivized
+  vault: "0xba12222222228d8ba445958a75a0704d566bf2c8",
+  poolId: "0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e",
+  networkID: NetworkId.MAINNET,
+});
+
 export const sushi_arb_gohm_weth = new ExternalPool({
   poolName: "gOHM-wETH",
   icons: ["wsOHM", "wETH"],
@@ -86,10 +101,26 @@ export const zip_gohm_weth = new ExternalPool({
   networkID: NetworkId.OPTIMISM,
 });
 
+export const jones_gohm_jgohm = new ExternalPool({
+  poolName: "jgOHM-gOHM",
+  icons: ["jgOHM", "gOHM"],
+  stakeOn: "Jones DAO",
+  pairGecko: "governance-ohm",
+  rewardGecko: "jones-dao",
+  href: "https://jonesdao.io/farms",
+  address: "0x292d1587a6Bb37E34574c9AD5993F221D8a5616C",
+  masterchef: "0x7eCe38dBE9D61D0d9Bf2D804A87A7d21b5937a56",
+  rewarder: "",
+  poolId: 0,
+  networkID: NetworkId.ARBITRUM,
+});
+
 export const allPools = [tj_gohm_wavax, sushi_arb_gohm_weth, sushi_poly_gohm_weth, spirit_gohm_ftm];
 export const sushiPools = [sushi_arb_gohm_weth, sushi_poly_gohm_weth];
 export const spiritPools = [spirit_gohm_ftm];
 export const joePools = [tj_gohm_wavax];
 export const beetsPools = [beets_ftm_gohm_wFTM];
 export const zipPools = [zip_gohm_weth];
+export const jonesPools = [jones_gohm_jgohm];
+export const balancerPools = [balancer_ohm_dai_weth];
 export default allPools;

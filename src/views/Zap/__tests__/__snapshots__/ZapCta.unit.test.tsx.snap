@@ -107,7 +107,7 @@ exports[`<ZapCta/> should render component 1`] = `
       >
         <a
           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-          href="/#/zap"
+          href="/zap"
         >
           <div
             aria-disabled="false"

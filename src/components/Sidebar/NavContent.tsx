@@ -31,6 +31,7 @@ import useBonds from "../../hooks/useBonds";
 import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
 import externalUrls from "./externalUrls";
 import Social from "./Social";
+import { trim } from "src/helpers";
 
 type NavContentProps = {
   handleDrawerToggle?: () => void;
@@ -82,83 +83,73 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
               {networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY ? (
                 <>
                   <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
-                  <NavItem to="/bonds" icon="bond" label={t`Bond`} />
-                  <div className="dapp-menu-data discounts">
-                    <div className="bond-discounts">
-                      {sortedBonds.length > 0 && (
-                        <Accordion className="discounts-accordion" square defaultExpanded={true}>
-                          <AccordionSummary
-                            expandIcon={
-                              <ExpandMore className="discounts-expand" style={{ width: "18px", height: "18px" }} />
-                            }
-                          >
-                            <Typography variant="body2">
-                              <Trans>Highest Discount</Trans>
-                            </Typography>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            {sortedBonds.map((bond, i) => {
-                              return (
-                                <Link
-                                  component={NavLink}
-                                  to={`/bonds/${bond.index}`}
-                                  key={i}
-                                  className={"bond"}
-                                  onClick={handleDrawerToggle}
-                                >
-                                  <Typography variant="body2">
-                                    {bond.displayName}
-                                    <span className="bond-pair-roi">
-                                      <DisplayBondDiscount key={bond.index} bond={bond} />
-                                    </span>
-                                  </Typography>
-                                </Link>
-                              );
-                            })}
-                          </AccordionDetails>
-                        </Accordion>
-                      )}
-                      {sortedInverseBonds.length > 0 && (
-                        <Accordion className="discounts-accordion" square defaultExpanded={true}>
-                          <AccordionSummary
-                            expandIcon={
-                              <ExpandMore className="discounts-expand" style={{ width: "18px", height: "18px" }} />
-                            }
-                          >
-                            <Typography variant="body2">
-                              <Trans>Inverse Bonds</Trans>
-                            </Typography>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            {sortedInverseBonds.map((bond, i) => {
-                              return (
-                                <Link
-                                  component={NavLink}
-                                  to={`/bonds/inverse/${bond.index}`}
-                                  key={i}
-                                  className={"bond"}
-                                  onClick={handleDrawerToggle}
-                                >
-                                  <Typography variant="body2">
-                                    {bond.displayName}
-                                    <span className="bond-pair-roi">
-                                      <DisplayBondDiscount key={bond.index} bond={bond} />
-                                    </span>
-                                  </Typography>
-                                </Link>
-                              );
-                            })}
-                          </AccordionDetails>
-                        </Accordion>
-                      )}
-                    </div>
-                  </div>
+                  <NavItem to="/bonds" icon="bond" label={t`Bond`}>
+                    {sortedBonds.length > 0 || sortedInverseBonds.length > 0 ? (
+                      <Box mr="12px" mb="5px">
+                        <div className="bond-discounts">
+                          {sortedBonds.length > 0 && (
+                            <>
+                              {sortedBonds.map((bond, i) => {
+                                return (
+                                  <Link
+                                    component={NavLink}
+                                    to={`/bonds/${bond.index}`}
+                                    key={i}
+                                    className={"bond"}
+                                    onClick={handleDrawerToggle}
+                                  >
+                                    <Typography variant="body1">
+                                      <Box display="flex" flexDirection="row" justifyContent="space-between">
+                                        <span>{bond.displayName}</span>
+                                        <span className="bond-pair-roi">
+                                          <DisplayBondDiscount key={bond.index} bond={bond} />
+                                        </span>
+                                      </Box>
+                                    </Typography>
+                                  </Link>
+                                );
+                              })}
+                            </>
+                          )}
+                          {sortedInverseBonds.length > 0 && (
+                            <Box mt="15px">
+                              <Typography variant="body2">
+                                <Trans>Inverse Bonds</Trans>
+                              </Typography>
+                              {sortedInverseBonds.map((bond, i) => {
+                                return (
+                                  <Link
+                                    component={NavLink}
+                                    to={`/bonds/inverse/${bond.index}`}
+                                    key={i}
+                                    className={"bond"}
+                                    onClick={handleDrawerToggle}
+                                  >
+                                    <Typography variant="body1">
+                                      <Box display="flex" flexDirection="row" justifyContent="space-between">
+                                        {bond.displayName}
+                                        <span className="bond-pair-roi">
+                                          <DisplayBondDiscount key={bond.index} bond={bond} />
+                                        </span>
+                                      </Box>
+                                    </Typography>
+                                  </Link>
+                                );
+                              })}
+                            </Box>
+                          )}
+                        </div>
+                      </Box>
+                    ) : (
+                      <></>
+                    )}
+                  </NavItem>
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
 
                   {/* NOTE (appleseed-olyzaps): OlyZaps disabled until v2 contracts */}
                   <NavItem to="/zap" icon="zap" label={t`Zap`} />
 
-                  {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} chip={t`New`} />}
+                  {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} />}
                   <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
                   <NavItem
                     href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}

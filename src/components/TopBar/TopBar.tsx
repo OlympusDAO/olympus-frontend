@@ -2,10 +2,10 @@ import "./TopBar.scss";
 
 import { i18n } from "@lingui/core";
 import { t } from "@lingui/macro";
-import { AppBar, Box, Button, SvgIcon, Toolbar, Typography, useTheme } from "@material-ui/core";
+import { AppBar, Box, Button, SvgIcon, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { LocaleSwitcher } from "@olympusdao/component-library";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { useWeb3Context } from "src/hooks";
 
@@ -42,15 +42,8 @@ interface TopBarProps {
 function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
   const { connected } = useWeb3Context();
   const classes = useStyles();
-  const WalletButton = (props: any) => {
-    const theme = useTheme();
-    return (
-      <Button id="ohm-menu-button" variant="contained" color="secondary" {...props}>
-        <SvgIcon component={WalletIcon} style={{ marginRight: theme.spacing(1) }} />
-        <Typography>{connected ? t`Wallet` : t`Connect`}</Typography>
-      </Button>
-    );
-  };
+  const location = useLocation();
+
   return (
     <AppBar position="sticky" className={classes.appBar} elevation={0}>
       <Toolbar disableGutters className="dapp-topbar">
@@ -65,8 +58,13 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
         >
           <SvgIcon component={MenuIcon} />
         </Button>
-        <Box display="flex">
-          <Link to="/wallet" component={WalletButton} />
+        <Box display="flex" alignItems="center">
+          <Link to={{ pathname: "/wallet", state: { prevPath: location.pathname } }} style={{ marginRight: "0px" }}>
+            <Button variant="contained" color="secondary">
+              <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
+              <Typography>{connected ? t`Wallet` : t`Connect`}</Typography>
+            </Button>
+          </Link>
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
           <LocaleSwitcher
             initialLocale={i18n.locale}

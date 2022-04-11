@@ -1,19 +1,18 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Typography, Zoom } from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { TertiaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "bignumber.js";
+import { Container, Grid, Typography, Zoom } from "@material-ui/core";
+import { Paper, TertiaryButton } from "@olympusdao/component-library";
 import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useUIDSeed } from "react-uid";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
 import { NetworkId } from "src/constants";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { ACTION_GIVE, changeGive, changeMockGive, isSupportedChain } from "src/slices/GiveThunk";
+import { ACTION_GIVE, changeGive, changeMockGive } from "src/slices/GiveThunk";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
@@ -24,8 +23,6 @@ export default function CausesDashboard() {
   const location = useLocation();
   const { provider, address, networkId } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
-  const isMediumScreen = useMediaQuery("(max-width: 980px)") && !isSmallScreen;
   const { projects } = data;
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
@@ -35,7 +32,13 @@ export default function CausesDashboard() {
 
   const renderProjects = useMemo(() => {
     return projects.map(project => {
-      return <ProjectCard key={seed(project.title)} project={project} mode={ProjectDetailsMode.Card} />;
+      return (
+        <>
+          <Grid item xs={12}>
+            <ProjectCard key={seed(project.title)} project={project} mode={ProjectDetailsMode.Card} />
+          </Grid>
+        </>
+      );
     });
   }, [projects]);
 
@@ -46,9 +49,9 @@ export default function CausesDashboard() {
   const handleCustomGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
     eventSource: string,
-    depositAmount: BigNumber,
+    depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.isEqualTo(new BigNumber(0))) {
+    if (depositAmount.eq(new DecimalBigNumber("0"))) {
       return dispatch(error(t`Please enter a value!`));
     }
 
@@ -58,7 +61,7 @@ export default function CausesDashboard() {
       await dispatch(
         changeMockGive({
           action: ACTION_GIVE,
-          value: depositAmount.toFixed(),
+          value: depositAmount.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -72,7 +75,7 @@ export default function CausesDashboard() {
       await dispatch(
         changeGive({
           action: ACTION_GIVE,
-          value: depositAmount.toFixed(),
+          value: depositAmount.toString(),
           recipient: walletAddress,
           provider,
           address,
@@ -91,55 +94,40 @@ export default function CausesDashboard() {
     setIsCustomGiveModalOpen(false);
   };
 
-  // TODO shift the custom-recipient div back to Paper
-  // https://github.com/OlympusDAO/component-library/issues/111
   return (
-    <div
-      id="give-view"
-      className={`${isMediumScreen ? "medium" : ""}
-      ${isSmallScreen ? "smaller" : ""}}`}
-    >
-      <Zoom in={true}>
-        <Box className={`ohm-card secondary causes-container`}>
-          {!isSupportedChain(networkId) ? (
-            <Typography variant="h6">
-              Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
-              functionality.
-            </Typography>
-          ) : (
-            <></>
-          )}
-          <div className="causes-body">
-            <Box className="data-grid">{renderProjects}</Box>
-          </div>
-          <div className={isSmallScreen ? "custom-recipient smaller" : "custom-recipient"}>
-            <Typography variant="h4" align="center" className="custom-recipient-headline">
-              Want to give to a different cause?
-            </Typography>
-            <Typography
-              variant="body1"
-              align="center"
-              className="custom-recipient-body"
-              style={{ marginBottom: "30px" }}
-            >
-              You can direct your yield to a recipient of your choice
-            </Typography>
-            <TertiaryButton
-              className="custom-give-button"
-              onClick={() => handleCustomGiveButtonClick()}
-              disabled={!address}
-            >
-              <Trans>Custom Recipient</Trans>
-            </TertiaryButton>
-          </div>
-          <RecipientModal
-            isModalOpen={isCustomGiveModalOpen}
-            eventSource="Custom Recipient Button"
-            callbackFunc={handleCustomGiveModalSubmit}
-            cancelFunc={handleCustomGiveModalCancel}
-          />
-        </Box>
-      </Zoom>
-    </div>
+    <Zoom in={true}>
+      <Container>
+        <Grid container justifyContent="center" alignItems="center" spacing={4}>
+          {renderProjects}
+          <Grid item xs={12}>
+            <Paper fullWidth>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant="h4" align="center">
+                    <Trans>Want to give to a different cause?</Trans>
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body1" align="center">
+                    <Trans>You can direct your yield to a recipient of your choice</Trans>
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} container justifyContent="center">
+                  <TertiaryButton onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
+                    <Trans>Custom Recipient</Trans>
+                  </TertiaryButton>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+        </Grid>
+        <RecipientModal
+          isModalOpen={isCustomGiveModalOpen}
+          eventSource="Custom Recipient Button"
+          callbackFunc={handleCustomGiveModalSubmit}
+          cancelFunc={handleCustomGiveModalCancel}
+        />
+      </Container>
+    </Zoom>
   );
 }

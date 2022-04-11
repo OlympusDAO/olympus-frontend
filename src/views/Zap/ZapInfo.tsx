@@ -56,7 +56,7 @@ type ZapInfoProps = {
   address: string;
 };
 
-const ZapInfo: React.FC<ZapInfoProps> = ({ tokens, address }) => {
+const ZapInfo: React.FC<ZapInfoProps> = ({ address }) => {
   const classes = useStyles();
 
   const trackClick = (address: string) => {

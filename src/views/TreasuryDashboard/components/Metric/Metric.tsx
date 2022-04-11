@@ -34,7 +34,21 @@ export const OHMPrice: React.FC<AbstractedMetricProps> = props => {
 
   const _props: MetricProps = {
     ...props,
-    label: t`OHM Price`,
+    label: "OHM " + t`Price`,
+  };
+
+  if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
+  else _props.isLoading = true;
+
+  return <Metric {..._props} />;
+};
+
+export const SOHMPrice: React.FC<AbstractedMetricProps> = props => {
+  const { data: ohmPrice } = useOhmPrice();
+
+  const _props: MetricProps = {
+    ...props,
+    label: "sOHM " + t`Price`,
   };
 
   if (ohmPrice) _props.metric = formatCurrency(ohmPrice, 2);
@@ -84,7 +98,7 @@ export const CurrentIndex: React.FC<AbstractedMetricProps> = props => {
     tooltip: t`The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held 1 OHM from launch.`,
   };
 
-  if (currentIndex) _props.metric = `${currentIndex.toFormattedString(2)} sOHM`;
+  if (currentIndex) _props.metric = `${currentIndex.toString({ decimals: 2, trim: false, format: true })} sOHM`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;
@@ -95,9 +109,9 @@ export const GOHMPrice: React.FC<AbstractedMetricProps> = props => {
 
   const _props: MetricProps = {
     ...props,
-    label: t`gOHM Price`,
+    label: "gOHM " + t`Price`,
     tooltip:
-      t`gOHM = sOHM * index` +
+      "gOHM = sOHM * index" +
       "\n\n" +
       t`The price of gOHM is equal to the price of OHM multiplied by the current index`,
   };

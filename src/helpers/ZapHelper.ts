@@ -1,6 +1,6 @@
 import { BigNumber } from "ethers";
 
-import { addresses, NetworkId } from "../constants";
+import { addresses } from "../constants";
 
 interface ZapperResponse {
   [key: string]: ZapperAddress;
@@ -95,7 +95,6 @@ export class ZapHelper {
     sellAmount: BigNumber,
     tokenAddress: string,
     slippageDecimal: number,
-    networkId: NetworkId,
   ): Promise<ZapTransactionResponse> => {
     tokenAddress = tokenAddress.toLowerCase();
     const apiKey = ZapHelper.getZapperAPIKey();

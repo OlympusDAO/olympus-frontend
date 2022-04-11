@@ -1,47 +1,54 @@
 import { OHMTokenStackProps } from "@olympusdao/component-library";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
+import { OHM_ADDRESSES } from "src/constants/addresses";
 
 import { NetworkId } from "../networkDetails";
-import { GUniV3Lp__factory, IERC20__factory, UniswapV2Lp, UniswapV2Lp__factory } from "../typechain";
+import {
+  BalancerV2Pool,
+  BalancerV2Pool__factory,
+  BalancerVault__factory,
+  CurveETHSwapPool,
+  CurveETHSwapPool__factory,
+  CurveFactory__factory,
+  GUniV3Lp,
+  GUniV3Lp__factory,
+  IERC20__factory,
+  UniswapV2Lp,
+  UniswapV2Lp__factory,
+} from "../typechain";
 import { getTokenByContract, getTokenPrice } from "./";
-
-// const pricingFunctionHelper = async (provider: ethers.providers.JsonRpcProvider, quoteToken: string) => {
-//   const baseContract = UniswapV2Lp__factory.connect(quoteToken, provider);
-//   // need
-//   const reserves = await baseContract.getReserves();
-//   const totalSupply = +(await baseContract.totalSupply()) / Math.pow(10, await baseContract.decimals());
-
-//   const token0Address = await baseContract.token0();
-//   const token0Contract = IERC20__factory.connect(token0Address, provider);
-//   const token0Decimals = await token0Contract.decimals();
-//   const token0Amount = +reserves._reserve0 / Math.pow(10, token0Decimals);
-//   const token0TotalValue = (await getTokenByContract(token0Address)) * token0Amount;
-
-//   const token1Address = await baseContract.token1();
-//   const token1Contract = IERC20__factory.connect(token1Address, provider);
-//   const token1Decimals = await token1Contract.decimals();
-//   const token1Amount = +reserves._reserve1 / Math.pow(10, token1Decimals);
-//   const token1TotalValue = (await getTokenByContract(token1Address)) * token1Amount;
-
-//   const totalValue = token0TotalValue + token1TotalValue;
-//   const valuePerLpToken = totalValue / totalSupply;
-
-//   return valuePerLpToken;
-// };
 
 export interface V2BondDetails {
   name: string;
   bondIconSvg: OHMTokenStackProps["tokens"];
-  pricingFunction(): Promise<number>;
+  pricingFunction(): Promise<number> | number;
   isLP: boolean;
   lpUrl: string;
 }
+interface BalancerPool {
+  type: "balancer";
+  instance: BalancerV2Pool;
+}
+interface UniswapV2Pool {
+  type: "uniswapV2";
+  instance: UniswapV2Lp;
+}
+interface UniswapV3Pool {
+  type: "uniswapV3";
+  instance: GUniV3Lp;
+}
+interface CurveSwapPool {
+  type: "curveSwap";
+  instance: CurveETHSwapPool;
+}
+
+type SupportedPools = BalancerPool | UniswapV2Pool | UniswapV3Pool | CurveSwapPool;
 
 const OhmDetails: V2BondDetails = {
   name: "OHM",
   bondIconSvg: ["OHM"],
   pricingFunction: async () => {
-    return getTokenByContract("0x383518188c0c6d7730d91b2c03a03c837814a899");
+    return getTokenByContract(OHM_ADDRESSES[NetworkId.MAINNET]);
   },
   isLP: false,
   lpUrl: "",
@@ -147,48 +154,6 @@ const WbtcDetails: V2BondDetails = {
   lpUrl: "",
 };
 
-// const OhmDaiDetails: V2BondDetails = {
-//   name: "OHM-DAI LP",
-//   bondIconSvg: ["OHM", "DAI"],
-//   async pricingFunction(provider, quoteToken) {
-//     return pricingFunctionHelper(provider, quoteToken);
-//   },
-//   isLP: true,
-//   lpUrl: {
-//     [NetworkId.TESTNET_RINKEBY]:
-//       "https://app.sushi.com/add/0x5eD8BD53B0c3fa3dEaBd345430B1A3a6A4e8BD7C/0x1e630a578967968eb02EF182a50931307efDa7CF",
-//     [NetworkId.MAINNET]:
-//       "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x6b175474e89094c44da98b954eedeac495271d0f",
-//   },
-// };
-
-// const OhmV1LusdDetails: V2BondDetails = {
-//   name: "OHMv1-LUSD LP",
-//   bondIconSvg: ["OHM", "LUSD"],
-//   async pricingFunction(provider, quoteToken) {
-//     return pricingFunctionHelper(provider, quoteToken);
-//   },
-//   isLP: true,
-//   lpUrl: {
-//     [NetworkId.TESTNET_RINKEBY]: "",
-//     [NetworkId.MAINNET]:
-//       "https://app.sushi.com/add/0x383518188C0C6d7730D91b2c03a03C837814a899/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
-//   },
-// };
-
-// const OhmEthDetails: V2BondDetails = {
-//   name: "OHM-ETH LP",
-//   bondIconSvg: ["OHM", "wETH"],
-//   async pricingFunction(provider, quoteToken) {
-//     return pricingFunctionHelper(provider, quoteToken);
-//   },
-//   isLP: true,
-//   lpUrl: {
-//     [NetworkId.MAINNET]:
-//       "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-//   },
-// };
-
 export const UnknownDetails: V2BondDetails = {
   name: "unknown",
   bondIconSvg: ["OHM"],
@@ -206,6 +171,7 @@ export const singleSidedBondDetails: { [key: number]: { [key: string]: V2BondDet
   [NetworkId.TESTNET_RINKEBY]: {
     ["0xc0b491dabf3709ee5eb79e603d73289ca6060932"]: OhmDetails,
     ["0xd7b98050962ec7cc8d11a83446b3217257c754b7"]: OhmDetails,
+    // ["0x14cD61F5d13a4E175F032B252f197B65B9c8E6dc"]: OhmDetails,
     ["0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c"]: DaiDetails,
     ["0x5ed8bd53b0c3fa3deabd345430b1a3a6a4e8bd7c"]: DaiDetails,
     ["0xbc9ee0d911739cbc72cd094ada26f56e0c49eeae"]: DaiDetails,
@@ -245,14 +211,12 @@ export const singleSidedBondDetails: { [key: number]: { [key: string]: V2BondDet
 export class V2BondParser {
   assetAddress: string;
   networkId: NetworkId;
-  baseContract: UniswapV2Lp;
   provider: ethers.providers.JsonRpcProvider;
 
   constructor(assetAddress: string, networkId: NetworkId, provider: ethers.providers.JsonRpcProvider) {
     this.assetAddress = assetAddress;
     this.networkId = networkId;
     this.provider = provider;
-    this.baseContract = UniswapV2Lp__factory.connect(this.assetAddress, this.provider);
   }
 
   /**
@@ -264,100 +228,96 @@ export class V2BondParser {
   async details() {
     if (singleSidedBondDetails[this.networkId] && singleSidedBondDetails[this.networkId][this.assetAddress]) {
       return singleSidedBondDetails[this.networkId][this.assetAddress];
-    } else if (await this.isLP()) {
-      console.log("in isLP if");
-      return this._lpDetails();
     } else {
-      // return DAI as default
-      return singleSidedBondDetails[NetworkId.MAINNET]["0x6b175474e89094c44da98b954eedeac495271d0f"];
+      const lp = await this.isLP();
+      if (lp) {
+        return await this._lpDetails(lp);
+      } else {
+        // return DAI as default
+        return singleSidedBondDetails[NetworkId.MAINNET]["0x6b175474e89094c44da98b954eedeac495271d0f"];
+      }
     }
-    return UnknownDetails;
   }
 
   /**
    * combine singleAssetDetails into an LP detail
    */
-  async _lpDetails() {
-    const token0 = await this.baseContract.token0();
-    const token1 = await this.baseContract.token1();
 
-    if (!token0 || !token1) {
-      return UnknownDetails;
-    }
-    console.log("tokens", token0.toLowerCase(), token1.toLowerCase());
-    const token0Details: V2BondDetails = singleSidedBondDetails[this.networkId][token0.toLowerCase()];
-    const token1Details: V2BondDetails = singleSidedBondDetails[this.networkId][token1.toLowerCase()];
-    console.log("tokens", token0Details, token1Details);
-    const name = token0Details.name.concat("-", token1Details.name, " LP");
+  /**
+   * Passes in a LP Contract and returns the appropriate details
+   * @param contract
+   * @returns {V2BondDetails} `V2BondDetails`
+   */
+  async _lpDetails(contract: SupportedPools) {
+    let tokens: string[];
+    let reserves: BigNumber[];
+    let useBondIcons: OHMTokenStackProps["tokens"];
+    let name: string;
+    let totalSupply: number;
+    let totalValue: number;
+    let poolId: string;
+    let lpUrl: string;
 
-    let useBondIcons = UnknownDetails.bondIconSvg;
-    if (token0Details.bondIconSvg && token1Details.bondIconSvg) {
-      const token0Icon = token0Details.bondIconSvg[0];
-      const token1Icon = token1Details.bondIconSvg[0];
-      useBondIcons = [token0Icon, token1Icon];
+    switch (contract.type) {
+      case "balancer":
+        ({
+          poolTokens: { tokens, balances: reserves },
+          poolId,
+        } = await this._balancerTokenAddresses(contract.instance));
+        ({ useBondIcons, name } = this._lpIconsAndName(tokens));
+        totalSupply = await this._totalSupply(contract.instance);
+        totalValue = await this._totalPoolValue(tokens, reserves);
+        lpUrl = `https://app.balancer.fi/#/pool/${poolId}`;
+        break;
+      case "uniswapV2":
+        tokens = await this._uniswapTokenAddresses(contract.instance);
+        ({ useBondIcons, name } = this._lpIconsAndName(tokens));
+        totalSupply = await this._totalSupply(contract.instance);
+        reserves = await this._uniswapV2Reserves(contract.instance);
+        totalValue = await this._totalPoolValue(tokens, reserves);
+        lpUrl = await this._lpUrl(tokens[0], tokens[1], contract.instance);
+        break;
+      case "uniswapV3": {
+        tokens = await this._uniswapTokenAddresses(contract.instance);
+        ({ useBondIcons, name } = this._lpIconsAndName(tokens));
+        totalSupply = await this._totalSupply(contract.instance);
+        reserves = await this._uniswapV3Reserves(contract.instance);
+        totalValue = await this._totalPoolValue(tokens, reserves);
+        lpUrl = await this._lpUrl(tokens[0], tokens[1], contract.instance);
+        break;
+      }
+      case "curveSwap": {
+        tokens = await this._curveTokenAddresses(contract.instance);
+        ({ useBondIcons, name } = this._lpIconsAndName(tokens));
+        totalValue = await +contract.instance.lp_price();
+        totalSupply = 1;
+        lpUrl = `https://curve.fi/factory-crypto/21`;
+        break;
+      }
+      default: {
+        return UnknownDetails;
+      }
     }
+    const valuePerLpToken = totalValue / totalSupply;
 
     const result: V2BondDetails = {
       name: name,
       bondIconSvg: useBondIcons,
-      pricingFunction: async () => {
-        return this._lpPricingHelper();
-      },
+      pricingFunction: () => valuePerLpToken,
       isLP: true,
-      lpUrl: await this._lpUrl(token0, token1),
+      lpUrl: lpUrl,
     };
     return result;
   }
 
   /**
-   * prices SLP, Uni V2 LP && G-Uni V3 LP
-   * @returns number for `valuePerLpToken`
+   * Returns appropriate pool URLs for Pools based on Uniswap Contracts
+   * @param token0
+   * @param token1
+   * @returns {string} `string` URL of LP
    */
-  async _lpPricingHelper() {
-    const totalSupply = +(await this.baseContract.totalSupply()) / Math.pow(10, await this.baseContract.decimals());
-
-    const token0Address = await this.baseContract.token0();
-    const token0Contract = IERC20__factory.connect(token0Address, this.provider);
-    const token0Decimals = await token0Contract.decimals();
-
-    const token1Address = await this.baseContract.token1();
-    const token1Contract = IERC20__factory.connect(token1Address, this.provider);
-    const token1Decimals = await token1Contract.decimals();
-
-    let token0Amount: number;
-    let token1Amount: number;
-    try {
-      // `getReserves` on Uni V2 & SLP
-      const reserves = await this.baseContract.getReserves();
-      token0Amount = +reserves._reserve0 / Math.pow(10, token0Decimals);
-      token1Amount = +reserves._reserve1 / Math.pow(10, token1Decimals);
-    } catch {
-      // we assume this is g-uni lp since `getReserves` does not exist
-      const reserves = await GUniV3Lp__factory.connect(this.assetAddress, this.provider).getUnderlyingBalances();
-      token0Amount = +reserves.amount0Current / Math.pow(10, token0Decimals);
-      token1Amount = +reserves.amount1Current / Math.pow(10, token1Decimals);
-    }
-
-    const token0TotalValue = (await getTokenByContract(token0Address)) * token0Amount;
-    const token1TotalValue = (await getTokenByContract(token1Address)) * token1Amount;
-
-    const totalValue = token0TotalValue + token1TotalValue;
-    const valuePerLpToken = totalValue / totalSupply;
-
-    return valuePerLpToken;
-  }
-
-  async _getAssetPrice(tokenAddress: string) {
-    if (this.networkId === NetworkId.MAINNET) {
-      return await getTokenByContract(tokenAddress);
-    } else {
-      return await singleSidedBondDetails[this.networkId][tokenAddress].pricingFunction();
-    }
-  }
-
-  async _lpUrl(token0: string, token1: string) {
-    const lpName = await this.baseContract.name();
-    console.log("lpName", lpName.indexOf("Sushi"));
+  async _lpUrl(token0: string, token1: string, contract: UniswapV2Lp | GUniV3Lp) {
+    const lpName = await contract.name();
     if (lpName.indexOf("Gelato") >= 0) {
       return `https://www.sorbet.finance/#/pools/${this.assetAddress}`;
     } else if (lpName.indexOf("Sushi") >= 0) {
@@ -371,25 +331,190 @@ export class V2BondParser {
   }
 
   /**
-   * isLP is true if `token0()` is a function on the contract
+   * isLP checks for various LP types and returns the contract  for the appropriate LP.
    */
   async isLP() {
     try {
-      await this.baseContract.token0();
-      return true;
+      const uniswapV2 = await this._isUniV2Lp();
+      if (uniswapV2) return uniswapV2;
+      const gUniV3 = await this._isGUniV3Lp();
+      if (gUniV3) return gUniV3;
+      const balancerPool = await this._isBalancerLp();
+      if (balancerPool) return balancerPool;
+      const curveSwapPool = await this._isCurveSwapLP();
+      if (curveSwapPool) return curveSwapPool;
+      return false;
     } catch {
-      // we are assuming it's LP because token0 does not exist...
+      // Something went wrong. If we got here, either contract calls failed or it's an unsupported LP.
       return false;
     }
   }
 
+  /**
+   * Checks to determine if the LP is a Uniswap V2 LP
+   * @returns Contract if true, or false
+   */
   async _isUniV2Lp() {
+    const contract = UniswapV2Lp__factory.connect(this.assetAddress, this.provider);
     try {
-      await this.baseContract.getReserves();
-      return true;
+      if (await contract.getReserves()) return { type: "uniswapV2" as const, instance: contract };
+      return false;
     } catch {
-      // we are assuming it's G-UNI LP because getReserves does not exist...
       return false;
     }
+  }
+
+  /**
+   * Checks to determine if the LP is a Uniswap V# LP
+   * @returns Contract if true, or false
+   */
+  async _isGUniV3Lp() {
+    const contract = GUniV3Lp__factory.connect(this.assetAddress, this.provider);
+    try {
+      if (await contract.getUnderlyingBalances()) return { type: "uniswapV3" as const, instance: contract };
+      return false;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Checks to determine if the LP is a Balancer LP
+   * @returns Contract if true, or false
+   */
+  async _isBalancerLp() {
+    const contract = BalancerV2Pool__factory.connect(this.assetAddress, this.provider);
+    try {
+      if (await contract.getVault()) return { type: "balancer" as const, instance: contract };
+      return false;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Checks to determine if the LP is a Curve Swap LP
+   * @returns Contract if true, or false
+   */
+  async _isCurveSwapLP() {
+    const contract = CurveETHSwapPool__factory.connect(this.assetAddress, this.provider);
+    try {
+      if (await contract.factory()) return { type: "curveSwap" as const, instance: contract };
+      return false;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Returns token addresses associated with a Uniswap V2 or V3 LP
+   * @param contract
+   * @returns Array of LP Tokens
+   */
+  async _uniswapTokenAddresses(contract: UniswapV2Lp | GUniV3Lp) {
+    const token0 = await contract.token0();
+    const token1 = await contract.token1();
+    return [token0, token1];
+  }
+
+  /**
+   * Get Uni V2 LP Reserves
+   * @param contract
+   * @returns Array of LP Tokens
+   */
+  async _uniswapV2Reserves(contract: UniswapV2Lp) {
+    const reserves = await contract.getReserves();
+    return [reserves._reserve0, reserves._reserve1];
+  }
+
+  /**
+   * Get Uni V3 LP Reserves
+   * @param contract
+   * @returns Array of Reserves
+   */
+  async _uniswapV3Reserves(contract: GUniV3Lp) {
+    const reserves = await contract.getUnderlyingBalances();
+    return [reserves.amount0Current, reserves.amount1Current];
+  }
+
+  /**
+   * Returns token addresses associated with a Uniswap V2 or V3 LP
+   * @param contract
+   * @returns Array of LP Tokens
+   */
+  async _balancerTokenAddresses(contract: BalancerV2Pool) {
+    const vault = await contract.getVault();
+    const poolId = await contract.getPoolId();
+    const vaultContract = BalancerVault__factory.connect(vault, this.provider);
+    const poolTokens = await vaultContract.getPoolTokens(poolId);
+    return { poolTokens, poolId };
+  }
+
+  /**
+   * Returns token addresses associated with a Curve LP
+   * @param contract
+   * @returns Array of LP Tokens
+   */
+  async _curveTokenAddresses(contract: CurveETHSwapPool) {
+    const factoryAddress = await contract.factory();
+    const factoryContract = CurveFactory__factory.connect(factoryAddress, this.provider);
+    const tokens = await factoryContract.get_coins(contract.address);
+    return tokens;
+  }
+
+  /**
+   * Takes an array of token addresses and returns icons and LP name
+   * @param {string[]} tokens - Array of token addresses
+   * @returns {object} Object containing icon and LP name
+   **/
+  _lpIconsAndName(tokens: string[]) {
+    const tokenStack = tokens.map(token => {
+      const tokenName = singleSidedBondDetails[this.networkId][token.toLowerCase()];
+      if (tokenName.bondIconSvg) {
+        return tokenName.bondIconSvg[0];
+      }
+      return "OHM";
+    });
+
+    const lpName = tokens.reduce((a, b, i) => {
+      if (i === 0) {
+        return singleSidedBondDetails[this.networkId][b.toLowerCase()].name;
+      }
+      return a.concat("-", singleSidedBondDetails[this.networkId][b.toLowerCase()].name);
+    }, "");
+
+    return { useBondIcons: tokenStack, name: `${lpName} LP` };
+  }
+
+  /**
+   * Iterates over token addresses, and associates reserve balances
+   * to return USD value of the LP. Reserves and associated addresses must be in same array order.
+   * @param tokens
+   * @param reserves
+   * @returns {number} totalValue
+   */
+  async _totalPoolValue(tokens: string[], reserves: BigNumber[]) {
+    const tokenValues = await Promise.all(
+      tokens.map(async (token, index) => {
+        const tokenContract = IERC20__factory.connect(token, this.provider);
+        const decimals = await tokenContract.decimals();
+        const tokenAmount = +reserves[index] / Math.pow(10, decimals);
+        const tokenValue = (await getTokenByContract(token)) * tokenAmount;
+        return tokenValue;
+      }),
+    );
+    const totalValue = tokenValues.reduce((a, b) => a + b, 0);
+    return totalValue;
+  }
+
+  /**
+   * TotalSupply helper. Makes Contract Call to totalSupply and returns
+   * formatted value based on contract decimals.
+   * @param contract
+   * @returns {number} - `number` totalSupply of LP
+   */
+  async _totalSupply(contract: BalancerV2Pool | UniswapV2Lp | GUniV3Lp) {
+    const totalSupply = +(await contract.totalSupply()) / Math.pow(10, await contract.decimals());
+    return totalSupply;
   }
 }

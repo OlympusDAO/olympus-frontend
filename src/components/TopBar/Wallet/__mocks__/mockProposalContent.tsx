@@ -1,0 +1,28 @@
+export const proposalContent = [
+  {
+    id: "0x807d75e51065c6d28651bf77627425cdac5835bd192c181a5186efe1d4042096",
+    title: "OIP-88: KlimaDAO Love Letter",
+    body: "**Summary:** KlimaDAO is about to launch a Love Letter to the Planet campaign, and we want to invite you to be a part of it.  This campaign publicizes the launch of the Klima retirement aggregator which allows individuals and organizations to offset their carbon footprint on the Polygon network.\n\n**Proposal:** OlympusDAO to become an official partner of Klima Infinity and to offset 33,333.33 or 3,333.33 tonnes of carbon via the KlimaDAO retirement aggregator. Depending on the carbon asset (BCT vs MCO2) Olympus would need to retire 5186 or 509 respectively of KLIMA to offset based on BCT retirement. This would be 3.5% or 0.34% of the current staked amount in Olympus’ treasury which is approximately 147k KLIMA.\n\nMore context in the forum post.",
+    choices: ["In support, retire 33,333 tonnes", "In support, retire 3,333 tonnes", "Don't support"],
+    start: 1649011647,
+    end: 1649347200,
+    snapshot: "14514830",
+    state: "active",
+    author: "0x389b11C4fA4b95bCc252A2B20Bb62310Fbc36746",
+    link: "https://snapshot.org/#/olympusdao.eth/proposal/0x807d75e51065c6d28651bf77627425cdac5835bd192c181a5186efe1d4042096",
+    scores: [31781.74951970862, 5083.465548664648, 21334.0218350948],
+  },
+  {
+    id: "0x70babccd32c31752f60275e0b2045b1bb73c7a98606fed54c0b54f6c2f7e1e62",
+    title: "TAP-9 Rocket Pool Whitelist",
+    body: "Summary: Seek authority from the community to whitelist Rocket Pool for staking of idle ETH reserve.\n\nBackground: Recently the DAO has been accumulating additional ETH reserves assets such via OIP-15: Add ETH to the Treasury. The DAO is now seeking the ability to stake idle reserve ETH in Rocket Pool to further increase the backing of OHM and to support the overall Ethereum Network.\n\nMotivation: Whitelisting Rocket Pool will allow Olympus to earn yield on idle ETH reserve and to help support the Ethereum network and grow the treasury. The DAO will adhere to the treasury framework of no more than 25% of excess reserve assets to a protocol. However, this is just a limit and the DAO will assess the optimal distribution on a per asset basis.\n\nDescription from https://rocketpool.net/: Rocket Pool is a first of its kind ETH2 Proof of Stake Protocol, designed to be community owned, decentralized, trustless and compatible with staking in Ethereum 2.0. It was first conceived in late 2016 and has since had over 5 successful public betas over the life span of ETH2 development. Rocket Pool strives to embody the core ethos of Ethereum and DeFi, specifically the non-custodial, trustless nature that allows self-sovereignty to truly thrive. The core premise behind a protocol is to ensure the network is not beholden to any one party. This is a principle directly linked to Ethereum and ETH2 itself, and a mindset used at every stage of the process as Rocket Pool has evolved.\n\nRisks: The protocol allocates the ETH to a decentralized node network for it to be staked. These nodes are operated in a trustless manner and the trust lies within the node operator to maintain adequate up-time. In the event of funds slashed due to inadequate presence for network validation, the node operator will forfeit RPL. Once funds are staked there is a finite number of ways to exit the staked position, Olympus can swap out of this particular position via DEXs but it can lead to potential slippage. The protocol operates in a trust minimized system that is controlled via smart contracts where there are assumption made on the behavior of node operators. A potential exploitation was brought to the team from a competitor but promptly acknowledged and fixed.\n\nProtocol Analysis: Using a risk analysis framework developed by the DAO, the Policy and Partnerships teams have attempted to score various protocols based on some subjective and non-subjective data. Rocket Pool scored a 5.2 out of 10. This is due to inherent risks associated with Ether staking for the Ethereum 2.0 upgrade.\n\nThe following risk analysis shows the outcome of the Treasury Team's holistic assessment of the proposed platform and intended strategies. Lastly, one final reminder that this score is an average that was derived from an generalized assessment of the platform which includes TVL, audits, protocol age/risk, targeted investment and strategy type.\nhttps://docs.google.com/spreadsheets/d/1p-FWa18Q-PD5V5WWadzSZcTMZSUM4QZBzMnmPloMFmk/edit?usp=sharing\n\nRequest for comment: https://forum.olympusdao.finance/d/1128-request-for-comment-rocket-pool-whitelist/8\n\nTAP-9 Forum post: https://forum.olympusdao.finance/d/1132-tap-9-rocket-pool-whitelist",
+    choices: ["Approve TAP-9", "Reject TAP-9"],
+    start: 1648434935,
+    end: 1648694135,
+    snapshot: "14472031",
+    state: "closed",
+    author: "0x389b11C4fA4b95bCc252A2B20Bb62310Fbc36746",
+    link: "https://snapshot.org/#/olympusdao.eth/proposal/0x70babccd32c31752f60275e0b2045b1bb73c7a98606fed54c0b54f6c2f7e1e62",
+    scores: [110846.11296222758, 66.66572722910414],
+  },
+];

@@ -20,7 +20,7 @@ const Info: FC<OHMInfoProps> = () => {
   };
   return (
     <Fade in={true}>
-      <Box>
+      <Box data-testid="proposals">
         {isFetched &&
           data.proposals.map(
             (

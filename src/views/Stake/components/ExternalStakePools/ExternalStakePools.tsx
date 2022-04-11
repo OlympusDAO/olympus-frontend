@@ -1,15 +1,32 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, makeStyles, Table, TableCell, TableHead, TableRow, Typography, useTheme, Zoom } from "@material-ui/core";
+import { Box, makeStyles, Table, TableCell, TableHead, TableRow, Typography, Zoom } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, OHMTokenProps, Paper, SecondaryButton, Token, TokenStack } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
-import { beetsPools, joePools, spiritPools, sushiPools, zipPools } from "src/helpers/AllExternalPools";
+import {
+  balancerPools,
+  beetsPools,
+  joePools,
+  jonesPools,
+  spiritPools,
+  sushiPools,
+  zipPools,
+} from "src/helpers/AllExternalPools";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
 
-import { BeetsPoolAPY, JoePoolAPY, SpiritPoolAPY, SushiPoolAPY, ZipPoolAPY } from "./hooks/useStakePoolAPY";
+import {
+  BalancerPoolAPY,
+  BalancerSwapFees,
+  BeetsPoolAPY,
+  JoePoolAPY,
+  JonesPoolAPY,
+  SpiritPoolAPY,
+  SushiPoolAPY,
+  ZipPoolAPY,
+} from "./hooks/useStakePoolAPY";
 import { useStakePoolBalance } from "./hooks/useStakePoolBalance";
 import { BalancerPoolTVL, useStakePoolTVL } from "./hooks/useStakePoolTVL";
 
@@ -52,11 +69,16 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     {zipPools.map(pool => (
       <ZipPools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
+    {jonesPools.map(pool => (
+      <JonesPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+    {balancerPools.map(pool => (
+      <BalancerPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
   </>
 );
 
 const ExternalStakePools = () => {
-  const theme = useTheme();
   const styles = useStyles();
   const { connected } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
@@ -91,8 +113,6 @@ const ExternalStakePools = () => {
 };
 
 const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = props => {
-  const theme = useTheme();
-  const styles = useStyles();
   const { connected } = useWeb3Context();
 
   const userBalances = useStakePoolBalance(props.pool);
@@ -101,7 +121,7 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
   return (
     <TableRow>
       <TableCell>
-        <Box display="flex" flexDirection="row" alignItems="center">
+        <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
           <TokenStack tokens={props.pool.icons} />
           <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px", marginRight: "10px" }}>
             {props.pool.poolName}
@@ -116,12 +136,18 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
       </TableCell>
       <TableCell>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!props.apy ? 0 : formatNumber(props.apy * 100, 2)}%
+          {!props.apy ? <Skeleton width={80} /> : `${formatNumber(props.apy * 100, 2)}%`}
         </Typography>
       </TableCell>
       <TableCell>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!connected ? "" : !userBalance ? <Skeleton width={80} /> : `${userBalance.toFormattedString(4)} LP`}
+          {!connected ? (
+            ""
+          ) : !userBalance ? (
+            <Skeleton width={80} />
+          ) : (
+            `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`
+          )}
         </Typography>
       </TableCell>
       <TableCell>
@@ -157,14 +183,14 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
       <DataRow
         title={`APY`}
         isLoading={!props.apy}
-        balance={props.apy ? `${formatNumber(props.apy * 100, 2)} %` : "0"}
+        balance={props.apy ? `${formatNumber(props.apy * 100, 2)} %` : undefined}
       />
 
       {connected && (
         <DataRow
           title={t`Balance`}
           isLoading={!userBalance}
-          balance={userBalance && `${userBalance.toFormattedString(4)} LP`}
+          balance={userBalance && `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`}
         />
       )}
 
@@ -220,6 +246,25 @@ const ZipPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props
     <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
   ) : (
     <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+  );
+};
+
+const JonesPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
+  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+  const { apy } = JonesPoolAPY(props.pool);
+  return props.isSmallScreen ? (
+    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+  ) : (
+    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+  );
+};
+const BalancerPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
+  const { data } = BalancerSwapFees(props.pool.address);
+  const { apy } = BalancerPoolAPY(props.pool);
+  return props.isSmallScreen ? (
+    <MobileStakePool pool={props.pool} tvl={data.totalLiquidity} apy={apy} />
+  ) : (
+    <StakePool pool={props.pool} tvl={data.totalLiquidity} apy={apy} />
   );
 };
 

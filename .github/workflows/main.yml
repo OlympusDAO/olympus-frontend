@@ -10,7 +10,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout front end code.
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'yarn'
       - name: Build UI for production
         run: |
           yarn install --frozen-lockfile
@@ -19,8 +23,11 @@ jobs:
         env:
           CI: false
       - name: Run unit tests
-        run: |
-          yarn test:unit
+        uses: ArtiomTr/jest-coverage-report-action@v2.0.5
+        with:
+          test-script: yarn test:unit --silent
+          skip-step: install
+          package-manager: yarn
       - name: Prepare coverage badges
         run: |
           echo "COVERAGE_BRANCHES_PCT=$(echo $(jq .total.branches.pct coverage/coverage-summary.json))" >> $GITHUB_ENV
