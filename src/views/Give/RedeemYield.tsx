@@ -5,7 +5,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, PrimaryButton } from "@olympusdao/component-library";
 import { useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { NetworkId } from "src/constants";
@@ -14,11 +14,9 @@ import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useRecipientInfo, useRedeemableBalance, useTotalDonated } from "src/hooks/useGiveInfo";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import { Project } from "../../components/GiveProject/project.type";
 import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
-import { DonationInfoState } from "./Interfaces";
 import data from "./projects.json";
 import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 
@@ -72,10 +70,6 @@ export default function RedeemYield() {
     return new DecimalBigNumber((Math.pow(1 + stakingRebase.toApproxNumber(), 5 * 3) - 1).toString());
   }, [stakingRebase]);
 
-  const pendingTransactions = useSelector((state: DonationInfoState) => {
-    return state.pendingTransactions;
-  });
-
   const totalDeposit: DecimalBigNumber = useMemo(() => {
     if (_useRecipientInfo.isLoading || _useRecipientInfo.data == undefined) return new DecimalBigNumber("0");
 
@@ -112,9 +106,6 @@ export default function RedeemYield() {
     if (!address) return false;
 
     if (isRecipientInfoLoading) return false;
-
-    // TODO shift to react-query
-    if (isPendingTxn(pendingTransactions, "redeeming")) return false;
 
     if (redeemableBalance.eq(ZERO_NUMBER))
       // If the available amount is 0
@@ -155,10 +146,7 @@ export default function RedeemYield() {
           <Grid item xs />
           <Grid item xs={12} sm={6}>
             <PrimaryButton onClick={() => handleRedeemButtonClick()} disabled={!canRedeem()} fullWidth>
-              {
-                /* TODO migrate uses of pendingTransactions */
-                txnButtonText(pendingTransactions, "redeeming", t`Redeem Yield`)
-              }
+              <Trans>Redeem Yield</Trans>
             </PrimaryButton>
           </Grid>
           <Grid item xs />

@@ -7,8 +7,6 @@ import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project } from "src/components/GiveProject/project.type";
 import { GiveTokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -16,12 +14,11 @@ import { NetworkId } from "src/constants";
 import { GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useSohmBalance } from "src/hooks/useBalance";
 import { useWeb3Context } from "src/hooks/web3Context";
 
 import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
-import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
+import { CancelCallback, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
@@ -44,7 +41,6 @@ export function RecipientModal({
   cancelFunc,
   project,
 }: RecipientModalProps) {
-  const location = useLocation();
   const { address, networkId } = useWeb3Context();
 
   const _initialDepositAmount = "0";
@@ -92,17 +88,7 @@ export function RecipientModal({
 
     return _useSohmBalance.data;
   }, [_useSohmBalance]);
-
-  const isAccountLoading: boolean = useSelector((state: DonationInfoState) => {
-    return state.account.loading;
-  });
-
-  // TODO shift to react-query
-  const isGiveLoading: boolean = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving.loading
-      : state.account.giving.loading;
-  });
+  const isBalanceLoading = _useSohmBalance.isLoading;
 
   /**
    * Returns the maximum deposit that can be directed to the recipient.
@@ -208,8 +194,7 @@ export function RecipientModal({
   const canSubmit = (): boolean => {
     if (!isDepositAmountValid) return false;
 
-    // TODO replace with react-query equivalent
-    if (isAccountLoading || isGiveLoading) return false;
+    if (isBalanceLoading) return false;
 
     // The wallet address is only set when a project is not given
     if (!isProjectMode() && !isWalletAddressValid) return false;
@@ -326,8 +311,7 @@ export function RecipientModal({
 
   const getAmountScreen = () => {
     // If we are loading the state, add a placeholder
-    // TODO replace with react-query equivalent
-    if (isAccountLoading || isGiveLoading) return <Skeleton />;
+    if (isBalanceLoading) return <Skeleton />;
 
     // Let the user enter the amount, but implement allowance guard
     return (
