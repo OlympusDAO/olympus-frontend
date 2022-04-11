@@ -13,7 +13,7 @@ import ReactGA from "react-ga";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useAppDispatch } from "src/hooks";
-import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalDonated } from "src/hooks/useGiveInfo";
+import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalYieldDonated } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { useGive } from "src/views/Give/hooks/useGive";
@@ -83,13 +83,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const recipientInfoIsLoading = _useRecipientInfo.isLoading;
   const donorCount = useDonorNumbers(wallet).data;
 
-  const _useTotalDonated = useTotalDonated(wallet);
-  const totalDonated: DecimalBigNumber = useMemo(() => {
-    if (_useTotalDonated.isLoading || _useTotalDonated.data === undefined) return new DecimalBigNumber("0");
+  const _useTotalYieldDonated = useTotalYieldDonated(wallet);
+  const totalYieldDonated: DecimalBigNumber = useMemo(() => {
+    if (_useTotalYieldDonated.isLoading || _useTotalYieldDonated.data === undefined) return new DecimalBigNumber("0");
 
-    return new DecimalBigNumber(_useTotalDonated.data);
-  }, [_useTotalDonated]);
-  const totalDonatedIsLoading = useTotalDonated(wallet).isLoading;
+    return new DecimalBigNumber(_useTotalYieldDonated.data);
+  }, [_useTotalYieldDonated]);
+  const totalDonatedIsLoading = useTotalYieldDonated(wallet).isLoading;
 
   // Contract interactions: new donation, increase donation, decrease donation
   const giveMutation = useGive();

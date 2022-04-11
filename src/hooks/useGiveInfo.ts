@@ -224,8 +224,8 @@ export const useRecipientInfo = (address: string) => {
  * Query key for useTotalDonated, will refresh on address changes or
  * networkId changes
  */
-export const totalDonatedQueryKey = (address: string, networkId: NetworkId) =>
-  ["useTotalDonated", address, networkId].filter(nonNullable);
+export const totalYieldDonatedQueryKey = (address: string, networkId: NetworkId) =>
+  ["useTotalYieldDonated", address, networkId].filter(nonNullable);
 
 /**
  * @notice Fetches total amount of sOHM yield donated to a specific
@@ -234,7 +234,7 @@ export const totalDonatedQueryKey = (address: string, networkId: NetworkId) =>
  * @returns query object in which the data attribute holds the
  * total donated amount
  */
-export const useTotalDonated = (address: string) => {
+export const useTotalYieldDonated = (address: string) => {
   const { provider, networkId } = useWeb3Context();
 
   // Event logs use data values that are padded with zeros, so to match that we
@@ -254,9 +254,9 @@ export const useTotalDonated = (address: string) => {
   };
 
   const query = useQuery<string, Error>(
-    totalDonatedQueryKey(address, networkId),
+    totalYieldDonatedQueryKey(address, networkId),
     async () => {
-      queryAssertion([address, networkId], totalDonatedQueryKey(address, networkId));
+      queryAssertion([address, networkId], totalYieldDonatedQueryKey(address, networkId));
 
       // If no contract object was successfully created, tell the user to switch to ETH
       if (!contract)
