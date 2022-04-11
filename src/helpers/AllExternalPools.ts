@@ -30,6 +30,21 @@ export const beets_ftm_gohm_wFTM = new ExternalPool({
   networkID: NetworkId.FANTOM,
 });
 
+export const balancer_ohm_dai_weth = new ExternalPool({
+  poolName: "OHM-DAI-wETH",
+  icons: ["OHM", "DAI", "wETH"],
+  stakeOn: "Balancer",
+  pairGecko: "ethereum",
+  rewardGecko: "gOHM",
+  href: "https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e",
+  address: "0xc45D42f801105e861e86658648e3678aD7aa70f9",
+  masterchef: "0xc45D42f801105e861e86658648e3678aD7aa70f9", //not currenly incentivized
+  rewarder: "", //not currenly incentivized
+  vault: "0xba12222222228d8ba445958a75a0704d566bf2c8",
+  poolId: "0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e",
+  networkID: NetworkId.MAINNET,
+});
+
 export const sushi_arb_gohm_weth = new ExternalPool({
   poolName: "gOHM-wETH",
   icons: ["wsOHM", "wETH"],
@@ -107,4 +122,5 @@ export const joePools = [tj_gohm_wavax];
 export const beetsPools = [beets_ftm_gohm_wFTM];
 export const zipPools = [zip_gohm_weth];
 export const jonesPools = [jones_gohm_jgohm];
+export const balancerPools = [balancer_ohm_dai_weth];
 export default allPools;
