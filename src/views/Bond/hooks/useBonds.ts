@@ -98,8 +98,6 @@ export const fetchBonds = async (networkId: NetworkId.MAINNET | NetworkId.TESTNE
         contract.marketPrice(id).then(price => new DecimalBigNumber(price, baseToken.decimals)),
       ]);
 
-      if (isInverseBond) console.log(quoteTokenPerUsd.toString());
-
       const priceInUsd = quoteTokenPerUsd.mul(quoteTokenPerBaseToken);
       const discount = baseTokenPerUsd.sub(priceInUsd).div(baseTokenPerUsd);
 
