@@ -18,8 +18,7 @@ import { ProgressBar, Step } from "react-step-progress-bar";
 import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-import { GetCorrectContractUnits } from "src/helpers/GetCorrectUnits";
-import { getTotalDonated } from "src/helpers/GetTotalDonated";
+import { getTotalDonated } from "src/helpers/GiveGetTotalDonated";
 import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
 import { useAppDispatch } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
@@ -36,6 +35,7 @@ import {
 } from "src/slices/GiveThunk";
 import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { NEW_DEPOSIT } from "src/views/Give/constants";
+import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
 import { CancelCallback, SubmitCallback, SubmitEditCallback } from "src/views/Give/Interfaces";
 import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";

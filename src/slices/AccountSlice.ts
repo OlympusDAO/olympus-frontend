@@ -24,8 +24,8 @@ import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
 import { addresses, NetworkId } from "../constants";
 import { handleContractError, setAll } from "../helpers";
-import { GetFirstDonationDate } from "../helpers/GetDonationDate";
-import { getTotalYieldSent } from "../helpers/GetTotalDonated";
+import { GetFirstDonationDate } from "../helpers/GiveGetDonationDate";
+import { getTotalYieldSent } from "../helpers/GiveGetTotalDonated";
 import { getMockRedemptionBalancesAsync, getRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 

@@ -11,9 +11,9 @@ import { useLocation } from "react-router-dom";
 import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-import { GetCorrectContractUnits } from "src/helpers/GetCorrectUnits";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
 import { SubmitEditCallback } from "src/views/Give/Interfaces";
 
 import { Project } from "../../components/GiveProject/project.type";

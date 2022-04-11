@@ -1,4 +1,4 @@
-import { DecimalBigNumber } from "./DecimalBigNumber/DecimalBigNumber";
+import { DecimalBigNumber } from "../../../helpers/DecimalBigNumber/DecimalBigNumber";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "./GetCorrectUnits";
 
 describe("GetCorrectUnits", () => {

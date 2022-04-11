@@ -12,12 +12,12 @@ import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-import { GetCorrectContractUnits } from "src/helpers/GetCorrectUnits";
-import { getTotalDonated } from "src/helpers/GetTotalDonated";
+import { getTotalDonated } from "src/helpers/GiveGetTotalDonated";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { loadAccountDetails } from "src/slices/AccountSlice";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
 
 import { Project } from "../../components/GiveProject/project.type";
 import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
