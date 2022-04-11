@@ -4,19 +4,17 @@ import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, PrimaryButton } from "@olympusdao/component-library";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
-import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useRecipientInfo, useRedeemableBalance } from "src/hooks/useGiveInfo";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useWeb3Context } from "src/hooks/web3Context";
 
 import { Project } from "../../components/GiveProject/project.type";
-import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
+import { useRedeem } from "./hooks/useRedeem";
 import data from "./projects.json";
 import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 
@@ -74,6 +72,13 @@ export default function RedeemYield() {
 
   const isProject = projectMap.get(address);
 
+  const redeemMutation = useRedeem();
+  const isMutating = redeemMutation.isLoading;
+
+  useEffect(() => {
+    if (isRedeemYieldModalOpen) setIsRedeemYieldModalOpen(false);
+  }, [redeemMutation.isSuccess]);
+
   /**
    * Get project sOHM yield goal and return as a DecimalBigNumber
    *
@@ -109,12 +114,7 @@ export default function RedeemYield() {
   };
 
   const handleRedeemYieldModalSubmit = async () => {
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(redeemMockBalance({ address, provider, networkID: networkId, eventSource: "Redeem" }));
-    } else {
-      await dispatch(redeemBalance({ address, provider, networkID: networkId, eventSource: "Redeem" }));
-    }
-    setIsRedeemYieldModalOpen(false);
+    await redeemMutation.mutate();
   };
 
   const handleRedeemYieldModalCancel: RedeemCancelCallback = () => {
@@ -223,6 +223,7 @@ export default function RedeemYield() {
           cancelFunc={handleRedeemYieldModalCancel}
           deposit={totalDebt}
           redeemableBalance={redeemableBalance}
+          isMutationLoading={isMutating}
         />
       </Grid>
     </Grid>

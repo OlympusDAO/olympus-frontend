@@ -326,7 +326,6 @@ export const donorNumbersQueryKey = (address: string, networkId: NetworkId) =>
  */
 export const useDonorNumbers = (address: string) => {
   const { provider, networkId } = useWeb3Context();
-  console.log(networkId);
 
   // Event logs use data values that are padded with zeros, so to match that we
   // pad the given wallet address with zeros
@@ -360,7 +359,7 @@ export const useDonorNumbers = (address: string) => {
       const donationsToAddress: ethers.providers.Log[] = [];
 
       // Get all event logs using our filter
-      const events = await provider.getLogs(filter);
+      const events: ethers.providers.Log[] = await provider.getLogs(filter);
       const selectedEvents: ethers.providers.Log[] = [];
 
       const potentialActiveDonationsPromises: Promise<[string[], BigNumber[]]>[] = [];
@@ -391,9 +390,6 @@ export const useDonorNumbers = (address: string) => {
             potentialActiveDonors[i][1][j].gt(0) &&
             !donorAddresses[selectedEvents[i].topics[1]]
           ) {
-            console.log("Recipient", potentialActiveDonors[i][0][j].toLowerCase());
-            console.log("Amount", potentialActiveDonors[i][1][j].toNumber() / 1e9);
-            console.log("Donor", ethers.utils.hexDataSlice(selectedEvents[i].topics[1], 12));
             // Add the donor to donorAddresses
             donorAddresses[selectedEvents[i].topics[1]] = true;
 
