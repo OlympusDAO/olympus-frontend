@@ -80,7 +80,7 @@ exports[`<CompactVault/> should render component 1`] = `
       <h6
         class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter"
       >
-        1.00 sOHM deposited
+        ≈ 1 sOHM deposited
       </h6>
     </div>
   </div>
@@ -136,7 +136,7 @@ exports[`<CompactWallet/> should render component 1`] = `
       <h6
         class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter"
       >
-        1.00 sOHM retained
+        ≈ 1 sOHM retained
       </h6>
     </div>
   </div>
@@ -210,7 +210,7 @@ exports[`<CompactYield/> should render component 1`] = `
       <h6
         class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter"
       >
-        Receives yield from 1.00 sOHM
+        Receives yield from ≈ 1 sOHM
       </h6>
     </div>
   </div>

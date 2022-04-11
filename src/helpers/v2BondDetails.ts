@@ -1,5 +1,6 @@
 import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
+import { OHM_ADDRESSES } from "src/constants/addresses";
 
 import { NetworkId } from "../networkDetails";
 import {
@@ -47,7 +48,7 @@ const OhmDetails: V2BondDetails = {
   name: "OHM",
   bondIconSvg: ["OHM"],
   pricingFunction: async () => {
-    return getTokenByContract("0x383518188c0c6d7730d91b2c03a03c837814a899");
+    return getTokenByContract(OHM_ADDRESSES[NetworkId.MAINNET]);
   },
   isLP: false,
   lpUrl: "",
@@ -170,6 +171,7 @@ export const singleSidedBondDetails: { [key: number]: { [key: string]: V2BondDet
   [NetworkId.TESTNET_RINKEBY]: {
     ["0xc0b491dabf3709ee5eb79e603d73289ca6060932"]: OhmDetails,
     ["0xd7b98050962ec7cc8d11a83446b3217257c754b7"]: OhmDetails,
+    // ["0x14cD61F5d13a4E175F032B252f197B65B9c8E6dc"]: OhmDetails,
     ["0xb2180448f8945c8cc8ae9809e67d6bd27d8b2f2c"]: DaiDetails,
     ["0x5ed8bd53b0c3fa3deabd345430b1a3a6a4e8bd7c"]: DaiDetails,
     ["0xbc9ee0d911739cbc72cd094ada26f56e0c49eeae"]: DaiDetails,
@@ -235,7 +237,6 @@ export class V2BondParser {
         return singleSidedBondDetails[NetworkId.MAINNET]["0x6b175474e89094c44da98b954eedeac495271d0f"];
       }
     }
-    return UnknownDetails;
   }
 
   /**

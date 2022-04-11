@@ -5,9 +5,9 @@ import { Grid, Tooltip, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { SecondaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "bignumber.js";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { SubmitCallback } from "src/views/Give/Interfaces";
 
 import { Project } from "../../components/GiveProject/project.type";
@@ -26,6 +26,8 @@ interface IUserDonationInfo {
 interface DepositRowProps {
   depositObject: IUserDonationInfo;
 }
+
+const DECIMAL_PLACES = 2;
 
 export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
   const dispatch = useDispatch();
@@ -69,21 +71,23 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    if (depositAmountDiff.eq(new BigNumber("0"))) return;
+    if (depositAmountDiff.eq(new DecimalBigNumber("0"))) return;
 
-    if (depositAmountDiff.isGreaterThan(new BigNumber("0"))) {
-      await increaseMutation.mutate({ amount: depositAmountDiff.toFixed(), recipient: walletAddress });
+    if (depositAmountDiff.gt(new DecimalBigNumber("0"))) {
+      await increaseMutation.mutate({ amount: depositAmountDiff.toString(), recipient: walletAddress });
     } else {
-      const subtractionAmount = depositAmountDiff.multipliedBy(new BigNumber("-1"));
-      await decreaseMutation.mutate({ amount: subtractionAmount.toFixed(), recipient: walletAddress });
+      const subtractionAmount = depositAmountDiff.mul(new DecimalBigNumber("-1"));
+      await decreaseMutation.mutate({ amount: subtractionAmount.toString(), recipient: walletAddress });
     }
   };
 
   // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
   // Else use standard call
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
-    await decreaseMutation.mutate({ amount: depositAmount.toFixed(), recipient: walletAddress });
+    await decreaseMutation.mutate({ amount: depositAmount.toString(), recipient: walletAddress });
   };
+
+  const depositNumber = new DecimalBigNumber(depositObject.deposit);
 
   return (
     <Grid container alignItems="center" spacing={2}>
@@ -99,11 +103,18 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
       </Grid>
       {!isSmallScreen && (
         <Grid item xs={2} style={{ textAlign: "right" }}>
-          <Typography variant="body1">{parseFloat(depositObject.deposit).toFixed(2)} sOHM</Typography>
+          {/* Exact amount as this is what the user has deposited */}
+          <Typography variant="body1">{depositNumber.toString({ format: true })} sOHM</Typography>
         </Grid>
       )}
       <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
-        <Typography variant="body1">{parseFloat(depositObject.yieldDonated).toFixed(2)} sOHM</Typography>
+        <Typography variant="body1">
+          {new DecimalBigNumber(depositObject.yieldDonated).toString({
+            decimals: DECIMAL_PLACES,
+            format: true,
+          })}{" "}
+          sOHM
+        </Typography>
       </Grid>
       <Grid item xs={4} sm={3} style={{ textAlign: "right" }}>
         <SecondaryButton onClick={() => setIsManageModalOpen(true)} size="small" fullWidth>
@@ -117,7 +128,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
         submitWithdraw={handleWithdrawModalSubmit}
         cancelFunc={handleManageModalCancel}
         currentWalletAddress={depositObject.recipient}
-        currentDepositAmount={new BigNumber(depositObject.deposit)}
+        currentDepositAmount={depositNumber}
         depositDate={depositObject.date}
         yieldSent={depositObject.yieldDonated}
         project={projectMap.get(depositObject.recipient)}

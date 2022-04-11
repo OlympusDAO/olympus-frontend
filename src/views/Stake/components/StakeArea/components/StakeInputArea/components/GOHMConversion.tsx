@@ -12,8 +12,8 @@ export const GOHMConversion: React.FC<{ amount: string; action: "STAKE" | "UNSTA
   return (
     <Typography variant="body2">
       {props.action === "STAKE"
-        ? `Stake ${_amount.toAccurateString()} OHM → ${_amount.div(currentIndex, 18).toAccurateString()} gOHM`
-        : `Unstake ${_amount.toAccurateString()} gOHM → ${_amount.mul(currentIndex, 9).toAccurateString()} OHM`}
+        ? `Stake ${_amount.toString()} OHM → ${_amount.div(currentIndex, 18).toString()} gOHM`
+        : `Unstake ${_amount.toString()} gOHM → ${_amount.mul(currentIndex).toString({ decimals: 9 })} OHM`}
     </Typography>
   );
 };

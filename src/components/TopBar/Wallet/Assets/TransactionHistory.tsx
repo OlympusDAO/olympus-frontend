@@ -2,6 +2,13 @@ import { Box, Button, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { OHMTokenProps, OHMTokenStackProps, TransactionRow } from "@olympusdao/component-library";
 import { FC, useRef, useState } from "react";
+import {
+  GOHM_ADDRESSES,
+  MIGRATOR_ADDRESSES,
+  OHM_ADDRESSES,
+  SOHM_ADDRESSES,
+  STAKING_ADDRESSES,
+} from "src/constants/addresses";
 import { shorten, trim } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { CovalentResponse, CovalentTransaction } from "src/lib/covalent.types";
@@ -59,10 +66,14 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
   } = GetTransactionHistory();
   const { address, networkId } = useWeb3Context();
   const { data: gOhmTransfers, isFetched: gOhmTransfersFetched } = GetTransferHistory(
-    addresses[networkId].GOHM_ADDRESS,
+    GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES],
   );
-  const { data: ohmTransfers, isFetched: ohmTransfersFetched } = GetTransferHistory(addresses[networkId].OHM_V2);
-  const { data: sOhmTransfers, isFetched: sOhmTransfersFetched } = GetTransferHistory(addresses[networkId].SOHM_V2);
+  const { data: ohmTransfers, isFetched: ohmTransfersFetched } = GetTransferHistory(
+    OHM_ADDRESSES[networkId as keyof typeof OHM_ADDRESSES],
+  );
+  const { data: sOhmTransfers, isFetched: sOhmTransfersFetched } = GetTransferHistory(
+    SOHM_ADDRESSES[networkId as keyof typeof SOHM_ADDRESSES],
+  );
   const { data: ohmTransfersV1, isFetched: ohmTransfersV1Fetched } = GetTransferHistory(
     addresses[networkId].OHM_ADDRESS,
   );
@@ -133,11 +144,11 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
                     10 ** transaction.log_events[1]?.sender_contract_decimals,
                 };
               case addresses[networkId].STAKING_HELPER_ADDRESS.toLowerCase():
-              case addresses[networkId].STAKING_V2.toLowerCase():
+              case STAKING_ADDRESSES[networkId as keyof typeof STAKING_ADDRESSES].toLowerCase():
                 if (
                   transaction.log_events[0]?.decoded.params[0].value.toLowerCase() ===
-                    addresses[networkId].STAKING_V2.toLowerCase() &&
-                  transaction.log_events[0]?.sender_address.toLowerCase() === addresses[networkId].OHM_V2.toLowerCase()
+                    STAKING_ADDRESSES[networkId as keyof typeof STAKING_ADDRESSES].toLowerCase() &&
+                  transaction.log_events[0]?.sender_address.toLowerCase() === OHM_ADDRESSES[networkId].toLowerCase()
                 ) {
                   return {
                     ...transaction,
@@ -168,7 +179,7 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
                     10 ** transaction.log_events[1]?.sender_contract_decimals,
                 };
 
-              case addresses[networkId].MIGRATOR_ADDRESS.toLowerCase():
+              case MIGRATOR_ADDRESSES[networkId].toLowerCase():
                 return {
                   ...transaction,
                   details: "Migration",

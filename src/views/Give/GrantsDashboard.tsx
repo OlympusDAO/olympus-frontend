@@ -2,12 +2,12 @@ import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Container, Grid, Typography, Zoom } from "@material-ui/core";
-import { BigNumber } from "bignumber.js";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useUIDSeed } from "react-uid";
 import GrantCard, { GrantDetailsMode } from "src/components/GiveProject/GrantCard";
 import { Grant } from "src/components/GiveProject/project.type";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
@@ -58,13 +58,13 @@ export default function GrantsDashboard() {
   const handleCustomGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
     eventSource: string,
-    depositAmount: BigNumber,
+    depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.isEqualTo(new BigNumber(0))) {
+    if (depositAmount.eq(new DecimalBigNumber("0"))) {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    const amount = depositAmount.toFixed();
+    const amount = depositAmount.toString();
     await giveMutation.mutate({ amount: amount, recipient: walletAddress });
   };
 

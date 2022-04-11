@@ -35,8 +35,6 @@ function checkNetwork(networkID: NetworkId) {
   }
 }
 
-const BASE_TOKEN_DECIMALS = 9;
-
 export const changeInverseApproval = createAsyncThunk(
   "inverseBonds/changeApproval",
   async ({ bond, provider, networkID, address }: IBondV2AysncThunk, { dispatch, getState }) => {

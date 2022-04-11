@@ -3,10 +3,10 @@ import "./Give.scss";
 import { t, Trans } from "@lingui/macro";
 import { Container, Grid, Typography, Zoom } from "@material-ui/core";
 import { Paper, TertiaryButton } from "@olympusdao/component-library";
-import { BigNumber } from "bignumber.js";
 import { useEffect, useMemo, useState } from "react";
 import { useUIDSeed } from "react-uid";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
@@ -53,13 +53,13 @@ export default function CausesDashboard() {
   const handleCustomGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
     eventSource: string,
-    depositAmount: BigNumber,
+    depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.isEqualTo(new BigNumber(0))) {
+    if (depositAmount.eq(new DecimalBigNumber("0"))) {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    const amount = depositAmount.toFixed();
+    const amount = depositAmount.toString();
     await giveMutation.mutate({ amount: amount, recipient: walletAddress });
   };
 

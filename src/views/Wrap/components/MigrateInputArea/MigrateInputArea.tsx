@@ -22,7 +22,7 @@ export const MigrateInputArea = () => {
   );
   const [amount, setAmount] = useState("");
   const balance = useBalance(WSOHM_ADDRESSES)[networkId].data;
-  const setMax = () => balance && setAmount(balance.toAccurateString());
+  const setMax = () => balance && setAmount(balance.toString());
 
   // Mutation stuff
   const migrateMutation = useMigrateWsohm();
@@ -81,7 +81,13 @@ export const MigrateInputArea = () => {
 
               <Grid item xs={12} sm={4}>
                 <Box mt={[1, 0]}>
-                  <PrimaryButton fullWidth type="submit" className="" disabled={migrateMutation.isLoading}>
+                  <PrimaryButton
+                    fullWidth
+                    type="submit"
+                    className=""
+                    disabled={migrateMutation.isLoading}
+                    data-testid="migrate-button"
+                  >
                     {migrateMutation.isLoading ? "Migrating..." : "Migrate"}
                   </PrimaryButton>
                 </Box>
