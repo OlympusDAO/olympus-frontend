@@ -67,10 +67,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
 
   // Pull a user's donation info
-  const rawDonationInfo = useDonationInfo().data;
-  const donationInfo = useMemo(() => {
-    return rawDonationInfo ? rawDonationInfo : [];
-  }, [rawDonationInfo]);
+  const _useDonationInfo = useDonationInfo();
+  const donationInfo: IUserDonationInfo[] | null = useMemo(() => {
+    return _useDonationInfo.data === undefined ? null : _useDonationInfo.data;
+  }, [_useDonationInfo]);
   const isDonationInfoLoading = useDonationInfo().isLoading;
 
   // Pull data for a specific partner's wallet
@@ -106,10 +106,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   const dispatch = useAppDispatch();
 
   const userDonation: IUserDonationInfo | null = useMemo(() => {
-    if (donationId == NO_DONATION) return null;
+    if (donationId == NO_DONATION || _useDonationInfo.isLoading || !donationInfo) return null;
 
     return donationInfo[donationId];
-  }, [donationInfo, donationId]);
+  }, [donationInfo, _useDonationInfo.isLoading, donationId]);
 
   const userDeposit: DecimalBigNumber = useMemo(() => {
     if (!userDonation) return new DecimalBigNumber("0");
@@ -129,6 +129,8 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   }, [networkId]);
 
   useEffect(() => {
+    if (isDonationInfoLoading || !donationInfo) return;
+
     for (let i = 0; i < donationInfo.length; i++) {
       if (donationInfo[i].recipient.toLowerCase() === wallet.toLowerCase()) {
         setIsUserDonating(true);
@@ -136,7 +138,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         break;
       }
     }
-  }, [donationInfo, networkId]);
+  }, [isDonationInfoLoading, donationInfo, networkId, wallet]);
 
   useEffect(() => {
     if (isGiveModalOpen) setIsGiveModalOpen(false);
@@ -148,10 +150,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const goalCompletion: DecimalBigNumber = useMemo(() => {
     // We calculate the level of goal completion here, so that it is updated whenever one of the dependencies change
-    if (recipientInfoIsLoading || totalDonatedIsLoading || !totalDonated) return ZERO_NUMBER;
+    if (recipientInfoIsLoading || totalDonatedIsLoading || !totalDebt) return ZERO_NUMBER;
 
-    return totalDonated.mul(new DecimalBigNumber("100")).div(new DecimalBigNumber(depositGoal.toString()));
-  }, [recipientInfoIsLoading, totalDonatedIsLoading, totalDonated, depositGoal]);
+    return totalDebt.mul(new DecimalBigNumber("100")).div(new DecimalBigNumber(depositGoal.toString()));
+  }, [recipientInfoIsLoading, totalDonatedIsLoading, totalDebt, depositGoal]);
 
   useEffect(() => {
     setIsUserDonating(false);
@@ -665,7 +667,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           project={project}
           key={"recipient-modal-" + title}
         />
-        {isUserDonating && donationId != NO_DONATION && donationInfo[donationId] ? (
+        {isUserDonating && userDonation ? (
           <ManageDonationModal
             isModalOpen={isManageModalOpen}
             isMutationLoading={isMutating}
@@ -673,12 +675,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             submitEdit={handleEditModalSubmit}
             submitWithdraw={handleWithdrawModalSubmit}
             cancelFunc={handleManageModalCancel}
-            currentWalletAddress={donationInfo[donationId].recipient}
+            currentWalletAddress={userDonation.recipient}
             currentDepositAmount={userDeposit}
-            depositDate={donationInfo[donationId].date}
-            yieldSent={donationInfo[donationId].yieldDonated}
+            depositDate={userDonation.date}
+            yieldSent={userDonation.yieldDonated}
             project={project}
-            key={"manage-modal-" + donationInfo[donationId].recipient}
+            key={"manage-modal-" + userDonation.recipient}
           />
         ) : (
           <></>
