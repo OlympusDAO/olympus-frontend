@@ -89,9 +89,6 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                         <div className="bond-discounts">
                           {sortedBonds.length > 0 && (
                             <>
-                              <Typography variant="body2">
-                                <Trans>Highest Discount</Trans>
-                              </Typography>
                               {sortedBonds.map((bond, i) => {
                                 return (
                                   <Link
@@ -114,7 +111,7 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                               })}
                             </>
                           )}
-                          {sortedBonds.length > 0 && (
+                          {sortedInverseBonds.length > 0 && (
                             <Box mt="15px">
                               <Typography variant="body2">
                                 <Trans>Inverse Bonds</Trans>
