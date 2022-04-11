@@ -1,16 +1,15 @@
-import { MediumArticles } from "src/components/TopBar/Wallet/queries";
+import axios from "axios";
 import { render, screen } from "src/testUtils";
 
+import { feedContent } from "../__mocks__/mockFeedContent";
 import News from "../Info/News";
-import { feedContent } from "./mockFeedContent.json";
 
-jest.mock("src/components/TopBar/Wallet/queries");
 describe("News View", () => {
   beforeEach(() => {
-    MediumArticles.mockReturnValue({ data: { items: feedContent }, isFetched: true });
+    axios.get = jest.fn().mockResolvedValue({ data: { items: feedContent } });
+    render(<News />);
   });
   it("Should Parse RSS Feed Correctly", async () => {
-    render(<News />);
     expect(screen.getByTestId("news")).toBeInTheDocument();
     expect(screen.getByText("The Olympus Treasury Dashboard")).toBeInTheDocument();
   });
