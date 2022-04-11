@@ -64,12 +64,20 @@ export function RecipientModal({
   const _initialWalletAddressValidError = "";
   const _initialIsAmountSet = false;
 
+  const getInitialDepositAmount = () => {
+    return _initialDepositAmount;
+  };
+
   /**
    * depositAmount is kept as a string, to avoid unnecessary application of number rules while being edited
    */
   const [depositAmount, setDepositAmount] = useState(_initialDepositAmount);
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(_initialDepositAmountValid);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState(_initialDepositAmountValidError);
+
+  const getInitialWalletAddress = () => {
+    return _initialWalletAddress;
+  };
 
   const [walletAddress, setWalletAddress] = useState(_initialWalletAddress);
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(_initialWalletAddressValid);
