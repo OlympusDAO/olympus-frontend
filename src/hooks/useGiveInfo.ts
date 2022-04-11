@@ -82,10 +82,10 @@ export const useDonationInfo = () => {
         try {
           [firstDonationDate, yieldSent] = await Promise.all([firstDonationDatePromise, yieldSentPromise]);
         } catch (e: unknown) {
-          console.log(
+          console.info(
             "If the following error contains 'user is not donating', then it is an expected error. No need to report it!",
           );
-          console.log(e);
+          console.error(e);
         }
 
         // Convert to 9 decimals
