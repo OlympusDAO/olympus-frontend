@@ -5,7 +5,7 @@ import { GetOnButton, ItemCard, OHMItemCardProps } from "@olympusdao/component-l
 import { FC } from "react";
 import sushiswapImg from "src/assets/sushiswap.png";
 import uniswapImg from "src/assets/uniswap.png";
-import { GOHM_ADDRESSES } from "src/constants/addresses";
+import { OHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
 import { beetsPools, joePools, jonesPools, spiritPools, sushiPools, zipPools } from "src/helpers/AllExternalPools";
 import { useAppSelector, useWeb3Context } from "src/hooks";
@@ -61,18 +61,14 @@ const GetOhm: FC = () => {
         <Grid container spacing={1}>
           <Grid item xs={6}>
             <GetOnButton
-              href={`https://app.sushi.com/swap/?outputCurrency=${
-                GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
-              }`}
+              href={`https://app.sushi.com/swap/?outputCurrency=${OHM_ADDRESSES[NetworkId.MAINNET]}`}
               logo={<img src={sushiswapImg}></img>}
               exchangeName="Sushiswap"
             />
           </Grid>
           <Grid item xs={6}>
             <GetOnButton
-              href={`https://app.uniswap.org/#/swap?outputCurrency=${
-                GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
-              }`}
+              href={`https://app.uniswap.org/#/swap?outputCurrency=${OHM_ADDRESSES[NetworkId.MAINNET]}`}
               logo={<img src={uniswapImg}></img>}
               exchangeName="Uniswap"
             />
