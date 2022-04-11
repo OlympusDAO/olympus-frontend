@@ -19,7 +19,7 @@ import { useDonationInfo, useDonorNumbers } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { useGive } from "src/views/Give/hooks/useGive";
-import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
+import { CancelCallback, IUserDonationInfo, SubmitCallback } from "src/views/Give/Interfaces";
 import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
@@ -46,13 +46,6 @@ const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   const { address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
-  // TODO cleanup variables
-  const [, setRecipientInfoIsLoading] = useState(true);
-  const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
-  const [, setTotalDonatedIsLoading] = useState(true);
-  const [donationInfoIsLoading, setDonationInfoIsLoading] = useState(true);
-  const [, setTotalDebt] = useState("");
-  const [, setTotalDonated] = useState("");
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(NO_DONATION);
 
@@ -83,11 +76,23 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
 
-  const currentDonation = useMemo(() => {
+  const userDonation: IUserDonationInfo | null = useMemo(() => {
     if (donationId == NO_DONATION) return null;
 
     return donationInfo[donationId];
   }, [donationInfo, donationId]);
+
+  const userDeposit: DecimalBigNumber = useMemo(() => {
+    if (!userDonation) return new DecimalBigNumber("0");
+
+    return new DecimalBigNumber(userDonation.deposit);
+  }, [userDonation]);
+
+  const userYieldDonated: DecimalBigNumber = useMemo(() => {
+    if (!userDonation) return new DecimalBigNumber("0");
+
+    return new DecimalBigNumber(userDonation.yieldDonated);
+  }, [userDonation]);
 
   useEffect(() => {
     setIsUserDonating(false);
@@ -95,8 +100,6 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   }, [networkId]);
 
   useEffect(() => {
-    setDonationInfoIsLoading(false);
-
     for (let i = 0; i < donationInfo.length; i++) {
       if (donationInfo[i].recipient.toLowerCase() === wallet.toLowerCase()) {
         setIsUserDonating(true);
@@ -507,12 +510,10 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                             <Grid item className="metric">
                               {isDonationInfoLoading ? (
                                 <Skeleton />
-                              ) : currentDonation ? (
-                                new DecimalBigNumber(currentDonation.deposit).toString({
+                              ) : (
+                                userDeposit.toString({
                                   format: true,
                                 })
-                              ) : (
-                                "0"
                               )}
                             </Grid>
                           </Grid>
@@ -529,13 +530,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                                 <Icon name="sohm-yield-sent" />
                               </Grid>
                               <Grid item className="metric">
-                                {isDonationInfoLoading ? (
-                                  <Skeleton />
-                                ) : donationId != NO_DONATION && currentDonation ? (
-                                  new DecimalBigNumber(currentDonation.yieldDonated).toString(DEFAULT_FORMAT)
-                                ) : (
-                                  "0"
-                                )}
+                                {isDonationInfoLoading ? <Skeleton /> : userYieldDonated.toString(DEFAULT_FORMAT)}
                               </Grid>
                             </Grid>
                           </Grid>

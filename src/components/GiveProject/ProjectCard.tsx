@@ -15,12 +15,9 @@ import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useAppDispatch } from "src/hooks";
 import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalDonated } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IAppData } from "src/slices/AppSlice";
-import { IPendingTxn } from "src/slices/PendingTxnsSlice";
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { useGive } from "src/views/Give/hooks/useGive";
-import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
+import { CancelCallback, IUserDonationInfo, SubmitCallback } from "src/views/Give/Interfaces";
 import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
@@ -53,12 +50,6 @@ type ProjectDetailsProps = {
   mode: ProjectDetailsMode;
 };
 
-type State = {
-  account: IAccountSlice;
-  pendingTransactions: IPendingTxn[];
-  app: IAppData;
-};
-
 const NO_DONATION = -1;
 const DECIMAL_PLACES = 2;
 const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
@@ -77,14 +68,27 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   // Pull a user's donation info
   const rawDonationInfo = useDonationInfo().data;
-  const donationInfo = rawDonationInfo ? rawDonationInfo : [];
+  const donationInfo = useMemo(() => {
+    return rawDonationInfo ? rawDonationInfo : [];
+  }, [rawDonationInfo]);
   const isDonationInfoLoading = useDonationInfo().isLoading;
 
   // Pull data for a specific partner's wallet
-  const totalDebt = useRecipientInfo(wallet).data?.totalDebt;
-  const recipientInfoIsLoading = useRecipientInfo(wallet).isLoading;
+  const _useRecipientInfo = useRecipientInfo(wallet);
+  const totalDebt: DecimalBigNumber = useMemo(() => {
+    if (_useRecipientInfo.isLoading || _useRecipientInfo.data === undefined) return new DecimalBigNumber("0");
+
+    return new DecimalBigNumber(_useRecipientInfo.data.totalDebt);
+  }, [_useRecipientInfo]);
+  const recipientInfoIsLoading = _useRecipientInfo.isLoading;
   const donorCount = useDonorNumbers(wallet).data;
-  const totalDonated = useTotalDonated(wallet).data;
+
+  const _useTotalDonated = useTotalDonated(wallet);
+  const totalDonated: DecimalBigNumber = useMemo(() => {
+    if (_useTotalDonated.isLoading || _useTotalDonated.data === undefined) return new DecimalBigNumber("0");
+
+    return new DecimalBigNumber(_useTotalDonated.data);
+  }, [_useTotalDonated]);
   const totalDonatedIsLoading = useTotalDonated(wallet).isLoading;
 
   // Contract interactions: new donation, increase donation, decrease donation
@@ -103,11 +107,23 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
 
-  const currentDonation = useMemo(() => {
+  const userDonation: IUserDonationInfo | null = useMemo(() => {
     if (donationId == NO_DONATION) return null;
 
     return donationInfo[donationId];
   }, [donationInfo, donationId]);
+
+  const userDeposit: DecimalBigNumber = useMemo(() => {
+    if (!userDonation) return new DecimalBigNumber("0");
+
+    return new DecimalBigNumber(userDonation.deposit);
+  }, [userDonation]);
+
+  const userYieldDonated: DecimalBigNumber = useMemo(() => {
+    if (!userDonation) return new DecimalBigNumber("0");
+
+    return new DecimalBigNumber(userDonation.yieldDonated);
+  }, [userDonation]);
 
   useEffect(() => {
     setIsUserDonating(false);
@@ -139,11 +155,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       return;
     }
 
-    const totalDonatedNumber = new DecimalBigNumber(totalDonated);
-
-    setGoalCompletion(
-      totalDonatedNumber.mul(new DecimalBigNumber("100")).div(new DecimalBigNumber(depositGoal.toString())),
-    );
+    setGoalCompletion(totalDonated.mul(new DecimalBigNumber("100")).div(new DecimalBigNumber(depositGoal.toString())));
   }, [recipientInfoIsLoading, totalDonatedIsLoading, totalDonated, depositGoal]);
 
   useEffect(() => {
@@ -255,12 +267,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 <Icon name="sohm-yield" />
               </Grid>
               <Grid item className="metric">
-                {/* TODO safe numbers */}
-                {totalDonatedIsLoading ? (
-                  <Skeleton />
-                ) : (
-                  new DecimalBigNumber(totalDonated ? totalDonated : "0").toString(DEFAULT_FORMAT)
-                )}
+                {totalDonatedIsLoading ? <Skeleton /> : totalDonated.toString(DEFAULT_FORMAT)}
               </Grid>
             </Grid>
             <Grid item className="subtext">
@@ -322,12 +329,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="sohm-total" />
                   </Grid>
                   <Grid item className="metric">
-                    {/* TODO safe numbers */}
-                    {recipientInfoIsLoading ? (
-                      <Skeleton />
-                    ) : (
-                      <strong>{new DecimalBigNumber(totalDebt ? totalDebt : "0").toString(DEFAULT_FORMAT)}</strong>
-                    )}
+                    {recipientInfoIsLoading ? <Skeleton /> : <strong>{totalDebt.toString(DEFAULT_FORMAT)}</strong>}
                   </Grid>
                 </Grid>
               </Grid>
@@ -599,17 +601,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                               <Icon name="deposited" />
                             </Grid>
                             <Grid item className="metric">
-                              {/* TODO safe numbers */}
                               {isDonationInfoLoading ? (
                                 <Skeleton />
-                              ) : currentDonation ? (
+                              ) : (
                                 // This amount is deliberately specific
-                                // TODO: Lienid is the use of yieldDonated correct? should be deposit?
-                                new DecimalBigNumber(currentDonation ? currentDonation.yieldDonated : "0").toString({
+                                userDeposit.toString({
                                   format: true,
                                 })
-                              ) : (
-                                "0"
                               )}
                             </Grid>
                           </Grid>
@@ -626,14 +624,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                                 <Icon name="sohm-yield-sent" />
                               </Grid>
                               <Grid item className="metric">
-                                {isDonationInfoLoading ? (
-                                  <Skeleton />
-                                ) : donationId != NO_DONATION && currentDonation ? (
-                                  // TODO again, correct use of yieldDonated?
-                                  new DecimalBigNumber(currentDonation.yieldDonated).toString(DEFAULT_FORMAT)
-                                ) : (
-                                  "0"
-                                )}
+                                {isDonationInfoLoading ? <Skeleton /> : userYieldDonated.toString(DEFAULT_FORMAT)}
                               </Grid>
                             </Grid>
                           </Grid>
@@ -688,7 +679,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             submitWithdraw={handleWithdrawModalSubmit}
             cancelFunc={handleManageModalCancel}
             currentWalletAddress={donationInfo[donationId].recipient}
-            currentDepositAmount={new DecimalBigNumber(donationInfo[donationId].deposit)}
+            currentDepositAmount={userDeposit}
             depositDate={donationInfo[donationId].date}
             yieldSent={donationInfo[donationId].yieldDonated}
             project={project}

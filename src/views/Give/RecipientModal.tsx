@@ -6,8 +6,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project } from "src/components/GiveProject/project.type";
@@ -18,11 +18,9 @@ import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useSohmBalance } from "src/hooks/useBalance";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
 
 import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
-import { IPendingTxn } from "../../slices/PendingTxnsSlice";
 import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
@@ -47,10 +45,7 @@ export function RecipientModal({
   project,
 }: RecipientModalProps) {
   const location = useLocation();
-  const dispatch = useDispatch();
-  const { provider, address, networkId } = useWeb3Context();
-
-  const networks = useTestableNetworks();
+  const { address, networkId } = useWeb3Context();
 
   const _initialDepositAmount = "0";
   const _initialWalletAddress = "";
@@ -59,8 +54,6 @@ export function RecipientModal({
   const _initialWalletAddressValid = false;
   const _initialWalletAddressValidError = "";
   const _initialIsAmountSet = false;
-
-  // TODO cleanup variables
 
   /**
    * depositAmount is kept as a string, to avoid unnecessary application of number rules while being edited
@@ -92,33 +85,24 @@ export function RecipientModal({
     }
   }, [isModalOpen]);
 
-  /**
-   * Returns the user's sOHM balance
-   *
-   * Copied from Stake.jsx
-   *
-   * TODO consider extracting this into a helper file
-   */
-  // TODO simplify this to handle undefined value
-  const sohmBalance: DecimalBigNumber | undefined = useSohmBalance()[networks.MAINNET]?.data;
+  const _useSohmBalance =
+    useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+  const sohmBalance: DecimalBigNumber = useMemo(() => {
+    if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
+
+    return _useSohmBalance.data;
+  }, [_useSohmBalance]);
 
   const isAccountLoading: boolean = useSelector((state: DonationInfoState) => {
     return state.account.loading;
   });
 
+  // TODO shift to react-query
   const isGiveLoading: boolean = useSelector((state: DonationInfoState) => {
     return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
       ? state.account.mockGiving.loading
       : state.account.giving.loading;
   });
-
-  const pendingTransactions: IPendingTxn[] = useSelector((state: DonationInfoState) => {
-    return state.pendingTransactions;
-  });
-
-  const getSOhmBalance = (): DecimalBigNumber => {
-    return new DecimalBigNumber(sohmBalance ? sohmBalance.toString() : "0");
-  };
 
   /**
    * Returns the maximum deposit that can be directed to the recipient.
@@ -128,7 +112,7 @@ export function RecipientModal({
    * @returns DecimalBigNumber
    */
   const getMaximumDepositAmount = (): DecimalBigNumber => {
-    return new DecimalBigNumber(sohmBalance ? sohmBalance.toString() : "0");
+    return sohmBalance;
   };
 
   const handleSetDepositAmount = (value: string) => {
@@ -138,7 +122,6 @@ export function RecipientModal({
 
   const checkIsDepositAmountValid = (value: string) => {
     const valueNumber = new DecimalBigNumber(value);
-    const sOhmBalanceNumber = getSOhmBalance();
     const zeroNumber = ZERO_NUMBER;
 
     if (!value || value == "" || valueNumber.eq(zeroNumber)) {
@@ -153,7 +136,7 @@ export function RecipientModal({
       return;
     }
 
-    if (sOhmBalanceNumber.eq(zeroNumber)) {
+    if (sohmBalance.eq(zeroNumber)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
     }
@@ -225,6 +208,7 @@ export function RecipientModal({
   const canSubmit = (): boolean => {
     if (!isDepositAmountValid) return false;
 
+    // TODO replace with react-query equivalent
     if (isAccountLoading || isGiveLoading) return false;
 
     // The wallet address is only set when a project is not given
@@ -245,7 +229,7 @@ export function RecipientModal({
    * @returns DecimalBigNumber instance
    */
   const getRetainedAmountDiff = (): DecimalBigNumber => {
-    return new DecimalBigNumber(sohmBalance ? sohmBalance.toString() : "0").sub(getDepositAmount());
+    return sohmBalance.sub(getDepositAmount());
   };
 
   /**
@@ -342,6 +326,7 @@ export function RecipientModal({
 
   const getAmountScreen = () => {
     // If we are loading the state, add a placeholder
+    // TODO replace with react-query equivalent
     if (isAccountLoading || isGiveLoading) return <Skeleton />;
 
     // Let the user enter the amount, but implement allowance guard
@@ -378,7 +363,7 @@ export function RecipientModal({
                 value={depositAmount}
                 helperText={
                   isDepositAmountValid
-                    ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toString(EXACT_FORMAT)} sOHM`
+                    ? `${t`Your current Staked Balance is`} ${sohmBalance.toString(EXACT_FORMAT)} sOHM`
                     : isDepositAmountValidError
                 }
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
