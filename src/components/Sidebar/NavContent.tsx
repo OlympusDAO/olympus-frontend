@@ -84,26 +84,65 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                 <>
                   <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
                   <NavItem to="/bonds" icon="bond" label={t`Bond`}>
-                    {sortedBonds.map((bond, i) => (
-                      <NavItem
-                        to={`/bonds/${bond.index}`}
-                        key={i}
-                        onClick={handleDrawerToggle}
-                        label={bond.displayName}
-                        chip={`${bond.discount && trim(bond.discount * 100, 2)}%`}
-                        chipColor={bond.discount && bond.discount < 0 ? "error" : "success"}
-                      />
-                    ))}
-                    {sortedInverseBonds.map((bond, i) => (
-                      <NavItem
-                        to={`/bonds/inverse/${bond.index}`}
-                        key={i}
-                        onClick={handleDrawerToggle}
-                        label={bond.displayName}
-                        chip={`${bond.discount && trim(bond.discount * 100, 2)}%`}
-                        chipColor={bond.discount && bond.discount < 0 ? "error" : "success"}
-                      />
-                    ))}
+                    {sortedBonds.length > 0 || sortedInverseBonds.length > 0 ? (
+                      <Box mr="12px" mb="5px">
+                        <div className="bond-discounts">
+                          {sortedBonds.length > 0 && (
+                            <>
+                              {sortedBonds.map((bond, i) => {
+                                return (
+                                  <Link
+                                    component={NavLink}
+                                    to={`/bonds/${bond.index}`}
+                                    key={i}
+                                    className={"bond"}
+                                    onClick={handleDrawerToggle}
+                                  >
+                                    <Typography variant="body1">
+                                      <Box display="flex" flexDirection="row" justifyContent="space-between">
+                                        <span>{bond.displayName}</span>
+                                        <span className="bond-pair-roi">
+                                          <DisplayBondDiscount key={bond.index} bond={bond} />
+                                        </span>
+                                      </Box>
+                                    </Typography>
+                                  </Link>
+                                );
+                              })}
+                            </>
+                          )}
+                          {sortedInverseBonds.length > 0 && (
+                            <Box mt="15px">
+                              <Typography variant="body2">
+                                <Trans>Inverse Bonds</Trans>
+                              </Typography>
+                              {sortedInverseBonds.map((bond, i) => {
+                                return (
+                                  <Link
+                                    component={NavLink}
+                                    to={`/bonds/inverse/${bond.index}`}
+                                    key={i}
+                                    className={"bond"}
+                                    onClick={handleDrawerToggle}
+                                  >
+                                    <Typography variant="body1">
+                                      <Box display="flex" flexDirection="row" justifyContent="space-between">
+                                        {bond.displayName}
+                                        <span className="bond-pair-roi">
+                                          <DisplayBondDiscount key={bond.index} bond={bond} />
+                                        </span>
+                                      </Box>
+                                    </Typography>
+                                  </Link>
+                                );
+                              })}
+                            </Box>
+                          )}
+                        </div>
+                      </Box>
+                    ) : (
+                      <></>
+                    )}
                   </NavItem>
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
 

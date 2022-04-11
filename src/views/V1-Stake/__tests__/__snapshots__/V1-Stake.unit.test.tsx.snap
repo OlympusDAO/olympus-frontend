@@ -2846,8 +2846,10 @@ exports[`<Stake/> should render component. not connected 1`] = `
                   class="MuiTypography-root MuiTypography-body1"
                   style="line-height: 1.4;"
                 >
-                  0
-                  %
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                    style="width: 80px;"
+                  />
                 </p>
               </td>
               <td
@@ -5783,8 +5785,10 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                   class="MuiTypography-root MuiTypography-body1"
                   style="line-height: 1.4;"
                 >
-                  0
-                  %
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                    style="width: 80px;"
+                  />
                 </p>
               </td>
               <td
@@ -8502,8 +8506,10 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                   class="MuiTypography-root MuiTypography-body1"
                   style="line-height: 1.4;"
                 >
-                  0
-                  %
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                    style="width: 80px;"
+                  />
                 </p>
               </td>
               <td
@@ -11667,8 +11673,10 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   class="MuiTypography-root MuiTypography-body1"
                   style="line-height: 1.4;"
                 >
-                  0
-                  %
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                    style="width: 80px;"
+                  />
                 </p>
               </td>
               <td
