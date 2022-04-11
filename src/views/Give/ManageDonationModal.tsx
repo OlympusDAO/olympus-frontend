@@ -13,7 +13,7 @@ import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useSohmBalance } from "src/hooks/useBalance";
-import { useRecipientInfo, useTotalDonated } from "src/hooks/useGiveInfo";
+import { useRecipientInfo } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
 
 import { ArrowGraphic } from "../../components/EducationCard";
@@ -61,20 +61,12 @@ export function ManageDonationModal({
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
-  // TODO differentiate between debt and donated. Unclear what the difference is
   const _useRecipientInfo = useRecipientInfo(project ? project.wallet : "");
   const totalDebt: DecimalBigNumber = useMemo(() => {
     if (_useRecipientInfo.isLoading || !_useRecipientInfo.data) return new DecimalBigNumber("0");
 
     return new DecimalBigNumber(_useRecipientInfo.data.totalDebt);
   }, [_useRecipientInfo]);
-
-  const _useTotalDonated = useTotalDonated(project ? project.wallet : "");
-  const totalDonated: DecimalBigNumber = useMemo(() => {
-    if (_useTotalDonated.isLoading || !_useTotalDonated.data) return new DecimalBigNumber("0");
-
-    return new DecimalBigNumber(_useTotalDonated.data);
-  }, [_useTotalDonated]);
 
   useEffect(() => {
     checkIsWalletAddressValid(getWalletAddress());
@@ -391,7 +383,7 @@ export function ManageDonationModal({
           <Box>
             <Typography variant="h5" align="center">
               {project
-                ? totalDonated.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString(DECIMAL_FORMAT) + "%"
+                ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString(DECIMAL_FORMAT) + "%"
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
