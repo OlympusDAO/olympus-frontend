@@ -31,6 +31,8 @@ const trackGiveEvent = (uaData: IUAData, eventAction?: string) => {
   });
 };
 
+// TODO to be removed
+
 // Redeems a user's redeemable balance from the Give contract
 export const redeemBalance = createAsyncThunk(
   "redeem/redeemBalance",

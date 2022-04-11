@@ -32,6 +32,7 @@ type RedeemModalProps = {
 
 const DECIMAL_PLACES = 2;
 
+// TODO migrate to react-query
 export function RedeemYieldModal({ isModalOpen, callbackFunc, cancelFunc, redeemableBalance }: RedeemModalProps) {
   const { address } = useWeb3Context();
   const pendingTransactions = useSelector((state: DonationInfoState) => {
