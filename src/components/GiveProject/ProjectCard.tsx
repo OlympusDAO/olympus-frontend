@@ -150,10 +150,10 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const goalCompletion: DecimalBigNumber = useMemo(() => {
     // We calculate the level of goal completion here, so that it is updated whenever one of the dependencies change
-    if (recipientInfoIsLoading || totalDonatedIsLoading || !totalDebt) return ZERO_NUMBER;
+    if (recipientInfoIsLoading || _useRecipientInfo.isLoading || !totalDebt) return ZERO_NUMBER;
 
     return totalDebt.mul(new DecimalBigNumber("100")).div(new DecimalBigNumber(depositGoal.toString()));
-  }, [recipientInfoIsLoading, totalDonatedIsLoading, totalDebt, depositGoal]);
+  }, [recipientInfoIsLoading, _useRecipientInfo.isLoading, totalDebt, depositGoal]);
 
   useEffect(() => {
     setIsUserDonating(false);
@@ -240,7 +240,13 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               arrow
             >
               <Typography variant="body1">
-                <strong>{!totalDonatedIsLoading ? <Skeleton width={20} /> : formattedGoalCompletion}</strong>
+                <strong>
+                  {_useRecipientInfo.isLoading ? (
+                    <Skeleton className="skeleton-inline" width={20} />
+                  ) : (
+                    formattedGoalCompletion
+                  )}
+                </strong>
                 <Trans>% of goal</Trans>
               </Typography>
             </Tooltip>

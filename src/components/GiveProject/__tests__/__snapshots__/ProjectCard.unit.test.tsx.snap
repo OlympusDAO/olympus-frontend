@@ -108,7 +108,10 @@ exports[`<ProjectCard/> should render card 1`] = `
                 title="Connect your wallet to view the fundraising progress"
               >
                 <strong>
-                  0
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                    style="width: 20px;"
+                  />
                 </strong>
                 % of goal
               </p>
@@ -244,7 +247,10 @@ exports[`<ProjectCard/> should render card without image 1`] = `
                 title="Connect your wallet to view the fundraising progress"
               >
                 <strong>
-                  0
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                    style="width: 20px;"
+                  />
                 </strong>
                 % of goal
               </p>
