@@ -58,7 +58,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
 
   // Pulls a user's donation info
   const rawDonationInfo = useDonationInfo().data;
-  const donationInfo = rawDonationInfo ? rawDonationInfo : [];
+  const donationInfo = useMemo(() => {
+    return rawDonationInfo ? rawDonationInfo : [];
+  }, [rawDonationInfo]);
   const isDonationInfoLoading = useDonationInfo().isLoading;
 
   // Gets the number of donors for a given grant's wallet
@@ -97,7 +99,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
         break;
       }
     }
-  }, [donationInfo, networkId]);
+  }, [donationInfo, networkId, wallet]);
 
   useEffect(() => {
     if (isGiveModalOpen) setIsGiveModalOpen(false);
