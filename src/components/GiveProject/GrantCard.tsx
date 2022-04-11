@@ -59,7 +59,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
   // Pulls a user's donation info
   const rawDonationInfo = useDonationInfo().data;
   const donationInfo = rawDonationInfo ? rawDonationInfo : [];
-  const isDonationInfoLoading = useDonationInfo().loading;
+  const isDonationInfoLoading = useDonationInfo().isLoading;
 
   // Gets the number of donors for a given grant's wallet
   const donorCount = useDonorNumbers(wallet).data;

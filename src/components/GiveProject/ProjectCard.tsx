@@ -75,7 +75,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   // Pull a user's donation info
   const rawDonationInfo = useDonationInfo().data;
   const donationInfo = rawDonationInfo ? rawDonationInfo : [];
-  const isDonationInfoLoading = useDonationInfo().loading;
+  const isDonationInfoLoading = useDonationInfo().isLoading;
 
   // Pull data for a specific partner's wallet
   const totalDebt = useRecipientInfo(wallet).data?.totalDebt;
