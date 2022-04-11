@@ -1,3 +1,15 @@
+/**
+ * @deprecated
+ * author: Sam Potter
+ *
+ * These contract hooks are no longer necessary. Rather than creating a new hook
+ * below, please instead add that contract to the `src/constants/contracts` file
+ * instead (or `src/contracts/tokens` if the contract is an ERC20 or LP token).
+ *
+ * You will be then be able to call `getEthersContract` wherever you need
+ * throughout our entire app (including inside our components).
+ */
+
 import { Contract, ContractInterface } from "@ethersproject/contracts";
 import { useMemo } from "react";
 import { abi as BALANCERV2_POOL_ABI } from "src/abi/BalancerV2Pool.json";
@@ -45,6 +57,8 @@ import { ZipSecondaryRewarder } from "src/typechain/ZipSecondaryRewarder";
 import { useWeb3Context } from ".";
 
 /**
+ * @deprecated Please see note at the top of this file
+ *
  * Helper function to create a static contract hook.
  * Static contracts require an explicit network id to be given as an argument.
  */
@@ -57,6 +71,8 @@ export const createStaticContract = <TContract extends Contract = Contract>(ABI:
 };
 
 /**
+ * @deprecated Please see note at the top of this file
+ *
  * Helper function to create a dynamic contract hook.
  * Dynamic contracts use the provider/signer injected by the users wallet.
  * Since a wallet can be connected to any network, a dynamic contract hook
@@ -80,6 +96,8 @@ const createDynamicContract = <TContract extends Contract = Contract>(ABI: Contr
 };
 
 /**
+ * @deprecated Please see note at the top of this file
+ *
  * Hook that returns a contract for every network in an address map
  */
 export const createMultipleStaticContracts = <TContract extends Contract = Contract>(ABI: ContractInterface) => {
