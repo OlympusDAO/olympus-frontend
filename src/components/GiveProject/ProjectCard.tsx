@@ -98,8 +98,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
   const isMutating = giveMutation.isLoading || increaseMutation.isLoading || decreaseMutation.isLoading;
 
-  const [goalCompletion, setGoalCompletion] = useState(new DecimalBigNumber("0"));
-
   const theme = useTheme();
   const isBreakpointLarge = useMediaQuery(theme.breakpoints.up("lg"));
 
@@ -148,14 +146,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     if (isManageModalOpen) setIsManageModalOpen(false);
   }, [increaseMutation.isSuccess, decreaseMutation.isSuccess]);
 
-  useEffect(() => {
+  const goalCompletion: DecimalBigNumber = useMemo(() => {
     // We calculate the level of goal completion here, so that it is updated whenever one of the dependencies change
-    if (recipientInfoIsLoading || totalDonatedIsLoading || !totalDonated) {
-      setGoalCompletion(ZERO_NUMBER);
-      return;
-    }
+    if (recipientInfoIsLoading || totalDonatedIsLoading || !totalDonated) return ZERO_NUMBER;
 
-    setGoalCompletion(totalDonated.mul(new DecimalBigNumber("100")).div(new DecimalBigNumber(depositGoal.toString())));
+    return totalDonated.mul(new DecimalBigNumber("100")).div(new DecimalBigNumber(depositGoal.toString()));
   }, [recipientInfoIsLoading, totalDonatedIsLoading, totalDonated, depositGoal]);
 
   useEffect(() => {
