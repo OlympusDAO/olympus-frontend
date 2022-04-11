@@ -77,6 +77,7 @@ export function ManageDonationModal({
       // When we close the modal, we ensure button click states are reset
       setIsEditing(false);
       setIsWithdrawing(false);
+      setIsAmountSet(false);
     }
   }, [isModalOpen]);
 

@@ -21,7 +21,6 @@ import { abi as MockSohm } from "../abi/MockSohm.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
 import { addresses, NetworkId } from "../constants";
 import { handleContractError, setAll } from "../helpers";
-import { getMockRedemptionBalancesAsync, getRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 
 interface IUserBalances {
@@ -260,22 +259,6 @@ export const getBalances = createAsyncThunk(
   },
 );
 
-export const getRedemptionBalances = createAsyncThunk(
-  "account/getRedemptionBalances",
-  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    const redeeming = await getRedemptionBalancesAsync({ address, networkID, provider });
-    return redeeming;
-  },
-);
-
-export const getMockRedemptionBalances = createAsyncThunk(
-  "account/getMockRedemptionBalances",
-  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    const mockRedeeming = await getMockRedemptionBalancesAsync({ address, networkID, provider });
-    return mockRedeeming;
-  },
-);
-
 interface IUserAccountDetails {
   staking: {
     ohmStake: number;
@@ -418,14 +401,6 @@ export const loadAccountDetails = createAsyncThunk(
       handleContractError(e);
     }
     await dispatch(getBalances({ address, networkID, provider }));
-    if (Environment.isGiveEnabled()) {
-      await dispatch(getRedemptionBalances({ address, networkID, provider }));
-      if (networkID === NetworkId.TESTNET_RINKEBY) {
-        await dispatch(getMockRedemptionBalances({ address, networkID, provider }));
-      } else {
-        if (Environment.env.NODE_ENV !== "production") console.log("Give - Contract mocks skipped except on Rinkeby");
-      }
-    }
 
     return {
       staking: {
@@ -637,28 +612,6 @@ const accountSlice = createSlice({
         state.loading = false;
       })
       .addCase(getBalances.rejected, (state, { error }) => {
-        state.loading = false;
-        console.log(error);
-      })
-      .addCase(getRedemptionBalances.pending, state => {
-        state.loading = true;
-      })
-      .addCase(getRedemptionBalances.fulfilled, (state, action) => {
-        setAll(state, action.payload);
-        state.loading = false;
-      })
-      .addCase(getRedemptionBalances.rejected, (state, { error }) => {
-        state.loading = false;
-        console.log(error);
-      })
-      .addCase(getMockRedemptionBalances.pending, state => {
-        state.loading = true;
-      })
-      .addCase(getMockRedemptionBalances.fulfilled, (state, action) => {
-        setAll(state, action.payload);
-        state.loading = false;
-      })
-      .addCase(getMockRedemptionBalances.rejected, (state, { error }) => {
         state.loading = false;
         console.log(error);
       })
