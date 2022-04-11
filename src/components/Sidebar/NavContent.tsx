@@ -7,7 +7,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { useBonds } from "src/views/Bond/hooks/useBonds";
+import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
@@ -123,7 +123,7 @@ const NavContent: React.VFC = () => {
 };
 
 const Bonds: React.VFC<{ isInverseBond?: boolean }> = ({ isInverseBond = false }) => {
-  const bonds = useBonds({ isInverseBond }).data;
+  const bonds = useLiveBonds({ isInverseBond }).data;
 
   if (!bonds) return null;
 

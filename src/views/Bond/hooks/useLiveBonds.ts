@@ -66,14 +66,18 @@ export interface Bond {
   };
 }
 
-export const useBonds = ({ isInverseBond = false }: { isInverseBond?: boolean } = {}) => {
+export const useLiveBonds = ({ isInverseBond = false }: { isInverseBond?: boolean } = {}) => {
   const networks = useTestableNetworks();
 
   const args = [networks.MAINNET, isInverseBond] as const;
-  return useQuery<Bond[], Error>(bondsQueryKey(...args), () => fetchBonds(...args));
+  return useQuery<Bond[], Error>(liveBondsQueryKey(...args), () => fetchBonds(...args));
 };
 
-export const bondsQueryKey = (networkId: NetworkId, isInverseBond: boolean) => ["useBonds", networkId, isInverseBond];
+export const liveBondsQueryKey = (networkId: NetworkId, isInverseBond: boolean) => [
+  "useLiveBonds",
+  networkId,
+  isInverseBond,
+];
 
 export const fetchBonds = async (networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, isInverseBond: boolean) => {
   const contract = isInverseBond

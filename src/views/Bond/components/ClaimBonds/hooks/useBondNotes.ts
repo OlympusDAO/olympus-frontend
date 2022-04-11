@@ -6,7 +6,7 @@ import { getQueryData } from "src/helpers/react-query/getQueryData";
 import { assert } from "src/helpers/types/assert";
 import { useWeb3Context } from "src/hooks";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { Bond, bondsQueryKey } from "src/views/Bond/hooks/useBonds";
+import { Bond, liveBondsQueryKey } from "src/views/Bond/hooks/useLiveBonds";
 
 export interface BondNote {
   /**
@@ -51,10 +51,8 @@ export const fetchBondNotes = async (networkId: NetworkId.MAINNET | NetworkId.TE
       const note = await contract.notes(address, id);
 
       const market = note.marketID.toString();
-      const bond = await getQueryData<Bond[]>(bondsQueryKey(networkId, false)).then(bonds =>
-        bonds.find(bond => bond.id === market),
-      );
-
+      const bonds = await getQueryData<Bond[]>(liveBondsQueryKey(networkId, false));
+      const bond = bonds.find(bond => bond.id === market);
       assert(bond, "");
 
       return {

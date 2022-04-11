@@ -15,7 +15,7 @@ import { useWeb3Context } from "src/hooks";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
-import { useBonds } from "src/views/Bond/hooks/useBonds";
+import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 import {
   BeetsPoolAPY,
   JoePoolAPY,
@@ -51,7 +51,7 @@ const GetOhm: FC = () => {
     supplyRate && (Math.pow((parseBigNumber(supplyRate) / ethMantissa) * blocksPerDay + 1, daysPerYear) - 1) * 100;
 
   const classes = useStyles();
-  const bonds = useBonds().data;
+  const bonds = useLiveBonds().data;
   const fiveDayRate = Math.pow(1 + rebaseRate, 5 * 3) - 1;
 
   return (

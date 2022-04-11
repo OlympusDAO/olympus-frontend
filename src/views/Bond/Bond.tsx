@@ -6,14 +6,14 @@ import { useState } from "react";
 import { OHMPrice, TreasuryBalance } from "../TreasuryDashboard/components/Metric/Metric";
 import { BondList } from "./components/BondList";
 import { ClaimBonds } from "./components/ClaimBonds/ClaimBonds";
-import { useBonds } from "./hooks/useBonds";
+import { useLiveBonds } from "./hooks/useLiveBonds";
 
 export const Bond = () => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [currentAction, setCurrentAction] = useState<"BOND" | "INVERSE">("BOND");
 
-  const bonds = useBonds().data;
-  const inverse = useBonds({ isInverseBond: true }).data;
+  const bonds = useLiveBonds().data;
+  const inverse = useLiveBonds({ isInverseBond: true }).data;
   const showTabs = !!inverse && inverse.length > 0 && !!bonds;
 
   return (

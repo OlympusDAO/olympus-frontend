@@ -9,7 +9,7 @@ import { Token } from "src/helpers/contracts/Token";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useTokenPrice } from "src/hooks/useTokenPrice";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { Bond, useBonds } from "src/views/Bond/hooks/useBonds";
+import { Bond, useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 
 import { BondDuration } from "../BondDuration";
 import { BondInfoText } from "../BondInfoText";
@@ -26,7 +26,7 @@ export const BondModalContainer: React.VFC = () => {
   const { pathname } = useLocation();
   const isInverseBond = pathname.includes("/inverse/");
 
-  const bonds = useBonds({ isInverseBond }).data;
+  const bonds = useLiveBonds({ isInverseBond }).data;
   const bond = bonds?.find(bond => bond.id === id);
 
   if (!bond) return null;
