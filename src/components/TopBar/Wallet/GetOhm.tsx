@@ -8,10 +8,14 @@ import uniswapImg from "src/assets/uniswap.png";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
 import { beetsPools, joePools, jonesPools, spiritPools, sushiPools, zipPools } from "src/helpers/AllExternalPools";
-import { useAppSelector, useWeb3Context } from "src/hooks";
+import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { prettifySecondsInDays } from "src/helpers/timeUtil";
+import { useWeb3Context } from "src/hooks";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
+import { useBonds } from "src/views/Bond/hooks/useBonds";
 import {
   BeetsPoolAPY,
   JoePoolAPY,
@@ -47,9 +51,7 @@ const GetOhm: FC = () => {
     supplyRate && (Math.pow((parseBigNumber(supplyRate) / ethMantissa) * blocksPerDay + 1, daysPerYear) - 1) * 100;
 
   const classes = useStyles();
-  const bondsV2 = useAppSelector(state => {
-    return state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]).sort((a, b) => b.discount - a.discount);
-  });
+  const bonds = useBonds().data;
   const fiveDayRate = Math.pow(1 + rebaseRate, 5 * 3) - 1;
 
   return (
@@ -92,17 +94,18 @@ const GetOhm: FC = () => {
             <Typography variant="h6" className={classes.title}>
               Bonds
             </Typography>
-            {bondsV2.map((bond, index) => (
-              <ItemCard
-                key={index}
-                tokens={bond.bondIconSvg}
-                value={formatCurrency(bond.marketPrice, 2)}
-                roi={`${trim(bond.discount * 100, 2)}%`}
-                days={bond.duration}
-                href={`/bonds/${bond.index}`}
-                hrefText={t` Bond ${bond.displayName}`}
-              />
-            ))}
+            {bonds &&
+              sortByDiscount(bonds).map(bond => (
+                <ItemCard
+                  key={bond.id}
+                  tokens={bond.quoteToken.icons}
+                  value={`$${bond.price.inUsd.toString({ decimals: 2, trim: false })}`}
+                  roi={`${bond.discount.mul(new DecimalBigNumber("100")).toString({ decimals: 2, trim: false })}%`}
+                  days={prettifySecondsInDays(bond.duration)}
+                  href={`/bonds/${bond.id}`}
+                  hrefText={t`Bond ${bond.quoteToken.name}`}
+                />
+              ))}
             <Typography variant="h6" className={classes.title}>
               Stake
             </Typography>
