@@ -11,7 +11,7 @@ import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-import { useRecipientInfo, useRedeemableBalance, useTotalDonated } from "src/hooks/useGiveInfo";
+import { useRecipientInfo, useRedeemableBalance } from "src/hooks/useGiveInfo";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useWeb3Context } from "src/hooks/web3Context";
 
@@ -46,16 +46,6 @@ export default function RedeemYield() {
   const _useRecipientInfo = useRecipientInfo(address);
   const isRecipientInfoLoading = _useRecipientInfo.isLoading;
 
-  const _useTotalDonated = useTotalDonated(projectMap.get(address) ? address : "");
-  /**
-   * Get the amount of sOHM yield donated by the current user and return as a number
-   */
-  const totalDonated: DecimalBigNumber = useMemo(() => {
-    if (_useTotalDonated.isLoading || _useTotalDonated.data === undefined) return new DecimalBigNumber("0");
-
-    return new DecimalBigNumber(_useTotalDonated.data);
-  }, [_useTotalDonated]);
-
   const _useStakingRebaseRate = useStakingRebaseRate();
   const isStakingRebaseRateLoading = _useStakingRebaseRate.isLoading;
   const stakingRebase: DecimalBigNumber = useMemo(() => {
@@ -70,7 +60,7 @@ export default function RedeemYield() {
     return new DecimalBigNumber((Math.pow(1 + stakingRebase.toApproxNumber(), 5 * 3) - 1).toString());
   }, [stakingRebase]);
 
-  const totalDeposit: DecimalBigNumber = useMemo(() => {
+  const totalDebt: DecimalBigNumber = useMemo(() => {
     if (_useRecipientInfo.isLoading || _useRecipientInfo.data == undefined) return new DecimalBigNumber("0");
 
     return new DecimalBigNumber(_useRecipientInfo.data.totalDebt);
@@ -78,7 +68,7 @@ export default function RedeemYield() {
 
   const stakingRebasePercentage = stakingRebase.mul(new DecimalBigNumber("100"));
 
-  const nextRewardValue = stakingRebase.mul(totalDeposit);
+  const nextRewardValue = stakingRebase.mul(totalDebt);
 
   const fiveDayRateValue = fiveDayRate.mul(new DecimalBigNumber("100"));
 
@@ -168,7 +158,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center" data-testid="project-deposit">
-                  {totalDonated.toString(DECIMAL_FORMAT)}
+                  {totalDebt.toString(DECIMAL_FORMAT)}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   {isSmallScreen ? t`Total Donated` : t`Total sOHM Donated`}
@@ -178,11 +168,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center" data-testid="project-goal-achievement">
-                  {totalDonated
-                    .mul(new DecimalBigNumber("100"))
-                    .div(getRecipientGoal(address))
-                    .toString(DECIMAL_FORMAT)}
-                  %
+                  {totalDebt.mul(new DecimalBigNumber("100")).div(getRecipientGoal(address)).toString(DECIMAL_FORMAT)}%
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   <Trans>of sOHM Goal</Trans>
@@ -199,7 +185,7 @@ export default function RedeemYield() {
           <DataRow
             title={t`Deposited sOHM`}
             // Exact number
-            balance={`${totalDeposit.toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
+            balance={`${totalDebt.toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
             data-testid="data-deposited-sohm"
           />
@@ -235,7 +221,7 @@ export default function RedeemYield() {
           isModalOpen={isRedeemYieldModalOpen}
           callbackFunc={handleRedeemYieldModalSubmit}
           cancelFunc={handleRedeemYieldModalCancel}
-          deposit={totalDeposit}
+          deposit={totalDebt}
           redeemableBalance={redeemableBalance}
         />
       </Grid>
