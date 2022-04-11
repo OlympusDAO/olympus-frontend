@@ -15,6 +15,8 @@ interface IDonorAddresses {
   [key: string]: boolean;
 }
 
+// TODO to be removed
+
 // Gets a recipient's info. Separating it out into a helper allows us to call it on addresses
 // other than the current user's without overwriting the data in Redux store. This is needed
 // to pull data on our partner projects
