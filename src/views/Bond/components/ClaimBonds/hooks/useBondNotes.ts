@@ -3,10 +3,9 @@ import { NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { getQueryData } from "src/helpers/react-query/getQueryData";
-import { assert } from "src/helpers/types/assert";
 import { useWeb3Context } from "src/hooks";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { Bond, liveBondsQueryKey } from "src/views/Bond/hooks/useLiveBonds";
+import { Bond, bondQueryKey, fetchBond } from "src/views/Bond/hooks/useBond";
 
 export interface BondNote {
   /**
@@ -31,15 +30,14 @@ export interface BondNote {
   payout: DecimalBigNumber;
 }
 
+export const bondNotesQueryKey = (networkId: NetworkId, address: string) => ["useBondNotes", networkId, address];
+
 export const useBondNotes = () => {
   const { address } = useWeb3Context();
   const networks = useTestableNetworks();
-
   const args = [networks.MAINNET, address] as const;
-  return useQuery<BondNote[], Error>(bondNotesQueryKey(...args), () => fetchBondNotes(...args), { enabled: !!address });
+  return useQuery(bondNotesQueryKey(...args), () => fetchBondNotes(...args), { enabled: !!address });
 };
-
-export const bondNotesQueryKey = (networkId: NetworkId, address: string) => ["useBondNotes", networkId, address];
 
 export const fetchBondNotes = async (networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, address: string) => {
   const contract = BOND_DEPOSITORY_CONTRACT.getEthersContract(networkId);
@@ -50,17 +48,16 @@ export const fetchBondNotes = async (networkId: NetworkId.MAINNET | NetworkId.TE
     ids.map(async id => {
       const note = await contract.notes(address, id);
 
-      const market = note.marketID.toString();
-      const bonds = await getQueryData<Bond[]>(liveBondsQueryKey(networkId, false));
-      const bond = bonds.find(bond => bond.id === market);
-      assert(bond, "");
+      const bondMarketId = note.marketID.toString();
+      const args = { id: bondMarketId, networkId, isInverseBond: false };
+      const bond = await getQueryData(bondQueryKey(args), () => fetchBond(args));
 
       return {
         id,
         bond,
         created: note.created * 1000, // Converts date to milliseconds
         matured: note.matured * 1000,
-        payout: new DecimalBigNumber(note.payout, 18),
+        payout: new DecimalBigNumber(note.payout, 18), // Always denominated in gOHM,
       };
     }),
   );

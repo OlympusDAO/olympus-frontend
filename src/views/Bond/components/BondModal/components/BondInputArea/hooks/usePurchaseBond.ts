@@ -11,7 +11,7 @@ import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { bondNotesQueryKey } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
-import { Bond } from "src/views/Bond/hooks/useLiveBonds";
+import { Bond } from "src/views/Bond/hooks/useBond";
 
 export const usePurchaseBond = (bond: Bond) => {
   const dispatch = useDispatch();

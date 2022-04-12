@@ -18,7 +18,7 @@ import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { Token } from "src/helpers/contracts/Token";
 import { useScreenSize } from "src/hooks/useScreenSize";
 
-import { Bond } from "../hooks/useLiveBonds";
+import { Bond } from "../hooks/useBond";
 import { BondDiscount } from "./BondDiscount";
 import { BondDuration } from "./BondDuration";
 import { BondInfoText } from "./BondInfoText";

@@ -12,7 +12,7 @@ import { useBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { Bond } from "src/views/Bond/hooks/useLiveBonds";
+import { Bond } from "src/views/Bond/hooks/useBond";
 
 import { BondDiscount } from "../../../BondDiscount";
 import { BondDuration } from "../../../BondDuration";

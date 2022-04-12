@@ -9,8 +9,9 @@ import { Token } from "src/helpers/contracts/Token";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useTokenPrice } from "src/hooks/useTokenPrice";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { Bond, useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
+import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 
+import { Bond } from "../../hooks/useBond";
 import { BondDuration } from "../BondDuration";
 import { BondInfoText } from "../BondInfoText";
 import { BondPrice } from "../BondPrice";
