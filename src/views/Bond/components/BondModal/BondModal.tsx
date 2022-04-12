@@ -134,6 +134,6 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
 };
 
 const TokenPrice: React.VFC<{ token: Token }> = ({ token }) => {
-  const price = useTokenPrice(NetworkId.MAINNET, token).data;
+  const price = useTokenPrice({ token, networkId: NetworkId.MAINNET }).data;
   return price ? <>${price.toString({ decimals: 2, format: true, trim: false })}</> : <Skeleton width={60} />;
 };
