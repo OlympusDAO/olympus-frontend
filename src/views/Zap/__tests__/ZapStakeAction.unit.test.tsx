@@ -1,5 +1,4 @@
 import { fireEvent } from "@testing-library/dom";
-import { act } from "react-dom/test-utils";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as useBalance from "src/hooks/useBalance";
 import * as usePrices from "src/hooks/usePrices";
@@ -7,8 +6,8 @@ import * as useZapTokenBalances from "src/hooks/useZapTokenBalances";
 import * as useWeb3Context from "src/hooks/web3Context";
 import { NetworkId } from "src/networkDetails";
 import { mockWeb3Context } from "src/testHelpers";
+import { render, screen } from "src/testUtils";
 
-import { render, screen } from "../../../testUtils";
 import ZapStakeAction from "../ZapStakeAction";
 
 beforeEach(() => {
@@ -542,10 +541,7 @@ describe("<ZapStakeAction/> ", () => {
       },
     });
 
-    let container;
-    await act(async () => {
-      ({ container } = render(<ZapStakeAction />));
-    });
+    const { container } = render(<ZapStakeAction />);
 
     fireEvent.click(await screen.findByTestId("zap-input"));
     fireEvent.click(await screen.getAllByText("ETH")[0]);
@@ -558,5 +554,62 @@ describe("<ZapStakeAction/> ", () => {
     // Once the output token has been selected, the zap button will be displayed
     expect(await screen.findByText("Zap-Stake"));
     expect(container).toMatchSnapshot();
-  }, 20000);
+  });
+
+  it("should display loading modal if balances are still loading", () => {
+    const preloadedState = {
+      zap: {
+        allowances: {},
+        balancesLoading: true,
+        changeAllowanceLoading: false,
+        stakeLoading: false,
+        balances: {
+          dai: {
+            hide: false,
+            type: "base",
+            network: "ethereum",
+            address: "0x6b175474e89094c44da98b954eedeac495271d0f",
+            decimals: 18,
+            symbol: "DAI",
+            price: 0.998646,
+            balance: 10000,
+            balanceRaw: "10000",
+            balanceUSD: 10000.0,
+            tokenImageUrl:
+              "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x6b175474e89094c44da98b954eedeac495271d0f.png",
+          },
+          eth: {
+            hide: false,
+            type: "base",
+            network: "ethereum",
+            address: "0x0000000000000000000000000000000000000000",
+            decimals: 18,
+            symbol: "ETH",
+            price: 3397.72,
+            balance: 1,
+            balanceRaw: "1",
+            balanceUSD: 3397.72,
+            tokenImageUrl:
+              "https://storage.googleapis.com/zapper-fi-assets/tokens/ethereum/0x0000000000000000000000000000000000000000.png",
+          },
+        },
+      },
+    };
+    // use only reducers required for this component test
+    const reducer = {
+      app: appReducer,
+      zap: zapReducer,
+    };
+
+    const store = configureStore({
+      reducer,
+      middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
+      preloadedState,
+    }) as any; //eslint-disable-line
+
+    render(<ZapStakeAction />, store);
+
+    fireEvent.click(screen.getByTestId("zap-input"));
+    expect(screen.getByText("Dialing Zapper...")).toBeInTheDocument();
+  });
 });
