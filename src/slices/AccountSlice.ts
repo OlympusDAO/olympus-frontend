@@ -50,14 +50,6 @@ interface IUserBalances {
   };
 }
 
-// TODO remove
-interface IUserRecipientInfo {
-  totalDebt: string;
-  carry: string;
-  agnosticAmount: string;
-  indexAtLastChange: string;
-}
-
 export const getBalances = createAsyncThunk(
   "account/getBalances",
   async ({ address, networkID, provider }: IBaseAddressAsyncThunk): Promise<IUserBalances> => {
