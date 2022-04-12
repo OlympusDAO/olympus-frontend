@@ -50,16 +50,7 @@ const NavContent: React.VFC = () => {
                   <NavItem to="/bonds" icon="bond" label={t`Bond`}>
                     <Box ml="26px" mt="16px" mb="12px">
                       <Bonds />
-
-                      <Box mt="16px">
-                        <Typography variant="body2" color="textSecondary">
-                          <Trans>Inverse Bonds</Trans>
-                        </Typography>
-
-                        <Box mt="12px">
-                          <Bonds isInverseBond />
-                        </Box>
-                      </Box>
+                      <InverseBonds />
                     </Box>
                   </NavItem>
 
@@ -134,8 +125,8 @@ const NavContent: React.VFC = () => {
   );
 };
 
-const Bonds: React.VFC<{ isInverseBond?: boolean }> = ({ isInverseBond = false }) => {
-  const bonds = useLiveBonds({ isInverseBond }).data;
+const Bonds: React.VFC = () => {
+  const bonds = useLiveBonds().data;
 
   if (!bonds) return null;
 
@@ -144,23 +135,49 @@ const Bonds: React.VFC<{ isInverseBond?: boolean }> = ({ isInverseBond = false }
       {sortByDiscount(bonds)
         .filter(bond => !bond.isSoldOut)
         .map(bond => (
-          <Link
-            key={bond.id}
-            component={NavLink}
-            to={isInverseBond ? `/bonds/inverse/${bond.id}` : `/bonds/${bond.id}`}
-          >
-            <Typography variant="body1">
-              <Box display="flex" flexDirection="row" justifyContent="space-between">
-                <span>{bond.quoteToken.name}</span>
-
-                <span className="bond-pair-roi">
+          <Box mt="8px">
+            <Link key={bond.id} component={NavLink} to={`/bonds/${bond.id}`}>
+              <Typography variant="body1">
+                <Box display="flex" flexDirection="row" justifyContent="space-between">
+                  {bond.quoteToken.name}
                   <BondDiscount discount={bond.discount} />
-                </span>
-              </Box>
-            </Typography>
-          </Link>
+                </Box>
+              </Typography>
+            </Link>
+          </Box>
         ))}
     </>
+  );
+};
+
+const InverseBonds: React.VFC = () => {
+  const bonds = useLiveBonds({ isInverseBond: true }).data;
+
+  if (!bonds || bonds.length === 0) return null;
+
+  return (
+    <Box mt="16px">
+      <Typography variant="body2" color="textSecondary">
+        <Trans>Inverse Bonds</Trans>
+      </Typography>
+
+      <Box mt="12px">
+        {sortByDiscount(bonds)
+          .filter(bond => !bond.isSoldOut)
+          .map(bond => (
+            <Box mt="8px">
+              <Link key={bond.id} component={NavLink} to={`/bonds/inverse/${bond.id}`}>
+                <Typography variant="body1">
+                  <Box display="flex" flexDirection="row" justifyContent="space-between">
+                    {bond.quoteToken.name}
+                    <BondDiscount discount={bond.discount} />
+                  </Box>
+                </Typography>
+              </Link>
+            </Box>
+          ))}
+      </Box>
+    </Box>
   );
 };
 
