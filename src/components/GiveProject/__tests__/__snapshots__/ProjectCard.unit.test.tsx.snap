@@ -123,7 +123,10 @@ exports[`<ProjectCard/> should render card 1`] = `
             <div
               class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
             >
-              0
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                style="width: 20px;"
+              />
               %
             </div>
           </div>
@@ -272,7 +275,10 @@ exports[`<ProjectCard/> should render card without image 1`] = `
             <div
               class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
             >
-              0
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                style="width: 20px;"
+              />
               %
             </div>
           </div>

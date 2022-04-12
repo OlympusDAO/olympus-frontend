@@ -615,7 +615,10 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   <div
                     class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                   >
-                    0
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      style="width: 20px;"
+                    />
                     %
                   </div>
                 </div>
@@ -741,7 +744,10 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   <div
                     class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                   >
-                    0
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      style="width: 20px;"
+                    />
                     %
                   </div>
                 </div>
@@ -867,7 +873,10 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   <div
                     class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                   >
-                    0
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      style="width: 20px;"
+                    />
                     %
                   </div>
                 </div>
@@ -993,7 +1002,10 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   <div
                     class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                   >
-                    0
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      style="width: 20px;"
+                    />
                     %
                   </div>
                 </div>
@@ -1119,7 +1131,10 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   <div
                     class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                   >
-                    0
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      style="width: 20px;"
+                    />
                     %
                   </div>
                 </div>
@@ -1440,7 +1455,10 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 <div
                                   class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                                 >
-                                  0
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    style="width: 20px;"
+                                  />
                                   %
                                 </div>
                               </div>
@@ -1566,7 +1584,10 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 <div
                                   class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                                 >
-                                  0
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    style="width: 20px;"
+                                  />
                                   %
                                 </div>
                               </div>
@@ -1692,7 +1713,10 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 <div
                                   class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                                 >
-                                  0
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    style="width: 20px;"
+                                  />
                                   %
                                 </div>
                               </div>
@@ -1818,7 +1842,10 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 <div
                                   class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                                 >
-                                  0
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    style="width: 20px;"
+                                  />
                                   %
                                 </div>
                               </div>
@@ -1944,7 +1971,10 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 <div
                                   class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                                 >
-                                  0
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    style="width: 20px;"
+                                  />
                                   %
                                 </div>
                               </div>
@@ -2588,11 +2618,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                   </div>
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
-                                  >
-                                    <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                    />
-                                  </div>
+                                  />
                                 </div>
                               </div>
                               <div
