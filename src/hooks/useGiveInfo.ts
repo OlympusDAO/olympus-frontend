@@ -238,7 +238,7 @@ export const useRecipientInfo = (address: string) => {
 };
 
 /**
- * Query key for useTotalDonated, will refresh on address changes or
+ * Query key for useTotalYieldDonated, will refresh on address changes or
  * networkId changes
  */
 export const totalYieldDonatedQueryKey = (address: string, networkId: NetworkId) =>
