@@ -477,9 +477,6 @@ export const calculateUserBondDetails = createAsyncThunk(
 );
 
 export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
-  // TODO redeeming and mockRedeeming to be removed
-  redeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
-  mockRedeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   bonds: { [key: string]: IUserBondDetails };
   balances: {
     gohm: string;
@@ -556,25 +553,6 @@ const initialState: IAccountSlice = {
     fiatDaowsohm: "",
     pool: "",
     mockSohm: "",
-  },
-  // TODO redeeming and mockRedeeming to be removed
-  redeeming: {
-    sohmRedeemable: "",
-    recipientInfo: {
-      totalDebt: "",
-      carry: "",
-      agnosticAmount: "",
-      indexAtLastChange: "",
-    },
-  },
-  mockRedeeming: {
-    sohmRedeemable: "",
-    recipientInfo: {
-      totalDebt: "",
-      carry: "",
-      agnosticAmount: "",
-      indexAtLastChange: "",
-    },
   },
   staking: { ohmStakeV1: 0, ohmUnstakeV1: 0, ohmStake: 0, ohmUnstake: 0 },
   wrapping: { sohmWrap: 0, wsohmUnwrap: 0, gOhmUnwrap: 0, wsOhmMigrate: 0 },
