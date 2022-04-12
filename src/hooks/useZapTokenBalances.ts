@@ -33,7 +33,7 @@ export interface ZapperToken {
   balanceUSD: number;
 }
 
-interface ZapHelperBalancesResponse {
+export interface ZapHelperBalancesResponse {
   balances: { [key: string]: ZapperToken };
 }
 
