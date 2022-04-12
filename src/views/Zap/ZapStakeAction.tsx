@@ -269,6 +269,16 @@ const ZapStakeAction: React.FC = () => {
     }
   };
 
+  console.log(
+    {
+      slippage: customSlippage,
+      sellAmount: inputQuantity,
+      tokenAddress: selectedTokenBalance && selectedTokenBalance.address,
+      minimumAmount: minimumAmountString,
+      gOHM: outputGOHM,
+    },
+    "logging",
+  );
   return (
     <>
       <ZapStakeHeader images={inputTokenImages} />
