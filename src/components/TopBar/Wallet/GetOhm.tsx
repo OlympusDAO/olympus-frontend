@@ -5,9 +5,17 @@ import { GetOnButton, ItemCard, OHMItemCardProps } from "@olympusdao/component-l
 import { FC } from "react";
 import sushiswapImg from "src/assets/sushiswap.png";
 import uniswapImg from "src/assets/uniswap.png";
-import { GOHM_ADDRESSES } from "src/constants/addresses";
+import { OHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
-import { beetsPools, joePools, jonesPools, spiritPools, sushiPools, zipPools } from "src/helpers/AllExternalPools";
+import {
+  balancerPools,
+  beetsPools,
+  joePools,
+  jonesPools,
+  spiritPools,
+  sushiPools,
+  zipPools,
+} from "src/helpers/AllExternalPools";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { prettifySecondsInDays } from "src/helpers/timeUtil";
@@ -17,6 +25,8 @@ import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 import {
+  BalancerPoolAPY,
+  BalancerSwapFees,
   BeetsPoolAPY,
   JoePoolAPY,
   JonesPoolAPY,
@@ -63,18 +73,14 @@ const GetOhm: FC = () => {
         <Grid container spacing={1}>
           <Grid item xs={6}>
             <GetOnButton
-              href={`https://app.sushi.com/swap/?outputCurrency=${
-                GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
-              }`}
+              href={`https://app.sushi.com/swap/?outputCurrency=${OHM_ADDRESSES[NetworkId.MAINNET]}`}
               logo={<img src={sushiswapImg}></img>}
               exchangeName="Sushiswap"
             />
           </Grid>
           <Grid item xs={6}>
             <GetOnButton
-              href={`https://app.uniswap.org/#/swap?outputCurrency=${
-                GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES]
-              }`}
+              href={`https://app.uniswap.org/#/swap?outputCurrency=${OHM_ADDRESSES[NetworkId.MAINNET]}`}
               logo={<img src={uniswapImg}></img>}
               exchangeName="Uniswap"
             />
@@ -139,6 +145,9 @@ const GetOhm: FC = () => {
         ))}
         {jonesPools.map((pool, index) => (
           <JonesPools key={index} pool={pool} />
+        ))}
+        {balancerPools.map((pool, index) => (
+          <BalancerPools key={index} pool={pool} />
         ))}
 
         <Typography variant="h6" className={classes.title}>
@@ -251,6 +260,11 @@ const JonesPools: React.FC<{ pool: ExternalPool }> = props => {
   const { data: totalValueLocked } = useStakePoolTVL(props.pool);
   const { apy } = JonesPoolAPY(props.pool);
   return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
+};
+const BalancerPools: React.FC<{ pool: ExternalPool }> = props => {
+  const { data } = BalancerSwapFees(props.pool.address);
+  const { apy } = BalancerPoolAPY(props.pool);
+  return <PoolCard {...props} value={data.totalLiquidity && formatCurrency(data.totalLiquidity)} roi={apy} />;
 };
 
 const PoolCard = (props: { pool: ExternalPool; value: OHMItemCardProps["value"]; roi: OHMItemCardProps["roi"] }) => {

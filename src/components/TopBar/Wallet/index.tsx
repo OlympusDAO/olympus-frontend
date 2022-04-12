@@ -1,7 +1,8 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, makeStyles, SwipeableDrawer, Theme, Typography, withStyles } from "@material-ui/core";
 import { Icon, OHMTokenProps, PrimaryButton, SecondaryButton, TabBar, Token } from "@olympusdao/component-library";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { shorten } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
@@ -40,6 +41,16 @@ const useStyles = makeStyles<Theme>(theme => ({
 }));
 
 export function Wallet(props: { open?: boolean; component?: string }) {
+  const { state: closeRedirect } = useLocation();
+  const [closeLocation, setCloseLocation] = useState("/");
+
+  //Watch for PrevPath passed in and set it as path to close.
+  useEffect(() => {
+    if (closeRedirect && closeRedirect.prevPath) {
+      setCloseLocation(closeRedirect.prevPath);
+    }
+  }, [closeRedirect]);
+
   const classes = useStyles();
   const history = useHistory();
   const { address, connect, connected, networkId } = useWeb3Context();
@@ -93,7 +104,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
         anchor="right"
         open={props.open ? true : false}
         onOpen={() => null}
-        onClose={() => history.goBack()}
+        onClose={() => history.push(closeLocation)}
       >
         <Box p="30px 15px" style={{ overflow: "hidden" }}>
           <Box style={{ top: 0, position: "sticky" }}>
@@ -112,7 +123,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
               <Box display="flex" flexDirection="row" justifyContent="flex-end" alignItems="center" textAlign="right">
                 <Icon
                   onClick={() => {
-                    history.goBack();
+                    history.push(closeLocation);
                   }}
                   style={{ cursor: "pointer" }}
                   name="x"

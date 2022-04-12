@@ -1,12 +1,13 @@
-import { t } from "@lingui/macro";
-import { Box, Divider, Link, makeStyles, Paper, SvgIcon } from "@material-ui/core";
+import { t, Trans } from "@lingui/macro";
+import { Box, Divider, Link, makeStyles, Paper, SvgIcon, Typography } from "@material-ui/core";
 import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { BondDiscount } from "src/views/Bond/components/BondDiscount";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
@@ -47,8 +48,19 @@ const NavContent: React.VFC = () => {
                   <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
 
                   <NavItem to="/bonds" icon="bond" label={t`Bond`}>
-                    <Bonds />
-                    <Bonds isInverseBond />
+                    <Box ml="26px" mt="16px" mb="12px">
+                      <Bonds />
+
+                      <Box mt="16px">
+                        <Typography variant="body2" color="textSecondary">
+                          <Trans>Inverse Bonds</Trans>
+                        </Typography>
+
+                        <Box mt="12px">
+                          <Bonds isInverseBond />
+                        </Box>
+                      </Box>
+                    </Box>
                   </NavItem>
 
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
@@ -132,13 +144,21 @@ const Bonds: React.VFC<{ isInverseBond?: boolean }> = ({ isInverseBond = false }
       {sortByDiscount(bonds)
         .filter(bond => !bond.isSoldOut)
         .map(bond => (
-          <NavItem
+          <Link
             key={bond.id}
-            label={bond.quoteToken.name}
+            component={NavLink}
             to={isInverseBond ? `/bonds/inverse/${bond.id}` : `/bonds/${bond.id}`}
-            chipColor={bond.discount.gt(new DecimalBigNumber("0")) ? "success" : "error"}
-            chip={`${bond.discount.mul(new DecimalBigNumber("100")).toString({ decimals: 2, trim: true })}%`}
-          />
+          >
+            <Typography variant="body1">
+              <Box display="flex" flexDirection="row" justifyContent="space-between">
+                <span>{bond.quoteToken.name}</span>
+
+                <span className="bond-pair-roi">
+                  <BondDiscount discount={bond.discount} />
+                </span>
+              </Box>
+            </Typography>
+          </Link>
         ))}
     </>
   );

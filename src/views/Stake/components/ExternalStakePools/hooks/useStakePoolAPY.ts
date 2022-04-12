@@ -1,9 +1,12 @@
+import { gql, request } from "graphql-request";
 import { useQuery } from "react-query";
 import { getTokenPrice, parseBigNumber } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
+import { useWeb3Context } from "src/hooks";
 import {
+  useStaticBalancerV2PoolContract,
   useStaticBeethovenChefContract,
   useStaticChefContract,
   useStaticChefRewarderContract,
@@ -84,6 +87,58 @@ export const BeetsPoolAPY = (pool: ExternalPool) => {
   });
   const { data: apy = 0 } = APY(pool, tvl, data);
   return { apy, isFetched, isLoading };
+};
+
+//TODO: Add support for Rewarder/Gauge if pool becomes incentivized.
+//Currently this only calculates APR based on swap fees since there is no concept of staking.
+export const BalancerPoolAPY = (pool: ExternalPool) => {
+  const { data: fees } = BalancerSwapFees(pool.address);
+  const protocolFees = useStaticBalancerV2PoolContract("0xce88686553686DA562CE7Cea497CE749DA109f9F", pool.networkID);
+  const { data, isFetched, isLoading } = useQuery(["BalancerPoolInfo", pool, fees], async () => {
+    const protocolFee = await protocolFees.getSwapFeePercentage();
+    return ((fees.dailyFees * (1 - parseBigNumber(protocolFee, 18))) / fees.totalLiquidity) * 365;
+  });
+  return { apy: data, isFetched, isLoading };
+};
+
+export const BalancerSwapFees = (address: string) => {
+  const blocksPerDay = 6646; //Average 13 blocks per second MAINNET
+  const { provider } = useWeb3Context();
+  const balancerURL = "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2";
+  const {
+    data = { dailyFees: 0, totalLiquidity: 0 },
+    isFetched,
+    isLoading,
+  } = useQuery("AllSwapFees", async () => {
+    const data = await request(
+      balancerURL,
+      gql`
+        {
+          pools(where: { address: "${address}" }) {
+            totalSwapFee
+            totalLiquidity
+          }
+        }
+      `,
+    );
+    const latestBlock = await provider.getBlockNumber();
+    const historicalBlock = latestBlock - blocksPerDay;
+    const histData = await request(
+      balancerURL,
+      gql`
+        {
+          pools(where: { address: "${address}" }, block:{number:${historicalBlock}}) {
+            totalSwapFee
+            totalLiquidity
+          }
+        }
+      `,
+    );
+    const dailyFees = data.pools[0].totalSwapFee - histData.pools[0].totalSwapFee;
+    return { dailyFees, totalLiquidity: data.pools[0].totalLiquidity as number };
+  });
+
+  return { data, isFetched, isLoading };
 };
 
 export const ZipPoolAPY = (pool: ExternalPool) => {
