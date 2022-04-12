@@ -6,23 +6,18 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
 import { DataRow, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project, RecordType } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { Environment } from "src/helpers/environment/Environment/Environment";
-import { getTotalDonated } from "src/helpers/GetTotalDonated";
-import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
+import { useSohmBalance } from "src/hooks/useBalance";
+import { useRecipientInfo } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 
 import { ArrowGraphic } from "../../components/EducationCard";
-import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
-import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
+import { CancelCallback, SubmitCallback } from "./Interfaces";
 
 export type WithdrawSubmitCallback = {
   (walletAddress: string, eventSource: string, depositAmount: DecimalBigNumber): void;
@@ -30,6 +25,7 @@ export type WithdrawSubmitCallback = {
 
 type ManageModalProps = {
   isModalOpen: boolean;
+  isMutationLoading: boolean;
   eventSource: string;
   submitEdit: SubmitCallback;
   submitWithdraw: WithdrawSubmitCallback;
@@ -49,6 +45,7 @@ const EXACT_FORMAT = { format: true };
 
 export function ManageDonationModal({
   isModalOpen,
+  isMutationLoading,
   eventSource,
   submitEdit,
   submitWithdraw,
@@ -60,39 +57,16 @@ export function ManageDonationModal({
   yieldSent,
   recordType = RecordType.PROJECT,
 }: ManageModalProps) {
-  const location = useLocation();
-  const { provider, address, connected, networkId } = useWeb3Context();
-  const [totalDebt, setTotalDebt] = useState("");
-  const [, setTotalDonated] = useState("");
+  const { address, networkId } = useWeb3Context();
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
-  useEffect(() => {
-    // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
-    // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
-    // e.g. the redeem yield page will show someone else's deposited sOHM and redeemable yield
-    if (project) {
-      getRedemptionBalancesAsync({
-        networkID: networkId,
-        provider: provider,
-        address: project.wallet,
-      })
-        .then(resultAction => {
-          setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
-        })
-        .catch(e => console.log(e));
+  const _useRecipientInfo = useRecipientInfo(project ? project.wallet : "");
+  const totalDebt: DecimalBigNumber = useMemo(() => {
+    if (_useRecipientInfo.isLoading || !_useRecipientInfo.data) return new DecimalBigNumber("0");
 
-      getTotalDonated({
-        networkID: networkId,
-        provider: provider,
-        address: project.wallet,
-      })
-        .then(donatedAmount => {
-          setTotalDonated(donatedAmount);
-        })
-        .catch(e => console.log(e));
-    }
-  }, [connected, networkId]);
+    return new DecimalBigNumber(_useRecipientInfo.data.totalDebt);
+  }, [_useRecipientInfo]);
 
   useEffect(() => {
     checkIsWalletAddressValid(getWalletAddress());
@@ -103,6 +77,7 @@ export function ManageDonationModal({
       // When we close the modal, we ensure button click states are reset
       setIsEditing(false);
       setIsWithdrawing(false);
+      setIsAmountSet(false);
     }
   }, [isModalOpen]);
 
@@ -124,25 +99,13 @@ export function ManageDonationModal({
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const sohmBalance: string = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.balances && state.account.balances.mockSohm
-      : state.account.balances && state.account.balances.sohm;
-  });
+  const _useSohmBalance =
+    useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+  const sohmBalance: DecimalBigNumber = useMemo(() => {
+    if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
 
-  const isAccountLoading: boolean = useSelector((state: DonationInfoState) => {
-    return state.account.loading;
-  });
-
-  const isGiveLoading: boolean = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving.loading
-      : state.account.giving.loading;
-  });
-
-  const pendingTransactions: IPendingTxn[] = useSelector((state: DonationInfoState) => {
-    return state.pendingTransactions;
-  });
+    return _useSohmBalance.data;
+  }, [_useSohmBalance]);
 
   /**
    * Checks if the provided wallet address is valid.
@@ -194,27 +157,23 @@ export function ManageDonationModal({
   const canSubmit = (): boolean => {
     if (!isDepositAmountValid) return false;
 
-    if (isAccountLoading || isGiveLoading) return false;
-
     // The wallet address is only set when a project is not given
     if (!project && !isWalletAddressValid) return false;
 
     if (!address) return false;
-    if (hasPendingGiveTxn(pendingTransactions)) return false;
     if (getDepositAmountDiff().eq(ZERO_NUMBER)) return false;
+
+    if (isMutationLoading) return false;
 
     return true;
   };
 
   const canWithdraw = () => {
     if (!address) return false;
-    if (hasPendingGiveTxn(pendingTransactions)) return false;
+
+    if (isMutationLoading) return false;
 
     return true;
-  };
-
-  const getSOhmBalance = (): DecimalBigNumber => {
-    return new DecimalBigNumber(sohmBalance);
   };
 
   const getCurrentDepositAmount = (): DecimalBigNumber => {
@@ -228,10 +187,10 @@ export function ManageDonationModal({
    *
    * This is equal to the current wallet balance and the current deposit amount (in the vault).
    *
-   * @returns BigNumber
+   * @returns DecimalBigNumber
    */
   const getMaximumDepositAmount = (): DecimalBigNumber => {
-    return new DecimalBigNumber(sohmBalance).add(getCurrentDepositAmount());
+    return sohmBalance.add(getCurrentDepositAmount());
   };
 
   const getDepositAmountDiff = (): DecimalBigNumber => {
@@ -246,7 +205,6 @@ export function ManageDonationModal({
 
   const checkIsDepositAmountValid = (value: string) => {
     const valueNumber = new DecimalBigNumber(value);
-    const sOhmBalanceNumber = getSOhmBalance();
 
     if (!value || value == "" || valueNumber.eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
@@ -260,7 +218,7 @@ export function ManageDonationModal({
       return;
     }
 
-    if (sOhmBalanceNumber.eq(ZERO_NUMBER)) {
+    if (sohmBalance.eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
     }
@@ -415,7 +373,7 @@ export function ManageDonationModal({
         <Grid item xs={4}>
           <Box>
             <Typography variant="h5" align="center">
-              {project ? new DecimalBigNumber(totalDebt).toString(DECIMAL_FORMAT) : "N/A"}
+              {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
               {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
@@ -426,10 +384,7 @@ export function ManageDonationModal({
           <Box>
             <Typography variant="h5" align="center">
               {project
-                ? new DecimalBigNumber(totalDebt)
-                    .mul(new DecimalBigNumber("100"))
-                    .div(depositGoalNumber)
-                    .toString(DECIMAL_FORMAT) + "%"
+                ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString(DECIMAL_FORMAT) + "%"
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
@@ -657,7 +612,7 @@ export function ManageDonationModal({
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
-                    {txnButtonText(pendingTransactions, PENDING_TXN_WITHDRAW, t`Withdraw`)}
+                    {isMutationLoading ? t`Withdrawing sOHM` : t`Withdraw`}
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
@@ -695,7 +650,7 @@ export function ManageDonationModal({
             <Grid item xs />
             <Grid item xs={6}>
               <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
-                {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Confirm New sOHM`)}
+                {isMutationLoading ? t`Depositing sOHM` : t`Confirm New sOHM`}
               </PrimaryButton>
             </Grid>
             <Grid item xs />
