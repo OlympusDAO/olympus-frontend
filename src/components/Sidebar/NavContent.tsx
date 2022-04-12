@@ -48,10 +48,8 @@ const NavContent: React.VFC = () => {
                   <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
 
                   <NavItem to="/bonds" icon="bond" label={t`Bond`}>
-                    <Box ml="26px" mt="16px" mb="12px">
-                      <Bonds />
-                      <InverseBonds />
-                    </Box>
+                    <Bonds />
+                    <InverseBonds />
                   </NavItem>
 
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
@@ -131,7 +129,7 @@ const Bonds: React.VFC = () => {
   if (!bonds) return null;
 
   return (
-    <>
+    <Box ml="26px" mt="16px" mb="12px">
       {sortByDiscount(bonds)
         .filter(bond => !bond.isSoldOut)
         .map(bond => (
@@ -146,7 +144,7 @@ const Bonds: React.VFC = () => {
             </Link>
           </Box>
         ))}
-    </>
+    </Box>
   );
 };
 
@@ -156,7 +154,7 @@ const InverseBonds: React.VFC = () => {
   if (!bonds || bonds.length === 0) return null;
 
   return (
-    <Box mt="16px">
+    <Box ml="26px" mt="16px" mb="12px">
       <Typography variant="body2" color="textSecondary">
         <Trans>Inverse Bonds</Trans>
       </Typography>
