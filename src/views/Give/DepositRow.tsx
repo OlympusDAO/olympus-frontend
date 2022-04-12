@@ -35,7 +35,7 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const increaseMutation = useIncreaseGive();
