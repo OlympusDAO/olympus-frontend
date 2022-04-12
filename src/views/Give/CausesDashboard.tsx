@@ -111,7 +111,7 @@ export default function CausesDashboard() {
               <Grid
                 container
                 spacing={2}
-                style={{ paddingTop: "10px", paddingBottom: "2px", paddingLeft: "30px", paddingRight: "30px" }}
+                style={{ paddingTop: "10px", paddingBottom: "10px", paddingLeft: "30px", paddingRight: "30px" }}
               >
                 <Grid item xs={12}>
                   <Typography variant="h4" align="center">
