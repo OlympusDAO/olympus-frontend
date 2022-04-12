@@ -58,8 +58,6 @@ export const useDonationInfo = () => {
           t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
 
-      if (networkId === 1) throw new Error(t`Give new contract is not supported on this network.`);
-
       // Get set of all a user's deposits and begin to iterate through them. depositIds and allDeposits are
       // indexed the same way, so we can select them by index
       const depositIds: BigNumber[] = await contract.getDepositorIds(address);

@@ -344,8 +344,9 @@ export function RecipientModal({
             spenderAddressMap={GIVE_ADDRESSES}
             message={
               <>
-                <Trans>Is this your first time donating</Trans> <b>sOHM</b>?{" "}
-                <Trans>Please approve Olympus DAO to use your</Trans> <b>sOHM</b> <Trans>for donating</Trans>.
+                <Trans>Is this your first time donating</Trans> <b>{giveAssetType}</b>?{" "}
+                <Trans>Please approve Olympus DAO to use your</Trans> <b>{giveAssetType}</b> <Trans>for donating</Trans>
+                .
               </>
             }
           >

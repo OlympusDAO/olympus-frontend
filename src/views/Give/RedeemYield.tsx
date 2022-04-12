@@ -113,7 +113,7 @@ export default function RedeemYield() {
   };
 
   const handleRedeemYieldModalSubmit = async () => {
-    await redeemMutation.mutate();
+    await redeemMutation.mutate({ token: "sOHM" });
   };
 
   const handleRedeemYieldModalCancel: RedeemCancelCallback = () => {
