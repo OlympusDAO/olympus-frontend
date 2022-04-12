@@ -2,7 +2,6 @@ import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Container, Grid, Typography, Zoom } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
 import { Paper, PrimaryButton } from "@olympusdao/component-library";
 import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -29,7 +28,6 @@ export default function CausesDashboard() {
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
-  const theme = useTheme();
   const seed = useUIDSeed();
 
   const renderProjects = useMemo(() => {

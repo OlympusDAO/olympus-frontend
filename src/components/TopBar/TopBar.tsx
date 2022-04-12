@@ -5,7 +5,7 @@ import { t } from "@lingui/macro";
 import { AppBar, Box, Button, SvgIcon, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { LocaleSwitcher } from "@olympusdao/component-library";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { useWeb3Context } from "src/hooks";
 
@@ -42,6 +42,7 @@ interface TopBarProps {
 function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
   const { connected } = useWeb3Context();
   const classes = useStyles();
+  const location = useLocation();
 
   return (
     <AppBar position="sticky" className={classes.appBar} elevation={0}>
@@ -58,7 +59,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
           <SvgIcon component={MenuIcon} />
         </Button>
         <Box display="flex" alignItems="center">
-          <Link to="/wallet" style={{ marginRight: "0px" }}>
+          <Link to={{ pathname: "/wallet", state: { prevPath: location.pathname } }} style={{ marginRight: "0px" }}>
             <Button variant="contained" color="secondary">
               <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
               <Typography>{connected ? t`Wallet` : t`Connect`}</Typography>
