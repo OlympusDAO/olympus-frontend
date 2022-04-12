@@ -25,7 +25,7 @@ jobs:
       - name: Run unit tests
         uses: ArtiomTr/jest-coverage-report-action@v2.0.5
         with:
-          test-script: yarn test:unit
+          test-script: yarn test:unit --silent
           skip-step: install
           package-manager: yarn
       - name: Prepare coverage badges
