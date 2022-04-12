@@ -16,7 +16,7 @@ interface IDonorAddresses {
   [key: string]: boolean;
 }
 
-interface IUserRecipientInfo {
+export interface IUserRecipientInfo {
   totalDebt: string;
   carry: string;
   agnosticDebt: string;
