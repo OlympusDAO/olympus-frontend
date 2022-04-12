@@ -7,8 +7,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { isSupportedChain } from "src/slices/GiveThunk";
 
 import CausesDashboard from "./CausesDashboard";
 import { GiveInfo } from "./GiveInfo";

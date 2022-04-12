@@ -109,7 +109,7 @@ exports[`<ProjectCard/> should render card 1`] = `
               >
                 <strong>
                   <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
                     style="width: 20px;"
                   />
                 </strong>
@@ -248,7 +248,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
               >
                 <strong>
                   <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
                     style="width: 20px;"
                   />
                 </strong>
@@ -465,11 +465,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                                   </div>
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
-                                  >
-                                    <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                    />
-                                  </div>
+                                  />
                                 </div>
                               </div>
                               <div
@@ -529,7 +525,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                Total Active sOHM
+                                Total Active
                               </div>
                             </div>
                           </div>
@@ -580,7 +576,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                             <div
                               class="MuiGrid-root subtext MuiGrid-item"
                             >
-                              sOHM Yield
+                              Yield
                             </div>
                           </div>
                           <div
@@ -628,14 +624,14 @@ exports[`<ProjectCard/> should render page 1`] = `
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
                                   >
-                                    100
+                                    0
                                   </div>
                                 </div>
                               </div>
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Yield Goal
+                                Yield Goal
                               </div>
                             </div>
                           </div>
@@ -1009,11 +1005,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                   </div>
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
-                                  >
-                                    <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                    />
-                                  </div>
+                                  />
                                 </div>
                               </div>
                               <div
@@ -1073,7 +1065,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                Total Active sOHM
+                                Total Active
                               </div>
                             </div>
                           </div>
@@ -1124,7 +1116,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                             <div
                               class="MuiGrid-root subtext MuiGrid-item"
                             >
-                              sOHM Yield
+                              Yield
                             </div>
                           </div>
                           <div
@@ -1172,14 +1164,14 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
                                   >
-                                    100
+                                    0
                                   </div>
                                 </div>
                               </div>
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Yield Goal
+                                Yield Goal
                               </div>
                             </div>
                           </div>
@@ -1475,11 +1467,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                   </div>
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
-                                  >
-                                    <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                    />
-                                  </div>
+                                  />
                                 </div>
                               </div>
                               <div
@@ -1539,7 +1527,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                Total Active sOHM
+                                Total Active
                               </div>
                             </div>
                           </div>
@@ -1590,7 +1578,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                             <div
                               class="MuiGrid-root subtext MuiGrid-item"
                             >
-                              sOHM Yield
+                              Yield
                             </div>
                           </div>
                           <div
@@ -1638,14 +1626,14 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
                                   >
-                                    100
+                                    0
                                   </div>
                                 </div>
                               </div>
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Yield Goal
+                                Yield Goal
                               </div>
                             </div>
                           </div>

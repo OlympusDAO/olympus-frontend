@@ -35,3 +35,25 @@ export interface DonationInfoState {
 export interface IButtonChangeView {
   (newView: number): void;
 }
+
+export interface GiveData {
+  amount: string;
+  recipient: string;
+  token: string;
+}
+
+export interface EditGiveData extends GiveData {
+  id: string;
+}
+
+export interface RedeemData {
+  token: string;
+}
+
+export interface IUserDonationInfo {
+  id: string;
+  date: string;
+  deposit: string;
+  recipient: string;
+  yieldDonated: string;
+}

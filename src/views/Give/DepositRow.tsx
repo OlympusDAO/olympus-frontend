@@ -5,20 +5,16 @@ import { Grid, Tooltip, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { SecondaryButton } from "@olympusdao/component-library";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
 import { SubmitEditCallback } from "src/views/Give/Interfaces";
 
 import { Project } from "../../components/GiveProject/project.type";
-import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, changeGive, changeMockGive } from "../../slices/GiveThunk";
 import { error } from "../../slices/MessagesSlice";
+import { useDecreaseGive, useIncreaseGive } from "./hooks/useEditGive";
 import { ManageDonationModal, WithdrawSubmitCallback } from "./ManageDonationModal";
 import data from "./projects.json";
 
@@ -40,9 +36,7 @@ const ZERO_NUMBER = new DecimalBigNumber("0");
 const DECIMAL_PLACES = 2;
 
 export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType }: DepositRowProps) => {
-  const location = useLocation();
   const dispatch = useDispatch();
-  const { provider, address, networkId } = useWeb3Context();
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
@@ -51,6 +45,14 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const { data: currentIndex } = useCurrentIndex();
+  const increaseMutation = useIncreaseGive();
+  const decreaseMutation = useDecreaseGive();
+
+  const isMutating = increaseMutation.isLoading || decreaseMutation.isLoading;
+
+  useEffect(() => {
+    if (isManageModalOpen) setIsManageModalOpen(false);
+  }, [increaseMutation.isSuccess, decreaseMutation.isSuccess]);
 
   const getRecipientTitle = (address: string): string => {
     const project = projectMap.get(address);
@@ -87,85 +89,38 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
 
     if (depositAmountDiff.eq(ZERO_NUMBER)) return;
 
-    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
-    // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toString(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
+    if (depositAmountDiff.gt(new DecimalBigNumber("0"))) {
+      await increaseMutation.mutate({
+        id: depositId,
+        amount: depositAmountDiff.toString(),
+        recipient: walletAddress,
+        token: giveAssetType,
+      });
     } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toString(),
-          token: giveAssetType,
-          recipient: walletAddress,
-          id: depositId,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
+      const subtractionAmount = depositAmountDiff.mul(new DecimalBigNumber("-1"));
+      await decreaseMutation.mutate({
+        id: depositId,
+        amount: subtractionAmount.toString(),
+        recipient: walletAddress,
+        token: giveAssetType,
+      });
     }
-
-    setIsManageModalOpen(false);
   };
 
   // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
   // Else use standard call
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
-    walletAddress,
     depositId,
+    walletAddress,
     eventSource,
     depositAmount,
   ) => {
-    // Issue withdrawal from smart contract
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toString(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
-    } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toString(),
-          token: giveAssetType,
-          recipient: walletAddress,
-          id: depositId,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
-    }
-
-    setIsManageModalOpen(false);
+    await decreaseMutation.mutate({
+      id: depositId,
+      amount: depositAmount.toString(),
+      recipient: walletAddress,
+      token: giveAssetType,
+    });
   };
 
   const depositNumber = new DecimalBigNumber(depositObject.deposit);
@@ -200,6 +155,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
 
       <ManageDonationModal
         isModalOpen={isManageModalOpen}
+        isMutationLoading={isMutating}
         submitEdit={handleEditModalSubmit}
         submitWithdraw={handleWithdrawModalSubmit}
         cancelFunc={handleManageModalCancel}

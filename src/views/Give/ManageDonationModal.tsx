@@ -6,26 +6,21 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
 import { DataRow, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project, RecordType } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { Environment } from "src/helpers/environment/Environment/Environment";
-import { getTotalDonated } from "src/helpers/GiveGetTotalDonated";
-import { getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
+import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
+import { useRecipientInfo } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { hasPendingGiveTxn, PENDING_TXN_EDIT_GIVE, PENDING_TXN_WITHDRAW } from "src/slices/GiveThunk";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
 
 import { ArrowGraphic } from "../../components/EducationCard";
-import { IPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
 import { GohmToggle } from "./GohmToggle";
-import { CancelCallback, DonationInfoState, SubmitEditCallback } from "./Interfaces";
+import { CancelCallback, SubmitEditCallback } from "./Interfaces";
 
 export type WithdrawSubmitCallback = {
   (walletAddress: string, id: string, eventSource: string, depositAmount: DecimalBigNumber): void;
@@ -33,6 +28,7 @@ export type WithdrawSubmitCallback = {
 
 type ManageModalProps = {
   isModalOpen: boolean;
+  isMutationLoading: boolean;
   eventSource: string;
   submitEdit: SubmitEditCallback;
   submitWithdraw: WithdrawSubmitCallback;
@@ -55,6 +51,7 @@ const EXACT_FORMAT = { format: true };
 
 export function ManageDonationModal({
   isModalOpen,
+  isMutationLoading,
   eventSource,
   submitEdit,
   submitWithdraw,
@@ -69,49 +66,18 @@ export function ManageDonationModal({
   yieldSent,
   recordType = RecordType.PROJECT,
 }: ManageModalProps) {
-  const location = useLocation();
-  const { provider, address, connected, networkId } = useWeb3Context();
-  const [totalDebt, setTotalDebt] = useState(ZERO_NUMBER);
-  const [, setTotalDonated] = useState(ZERO_NUMBER);
+  const { address, networkId } = useWeb3Context();
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
   const { data: currentIndex } = useCurrentIndex();
 
-  useEffect(() => {
-    // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
-    // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
-    // e.g. the redeem yield page will show someone else's deposited sOHM and redeemable yield
-    if (project) {
-      getRedemptionBalancesAsync({
-        networkID: networkId,
-        provider: provider,
-        address: project.wallet,
-      })
-        .then(resultAction => {
-          const correctUnitDebt = GetCorrectContractUnits(
-            resultAction.redeeming.recipientInfo.agnosticDebt,
-            giveAssetType,
-            currentIndex,
-          );
+  const _useRecipientInfo = useRecipientInfo(project ? project.wallet : "");
+  const totalDebt: DecimalBigNumber = useMemo(() => {
+    if (_useRecipientInfo.isLoading || !_useRecipientInfo.data) return new DecimalBigNumber("0");
 
-          setTotalDebt(correctUnitDebt);
-        })
-        .catch(e => console.log(e));
-
-      getTotalDonated({
-        networkID: networkId,
-        provider: provider,
-        address: project.wallet,
-      })
-        .then(donatedAmount => {
-          const correctUnitDonated = GetCorrectContractUnits(donatedAmount, giveAssetType, currentIndex);
-
-          setTotalDonated(correctUnitDonated);
-        })
-        .catch(e => console.log(e));
-    }
-  }, [connected, networkId, isModalOpen, giveAssetType]);
+    return GetCorrectContractUnits(_useRecipientInfo.data.agnosticDebt, giveAssetType, currentIndex);
+  }, [_useRecipientInfo]);
 
   useEffect(() => {
     checkIsWalletAddressValid(getWalletAddress());
@@ -149,33 +115,59 @@ export function ManageDonationModal({
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const sohmBalance: string = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.balances && state.account.balances.mockSohm
-      : state.account.balances && state.account.balances.sohm;
-  });
+  const _useSohmBalance =
+    useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+  const sohmBalance: DecimalBigNumber = useMemo(() => {
+    if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
 
-  const gohmBalance: string = useSelector((state: DonationInfoState) => {
-    return state.account.balances && state.account.balances.gohm;
-  });
+    return _useSohmBalance.data;
+  }, [_useSohmBalance]);
 
-  const isAccountLoading: boolean = useSelector((state: DonationInfoState) => {
-    return state.account.loading;
-  });
+  const _useGohmBalance =
+    useGohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
 
-  const isGiveLoading: boolean = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving.loading
-      : state.account.giving.loading;
-  });
+  const gohmBalance: DecimalBigNumber = useMemo(() => {
+    if (_useGohmBalance.isLoading || _useGohmBalance.data == undefined) return new DecimalBigNumber("0");
 
-  const pendingTransactions: IPendingTxn[] = useSelector((state: DonationInfoState) => {
-    return state.pendingTransactions;
-  });
+    return _useGohmBalance.data;
+  }, [_useGohmBalance]);
 
   useEffect(() => {
     setDepositAmount(getInitialDepositAmount());
   }, [giveAssetType]);
+
+  /**
+   * Returns the wallet address. If a project is defined, it uses the
+   * project wallet, else what was passed in as a parameter.
+   */
+  const getWalletAddress = (): string => {
+    if (project) return project.wallet;
+
+    return walletAddress;
+  };
+
+  const getDepositAmount = (): DecimalBigNumber => {
+    if (!depositAmount) return ZERO_NUMBER;
+
+    return depositAmount;
+  };
+
+  const getCurrentDepositAmount = (): DecimalBigNumber => {
+    if (!currentDepositAmount) return ZERO_NUMBER;
+
+    const correctUnitCurrDeposit = GetCorrectContractUnits(
+      currentDepositAmount.toString(),
+      giveAssetType,
+      currentIndex,
+    );
+
+    return correctUnitCurrDeposit;
+  };
+
+  const getDepositAmountDiff = (): DecimalBigNumber => {
+    // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
+    return getDepositAmount().sub(getCurrentDepositAmount());
+  };
 
   /**
    * Checks if the provided wallet address is valid.
@@ -222,39 +214,30 @@ export function ManageDonationModal({
    */
   const canSubmit = (): boolean => {
     if (!isDepositAmountValid) return false;
-    if (isAccountLoading || isGiveLoading) return false;
 
     // The wallet address is only set when a project is not given
     if (!project && !isWalletAddressValid) return false;
 
     if (!address) return false;
-    if (hasPendingGiveTxn(pendingTransactions)) return false;
     if (getDepositAmountDiff().eq(ZERO_NUMBER)) return false;
+
+    if (isMutationLoading) return false;
 
     return true;
   };
 
   const canWithdraw = () => {
     if (!address) return false;
-    if (hasPendingGiveTxn(pendingTransactions)) return false;
 
-    return true;
+    if (isMutationLoading) return false;
   };
 
   const getBalance = (): DecimalBigNumber => {
-    return giveAssetType === "sOHM" ? new DecimalBigNumber(sohmBalance, 9) : new DecimalBigNumber(gohmBalance, 18);
+    return giveAssetType === "sOHM" ? sohmBalance : gohmBalance;
   };
 
-  const getCurrentDepositAmount = (): DecimalBigNumber => {
-    if (!currentDepositAmount) return ZERO_NUMBER;
-
-    const correctUnitCurrDeposit = GetCorrectContractUnits(
-      currentDepositAmount.toString(),
-      giveAssetType,
-      currentIndex,
-    );
-
-    return correctUnitCurrDeposit;
+  const getYieldSent = (): DecimalBigNumber => {
+    return GetCorrectContractUnits(yieldSent, giveAssetType, currentIndex);
   };
 
   /**
@@ -262,26 +245,10 @@ export function ManageDonationModal({
    *
    * This is equal to the current wallet balance and the current deposit amount (in the vault).
    *
-   * @returns BigNumber
+   * @returns DecimalBigNumber
    */
   const getMaximumDepositAmount = (): DecimalBigNumber => {
     return getBalance().add(currentDepositAmount ? getCurrentDepositAmount() : ZERO_NUMBER);
-  };
-
-  const getDepositAmountDiff = (): DecimalBigNumber => {
-    // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
-    return getDepositAmount().sub(getCurrentDepositAmount());
-  };
-
-  /**
-   * Ensures that the depositAmount returned is a valid number.
-   *
-   * @returns
-   */
-  const getDepositAmount = (): DecimalBigNumber => {
-    if (!depositAmount) return ZERO_NUMBER;
-
-    return depositAmount;
   };
 
   const handleSetDepositAmount = (value: string) => {
@@ -320,16 +287,6 @@ export function ManageDonationModal({
 
     setIsDepositAmountValid(true);
     setIsDepositAmountValidError("");
-  };
-
-  /**
-   * Returns the wallet address. If a project is defined, it uses the
-   * project wallet, else what was passed in as a parameter.
-   */
-  const getWalletAddress = (): string => {
-    if (project) return project.wallet;
-
-    return walletAddress;
   };
 
   /**
@@ -507,7 +464,7 @@ export function ManageDonationModal({
               EXACT_FORMAT,
             )} ${giveAssetType}`}
           />
-          <DataRow title={t`Yield Sent`} balance={`${yieldSent} ${giveAssetType}`} />
+          <DataRow title={t`Yield Sent`} balance={`${getYieldSent()} ${giveAssetType}`} />
         </Box>
       </>
     );
@@ -710,7 +667,7 @@ export function ManageDonationModal({
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
-                    {txnButtonText(pendingTransactions, PENDING_TXN_WITHDRAW, t`Withdraw`)}
+                    {isMutationLoading ? t`Withdrawing sOHM` : t`Withdraw`}
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
@@ -748,7 +705,7 @@ export function ManageDonationModal({
             <Grid item xs />
             <Grid item xs={6}>
               <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
-                {txnButtonText(pendingTransactions, PENDING_TXN_EDIT_GIVE, t`Confirm New sOHM`)}
+                {isMutationLoading ? t`Depositing sOHM` : t`Confirm New sOHM`}
               </PrimaryButton>
             </Grid>
             <Grid item xs />

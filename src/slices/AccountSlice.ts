@@ -16,17 +16,11 @@ import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
 import { abi as fiatDAO } from "../abi/FiatDAOContract.json";
 import { abi as fuseProxy } from "../abi/FuseProxy.json";
-import { abi as gOHM } from "../abi/gOHM.json";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as MockSohm } from "../abi/MockSohm.json";
-import { abi as OlympusGiving } from "../abi/OlympusGiving.json";
-import { abi as OlympusMockGiving } from "../abi/OlympusMockGiving.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
 import { addresses, NetworkId } from "../constants";
 import { handleContractError, setAll } from "../helpers";
-import { GetFirstDonationDate } from "../helpers/GiveGetDonationDate";
-import { getTotalYieldSent } from "../helpers/GiveGetTotalDonated";
-import { getMockRedemptionBalancesAsync, getRedemptionBalancesAsync } from "../helpers/GiveRedemptionBalanceHelper";
 import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
 
 interface IUserBalances {
@@ -54,37 +48,6 @@ interface IUserBalances {
     fiatDaowsohm: string;
     mockSohm: string;
   };
-}
-
-interface IUserGiving {
-  giving: {
-    sohmGive: number;
-    gohmGive: number;
-    donationInfo: IUserDonationInfo[];
-    loading: boolean;
-  };
-}
-
-interface IUserMockGiving {
-  mockGiving: {
-    sohmGive: number;
-    gohmGive: number;
-    donationInfo: IUserDonationInfo[];
-    loading: boolean;
-  };
-}
-
-interface IUserDonationInfo {
-  id: string;
-  date: string;
-  deposit: string;
-  recipient: string;
-  yieldDonated: string;
-}
-
-interface IUserRecipientInfo {
-  totalDebt: string;
-  agnosticDebt: string;
 }
 
 export const getBalances = createAsyncThunk(
@@ -288,177 +251,6 @@ export const getBalances = createAsyncThunk(
   },
 );
 
-/**
- * Provides the details of deposits/donations provided by a specific wallet.
- */
-export const getDonationBalances = createAsyncThunk(
-  "account/getDonationBalances",
-  async ({ address, networkID, provider }: IBaseAddressAsyncThunk): Promise<IUserGiving> => {
-    let sohmAllowance = 0;
-    let gohmAllowance = 0;
-    const donationInfo: IUserDonationInfo[] = [];
-
-    if (!(addresses[networkID] && addresses[networkID].GIVING_ADDRESS)) {
-      console.log("Unable to find MOCK_SOHM contract on chain ID " + networkID);
-    }
-
-    const sohmContract = new ethers.Contract(
-      SOHM_ADDRESSES[networkID as keyof typeof SOHM_ADDRESSES] as string,
-      ierc20Abi,
-      provider,
-    );
-    const gohmContract = new ethers.Contract(
-      GOHM_ADDRESSES[networkID as keyof typeof GOHM_ADDRESSES] as string,
-      gOHM,
-      provider,
-    );
-    sohmAllowance = await sohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
-    gohmAllowance = await gohmContract.allowance(address, addresses[networkID].GIVING_ADDRESS);
-    const givingContract = new ethers.Contract(addresses[networkID].GIVING_ADDRESS as string, OlympusGiving, provider);
-
-    try {
-      // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
-      const depositIds: BigNumber[] = await givingContract.getDepositorIds(address);
-      const allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
-
-      // ([0x00000...], [0]) is the null return indicating a user has no deposits
-      // This confirms that we did not receive back a null deposit
-      if (allDeposits[0].length != 1 || allDeposits[1][0] != BigNumber.from(0)) {
-        for (let i = 0; i < allDeposits[0].length; i++) {
-          // If the deposit is less than 1e9 we ignore it, as it is likely a rounding error
-          // since that is 1e-9 of a gOHM
-          if (allDeposits[1][i].lte(1000000000)) continue;
-          const depositId = depositIds[i];
-          const depositAmount = ethers.utils.formatUnits(allDeposits[1][i], 18);
-          const recipient = allDeposits[0][i];
-
-          // Create promises to batch together
-          const getDatePromise = GetFirstDonationDate({
-            address: address,
-            recipient: recipient,
-            networkID: networkID,
-            provider: provider,
-          });
-          const getYieldPromise = getTotalYieldSent({
-            address: address,
-            recipient: recipient,
-            networkID: networkID,
-            provider: provider,
-          });
-
-          const [firstDate, yieldSent] = await Promise.all([getDatePromise, getYieldPromise]);
-
-          const formattedYieldSent = ethers.utils.formatUnits(yieldSent, 18);
-
-          donationInfo.push({
-            id: depositId.toString(),
-            date: firstDate,
-            deposit: depositAmount,
-            recipient: recipient,
-            yieldDonated: formattedYieldSent,
-          });
-        }
-      }
-    } catch (e: unknown) {
-      console.log(e);
-    }
-
-    return {
-      giving: {
-        sohmGive: +sohmAllowance,
-        gohmGive: +gohmAllowance,
-        donationInfo: donationInfo,
-        loading: false,
-      },
-    };
-  },
-);
-
-/**
- * Provides the details of deposits/donations provided by a specific wallet.
- *
- * This differs from the standard `getDonationBalances` function because it uses an alternative
- * sOHM contract that allows for manual rebases, which is helpful during testing of the 'Give' functionality.
- */
-export const getMockDonationBalances = createAsyncThunk(
-  "account/getMockDonationBalances",
-  async ({ address, networkID, provider }: IBaseAddressAsyncThunk): Promise<IUserMockGiving> => {
-    let giveAllowance = 0;
-    const donationInfo: IUserDonationInfo[] = [];
-
-    if (addresses[networkID] && addresses[networkID].MOCK_SOHM) {
-      const mockSohmContract = new ethers.Contract(addresses[networkID].MOCK_SOHM as string, MockSohm, provider);
-      giveAllowance = await mockSohmContract._allowedValue(address, addresses[networkID].MOCK_GIVING_ADDRESS);
-      const givingContract = new ethers.Contract(
-        addresses[networkID].MOCK_GIVING_ADDRESS as string,
-        OlympusMockGiving,
-        provider,
-      );
-
-      try {
-        // NOTE: The BigNumber here is from ethers, and is a different implementation of BigNumber used in the rest of the frontend. For that reason, we convert to string in the interim.
-        const allDeposits: [string[], BigNumber[]] = await givingContract.getAllDeposits(address);
-        for (let i = 0; i < allDeposits[0].length; i++) {
-          if (allDeposits[1][i] !== BigNumber.from(0)) {
-            const depositAmount = ethers.utils.formatUnits(allDeposits[1][i], "gwei");
-            const recipient = allDeposits[0][i];
-            const firstDonationDate: string = await GetFirstDonationDate({
-              address: address,
-              recipient: recipient,
-              networkID: networkID,
-              provider: provider,
-            });
-            const yieldSent: BigNumber = await givingContract.donatedTo(address, recipient);
-            const formattedYieldSent = ethers.utils.formatUnits(yieldSent, "gwei");
-
-            // ID of 1 is just a placeholder for now since the new YieldDirector contract was not set up with
-            // MockSohm
-            donationInfo.push({
-              id: "1",
-              date: firstDonationDate,
-              deposit: depositAmount,
-              recipient: recipient,
-              yieldDonated: formattedYieldSent,
-            });
-          }
-        }
-      } catch (e: unknown) {
-        console.log(
-          "If the following error contains 'user is not donating', then it is an expected error. No need to report it!",
-        );
-        console.log(e);
-      }
-    } else {
-      console.debug("Unable to find MOCK_SOHM contract on chain ID " + networkID);
-    }
-
-    return {
-      mockGiving: {
-        sohmGive: +giveAllowance,
-        gohmGive: +giveAllowance,
-        donationInfo: donationInfo,
-        loading: false,
-      },
-    };
-  },
-);
-
-export const getRedemptionBalances = createAsyncThunk(
-  "account/getRedemptionBalances",
-  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    const redeeming = await getRedemptionBalancesAsync({ address, networkID, provider });
-    return redeeming;
-  },
-);
-
-export const getMockRedemptionBalances = createAsyncThunk(
-  "account/getMockRedemptionBalances",
-  async ({ address, networkID, provider }: IBaseAddressAsyncThunk) => {
-    const mockRedeeming = await getMockRedemptionBalancesAsync({ address, networkID, provider });
-    return mockRedeeming;
-  },
-);
-
 interface IUserAccountDetails {
   staking: {
     ohmStake: number;
@@ -601,16 +393,6 @@ export const loadAccountDetails = createAsyncThunk(
       handleContractError(e);
     }
     await dispatch(getBalances({ address, networkID, provider }));
-    if (Environment.isGiveEnabled()) {
-      await dispatch(getDonationBalances({ address, networkID, provider }));
-      await dispatch(getRedemptionBalances({ address, networkID, provider }));
-      if (networkID === NetworkId.TESTNET_RINKEBY) {
-        await dispatch(getMockDonationBalances({ address, networkID, provider }));
-        await dispatch(getMockRedemptionBalances({ address, networkID, provider }));
-      } else {
-        if (Environment.env.NODE_ENV !== "production") console.log("Give - Contract mocks skipped except on Rinkeby");
-      }
-    }
 
     return {
       staking: {
@@ -687,10 +469,6 @@ export const calculateUserBondDetails = createAsyncThunk(
 );
 
 export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
-  giving: { sohmGive: number; gohmGive: number; donationInfo: IUserDonationInfo[]; loading: boolean };
-  mockGiving: { sohmGive: number; gohmGive: number; donationInfo: IUserDonationInfo[]; loading: boolean };
-  redeeming: { gohmRedeemable: string; recipientInfo: IUserRecipientInfo };
-  mockRedeeming: { sohmRedeemable: string; recipientInfo: IUserRecipientInfo };
   bonds: { [key: string]: IUserBondDetails };
   balances: {
     gohm: string;
@@ -768,22 +546,6 @@ const initialState: IAccountSlice = {
     pool: "",
     mockSohm: "",
   },
-  giving: { sohmGive: 0, gohmGive: 0, donationInfo: [], loading: true },
-  mockGiving: { sohmGive: 0, gohmGive: 0, donationInfo: [], loading: true },
-  redeeming: {
-    gohmRedeemable: "",
-    recipientInfo: {
-      totalDebt: "",
-      agnosticDebt: "",
-    },
-  },
-  mockRedeeming: {
-    sohmRedeemable: "",
-    recipientInfo: {
-      totalDebt: "",
-      agnosticDebt: "",
-    },
-  },
   staking: { ohmStakeV1: 0, ohmUnstakeV1: 0, ohmStake: 0, ohmUnstake: 0 },
   wrapping: { sohmWrap: 0, wsohmUnwrap: 0, gOhmUnwrap: 0, wsOhmMigrate: 0 },
   pooling: { sohmPool: 0 },
@@ -820,50 +582,6 @@ const accountSlice = createSlice({
         state.loading = false;
       })
       .addCase(getBalances.rejected, (state, { error }) => {
-        state.loading = false;
-        console.log(error);
-      })
-      .addCase(getDonationBalances.pending, state => {
-        state.loading = true;
-      })
-      .addCase(getDonationBalances.fulfilled, (state, action) => {
-        setAll(state, action.payload);
-        state.loading = false;
-      })
-      .addCase(getDonationBalances.rejected, (state, { error }) => {
-        state.loading = false;
-        console.log(error);
-      })
-      .addCase(getMockDonationBalances.pending, state => {
-        state.loading = true;
-      })
-      .addCase(getMockDonationBalances.fulfilled, (state, action) => {
-        setAll(state, action.payload);
-        state.loading = false;
-      })
-      .addCase(getMockDonationBalances.rejected, (state, { error }) => {
-        state.loading = false;
-        console.log(error);
-      })
-      .addCase(getRedemptionBalances.pending, state => {
-        state.loading = true;
-      })
-      .addCase(getRedemptionBalances.fulfilled, (state, action) => {
-        setAll(state, action.payload);
-        state.loading = false;
-      })
-      .addCase(getRedemptionBalances.rejected, (state, { error }) => {
-        state.loading = false;
-        console.log(error);
-      })
-      .addCase(getMockRedemptionBalances.pending, state => {
-        state.loading = true;
-      })
-      .addCase(getMockRedemptionBalances.fulfilled, (state, action) => {
-        setAll(state, action.payload);
-        state.loading = false;
-      })
-      .addCase(getMockRedemptionBalances.rejected, (state, { error }) => {
         state.loading = false;
         console.log(error);
       })
