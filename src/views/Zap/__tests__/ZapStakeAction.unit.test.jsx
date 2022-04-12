@@ -3,7 +3,7 @@ import { BigNumber } from "ethers";
 import Messages from "src/components/Messages/Messages";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balances from "src/hooks/useBalance";
-import * as ContractTwo from "src/hooks/useContract";
+import * as Contract from "src/hooks/useContract";
 import * as ContractAllowance from "src/hooks/useContractAllowance";
 import * as Prices from "src/hooks/usePrices";
 import * as ZapBalances from "src/hooks/useZapTokenBalances";
@@ -18,19 +18,12 @@ afterEach(() => {
   jest.resetAllMocks();
   jest.restoreAllMocks();
 });
-let fetchedData;
+
 describe("<ZapStakeAction/> ", () => {
-  afterEach(() => {
-    jest.resetAllMocks();
-    jest.restoreAllMocks();
-    jest.clearAllMocks();
-  });
   beforeEach(() => {
     const data = jest.spyOn(useWeb3Context, "useWeb3Context");
     data.mockReturnValue(mockWeb3Context);
-    fetchedData = global.fetch = jest
-      .fn()
-      .mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
+    global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
     Balances.useSohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
     Balances.useGohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
     Prices.useGohmPrice = jest.fn().mockReturnValue({ data: "3400.00" });
@@ -55,8 +48,25 @@ describe("<ZapStakeAction/> ", () => {
     expect(await screen.findByText("Zap-Stake")).toBeInTheDocument();
   });
 
+  it("sOHM should autopopulate with correct value based on ETH input", async () => {
+    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
+    render(
+      <>
+        <ZapStakeAction />
+      </>,
+    );
+    fireEvent.click(await screen.findByTestId("zap-input"));
+    fireEvent.click(await screen.getAllByText("ETH")[0]);
+    fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "0.8" } });
+    expect(await screen.findByText("Enter Amount"));
+    fireEvent.click(await screen.findByTestId("zap-output"));
+    fireEvent.click(await screen.getAllByText("sOHM")[0]);
+    expect(await screen.getByDisplayValue("106.25")).toBeInTheDocument();
+    expect(await screen.findByText("Zap-Stake")).toBeInTheDocument();
+  });
+
   it("Should Approve", async () => {
-    ContractTwo.useDynamicTokenContract = jest.fn().mockReturnValue({
+    Contract.useDynamicTokenContract = jest.fn().mockReturnValue({
       approve: jest.fn().mockReturnValue({
         wait: jest.fn().mockResolvedValue(true),
       }),
@@ -100,36 +110,6 @@ describe("Loading Balances", () => {
 
     fireEvent.click(screen.getByTestId("zap-input"));
     expect(screen.getByText("Dialing Zapper...")).toBeInTheDocument();
-  });
-});
-
-describe("Errors", () => {
-  beforeEach(() => {
-    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    data.mockReturnValue(mockWeb3Context);
-    global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
-    Balances.useSohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
-    Balances.useGohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
-    Prices.useGohmPrice = jest.fn().mockReturnValue({ data: "3400.00" });
-    Prices.useOhmPrice = jest.fn().mockReturnValue({ data: "32.00" });
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: undefined });
-  });
-  it("Should Display Error when unable to approve allowance", async () => {
-    render(
-      <>
-        <Messages />
-        <ZapStakeAction />
-      </>,
-    );
-
-    fireEvent.click(await screen.findByTestId("zap-input"));
-    fireEvent.click(await screen.getAllByText("DAI")[0]);
-    fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "5000" } });
-    fireEvent.click(await screen.findByTestId("zap-output"));
-    fireEvent.click(await screen.getByText("gOHM"));
-    fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "1" } });
-    fireEvent.click(screen.getByText("Approve"));
-    expect(await screen.getAllByText("Error")[0]).toBeInTheDocument();
   });
 });
 
