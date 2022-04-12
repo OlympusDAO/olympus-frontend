@@ -64,7 +64,7 @@
     "react-flag-icon-css": "^1.0.25",
     "react-ga": "^3.3.0",
     "react-query": "^3.34.16",
-    "react-redux": "^7.2.4",
+    "react-redux": "^7.2.8",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-step-progress-bar": "^1.0.3",
