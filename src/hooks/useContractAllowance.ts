@@ -20,17 +20,12 @@ export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressM
   const { address, networkId, connected } = useWeb3Context();
 
   const key = contractAllowanceQueryKey(address, networkId, tokenMap, contractMap);
-  return useQuery<BigNumber | null, Error>(
+  return useQuery<BigNumber, Error>(
     key,
     async () => {
       queryAssertion(address && networkId, key);
 
-      // NOTE: we originally threw an error here, but it caused problems with passing in null values
-      // e.g. when the token has not yet been selected
-      if (!token) {
-        console.warn("Token was expected to exist on current network, but didn't.");
-        return null;
-      }
+      if (!token) throw new Error("Token doesn't exist on current network");
 
       const contractAddress = contractMap[networkId as NetworkId];
       if (!contractAddress) throw new Error("Contract doesn't exist on current network");
