@@ -28,6 +28,7 @@ type RedeemModalProps = {
 };
 
 const DECIMAL_PLACES = 2;
+const DECIMAL_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 
 export function RedeemYieldModal({
   isModalOpen,
@@ -65,9 +66,7 @@ export function RedeemYieldModal({
                 <Typography variant="body1" className="modal-confirmation-title">
                   <Trans>Redeemable Yield</Trans>
                 </Typography>
-                <Typography variant="h6">
-                  {redeemableBalance.toString({ decimals: DECIMAL_PLACES, format: true })} sOHM
-                </Typography>
+                <Typography variant="h6">{t`${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`}</Typography>
               </Grid>
               {!isSmallScreen ? (
                 <Grid item sm={4}>
@@ -97,7 +96,9 @@ export function RedeemYieldModal({
             <Grid item xs />
             <Grid item xs={12} md={6}>
               <PrimaryButton disabled={!canSubmit()} onClick={() => handleSubmit()} fullWidth>
-                {isMutationLoading ? t`Redeeming ` : t`Redeem`} sOHM
+                {isMutationLoading
+                  ? t`Redeeming ${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`
+                  : t`Redeem ${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`}
               </PrimaryButton>
             </Grid>
             <Grid item xs />
