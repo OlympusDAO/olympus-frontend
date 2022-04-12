@@ -5,8 +5,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useRecipientInfo, useRedeemableBalance } from "src/hooks/useGiveInfo";
@@ -25,9 +23,7 @@ const DECIMAL_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMAL_FORMAT = { format: true };
 
 export default function RedeemYield() {
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const { provider, address, networkId } = useWeb3Context();
+  const { address } = useWeb3Context();
   const [isRedeemYieldModalOpen, setIsRedeemYieldModalOpen] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
