@@ -1,10 +1,10 @@
 import { render } from "src/testUtils";
 
-import ChooseBond from "../../ChooseBond/ChooseBond";
+import { Bond } from "../Bond";
 
 describe("<ChooseBond/>", () => {
   it("should render component", () => {
-    const { container } = render(<ChooseBond />);
+    const { container } = render(<Bond />);
     expect(container).toMatchSnapshot();
   });
 });

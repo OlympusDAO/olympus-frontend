@@ -155,7 +155,24 @@ exports[`<Sidebar/> should render component 1`] = `
                             >
                               <div
                                 class="MuiAccordionDetails-root"
-                              />
+                              >
+                                <div
+                                  class="MuiBox-root MuiBox-root-14"
+                                >
+                                  <div
+                                    class="MuiBox-root MuiBox-root-15"
+                                  >
+                                    <p
+                                      class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                                    >
+                                      Inverse Bonds
+                                    </p>
+                                    <div
+                                      class="MuiBox-root MuiBox-root-16"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -163,17 +180,17 @@ exports[`<Sidebar/> should render component 1`] = `
                     </div>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-14 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-17 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
                       href="/stake"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-15 link-container"
+                        class="MuiBox-root MuiBox-root-18 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-16 makeStyles-title-5 title"
+                          class="MuiBox-root MuiBox-root-19 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -192,17 +209,17 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-17 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-20 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
                       href="/zap"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-18 link-container"
+                        class="MuiBox-root MuiBox-root-21 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-19 makeStyles-title-5 title"
+                          class="MuiBox-root MuiBox-root-22 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -221,17 +238,17 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-20 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-23 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
                       href="/give"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-21 link-container"
+                        class="MuiBox-root MuiBox-root-24 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-22 makeStyles-title-5 title"
+                          class="MuiBox-root MuiBox-root-25 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -250,17 +267,17 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-23 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-26 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
                       href="/wrap"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-24 link-container"
+                        class="MuiBox-root MuiBox-root-27 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-25 makeStyles-title-5 title"
+                          class="MuiBox-root MuiBox-root-28 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -279,7 +296,7 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-26 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-29 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -287,10 +304,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-27 link-container"
+                        class="MuiBox-root MuiBox-root-30 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-28 makeStyles-title-5 title"
+                          class="MuiBox-root MuiBox-root-31 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -319,14 +336,14 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-29 menu-divider"
+                    class="MuiBox-root MuiBox-root-32 menu-divider"
                   >
                     <hr
                       class="MuiDivider-root"
                     />
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-30 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-33 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -334,10 +351,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-31 link-container"
+                        class="MuiBox-root MuiBox-root-34 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-32 makeStyles-title-5 title"
+                          class="MuiBox-root MuiBox-root-35 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -366,14 +383,14 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-33 menu-divider"
+                    class="MuiBox-root MuiBox-root-36 menu-divider"
                   >
                     <hr
                       class="MuiDivider-root"
                     />
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-34 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-37 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -381,10 +398,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-35 link-container"
+                        class="MuiBox-root MuiBox-root-38 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-36 makeStyles-title-5 title"
+                          class="MuiBox-root MuiBox-root-39 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -413,7 +430,7 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-37 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-40 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -421,10 +438,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-38 link-container"
+                        class="MuiBox-root MuiBox-root-41 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-39 makeStyles-title-5 title"
+                          class="MuiBox-root MuiBox-root-42 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -453,7 +470,7 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-40 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-43 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -461,10 +478,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-41 link-container"
+                        class="MuiBox-root MuiBox-root-44 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-42 makeStyles-title-5 title"
+                          class="MuiBox-root MuiBox-root-45 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -493,7 +510,7 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-43 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-46 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -501,10 +518,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-44 link-container"
+                        class="MuiBox-root MuiBox-root-47 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-45 makeStyles-title-5 title"
+                          class="MuiBox-root MuiBox-root-48 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -533,7 +550,7 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-46 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-49 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -541,10 +558,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-47 link-container"
+                        class="MuiBox-root MuiBox-root-50 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-48 makeStyles-title-5 title"
+                          class="MuiBox-root MuiBox-root-51 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -576,7 +593,7 @@ exports[`<Sidebar/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-49"
+              class="MuiBox-root MuiBox-root-52"
             >
               <a
                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
