@@ -1,4 +1,5 @@
 import { trackGAEvent } from "src/helpers/analytics";
+import { getGiveProjectName } from "src/helpers/GiveProjectNameHelper";
 
 export interface IUAData {
   address: string;
@@ -21,7 +22,7 @@ export const trackGiveEvent = (uaData: IUAData, eventAction?: string) => {
   trackGAEvent({
     category: "Olympus Give",
     action: eventAction ? eventAction : uaData.type ? uaData.type : "unknown",
-    label: uaData.recipient ?? "unknown",
+    label: getGiveProjectName(uaData.recipient, "unknown"),
     value: Math.round(parseFloat(uaData.value)),
     metric1: parseFloat(uaData.value),
     dimension1: uaData.txHash ?? "unknown",
@@ -29,11 +30,11 @@ export const trackGiveEvent = (uaData: IUAData, eventAction?: string) => {
   });
 };
 
-export const trackRedeemEvent = (uaData: IUARecipientData, eventAction?: string) => {
+export const trackGiveRedeemEvent = (uaData: IUARecipientData, eventAction?: string) => {
   trackGAEvent({
     category: "Olympus Give",
     action: eventAction ? eventAction : uaData.type ? uaData.type : "unknown",
-    label: uaData.address ?? "unknown",
+    label: getGiveProjectName(uaData.address, "unknown"),
     value: Math.round(parseFloat(uaData.value)),
     metric1: parseFloat(uaData.value),
     dimension1: uaData.txHash ?? "unknown",

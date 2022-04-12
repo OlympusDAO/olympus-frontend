@@ -10,7 +10,7 @@ import { recipientInfoQueryKey, redeemableBalanceQueryKey } from "src/hooks/useG
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
-import { IUARecipientData, trackRedeemEvent } from "../utils/googleAnalytics";
+import { IUARecipientData, trackGiveRedeemEvent } from "../utils/googleAnalytics";
 
 /**
  * @notice Redeems all available yield
@@ -42,13 +42,13 @@ export const useRedeem = () => {
 
       // Before we submit the transaction, record the event.
       // This lets us track if the user rejects/ignores the confirmation dialog.
-      trackRedeemEvent(uaData, uaData.type + "-before");
+      trackGiveRedeemEvent(uaData, uaData.type + "-before");
 
       const transaction = await contract.redeem();
 
       uaData.txHash = transaction.hash;
 
-      trackRedeemEvent(uaData);
+      trackGiveRedeemEvent(uaData);
 
       return transaction.wait();
     },
@@ -64,7 +64,7 @@ export const useRedeem = () => {
           redeemableBalanceQueryKey(address, networks.MAINNET),
         ];
 
-        const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
+        keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
 
         dispatch(createInfoToast(t`Successfully redeemed all available yield`));
       },
