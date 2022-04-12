@@ -38,6 +38,21 @@ interface ZapHelperBalancesResponse {
 }
 
 export const zapTokenBalancesKey = (address: string) => ["zapTokenBalances", address];
+
+/**
+ * Asynchronously fetches the token balances for the current wallet.
+ *
+ * This hook uses react-query to fetch the token balances via the Zapper API.
+ * The Zapper API is used as it returns an exhaustive list of the tokens in
+ * the wallet, along with the balances and USD value. Doing this manually would
+ * require querying balances for an exhaustive list of token contracts, so the Zapper
+ * API is quicker.
+ *
+ * Caveats:
+ * - The Zapper API supports Ethereum mainnet only, which makes it difficult to conduct testing.
+ *
+ * @returns react-query result
+ */
 export const useZapTokenBalances = () => {
   const { address, connected } = useWeb3Context();
   const key = zapTokenBalancesKey(address);
