@@ -15,7 +15,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
         >
           <div
-            class="MuiPaper-root makeStyles-root-1 makeStyles-root-2  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root makeStyles-root-66 makeStyles-root-67  MuiPaper-elevation0 MuiPaper-rounded"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -25,7 +25,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                 class="MuiGrid-root card-header MuiGrid-item"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-3"
+                  class="MuiBox-root MuiBox-root-68"
                 >
                   <div
                     class="top-left"
@@ -378,7 +378,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-5 makeStyles-root-6 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-70 makeStyles-root-71 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                           tabindex="0"
                           type="button"
                         >
@@ -407,7 +407,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
       >
         <div
-          class="MuiPaper-root makeStyles-root-1 makeStyles-root-7  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-66 makeStyles-root-72  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -417,10 +417,10 @@ exports[`Give View Connected should render project card with Donate Yield Button
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-8"
+                class="MuiBox-root MuiBox-root-73"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-9"
+                  class="MuiBox-root MuiBox-root-74"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
