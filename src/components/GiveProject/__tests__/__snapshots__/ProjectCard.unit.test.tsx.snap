@@ -485,11 +485,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                                   </div>
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
-                                  >
-                                    <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                    />
-                                  </div>
+                                  />
                                 </div>
                               </div>
                               <div
@@ -967,11 +963,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                   </div>
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
-                                  >
-                                    <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                    />
-                                  </div>
+                                  />
                                 </div>
                               </div>
                               <div
@@ -1444,11 +1436,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                   </div>
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
-                                  >
-                                    <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                    />
-                                  </div>
+                                  />
                                 </div>
                               </div>
                               <div
