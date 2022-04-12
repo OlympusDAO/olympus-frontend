@@ -74,6 +74,26 @@ describe("Redeem Yield", () => {
     expect(screen.getByText("Redeem Yield").closest("button")).toHaveAttribute("disabled");
   });
 
+  it("should have disabled redeem button when recipient info is loading", async () => {
+    context.mockReturnValue(mockWeb3Context);
+
+    const redeemable = jest.spyOn(useGiveInfo, "useRedeemableBalance");
+    redeemable.mockReturnValue(mockRedeemableBalance("0")); // Zero redeemable balance
+
+    const recipientInfo = jest.spyOn(useGiveInfo, "useRecipientInfo");
+    recipientInfo.mockReturnValue(recipientInfo);
+
+    const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
+    stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
+
+    let container;
+    await act(async () => {
+      ({ container } = render(<RedeemYield />)); //eslint-disable-line
+    });
+
+    expect(screen.getByText("Redeem Yield").closest("button")).toHaveAttribute("disabled");
+  });
+
   it("should show redeemable balance as 100 sOHM", async () => {
     context.mockReturnValue(mockWeb3Context);
 
