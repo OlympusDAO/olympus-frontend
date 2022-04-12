@@ -617,7 +617,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                     >
                       <strong>
                         <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                          class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
                           style="width: 20px;"
                         />
                       </strong>
@@ -760,7 +760,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                     >
                       <strong>
                         <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                          class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
                           style="width: 20px;"
                         />
                       </strong>
@@ -903,7 +903,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                     >
                       <strong>
                         <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                          class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
                           style="width: 20px;"
                         />
                       </strong>
@@ -1046,7 +1046,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                     >
                       <strong>
                         <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                          class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
                           style="width: 20px;"
                         />
                       </strong>
@@ -1189,7 +1189,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                     >
                       <strong>
                         <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                          class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
                           style="width: 20px;"
                         />
                       </strong>
@@ -1528,7 +1528,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                   >
                                     <strong>
                                       <span
-                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
                                         style="width: 20px;"
                                       />
                                     </strong>
@@ -1671,7 +1671,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                   >
                                     <strong>
                                       <span
-                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
                                         style="width: 20px;"
                                       />
                                     </strong>
@@ -1814,7 +1814,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                   >
                                     <strong>
                                       <span
-                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
                                         style="width: 20px;"
                                       />
                                     </strong>
@@ -1957,7 +1957,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                   >
                                     <strong>
                                       <span
-                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
                                         style="width: 20px;"
                                       />
                                     </strong>
@@ -2100,7 +2100,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                   >
                                     <strong>
                                       <span
-                                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
                                         style="width: 20px;"
                                       />
                                     </strong>
@@ -2743,11 +2743,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                   </div>
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
-                                  >
-                                    <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                                    />
-                                  </div>
+                                  />
                                 </div>
                               </div>
                               <div

@@ -6,30 +6,23 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project } from "src/components/GiveProject/project.type";
+import { GiveTokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { NetworkId } from "src/constants";
+import { GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { Environment } from "src/helpers/environment/Environment/Environment";
+import { useSohmBalance } from "src/hooks/useBalance";
 import { useWeb3Context } from "src/hooks/web3Context";
-import {
-  changeApproval,
-  changeMockApproval,
-  hasPendingGiveTxn,
-  PENDING_TXN_GIVE,
-  PENDING_TXN_GIVE_APPROVAL,
-} from "src/slices/GiveThunk";
 
 import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
-import { IPendingTxn, isPendingTxn, txnButtonText } from "../../slices/PendingTxnsSlice";
-import { CancelCallback, DonationInfoState, SubmitCallback } from "./Interfaces";
+import { CancelCallback, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
   isModalOpen: boolean;
+  isMutationLoading: boolean;
   eventSource: string;
   callbackFunc: SubmitCallback;
   cancelFunc: CancelCallback;
@@ -40,10 +33,15 @@ const DECIMAL_PLACES = 2;
 const ZERO_NUMBER = new DecimalBigNumber("0");
 const EXACT_FORMAT = { format: true };
 
-export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelFunc, project }: RecipientModalProps) {
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const { provider, address, networkId } = useWeb3Context();
+export function RecipientModal({
+  isModalOpen,
+  isMutationLoading,
+  eventSource,
+  callbackFunc,
+  cancelFunc,
+  project,
+}: RecipientModalProps) {
+  const { address, networkId } = useWeb3Context();
 
   const _initialDepositAmount = "0";
   const _initialWalletAddress = "";
@@ -83,54 +81,14 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
     }
   }, [isModalOpen]);
 
-  /**
-   * Returns the user's sOHM balance
-   *
-   * Copied from Stake.jsx
-   *
-   * TODO consider extracting this into a helper file
-   */
-  const sohmBalance: string = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.balances && state.account.balances.mockSohm
-      : state.account.balances && state.account.balances.sohm;
-  });
+  const _useSohmBalance =
+    useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+  const sohmBalance: DecimalBigNumber = useMemo(() => {
+    if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
 
-  const giveAllowance: number = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving && state.account.mockGiving.sohmGive
-      : state.account.giving && state.account.giving.sohmGive;
-  });
-
-  const isAccountLoading: boolean = useSelector((state: DonationInfoState) => {
-    return state.account.loading;
-  });
-
-  const isGiveLoading: boolean = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving.loading
-      : state.account.giving.loading;
-  });
-
-  const pendingTransactions: IPendingTxn[] = useSelector((state: DonationInfoState) => {
-    return state.pendingTransactions;
-  });
-
-  const onSeekApproval = async () => {
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(changeMockApproval({ address, token: "sohm", provider, networkID: networkId }));
-    } else {
-      await dispatch(changeApproval({ address, token: "sohm", provider, networkID: networkId }));
-    }
-  };
-
-  const hasAllowance = useCallback(() => {
-    return giveAllowance > 0;
-  }, [giveAllowance]);
-
-  const getSOhmBalance = (): DecimalBigNumber => {
-    return new DecimalBigNumber(sohmBalance || "0");
-  };
+    return _useSohmBalance.data;
+  }, [_useSohmBalance]);
+  const isBalanceLoading = _useSohmBalance.isLoading;
 
   /**
    * Returns the maximum deposit that can be directed to the recipient.
@@ -140,7 +98,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    * @returns DecimalBigNumber
    */
   const getMaximumDepositAmount = (): DecimalBigNumber => {
-    return new DecimalBigNumber(sohmBalance || "0");
+    return sohmBalance;
   };
 
   const handleSetDepositAmount = (value: string) => {
@@ -150,7 +108,6 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
 
   const checkIsDepositAmountValid = (value: string) => {
     const valueNumber = new DecimalBigNumber(value);
-    const sOhmBalanceNumber = getSOhmBalance();
     const zeroNumber = ZERO_NUMBER;
 
     if (!value || value == "" || valueNumber.eq(zeroNumber)) {
@@ -165,7 +122,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
       return;
     }
 
-    if (sOhmBalanceNumber.eq(zeroNumber)) {
+    if (sohmBalance.eq(zeroNumber)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
     }
@@ -237,13 +194,14 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
   const canSubmit = (): boolean => {
     if (!isDepositAmountValid) return false;
 
-    if (isAccountLoading || isGiveLoading) return false;
+    if (isBalanceLoading) return false;
 
     // The wallet address is only set when a project is not given
     if (!isProjectMode() && !isWalletAddressValid) return false;
 
     if (!address) return false;
-    if (hasPendingGiveTxn(pendingTransactions)) return false;
+
+    if (isMutationLoading) return false;
 
     return true;
   };
@@ -256,7 +214,7 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
    * @returns DecimalBigNumber instance
    */
   const getRetainedAmountDiff = (): DecimalBigNumber => {
-    return new DecimalBigNumber(sohmBalance || "0").sub(getDepositAmount());
+    return sohmBalance.sub(getDepositAmount());
   };
 
   /**
@@ -353,138 +311,113 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
 
   const getAmountScreen = () => {
     // If we are loading the state, add a placeholder
-    if (isAccountLoading || isGiveLoading) return <Skeleton />;
+    if (isBalanceLoading) return <Skeleton />;
 
-    // If there is no approval
-    if (!hasAllowance()) {
-      return (
-        <>
-          <Grid container spacing={2} justifyContent="flex-end">
+    // Let the user enter the amount, but implement allowance guard
+    return (
+      <>
+        <Grid container alignItems="center" spacing={2}>
+          <GiveTokenAllowanceGuard
+            tokenAddressMap={SOHM_ADDRESSES}
+            spenderAddressMap={GIVE_ADDRESSES}
+            message={
+              <>
+                <Trans>Is this your first time donating</Trans> <b>sOHM</b>?{" "}
+                <Trans>Please approve Olympus DAO to use your</Trans> <b>sOHM</b> <Trans>for donating</Trans>.
+              </>
+            }
+          >
             <Grid item xs={12}>
-              <Typography variant="h6" className="stream-note" color="textSecondary">
-                <Trans>
-                  Is this your first time donating sOHM? Please approve OlympusDAO to use your sOHM for donating.
-                </Trans>
+              <Typography variant="body1">
+                <Trans>sOHM Allocation</Trans>
+                <InfoTooltip
+                  message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                  children={null}
+                />
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Grid container alignItems="center">
+              <Input
+                id="amount-input"
+                placeholder={t`Enter an amount`}
+                type="number"
+                // We used to use BigNumber/DecimalBigNumber here, but it behaves
+                // weirdly and would refuse to recognise some numbers, e.g. 100
+                // Better to keep it simple
+                value={depositAmount}
+                helperText={
+                  isDepositAmountValid
+                    ? `${t`Your current Staked Balance is`} ${sohmBalance.toString(EXACT_FORMAT)} sOHM`
+                    : isDepositAmountValidError
+                }
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onChange={(e: any) => handleSetDepositAmount(e.target.value)}
+                error={!isDepositAmountValid}
+                startAdornment="sOHM"
+                endString={t`Max`}
+                endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="body1">
+                <Trans>Recipient</Trans>
+                <InfoTooltip
+                  message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+                  children={null}
+                />
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              {getRecipientInputField()}
+            </Grid>
+            {!isSmallScreen ? (
+              <Grid item xs={12}>
+                <Grid container justifyContent="center" alignItems="flex-start" wrap="nowrap">
+                  <Grid item xs={3}>
+                    {/**
+                     * Wallet balances are rarely whole numbers, so we give an approximate number here.
+                     *
+                     * For the numbers related to what the user is depositing, we give exact numbers.
+                     */}
+                    <CompactWallet
+                      quantity={getRetainedAmountDiff().toString({
+                        decimals: DECIMAL_PLACES,
+                        format: true,
+                      })}
+                      isQuantityExact={false}
+                    />
+                  </Grid>
+                  <Grid item xs={1}>
+                    <ArrowGraphic />
+                  </Grid>
+                  <Grid item xs={3}>
+                    {/* This is deliberately a specific value */}
+                    <CompactVault quantity={getDepositAmount().toString(EXACT_FORMAT)} isQuantityExact={true} />
+                  </Grid>
+                  <Grid item xs={1}>
+                    <ArrowGraphic />
+                  </Grid>
+                  <Grid item xs={3}>
+                    {/* This is deliberately a specific value */}
+                    <CompactYield quantity={getDepositAmount().toString(EXACT_FORMAT)} isQuantityExact={true} />
+                  </Grid>
+                </Grid>
+              </Grid>
+            ) : (
+              <></>
+            )}
+            <Grid item xs={12}>
+              <Grid container justifyContent="center" alignContent="center">
                 <Grid item xs />
                 <Grid item xs={8}>
-                  <PrimaryButton
-                    disabled={
-                      isPendingTxn(pendingTransactions, PENDING_TXN_GIVE_APPROVAL) || isAccountLoading || !address
-                    }
-                    onClick={onSeekApproval}
-                    fullWidth
-                  >
-                    {txnButtonText(pendingTransactions, PENDING_TXN_GIVE_APPROVAL, t`Approve`)}
+                  <PrimaryButton disabled={!canSubmit()} onClick={handleContinue} fullWidth>
+                    <Trans>Continue</Trans>
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs />
               </Grid>
             </Grid>
-          </Grid>
-        </>
-      );
-    }
-
-    // Otherwise we let the user enter the amount
-    return (
-      <>
-        <Grid container alignItems="center" spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="body1">
-              <Trans>sOHM Allocation</Trans>
-              <InfoTooltip
-                message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
-                children={null}
-              />
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Input
-              id="amount-input"
-              placeholder={t`Enter an amount`}
-              type="number"
-              // We used to use BigNumber/DecimalBigNumber here, but it behaves
-              // weirdly and would refuse to recognise some numbers, e.g. 100
-              // Better to keep it simple
-              value={depositAmount}
-              // We need to inform the user about their wallet balance, so this is a specific value
-              helperText={
-                isDepositAmountValid
-                  ? `${t`Your current Staked Balance is`} ${getSOhmBalance().toString(EXACT_FORMAT)} sOHM`
-                  : isDepositAmountValidError
-              }
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              onChange={(e: any) => handleSetDepositAmount(e.target.value)}
-              error={!isDepositAmountValid}
-              startAdornment="sOHM"
-              endString={t`Max`}
-              // This uses toString() as it is a specific value and not formatted
-              endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="body1">
-              <Trans>Recipient</Trans>
-              <InfoTooltip
-                message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
-                children={null}
-              />
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            {getRecipientInputField()}
-          </Grid>
-          {!isSmallScreen ? (
-            <Grid item xs={12}>
-              <Grid container justifyContent="center" alignItems="flex-start" wrap="nowrap">
-                <Grid item xs={3}>
-                  {/**
-                   * Wallet balances are rarely whole numbers, so we give an approximate number here.
-                   *
-                   * For the numbers related to what the user is depositing, we give exact numbers.
-                   */}
-                  <CompactWallet
-                    quantity={getRetainedAmountDiff().toString({
-                      decimals: DECIMAL_PLACES,
-                      format: true,
-                    })}
-                    isQuantityExact={false}
-                  />
-                </Grid>
-                <Grid item xs={1}>
-                  <ArrowGraphic />
-                </Grid>
-                <Grid item xs={3}>
-                  {/* This is deliberately a specific value */}
-                  <CompactVault quantity={getDepositAmount().toString(EXACT_FORMAT)} isQuantityExact={true} />
-                </Grid>
-                <Grid item xs={1}>
-                  <ArrowGraphic />
-                </Grid>
-                <Grid item xs={3}>
-                  {/* This is deliberately a specific value */}
-                  <CompactYield quantity={getDepositAmount().toString(EXACT_FORMAT)} isQuantityExact={true} />
-                </Grid>
-              </Grid>
-            </Grid>
-          ) : (
-            <></>
-          )}
-          <Grid item xs={12}>
-            <Grid container justifyContent="center" alignContent="center">
-              <Grid item xs />
-              <Grid item xs={8}>
-                <PrimaryButton disabled={!canSubmit()} onClick={handleContinue} fullWidth>
-                  <Trans>Continue</Trans>
-                </PrimaryButton>
-              </Grid>
-              <Grid item xs />
-            </Grid>
-          </Grid>
+          </GiveTokenAllowanceGuard>
         </Grid>
       </>
     );
@@ -563,11 +496,9 @@ export function RecipientModal({ isModalOpen, eventSource, callbackFunc, cancelF
               <Grid item xs={8}>
                 <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
                   {/* We display the exact amount being deposited. */}
-                  {txnButtonText(
-                    pendingTransactions,
-                    PENDING_TXN_GIVE,
-                    `${t`Confirm `} ${getDepositAmount().toString(EXACT_FORMAT)} sOHM`,
-                  )}
+                  {isMutationLoading
+                    ? t`Depositing sOHM`
+                    : `${t`Confirm `} ${getDepositAmount().toString(EXACT_FORMAT)} sOHM`}
                 </PrimaryButton>
               </Grid>
               <Grid item xs />
