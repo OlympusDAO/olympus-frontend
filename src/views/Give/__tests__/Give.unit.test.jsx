@@ -77,23 +77,6 @@ describe("Give View Disconnected", () => {
 });
 
 describe("Give View Connected", () => {
-  const preloadedState = {
-    account: {
-      giving: {
-        sohmGive: 999999999000000000,
-        donationInfo: [
-          {
-            date: "Mar 30, 2022",
-            deposit: "1.0",
-            recipient: "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c",
-            yieldDonated: "0.0",
-          },
-        ],
-        loading: false,
-      },
-    },
-  };
-
   const reducer = {
     account: accountReducer,
   };
@@ -101,7 +84,6 @@ describe("Give View Connected", () => {
   const store = configureStore({
     reducer,
     devTools: true,
-    preloadedState,
   });
 
   it("should render project card with Donate Yield Button", async () => {

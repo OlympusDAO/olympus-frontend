@@ -23,6 +23,8 @@ import { abi as IERC20_ABI } from "src/abi/IERC20.json";
 import { abi as JOECHEF_ABI } from "src/abi/JoeChef.json";
 import { abi as JOE_REWARDER_ABI } from "src/abi/JoeRewarder.json";
 import { abi as JONES_ABI } from "src/abi/Jones.json";
+import { abi as GIVE_ABI } from "src/abi/OlympusGiving.json";
+import { abi as MOCK_GIVE_ABI } from "src/abi/OlympusMockGiving.json";
 import STAKING_ABI from "src/abi/OlympusStakingv2.json";
 import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
 import { abi as SOHM_ABI } from "src/abi/sOhmv2.json";
@@ -39,6 +41,8 @@ import {
   FuseProxy,
   IERC20,
   Jones,
+  OlympusGiving,
+  OlympusMockGiving,
   OlympusStakingv2,
   PairContract,
   SOhmv2,
@@ -122,6 +126,7 @@ export const useStaticPairContract = createStaticContract<PairContract>(PAIR_CON
 export const useStaticStakingContract = createStaticContract<OlympusStakingv2>(STAKING_ABI);
 export const useStaticBondContract = createStaticContract<BondDepository>(BOND_ABI);
 
+export const useStaticMockGiveContract = createStaticContract<OlympusMockGiving>(MOCK_GIVE_ABI);
 export const useStaticChefContract = createStaticContract<SushiChef>(SUSHI_CHEF_ABI);
 export const useStaticChefRewarderContract = createStaticContract<SushiRewarder>(SUSHI_REWARDER_ABI);
 export const useStaticJoeChefContract = createStaticContract<JoeChef>(JOECHEF_ABI);
@@ -138,6 +143,7 @@ export const useStaticJonesContract = createStaticContract<Jones>(JONES_ABI);
 // Dynamic contracts
 export const useDynamicTokenContract = createDynamicContract<IERC20>(IERC20_ABI);
 export const useDynamicStakingContract = createDynamicContract<OlympusStakingv2>(STAKING_ABI);
+export const useDynamicGiveContract = createDynamicContract<OlympusGiving>(GIVE_ABI);
 export const useDynamicMigratorContract = createDynamicContract<CrossChainMigrator>(CROSS_CHAIN_MIGRATOR_ABI);
 
 // Multiple static contracts
