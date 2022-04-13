@@ -77,7 +77,7 @@ export function ManageDonationModal({
     if (_useRecipientInfo.isLoading || !_useRecipientInfo.data) return new DecimalBigNumber("0");
 
     return GetCorrectContractUnits(_useRecipientInfo.data.agnosticDebt, giveAssetType, currentIndex);
-  }, [_useRecipientInfo]);
+  }, [_useRecipientInfo, giveAssetType, currentIndex]);
 
   useEffect(() => {
     checkIsWalletAddressValid(getWalletAddress());
@@ -260,7 +260,6 @@ export function ManageDonationModal({
 
   const checkIsDepositAmountValid = (value: string) => {
     const valueNumber = new DecimalBigNumber(value);
-    const balanceNumber = getBalance();
 
     if (!value || value == "" || valueNumber.eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
@@ -274,7 +273,7 @@ export function ManageDonationModal({
       return;
     }
 
-    if (balanceNumber.eq(ZERO_NUMBER)) {
+    if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }

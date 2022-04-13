@@ -121,8 +121,6 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     });
   };
 
-  const depositNumber = new DecimalBigNumber(depositObject.deposit);
-
   return (
     <Grid container alignItems="center" spacing={2}>
       {!isSmallScreen && (

@@ -120,8 +120,6 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   const userDeposit: DecimalBigNumber = useMemo(() => {
     if (!userDonation) return new DecimalBigNumber("0");
 
-    console.log(userDonation.deposit);
-
     return GetCorrectContractUnits(userDonation.deposit, giveAssetType, currentIndex);
   }, [userDonation]);
 

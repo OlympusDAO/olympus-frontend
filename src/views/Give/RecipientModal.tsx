@@ -134,6 +134,7 @@ export function RecipientModal({
 
   const checkIsDepositAmountValid = (value: string) => {
     const valueNumber = new DecimalBigNumber(value, giveAssetType === "sOHM" ? 9 : 18);
+    const zeroNumber = ZERO_NUMBER;
 
     if (!value || value == "" || valueNumber.eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
@@ -355,7 +356,7 @@ export function RecipientModal({
             <Grid container justifyContent="space-between" spacing={2}>
               <Grid item xs={6}>
                 <Typography variant="body1" color="textSecondary">
-                  <Trans>{giveAssetType} Deposit</Trans>
+                  <Trans>{giveAssetType} Allocation</Trans>
                   <InfoTooltip
                     message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                     children={null}
@@ -383,7 +384,7 @@ export function RecipientModal({
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onChange={(e: any) => handleSetDepositAmount(e.target.value)}
                 error={!isDepositAmountValid}
-                startAdornment="sOHM"
+                startAdornment={giveAssetType}
                 endString={t`Max`}
                 // This uses toString() as it is a specific value and not formatted
                 endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString(EXACT_FORMAT))}

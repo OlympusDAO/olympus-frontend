@@ -61,6 +61,26 @@ describe("Redeem Yield", () => {
     redeemable.mockReturnValue(mockRedeemableBalance(redeemData));
 
     const recipientInfo = jest.spyOn(useGiveInfo, "useRecipientInfo");
+    recipientInfo.mockReturnValue(mockRecipientInfo(recipientData));
+
+    const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
+    stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
+
+    let container;
+    await act(async () => {
+      ({ container } = render(<RedeemYield />)); //eslint-disable-line
+    });
+
+    expect(screen.getByText("Redeem Yield").closest("button")).toHaveAttribute("disabled");
+  });
+
+  it("should have disabled redeem button when recipient info is loading", async () => {
+    context.mockReturnValue(mockWeb3Context);
+
+    const redeemable = jest.spyOn(useGiveInfo, "useRedeemableBalance");
+    redeemable.mockReturnValue(mockRedeemableBalance(redeemData));
+
+    const recipientInfo = jest.spyOn(useGiveInfo, "useRecipientInfo");
     // Pretend as if it is loading
     const _recipientInfo = mockRecipientInfo(recipientData);
     _recipientInfo.data = null;
