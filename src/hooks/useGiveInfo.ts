@@ -70,8 +70,15 @@ export const useDonationInfo = () => {
 
       // Get set of all a user's deposits and begin to iterate through them. depositIds and allDeposits are
       // indexed the same way, so we can select them by index
-      const depositIds: BigNumber[] = await contract.getDepositorIds(address);
-      const allDeposits: [string[], BigNumber[]] = await contract.getAllDeposits(address);
+      let depositIds: BigNumber[] = [];
+      let allDeposits: [string[], BigNumber[]] = [[], []];
+      try {
+        depositIds = await contract.getDepositorIds(address);
+        allDeposits = await contract.getAllDeposits(address);
+      } catch (e: unknown) {
+        // These will only revert if the user has not initiated any deposits yet
+        console.log("You have not deposited to anyone yet.");
+      }
 
       // Define empty arrays to push promises and non-zero deposits into
       const selectedDepositIds = [];
@@ -99,10 +106,8 @@ export const useDonationInfo = () => {
         const yieldSentPromise: Promise<BigNumber> = contract
           .donatedTo(address, allDeposits[0][i])
           .catch((e: unknown) => {
-            console.info(
-              "If the following error contains 'user is not donating', then it is an expected error. No need to report it!",
-            );
-            console.error(e);
+            // This will only revert if the user has not donated at all yet
+            console.log("You have not donated any yield yet.");
             return ethers.constants.Zero;
           });
         yieldSentPromises.push(yieldSentPromise);
@@ -162,6 +167,7 @@ export const useRedeemableBalance = (address: string) => {
   // Hook to establish dynamic contract, meaning it will connect to the network
   // the user is currently connected to
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  console.log(contract?.address);
 
   const query = useQuery<string, Error>(
     redeemableBalanceQueryKey(address, networkId),
@@ -180,7 +186,8 @@ export const useRedeemableBalance = (address: string) => {
       try {
         redeemableBalance = await contract.totalRedeemableBalance(address);
       } catch (e: unknown) {
-        console.log(e);
+        // This can only revert if there is no deposit to this user yet
+        console.log("No donations to: " + address + " yet.");
       }
 
       // Convert to proper decimals and return
@@ -331,7 +338,13 @@ export const useTotalYieldDonated = (address: string) => {
       }
 
       // Fetch redeemable balance from YieldDirector
-      const redeemableBalance = await contract.totalRedeemableBalance(address);
+      let redeemableBalance = BigNumber.from("0");
+      try {
+        redeemableBalance = await contract.totalRedeemableBalance(address);
+      } catch (e: unknown) {
+        // this can only revert when there is no donations to an address yet
+        console.log("No donations to: " + address + " yet.");
+      }
 
       // Sum all redemption events with redeemable balance
       const totalDonated = totalRedeemed.add(redeemableBalance);

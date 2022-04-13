@@ -99,6 +99,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
       });
     } else {
       const subtractionAmount = depositAmountDiff.mul(new DecimalBigNumber("-1"));
+      console.log(subtractionAmount.toString());
       await decreaseMutation.mutate({
         id: depositId,
         amount: subtractionAmount.toString(),
@@ -114,6 +115,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     eventSource,
     depositAmount,
   ) => {
+    console.log(depositId);
     await decreaseMutation.mutate({
       id: depositId,
       amount: depositAmount.toString(),

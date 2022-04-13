@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { BigNumber, ContractReceipt, ethers } from "ethers";
+import { ContractReceipt, ethers } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { abi as gOHM } from "src/abi/gOHM.json";
@@ -8,7 +8,7 @@ import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, getTypeFromAction } from "src/h
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicGiveContract } from "src/hooks/useContract";
-import { donationInfoQueryKey, recipientInfoQueryKey } from "src/hooks/useGiveInfo";
+import { donationInfoQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
@@ -73,7 +73,6 @@ export const useIncreaseGive = () => {
           balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
           balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
           donationInfoQueryKey(address, networks.MAINNET),
-          recipientInfoQueryKey(address, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
@@ -130,10 +129,8 @@ export const useDecreaseGive = () => {
       // Also have to check if the token is sOHM because if we try converting gOHM
       // values to 9 decimals we encounter underflow issues. Not sure if this is the
       // best solution.
-      const gohmAmount_ =
-        token_ === "sOHM"
-          ? await gohmContract.balanceTo(ethers.utils.parseUnits(amount_, "gwei"))
-          : BigNumber.from("0");
+      const gohmAmount_: string =
+        token_ === "sOHM" ? (await gohmContract.balanceTo(ethers.utils.parseUnits(amount_, "gwei"))).toString() : "0";
 
       // Create transaction to withdraw passed amount from the passed recipient
       const transaction =
@@ -151,12 +148,11 @@ export const useDecreaseGive = () => {
         dispatch(createErrorToast(error.message));
       },
       onSuccess: async () => {
-        // Refetch sOHM balance and donation info
+        // Refetch balances and donation info
         const keysToRefetch = [
           balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
           balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
           donationInfoQueryKey(address, networks.MAINNET),
-          recipientInfoQueryKey(address, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

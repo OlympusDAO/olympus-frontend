@@ -197,7 +197,7 @@ export function ManageDonationModal({
   };
 
   const handleWithdrawSubmit = () => {
-    submitWithdraw(getWalletAddress(), currentDepositId, eventSource, getCurrentDepositAmount());
+    submitWithdraw(currentDepositId, getWalletAddress(), eventSource, getCurrentDepositAmount());
   };
 
   /**
