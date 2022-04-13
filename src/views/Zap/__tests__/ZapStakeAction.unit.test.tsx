@@ -3,11 +3,14 @@ import { BigNumber } from "ethers";
 import Messages from "src/components/Messages/Messages";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as useBalance from "src/hooks/useBalance";
+import * as useContract from "src/hooks/useContract";
+import * as useContractAllowance from "src/hooks/useContractAllowance";
 import * as usePrices from "src/hooks/usePrices";
 import * as useZapTokenBalances from "src/hooks/useZapTokenBalances";
 import * as useWeb3Context from "src/hooks/web3Context";
 import { NetworkId } from "src/networkDetails";
 import {
+  mockContractAllowance,
   mockGohmBalance,
   mockGohmPrice,
   mockOhmPrice,
@@ -17,6 +20,7 @@ import {
 } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
 import * as Contract from "src/typechain";
+import * as ZapFactory from "src/typechain/factories/Zap__factory";
 
 import ZapStakeAction from "../ZapStakeAction";
 
@@ -64,35 +68,23 @@ describe("<ZapStakeAction/> ", () => {
   beforeEach(() => {
     const data = jest.spyOn(useWeb3Context, "useWeb3Context");
     data.mockReturnValue(mockWeb3Context);
-  });
 
-  it("Submit Button Should be disabled with < 2 tokens selected enabled with two selected", async () => {
-    // Mock the Zapper API returning the token balances in the given wallet
-    const balanceData = jest.spyOn(useZapTokenBalances, "useZapTokenBalances");
-    balanceData.mockReturnValue(mockZapTokenBalances(tokenBalances));
+    jest.spyOn(useZapTokenBalances, "useZapTokenBalances").mockReturnValue(mockZapTokenBalances(tokenBalances));
 
-    // Mock the OHM market price
-    const ohmMarketData = jest.spyOn(usePrices, "useOhmPrice");
-    ohmMarketData.mockReturnValue(mockOhmPrice(30));
+    jest.spyOn(usePrices, "useOhmPrice").mockReturnValue(mockOhmPrice(32));
 
-    // Mock the gOHM market price
-    const gOhmMarketData = jest.spyOn(usePrices, "useGohmPrice");
-    gOhmMarketData.mockReturnValue(mockGohmPrice(3000));
+    jest.spyOn(usePrices, "useGohmPrice").mockReturnValue(mockGohmPrice(3400));
 
-    // Mock the sOHM balance
-    const sOhmBalance = jest.spyOn(useBalance, "useSohmBalance");
-    sOhmBalance.mockReturnValue(
+    jest.spyOn(useBalance, "useSohmBalance").mockReturnValue(
       mockSohmBalance({
-        [NetworkId.MAINNET]: new DecimalBigNumber("0"),
+        [NetworkId.MAINNET]: new DecimalBigNumber("10"),
         [NetworkId.TESTNET_RINKEBY]: new DecimalBigNumber("0"),
       }),
     );
 
-    // Mock the gOHM balance
-    const gOhmBalance = jest.spyOn(useBalance, "useGohmBalance");
-    gOhmBalance.mockReturnValue(
+    jest.spyOn(useBalance, "useGohmBalance").mockReturnValue(
       mockGohmBalance({
-        [NetworkId.MAINNET]: new DecimalBigNumber("0"),
+        [NetworkId.MAINNET]: new DecimalBigNumber("10"),
         [NetworkId.TESTNET_RINKEBY]: new DecimalBigNumber("0"),
         [NetworkId.ARBITRUM]: new DecimalBigNumber("0"),
         [NetworkId.ARBITRUM_TESTNET]: new DecimalBigNumber("0"),
@@ -104,7 +96,64 @@ describe("<ZapStakeAction/> ", () => {
       }),
     );
 
-    const { container } = render(<ZapStakeAction />);
+    jest.spyOn(useContractAllowance, "useContractAllowance").mockReturnValue(mockContractAllowance(BigNumber.from(10)));
+  });
+
+  it("gOHM should autopopulate with correct value based on ETH input", async () => {
+    render(
+      <>
+        <ZapStakeAction />
+      </>,
+    );
+    fireEvent.click(await screen.findByTestId("zap-input"));
+    fireEvent.click(await screen.getAllByText("ETH")[0]);
+    fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "0.8" } });
+    expect(await screen.findByText("Enter Amount"));
+    fireEvent.click(await screen.findByTestId("zap-output"));
+    fireEvent.click(await screen.getAllByText("gOHM")[0]);
+    expect(await screen.getByDisplayValue("0.7994635294117648")).toBeInTheDocument();
+    expect(await screen.findByText("Zap-Stake")).toBeInTheDocument();
+  });
+
+  it("sOHM should autopopulate with correct value based on ETH input", async () => {
+    render(
+      <>
+        <ZapStakeAction />
+      </>,
+    );
+    fireEvent.click(await screen.findByTestId("zap-input"));
+    fireEvent.click(await screen.getAllByText("ETH")[0]);
+    fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "0.8" } });
+    expect(await screen.findByText("Enter Amount"));
+    fireEvent.click(await screen.findByTestId("zap-output"));
+    fireEvent.click(await screen.getAllByText("sOHM")[0]);
+    expect(await screen.getByDisplayValue("84.943")).toBeInTheDocument();
+    expect(await screen.findByText("Zap-Stake")).toBeInTheDocument();
+  });
+
+  it("Should Execute Zap Successfully", async () => {
+    ZapFactory.Zap__factory.connect = jest.fn().mockReturnValue({
+      ZapStake: jest.fn().mockReturnValue({
+        wait: jest.fn().mockReturnValue(true),
+      }),
+    });
+    render(
+      <>
+        <Messages />
+        <ZapStakeAction />
+      </>,
+    );
+    fireEvent.click(await screen.findByTestId("zap-input"));
+    fireEvent.click(await screen.getAllByText("ETH")[0]);
+    fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "0.8" } });
+    fireEvent.click(await screen.findByTestId("zap-output"));
+    fireEvent.click(await screen.getAllByText("gOHM")[0]);
+    fireEvent.click(await screen.findByText("Zap-Stake"));
+    expect(await screen.findByText("Successful Zap!"));
+  });
+
+  it("Submit Button Should be disabled with < 2 tokens selected enabled with two selected", async () => {
+    render(<ZapStakeAction />);
 
     fireEvent.click(await screen.findByTestId("zap-input"));
     fireEvent.click(await screen.getAllByText("ETH")[0]);
@@ -116,31 +165,18 @@ describe("<ZapStakeAction/> ", () => {
     fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "1" } });
     // Once the output token has been selected, the zap button will be displayed
     expect(await screen.findByText("Zap-Stake"));
-    expect(container).toMatchSnapshot();
-  });
-
-  it("should display loading modal if balances are still loading", () => {
-    // Mock the Zapper API returning a loading status
-    const balanceData = jest.spyOn(useZapTokenBalances, "useZapTokenBalances");
-    const _tokenBalances = mockZapTokenBalances(tokenBalances);
-    _tokenBalances.isLoading = true;
-    balanceData.mockReturnValue(_tokenBalances);
-
-    render(<ZapStakeAction />);
   });
 
   it("Should Approve", async () => {
-    Contract.IERC20__factory.connect = jest.fn().mockReturnValue({
-      allowance: jest.fn().mockReturnValue(BigNumber.from(0)),
-      symbol: jest.fn().mockReturnValue("DAI"),
+    // @ts-ignore read-only property error
+    useContract.useDynamicTokenContract = jest.fn().mockReturnValue({
       approve: jest.fn().mockReturnValue({
         wait: jest.fn().mockResolvedValue(true),
       }),
     });
 
-    // Mock the Zapper API returning the token balances in the given wallet
-    const balanceData = jest.spyOn(useZapTokenBalances, "useZapTokenBalances");
-    balanceData.mockReturnValue(mockZapTokenBalances(tokenBalances));
+    // Override default
+    jest.spyOn(useContractAllowance, "useContractAllowance").mockReturnValue(mockContractAllowance(BigNumber.from(0)));
 
     render(
       <>
@@ -152,12 +188,9 @@ describe("<ZapStakeAction/> ", () => {
     fireEvent.click(await screen.findByTestId("zap-input"));
     fireEvent.click(await screen.getAllByText("DAI")[0]);
     fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "5000" } });
-    expect(await screen.findByText("Minimum Output Amount: 0.5"));
-    fireEvent.click(await screen.findByTestId("zap-output"));
-    fireEvent.click(await screen.getByText("gOHM"));
-    fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "1" } });
+    fireEvent.click(await screen.getAllByText("gOHM")[0]);
     fireEvent.click(await screen.getByText("Approve"));
-    expect(await screen.findByText("Successfully approved token!"));
+    expect(await screen.findByText("Successfully approved")).toBeInTheDocument();
   });
 
   it("Should Display Error when unable to retrieve allowances", async () => {
@@ -168,10 +201,6 @@ describe("<ZapStakeAction/> ", () => {
       }),
       symbol: jest.fn().mockReturnValue("DAI"),
     });
-
-    // Mock the Zapper API returning the token balances in the given wallet
-    const balanceData = jest.spyOn(useZapTokenBalances, "useZapTokenBalances");
-    balanceData.mockReturnValue(mockZapTokenBalances(tokenBalances));
 
     render(
       <>
@@ -194,10 +223,6 @@ describe("<ZapStakeAction/> ", () => {
       }),
     });
 
-    // Mock the Zapper API returning the token balances in the given wallet
-    const balanceData = jest.spyOn(useZapTokenBalances, "useZapTokenBalances");
-    balanceData.mockReturnValue(mockZapTokenBalances(tokenBalances));
-
     render(
       <>
         <Messages />
@@ -208,15 +233,17 @@ describe("<ZapStakeAction/> ", () => {
     fireEvent.click(await screen.findByTestId("zap-input"));
     fireEvent.click(await screen.getAllByText("DAI")[0]);
     fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "5000" } });
-    expect(await screen.findByText("Minimum Output Amount: 0.5")).toBeInTheDocument;
-    fireEvent.click(await screen.findByTestId("zap-output"));
-    fireEvent.click(await screen.getByText("gOHM"));
-    fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "1" } });
-    fireEvent.click(screen.getByText("Approve"));
+    fireEvent.click(await screen.getAllByText("gOHM")[0]);
+    fireEvent.click(await screen.getByText("Approve"));
     expect(await screen.getAllByText("Error")[0]).toBeInTheDocument();
   });
+});
 
-  it("should display loading modal if balances are still loading", () => {
+describe("Loading Balances", () => {
+  beforeEach(() => {
+    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
+    data.mockReturnValue(mockWeb3Context);
+
     // Mock the Zapper API returning the token balances in the given wallet
     const balanceData = jest.spyOn(useZapTokenBalances, "useZapTokenBalances");
     const _balanceData = mockZapTokenBalances(tokenBalances);
@@ -225,6 +252,35 @@ describe("<ZapStakeAction/> ", () => {
     _balanceData.data = undefined;
     balanceData.mockReturnValue(_balanceData);
 
+    jest.spyOn(usePrices, "useOhmPrice").mockReturnValue(mockOhmPrice(32));
+
+    jest.spyOn(usePrices, "useGohmPrice").mockReturnValue(mockGohmPrice(3400));
+
+    jest.spyOn(useBalance, "useSohmBalance").mockReturnValue(
+      mockSohmBalance({
+        [NetworkId.MAINNET]: new DecimalBigNumber("10"),
+        [NetworkId.TESTNET_RINKEBY]: new DecimalBigNumber("0"),
+      }),
+    );
+
+    jest.spyOn(useBalance, "useGohmBalance").mockReturnValue(
+      mockGohmBalance({
+        [NetworkId.MAINNET]: new DecimalBigNumber("10"),
+        [NetworkId.TESTNET_RINKEBY]: new DecimalBigNumber("0"),
+        [NetworkId.ARBITRUM]: new DecimalBigNumber("0"),
+        [NetworkId.ARBITRUM_TESTNET]: new DecimalBigNumber("0"),
+        [NetworkId.AVALANCHE]: new DecimalBigNumber("0"),
+        [NetworkId.AVALANCHE_TESTNET]: new DecimalBigNumber("0"),
+        [NetworkId.POLYGON]: new DecimalBigNumber("0"),
+        [NetworkId.FANTOM]: new DecimalBigNumber("0"),
+        [NetworkId.OPTIMISM]: new DecimalBigNumber("0"),
+      }),
+    );
+
+    jest.spyOn(useContractAllowance, "useContractAllowance").mockReturnValue(mockContractAllowance(BigNumber.from(10)));
+  });
+
+  it("should display loading modal if balances are still loading", () => {
     render(
       <>
         <Messages />
@@ -243,17 +299,16 @@ describe("<ZapStakeAction/> Not on Mainnet", () => {
     data.mockReturnValue({ ...mockWeb3Context, networkId: 123 });
   });
 
-  it("should display a message if not on Mainnet", () => {
-    // Mock the Zapper API returning the token balances in the given wallet
-    const balanceData = jest.spyOn(useZapTokenBalances, "useZapTokenBalances");
-    balanceData.mockReturnValue(mockZapTokenBalances(tokenBalances));
-
+  it("should display a message if not on Mainnet", async () => {
     render(
       <>
         <Messages />
         <ZapStakeAction />
       </>,
     );
-    expect(screen.getByText("Zaps are only available on Mainnet")).toBeInTheDocument();
+    expect(
+      screen.getByText("Zaps are only available on Ethereum Mainnet. Please switch networks."),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Enter Amount").closest("button")).toBeDisabled();
   });
 });
