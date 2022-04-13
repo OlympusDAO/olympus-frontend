@@ -230,6 +230,8 @@ export function ManageDonationModal({
     if (!address) return false;
 
     if (isMutationLoading) return false;
+
+    return true;
   };
 
   const getBalance = (): DecimalBigNumber => {
@@ -572,7 +574,7 @@ export function ManageDonationModal({
                   id="amount-input"
                   type="number"
                   placeholder={t`Enter an amount`}
-                  value={getDepositAmount().eq(ZERO_NUMBER)}
+                  value={getDepositAmount()}
                   helperText={
                     isDepositAmountValid
                       ? t`Your current deposit is ${getCurrentDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`
