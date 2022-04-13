@@ -101,6 +101,8 @@ export default function RedeemYield() {
 
     if (isRecipientInfoLoading) return false;
 
+    if (isMutating) return false;
+
     if (redeemableBalance.eq(ZERO_NUMBER))
       // If the available amount is 0
       return false;
