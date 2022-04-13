@@ -61,7 +61,7 @@ export default function RedeemYield() {
   const totalDebt: DecimalBigNumber = useMemo(() => {
     if (_useRecipientInfo.isLoading || _useRecipientInfo.data == undefined) return new DecimalBigNumber("0");
 
-    return new DecimalBigNumber(_useRecipientInfo.data.totalDebt);
+    return new DecimalBigNumber(_useRecipientInfo.data.sohmDebt);
   }, [_useRecipientInfo]);
 
   const stakingRebasePercentage = stakingRebase.mul(new DecimalBigNumber("100"));

@@ -18,10 +18,13 @@ interface IDonorAddresses {
   [key: string]: boolean;
 }
 
-// TODO clarify difference between each
+/**
+ * sohmDebt: total amount of sOHM principal earning yield for the recipient
+ * gohmDebt: gOHM equivalent of sOHM debt
+ */
 export interface IUserRecipientInfo {
-  totalDebt: string;
-  agnosticDebt: string;
+  sohmDebt: string;
+  gohmDebt: string;
 }
 
 /**
@@ -219,8 +222,8 @@ export const useRecipientInfo = (address: string) => {
 
       // Create recipient info object with default values
       const recipientInfo: IUserRecipientInfo = {
-        totalDebt: "",
-        agnosticDebt: "",
+        sohmDebt: "",
+        gohmDebt: "",
       };
 
       // Pull relevant data from the contract, put in the right format, and push to
@@ -241,13 +244,10 @@ export const useRecipientInfo = (address: string) => {
           sumDebt = sumDebt.add(debtData[i].principalAmount);
         }
 
-        console.log(sumDebt.toString());
         const sumAgnosticDebt = await gohmContract.balanceTo(sumDebt);
 
-        console.log(sumAgnosticDebt.toString());
-
-        recipientInfo.totalDebt = ethers.utils.formatUnits(sumDebt, "gwei");
-        recipientInfo.agnosticDebt = ethers.utils.formatEther(sumAgnosticDebt);
+        recipientInfo.sohmDebt = ethers.utils.formatUnits(sumDebt, "gwei");
+        recipientInfo.gohmDebt = ethers.utils.formatEther(sumAgnosticDebt);
       } catch (e: unknown) {
         console.log(e);
       }
@@ -323,13 +323,8 @@ export const useTotalYieldDonated = (address: string) => {
       // Sum all redemption events with redeemable balance
       const totalDonated = totalRedeemed.add(redeemableBalance);
 
-      // TODO: Need a better way to do this, as current index doesn't repopulate
-      const totalDonatedAsSohm = totalDonated.div(
-        currentIndex ? currentIndex.toBigNumber() : BigNumber.from("1000000000"),
-      );
-
       // Return formatted total donated value
-      return ethers.utils.formatUnits(totalDonatedAsSohm, "gwei");
+      return ethers.utils.formatEther(totalDonated);
     },
     { enabled: !!address },
   );

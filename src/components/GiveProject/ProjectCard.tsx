@@ -91,7 +91,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   const totalDebt: DecimalBigNumber = useMemo(() => {
     if (_useRecipientInfo.isLoading || _useRecipientInfo.data === undefined) return new DecimalBigNumber("0");
 
-    return GetCorrectContractUnits(_useRecipientInfo.data.agnosticDebt, giveAssetType, currentIndex);
+    return GetCorrectContractUnits(_useRecipientInfo.data.gohmDebt, giveAssetType, currentIndex);
   }, [_useRecipientInfo]);
   const recipientInfoIsLoading = _useRecipientInfo.isLoading;
   const donorCount = useDonorNumbers(wallet).data;
@@ -722,7 +722,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
             changeAssetType={changeAssetType}
             currentWalletAddress={userDonation.recipient}
             currentDepositId={userDonation.id}
-            currentDepositAmount={userDeposit.toString()}
+            currentDepositAmount={userDonation.deposit.toString()}
             depositDate={userDonation.date}
             yieldSent={userDonation.yieldDonated}
             project={project}

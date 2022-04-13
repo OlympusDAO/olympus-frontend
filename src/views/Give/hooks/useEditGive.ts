@@ -8,7 +8,7 @@ import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, getTypeFromAction } from "src/h
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicGiveContract } from "src/hooks/useContract";
-import { donationInfoQueryKey } from "src/hooks/useGiveInfo";
+import { donationInfoQueryKey, recipientInfoQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
@@ -73,6 +73,7 @@ export const useIncreaseGive = () => {
           balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
           balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
           donationInfoQueryKey(address, networks.MAINNET),
+          recipientInfoQueryKey(address, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
@@ -155,6 +156,7 @@ export const useDecreaseGive = () => {
           balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
           balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
           donationInfoQueryKey(address, networks.MAINNET),
+          recipientInfoQueryKey(address, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

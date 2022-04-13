@@ -74,7 +74,7 @@ export function ManageDonationModal({
   const totalDebt: DecimalBigNumber = useMemo(() => {
     if (_useRecipientInfo.isLoading || !_useRecipientInfo.data) return new DecimalBigNumber("0");
 
-    return GetCorrectContractUnits(_useRecipientInfo.data.agnosticDebt, giveAssetType, currentIndex);
+    return GetCorrectContractUnits(_useRecipientInfo.data.gohmDebt, giveAssetType, currentIndex);
   }, [_useRecipientInfo, giveAssetType, currentIndex]);
 
   useEffect(() => {
@@ -161,7 +161,6 @@ export function ManageDonationModal({
       giveAssetType,
       currentIndex,
     );
-
     return correctUnitCurrDeposit;
   };
 
@@ -463,9 +462,7 @@ export function ManageDonationModal({
           <DataRow
             title={t`Deposited`}
             id="deposited"
-            balance={`${GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex).toString(
-              DECIMAL_FORMAT,
-            )} ${giveAssetType}`}
+            balance={`${getCurrentDepositAmount().toString(DECIMAL_FORMAT)} ${giveAssetType}`}
           />
           <DataRow
             title={t`Yield Sent`}

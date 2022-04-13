@@ -19,10 +19,8 @@ beforeEach(() => {
 
   redeemData = "100.0";
   recipientData = {
-    totalDebt: "100.0",
-    carry: "0.0",
-    agnosticDebt: "0.0",
-    indexAtLastChange: "0.0",
+    sohmDebt: "100.0",
+    gohmDebt: "0.0",
   };
   stakingData = 0.002146913392161418;
 });
