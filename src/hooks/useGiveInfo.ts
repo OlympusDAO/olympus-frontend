@@ -18,6 +18,7 @@ interface IDonorAddresses {
   [key: string]: boolean;
 }
 
+// TODO clarify difference between each
 export interface IUserRecipientInfo {
   totalDebt: string;
   agnosticDebt: string;
