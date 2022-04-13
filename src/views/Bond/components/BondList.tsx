@@ -46,7 +46,7 @@ export const BondList: React.VFC<{ bonds: Bond[]; isInverseBond: boolean }> = ({
         </Box>
 
         {sortByDiscount(bonds).map(bond => (
-          <BondCard key={bond.id} bond={bond} />
+          <BondCard key={bond.id} bond={bond} isInverseBond={isInverseBond} />
         ))}
       </>
     );
@@ -68,7 +68,7 @@ export const BondList: React.VFC<{ bonds: Bond[]; isInverseBond: boolean }> = ({
   );
 };
 
-const BondCard: React.VFC<{ bond: Bond; isInverseBond?: boolean }> = ({ bond, isInverseBond }) => (
+const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isInverseBond }) => (
   <Box id={bond.id + `--bond`} mt="32px">
     <Box display="flex" alignItems="center">
       <TokenStack tokens={bond.quoteToken.icons} />
