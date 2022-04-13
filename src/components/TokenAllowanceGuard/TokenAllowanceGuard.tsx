@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Grid, makeStyles, Theme, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { PrimaryButton } from "@olympusdao/component-library";
 import React, { ReactNode } from "react";
@@ -6,6 +6,36 @@ import { AddressMap } from "src/constants/addresses";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 
 import { useApproveToken } from "./hooks/useApproveToken";
+
+const useStyles = makeStyles<Theme>(theme => ({
+  inputRow: {
+    justifyContent: "space-around",
+    alignItems: "center",
+    height: "auto",
+    marginTop: "4px",
+  },
+  gridItem: {
+    width: "100%",
+    paddingRight: "5px",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  input: {
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: "10px",
+    },
+    [theme.breakpoints.up("sm")]: {
+      marginBottom: "0",
+    },
+  },
+  button: {
+    alignSelf: "center",
+    width: "100%",
+    minWidth: "163px",
+    maxWidth: "542px",
+    height: "43px",
+  },
+}));
 
 export const TokenAllowanceGuard: React.FC<{
   message: ReactNode;
