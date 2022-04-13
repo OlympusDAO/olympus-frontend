@@ -2,28 +2,30 @@ import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Container, Grid, Typography, Zoom } from "@material-ui/core";
-import { useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { useUIDSeed } from "react-uid";
 import GrantCard, { GrantDetailsMode } from "src/components/GiveProject/GrantCard";
 import { Grant } from "src/components/GiveProject/project.type";
-import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useAppDispatch } from "src/hooks";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { ACTION_GIVE, changeGive, changeMockGive } from "src/slices/GiveThunk";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { error } from "../../slices/MessagesSlice";
 import data from "./grants.json";
+import { useGive } from "./hooks/useGive";
 
 export default function GrantsDashboard() {
-  const location = useLocation();
-  const { provider, address, networkId } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const grants: Grant[] = data.grants;
+
+  const giveMutation = useGive();
+
+  const isMutating = giveMutation.isLoading;
+
+  useEffect(() => {
+    if (isCustomGiveModalOpen) setIsCustomGiveModalOpen(false);
+  }, [giveMutation.isSuccess]);
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
@@ -58,39 +60,8 @@ export default function GrantsDashboard() {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    // If on Rinkeby and using Mock Sohm, use the changeMockGive async thunk
-    // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE,
-          value: depositAmount.toString(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource: eventSource,
-        }),
-      );
-    } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE,
-          value: depositAmount.toString(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource: eventSource,
-        }),
-      );
-    }
-
-    setIsCustomGiveModalOpen(false);
+    const amount = depositAmount.toString();
+    await giveMutation.mutate({ amount: amount, recipient: walletAddress });
   };
 
   const handleCustomGiveModalCancel: CancelCallback = () => {
@@ -120,6 +91,7 @@ export default function GrantsDashboard() {
         </Grid>
         <RecipientModal
           isModalOpen={isCustomGiveModalOpen}
+          isMutationLoading={isMutating}
           eventSource="Custom Recipient Button"
           callbackFunc={handleCustomGiveModalSubmit}
           cancelFunc={handleCustomGiveModalCancel}
