@@ -1,4 +1,4 @@
-import { DecimalBigNumber } from "../../../helpers/DecimalBigNumber/DecimalBigNumber";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
 /**
  * @notice Helper function to convert units from Give contract into correct units for the user based
