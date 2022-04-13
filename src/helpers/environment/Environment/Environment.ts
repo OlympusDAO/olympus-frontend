@@ -24,6 +24,13 @@ export class Environment {
       err: "Please provide an Google Analytics API key in your .env file",
     });
 
+  public static getGA4ApiKey = () =>
+    this._get({
+      first: true,
+      key: "REACT_APP_GA_4_API_KEY",
+      err: "Please provide an Google Analytics 4 API key in your .env file",
+    });
+
   public static getCovalentApiKey = () =>
     this._get({
       first: true,
