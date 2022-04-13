@@ -91,14 +91,14 @@ export const GiveTokenAllowanceGuard: React.FC<{
   const approveMutation = useApproveToken(props.tokenAddressMap, props.spenderAddressMap);
   const _useContractAllowance = useContractAllowance(props.tokenAddressMap, props.spenderAddressMap);
 
-  if (_useContractAllowance.isLoading || _useContractAllowance.data === undefined)
+  if (_useContractAllowance.isLoading)
     return (
       <Grid container className={classes.inputRow}>
         <Skeleton width="100%" />
       </Grid>
     );
 
-  if (_useContractAllowance.data.eq(0))
+  if (!_useContractAllowance.data || _useContractAllowance.data.eq(0))
     return (
       <Grid container className={classes.inputRow} direction="column" spacing={5}>
         <Grid item xs={12} sm={8} className={classes.gridItem}>
