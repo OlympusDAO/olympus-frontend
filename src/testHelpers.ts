@@ -1,8 +1,10 @@
 import mediaQuery from "css-mediaquery";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { UseQueryResult } from "react-query";
 import Web3Modal from "web3modal";
 
+import { NetworkId } from "./constants";
+import { DecimalBigNumber } from "./helpers/DecimalBigNumber/DecimalBigNumber";
 import { IUserRecipientInfo } from "./hooks/useGiveInfo";
 import { IUserDonationInfo } from "./views/Give/Interfaces";
 
@@ -141,7 +143,418 @@ export const mockStakingRebaseRate = (data: number): UseQueryResult<number, Erro
   };
 };
 
+export const mockSohmBalance = (
+  data: Record<NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, DecimalBigNumber>,
+): Record<NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, UseQueryResult<DecimalBigNumber, Error>> => {
+  return {
+    [NetworkId.MAINNET]: {
+      data: data[NetworkId.MAINNET],
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isLoading: false,
+      isLoadingError: false,
+      isIdle: false,
+      isRefetchError: false,
+      failureCount: 0,
+      isFetched: true,
+      isFetchedAfterMount: true,
+      isFetching: false,
+      isPlaceholderData: false,
+      isPreviousData: false,
+      isRefetching: false,
+      isStale: false,
+      status: "success",
+      dataUpdatedAt: 0,
+      errorUpdatedAt: 0,
+      refetch: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+      remove: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+    },
+    [NetworkId.TESTNET_RINKEBY]: {
+      data: data[NetworkId.TESTNET_RINKEBY],
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isLoading: false,
+      isLoadingError: false,
+      isIdle: false,
+      isRefetchError: false,
+      failureCount: 0,
+      isFetched: true,
+      isFetchedAfterMount: true,
+      isFetching: false,
+      isPlaceholderData: false,
+      isPreviousData: false,
+      isRefetching: false,
+      isStale: false,
+      status: "success",
+      dataUpdatedAt: 0,
+      errorUpdatedAt: 0,
+      refetch: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+      remove: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+    },
+  };
+};
+
+export const mockGohmBalance = (
+  data: Record<
+    | NetworkId.MAINNET
+    | NetworkId.TESTNET_RINKEBY
+    | NetworkId.ARBITRUM
+    | NetworkId.ARBITRUM_TESTNET
+    | NetworkId.AVALANCHE
+    | NetworkId.AVALANCHE_TESTNET
+    | NetworkId.POLYGON
+    | NetworkId.FANTOM
+    | NetworkId.OPTIMISM,
+    DecimalBigNumber
+  >,
+): Record<
+  | NetworkId.MAINNET
+  | NetworkId.TESTNET_RINKEBY
+  | NetworkId.ARBITRUM
+  | NetworkId.ARBITRUM_TESTNET
+  | NetworkId.AVALANCHE
+  | NetworkId.AVALANCHE_TESTNET
+  | NetworkId.POLYGON
+  | NetworkId.FANTOM
+  | NetworkId.OPTIMISM,
+  UseQueryResult<DecimalBigNumber, Error>
+> => {
+  return {
+    [NetworkId.MAINNET]: {
+      data: data[NetworkId.MAINNET],
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isLoading: false,
+      isLoadingError: false,
+      isIdle: false,
+      isRefetchError: false,
+      failureCount: 0,
+      isFetched: true,
+      isFetchedAfterMount: true,
+      isFetching: false,
+      isPlaceholderData: false,
+      isPreviousData: false,
+      isRefetching: false,
+      isStale: false,
+      status: "success",
+      dataUpdatedAt: 0,
+      errorUpdatedAt: 0,
+      refetch: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+      remove: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+    },
+    [NetworkId.TESTNET_RINKEBY]: {
+      data: data[NetworkId.TESTNET_RINKEBY],
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isLoading: false,
+      isLoadingError: false,
+      isIdle: false,
+      isRefetchError: false,
+      failureCount: 0,
+      isFetched: true,
+      isFetchedAfterMount: true,
+      isFetching: false,
+      isPlaceholderData: false,
+      isPreviousData: false,
+      isRefetching: false,
+      isStale: false,
+      status: "success",
+      dataUpdatedAt: 0,
+      errorUpdatedAt: 0,
+      refetch: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+      remove: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+    },
+    [NetworkId.ARBITRUM]: {
+      data: data[NetworkId.ARBITRUM],
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isLoading: false,
+      isLoadingError: false,
+      isIdle: false,
+      isRefetchError: false,
+      failureCount: 0,
+      isFetched: true,
+      isFetchedAfterMount: true,
+      isFetching: false,
+      isPlaceholderData: false,
+      isPreviousData: false,
+      isRefetching: false,
+      isStale: false,
+      status: "success",
+      dataUpdatedAt: 0,
+      errorUpdatedAt: 0,
+      refetch: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+      remove: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+    },
+    [NetworkId.ARBITRUM_TESTNET]: {
+      data: data[NetworkId.ARBITRUM_TESTNET],
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isLoading: false,
+      isLoadingError: false,
+      isIdle: false,
+      isRefetchError: false,
+      failureCount: 0,
+      isFetched: true,
+      isFetchedAfterMount: true,
+      isFetching: false,
+      isPlaceholderData: false,
+      isPreviousData: false,
+      isRefetching: false,
+      isStale: false,
+      status: "success",
+      dataUpdatedAt: 0,
+      errorUpdatedAt: 0,
+      refetch: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+      remove: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+    },
+    [NetworkId.AVALANCHE]: {
+      data: data[NetworkId.AVALANCHE],
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isLoading: false,
+      isLoadingError: false,
+      isIdle: false,
+      isRefetchError: false,
+      failureCount: 0,
+      isFetched: true,
+      isFetchedAfterMount: true,
+      isFetching: false,
+      isPlaceholderData: false,
+      isPreviousData: false,
+      isRefetching: false,
+      isStale: false,
+      status: "success",
+      dataUpdatedAt: 0,
+      errorUpdatedAt: 0,
+      refetch: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+      remove: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+    },
+    [NetworkId.AVALANCHE_TESTNET]: {
+      data: data[NetworkId.AVALANCHE_TESTNET],
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isLoading: false,
+      isLoadingError: false,
+      isIdle: false,
+      isRefetchError: false,
+      failureCount: 0,
+      isFetched: true,
+      isFetchedAfterMount: true,
+      isFetching: false,
+      isPlaceholderData: false,
+      isPreviousData: false,
+      isRefetching: false,
+      isStale: false,
+      status: "success",
+      dataUpdatedAt: 0,
+      errorUpdatedAt: 0,
+      refetch: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+      remove: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+    },
+    [NetworkId.POLYGON]: {
+      data: data[NetworkId.POLYGON],
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isLoading: false,
+      isLoadingError: false,
+      isIdle: false,
+      isRefetchError: false,
+      failureCount: 0,
+      isFetched: true,
+      isFetchedAfterMount: true,
+      isFetching: false,
+      isPlaceholderData: false,
+      isPreviousData: false,
+      isRefetching: false,
+      isStale: false,
+      status: "success",
+      dataUpdatedAt: 0,
+      errorUpdatedAt: 0,
+      refetch: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+      remove: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+    },
+    [NetworkId.FANTOM]: {
+      data: data[NetworkId.FANTOM],
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isLoading: false,
+      isLoadingError: false,
+      isIdle: false,
+      isRefetchError: false,
+      failureCount: 0,
+      isFetched: true,
+      isFetchedAfterMount: true,
+      isFetching: false,
+      isPlaceholderData: false,
+      isPreviousData: false,
+      isRefetching: false,
+      isStale: false,
+      status: "success",
+      dataUpdatedAt: 0,
+      errorUpdatedAt: 0,
+      refetch: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+      remove: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+    },
+    [NetworkId.OPTIMISM]: {
+      data: data[NetworkId.OPTIMISM],
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isLoading: false,
+      isLoadingError: false,
+      isIdle: false,
+      isRefetchError: false,
+      failureCount: 0,
+      isFetched: true,
+      isFetchedAfterMount: true,
+      isFetching: false,
+      isPlaceholderData: false,
+      isPreviousData: false,
+      isRefetching: false,
+      isStale: false,
+      status: "success",
+      dataUpdatedAt: 0,
+      errorUpdatedAt: 0,
+      refetch: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+      remove: () => {
+        return new Promise(() => {
+          return true;
+        });
+      },
+    },
+  };
+};
+
 export const mockDonationInfo = (data: IUserDonationInfo): UseQueryResult<IUserDonationInfo, Error> => {
+  return {
+    data: data,
+    error: null,
+    isError: false,
+    isSuccess: true,
+    isLoading: false,
+    isLoadingError: false,
+    isIdle: false,
+    isRefetchError: false,
+    failureCount: 0,
+    isFetched: true,
+    isFetchedAfterMount: true,
+    isFetching: false,
+    isPlaceholderData: false,
+    isPreviousData: false,
+    isRefetching: false,
+    isStale: false,
+    status: "success",
+    dataUpdatedAt: 0,
+    errorUpdatedAt: 0,
+    refetch: () => {
+      return new Promise(() => {
+        return true;
+      });
+    },
+    remove: () => {
+      return new Promise(() => {
+        return true;
+      });
+    },
+  };
+};
+
+export const mockContractAllowance = (data: BigNumber): UseQueryResult<BigNumber | null, Error> => {
   return {
     data: data,
     error: null,

@@ -49,7 +49,7 @@ export function RecipientModal({
 }: RecipientModalProps) {
   const { address, networkId } = useWeb3Context();
 
-  const _initialDepositAmount = ZERO_NUMBER;
+  const _initialDepositAmount = "";
   const _initialWalletAddress = "";
   const _initialDepositAmountValid = false;
   const _initialDepositAmountValidError = "";
@@ -130,12 +130,11 @@ export function RecipientModal({
 
   const handleSetDepositAmount = (value: string) => {
     checkIsDepositAmountValid(value);
-    setDepositAmount(new DecimalBigNumber(value, giveAssetType === "sOHM" ? 9 : 18));
+    setDepositAmount(value);
   };
 
   const checkIsDepositAmountValid = (value: string) => {
     const valueNumber = new DecimalBigNumber(value, giveAssetType === "sOHM" ? 9 : 18);
-    const zeroNumber = ZERO_NUMBER;
 
     if (!value || value == "" || valueNumber.eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
@@ -250,7 +249,7 @@ export function RecipientModal({
   const getDepositAmount = (): DecimalBigNumber => {
     if (!depositAmount) return ZERO_NUMBER;
 
-    return depositAmount;
+    return new DecimalBigNumber(depositAmount);
   };
 
   /**
@@ -289,7 +288,7 @@ export function RecipientModal({
    * Calls the submission callback function that is provided to the component.
    */
   const handleSubmit = () => {
-    callbackFunc(getWalletAddress(), eventSource, depositAmount, getDepositAmount());
+    callbackFunc(getWalletAddress(), eventSource, getDepositAmount());
   };
 
   const getRecipientInputField = () => {
@@ -375,12 +374,13 @@ export function RecipientModal({
             <Grid item xs={12}>
               <Input
                 id="amount-input"
+                inputProps={{ "data-testid": "amount-input" }}
                 placeholder={t`Enter an amount`}
                 type="number"
                 // We used to use BigNumber/DecimalBigNumber here, but it behaves
                 // weirdly and would refuse to recognise some numbers, e.g. 100
                 // Better to keep it simple
-                value={getDepositAmount()}
+                value={depositAmount}
                 helperText={isDepositAmountValid ? "" : isDepositAmountValidError}
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onChange={(e: any) => handleSetDepositAmount(e.target.value)}
