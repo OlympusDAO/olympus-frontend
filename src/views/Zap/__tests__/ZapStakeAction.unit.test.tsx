@@ -176,5 +176,7 @@ describe("<ZapStakeAction/> Not on Mainnet", () => {
     expect(
       screen.getByText("Zaps are only available on Ethereum Mainnet. Please switch networks."),
     ).toBeInTheDocument();
+
+    expect(screen.getByText("Enter Amount").closest("button")).toBeDisabled();
   });
 });
