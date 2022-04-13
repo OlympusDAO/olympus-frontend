@@ -48,7 +48,7 @@ type GrantDetailsProps = {
 };
 
 const NO_DONATION = -1;
-const DECIMAL_PLACES = 2;
+const DECIMAL_PLACES = 4;
 const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
 // We restrict DP to a reasonable number, but trim if unnecessary
 const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
@@ -552,13 +552,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                               <Icon name="deposited" />
                             </Grid>
                             <Grid item className="metric">
-                              {isDonationInfoLoading ? (
-                                <Skeleton />
-                              ) : (
-                                userDeposit.toString({
-                                  format: true,
-                                })
-                              )}
+                              {isDonationInfoLoading ? <Skeleton /> : userDeposit.toString(DEFAULT_FORMAT)}
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">

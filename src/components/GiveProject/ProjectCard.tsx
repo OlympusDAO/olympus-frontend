@@ -62,7 +62,7 @@ type ProjectDetailsProps = {
 };
 
 const NO_DONATION = -1;
-const DECIMAL_PLACES = 2;
+const DECIMAL_PLACES = 4;
 const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
 // We restrict DP to a reasonable number, but trim if unnecessary
 const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
@@ -277,7 +277,6 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
     const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
-    const formattedTotalDonated = totalYieldDonated.toString({ decimals: 2 });
 
     return (
       <>
@@ -647,14 +646,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                               <Icon name="deposited" />
                             </Grid>
                             <Grid item className="metric">
-                              {isDonationInfoLoading ? (
-                                <Skeleton />
-                              ) : (
-                                // This amount is deliberately specific
-                                userDeposit.toString({
-                                  format: true,
-                                })
-                              )}
+                              {isDonationInfoLoading ? <Skeleton /> : userDeposit.toString(DEFAULT_FORMAT)}
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
