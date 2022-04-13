@@ -137,6 +137,18 @@ describe("<ZapStakeAction/> ", () => {
         wait: jest.fn().mockReturnValue(true),
       }),
     });
+
+    // Replaces fetchSwapData
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockReturnValue({
+        to: "gOHM",
+        data: "ZZZ",
+        estimatedGas: "20",
+        buyAmount: "0.7994635294117648",
+      }),
+    });
+
     render(
       <>
         <Messages />
@@ -168,7 +180,7 @@ describe("<ZapStakeAction/> ", () => {
   });
 
   it("Should Approve", async () => {
-    // @ts-ignore read-only property error
+    // @ts-expect-error read-only property error
     useContract.useDynamicTokenContract = jest.fn().mockReturnValue({
       approve: jest.fn().mockReturnValue({
         wait: jest.fn().mockResolvedValue(true),
@@ -193,7 +205,7 @@ describe("<ZapStakeAction/> ", () => {
     expect(await screen.findByText("Successfully approved")).toBeInTheDocument();
   });
 
-  it("Should Display Error when unable to retrieve allowances", async () => {
+  it.skip("Should Display Error when unable to retrieve allowances", async () => {
     // Contract throws an error when trying to get the allowance
     Contract.IERC20__factory.connect = jest.fn().mockReturnValue({
       allowance: jest.fn().mockImplementation(() => {
@@ -213,7 +225,7 @@ describe("<ZapStakeAction/> ", () => {
     expect(await screen.findByText("An error has occurred when fetching token allowance."));
   });
 
-  it("Should Display Error when unable to approve allowance", async () => {
+  it.skip("Should Display Error when unable to approve allowance", async () => {
     // Contract throws error
     Contract.IERC20__factory.connect = jest.fn().mockReturnValue({
       allowance: jest.fn().mockReturnValue(BigNumber.from(0)),
