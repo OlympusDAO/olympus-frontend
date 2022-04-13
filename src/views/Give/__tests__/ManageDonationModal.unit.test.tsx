@@ -87,8 +87,8 @@ describe("ManageDonationModal", () => {
 
     jest.spyOn(useGiveInfo, "useRecipientInfo").mockReturnValue(
       mockRecipientInfo({
-        totalDebt: "1.0",
-        agnosticDebt: "1.0",
+        sohmDebt: "1.0",
+        gohmDebt: "1.0",
       }),
     );
 
@@ -116,8 +116,33 @@ describe("ManageDonationModal", () => {
     );
 
     expect(screen.getByTestId("goal").innerHTML).toEqual("200");
+    expect(screen.getByTestId("total-donated").innerHTML).toEqual("10");
+    expect(screen.getByTestId("goal-completion").innerHTML).toEqual("5%");
+  });
+
+  it("Should show project stats in gOHM", async () => {
+    render(
+      <ManageDonationModal
+        isModalOpen={true}
+        isMutationLoading={false}
+        eventSource="View Details Button"
+        submitEdit={submitFunc}
+        submitWithdraw={withdrawFunc}
+        cancelFunc={cancelFunc}
+        currentWalletAddress={""}
+        currentDepositId={"0"}
+        currentDepositAmount={"1.0"}
+        depositDate={""}
+        giveAssetType="gOHM"
+        yieldSent={"0"}
+        changeAssetType={changeAssetType}
+        project={project}
+      />,
+    );
+
+    expect(screen.getByTestId("goal").innerHTML).toEqual("20");
     expect(screen.getByTestId("total-donated").innerHTML).toEqual("1");
-    expect(screen.getByTestId("goal-completion").innerHTML).toEqual("0.5%");
+    expect(screen.getByTestId("goal-completion").innerHTML).toEqual("5%");
   });
 
   it("Should show user stats", async () => {
@@ -140,8 +165,35 @@ describe("ManageDonationModal", () => {
       />,
     );
 
+    // These must match
     // We can't get the element itself due to a limitation with DataRow
-    expect(screen.getByText("1 sOHM"));
+    expect(screen.getByText("10 sOHM"));
+    expect(screen.getByTestId("total-donated").innerHTML).toEqual("10");
+  });
+
+  it("Should show user stats as gOHM", async () => {
+    render(
+      <ManageDonationModal
+        isModalOpen={true}
+        isMutationLoading={false}
+        eventSource="View Details Button"
+        submitEdit={submitFunc}
+        submitWithdraw={withdrawFunc}
+        cancelFunc={cancelFunc}
+        currentWalletAddress={""}
+        currentDepositId={"0"}
+        currentDepositAmount={"1.0"}
+        depositDate={""}
+        giveAssetType="gOHM"
+        yieldSent={"0"}
+        changeAssetType={changeAssetType}
+        project={project}
+      />,
+    );
+
+    // These must match
+    expect(screen.getByText("1 gOHM"));
+    expect(screen.getByTestId("total-donated").innerHTML).toEqual("1");
   });
 
   it("Should accept integer amount", async () => {

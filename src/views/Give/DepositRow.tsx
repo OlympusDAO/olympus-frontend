@@ -152,6 +152,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
         </SecondaryButton>
       </Grid>
 
+      {/* current deposit amount must be passed in as gOHM */}
       <ManageDonationModal
         isModalOpen={isManageModalOpen}
         isMutationLoading={isMutating}
