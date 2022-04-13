@@ -89,16 +89,19 @@ export function ManageDonationModal({
     }
   }, [isModalOpen]);
 
-  const _initialDepositAmount = ZERO_NUMBER;
+  /**
+   * _initialDepositAmount is kept as a string, to avoid unnecessary application of number rules while being edited
+   */
+  const _initialDepositAmount = "";
   const _initialWalletAddress = "";
   const _initialDepositAmountValid = false;
   const _initialDepositAmountValidError = "";
   const _initialWalletAddressValid = false;
   const _initialIsAmountSet = false;
 
-  const getInitialDepositAmount = () => {
+  const getInitialDepositAmount = (): string => {
     return currentDepositAmount
-      ? GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex)
+      ? GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex).toString()
       : _initialDepositAmount;
   };
   const [depositAmount, setDepositAmount] = useState(getInitialDepositAmount());
@@ -146,7 +149,7 @@ export function ManageDonationModal({
   const getDepositAmount = (): DecimalBigNumber => {
     if (!depositAmount) return ZERO_NUMBER;
 
-    return depositAmount;
+    return new DecimalBigNumber(depositAmount);
   };
 
   const getCurrentDepositAmount = (): DecimalBigNumber => {
@@ -252,7 +255,7 @@ export function ManageDonationModal({
 
   const handleSetDepositAmount = (value: string) => {
     checkIsDepositAmountValid(value);
-    setDepositAmount(new DecimalBigNumber(value, giveAssetType === "sOHM" ? 9 : 18));
+    setDepositAmount(value);
   };
 
   const checkIsDepositAmountValid = (value: string) => {
@@ -377,12 +380,12 @@ export function ManageDonationModal({
             <Grid item xs={6}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
-                  <PrimaryButton onClick={() => setIsEditing(true)} fullWidth>
+                  <PrimaryButton data-testid="edit-donation" onClick={() => setIsEditing(true)} fullWidth>
                     <Trans>Edit Donation</Trans>
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
-                  <TertiaryButton onClick={() => setIsWithdrawing(true)} fullWidth>
+                  <TertiaryButton data-testid="stop-donation" onClick={() => setIsWithdrawing(true)} fullWidth>
                     <Trans>Stop Donation</Trans>
                   </TertiaryButton>
                 </Grid>
@@ -568,9 +571,10 @@ export function ManageDonationModal({
               <Grid item xs={12}>
                 <Input
                   id="amount-input"
+                  inputProps={{ "data-testid": "amount-input" }}
                   type="number"
                   placeholder={t`Enter an amount`}
-                  value={getDepositAmount()}
+                  value={depositAmount}
                   helperText={
                     isDepositAmountValid
                       ? t`Your current deposit is ${getCurrentDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`
