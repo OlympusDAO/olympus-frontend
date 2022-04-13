@@ -384,7 +384,7 @@ export function RecipientModal({
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onChange={(e: any) => handleSetDepositAmount(e.target.value)}
                 error={!isDepositAmountValid}
-                startAdornment={giveAssetType}
+                startAdornment={giveAssetType === "sOHM" ? "sOHM" : giveAssetType === "gOHM" ? "gOHM" : "placeholder"}
                 endString={t`Max`}
                 // This uses toString() as it is a specific value and not formatted
                 endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString(EXACT_FORMAT))}
