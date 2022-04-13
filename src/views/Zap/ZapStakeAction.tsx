@@ -157,7 +157,7 @@ const ZapStakeAction: React.FC = () => {
 
   // TODO use DecimalBigNumber
   const exchangeRate: number | null = useMemo(() => {
-    if (outputGOHM && selectedTokenBalance && ohmMarketPrice.data && gOhmMarketPrice.data) {
+    if (outputGOHM != null && selectedTokenBalance && ohmMarketPrice.data && gOhmMarketPrice.data) {
       return (
         (outputGOHM === undefined || outputGOHM === null || outputGOHM ? gOhmMarketPrice.data : ohmMarketPrice.data) /
         selectedTokenBalance.price
