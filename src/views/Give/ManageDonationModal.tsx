@@ -41,9 +41,10 @@ type ManageModalProps = {
   recordType?: string;
 };
 
-const DECIMAL_PLACES = 2;
+const DECIMAL_PLACES = 4;
 const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
 const DECIMAL_FORMAT = { decimals: DECIMAL_PLACES, format: true };
+const PERCENT_FORMAT = { decimals: 0, format: true };
 const EXACT_FORMAT = { format: true };
 
 export function ManageDonationModal({
@@ -412,7 +413,7 @@ export function ManageDonationModal({
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <Box>
-            <Typography variant="h5" align="center">
+            <Typography data-testid="goal" variant="h5" align="center">
               {project
                 ? GetCorrectStaticUnits(project.depositGoal.toString(), giveAssetType, currentIndex).toString(
                     DECIMAL_FORMAT,
@@ -426,7 +427,7 @@ export function ManageDonationModal({
         </Grid>
         <Grid item xs={4}>
           <Box>
-            <Typography variant="h5" align="center">
+            <Typography data-testid="total-donated" variant="h5" align="center">
               {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
@@ -436,9 +437,9 @@ export function ManageDonationModal({
         </Grid>
         <Grid item xs={4}>
           <Box>
-            <Typography variant="h5" align="center">
+            <Typography data-testid="goal-completion" variant="h5" align="center">
               {project
-                ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString(DECIMAL_FORMAT) + "%"
+                ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString(PERCENT_FORMAT) + "%"
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
@@ -462,10 +463,10 @@ export function ManageDonationModal({
           <DataRow
             title={t`Deposited`}
             balance={`${GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex).toString(
-              EXACT_FORMAT,
+              DECIMAL_FORMAT,
             )} ${giveAssetType}`}
           />
-          <DataRow title={t`Yield Sent`} balance={`${getYieldSent()} ${giveAssetType}`} />
+          <DataRow title={t`Yield Sent`} balance={`${getYieldSent().toString(DECIMAL_FORMAT)} ${giveAssetType}`} />
         </Box>
       </>
     );
