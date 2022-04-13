@@ -16,6 +16,7 @@ import { useAppDispatch } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalYieldDonated } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { useGive } from "src/views/Give/hooks/useGive";
@@ -50,7 +51,7 @@ export enum ProjectDetailsMode {
 type ProjectDetailsProps = {
   project: Project;
   giveAssetType: string;
-  changeAssetType: (checked: boolean) => void;
+  changeAssetType: ChangeAssetType;
   mode: ProjectDetailsMode;
 };
 

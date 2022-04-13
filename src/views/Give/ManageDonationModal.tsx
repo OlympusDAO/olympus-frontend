@@ -16,6 +16,7 @@ import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useRecipientInfo } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
 
 import { ArrowGraphic } from "../../components/EducationCard";
@@ -39,7 +40,7 @@ type ManageModalProps = {
   currentDepositAmount: string; // As per IUserDonationInfo
   depositDate: string;
   giveAssetType: string;
-  changeAssetType: (checked: boolean) => void;
+  changeAssetType: ChangeAssetType;
   yieldSent: string;
   recordType?: string;
 };

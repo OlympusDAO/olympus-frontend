@@ -165,3 +165,7 @@ export interface IRedeemAllBondsAsyncThunk extends IBaseAsyncThunk {
   readonly address: string;
   readonly autostake: boolean;
 }
+
+export interface ChangeAssetType {
+  (checked: boolean): void;
+}

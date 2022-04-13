@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { ChangeAssetType } from "src/slices/interfaces";
 
 import CausesDashboard from "./CausesDashboard";
 import { GiveInfo } from "./GiveInfo";
@@ -34,7 +35,7 @@ function a11yProps(index: number) {
 type GiveProps = {
   selectedIndex?: number;
   giveAssetType: string;
-  changeAssetType: (checked: boolean) => void;
+  changeAssetType: ChangeAssetType;
 };
 
 function Give({ selectedIndex, giveAssetType, changeAssetType }: GiveProps) {

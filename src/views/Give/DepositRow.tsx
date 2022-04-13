@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
+import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
 import { SubmitEditCallback } from "src/views/Give/Interfaces";
 
@@ -29,7 +30,7 @@ interface IUserDonationInfo {
 interface DepositRowProps {
   depositObject: IUserDonationInfo;
   giveAssetType: string;
-  changeAssetType: (checked: boolean) => void;
+  changeAssetType: ChangeAssetType;
 }
 
 const ZERO_NUMBER = new DecimalBigNumber("0");

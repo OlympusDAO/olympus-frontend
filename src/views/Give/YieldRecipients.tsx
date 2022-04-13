@@ -7,6 +7,7 @@ import { Skeleton } from "@material-ui/lab";
 import { TertiaryButton } from "@olympusdao/component-library";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { useDonationInfo } from "src/hooks/useGiveInfo";
+import { ChangeAssetType } from "src/slices/interfaces";
 import { IButtonChangeView } from "src/views/Give/Interfaces";
 
 import { DepositTableRow } from "./DepositRow";
@@ -14,7 +15,7 @@ import { DepositTableRow } from "./DepositRow";
 type RecipientModalProps = {
   changeView: IButtonChangeView;
   giveAssetType: string;
-  changeAssetType: (checked: boolean) => void;
+  changeAssetType: ChangeAssetType;
 };
 
 export default function YieldRecipients({ changeView, giveAssetType, changeAssetType }: RecipientModalProps) {

@@ -18,6 +18,7 @@ import { useAppDispatch } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useDonationInfo, useDonorNumbers } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { useGive } from "src/views/Give/hooks/useGive";
@@ -36,7 +37,7 @@ export enum GrantDetailsMode {
 type GrantDetailsProps = {
   grant: Grant;
   giveAssetType: string;
-  changeAssetType: (checked: boolean) => void;
+  changeAssetType: ChangeAssetType;
   mode: GrantDetailsMode;
 };
 

@@ -16,6 +16,7 @@ import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { ChangeAssetType } from "src/slices/interfaces";
 
 import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
 import { GohmToggle } from "./GohmToggle";
@@ -28,7 +29,7 @@ type RecipientModalProps = {
   callbackFunc: SubmitCallback;
   cancelFunc: CancelCallback;
   giveAssetType: string;
-  changeAssetType: (checked: boolean) => void;
+  changeAssetType: ChangeAssetType;
   project?: Project;
 };
 

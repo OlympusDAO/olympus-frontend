@@ -45,6 +45,7 @@ import { trackGAEvent } from "./helpers/analytics";
 import Wallet from "./components/TopBar/Wallet";
 import { getAllInverseBonds } from "./slices/InverseBondSlice";
 import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
+import { ChangeAssetType } from "./slices/interfaces";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -119,7 +120,7 @@ function App() {
   const { projects } = projectData;
   const [giveAssetType, setGiveAssetType] = useState<"sOHM" | "gOHM">("sOHM");
 
-  const changeGiveAssetType = (checked: boolean) => {
+  const changeGiveAssetType: ChangeAssetType = (checked: boolean) => {
     setGiveAssetType(checked ? "gOHM" : "sOHM");
   };
 

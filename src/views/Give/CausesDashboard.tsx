@@ -9,6 +9,7 @@ import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/Proj
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { ChangeAssetType } from "src/slices/interfaces";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
@@ -18,7 +19,7 @@ import data from "./projects.json";
 
 type CausesDashboardProps = {
   giveAssetType: string;
-  changeAssetType: (checked: boolean) => void;
+  changeAssetType: ChangeAssetType;
 };
 
 const ZERO_NUMBER = new DecimalBigNumber("0");

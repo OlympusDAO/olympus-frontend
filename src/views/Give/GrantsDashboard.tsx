@@ -8,6 +8,7 @@ import GrantCard, { GrantDetailsMode } from "src/components/GiveProject/GrantCar
 import { Grant } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useAppDispatch } from "src/hooks";
+import { ChangeAssetType } from "src/slices/interfaces";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
@@ -17,7 +18,7 @@ import { useGive } from "./hooks/useGive";
 
 type GrantsDashboardProps = {
   giveAssetType: string;
-  changeAssetType: (checked: boolean) => void;
+  changeAssetType: ChangeAssetType;
 };
 
 const ZERO_NUMBER = new DecimalBigNumber("0");

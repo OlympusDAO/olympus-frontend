@@ -1,9 +1,10 @@
 import { Grid, Switch, Typography } from "@material-ui/core";
 import { InfoTooltip } from "@olympusdao/component-library";
+import { ChangeAssetType } from "src/slices/interfaces";
 
 type GohmToggleProps = {
   giveAssetType: string;
-  changeAssetType: (checked: boolean) => void;
+  changeAssetType: ChangeAssetType;
 };
 
 export const GohmToggle = ({ giveAssetType, changeAssetType }: GohmToggleProps) => {
