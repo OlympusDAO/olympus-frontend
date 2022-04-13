@@ -107,8 +107,6 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     }
   };
 
-  // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
-  // Else use standard call
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
     depositId,
     walletAddress,
