@@ -78,22 +78,23 @@ describe("<ZapStakeAction/> ", () => {
     expect(await screen.findByText("Successful Zap!"));
   });
 
-  // it.skip("sOHM should autopopulate with correct value based on ETH input", async () => {
-  //   ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
-  //   render(
-  //     <>
-  //       <ZapStakeAction />
-  //     </>,
-  //   );
-  //   fireEvent.click(await screen.findByTestId("zap-input"));
-  //   fireEvent.click(await screen.getAllByText("ETH")[0]);
-  //   fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "0.8" } });
-  //   expect(await screen.findByText("Enter Amount"));
-  //   fireEvent.click(await screen.findByTestId("zap-output"));
-  //   fireEvent.click(await screen.getAllByText("sOHM")[0]);
-  //   expect(await screen.getByDisplayValue("106.25")).toBeInTheDocument();
-  //   expect(await screen.findByText("Zap-Stake")).toBeInTheDocument();
-  // });
+  it("sOHM should autopopulate with correct value based on ETH input", async () => {
+    //@ts-expect-error
+    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
+    render(
+      <>
+        <ZapStakeAction />
+      </>,
+    );
+    fireEvent.click(await screen.findByTestId("zap-input"));
+    fireEvent.click(await screen.getAllByText("ETH")[0]);
+    fireEvent.input(await screen.findByTestId("zap-amount-input"), { target: { value: "0.8" } });
+    expect(await screen.findByText("Enter Amount"));
+    fireEvent.click(await screen.findByTestId("zap-output"));
+    fireEvent.click(await screen.getAllByText("sOHM")[0]);
+    expect(await screen.getByDisplayValue("84.943")).toBeInTheDocument();
+    expect(await screen.findByText("Zap-Stake")).toBeInTheDocument();
+  });
 
   it("Should Approve", async () => {
     //@ts-expect-error
