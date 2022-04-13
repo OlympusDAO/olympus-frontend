@@ -3,12 +3,14 @@ import { Project } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as useBalance from "src/hooks/useBalance";
 import * as useContractAllowance from "src/hooks/useContractAllowance";
+import * as useCurrentIndex from "src/hooks/useCurrentIndex";
 import * as useGiveInfo from "src/hooks/useGiveInfo";
 import * as useWeb3Context from "src/hooks/web3Context";
 import { NetworkId } from "src/networkDetails";
 import { ChangeAssetType } from "src/slices/interfaces";
 import {
   mockContractAllowance,
+  mockCurrentIndex,
   mockGohmBalance,
   mockRecipientInfo,
   mockSohmBalance,
@@ -89,6 +91,8 @@ describe("ManageDonationModal", () => {
         agnosticDebt: "1.0",
       }),
     );
+
+    jest.spyOn(useCurrentIndex, "useCurrentIndex").mockReturnValue(mockCurrentIndex(new DecimalBigNumber("10")));
   });
 
   it("Should show project stats", async () => {

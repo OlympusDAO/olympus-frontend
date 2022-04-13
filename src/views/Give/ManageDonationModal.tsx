@@ -462,11 +462,16 @@ export function ManageDonationModal({
           <DataRow title={t`Recipient`} balance={getRecipientTitle()} />
           <DataRow
             title={t`Deposited`}
+            id="deposited"
             balance={`${GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex).toString(
               DECIMAL_FORMAT,
             )} ${giveAssetType}`}
           />
-          <DataRow title={t`Yield Sent`} balance={`${getYieldSent().toString(DECIMAL_FORMAT)} ${giveAssetType}`} />
+          <DataRow
+            title={t`Yield Sent`}
+            id="yield-sent"
+            balance={`${getYieldSent().toString(DECIMAL_FORMAT)} ${giveAssetType}`}
+          />
         </Box>
       </>
     );
