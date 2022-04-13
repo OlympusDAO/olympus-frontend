@@ -20,8 +20,14 @@ import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { useGive } from "src/views/Give/hooks/useGive";
-import { CancelCallback, IUserDonationInfo, SubmitCallback, SubmitEditCallback } from "src/views/Give/Interfaces";
-import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/ManageDonationModal";
+import {
+  CancelCallback,
+  IUserDonationInfo,
+  SubmitCallback,
+  SubmitEditCallback,
+  WithdrawSubmitCallback,
+} from "src/views/Give/Interfaces";
+import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
 import { error } from "../../slices/MessagesSlice";

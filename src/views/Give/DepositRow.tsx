@@ -11,12 +11,12 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
-import { SubmitEditCallback } from "src/views/Give/Interfaces";
+import { SubmitEditCallback, WithdrawSubmitCallback } from "src/views/Give/Interfaces";
 
 import { Project } from "../../components/GiveProject/project.type";
 import { error } from "../../slices/MessagesSlice";
 import { useDecreaseGive, useIncreaseGive } from "./hooks/useEditGive";
-import { ManageDonationModal, WithdrawSubmitCallback } from "./ManageDonationModal";
+import { ManageDonationModal } from "./ManageDonationModal";
 import data from "./projects.json";
 
 interface IUserDonationInfo {

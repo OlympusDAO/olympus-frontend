@@ -22,6 +22,10 @@ export interface SubmitEditCallback {
   ): void;
 }
 
+export type WithdrawSubmitCallback = {
+  (walletAddress: string, id: string, eventSource: string, depositAmount: DecimalBigNumber): void;
+};
+
 export interface CancelCallback {
   (): void;
 }

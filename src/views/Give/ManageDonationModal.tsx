@@ -21,11 +21,7 @@ import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/h
 
 import { ArrowGraphic } from "../../components/EducationCard";
 import { GohmToggle } from "./GohmToggle";
-import { CancelCallback, SubmitEditCallback } from "./Interfaces";
-
-export type WithdrawSubmitCallback = {
-  (walletAddress: string, id: string, eventSource: string, depositAmount: DecimalBigNumber): void;
-};
+import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "./Interfaces";
 
 type ManageModalProps = {
   isModalOpen: boolean;
