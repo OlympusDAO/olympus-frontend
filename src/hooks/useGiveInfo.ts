@@ -11,7 +11,6 @@ import { IUserDonationInfo } from "src/views/Give/Interfaces";
 
 import { useWeb3Context } from ".";
 import { useDynamicGiveContract } from "./useContract";
-import { useCurrentIndex } from "./useCurrentIndex";
 import { useTestableNetworks } from "./useTestableNetworks";
 
 interface IDonorAddresses {
@@ -39,7 +38,13 @@ export const donationInfoQueryKey = (address: string, networkId: NetworkId) =>
  * donation amount, yield sent, first donation date, and recipient for
  * all recipients the current user is donating to
  * @returns query object in which the data attribute holds an array of
- * these donation info items
+ * these donation info items.
+ *
+ *          id: string representing the universal deposit id
+ *          date: string representing when the donation was started
+ *          deposit: amount of tokens earning yield for the recipient (returned as gOHM)
+ *          recipient: string representing the address of the recipient
+ *          yieldDonated: quantity of yield sent to recipient so far (returned as gOHM)
  */
 export const useDonationInfo = () => {
   const { address, provider, networkId } = useWeb3Context();
@@ -147,6 +152,9 @@ export const redeemableBalanceQueryKey = (address: string, networkId: NetworkId)
  * @notice Pulls a given address's redeemable sOHM balance from the YieldDirector contract
  * @param address The address we would like to fetch the redeemable balance for
  * @returns query object in which the data attribute holds the redeemable balance
+ *
+ *          redeemableBalance: quantity of yield that has been sent to the recipient and
+ *                             can be redeemed (returned as gOHM)
  */
 export const useRedeemableBalance = (address: string) => {
   const { networkId } = useWeb3Context();
@@ -198,6 +206,9 @@ export const recipientInfoQueryKey = (address: string, networkId: NetworkId) =>
  * @param address The wallet we would like to fetch the data for
  * @returns query object in which the data attribute holds the
  * recipient info object
+ *
+ *          sohmDebt: total amount of sOHM principal earning yield for the recipient
+ *          gohmDebt: gOHM equivalent of sOHM debt
  */
 export const useRecipientInfo = (address: string) => {
   const { networkId, provider } = useWeb3Context();
@@ -241,6 +252,7 @@ export const useRecipientInfo = (address: string) => {
         let sumDebt = BigNumber.from("0");
 
         for (let i = 0; i < debtData.length; i++) {
+          // principal amount is the sOHM equivalent value that the donor originally put into the contract
           sumDebt = sumDebt.add(debtData[i].principalAmount);
         }
 
@@ -274,10 +286,11 @@ export const totalYieldDonatedQueryKey = (address: string, networkId: NetworkId)
  * @param address The wallet we would like to fetch the data for
  * @returns query object in which the data attribute holds the
  * total donated amount
+ *
+ *          totalDonated: yield that has been redeemed so far + current redeemable balance (returned as gOHM)
  */
 export const useTotalYieldDonated = (address: string) => {
   const { provider, networkId } = useWeb3Context();
-  const { data: currentIndex } = useCurrentIndex();
 
   // Event logs use data values that are padded with zeros, so to match that we
   // pad the given wallet address with zeros
