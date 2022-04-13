@@ -20,7 +20,7 @@ export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressM
   const { address, networkId, connected } = useWeb3Context();
 
   const key = contractAllowanceQueryKey(address, networkId, tokenMap, contractMap);
-  return useQuery<BigNumber, Error>(
+  return useQuery<BigNumber | null, Error>(
     key,
     async () => {
       queryAssertion(address && networkId, key);
