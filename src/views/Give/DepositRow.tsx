@@ -15,6 +15,7 @@ import { SubmitEditCallback, WithdrawSubmitCallback } from "src/views/Give/Inter
 
 import { Project } from "../../components/GiveProject/project.type";
 import { error } from "../../slices/MessagesSlice";
+import { GIVE_MAX_DECIMAL_FORMAT } from "./constants";
 import { useDecreaseGive, useIncreaseGive } from "./hooks/useEditGive";
 import { ManageDonationModal } from "./ManageDonationModal";
 import data from "./projects.json";
@@ -77,8 +78,6 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     setIsManageModalOpen(false);
   };
 
-  // We set the decimals amount to 9 to try to limit any precision issues with
-  // sOHM and gOHM conversions on the contract side
   const handleEditModalSubmit: SubmitEditCallback = async (
     walletAddress,
     depositId,
@@ -95,7 +94,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     if (depositAmountDiff.gt(new DecimalBigNumber("0"))) {
       await increaseMutation.mutate({
         id: depositId,
-        amount: depositAmountDiff.toString({ decimals: 9 }),
+        amount: depositAmountDiff.toString(GIVE_MAX_DECIMAL_FORMAT),
         recipient: walletAddress,
         token: giveAssetType,
       });
@@ -103,15 +102,13 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
       const subtractionAmount = depositAmountDiff.mul(new DecimalBigNumber("-1"));
       await decreaseMutation.mutate({
         id: depositId,
-        amount: subtractionAmount.toString({ decimals: 9 }),
+        amount: subtractionAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
         recipient: walletAddress,
         token: giveAssetType,
       });
     }
   };
 
-  // We set the decimals amount to 9 to try to limit any precision issues with
-  // sOHM and gOHM conversions on the contract side
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
     depositId,
     walletAddress,
@@ -121,7 +118,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     console.log(depositId);
     await decreaseMutation.mutate({
       id: depositId,
-      amount: depositAmount.toString({ decimals: 9 }),
+      amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
       recipient: walletAddress,
       token: giveAssetType,
     });

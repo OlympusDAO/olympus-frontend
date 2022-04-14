@@ -1,5 +1,7 @@
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
+import { GIVE_MAX_DECIMALS } from "../constants";
+
 /**
  * @notice Helper function to convert units from Give contract into correct units for the user based
  * on the given token symbol. If the given token symbol is gOHM, we return the value back, but as
@@ -27,7 +29,7 @@ export const GetCorrectContractUnits = (
     convertedValue = _value;
   } else {
     // Multiply the value by the current index and set to a DecimalBigNumber with 9 decimal places
-    convertedValue = new DecimalBigNumber(_value.mul(currentIndex).toString(), 9);
+    convertedValue = new DecimalBigNumber(_value.mul(currentIndex).toString(), GIVE_MAX_DECIMALS);
   }
 
   // Return the converted value
@@ -53,7 +55,7 @@ export const GetCorrectStaticUnits = (
   if (isNaN(Number(value)) || !currentIndex) return new DecimalBigNumber("0", 18);
 
   // Set passed value to 9 decimal place DecimalBigNumber and define return type
-  const _value: DecimalBigNumber = new DecimalBigNumber(value, 9);
+  const _value: DecimalBigNumber = new DecimalBigNumber(value, GIVE_MAX_DECIMALS);
   let convertedValue: DecimalBigNumber;
 
   if (asset === "sOHM") {

@@ -14,6 +14,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
 
 import { Project } from "../../components/GiveProject/project.type";
+import { GIVE_MAX_DECIMALS } from "./constants";
 import { useRedeem } from "./hooks/useRedeem";
 import data from "./projects.json";
 import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
@@ -171,7 +172,7 @@ export default function RedeemYield() {
                 <Typography variant="h5" align="center" data-testid="project-goal-achievement">
                   {totalDebt
                     .mul(new DecimalBigNumber("100"))
-                    .div(getRecipientGoal(address), 9)
+                    .div(getRecipientGoal(address), GIVE_MAX_DECIMALS)
                     .toString(DECIMAL_FORMAT)}
                   %
                 </Typography>

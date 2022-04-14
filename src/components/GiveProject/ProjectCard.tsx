@@ -17,6 +17,7 @@ import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalYieldDonated } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
+import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "src/views/Give/constants";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { useGive } from "src/views/Give/hooks/useGive";
@@ -168,7 +169,9 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     // We calculate the level of goal completion here, so that it is updated whenever one of the dependencies change
     if (recipientInfoIsLoading || _useRecipientInfo.isLoading || !totalDebt) return ZERO_NUMBER;
 
-    return totalDebt.mul(new DecimalBigNumber("100")).div(new DecimalBigNumber(depositGoal.toString()), 9);
+    return totalDebt
+      .mul(new DecimalBigNumber("100"))
+      .div(new DecimalBigNumber(depositGoal.toString()), GIVE_MAX_DECIMALS);
   }, [recipientInfoIsLoading, _useRecipientInfo.isLoading, totalDebt, depositGoal]);
 
   // The JSON file returns a string, so we convert it
@@ -232,9 +235,12 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   const getGoalCompletion = (): string => {
     if (!depositGoal) return "0";
     if (recipientInfoIsLoading) return "0"; // This shouldn't be needed, but just to be sure...
-    const depositGoalNumber = new DecimalBigNumber(depositGoal.toString(), 9);
+    const depositGoalNumber = new DecimalBigNumber(depositGoal.toString(), GIVE_MAX_DECIMALS);
 
-    return totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber, 9).toString({ decimals: 2 });
+    return totalDebt
+      .mul(new DecimalBigNumber("100"))
+      .div(depositGoalNumber, GIVE_MAX_DECIMALS)
+      .toString({ decimals: 2 });
   };
 
   const renderGoalCompletion = (): JSX.Element => {
@@ -397,8 +403,6 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     setIsManageModalOpen(true);
   };
 
-  // We set the decimals amount to 9 to try to limit any precision issues with
-  // sOHM and gOHM conversions on the contract side
   const handleGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
     eventSource: string,
@@ -409,7 +413,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     }
 
     await giveMutation.mutate({
-      amount: depositAmount.toString({ decimals: 9 }),
+      amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
       recipient: walletAddress,
       token: giveAssetType,
     });
@@ -419,8 +423,6 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     setIsGiveModalOpen(false);
   };
 
-  // We set the decimals amount to 9 to try to limit any precision issues with
-  // sOHM and gOHM conversions on the contract side
   const handleEditModalSubmit: SubmitEditCallback = async (
     walletAddress,
     depositId,
@@ -437,7 +439,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     if (depositAmountDiff.gt(ZERO_NUMBER)) {
       await increaseMutation.mutate({
         id: depositId,
-        amount: depositAmountDiff.toString({ decimals: 9 }),
+        amount: depositAmountDiff.toString(GIVE_MAX_DECIMAL_FORMAT),
         recipient: walletAddress,
         token: giveAssetType,
       });
@@ -445,15 +447,13 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
       const subtractionAmount = depositAmountDiff.mul(new DecimalBigNumber("-1"));
       await decreaseMutation.mutate({
         id: depositId,
-        amount: subtractionAmount.toString({ decimals: 9 }),
+        amount: subtractionAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
         recipient: walletAddress,
         token: giveAssetType,
       });
     }
   };
 
-  // We set the decimals amount to 9 to try to limit any precision issues with
-  // sOHM and gOHM conversions on the contract side
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
     depositId,
     walletAddress,
@@ -462,7 +462,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   ) => {
     await decreaseMutation.mutate({
       id: depositId,
-      amount: depositAmount.toString({ decimals: 9 }),
+      amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
       recipient: walletAddress,
       token: giveAssetType,
     });

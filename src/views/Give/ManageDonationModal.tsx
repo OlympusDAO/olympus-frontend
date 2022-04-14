@@ -20,6 +20,7 @@ import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
 
 import { ArrowGraphic } from "../../components/EducationCard";
+import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "./constants";
 import { GohmToggle } from "./GohmToggle";
 import { checkDecimalLength, removeTrailingZeros } from "./helpers/checkDecimalLength";
 import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "./Interfaces";
@@ -103,7 +104,9 @@ export function ManageDonationModal({
 
   const getInitialDepositAmount = (): string => {
     return currentDepositAmount
-      ? GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex).toString({ decimals: 9 })
+      ? GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex).toString(
+          GIVE_MAX_DECIMAL_FORMAT,
+        )
       : _initialDepositAmount;
   };
   const [depositAmount, setDepositAmount] = useState(removeTrailingZeros(getInitialDepositAmount()));
@@ -410,7 +413,7 @@ export function ManageDonationModal({
     const depositGoalNumber =
       project && currentIndex
         ? GetCorrectStaticUnits(project.depositGoal.toString(), giveAssetType, currentIndex)
-        : new DecimalBigNumber("1", 9);
+        : new DecimalBigNumber("1", GIVE_MAX_DECIMALS);
 
     return (
       <Grid container spacing={2}>
@@ -442,7 +445,10 @@ export function ManageDonationModal({
           <Box>
             <Typography data-testid="goal-completion" variant="h5" align="center">
               {project
-                ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber, 9).toString(PERCENT_FORMAT) + "%"
+                ? totalDebt
+                    .mul(new DecimalBigNumber("100"))
+                    .div(depositGoalNumber, GIVE_MAX_DECIMALS)
+                    .toString(PERCENT_FORMAT) + "%"
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">

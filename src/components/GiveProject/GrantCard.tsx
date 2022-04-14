@@ -19,6 +19,7 @@ import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useDonationInfo, useDonorNumbers } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
+import { GIVE_MAX_DECIMAL_FORMAT } from "src/views/Give/constants";
 import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { useGive } from "src/views/Give/hooks/useGive";
@@ -315,8 +316,6 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     setIsManageModalOpen(true);
   };
 
-  // We set the decimals amount to 9 to try to limit any precision issues with
-  // sOHM and gOHM conversions on the contract side
   const handleGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
     eventSource: string,
@@ -327,7 +326,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     }
 
     giveMutation.mutate({
-      amount: depositAmount.toString({ decimals: 9 }),
+      amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
       recipient: walletAddress,
       token: giveAssetType,
     });
@@ -359,7 +358,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     if (depositAmountDiff.gt(new DecimalBigNumber("0"))) {
       await increaseMutation.mutate({
         id: depositId,
-        amount: depositAmountDiff.toString({ decimals: 9 }),
+        amount: depositAmountDiff.toString(GIVE_MAX_DECIMAL_FORMAT),
         recipient: walletAddress,
         token: giveAssetType,
       });
@@ -367,7 +366,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       const subtractionAmount = depositAmountDiff.mul(new DecimalBigNumber("-1"));
       await decreaseMutation.mutate({
         id: depositId,
-        amount: subtractionAmount.toString({ decimals: 9 }),
+        amount: subtractionAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
         recipient: walletAddress,
         token: giveAssetType,
       });
@@ -384,7 +383,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   ) => {
     await decreaseMutation.mutate({
       id: depositId,
-      amount: depositAmount.toString({ decimals: 9 }),
+      amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
       recipient: walletAddress,
       token: giveAssetType,
     });

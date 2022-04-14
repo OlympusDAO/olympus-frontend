@@ -1,3 +1,5 @@
+import { GIVE_MAX_DECIMALS } from "../constants";
+
 export const checkDecimalLength = (value: string): string => {
   const [value_, decimalsOrUndefined_] = value.split(".");
 
@@ -6,7 +8,7 @@ export const checkDecimalLength = (value: string): string => {
   let decimals_ = decimalsOrUndefined_;
 
   if (decimalsOrUndefined_.length > 9) {
-    decimals_ = decimalsOrUndefined_.slice(0, 9);
+    decimals_ = decimalsOrUndefined_.slice(0, GIVE_MAX_DECIMALS);
   }
 
   return value_ + "." + decimals_;
