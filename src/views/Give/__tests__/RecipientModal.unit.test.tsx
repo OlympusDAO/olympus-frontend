@@ -58,7 +58,7 @@ describe("RecipientModal", () => {
     };
   });
 
-  it("Should accept integer amount", async () => {
+  it("input should accept integer amount", async () => {
     render(
       <RecipientModal
         isModalOpen={true}
@@ -75,7 +75,7 @@ describe("RecipientModal", () => {
     expect(screen.getByTestId("amount-input")).toHaveDisplayValue("2");
   });
 
-  it("Should accept integer amount with zero padding", async () => {
+  it("input should accept integer amount with zero padding", async () => {
     render(
       <RecipientModal
         isModalOpen={true}
@@ -92,7 +92,7 @@ describe("RecipientModal", () => {
     expect(screen.getByTestId("amount-input")).toHaveDisplayValue("2.0");
   });
 
-  it("Should accept decimal amount", async () => {
+  it("input should accept decimal amount", async () => {
     render(
       <RecipientModal
         isModalOpen={true}
@@ -107,5 +107,22 @@ describe("RecipientModal", () => {
 
     fireEvent.input(screen.getByTestId("amount-input"), { target: { value: "2.1" } });
     expect(screen.getByTestId("amount-input")).toHaveDisplayValue("2.1");
+  });
+
+  it("input should truncate to 9 decimals", async () => {
+    render(
+      <RecipientModal
+        isModalOpen={true}
+        isMutationLoading={false}
+        eventSource="View Details Button"
+        callbackFunc={callbackFunc}
+        cancelFunc={cancelFunc}
+        giveAssetType="sOHM"
+        changeAssetType={changeAssetType}
+      />,
+    );
+
+    fireEvent.input(screen.getByTestId("amount-input"), { target: { value: "2.1234567891" } });
+    expect(screen.getByTestId("amount-input")).toHaveDisplayValue("2.123456789");
   });
 });

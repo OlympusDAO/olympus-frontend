@@ -20,6 +20,7 @@ import { ChangeAssetType } from "src/slices/interfaces";
 
 import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
 import { GohmToggle } from "./GohmToggle";
+import { checkDecimalLength } from "./helpers/checkDecimalLength";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
@@ -129,8 +130,10 @@ export function RecipientModal({
   };
 
   const handleSetDepositAmount = (value: string) => {
+    const value_ = checkDecimalLength(value);
+
     checkIsDepositAmountValid(value);
-    setDepositAmount(value);
+    setDepositAmount(value_);
   };
 
   const checkIsDepositAmountValid = (value: string) => {
