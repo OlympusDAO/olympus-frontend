@@ -79,8 +79,6 @@
   "devDependencies": {
     "@babel/runtime": "^7.17.9",
     "@chainsafe/dappeteer": "^2.4.1",
-    "@graphql-codegen/cli": "^2.6.2",
-    "@graphql-codegen/typescript": "^2.4.8",
     "@lingui/cli": "^3.13.0",
     "@lingui/core": "^3.13.0",
     "@lingui/macro": "^3.12.1",
@@ -153,7 +151,6 @@
     "predocker-start": "docker build -t olympus-frontend -f Dockerfile .",
     "docker-start": "yarn run postinstall && docker run -it --rm -v `pwd`/src:/usr/src/app/src -v `pwd`/public:/usr/src/app/public -p 3000:3000 olympus-frontend",
     "stats": "yarn build --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json",
-    "graph-types": "graphql-codegen --config ./graph-types.codegen.yaml",
     "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile",
     "lingui:branch:main": "cd src/locales/translations && git checkout main && yarn lingui:fetch",
