@@ -86,3 +86,7 @@ export const FUSE_POOL_18_ADDRESSES = {
 export const FUSE_POOL_36_ADDRESSES = {
   [NetworkId.MAINNET]: "0x252d447c54F33e033AD04048baEAdE7628cB1274",
 };
+
+export const ZAP_ADDRESSES = {
+  [NetworkId.MAINNET]: "0x6F5CC3EDEa92AB52b75bad50Bcf4C6daa781B87e",
+};

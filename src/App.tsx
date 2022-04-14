@@ -20,7 +20,6 @@ import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
-import { getZapTokenBalances } from "./slices/ZapSlice";
 import { error, info } from "./slices/MessagesSlice";
 
 import { Stake, TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2 } from "./views";
@@ -175,7 +174,6 @@ function App() {
           dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
         }
       });
-      dispatch(getZapTokenBalances({ address, networkID: networkId, provider: loadProvider }));
       expiredBonds.map(bond => {
         if (bond.getClaimability(networkId)) {
           dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
