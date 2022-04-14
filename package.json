@@ -75,7 +75,7 @@
     "sass": "^1.49.9",
     "typescript": "^4.6.3",
     "uuid": "^8.3.2",
-    "web3modal": "^1.9.1"
+    "web3modal": "^1.9.6"
   },
   "devDependencies": {
     "@babel/runtime": "^7.17.9",
