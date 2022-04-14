@@ -47,7 +47,7 @@ const DECIMAL_PLACES = 4;
 const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
 const DECIMAL_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const PERCENT_FORMAT = { decimals: 0, format: true };
-const EXACT_FORMAT = { format: true };
+const EXACT_FORMAT = { decimals: GIVE_MAX_DECIMALS, format: true };
 
 export function ManageDonationModal({
   isModalOpen,
@@ -288,7 +288,9 @@ export function ManageDonationModal({
     if (getDepositAmountDiff().gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        t`Value cannot be more than your ${giveAssetType} balance of ` + getMaximumDepositAmount(),
+        t`Value cannot be more than your ${giveAssetType} balance of ${getMaximumDepositAmount().toString(
+          EXACT_FORMAT,
+        )}`,
       );
       return;
     }
@@ -596,10 +598,10 @@ export function ManageDonationModal({
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onChange={(e: any) => handleSetDepositAmount(e.target.value)}
                   error={!isDepositAmountValid}
-                  startAdornment="sOHM"
+                  startAdornment={giveAssetType === "sOHM" ? "sOHM" : giveAssetType === "gOHM" ? "gOHM" : "placeholder"}
                   endString={t`Max`}
-                  // This uses toFixed() as it is a specific value and not formatted
-                  endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString(EXACT_FORMAT))}
+                  // Specific value and not formatted
+                  endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
                 />
               </Grid>
             </Grid>
@@ -682,7 +684,7 @@ export function ManageDonationModal({
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
-                    {isMutationLoading ? t`Withdrawing sOHM` : t`Withdraw`}
+                    {isMutationLoading ? t`Withdrawing ${giveAssetType}` : t`Withdraw`}
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
@@ -720,7 +722,7 @@ export function ManageDonationModal({
             <Grid item xs />
             <Grid item xs={6}>
               <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
-                {isMutationLoading ? t`Depositing sOHM` : t`Confirm New sOHM`}
+                {isMutationLoading ? t`Depositing ${giveAssetType}` : t`Confirm New ${giveAssetType}`}
               </PrimaryButton>
             </Grid>
             <Grid item xs />
