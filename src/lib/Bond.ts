@@ -3,7 +3,6 @@ import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import { abi as ierc20Abi } from "src/abi/IERC20.json";
 import { addresses, NetworkId } from "src/constants";
-import { getTokenPrice } from "src/helpers";
 import { getBondCalculator } from "src/helpers/BondCalculator";
 import { EthContract, PairContract } from "src/typechain";
 
@@ -79,22 +78,6 @@ export abstract class Bond {
     this.v2Bond = bondOpts.v2Bond;
   }
 
-  /**
-   * makes isBondable accessible within Bonds.ts
-   * @param NetworkId
-   * @returns boolean
-   */
-  getBondability(NetworkId: NetworkId) {
-    return this.isBondable[NetworkId];
-  }
-  getClaimability(NetworkId: NetworkId) {
-    return this.isClaimable[NetworkId];
-  }
-  // NOTE (appleseed): temporary for ONHOLD MIGRATION
-  getLOLability(NetworkId: NetworkId) {
-    return this.isLOLable[NetworkId];
-  }
-
   getAddressForBond(NetworkId: NetworkId) {
     return this.networkAddrs[NetworkId]?.bondAddress;
   }
@@ -110,19 +93,6 @@ export abstract class Bond {
   getContractForReserve(NetworkId: NetworkId, provider: StaticJsonRpcProvider | JsonRpcSigner) {
     const bondAddress = this.getAddressForReserve(NetworkId) || "";
     return new ethers.Contract(bondAddress, this.reserveContract, provider) as PairContract;
-  }
-
-  // TODO (appleseed): improve this logic
-  async getBondReservePrice(NetworkId: NetworkId, provider: StaticJsonRpcProvider | JsonRpcSigner) {
-    let marketPrice: number;
-    if (this.isLP) {
-      const pairContract = this.getContractForReserve(NetworkId, provider);
-      const reserves = await pairContract.getReserves();
-      marketPrice = Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
-    } else {
-      marketPrice = await getTokenPrice("convex-finance");
-    }
-    return marketPrice;
   }
 }
 
