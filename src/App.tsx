@@ -33,7 +33,6 @@ import { calculateUserBondDetails, getMigrationAllowances, loadAccountDetails } 
 import { loadAppDetails } from "./slices/AppSlice";
 import { calcBondDetails } from "./slices/BondSlice";
 import { error, info } from "./slices/MessagesSlice";
-import { getZapTokenBalances } from "./slices/ZapSlice";
 import { dark as darkTheme } from "./themes/dark.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { light as lightTheme } from "./themes/light.js";
@@ -167,7 +166,6 @@ function App() {
           dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
         }
       });
-      dispatch(getZapTokenBalances({ address, networkID: networkId, provider: loadProvider }));
       expiredBonds.map(bond => {
         if (bond.getClaimability(networkId)) {
           dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
