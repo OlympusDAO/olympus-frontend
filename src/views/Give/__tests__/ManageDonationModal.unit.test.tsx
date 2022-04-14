@@ -192,7 +192,30 @@ describe("ManageDonationModal", () => {
     expect(screen.getByText("1 gOHM"));
   });
 
-  it("Should drop trailing zeros on load", async () => {
+  it("Should show user stats as gOHM truncated to 4 decimal places", async () => {
+    render(
+      <ManageDonationModal
+        isModalOpen={true}
+        isMutationLoading={false}
+        eventSource="View Details Button"
+        submitEdit={submitFunc}
+        submitWithdraw={withdrawFunc}
+        cancelFunc={cancelFunc}
+        currentWalletAddress={""}
+        currentDepositId={"0"}
+        currentDepositAmount={"1.000123"}
+        depositDate={""}
+        giveAssetType="gOHM"
+        yieldSent={"0"}
+        changeAssetType={changeAssetType}
+        project={project}
+      />,
+    );
+
+    expect(screen.getByText("1.0001 gOHM"));
+  });
+
+  it("Should trim trailing zeros on load", async () => {
     render(
       <ManageDonationModal
         isModalOpen={true}
@@ -214,7 +237,7 @@ describe("ManageDonationModal", () => {
 
     fireEvent.click(screen.getByTestId("edit-donation"));
 
-    expect(screen.getByTestId("amount-input")).toHaveDisplayValue("1.0");
+    expect(screen.getByTestId("amount-input")).toHaveDisplayValue("1");
   });
 
   it("Should truncate to 9 decimals on load", async () => {
