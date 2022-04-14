@@ -1,16 +1,14 @@
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
-import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { formatUnits } from "@ethersproject/units";
 import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
 import { ethers } from "ethers";
 
 import { abi as PairContractABI } from "../abi/PairContract.json";
-import { abi as RedeemHelperABI } from "../abi/RedeemHelper.json";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
 import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
-import { addresses, EPOCH_INTERVAL, NetworkId } from "../constants";
-import { PairContract, RedeemHelper } from "../typechain";
+import { EPOCH_INTERVAL, NetworkId } from "../constants";
+import { PairContract } from "../typechain";
 import { ohm_dai, ohm_daiOld, ohm_weth } from "./AllBonds";
 import { Environment } from "./environment/Environment/Environment";
 import { Providers } from "./providers/Providers/Providers";
@@ -180,20 +178,6 @@ export function setAll(state: any, properties: any) {
       state[key] = properties[key];
     });
   }
-}
-
-export function contractForRedeemHelper({
-  networkID,
-  provider,
-}: {
-  networkID: NetworkId;
-  provider: StaticJsonRpcProvider | JsonRpcSigner;
-}) {
-  return new ethers.Contract(
-    addresses[networkID].REDEEM_HELPER_ADDRESS as string,
-    RedeemHelperABI,
-    provider,
-  ) as RedeemHelper;
 }
 
 /**

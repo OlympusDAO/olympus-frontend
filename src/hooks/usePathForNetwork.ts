@@ -26,13 +26,6 @@ export function usePathForNetwork({
           history.push("/wrap");
           break;
         }
-      case "bonds-v1":
-        if (VIEWS_FOR_NETWORK[networkID] && VIEWS_FOR_NETWORK[networkID].bonds) {
-          break;
-        } else {
-          history.push("/wrap");
-          break;
-        }
       case "bonds":
         if (VIEWS_FOR_NETWORK[networkID] && VIEWS_FOR_NETWORK[networkID].bonds) {
           break;

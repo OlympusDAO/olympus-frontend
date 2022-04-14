@@ -1,6 +1,5 @@
-import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
-import { BigNumber, BigNumberish, ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import {
   GOHM_ADDRESSES,
   MIGRATOR_ADDRESSES,
@@ -21,7 +20,7 @@ import { abi as MockSohm } from "../abi/MockSohm.json";
 import { abi as wsOHM } from "../abi/wsOHM.json";
 import { addresses, NetworkId } from "../constants";
 import { handleContractError, setAll } from "../helpers";
-import { IBaseAddressAsyncThunk, ICalcUserBondDetailsAsyncThunk } from "./interfaces";
+import { IBaseAddressAsyncThunk } from "./interfaces";
 
 interface IUserBalances {
   balances: {
@@ -411,65 +410,7 @@ export const loadAccountDetails = createAsyncThunk(
   },
 );
 
-export interface IUserBondDetails {
-  // bond: string;
-  readonly bond: string;
-  readonly balance: string;
-  readonly displayName: string;
-  readonly allowance: number;
-  readonly interestDue: number;
-  readonly bondMaturationBlock: number;
-  readonly pendingPayout: string; //Payout formatted in gwei.
-  readonly bondIconSvg: OHMTokenStackProps["tokens"]; //Payout formatted in gwei.
-}
-export const calculateUserBondDetails = createAsyncThunk(
-  "account/calculateUserBondDetails",
-  async ({ address, bond, networkID, provider }: ICalcUserBondDetailsAsyncThunk) => {
-    if (!address) {
-      return {
-        bond: "",
-        displayName: "",
-        bondIconSvg: [],
-        isLP: false,
-        allowance: 0,
-        balance: "0",
-        interestDue: 0,
-        bondMaturationBlock: 0,
-        pendingPayout: "",
-      };
-    }
-    // dispatch(fetchBondInProgress());
-
-    // Calculate bond details.
-    const bondContract = bond.getContractForBond(networkID, provider);
-    const reserveContract = bond.getContractForReserve(networkID, provider);
-    const bondDetails = await bondContract.bondInfo(address);
-    const interestDue: BigNumberish = Number(bondDetails.payout.toString()) / Math.pow(10, 9);
-    const bondMaturationBlock = +bondDetails.vesting + +bondDetails.lastBlock;
-    const pendingPayout = await bondContract.pendingPayoutFor(address);
-
-    let balance = BigNumber.from(0);
-    const allowance = await reserveContract.allowance(address, bond.getAddressForBond(networkID) || "");
-    balance = await reserveContract.balanceOf(address);
-    // formatEthers takes BigNumber => String
-    const balanceVal = ethers.utils.formatEther(balance);
-    // balanceVal should NOT be converted to a number. it loses decimal precision
-    return {
-      bond: bond.name,
-      displayName: bond.displayName,
-      bondIconSvg: bond.bondIconSvg,
-      isLP: bond.isLP,
-      allowance: Number(allowance.toString()),
-      balance: balanceVal,
-      interestDue,
-      bondMaturationBlock,
-      pendingPayout: ethers.utils.formatUnits(pendingPayout, "gwei"),
-    };
-  },
-);
-
 export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
-  bonds: { [key: string]: IUserBondDetails };
   balances: {
     gohm: string;
     gOhmAsSohmBal: string;
@@ -518,7 +459,6 @@ export interface IAccountSlice extends IUserAccountDetails, IUserBalances {
 
 const initialState: IAccountSlice = {
   loading: false,
-  bonds: {},
   balances: {
     gohm: "",
     gOhmAsSohmBal: "",
@@ -582,19 +522,6 @@ const accountSlice = createSlice({
         state.loading = false;
       })
       .addCase(getBalances.rejected, (state, { error }) => {
-        state.loading = false;
-        console.log(error);
-      })
-      .addCase(calculateUserBondDetails.pending, state => {
-        state.loading = true;
-      })
-      .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
-        if (!action.payload) return;
-        const bond = action.payload.bond;
-        state.bonds[bond] = action.payload;
-        state.loading = false;
-      })
-      .addCase(calculateUserBondDetails.rejected, (state, { error }) => {
         state.loading = false;
         console.log(error);
       })
