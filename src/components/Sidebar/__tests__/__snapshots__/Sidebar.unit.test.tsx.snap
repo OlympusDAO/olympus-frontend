@@ -16,13 +16,13 @@ exports[`<Sidebar/> should render component 1`] = `
           class="MuiPaper-root dapp-sidebar MuiPaper-elevation0 MuiPaper-rounded"
         >
           <div
-            class="MuiBox-root MuiBox-root-1 dapp-sidebar-inner"
+            class="MuiBox-root MuiBox-root-2 dapp-sidebar-inner"
           >
             <div
               class="dapp-menu-top"
             >
               <div
-                class="MuiBox-root MuiBox-root-2 branding-header"
+                class="MuiBox-root MuiBox-root-3 branding-header"
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -48,17 +48,17 @@ exports[`<Sidebar/> should render component 1`] = `
                   id="navbarNav"
                 >
                   <div
-                    class="makeStyles-root-3 makeStyles-root-5 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-6 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
                       href="/dashboard"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-6 link-container"
+                        class="MuiBox-root MuiBox-root-7 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-7 makeStyles-title-4 title"
+                          class="MuiBox-root MuiBox-root-8 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -77,10 +77,10 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-3 makeStyles-root-9 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-10 nav-item-container"
                   >
                     <div
-                      class="MuiPaper-root MuiAccordion-root makeStyles-root-10 undefined Mui-expanded MuiPaper-elevation0"
+                      class="MuiPaper-root MuiAccordion-root makeStyles-root-11 undefined Mui-expanded MuiPaper-elevation0"
                     >
                       <div
                         aria-disabled="false"
@@ -97,10 +97,10 @@ exports[`<Sidebar/> should render component 1`] = `
                             href="/bonds"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-11 link-container"
+                              class="MuiBox-root MuiBox-root-12 link-container"
                             >
                               <div
-                                class="MuiBox-root MuiBox-root-12 makeStyles-title-4 title"
+                                class="MuiBox-root MuiBox-root-13 makeStyles-title-5 title"
                               >
                                 <svg
                                   aria-hidden="true"
@@ -163,17 +163,17 @@ exports[`<Sidebar/> should render component 1`] = `
                     </div>
                   </div>
                   <div
-                    class="makeStyles-root-3 makeStyles-root-13 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-14 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
                       href="/stake"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-14 link-container"
+                        class="MuiBox-root MuiBox-root-15 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-15 makeStyles-title-4 title"
+                          class="MuiBox-root MuiBox-root-16 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -192,17 +192,17 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-3 makeStyles-root-16 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-17 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
                       href="/zap"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-17 link-container"
+                        class="MuiBox-root MuiBox-root-18 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-18 makeStyles-title-4 title"
+                          class="MuiBox-root MuiBox-root-19 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -221,17 +221,17 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-3 makeStyles-root-19 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-20 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
                       href="/give"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-20 link-container"
+                        class="MuiBox-root MuiBox-root-21 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-21 makeStyles-title-4 title"
+                          class="MuiBox-root MuiBox-root-22 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -250,17 +250,17 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-3 makeStyles-root-22 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-23 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
                       href="/wrap"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-23 link-container"
+                        class="MuiBox-root MuiBox-root-24 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-24 makeStyles-title-4 title"
+                          class="MuiBox-root MuiBox-root-25 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -279,7 +279,7 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-3 makeStyles-root-25 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-26 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -287,10 +287,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-26 link-container"
+                        class="MuiBox-root MuiBox-root-27 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-27 makeStyles-title-4 title"
+                          class="MuiBox-root MuiBox-root-28 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -319,14 +319,14 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-28 menu-divider"
+                    class="MuiBox-root MuiBox-root-29 menu-divider"
                   >
                     <hr
                       class="MuiDivider-root"
                     />
                   </div>
                   <div
-                    class="makeStyles-root-3 makeStyles-root-29 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-30 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -334,10 +334,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-30 link-container"
+                        class="MuiBox-root MuiBox-root-31 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-31 makeStyles-title-4 title"
+                          class="MuiBox-root MuiBox-root-32 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -366,14 +366,14 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-32 menu-divider"
+                    class="MuiBox-root MuiBox-root-33 menu-divider"
                   >
                     <hr
                       class="MuiDivider-root"
                     />
                   </div>
                   <div
-                    class="makeStyles-root-3 makeStyles-root-33 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-34 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -381,10 +381,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-34 link-container"
+                        class="MuiBox-root MuiBox-root-35 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-35 makeStyles-title-4 title"
+                          class="MuiBox-root MuiBox-root-36 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -413,7 +413,7 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-3 makeStyles-root-36 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-37 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -421,10 +421,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-37 link-container"
+                        class="MuiBox-root MuiBox-root-38 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-38 makeStyles-title-4 title"
+                          class="MuiBox-root MuiBox-root-39 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -453,7 +453,7 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-3 makeStyles-root-39 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-40 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -461,10 +461,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-40 link-container"
+                        class="MuiBox-root MuiBox-root-41 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-41 makeStyles-title-4 title"
+                          class="MuiBox-root MuiBox-root-42 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -493,7 +493,7 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-3 makeStyles-root-42 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-43 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -501,10 +501,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-43 link-container"
+                        class="MuiBox-root MuiBox-root-44 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-44 makeStyles-title-4 title"
+                          class="MuiBox-root MuiBox-root-45 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -533,7 +533,7 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-3 makeStyles-root-45 nav-item-container"
+                    class="makeStyles-root-4 makeStyles-root-46 nav-item-container"
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
@@ -541,10 +541,10 @@ exports[`<Sidebar/> should render component 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-46 link-container"
+                        class="MuiBox-root MuiBox-root-47 link-container"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-47 makeStyles-title-4 title"
+                          class="MuiBox-root MuiBox-root-48 makeStyles-title-5 title"
                         >
                           <svg
                             aria-hidden="true"
@@ -576,76 +576,72 @@ exports[`<Sidebar/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-48 dapp-menu-social"
+              class="MuiBox-root MuiBox-root-49"
             >
-              <div
-                class="social-row"
+              <a
+                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                href="https://github.com/OlympusDAO"
+                target="_blank"
               >
-                <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="https://github.com/OlympusDAO"
-                  target="_blank"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root makeStyles-gray-1 MuiSvgIcon-fontSizeSmall"
+                  focusable="false"
+                  viewBox="0 0 20 20"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root makeStyles-gray-49 MuiSvgIcon-fontSizeSmall"
-                    focusable="false"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M10 0C4.478 0 0 4.548 0 10.157 0 14.916 3.227 18.898 7.577 20a1.503 1.503 0 0 1-.077-.493V17.77H6.243c-.684 0-1.292-.3-1.587-.854-.328-.617-.384-1.561-1.196-2.138-.24-.193-.058-.412.22-.382.512.147.937.504 1.337 1.034.399.53.586.651 1.33.651.361 0 .901-.021 1.41-.102.273-.705.745-1.354 1.323-1.66-3.33-.349-4.92-2.031-4.92-4.316 0-.983.413-1.935 1.114-2.736-.23-.796-.519-2.418.088-3.036 1.499 0 2.405.987 2.622 1.253a7.39 7.39 0 0 1 2.428-.407c.864 0 1.687.148 2.435.41.216-.266 1.122-1.256 2.624-1.256.61.619.317 2.248.085 3.042.697.8 1.107 1.748 1.107 2.73 0 2.283-1.587 3.965-4.912 4.314.915.485 1.582 1.848 1.582 2.875v2.314c0 .088-.019.151-.029.226C17.201 18.346 20 14.588 20 10.157 20 4.547 15.523 0 10 0Z"
-                    />
-                  </svg>
-                </a>
-                <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="https://olympusdao.medium.com/"
-                  target="_blank"
+                  <path
+                    d="M10 0C4.478 0 0 4.548 0 10.157 0 14.916 3.227 18.898 7.577 20a1.503 1.503 0 0 1-.077-.493V17.77H6.243c-.684 0-1.292-.3-1.587-.854-.328-.617-.384-1.561-1.196-2.138-.24-.193-.058-.412.22-.382.512.147.937.504 1.337 1.034.399.53.586.651 1.33.651.361 0 .901-.021 1.41-.102.273-.705.745-1.354 1.323-1.66-3.33-.349-4.92-2.031-4.92-4.316 0-.983.413-1.935 1.114-2.736-.23-.796-.519-2.418.088-3.036 1.499 0 2.405.987 2.622 1.253a7.39 7.39 0 0 1 2.428-.407c.864 0 1.687.148 2.435.41.216-.266 1.122-1.256 2.624-1.256.61.619.317 2.248.085 3.042.697.8 1.107 1.748 1.107 2.73 0 2.283-1.587 3.965-4.912 4.314.915.485 1.582 1.848 1.582 2.875v2.314c0 .088-.019.151-.029.226C17.201 18.346 20 14.588 20 10.157 20 4.547 15.523 0 10 0Z"
+                  />
+                </svg>
+              </a>
+              <a
+                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                href="https://olympusdao.medium.com/"
+                target="_blank"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root makeStyles-gray-1 MuiSvgIcon-fontSizeSmall"
+                  focusable="false"
+                  viewBox="0 0 20 20"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root makeStyles-gray-49 MuiSvgIcon-fontSizeSmall"
-                    focusable="false"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M18.182 0H1.818A1.818 1.818 0 0 0 0 1.818v16.364C0 19.186.814 20 1.818 20h16.364A1.818 1.818 0 0 0 20 18.182V1.818A1.818 1.818 0 0 0 18.182 0Zm-1.326 15.454h-5.392v-.302l1.263-1.111V7.7l-3.1 7.754h-.485L5.682 7.64v5.534l1.582 1.979v.303h-4.12v-.303l1.635-1.98V6.59L3.325 4.772V4.55h3.979l3.09 6.685 2.665-6.685h3.777v.222l-1.381 1.16v8.109l1.401 1.11v.303Z"
-                    />
-                  </svg>
-                </a>
-                <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="https://twitter.com/OlympusDAO"
-                  target="_blank"
+                  <path
+                    d="M18.182 0H1.818A1.818 1.818 0 0 0 0 1.818v16.364C0 19.186.814 20 1.818 20h16.364A1.818 1.818 0 0 0 20 18.182V1.818A1.818 1.818 0 0 0 18.182 0Zm-1.326 15.454h-5.392v-.302l1.263-1.111V7.7l-3.1 7.754h-.485L5.682 7.64v5.534l1.582 1.979v.303h-4.12v-.303l1.635-1.98V6.59L3.325 4.772V4.55h3.979l3.09 6.685 2.665-6.685h3.777v.222l-1.381 1.16v8.109l1.401 1.11v.303Z"
+                  />
+                </svg>
+              </a>
+              <a
+                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                href="https://twitter.com/OlympusDAO"
+                target="_blank"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root makeStyles-gray-1 MuiSvgIcon-fontSizeSmall"
+                  focusable="false"
+                  viewBox="0 0 20 20"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root makeStyles-gray-49 MuiSvgIcon-fontSizeSmall"
-                    focusable="false"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M20 3.924a8.191 8.191 0 0 1-2.357.646 4.11 4.11 0 0 0 1.804-2.27c-.792.47-1.67.812-2.606.996A4.103 4.103 0 0 0 9.85 7.037 11.648 11.648 0 0 1 1.392 2.75a4.093 4.093 0 0 0-.554 2.064 4.1 4.1 0 0 0 1.824 3.414 4.095 4.095 0 0 1-1.858-.513v.052a4.104 4.104 0 0 0 3.291 4.023 4.102 4.102 0 0 1-1.853.07 4.108 4.108 0 0 0 3.833 2.85A8.23 8.23 0 0 1 0 16.41a11.615 11.615 0 0 0 6.29 1.843c7.547 0 11.673-6.253 11.673-11.675 0-.177-.004-.354-.011-.53A8.35 8.35 0 0 0 20 3.924Z"
-                    />
-                  </svg>
-                </a>
-                <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="https://discord.gg/6QjjtUcfM4"
-                  target="_blank"
+                  <path
+                    d="M20 3.924a8.191 8.191 0 0 1-2.357.646 4.11 4.11 0 0 0 1.804-2.27c-.792.47-1.67.812-2.606.996A4.103 4.103 0 0 0 9.85 7.037 11.648 11.648 0 0 1 1.392 2.75a4.093 4.093 0 0 0-.554 2.064 4.1 4.1 0 0 0 1.824 3.414 4.095 4.095 0 0 1-1.858-.513v.052a4.104 4.104 0 0 0 3.291 4.023 4.102 4.102 0 0 1-1.853.07 4.108 4.108 0 0 0 3.833 2.85A8.23 8.23 0 0 1 0 16.41a11.615 11.615 0 0 0 6.29 1.843c7.547 0 11.673-6.253 11.673-11.675 0-.177-.004-.354-.011-.53A8.35 8.35 0 0 0 20 3.924Z"
+                  />
+                </svg>
+              </a>
+              <a
+                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                href="https://discord.gg/6QjjtUcfM4"
+                target="_blank"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root makeStyles-gray-1 MuiSvgIcon-fontSizeSmall"
+                  focusable="false"
+                  viewBox="0 0 20 20"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root makeStyles-gray-49 MuiSvgIcon-fontSizeSmall"
-                    focusable="false"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M17.2286 4.63925C15.4971 3.24782 12.7593 3.01211 12.6436 3.00211C12.4607 2.98639 12.2871 3.08997 12.2121 3.25711C12.2093 3.26282 12.0564 3.70639 11.9086 4.13425C13.9207 4.48639 15.2879 5.26782 15.3607 5.31068C15.7021 5.50925 15.8164 5.94711 15.6171 6.28782C15.485 6.51496 15.2457 6.64211 15 6.64211C14.8779 6.64211 14.755 6.61139 14.6421 6.54568C14.6221 6.53354 12.6164 5.39211 10.0014 5.39211C7.38571 5.39211 5.37929 6.53425 5.35929 6.54568C5.01857 6.74354 4.58143 6.62711 4.38357 6.28568C4.18571 5.94568 4.30071 5.50925 4.64071 5.31068C4.71357 5.26782 6.08571 4.48354 8.10357 4.13211C7.94786 3.69925 7.79071 3.26282 7.78786 3.25711C7.71286 3.08925 7.53929 2.98354 7.35643 3.00211C7.24071 3.01139 4.50286 3.24711 2.74857 4.65782C1.83143 5.50497 0 10.4578 0 14.74C0 14.8157 0.0192857 14.8893 0.0571429 14.955C1.32214 17.1764 4.77071 17.7578 5.55643 17.7828C5.56143 17.7835 5.56571 17.7835 5.57 17.7835C5.70857 17.7835 5.83929 17.7171 5.92143 17.605L6.77143 16.4535C4.90714 16.0043 3.92143 15.2978 3.86214 15.2542C3.545 15.0207 3.47643 14.5735 3.71 14.2557C3.94286 13.9393 4.38857 13.8693 4.70571 14.1014C4.73214 14.1185 6.55143 15.3921 10 15.3921C13.4621 15.3921 15.2764 14.1135 15.2943 14.1007C15.6114 13.8707 16.0586 13.94 16.2907 14.2585C16.5221 14.5757 16.455 15.02 16.1393 15.2528C16.08 15.2964 15.0993 16.0014 13.2393 16.4507L14.0786 17.6042C14.1607 17.7171 14.2914 17.7828 14.43 17.7828C14.435 17.7828 14.4393 17.7828 14.4436 17.7821C15.23 17.7571 18.6786 17.1757 19.9429 14.9542C19.9807 14.8885 20 14.815 20 14.7393C20 10.4578 18.1686 5.50497 17.2286 4.63925ZM7.14286 13.2493C6.35357 13.2493 5.71429 12.45 5.71429 11.4635C5.71429 10.4771 6.35357 9.67782 7.14286 9.67782C7.93214 9.67782 8.57143 10.4771 8.57143 11.4635C8.57143 12.45 7.93214 13.2493 7.14286 13.2493ZM12.8571 13.2493C12.0679 13.2493 11.4286 12.45 11.4286 11.4635C11.4286 10.4771 12.0679 9.67782 12.8571 9.67782C13.6464 9.67782 14.2857 10.4771 14.2857 11.4635C14.2857 12.45 13.6464 13.2493 12.8571 13.2493Z"
-                    />
-                  </svg>
-                </a>
-              </div>
+                  <path
+                    d="M17.2286 4.63925C15.4971 3.24782 12.7593 3.01211 12.6436 3.00211C12.4607 2.98639 12.2871 3.08997 12.2121 3.25711C12.2093 3.26282 12.0564 3.70639 11.9086 4.13425C13.9207 4.48639 15.2879 5.26782 15.3607 5.31068C15.7021 5.50925 15.8164 5.94711 15.6171 6.28782C15.485 6.51496 15.2457 6.64211 15 6.64211C14.8779 6.64211 14.755 6.61139 14.6421 6.54568C14.6221 6.53354 12.6164 5.39211 10.0014 5.39211C7.38571 5.39211 5.37929 6.53425 5.35929 6.54568C5.01857 6.74354 4.58143 6.62711 4.38357 6.28568C4.18571 5.94568 4.30071 5.50925 4.64071 5.31068C4.71357 5.26782 6.08571 4.48354 8.10357 4.13211C7.94786 3.69925 7.79071 3.26282 7.78786 3.25711C7.71286 3.08925 7.53929 2.98354 7.35643 3.00211C7.24071 3.01139 4.50286 3.24711 2.74857 4.65782C1.83143 5.50497 0 10.4578 0 14.74C0 14.8157 0.0192857 14.8893 0.0571429 14.955C1.32214 17.1764 4.77071 17.7578 5.55643 17.7828C5.56143 17.7835 5.56571 17.7835 5.57 17.7835C5.70857 17.7835 5.83929 17.7171 5.92143 17.605L6.77143 16.4535C4.90714 16.0043 3.92143 15.2978 3.86214 15.2542C3.545 15.0207 3.47643 14.5735 3.71 14.2557C3.94286 13.9393 4.38857 13.8693 4.70571 14.1014C4.73214 14.1185 6.55143 15.3921 10 15.3921C13.4621 15.3921 15.2764 14.1135 15.2943 14.1007C15.6114 13.8707 16.0586 13.94 16.2907 14.2585C16.5221 14.5757 16.455 15.02 16.1393 15.2528C16.08 15.2964 15.0993 16.0014 13.2393 16.4507L14.0786 17.6042C14.1607 17.7171 14.2914 17.7828 14.43 17.7828C14.435 17.7828 14.4393 17.7828 14.4436 17.7821C15.23 17.7571 18.6786 17.1757 19.9429 14.9542C19.9807 14.8885 20 14.815 20 14.7393C20 10.4578 18.1686 5.50497 17.2286 4.63925ZM7.14286 13.2493C6.35357 13.2493 5.71429 12.45 5.71429 11.4635C5.71429 10.4771 6.35357 9.67782 7.14286 9.67782C7.93214 9.67782 8.57143 10.4771 8.57143 11.4635C8.57143 12.45 7.93214 13.2493 7.14286 13.2493ZM12.8571 13.2493C12.0679 13.2493 11.4286 12.45 11.4286 11.4635C11.4286 10.4771 12.0679 9.67782 12.8571 9.67782C13.6464 9.67782 14.2857 10.4771 14.2857 11.4635C14.2857 12.45 13.6464 13.2493 12.8571 13.2493Z"
+                  />
+                </svg>
+              </a>
             </div>
           </div>
         </div>

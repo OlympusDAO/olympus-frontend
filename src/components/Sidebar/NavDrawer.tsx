@@ -53,7 +53,7 @@ const NavDrawer: React.FC<NavDrawerProps> = ({ mobileOpen, handleDrawerToggle })
       disableBackdropTransition={!isIOS}
       disableDiscovery={isIOS}
     >
-      <NavContent handleDrawerToggle={handleDrawerToggle} />
+      <NavContent />
     </SwipeableDrawer>
   );
 };

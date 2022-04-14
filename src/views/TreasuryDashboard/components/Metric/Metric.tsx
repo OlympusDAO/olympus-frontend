@@ -8,6 +8,7 @@ import {
   useOhmCirculatingSupply,
   useTotalSupply,
   useTotalValueDeposited,
+  useTreasuryMarketValue,
   useTreasuryTotalBacking,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
@@ -150,6 +151,20 @@ export const StakingAPY: React.FC<AbstractedMetricProps> = props => {
 
     _props.metric = `${formatted}%`;
   } else _props.isLoading = true;
+
+  return <Metric {..._props} />;
+};
+
+export const TreasuryBalance: React.FC<AbstractedMetricProps> = props => {
+  const { data: treasuryMarketValue } = useTreasuryMarketValue();
+
+  const _props: MetricProps = {
+    ...props,
+    label: t`Treasury Balance`,
+  };
+
+  if (treasuryMarketValue) _props.metric = formatCurrency(treasuryMarketValue);
+  else _props.isLoading = true;
 
   return <Metric {..._props} />;
 };
