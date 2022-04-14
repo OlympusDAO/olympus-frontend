@@ -2097,10 +2097,10 @@
     react-is "^16.8.0 || ^17.0.0"
     react-transition-group "^4.4.0"
 
-"@material-ui/icons@^4.11.2":
-  version "4.11.2"
-  resolved "https://registry.yarnpkg.com/@material-ui/icons/-/icons-4.11.2.tgz#b3a7353266519cd743b6461ae9fdfcb1b25eb4c5"
-  integrity sha512-fQNsKX2TxBmqIGJCSi3tGTO/gZ+eJgWmMJkgDiOfyNaunNaxcklJQFaFogYcFl0qFuaEz1qaXYXboa/bUXVSOQ==
+"@material-ui/icons@^4.11.3":
+  version "4.11.3"
+  resolved "https://registry.yarnpkg.com/@material-ui/icons/-/icons-4.11.3.tgz#b0693709f9b161ce9ccde276a770d968484ecff1"
+  integrity sha512-IKHlyx6LDh8n19vzwH5RtHIOHl9Tu90aAAxcbWME6kp4dmvODM3UvOHJeMIDzUbd4muuJKHmlNoBN+mDY4XkBA==
   dependencies:
     "@babel/runtime" "^7.4.4"
 
@@ -2610,10 +2610,10 @@
     lz-string "^1.4.4"
     pretty-format "^27.0.2"
 
-"@testing-library/jest-dom@^5.16.1":
-  version "5.16.2"
-  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-5.16.2.tgz#f329b36b44aa6149cd6ced9adf567f8b6aa1c959"
-  integrity sha512-6ewxs1MXWwsBFZXIk4nKKskWANelkdUehchEOokHsN8X7c2eKXGw+77aRV63UU8f/DTSVUPLaGxdrj4lN7D/ug==
+"@testing-library/jest-dom@^5.16.4":
+  version "5.16.4"
+  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-5.16.4.tgz#938302d7b8b483963a3ae821f1c0808f872245cd"
+  integrity sha512-Gy+IoFutbMQcky0k+bqqumXZ1cTGswLsFqmNLzNdSKkU9KGV2u9oXhukCbbJ9/LRPKiqwxEE8VpV/+YZlfkPUA==
   dependencies:
     "@babel/runtime" "^7.9.2"
     "@types/testing-library__jest-dom" "^5.9.1"
@@ -17611,10 +17611,10 @@ web3-provider-engine@16.0.1:
     xhr "^2.2.0"
     xtend "^4.0.1"
 
-web3modal@^1.9.1:
-  version "1.9.5"
-  resolved "https://registry.yarnpkg.com/web3modal/-/web3modal-1.9.5.tgz#a1d6351a11358b376af5772f79f3dcdba6c38d1b"
-  integrity sha512-L5ME6zgoaCDa+T66skW9WpxGOJX6vU9v+7aLacoQJhU3AMTk784ionpX+Pg4UdhdM+UQW+odge32GkwEX11czQ==
+web3modal@^1.9.6:
+  version "1.9.6"
+  resolved "https://registry.yarnpkg.com/web3modal/-/web3modal-1.9.6.tgz#ace73e46f8a1a24ae553fd196e035ba1f5c44c8d"
+  integrity sha512-Kb05om51YTB60WEH+5HUCGDzs0S5lFJlT0uebwzA3QZhJbX9x6rj1aSWn/UnZ54H5vM9fuxdnrZMu7FcN8y3qw==
   dependencies:
     detect-browser "^5.1.0"
     prop-types "^15.7.2"
