@@ -154,7 +154,7 @@ export const redeemableBalanceQueryKey = (address: string, networkId: NetworkId)
   ["useRedeemableBalance", address, networkId].filter(nonNullable);
 
 /**
- * @notice Pulls a given address's redeemable sOHM balance from the YieldDirector contract
+ * @notice Pulls a given address's redeemable gOHM balance from the YieldDirector contract
  * @param address The address we would like to fetch the redeemable balance for
  * @returns query object in which the data attribute holds the redeemable balance
  *

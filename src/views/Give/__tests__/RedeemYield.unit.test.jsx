@@ -26,8 +26,8 @@ beforeEach(() => {
 
   redeemData = "100.0";
   recipientData = {
-    sohmDebt: "100.0",
-    gohmDebt: "0.0",
+    sohmDebt: "1000.0",
+    gohmDebt: "10.0",
   };
   stakingData = 0.002146913392161418;
 });
@@ -98,7 +98,6 @@ describe("Redeem Yield", () => {
     const result = render(<RedeemYield />);
 
     expect(screen.getByTestId("redeemable-balance")).toHaveTextContent("100 sOHM");
-    expect(screen.getAllByText("10 sOHM")[1]).toBeInTheDocument();
     expect(result.container).toMatchSnapshot();
   });
 

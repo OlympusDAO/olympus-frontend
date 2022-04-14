@@ -39,7 +39,7 @@ export default function RedeemYield() {
   const redeemableBalance: DecimalBigNumber = useMemo(() => {
     if (_useRedeemableBalance.isLoading || _useRedeemableBalance.data === undefined) return new DecimalBigNumber("0");
 
-    return GetCorrectContractUnits(_useRedeemableBalance.data, "sOHM", currentIndex);
+    return GetCorrectContractUnits(_useRedeemableBalance.data, "gOHM", currentIndex);
   }, [_useRedeemableBalance, currentIndex]);
 
   const _useRecipientInfo = useRecipientInfo(address);
