@@ -17,6 +17,7 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
+import { GIVE_MAX_DECIMALS } from "src/views/Give/constants";
 
 import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
 import { GohmToggle } from "./GohmToggle";
@@ -36,7 +37,7 @@ type RecipientModalProps = {
 
 const DECIMAL_PLACES = 2;
 const ZERO_NUMBER = new DecimalBigNumber("0");
-const EXACT_FORMAT = { format: true };
+const EXACT_FORMAT = { decimals: GIVE_MAX_DECIMALS, format: true };
 
 export function RecipientModal({
   isModalOpen,
@@ -391,7 +392,7 @@ export function RecipientModal({
                 startAdornment={giveAssetType === "sOHM" ? "sOHM" : giveAssetType === "gOHM" ? "gOHM" : "placeholder"}
                 endString={t`Max`}
                 // This uses toString() as it is a specific value and not formatted
-                endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString(EXACT_FORMAT))}
+                endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
               />
             </Grid>
             <Grid item xs={12}>
@@ -542,7 +543,7 @@ export function RecipientModal({
                 <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
                   {/* We display the exact amount being deposited. */}
                   {isMutationLoading
-                    ? t`Depositing sOHM`
+                    ? t`Depositing ${giveAssetType}`
                     : `${t`Confirm `} ${getDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`}
                 </PrimaryButton>
               </Grid>
