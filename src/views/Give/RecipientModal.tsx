@@ -159,7 +159,9 @@ export function RecipientModal({
 
     if (valueNumber.gt(getBalance())) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`Value cannot be more than your ${giveAssetType} balance of ${getBalance()}`);
+      setIsDepositAmountValidError(
+        t`Value cannot be more than your ${giveAssetType} balance of ${getBalance().toString(EXACT_FORMAT)}`,
+      );
       return;
     }
 
