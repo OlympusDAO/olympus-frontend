@@ -21,6 +21,7 @@ import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/h
 
 import { ArrowGraphic } from "../../components/EducationCard";
 import { GohmToggle } from "./GohmToggle";
+import { checkDecimalLength, removeTrailingZeros } from "./helpers/checkDecimalLength";
 import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "./Interfaces";
 
 type ManageModalProps = {
@@ -102,10 +103,10 @@ export function ManageDonationModal({
 
   const getInitialDepositAmount = (): string => {
     return currentDepositAmount
-      ? GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex).toString()
+      ? GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex).toString({ decimals: 9 })
       : _initialDepositAmount;
   };
-  const [depositAmount, setDepositAmount] = useState(getInitialDepositAmount());
+  const [depositAmount, setDepositAmount] = useState(removeTrailingZeros(getInitialDepositAmount()));
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(_initialDepositAmountValid);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState(_initialDepositAmountValidError);
 
@@ -254,8 +255,11 @@ export function ManageDonationModal({
   };
 
   const handleSetDepositAmount = (value: string) => {
+    const value_ = checkDecimalLength(value);
+
     checkIsDepositAmountValid(value);
-    setDepositAmount(value);
+
+    setDepositAmount(value_);
   };
 
   const checkIsDepositAmountValid = (value: string) => {
@@ -438,7 +442,7 @@ export function ManageDonationModal({
           <Box>
             <Typography data-testid="goal-completion" variant="h5" align="center">
               {project
-                ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString(PERCENT_FORMAT) + "%"
+                ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber, 9).toString(PERCENT_FORMAT) + "%"
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">

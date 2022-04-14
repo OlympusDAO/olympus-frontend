@@ -315,6 +315,8 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     setIsManageModalOpen(true);
   };
 
+  // We set the decimals amount to 9 to try to limit any precision issues with
+  // sOHM and gOHM conversions on the contract side
   const handleGiveModalSubmit: SubmitCallback = async (
     walletAddress: string,
     eventSource: string,
@@ -324,13 +326,19 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       return dispatch(error(t`Please enter a value!`));
     }
 
-    giveMutation.mutate({ amount: depositAmount.toString(), recipient: walletAddress, token: giveAssetType });
+    giveMutation.mutate({
+      amount: depositAmount.toString({ decimals: 9 }),
+      recipient: walletAddress,
+      token: giveAssetType,
+    });
   };
 
   const handleGiveModalCancel: CancelCallback = () => {
     setIsGiveModalOpen(false);
   };
 
+  // We set the decimals amount to 9 to try to limit any precision issues with
+  // sOHM and gOHM conversions on the contract side
   const handleEditModalSubmit: SubmitEditCallback = async (
     walletAddress,
     depositId,
@@ -351,7 +359,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     if (depositAmountDiff.gt(new DecimalBigNumber("0"))) {
       await increaseMutation.mutate({
         id: depositId,
-        amount: depositAmountDiff.toString(),
+        amount: depositAmountDiff.toString({ decimals: 9 }),
         recipient: walletAddress,
         token: giveAssetType,
       });
@@ -359,13 +367,15 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       const subtractionAmount = depositAmountDiff.mul(new DecimalBigNumber("-1"));
       await decreaseMutation.mutate({
         id: depositId,
-        amount: subtractionAmount.toString(),
+        amount: subtractionAmount.toString({ decimals: 9 }),
         recipient: walletAddress,
         token: giveAssetType,
       });
     }
   };
 
+  // We set the decimals amount to 9 to try to limit any precision issues with
+  // sOHM and gOHM conversions on the contract side
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
     walletAddress,
     depositId,
@@ -374,7 +384,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   ) => {
     await decreaseMutation.mutate({
       id: depositId,
-      amount: depositAmount.toString(),
+      amount: depositAmount.toString({ decimals: 9 }),
       recipient: walletAddress,
       token: giveAssetType,
     });

@@ -165,10 +165,8 @@ describe("ManageDonationModal", () => {
       />,
     );
 
-    // These must match
     // We can't get the element itself due to a limitation with DataRow
     expect(screen.getByText("10 sOHM"));
-    expect(screen.getByTestId("total-donated").innerHTML).toEqual("10");
   });
 
   it("Should show user stats as gOHM", async () => {
@@ -191,9 +189,57 @@ describe("ManageDonationModal", () => {
       />,
     );
 
-    // These must match
     expect(screen.getByText("1 gOHM"));
-    expect(screen.getByTestId("total-donated").innerHTML).toEqual("1");
+  });
+
+  it("Should drop trailing zeros on load", async () => {
+    render(
+      <ManageDonationModal
+        isModalOpen={true}
+        isMutationLoading={false}
+        eventSource="View Details Button"
+        submitEdit={submitFunc}
+        submitWithdraw={withdrawFunc}
+        cancelFunc={cancelFunc}
+        currentWalletAddress={""}
+        currentDepositId={"0"}
+        currentDepositAmount={"1.00000000000000011223"}
+        depositDate={""}
+        giveAssetType="gOHM"
+        yieldSent={"0"}
+        changeAssetType={changeAssetType}
+        project={project}
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId("edit-donation"));
+
+    expect(screen.getByTestId("amount-input")).toHaveDisplayValue("1.0");
+  });
+
+  it("Should truncate to 9 decimals on load", async () => {
+    render(
+      <ManageDonationModal
+        isModalOpen={true}
+        isMutationLoading={false}
+        eventSource="View Details Button"
+        submitEdit={submitFunc}
+        submitWithdraw={withdrawFunc}
+        cancelFunc={cancelFunc}
+        currentWalletAddress={""}
+        currentDepositId={"0"}
+        currentDepositAmount={"1.1234000010000011223"}
+        depositDate={""}
+        giveAssetType="gOHM"
+        yieldSent={"0"}
+        changeAssetType={changeAssetType}
+        project={project}
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId("edit-donation"));
+
+    expect(screen.getByTestId("amount-input")).toHaveDisplayValue("1.123400001");
   });
 
   it("Should accept integer amount", async () => {
@@ -271,5 +317,83 @@ describe("ManageDonationModal", () => {
 
     fireEvent.input(screen.getByTestId("amount-input"), { target: { value: "2.1" } });
     expect(screen.getByTestId("amount-input")).toHaveDisplayValue("2.1");
+  });
+
+  it("Should limit decimal amounts to 9 decimals", async () => {
+    render(
+      <ManageDonationModal
+        isModalOpen={true}
+        isMutationLoading={false}
+        eventSource="View Details Button"
+        submitEdit={submitFunc}
+        submitWithdraw={withdrawFunc}
+        cancelFunc={cancelFunc}
+        currentWalletAddress={""}
+        currentDepositId={"0"}
+        currentDepositAmount={"1.0"}
+        depositDate={""}
+        giveAssetType="sOHM"
+        yieldSent={"0"}
+        changeAssetType={changeAssetType}
+        project={project}
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId("edit-donation"));
+
+    fireEvent.input(screen.getByTestId("amount-input"), { target: { value: "2.10000000301203" } });
+    expect(screen.getByTestId("amount-input")).toHaveDisplayValue("2.100000003");
+  });
+
+  it("Should have correct button options on starting screen", async () => {
+    render(
+      <ManageDonationModal
+        isModalOpen={true}
+        isMutationLoading={false}
+        eventSource="View Details Button"
+        submitEdit={submitFunc}
+        submitWithdraw={withdrawFunc}
+        cancelFunc={cancelFunc}
+        currentWalletAddress={""}
+        currentDepositId={"0"}
+        currentDepositAmount={"1.0"}
+        depositDate={""}
+        giveAssetType="sOHM"
+        yieldSent={"0"}
+        changeAssetType={changeAssetType}
+        project={project}
+      />,
+    );
+
+    expect(screen.getByTestId("edit-donation")).toBeInTheDocument();
+    expect(screen.getByTestId("edit-donation").innerHTML).toEqual('<span class="MuiButton-label">Edit Donation</span>');
+
+    expect(screen.getByTestId("stop-donation")).toBeInTheDocument();
+    expect(screen.getByTestId("stop-donation").innerHTML).toEqual('<span class="MuiButton-label">Stop Donation</span>');
+  });
+
+  it("Should have correct button options on edit screen", async () => {
+    render(
+      <ManageDonationModal
+        isModalOpen={true}
+        isMutationLoading={false}
+        eventSource="View Details Button"
+        submitEdit={submitFunc}
+        submitWithdraw={withdrawFunc}
+        cancelFunc={cancelFunc}
+        currentWalletAddress={""}
+        currentDepositId={"0"}
+        currentDepositAmount={"1.0"}
+        depositDate={""}
+        giveAssetType="sOHM"
+        yieldSent={"0"}
+        changeAssetType={changeAssetType}
+        project={project}
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId("edit-donation"));
+
+    expect(screen.getByText("Continue")).toBeInTheDocument();
   });
 });

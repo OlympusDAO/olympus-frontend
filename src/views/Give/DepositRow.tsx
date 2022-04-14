@@ -77,6 +77,8 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     setIsManageModalOpen(false);
   };
 
+  // We set the decimals amount to 9 to try to limit any precision issues with
+  // sOHM and gOHM conversions on the contract side
   const handleEditModalSubmit: SubmitEditCallback = async (
     walletAddress,
     depositId,
@@ -93,22 +95,23 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     if (depositAmountDiff.gt(new DecimalBigNumber("0"))) {
       await increaseMutation.mutate({
         id: depositId,
-        amount: depositAmountDiff.toString(),
+        amount: depositAmountDiff.toString({ decimals: 9 }),
         recipient: walletAddress,
         token: giveAssetType,
       });
     } else {
       const subtractionAmount = depositAmountDiff.mul(new DecimalBigNumber("-1"));
-      console.log(subtractionAmount.toString());
       await decreaseMutation.mutate({
         id: depositId,
-        amount: subtractionAmount.toString(),
+        amount: subtractionAmount.toString({ decimals: 9 }),
         recipient: walletAddress,
         token: giveAssetType,
       });
     }
   };
 
+  // We set the decimals amount to 9 to try to limit any precision issues with
+  // sOHM and gOHM conversions on the contract side
   const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
     depositId,
     walletAddress,
@@ -118,7 +121,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     console.log(depositId);
     await decreaseMutation.mutate({
       id: depositId,
-      amount: depositAmount.toString(),
+      amount: depositAmount.toString({ decimals: 9 }),
       recipient: walletAddress,
       token: giveAssetType,
     });

@@ -169,7 +169,11 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center" data-testid="project-goal-achievement">
-                  {totalDebt.mul(new DecimalBigNumber("100")).div(getRecipientGoal(address)).toString(DECIMAL_FORMAT)}%
+                  {totalDebt
+                    .mul(new DecimalBigNumber("100"))
+                    .div(getRecipientGoal(address), 9)
+                    .toString(DECIMAL_FORMAT)}
+                  %
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   <Trans>of sOHM Goal</Trans>
