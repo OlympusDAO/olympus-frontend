@@ -38,8 +38,6 @@ describe("<ZapStakeAction/> ", () => {
   });
 
   it("gOHM should autopopulate with correct value based on ETH input", async () => {
-    //@ts-expect-error
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
     render(
       <>
         <ZapStakeAction />
