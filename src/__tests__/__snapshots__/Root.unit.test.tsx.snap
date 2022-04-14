@@ -256,10 +256,10 @@ exports[`<Root/> should render component 1`] = `
                           href="/#/dashboard"
                         >
                           <div
-                            class="MuiBox-root-389 MuiBox-root-680 link-container"
+                            class="MuiBox-root-389 MuiBox-root-422 link-container"
                           >
                             <div
-                              class="MuiBox-root-389 MuiBox-root-681 makeStyles-title-420 title"
+                              class="MuiBox-root-389 MuiBox-root-423 makeStyles-title-420 title"
                             >
                               <svg
                                 aria-hidden="true"
@@ -298,10 +298,10 @@ exports[`<Root/> should render component 1`] = `
                                 href="/#/bonds"
                               >
                                 <div
-                                  class="MuiBox-root-389 MuiBox-root-682 link-container"
+                                  class="MuiBox-root-389 MuiBox-root-431 link-container"
                                 >
                                   <div
-                                    class="MuiBox-root-389 MuiBox-root-683 makeStyles-title-420 title"
+                                    class="MuiBox-root-389 MuiBox-root-432 makeStyles-title-420 title"
                                   >
                                     <svg
                                       aria-hidden="true"
@@ -372,10 +372,10 @@ exports[`<Root/> should render component 1`] = `
                           href="/#/stake"
                         >
                           <div
-                            class="MuiBox-root-389 MuiBox-root-684 link-container"
+                            class="MuiBox-root-389 MuiBox-root-440 link-container"
                           >
                             <div
-                              class="MuiBox-root-389 MuiBox-root-685 makeStyles-title-420 title"
+                              class="MuiBox-root-389 MuiBox-root-441 makeStyles-title-420 title"
                             >
                               <svg
                                 aria-hidden="true"
@@ -401,10 +401,10 @@ exports[`<Root/> should render component 1`] = `
                           href="/#/zap"
                         >
                           <div
-                            class="MuiBox-root-389 MuiBox-root-686 link-container"
+                            class="MuiBox-root-389 MuiBox-root-443 link-container"
                           >
                             <div
-                              class="MuiBox-root-389 MuiBox-root-687 makeStyles-title-420 title"
+                              class="MuiBox-root-389 MuiBox-root-444 makeStyles-title-420 title"
                             >
                               <svg
                                 aria-hidden="true"
@@ -430,10 +430,10 @@ exports[`<Root/> should render component 1`] = `
                           href="/#/give"
                         >
                           <div
-                            class="MuiBox-root-389 MuiBox-root-688 link-container"
+                            class="MuiBox-root-389 MuiBox-root-446 link-container"
                           >
                             <div
-                              class="MuiBox-root-389 MuiBox-root-689 makeStyles-title-420 title"
+                              class="MuiBox-root-389 MuiBox-root-447 makeStyles-title-420 title"
                             >
                               <svg
                                 aria-hidden="true"
@@ -459,10 +459,10 @@ exports[`<Root/> should render component 1`] = `
                           href="/#/wrap"
                         >
                           <div
-                            class="MuiBox-root-389 MuiBox-root-690 link-container"
+                            class="MuiBox-root-389 MuiBox-root-449 link-container"
                           >
                             <div
-                              class="MuiBox-root-389 MuiBox-root-691 makeStyles-title-420 title"
+                              class="MuiBox-root-389 MuiBox-root-450 makeStyles-title-420 title"
                             >
                               <svg
                                 aria-hidden="true"
@@ -489,10 +489,10 @@ exports[`<Root/> should render component 1`] = `
                           target="_blank"
                         >
                           <div
-                            class="MuiBox-root-389 MuiBox-root-692 link-container"
+                            class="MuiBox-root-389 MuiBox-root-452 link-container"
                           >
                             <div
-                              class="MuiBox-root-389 MuiBox-root-693 makeStyles-title-420 title"
+                              class="MuiBox-root-389 MuiBox-root-453 makeStyles-title-420 title"
                             >
                               <svg
                                 aria-hidden="true"
@@ -536,10 +536,10 @@ exports[`<Root/> should render component 1`] = `
                           target="_blank"
                         >
                           <div
-                            class="MuiBox-root-389 MuiBox-root-694 link-container"
+                            class="MuiBox-root-389 MuiBox-root-463 link-container"
                           >
                             <div
-                              class="MuiBox-root-389 MuiBox-root-695 makeStyles-title-420 title"
+                              class="MuiBox-root-389 MuiBox-root-464 makeStyles-title-420 title"
                             >
                               <svg
                                 aria-hidden="true"
@@ -583,10 +583,10 @@ exports[`<Root/> should render component 1`] = `
                           target="_blank"
                         >
                           <div
-                            class="MuiBox-root-389 MuiBox-root-696 link-container"
+                            class="MuiBox-root-389 MuiBox-root-467 link-container"
                           >
                             <div
-                              class="MuiBox-root-389 MuiBox-root-697 makeStyles-title-420 title"
+                              class="MuiBox-root-389 MuiBox-root-468 makeStyles-title-420 title"
                             >
                               <svg
                                 aria-hidden="true"
@@ -623,10 +623,10 @@ exports[`<Root/> should render component 1`] = `
                           target="_blank"
                         >
                           <div
-                            class="MuiBox-root-389 MuiBox-root-698 link-container"
+                            class="MuiBox-root-389 MuiBox-root-470 link-container"
                           >
                             <div
-                              class="MuiBox-root-389 MuiBox-root-699 makeStyles-title-420 title"
+                              class="MuiBox-root-389 MuiBox-root-471 makeStyles-title-420 title"
                             >
                               <svg
                                 aria-hidden="true"
@@ -663,10 +663,10 @@ exports[`<Root/> should render component 1`] = `
                           target="_blank"
                         >
                           <div
-                            class="MuiBox-root-389 MuiBox-root-700 link-container"
+                            class="MuiBox-root-389 MuiBox-root-473 link-container"
                           >
                             <div
-                              class="MuiBox-root-389 MuiBox-root-701 makeStyles-title-420 title"
+                              class="MuiBox-root-389 MuiBox-root-474 makeStyles-title-420 title"
                             >
                               <svg
                                 aria-hidden="true"
@@ -703,10 +703,10 @@ exports[`<Root/> should render component 1`] = `
                           target="_blank"
                         >
                           <div
-                            class="MuiBox-root-389 MuiBox-root-702 link-container"
+                            class="MuiBox-root-389 MuiBox-root-476 link-container"
                           >
                             <div
-                              class="MuiBox-root-389 MuiBox-root-703 makeStyles-title-420 title"
+                              class="MuiBox-root-389 MuiBox-root-477 makeStyles-title-420 title"
                             >
                               <svg
                                 aria-hidden="true"
@@ -743,10 +743,10 @@ exports[`<Root/> should render component 1`] = `
                           target="_blank"
                         >
                           <div
-                            class="MuiBox-root-389 MuiBox-root-704 link-container"
+                            class="MuiBox-root-389 MuiBox-root-479 link-container"
                           >
                             <div
-                              class="MuiBox-root-389 MuiBox-root-705 makeStyles-title-420 title"
+                              class="MuiBox-root-389 MuiBox-root-480 makeStyles-title-420 title"
                             >
                               <svg
                                 aria-hidden="true"
