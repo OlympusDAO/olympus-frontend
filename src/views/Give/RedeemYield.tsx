@@ -40,7 +40,7 @@ export default function RedeemYield() {
     if (_useRedeemableBalance.isLoading || _useRedeemableBalance.data === undefined) return new DecimalBigNumber("0");
 
     return GetCorrectContractUnits(_useRedeemableBalance.data, "sOHM", currentIndex);
-  }, [_useRedeemableBalance]);
+  }, [_useRedeemableBalance, currentIndex]);
 
   const _useRecipientInfo = useRecipientInfo(address);
   const isRecipientInfoLoading = _useRecipientInfo.isLoading;
