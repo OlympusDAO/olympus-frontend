@@ -40,13 +40,6 @@ export function usePathForNetwork({
           history.push("/wrap");
           break;
         }
-      case "33-t":
-        if (VIEWS_FOR_NETWORK[networkID] && VIEWS_FOR_NETWORK[networkID].threeTogether) {
-          break;
-        } else {
-          history.push("/wrap");
-          break;
-        }
       case "zap":
         if (VIEWS_FOR_NETWORK[networkID] && VIEWS_FOR_NETWORK[networkID].zap) {
           break;
