@@ -24,7 +24,7 @@ export const GohmToggle = ({ giveAssetType, changeAssetType }: GohmToggleProps) 
         <Typography variant="body1" color="textSecondary">
           gOHM deposits
         </Typography>
-        <InfoTooltip message="Switching from sOHM to gOHM may incur a tax within your country." />
+        <InfoTooltip message="Select which token you would like to donate." />
       </Grid>
     </Grid>
   );

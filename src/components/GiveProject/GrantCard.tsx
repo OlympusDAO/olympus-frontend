@@ -32,6 +32,7 @@ import {
 } from "src/views/Give/Interfaces";
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
+import { getDonationById } from "src/views/Give/utils/getDonationById";
 
 import { error } from "../../slices/MessagesSlice";
 import { Grant, RecordType } from "./project.type";
@@ -56,7 +57,7 @@ const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function GrantCard({ grant, giveAssetType, changeAssetType, mode }: GrantDetailsProps) {
-  const { address, connected, connect, networkId } = useWeb3Context();
+  const { address, connected, connect, networkId, provider } = useWeb3Context();
   const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(NO_DONATION);
@@ -115,6 +116,13 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     setIsUserDonating(false);
     setDonationId(NO_DONATION);
   }, [networkId]);
+
+  useEffect(() => {
+    if (!userDonation) {
+      setIsUserDonating(false);
+      setDonationId(NO_DONATION);
+    }
+  }, [networkId, donationInfo]);
 
   useEffect(() => {
     for (let i = 0; i < donationInfo.length; i++) {
@@ -381,9 +389,11 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     eventSource,
     depositAmount,
   ) => {
+    const donation = await getDonationById(depositId, networkId, provider);
+
     await decreaseMutation.mutate({
       id: depositId,
-      amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
+      amount: donation.gohmAmount,
       recipient: walletAddress,
       token: giveAssetType,
     });

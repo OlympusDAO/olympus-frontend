@@ -87,9 +87,9 @@ export const useDonationInfo = () => {
       const yieldSentPromises: Promise<BigNumber>[] = [];
 
       for (let i = 0; i < allDeposits[0].length; i++) {
-        // Should not actually be necessary with the mainnet contract which should clear
-        // out donations with zero values, but leaving it just to be safe
-        if (allDeposits[1][i].eq("0")) continue;
+        // Given the conversions back and forth with sOHM and gOHM, this is a dust value
+        // that we can use to filter out deposits that are not worth showing (0.000000015 gOHM)
+        if (allDeposits[1][i].lte("15000000000")) continue;
 
         selectedDepositIds.push(depositIds[i]);
         selectedDeposits.push(i);

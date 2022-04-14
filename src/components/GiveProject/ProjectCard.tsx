@@ -30,6 +30,7 @@ import {
 } from "src/views/Give/Interfaces";
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
+import { getDonationById } from "src/views/Give/utils/getDonationById";
 
 import { error } from "../../slices/MessagesSlice";
 import { Project } from "./project.type";
@@ -70,7 +71,7 @@ const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function ProjectCard({ project, giveAssetType, changeAssetType, mode }: ProjectDetailsProps) {
-  const { address, connected, connect, networkId } = useWeb3Context();
+  const { address, connected, connect, networkId, provider } = useWeb3Context();
   const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(NO_DONATION);
@@ -141,6 +142,13 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     setIsUserDonating(false);
     setDonationId(NO_DONATION);
   }, [networkId]);
+
+  useEffect(() => {
+    if (!userDonation) {
+      setIsUserDonating(false);
+      setDonationId(NO_DONATION);
+    }
+  }, [networkId, donationInfo]);
 
   // Determine if the current user is donating to the project whose page they are
   // currently viewing and if so tracks the index of the recipient in the user's
@@ -460,14 +468,14 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     eventSource,
     depositAmount,
   ) => {
+    const donation = await getDonationById(depositId, networkId, provider);
+
     await decreaseMutation.mutate({
       id: depositId,
-      amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
+      amount: donation.gohmAmount,
       recipient: walletAddress,
       token: giveAssetType,
     });
-
-    setIsManageModalOpen(false);
   };
 
   const handleManageModalCancel = () => {

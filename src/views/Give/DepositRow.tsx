@@ -8,10 +8,12 @@ import { SecondaryButton } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useWeb3Context } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
 import { SubmitEditCallback, WithdrawSubmitCallback } from "src/views/Give/Interfaces";
+import { getDonationById } from "src/views/Give/utils/getDonationById";
 
 import { Project } from "../../components/GiveProject/project.type";
 import { error } from "../../slices/MessagesSlice";
@@ -39,6 +41,7 @@ const DECIMAL_PLACES = 2;
 
 export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType }: DepositRowProps) => {
   const dispatch = useDispatch();
+  const { networkId, provider } = useWeb3Context();
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
@@ -115,10 +118,11 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     eventSource,
     depositAmount,
   ) => {
-    console.log(depositId);
+    const donation = await getDonationById(depositId, networkId, provider);
+
     await decreaseMutation.mutate({
       id: depositId,
-      amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
+      amount: donation.gohmAmount,
       recipient: walletAddress,
       token: giveAssetType,
     });

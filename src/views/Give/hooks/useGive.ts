@@ -68,12 +68,12 @@ export const useGive = () => {
         console.error(error.message);
         dispatch(createErrorToast(error.message));
       },
-      onSuccess: async () => {
+      onSuccess: async (data, GiveData) => {
         const keysToRefetch = [
           balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
           balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
           donationInfoQueryKey(address, networks.MAINNET),
-          recipientInfoQueryKey(address, networks.MAINNET),
+          recipientInfoQueryKey(GiveData.recipient, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
