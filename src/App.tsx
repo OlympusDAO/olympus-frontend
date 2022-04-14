@@ -26,12 +26,10 @@ import { trackGAEvent } from "./helpers/analytics";
 import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
 import { useAppSelector, useWeb3Context } from "./hooks";
-import useBonds from "./hooks/useBonds";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import useTheme from "./hooks/useTheme";
-import { calculateUserBondDetails, getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
+import { getMigrationAllowances } from "./slices/AccountSlice";
 import { loadAppDetails } from "./slices/AppSlice";
-import { calcBondDetails } from "./slices/BondSlice";
 import { error, info } from "./slices/MessagesSlice";
 import { dark as darkTheme } from "./themes/dark.js";
 import { girth as gTheme } from "./themes/girth.js";
@@ -103,7 +101,6 @@ function App() {
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalClose = () => {
-    dispatch(loadAccountDetails({ networkID: networkId, address, provider }));
     setMigrationModalOpen(false);
   };
 
@@ -114,9 +111,6 @@ function App() {
 
   const { grants } = grantData;
   const { projects } = projectData;
-
-  // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-  const { bonds, expiredBonds } = useBonds(networkId);
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -140,15 +134,6 @@ function App() {
   const loadApp = useCallback(
     loadProvider => {
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
-      if (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) {
-        bonds.map(bond => {
-          // NOTE (appleseed): getBondability & getLOLability control which bonds are active in the view for Bonds V1
-          // ... getClaimability is the analogue for claiming bonds
-          if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
-            dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
-          }
-        });
-      }
     },
     [networkId, address],
   );
@@ -158,19 +143,7 @@ function App() {
       if (!providerInitialized) {
         return;
       }
-      dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
       dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
-      bonds.map(bond => {
-        // NOTE: get any Claimable bonds, they may not be bondable
-        if (bond.getClaimability(networkId)) {
-          dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
-        }
-      });
-      expiredBonds.map(bond => {
-        if (bond.getClaimability(networkId)) {
-          dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
-        }
-      });
     },
     [networkId, address, providerInitialized],
   );
@@ -290,17 +263,6 @@ function App() {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
-  const accountBonds = useAppSelector(state => {
-    const withInterestDue = [];
-    for (const bond in state.account.bonds) {
-      if (state.account.bonds[bond].interestDue > 0) {
-        withInterestDue.push(state.account.bonds[bond]);
-      }
-    }
-    return withInterestDue;
-  });
-  const hasActiveV1Bonds = accountBonds.length > 0;
-
   return (
     <ThemeProvider theme={themeMode}>
       <MultifarmProvider
@@ -326,10 +288,9 @@ function App() {
           </nav>
 
           <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-            {oldAssetsDetected &&
-              !hasActiveV1Bonds &&
-              trimmedPath.indexOf("dashboard") === -1 &&
-              oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+            {oldAssetsDetected && trimmedPath.indexOf("dashboard") === -1 && oldAssetsEnoughToMigrate && (
+              <CallToAction setMigrationModalOpen={setMigrationModalOpen} />
+            )}
 
             <Switch>
               <Route exact path="/">
@@ -341,20 +302,12 @@ function App() {
                 {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
                   <Stake />
                 ) : (
-                  <V1Stake
-                    hasActiveV1Bonds={hasActiveV1Bonds}
-                    oldAssetsDetected={oldAssetsDetected}
-                    setMigrationModalOpen={setMigrationModalOpen}
-                  />
+                  <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
                 )}
               </Route>
 
               <Route path="/v1-stake">
-                <V1Stake
-                  hasActiveV1Bonds={hasActiveV1Bonds}
-                  oldAssetsDetected={oldAssetsDetected}
-                  setMigrationModalOpen={setMigrationModalOpen}
-                />
+                <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
               </Route>
 
               <Route exact path="/give">
@@ -409,12 +362,6 @@ function App() {
                   <Zap />
                 </Route>
               </Route>
-
-              {/* <Route path="/33-together">
-              <PoolTogether />
-            </Route> */}
-
-              <Redirect from="/bonds-v1" to="/bonds" />
 
               <Route path="/bonds">
                 <Bond />
