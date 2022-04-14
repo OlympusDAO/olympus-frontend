@@ -1,3 +1,4 @@
+import { fireEvent } from "@testing-library/dom";
 import * as Contract from "src/constants/contracts";
 import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -11,8 +12,8 @@ import {
   inverseTerms,
   marketPrice,
   markets,
-  mockLiveMarkets,
-  mockNoInverseLiveMarkets,
+  mockInverseLiveMarkets,
+  mockNoLiveMarkets,
   terms,
 } from "../__mocks__/mockLiveMarkets";
 import { Bond } from "../Bond";
@@ -27,12 +28,13 @@ beforeEach(() => {
   Token.OHM_LUSD_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
 });
 
-describe("Bonds", () => {
+describe("Inverse Bonds", () => {
   beforeEach(() => {
     const bondDepository = jest.spyOn(Contract.BOND_DEPOSITORY_CONTRACT, "getEthersContract");
     const inverseBondDepository = jest.spyOn(Contract.OP_BOND_DEPOSITORY_CONTRACT, "getEthersContract");
+
     bondDepository.mockReturnValue({
-      liveMarkets: jest.fn().mockResolvedValue(mockLiveMarkets),
+      liveMarkets: jest.fn().mockResolvedValue(mockNoLiveMarkets),
       terms: jest.fn().mockImplementation(id => {
         return Promise.resolve(terms[id]);
       }),
@@ -43,8 +45,9 @@ describe("Bonds", () => {
         return Promise.resolve(marketPrice[id]);
       }),
     });
+
     inverseBondDepository.mockReturnValue({
-      liveMarkets: jest.fn().mockResolvedValue(mockNoInverseLiveMarkets),
+      liveMarkets: jest.fn().mockResolvedValue(mockInverseLiveMarkets),
       terms: jest.fn().mockImplementation(id => {
         return Promise.resolve(inverseTerms[id]);
       }),
@@ -58,22 +61,12 @@ describe("Bonds", () => {
     render(<Bond />);
   });
 
-  it("should render component with OHM-LUSD LP", async () => {
-    expect(await screen.findByText("OHM-LUSD LP")).toBeInTheDocument();
+  it("should display OHM DAI Inverse Bond", async () => {
+    fireEvent.click(await screen.findByText("Inverse Bond"));
+    expect(await screen.findByText("DAI")).toBeInTheDocument();
   });
 
-  it("should render component with OHM-DAI LP", async () => {
-    expect(await screen.findByText("OHM-DAI LP")).toBeInTheDocument();
-  });
-
-  it("should render component with OHM-WETH LP", async () => {
-    expect(await screen.findByText("OHM-WETH LP")).toBeInTheDocument();
-  });
-
-  it("Should display the correct LP value", async () => {
-    expect(await screen.findByText("$17.21")).toBeInTheDocument();
-  });
-  it("Should display the correct % Discount value", async () => {
-    expect(await screen.findByText("13.96%")).toBeInTheDocument();
+  it("Should Display No Active Bonds Message", async () => {
+    expect(await screen.findByText("No active bonds")).toBeInTheDocument();
   });
 });
