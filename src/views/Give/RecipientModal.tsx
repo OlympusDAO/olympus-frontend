@@ -65,7 +65,10 @@ export function RecipientModal({
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
-  const themedArrow = theme.palette.type === "dark" ? "#F8CC82" : theme.palette.text.secondary;
+  const themedArrow =
+    theme.palette.type === "dark" && theme.colors.primary[300]
+      ? theme.colors.primary[300]
+      : theme.palette.text.secondary;
 
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toString());
@@ -394,14 +397,14 @@ export function RecipientModal({
                     />
                   </Grid>
                   <Grid item xs={1}>
-                    <ArrowGraphic />
+                    <ArrowGraphic fill={themedArrow} />
                   </Grid>
                   <Grid item xs={3}>
                     {/* This is deliberately a specific value */}
                     <CompactVault quantity={getDepositAmount().toString(EXACT_FORMAT)} isQuantityExact={true} />
                   </Grid>
                   <Grid item xs={1}>
-                    <ArrowGraphic />
+                    <ArrowGraphic fill={themedArrow} />
                   </Grid>
                   <Grid item xs={3}>
                     {/* This is deliberately a specific value */}

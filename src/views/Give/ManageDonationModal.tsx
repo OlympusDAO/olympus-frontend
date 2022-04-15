@@ -7,6 +7,7 @@ import { ChevronLeft } from "@material-ui/icons";
 import { DataRow, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
+import { ArrowGraphic } from "src/components/EducationCard";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project, RecordType } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
@@ -16,7 +17,6 @@ import { useSohmBalance } from "src/hooks/useBalance";
 import { useRecipientInfo } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
 
-import { ArrowGraphic } from "../../components/EducationCard";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
 
 export type WithdrawSubmitCallback = {
@@ -98,7 +98,10 @@ export function ManageDonationModal({
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
-  const themedArrow = theme.palette.type === "dark" ? "#F8CC82" : theme.palette.text.secondary;
+  const themedArrow =
+    theme.palette.type === "dark" && theme.colors.primary[300]
+      ? theme.colors.primary[300]
+      : theme.palette.text.secondary;
 
   const _useSohmBalance =
     useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];

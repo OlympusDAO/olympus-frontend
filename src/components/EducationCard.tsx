@@ -18,7 +18,7 @@ type CompactGraphicProps = {
 };
 
 type ArrowGraphicProps = {
-  fill?: string;
+  fill: string;
   marginTop?: string;
 };
 
@@ -86,7 +86,7 @@ export function CompactYield({ quantity, isQuantityExact }: EducationGraphicProp
   );
 }
 
-export function ArrowGraphic({ fill = "#999999", marginTop = "25px" }: ArrowGraphicProps) {
+export function ArrowGraphic({ fill, marginTop = "25px" }: ArrowGraphicProps) {
   return (
     <Grid container style={{ marginTop: marginTop }}>
       <Grid item xs={12} style={{ textAlign: "center" }}>
