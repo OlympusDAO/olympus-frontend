@@ -1,6 +1,6 @@
 import { LPToken } from "src/helpers/contracts/LPToken";
 import { Token } from "src/helpers/contracts/Token";
-import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+// import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { NetworkId } from "src/networkDetails";
 import { IERC20__factory, PairContract__factory } from "src/typechain";
 
@@ -32,11 +32,12 @@ export const OHM_TOKEN = new Token({
  * the token has been initialised to prevent
  * circular references during initialisation.
  */
-OHM_TOKEN.customPricingFunc = async () => {
-  const contract = OHM_DAI_LP_TOKEN.getEthersContract(NetworkId.MAINNET);
-  const [ohm, dai] = await contract.getReserves();
-  return new DecimalBigNumber(dai.div(ohm), 9);
-};
+// OHM_TOKEN.customPricingFunc = async () => {
+//   const contract = OHM_DAI_LP_TOKEN.getEthersContract(NetworkId.MAINNET);
+//   console.log("get Reservs xyz");
+//   const [ohm, dai] = await contract.getReserves();
+//   return new DecimalBigNumber(dai.div(ohm), 9);
+// };
 
 export const WETH_TOKEN = new Token({
   icons: ["wETH"],
