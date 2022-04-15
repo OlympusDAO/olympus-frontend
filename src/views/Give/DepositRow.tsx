@@ -7,19 +7,19 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { SecondaryButton } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Project } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useWeb3Context } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { ChangeAssetType } from "src/slices/interfaces";
+import { error } from "src/slices/MessagesSlice";
+import { GIVE_MAX_DECIMAL_FORMAT } from "src/views/Give/constants";
 import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
+import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { SubmitEditCallback, WithdrawSubmitCallback } from "src/views/Give/Interfaces";
+import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { getDonationById } from "src/views/Give/utils/getDonationById";
 
-import { Project } from "../../components/GiveProject/project.type";
-import { error } from "../../slices/MessagesSlice";
-import { GIVE_MAX_DECIMAL_FORMAT } from "./constants";
-import { useDecreaseGive, useIncreaseGive } from "./hooks/useEditGive";
-import { ManageDonationModal } from "./ManageDonationModal";
 import data from "./projects.json";
 
 interface IUserDonationInfo {
@@ -112,16 +112,12 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     }
   };
 
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
-    depositId,
-    walletAddress,
-    eventSource,
-    depositAmount,
-  ) => {
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (depositId, walletAddress) => {
     const donation = await getDonationById(depositId, networkId, provider);
 
     await decreaseMutation.mutate({
       id: depositId,
+      // We use the exact amount of gOHM here so that no gOHM remains in the contract
       amount: donation.gohmAmount,
       recipient: walletAddress,
       token: giveAssetType,

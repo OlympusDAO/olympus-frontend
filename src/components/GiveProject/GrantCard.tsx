@@ -12,6 +12,7 @@ import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
 import ReactGA from "react-ga";
 import { ProgressBar, Step } from "react-step-progress-bar";
+import { Grant, RecordType } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useAppDispatch } from "src/hooks";
@@ -19,6 +20,7 @@ import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useDonationInfo, useDonorNumbers } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
+import { error } from "src/slices/MessagesSlice";
 import { GIVE_MAX_DECIMAL_FORMAT } from "src/views/Give/constants";
 import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
@@ -33,9 +35,6 @@ import {
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 import { getDonationById } from "src/views/Give/utils/getDonationById";
-
-import { error } from "../../slices/MessagesSlice";
-import { Grant, RecordType } from "./project.type";
 
 export enum GrantDetailsMode {
   Card = "Card",
@@ -101,13 +100,13 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     if (!userDonation) return new DecimalBigNumber("0");
 
     return GetCorrectContractUnits(userDonation.deposit, giveAssetType, currentIndex);
-  }, [userDonation]);
+  }, [currentIndex, giveAssetType, userDonation]);
 
   const userYieldDonated: DecimalBigNumber = useMemo(() => {
     if (!userDonation) return new DecimalBigNumber("0");
 
     return GetCorrectContractUnits(userDonation.yieldDonated, giveAssetType, currentIndex);
-  }, [userDonation]);
+  }, [currentIndex, giveAssetType, userDonation]);
 
   // Determine if the current user is donating to the project whose page they are
   // currently viewing and if so tracks the index of the recipient in the user's
@@ -122,7 +121,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       setIsUserDonating(false);
       setDonationId(NO_DONATION);
     }
-  }, [networkId, donationInfo]);
+  }, [networkId, donationInfo, userDonation]);
 
   useEffect(() => {
     for (let i = 0; i < donationInfo.length; i++) {
@@ -383,16 +382,12 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
 
   // We set the decimals amount to 9 to try to limit any precision issues with
   // sOHM and gOHM conversions on the contract side
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
-    walletAddress,
-    depositId,
-    eventSource,
-    depositAmount,
-  ) => {
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, depositId) => {
     const donation = await getDonationById(depositId, networkId, provider);
 
     await decreaseMutation.mutate({
       id: depositId,
+      // We use the exact amount of gOHM here so that no gOHM remains in the contract
       amount: donation.gohmAmount,
       recipient: walletAddress,
       token: giveAssetType,

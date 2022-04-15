@@ -10,6 +10,7 @@ import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
 import Countdown from "react-countdown";
 import ReactGA from "react-ga";
+import { Project } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useAppDispatch } from "src/hooks";
@@ -17,6 +18,7 @@ import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalYieldDonated } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
+import { error } from "src/slices/MessagesSlice";
 import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "src/views/Give/constants";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
@@ -31,9 +33,6 @@ import {
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 import { getDonationById } from "src/views/Give/utils/getDonationById";
-
-import { error } from "../../slices/MessagesSlice";
-import { Project } from "./project.type";
 
 type CountdownProps = {
   total: number;
@@ -94,7 +93,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     if (_useRecipientInfo.isLoading || _useRecipientInfo.data === undefined) return new DecimalBigNumber("0");
 
     return GetCorrectContractUnits(_useRecipientInfo.data.gohmDebt, giveAssetType, currentIndex);
-  }, [_useRecipientInfo]);
+  }, [_useRecipientInfo.data, _useRecipientInfo.isLoading, currentIndex, giveAssetType]);
   const recipientInfoIsLoading = _useRecipientInfo.isLoading;
   const donorCount = useDonorNumbers(wallet).data;
 
@@ -103,7 +102,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     if (_useTotalYieldDonated.isLoading || _useTotalYieldDonated.data === undefined) return new DecimalBigNumber("0");
 
     return GetCorrectContractUnits(_useTotalYieldDonated.data, giveAssetType, currentIndex);
-  }, [_useTotalYieldDonated]);
+  }, [_useTotalYieldDonated.data, _useTotalYieldDonated.isLoading, currentIndex, giveAssetType]);
   const totalDonatedIsLoading = useTotalYieldDonated(wallet).isLoading;
 
   // Contract interactions: new donation, increase donation, decrease donation
@@ -130,13 +129,13 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     if (!userDonation) return new DecimalBigNumber("0");
 
     return GetCorrectContractUnits(userDonation.deposit, giveAssetType, currentIndex);
-  }, [userDonation]);
+  }, [currentIndex, giveAssetType, userDonation]);
 
   const userYieldDonated: DecimalBigNumber = useMemo(() => {
     if (!userDonation) return new DecimalBigNumber("0");
 
     return GetCorrectContractUnits(userDonation.yieldDonated, giveAssetType, currentIndex);
-  }, [userDonation]);
+  }, [currentIndex, giveAssetType, userDonation]);
 
   useEffect(() => {
     setIsUserDonating(false);
@@ -148,7 +147,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
       setIsUserDonating(false);
       setDonationId(NO_DONATION);
     }
-  }, [networkId, donationInfo]);
+  }, [networkId, donationInfo, userDonation]);
 
   // Determine if the current user is donating to the project whose page they are
   // currently viewing and if so tracks the index of the recipient in the user's
@@ -462,16 +461,12 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     }
   };
 
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
-    depositId,
-    walletAddress,
-    eventSource,
-    depositAmount,
-  ) => {
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (depositId, walletAddress) => {
     const donation = await getDonationById(depositId, networkId, provider);
 
     await decreaseMutation.mutate({
       id: depositId,
+      // We use the exact amount of gOHM here so that no gOHM remains in the contract
       amount: donation.gohmAmount,
       recipient: walletAddress,
       token: giveAssetType,
