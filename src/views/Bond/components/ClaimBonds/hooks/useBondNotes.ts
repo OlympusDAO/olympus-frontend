@@ -44,7 +44,7 @@ export const fetchBondNotes = async (networkId: NetworkId.MAINNET | NetworkId.TE
 
   const ids = await contract.indexesFor(address).then(ids => ids.map(id => id.toString()));
 
-  return Promise.all(
+  const promises = await Promise.allSettled(
     ids.map(async id => {
       const note = await contract.notes(address, id);
 
@@ -61,4 +61,8 @@ export const fetchBondNotes = async (networkId: NetworkId.MAINNET | NetworkId.TE
       };
     }),
   );
+
+  return promises
+    .filter(({ status }) => status === "fulfilled")
+    .map(promise => (promise as PromiseFulfilledResult<BondNote>).value);
 };
