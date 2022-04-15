@@ -390,7 +390,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       // We use the exact amount of gOHM here so that no gOHM remains in the contract
       amount: donation.gohmAmount,
       recipient: walletAddress,
-      token: giveAssetType,
+      token: "gOHM",
     });
   };
 

@@ -120,7 +120,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
       // We use the exact amount of gOHM here so that no gOHM remains in the contract
       amount: donation.gohmAmount,
       recipient: walletAddress,
-      token: giveAssetType,
+      token: "gOHM",
     });
   };
 
