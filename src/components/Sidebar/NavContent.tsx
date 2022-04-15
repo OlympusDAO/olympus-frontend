@@ -126,7 +126,7 @@ const NavContent: React.VFC = () => {
 const Bonds: React.VFC = () => {
   const bonds = useLiveBonds().data;
 
-  if (!bonds) return null;
+  if (!bonds || bonds.length === 0) return null;
 
   return (
     <Box ml="26px" mt="16px" mb="12px">
