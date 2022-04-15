@@ -37,7 +37,7 @@ import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import ExternalStakePools from "../Stake/components/ExternalStakePools/ExternalStakePools";
 import RebaseTimer from "../Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 
-function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds }) {
+function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { provider, address, networkId } = useWeb3Context();
@@ -167,11 +167,6 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
     history.push("/stake");
   };
 
-  const goToBonds = () => {
-    // v1 bonds for v1 stake
-    history.push("/bonds-v1");
-  };
-
   const formattedTrimmedStakingAPY = new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY));
   const formattedStakingTVL = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -239,9 +234,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                       <Typography variant="body1" className="stake-note" color="textSecondary">
                         {view === 0 ? (
                           <>
-                            {hasActiveV1Bonds
-                              ? t`Once your current bonds have been claimed, you can migrate your assets to stake more OHM`
-                              : !oldAssetsDetected
+                            {!oldAssetsDetected
                               ? t`All your assets are migrated`
                               : t`You must complete the migration of your assets to stake additional OHM`}
                           </>
@@ -295,26 +288,13 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                         <Skeleton width="150px" />
                       )}
 
-                      {!hasActiveV1Bonds && oldAssetsDetected ? (
+                      {oldAssetsDetected ? (
                         <TabPanel value={view} index={0}>
                           {isAllowanceDataLoading ? (
                             <Skeleton />
                           ) : (
                             <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={t`Migrate`} />
                           )}
-                        </TabPanel>
-                      ) : hasActiveV1Bonds ? (
-                        <TabPanel value={view} index={0}>
-                          <Button
-                            className="migrate-button"
-                            variant="contained"
-                            color="primary"
-                            onClick={() => {
-                              goToBonds();
-                            }}
-                          >
-                            <Trans>Go to Bonds</Trans>
-                          </Button>
                         </TabPanel>
                       ) : (
                         <TabPanel value={view} index={0}>

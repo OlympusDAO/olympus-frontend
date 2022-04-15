@@ -20,15 +20,15 @@ const Wrap: React.FC = () => {
     <div id="stake-view">
       <Zoom in>
         <Paper headerText={t`Wrap / Unwrap`} topRight={<GOHMExternalLink />}>
-          <Grid>
-            <MetricCollection>
-              <SOHMPrice />
-
-              <CurrentIndex />
-
-              <GOHMPrice />
-            </MetricCollection>
-          </Grid>
+          <Box mb="28px">
+            <Grid>
+              <MetricCollection>
+                <SOHMPrice />
+                <CurrentIndex />
+                <GOHMPrice />
+              </MetricCollection>
+            </Grid>
+          </Box>
 
           <WalletConnectedGuard message="Connect your wallet to wrap/unwrap your staked tokens">
             {isMigrating ? <MigrateInputArea /> : <WrapInputArea />}

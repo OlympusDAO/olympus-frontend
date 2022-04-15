@@ -185,7 +185,6 @@ const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({}: IBase
   try {
     // only get marketPrice from eth mainnet
     marketPrice = await getMarketPrice();
-    // v1MarketPrice = await getV1MarketPrice();
   } catch (e) {
     marketPrice = await getTokenPrice("olympus");
   }

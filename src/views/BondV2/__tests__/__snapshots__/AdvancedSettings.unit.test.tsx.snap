@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<AdvancedSettings/> should render component 1`] = `
-<div
-  aria-hidden="true"
-/>
-`;
