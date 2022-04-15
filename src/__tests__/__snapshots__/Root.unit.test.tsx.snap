@@ -1543,7 +1543,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -1556,7 +1556,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -1740,7 +1740,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -1753,7 +1753,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -1911,7 +1911,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -1924,7 +1924,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -2146,7 +2146,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -2159,7 +2159,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -2381,7 +2381,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -2394,7 +2394,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -2588,7 +2588,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -2601,7 +2601,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -3167,7 +3167,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -3180,7 +3180,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -3385,7 +3385,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -3398,7 +3398,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root-591 MuiSkeleton-text-592 MuiSkeleton-pulse-595"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>

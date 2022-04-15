@@ -1479,7 +1479,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -1492,7 +1492,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -1676,7 +1676,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -1689,7 +1689,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -1847,7 +1847,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -1860,7 +1860,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -2082,7 +2082,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -2095,7 +2095,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -2317,7 +2317,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -2330,7 +2330,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -2524,7 +2524,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -2537,7 +2537,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -3103,7 +3103,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -3116,7 +3116,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -3321,7 +3321,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -3334,7 +3334,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -4870,7 +4870,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -4883,7 +4883,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -5067,7 +5067,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -5080,7 +5080,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -5238,7 +5238,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -5251,7 +5251,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -5473,7 +5473,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -5486,7 +5486,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -5708,7 +5708,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -5721,7 +5721,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -5915,7 +5915,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -5928,7 +5928,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -6494,7 +6494,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -6507,7 +6507,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -6712,7 +6712,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -6725,7 +6725,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -8261,7 +8261,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -8274,7 +8274,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -8458,7 +8458,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -8471,7 +8471,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -8629,7 +8629,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -8642,7 +8642,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -8864,7 +8864,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -8877,7 +8877,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -9099,7 +9099,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -9112,7 +9112,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -9306,7 +9306,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -9319,7 +9319,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -9885,7 +9885,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -9898,7 +9898,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -10103,7 +10103,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
@@ -10116,7 +10116,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 80px;"
+                        style="width: 100%;"
                       />
                     </p>
                   </td>
