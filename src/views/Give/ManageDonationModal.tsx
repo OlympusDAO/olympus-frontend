@@ -559,7 +559,7 @@ export function ManageDonationModal({
       <Box>
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={12} sm={4}>
-            <Typography variant="body1" className="modal-confirmation-title">
+            <Typography variant="body1" className="grey-text">
               <Trans>Current sOHM deposit</Trans>
             </Typography>
             {/* Referring to the current deposit, so we need to be specific */}
@@ -578,7 +578,7 @@ export function ManageDonationModal({
                 alignment accordingly. */}
             <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
               <Grid item xs={12}>
-                <Typography variant="body1" className="modal-confirmation-title">
+                <Typography variant="body1" className="grey-text">
                   <Trans>New sOHM deposit</Trans>
                 </Typography>
                 {/* Referring to the new deposit, so we need to be specific */}

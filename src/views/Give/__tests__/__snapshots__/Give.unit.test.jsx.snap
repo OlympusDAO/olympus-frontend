@@ -2402,7 +2402,7 @@ exports[`Give View Disconnected should render Grants Dashboard 1`] = `
 exports[`Give View Disconnected should render Yield Recipients Screen with Donate to a cause button 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-49"
+    class="MuiBox-root MuiBox-root-49 grey-box"
   >
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-justify-content-xs-center"

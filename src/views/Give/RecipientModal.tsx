@@ -451,7 +451,7 @@ export function RecipientModal({
             <Grid container spacing={2} alignItems="center">
               <Grid item container xs={12} sm={4} alignItems="center">
                 <Grid xs={12}>
-                  <Typography variant="body1" className="modal-confirmation-title">
+                  <Typography variant="body1" className="grey-text">
                     <Trans>sOHM Deposit</Trans>
                     <InfoTooltip
                       message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
@@ -479,7 +479,7 @@ export function RecipientModal({
                       alignment accordingly. */}
                 <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
                   <Grid item xs={12}>
-                    <Typography variant="body1" className="modal-confirmation-title">
+                    <Typography variant="body1" className="grey-text">
                       <Trans>Recipient Address</Trans>
                       <InfoTooltip
                         message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}

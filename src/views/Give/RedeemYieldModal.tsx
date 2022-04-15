@@ -66,7 +66,7 @@ export function RedeemYieldModal({
           <Box>
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={12} sm={4}>
-                <Typography variant="body1" className="modal-confirmation-title">
+                <Typography variant="body1" className="grey-text">
                   <Trans>Redeemable Yield</Trans>
                 </Typography>
                 <Typography variant="h6">{t`${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`}</Typography>
@@ -84,7 +84,7 @@ export function RedeemYieldModal({
                     alignment accordingly. */}
                 <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
                   <Grid item xs={12}>
-                    <Typography variant="body1" className="modal-confirmation-title">
+                    <Typography variant="body1" className="grey-text">
                       <Trans>My Wallet Address</Trans>
                     </Typography>
                     <Typography variant="h6">{shorten(address)}</Typography>
