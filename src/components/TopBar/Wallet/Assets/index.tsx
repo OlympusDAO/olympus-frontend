@@ -6,9 +6,8 @@ import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { formatCurrency, formatNumber, trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { prettifySeconds } from "src/helpers/timeUtil";
+import { prettifySeconds, prettifySecondsInDays } from "src/helpers/timeUtil";
 import { nonNullable } from "src/helpers/types/nonNullable";
-import { useAppSelector } from "src/hooks";
 import {
   useFuseBalance,
   useGohmBalance,
@@ -24,7 +23,7 @@ import { useOhmPrice } from "src/hooks/usePrices";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
-import { IUserNote } from "src/slices/BondSliceV2";
+import { useBondNotes } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
 
 import { GetTokenPrice } from "../queries";
@@ -112,7 +111,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     .filter(nonNullable)
     .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
 
-  const accountNotes: IUserNote[] = useAppSelector(state => state.bondingV2.notes);
+  const notes = useBondNotes().data;
   const formattedohmBalance = ohmBalance.toString({ decimals: 4, trim: false, format: true });
   const formattedV1OhmBalance = v1OhmBalance.toString({ decimals: 4, trim: false, format: true });
   const formattedV1SohmBalance = v1SohmBalance.toString({ decimals: 4, trim: false, format: true });
@@ -181,19 +180,21 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     },
   ];
 
-  const bondsArray = accountNotes.map((note, index) => ({
-    key: index,
-    symbol: note.bondIconSvg,
-    balance: trim(note.payout, 4),
-    label: "(Bond)",
-    timeRemaining: note.timeLeft,
-    assetValue: note.payout * gOhmPrice,
-    underlyingSymbol: "gOHM",
-    pnl: Number(note.payout) === 0 ? 0 : formatCurrency(note.payout * gOhmPriceChange, 2),
-    ctaText: "Claim",
-    ctaOnClick: () => history.push("/bonds"),
-    geckoTicker: "governance-ohm",
-  }));
+  const bondsArray =
+    notes?.map(note => ({
+      key: note.id,
+      symbol: note.bond.quoteToken.icons,
+      balance: note.payout.toString({ decimals: 4, trim: false }),
+      label: "(Bond)",
+      timeRemaining:
+        Date.now() > note.matured ? "Fully Vested" : prettifySecondsInDays((note.matured - Date.now()) / 1000),
+      assetValue: note.payout.toApproxNumber() * gOhmPrice,
+      underlyingSymbol: "gOHM",
+      pnl: Number(note.payout) === 0 ? 0 : formatCurrency(note.payout.toApproxNumber() * gOhmPriceChange, 2),
+      ctaText: "Claim",
+      ctaOnClick: () => history.push("/bonds"),
+      geckoTicker: "governance-ohm",
+    })) || [];
 
   const classes = useStyles();
 

@@ -6,7 +6,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root makeStyles-root-71 makeStyles-root-72  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-68 makeStyles-root-69  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -16,10 +16,10 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
           class="MuiGrid-root card-header MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-73"
+            class="MuiBox-root MuiBox-root-70"
           >
             <div
-              class="MuiBox-root MuiBox-root-74"
+              class="MuiBox-root MuiBox-root-71"
             >
               <h5
                 class="MuiTypography-root header-text MuiTypography-h5"
@@ -62,131 +62,135 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="MuiGrid-root"
+            class="MuiBox-root MuiBox-root-73"
           >
             <div
-              class="MuiBox-root MuiBox-root-76"
+              class="MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
+                class="MuiBox-root MuiBox-root-74"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
                 >
                   <div
-                    class="makeStyles-root-77 "
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-78"
+                      class="makeStyles-root-75 "
                     >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      <div
+                        class="MuiBox-root MuiBox-root-76"
                       >
-                        sOHM Price
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        >
+                          sOHM Price
+                        </h5>
+                        <h4
+                          class="MuiTypography-root MuiTypography-h4"
                           style="width: 100%;"
-                        />
-                      </h4>
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h4>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-                >
                   <div
-                    class="makeStyles-root-77 "
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-79"
+                      class="makeStyles-root-75 "
                     >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      <div
+                        class="MuiBox-root MuiBox-root-77"
                       >
-                        Current Index
-                        <div
-                          class="MuiBox-root MuiBox-root-80"
-                          style="font-size: 16px;"
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
                         >
+                          Current Index
+                          <div
+                            class="MuiBox-root MuiBox-root-78"
+                            style="font-size: 16px;"
+                          >
+                            <div
+                              class="MuiBox-root MuiBox-root-79"
+                              style="display: inline-flex; justify-content: center; align-self: center;"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                focusable="false"
+                                style="margin: 0px 5px; font-size: 1em;"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </h5>
+                        <h4
+                          class="MuiTypography-root MuiTypography-h4"
+                          style="width: 100%;"
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                  >
+                    <div
+                      class="makeStyles-root-75 "
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-80"
+                      >
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        >
+                          gOHM Price
                           <div
                             class="MuiBox-root MuiBox-root-81"
-                            style="display: inline-flex; justify-content: center; align-self: center;"
+                            style="font-size: 16px;"
                           >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
-                              focusable="false"
-                              style="margin: 0px 5px; font-size: 1em;"
-                              viewBox="0 0 20 20"
+                            <div
+                              class="MuiBox-root MuiBox-root-82"
+                              style="display: inline-flex; justify-content: center; align-self: center;"
                             >
-                              <path
-                                d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
-                              />
-                            </svg>
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                focusable="false"
+                                style="margin: 0px 5px; font-size: 1em;"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                                />
+                              </svg>
+                            </div>
                           </div>
-                        </div>
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        </h5>
+                        <h4
+                          class="MuiTypography-root MuiTypography-h4"
                           style="width: 100%;"
-                        />
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-                >
-                  <div
-                    class="makeStyles-root-77 "
-                  >
-                    <div
-                      class="MuiBox-root MuiBox-root-82"
-                    >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
-                      >
-                        gOHM Price
-                        <div
-                          class="MuiBox-root MuiBox-root-83"
-                          style="font-size: 16px;"
                         >
-                          <div
-                            class="MuiBox-root MuiBox-root-84"
-                            style="display: inline-flex; justify-content: center; align-self: center;"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
-                              focusable="false"
-                              style="margin: 0px 5px; font-size: 1em;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                          style="width: 100%;"
-                        />
-                      </h4>
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h4>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -194,10 +198,10 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-85"
+            class="MuiBox-root MuiBox-root-83"
           >
             <div
-              class="MuiBox-root MuiBox-root-86"
+              class="MuiBox-root MuiBox-root-84"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1"
@@ -287,10 +291,10 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-87"
+              class="MuiBox-root MuiBox-root-85"
             >
               <div
-                class="MuiGrid-root makeStyles-inputRow-88 MuiGrid-container"
+                class="MuiBox-root MuiBox-root-86"
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
@@ -300,10 +304,10 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
             </div>
           </div>
           <div
-            class="makeStyles-root-92 data-row"
+            class="makeStyles-root-87 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-94"
+              class="MuiBox-root MuiBox-root-89"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -322,10 +326,10 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
             </p>
           </div>
           <div
-            class="makeStyles-root-92 data-row"
+            class="makeStyles-root-87 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-95"
+              class="MuiBox-root MuiBox-root-90"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -347,7 +351,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
             class="MuiDivider-root"
           />
           <div
-            class="MuiBox-root MuiBox-root-96"
+            class="MuiBox-root MuiBox-root-91"
           >
             <p
               class="MuiTypography-root MuiTypography-body1"
@@ -471,131 +475,135 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="MuiGrid-root"
+            class="MuiBox-root MuiBox-root-6"
           >
             <div
-              class="MuiBox-root MuiBox-root-6"
+              class="MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
+                class="MuiBox-root MuiBox-root-7"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
                 >
                   <div
-                    class="makeStyles-root-7 "
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-8"
+                      class="makeStyles-root-8 "
                     >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      <div
+                        class="MuiBox-root MuiBox-root-9"
                       >
-                        sOHM Price
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        >
+                          sOHM Price
+                        </h5>
+                        <h4
+                          class="MuiTypography-root MuiTypography-h4"
                           style="width: 100%;"
-                        />
-                      </h4>
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h4>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-                >
                   <div
-                    class="makeStyles-root-7 "
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-9"
+                      class="makeStyles-root-8 "
                     >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      <div
+                        class="MuiBox-root MuiBox-root-10"
                       >
-                        Current Index
-                        <div
-                          class="MuiBox-root MuiBox-root-10"
-                          style="font-size: 16px;"
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
                         >
+                          Current Index
                           <div
                             class="MuiBox-root MuiBox-root-11"
-                            style="display: inline-flex; justify-content: center; align-self: center;"
+                            style="font-size: 16px;"
                           >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
-                              focusable="false"
-                              style="margin: 0px 5px; font-size: 1em;"
-                              viewBox="0 0 20 20"
+                            <div
+                              class="MuiBox-root MuiBox-root-12"
+                              style="display: inline-flex; justify-content: center; align-self: center;"
                             >
-                              <path
-                                d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
-                              />
-                            </svg>
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                focusable="false"
+                                style="margin: 0px 5px; font-size: 1em;"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                                />
+                              </svg>
+                            </div>
                           </div>
-                        </div>
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        </h5>
+                        <h4
+                          class="MuiTypography-root MuiTypography-h4"
                           style="width: 100%;"
-                        />
-                      </h4>
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h4>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-                >
                   <div
-                    class="makeStyles-root-7 "
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-12"
+                      class="makeStyles-root-8 "
                     >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      <div
+                        class="MuiBox-root MuiBox-root-13"
                       >
-                        gOHM Price
-                        <div
-                          class="MuiBox-root MuiBox-root-13"
-                          style="font-size: 16px;"
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
                         >
+                          gOHM Price
                           <div
                             class="MuiBox-root MuiBox-root-14"
-                            style="display: inline-flex; justify-content: center; align-self: center;"
+                            style="font-size: 16px;"
                           >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
-                              focusable="false"
-                              style="margin: 0px 5px; font-size: 1em;"
-                              viewBox="0 0 20 20"
+                            <div
+                              class="MuiBox-root MuiBox-root-15"
+                              style="display: inline-flex; justify-content: center; align-self: center;"
                             >
-                              <path
-                                d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
-                              />
-                            </svg>
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                focusable="false"
+                                style="margin: 0px 5px; font-size: 1em;"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                                />
+                              </svg>
+                            </div>
                           </div>
-                        </div>
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        </h5>
+                        <h4
+                          class="MuiTypography-root MuiTypography-h4"
                           style="width: 100%;"
-                        />
-                      </h4>
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h4>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -603,13 +611,13 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-15"
+            class="MuiBox-root MuiBox-root-16"
           >
             <div
-              class="MuiBox-root MuiBox-root-16"
+              class="MuiBox-root MuiBox-root-17"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-17 makeStyles-root-18 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-18 makeStyles-root-19 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
                 style="font-size: 1.2857rem;"
                 tabindex="0"
                 type="button"
@@ -620,12 +628,12 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                   Connect Wallet
                 </span>
               </button>
-              <h6
-                class="MuiTypography-root MuiTypography-h6"
-              >
-                Connect your wallet to wrap/unwrap your staked tokens
-              </h6>
             </div>
+            <h6
+              class="MuiTypography-root MuiTypography-h6"
+            >
+              Connect your wallet to wrap/unwrap your staked tokens
+            </h6>
           </div>
         </div>
       </div>
@@ -640,7 +648,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root makeStyles-root-45 makeStyles-root-46  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-44 makeStyles-root-45  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -650,10 +658,10 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
           class="MuiGrid-root card-header MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-47"
+            class="MuiBox-root MuiBox-root-46"
           >
             <div
-              class="MuiBox-root MuiBox-root-48"
+              class="MuiBox-root MuiBox-root-47"
             >
               <h5
                 class="MuiTypography-root header-text MuiTypography-h5"
@@ -696,131 +704,135 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="MuiGrid-root"
+            class="MuiBox-root MuiBox-root-49"
           >
             <div
-              class="MuiBox-root MuiBox-root-50"
+              class="MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
+                class="MuiBox-root MuiBox-root-50"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
                 >
                   <div
-                    class="makeStyles-root-51 "
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-52"
+                      class="makeStyles-root-51 "
                     >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      <div
+                        class="MuiBox-root MuiBox-root-52"
                       >
-                        sOHM Price
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        >
+                          sOHM Price
+                        </h5>
+                        <h4
+                          class="MuiTypography-root MuiTypography-h4"
                           style="width: 100%;"
-                        />
-                      </h4>
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h4>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-                >
                   <div
-                    class="makeStyles-root-51 "
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-53"
+                      class="makeStyles-root-51 "
                     >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      <div
+                        class="MuiBox-root MuiBox-root-53"
                       >
-                        Current Index
-                        <div
-                          class="MuiBox-root MuiBox-root-54"
-                          style="font-size: 16px;"
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
                         >
+                          Current Index
                           <div
-                            class="MuiBox-root MuiBox-root-55"
-                            style="display: inline-flex; justify-content: center; align-self: center;"
+                            class="MuiBox-root MuiBox-root-54"
+                            style="font-size: 16px;"
                           >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
-                              focusable="false"
-                              style="margin: 0px 5px; font-size: 1em;"
-                              viewBox="0 0 20 20"
+                            <div
+                              class="MuiBox-root MuiBox-root-55"
+                              style="display: inline-flex; justify-content: center; align-self: center;"
                             >
-                              <path
-                                d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
-                              />
-                            </svg>
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                focusable="false"
+                                style="margin: 0px 5px; font-size: 1em;"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                                />
+                              </svg>
+                            </div>
                           </div>
-                        </div>
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        </h5>
+                        <h4
+                          class="MuiTypography-root MuiTypography-h4"
                           style="width: 100%;"
-                        />
-                      </h4>
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h4>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-                >
                   <div
-                    class="makeStyles-root-51 "
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-56"
+                      class="makeStyles-root-51 "
                     >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      <div
+                        class="MuiBox-root MuiBox-root-56"
                       >
-                        gOHM Price
-                        <div
-                          class="MuiBox-root MuiBox-root-57"
-                          style="font-size: 16px;"
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
                         >
+                          gOHM Price
                           <div
-                            class="MuiBox-root MuiBox-root-58"
-                            style="display: inline-flex; justify-content: center; align-self: center;"
+                            class="MuiBox-root MuiBox-root-57"
+                            style="font-size: 16px;"
                           >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
-                              focusable="false"
-                              style="margin: 0px 5px; font-size: 1em;"
-                              viewBox="0 0 20 20"
+                            <div
+                              class="MuiBox-root MuiBox-root-58"
+                              style="display: inline-flex; justify-content: center; align-self: center;"
                             >
-                              <path
-                                d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
-                              />
-                            </svg>
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                focusable="false"
+                                style="margin: 0px 5px; font-size: 1em;"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                                />
+                              </svg>
+                            </div>
                           </div>
-                        </div>
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        </h5>
+                        <h4
+                          class="MuiTypography-root MuiTypography-h4"
                           style="width: 100%;"
-                        />
-                      </h4>
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h4>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -922,7 +934,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
               class="MuiBox-root MuiBox-root-61"
             >
               <div
-                class="MuiGrid-root makeStyles-inputRow-62 MuiGrid-container"
+                class="MuiBox-root MuiBox-root-62"
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
@@ -932,10 +944,10 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
             </div>
           </div>
           <div
-            class="makeStyles-root-66 data-row"
+            class="makeStyles-root-63 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-68"
+              class="MuiBox-root MuiBox-root-65"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -954,10 +966,10 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
             </p>
           </div>
           <div
-            class="makeStyles-root-66 data-row"
+            class="makeStyles-root-63 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-69"
+              class="MuiBox-root MuiBox-root-66"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -979,7 +991,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
             class="MuiDivider-root"
           />
           <div
-            class="MuiBox-root MuiBox-root-70"
+            class="MuiBox-root MuiBox-root-67"
           >
             <h6
               class="MuiTypography-root MuiTypography-h6"
@@ -1023,7 +1035,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root makeStyles-root-19 makeStyles-root-20  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-20 makeStyles-root-21  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -1033,10 +1045,10 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
           class="MuiGrid-root card-header MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-21"
+            class="MuiBox-root MuiBox-root-22"
           >
             <div
-              class="MuiBox-root MuiBox-root-22"
+              class="MuiBox-root MuiBox-root-23"
             >
               <h5
                 class="MuiTypography-root header-text MuiTypography-h5"
@@ -1079,131 +1091,135 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="MuiGrid-root"
+            class="MuiBox-root MuiBox-root-25"
           >
             <div
-              class="MuiBox-root MuiBox-root-24"
+              class="MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
+                class="MuiBox-root MuiBox-root-26"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
                 >
                   <div
-                    class="makeStyles-root-25 "
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-26"
+                      class="makeStyles-root-27 "
                     >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      <div
+                        class="MuiBox-root MuiBox-root-28"
                       >
-                        sOHM Price
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        >
+                          sOHM Price
+                        </h5>
+                        <h4
+                          class="MuiTypography-root MuiTypography-h4"
                           style="width: 100%;"
-                        />
-                      </h4>
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h4>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-                >
                   <div
-                    class="makeStyles-root-25 "
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-27"
+                      class="makeStyles-root-27 "
                     >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      <div
+                        class="MuiBox-root MuiBox-root-29"
                       >
-                        Current Index
-                        <div
-                          class="MuiBox-root MuiBox-root-28"
-                          style="font-size: 16px;"
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
                         >
+                          Current Index
                           <div
-                            class="MuiBox-root MuiBox-root-29"
-                            style="display: inline-flex; justify-content: center; align-self: center;"
+                            class="MuiBox-root MuiBox-root-30"
+                            style="font-size: 16px;"
                           >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
-                              focusable="false"
-                              style="margin: 0px 5px; font-size: 1em;"
-                              viewBox="0 0 20 20"
+                            <div
+                              class="MuiBox-root MuiBox-root-31"
+                              style="display: inline-flex; justify-content: center; align-self: center;"
                             >
-                              <path
-                                d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
-                              />
-                            </svg>
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                focusable="false"
+                                style="margin: 0px 5px; font-size: 1em;"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                                />
+                              </svg>
+                            </div>
                           </div>
-                        </div>
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        </h5>
+                        <h4
+                          class="MuiTypography-root MuiTypography-h4"
                           style="width: 100%;"
-                        />
-                      </h4>
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h4>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
-                >
                   <div
-                    class="makeStyles-root-25 "
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-30"
+                      class="makeStyles-root-27 "
                     >
-                      <h5
-                        class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                      <div
+                        class="MuiBox-root MuiBox-root-32"
                       >
-                        gOHM Price
-                        <div
-                          class="MuiBox-root MuiBox-root-31"
-                          style="font-size: 16px;"
+                        <h5
+                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
                         >
+                          gOHM Price
                           <div
-                            class="MuiBox-root MuiBox-root-32"
-                            style="display: inline-flex; justify-content: center; align-self: center;"
+                            class="MuiBox-root MuiBox-root-33"
+                            style="font-size: 16px;"
                           >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
-                              focusable="false"
-                              style="margin: 0px 5px; font-size: 1em;"
-                              viewBox="0 0 20 20"
+                            <div
+                              class="MuiBox-root MuiBox-root-34"
+                              style="display: inline-flex; justify-content: center; align-self: center;"
                             >
-                              <path
-                                d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
-                              />
-                            </svg>
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                focusable="false"
+                                style="margin: 0px 5px; font-size: 1em;"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                                />
+                              </svg>
+                            </div>
                           </div>
-                        </div>
-                      </h5>
-                      <h4
-                        class="MuiTypography-root MuiTypography-h4"
-                        style="width: 100%;"
-                      >
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                        </h5>
+                        <h4
+                          class="MuiTypography-root MuiTypography-h4"
                           style="width: 100%;"
-                        />
-                      </h4>
+                        >
+                          <span
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            style="width: 100%;"
+                          />
+                        </h4>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1211,10 +1227,10 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-33"
+            class="MuiBox-root MuiBox-root-35"
           >
             <div
-              class="MuiBox-root MuiBox-root-34"
+              class="MuiBox-root MuiBox-root-36"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1"
@@ -1302,10 +1318,10 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-35"
+              class="MuiBox-root MuiBox-root-37"
             >
               <div
-                class="MuiGrid-root makeStyles-inputRow-36 MuiGrid-container"
+                class="MuiBox-root MuiBox-root-38"
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
@@ -1315,10 +1331,10 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
             </div>
           </div>
           <div
-            class="makeStyles-root-40 data-row"
+            class="makeStyles-root-39 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-42"
+              class="MuiBox-root MuiBox-root-41"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -1337,10 +1353,10 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
             </p>
           </div>
           <div
-            class="makeStyles-root-40 data-row"
+            class="makeStyles-root-39 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-43"
+              class="MuiBox-root MuiBox-root-42"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -1362,7 +1378,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
             class="MuiDivider-root"
           />
           <div
-            class="MuiBox-root MuiBox-root-44"
+            class="MuiBox-root MuiBox-root-43"
           >
             <h6
               class="MuiTypography-root MuiTypography-h6"

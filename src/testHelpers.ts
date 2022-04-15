@@ -6,6 +6,7 @@ import Web3Modal from "web3modal";
 import { NetworkId } from "./constants";
 import { DecimalBigNumber } from "./helpers/DecimalBigNumber/DecimalBigNumber";
 import { IUserRecipientInfo } from "./hooks/useGiveInfo";
+import { ZapHelperBalancesResponse } from "./hooks/useZapTokenBalances";
 import { IUserDonationInfo } from "./views/Give/Interfaces";
 
 jest.mock("web3modal");
@@ -39,6 +40,43 @@ export const createMatchMedia = (width: string) => {
       undefined;
     },
   });
+};
+
+// TODO abstract out return object
+export const mockZapTokenBalances = (
+  data: ZapHelperBalancesResponse,
+): UseQueryResult<ZapHelperBalancesResponse, Error> => {
+  return {
+    data: data,
+    error: null,
+    isError: false,
+    isSuccess: true,
+    isLoading: false,
+    isLoadingError: false,
+    isIdle: false,
+    isRefetchError: false,
+    failureCount: 0,
+    isFetched: true,
+    isFetchedAfterMount: true,
+    isFetching: false,
+    isPlaceholderData: false,
+    isPreviousData: false,
+    isRefetching: false,
+    isStale: false,
+    status: "success",
+    dataUpdatedAt: 0,
+    errorUpdatedAt: 0,
+    refetch: () => {
+      return new Promise(() => {
+        return true;
+      });
+    },
+    remove: () => {
+      return new Promise(() => {
+        return true;
+      });
+    },
+  };
 };
 
 export const mockRecipientInfo = (data: IUserRecipientInfo): UseQueryResult<IUserRecipientInfo, Error> => {
@@ -75,7 +113,75 @@ export const mockRecipientInfo = (data: IUserRecipientInfo): UseQueryResult<IUse
   };
 };
 
+export const mockOhmPrice = (data: number): UseQueryResult<number, Error> => {
+  return {
+    data: data,
+    error: null,
+    isError: false,
+    isSuccess: true,
+    isLoading: false,
+    isLoadingError: false,
+    isIdle: false,
+    isRefetchError: false,
+    failureCount: 0,
+    isFetched: true,
+    isFetchedAfterMount: true,
+    isFetching: false,
+    isPlaceholderData: false,
+    isPreviousData: false,
+    isRefetching: false,
+    isStale: false,
+    status: "success",
+    dataUpdatedAt: 0,
+    errorUpdatedAt: 0,
+    refetch: () => {
+      return new Promise(() => {
+        return true;
+      });
+    },
+    remove: () => {
+      return new Promise(() => {
+        return true;
+      });
+    },
+  };
+};
+
 export const mockRedeemableBalance = (data: string): UseQueryResult<string, Error> => {
+  return {
+    data: data,
+    error: null,
+    isError: false,
+    isSuccess: true,
+    isLoading: false,
+    isLoadingError: false,
+    isIdle: false,
+    isRefetchError: false,
+    failureCount: 0,
+    isFetched: true,
+    isFetchedAfterMount: true,
+    isFetching: false,
+    isPlaceholderData: false,
+    isPreviousData: false,
+    isRefetching: false,
+    isStale: false,
+    status: "success",
+    dataUpdatedAt: 0,
+    errorUpdatedAt: 0,
+    refetch: () => {
+      return new Promise(() => {
+        return true;
+      });
+    },
+    remove: () => {
+      return new Promise(() => {
+        return true;
+      });
+    },
+  };
+};
+
+export const mockGohmPrice = (data: number): UseQueryResult<number, Error> => {
   return {
     data: data,
     error: null,
