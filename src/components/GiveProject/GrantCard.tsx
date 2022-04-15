@@ -117,13 +117,13 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   }, [networkId]);
 
   useEffect(() => {
+    if (isDonationInfoLoading || !donationInfo) return;
+
     if (!userDonation) {
       setIsUserDonating(false);
       setDonationId(NO_DONATION);
     }
-  }, [networkId, donationInfo, userDonation]);
 
-  useEffect(() => {
     for (let i = 0; i < donationInfo.length; i++) {
       if (donationInfo[i].recipient.toLowerCase() === wallet.toLowerCase()) {
         setIsUserDonating(true);
@@ -131,7 +131,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
         break;
       }
     }
-  }, [donationInfo, networkId, wallet]);
+  }, [isDonationInfoLoading, donationInfo, userDonation, networkId, wallet]);
 
   // Reset donation states when user switches network
   useEffect(() => {

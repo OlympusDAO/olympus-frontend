@@ -142,18 +142,16 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     setDonationId(NO_DONATION);
   }, [networkId]);
 
-  useEffect(() => {
-    if (!userDonation) {
-      setIsUserDonating(false);
-      setDonationId(NO_DONATION);
-    }
-  }, [networkId, donationInfo, userDonation]);
-
   // Determine if the current user is donating to the project whose page they are
   // currently viewing and if so tracks the index of the recipient in the user's
   // donationInfo array
   useEffect(() => {
     if (isDonationInfoLoading || !donationInfo) return;
+
+    if (!userDonation) {
+      setIsUserDonating(false);
+      setDonationId(NO_DONATION);
+    }
 
     for (let i = 0; i < donationInfo.length; i++) {
       if (donationInfo[i].recipient.toLowerCase() === wallet.toLowerCase()) {
@@ -162,7 +160,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
         break;
       }
     }
-  }, [isDonationInfoLoading, donationInfo, networkId, wallet]);
+  }, [isDonationInfoLoading, donationInfo, userDonation, networkId, wallet]);
 
   useEffect(() => {
     if (isGiveModalOpen) setIsGiveModalOpen(false);
