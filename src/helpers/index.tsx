@@ -1,15 +1,12 @@
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { formatUnits } from "@ethersproject/units";
-import { SvgIcon } from "@material-ui/core";
 import axios from "axios";
 import { ethers } from "ethers";
 
 import { abi as PairContractABI } from "../abi/PairContract.json";
-import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
-import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
-import { EPOCH_INTERVAL, NetworkId } from "../constants";
+import { NetworkId } from "../constants";
 import { PairContract } from "../typechain";
-import { ohm_dai, ohm_daiOld, ohm_weth } from "./AllBonds";
+import { ohm_dai } from "./AllBonds";
 import { Environment } from "./environment/Environment/Environment";
 import { Providers } from "./providers/Providers/Providers";
 
@@ -24,29 +21,6 @@ export async function getMarketPrice() {
   const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
   const reserves = await pairContract.getReserves();
 
-  return Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
-}
-
-export async function getMarketPriceFromWeth() {
-  const mainnetProvider = Providers.getStaticProvider(NetworkId.MAINNET);
-  // v2 price
-  const ohm_weth_address = ohm_weth.getAddressForReserve(NetworkId.MAINNET);
-  const wethBondContract = ohm_weth.getContractForBond(NetworkId.MAINNET, mainnetProvider);
-  const pairContract = new ethers.Contract(ohm_weth_address || "", PairContractABI, mainnetProvider) as PairContract;
-  const reserves = await pairContract.getReserves();
-
-  // since we're using OHM/WETH... also need to multiply by weth price;
-  const wethPriceBN: BigNumber = await wethBondContract.assetPrice();
-  const wethPrice = Number(wethPriceBN.toString()) / Math.pow(10, 8);
-  return (Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9) * wethPrice;
-}
-
-export async function getV1MarketPrice() {
-  const mainnetProvider = Providers.getStaticProvider(NetworkId.MAINNET);
-  // v1 price
-  const ohm_dai_address = ohm_daiOld.getAddressForReserve(NetworkId.MAINNET);
-  const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
-  const reserves = await pairContract.getReserves();
   return Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
 }
 
@@ -100,32 +74,9 @@ export async function getTokenByContract(contractAddress: string): Promise<numbe
   }
 }
 
-export async function getTokenIdByContract(contractAddress: string): Promise<string> {
-  try {
-    const resp = (await axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${contractAddress}'`)) as {
-      data: { id: string };
-    };
-    return resp.data.id;
-  } catch (e) {
-    // console.log("coingecko api error: ", e);
-    return "";
-  }
-}
-
-export const getEtherscanUrl = ({ tokenAddress, networkId }: { tokenAddress: string; networkId: NetworkId }) => {
-  if (networkId === NetworkId.TESTNET_RINKEBY) {
-    return `https://rinkeby.etherscan.io/address/${tokenAddress}`;
-  }
-  return `https://etherscan.io/address/${tokenAddress}`;
-};
-
 export function shorten(str: string) {
   if (str.length < 10) return str;
   return `${str.slice(0, 6)}...${str.slice(str.length - 4)}`;
-}
-
-export function shortenString(str: string, length: number) {
-  return str.length > length ? str.substring(0, length) + "..." : str;
 }
 
 export function formatCurrency(c: number, precision = 0, currency = "USD") {
@@ -148,25 +99,6 @@ export function trim(number = 0, precision = 0) {
   array.push(poppedNumber.substring(0, precision));
   const trimmedNumber = array.join(".");
   return trimmedNumber;
-}
-
-export function getRebaseBlock(currentBlock: number) {
-  return currentBlock + EPOCH_INTERVAL - (currentBlock % EPOCH_INTERVAL);
-}
-
-function getSohmTokenImage() {
-  return <SvgIcon component={SOhmImg} viewBox="0 0 100 100" style={{ height: "1rem", width: "1rem" }} />;
-}
-
-export function getOhmTokenImage(w?: number, h?: number) {
-  const height = h == null ? "32px" : `${h}px`;
-  const width = w == null ? "32px" : `${w}px`;
-  return <SvgIcon component={OhmImg} viewBox="0 0 32 32" style={{ height, width }} />;
-}
-
-export function getTokenImage(name: string) {
-  if (name === "ohm") return getOhmTokenImage();
-  if (name === "sohm") return getSohmTokenImage();
 }
 
 // TS-REFACTOR-NOTE - Used for:
@@ -194,14 +126,6 @@ export function shouldTriggerSafetyCheck() {
   }
   return false;
 }
-
-export const toBN = (num: number) => {
-  return BigNumber.from(num);
-};
-
-export const bnToNum = (bigNum: BigNumber) => {
-  return Number(bigNum.toString());
-};
 
 export const handleContractError = (e: any) => {
   if (Environment.env.NODE_ENV !== "production") console.warn("caught error in slices; usually network related", e);
