@@ -34,7 +34,6 @@ import {
 } from "src/views/Give/Interfaces";
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
-import { getDonationById } from "src/views/Give/utils/getDonationById";
 
 export enum GrantDetailsMode {
   Card = "Card",
@@ -382,13 +381,15 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
 
   // We set the decimals amount to 9 to try to limit any precision issues with
   // sOHM and gOHM conversions on the contract side
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, depositId) => {
-    const donation = await getDonationById(depositId, networkId, provider);
-
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
+    walletAddress,
+    depositId,
+    eventSource,
+    depositAmount,
+  ) => {
     await decreaseMutation.mutate({
       id: depositId,
-      // We use the exact amount of gOHM here so that no gOHM remains in the contract
-      amount: donation.gohmAmount,
+      amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
       recipient: walletAddress,
       token: "gOHM",
     });

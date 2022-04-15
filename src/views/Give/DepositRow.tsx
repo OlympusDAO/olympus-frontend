@@ -18,7 +18,6 @@ import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits"
 import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
 import { SubmitEditCallback, WithdrawSubmitCallback } from "src/views/Give/Interfaces";
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
-import { getDonationById } from "src/views/Give/utils/getDonationById";
 
 import data from "./projects.json";
 
@@ -112,13 +111,15 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
     }
   };
 
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (depositId, walletAddress) => {
-    const donation = await getDonationById(depositId, networkId, provider);
-
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
+    walletAddress,
+    depositId,
+    eventSource,
+    depositAmount,
+  ) => {
     await decreaseMutation.mutate({
       id: depositId,
-      // We use the exact amount of gOHM here so that no gOHM remains in the contract
-      amount: donation.gohmAmount,
+      amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
       recipient: walletAddress,
       token: "gOHM",
     });

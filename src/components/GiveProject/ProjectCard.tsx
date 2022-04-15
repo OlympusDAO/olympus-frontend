@@ -32,7 +32,6 @@ import {
 } from "src/views/Give/Interfaces";
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
-import { getDonationById } from "src/views/Give/utils/getDonationById";
 
 type CountdownProps = {
   total: number;
@@ -459,13 +458,15 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     }
   };
 
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (depositId, walletAddress) => {
-    const donation = await getDonationById(depositId, networkId, provider);
-
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
+    walletAddress,
+    depositId,
+    eventSource,
+    depositAmount,
+  ) => {
     await decreaseMutation.mutate({
       id: depositId,
-      // We use the exact amount of gOHM here so that no gOHM remains in the contract
-      amount: donation.gohmAmount,
+      amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
       recipient: walletAddress,
       token: "gOHM",
     });

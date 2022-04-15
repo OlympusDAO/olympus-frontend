@@ -435,7 +435,7 @@ export const useDonorNumbers = (address: string) => {
           // and that we haven't already counted this donor
           if (
             potentialActiveDonors[i][0][j].toLowerCase() === address.toLowerCase() &&
-            potentialActiveDonors[i][1][j].gt(0) &&
+            potentialActiveDonors[i][1][j].gt("15000000000") &&
             !donorAddresses[selectedEvents[i].topics[1]]
           ) {
             // Add the donor to donorAddresses
