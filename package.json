@@ -35,7 +35,7 @@
     "@ethersproject/providers": "^5.0.12",
     "@ledgerhq/iframe-provider": "^0.4.2",
     "@lingui/react": "^3.12.1",
-    "@material-ui/core": "^4.11.4",
+    "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@multifarm/widget": "^0.0.111",
