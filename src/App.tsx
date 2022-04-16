@@ -18,6 +18,7 @@ import MigrationModal from "./components/Migration/MigrationModal";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import NavDrawer from "./components/Sidebar/NavDrawer";
 import Sidebar from "./components/Sidebar/Sidebar";
+import StagingNotification from "./components/StagingNotification";
 import TopBar from "./components/TopBar/TopBar";
 import Wallet from "./components/TopBar/Wallet";
 import { NetworkId } from "./constants";
@@ -91,6 +92,9 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
+  },
+  notification: {
+    marginLeft: "312px",
   },
 }));
 
@@ -300,6 +304,7 @@ function App() {
       >
         <CssBaseline />
         <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+          <StagingNotification />
           <Messages />
           <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
           <nav className={classes.drawer}>
