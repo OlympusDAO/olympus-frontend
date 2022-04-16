@@ -170,6 +170,8 @@ describe("Staging Notification Checks", () => {
 });
 describe("Production Notification Check", () => {
   beforeEach(() => {
+    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
+    data.mockReturnValue(mockWeb3Context);
     Object.defineProperty(window, "location", {
       value: {
         href: "http://app.olympusdao.finance",
@@ -177,5 +179,11 @@ describe("Production Notification Check", () => {
       },
       writable: true,
     });
+  });
+  it("Should not display a notification when hostname not staging.olympusdao.finance", async () => {
+    render(<App />);
+    expect(
+      screen.queryByText("You are on the staging site. Any interaction could result in loss of assets."),
+    ).not.toBeInTheDocument();
   });
 });
