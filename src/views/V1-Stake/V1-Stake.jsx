@@ -27,11 +27,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
-import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import { trim } from "../../helpers";
+import { DecimalBigNumber } from "../../helpers/DecimalBigNumber/DecimalBigNumber";
+import { useGohmBalance, useSohmBalance } from "../../hooks/useBalance";
+import { useTestableNetworks } from "../../hooks/useTestableNetworks";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import ExternalStakePools from "../Stake/components/ExternalStakePools/ExternalStakePools";
@@ -59,9 +61,6 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
   const sohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.sohmV1;
   });
-  const fsohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.fsohm;
-  });
   const wsohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
   });
@@ -85,21 +84,20 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
     return state.pendingTransactions;
   });
 
-  const fiatDaowsohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.fiatDaowsohm;
-  });
+  // const gOhmBalance = useAppSelector(state => {
+  //   return state.account.balances && state.account.balances.gohm;
+  // });
+  // const o = useSelector(state => {
+  //   return state.account.balances && state.account.balances.sohm;
+  // });
 
-  const gOhmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gohm;
-  });
-  const sohmV2Balance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
-  });
+  const networks = useTestableNetworks();
+  const { data: sohmV2Balance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
+  const { data: gOhmBalance = new DecimalBigNumber("0", 18) } = useGohmBalance()[networks.MAINNET];
 
   const calculateWrappedAsSohm = balance => {
     return Number(balance) * Number(currentIndex);
   };
-  const fiatDaoAsSohm = calculateWrappedAsSohm(fiatDaowsohmBalance);
   const gOhmAsSohm = calculateWrappedAsSohm(gOhmBalance);
   const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
@@ -153,7 +151,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, gOhmAsSohm, sohmV2Balance, wsohmAsSohm, fiatDaoAsSohm, fsohmBalance]
+    [sohmBalance, gOhmAsSohm, sohmV2Balance, wsohmAsSohm]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -365,26 +363,10 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                           indented
                           isLoading={isAppLoading}
                         />
-                        {Number(fsohmBalance) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM Balance in Fuse`}`}
-                            balance={`${trim(Number(fsohmBalance), 4)} gOHM`}
-                            indented
-                            isLoading={isAppLoading}
-                          />
-                        )}
                         {Number(wsohmBalance) > 0.0 && (
                           <DataRow
                             title={`${t`wsOHM Balance`} (v1)`}
                             balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
-                            isLoading={isAppLoading}
-                            indented
-                          />
-                        )}
-                        {Number(fiatDaowsohmBalance) > 0.00009 && (
-                          <DataRow
-                            title={`${t`wsOHM Balance in FiatDAO`} (v1)`}
-                            balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
                             isLoading={isAppLoading}
                             indented
                           />

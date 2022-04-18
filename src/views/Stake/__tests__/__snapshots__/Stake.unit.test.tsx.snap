@@ -691,7 +691,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -704,7 +704,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -888,7 +888,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -901,7 +901,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -1059,7 +1059,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -1072,7 +1072,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -1294,7 +1294,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -1307,7 +1307,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -1529,7 +1529,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -1542,7 +1542,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -1736,7 +1736,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -1749,7 +1749,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -2315,7 +2315,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -2328,7 +2328,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -2533,7 +2533,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -2546,7 +2546,7 @@ exports[`<Stake/> should render component 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -3291,7 +3291,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -3304,7 +3304,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -3488,7 +3488,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -3501,7 +3501,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -3659,7 +3659,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -3672,7 +3672,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -3894,7 +3894,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -3907,7 +3907,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -4129,7 +4129,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -4142,7 +4142,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -4336,7 +4336,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -4349,7 +4349,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -4915,7 +4915,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -4928,7 +4928,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -5133,7 +5133,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>
@@ -5146,7 +5146,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 >
                   <span
                     class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 80px;"
+                    style="width: 100%;"
                   />
                 </p>
               </td>

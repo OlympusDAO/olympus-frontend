@@ -87,8 +87,6 @@ export const changeApproval = createAsyncThunk(
           staking: {
             ohmStakeV1: +stakeAllowance,
             ohmUnstakeV1: +unstakeAllowance,
-            ohmStake: +stakeAllowanceV2,
-            ohmUnstake: +unstakeAllowanceV2,
           },
         }),
       );

@@ -1,4 +1,5 @@
 import { fireEvent } from "@testing-library/dom";
+import Router from "react-router";
 import * as Contract from "src/constants/contracts";
 import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -17,6 +18,7 @@ import {
   terms,
 } from "../__mocks__/mockLiveMarkets";
 import { Bond } from "../Bond";
+import { BondModalContainer } from "../components/BondModal/BondModal";
 beforeEach(() => {
   const data = jest.spyOn(useWeb3Context, "useWeb3Context");
   data.mockReturnValue(mockWeb3Context);
@@ -27,6 +29,11 @@ beforeEach(() => {
   Token.OHM_WETH_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
   Token.OHM_LUSD_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
 });
+jest.mock("react-router", () => ({
+  ...jest.requireActual("react-router"),
+  useParams: jest.fn(),
+  useLocation: jest.fn(),
+}));
 
 describe("Inverse Bonds", () => {
   beforeEach(() => {
@@ -68,5 +75,25 @@ describe("Inverse Bonds", () => {
 
   it("Should Display No Active Bonds Message", async () => {
     expect(await screen.findByText("No active bonds")).toBeInTheDocument();
+  });
+});
+
+describe("Bond Modal", () => {
+  beforeEach(() => {
+    const bondDepository = jest.spyOn(Contract.BOND_DEPOSITORY_CONTRACT, "getEthersContract");
+    bondDepository.mockReturnValue({
+      connect: jest.fn().mockReturnValue({
+        deposit: jest.fn().mockResolvedValue({
+          wait: jest.fn().mockReturnValue(true),
+        }),
+      }),
+    });
+  });
+  it("Should display bond modal with Instant Payout Bond (Inverse)", async () => {
+    jest.spyOn(Router, "useParams").mockReturnValue({ id: "8" });
+    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/inverse/8" });
+    render(<BondModalContainer />);
+    expect(await screen.findByText("Instant Payout")).toBeInTheDocument();
+    expect(await screen.findByText("$0.00")).toBeInTheDocument();
   });
 });

@@ -131,12 +131,12 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
       </TableCell>
       <TableCell>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!props.tvl ? <Skeleton width={80} /> : formatCurrency(props.tvl)}
+          {!props.tvl ? <Skeleton width="100%" /> : formatCurrency(props.tvl)}
         </Typography>
       </TableCell>
       <TableCell>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!props.apy ? <Skeleton width={80} /> : `${formatNumber(props.apy * 100, 2)}%`}
+          {!props.apy ? <Skeleton width="100%" /> : `${formatNumber(props.apy * 100, 2)}%`}
         </Typography>
       </TableCell>
       <TableCell>
@@ -144,7 +144,7 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
           {!connected ? (
             ""
           ) : !userBalance ? (
-            <Skeleton width={80} />
+            <Skeleton width="100%" />
           ) : (
             `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`
           )}
