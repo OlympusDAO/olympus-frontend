@@ -43,7 +43,7 @@ const NavContent: React.VFC = () => {
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              {networkId === networks.MAINNET ? (
+              {networkId === networks.MAINNET && (
                 <>
                   <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
 
@@ -57,15 +57,12 @@ const NavContent: React.VFC = () => {
                   <NavItem to="/zap" icon="zap" label={t`Zap`} />
 
                   {Environment.isGiveEnabled() && <NavItem to="/give" icon="give" label={t`Give`} />}
-
-                  <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
-
-                  <NavItem
-                    icon="bridge"
-                    label={t`Bridge`}
-                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
-                  />
-
+                </>
+              )}
+              <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
+              <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />
+              {networkId === networks.MAINNET && (
+                <>
                   <Box className="menu-divider">
                     <Divider />
                   </Box>
@@ -75,16 +72,6 @@ const NavContent: React.VFC = () => {
                   <Box className="menu-divider">
                     <Divider />
                   </Box>
-                </>
-              ) : (
-                <>
-                  <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
-
-                  <NavItem
-                    icon="bridge"
-                    label={t`Bridge`}
-                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
-                  />
                 </>
               )}
 

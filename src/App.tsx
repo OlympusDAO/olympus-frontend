@@ -49,6 +49,7 @@ import { multifarmDarkTheme, multifarmLightTheme } from "./themes/multifarm";
 import { Bond, Give, Stake, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
 import NotFound from "./views/404/NotFound";
 import { BondModalContainer } from "./views/Bond/components/BondModal/BondModal";
+import Bridge from "./views/Bridge";
 import GrantInfo from "./views/Give/GrantInfo";
 import ProjectInfo from "./views/Give/ProjectInfo";
 
@@ -413,6 +414,7 @@ function App() {
               <Route path="/dashboard/proteus">
                 <TreasuryDashboard activeView={4} />
               </Route>
+              <Route path="/bridge" component={Bridge}></Route>
 
               <Route exact path="/calculator">
                 <Wallet open={true} component="calculator" />
