@@ -142,15 +142,15 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     const unaccomplishedStyle = {
       color: `${theme.palette.text.secondary}`,
     };
+    const fillColour =
+      theme.palette.type === "dark" && theme.colors.primary[300]
+        ? theme.colors.primary[300]
+        : theme.palette.text.secondary;
 
     return (
       <>
         <div className={`project-milestone-progress`}>
-          <ProgressBar
-            percent={percentComplete}
-            unfilledBackground="rgb(172, 177, 185)"
-            filledBackground="linear-gradient(269deg, rgba(112, 139, 150, 1) 0%, rgba(247, 251, 231, 1) 100%)"
-          >
+          <ProgressBar percent={percentComplete} unfilledBackground="rgb(172, 177, 185)" filledBackground={fillColour}>
             {
               // We add a dummy step at the start, so that steps are right-aligned
               <Step key={`step-0`}>{({}) => <></>}</Step>
@@ -218,8 +218,9 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
 
     return (
       <>
-        <Grid container spacing={3} alignItems="flex-end">
-          <Grid item xs={5}>
+        {/* We manually specify the padding to keep this section below the progress bar */}
+        <Grid container spacing={3} alignItems="flex-end" style={{ paddingBottom: "20px" }}>
+          <Grid item xs={6}>
             <Grid container direction="column" alignItems="flex-start">
               <Grid item>
                 <Grid container justifyContent="flex-start" alignItems="center" wrap="nowrap" spacing={1}>
@@ -240,19 +241,19 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={7}>
-            <Grid container direction="column" alignItems="flex-end">
-              <Grid item>
+          <Grid item xs={6}>
+            <Grid container alignItems="flex-end">
+              <Grid item xs={12}>
                 <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Icon name="sohm-total" />
+                    <Icon name="sohm-yield-goal" />
                   </Grid>
                   <Grid item className="metric">
                     {totalMilestoneAmount.toString(DEFAULT_FORMAT)}
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item className="subtext">
+              <Grid item xs={12} container justifyContent="flex-end" className="subtext">
                 <Trans>Total Milestone Amount</Trans>
               </Grid>
             </Grid>
@@ -470,26 +471,28 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Grid item xs={12} sm={6} lg={12}>
                       {getProjectImage()}
                     </Grid>
-                    <Grid item container xs>
-                      <Grid item xs={12}>
-                        {renderDepositData()}
-                      </Grid>
-                      <Grid item xs={12} style={{ paddingTop: "45px" }}>
-                        {!connected ? (
-                          <PrimaryButton onClick={connect} fullWidth>
-                            <Trans>Connect Wallet</Trans>
-                          </PrimaryButton>
-                        ) : isUserDonating ? (
-                          <></>
-                        ) : (
-                          <PrimaryButton
-                            onClick={() => handleGiveButtonClick()}
-                            disabled={!isSupportedChain(networkId)}
-                            fullWidth
-                          >
-                            <Trans>Donate Yield</Trans>
-                          </PrimaryButton>
-                        )}
+                    <Grid item xs>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          {renderDepositData()}
+                        </Grid>
+                        <Grid item xs={12}>
+                          {!connected ? (
+                            <PrimaryButton onClick={connect} fullWidth>
+                              <Trans>Connect Wallet</Trans>
+                            </PrimaryButton>
+                          ) : isUserDonating ? (
+                            <></>
+                          ) : (
+                            <PrimaryButton
+                              onClick={() => handleGiveButtonClick()}
+                              disabled={!isSupportedChain(networkId)}
+                              fullWidth
+                            >
+                              <Trans>Donate Yield</Trans>
+                            </PrimaryButton>
+                          )}
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
