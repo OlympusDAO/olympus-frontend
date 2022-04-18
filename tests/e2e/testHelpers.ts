@@ -1,9 +1,9 @@
 import { Dappeteer, launch } from "@chainsafe/dappeteer";
+import * as dappeteer from "@chainsafe/dappeteer";
+import { ChildProcess } from "child_process";
+import { getDocument, queries } from "pptr-testing-library";
 // @ts-ignore
 import puppeteer, { Browser, ElementHandle, Page } from "puppeteer";
-import * as dappeteer from "@chainsafe/dappeteer";
-import { getDocument, queries } from "pptr-testing-library";
-import { ChildProcess } from "child_process";
 import { exec } from "shelljs";
 
 const REACT_APP_SEED_PHRASE = "REACT_APP_SEED_PHRASE";
@@ -86,6 +86,11 @@ export const waitSelectorExists = async (page: Page, selector: string): Promise<
     return false;
   }
 };
+export const waitForContent = async (page: Page, selector: string, content: string): Promise<boolean> => {
+  await page.bringToFront();
+  await page.waitForFunction(`document.querySelector("${selector}").innerText.includes("${content}")`);
+  return true;
+};
 
 export const getSelectorTextContent = async (page: Page, selector: string): Promise<string> => {
   await page.bringToFront();
@@ -99,7 +104,7 @@ export const dapp = {} as {
 };
 
 export async function launchDApp() {
-  const browser = await launch(puppeteer, { metamaskVersion: "v10.1.1" });
+  const browser = await launch(puppeteer, { metamaskVersion: "v10.8.1" });
   const metamask = await setupMetamask(browser, { network: "localhost" });
 
   const page = await browser.newPage();
@@ -107,6 +112,16 @@ export async function launchDApp() {
 
   dapp.browser = browser;
   dapp.metamask = metamask;
+  dapp.page = page;
+}
+
+export async function launchApp() {
+  const browser = await launch(puppeteer, { metamaskVersion: "v10.8.1" });
+  const page = await browser.newPage();
+  await page.goto("http://localhost:3000/#/stake");
+
+  dapp.browser = browser;
+  dapp.metamask = null;
   dapp.page = page;
 }
 
