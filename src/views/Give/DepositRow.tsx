@@ -4,7 +4,7 @@ import { t } from "@lingui/macro";
 import { Grid, Tooltip, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { SecondaryButton } from "@olympusdao/component-library";
+import { TertiaryButton } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -28,6 +28,7 @@ interface DepositRowProps {
 }
 
 const DECIMAL_PLACES = 2;
+const DECIMAL_FORMAT = { decimals: DECIMAL_PLACES, format: true, trim: false };
 
 export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
   const dispatch = useDispatch();
@@ -101,25 +102,20 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
           <Typography variant="body1">{getRecipientTitle(depositObject.recipient)}</Typography>
         </Tooltip>
       </Grid>
+      <Grid item xs={4} sm={2} md={3} style={{ textAlign: "right" }}>
+        <Typography variant="body1">{depositNumber.toString(DECIMAL_FORMAT)} sOHM</Typography>
+      </Grid>
       {!isSmallScreen && (
-        <Grid item xs={2} style={{ textAlign: "right" }}>
-          {/* Exact amount as this is what the user has deposited */}
-          <Typography variant="body1">{depositNumber.toString({ format: true })} sOHM</Typography>
+        <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
+          <Typography variant="body1">
+            {new DecimalBigNumber(depositObject.yieldDonated).toString(DECIMAL_FORMAT)} sOHM
+          </Typography>
         </Grid>
       )}
       <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
-        <Typography variant="body1">
-          {new DecimalBigNumber(depositObject.yieldDonated).toString({
-            decimals: DECIMAL_PLACES,
-            format: true,
-          })}{" "}
-          sOHM
-        </Typography>
-      </Grid>
-      <Grid item xs={4} sm={3} style={{ textAlign: "right" }}>
-        <SecondaryButton onClick={() => setIsManageModalOpen(true)} size="small" fullWidth>
+        <TertiaryButton onClick={() => setIsManageModalOpen(true)} size="small" fullWidth>
           Manage
-        </SecondaryButton>
+        </TertiaryButton>
       </Grid>
       <ManageDonationModal
         isModalOpen={isManageModalOpen}

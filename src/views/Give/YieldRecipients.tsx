@@ -54,28 +54,28 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
         {!isSmallScreen && (
           <Grid item xs={2}>
             <Typography variant="body1" className="grey">
-              <Trans>DATE</Trans>
+              <Trans>Date</Trans>
             </Typography>
           </Grid>
         )}
         <Grid item xs={4} sm={3}>
           <Typography variant="body1" className="grey">
-            <Trans>RECIPIENT</Trans>
+            <Trans>Recipient</Trans>
+          </Typography>
+        </Grid>
+        <Grid item xs={4} sm={2} md={3} style={{ textAlign: "right" }}>
+          <Typography variant="body1" className="grey">
+            <Trans>Deposited</Trans>
           </Typography>
         </Grid>
         {!isSmallScreen && (
-          <Grid item xs={2} style={{ textAlign: "right" }}>
+          <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
             <Typography variant="body1" className="grey">
-              <Trans>DEPOSITED</Trans>
+              <Trans>Yield Sent</Trans>
             </Typography>
           </Grid>
         )}
-        <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
-          <Typography variant="body1" className="grey">
-            <Trans>YIELD SENT</Trans>
-          </Typography>
-        </Grid>
-        <Grid item xs={4} sm={3} />
+        <Grid item xs={4} sm={2} />
       </Grid>
       <Grid item xs={12}>
         <Divider />
