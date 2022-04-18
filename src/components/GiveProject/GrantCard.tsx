@@ -220,41 +220,50 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       <>
         {/* We manually specify the padding to keep this section below the progress bar */}
         <Grid container spacing={3} alignItems="flex-end" style={{ paddingBottom: "20px" }}>
-          <Grid item xs={6}>
-            <Grid container direction="column" alignItems="flex-start">
-              <Grid item>
-                <Grid container justifyContent="flex-start" alignItems="center" wrap="nowrap" spacing={1}>
-                  <Grid item>
-                    <Icon name="donors" />
-                  </Grid>
-                  <Grid item className="metric">
-                    {isDonationInfoLoading || donorCount === undefined ? (
-                      <Skeleton className="skeleton-inline" />
-                    ) : (
-                      new DecimalBigNumber(donorCount.toString()).toString(NO_DECIMALS_FORMAT)
-                    )}
+          <Grid item xs={12} container>
+            <Grid item xs={6}>
+              <Grid container direction="column" alignItems="flex-start">
+                <Grid item>
+                  <Grid container justifyContent="flex-start" alignItems="center" wrap="nowrap" spacing={1}>
+                    <Grid item>
+                      <Icon name="donors" />
+                    </Grid>
+                    <Grid item className="metric">
+                      {isDonationInfoLoading || donorCount === undefined ? (
+                        <Skeleton className="skeleton-inline" />
+                      ) : (
+                        new DecimalBigNumber(donorCount.toString()).toString(NO_DECIMALS_FORMAT)
+                      )}
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item className="subtext">
-                <Trans>Donors</Trans>
+                <Grid item className="subtext">
+                  <Trans>Donors</Trans>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={6}>
-            <Grid container alignItems="flex-end">
-              <Grid item xs={12}>
-                <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
-                  <Grid item>
-                    <Icon name="sohm-yield-goal" />
-                  </Grid>
-                  <Grid item className="metric">
-                    {totalMilestoneAmount.toString(DEFAULT_FORMAT)}
+            <Grid item xs={6}>
+              <Grid container alignItems="flex-end">
+                <Grid item xs={12}>
+                  <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
+                    <Grid item>
+                      <Icon name="sohm-yield-goal" />
+                    </Grid>
+                    <Grid item className="metric">
+                      {totalMilestoneAmount.toString(DEFAULT_FORMAT)}
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item xs={12} container justifyContent="flex-end" className="subtext">
-                <Trans>Total Milestone Amount</Trans>
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    textAlign: "right",
+                  }}
+                  className="subtext"
+                >
+                  <Trans>Total Milestone Amount</Trans>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
