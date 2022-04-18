@@ -7,7 +7,7 @@ import { Box, Container, Grid, Link, Typography, useMediaQuery } from "@material
 import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
+import { Icon, Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
 import ReactGA from "react-ga";
@@ -417,14 +417,14 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
               </Grid>
               <Grid item container xs={12}>
                 <Grid item xs />
-                <Grid item xs={12} lg={4}>
+                <Grid item xs={12} sm={6} lg={4}>
                   <Link
                     href={`#/give/grants/${grant.slug}`}
                     onClick={() => handleGrantDetailsButtonClick("View Details Button")}
                   >
-                    <PrimaryButton fullWidth>
+                    <TertiaryButton size="small" fullWidth>
                       <Trans>View Details</Trans>
-                    </PrimaryButton>
+                    </TertiaryButton>
                   </Link>
                 </Grid>
               </Grid>
