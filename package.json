@@ -16,10 +16,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 5,
-        "functions": 5,
-        "lines": 5,
-        "statements": 5
+        "branches": 50,
+        "functions": 50,
+        "lines": 50,
+        "statements": 50
       }
     },
     "coverageReporters": [
@@ -64,7 +64,7 @@
     "react-flag-icon-css": "^1.0.25",
     "react-ga": "^3.3.0",
     "react-ga4": "^1.4.1",
-    "react-query": "^3.34.16",
+    "react-query": "^3.35.0",
     "react-redux": "^7.2.8",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
@@ -126,7 +126,7 @@
     "jest-puppeteer": "^6.1.0",
     "jest-when": "^3.5.1",
     "less-plugin-npm-import": "^2.1.0",
-    "lint-staged": "^12.3.7",
+    "lint-staged": "^12.3.8",
     "pptr-testing-library": "^0.7.0",
     "prettier": "^2.6.2",
     "puppeteer": "^13.5.2",
