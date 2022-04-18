@@ -27,7 +27,7 @@
         }
       ],
       "latestMilestoneCompleted": 1,
-      "disabled": true
+      "disabled": false
     },
     {
       "title": "Mover",
