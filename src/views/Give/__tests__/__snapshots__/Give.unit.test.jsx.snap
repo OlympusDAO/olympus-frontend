@@ -15,7 +15,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
         >
           <div
-            class="MuiPaper-root makeStyles-root-68 makeStyles-root-69  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root makeStyles-root-64 makeStyles-root-65  MuiPaper-elevation0 MuiPaper-rounded"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -25,7 +25,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                 class="MuiGrid-root card-header MuiGrid-item"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-70"
+                  class="MuiBox-root MuiBox-root-66"
                 >
                   <div
                     class="top-left"
@@ -392,7 +392,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-72 makeStyles-root-73 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-68 makeStyles-root-69 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                           tabindex="0"
                           type="button"
                         >
@@ -418,7 +418,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
       >
         <div
-          class="MuiPaper-root makeStyles-root-68 makeStyles-root-74  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-64 makeStyles-root-70  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -428,10 +428,10 @@ exports[`Give View Connected should render project card with Donate Yield Button
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-75"
+                class="MuiBox-root MuiBox-root-71"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-76"
+                  class="MuiBox-root MuiBox-root-72"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -2387,100 +2387,11 @@ exports[`Give View Disconnected should render Grants Dashboard 1`] = `
           class="MuiGrid-root MuiGrid-container MuiGrid-justify-content-xs-center"
           style="padding-bottom: 10px;"
         >
-          <div
-            class="MuiBox-root MuiBox-root-46"
-            style="width: 100%; border-radius: 10px; margin-bottom: 60px;"
+          <p
+            class="MuiTypography-root MuiTypography-body2"
           >
-            <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
-            >
-              <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-              >
-                <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="#/give/grants/playground"
-                >
-                  <h4
-                    class="MuiTypography-root MuiTypography-h4"
-                  >
-                    <strong>
-                      Playgrounds
-                    </strong>
-                  </h4>
-                </a>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
-              >
-                <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
-                  style="max-height: 184px; overflow: hidden; border-radius: 16px;"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                  >
-                    <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                      href="#/give/grants/playground"
-                    >
-                      <img
-                        src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
-                        width="100%"
-                      />
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
-              >
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1"
-                    style="line-height: 20px;"
-                  >
-                    <div>
-                      <p>
-                        Empowers the Olympus and KlimaDAO communities by providing an advanced education ecosystem.
-                      </p>
-                      
-
-                    </div>
-                  </p>
-                </div>
-                <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                  />
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
-                  >
-                    <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                      href="#/give/grants/playground"
-                    >
-                      <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-48 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
-                        tabindex="0"
-                        type="button"
-                      >
-                        <span
-                          class="MuiButton-label"
-                        >
-                          View Details
-                        </span>
-                      </button>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            We don't have any grants open right now, but check back soon!
+          </p>
         </div>
       </div>
     </div>
@@ -2491,7 +2402,7 @@ exports[`Give View Disconnected should render Grants Dashboard 1`] = `
 exports[`Give View Disconnected should render Yield Recipients Screen with Donate to a cause button 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-53 grey-box"
+    class="MuiBox-root MuiBox-root-49 grey-box"
   >
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-justify-content-xs-center"
@@ -2509,7 +2420,7 @@ exports[`Give View Disconnected should render Yield Recipients Screen with Donat
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-54 makeStyles-root-55 undefined MuiButton-outlinedPrimary MuiButton-disableElevation"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-50 makeStyles-root-51 undefined MuiButton-outlinedPrimary MuiButton-disableElevation"
           tabindex="0"
           type="button"
         >
@@ -2540,7 +2451,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
         >
           <div
-            class="MuiPaper-root makeStyles-root-56 makeStyles-root-57  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root makeStyles-root-52 makeStyles-root-53  MuiPaper-elevation0 MuiPaper-rounded"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -2550,7 +2461,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                 class="MuiGrid-root card-header MuiGrid-item"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-58"
+                  class="MuiBox-root MuiBox-root-54"
                 >
                   <div
                     class="top-left"
@@ -2913,7 +2824,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-60 makeStyles-root-61 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-56 makeStyles-root-57 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                           tabindex="0"
                           type="button"
                         >
@@ -2939,7 +2850,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
       >
         <div
-          class="MuiPaper-root makeStyles-root-56 makeStyles-root-62  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-52 makeStyles-root-58  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -2949,10 +2860,10 @@ exports[`Give View Disconnected should render project card with connect wallet b
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-63"
+                class="MuiBox-root MuiBox-root-59"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-64"
+                  class="MuiBox-root MuiBox-root-60"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
