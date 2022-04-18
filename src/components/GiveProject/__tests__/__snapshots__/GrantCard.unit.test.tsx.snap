@@ -73,14 +73,14 @@ exports[`<GrantCard/> should render card 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
           />
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
           >
             <a
               class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
               href="#/give/grants/grant-1"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-2 makeStyles-root-3 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-2 makeStyles-root-3 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                 tabindex="0"
                 type="button"
               >
@@ -167,14 +167,14 @@ exports[`<GrantCard/> should render card without image 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
           />
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
           >
             <a
               class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
               href="#/give/grants/grant-1"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-8 makeStyles-root-9 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-8 makeStyles-root-9 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                 tabindex="0"
                 type="button"
               >
@@ -291,205 +291,215 @@ exports[`<GrantCard/> should render page 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          style="padding-bottom: 20px;"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
                               >
                                 <div
                                   class="MuiGrid-root MuiGrid-item"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
                                   >
-                                    <path
-                                      d="M10 14.0625C11.7259 14.0625 13.125 12.6634 13.125 10.9375C13.125 9.21161 11.7259 7.8125 10 7.8125C8.27411 7.8125 6.875 9.21161 6.875 10.9375C6.875 12.6634 8.27411 14.0625 10 14.0625Z"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M15.3125 9.06251C16.0404 9.06129 16.7586 9.23018 17.4096 9.55572C18.0607 9.88126 18.6267 10.3544 19.0625 10.9375"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M0.9375 10.9375C1.37328 10.3544 1.93928 9.88126 2.59036 9.55572C3.24144 9.23018 3.95957 9.06129 4.6875 9.06251"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M5.5 16.875C5.91158 16.0321 6.55163 15.3217 7.34722 14.8248C8.14282 14.3279 9.06198 14.0645 10 14.0645C10.938 14.0645 11.8572 14.3279 12.6528 14.8248C13.4484 15.3217 14.0884 16.0321 14.5 16.875"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M4.69004 9.0625C4.21554 9.06298 3.7507 8.92842 3.34984 8.67453C2.94898 8.42064 2.62865 8.05792 2.42628 7.62874C2.22391 7.19956 2.14785 6.72165 2.207 6.25085C2.26615 5.78006 2.45806 5.33581 2.76031 4.97003C3.06256 4.60426 3.46267 4.33205 3.91387 4.18521C4.36508 4.03838 4.84876 4.02298 5.30839 4.14083C5.76802 4.25867 6.18463 4.50489 6.50952 4.85071C6.83442 5.19653 7.05419 5.62767 7.14316 6.09375"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M12.8594 6.09375C12.9483 5.62767 13.1681 5.19653 13.493 4.85071C13.8179 4.50489 14.2345 4.25867 14.6941 4.14083C15.1538 4.02298 15.6375 4.03838 16.0887 4.18521C16.5399 4.33205 16.94 4.60426 17.2422 4.97003C17.5445 5.33581 17.7364 5.78006 17.7955 6.25085C17.8547 6.72165 17.7786 7.19956 17.5763 7.62874C17.3739 8.05792 17.0536 8.42064 16.6527 8.67453C16.2518 8.92842 15.787 9.06298 15.3125 9.0625"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                    <div
+                                      class="MuiGrid-root MuiGrid-item"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        focusable="false"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path
+                                          d="M10 14.0625C11.7259 14.0625 13.125 12.6634 13.125 10.9375C13.125 9.21161 11.7259 7.8125 10 7.8125C8.27411 7.8125 6.875 9.21161 6.875 10.9375C6.875 12.6634 8.27411 14.0625 10 14.0625Z"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M15.3125 9.06251C16.0404 9.06129 16.7586 9.23018 17.4096 9.55572C18.0607 9.88126 18.6267 10.3544 19.0625 10.9375"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M0.9375 10.9375C1.37328 10.3544 1.93928 9.88126 2.59036 9.55572C3.24144 9.23018 3.95957 9.06129 4.6875 9.06251"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M5.5 16.875C5.91158 16.0321 6.55163 15.3217 7.34722 14.8248C8.14282 14.3279 9.06198 14.0645 10 14.0645C10.938 14.0645 11.8572 14.3279 12.6528 14.8248C13.4484 15.3217 14.0884 16.0321 14.5 16.875"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M4.69004 9.0625C4.21554 9.06298 3.7507 8.92842 3.34984 8.67453C2.94898 8.42064 2.62865 8.05792 2.42628 7.62874C2.22391 7.19956 2.14785 6.72165 2.207 6.25085C2.26615 5.78006 2.45806 5.33581 2.76031 4.97003C3.06256 4.60426 3.46267 4.33205 3.91387 4.18521C4.36508 4.03838 4.84876 4.02298 5.30839 4.14083C5.76802 4.25867 6.18463 4.50489 6.50952 4.85071C6.83442 5.19653 7.05419 5.62767 7.14316 6.09375"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M12.8594 6.09375C12.9483 5.62767 13.1681 5.19653 13.493 4.85071C13.8179 4.50489 14.2345 4.25867 14.6941 4.14083C15.1538 4.02298 15.6375 4.03838 16.0887 4.18521C16.5399 4.33205 16.94 4.60426 17.2422 4.97003C17.5445 5.33581 17.7364 5.78006 17.7955 6.25085C17.8547 6.72165 17.7786 7.19956 17.5763 7.62874C17.3739 8.05792 17.0536 8.42064 16.6527 8.67453C16.2518 8.92842 15.787 9.06298 15.3125 9.0625"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                      </svg>
+                                    </div>
+                                    <div
+                                      class="MuiGrid-root metric MuiGrid-item"
+                                    >
+                                      <span
+                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                      />
+                                    </div>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root metric MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item"
                                 >
-                                  <span
-                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                                  />
+                                  Donors
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root subtext MuiGrid-item"
-                            >
-                              Donors
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
                                   >
-                                    <path
-                                      d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
-                                    />
-                                    <path
-                                      d="M10 7V13"
-                                      stroke="currentcolor"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M13 10L7 10"
-                                      stroke="currentcolor"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                    <div
+                                      class="MuiGrid-root MuiGrid-item"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        focusable="false"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path
+                                          d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M18 3.5L9.99659 11.5L7 9"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                      </svg>
+                                    </div>
+                                    <div
+                                      class="MuiGrid-root metric MuiGrid-item"
+                                    >
+                                      100
+                                    </div>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root metric MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  style="text-align: right;"
                                 >
-                                  100
+                                  Total Milestone Amount
                                 </div>
                               </div>
-                            </div>
-                            <div
-                              class="MuiGrid-root subtext MuiGrid-item"
-                            >
-                              Total Milestone Amount
                             </div>
                           </div>
-                        </div>
-                        <div
-                          class="MuiBox-root MuiBox-root-17"
-                        />
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        >
                           <div
-                            class="project-milestone-progress"
+                            class="MuiBox-root MuiBox-root-17"
+                          />
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="RSPBprogressBar"
-                              style="background: rgb(172, 177, 185);"
+                              class="project-milestone-progress"
                             >
                               <div
-                                class="RSPBstep"
-                                style="left: 0%; transition-duration: 300ms;"
-                              />
-                              <div
-                                class="RSPBstep"
-                                style="left: 100%; transition-duration: 300ms;"
+                                class="RSPBprogressBar"
+                                style="background: rgb(172, 177, 185);"
                               >
                                 <div
-                                  class="step-label"
-                                  style="color: rgb(103, 107, 116);"
+                                  class="RSPBstep"
+                                  style="left: 0%; transition-duration: 300ms;"
+                                />
+                                <div
+                                  class="RSPBstep"
+                                  style="left: 100%; transition-duration: 300ms;"
                                 >
-                                  100
+                                  <div
+                                    class="step-label"
+                                    style="color: rgb(103, 107, 116);"
+                                  >
+                                    100
+                                  </div>
                                 </div>
+                                <div
+                                  class="RSPBprogression"
+                                  style="background: rgb(103, 107, 116); width: 0%;"
+                                />
                               </div>
-                              <div
-                                class="RSPBprogression"
-                                style="width: 0%;"
-                              />
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                      style="padding-top: 45px;"
-                    >
-                      <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-18 makeStyles-root-19 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                        tabindex="0"
-                        type="button"
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
-                        <span
-                          class="MuiButton-label"
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-18 makeStyles-root-19 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          tabindex="0"
+                          type="button"
                         >
-                          Connect Wallet
-                        </span>
-                      </button>
+                          <span
+                            class="MuiButton-label"
+                          >
+                            Connect Wallet
+                          </span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -726,216 +736,226 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          style="padding-bottom: 20px;"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
                               >
                                 <div
                                   class="MuiGrid-root MuiGrid-item"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
                                   >
-                                    <path
-                                      d="M10 14.0625C11.7259 14.0625 13.125 12.6634 13.125 10.9375C13.125 9.21161 11.7259 7.8125 10 7.8125C8.27411 7.8125 6.875 9.21161 6.875 10.9375C6.875 12.6634 8.27411 14.0625 10 14.0625Z"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M15.3125 9.06251C16.0404 9.06129 16.7586 9.23018 17.4096 9.55572C18.0607 9.88126 18.6267 10.3544 19.0625 10.9375"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M0.9375 10.9375C1.37328 10.3544 1.93928 9.88126 2.59036 9.55572C3.24144 9.23018 3.95957 9.06129 4.6875 9.06251"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M5.5 16.875C5.91158 16.0321 6.55163 15.3217 7.34722 14.8248C8.14282 14.3279 9.06198 14.0645 10 14.0645C10.938 14.0645 11.8572 14.3279 12.6528 14.8248C13.4484 15.3217 14.0884 16.0321 14.5 16.875"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M4.69004 9.0625C4.21554 9.06298 3.7507 8.92842 3.34984 8.67453C2.94898 8.42064 2.62865 8.05792 2.42628 7.62874C2.22391 7.19956 2.14785 6.72165 2.207 6.25085C2.26615 5.78006 2.45806 5.33581 2.76031 4.97003C3.06256 4.60426 3.46267 4.33205 3.91387 4.18521C4.36508 4.03838 4.84876 4.02298 5.30839 4.14083C5.76802 4.25867 6.18463 4.50489 6.50952 4.85071C6.83442 5.19653 7.05419 5.62767 7.14316 6.09375"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M12.8594 6.09375C12.9483 5.62767 13.1681 5.19653 13.493 4.85071C13.8179 4.50489 14.2345 4.25867 14.6941 4.14083C15.1538 4.02298 15.6375 4.03838 16.0887 4.18521C16.5399 4.33205 16.94 4.60426 17.2422 4.97003C17.5445 5.33581 17.7364 5.78006 17.7955 6.25085C17.8547 6.72165 17.7786 7.19956 17.5763 7.62874C17.3739 8.05792 17.0536 8.42064 16.6527 8.67453C16.2518 8.92842 15.787 9.06298 15.3125 9.0625"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                    <div
+                                      class="MuiGrid-root MuiGrid-item"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        focusable="false"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path
+                                          d="M10 14.0625C11.7259 14.0625 13.125 12.6634 13.125 10.9375C13.125 9.21161 11.7259 7.8125 10 7.8125C8.27411 7.8125 6.875 9.21161 6.875 10.9375C6.875 12.6634 8.27411 14.0625 10 14.0625Z"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M15.3125 9.06251C16.0404 9.06129 16.7586 9.23018 17.4096 9.55572C18.0607 9.88126 18.6267 10.3544 19.0625 10.9375"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M0.9375 10.9375C1.37328 10.3544 1.93928 9.88126 2.59036 9.55572C3.24144 9.23018 3.95957 9.06129 4.6875 9.06251"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M5.5 16.875C5.91158 16.0321 6.55163 15.3217 7.34722 14.8248C8.14282 14.3279 9.06198 14.0645 10 14.0645C10.938 14.0645 11.8572 14.3279 12.6528 14.8248C13.4484 15.3217 14.0884 16.0321 14.5 16.875"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M4.69004 9.0625C4.21554 9.06298 3.7507 8.92842 3.34984 8.67453C2.94898 8.42064 2.62865 8.05792 2.42628 7.62874C2.22391 7.19956 2.14785 6.72165 2.207 6.25085C2.26615 5.78006 2.45806 5.33581 2.76031 4.97003C3.06256 4.60426 3.46267 4.33205 3.91387 4.18521C4.36508 4.03838 4.84876 4.02298 5.30839 4.14083C5.76802 4.25867 6.18463 4.50489 6.50952 4.85071C6.83442 5.19653 7.05419 5.62767 7.14316 6.09375"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M12.8594 6.09375C12.9483 5.62767 13.1681 5.19653 13.493 4.85071C13.8179 4.50489 14.2345 4.25867 14.6941 4.14083C15.1538 4.02298 15.6375 4.03838 16.0887 4.18521C16.5399 4.33205 16.94 4.60426 17.2422 4.97003C17.5445 5.33581 17.7364 5.78006 17.7955 6.25085C17.8547 6.72165 17.7786 7.19956 17.5763 7.62874C17.3739 8.05792 17.0536 8.42064 16.6527 8.67453C16.2518 8.92842 15.787 9.06298 15.3125 9.0625"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                      </svg>
+                                    </div>
+                                    <div
+                                      class="MuiGrid-root metric MuiGrid-item"
+                                    >
+                                      <span
+                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                      />
+                                    </div>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root metric MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item"
                                 >
-                                  <span
-                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                                  />
+                                  Donors
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root subtext MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
                             >
-                              Donors
+                              <div
+                                class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
+                              >
+                                <div
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                                >
+                                  <div
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                  >
+                                    <div
+                                      class="MuiGrid-root MuiGrid-item"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        focusable="false"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path
+                                          d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M18 3.5L9.99659 11.5L7 9"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                      </svg>
+                                    </div>
+                                    <div
+                                      class="MuiGrid-root metric MuiGrid-item"
+                                    >
+                                      300
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  style="text-align: right;"
+                                >
+                                  Total Milestone Amount
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7"
-                        >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
+                            class="MuiBox-root MuiBox-root-65"
+                          />
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item"
+                              class="project-milestone-progress"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                class="RSPBprogressBar"
+                                style="background: rgb(172, 177, 185);"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="RSPBstep"
+                                  style="left: 0%; transition-duration: 300ms;"
+                                />
+                                <div
+                                  class="RSPBstep"
+                                  style="left: 50%; transition-duration: 300ms;"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    class="step-label"
+                                    style="color: rgb(103, 107, 116);"
                                   >
-                                    <path
-                                      d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
-                                    />
-                                    <path
-                                      d="M10 7V13"
-                                      stroke="currentcolor"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M13 10L7 10"
-                                      stroke="currentcolor"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                    100
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root metric MuiGrid-item"
+                                  class="RSPBstep"
+                                  style="left: 100%; transition-duration: 300ms;"
                                 >
-                                  300
+                                  <div
+                                    class="step-label"
+                                    style="color: rgb(103, 107, 116);"
+                                  >
+                                    200
+                                  </div>
                                 </div>
-                              </div>
-                            </div>
-                            <div
-                              class="MuiGrid-root subtext MuiGrid-item"
-                            >
-                              Total Milestone Amount
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="MuiBox-root MuiBox-root-65"
-                        />
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        >
-                          <div
-                            class="project-milestone-progress"
-                          >
-                            <div
-                              class="RSPBprogressBar"
-                              style="background: rgb(172, 177, 185);"
-                            >
-                              <div
-                                class="RSPBstep"
-                                style="left: 0%; transition-duration: 300ms;"
-                              />
-                              <div
-                                class="RSPBstep"
-                                style="left: 50%; transition-duration: 300ms;"
-                              >
                                 <div
-                                  class="step-label"
-                                  style="color: rgb(103, 107, 116);"
-                                >
-                                  100
-                                </div>
+                                  class="RSPBprogression"
+                                  style="background: rgb(103, 107, 116); width: 0%;"
+                                />
                               </div>
-                              <div
-                                class="RSPBstep"
-                                style="left: 100%; transition-duration: 300ms;"
-                              >
-                                <div
-                                  class="step-label"
-                                  style="color: rgb(103, 107, 116);"
-                                >
-                                  200
-                                </div>
-                              </div>
-                              <div
-                                class="RSPBprogression"
-                                style="width: 0%;"
-                              />
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                      style="padding-top: 45px;"
-                    >
-                      <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-66 makeStyles-root-67 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                        tabindex="0"
-                        type="button"
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
-                        <span
-                          class="MuiButton-label"
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-66 makeStyles-root-67 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          tabindex="0"
+                          type="button"
                         >
-                          Connect Wallet
-                        </span>
-                      </button>
+                          <span
+                            class="MuiButton-label"
+                          >
+                            Connect Wallet
+                          </span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1181,205 +1201,215 @@ exports[`<GrantCard/> should render page without image 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          style="padding-bottom: 20px;"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
                               >
                                 <div
                                   class="MuiGrid-root MuiGrid-item"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
                                   >
-                                    <path
-                                      d="M10 14.0625C11.7259 14.0625 13.125 12.6634 13.125 10.9375C13.125 9.21161 11.7259 7.8125 10 7.8125C8.27411 7.8125 6.875 9.21161 6.875 10.9375C6.875 12.6634 8.27411 14.0625 10 14.0625Z"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M15.3125 9.06251C16.0404 9.06129 16.7586 9.23018 17.4096 9.55572C18.0607 9.88126 18.6267 10.3544 19.0625 10.9375"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M0.9375 10.9375C1.37328 10.3544 1.93928 9.88126 2.59036 9.55572C3.24144 9.23018 3.95957 9.06129 4.6875 9.06251"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M5.5 16.875C5.91158 16.0321 6.55163 15.3217 7.34722 14.8248C8.14282 14.3279 9.06198 14.0645 10 14.0645C10.938 14.0645 11.8572 14.3279 12.6528 14.8248C13.4484 15.3217 14.0884 16.0321 14.5 16.875"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M4.69004 9.0625C4.21554 9.06298 3.7507 8.92842 3.34984 8.67453C2.94898 8.42064 2.62865 8.05792 2.42628 7.62874C2.22391 7.19956 2.14785 6.72165 2.207 6.25085C2.26615 5.78006 2.45806 5.33581 2.76031 4.97003C3.06256 4.60426 3.46267 4.33205 3.91387 4.18521C4.36508 4.03838 4.84876 4.02298 5.30839 4.14083C5.76802 4.25867 6.18463 4.50489 6.50952 4.85071C6.83442 5.19653 7.05419 5.62767 7.14316 6.09375"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M12.8594 6.09375C12.9483 5.62767 13.1681 5.19653 13.493 4.85071C13.8179 4.50489 14.2345 4.25867 14.6941 4.14083C15.1538 4.02298 15.6375 4.03838 16.0887 4.18521C16.5399 4.33205 16.94 4.60426 17.2422 4.97003C17.5445 5.33581 17.7364 5.78006 17.7955 6.25085C17.8547 6.72165 17.7786 7.19956 17.5763 7.62874C17.3739 8.05792 17.0536 8.42064 16.6527 8.67453C16.2518 8.92842 15.787 9.06298 15.3125 9.0625"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                    <div
+                                      class="MuiGrid-root MuiGrid-item"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        focusable="false"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path
+                                          d="M10 14.0625C11.7259 14.0625 13.125 12.6634 13.125 10.9375C13.125 9.21161 11.7259 7.8125 10 7.8125C8.27411 7.8125 6.875 9.21161 6.875 10.9375C6.875 12.6634 8.27411 14.0625 10 14.0625Z"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M15.3125 9.06251C16.0404 9.06129 16.7586 9.23018 17.4096 9.55572C18.0607 9.88126 18.6267 10.3544 19.0625 10.9375"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M0.9375 10.9375C1.37328 10.3544 1.93928 9.88126 2.59036 9.55572C3.24144 9.23018 3.95957 9.06129 4.6875 9.06251"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M5.5 16.875C5.91158 16.0321 6.55163 15.3217 7.34722 14.8248C8.14282 14.3279 9.06198 14.0645 10 14.0645C10.938 14.0645 11.8572 14.3279 12.6528 14.8248C13.4484 15.3217 14.0884 16.0321 14.5 16.875"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M4.69004 9.0625C4.21554 9.06298 3.7507 8.92842 3.34984 8.67453C2.94898 8.42064 2.62865 8.05792 2.42628 7.62874C2.22391 7.19956 2.14785 6.72165 2.207 6.25085C2.26615 5.78006 2.45806 5.33581 2.76031 4.97003C3.06256 4.60426 3.46267 4.33205 3.91387 4.18521C4.36508 4.03838 4.84876 4.02298 5.30839 4.14083C5.76802 4.25867 6.18463 4.50489 6.50952 4.85071C6.83442 5.19653 7.05419 5.62767 7.14316 6.09375"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M12.8594 6.09375C12.9483 5.62767 13.1681 5.19653 13.493 4.85071C13.8179 4.50489 14.2345 4.25867 14.6941 4.14083C15.1538 4.02298 15.6375 4.03838 16.0887 4.18521C16.5399 4.33205 16.94 4.60426 17.2422 4.97003C17.5445 5.33581 17.7364 5.78006 17.7955 6.25085C17.8547 6.72165 17.7786 7.19956 17.5763 7.62874C17.3739 8.05792 17.0536 8.42064 16.6527 8.67453C16.2518 8.92842 15.787 9.06298 15.3125 9.0625"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                      </svg>
+                                    </div>
+                                    <div
+                                      class="MuiGrid-root metric MuiGrid-item"
+                                    >
+                                      <span
+                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                      />
+                                    </div>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root metric MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item"
                                 >
-                                  <span
-                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                                  />
+                                  Donors
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root subtext MuiGrid-item"
-                            >
-                              Donors
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
                                   >
-                                    <path
-                                      d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
-                                    />
-                                    <path
-                                      d="M10 7V13"
-                                      stroke="currentcolor"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M13 10L7 10"
-                                      stroke="currentcolor"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                    <div
+                                      class="MuiGrid-root MuiGrid-item"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        focusable="false"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path
+                                          d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M18 3.5L9.99659 11.5L7 9"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                      </svg>
+                                    </div>
+                                    <div
+                                      class="MuiGrid-root metric MuiGrid-item"
+                                    >
+                                      100
+                                    </div>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root metric MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  style="text-align: right;"
                                 >
-                                  100
+                                  Total Milestone Amount
                                 </div>
                               </div>
-                            </div>
-                            <div
-                              class="MuiGrid-root subtext MuiGrid-item"
-                            >
-                              Total Milestone Amount
                             </div>
                           </div>
-                        </div>
-                        <div
-                          class="MuiBox-root MuiBox-root-33"
-                        />
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        >
                           <div
-                            class="project-milestone-progress"
+                            class="MuiBox-root MuiBox-root-33"
+                          />
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="RSPBprogressBar"
-                              style="background: rgb(172, 177, 185);"
+                              class="project-milestone-progress"
                             >
                               <div
-                                class="RSPBstep"
-                                style="left: 0%; transition-duration: 300ms;"
-                              />
-                              <div
-                                class="RSPBstep"
-                                style="left: 100%; transition-duration: 300ms;"
+                                class="RSPBprogressBar"
+                                style="background: rgb(172, 177, 185);"
                               >
                                 <div
-                                  class="step-label"
-                                  style="color: rgb(103, 107, 116);"
+                                  class="RSPBstep"
+                                  style="left: 0%; transition-duration: 300ms;"
+                                />
+                                <div
+                                  class="RSPBstep"
+                                  style="left: 100%; transition-duration: 300ms;"
                                 >
-                                  100
+                                  <div
+                                    class="step-label"
+                                    style="color: rgb(103, 107, 116);"
+                                  >
+                                    100
+                                  </div>
                                 </div>
+                                <div
+                                  class="RSPBprogression"
+                                  style="background: rgb(103, 107, 116); width: 0%;"
+                                />
                               </div>
-                              <div
-                                class="RSPBprogression"
-                                style="width: 0%;"
-                              />
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                      style="padding-top: 45px;"
-                    >
-                      <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-34 makeStyles-root-35 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                        tabindex="0"
-                        type="button"
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
-                        <span
-                          class="MuiButton-label"
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-34 makeStyles-root-35 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          tabindex="0"
+                          type="button"
                         >
-                          Connect Wallet
-                        </span>
-                      </button>
+                          <span
+                            class="MuiButton-label"
+                          >
+                            Connect Wallet
+                          </span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1616,205 +1646,215 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          style="padding-bottom: 20px;"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
                               >
                                 <div
                                   class="MuiGrid-root MuiGrid-item"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
                                   >
-                                    <path
-                                      d="M10 14.0625C11.7259 14.0625 13.125 12.6634 13.125 10.9375C13.125 9.21161 11.7259 7.8125 10 7.8125C8.27411 7.8125 6.875 9.21161 6.875 10.9375C6.875 12.6634 8.27411 14.0625 10 14.0625Z"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M15.3125 9.06251C16.0404 9.06129 16.7586 9.23018 17.4096 9.55572C18.0607 9.88126 18.6267 10.3544 19.0625 10.9375"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M0.9375 10.9375C1.37328 10.3544 1.93928 9.88126 2.59036 9.55572C3.24144 9.23018 3.95957 9.06129 4.6875 9.06251"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M5.5 16.875C5.91158 16.0321 6.55163 15.3217 7.34722 14.8248C8.14282 14.3279 9.06198 14.0645 10 14.0645C10.938 14.0645 11.8572 14.3279 12.6528 14.8248C13.4484 15.3217 14.0884 16.0321 14.5 16.875"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M4.69004 9.0625C4.21554 9.06298 3.7507 8.92842 3.34984 8.67453C2.94898 8.42064 2.62865 8.05792 2.42628 7.62874C2.22391 7.19956 2.14785 6.72165 2.207 6.25085C2.26615 5.78006 2.45806 5.33581 2.76031 4.97003C3.06256 4.60426 3.46267 4.33205 3.91387 4.18521C4.36508 4.03838 4.84876 4.02298 5.30839 4.14083C5.76802 4.25867 6.18463 4.50489 6.50952 4.85071C6.83442 5.19653 7.05419 5.62767 7.14316 6.09375"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M12.8594 6.09375C12.9483 5.62767 13.1681 5.19653 13.493 4.85071C13.8179 4.50489 14.2345 4.25867 14.6941 4.14083C15.1538 4.02298 15.6375 4.03838 16.0887 4.18521C16.5399 4.33205 16.94 4.60426 17.2422 4.97003C17.5445 5.33581 17.7364 5.78006 17.7955 6.25085C17.8547 6.72165 17.7786 7.19956 17.5763 7.62874C17.3739 8.05792 17.0536 8.42064 16.6527 8.67453C16.2518 8.92842 15.787 9.06298 15.3125 9.0625"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                    <div
+                                      class="MuiGrid-root MuiGrid-item"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        focusable="false"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path
+                                          d="M10 14.0625C11.7259 14.0625 13.125 12.6634 13.125 10.9375C13.125 9.21161 11.7259 7.8125 10 7.8125C8.27411 7.8125 6.875 9.21161 6.875 10.9375C6.875 12.6634 8.27411 14.0625 10 14.0625Z"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M15.3125 9.06251C16.0404 9.06129 16.7586 9.23018 17.4096 9.55572C18.0607 9.88126 18.6267 10.3544 19.0625 10.9375"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M0.9375 10.9375C1.37328 10.3544 1.93928 9.88126 2.59036 9.55572C3.24144 9.23018 3.95957 9.06129 4.6875 9.06251"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M5.5 16.875C5.91158 16.0321 6.55163 15.3217 7.34722 14.8248C8.14282 14.3279 9.06198 14.0645 10 14.0645C10.938 14.0645 11.8572 14.3279 12.6528 14.8248C13.4484 15.3217 14.0884 16.0321 14.5 16.875"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M4.69004 9.0625C4.21554 9.06298 3.7507 8.92842 3.34984 8.67453C2.94898 8.42064 2.62865 8.05792 2.42628 7.62874C2.22391 7.19956 2.14785 6.72165 2.207 6.25085C2.26615 5.78006 2.45806 5.33581 2.76031 4.97003C3.06256 4.60426 3.46267 4.33205 3.91387 4.18521C4.36508 4.03838 4.84876 4.02298 5.30839 4.14083C5.76802 4.25867 6.18463 4.50489 6.50952 4.85071C6.83442 5.19653 7.05419 5.62767 7.14316 6.09375"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M12.8594 6.09375C12.9483 5.62767 13.1681 5.19653 13.493 4.85071C13.8179 4.50489 14.2345 4.25867 14.6941 4.14083C15.1538 4.02298 15.6375 4.03838 16.0887 4.18521C16.5399 4.33205 16.94 4.60426 17.2422 4.97003C17.5445 5.33581 17.7364 5.78006 17.7955 6.25085C17.8547 6.72165 17.7786 7.19956 17.5763 7.62874C17.3739 8.05792 17.0536 8.42064 16.6527 8.67453C16.2518 8.92842 15.787 9.06298 15.3125 9.0625"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                      </svg>
+                                    </div>
+                                    <div
+                                      class="MuiGrid-root metric MuiGrid-item"
+                                    >
+                                      <span
+                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                      />
+                                    </div>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root metric MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item"
                                 >
-                                  <span
-                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                                  />
+                                  Donors
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root subtext MuiGrid-item"
-                            >
-                              Donors
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
                                   >
-                                    <path
-                                      d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
-                                    />
-                                    <path
-                                      d="M10 7V13"
-                                      stroke="currentcolor"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M13 10L7 10"
-                                      stroke="currentcolor"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                    <div
+                                      class="MuiGrid-root MuiGrid-item"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        focusable="false"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path
+                                          d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M18 3.5L9.99659 11.5L7 9"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                      </svg>
+                                    </div>
+                                    <div
+                                      class="MuiGrid-root metric MuiGrid-item"
+                                    >
+                                      100
+                                    </div>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root metric MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  style="text-align: right;"
                                 >
-                                  100
+                                  Total Milestone Amount
                                 </div>
                               </div>
-                            </div>
-                            <div
-                              class="MuiGrid-root subtext MuiGrid-item"
-                            >
-                              Total Milestone Amount
                             </div>
                           </div>
-                        </div>
-                        <div
-                          class="MuiBox-root MuiBox-root-81"
-                        />
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        >
                           <div
-                            class="project-milestone-progress"
+                            class="MuiBox-root MuiBox-root-81"
+                          />
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="RSPBprogressBar"
-                              style="background: rgb(172, 177, 185);"
+                              class="project-milestone-progress"
                             >
                               <div
-                                class="RSPBstep"
-                                style="left: 0%; transition-duration: 300ms;"
-                              />
-                              <div
-                                class="RSPBstep"
-                                style="left: 100%; transition-duration: 300ms;"
+                                class="RSPBprogressBar"
+                                style="background: rgb(172, 177, 185);"
                               >
                                 <div
-                                  class="step-label"
-                                  style="color: rgb(103, 107, 116);"
+                                  class="RSPBstep"
+                                  style="left: 0%; transition-duration: 300ms;"
+                                />
+                                <div
+                                  class="RSPBstep"
+                                  style="left: 100%; transition-duration: 300ms;"
                                 >
-                                  100
+                                  <div
+                                    class="step-label"
+                                    style="color: rgb(103, 107, 116);"
+                                  >
+                                    100
+                                  </div>
                                 </div>
+                                <div
+                                  class="RSPBprogression"
+                                  style="background: rgb(103, 107, 116); width: 0%;"
+                                />
                               </div>
-                              <div
-                                class="RSPBprogression"
-                                style="width: 0%;"
-                              />
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                      style="padding-top: 45px;"
-                    >
-                      <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-82 makeStyles-root-83 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                        tabindex="0"
-                        type="button"
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
-                        <span
-                          class="MuiButton-label"
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-82 makeStyles-root-83 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          tabindex="0"
+                          type="button"
                         >
-                          Connect Wallet
-                        </span>
-                      </button>
+                          <span
+                            class="MuiButton-label"
+                          >
+                            Connect Wallet
+                          </span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2051,182 +2091,192 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          style="padding-bottom: 20px;"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
                               >
                                 <div
                                   class="MuiGrid-root MuiGrid-item"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap MuiGrid-align-items-xs-center"
                                   >
-                                    <path
-                                      d="M10 14.0625C11.7259 14.0625 13.125 12.6634 13.125 10.9375C13.125 9.21161 11.7259 7.8125 10 7.8125C8.27411 7.8125 6.875 9.21161 6.875 10.9375C6.875 12.6634 8.27411 14.0625 10 14.0625Z"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M15.3125 9.06251C16.0404 9.06129 16.7586 9.23018 17.4096 9.55572C18.0607 9.88126 18.6267 10.3544 19.0625 10.9375"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M0.9375 10.9375C1.37328 10.3544 1.93928 9.88126 2.59036 9.55572C3.24144 9.23018 3.95957 9.06129 4.6875 9.06251"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M5.5 16.875C5.91158 16.0321 6.55163 15.3217 7.34722 14.8248C8.14282 14.3279 9.06198 14.0645 10 14.0645C10.938 14.0645 11.8572 14.3279 12.6528 14.8248C13.4484 15.3217 14.0884 16.0321 14.5 16.875"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M4.69004 9.0625C4.21554 9.06298 3.7507 8.92842 3.34984 8.67453C2.94898 8.42064 2.62865 8.05792 2.42628 7.62874C2.22391 7.19956 2.14785 6.72165 2.207 6.25085C2.26615 5.78006 2.45806 5.33581 2.76031 4.97003C3.06256 4.60426 3.46267 4.33205 3.91387 4.18521C4.36508 4.03838 4.84876 4.02298 5.30839 4.14083C5.76802 4.25867 6.18463 4.50489 6.50952 4.85071C6.83442 5.19653 7.05419 5.62767 7.14316 6.09375"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M12.8594 6.09375C12.9483 5.62767 13.1681 5.19653 13.493 4.85071C13.8179 4.50489 14.2345 4.25867 14.6941 4.14083C15.1538 4.02298 15.6375 4.03838 16.0887 4.18521C16.5399 4.33205 16.94 4.60426 17.2422 4.97003C17.5445 5.33581 17.7364 5.78006 17.7955 6.25085C17.8547 6.72165 17.7786 7.19956 17.5763 7.62874C17.3739 8.05792 17.0536 8.42064 16.6527 8.67453C16.2518 8.92842 15.787 9.06298 15.3125 9.0625"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                    <div
+                                      class="MuiGrid-root MuiGrid-item"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        focusable="false"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path
+                                          d="M10 14.0625C11.7259 14.0625 13.125 12.6634 13.125 10.9375C13.125 9.21161 11.7259 7.8125 10 7.8125C8.27411 7.8125 6.875 9.21161 6.875 10.9375C6.875 12.6634 8.27411 14.0625 10 14.0625Z"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M15.3125 9.06251C16.0404 9.06129 16.7586 9.23018 17.4096 9.55572C18.0607 9.88126 18.6267 10.3544 19.0625 10.9375"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M0.9375 10.9375C1.37328 10.3544 1.93928 9.88126 2.59036 9.55572C3.24144 9.23018 3.95957 9.06129 4.6875 9.06251"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M5.5 16.875C5.91158 16.0321 6.55163 15.3217 7.34722 14.8248C8.14282 14.3279 9.06198 14.0645 10 14.0645C10.938 14.0645 11.8572 14.3279 12.6528 14.8248C13.4484 15.3217 14.0884 16.0321 14.5 16.875"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M4.69004 9.0625C4.21554 9.06298 3.7507 8.92842 3.34984 8.67453C2.94898 8.42064 2.62865 8.05792 2.42628 7.62874C2.22391 7.19956 2.14785 6.72165 2.207 6.25085C2.26615 5.78006 2.45806 5.33581 2.76031 4.97003C3.06256 4.60426 3.46267 4.33205 3.91387 4.18521C4.36508 4.03838 4.84876 4.02298 5.30839 4.14083C5.76802 4.25867 6.18463 4.50489 6.50952 4.85071C6.83442 5.19653 7.05419 5.62767 7.14316 6.09375"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M12.8594 6.09375C12.9483 5.62767 13.1681 5.19653 13.493 4.85071C13.8179 4.50489 14.2345 4.25867 14.6941 4.14083C15.1538 4.02298 15.6375 4.03838 16.0887 4.18521C16.5399 4.33205 16.94 4.60426 17.2422 4.97003C17.5445 5.33581 17.7364 5.78006 17.7955 6.25085C17.8547 6.72165 17.7786 7.19956 17.5763 7.62874C17.3739 8.05792 17.0536 8.42064 16.6527 8.67453C16.2518 8.92842 15.787 9.06298 15.3125 9.0625"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                      </svg>
+                                    </div>
+                                    <div
+                                      class="MuiGrid-root metric MuiGrid-item"
+                                    >
+                                      <span
+                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                      />
+                                    </div>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root metric MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item"
                                 >
-                                  <span
-                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                                  />
+                                  Donors
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root subtext MuiGrid-item"
-                            >
-                              Donors
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
                                   >
-                                    <path
-                                      d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
-                                    />
-                                    <path
-                                      d="M10 7V13"
-                                      stroke="currentcolor"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                    <path
-                                      d="M13 10L7 10"
-                                      stroke="currentcolor"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                    <div
+                                      class="MuiGrid-root MuiGrid-item"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                        focusable="false"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path
+                                          d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                        <path
+                                          d="M18 3.5L9.99659 11.5L7 9"
+                                          fill="none"
+                                          stroke="currentcolor"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="1.6"
+                                        />
+                                      </svg>
+                                    </div>
+                                    <div
+                                      class="MuiGrid-root metric MuiGrid-item"
+                                    >
+                                      0
+                                    </div>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root metric MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  style="text-align: right;"
                                 >
-                                  0
+                                  Total Milestone Amount
                                 </div>
                               </div>
                             </div>
-                            <div
-                              class="MuiGrid-root subtext MuiGrid-item"
-                            >
-                              Total Milestone Amount
-                            </div>
                           </div>
-                        </div>
-                        <div
-                          class="MuiBox-root MuiBox-root-49"
-                        />
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                        >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1"
+                          <div
+                            class="MuiBox-root MuiBox-root-49"
+                          />
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                           >
-                            No milestones are defined for this grant.
-                          </p>
+                            <p
+                              class="MuiTypography-root MuiTypography-body1"
+                            >
+                              No milestones are defined for this grant.
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                      style="padding-top: 45px;"
-                    >
-                      <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-50 makeStyles-root-51 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
-                        tabindex="0"
-                        type="button"
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
-                        <span
-                          class="MuiButton-label"
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-50 makeStyles-root-51 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          tabindex="0"
+                          type="button"
                         >
-                          Connect Wallet
-                        </span>
-                      </button>
+                          <span
+                            class="MuiButton-label"
+                          >
+                            Connect Wallet
+                          </span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
