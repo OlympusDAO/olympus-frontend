@@ -366,7 +366,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Yield Goal
+                                sOHM Deposit Goal
                               </div>
                             </div>
                           </div>
@@ -2798,7 +2798,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Yield Goal
+                                sOHM Deposit Goal
                               </div>
                             </div>
                           </div>

@@ -263,7 +263,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                <Trans>sOHM Yield Goal</Trans>
+                <Trans>sOHM Deposit Goal</Trans>
               </Grid>
             </Grid>
           </Grid>
