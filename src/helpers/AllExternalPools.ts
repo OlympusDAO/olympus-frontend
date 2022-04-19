@@ -123,7 +123,7 @@ export const astroport_gohm_ust = new ExternalPool({
   pairGecko: "governance-ohm",
   rewardGecko: "astrport",
   href: "https://app.astroport.fi/pools",
-  address: "terra1j66jatn3k50hjtg2xemnjm8s7y8dws9xqa5y8w", //swap for Terra gOHM LP
+  address: "terra1j66jatn3k50hjtg2xemnjm8s7y8dws9xqa5y8w", //TODO: PLACEHOLDER swap for Terra gOHM LP
   masterchef: "",
   rewarder: "",
   poolId: 0,
