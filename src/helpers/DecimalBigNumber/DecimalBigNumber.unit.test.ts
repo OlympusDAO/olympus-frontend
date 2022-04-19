@@ -158,4 +158,9 @@ describe("DecimalBigNumber", () => {
 
     expect(new DecimalBigNumber("10").div(new DecimalBigNumber("3"), 10).toString()).toEqual("3.3333333333");
   });
+
+  it("should format toBigNumber to a specified number of decimals", () => {
+    expect(new DecimalBigNumber("10", 10).toBigNumber(1).toString()).toEqual("100");
+    expect(new DecimalBigNumber("10").toBigNumber(4).toString()).toEqual("100000");
+  });
 });

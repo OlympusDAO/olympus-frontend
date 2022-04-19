@@ -83,8 +83,8 @@ export class DecimalBigNumber {
    * Often used when passing this value as
    * an argument to a contract method
    */
-  public toBigNumber(): BigNumber {
-    return this._value;
+  public toBigNumber(decimals?: number): BigNumber {
+    return decimals === undefined ? this._value : new DecimalBigNumber(this.toString(), decimals)._value;
   }
 
   /**
@@ -104,12 +104,12 @@ export class DecimalBigNumber {
    */
   public toString({
     decimals,
-    format = false,
     trim = true,
+    format = false,
   }: {
-    decimals?: number;
     trim?: boolean;
     format?: boolean;
+    decimals?: number;
   } = {}): string {
     let result = formatUnits(this._value, this._decimals);
 
