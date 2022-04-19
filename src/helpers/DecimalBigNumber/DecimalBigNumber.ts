@@ -65,7 +65,7 @@ export class DecimalBigNumber {
 
     const _decimals = _decimalsOrUndefined || "";
 
-    const paddingRequired = Math.max(0, decimals - _decimals.length);
+    const paddingRequired = this._ensurePositive(decimals - _decimals.length);
 
     return integer + "." + _decimals.substring(0, decimals) + "0".repeat(paddingRequired);
   }
@@ -106,7 +106,11 @@ export class DecimalBigNumber {
     decimals,
     format = false,
     trim = true,
-  }: { decimals?: number; trim?: boolean; format?: boolean } = {}): string {
+  }: {
+    decimals?: number;
+    trim?: boolean;
+    format?: boolean;
+  } = {}): string {
     let result = formatUnits(this._value, this._decimals);
 
     // Add thousands separators
