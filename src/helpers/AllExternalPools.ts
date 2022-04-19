@@ -115,6 +115,21 @@ export const jones_gohm_jgohm = new ExternalPool({
   networkID: NetworkId.ARBITRUM,
 });
 
+//Terra Astroport Pool. Uses GraphQL API
+export const astroport_gohm_ust = new ExternalPool({
+  poolName: "gOHM-UST",
+  icons: ["gOHM", "UST"],
+  stakeOn: "Astroport",
+  pairGecko: "governance-ohm",
+  rewardGecko: "astrport",
+  href: "https://app.astroport.fi/pools",
+  address: "terra1j66jatn3k50hjtg2xemnjm8s7y8dws9xqa5y8w", //swap for Terra gOHM LP
+  masterchef: "",
+  rewarder: "",
+  poolId: 0,
+  networkName: "TERRA",
+});
+
 export const allPools = [tj_gohm_wavax, sushi_arb_gohm_weth, sushi_poly_gohm_weth, spirit_gohm_ftm];
 export const sushiPools = [sushi_arb_gohm_weth, sushi_poly_gohm_weth];
 export const spiritPools = [spirit_gohm_ftm];
@@ -123,4 +138,5 @@ export const beetsPools = [beets_ftm_gohm_wFTM];
 export const zipPools = [zip_gohm_weth];
 export const jonesPools = [jones_gohm_jgohm];
 export const balancerPools = [balancer_ohm_dai_weth];
+export const astroportPools = [astroport_gohm_ust];
 export default allPools;

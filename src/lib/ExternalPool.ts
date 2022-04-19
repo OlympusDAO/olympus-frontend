@@ -17,6 +17,7 @@ export class ExternalPool {
   readonly poolId: number | string;
   readonly rewardGecko: string;
   readonly vault: string;
+  readonly networkName: string;
 
   constructor(poolOpts: StakePoolOpts) {
     this.poolName = poolOpts.poolName;
@@ -27,7 +28,8 @@ export class ExternalPool {
     this.href = poolOpts.href;
     this.address = poolOpts.address;
     this.masterchef = poolOpts.masterchef;
-    this.networkID = poolOpts.networkID;
+    this.networkID = poolOpts.networkID ? poolOpts.networkID : 1;
+    this.networkName = poolOpts.networkName ? poolOpts.networkName : "";
     this.rewarder = poolOpts.rewarder;
     this.poolId = poolOpts.poolId;
     this.rewardGecko = poolOpts.rewardGecko;
@@ -43,11 +45,12 @@ export interface StakePoolOpts {
   href: string;
   address: string;
   masterchef: string;
-  networkID: NetworkId;
+  networkID?: NetworkId;
   rewarder: string;
   poolId: number | string;
   rewardGecko: string;
   vault?: string;
+  networkName?: string;
 }
 
 export interface ExternalPoolwBalance extends ExternalPool {

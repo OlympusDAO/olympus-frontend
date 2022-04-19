@@ -5,6 +5,7 @@ import { Skeleton } from "@material-ui/lab";
 import { DataRow, OHMTokenProps, Paper, SecondaryButton, Token, TokenStack } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
 import {
+  astroportPools,
   balancerPools,
   beetsPools,
   joePools,
@@ -18,6 +19,7 @@ import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
 
 import {
+  AstroportPoolAPY,
   BalancerPoolAPY,
   BalancerSwapFees,
   BeetsPoolAPY,
@@ -75,6 +77,9 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     {balancerPools.map(pool => (
       <BalancerPools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
+    {astroportPools.map(pool => (
+      <AstroportPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
   </>
 );
 
@@ -126,7 +131,14 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
           <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px", marginRight: "10px" }}>
             {props.pool.poolName}
           </Typography>
-          <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} />
+          <Token
+            name={
+              props.pool.networkName
+                ? (props.pool.networkName as OHMTokenProps["name"])
+                : (NetworkId[props.pool.networkID] as OHMTokenProps["name"])
+            }
+            style={{ fontSize: "15px" }}
+          />
         </Box>
       </TableCell>
       <TableCell>
@@ -265,6 +277,14 @@ const BalancerPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = 
     <MobileStakePool pool={props.pool} tvl={data.totalLiquidity} apy={apy} />
   ) : (
     <StakePool pool={props.pool} tvl={data.totalLiquidity} apy={apy} />
+  );
+};
+const AstroportPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
+  const { data } = AstroportPoolAPY(props.pool);
+  return props.isSmallScreen ? (
+    <MobileStakePool pool={props.pool} tvl={data.pool_liquidity} apy={data.total_rewards.apr} />
+  ) : (
+    <StakePool pool={props.pool} tvl={data.pool_liquidity} apy={data.total_rewards.apr} />
   );
 };
 

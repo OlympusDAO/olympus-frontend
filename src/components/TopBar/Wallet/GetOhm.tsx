@@ -8,6 +8,7 @@ import uniswapImg from "src/assets/uniswap.png";
 import { OHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
 import {
+  astroportPools,
   balancerPools,
   beetsPools,
   joePools,
@@ -25,6 +26,7 @@ import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 import {
+  AstroportPoolAPY,
   BalancerPoolAPY,
   BalancerSwapFees,
   BeetsPoolAPY,
@@ -149,6 +151,9 @@ const GetOhm: FC = () => {
         {balancerPools.map((pool, index) => (
           <BalancerPools key={index} pool={pool} />
         ))}
+        {astroportPools.map((pool, index) => (
+          <AstroportPools key={index} pool={pool} />
+        ))}
 
         <Typography variant="h6" className={classes.title}>
           Vaults
@@ -267,8 +272,22 @@ const BalancerPools: React.FC<{ pool: ExternalPool }> = props => {
   return <PoolCard {...props} value={data.totalLiquidity && formatCurrency(data.totalLiquidity)} roi={apy} />;
 };
 
+const AstroportPools: React.FC<{ pool: ExternalPool }> = props => {
+  const { data } = AstroportPoolAPY(props.pool);
+  return (
+    <PoolCard
+      pool={props.pool}
+      value={data.pool_liquidity && formatCurrency(data.pool_liquidity)}
+      roi={data.total_rewards.apr}
+    />
+  );
+};
+
 const PoolCard = (props: { pool: ExternalPool; value: OHMItemCardProps["value"]; roi: OHMItemCardProps["roi"] }) => {
-  const networkName = NetworkId[props.pool.networkID] as OHMItemCardProps["networkName"];
+  //Handles non EVM networkIds by using networkName instead
+  const networkName = props.pool.networkName
+    ? (props.pool.networkName as OHMItemCardProps["networkName"])
+    : (NetworkId[props.pool.networkID] as OHMItemCardProps["networkName"]);
   return (
     <ItemCard
       tokens={props.pool.icons}

@@ -156,6 +156,37 @@ export const ZipPoolAPY = (pool: ExternalPool) => {
   const { data: apy = 0 } = APY(pool, tvl, data);
   return { apy, isFetched, isLoading };
 };
+
+export const AstroportPoolAPY = (pool: ExternalPool) => {
+  console.log("pool", pool);
+  const {
+    data = { pool_liquidity: 0, total_rewards: { apr: 0 } },
+    isFetched,
+    isLoading,
+  } = useQuery(
+    ["astroport", pool],
+    async () => {
+      const api = "https://api.astroport.fi/graphql";
+      const response = await request(
+        api,
+        gql`
+          query {
+            pool(address: "${pool.address}") {
+              pool_liquidity
+              total_rewards {
+                apr
+              }
+            }
+          }
+        `,
+      );
+      console.log(response.pool, "response");
+      return response.pool;
+    },
+    { enabled: !!pool },
+  );
+  return { data, isFetched, isLoading };
+};
 export const JonesPoolAPY = (pool: ExternalPool) => {
   const { data: tvl = 0 } = useStakePoolTVL(pool);
   //Spirit uses a Masterchef, Guage, and rewarder contract. Rewarder Not currently used for our FP.
