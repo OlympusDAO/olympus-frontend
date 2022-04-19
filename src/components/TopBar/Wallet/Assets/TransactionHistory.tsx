@@ -47,11 +47,7 @@ export interface WalletTransaction extends CovalentTransaction {
   sender_contract_ticker_symbol?: OHMTokenStackProps["tokens"];
 }
 
-export interface OHMTransactionHistoryProps {
-  address?: string;
-}
-
-export const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
+export const TransactionHistory: FC = () => {
   const classes = useStyles();
   const {
     data: covalentTransactions,
