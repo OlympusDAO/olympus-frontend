@@ -146,14 +146,14 @@ function App() {
   }
 
   const loadApp = useCallback(
-    loadProvider => {
+    (loadProvider: any) => {
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
     },
     [networkId, address],
   );
 
   const loadAccount = useCallback(
-    loadProvider => {
+    (loadProvider: any) => {
       if (!providerInitialized) {
         return;
       }
