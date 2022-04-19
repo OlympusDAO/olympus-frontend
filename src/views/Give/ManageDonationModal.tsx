@@ -7,6 +7,7 @@ import { ChevronLeft } from "@material-ui/icons";
 import { DataRow, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
+import { ArrowGraphic } from "src/components/EducationCard";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project, RecordType } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
@@ -16,7 +17,6 @@ import { useSohmBalance } from "src/hooks/useBalance";
 import { useRecipientInfo } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
 
-import { ArrowGraphic } from "../../components/EducationCard";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
 
 export type WithdrawSubmitCallback = {
@@ -98,6 +98,10 @@ export function ManageDonationModal({
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const themedArrow =
+    theme.palette.type === "dark" && theme.colors.primary[300]
+      ? theme.colors.primary[300]
+      : theme.palette.text.secondary;
 
   const _useSohmBalance =
     useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
@@ -555,7 +559,7 @@ export function ManageDonationModal({
       <Box>
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={12} sm={4}>
-            <Typography variant="body1" className="modal-confirmation-title">
+            <Typography variant="body1" className="grey-text">
               <Trans>Current sOHM deposit</Trans>
             </Typography>
             {/* Referring to the current deposit, so we need to be specific */}
@@ -563,7 +567,7 @@ export function ManageDonationModal({
           </Grid>
           {!isSmallScreen ? (
             <Grid item sm={4}>
-              <ArrowGraphic />
+              <ArrowGraphic fill={themedArrow} />
             </Grid>
           ) : (
             <></>
@@ -574,7 +578,7 @@ export function ManageDonationModal({
                 alignment accordingly. */}
             <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
               <Grid item xs={12}>
-                <Typography variant="body1" className="modal-confirmation-title">
+                <Typography variant="body1" className="grey-text">
                   <Trans>New sOHM deposit</Trans>
                 </Typography>
                 {/* Referring to the new deposit, so we need to be specific */}

@@ -54,7 +54,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
     >
       <div
-        class="MuiBox-root MuiBox-root-3"
+        class="MuiBox-root MuiBox-root-3 grey-box"
       >
         <div
           class="makeStyles-root-4 data-row"
@@ -220,7 +220,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-55"
+            class="MuiBox-root MuiBox-root-55 grey-box"
           >
             <h5
               class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
@@ -239,7 +239,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-56"
+            class="MuiBox-root MuiBox-root-56 grey-box"
           >
             <h5
               class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
@@ -258,7 +258,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-57"
+            class="MuiBox-root MuiBox-root-57 grey-box"
           >
             <h5
               class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
@@ -280,7 +280,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
     >
       <div
-        class="MuiBox-root MuiBox-root-58"
+        class="MuiBox-root MuiBox-root-58 grey-box"
       >
         <div
           class="makeStyles-root-59 data-row"
@@ -440,7 +440,7 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
     >
       <div
-        class="MuiBox-root MuiBox-root-42"
+        class="MuiBox-root MuiBox-root-42 grey-box"
       >
         <div
           class="makeStyles-root-43 data-row"

@@ -3,12 +3,11 @@ import { Grid, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Modal, PrimaryButton } from "@olympusdao/component-library";
+import { ArrowGraphic } from "src/components/EducationCard";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useWeb3Context } from "src/hooks/web3Context";
-
-import { ArrowGraphic } from "../../components/EducationCard";
 
 export interface RedeemSubmitCallback {
   (): void;
@@ -39,6 +38,10 @@ export function RedeemYieldModal({
 }: RedeemModalProps) {
   const { address } = useWeb3Context();
   const theme = useTheme();
+  const themedArrow =
+    theme.palette.type === "dark" && theme.colors.primary[300]
+      ? theme.colors.primary[300]
+      : theme.palette.text.secondary;
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   const canSubmit = () => {
@@ -63,14 +66,14 @@ export function RedeemYieldModal({
           <Box>
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={12} sm={4}>
-                <Typography variant="body1" className="modal-confirmation-title">
+                <Typography variant="body1" className="grey-text">
                   <Trans>Redeemable Yield</Trans>
                 </Typography>
                 <Typography variant="h6">{t`${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`}</Typography>
               </Grid>
               {!isSmallScreen ? (
                 <Grid item sm={4}>
-                  <ArrowGraphic />
+                  <ArrowGraphic fill={themedArrow} />
                 </Grid>
               ) : (
                 <></>
@@ -81,7 +84,7 @@ export function RedeemYieldModal({
                     alignment accordingly. */}
                 <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
                   <Grid item xs={12}>
-                    <Typography variant="body1" className="modal-confirmation-title">
+                    <Typography variant="body1" className="grey-text">
                       <Trans>My Wallet Address</Trans>
                     </Typography>
                     <Typography variant="h6">{shorten(address)}</Typography>

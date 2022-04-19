@@ -68,65 +68,78 @@ exports[`<ProjectCard/> should render card 1`] = `
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
         >
           <div
             class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+            style="padding-bottom: 8px;"
           >
             <div
-              class="MuiGrid-root MuiGrid-item"
+              class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                focusable="false"
-                viewBox="0 0 20 20"
+              <div
+                class="project-countdown"
               >
-                <path
-                  d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                  fill="none"
-                  stroke="currentcolor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.6"
-                />
-                <path
-                  d="M18 3.5L9.99659 11.5L7 9"
-                  fill="none"
-                  stroke="currentcolor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.6"
-                />
-              </svg>
+                <div
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-item"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      00:00:00
+                    </p>
+                  </div>
+                  <div
+                    class="MuiGrid-root"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      Completed
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item"
+              class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-                title="Connect your wallet to view the fundraising progress"
+              <div
+                aria-valuemax="100"
+                aria-valuemin="0"
+                aria-valuenow="0"
+                class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                role="progressbar"
               >
-                <strong>
-                  <span
-                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                    style="width: 20px;"
-                  />
-                </strong>
-                % of goal
-              </p>
+                <div
+                  class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                  style="transform: translateX(-100%);"
+                />
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                style="width: 20px;"
+              />
+              %
             </div>
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
         >
           <a
             class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
             href="#/give/projects/project-1"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-2 makeStyles-root-3 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-1 makeStyles-root-2 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
               tabindex="0"
               type="button"
             >
@@ -207,65 +220,78 @@ exports[`<ProjectCard/> should render card without image 1`] = `
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
         >
           <div
             class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+            style="padding-bottom: 8px;"
           >
             <div
-              class="MuiGrid-root MuiGrid-item"
+              class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                focusable="false"
-                viewBox="0 0 20 20"
+              <div
+                class="project-countdown"
               >
-                <path
-                  d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                  fill="none"
-                  stroke="currentcolor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.6"
-                />
-                <path
-                  d="M18 3.5L9.99659 11.5L7 9"
-                  fill="none"
-                  stroke="currentcolor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.6"
-                />
-              </svg>
+                <div
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-item"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      00:00:00
+                    </p>
+                  </div>
+                  <div
+                    class="MuiGrid-root"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body2"
+                    >
+                      Completed
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item"
+              class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-                title="Connect your wallet to view the fundraising progress"
+              <div
+                aria-valuemax="100"
+                aria-valuemin="0"
+                aria-valuenow="0"
+                class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                role="progressbar"
               >
-                <strong>
-                  <span
-                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                    style="width: 20px;"
-                  />
-                </strong>
-                % of goal
-              </p>
+                <div
+                  class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                  style="transform: translateX(-100%);"
+                />
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                style="width: 20px;"
+              />
+              %
             </div>
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
         >
           <a
             class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
             href="#/give/projects/project-1"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-8 makeStyles-root-9 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-6 makeStyles-root-7 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
               tabindex="0"
               type="button"
             >
@@ -298,7 +324,7 @@ exports[`<ProjectCard/> should render page 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
         >
           <div
-            class="MuiPaper-root makeStyles-root-13 makeStyles-root-14  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root makeStyles-root-11 makeStyles-root-12  MuiPaper-elevation0 MuiPaper-rounded"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -308,7 +334,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                 class="MuiGrid-root card-header MuiGrid-item"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-15"
+                  class="MuiBox-root MuiBox-root-13"
                 >
                   <div
                     class="top-left"
@@ -497,17 +523,18 @@ exports[`<ProjectCard/> should render page 1`] = `
                                       viewBox="0 0 20 20"
                                     >
                                       <path
-                                        d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
-                                      />
-                                      <path
-                                        d="M10 7V13"
+                                        d="M3.125 8.96094V4.375C3.125 4.20924 3.19085 4.05027 3.30806 3.93306C3.42527 3.81585 3.58424 3.75 3.75 3.75H16.25C16.4158 3.75 16.5747 3.81585 16.6919 3.93306C16.8092 4.05027 16.875 4.20924 16.875 4.375V8.96094C16.875 15.5234 11.3047 17.6953 10.1953 18.0625C10.0693 18.1092 9.93072 18.1092 9.80469 18.0625C8.69531 17.6953 3.125 15.5234 3.125 8.96094Z"
+                                        fill="none"
                                         stroke="currentcolor"
+                                        stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="1.6"
                                       />
                                       <path
-                                        d="M13 10L7 10"
+                                        d="M13.4375 8.125L8.85156 12.5L6.5625 10.3125"
+                                        fill="none"
                                         stroke="currentcolor"
+                                        stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="1.6"
                                       />
@@ -525,7 +552,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                Total Active sOHM
+                                sOHM Deposited
                               </div>
                             </div>
                           </div>
@@ -553,10 +580,23 @@ exports[`<ProjectCard/> should render page 1`] = `
                                   viewBox="0 0 20 20"
                                 >
                                   <path
-                                    d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
+                                    d="M13.75 11.875L17.5 8.125L13.75 4.375"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
                                   />
                                   <path
-                                    d="M 10.285 13.1 L 13.386 10 M 13.386 10 L 10.285 6.899 M 13.386 10 L 6.613 10"
+                                    d="M15 16.875H3.125C2.95924 16.875 2.80027 16.8092 2.68306 16.6919C2.56585 16.5747 2.5 16.4158 2.5 16.25V6.875"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                  <path
+                                    d="M5.85938 13.75C6.27643 12.1401 7.21619 10.7143 8.53119 9.69621C9.84618 8.67815 11.462 8.1255 13.125 8.125H17.5"
                                     fill="none"
                                     stroke="currentcolor"
                                     stroke-linecap="round"
@@ -576,7 +616,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                             <div
                               class="MuiGrid-root subtext MuiGrid-item"
                             >
-                              sOHM Yield
+                              sOHM Yield Sent
                             </div>
                           </div>
                           <div
@@ -631,7 +671,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Yield Goal
+                                sOHM Deposit Goal
                               </div>
                             </div>
                           </div>
@@ -657,7 +697,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-17 makeStyles-root-18 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-15 makeStyles-root-16 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                           tabindex="0"
                           type="button"
                         >
@@ -667,82 +707,6 @@ exports[`<ProjectCard/> should render page 1`] = `
                             Connect Wallet
                           </span>
                         </button>
-                      </div>
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                      >
-                        <div
-                          class="project-countdown"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                focusable="false"
-                                viewBox="0 0 20 20"
-                              >
-                                <path
-                                  d="M 10.42 5.221 L 10.42 9.999"
-                                  fill="none"
-                                  stroke="currentcolor"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="1.6"
-                                />
-                                <path
-                                  d="M 14.562 12.387 L 10.42 9.999"
-                                  fill="none"
-                                  stroke="currentcolor"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="1.6"
-                                />
-                                <path
-                                  d="M 4.825 7.182 L 0.844 7.182 L 0.844 3.201"
-                                  fill="none"
-                                  stroke="currentcolor"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="1.6"
-                                />
-                                <path
-                                  d="M 4.229 16.19 C 5.454 17.416 7.015 18.251 8.714 18.589 C 10.413 18.928 12.175 18.755 13.775 18.092 C 15.377 17.43 16.745 16.308 17.708 14.866 C 18.671 13.425 19.184 11.732 19.184 9.999 C 19.184 8.266 18.671 6.572 17.708 5.132 C 16.745 3.691 15.377 2.568 13.775 1.905 C 12.175 1.243 10.413 1.069 8.714 1.409 C 7.015 1.747 5.454 2.583 4.229 3.807 L 0.844 7.182"
-                                  fill="none"
-                                  stroke="currentcolor"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="1.6"
-                                />
-                              </svg>
-                            </div>
-                            <div
-                              class="MuiGrid-root MuiGrid-item"
-                            >
-                              <h6
-                                class="MuiTypography-root MuiTypography-h6"
-                              >
-                                <strong>
-                                  00:00:00
-                                </strong>
-                              </h6>
-                            </div>
-                            <div
-                              class="MuiGrid-root"
-                            >
-                              <p
-                                class="MuiTypography-root MuiTypography-body1"
-                                style="color: rgb(153, 153, 153);"
-                              >
-                                Completed
-                              </p>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -759,7 +723,7 @@ exports[`<ProjectCard/> should render page 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
       >
         <div
-          class="MuiPaper-root makeStyles-root-13 makeStyles-root-19  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-11 makeStyles-root-17  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -769,10 +733,10 @@ exports[`<ProjectCard/> should render page 1`] = `
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-20"
+                class="MuiBox-root MuiBox-root-18"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-21"
+                  class="MuiBox-root MuiBox-root-19"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -838,7 +802,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
         >
           <div
-            class="MuiPaper-root makeStyles-root-37 makeStyles-root-38  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root makeStyles-root-35 makeStyles-root-36  MuiPaper-elevation0 MuiPaper-rounded"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -848,7 +812,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                 class="MuiGrid-root card-header MuiGrid-item"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-39"
+                  class="MuiBox-root MuiBox-root-37"
                 >
                   <div
                     class="top-left"
@@ -1037,17 +1001,18 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                       viewBox="0 0 20 20"
                                     >
                                       <path
-                                        d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
-                                      />
-                                      <path
-                                        d="M10 7V13"
+                                        d="M3.125 8.96094V4.375C3.125 4.20924 3.19085 4.05027 3.30806 3.93306C3.42527 3.81585 3.58424 3.75 3.75 3.75H16.25C16.4158 3.75 16.5747 3.81585 16.6919 3.93306C16.8092 4.05027 16.875 4.20924 16.875 4.375V8.96094C16.875 15.5234 11.3047 17.6953 10.1953 18.0625C10.0693 18.1092 9.93072 18.1092 9.80469 18.0625C8.69531 17.6953 3.125 15.5234 3.125 8.96094Z"
+                                        fill="none"
                                         stroke="currentcolor"
+                                        stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="1.6"
                                       />
                                       <path
-                                        d="M13 10L7 10"
+                                        d="M13.4375 8.125L8.85156 12.5L6.5625 10.3125"
+                                        fill="none"
                                         stroke="currentcolor"
+                                        stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="1.6"
                                       />
@@ -1065,7 +1030,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                Total Active sOHM
+                                sOHM Deposited
                               </div>
                             </div>
                           </div>
@@ -1093,10 +1058,23 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                   viewBox="0 0 20 20"
                                 >
                                   <path
-                                    d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
+                                    d="M13.75 11.875L17.5 8.125L13.75 4.375"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
                                   />
                                   <path
-                                    d="M 10.285 13.1 L 13.386 10 M 13.386 10 L 10.285 6.899 M 13.386 10 L 6.613 10"
+                                    d="M15 16.875H3.125C2.95924 16.875 2.80027 16.8092 2.68306 16.6919C2.56585 16.5747 2.5 16.4158 2.5 16.25V6.875"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                  <path
+                                    d="M5.85938 13.75C6.27643 12.1401 7.21619 10.7143 8.53119 9.69621C9.84618 8.67815 11.462 8.1255 13.125 8.125H17.5"
                                     fill="none"
                                     stroke="currentcolor"
                                     stroke-linecap="round"
@@ -1116,7 +1094,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                             <div
                               class="MuiGrid-root subtext MuiGrid-item"
                             >
-                              sOHM Yield
+                              sOHM Yield Sent
                             </div>
                           </div>
                           <div
@@ -1171,7 +1149,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Yield Goal
+                                sOHM Deposit Goal
                               </div>
                             </div>
                           </div>
@@ -1197,7 +1175,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-41 makeStyles-root-42 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-39 makeStyles-root-40 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                           tabindex="0"
                           type="button"
                         >
@@ -1208,9 +1186,6 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                           </span>
                         </button>
                       </div>
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                      />
                     </div>
                   </div>
                 </div>
@@ -1226,7 +1201,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
       >
         <div
-          class="MuiPaper-root makeStyles-root-37 makeStyles-root-43  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-35 makeStyles-root-41  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -1236,10 +1211,10 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-44"
+                class="MuiBox-root MuiBox-root-42"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-45"
+                  class="MuiBox-root MuiBox-root-43"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -1305,7 +1280,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
         >
           <div
-            class="MuiPaper-root makeStyles-root-25 makeStyles-root-26  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root makeStyles-root-23 makeStyles-root-24  MuiPaper-elevation0 MuiPaper-rounded"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -1315,7 +1290,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                 class="MuiGrid-root card-header MuiGrid-item"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-27"
+                  class="MuiBox-root MuiBox-root-25"
                 >
                   <div
                     class="top-left"
@@ -1499,17 +1474,18 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                       viewBox="0 0 20 20"
                                     >
                                       <path
-                                        d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
-                                      />
-                                      <path
-                                        d="M10 7V13"
+                                        d="M3.125 8.96094V4.375C3.125 4.20924 3.19085 4.05027 3.30806 3.93306C3.42527 3.81585 3.58424 3.75 3.75 3.75H16.25C16.4158 3.75 16.5747 3.81585 16.6919 3.93306C16.8092 4.05027 16.875 4.20924 16.875 4.375V8.96094C16.875 15.5234 11.3047 17.6953 10.1953 18.0625C10.0693 18.1092 9.93072 18.1092 9.80469 18.0625C8.69531 17.6953 3.125 15.5234 3.125 8.96094Z"
+                                        fill="none"
                                         stroke="currentcolor"
+                                        stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="1.6"
                                       />
                                       <path
-                                        d="M13 10L7 10"
+                                        d="M13.4375 8.125L8.85156 12.5L6.5625 10.3125"
+                                        fill="none"
                                         stroke="currentcolor"
+                                        stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="1.6"
                                       />
@@ -1527,7 +1503,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                Total Active sOHM
+                                sOHM Deposited
                               </div>
                             </div>
                           </div>
@@ -1555,10 +1531,23 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                   viewBox="0 0 20 20"
                                 >
                                   <path
-                                    d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
+                                    d="M13.75 11.875L17.5 8.125L13.75 4.375"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
                                   />
                                   <path
-                                    d="M 10.285 13.1 L 13.386 10 M 13.386 10 L 10.285 6.899 M 13.386 10 L 6.613 10"
+                                    d="M15 16.875H3.125C2.95924 16.875 2.80027 16.8092 2.68306 16.6919C2.56585 16.5747 2.5 16.4158 2.5 16.25V6.875"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                  <path
+                                    d="M5.85938 13.75C6.27643 12.1401 7.21619 10.7143 8.53119 9.69621C9.84618 8.67815 11.462 8.1255 13.125 8.125H17.5"
                                     fill="none"
                                     stroke="currentcolor"
                                     stroke-linecap="round"
@@ -1578,7 +1567,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                             <div
                               class="MuiGrid-root subtext MuiGrid-item"
                             >
-                              sOHM Yield
+                              sOHM Yield Sent
                             </div>
                           </div>
                           <div
@@ -1633,7 +1622,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Yield Goal
+                                sOHM Deposit Goal
                               </div>
                             </div>
                           </div>
@@ -1659,7 +1648,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-29 makeStyles-root-30 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-27 makeStyles-root-28 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                           tabindex="0"
                           type="button"
                         >
@@ -1669,82 +1658,6 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                             Connect Wallet
                           </span>
                         </button>
-                      </div>
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                      >
-                        <div
-                          class="project-countdown"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center"
-                          >
-                            <div
-                              class="MuiGrid-root MuiGrid-item"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                focusable="false"
-                                viewBox="0 0 20 20"
-                              >
-                                <path
-                                  d="M 10.42 5.221 L 10.42 9.999"
-                                  fill="none"
-                                  stroke="currentcolor"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="1.6"
-                                />
-                                <path
-                                  d="M 14.562 12.387 L 10.42 9.999"
-                                  fill="none"
-                                  stroke="currentcolor"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="1.6"
-                                />
-                                <path
-                                  d="M 4.825 7.182 L 0.844 7.182 L 0.844 3.201"
-                                  fill="none"
-                                  stroke="currentcolor"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="1.6"
-                                />
-                                <path
-                                  d="M 4.229 16.19 C 5.454 17.416 7.015 18.251 8.714 18.589 C 10.413 18.928 12.175 18.755 13.775 18.092 C 15.377 17.43 16.745 16.308 17.708 14.866 C 18.671 13.425 19.184 11.732 19.184 9.999 C 19.184 8.266 18.671 6.572 17.708 5.132 C 16.745 3.691 15.377 2.568 13.775 1.905 C 12.175 1.243 10.413 1.069 8.714 1.409 C 7.015 1.747 5.454 2.583 4.229 3.807 L 0.844 7.182"
-                                  fill="none"
-                                  stroke="currentcolor"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="1.6"
-                                />
-                              </svg>
-                            </div>
-                            <div
-                              class="MuiGrid-root MuiGrid-item"
-                            >
-                              <h6
-                                class="MuiTypography-root MuiTypography-h6"
-                              >
-                                <strong>
-                                  00:00:00
-                                </strong>
-                              </h6>
-                            </div>
-                            <div
-                              class="MuiGrid-root"
-                            >
-                              <p
-                                class="MuiTypography-root MuiTypography-body1"
-                                style="color: rgb(153, 153, 153);"
-                              >
-                                Completed
-                              </p>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -1761,7 +1674,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
       >
         <div
-          class="MuiPaper-root makeStyles-root-25 makeStyles-root-31  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-23 makeStyles-root-29  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -1771,10 +1684,10 @@ exports[`<ProjectCard/> should render page without image 1`] = `
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-32"
+                class="MuiBox-root MuiBox-root-30"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-33"
+                  class="MuiBox-root MuiBox-root-31"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"

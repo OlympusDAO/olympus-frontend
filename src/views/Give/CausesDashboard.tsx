@@ -1,8 +1,8 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Container, Grid, Typography, Zoom } from "@material-ui/core";
-import { Paper, TertiaryButton } from "@olympusdao/component-library";
+import { Box, Container, Grid, Typography, useTheme, Zoom } from "@material-ui/core";
+import { PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
 import { useUIDSeed } from "react-uid";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
@@ -32,6 +32,7 @@ export default function CausesDashboard() {
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
+  const theme = useTheme();
   const seed = useUIDSeed();
 
   const renderProjects = useMemo(() => {
@@ -67,14 +68,23 @@ export default function CausesDashboard() {
     setIsCustomGiveModalOpen(false);
   };
 
+  const customRecipientBoxStyle = {
+    backgroundColor: theme.palette.type === "dark" ? theme.colors.gray[500] : theme.colors.gray[10],
+    borderRadius: "10px",
+  };
+
   return (
     <Zoom in={true}>
       <Container>
         <Grid container justifyContent="center" alignItems="center" spacing={4}>
           {renderProjects}
           <Grid item xs={12}>
-            <Paper fullWidth>
-              <Grid container spacing={2}>
+            <Box style={customRecipientBoxStyle}>
+              <Grid
+                container
+                spacing={2}
+                style={{ paddingTop: "10px", paddingBottom: "10px", paddingLeft: "30px", paddingRight: "30px" }}
+              >
                 <Grid item xs={12}>
                   <Typography variant="h4" align="center">
                     <Trans>Want to give to a different cause?</Trans>
@@ -85,13 +95,20 @@ export default function CausesDashboard() {
                     <Trans>You can direct your yield to a recipient of your choice</Trans>
                   </Typography>
                 </Grid>
-                <Grid item xs={12} container justifyContent="center">
-                  <TertiaryButton onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
-                    <Trans>Custom Recipient</Trans>
-                  </TertiaryButton>
+                <Grid item xs />
+                <Grid item xs={12} sm={4} container justifyContent="center">
+                  <PrimaryButton
+                    fullWidth
+                    size="small"
+                    onClick={() => handleCustomGiveButtonClick()}
+                    disabled={!address}
+                  >
+                    <Trans>Select Custom Recipient</Trans>
+                  </PrimaryButton>
                 </Grid>
+                <Grid item xs />
               </Grid>
-            </Paper>
+            </Box>
           </Grid>
         </Grid>
         <RecipientModal
