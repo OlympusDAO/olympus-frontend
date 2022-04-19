@@ -142,82 +142,94 @@ export class DecimalBigNumber {
   /**
    * Determines if the two values are equal
    */
-  public eq(value: DecimalBigNumber): boolean {
+  public eq(value: DecimalBigNumber | string): boolean {
+    const valueAsDBN = value instanceof DecimalBigNumber ? value : new DecimalBigNumber(value);
+
     // Normalize decimals to the largest of the two values
-    const decimals = Math.max(value._decimals, this._decimals);
+    const largestDecimalAmount = Math.max(valueAsDBN._decimals, this._decimals);
 
     // Normalize values to the correct decimal amount
-    const _this = new DecimalBigNumber(this.toString(), decimals);
-    const _value = new DecimalBigNumber(value.toString(), decimals);
+    const normalisedThis = new DecimalBigNumber(this.toString(), largestDecimalAmount);
+    const normalisedValue = new DecimalBigNumber(valueAsDBN.toString(), largestDecimalAmount);
 
-    return _this._value.eq(_value._value);
+    return normalisedThis._value.eq(normalisedValue._value);
   }
 
   /**
    * Subtracts this value by the value provided
    */
-  public sub(value: DecimalBigNumber): DecimalBigNumber {
+  public sub(value: DecimalBigNumber | string): DecimalBigNumber {
+    const valueAsDBN = value instanceof DecimalBigNumber ? value : new DecimalBigNumber(value);
+
     // Normalize decimals to the largest of the two values
-    const decimals = Math.max(value._decimals, this._decimals);
+    const largestDecimalAmount = Math.max(valueAsDBN._decimals, this._decimals);
 
     // Normalize values to the correct decimal amount
-    const _this = new DecimalBigNumber(this.toString(), decimals);
-    const _value = new DecimalBigNumber(value.toString(), decimals);
+    const normalisedThis = new DecimalBigNumber(this.toString(), largestDecimalAmount);
+    const normalisedValue = new DecimalBigNumber(valueAsDBN.toString(), largestDecimalAmount);
 
-    return new DecimalBigNumber(_this._value.sub(_value._value), decimals);
+    return new DecimalBigNumber(normalisedThis._value.sub(normalisedValue._value), largestDecimalAmount);
   }
 
   /**
    * Sums this value and the value provided
    */
-  public add(value: DecimalBigNumber): DecimalBigNumber {
+  public add(value: DecimalBigNumber | string): DecimalBigNumber {
+    const valueAsDBN = value instanceof DecimalBigNumber ? value : new DecimalBigNumber(value);
+
     // Normalize decimals to the largest of the two values
-    const decimals = Math.max(value._decimals, this._decimals);
+    const largestDecimalAmount = Math.max(valueAsDBN._decimals, this._decimals);
 
     // Normalize values to the correct decimal amount
-    const _this = new DecimalBigNumber(this.toString(), decimals);
-    const _value = new DecimalBigNumber(value.toString(), decimals);
+    const normalisedThis = new DecimalBigNumber(this.toString(), largestDecimalAmount);
+    const normalisedValue = new DecimalBigNumber(valueAsDBN.toString(), largestDecimalAmount);
 
-    return new DecimalBigNumber(_this._value.add(_value._value), decimals);
+    return new DecimalBigNumber(normalisedThis._value.add(normalisedValue._value), largestDecimalAmount);
   }
 
   /**
    * Determines if this value is greater than the provided value
    */
-  public gt(value: DecimalBigNumber): boolean {
+  public gt(value: DecimalBigNumber | string): boolean {
+    const valueAsDBN = value instanceof DecimalBigNumber ? value : new DecimalBigNumber(value);
+
     // Normalize decimals to the largest of the two values
-    const decimals = Math.max(value._decimals, this._decimals);
+    const largestDecimalAmount = Math.max(valueAsDBN._decimals, this._decimals);
 
     // Normalize values to the correct decimal amount
-    const _this = new DecimalBigNumber(this.toString(), decimals);
-    const _value = new DecimalBigNumber(value.toString(), decimals);
+    const normalisedThis = new DecimalBigNumber(this.toString(), largestDecimalAmount);
+    const normalisedValue = new DecimalBigNumber(valueAsDBN.toString(), largestDecimalAmount);
 
-    return _this._value.gt(_value._value);
+    return normalisedThis._value.gt(normalisedValue._value);
   }
 
   /**
    * Determines if this value is less than the provided value
    */
-  public lt(value: DecimalBigNumber): boolean {
+  public lt(value: DecimalBigNumber | string): boolean {
+    const valueAsDBN = value instanceof DecimalBigNumber ? value : new DecimalBigNumber(value);
+
     // Normalize decimals to the largest of the two values
-    const decimals = Math.max(value._decimals, this._decimals);
+    const largestDecimalAmount = Math.max(valueAsDBN._decimals, this._decimals);
 
     // Normalize values to the correct decimal amount
-    const _this = new DecimalBigNumber(this.toString(), decimals);
-    const _value = new DecimalBigNumber(value.toString(), decimals);
+    const normalisedThis = new DecimalBigNumber(this.toString(), largestDecimalAmount);
+    const normalisedValue = new DecimalBigNumber(valueAsDBN.toString(), largestDecimalAmount);
 
-    return _this._value.lt(_value._value);
+    return normalisedThis._value.lt(normalisedValue._value);
   }
 
   /**
    * Multiplies this value by the provided value
    */
-  public mul(value: DecimalBigNumber): DecimalBigNumber {
-    const product = this._value.mul(value._value);
+  public mul(value: DecimalBigNumber | string): DecimalBigNumber {
+    const valueAsDBN = value instanceof DecimalBigNumber ? value : new DecimalBigNumber(value);
+
+    const product = this._value.mul(valueAsDBN._value);
 
     // Multiplying two BigNumbers produces a product with a decimal
     // amount equal to the sum of the decimal amounts of the two input numbers
-    return new DecimalBigNumber(product, this._decimals + value._decimals);
+    return new DecimalBigNumber(product, this._decimals + valueAsDBN._decimals);
   }
 
   /**
@@ -230,8 +242,10 @@ export class DecimalBigNumber {
    *
    * @param decimals The expected decimal amount of the output value
    */
-  public div(value: DecimalBigNumber, decimals?: number): DecimalBigNumber {
-    const _decimals = decimals === undefined ? this._decimals + value._decimals : this._ensurePositive(decimals);
+  public div(value: DecimalBigNumber | string, decimals?: number): DecimalBigNumber {
+    const valueAsDBN = value instanceof DecimalBigNumber ? value : new DecimalBigNumber(value);
+
+    const _decimals = decimals === undefined ? this._decimals + valueAsDBN._decimals : this._ensurePositive(decimals);
 
     // When we divide two BigNumbers, the result will never
     // include any decimal places because BigNumber only deals
@@ -254,9 +268,9 @@ export class DecimalBigNumber {
     // Normalized to the expected decimal amount of the result
     // 4.4
 
-    const _this = new DecimalBigNumber(this.toString(), _decimals + value._decimals);
+    const normalisedThis = new DecimalBigNumber(this.toString(), _decimals + valueAsDBN._decimals);
 
-    const quotient = _this._value.div(value._value);
+    const quotient = normalisedThis._value.div(valueAsDBN._value);
 
     // Return result with the expected output decimal amount
     return new DecimalBigNumber(quotient, _decimals);
