@@ -2,7 +2,6 @@
 .project-content {
   line-height: 20px;
   font-size: 16px;
-  font-family: "Euclid Square";
 
   li {
     // Same as standard
@@ -29,14 +28,13 @@
     height: 10px;
     border-radius: 3px;
   }
-
-  .MuiLinearProgress-barColorPrimary {
-    background: rgb(112, 139, 150);
-    background: linear-gradient(269deg, rgba(112, 139, 150, 1) 0%, rgba(247, 251, 231, 1) 100%);
-  }
 }
 
-.modal-confirmation-title {
+div.grey-box {
+  border-color: #999999;
+}
+
+.grey-text {
   color: #999999;
 }
 
@@ -61,4 +59,10 @@
     padding-left: 0px;
     padding-right: 0px;
   }
+}
+
+#simple-tabpanel-0.MuiBox-root {
+  // We want the cards on CausesDashboard to be closer to the edges
+  padding-left: 0px;
+  padding-right: 0px;
 }

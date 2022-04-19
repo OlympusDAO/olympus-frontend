@@ -11,28 +11,43 @@ import {
 
 describe("<ArrowGraphic/>", () => {
   it("should render component", () => {
-    const { container } = render(<ArrowGraphic />);
+    const { container } = render(<ArrowGraphic fill="#999999" />);
     expect(container).toMatchSnapshot();
   });
 });
 
 describe("<CompactYield/>", () => {
   it("should render component", () => {
-    const { container } = render(<CompactYield quantity={"1"} />);
+    const { container } = render(<CompactYield quantity={"1"} isQuantityExact={true} />);
+    expect(container).toMatchSnapshot();
+  });
+
+  it("should render component with quantity not exact", () => {
+    const { container } = render(<CompactYield quantity={"1"} isQuantityExact={false} />);
     expect(container).toMatchSnapshot();
   });
 });
 
 describe("<CompactVault/>", () => {
   it("should render component", () => {
-    const { container } = render(<CompactVault quantity={"1"} />);
+    const { container } = render(<CompactVault quantity={"1"} isQuantityExact={true} />);
+    expect(container).toMatchSnapshot();
+  });
+
+  it("should render component with quantity not exact", () => {
+    const { container } = render(<CompactVault quantity={"1"} isQuantityExact={false} />);
     expect(container).toMatchSnapshot();
   });
 });
 
 describe("<CompactWallet/>", () => {
   it("should render component", () => {
-    const { container } = render(<CompactWallet quantity={"1"} />);
+    const { container } = render(<CompactWallet quantity={"1"} isQuantityExact={true} />);
+    expect(container).toMatchSnapshot();
+  });
+
+  it("should render component with quantity not exact", () => {
+    const { container } = render(<CompactWallet quantity={"1"} isQuantityExact={false} />);
     expect(container).toMatchSnapshot();
   });
 });

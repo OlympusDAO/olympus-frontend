@@ -7,7 +7,6 @@ import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
-import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project } from "src/components/GiveProject/project.type";
 import { GiveTokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { NetworkId } from "src/constants";
@@ -66,6 +65,10 @@ export function RecipientModal({
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const themedArrow =
+    theme.palette.type === "dark" && theme.colors.primary[300]
+      ? theme.colors.primary[300]
+      : theme.palette.text.secondary;
 
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toString());
@@ -327,14 +330,20 @@ export function RecipientModal({
               </>
             }
           >
-            <Grid item xs={12}>
-              <Typography variant="body1">
-                <Trans>sOHM Allocation</Trans>
+            <Grid item xs={6} style={{ paddingBottom: "0px" }}>
+              <Typography variant="body2" className="subtext">
+                <Trans>sOHM Deposit</Trans>
                 <InfoTooltip
                   message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                   children={null}
                 />
               </Typography>
+            </Grid>
+            <Grid item xs={6} style={{ paddingBottom: "0px" }}>
+              <Typography align="right" variant="body2" className="subtext">{t`Balance: ${sohmBalance.toString({
+                decimals: DECIMAL_PLACES,
+                format: true,
+              })} sOHM`}</Typography>
             </Grid>
             <Grid item xs={12}>
               <Input
@@ -358,11 +367,11 @@ export function RecipientModal({
                 endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
               />
             </Grid>
-            <Grid item xs={12}>
-              <Typography variant="body1">
-                <Trans>Recipient</Trans>
+            <Grid item xs={12} style={{ paddingBottom: "0px" }}>
+              <Typography variant="body2" className="subtext">
+                <Trans>Recipient Address</Trans>
                 <InfoTooltip
-                  message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+                  message={t`The rebase rewards from the sOHM that you deposit will be redirected to the wallet address that you specify`}
                   children={null}
                 />
               </Typography>
@@ -388,14 +397,14 @@ export function RecipientModal({
                     />
                   </Grid>
                   <Grid item xs={1}>
-                    <ArrowGraphic />
+                    <ArrowGraphic fill={themedArrow} />
                   </Grid>
                   <Grid item xs={3}>
                     {/* This is deliberately a specific value */}
                     <CompactVault quantity={getDepositAmount().toString(EXACT_FORMAT)} isQuantityExact={true} />
                   </Grid>
                   <Grid item xs={1}>
-                    <ArrowGraphic />
+                    <ArrowGraphic fill={themedArrow} />
                   </Grid>
                   <Grid item xs={3}>
                     {/* This is deliberately a specific value */}
@@ -439,56 +448,54 @@ export function RecipientModal({
       <>
         <Grid container spacing={4}>
           <Grid item xs={12}>
-            <Box>
-              <Grid container spacing={2} alignItems="center">
-                <Grid item container xs={12} sm={4}>
-                  <Grid xs={12}>
-                    <Typography variant="body1" className="modal-confirmation-title">
-                      <Trans>sOHM deposit</Trans>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item container xs={12} sm={4} alignItems="center">
+                <Grid xs={12}>
+                  <Typography variant="body1" className="grey-text">
+                    <Trans>sOHM Deposit</Trans>
+                    <InfoTooltip
+                      message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                      children={null}
+                    />
+                  </Typography>
+                </Grid>
+                <Grid xs={12}>
+                  <Typography variant="h6">
+                    {/* As this is the amount being deposited, the user needs to see the exact amount. */}
+                    <strong>{getDepositAmount().toString(EXACT_FORMAT)}</strong>
+                  </Typography>
+                </Grid>
+              </Grid>
+              {!isSmallScreen ? (
+                <Grid item xs={4}>
+                  <ArrowGraphic fill={themedArrow} />
+                </Grid>
+              ) : (
+                <></>
+              )}
+              <Grid item xs={12} sm={4}>
+                {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
+                      whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
+                      alignment accordingly. */}
+                <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
+                  <Grid item xs={12}>
+                    <Typography variant="body1" className="grey-text">
+                      <Trans>Recipient Address</Trans>
                       <InfoTooltip
-                        message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                        message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
                         children={null}
                       />
                     </Typography>
                   </Grid>
                   <Grid xs={12}>
-                    <Typography variant="h6">
-                      {/* As this is the amount being deposited, the user needs to see the exact amount. */}
-                      <strong>{getDepositAmount().toString(EXACT_FORMAT)} sOHM</strong>
+                    {/* 5px to align with the padding on the tooltip */}
+                    <Typography variant="h6" style={{ paddingRight: "5px" }}>
+                      <strong>{getRecipientTitle()}</strong>
                     </Typography>
                   </Grid>
                 </Grid>
-                {!isSmallScreen ? (
-                  <Grid item xs={4}>
-                    <ArrowGraphic />
-                  </Grid>
-                ) : (
-                  <></>
-                )}
-                <Grid item xs={12} sm={4}>
-                  {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
-                      whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
-                      alignment accordingly. */}
-                  <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
-                    <Grid item xs={12}>
-                      <Typography variant="body1" className="modal-confirmation-title">
-                        <Trans>Recipient address</Trans>
-                        <InfoTooltip
-                          message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
-                          children={null}
-                        />
-                      </Typography>
-                    </Grid>
-                    <Grid xs={12}>
-                      {/* 5px to align with the padding on the tooltip */}
-                      <Typography variant="h6" style={{ paddingRight: "5px" }}>
-                        <strong>{getRecipientTitle()}</strong>
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
               </Grid>
-            </Box>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             <Grid container>

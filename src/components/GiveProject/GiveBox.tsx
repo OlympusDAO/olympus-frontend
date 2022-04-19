@@ -12,7 +12,7 @@ interface GiveBoxProps {
  */
 export function GiveBox(props: GiveBoxProps) {
   return (
-    <Box border={1} borderColor="#999999" borderRadius="10px" padding="20px">
+    <Box border={1} className="grey-box" borderRadius="10px" padding="20px">
       {props.children}
     </Box>
   );
