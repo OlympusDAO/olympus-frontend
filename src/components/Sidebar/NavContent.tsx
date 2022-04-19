@@ -88,6 +88,8 @@ const NavContent: React.VFC = () => {
                 </>
               )}
 
+              <NavItem to="/transparency" icon="info" label={t`Transparency`} />
+
               <NavItem href="https://forum.olympusdao.finance/" icon="forum" label={t`Forum`} />
 
               <NavItem href="https://vote.olympusdao.finance/" icon="governance" label={t`Governance`} />
