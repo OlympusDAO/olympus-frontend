@@ -158,7 +158,6 @@ export const ZipPoolAPY = (pool: ExternalPool) => {
 };
 
 export const AstroportPoolAPY = (pool: ExternalPool) => {
-  console.log("pool", pool);
   const {
     data = { pool_liquidity: 0, total_rewards: { apr: 0 } },
     isFetched,
@@ -180,7 +179,6 @@ export const AstroportPoolAPY = (pool: ExternalPool) => {
           }
         `,
       );
-      console.log(response.pool, "response");
       return response.pool;
     },
     { enabled: !!pool },
