@@ -51,11 +51,7 @@ export interface OHMTransactionHistoryProps {
   address?: string;
 }
 
-/**
- * Component for Displaying TransactionHistory
- */
-
-const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
+export const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
   const classes = useStyles();
   const {
     data: covalentTransactions,
@@ -407,4 +403,3 @@ const TransactionHistory: FC<OHMTransactionHistoryProps> = () => {
     </>
   );
 };
-export default TransactionHistory;
