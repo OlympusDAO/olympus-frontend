@@ -60,8 +60,7 @@ export const useZapExecute = () => {
       if (!tokenAddress) throw new Error(t`The tokenAddress parameter must be set`);
 
       const minimumAmountNumber = new DecimalBigNumber(minimumAmount);
-      if (!minimumAmount || !minimumAmountNumber.gt(new DecimalBigNumber("0")))
-        throw new Error(t`Minimum amount must be greater than 0`);
+      if (!minimumAmount || !minimumAmountNumber.gt("0")) throw new Error(t`Minimum amount must be greater than 0`);
 
       if (!isSupportedChain(networkId)) {
         dispatch(error(t`Zaps are only available on Ethereum Mainnet. Please switch networks.`));

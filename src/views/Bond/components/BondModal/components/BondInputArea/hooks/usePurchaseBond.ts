@@ -37,10 +37,9 @@ export const usePurchaseBond = (bond: Bond) => {
       const parsedAmount = new DecimalBigNumber(amount, bond.quoteToken.decimals);
       const parsedSlippage = new DecimalBigNumber(slippage, 18);
 
-      if (!parsedAmount.gt(new DecimalBigNumber("0"))) throw new Error(t`Please enter a number greater than 0`);
+      if (!parsedAmount.gt("0")) throw new Error(t`Please enter a number greater than 0`);
 
-      if (!parsedSlippage.gt(new DecimalBigNumber("0")))
-        throw new Error(t`Please enter a slippage amount greater than 0`);
+      if (!parsedSlippage.gt("0")) throw new Error(t`Please enter a slippage amount greater than 0`);
 
       if (!balance) throw new Error(t`Please refresh your page and try again`);
 
@@ -66,7 +65,7 @@ export const usePurchaseBond = (bond: Bond) => {
       if (networkId !== networks.MAINNET)
         throw new Error(t`Please switch to the Ethereum network to purchase this bond`);
 
-      const slippageAsPercent = parsedSlippage.div(new DecimalBigNumber("100")).add(new DecimalBigNumber("1"));
+      const slippageAsPercent = parsedSlippage.div("100").add("1");
       const maxPrice = bond.price.inBaseToken.mul(slippageAsPercent);
 
       const signer = provider.getSigner();
@@ -85,7 +84,7 @@ export const usePurchaseBond = (bond: Bond) => {
         .deposit(
           bond.id,
           parsedAmount.toBigNumber(),
-          new DecimalBigNumber(maxPrice.toString(), bond.baseToken.decimals).toBigNumber(),
+          maxPrice.toBigNumber(bond.baseToken.decimals),
           recipientAddress,
           referrer,
         );
