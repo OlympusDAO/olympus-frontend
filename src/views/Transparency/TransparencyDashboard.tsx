@@ -4,6 +4,8 @@ import { TabPanel } from "@olympusdao/component-library";
 import { ChangeEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
 
+import { ContractsDiagram } from "./ContractsDiagram";
+
 const dashboardTabs = [{ pathname: "contracts", label: <Trans>Contracts</Trans> }];
 
 export const TransparencyDashboard: React.FC<{ activeView?: number }> = ({ activeView = 0 }) => {
@@ -13,7 +15,7 @@ export const TransparencyDashboard: React.FC<{ activeView?: number }> = ({ activ
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
-    history.push(newView === 0 ? "/dashboard" : `/dashboard/${dashboardTabs[newView].pathname}`);
+    history.push(newView === 0 ? "/transparency" : `/transparency/${dashboardTabs[newView].pathname}`);
   };
 
   return (
@@ -34,7 +36,7 @@ export const TransparencyDashboard: React.FC<{ activeView?: number }> = ({ activ
       </Tabs>
       <Container>
         <TabPanel value={view} index={0}>
-          foo
+          <ContractsDiagram />
         </TabPanel>
       </Container>
     </Container>
