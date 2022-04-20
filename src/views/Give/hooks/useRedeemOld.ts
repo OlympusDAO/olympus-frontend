@@ -5,13 +5,11 @@ import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OLD_GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey } from "src/hooks/useBalance";
-import { useStaticOldGiveContract } from "src/hooks/useContract";
+import { useDynamicOldGiveContract } from "src/hooks/useContract";
 import { oldRedeemableBalanceQueryKey, recipientInfoQueryKey, redeemableBalanceQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { NetworkId } from "src/networkDetails";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
-import { RedeemData } from "../Interfaces";
 import { IUARecipientData, trackGiveRedeemEvent } from "../utils/googleAnalytics";
 
 /**
@@ -23,9 +21,9 @@ export const useOldRedeem = () => {
   const client = useQueryClient();
   const { address, networkId } = useWeb3Context();
   const networks = useTestableNetworks();
-  const contract = useStaticOldGiveContract(OLD_GIVE_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
+  const contract = useDynamicOldGiveContract(OLD_GIVE_ADDRESSES, true);
 
-  return useMutation<ContractReceipt, Error, RedeemData>(
+  return useMutation<ContractReceipt, Error>(
     async () => {
       if (networkId != 1)
         throw new Error(t`The old Give contract is only supported on the mainnet. Please switch to Ethereum mainnet`);

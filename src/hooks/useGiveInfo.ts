@@ -10,7 +10,7 @@ import { nonNullable } from "src/helpers/types/nonNullable";
 import { IUserDonationInfo } from "src/views/Give/Interfaces";
 
 import { useWeb3Context } from ".";
-import { useDynamicGiveContract, useStaticOldGiveContract } from "./useContract";
+import { useDynamicGiveContract, useDynamicOldGiveContract } from "./useContract";
 import { useTestableNetworks } from "./useTestableNetworks";
 
 interface IDonorAddresses {
@@ -206,7 +206,7 @@ export const useOldRedeemableBalance = (address: string) => {
   const { networkId } = useWeb3Context();
 
   // Hook to establish static old Give contract
-  const contract = useStaticOldGiveContract(OLD_GIVE_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
+  const contract = useDynamicOldGiveContract(OLD_GIVE_ADDRESSES, true);
 
   const query = useQuery<string, Error>(
     oldRedeemableBalanceQueryKey(address, networkId),

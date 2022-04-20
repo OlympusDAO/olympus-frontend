@@ -32,6 +32,11 @@
 
 div.grey-box {
   border-color: #999999;
+
+  &.redeem-selector {
+    padding: 2px;
+    margin-bottom: 10px;
+  }
 }
 
 .grey-text {

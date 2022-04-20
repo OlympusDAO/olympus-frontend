@@ -8,9 +8,11 @@ import { Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
+import { useOldRedeemableBalance } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
 
+import { CallToRedeem } from "./CallToRedeem";
 import CausesDashboard from "./CausesDashboard";
 import { GiveInfo } from "./GiveInfo";
 import { GohmToggle } from "./GohmToggle";
@@ -39,9 +41,12 @@ type GiveProps = {
 };
 
 function Give({ selectedIndex, giveAssetType, changeAssetType }: GiveProps) {
-  const { networkId } = useWeb3Context();
+  const { address, networkId } = useWeb3Context();
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(selectedIndex || 0);
+
+  const oldRedeemableBalance = useOldRedeemableBalance(address);
+  const hasOldAssets = oldRedeemableBalance.data && oldRedeemableBalance.data != "0.0";
 
   const theme = useTheme();
   const isBreakpointXS = useMediaQuery(theme.breakpoints.down("xs"));
@@ -85,6 +90,7 @@ function Give({ selectedIndex, giveAssetType, changeAssetType }: GiveProps) {
               ) : (
                 <></>
               )}
+              {hasOldAssets && <CallToRedeem />}
               <Tabs
                 key={String(zoomed)}
                 centered
