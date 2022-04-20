@@ -36,7 +36,7 @@ const Bridge = () => {
             <span>Bridge on Avalanche</span>
           </TertiaryButton>
           <TertiaryButton href="https://portalbridge.com/#/transfer">
-            <Token name="UST" style={{ marginRight: "10px" }} />
+            <Token name="TERRA" style={{ marginRight: "10px" }} />
             <span>Bridge on Wormhole</span>
           </TertiaryButton>
         </Box>
