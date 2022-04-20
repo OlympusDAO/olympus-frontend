@@ -5,7 +5,7 @@ import Bridge from "..";
 describe("Bridge", () => {
   it("should render Bridge Screen with links", async () => {
     render(<Bridge />);
-    expect(screen.getByText("Wormhole")).toBeInTheDocument();
+    expect(screen.getByText("Fantom")).toBeInTheDocument();
   });
 
   it("should dismiss banner when clicked", async () => {
