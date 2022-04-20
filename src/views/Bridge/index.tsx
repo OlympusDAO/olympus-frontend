@@ -33,43 +33,43 @@ const Bridge = () => {
             <Grid item xs={12} md={6}>
               <Box display="flex" flexDirection="column">
                 <MiniCard
-                  label="Bridge on"
-                  title="Synapse"
+                  label="Bridge to"
+                  title="Ethereum"
                   icon="ETH"
                   href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=1"
                 />
                 <MiniCard
-                  label="Bridge on"
-                  title="Synapse"
+                  label="Bridge to"
+                  title="Polygon"
                   icon="POLYGON"
                   href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=137"
                 />
                 <MiniCard
-                  label="Bridge on"
-                  title="Synapse"
+                  label="Bridge to"
+                  title="Avalanche"
                   icon="AVAX"
                   href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
                 />
-                <MiniCard label="Bridge on" title="Wormhole" icon="TERRA" href="https://portalbridge.com/#/transfer" />
+                <MiniCard label="Bridge to" title="Terra" icon="TERRA" href="https://portalbridge.com/#/transfer" />
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
               <Box display="flex" flexDirection="column">
                 <MiniCard
-                  label="Bridge on"
-                  title="Synapse"
+                  label="Bridge to"
+                  title="Arbitrum"
                   icon="ARBITRUM"
                   href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=42161"
                 />
                 <MiniCard
-                  label="Bridge on"
-                  title="Synapse"
+                  label="Bridge to"
+                  title="Optimism"
                   icon="OPTIMISM"
                   href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=10"
                 />
                 <MiniCard
-                  label="Bridge on"
-                  title="Synapse"
+                  label="Bridge to"
+                  title="Fantom"
                   icon="FANTOM"
                   href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=250"
                 />
