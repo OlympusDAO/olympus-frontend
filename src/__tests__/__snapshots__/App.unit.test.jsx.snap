@@ -3675,7 +3675,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                         class="MuiTypography-root MuiTypography-body1"
                         style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                       >
-                        gOHM-UST
+                        wgOHM-UST
                       </p>
                       <svg
                         aria-hidden="true"
@@ -7483,7 +7483,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                         class="MuiTypography-root MuiTypography-body1"
                         style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                       >
-                        gOHM-UST
+                        wgOHM-UST
                       </p>
                       <svg
                         aria-hidden="true"
@@ -11291,7 +11291,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                         class="MuiTypography-root MuiTypography-body1"
                         style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                       >
-                        gOHM-UST
+                        wgOHM-UST
                       </p>
                       <svg
                         aria-hidden="true"

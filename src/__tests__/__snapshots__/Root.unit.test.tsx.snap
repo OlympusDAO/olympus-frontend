@@ -3739,7 +3739,7 @@ exports[`<Root/> should render component 1`] = `
                         class="MuiTypography-root-280 MuiTypography-body1-282"
                         style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                       >
-                        gOHM-UST
+                        wgOHM-UST
                       </p>
                       <svg
                         aria-hidden="true"

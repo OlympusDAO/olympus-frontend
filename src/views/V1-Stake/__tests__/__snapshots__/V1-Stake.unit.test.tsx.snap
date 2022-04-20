@@ -3200,7 +3200,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                     class="MuiTypography-root MuiTypography-body1"
                     style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                   >
-                    gOHM-UST
+                    wgOHM-UST
                   </p>
                   <svg
                     aria-hidden="true"
@@ -6572,7 +6572,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                     class="MuiTypography-root MuiTypography-body1"
                     style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                   >
-                    gOHM-UST
+                    wgOHM-UST
                   </p>
                   <svg
                     aria-hidden="true"
@@ -9949,7 +9949,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                     class="MuiTypography-root MuiTypography-body1"
                     style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                   >
-                    gOHM-UST
+                    wgOHM-UST
                   </p>
                   <svg
                     aria-hidden="true"
@@ -13326,7 +13326,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                     class="MuiTypography-root MuiTypography-body1"
                     style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                   >
-                    gOHM-UST
+                    wgOHM-UST
                   </p>
                   <svg
                     aria-hidden="true"

@@ -2898,7 +2898,7 @@ exports[`<Stake/> should render component 1`] = `
                     class="MuiTypography-root MuiTypography-body1"
                     style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                   >
-                    gOHM-UST
+                    wgOHM-UST
                   </p>
                   <svg
                     aria-hidden="true"
@@ -5926,7 +5926,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                     class="MuiTypography-root MuiTypography-body1"
                     style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                   >
-                    gOHM-UST
+                    wgOHM-UST
                   </p>
                   <svg
                     aria-hidden="true"
