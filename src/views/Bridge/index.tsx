@@ -30,7 +30,7 @@ const Bridge = () => {
       <Paper headerText="Bridge">
         <Box display="flex" flexDirection="row">
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Box display="flex" flexDirection="column">
                 <MiniCard
                   label="Bridge on"
@@ -53,7 +53,7 @@ const Bridge = () => {
                 <MiniCard label="Bridge on" title="Wormhole" icon="TERRA" href="https://portalbridge.com/#/transfer" />
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Box display="flex" flexDirection="column">
                 <MiniCard
                   label="Bridge on"
