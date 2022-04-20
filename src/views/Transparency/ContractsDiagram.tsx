@@ -1,41 +1,61 @@
 import { Container, Grid } from "@material-ui/core";
-import dagre from "dagre";
+import ELK, { ElkExtendedEdge, ElkNode } from "elkjs";
 import { useEffect, useState } from "react";
 import ReactFlow, { Edge, Node, Position } from "react-flow-renderer";
 
 import { initialEdges, initialNodes } from "./contractNodes";
 
-const nodeDimensions = { width: 50, height: 20 };
-
 // Based on: https://reactflow.dev/docs/examples/layouting/
-const getElementsWithLayout = (nodes: Node[], edges: Edge[]) => {
-  const dagreGraph = new dagre.graphlib.Graph();
-  dagreGraph.setDefaultEdgeLabel(() => ({}));
-  dagreGraph.setGraph({});
+const getElementsWithLayout = async (nodes: Node[], edges: Edge[]) => {
+  const graph: ElkNode = {
+    id: "root",
+    layoutOptions: { "elk.algorithm": "layered" },
+    children: [],
+    edges: [],
+  };
 
   nodes.forEach(node => {
-    dagreGraph.setNode(node.id, nodeDimensions);
+    graph.children?.push({
+      id: node.id,
+      width: 50,
+      height: 20,
+    });
   });
 
   edges.forEach(edge => {
-    dagreGraph.setEdge(edge.source, edge.target);
+    const newEdge: ElkExtendedEdge = {
+      id: edge.id,
+      sources: [edge.source],
+      targets: [edge.target],
+      sections: [],
+    };
+    graph.edges?.push(newEdge);
   });
 
-  dagre.layout(dagreGraph);
+  const elkNodes = await new ELK().layout(graph);
+
+  // Extract children into a map by id
+  const children: { [id: string]: ElkNode } = {};
+  elkNodes.children?.forEach(value => {
+    children[value.id] = value;
+  });
 
   nodes.forEach(node => {
-    const nodeWithPosition = dagreGraph.node(node.id);
+    const nodeWithPosition = children[node.id];
     node.targetPosition = Position.Bottom;
     node.sourcePosition = Position.Top;
+    node.position = { x: nodeWithPosition.x || 0, y: nodeWithPosition.y || 0 };
+    node.width = nodeWithPosition.width;
+    node.height = nodeWithPosition.height;
+
+    console.log("new node ", node);
 
     // We are shifting the dagre node position (anchor=center center) to the top left
     // so it matches the React Flow node anchor point (top left).
-    node.position = {
-      x: nodeWithPosition.x - nodeDimensions.width / 2,
-      y: nodeWithPosition.y - nodeDimensions.height / 2,
-    };
-
-    return node;
+    // node.position = {
+    //   x: nodeWithPosition.x - nodeDimensions.width / 2,
+    //   y: nodeWithPosition.y - nodeDimensions.height / 2,
+    // };
   });
 
   return { nodes, edges };
@@ -47,9 +67,12 @@ export const ContractsDiagram = (): JSX.Element => {
 
   // TODO handle auto-positioning
   useEffect(() => {
-    const layout = getElementsWithLayout(nodes, edges);
-    setNodes(layout.nodes);
-    setEdges(layout.edges);
+    console.log("updating");
+    getElementsWithLayout(nodes, edges).then(value => {
+      setNodes(value.nodes);
+      setEdges(value.edges);
+      console.log("updated");
+    });
   }, []);
 
   // TODO fix incompatibility with Paper from component-library (but not MUI) which results in the edge paths not being positioned correctly
@@ -62,14 +85,8 @@ export const ContractsDiagram = (): JSX.Element => {
            * as passing the height to the Paper component does not work (since it has child
            * components).
            */}
-          <Container style={{ height: "40vh" }}>
-            <ReactFlow
-              defaultNodes={nodes}
-              defaultEdges={edges}
-              nodesDraggable={false}
-              nodesConnectable={false}
-              // style={{ width: "30px", height: "20px" }}
-            />
+          <Container style={{ height: "80vh", width: "80vw" }}>
+            <ReactFlow nodes={nodes} edges={edges} nodesDraggable={false} nodesConnectable={false} />
           </Container>
         </Grid>
       </Grid>
