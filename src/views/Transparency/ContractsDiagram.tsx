@@ -1,6 +1,6 @@
 import { Container, Grid } from "@material-ui/core";
 import dagre from "dagre";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactFlow, { Edge, Node, Position } from "react-flow-renderer";
 
 import { initialEdges, initialNodes } from "./contractNodes";
@@ -11,7 +11,7 @@ const nodeDimensions = { width: 50, height: 20 };
 const getElementsWithLayout = (nodes: Node[], edges: Edge[]) => {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
-  dagreGraph.setGraph({ rankdir: "TB" });
+  dagreGraph.setGraph({});
 
   nodes.forEach(node => {
     dagreGraph.setNode(node.id, nodeDimensions);
@@ -25,10 +25,8 @@ const getElementsWithLayout = (nodes: Node[], edges: Edge[]) => {
 
   nodes.forEach(node => {
     const nodeWithPosition = dagreGraph.node(node.id);
-    node.targetPosition = Position.Left;
-    node.sourcePosition = Position.Right;
-
-    console.log("position = ", nodeWithPosition);
+    node.targetPosition = Position.Bottom;
+    node.sourcePosition = Position.Top;
 
     // We are shifting the dagre node position (anchor=center center) to the top left
     // so it matches the React Flow node anchor point (top left).
@@ -48,11 +46,11 @@ export const ContractsDiagram = (): JSX.Element => {
   const [edges, setEdges] = useState(initialEdges);
 
   // TODO handle auto-positioning
-  // useEffect(() => {
-  //   const layout = getElementsWithLayout(nodes, edges);
-  //   setNodes(layout.nodes);
-  //   setEdges(layout.edges);
-  // }, []);
+  useEffect(() => {
+    const layout = getElementsWithLayout(nodes, edges);
+    setNodes(layout.nodes);
+    setEdges(layout.edges);
+  }, []);
 
   // TODO fix incompatibility with Paper from component-library (but not MUI) which results in the edge paths not being positioned correctly
 
