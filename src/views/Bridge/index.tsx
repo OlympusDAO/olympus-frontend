@@ -56,20 +56,20 @@ const Bridge = () => {
             <Grid item xs={6}>
               <Box display="flex" flexDirection="column">
                 <MiniCard
-                  label="Bridge to"
-                  title="Arbitrum"
+                  label="Bridge on"
+                  title="Synapse"
                   icon="ARBITRUM"
                   href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=42161"
                 />
                 <MiniCard
-                  label="Bridge to"
-                  title="Optimism"
+                  label="Bridge on"
+                  title="Synapse"
                   icon="OPTIMISM"
                   href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=10"
                 />
                 <MiniCard
-                  label="Bridge to"
-                  title="Fantom"
+                  label="Bridge on"
+                  title="Synapse"
                   icon="FANTOM"
                   href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=250"
                 />
