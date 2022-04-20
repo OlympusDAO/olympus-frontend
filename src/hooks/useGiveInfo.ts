@@ -3,14 +3,14 @@ import { BigNumber, ethers } from "ethers";
 import { useQuery } from "react-query";
 import { abi as gOHM } from "src/abi/gOHM.json";
 import { NetworkId } from "src/constants";
-import { GIVE_ADDRESSES, GOHM_ADDRESSES } from "src/constants/addresses";
+import { GIVE_ADDRESSES, GOHM_ADDRESSES, OLD_GIVE_ADDRESSES } from "src/constants/addresses";
 import { GetFirstDonationDate } from "src/helpers/GiveGetDonationDate";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import { IUserDonationInfo } from "src/views/Give/Interfaces";
 
 import { useWeb3Context } from ".";
-import { useDynamicGiveContract } from "./useContract";
+import { useDynamicGiveContract, useStaticOldGiveContract } from "./useContract";
 import { useTestableNetworks } from "./useTestableNetworks";
 
 interface IDonorAddresses {
@@ -167,7 +167,6 @@ export const useRedeemableBalance = (address: string) => {
   // Hook to establish dynamic contract, meaning it will connect to the network
   // the user is currently connected to
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
-  console.log(contract?.address);
 
   const query = useQuery<string, Error>(
     redeemableBalanceQueryKey(address, networkId),
@@ -187,6 +186,49 @@ export const useRedeemableBalance = (address: string) => {
         redeemableBalance = await contract.totalRedeemableBalance(address);
       } catch (e: unknown) {
         // This can only revert if there is no deposit to this user yet
+        console.log("No donations to: " + address + " yet.");
+      }
+
+      // Convert to proper decimals and return
+      return ethers.utils.formatUnits(redeemableBalance, "gwei");
+    },
+    { enabled: !!address },
+  );
+
+  // Return query
+  return query as typeof query;
+};
+
+export const oldRedeemableBalanceQueryKey = (address: string, networkId: NetworkId) =>
+  ["useOldRedeemableBalance", address, networkId].filter(nonNullable);
+
+export const useOldRedeemableBalance = (address: string) => {
+  const { networkId } = useWeb3Context();
+
+  // Hook to establish static old Give contract
+  const contract = useStaticOldGiveContract(OLD_GIVE_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
+
+  const query = useQuery<string, Error>(
+    oldRedeemableBalanceQueryKey(address, networkId),
+    async () => {
+      queryAssertion([address, networkId], oldRedeemableBalanceQueryKey(address, networkId));
+
+      if (networkId != 1)
+        throw new Error(t`The old Give contract is only supported on the mainnet. Please switch to Ethereum mainnet`);
+
+      // If no contract is established throw an error to switch to ETH
+      if (!contract)
+        throw new Error(
+          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+        );
+
+      // Set default redeemable balance value
+      let redeemableBalance = BigNumber.from("0");
+
+      try {
+        redeemableBalance = await contract.redeemableBalance(address);
+      } catch (e: unknown) {
+        // This shouldn't revert at all, but just in case
         console.log("No donations to: " + address + " yet.");
       }
 

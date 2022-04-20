@@ -220,7 +220,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-68"
+            class="MuiBox-root MuiBox-root-68 grey-box"
           >
             <h5
               class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
@@ -238,7 +238,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-69"
+            class="MuiBox-root MuiBox-root-69 grey-box"
           >
             <h5
               class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
@@ -257,7 +257,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-70"
+            class="MuiBox-root MuiBox-root-70 grey-box"
           >
             <h5
               class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
@@ -279,7 +279,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
     >
       <div
-        class="MuiBox-root MuiBox-root-71"
+        class="MuiBox-root MuiBox-root-71 grey-box"
       >
         <div
           class="makeStyles-root-72 data-row"
@@ -439,7 +439,7 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
     >
       <div
-        class="MuiBox-root MuiBox-root-55"
+        class="MuiBox-root MuiBox-root-55 grey-box"
       >
         <div
           class="makeStyles-root-56 data-row"
