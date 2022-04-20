@@ -1,27 +1,48 @@
 import { Edge, Node } from "react-flow-renderer";
+import { getEdges } from "src/components/Transparency/ContractEdge";
+import { getNodes } from "src/components/Transparency/ContractNode";
+import { NetworkId } from "src/constants";
+import {
+  BOND_DEPOSITORY_ADDRESSES,
+  DAO_TREASURY_ADDRESSES,
+  GOHM_ADDRESSES,
+  OHM_ADDRESSES,
+  SOHM_ADDRESSES,
+  STAKING_ADDRESSES,
+} from "src/constants/addresses";
 
-export const initialNodes: Node[] = [
+export const initialNodes: Node[] = getNodes([
   {
-    id: "1",
-    data: { label: "0x1" },
-    position: { x: 0, y: 0 },
-    type: "input",
+    name: "Staking",
+    address: STAKING_ADDRESSES[NetworkId.MAINNET],
   },
   {
-    id: "2",
-    data: { label: "0x2" },
-    position: { x: 0, y: 100 },
-    type: "default",
+    name: "Bond Depository",
+    address: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
   },
   {
-    id: "3",
-    data: { label: "0x3" },
-    position: { x: 50, y: 200 },
-    type: "output",
+    name: "gOHM Token",
+    address: GOHM_ADDRESSES[NetworkId.MAINNET],
   },
-];
+  {
+    name: "sOHM Token",
+    address: SOHM_ADDRESSES[NetworkId.MAINNET],
+  },
+  {
+    name: "OHM Token",
+    address: OHM_ADDRESSES[NetworkId.MAINNET],
+  },
+  {
+    name: "DAO Treasury",
+    address: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
+  },
+]);
 
-export const initialEdges: Edge[] = [
-  { id: "e1-2", source: "1", target: "2" },
-  { id: "e2-3", source: "2", target: "3" },
-];
+export const initialEdges: Edge[] = getEdges([
+  { source: STAKING_ADDRESSES[NetworkId.MAINNET], target: SOHM_ADDRESSES[NetworkId.MAINNET], label: "Mints new sOHM" },
+  {
+    source: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
+    target: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
+    label: "Foo",
+  },
+]);
