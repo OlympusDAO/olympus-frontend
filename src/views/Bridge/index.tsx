@@ -1,44 +1,81 @@
-import { Box } from "@material-ui/core";
-import { Paper, TertiaryButton, Token } from "@olympusdao/component-library";
+import { Box, Grid, makeStyles, Theme, Typography } from "@material-ui/core";
+import { Icon, MiniCard, Paper } from "@olympusdao/component-library";
+import { useState } from "react";
+
+const useStyles = makeStyles<Theme>(theme => ({
+  dismiss: {
+    fill: theme.colors.primary[300],
+  },
+}));
 
 /**
  * Component for Displaying BridgeLinks
  */
 const Bridge = () => {
+  const [open, setOpen] = useState(true);
+  const classes = useStyles();
   return (
     <div id="stake-view">
+      {open && (
+        <Paper>
+          <Box display="flex" flexDirection="row" justifyContent="flex-end">
+            <Icon data-testid="dismiss" className={classes.dismiss} name="x" onClick={() => setOpen(false)} />
+          </Box>
+          <Box justifyContent="center" alignItems="center" textAlign="center">
+            <Typography variant="h6">Use your gOHM on your favorite chain.</Typography>
+            <Typography variant="h6">Find the Bridge you need.</Typography>
+          </Box>
+        </Paper>
+      )}
       <Paper headerText="Bridge">
-        <Box display="flex" flexDirection="row" justifyContent="center" flexWrap="wrap">
-          <TertiaryButton href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM">
-            <Token name="wETH" style={{ marginRight: "10px" }} />
-            <span>Bridge on Synapse</span>
-          </TertiaryButton>
-          <TertiaryButton href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=42161">
-            <Token name="ARBITRUM" style={{ marginRight: "10px" }} />
-            <span>Bridge on Synapse</span>
-          </TertiaryButton>
-          <TertiaryButton href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=10">
-            <Token name="OPTIMISM" style={{ marginRight: "10px" }} />
-            <span>Bridge on Synapse</span>
-          </TertiaryButton>
-        </Box>
-        <Box display="flex" flexDirection="row" justifyContent="center" flexWrap="wrap">
-          <TertiaryButton href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=250">
-            <Token name="FANTOM" style={{ marginRight: "10px" }} />
-            <span>Bridge on Fantom</span>
-          </TertiaryButton>
-          <TertiaryButton href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=137">
-            <Token name="POLYGON" style={{ marginRight: "10px" }} />
-            <span>Bridge on Polygon</span>
-          </TertiaryButton>
-          <TertiaryButton href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114">
-            <Token name="AVAX" style={{ marginRight: "10px" }} />
-            <span>Bridge on Avalanche</span>
-          </TertiaryButton>
-          <TertiaryButton href="https://portalbridge.com/#/transfer">
-            <Token name="TERRA" style={{ marginRight: "10px" }} />
-            <span>Bridge on Wormhole</span>
-          </TertiaryButton>
+        <Box display="flex" flexDirection="row">
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Box display="flex" flexDirection="column">
+                <MiniCard
+                  label="Bridge on"
+                  title="Synapse"
+                  icon="ETH"
+                  href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=1"
+                />
+                <MiniCard
+                  label="Bridge on"
+                  title="Synapse"
+                  icon="POLYGON"
+                  href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=137"
+                />
+                <MiniCard
+                  label="Bridge on"
+                  title="Synapse"
+                  icon="AVAX"
+                  href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
+                />
+                <MiniCard label="Bridge on" title="Wormhole" icon="TERRA" href="https://portalbridge.com/#/transfer" />
+              </Box>
+            </Grid>
+            <Grid item xs={6}>
+              <Box display="flex" flexDirection="column">
+                <MiniCard
+                  label="Bridge to"
+                  title="Arbitrum"
+                  icon="ARBITRUM"
+                  href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=42161"
+                />
+                <MiniCard
+                  label="Bridge to"
+                  title="Optimism"
+                  icon="OPTIMISM"
+                  href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=10"
+                />
+                <MiniCard
+                  label="Bridge to"
+                  title="Fantom"
+                  icon="FANTOM"
+                  href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=250"
+                />
+              </Box>
+            </Grid>
+          </Grid>
         </Box>
       </Paper>
     </div>
