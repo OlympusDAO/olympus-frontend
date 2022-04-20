@@ -218,17 +218,18 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                       viewBox="0 0 20 20"
                                     >
                                       <path
-                                        d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
-                                      />
-                                      <path
-                                        d="M10 7V13"
+                                        d="M3.125 8.96094V4.375C3.125 4.20924 3.19085 4.05027 3.30806 3.93306C3.42527 3.81585 3.58424 3.75 3.75 3.75H16.25C16.4158 3.75 16.5747 3.81585 16.6919 3.93306C16.8092 4.05027 16.875 4.20924 16.875 4.375V8.96094C16.875 15.5234 11.3047 17.6953 10.1953 18.0625C10.0693 18.1092 9.93072 18.1092 9.80469 18.0625C8.69531 17.6953 3.125 15.5234 3.125 8.96094Z"
+                                        fill="none"
                                         stroke="currentcolor"
+                                        stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="1.6"
                                       />
                                       <path
-                                        d="M13 10L7 10"
+                                        d="M13.4375 8.125L8.85156 12.5L6.5625 10.3125"
+                                        fill="none"
                                         stroke="currentcolor"
+                                        stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="1.6"
                                       />
@@ -246,7 +247,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                Total Active sOHM
+                                sOHM Deposited
                               </div>
                             </div>
                           </div>
@@ -274,10 +275,23 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                   viewBox="0 0 20 20"
                                 >
                                   <path
-                                    d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
+                                    d="M13.75 11.875L17.5 8.125L13.75 4.375"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
                                   />
                                   <path
-                                    d="M 10.285 13.1 L 13.386 10 M 13.386 10 L 10.285 6.899 M 13.386 10 L 6.613 10"
+                                    d="M15 16.875H3.125C2.95924 16.875 2.80027 16.8092 2.68306 16.6919C2.56585 16.5747 2.5 16.4158 2.5 16.25V6.875"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                  <path
+                                    d="M5.85938 13.75C6.27643 12.1401 7.21619 10.7143 8.53119 9.69621C9.84618 8.67815 11.462 8.1255 13.125 8.125H17.5"
                                     fill="none"
                                     stroke="currentcolor"
                                     stroke-linecap="round"
@@ -297,7 +311,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                             <div
                               class="MuiGrid-root subtext MuiGrid-item"
                             >
-                              sOHM Yield
+                              sOHM Yield Sent
                             </div>
                           </div>
                           <div
@@ -352,7 +366,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Yield Goal
+                                sOHM Deposit Goal
                               </div>
                             </div>
                           </div>
@@ -389,9 +403,6 @@ exports[`Give View Connected should render project card with Donate Yield Button
                           </span>
                         </button>
                       </div>
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                      />
                     </div>
                   </div>
                 </div>
@@ -549,58 +560,44 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
               >
                 <div
                   class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  style="padding-bottom: 8px;"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                  />
+                  <div
+                    class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                      focusable="false"
-                      viewBox="0 0 20 20"
+                    <div
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="0"
+                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                      role="progressbar"
                     >
-                      <path
-                        d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                        fill="none"
-                        stroke="currentcolor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
+                      <div
+                        class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                        style="transform: translateX(-100%);"
                       />
-                      <path
-                        d="M18 3.5L9.99659 11.5L7 9"
-                        fill="none"
-                        stroke="currentcolor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
-                      />
-                    </svg>
+                    </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                   >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      title="Connect your wallet to view the fundraising progress"
-                    >
-                      <strong>
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                          style="width: 20px;"
-                        />
-                      </strong>
-                      % of goal
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      style="width: 20px;"
+                    />
+                    %
                   </div>
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -692,58 +689,44 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
               >
                 <div
                   class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  style="padding-bottom: 8px;"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                  />
+                  <div
+                    class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                      focusable="false"
-                      viewBox="0 0 20 20"
+                    <div
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="0"
+                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                      role="progressbar"
                     >
-                      <path
-                        d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                        fill="none"
-                        stroke="currentcolor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
+                      <div
+                        class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                        style="transform: translateX(-100%);"
                       />
-                      <path
-                        d="M18 3.5L9.99659 11.5L7 9"
-                        fill="none"
-                        stroke="currentcolor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
-                      />
-                    </svg>
+                    </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                   >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      title="Connect your wallet to view the fundraising progress"
-                    >
-                      <strong>
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                          style="width: 20px;"
-                        />
-                      </strong>
-                      % of goal
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      style="width: 20px;"
+                    />
+                    %
                   </div>
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -835,58 +818,44 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
               >
                 <div
                   class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  style="padding-bottom: 8px;"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                  />
+                  <div
+                    class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                      focusable="false"
-                      viewBox="0 0 20 20"
+                    <div
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="0"
+                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                      role="progressbar"
                     >
-                      <path
-                        d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                        fill="none"
-                        stroke="currentcolor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
+                      <div
+                        class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                        style="transform: translateX(-100%);"
                       />
-                      <path
-                        d="M18 3.5L9.99659 11.5L7 9"
-                        fill="none"
-                        stroke="currentcolor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
-                      />
-                    </svg>
+                    </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                   >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      title="Connect your wallet to view the fundraising progress"
-                    >
-                      <strong>
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                          style="width: 20px;"
-                        />
-                      </strong>
-                      % of goal
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      style="width: 20px;"
+                    />
+                    %
                   </div>
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -978,58 +947,44 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
               >
                 <div
                   class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  style="padding-bottom: 8px;"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                  />
+                  <div
+                    class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                      focusable="false"
-                      viewBox="0 0 20 20"
+                    <div
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="0"
+                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                      role="progressbar"
                     >
-                      <path
-                        d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                        fill="none"
-                        stroke="currentcolor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
+                      <div
+                        class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                        style="transform: translateX(-100%);"
                       />
-                      <path
-                        d="M18 3.5L9.99659 11.5L7 9"
-                        fill="none"
-                        stroke="currentcolor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
-                      />
-                    </svg>
+                    </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                   >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      title="Connect your wallet to view the fundraising progress"
-                    >
-                      <strong>
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                          style="width: 20px;"
-                        />
-                      </strong>
-                      % of goal
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      style="width: 20px;"
+                    />
+                    %
                   </div>
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -1121,58 +1076,44 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
               >
                 <div
                   class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  style="padding-bottom: 8px;"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                  />
+                  <div
+                    class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                      focusable="false"
-                      viewBox="0 0 20 20"
+                    <div
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="0"
+                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                      role="progressbar"
                     >
-                      <path
-                        d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                        fill="none"
-                        stroke="currentcolor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
+                      <div
+                        class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                        style="transform: translateX(-100%);"
                       />
-                      <path
-                        d="M18 3.5L9.99659 11.5L7 9"
-                        fill="none"
-                        stroke="currentcolor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.6"
-                      />
-                    </svg>
+                    </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                   >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      title="Connect your wallet to view the fundraising progress"
-                    >
-                      <strong>
-                        <span
-                          class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                          style="width: 20px;"
-                        />
-                      </strong>
-                      % of goal
-                    </p>
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      style="width: 20px;"
+                    />
+                    %
                   </div>
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -1203,34 +1144,41 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+            style="padding: 10px 30px 10px 30px;"
           >
             <div
-              class="MuiGrid-root MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
             >
-              <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+              <h4
+                class="MuiTypography-root MuiTypography-h4 MuiTypography-alignCenter"
               >
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                >
-                  <h4
-                    class="MuiTypography-root MuiTypography-h4 MuiTypography-alignCenter"
-                  >
-                    Want to give to a different cause?
-                  </h4>
-                </div>
-                <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
-                  >
-                    You can direct your yield to a recipient of your choice
-                  </p>
-                </div>
-                <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+                Want to give to a different cause?
+              </h4>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
+              >
+                You can direct your yield to a recipient of your choice
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+            />
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-30 makeStyles-root-44 undefined MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
+                disabled=""
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label"
                 >
                   <button
                     class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-36 makeStyles-root-51 undefined MuiButton-outlinedPrimary MuiButton-disableElevation Mui-disabled Mui-disabled"
@@ -1247,6 +1195,9 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+            />
           </div>
         </div>
       </div>
@@ -1520,58 +1471,44 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
                             >
                               <div
                                 class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                style="padding-bottom: 8px;"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                />
+                                <div
+                                  class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    aria-valuemax="100"
+                                    aria-valuemin="0"
+                                    aria-valuenow="0"
+                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                                    role="progressbar"
                                   >
-                                    <path
-                                      d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
+                                    <div
+                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                                      style="transform: translateX(-100%);"
                                     />
-                                    <path
-                                      d="M18 3.5L9.99659 11.5L7 9"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                                 >
-                                  <p
-                                    class="MuiTypography-root MuiTypography-body1"
-                                    title="Connect your wallet to view the fundraising progress"
-                                  >
-                                    <strong>
-                                      <span
-                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                                        style="width: 20px;"
-                                      />
-                                    </strong>
-                                    % of goal
-                                  </p>
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    style="width: 20px;"
+                                  />
+                                  %
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -1663,58 +1600,44 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
                             >
                               <div
                                 class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                style="padding-bottom: 8px;"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                />
+                                <div
+                                  class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    aria-valuemax="100"
+                                    aria-valuemin="0"
+                                    aria-valuenow="0"
+                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                                    role="progressbar"
                                   >
-                                    <path
-                                      d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
+                                    <div
+                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                                      style="transform: translateX(-100%);"
                                     />
-                                    <path
-                                      d="M18 3.5L9.99659 11.5L7 9"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                                 >
-                                  <p
-                                    class="MuiTypography-root MuiTypography-body1"
-                                    title="Connect your wallet to view the fundraising progress"
-                                  >
-                                    <strong>
-                                      <span
-                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                                        style="width: 20px;"
-                                      />
-                                    </strong>
-                                    % of goal
-                                  </p>
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    style="width: 20px;"
+                                  />
+                                  %
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -1806,58 +1729,44 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
                             >
                               <div
                                 class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                style="padding-bottom: 8px;"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                />
+                                <div
+                                  class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    aria-valuemax="100"
+                                    aria-valuemin="0"
+                                    aria-valuenow="0"
+                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                                    role="progressbar"
                                   >
-                                    <path
-                                      d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
+                                    <div
+                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                                      style="transform: translateX(-100%);"
                                     />
-                                    <path
-                                      d="M18 3.5L9.99659 11.5L7 9"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                                 >
-                                  <p
-                                    class="MuiTypography-root MuiTypography-body1"
-                                    title="Connect your wallet to view the fundraising progress"
-                                  >
-                                    <strong>
-                                      <span
-                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                                        style="width: 20px;"
-                                      />
-                                    </strong>
-                                    % of goal
-                                  </p>
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    style="width: 20px;"
+                                  />
+                                  %
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -1949,58 +1858,44 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
                             >
                               <div
                                 class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                style="padding-bottom: 8px;"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                />
+                                <div
+                                  class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    aria-valuemax="100"
+                                    aria-valuemin="0"
+                                    aria-valuenow="0"
+                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                                    role="progressbar"
                                   >
-                                    <path
-                                      d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
+                                    <div
+                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                                      style="transform: translateX(-100%);"
                                     />
-                                    <path
-                                      d="M18 3.5L9.99659 11.5L7 9"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                                 >
-                                  <p
-                                    class="MuiTypography-root MuiTypography-body1"
-                                    title="Connect your wallet to view the fundraising progress"
-                                  >
-                                    <strong>
-                                      <span
-                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                                        style="width: 20px;"
-                                      />
-                                    </strong>
-                                    % of goal
-                                  </p>
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    style="width: 20px;"
+                                  />
+                                  %
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -2092,58 +1987,44 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-8"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
                             >
                               <div
                                 class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                style="padding-bottom: 8px;"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                />
+                                <div
+                                  class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-                                    focusable="false"
-                                    viewBox="0 0 20 20"
+                                  <div
+                                    aria-valuemax="100"
+                                    aria-valuemin="0"
+                                    aria-valuenow="0"
+                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                                    role="progressbar"
                                   >
-                                    <path
-                                      d="M17.118 10C15.205 13.9602 10 16.875 10 16.875C10 16.875 2.1875 12.5 2.1875 7.18751C2.1875 6.24836 2.51289 5.33821 3.1083 4.61193C3.70371 3.88564 4.53236 3.38808 5.45328 3.2039C6.37419 3.01971 7.33047 3.16029 8.15943 3.6017C8.98838 4.04311 9.63879 4.7581 10 5.62501C10.3612 4.7581 11.0116 4.04311 11.8406 3.6017C12.3009 3.35657 12.8005 3.20422 13.3115 3.14874"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
+                                    <div
+                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                                      style="transform: translateX(-100%);"
                                     />
-                                    <path
-                                      d="M18 3.5L9.99659 11.5L7 9"
-                                      fill="none"
-                                      stroke="currentcolor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.6"
-                                    />
-                                  </svg>
+                                  </div>
                                 </div>
                                 <div
-                                  class="MuiGrid-root MuiGrid-item"
+                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
                                 >
-                                  <p
-                                    class="MuiTypography-root MuiTypography-body1"
-                                    title="Connect your wallet to view the fundraising progress"
-                                  >
-                                    <strong>
-                                      <span
-                                        class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
-                                        style="width: 20px;"
-                                      />
-                                    </strong>
-                                    % of goal
-                                  </p>
+                                  <span
+                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    style="width: 20px;"
+                                  />
+                                  %
                                 </div>
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-4"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
@@ -2174,34 +2055,41 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                          style="padding: 10px 30px 10px 30px;"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                           >
-                            <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                            <h4
+                              class="MuiTypography-root MuiTypography-h4 MuiTypography-alignCenter"
                             >
-                              <div
-                                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                              >
-                                <h4
-                                  class="MuiTypography-root MuiTypography-h4 MuiTypography-alignCenter"
-                                >
-                                  Want to give to a different cause?
-                                </h4>
-                              </div>
-                              <div
-                                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                              >
-                                <p
-                                  class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
-                                >
-                                  You can direct your yield to a recipient of your choice
-                                </p>
-                              </div>
-                              <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+                              Want to give to a different cause?
+                            </h4>
+                          </div>
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                          >
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
+                            >
+                              You can direct your yield to a recipient of your choice
+                            </p>
+                          </div>
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                          />
+                          <div
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                          >
+                            <button
+                              class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-11 makeStyles-root-25 undefined MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
+                              disabled=""
+                              tabindex="-1"
+                              type="button"
+                            >
+                              <span
+                                class="MuiButton-label"
                               >
                                 <button
                                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-31 undefined MuiButton-outlinedPrimary MuiButton-disableElevation Mui-disabled Mui-disabled"
@@ -2218,6 +2106,9 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               </div>
                             </div>
                           </div>
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                          />
                         </div>
                       </div>
                     </div>
@@ -2478,7 +2369,10 @@ sOHM deposit until you withdraw your sOHM principal from the vault.
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+              />
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-3"
               >
                 <a
                   aria-disabled="false"
@@ -2492,7 +2386,7 @@ sOHM deposit until you withdraw your sOHM principal from the vault.
                   >
                     Learn More
                     <span
-                      class="MuiButton-endIcon MuiButton-iconSizeMedium"
+                      class="MuiButton-endIcon MuiButton-iconSizeSmall"
                     >
                       <svg
                         aria-hidden="true"
@@ -2508,6 +2402,9 @@ sOHM deposit until you withdraw your sOHM principal from the vault.
                   </span>
                 </a>
               </div>
+              <div
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+              />
             </div>
           </div>
         </div>
@@ -2808,17 +2705,18 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                       viewBox="0 0 20 20"
                                     >
                                       <path
-                                        d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
-                                      />
-                                      <path
-                                        d="M10 7V13"
+                                        d="M3.125 8.96094V4.375C3.125 4.20924 3.19085 4.05027 3.30806 3.93306C3.42527 3.81585 3.58424 3.75 3.75 3.75H16.25C16.4158 3.75 16.5747 3.81585 16.6919 3.93306C16.8092 4.05027 16.875 4.20924 16.875 4.375V8.96094C16.875 15.5234 11.3047 17.6953 10.1953 18.0625C10.0693 18.1092 9.93072 18.1092 9.80469 18.0625C8.69531 17.6953 3.125 15.5234 3.125 8.96094Z"
+                                        fill="none"
                                         stroke="currentcolor"
+                                        stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="1.6"
                                       />
                                       <path
-                                        d="M13 10L7 10"
+                                        d="M13.4375 8.125L8.85156 12.5L6.5625 10.3125"
+                                        fill="none"
                                         stroke="currentcolor"
+                                        stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="1.6"
                                       />
@@ -2836,7 +2734,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                Total Active sOHM
+                                sOHM Deposited
                               </div>
                             </div>
                           </div>
@@ -2864,10 +2762,23 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                   viewBox="0 0 20 20"
                                 >
                                   <path
-                                    d="M 12.143 16.236 C 15.041 15.357 17.143 12.743 17.143 9.655 C 17.143 5.846 13.945 2.759 10 2.759 C 6.055 2.759 2.857 5.846 2.857 9.655 C 2.857 12.743 4.959 15.357 7.857 16.236 L 7.857 20 L 0 20 L 0 17.241 L 3.814 17.241 C 1.491 15.473 0 12.732 0 9.655 C 0 4.323 4.477 0 10 0 C 15.523 0 20 4.323 20 9.655 C 20 12.732 18.509 15.473 16.186 17.241 L 20 17.241 L 20 20 L 12.143 20 L 12.143 16.236 Z"
+                                    d="M13.75 11.875L17.5 8.125L13.75 4.375"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
                                   />
                                   <path
-                                    d="M 10.285 13.1 L 13.386 10 M 13.386 10 L 10.285 6.899 M 13.386 10 L 6.613 10"
+                                    d="M15 16.875H3.125C2.95924 16.875 2.80027 16.8092 2.68306 16.6919C2.56585 16.5747 2.5 16.4158 2.5 16.25V6.875"
+                                    fill="none"
+                                    stroke="currentcolor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.6"
+                                  />
+                                  <path
+                                    d="M5.85938 13.75C6.27643 12.1401 7.21619 10.7143 8.53119 9.69621C9.84618 8.67815 11.462 8.1255 13.125 8.125H17.5"
                                     fill="none"
                                     stroke="currentcolor"
                                     stroke-linecap="round"
@@ -2887,7 +2798,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                             <div
                               class="MuiGrid-root subtext MuiGrid-item"
                             >
-                              sOHM Yield
+                              sOHM Yield Sent
                             </div>
                           </div>
                           <div
@@ -2942,7 +2853,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Yield Goal
+                                sOHM Deposit Goal
                               </div>
                             </div>
                           </div>
@@ -2979,9 +2890,6 @@ exports[`Give View Disconnected should render project card with connect wallet b
                           </span>
                         </button>
                       </div>
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-                      />
                     </div>
                   </div>
                 </div>

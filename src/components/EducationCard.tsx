@@ -18,6 +18,11 @@ type CompactGraphicProps = {
   isSubtextContentLoading?: boolean;
 };
 
+type ArrowGraphicProps = {
+  fill: string;
+  marginTop?: string;
+};
+
 type LargeGraphicProps = {
   title: string;
   icon: JSX.Element;
@@ -31,7 +36,7 @@ function CompactGraphic({ title, icon, subtext, isSubtextContentLoading }: Compa
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography variant="h6" align="center">
+        <Typography variant="h6" align="center" className="grey-text">
           {title}
         </Typography>
       </Grid>
@@ -42,7 +47,7 @@ function CompactGraphic({ title, icon, subtext, isSubtextContentLoading }: Compa
         {isSubtextContentLoading ? (
           <Skeleton width={120} />
         ) : (
-          <Typography variant="h6" align="center">
+          <Typography variant="h6" className="grey-text" align="center">
             {subtext}
           </Typography>
         )}
@@ -88,12 +93,11 @@ export function CompactYield({ quantity, isQuantityExact, asset }: EducationGrap
   );
 }
 
-export function ArrowGraphic() {
-  // We hard-code 25px so that the arrows are vertically center-aligned with other graphics
+export function ArrowGraphic({ fill, marginTop = "25px" }: ArrowGraphicProps) {
   return (
-    <Grid container style={{ marginTop: "25px" }}>
+    <Grid container style={{ marginTop: marginTop }}>
       <Grid item xs={12} style={{ textAlign: "center" }}>
-        <Icon name="arrow-right" style={{ fontSize: 70, fill: "#999999" }} opacity={0.6} />{" "}
+        <Icon name="arrow-right" style={{ fontSize: 70, fill: fill }} />{" "}
       </Grid>
     </Grid>
   );

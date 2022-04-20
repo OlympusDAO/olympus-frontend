@@ -5,6 +5,7 @@ import { BigNumber } from "ethers";
 import App from "src/App";
 import * as useWeb3Context from "src/hooks/web3Context";
 import { mockWeb3Context } from "src/testHelpers";
+import { createMatchMedia } from "src/testHelpers";
 import * as Contract from "src/typechain";
 import Web3Modal from "web3modal";
 
@@ -135,5 +136,54 @@ describe("Account Balances Slice", () => {
 
     //we should handle the error and not throw
     expect(() => render(<App />)).not.toThrowError();
+  });
+});
+
+describe("Staging Notification Checks", () => {
+  beforeEach(() => {
+    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
+    data.mockReturnValue(mockWeb3Context);
+    global.window = Object.create(window);
+    Object.defineProperty(window, "location", {
+      value: {
+        href: "http://staging.olympusdao.finance",
+        hostname: "staging.olympusdao.finance",
+      },
+      writable: true,
+    });
+  });
+  it("Should display a notification banner when hostname = staging.olympusdao.finance", async () => {
+    render(<App />);
+    expect(screen.getByTestId("staging-notification")).toHaveStyle({ marginLeft: "312px" });
+    expect(
+      screen.getByText("You are on the staging site. Any interaction could result in loss of assets."),
+    ).toBeInTheDocument();
+  });
+  it("Should display no left Margin on Mobile", async () => {
+    window.matchMedia = createMatchMedia("300px");
+    render(<App />);
+    expect(screen.getByTestId("staging-notification")).toHaveStyle({ marginLeft: "0px" });
+    expect(
+      screen.getByText("You are on the staging site. Any interaction could result in loss of assets."),
+    ).toBeInTheDocument();
+  });
+});
+describe("Production Notification Check", () => {
+  beforeEach(() => {
+    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
+    data.mockReturnValue(mockWeb3Context);
+    Object.defineProperty(window, "location", {
+      value: {
+        href: "http://app.olympusdao.finance",
+        hostname: "app.olympusdao.finance",
+      },
+      writable: true,
+    });
+  });
+  it("Should not display a notification when hostname not staging.olympusdao.finance", async () => {
+    render(<App />);
+    expect(
+      screen.queryByText("You are on the staging site. Any interaction could result in loss of assets."),
+    ).not.toBeInTheDocument();
   });
 });

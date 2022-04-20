@@ -18,17 +18,28 @@ import MigrationModal from "./components/Migration/MigrationModal";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import NavDrawer from "./components/Sidebar/NavDrawer";
 import Sidebar from "./components/Sidebar/Sidebar";
+import StagingNotification from "./components/StagingNotification";
 import TopBar from "./components/TopBar/TopBar";
 import Wallet from "./components/TopBar/Wallet";
 import { NetworkId } from "./constants";
 import { shouldTriggerSafetyCheck } from "./helpers";
 import { trackGAEvent } from "./helpers/analytics";
+import { DecimalBigNumber } from "./helpers/DecimalBigNumber/DecimalBigNumber";
 import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
+import { nonNullable } from "./helpers/types/nonNullable";
 import { useAppSelector, useWeb3Context } from "./hooks";
+import {
+  useFuseBalance,
+  useGohmBalance,
+  useGohmTokemakBalance,
+  useOhmBalance,
+  useSohmBalance,
+} from "./hooks/useBalance";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
+import { useTestableNetworks } from "./hooks/useTestableNetworks";
 import useTheme from "./hooks/useTheme";
-import { getMigrationAllowances } from "./slices/AccountSlice";
+import { getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { ChangeAssetType } from "./slices/interfaces";
 import { error, info } from "./slices/MessagesSlice";
@@ -82,6 +93,9 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
+  },
+  notification: {
+    marginLeft: "312px",
   },
 }));
 
@@ -149,6 +163,7 @@ function App() {
       if (!providerInitialized) {
         return;
       }
+      dispatch(loadAccountDetails({ networkID: networkId, provider: loadProvider, address }));
       dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
     },
     [networkId, address, providerInitialized],
@@ -198,14 +213,26 @@ function App() {
     return false;
   });
 
-  const newAssetsDetected = useAppSelector(state => {
-    return (
-      state.account.balances &&
-      (Number(state.account.balances.gohm) || Number(state.account.balances.sohm) || Number(state.account.balances.ohm)
-        ? true
-        : false)
-    );
-  });
+  const networks = useTestableNetworks();
+  const { data: sOhmBalance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
+  const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[networks.MAINNET];
+  const gohmBalances = useGohmBalance();
+  const { data: gohmFuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
+  const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[NetworkId.MAINNET];
+  const gohmTokens = [
+    gohmFuseBalance,
+    gohmTokemakBalance,
+    gohmBalances[networks.MAINNET].data,
+    gohmBalances[NetworkId.ARBITRUM].data,
+    gohmBalances[NetworkId.AVALANCHE].data,
+    gohmBalances[NetworkId.POLYGON].data,
+    gohmBalances[NetworkId.FANTOM].data,
+    gohmBalances[NetworkId.OPTIMISM].data,
+  ];
+  const totalGohmBalance = gohmTokens
+    .filter(nonNullable)
+    .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
+  const newAssetsDetected = Number(totalGohmBalance) || Number(sOhmBalance) || Number(ohmBalance);
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
   //
@@ -283,6 +310,7 @@ function App() {
       >
         <CssBaseline />
         <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+          <StagingNotification />
           <Messages />
           <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
           <nav className={classes.drawer}>

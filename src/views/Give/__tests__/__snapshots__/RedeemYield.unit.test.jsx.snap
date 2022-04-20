@@ -54,7 +54,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
     >
       <div
-        class="MuiBox-root MuiBox-root-3"
+        class="MuiBox-root MuiBox-root-3 grey-box"
       >
         <div
           class="makeStyles-root-4 data-row"

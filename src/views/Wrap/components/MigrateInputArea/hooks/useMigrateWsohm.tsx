@@ -24,7 +24,7 @@ export const useMigrateWsohm = () => {
 
       const _amount = new DecimalBigNumber(amount, 18);
 
-      if (!_amount.gt(new DecimalBigNumber("0", 18))) throw new Error(t`Please enter a number greater than 0`);
+      if (!_amount.gt("0")) throw new Error(t`Please enter a number greater than 0`);
 
       if (!contract || (networkId !== networks.AVALANCHE && networkId !== networks.ARBITRUM))
         throw new Error(t`Please switch to the Abritrum or Avalanche networks to migrate`);

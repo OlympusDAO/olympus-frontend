@@ -7,6 +7,7 @@ import { ChevronLeft } from "@material-ui/icons";
 import { DataRow, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
+import { ArrowGraphic } from "src/components/EducationCard";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project, RecordType } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
@@ -19,7 +20,6 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
 
-import { ArrowGraphic } from "../../components/EducationCard";
 import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "./constants";
 import { GohmToggle } from "./GohmToggle";
 import { checkDecimalLength, removeTrailingZeros } from "./helpers/checkDecimalLength";
@@ -119,6 +119,10 @@ export function ManageDonationModal({
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const themedArrow =
+    theme.palette.type === "dark" && theme.colors.primary[300]
+      ? theme.colors.primary[300]
+      : theme.palette.text.secondary;
 
   const _useSohmBalance =
     useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
@@ -636,7 +640,7 @@ export function ManageDonationModal({
           </Grid>
           {!isSmallScreen ? (
             <Grid item sm={4}>
-              <ArrowGraphic />
+              <ArrowGraphic fill={themedArrow} />
             </Grid>
           ) : (
             <></>

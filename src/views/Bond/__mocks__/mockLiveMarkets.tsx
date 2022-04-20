@@ -26,6 +26,13 @@ export const terms = {
     conclusion: 1680760325,
     maxDebt: BigNumber.from("0x1bf2e2bbe400"),
   },
+  2: {
+    conclusion: BigNumber.from(1642432073),
+    controlVariable: BigNumber.from(332362190654560),
+    fixedTerm: true,
+    maxDebt: BigNumber.from(10366827956988),
+    vesting: BigNumber.from(1209600),
+  },
 };
 export const inverseTerms = {
   8: {
@@ -65,6 +72,15 @@ export const markets = {
     sold: BigNumber.from("0x0d2436ab70aa"),
     purchased: BigNumber.from("0x1199018c50db36f8"),
   },
+  2: {
+    capacity: BigNumber.from(0),
+    capacityInQuote: true,
+    maxPayout: BigNumber.from(373843833260),
+    purchased: BigNumber.from(0),
+    quoteToken: "0xa693B19d2931d498c5B318dF961919BB4aee87a5",
+    sold: BigNumber.from(0),
+    totalDebt: BigNumber.from(5183413978494),
+  },
 };
 
 export const inverseMarkets = {
@@ -91,4 +107,14 @@ export const marketPrice = {
 
 export const inverseMarketPrice = {
   8: BigNumber.from("0x058d"),
+};
+
+export const indexesFor = [2];
+
+export const notes = {
+  created: BigNumber.from(1649934593),
+  marketID: BigNumber.from(38),
+  matured: BigNumber.from(1650107393),
+  payout: BigNumber.from("530859472185513724"),
+  redeemed: BigNumber.from(0),
 };

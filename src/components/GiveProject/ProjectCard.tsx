@@ -5,7 +5,7 @@ import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQue
 import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
+import { Icon, Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
 import Countdown from "react-countdown";
@@ -181,24 +181,17 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
 
-  const remainingStyle = { color: "#999999" };
-
   // Removed for now. Will leave this function in for when we re-add this feature
   const countdownRendererDetailed = ({ completed, formatted }: CountdownProps) => {
     if (completed)
       return (
         <>
-          <Grid container spacing={1} alignItems="center" justifyContent="center">
+          <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
             <Grid item>
-              <Icon name="time-remaining" />
-            </Grid>
-            <Grid item>
-              <Typography variant="h6">
-                <strong>00:00:00</strong>
-              </Typography>
+              <Typography variant="body2">00:00:00</Typography>
             </Grid>
             <Grid>
-              <Typography variant="body1" style={remainingStyle}>
+              <Typography variant="body2">
                 <Trans>Completed</Trans>
               </Typography>
             </Grid>
@@ -209,24 +202,19 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     return (
       <>
         <>
-          <Grid container spacing={1} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Icon name="time-remaining" />
-            </Grid>
+          <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
             <Grid item>
               <Tooltip
                 title={!finishDateObject ? "" : t`Finishes at ${finishDateObject.toLocaleString()} in your timezone`}
                 arrow
               >
-                <Typography variant="h6">
-                  <strong>
-                    {formatted.days}:{formatted.hours}:{formatted.minutes}
-                  </strong>
+                <Typography variant="body2">
+                  {formatted.days}:{formatted.hours}:{formatted.minutes}
                 </Typography>
               </Tooltip>
             </Grid>
             <Grid item>
-              <Typography variant="body1" style={remainingStyle}>
+              <Typography variant="body2">
                 <Trans>Remaining</Trans>
               </Typography>
             </Grid>
@@ -250,35 +238,24 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   const renderGoalCompletion = (): JSX.Element => {
     // No point in displaying decimals in the progress bar
     const formattedGoalCompletion = goalCompletion.toString(NO_DECIMALS_FORMAT);
-
-    if (depositGoal === 0) return <></>;
+    const goalProgress: number = goalCompletion.gt(new DecimalBigNumber("100")) ? 100 : goalCompletion.toApproxNumber();
 
     return (
       <>
-        <Grid container alignItems="center" spacing={1}>
-          <Grid item>
-            <Icon name="sohm-yield-goal" />
+        <Grid container alignItems="center" spacing={1} style={{ paddingBottom: "8px" }}>
+          <Grid item xs={12} className="subtext">
+            {renderCountdownDetailed()}
           </Grid>
-          <Grid item>
-            <Tooltip
-              title={
-                !address
-                  ? t`Connect your wallet to view the fundraising progress`
-                  : `${totalDebt} of ${depositGoal} ${giveAssetType} raised`
-              }
-              arrow
-            >
-              <Typography variant="body1">
-                <strong>
-                  {_useRecipientInfo.isLoading ? (
-                    <Skeleton className="skeleton-inline" width={20} />
-                  ) : (
-                    formattedGoalCompletion
-                  )}
-                </strong>
-                <Trans>% of goal</Trans>
-              </Typography>
-            </Tooltip>
+          <Grid item xs={11} sm={9} className="project-goal-progress">
+            <LinearProgress variant="determinate" value={goalProgress} />
+          </Grid>
+          <Grid item xs={1} sm={3} className="subtext">
+            {_useRecipientInfo.isLoading ? (
+              <Skeleton className="skeleton-inline" width={20} />
+            ) : (
+              formattedGoalCompletion
+            )}
+            %
           </Grid>
         </Grid>
       </>
@@ -294,7 +271,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
           <Grid item xs={5}>
             <Grid container justifyContent="flex-start" alignItems="center" spacing={1}>
               <Grid item>
-                <Icon name="sohm-yield" />
+                <Icon name="sohm-yield-sent" />
               </Grid>
               <Grid item className="metric">
                 {totalDonatedIsLoading ? <Skeleton /> : totalYieldDonated.toString(DEFAULT_FORMAT)}
@@ -320,7 +297,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                <Trans>{giveAssetType} Yield Goal</Trans>
+                <Trans>{giveAssetType} Deposit Goal</Trans>
               </Grid>
             </Grid>
           </Grid>
@@ -358,7 +335,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
               <Grid item>
                 <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Icon name="sohm-total" />
+                    <Icon name="deposited" />
                   </Grid>
                   <Grid item className="metric">
                     {recipientInfoIsLoading ? <Skeleton /> : <strong>{totalDebt.toString(DEFAULT_FORMAT)}</strong>}
@@ -366,7 +343,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                <Trans>Total Active {giveAssetType}</Trans>
+                <Trans>{giveAssetType} Deposited</Trans>
               </Grid>
             </Grid>
           </Grid>
@@ -546,17 +523,17 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
             </Grid>
             <Grid item xs />
             <Grid item container xs={12} alignItems="flex-end">
-              <Grid item xs={12} lg={8}>
+              <Grid item xs={12} sm={6} lg={8}>
                 {renderGoalCompletion()}
               </Grid>
-              <Grid item xs={12} lg={4}>
+              <Grid item xs={12} sm={6} lg={4}>
                 <Link
                   href={`#/give/projects/${project.slug}`}
                   onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                 >
-                  <PrimaryButton fullWidth>
+                  <TertiaryButton size="small" fullWidth>
                     <Trans>View Details</Trans>
-                  </PrimaryButton>
+                  </TertiaryButton>
                 </Link>
               </Grid>
             </Grid>
@@ -636,9 +613,6 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                               <Trans>Donate Yield</Trans>
                             </PrimaryButton>
                           )}
-                        </Grid>
-                        <Grid item xs={12}>
-                          {renderCountdownDetailed()}
                         </Grid>
                       </Grid>
                     </Grid>
