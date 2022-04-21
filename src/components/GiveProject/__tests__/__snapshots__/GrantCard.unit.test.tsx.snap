@@ -203,6 +203,7 @@ exports[`<GrantCard/> should render page 1`] = `
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
+        style="margin-bottom: -24px;"
       >
         <div
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
@@ -294,7 +295,7 @@ exports[`<GrantCard/> should render page 1`] = `
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
@@ -487,6 +488,7 @@ exports[`<GrantCard/> should render page 1`] = `
                       </div>
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        style="margin-top: auto;"
                       >
                         <button
                           class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-18 makeStyles-root-19 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
@@ -507,9 +509,6 @@ exports[`<GrantCard/> should render page 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-        />
       </div>
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
@@ -648,6 +647,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
+        style="margin-bottom: -24px;"
       >
         <div
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
@@ -739,7 +739,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
@@ -943,6 +943,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                       </div>
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        style="margin-top: auto;"
                       >
                         <button
                           class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-66 makeStyles-root-67 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
@@ -963,9 +964,6 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-        />
       </div>
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
@@ -1118,6 +1116,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
+        style="margin-bottom: -24px;"
       >
         <div
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
@@ -1204,7 +1203,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
@@ -1397,6 +1396,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                       </div>
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        style="margin-top: auto;"
                       >
                         <button
                           class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-34 makeStyles-root-35 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
@@ -1417,9 +1417,6 @@ exports[`<GrantCard/> should render page without image 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-        />
       </div>
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
@@ -1558,6 +1555,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
+        style="margin-bottom: -24px;"
       >
         <div
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
@@ -1649,7 +1647,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
@@ -1842,6 +1840,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                       </div>
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        style="margin-top: auto;"
                       >
                         <button
                           class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-82 makeStyles-root-83 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
@@ -1862,9 +1861,6 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-        />
       </div>
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
@@ -2003,6 +1999,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
+        style="margin-bottom: -24px;"
       >
         <div
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
@@ -2094,7 +2091,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
@@ -2264,6 +2261,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                       </div>
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        style="margin-top: auto;"
                       >
                         <button
                           class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-50 makeStyles-root-51 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
@@ -2284,9 +2282,6 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
-        />
       </div>
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
