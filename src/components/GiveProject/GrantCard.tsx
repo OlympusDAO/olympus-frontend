@@ -71,6 +71,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
 
   const theme = useTheme();
   const isBreakpointLarge = useMediaQuery(theme.breakpoints.up("lg"));
+  const isBreakpointMedium = useMediaQuery(theme.breakpoints.only("md"));
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
@@ -484,11 +485,13 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                       {getProjectImage()}
                     </Grid>
                     <Grid item xs>
-                      <Grid container spacing={2}>
+                      <Grid container spacing={2} direction="column">
                         <Grid item xs={12}>
                           {renderDepositData()}
                         </Grid>
-                        <Grid item xs={12}>
+                        {/* This Grid item and the marginTop style keep the button bottom-aligned */}
+                        {isBreakpointMedium ? <Grid item xs={12} style={{ flexGrow: 1 }} /> : <></>}
+                        <Grid item xs={12} style={{ marginTop: "auto" }}>
                           {!connected ? (
                             <PrimaryButton onClick={connect} fullWidth>
                               <Trans>Connect Wallet</Trans>
