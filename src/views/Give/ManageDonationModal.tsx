@@ -8,7 +8,7 @@ import { DataRow, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } fro
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowGraphic } from "src/components/EducationCard";
-import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
+import { TopBottomGiveBox } from "src/components/GiveProject/GiveBox";
 import { Project, RecordType } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
@@ -102,6 +102,7 @@ export function ManageDonationModal({
     theme.palette.type === "dark" && theme.colors.primary[300]
       ? theme.colors.primary[300]
       : theme.palette.text.secondary;
+  const boxBorder = theme.palette.grey[500];
 
   const _useSohmBalance =
     useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
@@ -335,15 +336,15 @@ export function ManageDonationModal({
         <Grid item xs={12}>
           <Grid container>
             <Grid item xs />
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <Grid container spacing={1}>
-                <Grid item xs={12}>
-                  <PrimaryButton onClick={() => setIsEditing(true)} fullWidth>
+                <Grid item xs={6}>
+                  <PrimaryButton size="small" onClick={() => setIsEditing(true)} fullWidth>
                     <Trans>Edit Donation</Trans>
                   </PrimaryButton>
                 </Grid>
-                <Grid item xs={12}>
-                  <TertiaryButton onClick={() => setIsWithdrawing(true)} fullWidth>
+                <Grid item xs={6}>
+                  <TertiaryButton size="small" onClick={() => setIsWithdrawing(true)} fullWidth>
                     <Trans>Stop Donation</Trans>
                   </TertiaryButton>
                 </Grid>
@@ -363,34 +364,36 @@ export function ManageDonationModal({
     const depositGoalNumber = project ? new DecimalBigNumber(project.depositGoal.toString()) : ZERO_NUMBER;
 
     return (
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <Typography variant="body1" align="center" className="subtext">
-            {isSmallScreen ? "Goal" : "sOHM Goal"}
-          </Typography>
-          <Typography variant="h5" align="center">
-            {project ? depositGoalNumber.toString(DECIMAL_FORMAT) : "N/A"}
-          </Typography>
+      <TopBottomGiveBox borderColor={boxBorder}>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <Typography variant="h5" align="center">
+              {project ? depositGoalNumber.toString(DECIMAL_FORMAT) : "N/A"}
+            </Typography>
+            <Typography variant="body1" align="center" className="subtext">
+              {isSmallScreen ? "Goal" : "sOHM Goal"}
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="h5" align="center">
+              {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
+            </Typography>
+            <Typography variant="body1" align="center" className="subtext">
+              {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="h5" align="center">
+              {project
+                ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString(DECIMAL_FORMAT) + "%"
+                : "N/A"}
+            </Typography>
+            <Typography variant="body1" align="center" className="subtext">
+              {isSmallScreen ? "of Goal" : "of sOHM Goal"}
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <Typography variant="body1" align="center" className="subtext">
-            {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
-          </Typography>
-          <Typography variant="h5" align="center">
-            {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
-          </Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="body1" align="center" className="subtext">
-            {isSmallScreen ? "of Goal" : "of sOHM Goal"}
-          </Typography>
-          <Typography variant="h5" align="center">
-            {project
-              ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString(DECIMAL_FORMAT) + "%"
-              : "N/A"}
-          </Typography>
-        </Grid>
-      </Grid>
+      </TopBottomGiveBox>
     );
   };
 
@@ -400,15 +403,11 @@ export function ManageDonationModal({
   const getDonationDetails = () => {
     return (
       <>
-        <Box>
-          <DataRow title={t`Date`} balance={depositDate} />
-          <DataRow title={t`Recipient`} balance={getRecipientTitle()} />
-          <DataRow
-            title={t`Deposited`}
-            balance={`${new DecimalBigNumber(depositAmount).toString(EXACT_FORMAT)} sOHM`}
-          />
-          <DataRow title={t`Yield Sent`} balance={`${new DecimalBigNumber(yieldSent).toString(EXACT_FORMAT)} sOHM`} />
-        </Box>
+        <Typography variant="h5">Donation Details</Typography>
+        <DataRow title={t`Date`} balance={depositDate} />
+        <DataRow title={t`Recipient`} balance={getRecipientTitle()} />
+        <DataRow title={t`Deposited`} balance={`${new DecimalBigNumber(depositAmount).toString(EXACT_FORMAT)} sOHM`} />
+        <DataRow title={t`Yield Sent`} balance={`${new DecimalBigNumber(yieldSent).toString(EXACT_FORMAT)} sOHM`} />
       </>
     );
   };
@@ -486,63 +485,47 @@ export function ManageDonationModal({
 
   const getEditDonationScreen = () => {
     return (
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          {getRecipientDetails()}
+      <Grid container spacing={1}>
+        <Grid item xs={6}>
+          <Typography variant="body1" className="subtext">
+            <Trans>New sOHM Deposit</Trans>
+            <InfoTooltip
+              message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+              children={null}
+            />
+          </Typography>
         </Grid>
-        {recordType === RecordType.PROJECT ? (
-          <Grid item xs={12}>
-            {getProjectStats()}
-          </Grid>
-        ) : (
-          <></>
-        )}
-        <Grid item xs={12}>
-          <Box>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <Typography variant="body1">
-                  <Trans>New sOHM Amount</Trans>
-                  <InfoTooltip
-                    message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
-                    children={null}
-                  />
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Input
-                  id="amount-input"
-                  type="number"
-                  placeholder={t`Enter an amount`}
-                  value={depositAmount}
-                  // We need to inform the user about their deposit, so this is a specific value
-                  helperText={
-                    isDepositAmountValid
-                      ? t`Your current deposit is ${currentDepositAmount.toString(EXACT_FORMAT)} sOHM`
-                      : isDepositAmountValidError
-                  }
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  onChange={(e: any) => handleSetDepositAmount(e.target.value)}
-                  error={!isDepositAmountValid}
-                  startAdornment="sOHM"
-                  endString={t`Max`}
-                  // This uses toFixed() as it is a specific value and not formatted
-                  endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
-                />
-              </Grid>
-            </Grid>
-          </Box>
+        <Grid item xs={6}>
+          <Typography align="right" variant="body1" className="subtext">{t`Balance: ${sohmBalance.toString({
+            decimals: DECIMAL_PLACES,
+            format: true,
+          })} sOHM`}</Typography>
         </Grid>
         <Grid item xs={12}>
-          <Grid container>
-            <Grid item xs />
-            <Grid item xs={6}>
-              <PrimaryButton disabled={!canSubmit()} onClick={() => setIsAmountSet(true)} fullWidth>
-                <Trans>Continue</Trans>
-              </PrimaryButton>
-            </Grid>
-            <Grid item xs />
-          </Grid>
+          <Input
+            id="amount-input"
+            type="number"
+            placeholder={t`Enter an amount`}
+            value={depositAmount}
+            // We need to inform the user about their deposit, so this is a specific value
+            helperText={
+              isDepositAmountValid
+                ? t`Your current deposit is ${currentDepositAmount.toString(EXACT_FORMAT)} sOHM`
+                : isDepositAmountValidError
+            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onChange={(e: any) => handleSetDepositAmount(e.target.value)}
+            error={!isDepositAmountValid}
+            startAdornment="sOHM"
+            endString={t`Max`}
+            // This uses toFixed() as it is a specific value and not formatted
+            endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <PrimaryButton disabled={!canSubmit()} onClick={() => setIsAmountSet(true)} fullWidth>
+            <Trans>Continue</Trans>
+          </PrimaryButton>
         </Grid>
       </Grid>
     );
@@ -550,40 +533,38 @@ export function ManageDonationModal({
 
   const getDonationConfirmationElement = () => {
     return (
-      <Box>
-        <Grid container spacing={1} alignItems="center">
-          <Grid item xs={12} sm={4}>
-            <Typography variant="body1" className="grey-text">
-              <Trans>Current sOHM deposit</Trans>
-            </Typography>
-            {/* Referring to the current deposit, so we need to be specific */}
-            <Typography variant="h6">{currentDepositAmount.toString(EXACT_FORMAT)} sOHM</Typography>
+      <Grid container spacing={1} alignItems="center">
+        <Grid item xs={12} sm={4}>
+          <Typography variant="body1" className="grey-text">
+            <Trans>Previous sOHM deposit</Trans>
+          </Typography>
+          {/* Referring to the current deposit, so we need to be specific */}
+          <Typography variant="h6">{currentDepositAmount.toString(EXACT_FORMAT)} sOHM</Typography>
+        </Grid>
+        {!isSmallScreen ? (
+          <Grid item sm={4}>
+            <ArrowGraphic fill={themedArrow} />
           </Grid>
-          {!isSmallScreen ? (
-            <Grid item sm={4}>
-              <ArrowGraphic fill={themedArrow} />
-            </Grid>
-          ) : (
-            <></>
-          )}
-          <Grid item xs={12} sm={4}>
-            {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
+        ) : (
+          <></>
+        )}
+        <Grid item xs={12} sm={4}>
+          {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
                 whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
                 alignment accordingly. */}
-            <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
-              <Grid item xs={12}>
-                <Typography variant="body1" className="grey-text">
-                  <Trans>New sOHM deposit</Trans>
-                </Typography>
-                {/* Referring to the new deposit, so we need to be specific */}
-                <Typography variant="h6">
-                  {isWithdrawing ? "0" : new DecimalBigNumber(depositAmount).toString(EXACT_FORMAT)} sOHM
-                </Typography>
-              </Grid>
+          <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
+            <Grid item xs={12}>
+              <Typography variant="body1" className="grey-text">
+                <Trans>New sOHM deposit</Trans>
+              </Typography>
+              {/* Referring to the new deposit, so we need to be specific */}
+              <Typography variant="h6">
+                {isWithdrawing ? "0" : new DecimalBigNumber(depositAmount).toString(EXACT_FORMAT)} sOHM
+              </Typography>
             </Grid>
           </Grid>
         </Grid>
-      </Box>
+      </Grid>
     );
   };
 
@@ -606,17 +587,12 @@ export function ManageDonationModal({
         <Grid item xs={12}>
           <Grid container>
             <Grid item xs />
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
-                    {isMutationLoading ? t`Withdrawing sOHM` : t`Withdraw`}
+                  <PrimaryButton size="small" disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
+                    {isMutationLoading ? t`Withdrawing sOHM` : t`Approve 0.00 sOHM`}
                   </PrimaryButton>
-                </Grid>
-                <Grid item xs={12}>
-                  <TertiaryButton onClick={() => setIsWithdrawing(false)} fullWidth>
-                    <Trans>Cancel</Trans>
-                  </TertiaryButton>
                 </Grid>
               </Grid>
             </Grid>
@@ -631,28 +607,12 @@ export function ManageDonationModal({
     return (
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          {getRecipientDetails()}
-        </Grid>
-        {recordType === RecordType.PROJECT ? (
-          <Grid item xs={12}>
-            {getProjectStats()}
-          </Grid>
-        ) : (
-          <></>
-        )}
-        <Grid item xs={12}>
           {getDonationConfirmationElement()}
         </Grid>
         <Grid item xs={12}>
-          <Grid container>
-            <Grid item xs />
-            <Grid item xs={6}>
-              <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
-                {isMutationLoading ? t`Depositing sOHM` : t`Confirm New sOHM`}
-              </PrimaryButton>
-            </Grid>
-            <Grid item xs />
-          </Grid>
+          <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
+            {isMutationLoading ? t`Editing sOHM` : t`Approve ${depositAmount.toString()} sOHM`}
+          </PrimaryButton>
         </Grid>
       </Grid>
     );
@@ -665,7 +625,7 @@ export function ManageDonationModal({
       headerText={getModalTitle() + " Donation"}
       closePosition="right"
       topLeft={getEscapeComponent()}
-      minHeight="300px"
+      minHeight="200px"
     >
       {shouldShowEditScreen()
         ? getEditDonationScreen()
