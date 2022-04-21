@@ -7,11 +7,11 @@ import { initialEdges, initialNodes } from "./contractNodes";
 export const ContractsDiagram = (): JSX.Element => {
   const theme = useTheme();
   const [nodes, setNodes] = useState(initialNodes(theme));
-  const [edges, setEdges] = useState(initialEdges);
+  const [edges, setEdges] = useState(initialEdges(theme));
 
   useEffect(() => {
     setNodes(initialNodes(theme));
-    setEdges(initialEdges());
+    setEdges(initialEdges(theme));
   }, [theme]);
 
   // TODO fix incompatibility with Paper from component-library (but not MUI) which results in the edge paths not being positioned correctly

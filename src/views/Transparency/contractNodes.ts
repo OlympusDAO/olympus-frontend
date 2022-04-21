@@ -39,14 +39,14 @@ export const initialNodes = (theme: Theme): Node[] => {
     {
       name: "Bond Depository",
       address: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
-      x: 500,
-      y: 100,
+      x: 400,
+      y: 200,
       style: primaryStyle,
     },
     {
       name: "gOHM Token",
       address: GOHM_ADDRESSES[NetworkId.MAINNET],
-      x: 250,
+      x: 200,
       y: 0,
       style: primaryStyle,
     },
@@ -65,14 +65,15 @@ export const initialNodes = (theme: Theme): Node[] => {
     {
       name: "DAO Treasury",
       address: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
-      x: 500,
+      x: 400,
       y: 0,
       style: primaryStyle,
     },
   ]);
 };
 
-export const initialEdges = (): Edge[] => {
+export const initialEdges = (theme: Theme): Edge[] => {
+  const backgroundColor = theme.colors.gray[40];
   return getEdges([
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
@@ -80,12 +81,14 @@ export const initialEdges = (): Edge[] => {
       label: "Mints new sOHM",
       animated: true,
       type: "smoothstep",
+      labelBackgroundColor: backgroundColor,
     },
     {
       source: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       target: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
       label: "Foo",
       animated: true,
+      labelBackgroundColor: backgroundColor,
     },
   ]);
 };
