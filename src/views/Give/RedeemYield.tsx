@@ -1,13 +1,12 @@
 import { t, Trans } from "@lingui/macro";
-import { Grid, Typography } from "@material-ui/core";
+import { Divider, Grid, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
-import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useRecipientInfo, useRedeemableBalance } from "src/hooks/useGiveInfo";
+import { useRecipientInfo, useRedeemableBalance, useTotalYieldDonated } from "src/hooks/useGiveInfo";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useWeb3Context } from "src/hooks/web3Context";
 
@@ -40,6 +39,9 @@ export default function RedeemYield() {
   const _useRecipientInfo = useRecipientInfo(address);
   const isRecipientInfoLoading = _useRecipientInfo.isLoading;
 
+  const _useYieldDonated = useTotalYieldDonated(address);
+  const isYieldDonatedLoading = _useYieldDonated.isLoading;
+
   const _useStakingRebaseRate = useStakingRebaseRate();
   const isStakingRebaseRateLoading = _useStakingRebaseRate.isLoading;
   const stakingRebase: DecimalBigNumber = useMemo(() => {
@@ -59,6 +61,12 @@ export default function RedeemYield() {
 
     return new DecimalBigNumber(_useRecipientInfo.data.totalDebt);
   }, [_useRecipientInfo]);
+
+  const totalYield: DecimalBigNumber = useMemo(() => {
+    if (_useYieldDonated.isLoading || _useYieldDonated.data == undefined) return new DecimalBigNumber("0");
+
+    return new DecimalBigNumber(_useYieldDonated.data);
+  }, [_useYieldDonated]);
 
   const stakingRebasePercentage = stakingRebase.mul(new DecimalBigNumber("100"));
 
@@ -120,17 +128,17 @@ export default function RedeemYield() {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
+        <Typography variant="body1" align="center" className="subtext">
+          Redeemable Amount
+        </Typography>
         <Typography variant="h3" align="center" data-testid="redeemable-balance">
           {isRecipientInfoLoading ? <Skeleton /> : redeemableBalance.toString(DECIMAL_FORMAT)} sOHM
-        </Typography>
-        <Typography variant="body1" align="center" className="subtext">
-          Redeemable Yield
         </Typography>
       </Grid>
       <Grid item xs={12}>
         <Grid container>
           <Grid item xs />
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={6}>
             <PrimaryButton onClick={() => handleRedeemButtonClick()} disabled={!canRedeem()} fullWidth>
               <Trans>Redeem Yield</Trans>
             </PrimaryButton>
@@ -138,79 +146,51 @@ export default function RedeemYield() {
           <Grid item xs />
         </Grid>
       </Grid>
-      {isProject ? (
-        <Grid item xs={12}>
-          <Grid container spacing={1}>
-            <Grid item xs={4}>
-              <Box>
-                <Typography variant="h5" align="center" data-testid="project-goal">
-                  {getRecipientGoal(address).toString(DECIMAL_FORMAT)}
-                </Typography>
-                <Typography variant="body1" align="center" className="subtext">
-                  <Trans>sOHM Goal</Trans>
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={4}>
-              <Box>
-                <Typography variant="h5" align="center" data-testid="project-deposit">
-                  {totalDebt.toString(DECIMAL_FORMAT)}
-                </Typography>
-                <Typography variant="body1" align="center" className="subtext">
-                  {isSmallScreen ? t`Total Donated` : t`Total sOHM Donated`}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={4}>
-              <Box>
-                <Typography variant="h5" align="center" data-testid="project-goal-achievement">
-                  {totalDebt.mul(new DecimalBigNumber("100")).div(getRecipientGoal(address)).toString(DECIMAL_FORMAT)}%
-                </Typography>
-                <Typography variant="body1" align="center" className="subtext">
-                  <Trans>of sOHM Goal</Trans>
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </Grid>
-      ) : (
-        <></>
-      )}
       <Grid item xs={12}>
-        <Box>
+        <Typography variant="h5">Redeem Details</Typography>
+        <DataRow
+          title={t`Next Reward Amount`}
+          balance={`${nextRewardValue.toString(DECIMAL_FORMAT)} ${t`sOHM`}`}
+          isLoading={isStakingRebaseRateLoading}
+          data-testid="data-next-reward-amount"
+        />
+        <DataRow
+          title={t`Next Reward Yield`}
+          balance={`${stakingRebasePercentage.toString(DECIMAL_FORMAT)}%`}
+          isLoading={isStakingRebaseRateLoading}
+          data-testid="data-next-reward-yield"
+        />
+        <DataRow
+          title={t`ROI (5-Day Rate)`}
+          balance={`${fiveDayRateValue.toString(DECIMAL_FORMAT)}%`}
+          isLoading={isStakingRebaseRateLoading}
+          data-testid="data-roi"
+        />
+        <Divider />
+        <DataRow
+          title={t`Total sOHM Donated`}
+          // Exact number
+          balance={`${totalDebt.toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
+          isLoading={isRecipientInfoLoading}
+          data-testid="data-deposited-sohm"
+        />
+        <DataRow
+          title={t`Donated sOHM Yield`}
+          // Exact number
+          balance={`${totalYield.toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
+          isLoading={isYieldDonatedLoading}
+          data-testid="data-total-yield"
+        />
+        {isProject ? (
           <DataRow
-            title={t`Deposited sOHM`}
-            // Exact number
-            balance={`${totalDebt.toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
+            title={t`% of sOHM Goal`}
+            balance={totalDebt.mul(new DecimalBigNumber("100")).div(getRecipientGoal(address)).toString(DECIMAL_FORMAT)}
+            data-testid="project-goal-achievement"
             isLoading={isRecipientInfoLoading}
-            data-testid="data-deposited-sohm"
           />
-          <DataRow
-            title={t`Redeemable Amount`}
-            // Exact number
-            balance={`${redeemableBalance.toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
-            isLoading={isRecipientInfoLoading}
-            data-testid="data-redeemable-balance"
-          />
-          <DataRow
-            title={t`Next Reward Amount`}
-            balance={`${nextRewardValue.toString(DECIMAL_FORMAT)} ${t`sOHM`}`}
-            isLoading={isStakingRebaseRateLoading}
-            data-testid="data-next-reward-amount"
-          />
-          <DataRow
-            title={t`Next Reward Yield`}
-            balance={`${stakingRebasePercentage.toString(DECIMAL_FORMAT)}%`}
-            isLoading={isStakingRebaseRateLoading}
-            data-testid="data-next-reward-yield"
-          />
-          <DataRow
-            title={t`ROI (5-Day Rate)`}
-            balance={`${fiveDayRateValue.toString(DECIMAL_FORMAT)}%`}
-            isLoading={isStakingRebaseRateLoading}
-            data-testid="data-roi"
-          />
-        </Box>
+        ) : (
+          <></>
+        )}
       </Grid>
       <Grid item>
         <RedeemYieldModal
