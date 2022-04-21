@@ -541,13 +541,9 @@ export function ManageDonationModal({
           {/* Referring to the current deposit, so we need to be specific */}
           <Typography variant="h6">{currentDepositAmount.toString(EXACT_FORMAT)} sOHM</Typography>
         </Grid>
-        {!isSmallScreen ? (
-          <Grid item sm={4}>
-            <ArrowGraphic fill={themedArrow} />
-          </Grid>
-        ) : (
-          <></>
-        )}
+        <Grid item sm={4}>
+          <ArrowGraphic fill={themedArrow} marginTop="0px" />
+        </Grid>
         <Grid item xs={12} sm={4}>
           {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
                 whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
