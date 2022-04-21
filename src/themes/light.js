@@ -361,11 +361,6 @@ export const light = responsiveFontSizes(
             },
           },
         },
-        MuiLinearProgress: {
-          barColorPrimary: {
-            backgroundColor: lightTheme.color,
-          },
-        },
       },
     },
     commonSettings,

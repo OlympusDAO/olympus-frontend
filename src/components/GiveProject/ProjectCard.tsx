@@ -2,7 +2,7 @@ import "./ProjectCard.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQuery } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
+import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
@@ -58,6 +58,12 @@ const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
+  const useStyles = makeStyles<Theme>(theme => ({
+    progress: {
+      backgroundColor: () => (theme.palette.type === "dark" ? theme.colors.primary[300] : theme.colors.gray[700]),
+    },
+  }));
+  const classes = useStyles();
   const { address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
   const [isUserDonating, setIsUserDonating] = useState(false);
@@ -213,7 +219,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             {renderCountdownDetailed()}
           </Grid>
           <Grid item xs={11} sm={9} className="project-goal-progress">
-            <LinearProgress variant="determinate" value={goalProgress} />
+            <LinearProgress
+              classes={{ barColorPrimary: classes.progress }}
+              variant="determinate"
+              value={goalProgress}
+            />
           </Grid>
           <Grid item xs={1} sm={3} className="subtext">
             {_useRecipientInfo.isLoading ? (
@@ -268,7 +278,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             </Grid>
           </Grid>
           <Grid item xs={12} className="project-goal-progress">
-            <LinearProgress variant="determinate" value={goalProgress} />
+            <LinearProgress
+              classes={{ barColorPrimary: classes.progress }}
+              variant="determinate"
+              value={goalProgress}
+            />
           </Grid>
         </Grid>
       </>
