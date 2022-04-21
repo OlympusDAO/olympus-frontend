@@ -229,7 +229,6 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
           switch (props.path) {
             case "history":
               return <TransactionHistory />;
-            // return <div>hello</div>;
             default:
               return (
                 <>
