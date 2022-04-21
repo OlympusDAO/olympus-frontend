@@ -63,7 +63,7 @@ export const GetFirstDonationDate = async ({
   const day = date.getDate();
   const year = date.getFullYear();
 
-  const dateString = month + " " + day + ", " + year;
+  const dateString = date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 
   return dateString;
 };
