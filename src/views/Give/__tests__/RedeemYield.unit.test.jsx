@@ -1,7 +1,13 @@
 import * as useGiveInfo from "src/hooks/useGiveInfo";
 import * as useStakingRebaseRate from "src/hooks/useStakingRebaseRate";
 import * as useWeb3Context from "src/hooks/web3Context";
-import { mockRecipientInfo, mockRedeemableBalance, mockStakingRebaseRate, mockWeb3Context } from "src/testHelpers";
+import {
+  mockRecipientInfo,
+  mockRedeemableBalance,
+  mockStakingRebaseRate,
+  mockTotalYieldDonated,
+  mockWeb3Context,
+} from "src/testHelpers";
 
 import { act, render, screen } from "../../../testUtils";
 import RedeemYield from "../RedeemYield";
@@ -9,6 +15,7 @@ import RedeemYield from "../RedeemYield";
 // TODO convert to typescript
 let context;
 let redeemData;
+let yieldData;
 let recipientData;
 let stakingData;
 
@@ -16,6 +23,7 @@ beforeEach(() => {
   context = jest.spyOn(useWeb3Context, "useWeb3Context");
 
   redeemData = "100.0";
+  yieldData = "10.0";
   recipientData = {
     totalDebt: "100.0",
     carry: "0.0",
@@ -40,6 +48,9 @@ describe("Redeem Yield", () => {
     const recipientInfo = jest.spyOn(useGiveInfo, "useRecipientInfo");
     recipientInfo.mockReturnValue(mockRecipientInfo(recipientData));
 
+    const yieldInfo = jest.spyOn(useGiveInfo, "useTotalYieldDonated");
+    yieldInfo.mockReturnValue(mockTotalYieldDonated(yieldData));
+
     const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
     stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
 
@@ -63,6 +74,9 @@ describe("Redeem Yield", () => {
     _recipientInfo.isLoading = true;
     recipientInfo.mockReturnValue(_recipientInfo);
 
+    const yieldInfo = jest.spyOn(useGiveInfo, "useTotalYieldDonated");
+    yieldInfo.mockReturnValue(mockTotalYieldDonated(yieldData));
+
     const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
     stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
 
@@ -82,6 +96,9 @@ describe("Redeem Yield", () => {
 
     const recipientInfo = jest.spyOn(useGiveInfo, "useRecipientInfo");
     recipientInfo.mockReturnValue(recipientInfo);
+
+    const yieldInfo = jest.spyOn(useGiveInfo, "useTotalYieldDonated");
+    yieldInfo.mockReturnValue(mockTotalYieldDonated(yieldData));
 
     const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
     stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
@@ -103,6 +120,9 @@ describe("Redeem Yield", () => {
     const recipientInfo = jest.spyOn(useGiveInfo, "useRecipientInfo");
     recipientInfo.mockReturnValue(mockRecipientInfo(recipientData));
 
+    const yieldInfo = jest.spyOn(useGiveInfo, "useTotalYieldDonated");
+    yieldInfo.mockReturnValue(mockTotalYieldDonated(yieldData));
+
     const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
     stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
 
@@ -123,6 +143,9 @@ describe("Redeem Yield", () => {
     const recipientInfo = jest.spyOn(useGiveInfo, "useRecipientInfo");
     recipientInfo.mockReturnValue(mockRecipientInfo(recipientData));
 
+    const yieldInfo = jest.spyOn(useGiveInfo, "useTotalYieldDonated");
+    yieldInfo.mockReturnValue(mockTotalYieldDonated(yieldData));
+
     const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
     stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
 
@@ -130,7 +153,7 @@ describe("Redeem Yield", () => {
     await act(async () => {
       ({ container } = render(<RedeemYield />)); //eslint-disable-line
     });
-    expect(screen.getByText("sOHM Goal")).toBeInTheDocument();
+    expect(screen.getByText("% of sOHM Goal")).toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 });
