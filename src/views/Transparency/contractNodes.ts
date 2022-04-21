@@ -13,8 +13,13 @@ import {
 } from "src/constants/addresses";
 
 export const initialNodes = (backgroundColor: string): Node[] => {
+  const baseStyle: CSSProperties = {
+    borderRadius: "30px",
+  };
   const primaryStyle: CSSProperties = {
     backgroundColor: backgroundColor,
+    borderColor: backgroundColor,
+    ...baseStyle,
   };
 
   return getNodes([
@@ -30,22 +35,26 @@ export const initialNodes = (backgroundColor: string): Node[] => {
       address: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
       x: 500,
       y: 100,
+      style: primaryStyle,
     },
     {
       name: "gOHM Token",
       address: GOHM_ADDRESSES[NetworkId.MAINNET],
       x: 250,
       y: 0,
+      style: primaryStyle,
     },
     {
       name: "sOHM Token",
       address: SOHM_ADDRESSES[NetworkId.MAINNET],
       x: 50,
       y: 350,
+      style: primaryStyle,
     },
     {
       name: "OHM Token",
       address: OHM_ADDRESSES[NetworkId.MAINNET],
+      style: primaryStyle,
     },
     {
       name: "DAO Treasury",
