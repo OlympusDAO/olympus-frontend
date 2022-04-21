@@ -1,13 +1,18 @@
 import { Container, Grid, useTheme } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactFlow from "react-flow-renderer";
 
 import { initialEdges, initialNodes } from "./contractNodes";
 
 export const ContractsDiagram = (): JSX.Element => {
   const theme = useTheme();
-  const [nodes] = useState(initialNodes(theme.palette.grey[500]));
-  const [edges] = useState(initialEdges);
+  const [nodes, setNodes] = useState(initialNodes(theme));
+  const [edges, setEdges] = useState(initialEdges);
+
+  useEffect(() => {
+    setNodes(initialNodes(theme));
+    setEdges(initialEdges());
+  }, [theme]);
 
   // TODO fix incompatibility with Paper from component-library (but not MUI) which results in the edge paths not being positioned correctly
 

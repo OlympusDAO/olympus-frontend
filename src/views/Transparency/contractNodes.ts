@@ -1,3 +1,4 @@
+import { Theme } from "@material-ui/core";
 import { CSSProperties } from "react";
 import { Edge, Node } from "react-flow-renderer";
 import { getEdges } from "src/components/Transparency/ContractEdge";
@@ -12,13 +13,13 @@ import {
   STAKING_ADDRESSES,
 } from "src/constants/addresses";
 
-export const initialNodes = (backgroundColor: string): Node[] => {
+export const initialNodes = (theme: Theme): Node[] => {
   const baseStyle: CSSProperties = {
     borderRadius: "30px",
   };
   const primaryStyle: CSSProperties = {
-    backgroundColor: backgroundColor,
-    borderColor: backgroundColor,
+    backgroundColor: theme.palette.grey[500],
+    borderColor: theme.palette.grey[500],
     ...baseStyle,
   };
 
@@ -47,7 +48,7 @@ export const initialNodes = (backgroundColor: string): Node[] => {
     {
       name: "sOHM Token",
       address: SOHM_ADDRESSES[NetworkId.MAINNET],
-      x: 50,
+      x: 100,
       y: 350,
       style: primaryStyle,
     },
@@ -66,17 +67,20 @@ export const initialNodes = (backgroundColor: string): Node[] => {
   ]);
 };
 
-export const initialEdges: Edge[] = getEdges([
-  {
-    source: STAKING_ADDRESSES[NetworkId.MAINNET],
-    target: SOHM_ADDRESSES[NetworkId.MAINNET],
-    label: "Mints new sOHM",
-    animated: true,
-  },
-  {
-    source: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
-    target: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
-    label: "Foo",
-    animated: true,
-  },
-]);
+export const initialEdges = (): Edge[] => {
+  return getEdges([
+    {
+      source: STAKING_ADDRESSES[NetworkId.MAINNET],
+      target: SOHM_ADDRESSES[NetworkId.MAINNET],
+      label: "Mints new sOHM",
+      animated: true,
+      type: "smoothstep",
+    },
+    {
+      source: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
+      target: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
+      label: "Foo",
+      animated: true,
+    },
+  ]);
+};
