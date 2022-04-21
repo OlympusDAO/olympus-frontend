@@ -338,12 +338,12 @@ export function ManageDonationModal({
             <Grid item xs />
             <Grid item xs={5}>
               <Grid container spacing={1}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <PrimaryButton size="small" onClick={() => setIsEditing(true)} fullWidth>
                     <Trans>Edit Donation</Trans>
                   </PrimaryButton>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <TertiaryButton size="small" onClick={() => setIsWithdrawing(true)} fullWidth>
                     <Trans>Stop Donation</Trans>
                   </TertiaryButton>
