@@ -4,7 +4,6 @@ import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Modal, PrimaryButton } from "@olympusdao/component-library";
 import { ArrowGraphic } from "src/components/EducationCard";
-import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -63,36 +62,30 @@ export function RedeemYieldModal({
     <Modal open={isModalOpen} onClose={cancelFunc} headerText={t`Redeem Yield`} closePosition="left" minHeight="200px">
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Box>
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} sm={4}>
-                <Typography variant="body1" className="grey-text">
-                  <Trans>Redeemable Yield</Trans>
-                </Typography>
-                <Typography variant="h6">{t`${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`}</Typography>
-              </Grid>
-              {!isSmallScreen ? (
-                <Grid item sm={4}>
-                  <ArrowGraphic fill={themedArrow} />
-                </Grid>
-              ) : (
-                <></>
-              )}
-              <Grid item xs={12} sm={4}>
-                {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12} sm={4}>
+              <Typography variant="body1" className="grey-text">
+                <Trans>Redeemable Yield</Trans>
+              </Typography>
+              <Typography variant="h6">{t`${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`}</Typography>
+            </Grid>
+            <Grid item sm={4}>
+              <ArrowGraphic fill={themedArrow} marginTop="0px" />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
                     whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
                     alignment accordingly. */}
-                <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
-                  <Grid item xs={12}>
-                    <Typography variant="body1" className="grey-text">
-                      <Trans>My Wallet Address</Trans>
-                    </Typography>
-                    <Typography variant="h6">{shorten(address)}</Typography>
-                  </Grid>
+              <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
+                <Grid item xs={12}>
+                  <Typography variant="body1" className="grey-text">
+                    <Trans>My Wallet Address</Trans>
+                  </Typography>
+                  <Typography variant="h6">{shorten(address)}</Typography>
                 </Grid>
               </Grid>
             </Grid>
-          </Box>
+          </Grid>
         </Grid>
         <Grid item xs={12}>
           <Grid container>
@@ -101,7 +94,7 @@ export function RedeemYieldModal({
               <PrimaryButton disabled={!canSubmit()} onClick={() => handleSubmit()} fullWidth>
                 {isMutationLoading
                   ? t`Redeeming ${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`
-                  : t`Redeem ${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`}
+                  : t`Approve ${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`}
               </PrimaryButton>
             </Grid>
             <Grid item xs />
