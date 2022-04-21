@@ -365,36 +365,30 @@ export function ManageDonationModal({
     return (
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <Box>
-            <Typography variant="h5" align="center">
-              {project ? depositGoalNumber.toString(DECIMAL_FORMAT) : "N/A"}
-            </Typography>
-            <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? "Goal" : "sOHM Goal"}
-            </Typography>
-          </Box>
+          <Typography variant="body1" align="center" className="subtext">
+            {isSmallScreen ? "Goal" : "sOHM Goal"}
+          </Typography>
+          <Typography variant="h5" align="center">
+            {project ? depositGoalNumber.toString(DECIMAL_FORMAT) : "N/A"}
+          </Typography>
         </Grid>
         <Grid item xs={4}>
-          <Box>
-            <Typography variant="h5" align="center">
-              {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
-            </Typography>
-            <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
-            </Typography>
-          </Box>
+          <Typography variant="body1" align="center" className="subtext">
+            {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
+          </Typography>
+          <Typography variant="h5" align="center">
+            {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
+          </Typography>
         </Grid>
         <Grid item xs={4}>
-          <Box>
-            <Typography variant="h5" align="center">
-              {project
-                ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString(DECIMAL_FORMAT) + "%"
-                : "N/A"}
-            </Typography>
-            <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? "of Goal" : "of sOHM Goal"}
-            </Typography>
-          </Box>
+          <Typography variant="body1" align="center" className="subtext">
+            {isSmallScreen ? "of Goal" : "of sOHM Goal"}
+          </Typography>
+          <Typography variant="h5" align="center">
+            {project
+              ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString(DECIMAL_FORMAT) + "%"
+              : "N/A"}
+          </Typography>
         </Grid>
       </Grid>
     );
@@ -430,7 +424,7 @@ export function ManageDonationModal({
             <Grid
               container
               alignContent="center"
-              style={{ maxHeight: "184px", overflow: "hidden", borderRadius: "16px" }}
+              style={{ maxHeight: "72px", overflow: "hidden", borderRadius: "16px" }}
             >
               <Grid item xs>
                 <img width="100%" src={`${process.env.PUBLIC_URL}${project.photos[0]}`} />
@@ -440,10 +434,10 @@ export function ManageDonationModal({
           <Grid item xs>
             <Grid container>
               <Grid item xs={12}>
-                <Typography variant="h6">{getRecipientTitle()}</Typography>
+                <Typography variant="h5">{getRecipientTitle()}</Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="body1" className="subtext">
+                <Typography variant="body1">
                   <div dangerouslySetInnerHTML={getRenderedDetails()} />
                 </Typography>
               </Grid>
