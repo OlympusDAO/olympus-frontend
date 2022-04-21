@@ -22,6 +22,11 @@ export const initialNodes = (theme: Theme): Node[] => {
     borderColor: theme.palette.grey[500],
     ...baseStyle,
   };
+  const highlightStyle: CSSProperties = {
+    backgroundColor: theme.colors.primary[300],
+    borderColor: theme.colors.primary[300],
+    ...baseStyle,
+  };
 
   return getNodes([
     {
@@ -29,7 +34,7 @@ export const initialNodes = (theme: Theme): Node[] => {
       address: STAKING_ADDRESSES[NetworkId.MAINNET],
       x: 50,
       y: 200,
-      style: primaryStyle,
+      style: highlightStyle,
     },
     {
       name: "Bond Depository",
