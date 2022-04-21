@@ -68,7 +68,7 @@ const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
 const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
-export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
+export default function ProjectCard({ project, giveAssetType, changeAssetType, mode }: ProjectDetailsProps) {
   const useStyles = makeStyles<Theme>(theme => ({
     progress: {
       backgroundColor: () => (theme.palette.type === "dark" ? theme.colors.primary[300] : theme.colors.gray[700]),
