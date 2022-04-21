@@ -115,7 +115,7 @@ exports[`<ProjectCard/> should render card 1`] = `
                 role="progressbar"
               >
                 <div
-                  class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                  class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-1 makeStyles-progress-2 MuiLinearProgress-bar1Determinate"
                   style="transform: translateX(-100%);"
                 />
               </div>
@@ -139,7 +139,7 @@ exports[`<ProjectCard/> should render card 1`] = `
             href="#/give/projects/project-1"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-1 makeStyles-root-2 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-3 makeStyles-root-4 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
               tabindex="0"
               type="button"
             >
@@ -267,7 +267,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
                 role="progressbar"
               >
                 <div
-                  class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                  class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-8 makeStyles-progress-9 MuiLinearProgress-bar1Determinate"
                   style="transform: translateX(-100%);"
                 />
               </div>
@@ -291,7 +291,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
             href="#/give/projects/project-1"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-6 makeStyles-root-7 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-10 makeStyles-root-11 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
               tabindex="0"
               type="button"
             >
@@ -324,7 +324,7 @@ exports[`<ProjectCard/> should render page 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
         >
           <div
-            class="MuiPaper-root makeStyles-root-11 makeStyles-root-12  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root makeStyles-root-17 makeStyles-root-18  MuiPaper-elevation0 MuiPaper-rounded"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -334,7 +334,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                 class="MuiGrid-root card-header MuiGrid-item"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-13"
+                  class="MuiBox-root MuiBox-root-19"
                 >
                   <div
                     class="top-left"
@@ -686,7 +686,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                               role="progressbar"
                             >
                               <div
-                                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-15 makeStyles-progress-16 MuiLinearProgress-bar1Determinate"
                                 style="transform: translateX(-100%);"
                               />
                             </div>
@@ -697,7 +697,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-15 makeStyles-root-16 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-21 makeStyles-root-22 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                           tabindex="0"
                           type="button"
                         >
@@ -723,7 +723,7 @@ exports[`<ProjectCard/> should render page 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
       >
         <div
-          class="MuiPaper-root makeStyles-root-11 makeStyles-root-17  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-17 makeStyles-root-23  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -733,10 +733,10 @@ exports[`<ProjectCard/> should render page 1`] = `
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-18"
+                class="MuiBox-root MuiBox-root-24"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-19"
+                  class="MuiBox-root MuiBox-root-25"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -802,7 +802,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
         >
           <div
-            class="MuiPaper-root makeStyles-root-35 makeStyles-root-36  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root makeStyles-root-45 makeStyles-root-46  MuiPaper-elevation0 MuiPaper-rounded"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -812,7 +812,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                 class="MuiGrid-root card-header MuiGrid-item"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-37"
+                  class="MuiBox-root MuiBox-root-47"
                 >
                   <div
                     class="top-left"
@@ -1164,7 +1164,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                               role="progressbar"
                             >
                               <div
-                                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-43 makeStyles-progress-44 MuiLinearProgress-bar1Determinate"
                                 style="transform: translateX(-100%);"
                               />
                             </div>
@@ -1175,7 +1175,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-39 makeStyles-root-40 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-49 makeStyles-root-50 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                           tabindex="0"
                           type="button"
                         >
@@ -1201,7 +1201,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
       >
         <div
-          class="MuiPaper-root makeStyles-root-35 makeStyles-root-41  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-45 makeStyles-root-51  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -1211,10 +1211,10 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-42"
+                class="MuiBox-root MuiBox-root-52"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-43"
+                  class="MuiBox-root MuiBox-root-53"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -1280,7 +1280,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
         >
           <div
-            class="MuiPaper-root makeStyles-root-23 makeStyles-root-24  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root makeStyles-root-31 makeStyles-root-32  MuiPaper-elevation0 MuiPaper-rounded"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -1290,7 +1290,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                 class="MuiGrid-root card-header MuiGrid-item"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-25"
+                  class="MuiBox-root MuiBox-root-33"
                 >
                   <div
                     class="top-left"
@@ -1637,7 +1637,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                               role="progressbar"
                             >
                               <div
-                                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate"
+                                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-29 makeStyles-progress-30 MuiLinearProgress-bar1Determinate"
                                 style="transform: translateX(-100%);"
                               />
                             </div>
@@ -1648,7 +1648,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-27 makeStyles-root-28 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-35 makeStyles-root-36 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                           tabindex="0"
                           type="button"
                         >
@@ -1674,7 +1674,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
       >
         <div
-          class="MuiPaper-root makeStyles-root-23 makeStyles-root-29  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-31 makeStyles-root-37  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -1684,10 +1684,10 @@ exports[`<ProjectCard/> should render page without image 1`] = `
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-30"
+                class="MuiBox-root MuiBox-root-38"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-31"
+                  class="MuiBox-root MuiBox-root-39"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
