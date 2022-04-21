@@ -5,6 +5,7 @@ import { Icon } from "@olympusdao/component-library";
 
 type EducationGraphicProps = {
   quantity: string;
+  asset: string;
   isQuantityExact: boolean;
   verb?: string;
   isLoading?: boolean;
@@ -15,6 +16,11 @@ type CompactGraphicProps = {
   icon: JSX.Element;
   subtext: string;
   isSubtextContentLoading?: boolean;
+};
+
+type ArrowGraphicProps = {
+  fill: string;
+  marginTop?: string;
 };
 
 type LargeGraphicProps = {
@@ -30,7 +36,7 @@ function CompactGraphic({ title, icon, subtext, isSubtextContentLoading }: Compa
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography variant="h6" align="center">
+        <Typography variant="h6" align="center" className="grey-text">
           {title}
         </Typography>
       </Grid>
@@ -41,7 +47,7 @@ function CompactGraphic({ title, icon, subtext, isSubtextContentLoading }: Compa
         {isSubtextContentLoading ? (
           <Skeleton width={120} />
         ) : (
-          <Typography variant="h6" align="center">
+          <Typography variant="h6" className="grey-text" align="center">
             {subtext}
           </Typography>
         )}
@@ -50,43 +56,48 @@ function CompactGraphic({ title, icon, subtext, isSubtextContentLoading }: Compa
   );
 }
 
-export function CompactWallet({ quantity, isQuantityExact, verb = "retained" }: EducationGraphicProps) {
+export function CompactWallet({ quantity, isQuantityExact, asset, verb = "retained" }: EducationGraphicProps) {
   return (
     <CompactGraphic
       title={t`Wallet`}
       icon={<Icon name="vault-wallet" fontSize="large" />}
-      subtext={`${isQuantityExact ? "" : "≈ "}${quantity} sOHM ${verb}`}
+      subtext={`${isQuantityExact ? "" : "≈ "}${quantity} ${asset} ${verb}`}
     />
   );
 }
 
-export function CompactVault({ quantity, isQuantityExact, verb = "deposited", isLoading }: EducationGraphicProps) {
+export function CompactVault({
+  quantity,
+  isQuantityExact,
+  asset,
+  verb = "deposited",
+  isLoading,
+}: EducationGraphicProps) {
   return (
     <CompactGraphic
       title={t`Vault`}
       icon={<Icon name="vault-lock" fontSize="large" />}
-      subtext={`${isQuantityExact ? "" : "≈ "}${quantity} sOHM ${verb}`}
+      subtext={`${isQuantityExact ? "" : "≈ "}${quantity} ${asset} ${verb}`}
       isSubtextContentLoading={isLoading}
     />
   );
 }
 
-export function CompactYield({ quantity, isQuantityExact }: EducationGraphicProps) {
+export function CompactYield({ quantity, isQuantityExact, asset }: EducationGraphicProps) {
   return (
     <CompactGraphic
       title={t`Recipient`}
       icon={<Icon name="vault-recipient" fontSize="large" />}
-      subtext={`${t`Receives yield from`} ${isQuantityExact ? "" : "≈ "}${quantity} sOHM`}
+      subtext={`${t`Receives yield from`} ${isQuantityExact ? "" : "≈ "}${quantity} ${asset}`}
     />
   );
 }
 
-export function ArrowGraphic() {
-  // We hard-code 25px so that the arrows are vertically center-aligned with other graphics
+export function ArrowGraphic({ fill, marginTop = "25px" }: ArrowGraphicProps) {
   return (
-    <Grid container style={{ marginTop: "25px" }}>
+    <Grid container style={{ marginTop: marginTop }}>
       <Grid item xs={12} style={{ textAlign: "center" }}>
-        <Icon name="arrow-right" style={{ fontSize: 70, fill: "#999999" }} opacity={0.6} />{" "}
+        <Icon name="arrow-right" style={{ fontSize: 70, fill: fill }} />{" "}
       </Grid>
     </Grid>
   );

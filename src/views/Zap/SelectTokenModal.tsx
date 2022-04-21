@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import { Token } from "@olympusdao/component-library";
 import { trim } from "src/helpers";
-import { ZapperToken } from "src/helpers/ZapHelper";
+import { ZapperToken } from "src/hooks/useZapTokenBalances";
 
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 

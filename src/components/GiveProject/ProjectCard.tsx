@@ -2,40 +2,36 @@ import "./ProjectCard.scss";
 
 import { t, Trans } from "@lingui/macro";
 import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQuery } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
+import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
+import { Icon, Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Countdown from "react-countdown";
 import ReactGA from "react-ga";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { NetworkId } from "src/constants";
+import { Project } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { Environment } from "src/helpers/environment/Environment/Environment";
-import { getTotalDonated } from "src/helpers/GetTotalDonated";
-import { getDonorNumbers, getRedemptionBalancesAsync } from "src/helpers/GiveRedemptionBalanceHelper";
+import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useAppDispatch } from "src/hooks";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
+import { useDonationInfo, useDonorNumbers, useRecipientInfo, useTotalYieldDonated } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { IAccountSlice } from "src/slices/AccountSlice";
-import { IAppData } from "src/slices/AppSlice";
+import { ChangeAssetType } from "src/slices/interfaces";
+import { error } from "src/slices/MessagesSlice";
+import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "src/views/Give/constants";
+import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
+import { useDecreaseGive, useIncreaseGive } from "src/views/Give/hooks/useEditGive";
+import { useGive } from "src/views/Give/hooks/useGive";
 import {
-  ACTION_GIVE,
-  ACTION_GIVE_EDIT,
-  ACTION_GIVE_WITHDRAW,
-  changeGive,
-  changeMockGive,
-  isSupportedChain,
-} from "src/slices/GiveThunk";
-import { IPendingTxn } from "src/slices/PendingTxnsSlice";
-import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
-import { ManageDonationModal, WithdrawSubmitCallback } from "src/views/Give/ManageDonationModal";
+  CancelCallback,
+  IUserDonationInfo,
+  SubmitCallback,
+  SubmitEditCallback,
+  WithdrawSubmitCallback,
+} from "src/views/Give/Interfaces";
+import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
-
-import { error } from "../../slices/MessagesSlice";
-import { Project } from "./project.type";
 
 type CountdownProps = {
   total: number;
@@ -60,45 +56,66 @@ export enum ProjectDetailsMode {
 
 type ProjectDetailsProps = {
   project: Project;
+  giveAssetType: string;
+  changeAssetType: ChangeAssetType;
   mode: ProjectDetailsMode;
 };
 
-type State = {
-  account: IAccountSlice;
-  pendingTransactions: IPendingTxn[];
-  app: IAppData;
-};
-
-const DECIMAL_PLACES = 2;
+const NO_DONATION = -1;
+const DECIMAL_PLACES = 4;
 const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
 // We restrict DP to a reasonable number, but trim if unnecessary
 const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
-export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
-  const location = useLocation();
-  const { provider, address, connected, connect, networkId } = useWeb3Context();
+export default function ProjectCard({ project, giveAssetType, changeAssetType, mode }: ProjectDetailsProps) {
+  const useStyles = makeStyles<Theme>(theme => ({
+    progress: {
+      backgroundColor: () => (theme.palette.type === "dark" ? theme.colors.primary[300] : theme.colors.gray[700]),
+    },
+  }));
+  const classes = useStyles();
+  const { address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
-  const [recipientInfoIsLoading, setRecipientInfoIsLoading] = useState(true);
-  const [donorCountIsLoading, setDonorCountIsLoading] = useState(true);
-  const [totalDonatedIsLoading, setTotalDonatedIsLoading] = useState(true);
-  const [donationInfoIsLoading, setDonationInfoIsLoading] = useState(true);
-  const [totalDebt, setTotalDebt] = useState("");
-  const [totalDonated, setTotalDonated] = useState("");
-  const [donorCount, setDonorCount] = useState(0);
   const [isUserDonating, setIsUserDonating] = useState(false);
-  const [donationId, setDonationId] = useState(0);
+  const [donationId, setDonationId] = useState(NO_DONATION);
+
+  const { data: currentIndex } = useCurrentIndex();
 
   const [isGiveModalOpen, setIsGiveModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
 
-  const [goalCompletion, setGoalCompletion] = useState(new DecimalBigNumber("0"));
+  // Pull a user's donation info
+  const _useDonationInfo = useDonationInfo();
+  const donationInfo: IUserDonationInfo[] | null = useMemo(() => {
+    return _useDonationInfo.data === undefined ? null : _useDonationInfo.data;
+  }, [_useDonationInfo]);
+  const isDonationInfoLoading = useDonationInfo().isLoading;
 
-  const donationInfo = useSelector((state: State) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving && state.account.mockGiving.donationInfo
-      : state.account.giving && state.account.giving.donationInfo;
-  });
+  // Pull data for a specific partner's wallet
+  const _useRecipientInfo = useRecipientInfo(wallet);
+  const totalDebt: DecimalBigNumber = useMemo(() => {
+    if (_useRecipientInfo.isLoading || _useRecipientInfo.data === undefined) return new DecimalBigNumber("0");
+
+    return GetCorrectContractUnits(_useRecipientInfo.data.gohmDebt, giveAssetType, currentIndex);
+  }, [_useRecipientInfo.data, _useRecipientInfo.isLoading, currentIndex, giveAssetType]);
+  const recipientInfoIsLoading = _useRecipientInfo.isLoading;
+  const donorCount = useDonorNumbers(wallet).data;
+
+  const _useTotalYieldDonated = useTotalYieldDonated(wallet);
+  const totalYieldDonated: DecimalBigNumber = useMemo(() => {
+    if (_useTotalYieldDonated.isLoading || _useTotalYieldDonated.data === undefined) return new DecimalBigNumber("0");
+
+    return GetCorrectContractUnits(_useTotalYieldDonated.data, giveAssetType, currentIndex);
+  }, [_useTotalYieldDonated.data, _useTotalYieldDonated.isLoading, currentIndex, giveAssetType]);
+  const totalDonatedIsLoading = useTotalYieldDonated(wallet).isLoading;
+
+  // Contract interactions: new donation, increase donation, decrease donation
+  const giveMutation = useGive();
+  const increaseMutation = useIncreaseGive();
+  const decreaseMutation = useDecreaseGive();
+
+  const isMutating = giveMutation.isLoading || increaseMutation.isLoading || decreaseMutation.isLoading;
 
   const theme = useTheme();
   const isBreakpointLarge = useMediaQuery(theme.breakpoints.up("lg"));
@@ -107,46 +124,39 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   // See: https://stackoverflow.com/a/66753532
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    // We use dispatch to asynchronously fetch the results, and then update state variables so that the component refreshes
-    // We DO NOT use dispatch here, because it will overwrite the state variables in the redux store, which then creates havoc
-    // e.g. the redeem yield page will show someone else's deposited sOHM and redeemable yield
-    getRedemptionBalancesAsync({
-      networkID: networkId,
-      provider: provider,
-      address: wallet,
-    })
-      .then(resultAction => {
-        setTotalDebt(resultAction.redeeming.recipientInfo.totalDebt);
-        setRecipientInfoIsLoading(false);
-      })
-      .catch(e => console.log(e));
+  const userDonation: IUserDonationInfo | null = useMemo(() => {
+    if (donationId == NO_DONATION || _useDonationInfo.isLoading || !donationInfo) return null;
 
-    getDonorNumbers({
-      networkID: networkId,
-      provider: provider,
-      address: wallet,
-    })
-      .then(resultAction => {
-        setDonorCount(!resultAction ? 0 : resultAction.length);
-        setDonorCountIsLoading(false);
-      })
-      .catch(e => console.log(e));
+    return donationInfo[donationId];
+  }, [donationInfo, _useDonationInfo.isLoading, donationId]);
 
-    getTotalDonated({
-      networkID: networkId,
-      provider: provider,
-      address: wallet,
-    })
-      .then(donatedAmount => {
-        setTotalDonated(donatedAmount);
-        setTotalDonatedIsLoading(false);
-      })
-      .catch(e => console.log(e));
-  }, [connected, networkId, isGiveModalOpen]);
+  const userDeposit: DecimalBigNumber = useMemo(() => {
+    if (!userDonation) return new DecimalBigNumber("0");
+
+    return GetCorrectContractUnits(userDonation.deposit, giveAssetType, currentIndex);
+  }, [currentIndex, giveAssetType, userDonation]);
+
+  const userYieldDonated: DecimalBigNumber = useMemo(() => {
+    if (!userDonation) return new DecimalBigNumber("0");
+
+    return GetCorrectContractUnits(userDonation.yieldDonated, giveAssetType, currentIndex);
+  }, [currentIndex, giveAssetType, userDonation]);
 
   useEffect(() => {
-    setDonationInfoIsLoading(false);
+    setIsUserDonating(false);
+    setDonationId(NO_DONATION);
+  }, [networkId]);
+
+  // Determine if the current user is donating to the project whose page they are
+  // currently viewing and if so tracks the index of the recipient in the user's
+  // donationInfo array
+  useEffect(() => {
+    if (isDonationInfoLoading || !donationInfo) return;
+
+    if (!userDonation) {
+      setIsUserDonating(false);
+      setDonationId(NO_DONATION);
+    }
 
     for (let i = 0; i < donationInfo.length; i++) {
       if (donationInfo[i].recipient.toLowerCase() === wallet.toLowerCase()) {
@@ -155,48 +165,39 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         break;
       }
     }
-  }, [donationInfo]);
+  }, [isDonationInfoLoading, donationInfo, userDonation, networkId, wallet]);
 
   useEffect(() => {
+    if (isGiveModalOpen) setIsGiveModalOpen(false);
+  }, [giveMutation.isSuccess]);
+
+  useEffect(() => {
+    if (isManageModalOpen) setIsManageModalOpen(false);
+  }, [increaseMutation.isSuccess, decreaseMutation.isSuccess]);
+
+  const goalCompletion: DecimalBigNumber = useMemo(() => {
     // We calculate the level of goal completion here, so that it is updated whenever one of the dependencies change
-    if (recipientInfoIsLoading || totalDonatedIsLoading) {
-      setGoalCompletion(ZERO_NUMBER);
-      return;
-    }
+    if (recipientInfoIsLoading || _useRecipientInfo.isLoading || !totalDebt) return ZERO_NUMBER;
 
-    const totalDonatedNumber = new DecimalBigNumber(totalDonated);
-
-    setGoalCompletion(
-      totalDonatedNumber.mul(new DecimalBigNumber("100")).div(new DecimalBigNumber(depositGoal.toString())),
-    );
-  }, [recipientInfoIsLoading, totalDonatedIsLoading, totalDonated, depositGoal]);
-
-  useEffect(() => {
-    setIsUserDonating(false);
-    setDonationId(0);
-  }, [networkId]);
+    return totalDebt
+      .mul(new DecimalBigNumber("100"))
+      .div(new DecimalBigNumber(depositGoal.toString()), GIVE_MAX_DECIMALS);
+  }, [recipientInfoIsLoading, _useRecipientInfo.isLoading, totalDebt, depositGoal]);
 
   // The JSON file returns a string, so we convert it
   const finishDateObject = finishDate ? new Date(finishDate) : null;
-
-  const remainingStyle = { color: "#999999" };
 
   // Removed for now. Will leave this function in for when we re-add this feature
   const countdownRendererDetailed = ({ completed, formatted }: CountdownProps) => {
     if (completed)
       return (
         <>
-          <Grid container spacing={1} alignItems="center" justifyContent="center">
+          <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
             <Grid item>
-              <Icon name="time-remaining" />
-            </Grid>
-            <Grid item>
-              <Typography variant="h6">
-                <strong>00:00:00</strong>
-              </Typography>
+              <Typography variant="body2">00:00:00</Typography>
             </Grid>
             <Grid>
-              <Typography variant="body1" style={remainingStyle}>
+              <Typography variant="body2">
                 <Trans>Completed</Trans>
               </Typography>
             </Grid>
@@ -207,24 +208,19 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     return (
       <>
         <>
-          <Grid container spacing={1} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Icon name="time-remaining" />
-            </Grid>
+          <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
             <Grid item>
               <Tooltip
                 title={!finishDateObject ? "" : t`Finishes at ${finishDateObject.toLocaleString()} in your timezone`}
                 arrow
               >
-                <Typography variant="h6">
-                  <strong>
-                    {formatted.days}:{formatted.hours}:{formatted.minutes}
-                  </strong>
+                <Typography variant="body2">
+                  {formatted.days}:{formatted.hours}:{formatted.minutes}
                 </Typography>
               </Tooltip>
             </Grid>
             <Grid item>
-              <Typography variant="body1" style={remainingStyle}>
+              <Typography variant="body2">
                 <Trans>Remaining</Trans>
               </Typography>
             </Grid>
@@ -234,32 +230,42 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
     );
   };
 
+  const getGoalCompletion = (): string => {
+    if (!depositGoal) return "0";
+    if (recipientInfoIsLoading) return "0"; // This shouldn't be needed, but just to be sure...
+    const depositGoalNumber = new DecimalBigNumber(depositGoal.toString(), GIVE_MAX_DECIMALS);
+
+    return totalDebt
+      .mul(new DecimalBigNumber("100"))
+      .div(depositGoalNumber, GIVE_MAX_DECIMALS)
+      .toString({ decimals: 2 });
+  };
+
   const renderGoalCompletion = (): JSX.Element => {
     // No point in displaying decimals in the progress bar
     const formattedGoalCompletion = goalCompletion.toString(NO_DECIMALS_FORMAT);
-
-    if (depositGoal === 0) return <></>;
+    const goalProgress: number = goalCompletion.gt(new DecimalBigNumber("100")) ? 100 : goalCompletion.toApproxNumber();
 
     return (
       <>
-        <Grid container alignItems="center" spacing={1}>
-          <Grid item>
-            <Icon name="sohm-yield-goal" />
+        <Grid container alignItems="center" spacing={1} style={{ paddingBottom: "8px" }}>
+          <Grid item xs={12} className="subtext">
+            {renderCountdownDetailed()}
           </Grid>
-          <Grid item>
-            <Tooltip
-              title={
-                !address
-                  ? t`Connect your wallet to view the fundraising progress`
-                  : `${totalDonated} of ${depositGoal} sOHM raised`
-              }
-              arrow
-            >
-              <Typography variant="body1">
-                <strong>{recipientInfoIsLoading ? <Skeleton width={20} /> : formattedGoalCompletion}</strong>
-                <Trans>% of goal</Trans>
-              </Typography>
-            </Tooltip>
+          <Grid item xs={11} sm={9} className="project-goal-progress">
+            <LinearProgress
+              classes={{ barColorPrimary: classes.progress }}
+              variant="determinate"
+              value={goalProgress}
+            />
+          </Grid>
+          <Grid item xs={1} sm={3} className="subtext">
+            {_useRecipientInfo.isLoading ? (
+              <Skeleton className="skeleton-inline" width={20} />
+            ) : (
+              formattedGoalCompletion
+            )}
+            %
           </Grid>
         </Grid>
       </>
@@ -267,9 +273,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
   };
 
   const renderGoalCompletionDetailed = (): JSX.Element => {
-    const goalProgress: number = goalCompletion.gt(new DecimalBigNumber("100")) ? 100 : goalCompletion.toApproxNumber();
-
-    if (depositGoal === 0) return <></>;
+    const goalProgress = parseFloat(getGoalCompletion()) > 100 ? 100 : parseFloat(getGoalCompletion());
 
     return (
       <>
@@ -277,14 +281,14 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
           <Grid item xs={5}>
             <Grid container justifyContent="flex-start" alignItems="center" spacing={1}>
               <Grid item>
-                <Icon name="sohm-yield" />
+                <Icon name="sohm-yield-sent" />
               </Grid>
               <Grid item className="metric">
-                {totalDonatedIsLoading ? <Skeleton /> : new DecimalBigNumber(totalDonated).toString(DEFAULT_FORMAT)}
+                {totalDonatedIsLoading ? <Skeleton /> : totalYieldDonated.toString(DEFAULT_FORMAT)}
               </Grid>
             </Grid>
             <Grid item className="subtext">
-              <Trans>sOHM Yield</Trans>
+              <Trans>{giveAssetType} Yield</Trans>
             </Grid>
           </Grid>
           <Grid item xs={2} />
@@ -296,17 +300,23 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="sohm-yield-goal" />
                   </Grid>
                   <Grid item className="metric">
-                    {new DecimalBigNumber(depositGoal.toString()).toString(DEFAULT_FORMAT)}
+                    {GetCorrectStaticUnits(depositGoal.toString(), giveAssetType, currentIndex).toString(
+                      DEFAULT_FORMAT,
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                <Trans>sOHM Yield Goal</Trans>
+                <Trans>{giveAssetType} Deposit Goal</Trans>
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={12} className="project-goal-progress">
-            <LinearProgress variant="determinate" value={goalProgress} />
+            <LinearProgress
+              classes={{ barColorPrimary: classes.progress }}
+              variant="determinate"
+              value={goalProgress}
+            />
           </Grid>
         </Grid>
       </>
@@ -325,7 +335,7 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                     <Icon name="donors" />
                   </Grid>
                   <Grid item className="metric">
-                    {donorCountIsLoading ? <Skeleton /> : donorCount}
+                    {isDonationInfoLoading ? <Skeleton /> : donorCount}
                   </Grid>
                 </Grid>
               </Grid>
@@ -339,19 +349,15 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
               <Grid item>
                 <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Icon name="sohm-total" />
+                    <Icon name="deposited" />
                   </Grid>
                   <Grid item className="metric">
-                    {recipientInfoIsLoading ? (
-                      <Skeleton />
-                    ) : (
-                      <strong>{new DecimalBigNumber(totalDebt).toString(DEFAULT_FORMAT)}</strong>
-                    )}
+                    {recipientInfoIsLoading ? <Skeleton /> : <strong>{totalDebt.toString(DEFAULT_FORMAT)}</strong>}
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                <Trans>Total Active sOHM</Trans>
+                <Trans>{giveAssetType} Deposited</Trans>
               </Grid>
             </Grid>
           </Grid>
@@ -401,47 +407,20 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
-    // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE,
-          value: depositAmount.toString(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource: eventSource,
-        }),
-      );
-    } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE,
-          value: depositAmount.toString(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource: eventSource,
-        }),
-      );
-    }
-
-    setIsGiveModalOpen(false);
+    await giveMutation.mutate({
+      amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
+      recipient: walletAddress,
+      token: giveAssetType,
+    });
   };
 
   const handleGiveModalCancel: CancelCallback = () => {
     setIsGiveModalOpen(false);
   };
 
-  const handleEditModalSubmit: SubmitCallback = async (
+  const handleEditModalSubmit: SubmitEditCallback = async (
     walletAddress,
+    depositId,
     eventSource,
     depositAmount,
     depositAmountDiff,
@@ -452,75 +431,36 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
 
     if (depositAmountDiff.eq(ZERO_NUMBER)) return;
 
-    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
-    // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toString(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
+    if (depositAmountDiff.gt(ZERO_NUMBER)) {
+      await increaseMutation.mutate({
+        id: depositId,
+        amount: depositAmountDiff.toString(GIVE_MAX_DECIMAL_FORMAT),
+        recipient: walletAddress,
+        token: giveAssetType,
+      });
     } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE_EDIT,
-          value: depositAmountDiff.toString(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
+      const subtractionAmount = depositAmountDiff.mul(new DecimalBigNumber("-1"));
+      await decreaseMutation.mutate({
+        id: depositId,
+        amount: subtractionAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
+        recipient: walletAddress,
+        token: giveAssetType,
+      });
     }
-
-    setIsManageModalOpen(false);
   };
 
-  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (walletAddress, eventSource, depositAmount) => {
-    // If on Rinkeby and using Mock Sohm, use changeMockGive async thunk
-    // Else use standard call
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(
-        changeMockGive({
-          action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toString(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
-    } else {
-      await dispatch(
-        changeGive({
-          action: ACTION_GIVE_WITHDRAW,
-          value: depositAmount.toString(),
-          recipient: walletAddress,
-          provider,
-          address,
-          networkID: networkId,
-          version2: false,
-          rebase: false,
-          eventSource,
-        }),
-      );
-    }
-
-    setIsManageModalOpen(false);
+  const handleWithdrawModalSubmit: WithdrawSubmitCallback = async (
+    walletAddress,
+    depositId,
+    eventSource,
+    depositAmount,
+  ) => {
+    await decreaseMutation.mutate({
+      id: depositId,
+      amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
+      recipient: walletAddress,
+      token: "gOHM",
+    });
   };
 
   const handleManageModalCancel = () => {
@@ -597,17 +537,17 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
             </Grid>
             <Grid item xs />
             <Grid item container xs={12} alignItems="flex-end">
-              <Grid item xs={12} lg={8}>
+              <Grid item xs={12} sm={6} lg={8}>
                 {renderGoalCompletion()}
               </Grid>
-              <Grid item xs={12} lg={4}>
+              <Grid item xs={12} sm={6} lg={4}>
                 <Link
                   href={`#/give/projects/${project.slug}`}
                   onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                 >
-                  <PrimaryButton fullWidth>
+                  <TertiaryButton size="small" fullWidth>
                     <Trans>View Details</Trans>
-                  </PrimaryButton>
+                  </TertiaryButton>
                 </Link>
               </Grid>
             </Grid>
@@ -615,9 +555,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         </Grid>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
+          isMutationLoading={isMutating}
           eventSource="Project List"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeAssetType}
           project={project}
           key={"recipient-modal-" + title}
         />
@@ -685,9 +628,6 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                             </PrimaryButton>
                           )}
                         </Grid>
-                        <Grid item xs={12}>
-                          {renderCountdownDetailed()}
-                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -706,20 +646,11 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                               <Icon name="deposited" />
                             </Grid>
                             <Grid item className="metric">
-                              {donationInfoIsLoading ? (
-                                <Skeleton />
-                              ) : donationInfo[donationId] ? (
-                                // This amount is deliberately specific
-                                new DecimalBigNumber(donationInfo[donationId].deposit).toString({
-                                  format: true,
-                                })
-                              ) : (
-                                "0"
-                              )}
+                              {isDonationInfoLoading ? <Skeleton /> : userDeposit.toString(DEFAULT_FORMAT)}
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            <Trans>sOHM Deposited</Trans>
+                            <Trans>{giveAssetType} Deposited</Trans>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -731,18 +662,12 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
                                 <Icon name="sohm-yield-sent" />
                               </Grid>
                               <Grid item className="metric">
-                                {donationInfoIsLoading ? (
-                                  <Skeleton />
-                                ) : donationInfo[donationId] ? (
-                                  new DecimalBigNumber(donationInfo[donationId].yieldDonated).toString(DEFAULT_FORMAT)
-                                ) : (
-                                  "0"
-                                )}
+                                {isDonationInfoLoading ? <Skeleton /> : userYieldDonated.toString(DEFAULT_FORMAT)}
                               </Grid>
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            <Trans>sOHM Yield Sent</Trans>
+                            <Trans>{giveAssetType} Yield Sent</Trans>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -776,25 +701,32 @@ export default function ProjectCard({ project, mode }: ProjectDetailsProps) {
         </Container>
         <RecipientModal
           isModalOpen={isGiveModalOpen}
+          isMutationLoading={isMutating}
           eventSource="Project Details"
           callbackFunc={handleGiveModalSubmit}
           cancelFunc={handleGiveModalCancel}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeAssetType}
           project={project}
           key={"recipient-modal-" + title}
         />
-        {isUserDonating && donationInfo[donationId] ? (
+        {isUserDonating && userDonation ? (
           <ManageDonationModal
             isModalOpen={isManageModalOpen}
+            isMutationLoading={isMutating}
             eventSource={"Project Details"}
             submitEdit={handleEditModalSubmit}
             submitWithdraw={handleWithdrawModalSubmit}
             cancelFunc={handleManageModalCancel}
-            currentWalletAddress={donationInfo[donationId].recipient}
-            currentDepositAmount={new DecimalBigNumber(donationInfo[donationId].deposit)}
-            depositDate={donationInfo[donationId].date}
-            yieldSent={donationInfo[donationId].yieldDonated}
+            giveAssetType={giveAssetType}
+            changeAssetType={changeAssetType}
+            currentWalletAddress={userDonation.recipient}
+            currentDepositId={userDonation.id}
+            currentDepositAmount={userDonation.deposit.toString()}
+            depositDate={userDonation.date}
+            yieldSent={userDonation.yieldDonated}
             project={project}
-            key={"manage-modal-" + donationInfo[donationId].recipient}
+            key={"manage-modal-" + userDonation.recipient}
           />
         ) : (
           <></>

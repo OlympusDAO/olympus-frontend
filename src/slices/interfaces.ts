@@ -1,9 +1,6 @@
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { BigNumber, BigNumberish } from "ethers";
+import { BigNumber } from "ethers";
 import { NetworkId } from "src/constants";
-import { Bond } from "src/lib/Bond";
-
-import { IBondV2 } from "./BondSliceV2";
 
 export interface IJsonRPCError {
   readonly message: string;
@@ -75,27 +72,10 @@ export interface IMigrateSingleAsyncThunk extends IMigrateAsyncThunk {
   readonly amount: string;
 }
 
-export interface IBaseBondV2ClaimAsyncThunk extends IBaseAddressAsyncThunk {
-  readonly gOHM: boolean;
-}
-
-export interface IBaseBondV2SingleClaimAsyncThunk extends IBaseBondV2ClaimAsyncThunk {
-  readonly indexes: [number];
-}
-
-export interface IBaseBondV2ClaimSinglesyncThunk extends IBaseBondV2ClaimAsyncThunk {
-  readonly gOHM: boolean;
-  readonly bondIndex: number;
-}
-
 export interface IActionValueRecipientAsyncThunk extends IActionValueAsyncThunk {
   readonly recipient: string;
   readonly version2: boolean;
   readonly rebase: boolean;
-  readonly eventSource: string;
-}
-
-export interface IRedeemAsyncThunk extends IBaseAddressAsyncThunk {
   readonly eventSource: string;
 }
 
@@ -107,55 +87,6 @@ export interface IZapAsyncThunk extends IBaseAddressAsyncThunk {
   readonly gOHM: boolean;
 }
 
-// Account Slice
-
-export interface ICalcUserBondDetailsAsyncThunk extends IBaseAddressAsyncThunk, IBaseBondAsyncThunk {}
-
-// Bond Slice
-
-export interface IBaseBondAsyncThunk extends IBaseAsyncThunk {
-  readonly bond: Bond;
-}
-
-export interface IBondV2AysncThunk extends IBaseAddressAsyncThunk {
-  readonly bond: IBondV2;
-}
-
-export interface IBondV2IndexAsyncThunk extends IBaseAddressAsyncThunk {
-  readonly bondIndex: number;
-}
-
-export interface IBondV2PurchaseAsyncThunk extends IBaseAddressAsyncThunk {
-  readonly bond: IBondV2;
-  readonly maxPrice: BigNumberish;
-  readonly amount: BigNumberish;
-}
-
-export interface IBondInversePurchaseAsyncThunk extends IBaseAddressAsyncThunk {
-  readonly bond: IBondV2;
-  readonly maxPrice: BigNumberish;
-  readonly amounts: BigNumberish[];
-}
-
-export interface IApproveBondAsyncThunk extends IBaseBondAsyncThunk {
-  readonly address: string;
-}
-
-export interface ICalcBondDetailsAsyncThunk extends IBaseBondAsyncThunk {
-  readonly value: string;
-}
-
-export interface IBondAssetAsyncThunk extends IBaseBondAsyncThunk, IValueAsyncThunk {
-  readonly slippage: number;
-}
-
-export interface IRedeemBondAsyncThunk extends IBaseBondAsyncThunk {
-  readonly address: string;
-  readonly autostake: boolean;
-}
-
-export interface IRedeemAllBondsAsyncThunk extends IBaseAsyncThunk {
-  readonly bonds: Bond[];
-  readonly address: string;
-  readonly autostake: boolean;
+export interface ChangeAssetType {
+  (checked: boolean): void;
 }

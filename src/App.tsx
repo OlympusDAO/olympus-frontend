@@ -1,50 +1,57 @@
-// eslint-disable-next-line simple-import-sort/imports
 import "./style.scss";
 
 import { i18n } from "@lingui/core";
-import { ThemeProvider } from "@material-ui/core/styles";
-import { MultifarmProvider } from "@multifarm/widget";
-import { useEffect, useState, useCallback } from "react";
-import { Route, Redirect, Switch, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { useMediaQuery } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import useTheme from "./hooks/useTheme";
-import useBonds from "./hooks/useBonds";
-import { useWeb3Context, useAppSelector } from "./hooks";
-import { getMultiFarmApiKey } from "./helpers/multifarm";
-import { shouldTriggerSafetyCheck } from "./helpers";
-import MigrationModal from "./components/Migration/MigrationModal";
-import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
-import { calcBondDetails } from "./slices/BondSlice";
-import { loadAppDetails } from "./slices/AppSlice";
-import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
-import { getZapTokenBalances } from "./slices/ZapSlice";
-import { error, info } from "./slices/MessagesSlice";
-
-import { Stake, TreasuryDashboard, Zap, Wrap, V1Stake, Give, BondV2, ChooseBondV2 } from "./views";
-import Sidebar from "./components/Sidebar/Sidebar";
-import TopBar from "./components/TopBar/TopBar";
-import CallToAction from "./components/CallToAction/CallToAction";
-import NavDrawer from "./components/Sidebar/NavDrawer";
-import Messages from "./components/Messages/Messages";
-import NotFound from "./views/404/NotFound";
-import { dark as darkTheme } from "./themes/dark.js";
-import { light as lightTheme } from "./themes/light.js";
-import { girth as gTheme } from "./themes/girth.js";
-import { multifarmLightTheme, multifarmDarkTheme } from "./themes/multifarm";
-import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
+import { MultifarmProvider } from "@multifarm/widget";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 import grantData from "src/views/Give/grants.json";
 import projectData from "src/views/Give/projects.json";
-import { getAllBonds, getUserNotes } from "./slices/BondSliceV2";
+
+import CallToAction from "./components/CallToAction/CallToAction";
+import Messages from "./components/Messages/Messages";
+import MigrationModal from "./components/Migration/MigrationModal";
+import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
+import NavDrawer from "./components/Sidebar/NavDrawer";
+import Sidebar from "./components/Sidebar/Sidebar";
+import StagingNotification from "./components/StagingNotification";
+import TopBar from "./components/TopBar/TopBar";
+import Wallet from "./components/TopBar/Wallet";
 import { NetworkId } from "./constants";
+import { shouldTriggerSafetyCheck } from "./helpers";
+import { trackGAEvent } from "./helpers/analytics";
+import { DecimalBigNumber } from "./helpers/DecimalBigNumber/DecimalBigNumber";
+import { getMultiFarmApiKey } from "./helpers/multifarm";
+import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
+import { nonNullable } from "./helpers/types/nonNullable";
+import { useAppSelector, useWeb3Context } from "./hooks";
+import {
+  useFuseBalance,
+  useGohmBalance,
+  useGohmTokemakBalance,
+  useOhmBalance,
+  useSohmBalance,
+} from "./hooks/useBalance";
+import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
+import { useTestableNetworks } from "./hooks/useTestableNetworks";
+import useTheme from "./hooks/useTheme";
+import { getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
+import { loadAppDetails } from "./slices/AppSlice";
+import { ChangeAssetType } from "./slices/interfaces";
+import { error, info } from "./slices/MessagesSlice";
+import { dark as darkTheme } from "./themes/dark.js";
+import { girth as gTheme } from "./themes/girth.js";
+import { light as lightTheme } from "./themes/light.js";
+import { multifarmDarkTheme, multifarmLightTheme } from "./themes/multifarm";
+import { Bond, Give, Stake, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
+import NotFound from "./views/404/NotFound";
+import { BondModalContainer } from "./views/Bond/components/BondModal/BondModal";
 import GrantInfo from "./views/Give/GrantInfo";
 import ProjectInfo from "./views/Give/ProjectInfo";
-import { trackGAEvent } from "./helpers/analytics";
-import Wallet from "./components/TopBar/Wallet";
-import { getAllInverseBonds } from "./slices/InverseBondSlice";
-import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -87,6 +94,9 @@ const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: drawerWidth,
   },
+  notification: {
+    marginLeft: "312px",
+  },
 }));
 
 const MULTIFARM_API_KEY = getMultiFarmApiKey();
@@ -106,7 +116,6 @@ function App() {
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalClose = () => {
-    dispatch(loadAccountDetails({ networkID: networkId, address, provider }));
     setMigrationModalOpen(false);
   };
 
@@ -117,12 +126,11 @@ function App() {
 
   const { grants } = grantData;
   const { projects } = projectData;
+  const [giveAssetType, setGiveAssetType] = useState<"sOHM" | "gOHM">("sOHM");
 
-  // TODO (appleseed-expiredBonds): there may be a smarter way to refactor this
-  const { bonds, expiredBonds } = useBonds(networkId);
-
-  const bondIndexes = useAppSelector(state => state.bondingV2.indexes);
-  const inverseBondIndexes = useAppSelector(state => state.inverseBonds.indexes);
+  const changeGiveAssetType: ChangeAssetType = (checked: boolean) => {
+    setGiveAssetType(checked ? "gOHM" : "sOHM");
+  };
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -146,17 +154,6 @@ function App() {
   const loadApp = useCallback(
     loadProvider => {
       dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
-      if (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) {
-        bonds.map(bond => {
-          // NOTE (appleseed): getBondability & getLOLability control which bonds are active in the view for Bonds V1
-          // ... getClaimability is the analogue for claiming bonds
-          if (bond.getBondability(networkId) || bond.getLOLability(networkId)) {
-            dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
-          }
-        });
-        dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
-        dispatch(getAllInverseBonds({ provider: loadProvider, networkID: networkId, address }));
-      }
     },
     [networkId, address],
   );
@@ -166,21 +163,8 @@ function App() {
       if (!providerInitialized) {
         return;
       }
-      dispatch(getUserNotes({ networkID: networkId, address, provider: loadProvider }));
-      dispatch(loadAccountDetails({ networkID: networkId, address, provider: loadProvider }));
+      dispatch(loadAccountDetails({ networkID: networkId, provider: loadProvider, address }));
       dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
-      bonds.map(bond => {
-        // NOTE: get any Claimable bonds, they may not be bondable
-        if (bond.getClaimability(networkId)) {
-          dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
-        }
-      });
-      dispatch(getZapTokenBalances({ address, networkID: networkId, provider: loadProvider }));
-      expiredBonds.map(bond => {
-        if (bond.getClaimability(networkId)) {
-          dispatch(calculateUserBondDetails({ address, bond, provider: loadProvider, networkID: networkId }));
-        }
-      });
     },
     [networkId, address, providerInitialized],
   );
@@ -229,14 +213,26 @@ function App() {
     return false;
   });
 
-  const newAssetsDetected = useAppSelector(state => {
-    return (
-      state.account.balances &&
-      (Number(state.account.balances.gohm) || Number(state.account.balances.sohm) || Number(state.account.balances.ohm)
-        ? true
-        : false)
-    );
-  });
+  const networks = useTestableNetworks();
+  const { data: sOhmBalance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
+  const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[networks.MAINNET];
+  const gohmBalances = useGohmBalance();
+  const { data: gohmFuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
+  const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[NetworkId.MAINNET];
+  const gohmTokens = [
+    gohmFuseBalance,
+    gohmTokemakBalance,
+    gohmBalances[networks.MAINNET].data,
+    gohmBalances[NetworkId.ARBITRUM].data,
+    gohmBalances[NetworkId.AVALANCHE].data,
+    gohmBalances[NetworkId.POLYGON].data,
+    gohmBalances[NetworkId.FANTOM].data,
+    gohmBalances[NetworkId.OPTIMISM].data,
+  ];
+  const totalGohmBalance = gohmTokens
+    .filter(nonNullable)
+    .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
+  const newAssetsDetected = Number(totalGohmBalance) || Number(sOhmBalance) || Number(ohmBalance);
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
   //
@@ -300,17 +296,6 @@ function App() {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
-  const accountBonds = useAppSelector(state => {
-    const withInterestDue = [];
-    for (const bond in state.account.bonds) {
-      if (state.account.bonds[bond].interestDue > 0) {
-        withInterestDue.push(state.account.bonds[bond]);
-      }
-    }
-    return withInterestDue;
-  });
-  const hasActiveV1Bonds = accountBonds.length > 0;
-
   return (
     <ThemeProvider theme={themeMode}>
       <MultifarmProvider
@@ -325,6 +310,7 @@ function App() {
       >
         <CssBaseline />
         <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+          <StagingNotification />
           <Messages />
           <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
           <nav className={classes.drawer}>
@@ -336,10 +322,9 @@ function App() {
           </nav>
 
           <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-            {oldAssetsDetected &&
-              !hasActiveV1Bonds &&
-              trimmedPath.indexOf("dashboard") === -1 &&
-              oldAssetsEnoughToMigrate && <CallToAction setMigrationModalOpen={setMigrationModalOpen} />}
+            {oldAssetsDetected && trimmedPath.indexOf("dashboard") === -1 && oldAssetsEnoughToMigrate && (
+              <CallToAction setMigrationModalOpen={setMigrationModalOpen} />
+            )}
 
             <Switch>
               <Route exact path="/">
@@ -351,24 +336,16 @@ function App() {
                 {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
                   <Stake />
                 ) : (
-                  <V1Stake
-                    hasActiveV1Bonds={hasActiveV1Bonds}
-                    oldAssetsDetected={oldAssetsDetected}
-                    setMigrationModalOpen={setMigrationModalOpen}
-                  />
+                  <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
                 )}
               </Route>
 
               <Route path="/v1-stake">
-                <V1Stake
-                  hasActiveV1Bonds={hasActiveV1Bonds}
-                  oldAssetsDetected={oldAssetsDetected}
-                  setMigrationModalOpen={setMigrationModalOpen}
-                />
+                <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
               </Route>
 
               <Route exact path="/give">
-                <Give />
+                <Give giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
               </Route>
               <Redirect from="/olympusgive" to="/give" />
               <Redirect from="/tyche" to="/give" />
@@ -380,32 +357,36 @@ function App() {
                 {projects.map(project => {
                   return (
                     <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
-                      <ProjectInfo project={project} />
+                      <ProjectInfo
+                        project={project}
+                        giveAssetType={giveAssetType}
+                        changeAssetType={changeGiveAssetType}
+                      />
                     </Route>
                   );
                 })}
               </Route>
 
               <Route exact path="/give/grants">
-                <Give selectedIndex={1} />
+                <Give selectedIndex={1} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
               </Route>
 
               <Route path="/give/grants">
                 {grants.map(grant => {
                   return (
                     <Route exact key={grant.slug} path={`/give/grants/${grant.slug}`}>
-                      <GrantInfo grant={grant} />
+                      <GrantInfo grant={grant} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
                     </Route>
                   );
                 })}
               </Route>
 
               <Route exact path="/give/donations">
-                <Give selectedIndex={2} />
+                <Give selectedIndex={2} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
               </Route>
 
               <Route exact path="/give/redeem">
-                <Give selectedIndex={3} />
+                <Give selectedIndex={3} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
               </Route>
 
               <Route path="/wrap">
@@ -420,28 +401,11 @@ function App() {
                 </Route>
               </Route>
 
-              {/* <Route path="/33-together">
-              <PoolTogether />
-            </Route> */}
-
-              <Redirect from="/bonds-v1" to="/bonds" />
-
               <Route path="/bonds">
-                {bondIndexes.map(index => {
-                  return (
-                    <Route exact key={index} path={`/bonds/${index}`}>
-                      <BondV2 index={index} inverseBond={false} />
-                    </Route>
-                  );
-                })}
-                {inverseBondIndexes.map(index => {
-                  return (
-                    <Route exact key={index} path={`/bonds/inverse/${index}`}>
-                      <BondV2 index={index} inverseBond={true} />
-                    </Route>
-                  );
-                })}
-                <ChooseBondV2 />
+                <Bond />
+
+                <Route path="/bonds/:id" component={BondModalContainer} />
+                <Route path="/bonds/inverse/:id" component={BondModalContainer} />
               </Route>
 
               <Route exact path="/dashboard">

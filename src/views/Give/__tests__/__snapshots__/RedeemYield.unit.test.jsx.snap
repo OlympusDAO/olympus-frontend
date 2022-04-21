@@ -12,9 +12,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
         class="MuiTypography-root MuiTypography-h3 MuiTypography-alignCenter"
         data-testid="redeemable-balance"
       >
-        <span
-          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-        />
+        100
          sOHM
       </h3>
       <p
@@ -36,9 +34,8 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-1 makeStyles-root-2 undefined MuiButton-containedPrimary MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
-            disabled=""
-            tabindex="-1"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-1 makeStyles-root-2 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+            tabindex="0"
             type="button"
           >
             <span
@@ -57,7 +54,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
     >
       <div
-        class="MuiBox-root MuiBox-root-3"
+        class="MuiBox-root MuiBox-root-3 grey-box "
       >
         <div
           class="makeStyles-root-4 data-row"
@@ -75,10 +72,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-              style="width: 80px;"
-            />
+            1,000 sOHM
           </p>
         </div>
         <div
@@ -97,10 +91,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-              style="width: 80px;"
-            />
+            100 sOHM
           </p>
         </div>
         <div
@@ -119,7 +110,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            0 sOHM
+            2.1469 sOHM
           </p>
         </div>
         <div
@@ -138,7 +129,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            0%
+            0.2146%
           </p>
         </div>
         <div
@@ -157,7 +148,7 @@ exports[`Redeem Yield should render Redeem Yield Screen 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            0%
+            3.2692%
           </p>
         </div>
       </div>
@@ -203,7 +194,7 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-40 makeStyles-root-41 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-66 makeStyles-root-67 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
             tabindex="0"
             type="button"
           >
@@ -229,11 +220,10 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-42"
+            class="MuiBox-root MuiBox-root-68 grey-box "
           >
             <h5
               class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
-              data-testid="project-goal"
             >
               200
             </h5>
@@ -248,13 +238,13 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-43"
+            class="MuiBox-root MuiBox-root-69 grey-box "
           >
             <h5
               class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
               data-testid="project-deposit"
             >
-              100
+              1,000
             </h5>
             <p
               class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
@@ -267,13 +257,13 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
         >
           <div
-            class="MuiBox-root MuiBox-root-44"
+            class="MuiBox-root MuiBox-root-70 grey-box "
           >
             <h5
               class="MuiTypography-root MuiTypography-h5 MuiTypography-alignCenter"
               data-testid="project-goal-achievement"
             >
-              50
+              500
               %
             </h5>
             <p
@@ -289,13 +279,13 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
     >
       <div
-        class="MuiBox-root MuiBox-root-45"
+        class="MuiBox-root MuiBox-root-71 grey-box "
       >
         <div
-          class="makeStyles-root-46 data-row"
+          class="makeStyles-root-72 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-48"
+            class="MuiBox-root MuiBox-root-74"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -307,14 +297,14 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            100 sOHM
+            1,000 sOHM
           </p>
         </div>
         <div
-          class="makeStyles-root-46 data-row"
+          class="makeStyles-root-72 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-49"
+            class="MuiBox-root MuiBox-root-75"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -330,10 +320,10 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           </p>
         </div>
         <div
-          class="makeStyles-root-46 data-row"
+          class="makeStyles-root-72 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-50"
+            class="MuiBox-root MuiBox-root-76"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -345,14 +335,14 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            0.2146 sOHM
+            2.1469 sOHM
           </p>
         </div>
         <div
-          class="makeStyles-root-46 data-row"
+          class="makeStyles-root-72 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-51"
+            class="MuiBox-root MuiBox-root-77"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -368,10 +358,10 @@ exports[`Redeem Yield should show extra content if project wallet 1`] = `
           </p>
         </div>
         <div
-          class="makeStyles-root-46 data-row"
+          class="makeStyles-root-72 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-52"
+            class="MuiBox-root MuiBox-root-78"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -429,9 +419,8 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-27 makeStyles-root-28 undefined MuiButton-containedPrimary MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
-            disabled=""
-            tabindex="-1"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-53 makeStyles-root-54 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+            tabindex="0"
             type="button"
           >
             <span
@@ -450,13 +439,13 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
     >
       <div
-        class="MuiBox-root MuiBox-root-29"
+        class="MuiBox-root MuiBox-root-55 grey-box "
       >
         <div
-          class="makeStyles-root-30 data-row"
+          class="makeStyles-root-56 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-32"
+            class="MuiBox-root MuiBox-root-58"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -468,14 +457,14 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            100 sOHM
+            1,000 sOHM
           </p>
         </div>
         <div
-          class="makeStyles-root-30 data-row"
+          class="makeStyles-root-56 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-33"
+            class="MuiBox-root MuiBox-root-59"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -491,10 +480,10 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
           </p>
         </div>
         <div
-          class="makeStyles-root-30 data-row"
+          class="makeStyles-root-56 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-34"
+            class="MuiBox-root MuiBox-root-60"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -506,14 +495,14 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
             class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
             style="text-align: right;"
           >
-            0.2146 sOHM
+            2.1469 sOHM
           </p>
         </div>
         <div
-          class="makeStyles-root-30 data-row"
+          class="makeStyles-root-56 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-35"
+            class="MuiBox-root MuiBox-root-61"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -529,10 +518,10 @@ exports[`Redeem Yield should show redeemable balance as 100 sOHM 1`] = `
           </p>
         </div>
         <div
-          class="makeStyles-root-30 data-row"
+          class="makeStyles-root-56 data-row"
         >
           <div
-            class="MuiBox-root MuiBox-root-36"
+            class="MuiBox-root MuiBox-root-62"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"

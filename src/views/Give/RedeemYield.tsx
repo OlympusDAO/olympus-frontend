@@ -1,23 +1,22 @@
 import { t, Trans } from "@lingui/macro";
-import { Grid, Typography } from "@material-ui/core";
+import { FormControl, Grid, MenuItem, Select, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, PrimaryButton } from "@olympusdao/component-library";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
-import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { Environment } from "src/helpers/environment/Environment/Environment";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
+import { useRecipientInfo, useRedeemableBalance, useV1RedeemableBalance } from "src/hooks/useGiveInfo";
+import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { loadAccountDetails } from "src/slices/AccountSlice";
-import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
 
 import { Project } from "../../components/GiveProject/project.type";
-import { redeemBalance, redeemMockBalance } from "../../slices/RedeemThunk";
-import { DonationInfoState } from "./Interfaces";
+import { GIVE_MAX_DECIMALS } from "./constants";
+import { useRedeem } from "./hooks/useRedeem";
+import { useOldRedeem } from "./hooks/useRedeemV1";
 import data from "./projects.json";
 import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 
@@ -28,79 +27,82 @@ const DECIMAL_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMAL_FORMAT = { format: true };
 
 export default function RedeemYield() {
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const { provider, address, connected, networkId } = useWeb3Context();
+  const { address } = useWeb3Context();
   const [isRedeemYieldModalOpen, setIsRedeemYieldModalOpen] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
+  const [contract, setContract] = useState("new");
 
-  const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
+  const { data: currentIndex } = useCurrentIndex();
 
-  const redeemableBalance = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.mockRedeeming && state.account.mockRedeeming.sohmRedeemable
-      : state.account.redeeming && state.account.redeeming.sohmRedeemable;
-  });
+  const _useRedeemableBalance = useRedeemableBalance(address);
+  const redeemableBalance: DecimalBigNumber = useMemo(() => {
+    if (_useRedeemableBalance.isLoading || _useRedeemableBalance.data === undefined) return new DecimalBigNumber("0");
 
-  const recipientInfo = useSelector((state: DonationInfoState) => {
-    return state.account.redeeming && state.account.redeeming.recipientInfo;
-  });
+    return GetCorrectContractUnits(_useRedeemableBalance.data, "gOHM", currentIndex);
+  }, [_useRedeemableBalance, currentIndex]);
 
-  const stakingRebase = useSelector((state: DonationInfoState) => {
-    return state.app.stakingRebase;
-  });
+  const _useV1RedeemableBalance = useV1RedeemableBalance(address);
+  const v1RedeemableBalance: DecimalBigNumber = useMemo(() => {
+    if (_useV1RedeemableBalance.isLoading || _useV1RedeemableBalance.data === undefined)
+      return new DecimalBigNumber("0");
 
-  const fiveDayRate = useSelector((state: DonationInfoState) => {
-    return state.app.fiveDayRate;
-  });
+    return new DecimalBigNumber(_useV1RedeemableBalance.data, 9);
+  }, [_useV1RedeemableBalance]);
 
-  const pendingTransactions = useSelector((state: DonationInfoState) => {
-    return state.pendingTransactions;
-  });
+  const _useRecipientInfo = useRecipientInfo(address);
+  const isRecipientInfoLoading = _useRecipientInfo.isLoading;
 
-  const redeemableBalanceNumber: DecimalBigNumber = new DecimalBigNumber(redeemableBalance || "0");
+  const _useStakingRebaseRate = useStakingRebaseRate();
+  const isStakingRebaseRateLoading = _useStakingRebaseRate.isLoading;
+  const stakingRebase: DecimalBigNumber = useMemo(() => {
+    if (_useStakingRebaseRate.isLoading || _useStakingRebaseRate.data === undefined) return ZERO_NUMBER;
 
-  const totalDeposit =
-    recipientInfo && recipientInfo.totalDebt ? new DecimalBigNumber(recipientInfo.totalDebt.toString()) : ZERO_NUMBER;
+    return new DecimalBigNumber(_useStakingRebaseRate.data.toString());
+  }, [_useStakingRebaseRate]);
 
-  const stakingRebasePercentage = (stakingRebase ? new DecimalBigNumber(stakingRebase.toString()) : ZERO_NUMBER).mul(
-    new DecimalBigNumber("100"),
-  );
+  const fiveDayRate: DecimalBigNumber = useMemo(() => {
+    if (stakingRebase.eq(ZERO_NUMBER)) return ZERO_NUMBER;
 
-  const nextRewardValue = (stakingRebase ? new DecimalBigNumber(stakingRebase.toString()) : ZERO_NUMBER).mul(
-    new DecimalBigNumber(totalDeposit.toString()),
-  );
+    return new DecimalBigNumber((Math.pow(1 + stakingRebase.toApproxNumber(), 5 * 3) - 1).toString());
+  }, [stakingRebase]);
 
-  const fiveDayRateValue = (fiveDayRate ? new DecimalBigNumber(fiveDayRate.toString()) : ZERO_NUMBER).mul(
-    new DecimalBigNumber("100"),
-  );
+  const totalDebt: DecimalBigNumber = useMemo(() => {
+    if (_useRecipientInfo.isLoading || _useRecipientInfo.data == undefined) return ZERO_NUMBER;
+
+    return new DecimalBigNumber(_useRecipientInfo.data.sohmDebt);
+  }, [_useRecipientInfo]);
+
+  const stakingRebasePercentage = stakingRebase.mul(new DecimalBigNumber("100"));
+
+  const nextRewardValue = stakingRebase.mul(totalDebt);
+
+  const fiveDayRateValue = fiveDayRate.mul(new DecimalBigNumber("100"));
 
   const isProject = projectMap.get(address);
 
-  const isRecipientInfoLoading = !recipientInfo || recipientInfo.totalDebt == "";
+  const redeemMutation = useRedeem();
+  const isMutating = redeemMutation.isLoading;
 
-  // this useEffect fires on state change from above. It will ALWAYS fire AFTER
+  const oldRedeemMutation = useOldRedeem();
+  const isOldMutating = oldRedeemMutation.isLoading;
+
   useEffect(() => {
-    // don't load ANY details until wallet is Checked
-    if (connected) {
-      loadAccountDetails({ networkID: networkId, provider, address });
-    }
-  }, [connected]);
+    if (isRedeemYieldModalOpen) setIsRedeemYieldModalOpen(false);
+  }, [redeemMutation.isSuccess, oldRedeemMutation.isSuccess]);
 
-  /**
-   * Get project sOHM yield goal and return as a DecimalBigNumber
-   *
-   * @param address
-   * @returns
-   */
+  // Get project sOHM yield goal and return as a number
   const getRecipientGoal = (address: string): DecimalBigNumber => {
     const project = projectMap.get(address);
     if (project) return new DecimalBigNumber(project.depositGoal.toString());
 
     return ZERO_NUMBER;
+  };
+
+  const getRedeemableBalance = (): DecimalBigNumber => {
+    return contract === "new" ? redeemableBalance : v1RedeemableBalance;
   };
 
   /**
@@ -113,11 +115,13 @@ export default function RedeemYield() {
 
     if (isRecipientInfoLoading) return false;
 
-    if (isPendingTxn(pendingTransactions, "redeeming")) return false;
+    if (isMutating) return false;
 
-    if (redeemableBalanceNumber.eq(ZERO_NUMBER))
-      // If the available amount is 0
-      return false;
+    if (contract === "new") {
+      if (redeemableBalance.eq(ZERO_NUMBER)) return false;
+    } else {
+      if (v1RedeemableBalance.eq(ZERO_NUMBER)) return false;
+    }
 
     return true;
   };
@@ -127,12 +131,11 @@ export default function RedeemYield() {
   };
 
   const handleRedeemYieldModalSubmit = async () => {
-    if (networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)) {
-      await dispatch(redeemMockBalance({ address, provider, networkID: networkId, eventSource: "Redeem" }));
-    } else {
-      await dispatch(redeemBalance({ address, provider, networkID: networkId, eventSource: "Redeem" }));
-    }
-    setIsRedeemYieldModalOpen(false);
+    await redeemMutation.mutate({ token: "sOHM" });
+  };
+
+  const handleOldRedeemYieldModalSubmit = async () => {
+    await oldRedeemMutation.mutate();
   };
 
   const handleRedeemYieldModalCancel: RedeemCancelCallback = () => {
@@ -141,9 +144,29 @@ export default function RedeemYield() {
 
   return (
     <Grid container spacing={2}>
+      {v1RedeemableBalance.gt(ZERO_NUMBER) && (
+        <Grid container justifyContent="flex-end">
+          <Box overrideClass="redeem-selector">
+            <Grid item xs={12}>
+              <FormControl>
+                <Select
+                  label="Contract"
+                  disableUnderline
+                  id="contract-select"
+                  value={contract === "new" ? "new" : "old"}
+                  onChange={event => setContract(event.target.value === "new" ? "new" : "old")}
+                >
+                  <MenuItem value="new">Redeem from new contract</MenuItem>
+                  <MenuItem value="old">Redeem from old contract</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Box>
+        </Grid>
+      )}
       <Grid item xs={12}>
         <Typography variant="h3" align="center" data-testid="redeemable-balance">
-          {isRecipientInfoLoading ? <Skeleton /> : redeemableBalanceNumber.toString(DECIMAL_FORMAT)} sOHM
+          {isRecipientInfoLoading ? <Skeleton /> : getRedeemableBalance().toString(DECIMAL_FORMAT)} sOHM
         </Typography>
         <Typography variant="body1" align="center" className="subtext">
           Redeemable Yield
@@ -154,7 +177,7 @@ export default function RedeemYield() {
           <Grid item xs />
           <Grid item xs={12} sm={6}>
             <PrimaryButton onClick={() => handleRedeemButtonClick()} disabled={!canRedeem()} fullWidth>
-              {txnButtonText(pendingTransactions, "redeeming", t`Redeem Yield`)}
+              <Trans>Redeem Yield</Trans>
             </PrimaryButton>
           </Grid>
           <Grid item xs />
@@ -165,7 +188,7 @@ export default function RedeemYield() {
           <Grid container spacing={1}>
             <Grid item xs={4}>
               <Box>
-                <Typography variant="h5" align="center" data-testid="project-goal">
+                <Typography variant="h5" align="center">
                   {getRecipientGoal(address).toString(DECIMAL_FORMAT)}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
@@ -176,19 +199,19 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center" data-testid="project-deposit">
-                  {totalDeposit.toString(DECIMAL_FORMAT)}
+                  {totalDebt.toString(DECIMAL_FORMAT)}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
-                  {isSmallScreen ? t`Total Donated` : t`Total sOHM Donated`}
+                  {isSmallScreen ? "Total Donated" : `Total sOHM Donated`}
                 </Typography>
               </Box>
             </Grid>
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center" data-testid="project-goal-achievement">
-                  {totalDeposit
+                  {totalDebt
                     .mul(new DecimalBigNumber("100"))
-                    .div(getRecipientGoal(address))
+                    .div(getRecipientGoal(address), GIVE_MAX_DECIMALS)
                     .toString(DECIMAL_FORMAT)}
                   %
                 </Typography>
@@ -207,33 +230,32 @@ export default function RedeemYield() {
           <DataRow
             title={t`Deposited sOHM`}
             // Exact number
-            balance={`${totalDeposit.toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
+            balance={`${contract === "new" ? totalDebt.toString(NO_DECIMAL_FORMAT) : ZERO_NUMBER} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
             data-testid="data-deposited-sohm"
           />
           <DataRow
             title={t`Redeemable Amount`}
-            // Exact number
-            balance={`${redeemableBalanceNumber.toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
+            balance={`${getRedeemableBalance().toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
             data-testid="data-redeemable-balance"
           />
           <DataRow
             title={t`Next Reward Amount`}
             balance={`${nextRewardValue.toString(DECIMAL_FORMAT)} ${t`sOHM`}`}
-            isLoading={isAppLoading}
+            isLoading={isStakingRebaseRateLoading}
             data-testid="data-next-reward-amount"
           />
           <DataRow
             title={t`Next Reward Yield`}
             balance={`${stakingRebasePercentage.toString(DECIMAL_FORMAT)}%`}
-            isLoading={isAppLoading}
+            isLoading={isStakingRebaseRateLoading}
             data-testid="data-next-reward-yield"
           />
           <DataRow
             title={t`ROI (5-Day Rate)`}
             balance={`${fiveDayRateValue.toString(DECIMAL_FORMAT)}%`}
-            isLoading={isAppLoading}
+            isLoading={isStakingRebaseRateLoading}
             data-testid="data-roi"
           />
         </Box>
@@ -241,10 +263,12 @@ export default function RedeemYield() {
       <Grid item>
         <RedeemYieldModal
           isModalOpen={isRedeemYieldModalOpen}
-          callbackFunc={handleRedeemYieldModalSubmit}
+          callbackFunc={contract === "new" ? handleRedeemYieldModalSubmit : handleOldRedeemYieldModalSubmit}
           cancelFunc={handleRedeemYieldModalCancel}
-          deposit={totalDeposit}
-          redeemableBalance={redeemableBalanceNumber}
+          contract={contract}
+          deposit={totalDebt}
+          redeemableBalance={getRedeemableBalance()}
+          isMutationLoading={isMutating}
         />
       </Grid>
     </Grid>

@@ -12,6 +12,20 @@ export interface SubmitCallback {
   ): void;
 }
 
+export interface SubmitEditCallback {
+  (
+    walletAddress: string,
+    id: string,
+    eventSource: string,
+    depositAmount: DecimalBigNumber,
+    depositAmountDiff?: DecimalBigNumber,
+  ): void;
+}
+
+export type WithdrawSubmitCallback = {
+  (walletAddress: string, id: string, eventSource: string, depositAmount: DecimalBigNumber): void;
+};
+
 export interface CancelCallback {
   (): void;
 }
@@ -24,4 +38,26 @@ export interface DonationInfoState {
 
 export interface IButtonChangeView {
   (newView: number): void;
+}
+
+export interface GiveData {
+  amount: string;
+  recipient: string;
+  token: string;
+}
+
+export interface EditGiveData extends GiveData {
+  id: string;
+}
+
+export interface RedeemData {
+  token: string;
+}
+
+export interface IUserDonationInfo {
+  id: string;
+  date: string;
+  deposit: string;
+  recipient: string;
+  yieldDonated: string;
 }

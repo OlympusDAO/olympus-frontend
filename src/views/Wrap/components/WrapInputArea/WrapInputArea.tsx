@@ -31,7 +31,7 @@ export const WrapInputArea = () => {
   };
 
   return (
-    <Box mt={2} mb={4}>
+    <Box mb={4}>
       <Box display="flex" alignItems="center">
         <Typography>{currentAction === "WRAP" ? "Wrap" : "Unwrap"} from</Typography>
 

@@ -1,9 +1,9 @@
 import grantData from "src/views/Give/grants.json";
 import projectData from "src/views/Give/projects.json";
 
-const getGiveProjectName = (address: string) => {
+const getGiveProjectName = (address: string, fallback?: string): string => {
   if (!address) {
-    return;
+    return fallback || "";
   }
 
   const { projects } = projectData;

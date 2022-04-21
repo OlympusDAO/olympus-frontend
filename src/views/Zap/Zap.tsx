@@ -6,8 +6,8 @@ import { Paper } from "@olympusdao/component-library";
 import React, { useMemo } from "react";
 import { useHistory } from "react-router";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
-import { useAppSelector } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
 import { useWeb3Context } from "src/hooks/web3Context";
 
 import ZapInfo from "./ZapInfo";
@@ -18,15 +18,18 @@ const Zap: React.FC = () => {
   const history = useHistory();
   usePathForNetwork({ pathName: "zap", networkID: networkId, history });
 
-  const tokens = useAppSelector(state => state.zap.balances);
-  const inputTokenImages = useMemo(
-    () =>
-      Object.entries(tokens)
+  const zapTokenBalances = useZapTokenBalances();
+  const tokens = zapTokenBalances.data?.balances;
+  const inputTokenImages = useMemo(() => {
+    if (tokens) {
+      return Object.entries(tokens)
         .filter(token => token[0] !== "sohm")
         .map(token => token[1].tokenImageUrl)
-        .slice(0, 3),
-    [tokens],
-  );
+        .slice(0, 3);
+    } else {
+      return [];
+    }
+  }, [tokens]);
 
   return (
     <div id="zap-view">

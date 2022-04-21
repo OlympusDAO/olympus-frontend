@@ -5,35 +5,28 @@ import { Divider, Grid, Typography, useTheme } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { TertiaryButton } from "@olympusdao/component-library";
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
-import { NetworkId } from "src/constants";
-import { Environment } from "src/helpers/environment/Environment/Environment";
-import { useWeb3Context } from "src/hooks/web3Context";
-import { DonationInfoState, IButtonChangeView } from "src/views/Give/Interfaces";
+import { useDonationInfo } from "src/hooks/useGiveInfo";
+import { ChangeAssetType } from "src/slices/interfaces";
+import { IButtonChangeView } from "src/views/Give/Interfaces";
 
 import { DepositTableRow } from "./DepositRow";
 
 type RecipientModalProps = {
   changeView: IButtonChangeView;
+  giveAssetType: string;
+  changeAssetType: ChangeAssetType;
 };
 
-export default function YieldRecipients({ changeView }: RecipientModalProps) {
-  const location = useLocation();
-  const { networkId } = useWeb3Context();
+export default function YieldRecipients({ changeView, giveAssetType, changeAssetType }: RecipientModalProps) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const isAppLoading = useSelector((state: DonationInfoState) => state.app.loading);
-  const donationInfo = useSelector((state: DonationInfoState) => {
-    return networkId === NetworkId.TESTNET_RINKEBY && Environment.isMockSohmEnabled(location.search)
-      ? state.account.mockGiving && state.account.mockGiving.donationInfo
-      : state.account.giving && state.account.giving.donationInfo;
-  });
+  const rawDonationInfo = useDonationInfo().data;
+  const donationInfo = rawDonationInfo ? rawDonationInfo : [];
+  const isDonationInfoLoading = useDonationInfo().isLoading;
 
-  const isDonationInfoLoading = useSelector((state: DonationInfoState) => state.account.loading);
-  const isLoading = isAppLoading || isDonationInfoLoading;
+  const isLoading = isDonationInfoLoading;
 
   if (isLoading) {
     return <Skeleton />;
@@ -93,7 +86,12 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
       {donationInfo.map(donation => {
         return (
           <Grid item xs={12}>
-            <DepositTableRow depositObject={donation} key={donation.recipient} />
+            <DepositTableRow
+              depositObject={donation}
+              key={donation.recipient}
+              giveAssetType={giveAssetType}
+              changeAssetType={changeAssetType}
+            />
             <Divider style={{ marginTop: "10px" }} />
           </Grid>
         );

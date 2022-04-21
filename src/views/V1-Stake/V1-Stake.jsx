@@ -27,17 +27,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
-import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
 import { trim } from "../../helpers";
+import { DecimalBigNumber } from "../../helpers/DecimalBigNumber/DecimalBigNumber";
+import { useGohmBalance, useSohmBalance } from "../../hooks/useBalance";
+import { useTestableNetworks } from "../../hooks/useTestableNetworks";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import ExternalStakePools from "../Stake/components/ExternalStakePools/ExternalStakePools";
 import RebaseTimer from "../Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 
-function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds }) {
+function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { provider, address, networkId } = useWeb3Context();
@@ -58,9 +60,6 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   });
   const sohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.sohmV1;
-  });
-  const fsohmBalance = useSelector(state => {
-    return state.account.balances && state.account.balances.fsohm;
   });
   const wsohmBalance = useSelector(state => {
     return state.account.balances && state.account.balances.wsohm;
@@ -85,21 +84,20 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
     return state.pendingTransactions;
   });
 
-  const fiatDaowsohmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.fiatDaowsohm;
-  });
+  // const gOhmBalance = useAppSelector(state => {
+  //   return state.account.balances && state.account.balances.gohm;
+  // });
+  // const o = useSelector(state => {
+  //   return state.account.balances && state.account.balances.sohm;
+  // });
 
-  const gOhmBalance = useAppSelector(state => {
-    return state.account.balances && state.account.balances.gohm;
-  });
-  const sohmV2Balance = useSelector(state => {
-    return state.account.balances && state.account.balances.sohm;
-  });
+  const networks = useTestableNetworks();
+  const { data: sohmV2Balance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
+  const { data: gOhmBalance = new DecimalBigNumber("0", 18) } = useGohmBalance()[networks.MAINNET];
 
   const calculateWrappedAsSohm = balance => {
     return Number(balance) * Number(currentIndex);
   };
-  const fiatDaoAsSohm = calculateWrappedAsSohm(fiatDaowsohmBalance);
   const gOhmAsSohm = calculateWrappedAsSohm(gOhmBalance);
   const wsohmAsSohm = calculateWrappedAsSohm(wsohmBalance);
 
@@ -153,7 +151,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
   };
 
   const trimmedBalance = Number(
-    [sohmBalance, gOhmAsSohm, sohmV2Balance, wsohmAsSohm, fiatDaoAsSohm, fsohmBalance]
+    [sohmBalance, gOhmAsSohm, sohmV2Balance, wsohmAsSohm]
       .filter(Boolean)
       .map(balance => Number(balance))
       .reduce((a, b) => a + b, 0)
@@ -165,11 +163,6 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
 
   const goToV2Stake = () => {
     history.push("/stake");
-  };
-
-  const goToBonds = () => {
-    // v1 bonds for v1 stake
-    history.push("/bonds-v1");
   };
 
   const formattedTrimmedStakingAPY = new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY));
@@ -239,9 +232,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                       <Typography variant="body1" className="stake-note" color="textSecondary">
                         {view === 0 ? (
                           <>
-                            {hasActiveV1Bonds
-                              ? t`Once your current bonds have been claimed, you can migrate your assets to stake more OHM`
-                              : !oldAssetsDetected
+                            {!oldAssetsDetected
                               ? t`All your assets are migrated`
                               : t`You must complete the migration of your assets to stake additional OHM`}
                           </>
@@ -295,26 +286,13 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                         <Skeleton width="150px" />
                       )}
 
-                      {!hasActiveV1Bonds && oldAssetsDetected ? (
+                      {oldAssetsDetected ? (
                         <TabPanel value={view} index={0}>
                           {isAllowanceDataLoading ? (
                             <Skeleton />
                           ) : (
                             <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={t`Migrate`} />
                           )}
-                        </TabPanel>
-                      ) : hasActiveV1Bonds ? (
-                        <TabPanel value={view} index={0}>
-                          <Button
-                            className="migrate-button"
-                            variant="contained"
-                            color="primary"
-                            onClick={() => {
-                              goToBonds();
-                            }}
-                          >
-                            <Trans>Go to Bonds</Trans>
-                          </Button>
                         </TabPanel>
                       ) : (
                         <TabPanel value={view} index={0}>
@@ -385,26 +363,10 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen, hasActiveV1Bonds })
                           indented
                           isLoading={isAppLoading}
                         />
-                        {Number(fsohmBalance) > 0.00009 && (
-                          <DataRow
-                            title={`${t`gOHM Balance in Fuse`}`}
-                            balance={`${trim(Number(fsohmBalance), 4)} gOHM`}
-                            indented
-                            isLoading={isAppLoading}
-                          />
-                        )}
                         {Number(wsohmBalance) > 0.0 && (
                           <DataRow
                             title={`${t`wsOHM Balance`} (v1)`}
                             balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
-                            isLoading={isAppLoading}
-                            indented
-                          />
-                        )}
-                        {Number(fiatDaowsohmBalance) > 0.00009 && (
-                          <DataRow
-                            title={`${t`wsOHM Balance in FiatDAO`} (v1)`}
-                            balance={`${trim(Number(fiatDaowsohmBalance), 4)} wsOHM`}
                             isLoading={isAppLoading}
                             indented
                           />

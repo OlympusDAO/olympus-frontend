@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Divider, Grid, Zoom } from "@material-ui/core";
+import { Box, Divider, Grid, Zoom } from "@material-ui/core";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useState } from "react";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
@@ -18,15 +18,15 @@ export const StakeArea: React.FC = () => {
   return (
     <Zoom in onEntered={() => setIsZoomed(true)}>
       <Paper headerText={t`Single Stake (3, 3)`} subHeader={<RebaseTimer />}>
-        <Grid>
-          <MetricCollection>
-            <StakingAPY className="stake-apy" />
-
-            <TotalValueDeposited className="stake-tvl" />
-
-            <CurrentIndex className="stake-index" />
-          </MetricCollection>
-        </Grid>
+        <Box mb="28px">
+          <Grid>
+            <MetricCollection>
+              <StakingAPY className="stake-apy" />
+              <TotalValueDeposited className="stake-tvl" />
+              <CurrentIndex className="stake-index" />
+            </MetricCollection>
+          </Grid>
+        </Box>
 
         <WalletConnectedGuard message="Connect your wallet to stake OHM">
           <StakeInputArea isZoomed={isZoomed} />
