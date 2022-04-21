@@ -459,7 +459,10 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       <>
         <Container>
           <Grid container spacing={3} alignItems="flex-start">
-            <Grid container item xs={12} lg={5}>
+            {/* The inbuilt margin of the Grid container creates problems with spacing on smaller screens.
+             * Applying a negative margin fixes that.
+             */}
+            <Grid container item xs={12} lg={5} style={{ marginBottom: "-24px" }}>
               <Grid item xs={12}>
                 <Paper
                   topLeft={
@@ -507,10 +510,10 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                   </Grid>
                 </Paper>
               </Grid>
-              <Grid item xs={12}>
-                {!isUserDonating ? (
-                  <></>
-                ) : (
+              {!isUserDonating ? (
+                <></>
+              ) : (
+                <Grid item xs={12}>
                   <Paper headerText={t`Your Donations`} fullWidth>
                     <Grid container alignItems="flex-end">
                       <Grid item xs={6}>
@@ -564,8 +567,8 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                       </Grid>
                     </Grid>
                   </Paper>
-                )}
-              </Grid>
+                </Grid>
+              )}
             </Grid>
             <Grid container item xs={12} lg={7}>
               <Grid item xs={12}>
