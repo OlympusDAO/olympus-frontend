@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { useOldRedeemableBalance, useRecipientInfo, useRedeemableBalance } from "src/hooks/useGiveInfo";
+import { useRecipientInfo, useRedeemableBalance, useV1RedeemableBalance } from "src/hooks/useGiveInfo";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
@@ -16,7 +16,7 @@ import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits"
 import { Project } from "../../components/GiveProject/project.type";
 import { GIVE_MAX_DECIMALS } from "./constants";
 import { useRedeem } from "./hooks/useRedeem";
-import { useOldRedeem } from "./hooks/useRedeemOld";
+import { useOldRedeem } from "./hooks/useRedeemV1";
 import data from "./projects.json";
 import { RedeemCancelCallback, RedeemYieldModal } from "./RedeemYieldModal";
 
@@ -44,13 +44,13 @@ export default function RedeemYield() {
     return GetCorrectContractUnits(_useRedeemableBalance.data, "gOHM", currentIndex);
   }, [_useRedeemableBalance, currentIndex]);
 
-  const _useOldRedeemableBalance = useOldRedeemableBalance(address);
-  const oldRedeemableBalance: DecimalBigNumber = useMemo(() => {
-    if (_useOldRedeemableBalance.isLoading || _useOldRedeemableBalance.data === undefined)
+  const _useV1RedeemableBalance = useV1RedeemableBalance(address);
+  const v1RedeemableBalance: DecimalBigNumber = useMemo(() => {
+    if (_useV1RedeemableBalance.isLoading || _useV1RedeemableBalance.data === undefined)
       return new DecimalBigNumber("0");
 
-    return new DecimalBigNumber(_useOldRedeemableBalance.data, 9);
-  }, [_useOldRedeemableBalance]);
+    return new DecimalBigNumber(_useV1RedeemableBalance.data, 9);
+  }, [_useV1RedeemableBalance]);
 
   const _useRecipientInfo = useRecipientInfo(address);
   const isRecipientInfoLoading = _useRecipientInfo.isLoading;
@@ -102,7 +102,7 @@ export default function RedeemYield() {
   };
 
   const getRedeemableBalance = (): DecimalBigNumber => {
-    return contract === "new" ? redeemableBalance : oldRedeemableBalance;
+    return contract === "new" ? redeemableBalance : v1RedeemableBalance;
   };
 
   /**
@@ -120,7 +120,7 @@ export default function RedeemYield() {
     if (contract === "new") {
       if (redeemableBalance.eq(ZERO_NUMBER)) return false;
     } else {
-      if (oldRedeemableBalance.eq(ZERO_NUMBER)) return false;
+      if (v1RedeemableBalance.eq(ZERO_NUMBER)) return false;
     }
 
     return true;
@@ -144,7 +144,7 @@ export default function RedeemYield() {
 
   return (
     <Grid container spacing={2}>
-      {oldRedeemableBalance.gt(ZERO_NUMBER) && (
+      {v1RedeemableBalance.gt(ZERO_NUMBER) && (
         <Grid container justifyContent="flex-end">
           <Box overrideClass="redeem-selector">
             <Grid item xs={12}>

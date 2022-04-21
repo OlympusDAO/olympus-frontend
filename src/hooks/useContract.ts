@@ -146,7 +146,7 @@ export const useStaticJonesContract = createStaticContract<Jones>(JONES_ABI);
 export const useDynamicTokenContract = createDynamicContract<IERC20>(IERC20_ABI);
 export const useDynamicStakingContract = createDynamicContract<OlympusStakingv2>(STAKING_ABI);
 export const useDynamicGiveContract = createDynamicContract<OlympusGiving>(GIVE_ABI);
-export const useDynamicOldGiveContract = createDynamicContract<OlympusGivingOld>(GIVE_OLD_ABI);
+export const useDynamicV1GiveContract = createDynamicContract<OlympusGivingOld>(GIVE_OLD_ABI);
 export const useDynamicMigratorContract = createDynamicContract<CrossChainMigrator>(CROSS_CHAIN_MIGRATOR_ABI);
 
 // Multiple static contracts

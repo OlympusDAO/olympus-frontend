@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OLD_GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey } from "src/hooks/useBalance";
-import { useDynamicOldGiveContract } from "src/hooks/useContract";
-import { oldRedeemableBalanceQueryKey, recipientInfoQueryKey, redeemableBalanceQueryKey } from "src/hooks/useGiveInfo";
+import { useDynamicV1GiveContract } from "src/hooks/useContract";
+import { recipientInfoQueryKey, redeemableBalanceQueryKey, v1RedeemableBalanceQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
@@ -21,7 +21,7 @@ export const useOldRedeem = () => {
   const client = useQueryClient();
   const { address, networkId } = useWeb3Context();
   const networks = useTestableNetworks();
-  const contract = useDynamicOldGiveContract(OLD_GIVE_ADDRESSES, true);
+  const contract = useDynamicV1GiveContract(OLD_GIVE_ADDRESSES, true);
 
   return useMutation<ContractReceipt, Error>(
     async () => {
@@ -66,7 +66,7 @@ export const useOldRedeem = () => {
           balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
           recipientInfoQueryKey(address, networks.MAINNET),
           redeemableBalanceQueryKey(address, networks.MAINNET),
-          oldRedeemableBalanceQueryKey(address, networks.MAINNET),
+          v1RedeemableBalanceQueryKey(address, networks.MAINNET),
         ];
 
         keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

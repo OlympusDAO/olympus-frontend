@@ -10,7 +10,7 @@ import { nonNullable } from "src/helpers/types/nonNullable";
 import { IUserDonationInfo } from "src/views/Give/Interfaces";
 
 import { useWeb3Context } from ".";
-import { useDynamicGiveContract, useDynamicOldGiveContract } from "./useContract";
+import { useDynamicGiveContract, useDynamicV1GiveContract } from "./useContract";
 import { useTestableNetworks } from "./useTestableNetworks";
 
 interface IDonorAddresses {
@@ -87,8 +87,8 @@ export const useDonationInfo = () => {
       const yieldSentPromises: Promise<BigNumber>[] = [];
 
       for (let i = 0; i < allDeposits[0].length; i++) {
-        // Given the conversions back and forth with sOHM and gOHM, this is a dust value
-        // that we can use to filter out deposits that are not worth showing (0.000000015 gOHM)
+        // Given the conversions back and forth with sOHM and gOHM, this is a dust value that repeatedly
+        // arises that we can use to filter out deposits that are not worth showing (0.000000015 gOHM)
         if (allDeposits[1][i].lte("15000000000")) continue;
 
         selectedDepositIds.push(depositIds[i]);
@@ -199,19 +199,19 @@ export const useRedeemableBalance = (address: string) => {
   return query as typeof query;
 };
 
-export const oldRedeemableBalanceQueryKey = (address: string, networkId: NetworkId) =>
-  ["useOldRedeemableBalance", address, networkId].filter(nonNullable);
+export const v1RedeemableBalanceQueryKey = (address: string, networkId: NetworkId) =>
+  ["useV1RedeemableBalance", address, networkId].filter(nonNullable);
 
-export const useOldRedeemableBalance = (address: string) => {
+export const useV1RedeemableBalance = (address: string) => {
   const { networkId } = useWeb3Context();
 
   // Hook to establish static old Give contract
-  const contract = useDynamicOldGiveContract(OLD_GIVE_ADDRESSES, true);
+  const contract = useDynamicV1GiveContract(OLD_GIVE_ADDRESSES, true);
 
   const query = useQuery<string, Error>(
-    oldRedeemableBalanceQueryKey(address, networkId),
+    v1RedeemableBalanceQueryKey(address, networkId),
     async () => {
-      queryAssertion([address, networkId], oldRedeemableBalanceQueryKey(address, networkId));
+      queryAssertion([address, networkId], v1RedeemableBalanceQueryKey(address, networkId));
 
       if (networkId != 1)
         throw new Error(t`The old Give contract is only supported on the mainnet. Please switch to Ethereum mainnet`);
@@ -477,6 +477,8 @@ export const useDonorNumbers = (address: string) => {
           // and that we haven't already counted this donor
           if (
             potentialActiveDonors[i][0][j].toLowerCase() === address.toLowerCase() &&
+            // Given the conversions back and forth with sOHM and gOHM, this is a dust value that repeatedly
+            // arises that we can use to filter out deposits that are not worth showing (0.000000015 gOHM)
             potentialActiveDonors[i][1][j].gt("15000000000") &&
             !donorAddresses[selectedEvents[i].topics[1]]
           ) {

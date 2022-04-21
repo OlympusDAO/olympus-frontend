@@ -380,12 +380,6 @@ export function RecipientModal({
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item xs={6} style={{ paddingBottom: "0px" }}>
-              <Typography align="right" variant="body2" className="subtext">{t`Balance: ${sohmBalance.toString({
-                decimals: DECIMAL_PLACES,
-                format: true,
-              })} sOHM`}</Typography>
-            </Grid>
             <Grid item xs={12}>
               <Input
                 id="amount-input"
