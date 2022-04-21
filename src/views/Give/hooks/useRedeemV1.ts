@@ -2,36 +2,38 @@ import { t } from "@lingui/macro";
 import { ContractReceipt } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
-import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
+import { GOHM_ADDRESSES, OLD_GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey } from "src/hooks/useBalance";
-import { useDynamicGiveContract } from "src/hooks/useContract";
-import { recipientInfoQueryKey, redeemableBalanceQueryKey } from "src/hooks/useGiveInfo";
+import { useDynamicV1GiveContract } from "src/hooks/useContract";
+import { recipientInfoQueryKey, redeemableBalanceQueryKey, v1RedeemableBalanceQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
-import { RedeemData } from "../Interfaces";
 import { IUARecipientData, trackGiveRedeemEvent } from "../utils/googleAnalytics";
 
 /**
  * @notice Redeems all available yield
  * @returns ContractReceipt for the redemption
  */
-export const useRedeem = () => {
+export const useOldRedeem = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { address } = useWeb3Context();
+  const { address, networkId } = useWeb3Context();
   const networks = useTestableNetworks();
-  const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  const contract = useDynamicV1GiveContract(OLD_GIVE_ADDRESSES, true);
 
-  return useMutation<ContractReceipt, Error, RedeemData>(
-    async ({ token: token_ }) => {
+  return useMutation<ContractReceipt, Error>(
+    async () => {
+      if (networkId != 1)
+        throw new Error(t`The old Give contract is only supported on the mainnet. Please switch to Ethereum mainnet`);
+
       if (!contract)
         throw new Error(
           t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
 
-      const redeemableBalance = await contract.totalRedeemableBalance(address);
+      const redeemableBalance = await contract.redeemableBalance(address);
 
       const uaData: IUARecipientData = {
         address: address,
@@ -45,7 +47,7 @@ export const useRedeem = () => {
       // This lets us track if the user rejects/ignores the confirmation dialog.
       trackGiveRedeemEvent(uaData, uaData.type + "-before");
 
-      const transaction = token_ === "sOHM" ? await contract.redeemAllYieldAsSohm() : await contract.redeemAllYield();
+      const transaction = await contract.redeem();
 
       uaData.txHash = transaction.hash;
 
@@ -64,11 +66,12 @@ export const useRedeem = () => {
           balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
           recipientInfoQueryKey(address, networks.MAINNET),
           redeemableBalanceQueryKey(address, networks.MAINNET),
+          v1RedeemableBalanceQueryKey(address, networks.MAINNET),
         ];
 
         keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
 
-        dispatch(createInfoToast(t`Successfully redeemed all available yield`));
+        dispatch(createInfoToast(t`Successfully redeemed all yield off the old contract`));
       },
     },
   );

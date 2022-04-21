@@ -9,6 +9,7 @@ import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/Proj
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { ChangeAssetType } from "src/slices/interfaces";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
@@ -16,7 +17,14 @@ import { error } from "../../slices/MessagesSlice";
 import { useGive } from "./hooks/useGive";
 import data from "./projects.json";
 
-export default function CausesDashboard() {
+type CausesDashboardProps = {
+  giveAssetType: string;
+  changeAssetType: ChangeAssetType;
+};
+
+const ZERO_NUMBER = new DecimalBigNumber("0");
+
+export default function CausesDashboard({ giveAssetType, changeAssetType }: CausesDashboardProps) {
   const { address } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const { projects } = data;
@@ -40,7 +48,13 @@ export default function CausesDashboard() {
       return (
         <>
           <Grid item xs={12}>
-            <ProjectCard key={seed(project.title)} project={project} mode={ProjectDetailsMode.Card} />
+            <ProjectCard
+              key={seed(project.title)}
+              project={project}
+              giveAssetType={giveAssetType}
+              changeAssetType={changeAssetType}
+              mode={ProjectDetailsMode.Card}
+            />
           </Grid>
         </>
       );
@@ -56,12 +70,12 @@ export default function CausesDashboard() {
     eventSource: string,
     depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.eq(new DecimalBigNumber("0"))) {
+    if (depositAmount.eq(ZERO_NUMBER)) {
       return dispatch(error(t`Please enter a value!`));
     }
 
     const amount = depositAmount.toString();
-    await giveMutation.mutate({ amount: amount, recipient: walletAddress });
+    await giveMutation.mutate({ amount: amount, recipient: walletAddress, token: giveAssetType });
   };
 
   const handleCustomGiveModalCancel: CancelCallback = () => {
@@ -117,6 +131,8 @@ export default function CausesDashboard() {
           eventSource="Custom Recipient Button"
           callbackFunc={handleCustomGiveModalSubmit}
           cancelFunc={handleCustomGiveModalCancel}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeAssetType}
         />
       </Container>
     </Zoom>

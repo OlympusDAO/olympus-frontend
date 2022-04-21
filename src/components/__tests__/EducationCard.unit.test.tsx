@@ -17,37 +17,43 @@ describe("<ArrowGraphic/>", () => {
 });
 
 describe("<CompactYield/>", () => {
+  const giveAssetType = "sOHM";
+
   it("should render component", () => {
-    const { container } = render(<CompactYield quantity={"1"} isQuantityExact={true} />);
+    const { container } = render(<CompactYield quantity={"1"} asset={giveAssetType} isQuantityExact={true} />);
     expect(container).toMatchSnapshot();
   });
 
   it("should render component with quantity not exact", () => {
-    const { container } = render(<CompactYield quantity={"1"} isQuantityExact={false} />);
+    const { container } = render(<CompactYield quantity={"1"} asset={giveAssetType} isQuantityExact={false} />);
     expect(container).toMatchSnapshot();
   });
 });
 
 describe("<CompactVault/>", () => {
+  const giveAssetType = "sOHM";
+
   it("should render component", () => {
-    const { container } = render(<CompactVault quantity={"1"} isQuantityExact={true} />);
+    const { container } = render(<CompactVault quantity={"1"} asset={giveAssetType} isQuantityExact={true} />);
     expect(container).toMatchSnapshot();
   });
 
   it("should render component with quantity not exact", () => {
-    const { container } = render(<CompactVault quantity={"1"} isQuantityExact={false} />);
+    const { container } = render(<CompactVault quantity={"1"} asset={giveAssetType} isQuantityExact={false} />);
     expect(container).toMatchSnapshot();
   });
 });
 
 describe("<CompactWallet/>", () => {
+  const giveAssetType = "sOHM";
+
   it("should render component", () => {
-    const { container } = render(<CompactWallet quantity={"1"} isQuantityExact={true} />);
+    const { container } = render(<CompactWallet quantity={"1"} asset={giveAssetType} isQuantityExact={true} />);
     expect(container).toMatchSnapshot();
   });
 
   it("should render component with quantity not exact", () => {
-    const { container } = render(<CompactWallet quantity={"1"} isQuantityExact={false} />);
+    const { container } = render(<CompactWallet quantity={"1"} asset={giveAssetType} isQuantityExact={false} />);
     expect(container).toMatchSnapshot();
   });
 });

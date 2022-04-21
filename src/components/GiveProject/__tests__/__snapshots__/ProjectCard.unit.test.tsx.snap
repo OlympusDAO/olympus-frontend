@@ -552,7 +552,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Deposited
+                                Deposited
                               </div>
                             </div>
                           </div>
@@ -616,7 +616,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                             <div
                               class="MuiGrid-root subtext MuiGrid-item"
                             >
-                              sOHM Yield Sent
+                              Yield
                             </div>
                           </div>
                           <div
@@ -664,14 +664,14 @@ exports[`<ProjectCard/> should render page 1`] = `
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
                                   >
-                                    100
+                                    0
                                   </div>
                                 </div>
                               </div>
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Deposit Goal
+                                Deposit Goal
                               </div>
                             </div>
                           </div>
@@ -1030,7 +1030,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Deposited
+                                Deposited
                               </div>
                             </div>
                           </div>
@@ -1094,7 +1094,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                             <div
                               class="MuiGrid-root subtext MuiGrid-item"
                             >
-                              sOHM Yield Sent
+                              Yield
                             </div>
                           </div>
                           <div
@@ -1142,14 +1142,14 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
                                   >
-                                    100
+                                    0
                                   </div>
                                 </div>
                               </div>
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Deposit Goal
+                                Deposit Goal
                               </div>
                             </div>
                           </div>
@@ -1503,7 +1503,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Deposited
+                                Deposited
                               </div>
                             </div>
                           </div>
@@ -1567,7 +1567,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                             <div
                               class="MuiGrid-root subtext MuiGrid-item"
                             >
-                              sOHM Yield Sent
+                              Yield
                             </div>
                           </div>
                           <div
@@ -1615,14 +1615,14 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
                                   >
-                                    100
+                                    0
                                   </div>
                                 </div>
                               </div>
                               <div
                                 class="MuiGrid-root subtext MuiGrid-item"
                               >
-                                sOHM Deposit Goal
+                                Deposit Goal
                               </div>
                             </div>
                           </div>

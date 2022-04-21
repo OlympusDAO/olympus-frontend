@@ -32,6 +32,11 @@
 
 div.grey-box {
   border-color: #999999;
+
+  &.redeem-selector {
+    padding: 2px;
+    margin-bottom: 10px;
+  }
 }
 
 .grey-text {
@@ -39,7 +44,7 @@ div.grey-box {
 }
 
 .give-tab-buttons {
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   // Restrict the height of the tab bar, so the indicator is 4px away
   height: 40px;
 

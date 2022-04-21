@@ -13,35 +13,41 @@ import { Project, RecordType } from "src/components/GiveProject/project.type";
 import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useSohmBalance } from "src/hooks/useBalance";
+import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
+import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useRecipientInfo } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { ChangeAssetType } from "src/slices/interfaces";
+import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
 
-import { CancelCallback, SubmitCallback } from "./Interfaces";
-
-export type WithdrawSubmitCallback = {
-  (walletAddress: string, eventSource: string, depositAmount: DecimalBigNumber): void;
-};
+import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "./constants";
+import { GohmToggle } from "./GohmToggle";
+import { checkDecimalLength, removeTrailingZeros } from "./helpers/checkDecimalLength";
+import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "./Interfaces";
 
 type ManageModalProps = {
   isModalOpen: boolean;
   isMutationLoading: boolean;
   eventSource: string;
-  submitEdit: SubmitCallback;
+  submitEdit: SubmitEditCallback;
   submitWithdraw: WithdrawSubmitCallback;
   cancelFunc: CancelCallback;
   project?: Project;
+  currentDepositId: string;
   currentWalletAddress: string;
-  currentDepositAmount: DecimalBigNumber; // As per IUserDonationInfo
+  currentDepositAmount: string; // As per IUserDonationInfo
   depositDate: string;
+  giveAssetType: string;
+  changeAssetType: ChangeAssetType;
   yieldSent: string;
   recordType?: string;
 };
 
-const DECIMAL_PLACES = 2;
+const DECIMAL_PLACES = 4;
 const ZERO_NUMBER: DecimalBigNumber = new DecimalBigNumber("0");
 const DECIMAL_FORMAT = { decimals: DECIMAL_PLACES, format: true };
-const EXACT_FORMAT = { format: true };
+const PERCENT_FORMAT = { decimals: 0, format: true };
+const EXACT_FORMAT = { decimals: GIVE_MAX_DECIMALS, format: true };
 
 export function ManageDonationModal({
   isModalOpen,
@@ -51,9 +57,12 @@ export function ManageDonationModal({
   submitWithdraw,
   cancelFunc,
   project,
+  currentDepositId,
   currentWalletAddress,
   currentDepositAmount,
   depositDate,
+  giveAssetType,
+  changeAssetType,
   yieldSent,
   recordType = RecordType.PROJECT,
 }: ManageModalProps) {
@@ -61,12 +70,14 @@ export function ManageDonationModal({
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
+  const { data: currentIndex } = useCurrentIndex();
+
   const _useRecipientInfo = useRecipientInfo(project ? project.wallet : "");
   const totalDebt: DecimalBigNumber = useMemo(() => {
     if (_useRecipientInfo.isLoading || !_useRecipientInfo.data) return new DecimalBigNumber("0");
 
-    return new DecimalBigNumber(_useRecipientInfo.data.totalDebt);
-  }, [_useRecipientInfo]);
+    return GetCorrectContractUnits(_useRecipientInfo.data.gohmDebt, giveAssetType, currentIndex);
+  }, [_useRecipientInfo, giveAssetType, currentIndex]);
 
   useEffect(() => {
     checkIsWalletAddressValid(getWalletAddress());
@@ -81,14 +92,24 @@ export function ManageDonationModal({
     }
   }, [isModalOpen]);
 
-  const _initialDepositAmount = currentDepositAmount.toString();
-  const _initialWalletAddress = currentWalletAddress;
+  /**
+   * _initialDepositAmount is kept as a string, to avoid unnecessary application of number rules while being edited
+   */
+  const _initialDepositAmount = "";
+  const _initialWalletAddress = "";
   const _initialDepositAmountValid = false;
   const _initialDepositAmountValidError = "";
   const _initialWalletAddressValid = false;
   const _initialIsAmountSet = false;
 
-  const [depositAmount, setDepositAmount] = useState(_initialDepositAmount);
+  const getInitialDepositAmount = (): string => {
+    return currentDepositAmount
+      ? GetCorrectContractUnits(currentDepositAmount.toString(), giveAssetType, currentIndex).toString(
+          GIVE_MAX_DECIMAL_FORMAT,
+        )
+      : _initialDepositAmount;
+  };
+  const [depositAmount, setDepositAmount] = useState(removeTrailingZeros(getInitialDepositAmount()));
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(_initialDepositAmountValid);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState(_initialDepositAmountValidError);
 
@@ -110,6 +131,51 @@ export function ManageDonationModal({
 
     return _useSohmBalance.data;
   }, [_useSohmBalance]);
+
+  const _useGohmBalance =
+    useGohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+
+  const gohmBalance: DecimalBigNumber = useMemo(() => {
+    if (_useGohmBalance.isLoading || _useGohmBalance.data == undefined) return new DecimalBigNumber("0");
+
+    return _useGohmBalance.data;
+  }, [_useGohmBalance]);
+
+  useEffect(() => {
+    setDepositAmount(getInitialDepositAmount());
+  }, [giveAssetType]);
+
+  /**
+   * Returns the wallet address. If a project is defined, it uses the
+   * project wallet, else what was passed in as a parameter.
+   */
+  const getWalletAddress = (): string => {
+    if (project) return project.wallet;
+
+    return walletAddress;
+  };
+
+  const getDepositAmount = (): DecimalBigNumber => {
+    if (!depositAmount) return ZERO_NUMBER;
+
+    return new DecimalBigNumber(depositAmount);
+  };
+
+  const getCurrentDepositAmount = (): DecimalBigNumber => {
+    if (!currentDepositAmount) return ZERO_NUMBER;
+
+    const correctUnitCurrDeposit = GetCorrectContractUnits(
+      currentDepositAmount.toString(),
+      giveAssetType,
+      currentIndex,
+    );
+    return correctUnitCurrDeposit;
+  };
+
+  const getDepositAmountDiff = (): DecimalBigNumber => {
+    // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
+    return getDepositAmount().sub(getCurrentDepositAmount());
+  };
 
   /**
    * Checks if the provided wallet address is valid.
@@ -135,15 +201,11 @@ export function ManageDonationModal({
   };
 
   const handleEditSubmit = () => {
-    const depositAmountBig: DecimalBigNumber = new DecimalBigNumber(depositAmount);
-
-    submitEdit(getWalletAddress(), eventSource, depositAmountBig, getDepositAmountDiff());
+    submitEdit(getWalletAddress(), currentDepositId, eventSource, getCurrentDepositAmount(), getDepositAmountDiff());
   };
 
   const handleWithdrawSubmit = () => {
-    const depositAmountBig: DecimalBigNumber = new DecimalBigNumber(depositAmount);
-
-    submitWithdraw(getWalletAddress(), eventSource, depositAmountBig);
+    submitWithdraw(getWalletAddress(), currentDepositId, eventSource, getCurrentDepositAmount());
   };
 
   /**
@@ -180,10 +242,12 @@ export function ManageDonationModal({
     return true;
   };
 
-  const getCurrentDepositAmount = (): DecimalBigNumber => {
-    if (!currentDepositAmount) return ZERO_NUMBER;
+  const getBalance = (): DecimalBigNumber => {
+    return giveAssetType === "sOHM" ? sohmBalance : gohmBalance;
+  };
 
-    return currentDepositAmount;
+  const getYieldSent = (): DecimalBigNumber => {
+    return GetCorrectContractUnits(yieldSent, giveAssetType, currentIndex);
   };
 
   /**
@@ -194,17 +258,15 @@ export function ManageDonationModal({
    * @returns DecimalBigNumber
    */
   const getMaximumDepositAmount = (): DecimalBigNumber => {
-    return sohmBalance.add(getCurrentDepositAmount());
-  };
-
-  const getDepositAmountDiff = (): DecimalBigNumber => {
-    // We can't trust the accuracy of floating point arithmetic of standard JS libraries, so we use BigNumber
-    return new DecimalBigNumber(depositAmount).sub(getCurrentDepositAmount());
+    return getBalance().add(currentDepositAmount ? getCurrentDepositAmount() : ZERO_NUMBER);
   };
 
   const handleSetDepositAmount = (value: string) => {
+    const value_ = checkDecimalLength(value);
+
     checkIsDepositAmountValid(value);
-    setDepositAmount(value);
+
+    setDepositAmount(value_);
   };
 
   const checkIsDepositAmountValid = (value: string) => {
@@ -222,31 +284,23 @@ export function ManageDonationModal({
       return;
     }
 
-    if (sohmBalance.eq(ZERO_NUMBER)) {
+    if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
+      setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }
 
-    if (valueNumber.gt(getMaximumDepositAmount())) {
+    if (getDepositAmountDiff().gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        t`Value cannot be more than your sOHM balance of ` + " " + getMaximumDepositAmount(),
+        t`Value cannot be more than your ${giveAssetType} balance of ${getMaximumDepositAmount().toString(
+          EXACT_FORMAT,
+        )}`,
       );
       return;
     }
 
     setIsDepositAmountValid(true);
     setIsDepositAmountValidError("");
-  };
-
-  /**
-   * Returns the wallet address. If a project is defined, it uses the
-   * project wallet, else what was passed in as a parameter.
-   */
-  const getWalletAddress = (): string => {
-    if (project) return project.wallet;
-
-    return walletAddress;
   };
 
   /**
@@ -319,6 +373,7 @@ export function ManageDonationModal({
   const getInitialScreen = () => {
     return (
       <Grid container spacing={2}>
+        <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
         <Grid item xs={12}>
           {getRecipientDetails()}
         </Grid>
@@ -338,12 +393,12 @@ export function ManageDonationModal({
             <Grid item xs={6}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
-                  <PrimaryButton onClick={() => setIsEditing(true)} fullWidth>
+                  <PrimaryButton data-testid="edit-donation" onClick={() => setIsEditing(true)} fullWidth>
                     <Trans>Edit Donation</Trans>
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
-                  <TertiaryButton onClick={() => setIsWithdrawing(true)} fullWidth>
+                  <TertiaryButton data-testid="stop-donation" onClick={() => setIsWithdrawing(true)} fullWidth>
                     <Trans>Stop Donation</Trans>
                   </TertiaryButton>
                 </Grid>
@@ -360,39 +415,50 @@ export function ManageDonationModal({
    * Elements to display project statistics, such as donation sOHM, yield and goal achievement.
    */
   const getProjectStats = () => {
-    const depositGoalNumber = project ? new DecimalBigNumber(project.depositGoal.toString()) : ZERO_NUMBER;
+    // Has to have a default value of 1 because it is used in division
+    const depositGoalNumber =
+      project && currentIndex
+        ? GetCorrectStaticUnits(project.depositGoal.toString(), giveAssetType, currentIndex)
+        : new DecimalBigNumber("1", GIVE_MAX_DECIMALS);
 
     return (
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <Box>
-            <Typography variant="h5" align="center">
-              {project ? depositGoalNumber.toString(DECIMAL_FORMAT) : "N/A"}
-            </Typography>
-            <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? "Goal" : "sOHM Goal"}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={4}>
-          <Box>
-            <Typography variant="h5" align="center">
-              {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
-            </Typography>
-            <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={4}>
-          <Box>
-            <Typography variant="h5" align="center">
+            <Typography data-testid="goal" variant="h5" align="center">
               {project
-                ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString(DECIMAL_FORMAT) + "%"
+                ? GetCorrectStaticUnits(project.depositGoal.toString(), giveAssetType, currentIndex).toString(
+                    DECIMAL_FORMAT,
+                  )
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? "of Goal" : "of sOHM Goal"}
+              {isSmallScreen ? "Goal" : `${giveAssetType} Goal`}
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={4}>
+          <Box>
+            <Typography data-testid="total-donated" variant="h5" align="center">
+              {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
+            </Typography>
+            <Typography variant="body1" align="center" className="subtext">
+              {isSmallScreen ? `Total ${giveAssetType}` : `Total ${giveAssetType} Donated`}
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={4}>
+          <Box>
+            <Typography data-testid="goal-completion" variant="h5" align="center">
+              {project
+                ? totalDebt
+                    .mul(new DecimalBigNumber("100"))
+                    .div(depositGoalNumber, GIVE_MAX_DECIMALS)
+                    .toString(PERCENT_FORMAT) + "%"
+                : "N/A"}
+            </Typography>
+            <Typography variant="body1" align="center" className="subtext">
+              {isSmallScreen ? "of Goal" : `of ${giveAssetType} Goal`}
             </Typography>
           </Box>
         </Grid>
@@ -411,9 +477,14 @@ export function ManageDonationModal({
           <DataRow title={t`Recipient`} balance={getRecipientTitle()} />
           <DataRow
             title={t`Deposited`}
-            balance={`${new DecimalBigNumber(depositAmount).toString(EXACT_FORMAT)} sOHM`}
+            id="deposited"
+            balance={`${getCurrentDepositAmount().toString(DECIMAL_FORMAT)} ${giveAssetType}`}
           />
-          <DataRow title={t`Yield Sent`} balance={`${new DecimalBigNumber(yieldSent).toString(EXACT_FORMAT)} sOHM`} />
+          <DataRow
+            title={t`Yield Sent`}
+            id="yield-sent"
+            balance={`${getYieldSent().toString(DECIMAL_FORMAT)} ${giveAssetType}`}
+          />
         </Box>
       </>
     );
@@ -493,6 +564,7 @@ export function ManageDonationModal({
   const getEditDonationScreen = () => {
     return (
       <Grid container spacing={2}>
+        <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
         <Grid item xs={12}>
           {getRecipientDetails()}
         </Grid>
@@ -507,10 +579,10 @@ export function ManageDonationModal({
           <Box>
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <Typography variant="body1">
-                  <Trans>New sOHM Amount</Trans>
+                <Typography variant="body1" color="textSecondary">
+                  <Trans>New {giveAssetType} Amount</Trans>
                   <InfoTooltip
-                    message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                    message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                     children={null}
                   />
                 </Typography>
@@ -518,21 +590,21 @@ export function ManageDonationModal({
               <Grid item xs={12}>
                 <Input
                   id="amount-input"
+                  inputProps={{ "data-testid": "amount-input" }}
                   type="number"
                   placeholder={t`Enter an amount`}
                   value={depositAmount}
-                  // We need to inform the user about their deposit, so this is a specific value
                   helperText={
                     isDepositAmountValid
-                      ? t`Your current deposit is ${currentDepositAmount.toString(EXACT_FORMAT)} sOHM`
+                      ? t`Your current deposit is ${getCurrentDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`
                       : isDepositAmountValidError
                   }
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onChange={(e: any) => handleSetDepositAmount(e.target.value)}
                   error={!isDepositAmountValid}
-                  startAdornment="sOHM"
+                  startAdornment={giveAssetType === "sOHM" ? "sOHM" : giveAssetType === "gOHM" ? "gOHM" : "placeholder"}
                   endString={t`Max`}
-                  // This uses toFixed() as it is a specific value and not formatted
+                  // Specific value and not formatted
                   endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
                 />
               </Grid>
@@ -559,11 +631,12 @@ export function ManageDonationModal({
       <Box>
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={12} sm={4}>
-            <Typography variant="body1" className="grey-text">
-              <Trans>Current sOHM deposit</Trans>
+            <Typography variant="body1" className="modal-confirmation-title">
+              <Trans>Current {giveAssetType} deposit</Trans>
             </Typography>
-            {/* Referring to the current deposit, so we need to be specific */}
-            <Typography variant="h6">{currentDepositAmount.toString(EXACT_FORMAT)} sOHM</Typography>
+            <Typography variant="h6">
+              {getCurrentDepositAmount().toString(EXACT_FORMAT)} {giveAssetType}
+            </Typography>
           </Grid>
           {!isSmallScreen ? (
             <Grid item sm={4}>
@@ -578,12 +651,11 @@ export function ManageDonationModal({
                 alignment accordingly. */}
             <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
               <Grid item xs={12}>
-                <Typography variant="body1" className="grey-text">
-                  <Trans>New sOHM deposit</Trans>
+                <Typography variant="body1" className="modal-confirmation-title">
+                  <Trans>New {giveAssetType} deposit</Trans>
                 </Typography>
-                {/* Referring to the new deposit, so we need to be specific */}
                 <Typography variant="h6">
-                  {isWithdrawing ? "0" : new DecimalBigNumber(depositAmount).toString(EXACT_FORMAT)} sOHM
+                  {isWithdrawing ? 0 : getDepositAmount().toString(EXACT_FORMAT)} {giveAssetType}
                 </Typography>
               </Grid>
             </Grid>
@@ -616,7 +688,7 @@ export function ManageDonationModal({
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
-                    {isMutationLoading ? t`Withdrawing sOHM` : t`Withdraw`}
+                    {isMutationLoading ? t`Withdrawing ${giveAssetType}` : t`Withdraw`}
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
@@ -654,7 +726,7 @@ export function ManageDonationModal({
             <Grid item xs />
             <Grid item xs={6}>
               <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
-                {isMutationLoading ? t`Depositing sOHM` : t`Confirm New sOHM`}
+                {isMutationLoading ? t`Depositing ${giveAssetType}` : t`Confirm New ${giveAssetType}`}
               </PrimaryButton>
             </Grid>
             <Grid item xs />

@@ -21,6 +21,7 @@ type RedeemModalProps = {
   isModalOpen: boolean;
   callbackFunc: RedeemSubmitCallback;
   cancelFunc: RedeemCancelCallback;
+  contract: string;
   deposit: DecimalBigNumber;
   redeemableBalance: DecimalBigNumber;
   isMutationLoading: boolean;
@@ -33,6 +34,7 @@ export function RedeemYieldModal({
   isModalOpen,
   callbackFunc,
   cancelFunc,
+  contract,
   redeemableBalance,
   isMutationLoading,
 }: RedeemModalProps) {
