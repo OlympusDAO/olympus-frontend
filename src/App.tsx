@@ -41,6 +41,7 @@ import { useTestableNetworks } from "./hooks/useTestableNetworks";
 import useTheme from "./hooks/useTheme";
 import { getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
 import { loadAppDetails } from "./slices/AppSlice";
+import { ChangeAssetType } from "./slices/interfaces";
 import { error, info } from "./slices/MessagesSlice";
 import { dark as darkTheme } from "./themes/dark.js";
 import { girth as gTheme } from "./themes/girth.js";
@@ -125,6 +126,11 @@ function App() {
 
   const { grants } = grantData;
   const { projects } = projectData;
+  const [giveAssetType, setGiveAssetType] = useState<"sOHM" | "gOHM">("sOHM");
+
+  const changeGiveAssetType: ChangeAssetType = (checked: boolean) => {
+    setGiveAssetType(checked ? "gOHM" : "sOHM");
+  };
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -339,7 +345,7 @@ function App() {
               </Route>
 
               <Route exact path="/give">
-                <Give />
+                <Give giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
               </Route>
               <Redirect from="/olympusgive" to="/give" />
               <Redirect from="/tyche" to="/give" />
@@ -351,32 +357,36 @@ function App() {
                 {projects.map(project => {
                   return (
                     <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
-                      <ProjectInfo project={project} />
+                      <ProjectInfo
+                        project={project}
+                        giveAssetType={giveAssetType}
+                        changeAssetType={changeGiveAssetType}
+                      />
                     </Route>
                   );
                 })}
               </Route>
 
               <Route exact path="/give/grants">
-                <Give selectedIndex={1} />
+                <Give selectedIndex={1} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
               </Route>
 
               <Route path="/give/grants">
                 {grants.map(grant => {
                   return (
                     <Route exact key={grant.slug} path={`/give/grants/${grant.slug}`}>
-                      <GrantInfo grant={grant} />
+                      <GrantInfo grant={grant} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
                     </Route>
                   );
                 })}
               </Route>
 
               <Route exact path="/give/donations">
-                <Give selectedIndex={2} />
+                <Give selectedIndex={2} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
               </Route>
 
               <Route exact path="/give/redeem">
-                <Give selectedIndex={3} />
+                <Give selectedIndex={3} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
               </Route>
 
               <Route path="/wrap">

@@ -15,7 +15,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
         >
           <div
-            class="MuiPaper-root makeStyles-root-64 makeStyles-root-65  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root makeStyles-root-69 makeStyles-root-70  MuiPaper-elevation0 MuiPaper-rounded"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -25,7 +25,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                 class="MuiGrid-root card-header MuiGrid-item"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-66"
+                  class="MuiBox-root MuiBox-root-71"
                 >
                   <div
                     class="top-left"
@@ -59,7 +59,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                         <h5
                           class="MuiTypography-root MuiTypography-h5"
                         >
-                          Impact Market
+                          Angel Protocol
                         </h5>
                       </div>
                     </div>
@@ -87,10 +87,10 @@ exports[`Give View Connected should render project card with Donate Yield Button
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/projects/impact-market"
+                          href="#/give/projects/angel-protocol"
                         >
                           <img
-                            src="/assets/images/give/impact-market/impact-market-logo.svg"
+                            src="/assets/images/give/angel-protocol/angel-protocol-logo.svg"
                             width="100%"
                           />
                         </a>
@@ -311,7 +311,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                             <div
                               class="MuiGrid-root subtext MuiGrid-item"
                             >
-                              sOHM Yield Sent
+                              sOHM Yield
                             </div>
                           </div>
                           <div
@@ -359,7 +359,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
                                   >
-                                    200
+                                    1,000
                                   </div>
                                 </div>
                               </div>
@@ -392,7 +392,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-68 makeStyles-root-69 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-73 makeStyles-root-74 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                           tabindex="0"
                           type="button"
                         >
@@ -418,7 +418,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
       >
         <div
-          class="MuiPaper-root makeStyles-root-64 makeStyles-root-70  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-69 makeStyles-root-75  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -428,10 +428,10 @@ exports[`Give View Connected should render project card with Donate Yield Button
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-71"
+                class="MuiBox-root MuiBox-root-76"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-72"
+                  class="MuiBox-root MuiBox-root-77"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -444,7 +444,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                 >
                   <a
                     class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                    href="https://www.impactmarket.com/"
+                    href="https://www.angelprotocol.io/"
                     target="_blank"
                   >
                     <svg
@@ -468,35 +468,8 @@ exports[`Give View Connected should render project card with Donate Yield Button
                 class="project-content"
               >
                 <p>
-                  ImpactMarket is an open, free, censorship-resistant, and borderless impact-driven crowdfinance marketplace to fight poverty.
+                  Angel Protocol is the leading crypto-native nonprofit platform on Terra, bringing an entirely new angle to the concept of charity: Generative Giving. When you donate to Angel Protocol, your donations are locked in permanent endowments (Anchor Yield accounts) for the over 50 NGOs that have been onboarded. Yield (not principal) from the endowments is paid into individual NGO accounts every week, which they can then withdraw and spend to resolve the greatest issues our planet faces. These endowments are meant to provide a perpetual income stream so these organizations can focus on having boots on the ground.
                 </p>
-                
-
-                <p>
-                  It merges the principles of unconditional basic income with blockchain technology to enable any community to have access to a basic income through its own UBI smart contract with specific parameters based on their reality. Beneficiaries added to those contracts can claim cUSD on a regular basis and use it for whatever they want or need.
-impactMarket is being built to:
-                </p>
-                
-
-                <ul>
-                  
-
-                  <li>
-                    Accelerate poverty alleviation, access to finance, and wealth redistribution
-                  </li>
-                  
-
-                  <li>
-                    Ensure the primacy of the individual and the social objective over capital
-                  </li>
-                  
-
-                  <li>
-                    Allow democratic governance, autonomous management, and independence of the protocol from public and central authorities.
-                  </li>
-                  
-
-                </ul>
                 
 
               </div>
@@ -631,7 +604,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   href="#/give/projects/impact-market"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-30 makeStyles-root-31 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-35 makeStyles-root-36 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                     tabindex="0"
                     type="button"
                   >
@@ -760,7 +733,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   href="#/give/projects/angel-protocol"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-30 makeStyles-root-35 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-35 makeStyles-root-40 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                     tabindex="0"
                     type="button"
                   >
@@ -889,7 +862,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   href="#/give/projects/gitcoin"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-30 makeStyles-root-37 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-35 makeStyles-root-42 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                     tabindex="0"
                     type="button"
                   >
@@ -1018,7 +991,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   href="#/give/projects/kolektivo"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-30 makeStyles-root-39 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-35 makeStyles-root-44 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                     tabindex="0"
                     type="button"
                   >
@@ -1147,7 +1120,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   href="#/give/projects/popcorndao"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-30 makeStyles-root-41 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-35 makeStyles-root-46 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                     tabindex="0"
                     type="button"
                   >
@@ -1167,7 +1140,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
       >
         <div
-          class="MuiBox-root MuiBox-root-43"
+          class="MuiBox-root MuiBox-root-48"
           style="background-color: rgb(250, 250, 251); border-radius: 10px;"
         >
           <div
@@ -1199,7 +1172,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-30 makeStyles-root-44 undefined MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-35 makeStyles-root-49 undefined MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
                 disabled=""
                 tabindex="-1"
                 type="button"
@@ -1351,6 +1324,66 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
               <div
                 class="MuiBox-root MuiBox-root-10"
               >
+                <label
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  style="margin-bottom: 20px;"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-item"
+                  >
+                    <span
+                      class="MuiSwitch-root give-sohm-gohm-checkbox"
+                    >
+                      <span
+                        aria-disabled="false"
+                        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-11 MuiSwitch-switchBase MuiSwitch-colorPrimary"
+                      >
+                        <span
+                          class="MuiIconButton-label"
+                        >
+                          <input
+                            aria-label="stake to gohm"
+                            class="PrivateSwitchBase-input-14 MuiSwitch-input"
+                            type="checkbox"
+                            value=""
+                          />
+                          <span
+                            class="MuiSwitch-thumb"
+                          />
+                        </span>
+                      </span>
+                      <span
+                        class="MuiSwitch-track"
+                      />
+                    </span>
+                  </div>
+                  <div
+                    class="MuiGrid-root MuiGrid-item"
+                    style="display: flex;"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+                    >
+                      gOHM deposits
+                    </p>
+                    <div
+                      class="MuiBox-root MuiBox-root-15"
+                      style="display: inline-flex; justify-content: center; align-self: center;"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                        focusable="false"
+                        style="margin: 0px 5px; font-size: 1em;"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M 10 20 C 15.475 20 20 15.473 20 10 C 20 4.518 15.473 0 9.991 0 C 4.516 0 0 4.518 0 10 C 0 15.475 4.527 20 10 20 Z M 10 18.705 C 5.189 18.714 1.287 14.812 1.297 10.001 C 1.28 5.189 5.179 1.281 9.991 1.285 C 14.807 1.28 18.714 5.182 18.714 9.999 C 18.719 14.811 14.813 18.712 10 18.702 Z M 9.941 6.242 C 10.559 6.242 11.038 5.763 11.038 5.156 C 11.043 4.547 10.549 4.053 9.94 4.058 C 9.334 4.057 8.842 4.55 8.844 5.156 C 8.843 5.761 9.337 6.249 9.941 6.242 Z M 8.216 15.444 L 12.303 15.444 C 12.623 15.444 12.871 15.204 12.871 14.895 C 12.87 14.584 12.615 14.334 12.303 14.338 L 10.868 14.338 L 10.868 8.754 C 10.868 8.346 10.658 8.065 10.269 8.065 L 8.345 8.065 C 7.919 8.045 7.631 8.493 7.826 8.872 C 7.925 9.065 8.128 9.182 8.345 9.172 L 9.652 9.172 L 9.652 14.338 L 8.216 14.338 C 7.905 14.334 7.649 14.584 7.648 14.895 C 7.648 15.204 7.897 15.444 8.216 15.444 Z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </label>
                 <div
                   class="MuiContainer-root MuiContainer-maxWidthLg"
                   style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
@@ -1471,7 +1504,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 href="#/give/projects/impact-market"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-11 makeStyles-root-12 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-18 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -1600,7 +1633,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 href="#/give/projects/angel-protocol"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-11 makeStyles-root-16 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-22 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -1729,7 +1762,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 href="#/give/projects/gitcoin"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-11 makeStyles-root-18 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-24 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -1858,7 +1891,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 href="#/give/projects/kolektivo"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-11 makeStyles-root-20 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-26 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -1987,7 +2020,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 href="#/give/projects/popcorndao"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-11 makeStyles-root-22 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-28 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -2007,7 +2040,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-24"
+                        class="MuiBox-root MuiBox-root-30"
                         style="background-color: rgb(250, 250, 251); border-radius: 10px;"
                       >
                         <div
@@ -2039,7 +2072,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                           >
                             <button
-                              class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-11 makeStyles-root-25 undefined MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
+                              class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-17 makeStyles-root-31 undefined MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
                               disabled=""
                               tabindex="-1"
                               type="button"
@@ -2086,7 +2119,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
         </div>
       </div>
       <div
-        class="MuiPaper-root makeStyles-root-1 makeStyles-root-27  MuiPaper-elevation0 MuiPaper-rounded"
+        class="MuiPaper-root makeStyles-root-1 makeStyles-root-33  MuiPaper-elevation0 MuiPaper-rounded"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -2321,7 +2354,7 @@ sOHM deposit until you withdraw your sOHM principal from the vault.
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-11 makeStyles-root-29 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-17 makeStyles-root-34 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
                   tabindex="0"
                   target="_blank"
@@ -2402,7 +2435,7 @@ exports[`Give View Disconnected should render Grants Dashboard 1`] = `
 exports[`Give View Disconnected should render Yield Recipients Screen with Donate to a cause button 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-49 grey-box"
+    class="MuiBox-root MuiBox-root-54 grey-box "
   >
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-justify-content-xs-center"
@@ -2420,7 +2453,7 @@ exports[`Give View Disconnected should render Yield Recipients Screen with Donat
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-50 makeStyles-root-51 undefined MuiButton-outlinedPrimary MuiButton-disableElevation"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-55 makeStyles-root-56 undefined MuiButton-outlinedPrimary MuiButton-disableElevation"
           tabindex="0"
           type="button"
         >
@@ -2451,7 +2484,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
         >
           <div
-            class="MuiPaper-root makeStyles-root-52 makeStyles-root-53  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root makeStyles-root-57 makeStyles-root-58  MuiPaper-elevation0 MuiPaper-rounded"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -2461,7 +2494,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                 class="MuiGrid-root card-header MuiGrid-item"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-54"
+                  class="MuiBox-root MuiBox-root-59"
                 >
                   <div
                     class="top-left"
@@ -2495,7 +2528,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                         <h5
                           class="MuiTypography-root MuiTypography-h5"
                         >
-                          Impact Market
+                          Angel Protocol
                         </h5>
                       </div>
                     </div>
@@ -2523,10 +2556,10 @@ exports[`Give View Disconnected should render project card with connect wallet b
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/projects/impact-market"
+                          href="#/give/projects/angel-protocol"
                         >
                           <img
-                            src="/assets/images/give/impact-market/impact-market-logo.svg"
+                            src="/assets/images/give/angel-protocol/angel-protocol-logo.svg"
                             width="100%"
                           />
                         </a>
@@ -2743,7 +2776,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                             <div
                               class="MuiGrid-root subtext MuiGrid-item"
                             >
-                              sOHM Yield Sent
+                              sOHM Yield
                             </div>
                           </div>
                           <div
@@ -2791,7 +2824,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                   <div
                                     class="MuiGrid-root metric MuiGrid-item"
                                   >
-                                    200
+                                    1,000
                                   </div>
                                 </div>
                               </div>
@@ -2824,7 +2857,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-56 makeStyles-root-57 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-61 makeStyles-root-62 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
                           tabindex="0"
                           type="button"
                         >
@@ -2850,7 +2883,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
       >
         <div
-          class="MuiPaper-root makeStyles-root-52 makeStyles-root-58  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root makeStyles-root-57 makeStyles-root-63  MuiPaper-elevation0 MuiPaper-rounded"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
@@ -2860,10 +2893,10 @@ exports[`Give View Disconnected should render project card with connect wallet b
               class="MuiGrid-root card-header MuiGrid-item"
             >
               <div
-                class="MuiBox-root MuiBox-root-59"
+                class="MuiBox-root MuiBox-root-64"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-60"
+                  class="MuiBox-root MuiBox-root-65"
                 >
                   <h5
                     class="MuiTypography-root header-text MuiTypography-h5"
@@ -2876,7 +2909,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                 >
                   <a
                     class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                    href="https://www.impactmarket.com/"
+                    href="https://www.angelprotocol.io/"
                     target="_blank"
                   >
                     <svg
@@ -2900,35 +2933,8 @@ exports[`Give View Disconnected should render project card with connect wallet b
                 class="project-content"
               >
                 <p>
-                  ImpactMarket is an open, free, censorship-resistant, and borderless impact-driven crowdfinance marketplace to fight poverty.
+                  Angel Protocol is the leading crypto-native nonprofit platform on Terra, bringing an entirely new angle to the concept of charity: Generative Giving. When you donate to Angel Protocol, your donations are locked in permanent endowments (Anchor Yield accounts) for the over 50 NGOs that have been onboarded. Yield (not principal) from the endowments is paid into individual NGO accounts every week, which they can then withdraw and spend to resolve the greatest issues our planet faces. These endowments are meant to provide a perpetual income stream so these organizations can focus on having boots on the ground.
                 </p>
-                
-
-                <p>
-                  It merges the principles of unconditional basic income with blockchain technology to enable any community to have access to a basic income through its own UBI smart contract with specific parameters based on their reality. Beneficiaries added to those contracts can claim cUSD on a regular basis and use it for whatever they want or need.
-impactMarket is being built to:
-                </p>
-                
-
-                <ul>
-                  
-
-                  <li>
-                    Accelerate poverty alleviation, access to finance, and wealth redistribution
-                  </li>
-                  
-
-                  <li>
-                    Ensure the primacy of the individual and the social objective over capital
-                  </li>
-                  
-
-                  <li>
-                    Allow democratic governance, autonomous management, and independence of the protocol from public and central authorities.
-                  </li>
-                  
-
-                </ul>
                 
 
               </div>

@@ -86,3 +86,7 @@ export interface IZapAsyncThunk extends IBaseAddressAsyncThunk {
   readonly minimumAmount: string;
   readonly gOHM: boolean;
 }
+
+export interface ChangeAssetType {
+  (checked: boolean): void;
+}

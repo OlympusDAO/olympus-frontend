@@ -5,6 +5,7 @@ import { Icon } from "@olympusdao/component-library";
 
 type EducationGraphicProps = {
   quantity: string;
+  asset: string;
   isQuantityExact: boolean;
   verb?: string;
   isLoading?: boolean;
@@ -55,33 +56,39 @@ function CompactGraphic({ title, icon, subtext, isSubtextContentLoading }: Compa
   );
 }
 
-export function CompactWallet({ quantity, isQuantityExact, verb = "Retained" }: EducationGraphicProps) {
+export function CompactWallet({ quantity, isQuantityExact, asset, verb = "retained" }: EducationGraphicProps) {
   return (
     <CompactGraphic
       title={t`Wallet`}
       icon={<Icon name="vault-wallet" fontSize="large" />}
-      subtext={`${isQuantityExact ? "" : "≈ "}${quantity} sOHM ${verb}`}
+      subtext={`${isQuantityExact ? "" : "≈ "}${quantity} ${asset} ${verb}`}
     />
   );
 }
 
-export function CompactVault({ quantity, isQuantityExact, verb = "Deposited", isLoading }: EducationGraphicProps) {
+export function CompactVault({
+  quantity,
+  isQuantityExact,
+  asset,
+  verb = "deposited",
+  isLoading,
+}: EducationGraphicProps) {
   return (
     <CompactGraphic
       title={t`Vault`}
       icon={<Icon name="vault-lock" fontSize="large" />}
-      subtext={`${isQuantityExact ? "" : "≈ "}${quantity} sOHM ${verb}`}
+      subtext={`${isQuantityExact ? "" : "≈ "}${quantity} ${asset} ${verb}`}
       isSubtextContentLoading={isLoading}
     />
   );
 }
 
-export function CompactYield({ quantity, isQuantityExact }: EducationGraphicProps) {
+export function CompactYield({ quantity, isQuantityExact, asset }: EducationGraphicProps) {
   return (
     <CompactGraphic
       title={t`Recipient`}
       icon={<Icon name="vault-recipient" fontSize="large" />}
-      subtext={`${t`Receives Yield from`} ${isQuantityExact ? "" : "≈ "}${quantity} sOHM`}
+      subtext={`${t`Receives yield from`} ${isQuantityExact ? "" : "≈ "}${quantity} ${asset}`}
     />
   );
 }
