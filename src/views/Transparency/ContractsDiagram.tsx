@@ -6,7 +6,7 @@ import { initialEdges, initialNodes } from "./contractNodes";
 
 export const ContractsDiagram = (): JSX.Element => {
   const theme = useTheme();
-  const [nodes] = useState(initialNodes(theme));
+  const [nodes] = useState(initialNodes(theme.palette.primary.main));
   const [edges] = useState(initialEdges);
 
   // TODO fix incompatibility with Paper from component-library (but not MUI) which results in the edge paths not being positioned correctly

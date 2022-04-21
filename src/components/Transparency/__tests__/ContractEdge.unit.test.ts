@@ -15,6 +15,20 @@ describe("ContractEdge", () => {
       });
     });
 
+    it("should animate", () => {
+      const contractEdge: ContractEdge = {
+        source: "0x0",
+        target: "0x1",
+        animated: true,
+      };
+
+      expect(getEdge(contractEdge)).toEqual({
+        id: "0x0-0x1",
+        source: "0x0",
+        target: "0x1",
+        animated: true,
+      });
+    });
     it("should display a basic edge with a specified type", () => {
       const contractEdge: ContractEdge = {
         source: "0x0",

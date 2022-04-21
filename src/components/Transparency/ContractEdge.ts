@@ -18,6 +18,7 @@ export const getEdge = (item: ContractEdge): Edge => {
     ...(item.type && { type: item.type }),
     ...(item.style && { style: item.style }),
     ...(item.label && { label: item.label }),
+    ...(item.animated && { animated: item.animated }),
   };
 };
 

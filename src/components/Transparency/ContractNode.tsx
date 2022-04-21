@@ -1,6 +1,8 @@
 import { CSSProperties } from "react";
 import { Node } from "react-flow-renderer";
 
+import { NodeLabel } from "./NodeLabel";
+
 export type ContractNode = {
   name: string;
   // Will be used as the node ID
@@ -22,7 +24,7 @@ export const getNode = (item: ContractNode): Node => {
 
   return {
     id: item.address,
-    data: { label: item.name },
+    data: { label: <NodeLabel label={item.name} address={item.address} /> },
     position: { x: item.x || 0, y: item.y || 0 },
     ...((item.style || Object.keys(dimensions).length) && { style: { ...item.style, ...dimensions } }),
     ...(item.type && { type: item.type }),

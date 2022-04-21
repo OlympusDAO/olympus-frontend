@@ -1,4 +1,3 @@
-import { Theme } from "@material-ui/core";
 import { CSSProperties } from "react";
 import { Edge, Node } from "react-flow-renderer";
 import { getEdges } from "src/components/Transparency/ContractEdge";
@@ -13,10 +12,9 @@ import {
   STAKING_ADDRESSES,
 } from "src/constants/addresses";
 
-export const initialNodes = (theme: Theme): Node[] => {
-  console.log("theme ", theme);
+export const initialNodes = (backgroundColor: string): Node[] => {
   const primaryStyle: CSSProperties = {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: backgroundColor,
   };
 
   return getNodes([
@@ -43,7 +41,7 @@ export const initialNodes = (theme: Theme): Node[] => {
       name: "sOHM Token",
       address: SOHM_ADDRESSES[NetworkId.MAINNET],
       x: 50,
-      y: 300,
+      y: 350,
     },
     {
       name: "OHM Token",
@@ -60,10 +58,16 @@ export const initialNodes = (theme: Theme): Node[] => {
 };
 
 export const initialEdges: Edge[] = getEdges([
-  { source: STAKING_ADDRESSES[NetworkId.MAINNET], target: SOHM_ADDRESSES[NetworkId.MAINNET], label: "Mints new sOHM" },
+  {
+    source: STAKING_ADDRESSES[NetworkId.MAINNET],
+    target: SOHM_ADDRESSES[NetworkId.MAINNET],
+    label: "Mints new sOHM",
+    animated: true,
+  },
   {
     source: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
     target: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
     label: "Foo",
+    animated: true,
   },
 ]);
