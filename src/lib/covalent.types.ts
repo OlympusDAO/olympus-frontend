@@ -1,40 +1,65 @@
-export type CovalentResponse<Data = unknown> =
-  | {
-      error: false;
-      data: {
-        items: CovalentTransaction[];
-        address: string;
-        chain_id: number;
-        pagination?: { has_more: boolean; page_number: number; page_size: number; total_count: null };
-        updated_at: string;
-        next_update_at: string;
-        quote_currency: string;
-      };
-      type: string;
-    }
-  | {
-      error: true;
-      error_code: number;
-      error_message: string;
-    };
+import { NetworkId } from "src/networkDetails";
 
-export type CovalentTokenBalance = {
-  type: string;
-  quote: number;
-  balance: string;
-  nft_data?: null;
-  logo_url: string;
-  balance_24h: string;
-  contract_name: string;
-  contract_address: string;
-  contract_decimals: number;
-  quote_24h?: number | null;
-  quote_rate?: number | null;
-  contract_ticker_symbol: string;
-  supports_erc?: string[] | null;
-  quote_rate_24h?: number | null;
-  last_transferred_at?: string | null;
-};
+export type CovalentSupportedNetwork =
+  | NetworkId.MAINNET
+  | NetworkId.FANTOM
+  | NetworkId.POLYGON
+  | NetworkId.ARBITRUM
+  | NetworkId.AVALANCHE;
+
+export interface CovalentRequestOptions {
+  address: string;
+  pageSize?: number;
+  pageNumber?: number;
+  /**
+   * Boolean on whether or not to include bloom logs in response
+   *
+   * @defaults false
+   */
+  includeLogs?: boolean;
+  networkId: CovalentSupportedNetwork;
+}
+
+export interface ListAllTransfersOptions extends CovalentRequestOptions {
+  contractAddress: string;
+}
+
+export interface CovalentErrorResponse {
+  data: null;
+  error: true;
+  error_code: number;
+  error_message: string;
+}
+
+export interface CovalentSuccessResponse<Data> {
+  error: false;
+  error_code: null;
+  error_message: null;
+  data: CovalentResponse<Data>;
+}
+
+export interface CovalentResponse<Data> {
+  address: string;
+  updated_at: string;
+  next_update_at: string;
+  quote_currency: string;
+  chain_id: number;
+  items: Data;
+  pagination: {
+    has_more: boolean;
+    page_number: number;
+    page_size: number;
+    total_count: number;
+  };
+}
+
+export interface CovalentTransaction extends Transaction {
+  log_events?: LogEventItem[];
+}
+
+export interface CovalentTransfer extends Transaction {
+  transfers?: TokenTransferItem[];
+}
 
 interface Transaction {
   block_signed_at: string;
@@ -95,8 +120,4 @@ interface TokenTransferItem {
   to_address_label: string;
   transfer_type: string;
   tx_hash: string;
-}
-export interface CovalentTransaction extends Transaction {
-  log_events?: LogEventItem[];
-  transfers?: TokenTransferItem[];
 }

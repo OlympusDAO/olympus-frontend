@@ -28,7 +28,7 @@ import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/componen
 
 import { GetTokenPrice } from "../queries";
 import Balances from "./Balances";
-import TransactionHistory from "./TransactionHistory";
+import { TransactionHistory } from "./TransactionHistory";
 
 const useStyles = makeStyles<Theme>(theme => ({
   selector: {
