@@ -71,7 +71,7 @@ export const TransactionHistory: FC = () => {
   const history = queries
     .map(query => query.data)
     .filter(nonNullable)
-    .map(data => data.pages)
+    .map(data => data.pages.flat())
     .flat()
     .sort((a, b) => b.transaction.block_height - a.transaction.block_height);
 

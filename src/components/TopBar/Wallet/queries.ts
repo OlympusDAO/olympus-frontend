@@ -86,19 +86,21 @@ export const transactionHistoryQueryKey = (options: UseTransactionHistoryOptions
 export const useTransactionHistory = () => {
   const { address, networkId } = useWeb3Context();
 
-  return useInfiniteQuery<CovalentResponse<CovalentTransaction[]>, Error, Transaction>(
+  return useInfiniteQuery<CovalentResponse<CovalentTransaction[]>, Error, Transaction[]>(
     transactionHistoryQueryKey({ address, networkId }),
-    ({ pageParam = 0 }) =>
-      covalent.transactions.listAll({
+    ({ pageParam = 0 }) => {
+      return covalent.transactions.listAll({
         address,
         networkId,
+        pageSize: 300,
         pageNumber: pageParam,
-      }),
+      });
+    },
     {
       enabled: !!address && !!networkId,
       select: ({ pages, pageParams }) => ({
         pageParams,
-        pages: pages.map(page => interpretTransaction(page.items, address)).flat(),
+        pages: pages.map(page => interpretTransaction(page.items, address)),
       }),
       getNextPageParam: lastPage => {
         if (!lastPage.pagination.has_more) return;
@@ -120,41 +122,40 @@ export const useTransferHistory = <TToken extends Token>(token: TToken) => {
   const { address, networkId } = useWeb3Context();
   const contractAddress = token.getAddress(networkId);
 
-  return useInfiniteQuery<CovalentResponse<CovalentTransfer[]>, Error, Transaction>(
+  return useInfiniteQuery<CovalentResponse<CovalentTransfer[]>, Error, Transaction[]>(
     transferHistoryQueryKey({ address, networkId, contractAddress }),
-    ({ pageParam = 0 }) =>
-      covalent.transfers.listAll({
+    async ({ pageParam = 0 }) => {
+      return covalent.transfers.listAll({
         address,
         networkId,
         pageSize: 300,
         contractAddress,
         pageNumber: pageParam,
-      }),
+      });
+    },
     {
       enabled: !!address && !!networkId && !!contractAddress,
       select: ({ pages, pageParams }) => ({
         pageParams,
-        pages: pages
-          .map(page =>
-            page.items.map(transaction => {
-              const [transfer] = transaction.transfers || [];
-              assert(transfer, "There should always be atleast 1 transfer");
+        pages: pages.map(page =>
+          page.items.map(transaction => {
+            const [transfer] = transaction.transfers || [];
+            assert(transfer, "There should always be atleast 1 transfer");
 
-              const _transaction: Transaction = {
-                token,
-                transaction,
-                type: "transfer",
-                details:
-                  transfer.transfer_type === "OUT"
-                    ? `Transfer to ${shorten(transfer.to_address)}`
-                    : `Deposit from ${shorten(transfer.to_address)}`,
-                value: new DecimalBigNumber(BigNumber.from(transfer.delta), token.decimals),
-              };
+            const _transaction: Transaction = {
+              token,
+              transaction,
+              type: "transfer",
+              details:
+                transfer.transfer_type === "OUT"
+                  ? `Transfer to ${shorten(transfer.to_address)}`
+                  : `Deposit from ${shorten(transfer.to_address)}`,
+              value: new DecimalBigNumber(BigNumber.from(transfer.delta), token.decimals),
+            };
 
-              return _transaction;
-            }),
-          )
-          .flat(),
+            return _transaction;
+          }),
+        ),
       }),
       getNextPageParam: lastPage => {
         if (!lastPage.pagination.has_more) return;
