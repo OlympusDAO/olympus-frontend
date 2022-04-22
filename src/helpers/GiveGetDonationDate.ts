@@ -1,6 +1,6 @@
 import { BigNumber, ethers } from "ethers";
+import { GIVE_ADDRESSES } from "src/constants/addresses";
 
-import { addresses } from "../constants";
 import { IBaseAddressRecipientAsyncThunk } from "../slices/interfaces";
 
 /**
@@ -18,7 +18,7 @@ export const GetFirstDonationDate = async ({
   networkID,
   provider,
 }: IBaseAddressRecipientAsyncThunk) => {
-  if (!addresses[networkID] || !addresses[networkID].GIVING_ADDRESS) {
+  if (!GIVE_ADDRESSES[networkID as keyof typeof GIVE_ADDRESSES]) {
     console.log("No giving contract on chain ID " + networkID);
     return "";
   }
@@ -31,7 +31,7 @@ export const GetFirstDonationDate = async ({
   // Creates an event filter to look at all events from the first block ever to the current block
   // and identify events that match the Deposited hash with our user and recipient
   const filter = {
-    address: addresses[networkID].GIVING_ADDRESS,
+    address: GIVE_ADDRESSES[networkID as keyof typeof GIVE_ADDRESSES],
     fromBlock: 1,
     toBlock: "latest",
     topics: [ethers.utils.id("Deposited(address,address,uint256)"), zeroPadAddress, zeroPadRecipientAddress], // hash identifying Deposited event

@@ -360,11 +360,6 @@ export const dark = responsiveFontSizes(
             },
           },
         },
-        MuiLinearProgress: {
-          barColorPrimary: {
-            backgroundColor: darkTheme.gold,
-          },
-        },
       },
     },
     commonSettings,
