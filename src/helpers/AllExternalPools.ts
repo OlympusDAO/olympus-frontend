@@ -119,7 +119,7 @@ export const oolong_gohm_weth = new ExternalPool({
   poolName: "wETH-gOHM",
   icons: ["wETH", "gOHM"],
   stakeOn: "OolongSwap",
-  pairGecko: "governance-ohm",
+  pairGecko: "ethereum",
   rewardGecko: "oolongswap",
   href: "https://oolongswap.com/#/farm/lp",
   address: "0x547b227A77813Ea70Aacf01212B39Db7b560fa1c", //TEMP for Testing. Swap for LP
