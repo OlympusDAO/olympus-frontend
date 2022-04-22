@@ -51,6 +51,7 @@ import NotFound from "./views/404/NotFound";
 import { BondModalContainer } from "./views/Bond/components/BondModal/BondModal";
 import GrantInfo from "./views/Give/GrantInfo";
 import ProjectInfo from "./views/Give/ProjectInfo";
+import { ContractsDiagram } from "./views/Transparency/ContractsDiagram";
 import { TransparencyDashboard } from "./views/Transparency/TransparencyDashboard";
 
 // 😬 Sorry for all the console logging
@@ -434,8 +435,12 @@ function App() {
                 <Wallet open={true} component="wallet" />
               </Route>
 
-              <Route path="/transparency">
-                <TransparencyDashboard activeView={0} />
+              <Route exact path="/transparency">
+                <TransparencyDashboard />
+              </Route>
+
+              <Route exact path="/transparency/contracts">
+                <ContractsDiagram />
               </Route>
 
               <Route component={NotFound} />

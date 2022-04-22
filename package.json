@@ -86,6 +86,7 @@
     "@nomiclabs/hardhat-ethers": "^2.0.5",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@testing-library/dom": "^8.13.0",
+    "@testing-library/react-hooks": "^8.0.0",
     "@typechain/ethers-v5": "^8.0.2",
     "@types/css-mediaquery": "^0.1.1",
     "@types/dagre": "^0.7.47",

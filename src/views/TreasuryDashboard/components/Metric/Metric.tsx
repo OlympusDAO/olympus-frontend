@@ -1,6 +1,9 @@
 import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
+import { SOHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber } from "src/helpers";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { useWeb3Context } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
@@ -12,6 +15,7 @@ import {
   useTreasuryTotalBacking,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
+import { useTokenHolders } from "src/hooks/useTokenHolders";
 
 type MetricProps = PropsOf<typeof Metric>;
 type AbstractedMetricProps = Omit<MetricProps, "metric" | "label" | "tooltip" | "isLoading">;
@@ -164,6 +168,36 @@ export const TreasuryBalance: React.FC<AbstractedMetricProps> = props => {
   };
 
   if (treasuryMarketValue) _props.metric = formatCurrency(treasuryMarketValue);
+  else _props.isLoading = true;
+
+  return <Metric {..._props} />;
+};
+
+export const Holders: React.FC<AbstractedMetricProps> = props => {
+  const { networkId } = useWeb3Context();
+  const { data: sOhmHolders } = useTokenHolders(SOHM_ADDRESSES[networkId as keyof typeof SOHM_ADDRESSES]);
+
+  const _props: MetricProps = {
+    ...props,
+    label: t`Number of Holders`,
+  };
+
+  if (sOhmHolders) _props.metric = formatNumber(sOhmHolders, 0);
+  else _props.isLoading = true;
+
+  return <Metric {..._props} />;
+};
+
+export const MonthlyIncome: React.FC<AbstractedMetricProps> = props => {
+  // TODO fetch data
+  const monthlyIncome = new DecimalBigNumber("5500980");
+
+  const _props: MetricProps = {
+    ...props,
+    label: t`Monthly Income`,
+  };
+
+  if (monthlyIncome) _props.metric = `$${monthlyIncome.toString({ format: true, decimals: 0 })}`;
   else _props.isLoading = true;
 
   return <Metric {..._props} />;
