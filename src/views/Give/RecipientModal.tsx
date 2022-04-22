@@ -157,13 +157,15 @@ export function RecipientModal({
 
     if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
+      setIsDepositAmountValidError(`${`${t`You must have a balance of `} ${giveAssetType} ${t` to continue`}`}`);
     }
 
     if (valueNumber.gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        t`Value cannot be more than your ${giveAssetType} balance of ${getBalance().toString(EXACT_FORMAT)}`,
+        `${`${t`Value cannot be more than your `} ${giveAssetType} ${t` balance of `} ${getBalance().toString(
+          EXACT_FORMAT,
+        )}`}`,
       );
       return;
     }
@@ -354,10 +356,9 @@ export function RecipientModal({
             spenderAddressMap={GIVE_ADDRESSES}
             message={
               <>
-                <Trans>
-                  Is this your first time donating <b>{giveAssetType}</b>? Please approve Olympus DAO to use your{" "}
-                  <b>{giveAssetType}</b> for donating.
-                </Trans>
+                <Trans>Is this your first time donating</Trans> <b>{giveAssetType}</b>?{" "}
+                <Trans>Please approve Olympus DAO to use your </Trans>
+                <b>{giveAssetType}</b> <Trans> for donating.</Trans>
               </>
             }
           >
@@ -365,18 +366,16 @@ export function RecipientModal({
             <Grid container justifyContent="space-between" spacing={2}>
               <Grid item xs={6}>
                 <Typography variant="body1" color="textSecondary">
-                  <Trans>{giveAssetType} Deposit</Trans>
+                  {giveAssetType} <Trans>Deposit</Trans>
                   <InfoTooltip
-                    message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                    message={`${t`Your `} ${giveAssetType} ${t`will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}`}
                     children={null}
                   />
                 </Typography>
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="body1" color="textSecondary" align="right">
-                  <Trans>
-                    Balance: {getBalance().toString(EXACT_FORMAT)} {giveAssetType}
-                  </Trans>
+                  <Trans>Balance:</Trans> {getBalance().toString(EXACT_FORMAT)} {giveAssetType}
                 </Typography>
               </Grid>
             </Grid>
@@ -493,9 +492,9 @@ export function RecipientModal({
               <Grid item container xs={12} sm={4} alignItems="center">
                 <Grid xs={12}>
                   <Typography variant="body1" className="grey-text">
-                    <Trans>{giveAssetType} Deposit</Trans>
+                    {giveAssetType} <Trans>Deposit</Trans>
                     <InfoTooltip
-                      message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                      message={`${t`Your `} ${giveAssetType} ${t`will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}`}
                       children={null}
                     />
                   </Typography>
@@ -545,7 +544,7 @@ export function RecipientModal({
                 <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
                   {/* We display the exact amount being deposited. */}
                   {isMutationLoading
-                    ? t`Depositing ${giveAssetType}`
+                    ? `${`${t`Depositing `} ${giveAssetType}`}`
                     : `${t`Confirm `} ${getDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`}
                 </PrimaryButton>
               </Grid>
