@@ -375,7 +375,7 @@ export function RecipientModal({
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="body1" color="textSecondary" align="right">
-                  <Trans>Balance: {getBalance().toString(EXACT_FORMAT)}</Trans> {giveAssetType}
+                  <Trans>Balance:</Trans> {getBalance().toString(EXACT_FORMAT)} {giveAssetType}
                 </Typography>
               </Grid>
             </Grid>
