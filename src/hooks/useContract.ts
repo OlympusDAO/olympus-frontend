@@ -15,6 +15,7 @@ import { useMemo } from "react";
 import { abi as BALANCERV2_POOL_ABI } from "src/abi/BalancerV2Pool.json";
 import { abi as BALANCER_VAULT_ABI } from "src/abi/BalancerVault.json";
 import { abi as BEETHOVEN_CHEF_ABI } from "src/abi/BeethovenChef.json";
+import { abi as BOBA_CHEF_ABI } from "src/abi/BobaChef.json";
 import { abi as BOND_ABI } from "src/abi/BondDepository.json";
 import { abi as CROSS_CHAIN_MIGRATOR_ABI } from "src/abi/CrossChainMigrator.json";
 import { abi as FUSE_PROXY_ABI } from "src/abi/FuseProxy.json";
@@ -37,6 +38,7 @@ import { AddressMap } from "src/constants/addresses";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
 import {
+  BobaChef,
   BondDepository,
   CrossChainMigrator,
   FuseProxy,
@@ -141,6 +143,7 @@ export const useStaticZipRewarderContract = createStaticContract<ZipRewarder>(ZI
 export const useStaticZipSecondaryRewardercontract =
   createStaticContract<ZipSecondaryRewarder>(ZIP_SECONDARY_REWARDER_ABI);
 export const useStaticJonesContract = createStaticContract<Jones>(JONES_ABI);
+export const useStaticBobaChefContract = createStaticContract<BobaChef>(BOBA_CHEF_ABI);
 
 // Dynamic contracts
 export const useDynamicTokenContract = createDynamicContract<IERC20>(IERC20_ABI);
