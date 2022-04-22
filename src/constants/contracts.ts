@@ -6,9 +6,9 @@ import {
   FuseProxy__factory,
   OlympusProV2__factory,
   OlympusStakingv2__factory,
+  PrizePool__factory,
   Zap__factory,
 } from "src/typechain";
-import { PrizePoolAbi2__factory } from "src/typechain/factories/PrizePoolAbi2__factory";
 
 import {
   BOND_DEPOSITORY_ADDRESSES,
@@ -54,7 +54,7 @@ export const MIGRATOR_CONTRACT = new Contract({
 });
 
 export const PT_PRIZE_POOL_CONTRACT = new Contract({
-  factory: PrizePoolAbi2__factory,
+  factory: PrizePool__factory,
   name: "PoolTogether Prize Pool Contract",
   addresses: PT_PRIZE_POOL_ADDRESSES,
 });
