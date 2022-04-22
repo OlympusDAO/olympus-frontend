@@ -8,6 +8,7 @@ import GrantCard, { GrantDetailsMode } from "src/components/GiveProject/GrantCar
 import { Grant } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useAppDispatch } from "src/hooks";
+import { ChangeAssetType } from "src/slices/interfaces";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
@@ -15,7 +16,14 @@ import { error } from "../../slices/MessagesSlice";
 import data from "./grants.json";
 import { useGive } from "./hooks/useGive";
 
-export default function GrantsDashboard() {
+type GrantsDashboardProps = {
+  giveAssetType: string;
+  changeAssetType: ChangeAssetType;
+};
+
+const ZERO_NUMBER = new DecimalBigNumber("0");
+
+export default function GrantsDashboard({ giveAssetType, changeAssetType }: GrantsDashboardProps) {
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const grants: Grant[] = data.grants;
 
@@ -39,7 +47,15 @@ export default function GrantsDashboard() {
       if (grant.disabled) return <></>;
 
       activeGrants++;
-      return <GrantCard key={seed(grant.title)} grant={grant} mode={GrantDetailsMode.Card} />;
+      return (
+        <GrantCard
+          key={seed(grant.title)}
+          grant={grant}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeAssetType}
+          mode={GrantDetailsMode.Card}
+        />
+      );
     });
 
     if (activeGrants > 0) return grantElements;
@@ -60,8 +76,7 @@ export default function GrantsDashboard() {
       return dispatch(error(t`Please enter a value!`));
     }
 
-    const amount = depositAmount.toString();
-    await giveMutation.mutate({ amount: amount, recipient: walletAddress });
+    await giveMutation.mutate({ amount: depositAmount.toString(), recipient: walletAddress, token: giveAssetType });
   };
 
   const handleCustomGiveModalCancel: CancelCallback = () => {
@@ -95,6 +110,8 @@ export default function GrantsDashboard() {
           eventSource="Custom Recipient Button"
           callbackFunc={handleCustomGiveModalSubmit}
           cancelFunc={handleCustomGiveModalCancel}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeAssetType}
         />
       </Container>
     </Zoom>

@@ -7,17 +7,20 @@ import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
-import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project } from "src/components/GiveProject/project.type";
 import { GiveTokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { NetworkId } from "src/constants";
-import { GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
+import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useSohmBalance } from "src/hooks/useBalance";
+import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { ChangeAssetType } from "src/slices/interfaces";
+import { GIVE_MAX_DECIMALS } from "src/views/Give/constants";
 
 import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
+import { GohmToggle } from "./GohmToggle";
+import { checkDecimalLength } from "./helpers/checkDecimalLength";
 import { CancelCallback, SubmitCallback } from "./Interfaces";
 
 type RecipientModalProps = {
@@ -26,12 +29,14 @@ type RecipientModalProps = {
   eventSource: string;
   callbackFunc: SubmitCallback;
   cancelFunc: CancelCallback;
+  giveAssetType: string;
+  changeAssetType: ChangeAssetType;
   project?: Project;
 };
 
 const DECIMAL_PLACES = 2;
 const ZERO_NUMBER = new DecimalBigNumber("0");
-const EXACT_FORMAT = { format: true };
+const EXACT_FORMAT = { decimals: GIVE_MAX_DECIMALS, format: true };
 
 export function RecipientModal({
   isModalOpen,
@@ -39,11 +44,13 @@ export function RecipientModal({
   eventSource,
   callbackFunc,
   cancelFunc,
+  giveAssetType,
+  changeAssetType,
   project,
 }: RecipientModalProps) {
   const { address, networkId } = useWeb3Context();
 
-  const _initialDepositAmount = "0";
+  const _initialDepositAmount = "";
   const _initialWalletAddress = "";
   const _initialDepositAmountValid = false;
   const _initialDepositAmountValidError = "";
@@ -51,12 +58,20 @@ export function RecipientModal({
   const _initialWalletAddressValidError = "";
   const _initialIsAmountSet = false;
 
+  const getInitialDepositAmount = () => {
+    return _initialDepositAmount;
+  };
+
   /**
    * depositAmount is kept as a string, to avoid unnecessary application of number rules while being edited
    */
   const [depositAmount, setDepositAmount] = useState(_initialDepositAmount);
   const [isDepositAmountValid, setIsDepositAmountValid] = useState(_initialDepositAmountValid);
   const [isDepositAmountValidError, setIsDepositAmountValidError] = useState(_initialDepositAmountValidError);
+
+  const getInitialWalletAddress = () => {
+    return _initialWalletAddress;
+  };
 
   const [walletAddress, setWalletAddress] = useState(_initialWalletAddress);
   const [isWalletAddressValid, setIsWalletAddressValid] = useState(_initialWalletAddressValid);
@@ -66,6 +81,10 @@ export function RecipientModal({
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const themedArrow =
+    theme.palette.type === "dark" && theme.colors.primary[300]
+      ? theme.colors.primary[300]
+      : theme.palette.text.secondary;
 
   useEffect(() => {
     checkIsDepositAmountValid(getDepositAmount().toString());
@@ -75,8 +94,8 @@ export function RecipientModal({
   useEffect(() => {
     // When we close the modal, we ensure that the state is also reset to default
     if (!isModalOpen) {
-      handleSetDepositAmount(_initialDepositAmount);
-      handleSetWallet(_initialWalletAddress);
+      handleSetDepositAmount(getInitialDepositAmount().toString());
+      handleSetWallet(getInitialWalletAddress());
       setIsAmountSet(_initialIsAmountSet);
     }
   }, [isModalOpen]);
@@ -88,7 +107,20 @@ export function RecipientModal({
 
     return _useSohmBalance.data;
   }, [_useSohmBalance]);
-  const isBalanceLoading = _useSohmBalance.isLoading;
+
+  const _useGohmBalance =
+    useGohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+  const gohmBalance: DecimalBigNumber = useMemo(() => {
+    if (_useGohmBalance.isLoading || _useGohmBalance.data === undefined) return new DecimalBigNumber("0");
+
+    return _useGohmBalance.data;
+  }, [_useGohmBalance]);
+
+  const isBalanceLoading = _useSohmBalance.isLoading || _useGohmBalance.isLoading;
+
+  const getBalance = (): DecimalBigNumber => {
+    return giveAssetType === "sOHM" ? sohmBalance : gohmBalance;
+  };
 
   /**
    * Returns the maximum deposit that can be directed to the recipient.
@@ -98,39 +130,42 @@ export function RecipientModal({
    * @returns DecimalBigNumber
    */
   const getMaximumDepositAmount = (): DecimalBigNumber => {
-    return sohmBalance;
+    return getBalance();
   };
 
   const handleSetDepositAmount = (value: string) => {
+    const value_ = checkDecimalLength(value);
+
     checkIsDepositAmountValid(value);
-    setDepositAmount(value);
+    setDepositAmount(value_);
   };
 
   const checkIsDepositAmountValid = (value: string) => {
-    const valueNumber = new DecimalBigNumber(value);
-    const zeroNumber = ZERO_NUMBER;
+    const valueNumber = new DecimalBigNumber(value, giveAssetType === "sOHM" ? 9 : 18);
 
-    if (!value || value == "" || valueNumber.eq(zeroNumber)) {
+    if (!value || value == "" || valueNumber.eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Please enter a value`);
       return;
     }
 
-    if (valueNumber.lt(zeroNumber)) {
+    if (valueNumber.lt(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(t`Value must be positive`);
       return;
     }
 
-    if (sohmBalance.eq(zeroNumber)) {
+    if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`You must have a balance of sOHM (staked OHM) to continue`);
+      setIsDepositAmountValidError(`${`${t`You must have a balance of `} ${giveAssetType} ${t` to continue`}`}`);
     }
 
-    if (valueNumber.gt(getMaximumDepositAmount())) {
+    if (valueNumber.gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        t`Value cannot be more than your sOHM balance of ${getMaximumDepositAmount().toString(EXACT_FORMAT)}`,
+        `${`${t`Value cannot be more than your `} ${giveAssetType} ${t` balance of `} ${getBalance().toString(
+          EXACT_FORMAT,
+        )}`}`,
       );
       return;
     }
@@ -214,7 +249,7 @@ export function RecipientModal({
    * @returns DecimalBigNumber instance
    */
   const getRetainedAmountDiff = (): DecimalBigNumber => {
-    return sohmBalance.sub(getDepositAmount());
+    return getBalance().sub(getDepositAmount());
   };
 
   /**
@@ -264,9 +299,7 @@ export function RecipientModal({
    * Calls the submission callback function that is provided to the component.
    */
   const handleSubmit = () => {
-    const depositAmountBig = new DecimalBigNumber(depositAmount);
-
-    callbackFunc(getWalletAddress(), eventSource, depositAmountBig, getDepositAmount());
+    callbackFunc(getWalletAddress(), eventSource, getDepositAmount());
   };
 
   const getRecipientInputField = () => {
@@ -314,55 +347,63 @@ export function RecipientModal({
     if (isBalanceLoading) return <Skeleton />;
 
     // Let the user enter the amount, but implement allowance guard
+    // Otherwise we let the user enter the amount
     return (
       <>
         <Grid container alignItems="center" spacing={2}>
           <GiveTokenAllowanceGuard
-            tokenAddressMap={SOHM_ADDRESSES}
+            tokenAddressMap={giveAssetType === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES}
             spenderAddressMap={GIVE_ADDRESSES}
             message={
               <>
-                <Trans>Is this your first time donating</Trans> <b>sOHM</b>?{" "}
-                <Trans>Please approve Olympus DAO to use your</Trans> <b>sOHM</b> <Trans>for donating</Trans>.
+                <Trans>Is this your first time donating</Trans> <b>{giveAssetType}</b>?{" "}
+                <Trans>Please approve Olympus DAO to use your </Trans>
+                <b>{giveAssetType}</b> <Trans> for donating.</Trans>
               </>
             }
           >
-            <Grid item xs={12}>
-              <Typography variant="body1">
-                <Trans>sOHM Allocation</Trans>
-                <InfoTooltip
-                  message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
-                  children={null}
-                />
-              </Typography>
+            <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
+            <Grid container justifyContent="space-between" spacing={2}>
+              <Grid item xs={6}>
+                <Typography variant="body1" color="textSecondary">
+                  {giveAssetType} <Trans>Deposit</Trans>
+                  <InfoTooltip
+                    message={`${t`Your `} ${giveAssetType} ${t`will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}`}
+                    children={null}
+                  />
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="body1" color="textSecondary" align="right">
+                  <Trans>Balance:</Trans> {getBalance().toString(EXACT_FORMAT)} {giveAssetType}
+                </Typography>
+              </Grid>
             </Grid>
             <Grid item xs={12}>
               <Input
                 id="amount-input"
+                inputProps={{ "data-testid": "amount-input" }}
                 placeholder={t`Enter an amount`}
                 type="number"
                 // We used to use BigNumber/DecimalBigNumber here, but it behaves
                 // weirdly and would refuse to recognise some numbers, e.g. 100
                 // Better to keep it simple
                 value={depositAmount}
-                helperText={
-                  isDepositAmountValid
-                    ? `${t`Your current Staked Balance is`} ${sohmBalance.toString(EXACT_FORMAT)} sOHM`
-                    : isDepositAmountValidError
-                }
+                helperText={isDepositAmountValid ? "" : isDepositAmountValidError}
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onChange={(e: any) => handleSetDepositAmount(e.target.value)}
                 error={!isDepositAmountValid}
-                startAdornment="sOHM"
+                startAdornment={giveAssetType === "sOHM" ? "sOHM" : giveAssetType === "gOHM" ? "gOHM" : "placeholder"}
                 endString={t`Max`}
+                // This uses toString() as it is a specific value and not formatted
                 endStringOnClick={() => handleSetDepositAmount(getMaximumDepositAmount().toString())}
               />
             </Grid>
-            <Grid item xs={12}>
-              <Typography variant="body1">
-                <Trans>Recipient</Trans>
+            <Grid item xs={12} style={{ paddingBottom: "0px" }}>
+              <Typography variant="body2" className="subtext">
+                <Trans>Recipient Address</Trans>
                 <InfoTooltip
-                  message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
+                  message={t`The rebase rewards from the sOHM that you deposit will be redirected to the wallet address that you specify`}
                   children={null}
                 />
               </Typography>
@@ -385,21 +426,29 @@ export function RecipientModal({
                         format: true,
                       })}
                       isQuantityExact={false}
+                      asset={giveAssetType}
                     />
                   </Grid>
                   <Grid item xs={1}>
-                    <ArrowGraphic />
+                    <ArrowGraphic fill={themedArrow} />
                   </Grid>
                   <Grid item xs={3}>
                     {/* This is deliberately a specific value */}
-                    <CompactVault quantity={getDepositAmount().toString(EXACT_FORMAT)} isQuantityExact={true} />
+                    <CompactVault
+                      quantity={getDepositAmount().toString(EXACT_FORMAT)}
+                      isQuantityExact={true}
+                      asset={giveAssetType}
+                    />
                   </Grid>
                   <Grid item xs={1}>
-                    <ArrowGraphic />
+                    <ArrowGraphic fill={themedArrow} />
                   </Grid>
                   <Grid item xs={3}>
-                    {/* This is deliberately a specific value */}
-                    <CompactYield quantity={getDepositAmount().toString(EXACT_FORMAT)} isQuantityExact={true} />
+                    <CompactYield
+                      quantity={getDepositAmount().toString(EXACT_FORMAT)}
+                      isQuantityExact={true}
+                      asset={giveAssetType}
+                    />
                   </Grid>
                 </Grid>
               </Grid>
@@ -439,56 +488,54 @@ export function RecipientModal({
       <>
         <Grid container spacing={4}>
           <Grid item xs={12}>
-            <Box>
-              <Grid container spacing={2} alignItems="center">
-                <Grid item container xs={12} sm={4}>
-                  <Grid xs={12}>
-                    <Typography variant="body1" className="modal-confirmation-title">
-                      <Trans>sOHM deposit</Trans>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item container xs={12} sm={4} alignItems="center">
+                <Grid xs={12}>
+                  <Typography variant="body1" className="grey-text">
+                    {giveAssetType} <Trans>Deposit</Trans>
+                    <InfoTooltip
+                      message={`${t`Your `} ${giveAssetType} ${t`will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}`}
+                      children={null}
+                    />
+                  </Typography>
+                </Grid>
+                <Grid xs={12}>
+                  <Typography variant="h6">
+                    {/* As this is the amount being deposited, the user needs to see the exact amount. */}
+                    <strong>{getDepositAmount().toString(EXACT_FORMAT)}</strong>
+                  </Typography>
+                </Grid>
+              </Grid>
+              {!isSmallScreen ? (
+                <Grid item xs={4}>
+                  <ArrowGraphic fill={themedArrow} />
+                </Grid>
+              ) : (
+                <></>
+              )}
+              <Grid item xs={12} sm={4}>
+                {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
+                      whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
+                      alignment accordingly. */}
+                <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
+                  <Grid item xs={12}>
+                    <Typography variant="body1" className="grey-text">
+                      <Trans>Recipient Address</Trans>
                       <InfoTooltip
-                        message={t`Your sOHM will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                        message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
                         children={null}
                       />
                     </Typography>
                   </Grid>
                   <Grid xs={12}>
-                    <Typography variant="h6">
-                      {/* As this is the amount being deposited, the user needs to see the exact amount. */}
-                      <strong>{getDepositAmount().toString(EXACT_FORMAT)} sOHM</strong>
+                    {/* 5px to align with the padding on the tooltip */}
+                    <Typography variant="h6" style={{ paddingRight: "5px" }}>
+                      <strong>{getRecipientTitle()}</strong>
                     </Typography>
                   </Grid>
                 </Grid>
-                {!isSmallScreen ? (
-                  <Grid item xs={4}>
-                    <ArrowGraphic />
-                  </Grid>
-                ) : (
-                  <></>
-                )}
-                <Grid item xs={12} sm={4}>
-                  {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
-                      whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
-                      alignment accordingly. */}
-                  <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
-                    <Grid item xs={12}>
-                      <Typography variant="body1" className="modal-confirmation-title">
-                        <Trans>Recipient address</Trans>
-                        <InfoTooltip
-                          message={t`The specified wallet address will receive the rebase yield from the amount that you deposit.`}
-                          children={null}
-                        />
-                      </Typography>
-                    </Grid>
-                    <Grid xs={12}>
-                      {/* 5px to align with the padding on the tooltip */}
-                      <Typography variant="h6" style={{ paddingRight: "5px" }}>
-                        <strong>{getRecipientTitle()}</strong>
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
               </Grid>
-            </Box>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             <Grid container>
@@ -497,8 +544,8 @@ export function RecipientModal({
                 <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
                   {/* We display the exact amount being deposited. */}
                   {isMutationLoading
-                    ? t`Depositing sOHM`
-                    : `${t`Confirm `} ${getDepositAmount().toString(EXACT_FORMAT)} sOHM`}
+                    ? `${`${t`Depositing `} ${giveAssetType}`}`
+                    : `${t`Confirm `} ${getDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`}
                 </PrimaryButton>
               </Grid>
               <Grid item xs />

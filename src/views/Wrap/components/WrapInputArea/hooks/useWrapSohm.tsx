@@ -24,7 +24,7 @@ export const useWrapSohm = () => {
 
       const _amount = new DecimalBigNumber(amount, 9);
 
-      if (!_amount.gt(new DecimalBigNumber("0", 9))) throw new Error(t`Please enter a number greater than 0`);
+      if (!_amount.gt("0")) throw new Error(t`Please enter a number greater than 0`);
 
       if (!balance) throw new Error(t`Please refresh your page and try again`);
 

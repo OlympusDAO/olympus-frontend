@@ -24,6 +24,7 @@ import { abi as JOECHEF_ABI } from "src/abi/JoeChef.json";
 import { abi as JOE_REWARDER_ABI } from "src/abi/JoeRewarder.json";
 import { abi as JONES_ABI } from "src/abi/Jones.json";
 import { abi as GIVE_ABI } from "src/abi/OlympusGiving.json";
+import { abi as GIVE_OLD_ABI } from "src/abi/OlympusGivingOld.json";
 import { abi as MOCK_GIVE_ABI } from "src/abi/OlympusMockGiving.json";
 import STAKING_ABI from "src/abi/OlympusStakingv2.json";
 import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
@@ -42,6 +43,7 @@ import {
   IERC20,
   Jones,
   OlympusGiving,
+  OlympusGivingOld,
   OlympusMockGiving,
   OlympusStakingv2,
   PairContract,
@@ -144,6 +146,7 @@ export const useStaticJonesContract = createStaticContract<Jones>(JONES_ABI);
 export const useDynamicTokenContract = createDynamicContract<IERC20>(IERC20_ABI);
 export const useDynamicStakingContract = createDynamicContract<OlympusStakingv2>(STAKING_ABI);
 export const useDynamicGiveContract = createDynamicContract<OlympusGiving>(GIVE_ABI);
+export const useDynamicV1GiveContract = createDynamicContract<OlympusGivingOld>(GIVE_OLD_ABI);
 export const useDynamicMigratorContract = createDynamicContract<CrossChainMigrator>(CROSS_CHAIN_MIGRATOR_ABI);
 
 // Multiple static contracts
