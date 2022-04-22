@@ -288,7 +288,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
               </Grid>
             </Grid>
             <Grid item className="subtext">
-              <Trans>{giveAssetType} Yield</Trans>
+              {giveAssetType} <Trans>Yield</Trans>
             </Grid>
           </Grid>
           <Grid item xs={2} />
@@ -307,7 +307,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                <Trans>{giveAssetType} Deposit Goal</Trans>
+                {giveAssetType} <Trans>Deposit Goal</Trans>
               </Grid>
             </Grid>
           </Grid>
@@ -357,7 +357,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                 </Grid>
               </Grid>
               <Grid item className="subtext">
-                <Trans>{giveAssetType} Deposited</Trans>
+                {giveAssetType} <Trans>Deposited</Trans>
               </Grid>
             </Grid>
           </Grid>
@@ -650,7 +650,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            <Trans>{giveAssetType} Deposited</Trans>
+                            {giveAssetType} <Trans>Deposited</Trans>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -667,7 +667,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            <Trans>{giveAssetType} Yield Sent</Trans>
+                            {giveAssetType} <Trans>Yield Sent</Trans>
                           </Grid>
                         </Grid>
                       </Grid>

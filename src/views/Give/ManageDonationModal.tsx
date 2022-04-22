@@ -286,15 +286,15 @@ export function ManageDonationModal({
 
     if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
+      setIsDepositAmountValidError(`${`${t`You must have a balance of `} ${giveAssetType} ${t` to continue`}`}`);
     }
 
     if (getDepositAmountDiff().gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        t`Value cannot be more than your ${giveAssetType} balance of ${getMaximumDepositAmount().toString(
+        `${`${t`Value cannot be more than your `} ${giveAssetType} ${` balance of `} ${getMaximumDepositAmount().toString(
           EXACT_FORMAT,
-        )}`,
+        )}`}`,
       );
       return;
     }
@@ -433,7 +433,7 @@ export function ManageDonationModal({
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? "Goal" : `${giveAssetType} Goal`}
+              {isSmallScreen ? t`Goal` : `${giveAssetType} ${t` Goal`}`}
             </Typography>
           </Box>
         </Grid>
@@ -443,7 +443,7 @@ export function ManageDonationModal({
               {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? `Total ${giveAssetType}` : `Total ${giveAssetType} Donated`}
+              {isSmallScreen ? `${t`Total `} ${giveAssetType}` : `${t`Total `} ${giveAssetType} ${t` Donated`}`}
             </Typography>
           </Box>
         </Grid>
@@ -458,7 +458,7 @@ export function ManageDonationModal({
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? "of Goal" : `of ${giveAssetType} Goal`}
+              {isSmallScreen ? t`of Goal` : `${t`of `} ${giveAssetType} ${t` Goal`}`}
             </Typography>
           </Box>
         </Grid>
@@ -580,9 +580,9 @@ export function ManageDonationModal({
             <Grid container spacing={1}>
               <Grid item xs={12}>
                 <Typography variant="body1" color="textSecondary">
-                  <Trans>New {giveAssetType} Amount</Trans>
+                  <Trans>New</Trans> {giveAssetType} <Trans>Amount</Trans>
                   <InfoTooltip
-                    message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
+                    message={`${t`Your `} ${giveAssetType} ${t` will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}`}
                     children={null}
                   />
                 </Typography>
@@ -596,7 +596,9 @@ export function ManageDonationModal({
                   value={depositAmount}
                   helperText={
                     isDepositAmountValid
-                      ? t`Your current deposit is ${getCurrentDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`
+                      ? `${`${t`Your current deposit is `} ${getCurrentDepositAmount().toString(
+                          EXACT_FORMAT,
+                        )} ${giveAssetType}`}`
                       : isDepositAmountValidError
                   }
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -632,7 +634,7 @@ export function ManageDonationModal({
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={12} sm={4}>
             <Typography variant="body1" className="modal-confirmation-title">
-              <Trans>Current {giveAssetType} deposit</Trans>
+              <Trans>Current</Trans> {giveAssetType} <Trans>deposit</Trans>
             </Typography>
             <Typography variant="h6">
               {getCurrentDepositAmount().toString(EXACT_FORMAT)} {giveAssetType}
@@ -652,7 +654,7 @@ export function ManageDonationModal({
             <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
               <Grid item xs={12}>
                 <Typography variant="body1" className="modal-confirmation-title">
-                  <Trans>New {giveAssetType} deposit</Trans>
+                  <Trans>New</Trans> {giveAssetType} <Trans>deposit</Trans>
                 </Typography>
                 <Typography variant="h6">
                   {isWithdrawing ? 0 : getDepositAmount().toString(EXACT_FORMAT)} {giveAssetType}
@@ -688,7 +690,7 @@ export function ManageDonationModal({
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
-                    {isMutationLoading ? t`Withdrawing ${giveAssetType}` : t`Withdraw`}
+                    {isMutationLoading ? `${`${t`Withdrawing `} ${giveAssetType}`}` : t`Withdraw`}
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
@@ -726,7 +728,9 @@ export function ManageDonationModal({
             <Grid item xs />
             <Grid item xs={6}>
               <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
-                {isMutationLoading ? t`Depositing ${giveAssetType}` : t`Confirm New ${giveAssetType}`}
+                {isMutationLoading
+                  ? `${`${t`Depositing `} ${giveAssetType}`}`
+                  : `${`${t`Confirm New `} ${giveAssetType}`}`}
               </PrimaryButton>
             </Grid>
             <Grid item xs />
