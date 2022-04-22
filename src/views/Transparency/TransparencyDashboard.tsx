@@ -1,10 +1,15 @@
 import { Trans } from "@lingui/macro";
-import { Container, Grid, Link, SvgIcon, Typography } from "@material-ui/core";
+import { Container, Grid, Link, SvgIcon, Typography, useTheme } from "@material-ui/core";
 import { ArrowForward } from "@material-ui/icons";
 import { Icon, Paper } from "@olympusdao/component-library";
 import { Holders, MonthlyIncome, TreasuryBalance } from "src/views/TreasuryDashboard/components/Metric/Metric";
 
 export const TransparencyDashboard: React.FC = () => {
+  const theme = useTheme();
+  const arrowUpStyle = {
+    color: theme.colors.primary[300],
+  };
+
   return (
     <Container>
       <Grid container spacing={6}>
@@ -37,7 +42,7 @@ export const TransparencyDashboard: React.FC = () => {
                   <Grid item xs={12} />
                   <Grid item xs={11} />
                   <Grid item xs={1}>
-                    <Icon color="primary" name="arrow-up" />
+                    <Icon name="arrow-up-right" style={arrowUpStyle} />
                   </Grid>
                 </Grid>
               </Paper>
@@ -51,7 +56,7 @@ export const TransparencyDashboard: React.FC = () => {
                   <Grid item xs={12} />
                   <Grid item xs={11} />
                   <Grid item xs={1}>
-                    <Icon color="primary" name="arrow-up" />
+                    <Icon name="arrow-up-right" style={arrowUpStyle} />
                   </Grid>
                 </Grid>
               </Paper>
@@ -148,28 +153,56 @@ export const TransparencyDashboard: React.FC = () => {
             <Grid item xs={3}>
               <Paper fullWidth>
                 <Link href="/dashboard/treasury" variant="h5">
-                  Treasury Dashboard
+                  <Grid container>
+                    <Grid item xs={11}>
+                      Treasury Dashboard
+                    </Grid>
+                    <Grid item xs={1}>
+                      <SvgIcon color="primary" component={ArrowForward} />
+                    </Grid>
+                  </Grid>
                 </Link>
               </Paper>
             </Grid>
             <Grid item xs={3}>
               <Paper fullWidth>
                 <Link href="/dashboard/treasury" variant="h5">
-                  Olympus Grants
+                  <Grid container>
+                    <Grid item xs={11}>
+                      Olympus Grants
+                    </Grid>
+                    <Grid item xs={1}>
+                      <SvgIcon color="primary" component={ArrowForward} />
+                    </Grid>
+                  </Grid>
                 </Link>
               </Paper>
             </Grid>
             <Grid item xs={3}>
               <Paper fullWidth>
                 <Link href="/dashboard/treasury" variant="h5">
-                  Olympus Incubator
+                  <Grid container>
+                    <Grid item xs={11}>
+                      Olympus Incubator
+                    </Grid>
+                    <Grid item xs={1}>
+                      <SvgIcon color="primary" component={ArrowForward} />
+                    </Grid>
+                  </Grid>
                 </Link>
               </Paper>
             </Grid>
             <Grid item xs={3}>
               <Paper fullWidth>
                 <Link href="/dashboard/treasury" variant="h5">
-                  Forum
+                  <Grid container>
+                    <Grid item xs={11}>
+                      Forum
+                    </Grid>
+                    <Grid item xs={1}>
+                      <SvgIcon color="primary" component={ArrowForward} />
+                    </Grid>
+                  </Grid>
                 </Link>
               </Paper>
             </Grid>
