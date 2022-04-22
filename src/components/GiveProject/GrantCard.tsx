@@ -571,7 +571,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            <Trans>{giveAssetType} Deposited</Trans>
+                            {giveAssetType} <Trans>Deposited</Trans>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -588,7 +588,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                             </Grid>
                           </Grid>
                           <Grid item className="subtext">
-                            <Trans>{giveAssetType} Yield Sent</Trans>
+                            {giveAssetType} <Trans>Yield Sent</Trans>
                           </Grid>
                         </Grid>
                       </Grid>

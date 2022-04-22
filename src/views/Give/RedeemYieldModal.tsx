@@ -71,7 +71,9 @@ export function RedeemYieldModal({
                 <Typography variant="body1" className="grey-text">
                   <Trans>Redeemable Yield</Trans>
                 </Typography>
-                <Typography variant="h6">{t`${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`}</Typography>
+                <Typography variant="h6">
+                  {redeemableBalance.toString(DECIMAL_FORMAT)} {t` sOHM`}
+                </Typography>
               </Grid>
               {!isSmallScreen ? (
                 <Grid item sm={4}>
