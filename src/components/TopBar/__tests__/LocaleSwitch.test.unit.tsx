@@ -27,25 +27,15 @@ describe("<LocaleSwitcher/>", () => {
         </I18nProvider>,
       );
     });
-    // Make sure we are on the english version of the site
-    expect(screen.getByText("Change locale")).toBeInTheDocument();
     // Click on the language menu button
     await act(async () => {
-      const menu_button = await screen.getByTestId("root")?.firstChild?.firstChild;
-      if (menu_button != null) {
-        fireEvent.click(menu_button);
-      } else {
-        throw new Error();
-      }
+      const menu_button = await screen.getByTitle("Change locale");
+      fireEvent.click(menu_button);
     });
     // Click on the French icon
     await act(async () => {
-      for (const button of await screen.getAllByRole("button")) {
-        const svg = button?.firstChild?.firstChild?.firstChild as HTMLElement;
-        if (svg != null && svg.getAttribute("id") == "flag-icon-css-fr") {
-          fireEvent.click(svg);
-        }
-      }
+      const fr_button = await screen.getByTitle("Change locale fr");
+      fireEvent.click(fr_button);
     });
     // Check that the text was translated in French
     await screen.getByText("Changer de langue");
