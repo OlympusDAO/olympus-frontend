@@ -4,6 +4,7 @@ declare module "react-step-progress-bar" {
 
   interface ProgressBarProps {
     percent: number;
+    children?: React.ReactNode;
     stepPositions?: Array<number>;
     unfilledBackground?: string;
     filledBackground?: string;

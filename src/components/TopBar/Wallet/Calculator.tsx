@@ -219,7 +219,10 @@ const Calculator: FC = () => {
               </Box>
               <Box display="flex" justifyContent="center">
                 <Typography className={classes.runway}>
-                  Runway: <span>{runway} Days</span>
+                  Runway:{" "}
+                  <span>
+                    <>{runway} Days</>
+                  </span>
                 </Typography>
               </Box>
             </>
@@ -257,7 +260,10 @@ const Calculator: FC = () => {
                 {duration} Days <span>Target date</span>
               </Typography>
               <Typography className={classes.runway}>
-                Runway: <span>{runway} Days</span>
+                Runway:{" "}
+                <span>
+                  <>{runway} Days</>
+                </span>
               </Typography>
             </Box>
             <Box ml="12px" mr="12px">

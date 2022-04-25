@@ -215,7 +215,6 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                         </Typography>
                         <InfoTooltip
                           message={t`This is the current balance of v1 assets in your wallet.`}
-                          children={undefined}
                         ></InfoTooltip>
                       </Box>
                     </Box>
@@ -228,7 +227,6 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                         </Typography>
                         <InfoTooltip
                           message={t`This is the equivalent amount of gOHM you will have in your wallet once migration is complete.`}
-                          children={undefined}
                         ></InfoTooltip>
                       </Box>
                     </Box>

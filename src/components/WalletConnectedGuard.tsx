@@ -1,9 +1,10 @@
 import { Box, Typography } from "@material-ui/core";
+import { ReactElement } from "react";
 import { useWeb3Context } from "src/hooks";
 
 import ConnectButton from "./ConnectButton/ConnectButton";
 
-export const WalletConnectedGuard: React.FC<{ message?: string }> = props => {
+export const WalletConnectedGuard: React.FC<{ message?: string; children: ReactElement }> = props => {
   const { connected } = useWeb3Context();
 
   if (!connected)

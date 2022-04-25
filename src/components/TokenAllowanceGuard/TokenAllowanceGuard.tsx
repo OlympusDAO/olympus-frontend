@@ -42,6 +42,7 @@ export const TokenAllowanceGuard: React.FC<{
   isVertical?: boolean;
   tokenAddressMap: AddressMap;
   spenderAddressMap: AddressMap;
+  children?: ReactNode;
 }> = ({ message, isVertical = false, tokenAddressMap, spenderAddressMap, children }) => {
   const approveMutation = useApproveToken(tokenAddressMap, spenderAddressMap);
   const { data: allowance } = useContractAllowance(tokenAddressMap, spenderAddressMap);
@@ -81,6 +82,7 @@ export const GiveTokenAllowanceGuard: React.FC<{
   message: ReactNode;
   tokenAddressMap: AddressMap;
   spenderAddressMap: AddressMap;
+  children?: ReactNode;
 }> = props => {
   const classes = useStyles();
   const approveMutation = useApproveToken(props.tokenAddressMap, props.spenderAddressMap);
