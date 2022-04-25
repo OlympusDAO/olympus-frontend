@@ -1,9 +1,7 @@
 import { t } from "@lingui/macro";
 import { Metric } from "@olympusdao/component-library";
-import { SOHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useWeb3Context } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import {
@@ -15,7 +13,7 @@ import {
   useTreasuryTotalBacking,
 } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
-import { useTokenHolders } from "src/hooks/useTokenHolders";
+import { useAllTokenHolders } from "src/hooks/useTokenHolders";
 
 type MetricProps = PropsOf<typeof Metric>;
 type AbstractedMetricProps = Omit<MetricProps, "metric" | "label" | "tooltip" | "isLoading">;
@@ -174,8 +172,7 @@ export const TreasuryBalance: React.FC<AbstractedMetricProps> = props => {
 };
 
 export const Holders: React.FC<AbstractedMetricProps> = props => {
-  const { networkId } = useWeb3Context();
-  const { data: sOhmHolders } = useTokenHolders(SOHM_ADDRESSES[networkId as keyof typeof SOHM_ADDRESSES]);
+  const { data: sOhmHolders } = useAllTokenHolders();
 
   const _props: MetricProps = {
     ...props,

@@ -2864,6 +2864,13 @@
     "@types/puppeteer" "*"
     jest-environment-node ">=24 <=27"
 
+"@types/jest-when@^3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@types/jest-when/-/jest-when-3.5.0.tgz#6a573cd521da131e6801f0991b4f1d4dee2ebab5"
+  integrity sha512-rNUuZ3Mn/HDzpImPXDeOtW18zqyerPoOS2aKU0zUFbirWgJ7sN7LnRv73RmbBQ/uzw28sxf/nUofxbhJ5DWB0w==
+  dependencies:
+    "@types/jest" "*"
+
 "@types/jest@*":
   version "27.4.0"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-27.4.0.tgz#037ab8b872067cae842a320841693080f9cb84ed"
