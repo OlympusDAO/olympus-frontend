@@ -4,7 +4,13 @@ import { Environment } from "../environment/Environment/Environment";
 
 const GA_API_KEY = Environment.getGoogleAnalyticsApiKey();
 
-export const trackGAEvent = (event: ReactGA.EventArgs) => {
+type Category = "App" | "OlyZaps" | "Staking" | "Olympus Give";
+
+interface TrackGAEventOptions extends ReactGA.EventArgs {
+  category: Category;
+}
+
+export const trackGAEvent = (event: TrackGAEventOptions) => {
   try {
     // Universal GA (using react-ga)
     if (GA_API_KEY && ReactGA) {
