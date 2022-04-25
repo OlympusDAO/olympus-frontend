@@ -1,3 +1,4 @@
+import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
 import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import WalletConnectProvider from "@walletconnect/web3-provider";
@@ -66,6 +67,20 @@ const initModal = new Web3Modal({
   // network: "mainnet", // optional
   cacheProvider: true, // optional
   providerOptions: {
+    walletlink: {
+      package: CoinbaseWalletSDK, // Required
+      options: {
+        appName: "Olympus DAO",
+        rpc: {
+          1: NETWORKS[1].uri(),
+          4: NETWORKS[4].uri(),
+          42161: NETWORKS[42161].uri(),
+          421611: NETWORKS[421611].uri(),
+          43113: NETWORKS[43113].uri(),
+          43114: NETWORKS[43114].uri(),
+        },
+      },
+    },
     walletconnect: {
       package: WalletConnectProvider,
       options: {
