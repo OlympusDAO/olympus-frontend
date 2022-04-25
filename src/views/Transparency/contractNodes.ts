@@ -15,61 +15,79 @@ import {
 
 export const initialNodes = (theme: Theme): Node[] => {
   const baseStyle: CSSProperties = {
-    borderRadius: "30px",
+    borderRadius: "39px",
+    lineHeight: "23px",
+    paddingTop: "20px",
+    paddingBottom: "20px",
+    paddingLeft: "30px",
+    paddingRight: "30px",
   };
-  const primaryStyle: CSSProperties = {
-    backgroundColor: theme.palette.grey[500],
-    borderColor: theme.palette.grey[500],
+  const blueStyle: CSSProperties = {
+    backgroundColor: "#798399",
+    borderColor: "#798399",
+    color: "#FAFAFB",
     ...baseStyle,
   };
-  const highlightStyle: CSSProperties = {
+  const darkStyle: CSSProperties = {
+    backgroundColor: "#1B232F",
+    borderColor: "#1B232F",
+    color: "#FAFAFB",
+    ...baseStyle,
+  };
+  // TODO fix styling of links
+  const goldStyle: CSSProperties = {
     backgroundColor: theme.colors.primary[300],
     borderColor: theme.colors.primary[300],
+    color: theme.colors.gray[700],
     ...baseStyle,
   };
 
-  return getNodes([
-    {
-      name: "Staking",
-      address: STAKING_ADDRESSES[NetworkId.MAINNET],
-      x: 50,
-      y: 200,
-      style: highlightStyle,
-    },
-    {
-      name: "Bond Depository",
-      address: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
-      x: 400,
-      y: 200,
-      style: primaryStyle,
-    },
-    {
-      name: "gOHM Token",
-      address: GOHM_ADDRESSES[NetworkId.MAINNET],
-      x: 200,
-      y: 0,
-      style: primaryStyle,
-    },
-    {
-      name: "sOHM Token",
-      address: SOHM_ADDRESSES[NetworkId.MAINNET],
-      x: 100,
-      y: 350,
-      style: primaryStyle,
-    },
-    {
-      name: "OHM Token",
-      address: OHM_ADDRESSES[NetworkId.MAINNET],
-      style: primaryStyle,
-    },
-    {
-      name: "DAO Treasury",
-      address: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
-      x: 400,
-      y: 0,
-      style: primaryStyle,
-    },
-  ]);
+  return getNodes(
+    [
+      {
+        name: "Staking",
+        address: STAKING_ADDRESSES[NetworkId.MAINNET],
+        x: 50,
+        y: 200,
+        style: goldStyle,
+      },
+      {
+        name: "Bond Depository",
+        address: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
+        x: 400,
+        y: 200,
+        style: blueStyle,
+      },
+      {
+        name: "gOHM Token",
+        address: GOHM_ADDRESSES[NetworkId.MAINNET],
+        x: 200,
+        y: 0,
+        style: darkStyle,
+      },
+      {
+        name: "sOHM Token",
+        address: SOHM_ADDRESSES[NetworkId.MAINNET],
+        x: 100,
+        y: 350,
+        style: blueStyle,
+      },
+      {
+        name: "OHM Token",
+        address: OHM_ADDRESSES[NetworkId.MAINNET],
+        style: blueStyle,
+      },
+      {
+        name: "DAO Treasury",
+        address: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
+        x: 400,
+        y: 0,
+        style: blueStyle,
+      },
+    ],
+    230,
+    110,
+  );
 };
 
 export const initialEdges = (theme: Theme): Edge[] => {

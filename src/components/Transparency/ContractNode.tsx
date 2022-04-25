@@ -16,10 +16,12 @@ export type ContractNode = {
   height?: number;
 };
 
-export const getNode = (item: ContractNode): Node => {
+export const getNode = (item: ContractNode, defaultWidth?: number, defaultHeight?: number): Node => {
   const dimensions: CSSProperties = {
     ...(item.width && { width: item.width }),
+    ...(!item.width && defaultWidth && { width: defaultWidth }),
     ...(item.height && { height: item.height }),
+    ...(!item.height && defaultHeight && { height: defaultHeight }),
   };
 
   return {
@@ -31,10 +33,10 @@ export const getNode = (item: ContractNode): Node => {
   };
 };
 
-export const getNodes = (items: ContractNode[]): Node[] => {
+export const getNodes = (items: ContractNode[], defaultWidth?: number, defaultHeight?: number): Node[] => {
   const nodesList: Node[] = [];
   items.forEach(value => {
-    nodesList.push(getNode(value));
+    nodesList.push(getNode(value, defaultWidth, defaultHeight));
   });
   return nodesList;
 };
