@@ -1,4 +1,4 @@
-import { trackGAEvent } from "src/helpers/analytics";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { getGiveProjectName } from "src/helpers/GiveProjectNameHelper";
 
 export interface IUAData {
