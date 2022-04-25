@@ -81,7 +81,7 @@ export const TransparencyDashboard: React.FC = () => {
                   <Link href="/transparency/contracts" variant="h5">
                     <Grid container>
                       <Grid item xs={7}>
-                        Treasury Contracts List
+                        Treasury Contracts
                       </Grid>
                       <Grid item xs />
                       <Grid item xs={1}>
@@ -97,21 +97,6 @@ export const TransparencyDashboard: React.FC = () => {
                     <Grid container>
                       <Grid item xs={7}>
                         Treasury Governance
-                      </Grid>
-                      <Grid item xs />
-                      <Grid item xs={1}>
-                        <SvgIcon color="primary" component={ArrowForward} />
-                      </Grid>
-                    </Grid>
-                  </Link>
-                </Paper>
-              </Grid>
-              <Grid item xs={6}>
-                <Paper fullWidth>
-                  <Link href="/transparency/dao" variant="h5">
-                    <Grid container>
-                      <Grid item xs={7}>
-                        DAO Governance
                       </Grid>
                       <Grid item xs />
                       <Grid item xs={1}>
@@ -141,7 +126,16 @@ export const TransparencyDashboard: React.FC = () => {
         </Grid>
         <Grid item xs={6}>
           <Paper fullWidth>
-            <Typography variant="h4">Audits</Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h4">Audits</Typography>
+              </Grid>
+              <Grid item xs={12} />
+              <Grid item xs={11} />
+              <Grid item xs={1}>
+                <Icon name="arrow-up-right" style={arrowUpStyle} />
+              </Grid>
+            </Grid>
           </Paper>
         </Grid>
         <Grid item xs={6} />

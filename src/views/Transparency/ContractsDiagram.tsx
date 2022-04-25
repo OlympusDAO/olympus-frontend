@@ -1,6 +1,7 @@
-import { Container, Grid, useTheme } from "@material-ui/core";
+import { Container, Grid, Typography, useTheme } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import ReactFlow from "react-flow-renderer";
+import BackButton from "src/components/BackButton";
 
 import { initialEdges, initialNodes } from "./contractNodes";
 
@@ -18,17 +19,26 @@ export const ContractsDiagram = (): JSX.Element => {
 
   return (
     <>
-      <Grid container>
-        <Grid item xs={12}>
-          {/* We wrap the ReactFlow component with a container that specifies the height,
-           * as passing the height to the Paper component does not work (since it has child
-           * components).
-           */}
-          <Container style={{ height: "80vh", width: "80vw" }}>
-            <ReactFlow fitView nodes={nodes} edges={edges} nodesDraggable={false} nodesConnectable={false} />
-          </Container>
+      <Container>
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            <BackButton />
+          </Grid>
+          <Grid item xs={10} />
+          <Grid item xs={12}>
+            <Typography variant="h2">Treasury Contracts</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            {/* We wrap the ReactFlow component with a container that specifies the height,
+             * as passing the height to the Paper component does not work (since it has child
+             * components).
+             */}
+            <Container style={{ height: "60vh", width: "60vw" }}>
+              <ReactFlow fitView nodes={nodes} edges={edges} nodesDraggable={false} nodesConnectable={false} />
+            </Container>
+          </Grid>
         </Grid>
-      </Grid>
+      </Container>
     </>
   );
 };
