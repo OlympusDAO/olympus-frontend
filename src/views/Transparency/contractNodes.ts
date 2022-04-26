@@ -17,10 +17,12 @@ const STAKING_DISTRIBUTOR = "0xeeeb97A127a342656191E0313DF33D58D06B2E05";
 const AUTHORITY = "0x1c21F8EA7e39E2BA00BC12d2968D63F4acb38b7A";
 const TREASURY_EXTENDER = "0xb32Ad041f23eAfd682F57fCe31d3eA4fd92D17af";
 
+const WIDTH = 230;
+const HEIGHT = 110;
+
 export const initialNodes = (theme: Theme): Node[] => {
   const baseStyle: CSSProperties = {
     borderRadius: "39px",
-    lineHeight: "23px",
     paddingTop: "20px",
     paddingBottom: "20px",
     paddingLeft: "30px",
@@ -46,6 +48,10 @@ export const initialNodes = (theme: Theme): Node[] => {
     ...baseStyle,
   };
 
+  const baseNodeProps = {
+    labelSpacing: 20,
+  };
+
   return getNodes(
     [
       {
@@ -55,46 +61,52 @@ export const initialNodes = (theme: Theme): Node[] => {
         x: 100,
         y: -200,
         type: "bottomTwo",
+        ...baseNodeProps,
       },
       {
         name: "OHM Token",
         address: OHM_ADDRESSES[NetworkId.MAINNET],
         style: darkStyle,
-        x: 0,
+        x: -200,
         y: 500,
         type: "output",
+        ...baseNodeProps,
       },
       {
         name: "sOHM Token",
         address: SOHM_ADDRESSES[NetworkId.MAINNET],
         style: darkStyle,
-        x: 300,
+        x: 500,
         y: 600,
         type: "output",
+        ...baseNodeProps,
       },
       {
         name: "gOHM Token",
         address: GOHM_ADDRESSES[NetworkId.MAINNET],
         style: darkStyle,
-        x: 500,
-        y: 700,
+        x: 100,
+        y: 600,
         type: "output",
+        ...baseNodeProps,
       },
       {
         name: "Staking Distributor",
         address: STAKING_DISTRIBUTOR,
         style: blueStyle,
-        x: 700,
-        y: 0,
+        x: 600,
+        y: -100,
         type: "bottomTwo",
+        ...baseNodeProps,
       },
       {
         name: "Bond Depository",
         address: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
         style: blueStyle,
         x: 400,
-        y: 75,
+        y: 50,
         type: "input",
+        ...baseNodeProps,
       },
       {
         name: "Treasury",
@@ -102,6 +114,7 @@ export const initialNodes = (theme: Theme): Node[] => {
         style: blueStyle,
         x: 1000,
         y: 200,
+        ...baseNodeProps,
       },
       {
         name: "Treasury Extender",
@@ -110,6 +123,7 @@ export const initialNodes = (theme: Theme): Node[] => {
         x: 1000,
         y: -200,
         type: "bottomThree",
+        ...baseNodeProps,
       },
       {
         name: "Authority",
@@ -117,148 +131,128 @@ export const initialNodes = (theme: Theme): Node[] => {
         x: 0,
         y: 800,
         style: blueStyle,
+        ...baseNodeProps,
       },
     ],
-    230,
-    110,
+    WIDTH,
+    HEIGHT,
   );
 };
 
 export const initialEdges = (theme: Theme): Edge[] => {
   const backgroundColor = theme.colors.gray[10];
+
+  const baseProps = {
+    animated: true,
+    type: "smartBezier",
+    labelBackgroundColor: backgroundColor,
+  };
+
   return getEdges([
     {
       source: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       target: OHM_ADDRESSES[NetworkId.MAINNET],
       label: "mint: mints new OHM",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
+      labelOffsetY: "-50px",
+      ...baseProps,
     },
     {
       source: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       target: SOHM_ADDRESSES[NetworkId.MAINNET],
       label: "changeDebt: informs about use of incurDebt",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
+      ...baseProps,
     },
     {
       source: TREASURY_EXTENDER,
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "requestFundsFromTreasury: withdraws tokens to send to allocator",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
       sourceHandle: "1",
       labelOffsetY: "-60px",
+      ...baseProps,
     },
     {
       source: TREASURY_EXTENDER,
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "returnFundsToTreasury: returns funds from allocator",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
       sourceHandle: "2",
+      ...baseProps,
     },
     {
       source: TREASURY_EXTENDER,
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "returnRewardsToTreasury: returns rewards funds from allocator",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
       sourceHandle: "3",
       labelOffsetY: "-30px",
+      ...baseProps,
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
       target: OHM_ADDRESSES[NetworkId.MAINNET],
       label: "stake: exchanges OHM for sOHM",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
       sourceHandle: "1",
       labelOffsetY: "-40px",
+      ...baseProps,
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
       target: OHM_ADDRESSES[NetworkId.MAINNET],
       label: "unstake: transfers OHM to the sender",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
       sourceHandle: "2",
+      ...baseProps,
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
       target: SOHM_ADDRESSES[NetworkId.MAINNET],
       label: "unstake: exchanges sOHM for OHM",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
+      ...baseProps,
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
       target: GOHM_ADDRESSES[NetworkId.MAINNET],
       label: "wrap: Mints gOHM from sOHM",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
+      ...baseProps,
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
       target: GOHM_ADDRESSES[NetworkId.MAINNET],
       label: "unwrap: burns gOHM for sOHM",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
       sourceHandle: "2",
       labelOffsetY: "20px",
+      ...baseProps,
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
       target: SOHM_ADDRESSES[NetworkId.MAINNET],
       label: "rebase: Triggers rebase at the end of an epoch",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
+      labelOffsetX: "20px",
+      ...baseProps,
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
       target: STAKING_DISTRIBUTOR,
       label: "rebase: Mint OHM rewards",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
+      ...baseProps,
     },
     {
       source: STAKING_DISTRIBUTOR,
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "distribute: Distributes OHM rewards to stakers",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
       sourceHandle: "1",
       labelOffsetY: "-20px",
+      ...baseProps,
     },
     {
       source: STAKING_DISTRIBUTOR,
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "retrieveBounty: Mints OHM rewards",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
       sourceHandle: "2",
+      ...baseProps,
     },
     {
       source: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "deposit: Transfers bond quote token",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
+      ...baseProps,
     },
   ]);
 };
