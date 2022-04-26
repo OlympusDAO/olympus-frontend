@@ -21,7 +21,7 @@ const Root: FC = () => {
       <ReactQueryProvider>
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
-            <BrowserRouter basename={"/#"}>
+            <BrowserRouter>
               <App />
             </BrowserRouter>
           </I18nProvider>

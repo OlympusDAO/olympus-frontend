@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { OHMTokenStackProps, WalletBalance } from "@olympusdao/component-library";
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { formatCurrency, formatNumber, trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { prettifySeconds, prettifySecondsInDays } from "src/helpers/timeUtil";
@@ -71,7 +71,7 @@ export interface OHMAssetsProps {
   path?: string;
 }
 const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const networks = useTestableNetworks();
   const { data: ohmPrice = 0 } = useOhmPrice();
   const { data: priceFeed = { usd_24h_change: -0 } } = GetTokenPrice();
@@ -192,7 +192,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       underlyingSymbol: "gOHM",
       pnl: Number(note.payout) === 0 ? 0 : formatCurrency(note.payout.toApproxNumber() * gOhmPriceChange, 2),
       ctaText: "Claim",
-      ctaOnClick: () => history.push("/bonds"),
+      ctaOnClick: () => navigate("/bonds"),
       geckoTicker: "governance-ohm",
     })) || [];
 
@@ -218,7 +218,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
           />
         </Box>
         <Box display="flex" flexDirection="row" className={classes.selector} mb="18px" mt="18px">
-          <Link exact component={NavLink} to="/wallet">
+          <Link component={NavLink} to="/wallet" end>
             <Typography>My Wallet</Typography>
           </Link>
           <Link component={NavLink} to="/wallet/history">
