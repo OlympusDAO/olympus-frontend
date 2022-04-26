@@ -22,9 +22,11 @@ export const getEdge = (item: ContractEdge): Edge => {
     ...(item.animated && { animated: item.animated }),
     labelBgPadding: [10, 4],
     labelBgBorderRadius: 4,
-    labelBgStyle: {
-      fill: item.labelBackgroundColor,
-    },
+    ...(item.labelBackgroundColor && {
+      labelBgStyle: {
+        fill: item.labelBackgroundColor,
+      },
+    }),
   };
 };
 

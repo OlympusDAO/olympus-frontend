@@ -1,5 +1,10 @@
 import { ContractEdge, getEdge, getEdges } from "../ContractEdge";
 
+const baseEdgeProps = {
+  labelBgPadding: [10, 4],
+  labelBgBorderRadius: 4,
+};
+
 describe("ContractEdge", () => {
   describe("getEdge", () => {
     it("should display a basic edge", () => {
@@ -12,6 +17,7 @@ describe("ContractEdge", () => {
         id: "0x0-0x1",
         source: "0x0",
         target: "0x1",
+        ...baseEdgeProps,
       });
     });
 
@@ -27,6 +33,7 @@ describe("ContractEdge", () => {
         source: "0x0",
         target: "0x1",
         animated: true,
+        ...baseEdgeProps,
       });
     });
     it("should display a basic edge with a specified type", () => {
@@ -41,6 +48,7 @@ describe("ContractEdge", () => {
         source: "0x0",
         target: "0x1",
         type: "step",
+        ...baseEdgeProps,
       });
     });
 
@@ -56,6 +64,7 @@ describe("ContractEdge", () => {
         source: "0x0",
         target: "0x1",
         label: "yay",
+        ...baseEdgeProps,
       });
     });
 
@@ -73,6 +82,7 @@ describe("ContractEdge", () => {
         style: {
           backgroundColor: "yellow",
         },
+        ...baseEdgeProps,
       });
     });
 
@@ -90,6 +100,7 @@ describe("ContractEdge", () => {
         style: {
           color: "yellow",
         },
+        ...baseEdgeProps,
       });
     });
   });
@@ -106,6 +117,7 @@ describe("ContractEdge", () => {
           id: "0x0-0x1",
           source: "0x0",
           target: "0x1",
+          ...baseEdgeProps,
         },
       ]);
     });
