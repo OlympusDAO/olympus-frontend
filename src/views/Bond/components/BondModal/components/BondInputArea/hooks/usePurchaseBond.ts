@@ -20,6 +20,7 @@ export const usePurchaseBond = (bond: Bond) => {
   const networks = useTestableNetworks();
   const { provider, networkId, address } = useWeb3Context();
   const balance = useBalance(bond.quoteToken.addresses)[networks.MAINNET].data;
+  let txHash: string;
 
   return useMutation<
     ContractReceipt,
@@ -89,7 +90,7 @@ export const usePurchaseBond = (bond: Bond) => {
           recipientAddress,
           referrer,
         );
-
+      txHash = transaction.hash;
       return transaction.wait();
     },
     {
@@ -98,10 +99,12 @@ export const usePurchaseBond = (bond: Bond) => {
       },
       onSuccess: async (_, { amount }) => {
         trackGAEvent({
-          category: "Bonding",
-          action: "Purchase bond",
+          category: "Bonds",
+          action: "Bond",
           label: bond.quoteToken.name,
           value: new DecimalBigNumber(amount, bond.quoteToken.decimals).toApproxNumber(),
+          dimension1: txHash ?? "unknown",
+          dimension2: address,
         });
 
         const keysToRefetch = [
