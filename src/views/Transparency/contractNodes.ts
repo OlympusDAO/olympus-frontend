@@ -40,7 +40,6 @@ export const initialNodes = (theme: Theme): Node[] => {
     color: "#FAFAFB",
     ...baseStyle,
   };
-  // TODO fix styling of links
   const goldStyle: CSSProperties = {
     backgroundColor: theme.colors.primary[300],
     borderColor: theme.colors.primary[300],
