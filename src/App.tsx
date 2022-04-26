@@ -23,7 +23,7 @@ import TopBar from "./components/TopBar/TopBar";
 import Wallet from "./components/TopBar/Wallet";
 import { NetworkId } from "./constants";
 import { shouldTriggerSafetyCheck } from "./helpers";
-import { trackGAEvent } from "./helpers/analytics";
+import { trackGAEvent } from "./helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "./helpers/DecimalBigNumber/DecimalBigNumber";
 import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
