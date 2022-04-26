@@ -3,6 +3,7 @@ import { ContractReceipt } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
@@ -43,7 +44,14 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
       onError: error => {
         dispatch(createErrorToast(error.message));
       },
-      onSuccess: async () => {
+      onSuccess: async (_, amount) => {
+        trackGAEvent({
+          category: "Staking",
+          action: "Stake token",
+          label: `Stake to ${toToken}`,
+          value: new DecimalBigNumber(amount, 9).toApproxNumber(),
+        });
+
         const keysToRefetch = [
           balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
           balanceQueryKey(address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),

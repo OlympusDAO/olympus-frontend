@@ -3,14 +3,13 @@ import { ContractReceipt } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OLD_GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
+import { IUARecipientData, trackGiveRedeemEvent } from "src/helpers/analytics/trackGiveRedeemEvent";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicV1GiveContract } from "src/hooks/useContract";
 import { recipientInfoQueryKey, redeemableBalanceQueryKey, v1RedeemableBalanceQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
-
-import { IUARecipientData, trackGiveRedeemEvent } from "../utils/googleAnalytics";
 
 /**
  * @notice Redeems all available yield

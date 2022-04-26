@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { DAO_TREASURY_ADDRESSES } from "src/constants/addresses";
 import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { useWeb3Context } from "src/hooks";
@@ -95,7 +96,14 @@ export const usePurchaseBond = (bond: Bond) => {
       onError: error => {
         dispatch(createErrorToast(error.message));
       },
-      onSuccess: async () => {
+      onSuccess: async (_, { amount }) => {
+        trackGAEvent({
+          category: "Bonding",
+          action: "Purchase bond",
+          label: bond.quoteToken.name,
+          value: new DecimalBigNumber(amount, bond.quoteToken.decimals).toApproxNumber(),
+        });
+
         const keysToRefetch = [
           bondNotesQueryKey(networks.MAINNET, address),
           balanceQueryKey(address, bond.quoteToken.addresses, networks.MAINNET),

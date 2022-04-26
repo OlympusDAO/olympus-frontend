@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { abi as gOHM } from "src/abi/gOHM.json";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
+import { IUAData, trackGiveEvent } from "src/helpers/analytics/trackGiveEvent";
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, getTypeFromAction } from "src/helpers/GiveHelpers";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey } from "src/hooks/useBalance";
@@ -13,7 +14,6 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
 import { EditGiveData } from "../Interfaces";
-import { IUAData, trackGiveEvent } from "../utils/googleAnalytics";
 
 /**
  * @notice Increases the value of an active donation
