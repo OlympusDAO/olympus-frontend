@@ -54,7 +54,7 @@ export const initialNodes = (theme: Theme): Node[] => {
         style: goldStyle,
         x: 100,
         y: -200,
-        type: "input",
+        type: "bottomMultiple",
       },
       {
         name: "OHM Token",
@@ -86,6 +86,7 @@ export const initialNodes = (theme: Theme): Node[] => {
         style: blueStyle,
         x: 700,
         y: 0,
+        type: "bottomMultiple",
       },
       {
         name: "Bond Depository",
@@ -173,6 +174,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       animated: true,
       type: "smartBezier",
       labelBackgroundColor: backgroundColor,
+      sourceHandle: "1",
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
@@ -189,6 +191,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       animated: true,
       type: "smartBezier",
       labelBackgroundColor: backgroundColor,
+      sourceHandle: "2",
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],

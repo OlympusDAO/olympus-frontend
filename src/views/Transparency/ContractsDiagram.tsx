@@ -3,6 +3,7 @@ import { SmartBezierEdge } from "@tisoap/react-flow-smart-edge";
 import { useEffect, useState } from "react";
 import ReactFlow from "react-flow-renderer";
 import BackButton from "src/components/BackButton";
+import { BottomMultipleHandleNode } from "src/components/Transparency/CustomNode";
 
 import { initialEdges, initialNodes } from "./contractNodes";
 
@@ -18,6 +19,10 @@ export const ContractsDiagram = (): JSX.Element => {
 
   const edgeTypes = {
     smartBezier: SmartBezierEdge,
+  };
+
+  const nodeTypes = {
+    bottomMultiple: BottomMultipleHandleNode,
   };
 
   // TODO fix incompatibility with Paper from component-library (but not MUI) which results in the edge paths not being positioned correctly
@@ -45,6 +50,7 @@ export const ContractsDiagram = (): JSX.Element => {
                 nodesDraggable={false}
                 nodesConnectable={false}
                 edgeTypes={edgeTypes}
+                nodeTypes={nodeTypes}
                 fitView
               />
             </Container>

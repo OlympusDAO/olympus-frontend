@@ -9,6 +9,8 @@ export type ContractEdge = {
   style?: CSSProperties;
   label?: string;
   labelBackgroundColor?: string;
+  sourceHandle?: string;
+  targetHandle?: string;
 };
 
 export const getEdge = (item: ContractEdge): Edge => {
@@ -27,6 +29,8 @@ export const getEdge = (item: ContractEdge): Edge => {
         fill: item.labelBackgroundColor,
       },
     }),
+    ...(item.sourceHandle && { sourceHandle: item.sourceHandle }),
+    ...(item.targetHandle && { targetHandle: item.targetHandle }),
   };
 };
 

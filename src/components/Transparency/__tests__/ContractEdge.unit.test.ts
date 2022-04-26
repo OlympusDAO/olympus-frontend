@@ -68,6 +68,38 @@ describe("ContractEdge", () => {
       });
     });
 
+    it("should use sourceHandle", () => {
+      const contractEdge: ContractEdge = {
+        source: "0x0",
+        target: "0x1",
+        sourceHandle: "yay",
+      };
+
+      expect(getEdge(contractEdge)).toEqual({
+        id: "0x0-0x1",
+        source: "0x0",
+        target: "0x1",
+        sourceHandle: "yay",
+        ...baseEdgeProps,
+      });
+    });
+
+    it("should use targetHandle", () => {
+      const contractEdge: ContractEdge = {
+        source: "0x0",
+        target: "0x1",
+        targetHandle: "yay",
+      };
+
+      expect(getEdge(contractEdge)).toEqual({
+        id: "0x0-0x1",
+        source: "0x0",
+        target: "0x1",
+        targetHandle: "yay",
+        ...baseEdgeProps,
+      });
+    });
+
     it("should support a specified background color style", () => {
       const contractEdge: ContractEdge = {
         source: "0x0",
