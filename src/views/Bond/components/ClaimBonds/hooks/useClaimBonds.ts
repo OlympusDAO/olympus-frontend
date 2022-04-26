@@ -16,7 +16,7 @@ export const useClaimBonds = () => {
   const client = useQueryClient();
   const networks = useTestableNetworks();
   const { address, provider, networkId } = useWeb3Context();
-
+  let txHash: string;
   return useMutation<ContractReceipt, Error, { id?: string; isPayoutGohm: boolean }>(
     async ({ id, isPayoutGohm }) => {
       if (!provider) throw new Error(t`Please connect a wallet to claim bonds`);
@@ -33,10 +33,12 @@ export const useClaimBonds = () => {
 
       if (id) {
         const transaction = await contract.redeem(address, [id], isPayoutGohm);
+        txHash = transaction.hash;
         return transaction.wait();
       }
 
       const transaction = await contract.redeemAll(address, isPayoutGohm);
+      txHash = transaction.hash;
       return transaction.wait();
     },
     {
@@ -45,8 +47,11 @@ export const useClaimBonds = () => {
       },
       onSuccess: async (_, { id }) => {
         trackGAEvent({
-          category: "Bonding",
-          action: "Claim bond",
+          category: "Bonds",
+          action: "Redeem",
+          label: id ?? "unknown",
+          dimension1: txHash ?? "unknown",
+          dimension2: address,
         });
 
         const keysToRefetch = [bondNotesQueryKey(networks.MAINNET, address)];

@@ -18,6 +18,7 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
   const networks = useTestableNetworks();
   const balance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
+  let txHash: string;
 
   return useMutation<ContractReceipt, Error, string>(
     async amount => {
@@ -38,6 +39,7 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
       const shouldRebase = toToken === "sOHM";
 
       const transaction = await contract.stake(address, _amount.toBigNumber(), shouldRebase, true);
+      txHash = transaction.hash;
       return transaction.wait();
     },
     {
@@ -47,9 +49,11 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
       onSuccess: async (_, amount) => {
         trackGAEvent({
           category: "Staking",
-          action: "Stake token",
+          action: "stake",
           label: `Stake to ${toToken}`,
           value: new DecimalBigNumber(amount, 9).toApproxNumber(),
+          dimension1: txHash ?? "unknown",
+          dimension2: address,
         });
 
         const keysToRefetch = [

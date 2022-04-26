@@ -20,6 +20,7 @@ export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
 
   const addresses = fromToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES;
   const balance = useBalance(addresses)[networks.MAINNET].data;
+  let txHash: string;
 
   return useMutation<ContractReceipt, Error, string>(
     async amount => {
@@ -40,6 +41,7 @@ export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
       const shouldRebase = fromToken === "sOHM";
 
       const transaction = await contract.unstake(address, _amount.toBigNumber(), true, shouldRebase);
+      txHash = transaction.hash;
       return transaction.wait();
     },
     {
@@ -49,9 +51,11 @@ export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
       onSuccess: async (_, amount) => {
         trackGAEvent({
           category: "Staking",
-          action: "Unstake token",
+          action: "unstake",
           label: `Unstake from ${fromToken}`,
           value: new DecimalBigNumber(amount, fromToken === "gOHM" ? 18 : 9).toApproxNumber(),
+          dimension1: txHash ?? "unknown",
+          dimension2: address,
         });
 
         const keysToRefetch = [
