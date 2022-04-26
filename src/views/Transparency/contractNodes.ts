@@ -93,7 +93,7 @@ export const initialNodes = (theme: Theme): Node[] => {
       {
         name: "Staking Distributor",
         address: STAKING_DISTRIBUTOR,
-        style: blueStyle,
+        style: goldStyle,
         x: 600,
         y: -100,
         type: "bottomTwo",
