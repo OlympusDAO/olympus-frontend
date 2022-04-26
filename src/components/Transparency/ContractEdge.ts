@@ -20,7 +20,7 @@ export const getEdge = (item: ContractEdge): Edge => {
     ...(item.style && { style: item.style }),
     ...(item.label && { label: item.label }),
     ...(item.animated && { animated: item.animated }),
-    labelBgPadding: [4, 4],
+    labelBgPadding: [10, 4],
     labelBgBorderRadius: 4,
     labelBgStyle: {
       fill: item.labelBackgroundColor,

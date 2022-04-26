@@ -33,8 +33,8 @@ export const ContractsDiagram = (): JSX.Element => {
              * as passing the height to the Paper component does not work (since it has child
              * components).
              */}
-            <Container style={{ height: "60vh", width: "60vw" }}>
-              <ReactFlow fitView nodes={nodes} edges={edges} nodesDraggable={false} nodesConnectable={false} />
+            <Container style={{ height: "60vh", width: "100vw" }}>
+              <ReactFlow nodes={nodes} edges={edges} nodesDraggable={false} nodesConnectable={false} fitView />
             </Container>
           </Grid>
         </Grid>
