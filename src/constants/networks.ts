@@ -28,6 +28,12 @@ interface IAddresses {
   [key: number]: { [key: string]: string };
 }
 
+/**
+ * @deprecated
+ *
+ * Please use the `src/constants/addresses` file for defining contract addresses,
+ * then use the `src/constants/contracts` file for defining the contract for those addresses
+ */
 export const addresses: IAddresses = {
   [NetworkId.TESTNET_RINKEBY]: {
     DAI_ADDRESS: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C",
