@@ -12,9 +12,12 @@
   background: #fff;
   border-color: #1a192b;
 
-  &.selected,
-  &.selected:hover {
-    box-shadow: 0 0 0 0.5px #1a192b;
+  // The theme causes links to have a different colour
+  // This causes the links to inherit what is passed to the node
+  a:hover,
+  a:link,
+  a:visited {
+    color: inherit;
   }
 
   .react-flow__handle {
