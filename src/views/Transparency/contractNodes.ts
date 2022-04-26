@@ -141,6 +141,8 @@ export const initialNodes = (theme: Theme): Node[] => {
 
 export const initialEdges = (theme: Theme): Edge[] => {
   const backgroundColor = theme.colors.gray[10];
+  const secondaryColor = "#EAD8B8";
+  const tertiaryColor = "#94B9A1";
 
   const baseProps = {
     animated: true,
@@ -176,6 +178,10 @@ export const initialEdges = (theme: Theme): Edge[] => {
       label: "returnFundsToTreasury: returns funds from allocator",
       sourceHandle: "2",
       ...baseProps,
+      style: {
+        stroke: secondaryColor,
+      },
+      labelBackgroundColor: secondaryColor,
     },
     {
       source: TREASURY_EXTENDER,
@@ -184,6 +190,10 @@ export const initialEdges = (theme: Theme): Edge[] => {
       sourceHandle: "3",
       labelOffsetY: "-30px",
       ...baseProps,
+      style: {
+        stroke: tertiaryColor,
+      },
+      labelBackgroundColor: tertiaryColor,
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
@@ -199,6 +209,10 @@ export const initialEdges = (theme: Theme): Edge[] => {
       label: "unstake: transfers OHM to the sender",
       sourceHandle: "2",
       ...baseProps,
+      style: {
+        stroke: secondaryColor,
+      },
+      labelBackgroundColor: secondaryColor,
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
@@ -217,8 +231,12 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: GOHM_ADDRESSES[NetworkId.MAINNET],
       label: "unwrap: burns gOHM for sOHM",
       sourceHandle: "2",
-      labelOffsetY: "20px",
+      labelOffsetY: "40px",
       ...baseProps,
+      style: {
+        stroke: secondaryColor,
+      },
+      labelBackgroundColor: secondaryColor,
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
@@ -247,6 +265,10 @@ export const initialEdges = (theme: Theme): Edge[] => {
       label: "retrieveBounty: Mints OHM rewards",
       sourceHandle: "2",
       ...baseProps,
+      style: {
+        stroke: secondaryColor,
+      },
+      labelBackgroundColor: secondaryColor,
     },
     {
       source: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
