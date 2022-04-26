@@ -1,25 +1,18 @@
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { formatUnits } from "@ethersproject/units";
 import axios from "axios";
-import { ethers } from "ethers";
+import { OHM_DAI_LP_TOKEN } from "src/constants/tokens";
 
-import { abi as PairContractABI } from "../abi/PairContract.json";
 import { NetworkId } from "../constants";
-import { PairContract } from "../typechain";
-import { ohm_dai } from "./AllBonds";
 import { Environment } from "./environment/Environment/Environment";
-import { Providers } from "./providers/Providers/Providers";
 
 /**
  * gets marketPrice from Ohm-DAI v2
  * @returns Number like 333.33
  */
 export async function getMarketPrice() {
-  const mainnetProvider = Providers.getStaticProvider(NetworkId.MAINNET);
-  // v2 price
-  const ohm_dai_address = ohm_dai.getAddressForReserve(NetworkId.MAINNET);
-  const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
-  const reserves = await pairContract.getReserves();
+  const contract = OHM_DAI_LP_TOKEN.getEthersContract(NetworkId.MAINNET);
+  const reserves = await contract.getReserves();
 
   return Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;
 }
