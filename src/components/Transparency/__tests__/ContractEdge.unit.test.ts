@@ -36,6 +36,7 @@ describe("ContractEdge", () => {
         ...baseEdgeProps,
       });
     });
+
     it("should display a basic edge with a specified type", () => {
       const contractEdge: ContractEdge = {
         source: "0x0",
@@ -96,6 +97,70 @@ describe("ContractEdge", () => {
         source: "0x0",
         target: "0x1",
         targetHandle: "yay",
+        ...baseEdgeProps,
+      });
+    });
+
+    it("should add x offset", () => {
+      const contractEdge: ContractEdge = {
+        source: "0x0",
+        target: "0x1",
+        labelOffsetX: "-20px",
+      };
+
+      expect(getEdge(contractEdge)).toEqual({
+        id: "0x0-0x1",
+        source: "0x0",
+        target: "0x1",
+        labelStyle: {
+          transform: "translateX(-20px)",
+        },
+        labelBgStyle: {
+          transform: "translateX(-20px)",
+        },
+        ...baseEdgeProps,
+      });
+    });
+
+    it("should add y offset", () => {
+      const contractEdge: ContractEdge = {
+        source: "0x0",
+        target: "0x1",
+        labelOffsetY: "-20px",
+      };
+
+      expect(getEdge(contractEdge)).toEqual({
+        id: "0x0-0x1",
+        source: "0x0",
+        target: "0x1",
+        labelStyle: {
+          transform: "translateY(-20px)",
+        },
+        labelBgStyle: {
+          transform: "translateY(-20px)",
+        },
+        ...baseEdgeProps,
+      });
+    });
+
+    it("should add x and y offset", () => {
+      const contractEdge: ContractEdge = {
+        source: "0x0",
+        target: "0x1",
+        labelOffsetX: "-10px",
+        labelOffsetY: "-20px",
+      };
+
+      expect(getEdge(contractEdge)).toEqual({
+        id: "0x0-0x1",
+        source: "0x0",
+        target: "0x1",
+        labelStyle: {
+          transform: "translateX(-10px) translateY(-20px)",
+        },
+        labelBgStyle: {
+          transform: "translateX(-10px) translateY(-20px)",
+        },
         ...baseEdgeProps,
       });
     });

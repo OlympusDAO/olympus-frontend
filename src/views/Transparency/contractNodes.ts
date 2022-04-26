@@ -54,7 +54,7 @@ export const initialNodes = (theme: Theme): Node[] => {
         style: goldStyle,
         x: 100,
         y: -200,
-        type: "bottomMultiple",
+        type: "bottomTwo",
       },
       {
         name: "OHM Token",
@@ -86,7 +86,7 @@ export const initialNodes = (theme: Theme): Node[] => {
         style: blueStyle,
         x: 700,
         y: 0,
-        type: "bottomMultiple",
+        type: "bottomTwo",
       },
       {
         name: "Bond Depository",
@@ -109,7 +109,7 @@ export const initialNodes = (theme: Theme): Node[] => {
         style: blueStyle,
         x: 1000,
         y: -200,
-        type: "input",
+        type: "bottomThree",
       },
       {
         name: "Authority",
@@ -150,6 +150,8 @@ export const initialEdges = (theme: Theme): Edge[] => {
       animated: true,
       type: "smartBezier",
       labelBackgroundColor: backgroundColor,
+      sourceHandle: "1",
+      labelOffsetY: "-60px",
     },
     {
       source: TREASURY_EXTENDER,
@@ -158,6 +160,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       animated: true,
       type: "smartBezier",
       labelBackgroundColor: backgroundColor,
+      sourceHandle: "2",
     },
     {
       source: TREASURY_EXTENDER,
@@ -166,6 +169,8 @@ export const initialEdges = (theme: Theme): Edge[] => {
       animated: true,
       type: "smartBezier",
       labelBackgroundColor: backgroundColor,
+      sourceHandle: "3",
+      labelOffsetY: "-30px",
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
@@ -175,14 +180,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       type: "smartBezier",
       labelBackgroundColor: backgroundColor,
       sourceHandle: "1",
-    },
-    {
-      source: STAKING_ADDRESSES[NetworkId.MAINNET],
-      target: SOHM_ADDRESSES[NetworkId.MAINNET],
-      label: "unstake: exchanges sOHM for OHM",
-      animated: true,
-      type: "smartBezier",
-      labelBackgroundColor: backgroundColor,
+      labelOffsetY: "-40px",
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
@@ -192,6 +190,14 @@ export const initialEdges = (theme: Theme): Edge[] => {
       type: "smartBezier",
       labelBackgroundColor: backgroundColor,
       sourceHandle: "2",
+    },
+    {
+      source: STAKING_ADDRESSES[NetworkId.MAINNET],
+      target: SOHM_ADDRESSES[NetworkId.MAINNET],
+      label: "unstake: exchanges sOHM for OHM",
+      animated: true,
+      type: "smartBezier",
+      labelBackgroundColor: backgroundColor,
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
@@ -208,6 +214,8 @@ export const initialEdges = (theme: Theme): Edge[] => {
       animated: true,
       type: "smartBezier",
       labelBackgroundColor: backgroundColor,
+      sourceHandle: "2",
+      labelOffsetY: "20px",
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
@@ -232,6 +240,8 @@ export const initialEdges = (theme: Theme): Edge[] => {
       animated: true,
       type: "smartBezier",
       labelBackgroundColor: backgroundColor,
+      sourceHandle: "1",
+      labelOffsetY: "-20px",
     },
     {
       source: STAKING_DISTRIBUTOR,
@@ -240,6 +250,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       animated: true,
       type: "smartBezier",
       labelBackgroundColor: backgroundColor,
+      sourceHandle: "2",
     },
     {
       source: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],

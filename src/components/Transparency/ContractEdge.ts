@@ -11,9 +11,26 @@ export type ContractEdge = {
   labelBackgroundColor?: string;
   sourceHandle?: string;
   targetHandle?: string;
+  labelOffsetX?: string;
+  labelOffsetY?: string;
 };
 
 export const getEdge = (item: ContractEdge): Edge => {
+  const labelStyle: CSSProperties = {
+    ...(item.labelOffsetX && !item.labelOffsetY && { transform: `translateX(${item.labelOffsetX})` }),
+    ...(!item.labelOffsetX && item.labelOffsetY && { transform: `translateY(${item.labelOffsetY})` }),
+    ...(item.labelOffsetX &&
+      item.labelOffsetY && { transform: `translateX(${item.labelOffsetX}) translateY(${item.labelOffsetY})` }),
+  };
+
+  const labelBgStyle: CSSProperties = {
+    ...(item.labelOffsetX && !item.labelOffsetY && { transform: `translateX(${item.labelOffsetX})` }),
+    ...(!item.labelOffsetX && item.labelOffsetY && { transform: `translateY(${item.labelOffsetY})` }),
+    ...(item.labelOffsetX &&
+      item.labelOffsetY && { transform: `translateX(${item.labelOffsetX}) translateY(${item.labelOffsetY})` }),
+    ...(item.labelBackgroundColor && { fill: item.labelBackgroundColor }),
+  };
+
   return {
     id: item.source + "-" + item.target,
     source: item.source,
@@ -24,11 +41,8 @@ export const getEdge = (item: ContractEdge): Edge => {
     ...(item.animated && { animated: item.animated }),
     labelBgPadding: [10, 4],
     labelBgBorderRadius: 4,
-    ...(item.labelBackgroundColor && {
-      labelBgStyle: {
-        fill: item.labelBackgroundColor,
-      },
-    }),
+    ...(Object.keys(labelBgStyle).length && { labelBgStyle: labelBgStyle }),
+    ...(Object.keys(labelStyle).length && { labelStyle: labelStyle }),
     ...(item.sourceHandle && { sourceHandle: item.sourceHandle }),
     ...(item.targetHandle && { targetHandle: item.targetHandle }),
   };
