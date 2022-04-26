@@ -2,7 +2,7 @@ import { Contract as EthersContract } from "@ethersproject/contracts";
 import { Provider } from "@ethersproject/providers";
 import { Signer } from "ethers";
 import { AddressMap } from "src/constants/addresses";
-import { NetworkId } from "src/networkDetails";
+import { NetworkId } from "src/constants/networks";
 
 import { Providers } from "../providers/Providers/Providers";
 

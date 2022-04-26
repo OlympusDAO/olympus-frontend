@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BigNumber, ethers } from "ethers";
-import { addresses, NetworkId } from "src/constants";
 import { GOHM_ADDRESSES, MIGRATOR_ADDRESSES } from "src/constants/addresses";
+import { addresses, NetworkId } from "src/constants/networks";
 import { IERC20, IERC20__factory } from "src/typechain";
 import { OlympusTokenMigrator__factory } from "src/typechain";
 

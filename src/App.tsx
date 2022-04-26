@@ -21,7 +21,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import StagingNotification from "./components/StagingNotification";
 import TopBar from "./components/TopBar/TopBar";
 import Wallet from "./components/TopBar/Wallet";
-import { NetworkId } from "./constants";
+import { NetworkId } from "./constants/networks";
 import { shouldTriggerSafetyCheck } from "./helpers";
 import { trackGAEvent } from "./helpers/analytics";
 import { DecimalBigNumber } from "./helpers/DecimalBigNumber/DecimalBigNumber";

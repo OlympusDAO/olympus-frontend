@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro";
 import { DataRow } from "@olympusdao/component-library";
+import { NetworkId } from "src/constants/networks";
 import { formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { nonNullable } from "src/helpers/types/nonNullable";
@@ -14,7 +15,6 @@ import {
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { NetworkId } from "src/networkDetails";
 
 export const StakeNextRebaseAmount = () => {
   const { data: rebaseRate } = useStakingRebaseRate();

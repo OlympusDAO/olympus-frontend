@@ -1,7 +1,7 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { ethers } from "ethers";
 import { abi as BondCalcContractABI } from "src/abi/BondCalcContract.json";
-import { addresses, NetworkId } from "src/constants";
+import { addresses, NetworkId } from "src/constants/networks";
 
 import { BondCalcContract } from "../typechain";
 

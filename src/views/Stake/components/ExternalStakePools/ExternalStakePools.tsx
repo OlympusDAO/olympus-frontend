@@ -3,6 +3,7 @@ import { Box, makeStyles, Table, TableCell, TableHead, TableRow, Typography, Zoo
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, OHMTokenProps, Paper, SecondaryButton, Token, TokenStack } from "@olympusdao/component-library";
+import { NetworkId } from "src/constants/networks";
 import { formatCurrency, formatNumber } from "src/helpers";
 import {
   balancerPools,
@@ -15,7 +16,6 @@ import {
 } from "src/helpers/AllExternalPools";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ExternalPool } from "src/lib/ExternalPool";
-import { NetworkId } from "src/networkDetails";
 
 import {
   BalancerPoolAPY,

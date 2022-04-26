@@ -1,10 +1,9 @@
 import { Trans } from "@lingui/macro";
 import { Button, Typography } from "@material-ui/core";
-import { NETWORKS } from "src/constants";
+import { NetworkId, NETWORKS } from "src/constants/networks";
 import { useWeb3Context } from "src/hooks";
 import { useSwitchNetwork } from "src/hooks/useSwitchNetwork";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { NetworkId } from "src/networkDetails";
 
 export const WrapSwitchNetwork = () => {
   const { mutate } = useSwitchNetwork();

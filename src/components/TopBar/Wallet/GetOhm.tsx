@@ -6,6 +6,7 @@ import { FC } from "react";
 import sushiswapImg from "src/assets/sushiswap.png";
 import uniswapImg from "src/assets/uniswap.png";
 import { OHM_ADDRESSES } from "src/constants/addresses";
+import { NetworkId } from "src/constants/networks";
 import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
 import {
   balancerPools,
@@ -22,7 +23,6 @@ import { prettifySecondsInDays } from "src/helpers/timeUtil";
 import { useWeb3Context } from "src/hooks";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { ExternalPool } from "src/lib/ExternalPool";
-import { NetworkId } from "src/networkDetails";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 import {
   BalancerPoolAPY,

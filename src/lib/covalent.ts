@@ -1,4 +1,4 @@
-import { NetworkId } from "src/constants";
+import { NetworkId } from "src/constants/networks";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import {

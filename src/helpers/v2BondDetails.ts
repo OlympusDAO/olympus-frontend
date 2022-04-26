@@ -2,7 +2,7 @@ import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import { OHM_ADDRESSES } from "src/constants/addresses";
 
-import { NetworkId } from "../networkDetails";
+import { NetworkId } from "../constants/networks";
 import {
   BalancerV2Pool,
   BalancerV2Pool__factory,

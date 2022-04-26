@@ -4,7 +4,7 @@ import { Skeleton } from "@material-ui/lab";
 import { Icon, Modal, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
-import { NetworkId } from "src/constants";
+import { NetworkId } from "src/constants/networks";
 import { Token } from "src/helpers/contracts/Token";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useTokenPrice } from "src/hooks/useTokenPrice";

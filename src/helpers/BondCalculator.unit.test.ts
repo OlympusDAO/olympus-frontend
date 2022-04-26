@@ -1,7 +1,7 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import * as fc from "fast-check";
 
-import { addresses } from "../networkDetails";
+import { addresses } from "../constants/networks";
 import { getBondCalculator } from "./BondCalculator";
 
 describe("BondCalculator", () => {

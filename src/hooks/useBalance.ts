@@ -1,5 +1,4 @@
 import { useQueries, useQuery, UseQueryResult } from "react-query";
-import { NetworkId } from "src/constants";
 import {
   AddressMap,
   FUSE_POOL_6_ADDRESSES,
@@ -13,6 +12,7 @@ import {
   V1_SOHM_ADDRESSES,
   WSOHM_ADDRESSES,
 } from "src/constants/addresses";
+import { NetworkId } from "src/constants/networks";
 import { isTestnet } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";

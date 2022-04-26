@@ -1,4 +1,4 @@
-import { NetworkId } from "src/networkDetails";
+import { NetworkId } from "src/constants/networks";
 
 export const ACTION_GIVE = "give";
 export const ACTION_GIVE_EDIT = "editGive";

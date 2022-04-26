@@ -2,7 +2,7 @@ import { t } from "@lingui/macro";
 import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import { DataRow } from "@olympusdao/component-library";
-import { NetworkId } from "src/constants";
+import { NetworkId } from "src/constants/networks";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import {

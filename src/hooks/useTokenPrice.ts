@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
+import { NetworkId } from "src/constants/networks";
 import { LPToken } from "src/helpers/contracts/LPToken";
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { NetworkId } from "src/networkDetails";
 
 export interface UseTokenPriceOptions<TToken extends Token | LPToken = Token> {
   token: TToken;

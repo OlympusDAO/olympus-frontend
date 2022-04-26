@@ -1,6 +1,6 @@
 import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { BigNumber } from "ethers";
-import { NetworkId } from "src/constants";
+import { NetworkId } from "src/constants/networks";
 
 export interface IJsonRPCError {
   readonly message: string;

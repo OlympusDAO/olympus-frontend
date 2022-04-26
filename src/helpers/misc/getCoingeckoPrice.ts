@@ -1,4 +1,4 @@
-import { NetworkId } from "src/networkDetails";
+import { NetworkId } from "src/constants/networks";
 
 import { DecimalBigNumber } from "../DecimalBigNumber/DecimalBigNumber";
 

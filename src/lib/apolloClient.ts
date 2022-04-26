@@ -1,6 +1,6 @@
 import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 
-import { THE_GRAPH_URL } from "../constants";
+const THE_GRAPH_URL = "https://api.thegraph.com/subgraphs/name/drondin/olympus-protocol-metrics";
 
 const client = () =>
   new ApolloClient({

@@ -1,4 +1,4 @@
-import { NetworkId } from "src/constants";
+import { NetworkId } from "src/constants/networks";
 import { ExternalPool } from "src/lib/ExternalPool";
 
 export const tj_gohm_wavax = new ExternalPool({

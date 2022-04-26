@@ -4,9 +4,9 @@ import { Icon, OHMTokenProps, PrimaryButton, SecondaryButton, TabBar, Token } fr
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { NetworkId } from "src/constants/networks";
 import { shorten } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
-import { NetworkId } from "src/networkDetails";
 
 import Assets from "./Assets";
 import Calculator from "./Calculator";

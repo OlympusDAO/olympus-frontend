@@ -2,6 +2,7 @@ import { Box, Fade, Grid, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { DottedDataRow, Input, ProgressCircle, Slider } from "@olympusdao/component-library";
 import { FC, useEffect, useState } from "react";
+import { NetworkId } from "src/constants/networks";
 import { formatNumber, trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { nonNullable } from "src/helpers/types/nonNullable";
@@ -17,7 +18,6 @@ import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useProtocolMetrics } from "src/hooks/useProtocolMetrics";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { NetworkId } from "src/networkDetails";
 
 const useStyles = makeStyles<Theme>(theme => ({
   title: {

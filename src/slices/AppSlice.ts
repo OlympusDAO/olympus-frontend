@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
 import { SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import { addresses, NetworkId } from "src/constants/networks";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { RootState } from "src/store";
 
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import { addresses, NetworkId } from "../constants";
 import { getMarketPrice, getTokenPrice, setAll } from "../helpers";
 import apollo from "../lib/apolloClient";
 import { OlympusStaking__factory, OlympusStakingv2__factory, SOhmv2 } from "../typechain";

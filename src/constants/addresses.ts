@@ -1,4 +1,4 @@
-import { NetworkId } from "src/constants";
+import { NetworkId } from "src/constants/networks";
 
 export type AddressMap = Partial<Record<NetworkId, string>>;
 

@@ -1,8 +1,8 @@
-import arbitrum from "./assets/arbitrum.png";
-import avalanche from "./assets/tokens/AVAX.svg";
-import polygon from "./assets/tokens/matic.svg";
-import ethereum from "./assets/tokens/wETH.svg";
-import { Providers } from "./helpers/providers/Providers/Providers";
+import arbitrum from "src/assets/arbitrum.png";
+import avalanche from "src/assets/tokens/AVAX.svg";
+import polygon from "src/assets/tokens/matic.svg";
+import ethereum from "src/assets/tokens/wETH.svg";
+import { Providers } from "src/helpers/providers/Providers/Providers";
 
 export enum NetworkId {
   MAINNET = 1,

@@ -34,8 +34,8 @@ import { abi as SUSHI_REWARDER_ABI } from "src/abi/SushiRewarder.json";
 import { abi as ZIP_REWARDER_ABI } from "src/abi/ZipRewarder.json";
 import { abi as ZIP_SECONDARY_REWARDER_ABI } from "src/abi/ZipSecondaryRewarder.json";
 import { AddressMap } from "src/constants/addresses";
+import { NetworkId } from "src/constants/networks";
 import { Providers } from "src/helpers/providers/Providers/Providers";
-import { NetworkId } from "src/networkDetails";
 import {
   BondDepository,
   CrossChainMigrator,

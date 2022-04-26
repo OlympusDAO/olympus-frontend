@@ -1,3 +1,4 @@
+import { NetworkId } from "src/constants/networks";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import {
   useFuseBalance,
@@ -9,7 +10,6 @@ import {
   useWsohmBalance,
 } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import { NetworkId } from "src/networkDetails";
 import { act, render, screen } from "src/testUtils";
 
 import { StakeBalances } from "../StakeBalances";

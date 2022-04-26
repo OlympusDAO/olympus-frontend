@@ -1,7 +1,6 @@
 import { useMutation } from "react-query";
-import { NetworkId } from "src/constants";
+import { NetworkId, NETWORKS } from "src/constants/networks";
 import { idToHexString } from "src/helpers/NetworkHelper";
-import { NETWORKS } from "src/networkDetails";
 
 import { useWeb3Context } from ".";
 

@@ -7,7 +7,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { InfoTooltip, Modal, Tab, Tabs } from "@olympusdao/component-library";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { NetworkId } from "src/constants";
+import { NetworkId } from "src/constants/networks";
 import { trim } from "src/helpers";
 import { useMigrationData } from "src/helpers/Migration";
 import { useWeb3Context } from "src/hooks";

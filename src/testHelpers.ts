@@ -3,7 +3,7 @@ import { BigNumber, ethers } from "ethers";
 import { UseQueryResult } from "react-query";
 import Web3Modal from "web3modal";
 
-import { NetworkId } from "./constants";
+import { NetworkId } from "./constants/networks";
 import { DecimalBigNumber } from "./helpers/DecimalBigNumber/DecimalBigNumber";
 import { IUserRecipientInfo } from "./hooks/useGiveInfo";
 import { ZapHelperBalancesResponse } from "./hooks/useZapTokenBalances";

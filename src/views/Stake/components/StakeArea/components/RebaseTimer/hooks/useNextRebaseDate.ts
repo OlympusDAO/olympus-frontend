@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { NetworkId } from "src/constants";
 import { STAKING_ADDRESSES } from "src/constants/addresses";
+import { NetworkId } from "src/constants/networks";
 import { parseBigNumber } from "src/helpers";
 import { useStaticStakingContract } from "src/hooks/useContract";
 

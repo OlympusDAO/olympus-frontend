@@ -2,11 +2,10 @@ import { t } from "@lingui/macro";
 import { BigNumber, ContractReceipt, ethers } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
-import { NetworkId } from "src/constants";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
+import { addresses, NetworkId } from "src/constants/networks";
 import { trackGAEvent } from "src/helpers/analytics";
 import { isSupportedChain } from "src/helpers/ZapHelper";
-import { addresses } from "src/networkDetails";
 import { error, info } from "src/slices/MessagesSlice";
 
 import { SOHM_ADDRESSES } from "../constants/addresses";

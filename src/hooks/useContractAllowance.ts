@@ -1,7 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { useQuery } from "react-query";
-import { NetworkId } from "src/constants";
 import { AddressMap } from "src/constants/addresses";
+import { NetworkId } from "src/constants/networks";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
 

@@ -2,11 +2,10 @@ import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import React, { ReactElement, useCallback, useContext, useMemo, useState } from "react";
+import { NetworkId, NETWORKS } from "src/constants/networks";
 import { idFromHexString, initNetworkFunc } from "src/helpers/NetworkHelper";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import Web3Modal from "web3modal";
-
-import { NetworkId, NETWORKS } from "../constants";
 
 /**
  * determine if in IFrame for Ledger Live

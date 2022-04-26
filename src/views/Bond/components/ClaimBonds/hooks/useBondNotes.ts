@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
+import { NetworkId } from "src/constants/networks";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { getQueryData } from "src/helpers/react-query/getQueryData";
 import { useWeb3Context } from "src/hooks";

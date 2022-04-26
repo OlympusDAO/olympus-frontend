@@ -1,6 +1,6 @@
 import { History } from "history";
 import { useEffect } from "react";
-import { NetworkId, VIEWS_FOR_NETWORK } from "src/constants";
+import { NetworkId, VIEWS_FOR_NETWORK } from "src/constants/networks";
 
 /**
  * will redirect from paths that aren't active on a given network yet.

@@ -1,6 +1,6 @@
 import { QueryKey, useQuery } from "react-query";
-import { NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
+import { NetworkId } from "src/constants/networks";
 import { getQueryData } from "src/helpers/react-query/getQueryData";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 

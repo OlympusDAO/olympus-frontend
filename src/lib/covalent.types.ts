@@ -1,4 +1,4 @@
-import { NetworkId } from "src/networkDetails";
+import { NetworkId } from "src/constants/networks";
 
 export type CovalentSupportedNetwork =
   | NetworkId.MAINNET

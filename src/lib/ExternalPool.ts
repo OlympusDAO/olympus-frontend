@@ -1,5 +1,5 @@
 import { OHMTokenStackProps } from "@olympusdao/component-library";
-import { NetworkId } from "src/constants";
+import { NetworkId } from "src/constants/networks";
 
 /**
  * an External Staking Pool

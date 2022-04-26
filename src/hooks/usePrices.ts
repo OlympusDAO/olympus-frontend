@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { NetworkId } from "src/constants";
 import { OHM_DAI_RESERVE_CONTRACT_DECIMALS } from "src/constants/decimals";
+import { NetworkId } from "src/constants/networks";
 import { parseBigNumber } from "src/helpers";
 import { ohm_dai } from "src/helpers/AllBonds";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";

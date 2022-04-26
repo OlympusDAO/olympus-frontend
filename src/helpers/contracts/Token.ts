@@ -1,8 +1,8 @@
 import { OHMTokenStackProps } from "@olympusdao/component-library";
 import { AddressMap } from "src/constants/addresses";
+import { NetworkId } from "src/constants/networks";
 import { Contract, ContractConfig, Factory } from "src/helpers/contracts/Contract";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { NetworkId } from "src/networkDetails";
 
 import { getCoingeckoPrice } from "../misc/getCoingeckoPrice";
 import { assert } from "../types/assert";

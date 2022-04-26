@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
+import { NetworkId } from "src/constants/networks";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
 import { LPToken } from "src/helpers/contracts/LPToken";

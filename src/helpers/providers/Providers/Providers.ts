@@ -1,5 +1,5 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
-import { NetworkId } from "src/networkDetails";
+import { NetworkId } from "src/constants/networks";
 
 import { Environment } from "../../environment/Environment/Environment";
 

@@ -4,7 +4,7 @@ import axios from "axios";
 import { ethers } from "ethers";
 
 import { abi as PairContractABI } from "../abi/PairContract.json";
-import { NetworkId } from "../constants";
+import { NetworkId } from "../constants/networks";
 import { PairContract } from "../typechain";
 import { ohm_dai } from "./AllBonds";
 import { Environment } from "./environment/Environment/Environment";

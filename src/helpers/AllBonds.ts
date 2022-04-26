@@ -1,4 +1,4 @@
-import { NetworkId } from "src/constants";
+import { NetworkId } from "src/constants/networks";
 import { LPBond } from "src/lib/Bond";
 
 export const ohm_dai = new LPBond({
