@@ -7,7 +7,6 @@ import sushiswapImg from "src/assets/sushiswap.png";
 import uniswapImg from "src/assets/uniswap.png";
 import { OHM_ADDRESSES } from "src/constants/addresses";
 import { NetworkId } from "src/constants/networks";
-import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
 import {
   balancerPools,
   beetsPools,
@@ -16,7 +15,8 @@ import {
   spiritPools,
   sushiPools,
   zipPools,
-} from "src/helpers/AllExternalPools";
+} from "src/constants/pools";
+import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { prettifySecondsInDays } from "src/helpers/timeUtil";

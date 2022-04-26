@@ -4,7 +4,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Skeleton } from "@material-ui/lab";
 import { DataRow, OHMTokenProps, Paper, SecondaryButton, Token, TokenStack } from "@olympusdao/component-library";
 import { NetworkId } from "src/constants/networks";
-import { formatCurrency, formatNumber } from "src/helpers";
 import {
   balancerPools,
   beetsPools,
@@ -13,7 +12,8 @@ import {
   spiritPools,
   sushiPools,
   zipPools,
-} from "src/helpers/AllExternalPools";
+} from "src/constants/pools";
+import { formatCurrency, formatNumber } from "src/helpers";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ExternalPool } from "src/lib/ExternalPool";
 
