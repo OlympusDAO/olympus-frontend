@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { NetworkId } from "src/constants";
-import { OHM_DAI_RESERVE_CONTRACT_DECIMALS } from "src/constants/decimals";
+import { OHM_TOKEN } from "src/constants/tokens";
 import { parseBigNumber } from "src/helpers";
 import { ohm_dai } from "src/helpers/AllBonds";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -26,7 +26,7 @@ export const useOhmPrice = () => {
   return useQuery<number, Error>(key, async () => {
     const [ohm, dai] = await reserveContract.getReserves();
 
-    return parseBigNumber(dai.div(ohm), OHM_DAI_RESERVE_CONTRACT_DECIMALS);
+    return parseBigNumber(dai.div(ohm), OHM_TOKEN.decimals);
   });
 };
 
