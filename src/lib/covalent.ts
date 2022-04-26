@@ -1,21 +1,30 @@
 import { NetworkId } from "src/constants";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
-import { CovalentResponse, CovalentTokenBalance, CovalentTransaction } from "./covalent.types";
+import {
+  CovalentErrorResponse,
+  CovalentRequestOptions,
+  CovalentResponse,
+  CovalentSuccessResponse,
+  CovalentSupportedNetwork,
+  CovalentTransaction,
+  CovalentTransfer,
+  ListAllTransfersOptions,
+} from "./covalent.types";
 
-export class Covalent {
-  public SUPPORTED_NETWORKS = {
-    [NetworkId.FANTOM]: true,
-    [NetworkId.MAINNET]: true,
-    [NetworkId.POLYGON]: true,
-    [NetworkId.ARBITRUM]: true,
-    [NetworkId.AVALANCHE]: true,
-  };
+class Covalent {
+  private SUPPORTED_NETWORKS = [
+    NetworkId.FANTOM,
+    NetworkId.MAINNET,
+    NetworkId.POLYGON,
+    NetworkId.ARBITRUM,
+    NetworkId.AVALANCHE,
+  ];
 
   private _url = "https://api.covalenthq.com/v1";
   private _key = Buffer.from(Environment.getCovalentApiKey() + "::").toString("base64");
 
-  private async _fetch<Data = unknown>(path: string) {
+  private async _fetch<Data>(path: string) {
     const url = this._url + path;
     const options = {
       headers: {
@@ -28,38 +37,58 @@ export class Covalent {
     return this._validateResponse<Data>(response);
   }
 
-  private async _validateResponse<Data = unknown>(response: Response) {
-    const json: CovalentResponse<Data> = await response.json();
+  private async _validateResponse<Data>(response: Response) {
+    const json: CovalentErrorResponse | CovalentSuccessResponse<Data> = await response.json();
 
     if (!response.ok) throw new Error("Failed to fetch Covalent API.");
     else if (json.error) throw new Error(json.error_message);
 
-    return json.data.items;
+    return json.data;
   }
 
-  public isSupportedNetwork(networkId: NetworkId) {
-    return this.SUPPORTED_NETWORKS.hasOwnProperty(networkId);
+  private _createBaseParams<TOptions extends CovalentRequestOptions>(options: TOptions): Record<string, any> {
+    const _params = {} as Record<string, any>;
+
+    if (options.includeLogs === false) _params["no-logs"] = true;
+    if (options.pageSize !== undefined) _params["page-size"] = options.pageSize;
+    if (options.pageNumber !== undefined) _params["page-number"] = options.pageNumber;
+
+    return _params;
   }
 
-  public balances = {
-    /**
-     * Returns the balance of every token owned by an address.
-     */
-    getAllTokens: async (address: string, networkId: keyof typeof this.SUPPORTED_NETWORKS) => {
-      const url = `/${networkId}/address/${address}/balances_v2/`;
+  public isSupportedNetwork(networkId: NetworkId): networkId is CovalentSupportedNetwork {
+    return this.SUPPORTED_NETWORKS.includes(networkId);
+  }
 
-      return this._fetch<CovalentTokenBalance[]>(url);
+  public transactions = {
+    listAll: async (options: CovalentRequestOptions) => {
+      if (!this.isSupportedNetwork(options.networkId))
+        throw new Error(`Covalent doesn't support network: ${options.networkId}`);
+
+      const params = this._createBaseParams(options);
+
+      const qsp = new URLSearchParams(params).toString();
+
+      const path = `/${options.networkId}/address/${options.address}/transactions_v2/?${qsp}`;
+
+      return this._fetch<CovalentTransaction[]>(path);
     },
   };
 
-  public transactions = {
-    /**
-     * Returns all successful, failed, and pending transactions for an address
-     */
-    getAllForAddress: async (address: string, networkId: keyof typeof this.SUPPORTED_NETWORKS) => {
-      const url = `/${networkId}/address/${address}/transactions_v2/?no-logs=true`;
+  public transfers = {
+    listAll: async (options: ListAllTransfersOptions): Promise<CovalentResponse<CovalentTransfer[]>> => {
+      if (!this.isSupportedNetwork(options.networkId))
+        throw new Error(`Covalent doesn't support network: ${options.networkId}`);
 
-      return this._fetch<CovalentTransaction[]>(url);
+      const params = this._createBaseParams(options);
+
+      params["contract-address"] = options.contractAddress;
+
+      const qsp = new URLSearchParams(params).toString();
+
+      const path = `/${options.networkId}/address/${options.address}/transfers_v2/?${qsp}`;
+
+      return this._fetch<CovalentTransfer[]>(path);
     },
   };
 }

@@ -7,15 +7,18 @@ import { Skeleton } from "@material-ui/lab";
 import { TertiaryButton } from "@olympusdao/component-library";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { useDonationInfo } from "src/hooks/useGiveInfo";
+import { ChangeAssetType } from "src/slices/interfaces";
 import { IButtonChangeView } from "src/views/Give/Interfaces";
 
 import { DepositTableRow } from "./DepositRow";
 
 type RecipientModalProps = {
   changeView: IButtonChangeView;
+  giveAssetType: string;
+  changeAssetType: ChangeAssetType;
 };
 
-export default function YieldRecipients({ changeView }: RecipientModalProps) {
+export default function YieldRecipients({ changeView, giveAssetType, changeAssetType }: RecipientModalProps) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
@@ -83,7 +86,12 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
       {donationInfo.map(donation => {
         return (
           <Grid item xs={12}>
-            <DepositTableRow depositObject={donation} key={donation.recipient} />
+            <DepositTableRow
+              depositObject={donation}
+              key={donation.recipient}
+              giveAssetType={giveAssetType}
+              changeAssetType={changeAssetType}
+            />
             <Divider style={{ marginTop: "10px" }} />
           </Grid>
         );

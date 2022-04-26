@@ -8,10 +8,14 @@ import { Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
+import { useV1RedeemableBalance } from "src/hooks/useGiveInfo";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { ChangeAssetType } from "src/slices/interfaces";
 
+import { CallToRedeem } from "./CallToRedeem";
 import CausesDashboard from "./CausesDashboard";
 import { GiveInfo } from "./GiveInfo";
+import { GohmToggle } from "./GohmToggle";
 import GrantsDashboard from "./GrantsDashboard";
 import RedeemYield from "./RedeemYield";
 import YieldRecipients from "./YieldRecipients";
@@ -32,12 +36,17 @@ function a11yProps(index: number) {
  */
 type GiveProps = {
   selectedIndex?: number;
+  giveAssetType: string;
+  changeAssetType: ChangeAssetType;
 };
 
-function Give({ selectedIndex }: GiveProps) {
-  const { networkId } = useWeb3Context();
+function Give({ selectedIndex, giveAssetType, changeAssetType }: GiveProps) {
+  const { address, networkId } = useWeb3Context();
   const [zoomed, setZoomed] = useState(false);
   const [view, setView] = useState(selectedIndex || 0);
+
+  const v1RedeemableBalance = useV1RedeemableBalance(address);
+  const hasV1Assets = v1RedeemableBalance.data && v1RedeemableBalance.data != "0.0";
 
   const theme = useTheme();
   const isBreakpointXS = useMediaQuery(theme.breakpoints.down("xs"));
@@ -81,6 +90,7 @@ function Give({ selectedIndex }: GiveProps) {
               ) : (
                 <></>
               )}
+              {hasV1Assets && <CallToRedeem />}
               <Tabs
                 key={String(zoomed)}
                 centered
@@ -96,14 +106,20 @@ function Give({ selectedIndex }: GiveProps) {
               </Tabs>
 
               <TabPanel value={view} index={0}>
-                <CausesDashboard />
+                <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
+                <CausesDashboard giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
               </TabPanel>
               <TabPanel value={view} index={1}>
-                <GrantsDashboard />
+                <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
+                <GrantsDashboard giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
               </TabPanel>
               <TabPanel value={view} index={2}>
                 {/* We have a button to switch tabs in this child component, so need to pass the handler. */}
-                <YieldRecipients changeView={buttonChangeView} />
+                <YieldRecipients
+                  changeView={buttonChangeView}
+                  giveAssetType={giveAssetType}
+                  changeAssetType={changeAssetType}
+                />
               </TabPanel>
               <TabPanel value={view} index={3}>
                 <RedeemYield />
