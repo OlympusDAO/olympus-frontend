@@ -3,6 +3,7 @@ import { ContractReceipt } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { useWeb3Context } from "src/hooks";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -43,6 +44,11 @@ export const useClaimBonds = () => {
         dispatch(createErrorToast(error.message));
       },
       onSuccess: async (_, { id }) => {
+        trackGAEvent({
+          category: "Bonding",
+          action: "Claim bond",
+        });
+
         const keysToRefetch = [bondNotesQueryKey(networks.MAINNET, address)];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
