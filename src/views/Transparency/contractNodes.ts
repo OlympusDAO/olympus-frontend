@@ -131,7 +131,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: OHM_ADDRESSES[NetworkId.MAINNET],
       label: "mint: mints new OHM",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -139,7 +139,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: SOHM_ADDRESSES[NetworkId.MAINNET],
       label: "changeDebt: informs about use of incurDebt",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -147,7 +147,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "requestFundsFromTreasury: withdraws tokens to send to allocator",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -155,7 +155,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "returnFundsToTreasury: returns funds from allocator",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -163,7 +163,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "returnRewardsToTreasury: returns rewards funds from allocator",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -171,7 +171,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: OHM_ADDRESSES[NetworkId.MAINNET],
       label: "stake: exchanges OHM for sOHM",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -179,7 +179,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: SOHM_ADDRESSES[NetworkId.MAINNET],
       label: "unstake: exchanges sOHM for OHM",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -187,7 +187,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: OHM_ADDRESSES[NetworkId.MAINNET],
       label: "unstake: transfers OHM to the sender",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -195,7 +195,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: GOHM_ADDRESSES[NetworkId.MAINNET],
       label: "wrap: Mints gOHM from sOHM",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -203,7 +203,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: GOHM_ADDRESSES[NetworkId.MAINNET],
       label: "unwrap: burns gOHM for sOHM",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -211,7 +211,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: SOHM_ADDRESSES[NetworkId.MAINNET],
       label: "rebase: Triggers rebase at the end of an epoch",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -219,7 +219,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: STAKING_DISTRIBUTOR,
       label: "rebase: Mint OHM rewards",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -227,7 +227,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "distribute: Distributes OHM rewards to stakers",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -235,7 +235,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "retrieveBounty: Mints OHM rewards",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
     {
@@ -243,7 +243,7 @@ export const initialEdges = (theme: Theme): Edge[] => {
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "deposit: Transfers bond quote token",
       animated: true,
-      type: "smoothstep",
+      type: "smartBezier",
       labelBackgroundColor: backgroundColor,
     },
   ]);

@@ -1,4 +1,5 @@
 import { Container, Grid, Typography, useTheme } from "@material-ui/core";
+import { SmartBezierEdge } from "@tisoap/react-flow-smart-edge";
 import { useEffect, useState } from "react";
 import ReactFlow from "react-flow-renderer";
 import BackButton from "src/components/BackButton";
@@ -14,6 +15,10 @@ export const ContractsDiagram = (): JSX.Element => {
     setNodes(initialNodes(theme));
     setEdges(initialEdges(theme));
   }, [theme]);
+
+  const edgeTypes = {
+    smartBezier: SmartBezierEdge,
+  };
 
   // TODO fix incompatibility with Paper from component-library (but not MUI) which results in the edge paths not being positioned correctly
 
@@ -34,7 +39,14 @@ export const ContractsDiagram = (): JSX.Element => {
              * components).
              */}
             <Container style={{ height: "60vh", width: "100vw" }}>
-              <ReactFlow nodes={nodes} edges={edges} nodesDraggable={false} nodesConnectable={false} fitView />
+              <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                nodesDraggable={false}
+                nodesConnectable={false}
+                edgeTypes={edgeTypes}
+                fitView
+              />
             </Container>
           </Grid>
         </Grid>
