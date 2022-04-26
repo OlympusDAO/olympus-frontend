@@ -20,7 +20,7 @@ const TREASURY_EXTENDER = "0xb32Ad041f23eAfd682F57fCe31d3eA4fd92D17af";
 const WIDTH = 230;
 const HEIGHT = 110;
 
-export const initialNodes = (theme: Theme): Node[] => {
+export const treasuryNodes = (theme: Theme): Node[] => {
   const baseStyle: CSSProperties = {
     borderRadius: "39px",
     paddingTop: "20px",
@@ -138,7 +138,7 @@ export const initialNodes = (theme: Theme): Node[] => {
   );
 };
 
-export const initialEdges = (theme: Theme): Edge[] => {
+export const treasuryEdges = (theme: Theme): Edge[] => {
   const backgroundColor = theme.colors.gray[10];
   const secondaryColor = "#EAD8B8";
   const tertiaryColor = "#94B9A1";

@@ -5,16 +5,16 @@ import ReactFlow from "react-flow-renderer";
 import BackButton from "src/components/BackButton";
 import { BottomThreeHandleNode, BottomTwoHandleNode } from "src/components/Transparency/CustomNode";
 
-import { initialEdges, initialNodes } from "./contractNodes";
+import { treasuryEdges, treasuryNodes } from "./TreasuryContractsData";
 
 export const ContractsDiagram = (): JSX.Element => {
   const theme = useTheme();
-  const [nodes, setNodes] = useState(initialNodes(theme));
-  const [edges, setEdges] = useState(initialEdges(theme));
+  const [nodes, setNodes] = useState(treasuryNodes(theme));
+  const [edges, setEdges] = useState(treasuryEdges(theme));
 
   useEffect(() => {
-    setNodes(initialNodes(theme));
-    setEdges(initialEdges(theme));
+    setNodes(treasuryNodes(theme));
+    setEdges(treasuryEdges(theme));
   }, [theme]);
 
   const edgeTypes = {
