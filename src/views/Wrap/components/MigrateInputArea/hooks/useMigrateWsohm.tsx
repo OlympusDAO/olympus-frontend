@@ -3,6 +3,7 @@ import { ContractReceipt } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, MIGRATOR_ADDRESSES, WSOHM_ADDRESSES } from "src/constants/addresses";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
@@ -42,7 +43,13 @@ export const useMigrateWsohm = () => {
       onError: error => {
         dispatch(createErrorToast(error.message));
       },
-      onSuccess: async () => {
+      onSuccess: async (_, amount) => {
+        trackGAEvent({
+          category: "Migration",
+          action: "Migrate wsOHM",
+          value: new DecimalBigNumber(amount, 18).toApproxNumber(),
+        });
+
         const keysToRefetch = [
           balanceQueryKey(address, WSOHM_ADDRESSES, networkId),
           balanceQueryKey(address, GOHM_ADDRESSES, networkId),

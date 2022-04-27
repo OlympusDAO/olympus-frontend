@@ -3,6 +3,7 @@ import { ContractReceipt } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
@@ -17,6 +18,7 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
   const networks = useTestableNetworks();
   const balance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
+  let txHash: string;
 
   return useMutation<ContractReceipt, Error, string>(
     async amount => {
@@ -37,13 +39,23 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
       const shouldRebase = toToken === "sOHM";
 
       const transaction = await contract.stake(address, _amount.toBigNumber(), shouldRebase, true);
+      txHash = transaction.hash;
       return transaction.wait();
     },
     {
       onError: error => {
         dispatch(createErrorToast(error.message));
       },
-      onSuccess: async () => {
+      onSuccess: async (_, amount) => {
+        trackGAEvent({
+          category: "Staking",
+          action: "stake",
+          label: `Stake to ${toToken}`,
+          value: new DecimalBigNumber(amount, 9).toApproxNumber(),
+          dimension1: txHash ?? "unknown",
+          dimension2: address,
+        });
+
         const keysToRefetch = [
           balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
           balanceQueryKey(address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),
