@@ -184,7 +184,7 @@ exports[`<Root/> should render component 1`] = `
           class="MuiBox-root MuiBox-root-86"
         >
           <a
-            href="/wallet"
+            href="#/wallet"
             style="margin-right: 0px;"
           >
             <button
@@ -335,7 +335,7 @@ exports[`<Root/> should render component 1`] = `
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/dashboard"
+                          href="#/dashboard"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-96 link-container"
@@ -377,7 +377,7 @@ exports[`<Root/> should render component 1`] = `
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                                href="/bonds"
+                                href="#/bonds"
                               >
                                 <div
                                   class="MuiBox-root MuiBox-root-100 link-container"
@@ -451,7 +451,7 @@ exports[`<Root/> should render component 1`] = `
                         <a
                           aria-current="page"
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary active"
-                          href="/stake"
+                          href="#/stake"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-103 link-container"
@@ -480,7 +480,7 @@ exports[`<Root/> should render component 1`] = `
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/zap"
+                          href="#/zap"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-106 link-container"
@@ -509,7 +509,7 @@ exports[`<Root/> should render component 1`] = `
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/give"
+                          href="#/give"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-109 link-container"
@@ -538,7 +538,7 @@ exports[`<Root/> should render component 1`] = `
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/wrap"
+                          href="#/wrap"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-112 link-container"

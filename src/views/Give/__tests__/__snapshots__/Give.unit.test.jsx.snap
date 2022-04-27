@@ -38,7 +38,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="/give"
+                          href="#/give"
                         >
                           <svg
                             aria-hidden="true"
@@ -87,7 +87,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="/give/projects/angel-protocol"
+                          href="#/give/projects/angel-protocol"
                         >
                           <img
                             src="/assets/images/give/angel-protocol/angel-protocol-logo.svg"
@@ -507,7 +507,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
           >
             <a
               class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-              href="/give/projects/impact-market"
+              href="#/give/projects/impact-market"
             >
               <h4
                 class="MuiTypography-root MuiTypography-h4"
@@ -530,7 +530,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="/give/projects/impact-market"
+                  href="#/give/projects/impact-market"
                 >
                   <img
                     src="/assets/images/give/impact-market/impact-market-logo.svg"
@@ -606,7 +606,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="/projects/impact-market"
+                  href="#/projects/impact-market"
                 >
                   <button
                     class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-48 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -636,7 +636,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
           >
             <a
               class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-              href="/give/projects/angel-protocol"
+              href="#/give/projects/angel-protocol"
             >
               <h4
                 class="MuiTypography-root MuiTypography-h4"
@@ -659,7 +659,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="/give/projects/angel-protocol"
+                  href="#/give/projects/angel-protocol"
                 >
                   <img
                     src="/assets/images/give/angel-protocol/angel-protocol-logo.svg"
@@ -735,7 +735,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="/projects/angel-protocol"
+                  href="#/projects/angel-protocol"
                 >
                   <button
                     class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-54 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -765,7 +765,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
           >
             <a
               class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-              href="/give/projects/gitcoin"
+              href="#/give/projects/gitcoin"
             >
               <h4
                 class="MuiTypography-root MuiTypography-h4"
@@ -788,7 +788,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="/give/projects/gitcoin"
+                  href="#/give/projects/gitcoin"
                 >
                   <img
                     src="/assets/images/give/gitcoin/gitcoin-logo.svg"
@@ -864,7 +864,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="/projects/gitcoin"
+                  href="#/projects/gitcoin"
                 >
                   <button
                     class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-58 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -894,7 +894,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
           >
             <a
               class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-              href="/give/projects/kolektivo"
+              href="#/give/projects/kolektivo"
             >
               <h4
                 class="MuiTypography-root MuiTypography-h4"
@@ -917,7 +917,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="/give/projects/kolektivo"
+                  href="#/give/projects/kolektivo"
                 >
                   <img
                     src="/assets/images/give/kolektivo/kolektivo-logo.svg"
@@ -993,7 +993,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="/projects/kolektivo"
+                  href="#/projects/kolektivo"
                 >
                   <button
                     class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-62 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -1023,7 +1023,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
           >
             <a
               class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-              href="/give/projects/popcorndao"
+              href="#/give/projects/popcorndao"
             >
               <h4
                 class="MuiTypography-root MuiTypography-h4"
@@ -1046,7 +1046,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="/give/projects/popcorndao"
+                  href="#/give/projects/popcorndao"
                 >
                   <img
                     src="/assets/images/give/popcorndao/popcorndao-logo.svg"
@@ -1122,7 +1122,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="/projects/popcorndao"
+                  href="#/projects/popcorndao"
                 >
                   <button
                     class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-66 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -1252,7 +1252,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                 >
                   <a
                     class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                    href="/give"
+                    href="#/give"
                     textcolor="primary"
                     value="0"
                   >
@@ -1273,7 +1273,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                   </a>
                   <a
                     class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                    href="/give/grants"
+                    href="#/give/grants"
                     textcolor="primary"
                     value="1"
                   >
@@ -1294,7 +1294,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                   </a>
                   <a
                     class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                    href="/give/donations"
+                    href="#/give/donations"
                     textcolor="primary"
                     value="2"
                   >
@@ -1315,7 +1315,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                   </a>
                   <a
                     class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                    href="/give/redeem"
+                    href="#/give/redeem"
                     textcolor="primary"
                     value="3"
                   >
@@ -1427,7 +1427,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                         >
                           <a
                             class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                            href="/give/projects/impact-market"
+                            href="#/give/projects/impact-market"
                           >
                             <h4
                               class="MuiTypography-root MuiTypography-h4"
@@ -1450,7 +1450,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="/give/projects/impact-market"
+                                href="#/give/projects/impact-market"
                               >
                                 <img
                                   src="/assets/images/give/impact-market/impact-market-logo.svg"
@@ -1526,7 +1526,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="/projects/impact-market"
+                                href="#/projects/impact-market"
                               >
                                 <button
                                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-16 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -1556,7 +1556,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                         >
                           <a
                             class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                            href="/give/projects/angel-protocol"
+                            href="#/give/projects/angel-protocol"
                           >
                             <h4
                               class="MuiTypography-root MuiTypography-h4"
@@ -1579,7 +1579,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="/give/projects/angel-protocol"
+                                href="#/give/projects/angel-protocol"
                               >
                                 <img
                                   src="/assets/images/give/angel-protocol/angel-protocol-logo.svg"
@@ -1655,7 +1655,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="/projects/angel-protocol"
+                                href="#/projects/angel-protocol"
                               >
                                 <button
                                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-22 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -1685,7 +1685,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                         >
                           <a
                             class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                            href="/give/projects/gitcoin"
+                            href="#/give/projects/gitcoin"
                           >
                             <h4
                               class="MuiTypography-root MuiTypography-h4"
@@ -1708,7 +1708,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="/give/projects/gitcoin"
+                                href="#/give/projects/gitcoin"
                               >
                                 <img
                                   src="/assets/images/give/gitcoin/gitcoin-logo.svg"
@@ -1784,7 +1784,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="/projects/gitcoin"
+                                href="#/projects/gitcoin"
                               >
                                 <button
                                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-26 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -1814,7 +1814,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                         >
                           <a
                             class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                            href="/give/projects/kolektivo"
+                            href="#/give/projects/kolektivo"
                           >
                             <h4
                               class="MuiTypography-root MuiTypography-h4"
@@ -1837,7 +1837,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="/give/projects/kolektivo"
+                                href="#/give/projects/kolektivo"
                               >
                                 <img
                                   src="/assets/images/give/kolektivo/kolektivo-logo.svg"
@@ -1913,7 +1913,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="/projects/kolektivo"
+                                href="#/projects/kolektivo"
                               >
                                 <button
                                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-30 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -1943,7 +1943,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                         >
                           <a
                             class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                            href="/give/projects/popcorndao"
+                            href="#/give/projects/popcorndao"
                           >
                             <h4
                               class="MuiTypography-root MuiTypography-h4"
@@ -1966,7 +1966,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="/give/projects/popcorndao"
+                                href="#/give/projects/popcorndao"
                               >
                                 <img
                                   src="/assets/images/give/popcorndao/popcorndao-logo.svg"
@@ -2042,7 +2042,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="/projects/popcorndao"
+                                href="#/projects/popcorndao"
                               >
                                 <button
                                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-34 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -2455,7 +2455,7 @@ exports[`Give View Disconnected should render Yield Recipients Screen with Donat
       >
         <a
           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-          href="/give"
+          href="#/give"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-75 makeStyles-root-76 undefined MuiButton-outlinedPrimary MuiButton-disableElevation"
@@ -2513,7 +2513,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="/give"
+                          href="#/give"
                         >
                           <svg
                             aria-hidden="true"
@@ -2562,7 +2562,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="/give/projects/angel-protocol"
+                          href="#/give/projects/angel-protocol"
                         >
                           <img
                             src="/assets/images/give/angel-protocol/angel-protocol-logo.svg"
