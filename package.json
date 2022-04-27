@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
+    "@coinbase/wallet-sdk": "^3.0.8",
     "@ethersproject/address": "^5.6.0",
     "@ethersproject/providers": "^5.0.12",
     "@ledgerhq/iframe-provider": "^0.4.2",
@@ -45,7 +46,7 @@
     "@walletconnect/web3-provider": "^1.7.5",
     "axios": "^0.26.1",
     "date-fns": "^2.28.0",
-    "ethers": "^5.6.2",
+    "ethers": "^5.6.4",
     "graphql": "^15.8.0",
     "graphql-request": "^4.2.0",
     "markdown-it": "^12.3.2",
@@ -54,7 +55,7 @@
     "react-dom": "17.0.2",
     "react-ga": "^3.3.0",
     "react-ga4": "^1.4.1",
-    "react-query": "^3.34.16",
+    "react-query": "^3.37.0",
     "react-redux": "^7.2.8",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
@@ -62,7 +63,7 @@
     "react-uid": "^2.3.1",
     "recharts": "^2.1.9",
     "typescript": "^4.6.3",
-    "web3modal": "^1.9.6"
+    "web3modal": "^1.9.7"
   },
   "devDependencies": {
     "@babel/runtime": "^7.17.9",
@@ -87,7 +88,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/shelljs": "^0.8.9",
     "@types/uuid": "^8.3.1",
-    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.19.0",
     "autoprefixer": "^10.2.4",
     "css-mediaquery": "^0.1.2",

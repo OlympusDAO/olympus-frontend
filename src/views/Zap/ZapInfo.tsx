@@ -7,7 +7,7 @@ import { Token, TokenStack } from "@olympusdao/component-library";
 import React from "react";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
-import { trackGAEvent } from "../../helpers/analytics";
+import { trackGAEvent } from "../../helpers/analytics/trackGAEvent";
 
 const useStyles = makeStyles(theme => ({
   infoBox: {
