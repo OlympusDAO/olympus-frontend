@@ -78,7 +78,7 @@ export const TransparencyDashboard: React.FC = () => {
               <Grid item xs={6} />
               <Grid item xs={6}>
                 <Paper fullWidth>
-                  <Link href="/transparency/contracts" variant="h5">
+                  <Link href="#/transparency/contracts" variant="h5">
                     <Grid container>
                       <Grid item xs={7}>
                         Treasury Contracts
@@ -93,7 +93,7 @@ export const TransparencyDashboard: React.FC = () => {
               </Grid>
               <Grid item xs={6}>
                 <Paper fullWidth>
-                  <Link href="/transparency/governance" variant="h5">
+                  <Link href="#/transparency/governance" variant="h5">
                     <Grid container>
                       <Grid item xs={7}>
                         Treasury Governance
@@ -108,7 +108,7 @@ export const TransparencyDashboard: React.FC = () => {
               </Grid>
               <Grid item xs={6}>
                 <Paper fullWidth>
-                  <Link href="/transparency/policy" variant="h5">
+                  <Link href="#/transparency/policy" variant="h5">
                     <Grid container>
                       <Grid item xs={7}>
                         Policy Governance
@@ -146,7 +146,7 @@ export const TransparencyDashboard: React.FC = () => {
             </Grid>
             <Grid item xs={3}>
               <Paper fullWidth>
-                <Link href="/dashboard/treasury" variant="h5">
+                <Link href="#/dashboard/treasury" variant="h5">
                   <Grid container>
                     <Grid item xs={11}>
                       Treasury Dashboard
@@ -160,7 +160,7 @@ export const TransparencyDashboard: React.FC = () => {
             </Grid>
             <Grid item xs={3}>
               <Paper fullWidth>
-                <Link href="/dashboard/treasury" variant="h5">
+                <Link href="https://grants.olympusdao.finance/" variant="h5">
                   <Grid container>
                     <Grid item xs={11}>
                       Olympus Grants
@@ -174,7 +174,7 @@ export const TransparencyDashboard: React.FC = () => {
             </Grid>
             <Grid item xs={3}>
               <Paper fullWidth>
-                <Link href="/dashboard/treasury" variant="h5">
+                <Link href="https://twitter.com/olympusincubate" variant="h5">
                   <Grid container>
                     <Grid item xs={11}>
                       Olympus Incubator
@@ -188,7 +188,7 @@ export const TransparencyDashboard: React.FC = () => {
             </Grid>
             <Grid item xs={3}>
               <Paper fullWidth>
-                <Link href="/dashboard/treasury" variant="h5">
+                <Link href="https://forum.olympusdao.finance/" variant="h5">
                   <Grid container>
                     <Grid item xs={11}>
                       Forum
