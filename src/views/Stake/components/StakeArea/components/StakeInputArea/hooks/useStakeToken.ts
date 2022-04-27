@@ -38,7 +38,7 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
 
       const shouldRebase = toToken === "sOHM";
 
-      const claim = false; // was true before the mint & sync distributor change
+      const claim = true; // was true before the mint & sync distributor change
 
       const transaction = await contract.stake(address, _amount.toBigNumber(), shouldRebase, claim);
       txHash = transaction.hash;
