@@ -1,6 +1,7 @@
 /* eslint-disable global-require */
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
+import { ThemeProvider } from "@material-ui/core/styles";
 import { FC, useEffect } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
@@ -10,6 +11,7 @@ import { Web3ContextProvider } from "./hooks/web3Context";
 import { ReactQueryProvider } from "./lib/react-query";
 import { initLocale } from "./locales";
 import store from "./store";
+import { dark as darkTheme } from "./themes/dark.js";
 
 const Root: FC = () => {
   useEffect(() => {
@@ -22,7 +24,9 @@ const Root: FC = () => {
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
             <BrowserRouter basename={"/#"}>
-              <App />
+              <ThemeProvider theme={darkTheme}>
+                <App />
+              </ThemeProvider>
             </BrowserRouter>
           </I18nProvider>
         </Provider>
