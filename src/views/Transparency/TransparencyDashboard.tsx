@@ -9,6 +9,8 @@ export const TransparencyDashboard: React.FC = () => {
   const arrowUpStyle = {
     color: theme.colors.primary[300],
   };
+  // Force the related link items to be a consistent height, as percentages don't work
+  const relatedLinksHeight = "60px";
 
   return (
     <Container>
@@ -147,7 +149,7 @@ export const TransparencyDashboard: React.FC = () => {
             <Grid item xs={3}>
               <Paper fullWidth>
                 <Link href="#/dashboard/treasury" variant="h5">
-                  <Grid container>
+                  <Grid container style={{ height: relatedLinksHeight }}>
                     <Grid item xs={11}>
                       Treasury Dashboard
                     </Grid>
@@ -161,7 +163,7 @@ export const TransparencyDashboard: React.FC = () => {
             <Grid item xs={3}>
               <Paper fullWidth>
                 <Link href="https://grants.olympusdao.finance/" variant="h5">
-                  <Grid container>
+                  <Grid container style={{ height: relatedLinksHeight }}>
                     <Grid item xs={11}>
                       Olympus Grants
                     </Grid>
@@ -175,7 +177,7 @@ export const TransparencyDashboard: React.FC = () => {
             <Grid item xs={3}>
               <Paper fullWidth>
                 <Link href="https://twitter.com/olympusincubate" variant="h5">
-                  <Grid container>
+                  <Grid container style={{ height: relatedLinksHeight }}>
                     <Grid item xs={11}>
                       Olympus Incubator
                     </Grid>
@@ -189,7 +191,7 @@ export const TransparencyDashboard: React.FC = () => {
             <Grid item xs={3}>
               <Paper fullWidth>
                 <Link href="https://forum.olympusdao.finance/" variant="h5">
-                  <Grid container>
+                  <Grid container style={{ height: relatedLinksHeight }}>
                     <Grid item xs={11}>
                       Forum
                     </Grid>
