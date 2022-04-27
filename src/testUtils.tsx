@@ -20,7 +20,7 @@ const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOp
       <ReactQueryProvider>
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
-            <BrowserRouter basename={"/"}>
+            <BrowserRouter>
               <ThemeProvider theme={lightTheme}>
                 <CssBaseline />
                 {children}
@@ -42,7 +42,7 @@ const renderRoute = function (route: string, store = defaultStore) {
       <ReactQueryProvider>
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
-            <BrowserRouter basename={"/"}>
+            <BrowserRouter>
               <App />
             </BrowserRouter>
           </I18nProvider>

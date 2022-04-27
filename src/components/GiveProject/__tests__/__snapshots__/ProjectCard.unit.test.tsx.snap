@@ -10,7 +10,7 @@ exports[`<ProjectCard/> should render card 1`] = `
     >
       <a
         class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-        href="#/give/projects/project-1"
+        href="/give/projects/project-1"
       >
         <h4
           class="MuiTypography-root MuiTypography-h4"
@@ -33,7 +33,7 @@ exports[`<ProjectCard/> should render card 1`] = `
         >
           <a
             class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-            href="#/give/projects/project-1"
+            href="/give/projects/project-1"
           >
             <img
               src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
@@ -136,7 +136,7 @@ exports[`<ProjectCard/> should render card 1`] = `
         >
           <a
             class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-            href="#/give/projects/project-1"
+            href="/projects/project-1"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-3 makeStyles-root-4 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -167,7 +167,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
     >
       <a
         class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-        href="#/give/projects/project-1"
+        href="/give/projects/project-1"
       >
         <h4
           class="MuiTypography-root MuiTypography-h4"
@@ -288,7 +288,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
         >
           <a
             class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-            href="#/give/projects/project-1"
+            href="/projects/project-1"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-10 makeStyles-root-11 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -347,7 +347,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/"
+                          href="/give"
                         >
                           <svg
                             aria-hidden="true"
@@ -396,7 +396,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/projects/project-1"
+                          href="/give/projects/project-1"
                         >
                           <img
                             src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
@@ -828,7 +828,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/"
+                          href="/give"
                         >
                           <svg
                             aria-hidden="true"
@@ -877,7 +877,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/projects/project-1"
+                          href="/give/projects/project-1"
                         >
                           <img
                             src="/assets/images/grants/playgrounds/playgrounds_logo.svg"
@@ -1309,7 +1309,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/"
+                          href="/give"
                         >
                           <svg
                             aria-hidden="true"
