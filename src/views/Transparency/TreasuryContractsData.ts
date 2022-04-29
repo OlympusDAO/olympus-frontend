@@ -1,5 +1,4 @@
 import { Theme } from "@material-ui/core";
-import { CSSProperties } from "react";
 import { Edge, Node } from "react-flow-renderer";
 import { getEdges } from "src/components/Transparency/ContractEdge";
 import { getNodes } from "src/components/Transparency/ContractNode";
@@ -21,32 +20,6 @@ const WIDTH = 230;
 const HEIGHT = 110;
 
 export const treasuryNodes = (theme: Theme): Node[] => {
-  const baseStyle: CSSProperties = {
-    borderRadius: "39px",
-    paddingTop: "20px",
-    paddingBottom: "20px",
-    paddingLeft: "30px",
-    paddingRight: "30px",
-  };
-  const blueStyle: CSSProperties = {
-    backgroundColor: "#798399",
-    borderColor: "#798399",
-    color: "#FAFAFB",
-    ...baseStyle,
-  };
-  const darkStyle: CSSProperties = {
-    backgroundColor: "#1B232F",
-    borderColor: "#1B232F",
-    color: "#FAFAFB",
-    ...baseStyle,
-  };
-  const goldStyle: CSSProperties = {
-    backgroundColor: theme.colors.primary[300],
-    borderColor: theme.colors.primary[300],
-    color: theme.colors.gray[700],
-    ...baseStyle,
-  };
-
   const baseNodeProps = {
     labelSpacing: 20,
   };
@@ -56,7 +29,7 @@ export const treasuryNodes = (theme: Theme): Node[] => {
       {
         name: "Staking",
         address: STAKING_ADDRESSES[NetworkId.MAINNET],
-        style: goldStyle,
+        className: "contract-node contract-node-gold",
         x: 0,
         y: 300,
         type: "bottomTwo",
@@ -65,7 +38,7 @@ export const treasuryNodes = (theme: Theme): Node[] => {
       {
         name: "OHM Token",
         address: OHM_ADDRESSES[NetworkId.MAINNET],
-        style: darkStyle,
+        className: "contract-node contract-node-dark",
         x: 400,
         y: 600,
         type: "output",
@@ -74,7 +47,7 @@ export const treasuryNodes = (theme: Theme): Node[] => {
       {
         name: "sOHM Token",
         address: SOHM_ADDRESSES[NetworkId.MAINNET],
-        style: darkStyle,
+        className: "contract-node contract-node-dark",
         x: 800,
         y: 600,
         type: "output",
@@ -83,7 +56,7 @@ export const treasuryNodes = (theme: Theme): Node[] => {
       {
         name: "gOHM Token",
         address: GOHM_ADDRESSES[NetworkId.MAINNET],
-        style: darkStyle,
+        className: "contract-node contract-node-dark",
         x: 0,
         y: 600,
         type: "output",
@@ -92,7 +65,7 @@ export const treasuryNodes = (theme: Theme): Node[] => {
       {
         name: "Staking Distributor",
         address: STAKING_DISTRIBUTOR,
-        style: goldStyle,
+        className: "contract-node contract-node-gold",
         x: 0,
         y: 0,
         type: "bottomTwo",
@@ -101,7 +74,7 @@ export const treasuryNodes = (theme: Theme): Node[] => {
       {
         name: "Bond Depository",
         address: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
-        style: blueStyle,
+        className: "contract-node contract-node-blue",
         x: 400,
         y: 0,
         type: "input",
@@ -110,7 +83,7 @@ export const treasuryNodes = (theme: Theme): Node[] => {
       {
         name: "Treasury",
         address: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
-        style: blueStyle,
+        className: "contract-node contract-node-blue",
         x: 400,
         y: 300,
         ...baseNodeProps,
@@ -118,7 +91,7 @@ export const treasuryNodes = (theme: Theme): Node[] => {
       {
         name: "Treasury Extender",
         address: TREASURY_EXTENDER,
-        style: blueStyle,
+        className: "contract-node contract-node-blue",
         x: 800,
         y: 0,
         type: "bottomThree",
@@ -129,7 +102,7 @@ export const treasuryNodes = (theme: Theme): Node[] => {
         address: AUTHORITY,
         x: 0,
         y: 800,
-        style: blueStyle,
+        className: "contract-node contract-node-blue",
         ...baseNodeProps,
       },
     ],

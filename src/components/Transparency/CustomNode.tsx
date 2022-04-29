@@ -1,5 +1,3 @@
-import "./CustomNode.scss";
-
 import { Handle, NodeProps, Position } from "react-flow-renderer";
 
 export const BottomTwoHandleNode = ({ data }: NodeProps) => {

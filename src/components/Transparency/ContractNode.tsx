@@ -1,3 +1,5 @@
+import "./ContractNode.scss";
+
 import { CSSProperties } from "react";
 import { Node } from "react-flow-renderer";
 

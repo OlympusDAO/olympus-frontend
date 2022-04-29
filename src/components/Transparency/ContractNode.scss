@@ -1,0 +1,32 @@
+// Base class for all nodes. Should be combined with others for styling.
+.contract-node {
+  border-radius: 39px;
+  padding: 20px 30px;
+  text-align: center;
+
+  // The theme causes links to have a different colour
+  // This causes the links to inherit what is passed to the node
+  a:hover,
+  a:link,
+  a:visited {
+    color: inherit;
+  }
+}
+
+.contract-node-blue {
+  background-color: #798399;
+  border-color: #798399;
+  color: #fafafb;
+}
+
+.contract-node-dark {
+  background-color: #1b232f;
+  border-color: #1b232f;
+  color: #fafafb;
+}
+
+.contract-node-gold {
+  background-color: #f8cc82;
+  border-color: #f8cc82;
+  color: #181a1d;
+}
