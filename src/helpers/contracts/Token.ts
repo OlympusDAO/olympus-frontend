@@ -4,7 +4,7 @@ import { Contract, ContractConfig, Factory } from "src/helpers/contracts/Contrac
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { NetworkId } from "src/networkDetails";
 
-import { getCoingeckoPrice } from "../misc/getCoingeckoPrice";
+import { getCoingeckoPrice } from "../pricing/getCoingeckoPrice";
 import { assert } from "../types/assert";
 
 export interface TokenConfig<TFactory extends Factory = Factory, TAddressMap extends AddressMap = AddressMap>
