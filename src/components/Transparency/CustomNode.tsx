@@ -5,8 +5,8 @@ export const BottomTwoHandleNode = ({ data }: NodeProps) => {
     <>
       <Handle type="target" position={Position.Top} />
       {data?.label}
-      <Handle type="source" position={Position.Bottom} id="1" style={{ left: 40 }} />
-      <Handle type="source" position={Position.Bottom} id="2" style={{ left: 180 }} />
+      <Handle type="source" position={Position.Bottom} id="1" style={{ left: "33%" }} />
+      <Handle type="source" position={Position.Bottom} id="2" style={{ left: "67%" }} />
     </>
   );
 };
@@ -16,9 +16,9 @@ export const BottomThreeHandleNode = ({ data }: NodeProps) => {
     <>
       <Handle type="target" position={Position.Top} />
       {data?.label}
-      <Handle type="source" position={Position.Bottom} id="1" style={{ left: 40 }} />
-      <Handle type="source" position={Position.Bottom} id="2" style={{ left: 100 }} />
-      <Handle type="source" position={Position.Bottom} id="3" style={{ left: 180 }} />
+      <Handle type="source" position={Position.Bottom} id="1" style={{ left: "25%" }} />
+      <Handle type="source" position={Position.Bottom} id="2" style={{ left: "50%" }} />
+      <Handle type="source" position={Position.Bottom} id="3" style={{ left: "75%" }} />
     </>
   );
 };
