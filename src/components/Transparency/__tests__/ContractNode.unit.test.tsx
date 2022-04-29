@@ -106,6 +106,21 @@ describe("ContractNode", () => {
         },
       });
     });
+
+    it("should support a specified class name", () => {
+      const contractNode: ContractNode = {
+        name: "Node 1",
+        address: "0x1",
+        className: "yellow",
+      };
+
+      expect(getNode(contractNode)).toEqual({
+        id: "0x1",
+        data: { label: <NodeLabel label="Node 1" address="0x1" labelSpacing={undefined} /> },
+        position: { x: 0, y: 0 },
+        className: "yellow",
+      });
+    });
   });
 
   describe("getNodes", () => {

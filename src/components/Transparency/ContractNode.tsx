@@ -15,6 +15,7 @@ export type ContractNode = {
   width?: number;
   height?: number;
   labelSpacing?: number;
+  className?: string;
 };
 
 export const getNode = (item: ContractNode, defaultWidth?: number, defaultHeight?: number): Node => {
@@ -31,6 +32,7 @@ export const getNode = (item: ContractNode, defaultWidth?: number, defaultHeight
     position: { x: item.x || 0, y: item.y || 0 },
     ...((item.style || Object.keys(dimensions).length) && { style: { ...item.style, ...dimensions } }),
     ...(item.type && { type: item.type }),
+    ...(item.className && { className: item.className }),
   };
 };
 
