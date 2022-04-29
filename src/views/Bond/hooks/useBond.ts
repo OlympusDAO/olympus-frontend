@@ -3,7 +3,6 @@ import { NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
-import { LPToken } from "src/helpers/contracts/LPToken";
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { assert } from "src/helpers/types/assert";
@@ -21,8 +20,7 @@ export interface Bond {
   /**
    * The token that the market sells to the protocol
    */
-  quoteToken: LPToken | Token;
-
+  quoteToken: Token;
   /**
    * The discount relative to the current market price of the token being sold
    */
