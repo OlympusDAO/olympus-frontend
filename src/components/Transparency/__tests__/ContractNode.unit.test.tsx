@@ -12,7 +12,7 @@ describe("ContractNode", () => {
       expect(getNode(contractNode)).toEqual({
         id: "0x1",
         data: {
-          label: <NodeLabel label="Node 1" address="0x1" />,
+          label: <NodeLabel label="Node 1" address="0x1" labelSpacing={undefined} />,
         },
         position: { x: 0, y: 0 },
       });
@@ -28,7 +28,7 @@ describe("ContractNode", () => {
 
       expect(getNode(contractNode)).toEqual({
         id: "0x1",
-        data: { label: <NodeLabel label="Node 1" address="0x1" /> },
+        data: { label: <NodeLabel label="Node 1" address="0x1" labelSpacing={undefined} /> },
         position: { x: 0, y: 0 },
         style: {
           width: 10,
@@ -46,7 +46,7 @@ describe("ContractNode", () => {
 
       expect(getNode(contractNode)).toEqual({
         id: "0x1",
-        data: { label: <NodeLabel label="Node 1" address="0x1" /> },
+        data: { label: <NodeLabel label="Node 1" address="0x1" labelSpacing={undefined} /> },
         position: { x: 0, y: 0 },
         type: "input",
       });
@@ -61,7 +61,7 @@ describe("ContractNode", () => {
 
       expect(getNode(contractNode)).toEqual({
         id: "0x1",
-        data: { label: <NodeLabel label="Node 1" address="0x1" /> },
+        data: { label: <NodeLabel label="Node 1" address="0x1" labelSpacing={undefined} /> },
         position: { x: 0, y: 0 },
         style: {
           backgroundColor: "yellow",
@@ -80,7 +80,7 @@ describe("ContractNode", () => {
 
       expect(getNode(contractNode)).toEqual({
         id: "0x1",
-        data: { label: <NodeLabel label="Node 1" address="0x1" /> },
+        data: { label: <NodeLabel label="Node 1" address="0x1" labelSpacing={undefined} /> },
         position: { x: 0, y: 0 },
         style: {
           backgroundColor: "yellow",
@@ -99,7 +99,7 @@ describe("ContractNode", () => {
 
       expect(getNode(contractNode)).toEqual({
         id: "0x1",
-        data: { label: <NodeLabel label="Node 1" address="0x1" /> },
+        data: { label: <NodeLabel label="Node 1" address="0x1" labelSpacing={undefined} /> },
         position: { x: 0, y: 0 },
         style: {
           color: "yellow",
@@ -118,7 +118,7 @@ describe("ContractNode", () => {
       expect(getNodes([contractNode])).toEqual([
         {
           id: "0x1",
-          data: { label: <NodeLabel label="Node 1" address="0x1" /> },
+          data: { label: <NodeLabel label="Node 1" address="0x1" labelSpacing={undefined} /> },
           position: { x: 0, y: 0 },
         },
       ]);
