@@ -113,13 +113,19 @@ export const treasuryNodes = (theme: Theme): Node[] => {
 
 export const treasuryEdges = (theme: Theme): Edge[] => {
   const backgroundColor = theme.colors.gray[10];
-  const secondaryColor = "#EAD8B8";
-  const tertiaryColor = "#94B9A1";
+  const secondaryColor = "#f8cc82";
+  const tertiaryColor = "#798399";
 
-  const baseProps = {
-    animated: true,
-    type: "smartBezier",
-    labelBackgroundColor: backgroundColor,
+  const getBaseProps = (stroke?: string) => {
+    return {
+      animated: true,
+      type: "smartBezier",
+      labelBackgroundColor: backgroundColor,
+      style: {
+        ...(stroke && { stroke: stroke }),
+        strokeWidth: "2px",
+      },
+    };
   };
 
   return getEdges([
@@ -128,13 +134,13 @@ export const treasuryEdges = (theme: Theme): Edge[] => {
       target: OHM_ADDRESSES[NetworkId.MAINNET],
       label: "mint: mints new OHM",
       labelOffsetY: "-50px",
-      ...baseProps,
+      ...getBaseProps(),
     },
     {
       source: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       target: SOHM_ADDRESSES[NetworkId.MAINNET],
       label: "changeDebt: informs about use of incurDebt",
-      ...baseProps,
+      ...getBaseProps(),
     },
     {
       source: TREASURY_EXTENDER,
@@ -142,17 +148,14 @@ export const treasuryEdges = (theme: Theme): Edge[] => {
       label: "requestFundsFromTreasury: withdraws tokens to send to allocator",
       sourceHandle: "1",
       labelOffsetY: "-60px",
-      ...baseProps,
+      ...getBaseProps(),
     },
     {
       source: TREASURY_EXTENDER,
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "returnFundsToTreasury: returns funds from allocator",
       sourceHandle: "2",
-      ...baseProps,
-      style: {
-        stroke: secondaryColor,
-      },
+      ...getBaseProps(secondaryColor),
       labelBackgroundColor: secondaryColor,
     },
     {
@@ -161,10 +164,7 @@ export const treasuryEdges = (theme: Theme): Edge[] => {
       label: "returnRewardsToTreasury: returns rewards funds from allocator",
       sourceHandle: "3",
       labelOffsetY: "-30px",
-      ...baseProps,
-      style: {
-        stroke: tertiaryColor,
-      },
+      ...getBaseProps(tertiaryColor),
       labelBackgroundColor: tertiaryColor,
     },
     {
@@ -173,30 +173,27 @@ export const treasuryEdges = (theme: Theme): Edge[] => {
       label: "stake: exchanges OHM for sOHM",
       sourceHandle: "1",
       labelOffsetY: "-40px",
-      ...baseProps,
+      ...getBaseProps(),
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
       target: OHM_ADDRESSES[NetworkId.MAINNET],
       label: "unstake: transfers OHM to the sender",
       sourceHandle: "2",
-      ...baseProps,
-      style: {
-        stroke: secondaryColor,
-      },
+      ...getBaseProps(secondaryColor),
       labelBackgroundColor: secondaryColor,
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
       target: SOHM_ADDRESSES[NetworkId.MAINNET],
       label: "unstake: exchanges sOHM for OHM",
-      ...baseProps,
+      ...getBaseProps(),
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
       target: GOHM_ADDRESSES[NetworkId.MAINNET],
       label: "wrap: Mints gOHM from sOHM",
-      ...baseProps,
+      ...getBaseProps(),
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
@@ -204,10 +201,7 @@ export const treasuryEdges = (theme: Theme): Edge[] => {
       label: "unwrap: burns gOHM for sOHM",
       sourceHandle: "2",
       labelOffsetY: "40px",
-      ...baseProps,
-      style: {
-        stroke: secondaryColor,
-      },
+      ...getBaseProps(secondaryColor),
       labelBackgroundColor: secondaryColor,
     },
     {
@@ -215,13 +209,13 @@ export const treasuryEdges = (theme: Theme): Edge[] => {
       target: SOHM_ADDRESSES[NetworkId.MAINNET],
       label: "rebase: Triggers rebase at the end of an epoch",
       labelOffsetX: "20px",
-      ...baseProps,
+      ...getBaseProps(),
     },
     {
       source: STAKING_ADDRESSES[NetworkId.MAINNET],
       target: STAKING_DISTRIBUTOR,
       label: "rebase: Mint OHM rewards",
-      ...baseProps,
+      ...getBaseProps(),
     },
     {
       source: STAKING_DISTRIBUTOR,
@@ -229,24 +223,21 @@ export const treasuryEdges = (theme: Theme): Edge[] => {
       label: "distribute: Distributes OHM rewards to stakers",
       sourceHandle: "1",
       labelOffsetY: "-20px",
-      ...baseProps,
+      ...getBaseProps(),
     },
     {
       source: STAKING_DISTRIBUTOR,
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "retrieveBounty: Mints OHM rewards",
       sourceHandle: "2",
-      ...baseProps,
-      style: {
-        stroke: secondaryColor,
-      },
+      ...getBaseProps(secondaryColor),
       labelBackgroundColor: secondaryColor,
     },
     {
       source: BOND_DEPOSITORY_ADDRESSES[NetworkId.MAINNET],
       target: DAO_TREASURY_ADDRESSES[NetworkId.MAINNET],
       label: "deposit: Transfers bond quote token",
-      ...baseProps,
+      ...getBaseProps(),
     },
   ]);
 };
