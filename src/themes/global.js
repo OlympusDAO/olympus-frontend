@@ -68,6 +68,13 @@ const commonSettings = {
         disableRipple: true,
       },
     },
+    MuiButton: {
+      defaultProps: {
+        disableElevation: true,
+        disableFocusRipple: true,
+        disableRipple: true,
+      },
+    },
     MuiToolbar: {
       styleOverrides: {
         root: {
@@ -138,7 +145,7 @@ const commonSettings = {
     MuiDrawer: {
       styleOverrides: {
         root: {
-          width: "280px",
+          width: "312px",
           flexShrink: 0,
         },
         paper: {

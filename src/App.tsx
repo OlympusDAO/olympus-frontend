@@ -3,7 +3,7 @@ import "./style.scss";
 import { i18n } from "@lingui/core";
 import { useMediaQuery } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import makeStyles from "@mui/styles/makeStyles";
+import { styled, ThemeProvider } from "@mui/material/styles";
 import { MultifarmProvider } from "@multifarm/widget";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -52,6 +52,57 @@ import { BondModalContainer } from "./views/Bond/components/BondModal/BondModal"
 import GrantInfo from "./views/Give/GrantInfo";
 import ProjectInfo from "./views/Give/ProjectInfo";
 
+const PREFIX = "App";
+
+const classes = {
+  drawer: `${PREFIX}-drawer`,
+  content: `${PREFIX}-content`,
+  contentShift: `${PREFIX}-contentShift`,
+  toolbar: `${PREFIX}-toolbar`,
+  drawerPaper: `${PREFIX}-drawerPaper`,
+  notification: `${PREFIX}-notification`,
+};
+
+const StyledDiv = styled("div")(({ theme }) => ({
+  [`& .${classes.drawer}`]: {
+    [theme.breakpoints.up("md")]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+  },
+
+  [`& .${classes.content}`]: {
+    flexGrow: 1,
+    padding: theme.spacing(1),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: transitionDuration,
+    }),
+    height: "100%",
+    overflow: "auto",
+    marginLeft: drawerWidth,
+  },
+
+  [`& .${classes.contentShift}`]: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: transitionDuration,
+    }),
+    marginLeft: 0,
+  },
+
+  // necessary for content to be below app bar
+  [`& .${classes.toolbar}`]: theme.mixins.toolbar,
+
+  [`& .${classes.drawerPaper}`]: {
+    width: drawerWidth,
+  },
+
+  [`& .${classes.notification}`]: {
+    marginLeft: "312px",
+  },
+}));
+
 // 😬 Sorry for all the console logging
 const DEBUG = false;
 
@@ -63,41 +114,6 @@ if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 const drawerWidth = 312;
 const transitionDuration = 969;
 
-const useStyles = makeStyles(theme => ({
-  drawer: {
-    [theme.breakpoints.up("md")]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(1),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: transitionDuration,
-    }),
-    height: "100%",
-    overflow: "auto",
-    marginLeft: drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: transitionDuration,
-    }),
-    marginLeft: 0,
-  },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  notification: {
-    marginLeft: "312px",
-  },
-}));
-
 const MULTIFARM_API_KEY = getMultiFarmApiKey();
 
 function App() {
@@ -106,7 +122,7 @@ function App() {
   const dispatch = useDispatch();
   const [theme, toggleTheme] = useTheme();
   const trimmedPath = location.pathname + location.hash;
-  const classes = useStyles();
+
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -296,161 +312,165 @@ function App() {
   }, [location]);
 
   return (
-    <MultifarmProvider
-      token={MULTIFARM_API_KEY}
-      provider="olympus"
-      lng={i18n.locale}
-      themeColors={theme}
-      badgePlacement="bottom"
-      theme={theme === "light" ? multifarmLightTheme : multifarmDarkTheme}
-      categoryTypesConfig={categoryTypesConfig}
-      strategyTypesConfig={strategyTypesConfig}
-    >
-      <CssBaseline />
-      <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
-        <StagingNotification />
-        <Messages />
-        <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
-        <nav className={classes.drawer}>
-          {isSmallerScreen ? (
-            <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-          ) : (
-            <Sidebar />
-          )}
-        </nav>
-
-        <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-          {oldAssetsDetected && trimmedPath.indexOf("dashboard") === -1 && oldAssetsEnoughToMigrate && (
-            <CallToAction setMigrationModalOpen={setMigrationModalOpen} />
-          )}
-
-          <Switch>
-            <Route exact path="/">
-              <Redirect to="/stake" />
-            </Route>
-
-            <Route path="/stake">
-              {/* if newAssets or 0 assets */}
-              {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
-                <Stake />
+    <StyledDiv>
+      <ThemeProvider theme={themeMode}>
+        <MultifarmProvider
+          token={MULTIFARM_API_KEY}
+          provider="olympus"
+          lng={i18n.locale}
+          themeColors={theme}
+          badgePlacement="bottom"
+          theme={theme === "light" ? multifarmLightTheme : multifarmDarkTheme}
+          categoryTypesConfig={categoryTypesConfig}
+          strategyTypesConfig={strategyTypesConfig}
+        >
+          <CssBaseline />
+          <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+            <StagingNotification />
+            <Messages />
+            <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+            <nav className={classes.drawer}>
+              {isSmallerScreen ? (
+                <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
               ) : (
-                <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
+                <Sidebar />
               )}
-            </Route>
+            </nav>
 
-            <Route path="/v1-stake">
-              <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
-            </Route>
+            <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+              {oldAssetsDetected && trimmedPath.indexOf("dashboard") === -1 && oldAssetsEnoughToMigrate && (
+                <CallToAction setMigrationModalOpen={setMigrationModalOpen} />
+              )}
 
-            <Route exact path="/give">
-              <Give giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-            </Route>
-            <Redirect from="/olympusgive" to="/give" />
-            <Redirect from="/tyche" to="/give" />
-            <Redirect from="/olygive" to="/give" />
-            <Redirect from="/olympusdaogive" to="/give" />
-            <Redirect from="/ohmgive" to="/give" />
+              <Switch>
+                <Route exact path="/">
+                  <Redirect to="/stake" />
+                </Route>
 
-            <Route path="/give/projects">
-              {projects.map(project => {
-                return (
-                  <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
-                    <ProjectInfo
-                      project={project}
-                      giveAssetType={giveAssetType}
-                      changeAssetType={changeGiveAssetType}
-                    />
+                <Route path="/stake">
+                  {/* if newAssets or 0 assets */}
+                  {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
+                    <Stake />
+                  ) : (
+                    <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
+                  )}
+                </Route>
+
+                <Route path="/v1-stake">
+                  <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
+                </Route>
+
+                <Route exact path="/give">
+                  <Give giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+                </Route>
+                <Redirect from="/olympusgive" to="/give" />
+                <Redirect from="/tyche" to="/give" />
+                <Redirect from="/olygive" to="/give" />
+                <Redirect from="/olympusdaogive" to="/give" />
+                <Redirect from="/ohmgive" to="/give" />
+
+                <Route path="/give/projects">
+                  {projects.map(project => {
+                    return (
+                      <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
+                        <ProjectInfo
+                          project={project}
+                          giveAssetType={giveAssetType}
+                          changeAssetType={changeGiveAssetType}
+                        />
+                      </Route>
+                    );
+                  })}
+                </Route>
+
+                <Route exact path="/give/grants">
+                  <Give selectedIndex={1} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+                </Route>
+
+                <Route path="/give/grants">
+                  {grants.map(grant => {
+                    return (
+                      <Route exact key={grant.slug} path={`/give/grants/${grant.slug}`}>
+                        <GrantInfo grant={grant} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+                      </Route>
+                    );
+                  })}
+                </Route>
+
+                <Route exact path="/give/donations">
+                  <Give selectedIndex={2} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+                </Route>
+
+                <Route exact path="/give/redeem">
+                  <Give selectedIndex={3} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+                </Route>
+
+                <Route path="/wrap">
+                  <Route exact path={`/wrap`}>
+                    <Wrap />
                   </Route>
-                );
-              })}
-            </Route>
+                </Route>
 
-            <Route exact path="/give/grants">
-              <Give selectedIndex={1} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-            </Route>
-
-            <Route path="/give/grants">
-              {grants.map(grant => {
-                return (
-                  <Route exact key={grant.slug} path={`/give/grants/${grant.slug}`}>
-                    <GrantInfo grant={grant} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+                <Route path="/zap">
+                  <Route exact path={`/zap`}>
+                    <Zap />
                   </Route>
-                );
-              })}
-            </Route>
+                </Route>
 
-            <Route exact path="/give/donations">
-              <Give selectedIndex={2} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-            </Route>
+                <Route path="/bonds">
+                  <Bond />
 
-            <Route exact path="/give/redeem">
-              <Give selectedIndex={3} giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-            </Route>
+                  <Route path="/bonds/:id" component={BondModalContainer} />
+                  <Route path="/bonds/inverse/:id" component={BondModalContainer} />
+                </Route>
 
-            <Route path="/wrap">
-              <Route exact path={`/wrap`}>
-                <Wrap />
-              </Route>
-            </Route>
+                <Route exact path="/dashboard">
+                  <TreasuryDashboard activeView={0} />
+                </Route>
+                <Route path="/dashboard/treasury">
+                  <TreasuryDashboard activeView={1} />
+                </Route>
+                <Route path="/dashboard/revenue">
+                  <TreasuryDashboard activeView={2} />
+                </Route>
+                <Route path="/dashboard/olympuspro">
+                  <TreasuryDashboard activeView={3} />
+                </Route>
+                <Route path="/dashboard/proteus">
+                  <TreasuryDashboard activeView={4} />
+                </Route>
 
-            <Route path="/zap">
-              <Route exact path={`/zap`}>
-                <Zap />
-              </Route>
-            </Route>
+                <Route exact path="/calculator">
+                  <Wallet open={true} component="calculator" />
+                </Route>
+                <Route path={"/info/:id"}>
+                  <Wallet open={true} component="info" />
+                </Route>
+                <Route path={"/info"}>
+                  <Wallet open={true} component="info" />
+                </Route>
+                <Route path={"/utility"}>
+                  <Wallet open={true} component="utility" />
+                </Route>
+                <Route path={"/wallet/history"}>
+                  <Wallet open={true} component="wallet/history" />
+                </Route>
+                <Route path="/wallet">
+                  <Wallet open={true} component="wallet" />
+                </Route>
 
-            <Route path="/bonds">
-              <Bond />
-
-              <Route path="/bonds/:id" component={BondModalContainer} />
-              <Route path="/bonds/inverse/:id" component={BondModalContainer} />
-            </Route>
-
-            <Route exact path="/dashboard">
-              <TreasuryDashboard activeView={0} />
-            </Route>
-            <Route path="/dashboard/treasury">
-              <TreasuryDashboard activeView={1} />
-            </Route>
-            <Route path="/dashboard/revenue">
-              <TreasuryDashboard activeView={2} />
-            </Route>
-            <Route path="/dashboard/olympuspro">
-              <TreasuryDashboard activeView={3} />
-            </Route>
-            <Route path="/dashboard/proteus">
-              <TreasuryDashboard activeView={4} />
-            </Route>
-
-            <Route exact path="/calculator">
-              <Wallet open={true} component="calculator" />
-            </Route>
-            <Route path={"/info/:id"}>
-              <Wallet open={true} component="info" />
-            </Route>
-            <Route path={"/info"}>
-              <Wallet open={true} component="info" />
-            </Route>
-            <Route path={"/utility"}>
-              <Wallet open={true} component="utility" />
-            </Route>
-            <Route path={"/wallet/history"}>
-              <Wallet open={true} component="wallet/history" />
-            </Route>
-            <Route path="/wallet">
-              <Wallet open={true} component="wallet" />
-            </Route>
-
-            <Route component={NotFound} />
-          </Switch>
-        </div>
-      </div>
-      {hasDust ? (
-        <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
-      ) : (
-        <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
-      )}
-    </MultifarmProvider>
+                <Route component={NotFound} />
+              </Switch>
+            </div>
+          </div>
+          {hasDust ? (
+            <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
+          ) : (
+            <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
+          )}
+        </MultifarmProvider>
+      </ThemeProvider>
+    </StyledDiv>
   );
 }
 
