@@ -1,9 +1,9 @@
 import "./style.scss";
 
 import { i18n } from "@lingui/core";
-import { useMediaQuery } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { makeStyles } from "@material-ui/core/styles";
+import { useMediaQuery } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import makeStyles from "@mui/styles/makeStyles";
 import { MultifarmProvider } from "@multifarm/widget";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

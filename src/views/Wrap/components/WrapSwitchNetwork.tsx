@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography } from "@mui/material";
 import { NETWORKS } from "src/constants";
 import { useWeb3Context } from "src/hooks";
 import { useSwitchNetwork } from "src/hooks/useSwitchNetwork";

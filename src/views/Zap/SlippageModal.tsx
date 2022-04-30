@@ -1,12 +1,13 @@
 import { Trans } from "@lingui/macro";
-import { Box, Dialog, DialogTitle, FormControl, makeStyles, Typography } from "@material-ui/core";
+import { Box, Dialog, DialogTitle, FormControl, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { Input, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { SetStateAction, useEffect, useState } from "react";
 import { trim } from "src/helpers";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       paddingInline: "16px",
     },
     [theme.breakpoints.up("sm")]: {

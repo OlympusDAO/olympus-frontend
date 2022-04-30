@@ -12,8 +12,8 @@ import {
   OutlinedInput,
   SvgIcon,
   Typography,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { Icon, Token } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
@@ -55,10 +55,10 @@ const formatBalance = (balance?: DecimalBigNumber) =>
 
 const useStyles = makeStyles(theme => ({
   ApprovedButton: {
-    backgroundColor: theme.palette.type === "light" ? "#9EC4AB !important" : "#92A799 !important",
+    backgroundColor: theme.palette.mode === "light" ? "#9EC4AB !important" : "#92A799 !important",
   },
   ApprovedText: {
-    color: theme.palette.type === "light" ? "#fff" : "#333333",
+    color: theme.palette.mode === "light" ? "#fff" : "#333333",
   },
 }));
 
@@ -385,7 +385,6 @@ const ZapStakeAction: React.FC = () => {
             value={outputQuantity}
             disabled={zapToken == null}
             onChange={e => setOutputTokenQuantity(e.target.value)}
-            labelWidth={0}
             endAdornment={
               <InputAdornment position="end">
                 <div
@@ -431,7 +430,7 @@ const ZapStakeAction: React.FC = () => {
         <Box display="flex" alignItems="center">
           <Typography>{customSlippage}%</Typography>
           <Box width="8px" />
-          <IconButton name="settings" onClick={handleSlippageModalOpen} className="zap-settings-icon">
+          <IconButton name="settings" onClick={handleSlippageModalOpen} className="zap-settings-icon" size="large">
             <Icon name="settings" className="zap-settings-icon" />
           </IconButton>
         </Box>

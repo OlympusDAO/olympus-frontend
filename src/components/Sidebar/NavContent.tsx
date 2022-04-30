@@ -1,5 +1,6 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Divider, Link, makeStyles, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Divider, Link, Paper, SvgIcon, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";

@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, Divider, Grid, Link, Typography, Zoom } from "@material-ui/core";
+import { Box, Divider, Grid, Link, Typography, Zoom } from "@mui/material";
 import { Icon, MetricCollection, Paper } from "@olympusdao/component-library";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { useWeb3Context } from "src/hooks";

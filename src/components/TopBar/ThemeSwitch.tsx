@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButton from "@mui/material/ToggleButton";
 import { Icon } from "@olympusdao/component-library";
 
 interface IThemeSwitcherProps {

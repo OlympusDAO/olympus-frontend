@@ -1,5 +1,5 @@
-import { Box, Fade, Link, Theme, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Fade, Link, Theme, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { OHMTokenStackProps, WalletBalance } from "@olympusdao/component-library";
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
@@ -48,7 +48,7 @@ const useStyles = makeStyles<Theme>(theme => ({
       marginRight: 0,
     },
     "& .active": {
-      color: theme.palette.type === "light" ? theme.palette.primary.main : theme.colors.primary[300],
+      color: theme.palette.mode === "light" ? theme.palette.primary.main : theme.colors.primary[300],
       textDecoration: "inherit",
     },
   },

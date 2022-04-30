@@ -1,9 +1,9 @@
 import "./YieldRecipients.scss";
 
 import { Trans } from "@lingui/macro";
-import { Divider, Grid, Typography, useTheme } from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Skeleton } from "@material-ui/lab";
+import { Divider, Grid, Typography, useTheme } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { TertiaryButton } from "@olympusdao/component-library";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { useDonationInfo } from "src/hooks/useGiveInfo";
@@ -20,7 +20,7 @@ type RecipientModalProps = {
 
 export default function YieldRecipients({ changeView, giveAssetType, changeAssetType }: RecipientModalProps) {
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const rawDonationInfo = useDonationInfo().data;
   const donationInfo = rawDonationInfo ? rawDonationInfo : [];

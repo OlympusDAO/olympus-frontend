@@ -1,5 +1,5 @@
-import { Box, Fade, Grid, Theme, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Fade, Grid, Theme, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { DottedDataRow, Input, ProgressCircle, Slider } from "@olympusdao/component-library";
 import { FC, useEffect, useState } from "react";
 import { formatNumber, trim } from "src/helpers";
@@ -60,10 +60,10 @@ const useStyles = makeStyles<Theme>(theme => ({
       cursor: "pointer",
       color: theme.colors.gray[90],
       "&.active": {
-        color: theme.palette.type === "light" ? theme.palette.primary.main : theme.colors.gray[10],
+        color: theme.palette.mode === "light" ? theme.palette.primary.main : theme.colors.gray[10],
       },
       "&.active-primary": {
-        color: theme.palette.type === "light" ? theme.palette.primary.main : theme.colors.primary[300],
+        color: theme.palette.mode === "light" ? theme.palette.primary.main : theme.colors.primary[300],
       },
     },
     "& p:last-child": {
@@ -80,7 +80,7 @@ const useStyles = makeStyles<Theme>(theme => ({
     lineHeight: "24px",
     "& span": {
       marginLeft: "18px",
-      color: theme.palette.type == "light" ? theme.colors.gray[90] : theme.colors.gray[40],
+      color: theme.palette.mode == "light" ? theme.colors.gray[90] : theme.colors.gray[40],
     },
   },
   ctaTitle: {

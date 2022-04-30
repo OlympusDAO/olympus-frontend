@@ -2,8 +2,8 @@ import "./TopBar.scss";
 
 import { i18n } from "@lingui/core";
 import { t } from "@lingui/macro";
-import { AppBar, Box, Button, SvgIcon, Toolbar, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { AppBar, Box, Button, SvgIcon, Toolbar, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { LocaleSwitcher } from "@olympusdao/component-library";
 import { Link, useLocation } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";

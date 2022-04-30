@@ -1,4 +1,4 @@
-import { Grid, Switch, Typography } from "@material-ui/core";
+import { Grid, Switch, Typography } from "@mui/material";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { ChangeAssetType } from "src/slices/interfaces";
 

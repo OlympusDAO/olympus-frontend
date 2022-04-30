@@ -1,7 +1,7 @@
 import "./TreasuryDashboard.scss";
 
 import { Trans } from "@lingui/macro";
-import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
+import { Box, Container, Grid, useMediaQuery, Zoom } from "@mui/material";
 import { DashboardPro, Proteus, TotalIncome, TreasuryAllocation } from "@multifarm/widget";
 import { Metric, MetricCollection, Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { ChangeEvent, memo, useState } from "react";

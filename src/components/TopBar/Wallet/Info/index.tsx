@@ -1,5 +1,5 @@
-import { Box, Fade, Link, Theme } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Fade, Link, Theme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -15,7 +15,7 @@ const useStyles = makeStyles<Theme>(theme => ({
       color: theme.colors.gray[90],
       padding: "8px 18px 10px 18px",
       "&.active": {
-        color: theme.palette.type === "light" ? theme.palette.primary.main : theme.colors.primary[300],
+        color: theme.palette.mode === "light" ? theme.palette.primary.main : theme.colors.primary[300],
       },
     },
   },

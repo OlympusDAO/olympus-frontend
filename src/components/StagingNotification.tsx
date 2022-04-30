@@ -1,4 +1,5 @@
-import { Box, makeStyles, useMediaQuery } from "@material-ui/core";
+import { Box, useMediaQuery } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { WarningNotification } from "@olympusdao/component-library";
 
 /**

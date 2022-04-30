@@ -1,8 +1,8 @@
 import "./Zap.scss";
 
 import { Trans } from "@lingui/macro";
-import { Box, Button, Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Button, Grid, Paper, SvgIcon, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { Token, TokenStack } from "@olympusdao/component-library";
 import React from "react";
 
@@ -11,7 +11,7 @@ import { trackGAEvent } from "../../helpers/analytics/trackGAEvent";
 
 const useStyles = makeStyles(theme => ({
   infoBox: {
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("lg")]: {
       display: "flex",
       flexDirection: "row",
     },
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   infoBoxItem: {
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("lg")]: {
       padding: "8px !important",
     },
     [theme.breakpoints.up("md")]: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   infoHeader: {
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("lg")]: {
       width: "40%",
       padding: "12px 0px",
     },
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   infoBody: {
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("lg")]: {
       width: "60%",
       paddingTop: "12px",
       paddingInline: "6px",

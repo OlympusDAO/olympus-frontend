@@ -1,10 +1,11 @@
 import "./ProjectCard.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQuery } from "@material-ui/core";
-import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
-import { ChevronLeft } from "@material-ui/icons";
-import { Skeleton } from "@material-ui/lab";
+import { ChevronLeft } from "@mui/icons-material";
+import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQuery } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import { Theme, useTheme } from "@mui/material/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import { Icon, Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
@@ -71,7 +72,7 @@ const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 export default function ProjectCard({ project, giveAssetType, changeAssetType, mode }: ProjectDetailsProps) {
   const useStyles = makeStyles<Theme>(theme => ({
     progress: {
-      backgroundColor: () => (theme.palette.type === "dark" ? theme.colors.primary[300] : theme.colors.gray[700]),
+      backgroundColor: () => (theme.palette.mode === "dark" ? theme.colors.primary[300] : theme.colors.gray[700]),
     },
   }));
   const classes = useStyles();

@@ -1,5 +1,6 @@
-import { Box, Grid, makeStyles, Theme, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Box, Grid, Theme, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { PrimaryButton } from "@olympusdao/component-library";
 import React, { ReactNode } from "react";
 import { AddressMap } from "src/constants/addresses";
@@ -21,7 +22,7 @@ const useStyles = makeStyles<Theme>(theme => ({
     justifyContent: "center",
   },
   input: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       marginBottom: "10px",
     },
     [theme.breakpoints.up("sm")]: {

@@ -1,8 +1,9 @@
 import "./ConsoleInterceptor";
 
-import { LinearProgress, makeStyles, Snackbar } from "@material-ui/core";
-import Alert, { Color } from "@material-ui/lab/Alert";
-import AlertTitle from "@material-ui/lab/AlertTitle";
+import { AlertProps, LinearProgress, Snackbar } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import makeStyles from "@mui/styles/makeStyles";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -72,7 +73,7 @@ const Messages: React.FC = () => {
             <Alert
               variant="filled"
               icon={false}
-              severity={message.severity as Color}
+              severity={message.severity as AlertProps["severity"]}
               onClose={handleClose(message)}
               // NOTE (appleseed): mui includes overflow-wrap: "break-word", but word-break: "break-word" is needed for webKit browsers
               style={{ wordBreak: "break-word" }}

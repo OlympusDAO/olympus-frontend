@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, FormControl, Grid, MenuItem, Select, Typography } from "@material-ui/core";
+import { Box, FormControl, Grid, MenuItem, Select, Typography } from "@mui/material";
 import { Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -67,7 +67,6 @@ export const MigrateInputArea = () => {
             <Grid container>
               <Grid item xs={12} sm={8} style={{ paddingRight: "4px" }}>
                 <Input
-                  labelWidth={0}
                   value={amount}
                   id="amount-input"
                   endString={t`Max`}

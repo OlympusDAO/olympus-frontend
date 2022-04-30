@@ -2,6 +2,7 @@ import "../Stake/Stake.scss";
 import "./V1-Stake.scss";
 
 import { t, Trans } from "@lingui/macro";
+import { ExpandMore } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
@@ -16,9 +17,8 @@ import {
   OutlinedInput,
   Typography,
   Zoom,
-} from "@material-ui/core";
-import { ExpandMore } from "@material-ui/icons";
-import { Skeleton } from "@material-ui/lab";
+} from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";

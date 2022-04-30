@@ -1,7 +1,7 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Container, Grid, Typography, Zoom } from "@material-ui/core";
+import { Container, Grid, Typography, Zoom } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { useUIDSeed } from "react-uid";
 import GrantCard, { GrantDetailsMode } from "src/components/GiveProject/GrantCard";

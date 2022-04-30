@@ -10,7 +10,7 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { NavLink } from "react-router-dom";
 import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";

@@ -1,15 +1,15 @@
 import "./Zap.scss";
 
 import { Trans } from "@lingui/macro";
-import { Box, Button, Grid, Link, Paper, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Button, Grid, Link, Paper, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { TokenStack } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   subHeader: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       display: "none",
     },
     [theme.breakpoints.up("sm")]: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   buttonBox: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       justifyContent: "center",
     },
     [theme.breakpoints.up("sm")]: {

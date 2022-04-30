@@ -1,7 +1,8 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, makeStyles, Table, TableCell, TableHead, TableRow, Typography, Zoom } from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Skeleton } from "@material-ui/lab";
+import { Box, Table, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import makeStyles from "@mui/styles/makeStyles";
 import { DataRow, OHMTokenProps, Paper, SecondaryButton, Token, TokenStack } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
 import {
@@ -84,7 +85,7 @@ const ExternalStakePools = () => {
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
 
   return (
-    <Zoom in={true}>
+    <>
       {isSmallScreen ? (
         <AllPools isSmallScreen={isSmallScreen} />
       ) : (
@@ -108,7 +109,7 @@ const ExternalStakePools = () => {
           </Table>
         </Paper>
       )}
-    </Zoom>
+    </>
   );
 };
 

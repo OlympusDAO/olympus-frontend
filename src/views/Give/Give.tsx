@@ -1,9 +1,9 @@
 import "./Give.scss";
 
 import { t } from "@lingui/macro";
-import { Grid, Typography, Zoom } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Grid, Typography, Zoom } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useHistory } from "react-router";
@@ -49,7 +49,7 @@ function Give({ selectedIndex, giveAssetType, changeAssetType }: GiveProps) {
   const hasV1Assets = v1RedeemableBalance.data && v1RedeemableBalance.data != "0.0";
 
   const theme = useTheme();
-  const isBreakpointXS = useMediaQuery(theme.breakpoints.down("xs"));
+  const isBreakpointXS = useMediaQuery(theme.breakpoints.down("sm"));
   const history = useHistory();
 
   const changeView: any = (_event: React.ChangeEvent<unknown>, newView: number) => {

@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { DataRow, Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";

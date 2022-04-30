@@ -3,10 +3,10 @@ import "react-step-progress-bar/styles.css";
 import "./GrantCard.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Container, Grid, Link, Typography, useMediaQuery } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import { ChevronLeft } from "@material-ui/icons";
-import { Skeleton } from "@material-ui/lab";
+import { ChevronLeft } from "@mui/icons-material";
+import { Box, Container, Grid, Link, Typography, useMediaQuery } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";

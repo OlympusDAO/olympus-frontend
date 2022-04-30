@@ -1,7 +1,7 @@
 import "./Zap.scss";
 
 import { Trans } from "@lingui/macro";
-import { Box, Typography, Zoom } from "@material-ui/core";
+import { Box, Typography, Zoom } from "@mui/material";
 import { Paper } from "@olympusdao/component-library";
 import React, { useMemo } from "react";
 import { useHistory } from "react-router";

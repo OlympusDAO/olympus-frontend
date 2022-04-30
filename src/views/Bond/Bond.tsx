@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, Tab, Tabs, Zoom } from "@material-ui/core";
+import { Box, Tab, Tabs, Zoom } from "@mui/material";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useState } from "react";
 

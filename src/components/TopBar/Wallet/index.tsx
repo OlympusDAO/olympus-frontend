@@ -1,5 +1,7 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, makeStyles, SwipeableDrawer, Theme, Typography, withStyles } from "@material-ui/core";
+import { Box, SwipeableDrawer, Theme, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import { Icon, OHMTokenProps, PrimaryButton, SecondaryButton, TabBar, Token } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";

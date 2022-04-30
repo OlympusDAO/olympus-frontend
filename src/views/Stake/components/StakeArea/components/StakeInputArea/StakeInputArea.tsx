@@ -1,5 +1,6 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Grid, makeStyles, Paper, Switch, Tab, Tabs, Theme } from "@material-ui/core";
+import { Box, Grid, Paper, Switch, Tab, Tabs, Theme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
 import React, { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -25,7 +26,7 @@ const useStyles = makeStyles<Theme>(theme => ({
     justifyContent: "center",
   },
   input: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       marginBottom: "10px",
     },
     [theme.breakpoints.up("sm")]: {
@@ -109,7 +110,6 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
               <Grid item xs={12} sm={8} className={classes.gridItem}>
                 <Input
                   value={amount}
-                  labelWidth={0}
                   id="amount-input"
                   endString={t`Max`}
                   name="amount-input"

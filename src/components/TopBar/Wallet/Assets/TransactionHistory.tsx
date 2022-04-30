@@ -1,5 +1,5 @@
-import { Box, Button, Theme, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Button, Theme, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { TransactionRow } from "@olympusdao/component-library";
 import { FC, useMemo, useRef, useState } from "react";
 import { GOHM_TOKEN, OHM_TOKEN, SOHM_TOKEN, V1_OHM_TOKEN, V1_SOHM_TOKEN, WSOHM_TOKEN } from "src/constants/tokens";
@@ -20,7 +20,7 @@ const useStyles = makeStyles<Theme>(theme => ({
       color: theme.colors.gray[90],
       padding: "8px 18px 10px 18px",
       "&.active": {
-        color: theme.palette.type === "light" ? theme.palette.primary.main : theme.colors.primary[300],
+        color: theme.palette.mode === "light" ? theme.palette.primary.main : theme.colors.primary[300],
         textDecoration: "underline",
         textUnderlineOffset: ".23rem",
       },

@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import { Box, Fade, Grid, Theme, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Fade, Grid, Theme, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { GetOnButton, ItemCard, OHMItemCardProps } from "@olympusdao/component-library";
 import { FC } from "react";
 import sushiswapImg from "src/assets/sushiswap.png";

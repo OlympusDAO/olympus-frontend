@@ -1,6 +1,6 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Box, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { Icon, Modal, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router";

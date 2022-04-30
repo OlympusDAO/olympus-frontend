@@ -1,5 +1,5 @@
-import { SwipeableDrawer } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { SwipeableDrawer } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
