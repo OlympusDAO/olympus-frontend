@@ -6,7 +6,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-1coum6d-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -388,7 +388,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
               Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
             </p>
             <button
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1ecra50-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-tz7osj-MuiButtonBase-root-MuiButton-root"
               style="margin: 0.3rem;"
               tabindex="0"
               type="button"
@@ -407,7 +407,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
               </h6>
             </button>
             <button
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1ecra50-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-tz7osj-MuiButtonBase-root-MuiButton-root"
               style="margin: 0.3rem;"
               tabindex="0"
               type="button"
@@ -439,7 +439,7 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-1coum6d-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -664,7 +664,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-1coum6d-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -1044,7 +1044,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
               Back to Ethereum Mainnet
             </h6>
             <button
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1ecra50-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-tz7osj-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -1075,7 +1075,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-1coum6d-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -1455,7 +1455,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
               Back to Ethereum Mainnet
             </h6>
             <button
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1ecra50-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-tz7osj-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >

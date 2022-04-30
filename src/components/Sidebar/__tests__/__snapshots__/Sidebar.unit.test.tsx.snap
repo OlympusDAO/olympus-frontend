@@ -7,7 +7,7 @@ exports[`<Sidebar/> should render component 1`] = `
     id="sidebarContent"
   >
     <div
-      class="MuiDrawer-root MuiDrawer-docked css-144nesb-MuiDrawer-docked"
+      class="MuiDrawer-root MuiDrawer-docked css-6mamqx-MuiDrawer-docked"
     >
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-13qvuwh-MuiPaper-root-MuiDrawer-paper"

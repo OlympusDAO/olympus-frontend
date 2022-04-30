@@ -110,7 +110,7 @@ exports[`<ZapCta/> should render component 1`] = `
           href="/zap"
         >
           <div
-            class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root learn-more-button css-5pbcmn-MuiButtonBase-root-MuiButton-root"
+            class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root learn-more-button css-1sigo3z-MuiButtonBase-root-MuiButton-root"
             role="button"
             tabindex="0"
           >
