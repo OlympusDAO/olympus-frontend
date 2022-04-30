@@ -3,21 +3,21 @@
 exports[`<ZapCta/> should render component 1`] = `
 <div>
   <div
-    class="MuiPaper-root ohm-card MuiPaper-elevation0 MuiPaper-rounded"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 ohm-card css-93w7oz-MuiPaper-root"
     id="olyzaps-cta"
   >
     <div
-      class="MuiGrid-root cta-box MuiGrid-container"
+      class="MuiGrid-root MuiGrid-container cta-box css-1bxbb5o-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root icons-box MuiGrid-item MuiGrid-grid-xs-5 MuiGrid-grid-sm-3"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 MuiGrid-grid-sm-3 icons-box css-1xugj07-MuiGrid-root"
       >
         <div
-          class="MuiBox-root MuiBox-root-3"
+          class="MuiBox-root css-1xhj18k"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
             focusable="false"
             style="z-index: 1;"
             viewBox="0 0 32 32"
@@ -35,7 +35,7 @@ exports[`<ZapCta/> should render component 1`] = `
           </svg>
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1djwm8g-MuiSvgIcon-root"
             focusable="false"
             style="margin-left: -6px; z-index: 1;"
             viewBox="0 0 32 32"
@@ -82,13 +82,13 @@ exports[`<ZapCta/> should render component 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 MuiGrid-grid-sm-5"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 MuiGrid-grid-sm-5 css-1ss0obd-MuiGrid-root"
       >
         <div
-          class="MuiBox-root MuiBox-root-5"
+          class="MuiBox-root css-1efvhw7"
         >
           <p
-            class="MuiTypography-root cta-header MuiTypography-body1 MuiTypography-colorTextPrimary MuiTypography-alignCenter"
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter cta-header css-lfavw2-MuiTypography-root"
           >
             Zap with more assets and stake 
             <strong>
@@ -96,34 +96,29 @@ exports[`<ZapCta/> should render component 1`] = `
             </strong>
           </p>
           <p
-            class="MuiTypography-root makeStyles-subHeader-1 cta-subheader MuiTypography-body1 MuiTypography-colorTextPrimary MuiTypography-alignCenter"
+            class="makeStyles-subHeader-1 MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter cta-subheader css-lfavw2-MuiTypography-root"
           >
             All-in-One contract to save time
           </p>
         </div>
       </div>
       <div
-        class="MuiGrid-root makeStyles-buttonBox-2 button-box MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+        class="makeStyles-buttonBox-2 MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 button-box css-wmkgw3-MuiGrid-root"
       >
         <a
-          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
           href="/zap"
         >
           <div
-            aria-disabled="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined learn-more-button MuiButton-outlinedSecondary MuiButton-disableElevation"
+            class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root learn-more-button css-5pbcmn-MuiButtonBase-root-MuiButton-root"
             role="button"
             tabindex="0"
           >
-            <span
-              class="MuiButton-label"
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1"
-              >
-                Swap into sOHM
-              </p>
-            </span>
+              Swap into sOHM
+            </p>
           </div>
         </a>
       </div>

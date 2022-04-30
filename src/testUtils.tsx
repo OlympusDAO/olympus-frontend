@@ -50,7 +50,12 @@ const renderRoute = function (route: string, store = defaultStore) {
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
             <BrowserRouter basename={"/"}>
-              <App />
+              <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={lightTheme}>
+                  <CssBaseline />
+                  <App />
+                </ThemeProvider>
+              </StyledEngineProvider>
             </BrowserRouter>
           </I18nProvider>
         </Provider>

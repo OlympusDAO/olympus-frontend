@@ -6,23 +6,23 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root makeStyles-root-68 makeStyles-root-69  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-1coum6d-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root card-header MuiGrid-item"
+          class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
         >
           <div
-            class="MuiBox-root MuiBox-root-70"
+            class="MuiBox-root css-gg4vpm"
           >
             <div
-              class="MuiBox-root MuiBox-root-71"
+              class="MuiBox-root css-1xhj18k"
             >
               <h5
-                class="MuiTypography-root header-text MuiTypography-h5"
+                class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
               >
                 Wrap / Unwrap
               </h5>
@@ -32,20 +32,20 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
             >
               <a
                 aria-label="wsohm-wut"
-                class="MuiTypography-root MuiLink-root MuiLink-underlineNone migrate-sohm-button MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone migrate-sohm-button css-ao3601-MuiTypography-root-MuiLink-root"
                 href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
                 style="text-decoration: none;"
                 target="_blank"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1"
+                  class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
                 >
                   gOHM
                 </p>
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: 5px;"
                   viewBox="0 0 20 20"
@@ -59,70 +59,70 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item"
+          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
         >
           <div
-            class="MuiBox-root MuiBox-root-73"
+            class="MuiBox-root css-15i1vgz"
           >
             <div
-              class="MuiGrid-root"
+              class="MuiGrid-root css-vz6rvy-MuiGrid-root"
             >
               <div
-                class="MuiBox-root MuiBox-root-74"
+                class="MuiBox-root css-rjww1q"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1wlo379-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                   >
                     <div
-                      class="makeStyles-root-75 "
+                      class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-76"
+                        class="MuiBox-root css-1di3kc0"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                         >
                           sOHM Price
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
-                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                   >
                     <div
-                      class="makeStyles-root-75 "
+                      class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-77"
+                        class="MuiBox-root css-1di3kc0"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                         >
                           Current Index
                           <div
-                            class="MuiBox-root MuiBox-root-78"
-                            style="font-size: 16px;"
+                            class="MuiBox-root css-w341jy"
+                            style="font-size: 14px;"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-79"
+                              class="MuiBox-root css-0"
                               style="display: inline-flex; justify-content: center; align-self: center;"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                                 focusable="false"
                                 style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
@@ -133,43 +133,43 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
-                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                   >
                     <div
-                      class="makeStyles-root-75 "
+                      class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-80"
+                        class="MuiBox-root css-1di3kc0"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                         >
                           gOHM Price
                           <div
-                            class="MuiBox-root MuiBox-root-81"
-                            style="font-size: 16px;"
+                            class="MuiBox-root css-w341jy"
+                            style="font-size: 14px;"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-82"
+                              class="MuiBox-root css-0"
                               style="display: inline-flex; justify-content: center; align-self: center;"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                                 focusable="false"
                                 style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
@@ -180,16 +180,16 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
-                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -198,28 +198,29 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-83"
+            class="MuiBox-root css-1yjvs5a"
           >
             <div
-              class="MuiBox-root MuiBox-root-84"
+              class="MuiBox-root css-70qvj9"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1"
+                class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
               >
                 Wrap
                  from
               </p>
               <div
-                class="MuiFormControl-root"
+                class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiInputBase-root MuiInput-root MuiInputBase-formControl MuiInput-formControl"
+                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-lh3jjg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
                 >
                   <div
+                    aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="asset-select-first"
-                    class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+                    class="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-769ok-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
                     id="asset-select-first"
                     role="button"
                     tabindex="0"
@@ -228,13 +229,14 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput"
+                    class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
                     tabindex="-1"
                     value="sOHM"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSelect-icon MuiSvgIcon-fontSizeSmall"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconOutlined css-1uebwt4-MuiSvgIcon-root-MuiSelect-icon"
+                    data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 20 20"
                   >
@@ -242,10 +244,22 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                       d="M7 10l5 5 5-5z"
                     />
                   </svg>
+                  <fieldset
+                    aria-hidden="true"
+                    class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
+                  >
+                    <legend
+                      class="css-1in441m"
+                    >
+                      <span>
+                        Asset
+                      </span>
+                    </legend>
+                  </fieldset>
                 </div>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1"
+                class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
               >
                 <span
                   class="asset-select-label"
@@ -254,17 +268,18 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                 </span>
               </p>
               <div
-                class="MuiFormControl-root"
+                class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiInputBase-root MuiInput-root MuiInputBase-formControl MuiInput-formControl"
+                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-lh3jjg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
                   data-testid="second-asset-select"
                 >
                   <div
+                    aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="asset-select"
-                    class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+                    class="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-769ok-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
                     id="asset-select"
                     role="button"
                     tabindex="0"
@@ -273,13 +288,14 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput"
+                    class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
                     tabindex="-1"
                     value="gOHM"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSelect-icon MuiSvgIcon-fontSizeSmall"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconOutlined css-1uebwt4-MuiSvgIcon-root-MuiSelect-icon"
+                    data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 20 20"
                   >
@@ -287,123 +303,127 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                       d="M7 10l5 5 5-5z"
                     />
                   </svg>
+                  <fieldset
+                    aria-hidden="true"
+                    class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
+                  >
+                    <legend
+                      class="css-1in441m"
+                    >
+                      <span>
+                        Asset
+                      </span>
+                    </legend>
+                  </fieldset>
                 </div>
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-85"
+              class="MuiBox-root css-1xlzx9v"
             >
               <div
-                class="MuiBox-root MuiBox-root-86"
+                class="MuiBox-root css-1ws64lo"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                   style="width: 150px;"
                 />
               </div>
             </div>
           </div>
           <div
-            class="makeStyles-root-87 data-row"
+            class="DataRow-root data-row css-19fvmib"
           >
             <div
-              class="MuiBox-root MuiBox-root-89"
+              class="MuiBox-root css-1xhj18k"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               >
                 sOHM Balance
               </p>
             </div>
             <p
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               style="text-align: right;"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                 style="width: 80px;"
               />
             </p>
           </div>
           <div
-            class="makeStyles-root-87 data-row"
+            class="DataRow-root data-row css-19fvmib"
           >
             <div
-              class="MuiBox-root MuiBox-root-90"
+              class="MuiBox-root css-1xhj18k"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               >
                 gOHM Balance
               </p>
             </div>
             <p
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               style="text-align: right;"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                 style="width: 80px;"
               />
             </p>
           </div>
           <hr
-            class="MuiDivider-root"
+            class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
           />
           <div
-            class="MuiBox-root MuiBox-root-91"
+            class="MuiBox-root css-na3zg8"
           >
             <p
-              class="MuiTypography-root MuiTypography-body1"
+              class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
               style="margin: 15px 0px 10px 0px;"
             >
               Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
             </p>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-disableElevation"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1ecra50-MuiButtonBase-root-MuiButton-root"
               style="margin: 0.3rem;"
               tabindex="0"
               type="button"
             >
-              <span
-                class="MuiButton-label"
+              <img
+                alt="Avalanche Logo"
+                height="28px"
+                src="AVAX.svg"
+                width="28px"
+              />
+              <h6
+                class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+                style="margin-left: 8px;"
               >
-                <img
-                  alt="Avalanche Logo"
-                  height="28px"
-                  src="AVAX.svg"
-                  width="28px"
-                />
-                <h6
-                  class="MuiTypography-root MuiTypography-h6"
-                  style="margin-left: 8px;"
-                >
-                  Avalanche
-                </h6>
-              </span>
+                Avalanche
+              </h6>
             </button>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-disableElevation"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1ecra50-MuiButtonBase-root-MuiButton-root"
               style="margin: 0.3rem;"
               tabindex="0"
               type="button"
             >
-              <span
-                class="MuiButton-label"
+              <img
+                alt="Arbitrum Logo"
+                height="28px"
+                src="arbitrum.png"
+                width="28px"
+              />
+              <h6
+                class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+                style="margin-left: 8px;"
               >
-                <img
-                  alt="Arbitrum Logo"
-                  height="28px"
-                  src="arbitrum.png"
-                  width="28px"
-                />
-                <h6
-                  class="MuiTypography-root MuiTypography-h6"
-                  style="margin-left: 8px;"
-                >
-                  Arbitrum
-                </h6>
-              </span>
+                Arbitrum
+              </h6>
             </button>
           </div>
         </div>
@@ -419,23 +439,23 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root makeStyles-root-1 makeStyles-root-2  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-1coum6d-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root card-header MuiGrid-item"
+          class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
         >
           <div
-            class="MuiBox-root MuiBox-root-3"
+            class="MuiBox-root css-gg4vpm"
           >
             <div
-              class="MuiBox-root MuiBox-root-4"
+              class="MuiBox-root css-1xhj18k"
             >
               <h5
-                class="MuiTypography-root header-text MuiTypography-h5"
+                class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
               >
                 Wrap / Unwrap
               </h5>
@@ -445,20 +465,20 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
             >
               <a
                 aria-label="wsohm-wut"
-                class="MuiTypography-root MuiLink-root MuiLink-underlineNone migrate-sohm-button MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone migrate-sohm-button css-ao3601-MuiTypography-root-MuiLink-root"
                 href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
                 style="text-decoration: none;"
                 target="_blank"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1"
+                  class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
                 >
                   gOHM
                 </p>
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: 5px;"
                   viewBox="0 0 20 20"
@@ -472,70 +492,70 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item"
+          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
         >
           <div
-            class="MuiBox-root MuiBox-root-6"
+            class="MuiBox-root css-15i1vgz"
           >
             <div
-              class="MuiGrid-root"
+              class="MuiGrid-root css-vz6rvy-MuiGrid-root"
             >
               <div
-                class="MuiBox-root MuiBox-root-7"
+                class="MuiBox-root css-rjww1q"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1wlo379-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                   >
                     <div
-                      class="makeStyles-root-8 "
+                      class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-9"
+                        class="MuiBox-root css-1di3kc0"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                         >
                           sOHM Price
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
-                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                   >
                     <div
-                      class="makeStyles-root-8 "
+                      class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-10"
+                        class="MuiBox-root css-1di3kc0"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                         >
                           Current Index
                           <div
-                            class="MuiBox-root MuiBox-root-11"
-                            style="font-size: 16px;"
+                            class="MuiBox-root css-w341jy"
+                            style="font-size: 14px;"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-12"
+                              class="MuiBox-root css-0"
                               style="display: inline-flex; justify-content: center; align-self: center;"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                                 focusable="false"
                                 style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
@@ -546,43 +566,43 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
-                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                   >
                     <div
-                      class="makeStyles-root-8 "
+                      class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-13"
+                        class="MuiBox-root css-1di3kc0"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                         >
                           gOHM Price
                           <div
-                            class="MuiBox-root MuiBox-root-14"
-                            style="font-size: 16px;"
+                            class="MuiBox-root css-w341jy"
+                            style="font-size: 14px;"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-15"
+                              class="MuiBox-root css-0"
                               style="display: inline-flex; justify-content: center; align-self: center;"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                                 focusable="false"
                                 style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
@@ -593,16 +613,16 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
-                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -611,26 +631,22 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-16"
+            class="MuiBox-root css-dvxtzn"
           >
             <div
-              class="MuiBox-root MuiBox-root-17"
+              class="MuiBox-root css-1upilqn"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-18 makeStyles-root-19 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+                class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-1s3qiyy-MuiButtonBase-root-MuiButton-root"
                 style="font-size: 1.2857rem;"
                 tabindex="0"
                 type="button"
               >
-                <span
-                  class="MuiButton-label"
-                >
-                  Connect Wallet
-                </span>
+                Connect Wallet
               </button>
             </div>
             <h6
-              class="MuiTypography-root MuiTypography-h6"
+              class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
             >
               Connect your wallet to wrap/unwrap your staked tokens
             </h6>
@@ -648,23 +664,23 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root makeStyles-root-44 makeStyles-root-45  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-1coum6d-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root card-header MuiGrid-item"
+          class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
         >
           <div
-            class="MuiBox-root MuiBox-root-46"
+            class="MuiBox-root css-gg4vpm"
           >
             <div
-              class="MuiBox-root MuiBox-root-47"
+              class="MuiBox-root css-1xhj18k"
             >
               <h5
-                class="MuiTypography-root header-text MuiTypography-h5"
+                class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
               >
                 Wrap / Unwrap
               </h5>
@@ -674,20 +690,20 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
             >
               <a
                 aria-label="wsohm-wut"
-                class="MuiTypography-root MuiLink-root MuiLink-underlineNone migrate-sohm-button MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone migrate-sohm-button css-ao3601-MuiTypography-root-MuiLink-root"
                 href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
                 style="text-decoration: none;"
                 target="_blank"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1"
+                  class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
                 >
                   gOHM
                 </p>
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: 5px;"
                   viewBox="0 0 20 20"
@@ -701,70 +717,70 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item"
+          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
         >
           <div
-            class="MuiBox-root MuiBox-root-49"
+            class="MuiBox-root css-15i1vgz"
           >
             <div
-              class="MuiGrid-root"
+              class="MuiGrid-root css-vz6rvy-MuiGrid-root"
             >
               <div
-                class="MuiBox-root MuiBox-root-50"
+                class="MuiBox-root css-rjww1q"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1wlo379-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                   >
                     <div
-                      class="makeStyles-root-51 "
+                      class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-52"
+                        class="MuiBox-root css-1di3kc0"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                         >
                           sOHM Price
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
-                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                   >
                     <div
-                      class="makeStyles-root-51 "
+                      class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-53"
+                        class="MuiBox-root css-1di3kc0"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                         >
                           Current Index
                           <div
-                            class="MuiBox-root MuiBox-root-54"
-                            style="font-size: 16px;"
+                            class="MuiBox-root css-w341jy"
+                            style="font-size: 14px;"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-55"
+                              class="MuiBox-root css-0"
                               style="display: inline-flex; justify-content: center; align-self: center;"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                                 focusable="false"
                                 style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
@@ -775,43 +791,43 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
-                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                   >
                     <div
-                      class="makeStyles-root-51 "
+                      class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-56"
+                        class="MuiBox-root css-1di3kc0"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                         >
                           gOHM Price
                           <div
-                            class="MuiBox-root MuiBox-root-57"
-                            style="font-size: 16px;"
+                            class="MuiBox-root css-w341jy"
+                            style="font-size: 14px;"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-58"
+                              class="MuiBox-root css-0"
                               style="display: inline-flex; justify-content: center; align-self: center;"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                                 focusable="false"
                                 style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
@@ -822,16 +838,16 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
-                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -840,27 +856,28 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-59"
+            class="MuiBox-root css-xwfmks"
           >
             <div
-              class="MuiBox-root MuiBox-root-60"
+              class="MuiBox-root css-70qvj9"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1"
+                class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
               >
                 Migrate
               </p>
               <div
-                class="MuiFormControl-root"
+                class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiInputBase-root MuiInput-root MuiInputBase-formControl MuiInput-formControl"
+                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-lh3jjg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
                 >
                   <div
+                    aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="asset-select"
-                    class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+                    class="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-769ok-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
                     id="asset-select"
                     role="button"
                     tabindex="0"
@@ -869,13 +886,14 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput"
+                    class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
                     tabindex="-1"
                     value="wsOHM"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSelect-icon MuiSvgIcon-fontSizeSmall"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconOutlined css-1uebwt4-MuiSvgIcon-root-MuiSelect-icon"
+                    data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 20 20"
                   >
@@ -883,10 +901,22 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                       d="M7 10l5 5 5-5z"
                     />
                   </svg>
+                  <fieldset
+                    aria-hidden="true"
+                    class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
+                  >
+                    <legend
+                      class="css-1in441m"
+                    >
+                      <span>
+                        Asset
+                      </span>
+                    </legend>
+                  </fieldset>
                 </div>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1"
+                class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
               >
                 <span
                   class="asset-select-label"
@@ -895,16 +925,17 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                 </span>
               </p>
               <div
-                class="MuiFormControl-root"
+                class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiInputBase-root MuiInput-root MuiInputBase-formControl MuiInput-formControl"
+                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-lh3jjg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
                 >
                   <div
+                    aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="asset-select"
-                    class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+                    class="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-769ok-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
                     id="asset-select"
                     role="button"
                     tabindex="0"
@@ -913,13 +944,14 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput"
+                    class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
                     tabindex="-1"
                     value="gOHM"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSelect-icon MuiSvgIcon-fontSizeSmall"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconOutlined css-1uebwt4-MuiSvgIcon-root-MuiSelect-icon"
+                    data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 20 20"
                   >
@@ -927,99 +959,107 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                       d="M7 10l5 5 5-5z"
                     />
                   </svg>
+                  <fieldset
+                    aria-hidden="true"
+                    class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
+                  >
+                    <legend
+                      class="css-1in441m"
+                    >
+                      <span>
+                        Asset
+                      </span>
+                    </legend>
+                  </fieldset>
                 </div>
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-61"
+              class="MuiBox-root css-1xlzx9v"
             >
               <div
-                class="MuiBox-root MuiBox-root-62"
+                class="MuiBox-root css-1ws64lo"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                   style="width: 150px;"
                 />
               </div>
             </div>
           </div>
           <div
-            class="makeStyles-root-63 data-row"
+            class="DataRow-root data-row css-19fvmib"
           >
             <div
-              class="MuiBox-root MuiBox-root-65"
+              class="MuiBox-root css-1xhj18k"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               >
                 wsOHM Balance (Arbitrum)
               </p>
             </div>
             <p
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               style="text-align: right;"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                 style="width: 80px;"
               />
             </p>
           </div>
           <div
-            class="makeStyles-root-63 data-row"
+            class="DataRow-root data-row css-19fvmib"
           >
             <div
-              class="MuiBox-root MuiBox-root-66"
+              class="MuiBox-root css-1xhj18k"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               >
                 gOHM Balance (Arbitrum)
               </p>
             </div>
             <p
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               style="text-align: right;"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                 style="width: 80px;"
               />
             </p>
           </div>
           <hr
-            class="MuiDivider-root"
+            class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
           />
           <div
-            class="MuiBox-root MuiBox-root-67"
+            class="MuiBox-root css-na3zg8"
           >
             <h6
-              class="MuiTypography-root MuiTypography-h6"
+              class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
               style="margin: 15px 0px 10px 0px;"
             >
               Back to Ethereum Mainnet
             </h6>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-disableElevation"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1ecra50-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
-              <span
-                class="MuiButton-label"
+              <img
+                alt="Ethereum Logo"
+                height="28px"
+                src="wETH.svg"
+                width="28px"
+              />
+              <h6
+                class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+                style="margin-left: 8px;"
               >
-                <img
-                  alt="Ethereum Logo"
-                  height="28px"
-                  src="wETH.svg"
-                  width="28px"
-                />
-                <h6
-                  class="MuiTypography-root MuiTypography-h6"
-                  style="margin-left: 8px;"
-                >
-                  Ethereum
-                </h6>
-              </span>
+                Ethereum
+              </h6>
             </button>
           </div>
         </div>
@@ -1035,23 +1075,23 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root makeStyles-root-20 makeStyles-root-21  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-1coum6d-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root card-header MuiGrid-item"
+          class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
         >
           <div
-            class="MuiBox-root MuiBox-root-22"
+            class="MuiBox-root css-gg4vpm"
           >
             <div
-              class="MuiBox-root MuiBox-root-23"
+              class="MuiBox-root css-1xhj18k"
             >
               <h5
-                class="MuiTypography-root header-text MuiTypography-h5"
+                class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
               >
                 Wrap / Unwrap
               </h5>
@@ -1061,20 +1101,20 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
             >
               <a
                 aria-label="wsohm-wut"
-                class="MuiTypography-root MuiLink-root MuiLink-underlineNone migrate-sohm-button MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone migrate-sohm-button css-ao3601-MuiTypography-root-MuiLink-root"
                 href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
                 style="text-decoration: none;"
                 target="_blank"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1"
+                  class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
                 >
                   gOHM
                 </p>
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                   focusable="false"
                   style="margin-left: 5px;"
                   viewBox="0 0 20 20"
@@ -1088,70 +1128,70 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item"
+          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
         >
           <div
-            class="MuiBox-root MuiBox-root-25"
+            class="MuiBox-root css-15i1vgz"
           >
             <div
-              class="MuiGrid-root"
+              class="MuiGrid-root css-vz6rvy-MuiGrid-root"
             >
               <div
-                class="MuiBox-root MuiBox-root-26"
+                class="MuiBox-root css-rjww1q"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1wlo379-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                   >
                     <div
-                      class="makeStyles-root-27 "
+                      class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-28"
+                        class="MuiBox-root css-1di3kc0"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                         >
                           sOHM Price
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
-                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                   >
                     <div
-                      class="makeStyles-root-27 "
+                      class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-29"
+                        class="MuiBox-root css-1di3kc0"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                         >
                           Current Index
                           <div
-                            class="MuiBox-root MuiBox-root-30"
-                            style="font-size: 16px;"
+                            class="MuiBox-root css-w341jy"
+                            style="font-size: 14px;"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-31"
+                              class="MuiBox-root css-0"
                               style="display: inline-flex; justify-content: center; align-self: center;"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                                 focusable="false"
                                 style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
@@ -1162,43 +1202,43 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
-                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                   >
                     <div
-                      class="makeStyles-root-27 "
+                      class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-32"
+                        class="MuiBox-root css-1di3kc0"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                         >
                           gOHM Price
                           <div
-                            class="MuiBox-root MuiBox-root-33"
-                            style="font-size: 16px;"
+                            class="MuiBox-root css-w341jy"
+                            style="font-size: 14px;"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-34"
+                              class="MuiBox-root css-0"
                               style="display: inline-flex; justify-content: center; align-self: center;"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                                 focusable="false"
                                 style="margin: 0px 5px; font-size: 1em;"
                                 viewBox="0 0 20 20"
@@ -1209,16 +1249,16 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
-                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -1227,27 +1267,28 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-35"
+            class="MuiBox-root css-xwfmks"
           >
             <div
-              class="MuiBox-root MuiBox-root-36"
+              class="MuiBox-root css-70qvj9"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1"
+                class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
               >
                 Migrate
               </p>
               <div
-                class="MuiFormControl-root"
+                class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiInputBase-root MuiInput-root MuiInputBase-formControl MuiInput-formControl"
+                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-lh3jjg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
                 >
                   <div
+                    aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="asset-select"
-                    class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+                    class="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-769ok-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
                     id="asset-select"
                     role="button"
                     tabindex="0"
@@ -1256,13 +1297,14 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput"
+                    class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
                     tabindex="-1"
                     value="wsOHM"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSelect-icon MuiSvgIcon-fontSizeSmall"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconOutlined css-1uebwt4-MuiSvgIcon-root-MuiSelect-icon"
+                    data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 20 20"
                   >
@@ -1270,10 +1312,22 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                       d="M7 10l5 5 5-5z"
                     />
                   </svg>
+                  <fieldset
+                    aria-hidden="true"
+                    class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
+                  >
+                    <legend
+                      class="css-1in441m"
+                    >
+                      <span>
+                        Asset
+                      </span>
+                    </legend>
+                  </fieldset>
                 </div>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1"
+                class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
               >
                 <span
                   class="asset-select-label"
@@ -1282,16 +1336,17 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                 </span>
               </p>
               <div
-                class="MuiFormControl-root"
+                class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiInputBase-root MuiInput-root MuiInputBase-formControl MuiInput-formControl"
+                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-lh3jjg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
                 >
                   <div
+                    aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="asset-select"
-                    class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+                    class="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-769ok-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
                     id="asset-select"
                     role="button"
                     tabindex="0"
@@ -1300,13 +1355,14 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                   </div>
                   <input
                     aria-hidden="true"
-                    class="MuiSelect-nativeInput"
+                    class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
                     tabindex="-1"
                     value="gOHM"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSelect-icon MuiSvgIcon-fontSizeSmall"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconOutlined css-1uebwt4-MuiSvgIcon-root-MuiSelect-icon"
+                    data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 20 20"
                   >
@@ -1314,99 +1370,107 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                       d="M7 10l5 5 5-5z"
                     />
                   </svg>
+                  <fieldset
+                    aria-hidden="true"
+                    class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
+                  >
+                    <legend
+                      class="css-1in441m"
+                    >
+                      <span>
+                        Asset
+                      </span>
+                    </legend>
+                  </fieldset>
                 </div>
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-37"
+              class="MuiBox-root css-1xlzx9v"
             >
               <div
-                class="MuiBox-root MuiBox-root-38"
+                class="MuiBox-root css-1ws64lo"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                   style="width: 150px;"
                 />
               </div>
             </div>
           </div>
           <div
-            class="makeStyles-root-39 data-row"
+            class="DataRow-root data-row css-19fvmib"
           >
             <div
-              class="MuiBox-root MuiBox-root-41"
+              class="MuiBox-root css-1xhj18k"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               >
                 wsOHM Balance (Avalanche)
               </p>
             </div>
             <p
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               style="text-align: right;"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                 style="width: 80px;"
               />
             </p>
           </div>
           <div
-            class="makeStyles-root-39 data-row"
+            class="DataRow-root data-row css-19fvmib"
           >
             <div
-              class="MuiBox-root MuiBox-root-42"
+              class="MuiBox-root css-1xhj18k"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               >
                 gOHM Balance (Avalanche)
               </p>
             </div>
             <p
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
               style="text-align: right;"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                 style="width: 80px;"
               />
             </p>
           </div>
           <hr
-            class="MuiDivider-root"
+            class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
           />
           <div
-            class="MuiBox-root MuiBox-root-43"
+            class="MuiBox-root css-na3zg8"
           >
             <h6
-              class="MuiTypography-root MuiTypography-h6"
+              class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
               style="margin: 15px 0px 10px 0px;"
             >
               Back to Ethereum Mainnet
             </h6>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-disableElevation"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1ecra50-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
-              <span
-                class="MuiButton-label"
+              <img
+                alt="Ethereum Logo"
+                height="28px"
+                src="wETH.svg"
+                width="28px"
+              />
+              <h6
+                class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+                style="margin-left: 8px;"
               >
-                <img
-                  alt="Ethereum Logo"
-                  height="28px"
-                  src="wETH.svg"
-                  width="28px"
-                />
-                <h6
-                  class="MuiTypography-root MuiTypography-h6"
-                  style="margin-left: 8px;"
-                >
-                  Ethereum
-                </h6>
-              </span>
+                Ethereum
+              </h6>
             </button>
           </div>
         </div>
