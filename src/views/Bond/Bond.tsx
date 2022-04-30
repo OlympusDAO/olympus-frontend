@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, Tab, Tabs, Zoom } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useState } from "react";
 
@@ -19,42 +19,39 @@ export const Bond = () => {
   return (
     <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
       <ClaimBonds />
+      <Paper headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`} (3,1)` : `${t`Bond`} (4,4)`}>
+        <MetricCollection>
+          <TreasuryBalance />
+          <OHMPrice />
+        </MetricCollection>
 
-      <Zoom in onEntered={() => setIsZoomed(true)}>
-        <Paper headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`} (3,1)` : `${t`Bond`} (4,4)`}>
-          <MetricCollection>
-            <TreasuryBalance />
-            <OHMPrice />
-          </MetricCollection>
+        <Box mt="24px">
+          {showTabs && (
+            <Tabs
+              centered
+              textColor="primary"
+              aria-label="bond tabs"
+              indicatorColor="primary"
+              value={currentAction === "BOND" ? 0 : 1}
+              onChange={(_, view) => setCurrentAction(view === 0 ? "BOND" : "INVERSE")}
+              // Hides the tab underline while <Zoom> is zooming
+              TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
+            >
+              <Tab aria-label="bond-button" label={t`Bond`} style={{ fontSize: "1rem" }} />
+              <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} style={{ fontSize: "1rem" }} />
+            </Tabs>
+          )}
 
-          <Box mt="24px">
-            {showTabs && (
-              <Tabs
-                centered
-                textColor="primary"
-                aria-label="bond tabs"
-                indicatorColor="primary"
-                value={currentAction === "BOND" ? 0 : 1}
-                onChange={(_, view) => setCurrentAction(view === 0 ? "BOND" : "INVERSE")}
-                // Hides the tab underline while <Zoom> is zooming
-                TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
-              >
-                <Tab aria-label="bond-button" label={t`Bond`} style={{ fontSize: "1rem" }} />
-                <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} style={{ fontSize: "1rem" }} />
-              </Tabs>
-            )}
-
-            {!!bonds && !!inverse && (
-              <Box mt="24px">
-                <BondList
-                  isInverseBond={currentAction === "INVERSE"}
-                  bonds={currentAction === "BOND" ? bonds : inverse}
-                />
-              </Box>
-            )}
-          </Box>
-        </Paper>
-      </Zoom>
+          {!!bonds && !!inverse && (
+            <Box mt="24px">
+              <BondList
+                isInverseBond={currentAction === "INVERSE"}
+                bonds={currentAction === "BOND" ? bonds : inverse}
+              />
+            </Box>
+          )}
+        </Box>
+      </Paper>
     </Box>
   );
 };

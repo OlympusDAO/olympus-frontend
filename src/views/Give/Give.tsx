@@ -1,7 +1,7 @@
 import "./Give.scss";
 
 import { t } from "@lingui/macro";
-import { Grid, Typography, Zoom } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
@@ -80,55 +80,52 @@ function Give({ selectedIndex, giveAssetType, changeAssetType }: GiveProps) {
       <Grid container direction="column" alignItems="center">
         <Grid item xs />
         <Grid item xs={12} sm={10} md={10} lg={8}>
-          <Zoom in={true} onEntered={() => setZoomed(true)}>
-            <Paper headerText={t`Give`} childPaperBackground={true} fullWidth className="no-container-padding">
-              {!isSupportedChain(networkId) ? (
-                <Typography variant="h6">
-                  Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
-                  functionality.
-                </Typography>
-              ) : (
-                <></>
-              )}
-              {hasV1Assets && <CallToRedeem />}
-              <Tabs
-                key={String(zoomed)}
-                centered
-                value={view}
-                className={`give-tab-buttons ${isBreakpointXS ? `give-tab-buttons-xs` : ``}`}
-                onChange={changeView}
-                aria-label="stake tabs"
-              >
-                <Tab label={t`Causes`} {...a11yProps(0)} />
-                <Tab label={t`Grants`} {...a11yProps(1)} />
-                <Tab label={t`My Donations`} {...a11yProps(2)} />
-                <Tab label={t`Redeem`} {...a11yProps(3)} />
-              </Tabs>
+          <Paper headerText={t`Give`} childPaperBackground={true} fullWidth className="no-container-padding">
+            {!isSupportedChain(networkId) ? (
+              <Typography variant="h6">
+                Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
+                functionality.
+              </Typography>
+            ) : (
+              <></>
+            )}
+            {hasV1Assets && <CallToRedeem />}
+            <Tabs
+              key={String(zoomed)}
+              centered
+              value={view}
+              className={`give-tab-buttons ${isBreakpointXS ? `give-tab-buttons-xs` : ``}`}
+              onChange={changeView}
+              aria-label="stake tabs"
+            >
+              <Tab label={t`Causes`} {...a11yProps(0)} />
+              <Tab label={t`Grants`} {...a11yProps(1)} />
+              <Tab label={t`My Donations`} {...a11yProps(2)} />
+              <Tab label={t`Redeem`} {...a11yProps(3)} />
+            </Tabs>
 
-              <TabPanel value={view} index={0}>
-                <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
-                <CausesDashboard giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
-              </TabPanel>
-              <TabPanel value={view} index={1}>
-                <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
-                <GrantsDashboard giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
-              </TabPanel>
-              <TabPanel value={view} index={2}>
-                {/* We have a button to switch tabs in this child component, so need to pass the handler. */}
-                <YieldRecipients
-                  changeView={buttonChangeView}
-                  giveAssetType={giveAssetType}
-                  changeAssetType={changeAssetType}
-                />
-              </TabPanel>
-              <TabPanel value={view} index={3}>
-                <RedeemYield />
-              </TabPanel>
-            </Paper>
-          </Zoom>
-          <Zoom in={true}>
-            <GiveInfo />
-          </Zoom>
+            <TabPanel value={view} index={0}>
+              <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
+              <CausesDashboard giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
+            </TabPanel>
+            <TabPanel value={view} index={1}>
+              <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
+              <GrantsDashboard giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
+            </TabPanel>
+            <TabPanel value={view} index={2}>
+              {/* We have a button to switch tabs in this child component, so need to pass the handler. */}
+              <YieldRecipients
+                changeView={buttonChangeView}
+                giveAssetType={giveAssetType}
+                changeAssetType={changeAssetType}
+              />
+            </TabPanel>
+            <TabPanel value={view} index={3}>
+              <RedeemYield />
+            </TabPanel>
+          </Paper>
+
+          <GiveInfo />
         </Grid>
         <Grid item xs />
       </Grid>

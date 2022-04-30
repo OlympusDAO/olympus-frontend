@@ -1,17 +1,10 @@
 const breakpointValues = {
   xs: 0,
-  sm: 596,
-  md: 800,
-  lg: 1000,
-  xl: 1333,
+  sm: 600,
+  md: 960,
+  lg: 1280,
+  xl: 1920,
 };
-
-// replace above with this later
-// const breakpointValues = {
-//   mobile: 590,
-//   tablet: 970,
-//   browser: 1333,
-// };
 
 /**
  * will remove opacity from rgbaString when backdrop-filter is not supported
