@@ -324,76 +324,80 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
             <div
               class="MuiBox-root css-1xlzx9v"
             >
-              <form
-                class="stake-tab-panel wrap-page"
+              <div
+                class="css-1jiamkk"
               >
-                <div
-                  class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
+                <form
+                  class="stake-tab-panel wrap-page"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8 css-111wfws-MuiGrid-root"
-                    style="padding-right: 4px;"
+                    class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
                   >
                     <div
-                      class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-3tw635-MuiFormControl-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8 css-111wfws-MuiGrid-root"
+                      style="padding-right: 4px;"
                     >
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-cfejmg-MuiInputBase-root-MuiOutlinedInput-root"
+                        class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-3tw635-MuiFormControl-root"
                       >
-                        <input
-                          aria-invalid="false"
-                          class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1vvkud8-MuiInputBase-input-MuiOutlinedInput-input"
-                          id="amount-input"
-                          name="amount-input"
-                          placeholder="Enter an amount of gOHM"
-                          type="text"
-                          value=""
-                        />
                         <div
-                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-cfejmg-MuiInputBase-root-MuiOutlinedInput-root"
                         >
-                          <button
-                            class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-rmjmo8-MuiButtonBase-root-MuiButton-root"
-                            tabindex="0"
-                            type="button"
+                          <input
+                            aria-invalid="false"
+                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1vvkud8-MuiInputBase-input-MuiOutlinedInput-input"
+                            id="amount-input"
+                            name="amount-input"
+                            placeholder="Enter an amount of gOHM"
+                            type="text"
+                            value=""
+                          />
+                          <div
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
                           >
-                            Max
-                          </button>
-                        </div>
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
-                        >
-                          <legend
-                            class="css-hdw1oc"
-                          >
-                            <span
-                              class="notranslate"
+                            <button
+                              class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-rmjmo8-MuiButtonBase-root-MuiButton-root"
+                              tabindex="0"
+                              type="button"
                             >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
+                              Max
+                            </button>
+                          </div>
+                          <fieldset
+                            aria-hidden="true"
+                            class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
+                          >
+                            <legend
+                              class="css-hdw1oc"
+                            >
+                              <span
+                                class="notranslate"
+                              >
+                                ​
+                              </span>
+                            </legend>
+                          </fieldset>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiBox-root css-w4egcq"
+                      >
+                        <button
+                          class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  css-8aw5i7-MuiButtonBase-root-MuiButton-root"
+                          tabindex="0"
+                          type="submit"
+                        >
+                          Unwrap from gOHM
+                        </button>
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiBox-root css-w4egcq"
-                    >
-                      <button
-                        class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  css-8aw5i7-MuiButtonBase-root-MuiButton-root"
-                        tabindex="0"
-                        type="submit"
-                      >
-                        Unwrap from gOHM
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
           <div
@@ -822,76 +826,80 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
             <div
               class="MuiBox-root css-1xlzx9v"
             >
-              <form
-                class="stake-tab-panel wrap-page"
+              <div
+                class="css-1jiamkk"
               >
-                <div
-                  class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
+                <form
+                  class="stake-tab-panel wrap-page"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8 css-111wfws-MuiGrid-root"
-                    style="padding-right: 4px;"
+                    class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
                   >
                     <div
-                      class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-3tw635-MuiFormControl-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8 css-111wfws-MuiGrid-root"
+                      style="padding-right: 4px;"
                     >
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-cfejmg-MuiInputBase-root-MuiOutlinedInput-root"
+                        class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-3tw635-MuiFormControl-root"
                       >
-                        <input
-                          aria-invalid="false"
-                          class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1vvkud8-MuiInputBase-input-MuiOutlinedInput-input"
-                          id="amount-input"
-                          name="amount-input"
-                          placeholder="Enter an amount of sOHM"
-                          type="text"
-                          value="1"
-                        />
                         <div
-                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-cfejmg-MuiInputBase-root-MuiOutlinedInput-root"
                         >
-                          <button
-                            class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-rmjmo8-MuiButtonBase-root-MuiButton-root"
-                            tabindex="0"
-                            type="button"
+                          <input
+                            aria-invalid="false"
+                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1vvkud8-MuiInputBase-input-MuiOutlinedInput-input"
+                            id="amount-input"
+                            name="amount-input"
+                            placeholder="Enter an amount of sOHM"
+                            type="text"
+                            value="1"
+                          />
+                          <div
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
                           >
-                            Max
-                          </button>
-                        </div>
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
-                        >
-                          <legend
-                            class="css-hdw1oc"
-                          >
-                            <span
-                              class="notranslate"
+                            <button
+                              class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-rmjmo8-MuiButtonBase-root-MuiButton-root"
+                              tabindex="0"
+                              type="button"
                             >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
+                              Max
+                            </button>
+                          </div>
+                          <fieldset
+                            aria-hidden="true"
+                            class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
+                          >
+                            <legend
+                              class="css-hdw1oc"
+                            >
+                              <span
+                                class="notranslate"
+                              >
+                                ​
+                              </span>
+                            </legend>
+                          </fieldset>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiBox-root css-w4egcq"
+                      >
+                        <button
+                          class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  css-8aw5i7-MuiButtonBase-root-MuiButton-root"
+                          tabindex="0"
+                          type="submit"
+                        >
+                          Wrap to gOHM
+                        </button>
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiBox-root css-w4egcq"
-                    >
-                      <button
-                        class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  css-8aw5i7-MuiButtonBase-root-MuiButton-root"
-                        tabindex="0"
-                        type="submit"
-                      >
-                        Wrap to gOHM
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
           <div

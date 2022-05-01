@@ -8,6 +8,9 @@ exports[`<Root/> should render component 1`] = `
     <div
       class="app false false light"
     >
+      <div
+        class="css-19x30ax"
+      />
       <div>
         <div>
           <div
@@ -30,7 +33,7 @@ exports[`<Root/> should render component 1`] = `
                 </div>
                 Safety Check: Always verify you're on app.olympusdao.finance!
                 <div
-                  class="makeStyles-root-9"
+                  class="Messages-root css-x4lqba"
                 >
                   <span
                     aria-valuemax="100"
@@ -74,14 +77,14 @@ exports[`<Root/> should render component 1`] = `
         </div>
       </div>
       <header
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionSticky makeStyles-appBar-10 css-1p93tx-MuiPaper-root-MuiAppBar-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionSticky TopBar-appBar css-1puga64-MuiPaper-root-MuiAppBar-root"
       >
         <div
           class="MuiToolbar-root MuiToolbar-regular dapp-topbar css-v92ha2-MuiToolbar-root"
         >
           <button
             aria-label="open drawer"
-            class="MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-disableElevation MuiButtonBase-root makeStyles-menuButton-11 css-1u2p4sf-MuiButtonBase-root-MuiButton-root"
+            class="MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-disableElevation MuiButtonBase-root TopBar-menuButton css-1u2p4sf-MuiButtonBase-root-MuiButton-root"
             id="hamburger"
             tabindex="0"
             type="button"
@@ -757,7 +760,7 @@ exports[`<Root/> should render component 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root css-hj22h6"
+                    class="MuiBox-root css-1q2t5ta"
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
@@ -766,7 +769,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall makeStyles-gray-12 css-1fx2bp7-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -782,7 +785,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall makeStyles-gray-12 css-1fx2bp7-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -798,7 +801,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall makeStyles-gray-12 css-1fx2bp7-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -814,7 +817,7 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall makeStyles-gray-12 css-1fx2bp7-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
                         focusable="false"
                         viewBox="0 0 20 20"
                       >
@@ -1055,7 +1058,7 @@ exports[`<Root/> should render component 1`] = `
                   class="MuiTable-root css-17zo3iv-MuiTable-root"
                 >
                   <thead
-                    class="MuiTableHead-root makeStyles-stakePoolHeaderText-14 css-15wwp11-MuiTableHead-root"
+                    class="MuiTableHead-root ExternalStakePools-stakePoolHeaderText css-1crhyyu-MuiTableHead-root"
                   >
                     <tr
                       class="MuiTableRow-root MuiTableRow-head css-xjst8z-MuiTableRow-root"

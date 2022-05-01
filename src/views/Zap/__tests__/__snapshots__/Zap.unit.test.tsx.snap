@@ -45,17 +45,17 @@ exports[`<Zap/> should render component 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 ohm-card css-93w7oz-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 ohm-card css-19j9z34-MuiPaper-root"
       id="olyzaps-info"
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4 css-1l4h2ke-MuiGrid-root"
       >
         <div
-          class="makeStyles-infoBox-1 MuiGrid-root makeStyles-infoBoxItem-2 MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-c8aaa2-MuiGrid-root"
+          class="ZapInfo-infoBox MuiGrid-root ZapInfo-infoBoxItem MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-c8aaa2-MuiGrid-root"
         >
           <div
-            class="makeStyles-infoHeader-3 oly-info-header-box MuiBox-root css-1m5be6d"
+            class="ZapInfo-infoHeader oly-info-header-box MuiBox-root css-1m5be6d"
           >
             <div
               class="MuiBox-root css-0"
@@ -136,7 +136,7 @@ exports[`<Zap/> should render component 1`] = `
             </p>
           </div>
           <div
-            class="makeStyles-infoBody-4 MuiBox-root css-0"
+            class="ZapInfo-infoBody MuiBox-root css-0"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 oly-info-body-header css-69sme-MuiTypography-root"
@@ -151,10 +151,10 @@ exports[`<Zap/> should render component 1`] = `
           </div>
         </div>
         <div
-          class="makeStyles-infoBox-1 MuiGrid-root makeStyles-infoBoxItem-2 MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-c8aaa2-MuiGrid-root"
+          class="ZapInfo-infoBox MuiGrid-root ZapInfo-infoBoxItem MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-c8aaa2-MuiGrid-root"
         >
           <div
-            class="makeStyles-infoHeader-3 oly-info-header-box MuiBox-root css-1m5be6d"
+            class="ZapInfo-infoHeader oly-info-header-box MuiBox-root css-1m5be6d"
           >
             <svg
               aria-hidden="true"
@@ -183,7 +183,7 @@ exports[`<Zap/> should render component 1`] = `
             </p>
           </div>
           <div
-            class="makeStyles-infoBody-4 MuiBox-root css-0"
+            class="ZapInfo-infoBody MuiBox-root css-0"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 oly-info-body-header css-69sme-MuiTypography-root"
@@ -198,10 +198,10 @@ exports[`<Zap/> should render component 1`] = `
           </div>
         </div>
         <div
-          class="makeStyles-infoBox-1 MuiGrid-root makeStyles-infoBoxItem-2 MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-c8aaa2-MuiGrid-root"
+          class="ZapInfo-infoBox MuiGrid-root ZapInfo-infoBoxItem MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-c8aaa2-MuiGrid-root"
         >
           <div
-            class="makeStyles-infoHeader-3 oly-info-header-box MuiBox-root css-1m5be6d"
+            class="ZapInfo-infoHeader oly-info-header-box MuiBox-root css-1m5be6d"
           >
             <div
               class="MuiBox-root css-1xhj18k"
@@ -306,7 +306,7 @@ exports[`<Zap/> should render component 1`] = `
             </p>
           </div>
           <div
-            class="makeStyles-infoBody-4 MuiBox-root css-0"
+            class="ZapInfo-infoBody MuiBox-root css-0"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 oly-info-body-header css-69sme-MuiTypography-root"

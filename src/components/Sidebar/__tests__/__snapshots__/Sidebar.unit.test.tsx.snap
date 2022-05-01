@@ -570,7 +570,7 @@ exports[`<Sidebar/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root css-hj22h6"
+              class="MuiBox-root css-1q2t5ta"
             >
               <a
                 class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
@@ -579,7 +579,7 @@ exports[`<Sidebar/> should render component 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall makeStyles-gray-1 css-1fx2bp7-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -595,7 +595,7 @@ exports[`<Sidebar/> should render component 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall makeStyles-gray-1 css-1fx2bp7-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -611,7 +611,7 @@ exports[`<Sidebar/> should render component 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall makeStyles-gray-1 css-1fx2bp7-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -627,7 +627,7 @@ exports[`<Sidebar/> should render component 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall makeStyles-gray-1 css-1fx2bp7-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >

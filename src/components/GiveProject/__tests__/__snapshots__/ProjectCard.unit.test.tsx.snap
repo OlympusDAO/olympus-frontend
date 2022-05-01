@@ -111,11 +111,11 @@ exports[`<ProjectCard/> should render card 1`] = `
                 aria-valuemax="100"
                 aria-valuemin="0"
                 aria-valuenow="0"
-                class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-4m3nmz-MuiLinearProgress-root"
+                class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                 role="progressbar"
               >
                 <span
-                  class="MuiLinearProgress-bar makeStyles-progress-1 makeStyles-progress-2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
+                  class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                   style="transform: translateX(-100%);"
                 />
               </span>
@@ -259,11 +259,11 @@ exports[`<ProjectCard/> should render card without image 1`] = `
                 aria-valuemax="100"
                 aria-valuemin="0"
                 aria-valuenow="0"
-                class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-4m3nmz-MuiLinearProgress-root"
+                class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                 role="progressbar"
               >
                 <span
-                  class="MuiLinearProgress-bar makeStyles-progress-3 makeStyles-progress-4 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
+                  class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                   style="transform: translateX(-100%);"
                 />
               </span>
@@ -678,11 +678,11 @@ exports[`<ProjectCard/> should render page 1`] = `
                               aria-valuemax="100"
                               aria-valuemin="0"
                               aria-valuenow="0"
-                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-4m3nmz-MuiLinearProgress-root"
+                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                               role="progressbar"
                             >
                               <span
-                                class="MuiLinearProgress-bar makeStyles-progress-5 makeStyles-progress-6 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
+                                class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                 style="transform: translateX(-100%);"
                               />
                             </span>
@@ -1156,11 +1156,11 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                               aria-valuemax="100"
                               aria-valuemin="0"
                               aria-valuenow="0"
-                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-4m3nmz-MuiLinearProgress-root"
+                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                               role="progressbar"
                             >
                               <span
-                                class="MuiLinearProgress-bar makeStyles-progress-9 makeStyles-progress-10 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
+                                class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                 style="transform: translateX(-100%);"
                               />
                             </span>
@@ -1629,11 +1629,11 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                               aria-valuemax="100"
                               aria-valuemin="0"
                               aria-valuenow="0"
-                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-4m3nmz-MuiLinearProgress-root"
+                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                               role="progressbar"
                             >
                               <span
-                                class="MuiLinearProgress-bar makeStyles-progress-7 makeStyles-progress-8 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
+                                class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                 style="transform: translateX(-100%);"
                               />
                             </span>

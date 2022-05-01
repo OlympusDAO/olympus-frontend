@@ -508,7 +508,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
             class="MuiTable-root css-17zo3iv-MuiTable-root"
           >
             <thead
-              class="MuiTableHead-root makeStyles-stakePoolHeaderText-2 css-15wwp11-MuiTableHead-root"
+              class="MuiTableHead-root ExternalStakePools-stakePoolHeaderText css-1crhyyu-MuiTableHead-root"
             >
               <tr
                 class="MuiTableRow-root MuiTableRow-head css-xjst8z-MuiTableRow-root"
@@ -3348,7 +3348,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
             class="MuiTable-root css-17zo3iv-MuiTable-root"
           >
             <thead
-              class="MuiTableHead-root makeStyles-stakePoolHeaderText-6 css-15wwp11-MuiTableHead-root"
+              class="MuiTableHead-root ExternalStakePools-stakePoolHeaderText css-1crhyyu-MuiTableHead-root"
             >
               <tr
                 class="MuiTableRow-root MuiTableRow-head css-xjst8z-MuiTableRow-root"
@@ -6230,7 +6230,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
             class="MuiTable-root css-17zo3iv-MuiTable-root"
           >
             <thead
-              class="MuiTableHead-root makeStyles-stakePoolHeaderText-10 css-15wwp11-MuiTableHead-root"
+              class="MuiTableHead-root ExternalStakePools-stakePoolHeaderText css-1crhyyu-MuiTableHead-root"
             >
               <tr
                 class="MuiTableRow-root MuiTableRow-head css-xjst8z-MuiTableRow-root"
@@ -9112,7 +9112,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
             class="MuiTable-root css-17zo3iv-MuiTable-root"
           >
             <thead
-              class="MuiTableHead-root makeStyles-stakePoolHeaderText-14 css-15wwp11-MuiTableHead-root"
+              class="MuiTableHead-root ExternalStakePools-stakePoolHeaderText css-1crhyyu-MuiTableHead-root"
             >
               <tr
                 class="MuiTableRow-root MuiTableRow-head css-xjst8z-MuiTableRow-root"
