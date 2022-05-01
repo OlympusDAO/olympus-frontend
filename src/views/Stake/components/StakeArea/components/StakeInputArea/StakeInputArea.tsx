@@ -1,6 +1,6 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Grid, Paper, Switch, Tab, Tabs, Theme } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { Box, Grid, Paper, Switch, Tab, Tabs } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
 import React, { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -12,20 +12,31 @@ import { GOHMConversion } from "./components/GOHMConversion";
 import { useStakeToken } from "./hooks/useStakeToken";
 import { useUnstakeToken } from "./hooks/useUnstakeToken";
 
-const useStyles = makeStyles<Theme>(theme => ({
-  inputRow: {
+const PREFIX = "StakeInputArea";
+
+const classes = {
+  inputRow: `${PREFIX}-inputRow`,
+  gridItem: `${PREFIX}-gridItem`,
+  input: `${PREFIX}-input`,
+  button: `${PREFIX}-button`,
+};
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  [`& .${classes.inputRow}`]: {
     justifyContent: "space-around",
     alignItems: "center",
     height: "auto",
     marginTop: "4px",
   },
-  gridItem: {
+
+  [`& .${classes.gridItem}`]: {
     width: "100%",
     paddingRight: "5px",
     alignItems: "center",
     justifyContent: "center",
   },
-  input: {
+
+  [`& .${classes.input}`]: {
     [theme.breakpoints.down("md")]: {
       marginBottom: "10px",
     },
@@ -33,7 +44,8 @@ const useStyles = makeStyles<Theme>(theme => ({
       marginBottom: "0",
     },
   },
-  button: {
+
+  [`& .${classes.button}`]: {
     alignSelf: "center",
     width: "100%",
     minWidth: "163px",
@@ -43,7 +55,6 @@ const useStyles = makeStyles<Theme>(theme => ({
 }));
 
 export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
-  const classes = useStyles();
   const networks = useTestableNetworks();
   const [stakedAssetType, setStakedAssetType] = useState<"sOHM" | "gOHM">("sOHM");
   const [currentAction, setCurrentAction] = useState<"STAKE" | "UNSTAKE">("STAKE");
@@ -67,7 +78,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
   };
 
   return (
-    <Box mb={3}>
+    <StyledBox mb={3}>
       <Tabs
         centered
         textColor="primary"
@@ -174,7 +185,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
           </Box>
         </Box>
       </Paper>
-    </Box>
+    </StyledBox>
   );
 };
 
