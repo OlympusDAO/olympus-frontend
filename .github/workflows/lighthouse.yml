@@ -32,6 +32,8 @@ jobs:
           temporaryPublicStorage: true # upload lighthouse report to the temporary storage
       - name: Deploy to Netlify
         uses: jsmrcaga/action-netlify-deploy@master
+        env:
+          CI: false
         with:
           node_version: "16"
           NETLIFY_AUTH_TOKEN: 'guFcs6FrptZPOXChQK8zjRjbF6n9RHQElkMTaj-xlW4' # ${{ secrets.NETLIFY_AUTH_TOKEN }}
