@@ -1,24 +1,28 @@
 import { Box, useMediaQuery } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { styled } from "@mui/material/styles";
 import { WarningNotification } from "@olympusdao/component-library";
 
-/**
- * Component for Displaying Staging Notification Banner
- */
+const PREFIX = "StagingNotification";
 
-const useStyles = makeStyles(theme => ({
-  contentShift: {
+const classes = {
+  contentShift: `${PREFIX}-contentShift`,
+  notification: `${PREFIX}-notification`,
+};
+
+const StyledNotification = styled("div")(() => ({
+  [`& .${classes.contentShift}`]: {
     marginLeft: 0,
   },
-  notification: {
+
+  [`& .${classes.notification}`]: {
     marginLeft: "312px",
   },
 }));
+
 const StagingNotification = () => {
-  const classes = useStyles();
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   return (
-    <>
+    <StyledNotification>
       {window.location.hostname === "staging.olympusdao.finance" && (
         <Box
           style={{ marginTop: "0px" }}
@@ -31,7 +35,7 @@ const StagingNotification = () => {
           </WarningNotification>
         </Box>
       )}
-    </>
+    </StyledNotification>
   );
 };
 
