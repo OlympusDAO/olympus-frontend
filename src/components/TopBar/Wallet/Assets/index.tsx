@@ -1,5 +1,5 @@
-import { Box, Fade, Link, Theme, Typography } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { Box, Fade, Link, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { OHMTokenStackProps, WalletBalance } from "@olympusdao/component-library";
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
@@ -30,12 +30,18 @@ import { GetTokenPrice } from "../queries";
 import Balances from "./Balances";
 import { TransactionHistory } from "./TransactionHistory";
 
-const useStyles = makeStyles<Theme>(theme => ({
-  selector: {
+const PREFIX = "AssetsIndex";
+
+const classes = {
+  selector: `${PREFIX}-selector`,
+  forecast: `${PREFIX}-forecast`,
+};
+
+const StyledFade = styled(Fade)(({ theme }) => ({
+  [`& .${classes.selector}`]: {
     "& p": {
       fontSize: "16px",
       fontWeight: 400,
-      fontFamily: "SquareMedium",
       lineHeight: "24px",
 
       cursor: "pointer",
@@ -52,7 +58,8 @@ const useStyles = makeStyles<Theme>(theme => ({
       textDecoration: "inherit",
     },
   },
-  forecast: {
+
+  [`& .${classes.forecast}`]: {
     textAlign: "right",
     "& .number": {
       fontWeight: 400,
@@ -196,13 +203,11 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       geckoTicker: "governance-ohm",
     })) || [];
 
-  const classes = useStyles();
-
   const assets = [...tokenArray, ...bondsArray];
   const walletTotalValueUSD = Object.values(assets).reduce((totalValue, token) => totalValue + token.assetValue, 0);
 
   return (
-    <Fade in={true}>
+    <StyledFade in={true}>
       <Box>
         <Box display="flex" flexDirection="row" justifyContent="space-between">
           <WalletBalance
@@ -240,7 +245,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
           }
         })()}
       </Box>
-    </Fade>
+    </StyledFade>
   );
 };
 
