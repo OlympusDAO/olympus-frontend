@@ -1,6 +1,6 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Grid, makeStyles, Paper, Switch, Tab, Tabs, Theme } from "@material-ui/core";
-import { InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
+import { InfoNotification, InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
 import React, { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
@@ -67,6 +67,11 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
   return (
     <Box mb={3}>
+      {currentAction === "UNSTAKE" && (
+        <InfoNotification>
+          <Trans>Inverse bonds are live & provide a greater discount than spot prices on the open market</Trans>
+        </InfoNotification>
+      )}
       <Tabs
         centered
         textColor="primary"
