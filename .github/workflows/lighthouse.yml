@@ -30,9 +30,14 @@ jobs:
           configPath: '.github/lighthouse/lighthouserc-static-dist-dir.yml'
           uploadArtifacts: true # save results as github action artifacts
           temporaryPublicStorage: true # upload lighthouse report to the temporary storage
+      - name: Deploy to Netlify
+        uses: jsmrcaga/action-netlify-deploy@master
+        with:
+          NETLIFY_AUTH_TOKEN: 'guFcs6FrptZPOXChQK8zjRjbF6n9RHQElkMTaj-xlW4' # ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: '278d83a0-6ffd-4fff-b9e7-2f76b590dfe9' # ${{ secrets.NETLIFY_SITE_ID }}
       - name: Wait for Netlify preview deployment of this git branch
         uses: JakePartusch/wait-for-netlify-action@v1.3
-        id: waitFor200
+        id: waitFor60
         with:
           site_name: "olympus-frontend"
       - name: Run Lighthouse PWA check against Netlify PR Preview
