@@ -39,9 +39,8 @@ jobs:
     needs: build-for-lighthouse
     steps:
       - name: Wait for Netlify preview deployment of this git branch
-        uses: |
-          - actions/checkout@v3
-          - JakePartusch/wait-for-netlify-action@v1.3
+      - uses: actions/checkout@v3
+      - uses: JakePartusch/wait-for-netlify-action@v1.3
         id: waitFor200
         with:
             site_name: "olympus-frontend"
