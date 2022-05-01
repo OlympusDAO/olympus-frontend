@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import { Box, Fade, Grid, Theme, Typography } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { Box, Fade, Grid, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { GetOnButton, ItemCard, OHMItemCardProps } from "@olympusdao/component-library";
 import { FC } from "react";
 import sushiswapImg from "src/assets/sushiswap.png";
@@ -38,8 +38,14 @@ import { BalancerPoolTVL, useStakePoolTVL } from "src/views/Stake/components/Ext
 
 import { SupplyRatePerBlock } from "./queries";
 
-const useStyles = makeStyles<Theme>(() => ({
-  title: {
+const PREFIX = "GetOhm";
+
+const classes = {
+  title: `${PREFIX}-title`,
+};
+
+const StyledBox = styled(Box)(() => ({
+  [`& .${classes.title}`]: {
     lineHeight: "24px",
     fontWeight: 600,
     marginBottom: "12px",
@@ -60,13 +66,12 @@ const GetOhm: FC = () => {
   const fuseSupplyApy =
     supplyRate && (Math.pow((parseBigNumber(supplyRate) / ethMantissa) * blocksPerDay + 1, daysPerYear) - 1) * 100;
 
-  const classes = useStyles();
   const bonds = useLiveBonds().data;
   const fiveDayRate = Math.pow(1 + rebaseRate, 5 * 3) - 1;
 
   return (
     <Fade in={true}>
-      <Box>
+      <StyledBox>
         <Typography variant="h6" className={classes.title}>
           Exchanges
         </Typography>
@@ -221,7 +226,7 @@ const GetOhm: FC = () => {
           external
           disableFlip
         />
-      </Box>
+      </StyledBox>
     </Fade>
   );
 };

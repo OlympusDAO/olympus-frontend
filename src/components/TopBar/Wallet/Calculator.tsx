@@ -1,5 +1,5 @@
-import { Box, Fade, Grid, Theme, Typography } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { Box, Fade, Grid, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { DottedDataRow, Input, ProgressCircle, Slider } from "@olympusdao/component-library";
 import { FC, useEffect, useState } from "react";
 import { formatNumber, trim } from "src/helpers";
@@ -19,18 +19,35 @@ import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 
-const useStyles = makeStyles<Theme>(theme => ({
-  title: {
+const PREFIX = "Calculator";
+
+const classes = {
+  title: `${PREFIX}-title`,
+  investmentAmount: `${PREFIX}-investmentAmount`,
+  runway: `${PREFIX}-runway`,
+  progressMetric: `${PREFIX}-progressMetric`,
+  progressLabel: `${PREFIX}-progressLabel`,
+  selector: `${PREFIX}-selector`,
+  radioGroup: `${PREFIX}-radioGroup`,
+  targetDate: `${PREFIX}-targetDate`,
+  ctaTitle: `${PREFIX}-ctaTitle`,
+  ctaSubtitle: `${PREFIX}-ctaSubtitle`,
+};
+
+const StyledFade = styled(Fade)(({ theme }) => ({
+  [`& .${classes.title}`]: {
     color: theme.colors.gray[40],
     lineHeight: "18px",
     fontWeight: 400,
   },
-  investmentAmount: {
+
+  [`& .${classes.investmentAmount}`]: {
     fontSize: "30px",
     lineHeight: "38px",
     fontWeight: 600,
   },
-  runway: {
+
+  [`& .${classes.runway}`]: {
     fontSize: "14px",
     lineHeight: "20px",
     fontWeight: 400,
@@ -39,22 +56,24 @@ const useStyles = makeStyles<Theme>(theme => ({
       color: theme.palette.primary.main,
     },
   },
-  progressMetric: {
+
+  [`& .${classes.progressMetric}`]: {
     fontSize: "12px",
     lineHeight: "18px",
     fontWeight: 600,
   },
-  progressLabel: {
+
+  [`& .${classes.progressLabel}`]: {
     fontSize: "12px",
     lineHeight: "18px",
     fontWeight: 400,
     color: theme.colors.gray[90],
   },
-  selector: {
+
+  [`& .${classes.selector}`]: {
     "& p": {
       fontSize: "16px",
       fontWeight: 400,
-      fontFamily: "SquareMedium",
       lineHeight: "24px",
       marginRight: "18px",
       cursor: "pointer",
@@ -70,12 +89,14 @@ const useStyles = makeStyles<Theme>(theme => ({
       marginRight: 0,
     },
   },
-  radioGroup: {
+
+  [`& .${classes.radioGroup}`]: {
     "& .MuiFormControlLabel-root:last-child": {
       marginRight: 0,
     },
   },
-  targetDate: {
+
+  [`& .${classes.targetDate}`]: {
     fontSize: "16px",
     lineHeight: "24px",
     "& span": {
@@ -83,13 +104,15 @@ const useStyles = makeStyles<Theme>(theme => ({
       color: theme.palette.mode == "light" ? theme.colors.gray[90] : theme.colors.gray[40],
     },
   },
-  ctaTitle: {
+
+  [`& .${classes.ctaTitle}`]: {
     fontWeight: 600,
     lineHeight: "24px",
     fontSize: "16px",
     marginBottom: "6px",
   },
-  ctaSubtitle: {
+
+  [`& .${classes.ctaSubtitle}`]: {
     color: theme.colors.gray[90],
     fontWeight: 500,
     lineHeight: "20px",
@@ -145,7 +168,7 @@ const Calculator: FC = () => {
   const [duration, setDuration] = useState(365);
   const [manualRebaseRate, setManualRebaseRate] = useState(0);
   const [advanced, setAdvanced] = useState(false);
-  const classes = useStyles();
+
   const rebases = duration * 3;
   const { data: runwayData } = useProtocolMetrics();
 
@@ -193,7 +216,7 @@ const Calculator: FC = () => {
   ];
 
   return (
-    <Fade in={true}>
+    <StyledFade in={true}>
       <Box>
         <Box display="flex" flexDirection="column" mb="21px">
           <Box display="flex" flexDirection="row" className={classes.selector} mb="30px">
@@ -314,7 +337,7 @@ const Calculator: FC = () => {
           </p>
         </Box>
       </Box>
-    </Fade>
+    </StyledFade>
   );
 };
 
