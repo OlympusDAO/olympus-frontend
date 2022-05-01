@@ -1,7 +1,7 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { StyledEngineProvider, Theme, ThemeProvider } from "@mui/material/styles";
+import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
 import { render, RenderOptions, RenderResult } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import React, { ReactElement, ReactNode } from "react";
@@ -13,11 +13,6 @@ import { Web3ContextProvider } from "./hooks/web3Context";
 import { ReactQueryProvider } from "./lib/react-query";
 import defaultStore from "./store";
 import { light as lightTheme } from "./themes/light.js";
-
-declare module "@mui/styles/defaultTheme" {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
 
 const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOptions): RenderResult => {
   const ProviderWrapper = ({ children }: { children?: ReactNode }) => (

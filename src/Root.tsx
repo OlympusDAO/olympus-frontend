@@ -12,11 +12,6 @@ import { ReactQueryProvider } from "./lib/react-query";
 import { initLocale } from "./locales";
 import store from "./store";
 
-// declare module "@mui/styles/defaultTheme" {
-//   // eslint-disable-next-line @typescript-eslint/no-empty-interface
-//   interface DefaultTheme extends Theme {}
-// }
-
 const Root: FC = () => {
   useEffect(() => {
     initLocale();

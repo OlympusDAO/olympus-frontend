@@ -2,13 +2,20 @@ import "./Zap.scss";
 
 import { Trans } from "@lingui/macro";
 import { Box, Button, Grid, Link, Paper, Typography } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { styled } from "@mui/material/styles";
 import { TokenStack } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const useStyles = makeStyles(theme => ({
-  subHeader: {
+const PREFIX = "ZapCta";
+
+const classes = {
+  subHeader: `${PREFIX}-subHeader`,
+  buttonBox: `${PREFIX}-buttonBox`,
+};
+
+const Root = styled("div")(({ theme }) => ({
+  [`& .${classes.subHeader}`]: {
     [theme.breakpoints.down("md")]: {
       display: "none",
     },
@@ -16,7 +23,8 @@ const useStyles = makeStyles(theme => ({
       display: "flex",
     },
   },
-  buttonBox: {
+
+  [`& .${classes.buttonBox}`]: {
     [theme.breakpoints.down("md")]: {
       justifyContent: "center",
     },
@@ -27,9 +35,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ZapCta: React.FC = () => {
-  const classes = useStyles();
   return (
-    <>
+    <Root>
       <Paper className="ohm-card" id="olyzaps-cta">
         <Grid container className="cta-box">
           <Grid item xs={5} sm={3} className="icons-box">
@@ -63,7 +70,7 @@ const ZapCta: React.FC = () => {
           </Grid>
         </Grid>
       </Paper>
-    </>
+    </Root>
   );
 };
 
