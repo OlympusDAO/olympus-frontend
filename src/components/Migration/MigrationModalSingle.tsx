@@ -92,7 +92,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
   ];
 
   return (
-    <Root>
+    <div>
       <Modal
         aria-labelledby="migration-modal-title"
         aria-describedby="migration-modal-description"
@@ -311,7 +311,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
           </div>
         </>
       </Modal>
-    </Root>
+    </div>
   );
 }
 
