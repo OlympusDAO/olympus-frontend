@@ -3,7 +3,7 @@ import "./ConsoleInterceptor";
 import { AlertProps, LinearProgress, Snackbar } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import makeStyles from "@mui/styles/makeStyles";
+import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -12,8 +12,14 @@ import { useAppSelector } from "../../hooks";
 import { close, handle_obsolete, Message } from "../../slices/MessagesSlice";
 import store from "../../store";
 
-const useStyles = makeStyles({
-  root: {
+const PREFIX = "Messages";
+
+const classes = {
+  root: `${PREFIX}-root`,
+};
+
+const Root = styled("div")({
+  [`&.${classes.root}`]: {
     width: "100%",
     marginTop: "10px",
   },
@@ -24,7 +30,6 @@ type LinearProps = {
 };
 
 const Linear: React.FC<LinearProps> = ({ message }) => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const [progress, setProgress] = useState<number>(100);
 
@@ -47,9 +52,9 @@ const Linear: React.FC<LinearProps> = ({ message }) => {
   }, []);
 
   return (
-    <div className={classes.root}>
+    <Root className={classes.root}>
       <LinearProgress variant="determinate" value={progress} />
-    </div>
+    </Root>
   );
 };
 
