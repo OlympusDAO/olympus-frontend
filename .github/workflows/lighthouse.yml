@@ -22,12 +22,6 @@ jobs:
           yarn build
         env:
           CI: false
-  lighthouse-local:
-    runs-on: ubuntu-latest
-    needs: build-for-lighthouse
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
       - name: Run Lighthouse PWA check against local production build
         uses: treosh/lighthouse-ci-action@v9
         with:
@@ -36,12 +30,6 @@ jobs:
           configPath: '.github/lighthouse/lighthouserc-static-dist-dir.yml'
           uploadArtifacts: true # save results as github action artifacts
           temporaryPublicStorage: true # upload lighthouse report to the temporary storage
-  lighthouse-netlify:
-    runs-on: ubuntu-latest
-    needs: build-for-lighthouse
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
       - name: Wait for Netlify preview deployment of this git branch
         uses: JakePartusch/wait-for-netlify-action@v1.3
         id: waitFor200
