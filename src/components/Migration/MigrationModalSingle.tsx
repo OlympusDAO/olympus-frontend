@@ -3,7 +3,6 @@ import "./MigrationModal.scss";
 import { t, Trans } from "@lingui/macro";
 import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import makeStyles from "@mui/styles/makeStyles";
 import { InfoTooltip, Modal, Tab, Tabs } from "@olympusdao/component-library";
 import { useDispatch } from "react-redux";
 import { trim } from "src/helpers";
@@ -12,15 +11,9 @@ import { useWeb3Context } from "src/hooks";
 import { changeMigrationApproval, migrateSingle, TokenType } from "src/slices/MigrateThunk";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
-const useStyles = makeStyles({
-  custom: {
-    color: "#00EE00",
-  },
-});
-
 function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClose: any }) {
   const dispatch = useDispatch();
-  const classes = useStyles();
+
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const { provider, address, networkId } = useWeb3Context();
 
@@ -99,7 +92,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
   ];
 
   return (
-    <div>
+    <Root>
       <Modal
         aria-labelledby="migration-modal-title"
         aria-describedby="migration-modal-description"
@@ -165,7 +158,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                     </Box>
                     <Box display="flex" justifyContent="center" style={{ margin: "10px 0px 10px 0px" }}>
                       {!oldAssetsDetected ? (
-                        <Typography align="center" className={classes.custom}>
+                        <Typography align="center" sx={{ color: "#00EE00" }}>
                           <Trans>Migrated</Trans>
                         </Typography>
                       ) : row.fullApproval ? (
@@ -268,7 +261,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
                       </TableCell>
                       <TableCell align="left">
                         {!oldAssetsDetected ? (
-                          <Typography align="center" className={classes.custom}>
+                          <Typography align="center" sx={{ color: "#00EE00" }}>
                             <Trans>Migrated</Trans>
                           </Typography>
                         ) : row.fullApproval ? (
@@ -318,7 +311,7 @@ function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClos
           </div>
         </>
       </Modal>
-    </div>
+    </Root>
   );
 }
 
