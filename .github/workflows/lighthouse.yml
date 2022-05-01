@@ -11,7 +11,8 @@ jobs:
     steps:
       - name: Checkout front end code.
         uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           cache: 'yarn'
       - name: Build UI for production
