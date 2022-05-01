@@ -1,6 +1,6 @@
-import { Box, Grid, Theme, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { Skeleton } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { styled } from "@mui/material/styles";
 import { PrimaryButton } from "@olympusdao/component-library";
 import React, { ReactNode } from "react";
 import { AddressMap } from "src/constants/addresses";
@@ -8,20 +8,32 @@ import { useContractAllowance } from "src/hooks/useContractAllowance";
 
 import { useApproveToken } from "./hooks/useApproveToken";
 
-const useStyles = makeStyles<Theme>(theme => ({
-  inputRow: {
+const PREFIX = "TokenAllowanceGuard";
+
+const classes = {
+  inputRow: `${PREFIX}-inputRow`,
+  gridItem: `${PREFIX}-gridItem`,
+  input: `${PREFIX}-input`,
+  button: `${PREFIX}-button`,
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const StyledAllowanceGuard = styled("div")(({ theme }) => ({
+  [`& .${classes.inputRow}`]: {
     justifyContent: "space-around",
     alignItems: "center",
     height: "auto",
     marginTop: "4px",
   },
-  gridItem: {
+
+  [`& .${classes.gridItem}`]: {
     width: "100%",
     paddingRight: "5px",
     alignItems: "center",
     justifyContent: "center",
   },
-  input: {
+
+  [`& .${classes.input}`]: {
     [theme.breakpoints.down("md")]: {
       marginBottom: "10px",
     },
@@ -29,7 +41,8 @@ const useStyles = makeStyles<Theme>(theme => ({
       marginBottom: "0",
     },
   },
-  button: {
+
+  [`& .${classes.button}`]: {
     alignSelf: "center",
     width: "100%",
     minWidth: "163px",
@@ -75,7 +88,7 @@ export const TokenAllowanceGuard: React.FC<{
       </Grid>
     );
 
-  return <>{children}</>;
+  return <StyledAllowanceGuard>{children}</StyledAllowanceGuard>;
 };
 
 export const GiveTokenAllowanceGuard: React.FC<{
@@ -83,7 +96,6 @@ export const GiveTokenAllowanceGuard: React.FC<{
   tokenAddressMap: AddressMap;
   spenderAddressMap: AddressMap;
 }> = props => {
-  const classes = useStyles();
   const approveMutation = useApproveToken(props.tokenAddressMap, props.spenderAddressMap);
   const _useContractAllowance = useContractAllowance(props.tokenAddressMap, props.spenderAddressMap);
 
