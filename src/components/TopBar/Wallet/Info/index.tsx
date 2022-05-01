@@ -1,5 +1,5 @@
-import { Box, Fade, Link, Theme } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { Box, Fade, Link } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -7,8 +7,15 @@ import Faq from "./Faq";
 import News from "./News";
 import Proposals from "./Proposals";
 
-const useStyles = makeStyles<Theme>(theme => ({
-  tabNav: {
+const PREFIX = "Info";
+
+const classes = {
+  tabNav: `${PREFIX}-tabNav`,
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled("div")(({ theme }) => ({
+  [`& .${classes.tabNav}`]: {
     "& a": {
       fontSize: "14px",
       lineHeight: "20px",
@@ -29,10 +36,8 @@ export interface OHMInfoProps {
  * Component for Displaying Info
  */
 const Info: FC<OHMInfoProps> = (props: { path?: string }) => {
-  const classes = useStyles();
-
   return (
-    <>
+    <Root>
       <Fade in={true}>
         <Box display="flex" flexDirection="row" className={classes.tabNav} pt="18px" mb="18px">
           {!process.env.REACT_APP_DISABLE_NEWS && (
@@ -60,7 +65,7 @@ const Info: FC<OHMInfoProps> = (props: { path?: string }) => {
             return <News />;
         }
       })()}
-    </>
+    </Root>
   );
 };
 
