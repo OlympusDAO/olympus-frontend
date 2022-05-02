@@ -31,7 +31,8 @@ jobs:
           uploadArtifacts: true # save results as github action artifacts
           temporaryPublicStorage: true # upload lighthouse report to the temporary storage
       - name: Deploy to Netlify
-        uses: jsmrcaga/action-netlify-deploy@master
+        id: deploy-to-netlify
+        uses: jsmrcaga/action-netlify-deploy@1.7.2
         env:
           CI: false
         with:
@@ -39,7 +40,6 @@ jobs:
           NETLIFY_AUTH_TOKEN: 'guFcs6FrptZPOXChQK8zjRjbF6n9RHQElkMTaj-xlW4' # ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: '278d83a0-6ffd-4fff-b9e7-2f76b590dfe9' # ${{ secrets.NETLIFY_SITE_ID }}
           node_version: "16"
-          deploy_alias: ${{ env.GITHUB_REF_NAME }}
       - name: Wait for Netlify preview deployment of this git branch
         uses: JakePartusch/wait-for-netlify-action@v1.3
         id: waitFor60
@@ -49,7 +49,7 @@ jobs:
         uses: treosh/lighthouse-ci-action@v9
         with:
           urls:
-            https://${{ env.GITHUB_REF_NAME }}-olympus-frontend-midnight.netlify.app # update before merge to main
+            ${{ steps.deploy-to-netlify.outputs.NETLIFY_PREVIEW_URL }}
           uploadArtifacts: true
           temporaryPublicStorage: true
           configPath: '.github/lighthouse/lighthouserc-netlify-preview.yml'
@@ -59,4 +59,4 @@ jobs:
           authToken: ${{ secrets.GITHUB_TOKEN }}
           context: Netlify preview
           state: success
-          target_url: https://${{ env.GITHUB_REF_NAME }}-olympus-frontend-midnight.netlify.app # update before merge to main
+          target_url: ${{ steps.deploy-to-netlify.outputs.NETLIFY_PREVIEW_URL }}
