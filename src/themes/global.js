@@ -86,6 +86,15 @@ const commonSettings = {
       styleOverrides: {
         root: {
           backdropFilter: "blur(33px)",
+          "&.ohm-card": {
+            padding: "20px 30px 30px 30px",
+            borderRadius: "var(--ohm-card-border-radius)",
+            maxWidth: "833px",
+            width: "97%",
+            marginBottom: "1.8rem",
+            overflow: "hidden",
+          },
+          backdropFilter: "blur(33px)",
           "&.ohm-menu": {
             padding: "22px 0px",
             borderRadius: "10px",

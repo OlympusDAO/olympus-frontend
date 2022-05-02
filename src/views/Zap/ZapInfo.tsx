@@ -81,7 +81,7 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ address }) => {
   };
   return (
     <StyledPaper className="ohm-card" id="olyzaps-info">
-      <Grid container direction="row" spacing={4}>
+      <Grid container direction="row">
         <Grid item sm={12} md={4} classes={{ root: classes.infoBox, item: classes.infoBoxItem }}>
           <Box
             alignItems="center"

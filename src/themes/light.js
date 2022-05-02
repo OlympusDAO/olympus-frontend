@@ -141,7 +141,6 @@ export const light = responsiveFontSizes(
                   background: lightTheme.paperBg,
                 },
                 "&.MuiPaper-root&.tooltip-container": {
-                  padding: "20px 30px 30px 30px",
                   background: lightTheme.paperBg,
                 },
                 "&.ohm-modal": {

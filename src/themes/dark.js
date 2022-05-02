@@ -182,7 +182,6 @@ export const dark = responsiveFontSizes(
                   backgroundColor: darkTheme.modalBg,
                 },
                 "&.MuiPaper-root&.tooltip-container": {
-                  padding: "20px 30px 30px 30px",
                   background: darkTheme.paperBg,
                 },
                 "&.ohm-menu": {
