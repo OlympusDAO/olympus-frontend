@@ -16,13 +16,13 @@ import { Token } from "./Token";
  * - 0x6ec38b3228251a0C5D491Faf66858e2E23d7728B (OHM/ETH pool contract)
  */
 export const getCurveLPToken = async ({ address, networkId }: { address: string; networkId: NetworkId }) => {
-  if (networkId !== NetworkId.MAINNET) throw new Error("Not implemented");
+  if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_RINKEBY) throw new Error("Not implemented");
 
   try {
     const factory = CurveToken__factory;
-    const provider = Providers.getStaticProvider(networkId);
+    const provider = Providers.getStaticProvider(NetworkId.MAINNET);
     const tokenContract = factory.connect(address, provider);
-    const factoryContract = CURVE_FACTORY.getEthersContract(networkId);
+    const factoryContract = CURVE_FACTORY.getEthersContract(NetworkId.MAINNET);
 
     const [decimals, poolAddress] = await Promise.all([
       tokenContract.decimals(),
@@ -39,7 +39,15 @@ export const getCurveLPToken = async ({ address, networkId }: { address: string;
     const icons = poolTokens.map(token => token.icons).flat();
     const purchaseUrl = `https://curve.fi/factory-crypto/21`; // Don't think it's possible to make this dynamic.
 
-    const lpToken = new Token({ decimals, name, icons, factory, purchaseUrl, addresses: { [networkId]: address } });
+    const lpToken = new Token({
+      decimals,
+      name,
+      icons,
+      factory,
+      purchaseUrl,
+      addresses: { [NetworkId.MAINNET]: address },
+    });
+
     lpToken.customPricingFunc = networkId => calculateCurveLPValue({ lpToken, poolTokens, networkId });
 
     return lpToken;

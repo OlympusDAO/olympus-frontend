@@ -9,13 +9,13 @@ import { getTokenByAddress } from "./getTokenByAddress";
 import { Token } from "./Token";
 
 export const getBalancerLPToken = async ({ address, networkId }: { address: string; networkId: NetworkId }) => {
-  if (networkId !== NetworkId.MAINNET) throw new Error("Not implemented");
+  if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_RINKEBY) throw new Error("Not implemented");
 
   try {
     const factory = BalancerV2Pool__factory;
-    const provider = Providers.getStaticProvider(networkId);
+    const provider = Providers.getStaticProvider(NetworkId.MAINNET);
     const contract = factory.connect(address, provider);
-    const vault = BALANCER_VAULT.getEthersContract(networkId);
+    const vault = BALANCER_VAULT.getEthersContract(NetworkId.MAINNET);
 
     const [decimals, poolId] = await Promise.all([
       contract.decimals(),
@@ -24,7 +24,9 @@ export const getBalancerLPToken = async ({ address, networkId }: { address: stri
 
     const { tokens: addresses } = await vault.getPoolTokens(poolId);
 
-    const tokens = await Promise.all([...addresses.map(address => getTokenByAddress({ address, networkId }))]);
+    const tokens = await Promise.all([
+      ...addresses.map(address => getTokenByAddress({ address, networkId: NetworkId.MAINNET })),
+    ]);
 
     const poolTokens = tokens.filter(nonNullable);
     if (poolTokens.length !== tokens.length) throw new Error(`Unknown token in Balancer pool. Pool address ${address}`);
@@ -33,7 +35,15 @@ export const getBalancerLPToken = async ({ address, networkId }: { address: stri
     const icons = poolTokens.map(token => token.icons).flat();
     const purchaseUrl = `https://app.balancer.fi/#/pool/${poolId}`;
 
-    const lpToken = new Token({ decimals, name, icons, factory, purchaseUrl, addresses: { [networkId]: address } });
+    const lpToken = new Token({
+      decimals,
+      name,
+      icons,
+      factory,
+      purchaseUrl,
+      addresses: { [NetworkId.MAINNET]: address },
+    });
+
     lpToken.customPricingFunc = networkId => calculateBalancerLPValue({ lpToken, poolTokens, networkId });
 
     return lpToken;
