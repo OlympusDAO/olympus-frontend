@@ -11,7 +11,7 @@ export interface TokenConfig<TFactory extends Factory = Factory, TAddressMap ext
   extends ContractConfig<TFactory, TAddressMap> {
   decimals: number;
   purchaseUrl: string;
-  icons: OHMTokenStackProps["tokens"];
+  icons: NonNullable<OHMTokenStackProps["tokens"]>;
   customPricingFunc?: (networkId: keyof TAddressMap) => Promise<DecimalBigNumber>;
 }
 
