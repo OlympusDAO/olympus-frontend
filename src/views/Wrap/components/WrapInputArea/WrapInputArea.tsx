@@ -35,7 +35,7 @@ export const WrapInputArea = () => {
       <Box display="flex" alignItems="center">
         <Typography>{currentAction === "WRAP" ? "Wrap" : "Unwrap"} from</Typography>
 
-        <FormControl style={{ margin: "0 10px" }}>
+        <FormControl style={{ margin: "0 10px" }} variant="standard">
           <Select
             label="Asset"
             disableUnderline
@@ -54,7 +54,7 @@ export const WrapInputArea = () => {
           <span className="asset-select-label"> to </span>
         </Typography>
 
-        <FormControl style={{ margin: "0 10px" }}>
+        <FormControl style={{ margin: "0 10px" }} variant="standard">
           <Select
             label="Asset"
             disableUnderline

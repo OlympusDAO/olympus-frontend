@@ -49,11 +49,12 @@ const GOHMExternalLink = () => (
   <Link
     target="_blank"
     aria-label="wsohm-wut"
-    className="migrate-sohm-button"
     style={{ textDecoration: "none" }}
     href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
   >
-    <Typography>gOHM</Typography> <Icon style={{ marginLeft: "5px" }} name="arrow-up" />
+    <Box display="flex" alignItems="center">
+      <Typography>gOHM</Typography> <Icon style={{ marginLeft: "5px" }} name="arrow-up" />
+    </Box>
   </Link>
 );
 
