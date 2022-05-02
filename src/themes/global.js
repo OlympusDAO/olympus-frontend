@@ -100,6 +100,9 @@ const commonSettings = {
           },
         },
       },
+      defaultProps: {
+        elevation: 0,
+      },
     },
     MuiContainer: {
       styleOverrides: {

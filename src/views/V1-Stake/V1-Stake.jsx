@@ -383,7 +383,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
                       />
                     </AccordionDetails>
                   </Accordion>
-                  <Divider color="secondary" />
+                  <Divider />
                   <DataRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} isLoading={isAppLoading} />
                   <DataRow
                     title={t`Next Reward Yield`}

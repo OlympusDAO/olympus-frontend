@@ -32,7 +32,7 @@ export const StakeArea: React.FC = () => {
 
         <StakeBalances />
 
-        <Divider color="secondary" />
+        <Divider />
 
         <StakeNextRebaseAmount />
 
