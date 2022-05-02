@@ -6,7 +6,7 @@ exports[`<ZapCta/> should render component 1`] = `
     class="css-10l1l29"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 ohm-card css-93w7oz-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 ohm-card css-w1su4o-MuiPaper-root"
       id="olyzaps-cta"
     >
       <div

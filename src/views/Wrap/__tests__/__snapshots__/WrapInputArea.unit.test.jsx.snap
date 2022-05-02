@@ -9,7 +9,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-m19e0g-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -35,28 +35,32 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
             >
               <a
                 aria-label="wsohm-wut"
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone migrate-sohm-button css-ao3601-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                 href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
                 style="text-decoration: none;"
                 target="_blank"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+                <div
+                  class="MuiBox-root css-70qvj9"
                 >
-                  gOHM
-                </p>
-                 
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
-                  focusable="false"
-                  style="margin-left: 5px;"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
-                  />
-                </svg>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+                  >
+                    gOHM
+                  </p>
+                   
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                    focusable="false"
+                    style="margin-left: 5px;"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                    />
+                  </svg>
+                </div>
               </a>
             </div>
           </div>
@@ -217,13 +221,13 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl  css-lh3jjg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl  css-1rlzluu-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                 >
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="asset-select-first"
-                    class="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-769ok-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                    class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                     id="asset-select-first"
                     role="button"
                     tabindex="0"
@@ -238,7 +242,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconOutlined css-1uebwt4-MuiSvgIcon-root-MuiSelect-icon"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-1xyntl6-MuiSvgIcon-root-MuiSelect-icon"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 20 20"
@@ -247,18 +251,6 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                       d="M7 10l5 5 5-5z"
                     />
                   </svg>
-                  <fieldset
-                    aria-hidden="true"
-                    class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
-                  >
-                    <legend
-                      class="css-1in441m"
-                    >
-                      <span>
-                        Asset
-                      </span>
-                    </legend>
-                  </fieldset>
                 </div>
               </div>
               <p
@@ -275,14 +267,14 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-lh3jjg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-1rlzluu-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                   data-testid="second-asset-select"
                 >
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="asset-select"
-                    class="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-769ok-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                    class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                     id="asset-select"
                     role="button"
                     tabindex="0"
@@ -297,7 +289,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconOutlined css-1uebwt4-MuiSvgIcon-root-MuiSelect-icon"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-1xyntl6-MuiSvgIcon-root-MuiSelect-icon"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 20 20"
@@ -306,18 +298,6 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                       d="M7 10l5 5 5-5z"
                     />
                   </svg>
-                  <fieldset
-                    aria-hidden="true"
-                    class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
-                  >
-                    <legend
-                      class="css-1in441m"
-                    >
-                      <span>
-                        Asset
-                      </span>
-                    </legend>
-                  </fieldset>
                 </div>
               </div>
             </div>
@@ -511,7 +491,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-m19e0g-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -537,28 +517,32 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
             >
               <a
                 aria-label="wsohm-wut"
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone migrate-sohm-button css-ao3601-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                 href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
                 style="text-decoration: none;"
                 target="_blank"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+                <div
+                  class="MuiBox-root css-70qvj9"
                 >
-                  gOHM
-                </p>
-                 
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
-                  focusable="false"
-                  style="margin-left: 5px;"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
-                  />
-                </svg>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+                  >
+                    gOHM
+                  </p>
+                   
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                    focusable="false"
+                    style="margin-left: 5px;"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                    />
+                  </svg>
+                </div>
               </a>
             </div>
           </div>
@@ -719,13 +703,13 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-lh3jjg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-1rlzluu-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                 >
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="asset-select-first"
-                    class="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-769ok-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                    class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                     id="asset-select-first"
                     role="button"
                     tabindex="0"
@@ -740,7 +724,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconOutlined css-1uebwt4-MuiSvgIcon-root-MuiSelect-icon"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-1xyntl6-MuiSvgIcon-root-MuiSelect-icon"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 20 20"
@@ -749,18 +733,6 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                       d="M7 10l5 5 5-5z"
                     />
                   </svg>
-                  <fieldset
-                    aria-hidden="true"
-                    class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
-                  >
-                    <legend
-                      class="css-1in441m"
-                    >
-                      <span>
-                        Asset
-                      </span>
-                    </legend>
-                  </fieldset>
                 </div>
               </div>
               <p
@@ -777,14 +749,14 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-lh3jjg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-1rlzluu-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                   data-testid="second-asset-select"
                 >
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="asset-select"
-                    class="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-769ok-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                    class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                     id="asset-select"
                     role="button"
                     tabindex="0"
@@ -799,7 +771,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconOutlined css-1uebwt4-MuiSvgIcon-root-MuiSelect-icon"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-1xyntl6-MuiSvgIcon-root-MuiSelect-icon"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 20 20"
@@ -808,18 +780,6 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                       d="M7 10l5 5 5-5z"
                     />
                   </svg>
-                  <fieldset
-                    aria-hidden="true"
-                    class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
-                  >
-                    <legend
-                      class="css-1in441m"
-                    >
-                      <span>
-                        Asset
-                      </span>
-                    </legend>
-                  </fieldset>
                 </div>
               </div>
             </div>

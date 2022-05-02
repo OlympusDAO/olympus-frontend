@@ -6,7 +6,7 @@ exports[`<Zap/> should render component 1`] = `
     id="zap-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-m19e0g-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -45,11 +45,11 @@ exports[`<Zap/> should render component 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 ohm-card css-19j9z34-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 ohm-card css-1c9lk12-MuiPaper-root"
       id="olyzaps-info"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4 css-1l4h2ke-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
       >
         <div
           class="ZapInfo-infoBox MuiGrid-root ZapInfo-infoBoxItem MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-4 css-c8aaa2-MuiGrid-root"

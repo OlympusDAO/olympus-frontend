@@ -23,7 +23,7 @@ exports[`<StakeBalances/> should render balances and rebase info 1`] = `
     </p>
   </div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root Mui-expanded MuiAccordion-gutters stake-accordion css-1mt28j6-MuiPaper-root-MuiAccordion-root"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters stake-accordion css-dppvay-MuiPaper-root-MuiAccordion-root"
   >
     <div
       aria-expanded="true"

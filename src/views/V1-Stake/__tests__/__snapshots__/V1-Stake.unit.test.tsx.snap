@@ -6,7 +6,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
     id="v1-stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-m19e0g-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -276,7 +276,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                   </p>
                 </div>
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters stake-accordion css-1mt28j6-MuiPaper-root-MuiAccordion-root"
+                  class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters stake-accordion css-dppvay-MuiPaper-root-MuiAccordion-root"
                 >
                   <div
                     aria-expanded="false"
@@ -409,7 +409,6 @@ exports[`<Stake/> should render component. not connected 1`] = `
                 </div>
                 <hr
                   class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
-                  color="secondary"
                 />
                 <div
                   class="DataRow-root data-row css-19fvmib"
@@ -475,7 +474,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-m19e0g-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -2846,7 +2845,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
     id="v1-stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-m19e0g-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -3116,7 +3115,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                   </p>
                 </div>
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters stake-accordion css-1mt28j6-MuiPaper-root-MuiAccordion-root"
+                  class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters stake-accordion css-dppvay-MuiPaper-root-MuiAccordion-root"
                 >
                   <div
                     aria-expanded="false"
@@ -3249,7 +3248,6 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                 </div>
                 <hr
                   class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
-                  color="secondary"
                 />
                 <div
                   class="DataRow-root data-row css-19fvmib"
@@ -3315,7 +3313,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-m19e0g-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -5728,7 +5726,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
     id="v1-stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-m19e0g-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -5998,7 +5996,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                   </p>
                 </div>
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters stake-accordion css-1mt28j6-MuiPaper-root-MuiAccordion-root"
+                  class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters stake-accordion css-dppvay-MuiPaper-root-MuiAccordion-root"
                 >
                   <div
                     aria-expanded="false"
@@ -6131,7 +6129,6 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                 </div>
                 <hr
                   class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
-                  color="secondary"
                 />
                 <div
                   class="DataRow-root data-row css-19fvmib"
@@ -6197,7 +6194,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-m19e0g-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -8610,7 +8607,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
     id="v1-stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-m19e0g-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -8880,7 +8877,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   </p>
                 </div>
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters stake-accordion css-1mt28j6-MuiPaper-root-MuiAccordion-root"
+                  class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters stake-accordion css-dppvay-MuiPaper-root-MuiAccordion-root"
                 >
                   <div
                     aria-expanded="false"
@@ -9013,7 +9010,6 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                 </div>
                 <hr
                   class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
-                  color="secondary"
                 />
                 <div
                   class="DataRow-root data-row css-19fvmib"
@@ -9079,7 +9075,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-m19e0g-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div

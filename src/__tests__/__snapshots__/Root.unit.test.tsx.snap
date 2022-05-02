@@ -18,7 +18,7 @@ exports[`<Root/> should render component 1`] = `
             role="presentation"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-filledInfo MuiAlert-filled css-1mc88lq-MuiPaper-root-MuiAlert-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-filledInfo MuiAlert-filled css-yqhybk-MuiPaper-root-MuiAlert-root"
               direction="down"
               role="alert"
               style="opacity: 1; transform: scale(1, 1); word-break: break-word; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
@@ -77,7 +77,7 @@ exports[`<Root/> should render component 1`] = `
         </div>
       </div>
       <header
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionSticky TopBar-appBar css-1puga64-MuiPaper-root-MuiAppBar-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionSticky TopBar-appBar css-fddjrt-MuiPaper-root-MuiAppBar-root"
       >
         <div
           class="MuiToolbar-root MuiToolbar-regular dapp-topbar css-v92ha2-MuiToolbar-root"
@@ -199,10 +199,10 @@ exports[`<Root/> should render component 1`] = `
             class="MuiDrawer-root MuiDrawer-docked css-6mamqx-MuiDrawer-docked"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-13qvuwh-MuiPaper-root-MuiDrawer-paper"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-62jtqx-MuiPaper-root-MuiDrawer-paper"
             >
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 dapp-sidebar css-93w7oz-MuiPaper-root"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 dapp-sidebar css-w1su4o-MuiPaper-root"
               >
                 <div
                   class="dapp-sidebar-inner MuiBox-root css-155ff3i"
@@ -269,7 +269,7 @@ exports[`<Root/> should render component 1`] = `
                           class="NavItem-root nav-item-container css-2pdow1"
                         >
                           <div
-                            class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters Accordion-root undefined css-e6s0ev-MuiPaper-root-MuiAccordion-root"
+                            class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters Accordion-root undefined css-1nhesla-MuiPaper-root-MuiAccordion-root"
                           >
                             <div
                               aria-expanded="true"
@@ -840,7 +840,7 @@ exports[`<Root/> should render component 1`] = `
           id="stake-view"
         >
           <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-m19e0g-MuiPaper-root"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
@@ -1025,7 +1025,7 @@ exports[`<Root/> should render component 1`] = `
             </div>
           </div>
           <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-4fb6ki-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 helloooooo Paper-root  css-m19e0g-MuiPaper-root"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
