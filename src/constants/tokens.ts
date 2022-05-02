@@ -1,10 +1,8 @@
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { calculateBalancerLPValue } from "src/helpers/pricing/calculateBalancerLPValue";
-import { calculateGelatoUniV3LPValue } from "src/helpers/pricing/calculateGelatoUniV3LPValue";
 import { calculateUniV2LPValue } from "src/helpers/pricing/calculateUniV2LPValue";
 import { NetworkId } from "src/networkDetails";
-import { BalancerV2Pool__factory, GUniV3Lp__factory, IERC20__factory, PairContract__factory } from "src/typechain";
+import { IERC20__factory, PairContract__factory } from "src/typechain";
 
 import {
   DAI_ADDRESSES,
@@ -13,8 +11,6 @@ import {
   LUSD_ADDRESSES,
   OHM_ADDRESSES,
   OHM_DAI_LP_ADDRESSES,
-  OHM_DAI_WETH_BALANCER_LP_ADDRESSSES,
-  OHM_FRAX_GUNI_LP_ADDRESSSES,
   OHM_LUSD_LP_ADDRESSES,
   OHM_WETH_LP_ADDRESSES,
   SOHM_ADDRESSES,
@@ -203,31 +199,3 @@ export const WBTC_TOKEN = new Token({
   factory: IERC20__factory,
   purchaseUrl: "",
 });
-
-export const OHM_FRAX_GUNI_LP_TOKEN = new Token({
-  decimals: 18,
-  name: "OHM-FRAX gUniV3 LP",
-  icons: ["OHM", "FRAX"],
-  factory: GUniV3Lp__factory,
-  addresses: OHM_FRAX_GUNI_LP_ADDRESSSES,
-  purchaseUrl: "",
-});
-
-OHM_FRAX_GUNI_LP_TOKEN.customPricingFunc = networkId =>
-  calculateGelatoUniV3LPValue({ networkId, lpToken: OHM_FRAX_GUNI_LP_TOKEN, poolTokens: [OHM_TOKEN, FRAX_TOKEN] });
-
-export const OHM_DAI_WETH_BALANCER_LP_TOKEN = new Token({
-  decimals: 18,
-  name: "OHM-DAI-WETH Balancer LP",
-  icons: ["OHM", "DAI", "wETH"],
-  factory: BalancerV2Pool__factory,
-  addresses: OHM_DAI_WETH_BALANCER_LP_ADDRESSSES,
-  purchaseUrl: "",
-});
-
-OHM_DAI_WETH_BALANCER_LP_TOKEN.customPricingFunc = networkId =>
-  calculateBalancerLPValue({
-    networkId,
-    lpToken: OHM_DAI_WETH_BALANCER_LP_TOKEN,
-    poolTokens: [OHM_TOKEN, DAI_TOKEN, WETH_TOKEN],
-  });
