@@ -1,4 +1,5 @@
-import { adaptV4Theme, createTheme, responsiveFontSizes } from "@mui/material/styles";
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
+import { deepmerge } from "@mui/utils";
 
 import fonts from "./fonts";
 import commonSettings, { handleBackdropFilter } from "./global.js";
@@ -27,11 +28,8 @@ export const girthTheme = {
 
 export const girth = responsiveFontSizes(
   createTheme(
-    adaptV4Theme(
+    deepmerge(
       {
-        primary: {
-          main: girthTheme.color,
-        },
         colors: {
           paper: {
             background: girthTheme.paperBg,
@@ -80,132 +78,145 @@ export const girth = responsiveFontSizes(
           },
           highlight: girthTheme.textHighlightColor,
         },
-        typography: {
-          fontFamily: "Square",
-        },
-        props: {
-          MuiSvgIcon: {
-            htmlColor: girthTheme.color,
-          },
-        },
-        overrides: {
+        components: {
           MuiCssBaseline: {
-            "@global": {
-              "@font-face": fonts,
-              body: {
-                background: girthTheme.background,
-              },
-            },
+            styleOverrides: `
+          ${fonts}
+          body {
+            background:${girthTheme.background};
+            background-repeat:no-repeat;
+            background-attachment:fixed;
+            font-size:0.75rem;
+            font-weight:400;
+          }
+          `,
           },
           MuiPaper: {
-            root: {
-              "&.ohm-menu": {
-                backgroundColor: girthTheme.menuBg,
-              },
-              "&.ohm-modal": {
-                backgroundColor: girthTheme.menuBg,
+            styleOverrides: {
+              root: {
+                "&.ohm-menu": {
+                  backgroundColor: girthTheme.menuBg,
+                },
+                "&.ohm-modal": {
+                  backgroundColor: girthTheme.menuBg,
+                },
               },
             },
           },
           MuiBackdrop: {
-            root: {
-              backgroundColor: "rgba(100, 100, 100, 0.41)",
+            styleOverrides: {
+              root: {
+                backgroundColor: "rgba(100, 100, 100, 0.41)",
+              },
             },
           },
           MuiLink: {
-            root: {
-              color: girthTheme.color,
-              "&:hover": {
-                color: girthTheme.textHighlightColor,
-                textDecoration: "none",
+            styleOverrides: {
+              root: {
+                color: girthTheme.color,
+                "&:hover": {
+                  color: girthTheme.textHighlightColor,
+                  textDecoration: "none",
+                  "&.active": {
+                    color: girthTheme.color,
+                  },
+                },
                 "&.active": {
                   color: girthTheme.color,
+                  textDecoration: "underline",
                 },
-              },
-              "&.active": {
-                color: girthTheme.color,
-                textDecoration: "underline",
               },
             },
           },
           MuiTableCell: {
-            root: {
-              color: girthTheme.color,
+            styleOverrides: {
+              root: {
+                color: girthTheme.color,
+              },
             },
           },
           MuiToggleButton: {
-            root: {
-              backgroundColor: girthTheme.paperBg,
-              "&:hover": {
-                backgroundColor: girthTheme.secondaryButtonHoverBG,
-              },
-              selected: {
-                backgroundColor: girthTheme.secondaryButtonHoverBG,
-              },
-            },
-          },
-          MuiButton: {
-            containedPrimary: {
-              color: "#333333",
-              backgroundColor: girthTheme.primaryButtonBG,
-              "&:hover": {
-                backgroundColor: girthTheme.primaryButtonHoverBG,
-                color: girthTheme.primaryButtonHoverColor,
-              },
-              "@media (hover:none)": {
-                color: girthTheme.color,
-                backgroundColor: girthTheme.primaryButtonBG,
-                "&:hover": {
-                  backgroundColor: girthTheme.primaryButtonHoverBG,
-                },
-              },
-            },
-            containedSecondary: {
-              backgroundColor: girthTheme.paperBg,
-              color: girthTheme.color,
-              "&:hover": {
-                backgroundColor: girthTheme.secondaryButtonHoverBG,
-              },
-              "@media (hover:none)": {
-                color: girthTheme.color,
+            styleOverrides: {
+              root: {
                 backgroundColor: girthTheme.paperBg,
                 "&:hover": {
                   backgroundColor: girthTheme.secondaryButtonHoverBG,
                 },
+                selected: {
+                  backgroundColor: girthTheme.secondaryButtonHoverBG,
+                },
               },
             },
-            outlinedPrimary: {
-              color: girthTheme.gold,
-              borderColor: girthTheme.gold,
-              "&:hover": {
-                color: girthTheme.outlinedPrimaryButtonHoverColor,
-                backgroundColor: girthTheme.outlinedPrimaryButtonHoverBG,
-              },
+          },
+          MuiSvgIcon: {
+            defaultProps: {
+              htmlColor: girthTheme.color,
             },
-            outlinedSecondary: {
-              color: girthTheme.color,
-              borderColor: girthTheme.color,
-              "&:hover": {
-                color: girthTheme.outlinedSecondaryButtonHoverColor,
-                backgroundColor: girthTheme.outlinedSecondaryButtonHoverBG,
-                borderColor: "#333333",
+          },
+          MuiButton: {
+            styleOverrides: {
+              containedPrimary: {
+                color: "#333333",
+                backgroundColor: girthTheme.primaryButtonBG,
+                "&:hover": {
+                  backgroundColor: girthTheme.primaryButtonHoverBG,
+                  color: girthTheme.primaryButtonHoverColor,
+                },
+                "@media (hover:none)": {
+                  color: girthTheme.color,
+                  backgroundColor: girthTheme.primaryButtonBG,
+                  "&:hover": {
+                    backgroundColor: girthTheme.primaryButtonHoverBG,
+                  },
+                },
               },
-            },
-            textPrimary: {
-              color: "#A3A3A3",
-              "&:hover": {
+              containedSecondary: {
+                backgroundColor: girthTheme.paperBg,
+                color: girthTheme.color,
+                "&:hover": {
+                  backgroundColor: girthTheme.secondaryButtonHoverBG,
+                },
+                "@media (hover:none)": {
+                  color: girthTheme.color,
+                  backgroundColor: girthTheme.paperBg,
+                  "&:hover": {
+                    backgroundColor: girthTheme.secondaryButtonHoverBG,
+                  },
+                },
+              },
+              outlinedPrimary: {
                 color: girthTheme.gold,
-                backgroundColor: "#00000000",
+                borderColor: girthTheme.gold,
+                "&:hover": {
+                  color: girthTheme.outlinedPrimaryButtonHoverColor,
+                  backgroundColor: girthTheme.outlinedPrimaryButtonHoverBG,
+                },
               },
-              "&:active": {
-                color: girthTheme.gold,
-                borderBottom: "#F8CC82",
+              outlinedSecondary: {
+                color: girthTheme.color,
+                borderColor: girthTheme.color,
+                "&:hover": {
+                  color: girthTheme.outlinedSecondaryButtonHoverColor,
+                  backgroundColor: girthTheme.outlinedSecondaryButtonHoverBG,
+                  borderColor: "#333333",
+                },
               },
-            },
-            textSecondary: {
-              color: girthTheme.color,
-              "&:hover": {
-                color: girthTheme.textHighlightColor,
+              textPrimary: {
+                color: "#A3A3A3",
+                "&:hover": {
+                  color: girthTheme.gold,
+                  backgroundColor: "#00000000",
+                },
+                "&:active": {
+                  color: girthTheme.gold,
+                  borderBottom: "#F8CC82",
+                },
+              },
+              textSecondary: {
+                color: girthTheme.color,
+                "&:hover": {
+                  color: girthTheme.textHighlightColor,
+                },
               },
             },
           },
