@@ -6,6 +6,7 @@ import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAll
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 
 import { GOHMConversion } from "./components/GOHMConversion";
 import { useStakeToken } from "./hooks/useStakeToken";
@@ -65,9 +66,13 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
     (currentAction === "STAKE" ? stakeMutation : unstakeMutation).mutate(amount);
   };
 
+  const bonds = useLiveBonds({ isInverseBond: true }).data;
+
+  const liveInverseBonds = bonds && bonds.length > 0;
+
   return (
     <Box mb={3}>
-      {currentAction === "UNSTAKE" && (
+      {currentAction === "UNSTAKE" && liveInverseBonds && (
         <InfoNotification>
           <Trans>Inverse bonds are live & provide a greater discount than spot prices on the open market</Trans>
         </InfoNotification>
