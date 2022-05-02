@@ -1,12 +1,13 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Grid, Paper, Switch, Tab, Tabs } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
+import { InfoNotification, InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
 import React, { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 
 import { GOHMConversion } from "./components/GOHMConversion";
 import { useStakeToken } from "./hooks/useStakeToken";
@@ -77,8 +78,17 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
     (currentAction === "STAKE" ? stakeMutation : unstakeMutation).mutate(amount);
   };
 
+  const bonds = useLiveBonds({ isInverseBond: true }).data;
+
+  const liveInverseBonds = bonds && bonds.length > 0;
+
   return (
     <StyledBox mb={3}>
+      {currentAction === "UNSTAKE" && liveInverseBonds && (
+        <InfoNotification>
+          <Trans>Inverse bonds are live & provide a greater discount than spot prices on the open market</Trans>
+        </InfoNotification>
+      )}
       <Tabs
         centered
         textColor="primary"
