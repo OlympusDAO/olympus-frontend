@@ -32,7 +32,7 @@ jobs:
           temporaryPublicStorage: true # upload lighthouse report to the temporary storage
       - name: Deploy to Netlify
         id: deploy-to-netlify
-        uses: jsmrcaga/action-netlify-deploy@1.7.2
+        uses: jsmrcaga/action-netlify-deploy@v1.7.2
         env:
           CI: false
         with:
