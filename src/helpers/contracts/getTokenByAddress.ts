@@ -22,8 +22,8 @@ export const getTokenByAddress = async ({
       .find(([, _address]) => normalizedAddress === _address.toLowerCase()),
   );
 
-  // LP tokens aren't hardcoded, we attempt to get them dynamically
-  const dynamic = await getLPTokenByAddress({ address, networkId });
+  if (hardcoded) return hardcoded;
 
-  return hardcoded || dynamic || null;
+  // LP tokens aren't hardcoded, we attempt to get them dynamically
+  return getLPTokenByAddress({ address, networkId });
 };
