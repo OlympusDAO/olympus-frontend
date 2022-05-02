@@ -85,10 +85,12 @@ export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions
 
   const [terms, market] = await Promise.all([contract.terms(id), contract.markets(id)]);
 
-  const baseToken = isInverseBond ? getTokenByAddress((market as any).baseToken) : OHM_TOKEN;
+  const baseToken = isInverseBond
+    ? await getTokenByAddress({ address: (market as any).baseToken, networkId })
+    : OHM_TOKEN;
   assert(baseToken, `Unknown base token address: ${(market as any).baseToken}`);
 
-  const quoteToken = isInverseBond ? OHM_TOKEN : getTokenByAddress(market.quoteToken);
+  const quoteToken = isInverseBond ? OHM_TOKEN : await getTokenByAddress({ address: market.quoteToken, networkId });
   assert(quoteToken, `Unknown quote token address: ${market.quoteToken}`);
 
   const [baseTokenPerUsd, quoteTokenPerUsd, quoteTokenPerBaseToken] = await Promise.all([
