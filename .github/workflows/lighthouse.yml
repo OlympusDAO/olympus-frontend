@@ -40,11 +40,6 @@ jobs:
           NETLIFY_AUTH_TOKEN: 'guFcs6FrptZPOXChQK8zjRjbF6n9RHQElkMTaj-xlW4' # ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: '278d83a0-6ffd-4fff-b9e7-2f76b590dfe9' # ${{ secrets.NETLIFY_SITE_ID }}
           node_version: "16"
-      - name: Wait for Netlify preview deployment of this git branch
-        uses: JakePartusch/wait-for-netlify-action@v1.3
-        id: waitFor60
-        with:
-          site_name: "olympus-frontend-midnight" # update before merge to main
       - name: Run Lighthouse PWA check against Netlify PR Preview
         uses: treosh/lighthouse-ci-action@v9
         with:
