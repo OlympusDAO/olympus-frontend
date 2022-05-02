@@ -91,7 +91,7 @@ const commonSettings = {
             borderRadius: "10px",
             margin: "0px",
           },
-          "&.ohm-chart-card": {
+          "&.Paper-root&.ohm-chart-card": {
             padding: "20px 0px",
             whiteSpace: "nowrap",
             maxWidth: "700px",
