@@ -1,38 +1,42 @@
+import { CURVE_FACTORY } from "src/constants/contracts";
 import { NetworkId } from "src/networkDetails";
-import { CurveFactory__factory } from "src/typechain";
+import { CurveToken__factory } from "src/typechain";
 
 import { Token } from "../contracts/Token";
 import { DecimalBigNumber } from "../DecimalBigNumber/DecimalBigNumber";
 
 /**
  * Calculates the value of a Curve LP token in USD
- *
- * Note that Curve pools are sometimes split up into two separate contracts,
- * a factory and a token contract, and sometimes a single contract that merges
- * the functionality of those two contracts together.
- *
- * This function expects the latter, and the ABI is the one recommended by
- * the Curve's own implementation docs:
- * (https://curve.readthedocs.io/factory-pools.html?highlight=abi#implementation-contracts)
  */
 export const calculateCurveLPValue = async ({
   lpToken,
   networkId,
+  poolTokens,
 }: {
+  poolTokens: Token[];
   networkId: NetworkId;
-  lpToken: Token<typeof CurveFactory__factory>;
+  lpToken: Token<typeof CurveToken__factory>;
 }) => {
-  const contract = lpToken.getEthersContract(networkId);
+  if (networkId !== NetworkId.MAINNET) throw new Error("Not implemented");
 
-  return contract.get_virtual_price().then(
-    price =>
-      new DecimalBigNumber(
-        price,
-        /**
-         * Always expressed with 1e18 precision
-         * (https://curve.readthedocs.io/factory-pools.html?highlight=abi#StableSwap.get_virtual_price)
-         */
-        18,
-      ),
+  const tokenContract = lpToken.getEthersContract(networkId);
+  const factoryContract = CURVE_FACTORY.getEthersContract(networkId);
+
+  const [poolAddress, lpSupply, ...tokenPrices] = await Promise.all([
+    tokenContract.minter(),
+    tokenContract.totalSupply().then(supply => new DecimalBigNumber(supply, lpToken.decimals)),
+    ...poolTokens.map(token => token.getPrice(networkId)),
+  ]);
+
+  const tokenBalances = await factoryContract
+    .get_balances(poolAddress)
+    .then(balances => balances.map((balance, i) => new DecimalBigNumber(balance, poolTokens[i].decimals)));
+
+  const totalValueOfLpInUsd = tokenBalances.reduce(
+    // For each token, we multiply the amount in the pool by it's USD value
+    (sum, balance, i) => sum.add(balance.mul(tokenPrices[i])),
+    new DecimalBigNumber("0"),
   );
+
+  return totalValueOfLpInUsd.div(lpSupply);
 };

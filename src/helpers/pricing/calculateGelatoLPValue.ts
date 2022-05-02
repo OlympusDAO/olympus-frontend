@@ -4,13 +4,13 @@ import { GUniV3Lp__factory } from "src/typechain";
 import { Token } from "../contracts/Token";
 import { DecimalBigNumber } from "../DecimalBigNumber/DecimalBigNumber";
 
-export const calculateGelatoUniV3LPValue = async ({
+export const calculateGelatoLPValue = async ({
   lpToken,
   networkId,
   poolTokens,
 }: {
   networkId: NetworkId;
-  poolTokens: [Token, Token];
+  poolTokens: readonly [Token, Token];
   lpToken: Token<typeof GUniV3Lp__factory>;
 }) => {
   const contract = lpToken.getEthersContract(networkId);
