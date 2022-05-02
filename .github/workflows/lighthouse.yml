@@ -48,6 +48,31 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
           configPath: '.github/lighthouse/lighthouserc-netlify-preview.yml'
+      - name: Find Comment
+        uses: peter-evans/find-comment@v2
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Check out the preview
+      - if: steps.find-comment.outputs.comment-id != ''
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.deleteComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: ${{ steps.find-comment.outputs.comment-id }}
+            })
+      - name: Create or update comment
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{github.event.number}}
+          body: |
+            [Check out the preview for this PR here](${{ steps.deploy-to-netlify.outputs.NETLIFY_PREVIEW_URL }})
+            ${{ steps.deploy-to-netlify.outputs.NETLIFY_PREVIEW_URL }}
+          reactions: '+1'
       - name: Status check
         uses: Sibz/github-status-action@v1.1.6
         with:
