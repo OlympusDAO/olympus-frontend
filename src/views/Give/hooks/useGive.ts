@@ -3,6 +3,7 @@ import { ContractReceipt, ethers } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
+import { IUAData, trackGiveEvent } from "src/helpers/analytics/trackGiveEvent";
 import { ACTION_GIVE, getTypeFromAction } from "src/helpers/GiveHelpers";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey } from "src/hooks/useBalance";
@@ -12,7 +13,6 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
 import { GiveData } from "../Interfaces";
-import { IUAData, trackGiveEvent } from "../utils/googleAnalytics";
 
 /**
  * @notice Creates a new deposit

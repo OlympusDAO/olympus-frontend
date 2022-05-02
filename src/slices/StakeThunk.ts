@@ -6,7 +6,7 @@ import { IERC20, OlympusStaking__factory, OlympusStakingv2__factory, StakingHelp
 import { abi as ierc20ABI } from "../abi/IERC20.json";
 import { abi as StakingHelperABI } from "../abi/StakingHelper.json";
 import { addresses } from "../constants";
-import { trackGAEvent } from "../helpers/analytics";
+import { trackGAEvent } from "../helpers/analytics/trackGAEvent";
 import { fetchAccountSuccess, getBalances } from "./AccountSlice";
 import { IChangeApprovalWithVersionAsyncThunk, IJsonRPCError, IStakeAsyncThunk } from "./interfaces";
 import { error, info } from "./MessagesSlice";
