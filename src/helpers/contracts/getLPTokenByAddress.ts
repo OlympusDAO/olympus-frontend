@@ -5,9 +5,11 @@ import { getCurveLPToken } from "./getCurveLPToken";
 import { getGelatoLPToken } from "./getGelatoLPToken";
 
 export const getLPTokenByAddress = async ({ address, networkId }: { address: string; networkId: NetworkId }) => {
-  const guni = await getGelatoLPToken({ address, networkId });
-  const curve = await getCurveLPToken({ address, networkId });
   const balancer = await getBalancerLPToken({ address, networkId });
+  if (balancer) return balancer;
 
-  return guni || balancer || curve;
+  const curve = await getCurveLPToken({ address, networkId });
+  if (curve) return curve;
+
+  return getGelatoLPToken({ address, networkId });
 };
