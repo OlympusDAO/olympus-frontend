@@ -140,7 +140,7 @@
     "eject": "react-app-rewired eject",
     "start": "yarn lingui:prepare && react-app-rewired start",
     "test": "react-app-rewired test",
-    "test:unit": "react-app-rewired test --watchAll=false --bail --ci --coverage --detectOpenHandles",
+    "test:unit": "react-app-rewired test --watchAll=false --bail --ci --coverage",
     "test:e2e": "react-app-rewired test  --watchAll=false --bail --ci",
     "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
     "lint:fix": "prettier --write ./src/ & yarn lint --fix",
