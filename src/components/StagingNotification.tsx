@@ -5,7 +5,7 @@ import { WarningNotification } from "@olympusdao/component-library";
  * Component for Displaying Staging Notification Banner
  */
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   contentShift: {
     marginLeft: 0,
   },

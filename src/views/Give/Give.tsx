@@ -52,6 +52,7 @@ function Give({ selectedIndex, giveAssetType, changeAssetType }: GiveProps) {
   const isBreakpointXS = useMediaQuery(theme.breakpoints.down("xs"));
   const history = useHistory();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeView: any = (_event: React.ChangeEvent<unknown>, newView: number) => {
     buttonChangeView(newView);
   };

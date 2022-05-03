@@ -87,7 +87,6 @@ export default function RedeemYield() {
   const isMutating = redeemMutation.isLoading;
 
   const oldRedeemMutation = useOldRedeem();
-  const isOldMutating = oldRedeemMutation.isLoading;
 
   useEffect(() => {
     if (isRedeemYieldModalOpen) setIsRedeemYieldModalOpen(false);
