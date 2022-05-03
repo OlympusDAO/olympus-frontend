@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Grid, Paper, Switch, Tab, Tabs } from "@mui/material";
+import { Box, Grid, Link, Paper, Switch, Tab, Tabs } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { InfoNotification, InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
 import React, { useState } from "react";
@@ -86,7 +86,9 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
     <StyledBox mb={3}>
       {currentAction === "UNSTAKE" && liveInverseBonds && (
         <InfoNotification>
-          <Trans>Inverse bonds are live & provide a greater discount than spot prices on the open market</Trans>
+          {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
+          &nbsp;
+          <Link href={`#/bonds`}>{t`Inverse Bonds`}</Link>
         </InfoNotification>
       )}
       <Tabs
