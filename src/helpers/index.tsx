@@ -3,7 +3,7 @@ import { formatUnits } from "@ethersproject/units";
 import axios from "axios";
 import { ethers } from "ethers";
 
-import { abi as PairContractABI } from "../abi/PairContract.json";
+import PairContractABI from "../abi/PairContract.json";
 import { NetworkId } from "../constants";
 import { PairContract } from "../typechain";
 import { ohm_dai } from "./AllBonds";
@@ -18,7 +18,7 @@ export async function getMarketPrice() {
   const mainnetProvider = Providers.getStaticProvider(NetworkId.MAINNET);
   // v2 price
   const ohm_dai_address = ohm_dai.getAddressForReserve(NetworkId.MAINNET);
-  const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI, mainnetProvider) as PairContract;
+  const pairContract = new ethers.Contract(ohm_dai_address || "", PairContractABI.abi, mainnetProvider) as PairContract;
   const reserves = await pairContract.getReserves();
 
   return Number(reserves[1].toString()) / Number(reserves[0].toString()) / 10 ** 9;

@@ -41,8 +41,8 @@ module.exports = api => {
       [
         "@babel/preset-react",
         {
-          development: isDevelopmentEnv || isTestEnv,
           useBuiltIns: true,
+          runtime: "automatic",
         },
       ],
     ].filter(Boolean),
@@ -75,21 +75,6 @@ module.exports = api => {
         "@babel/plugin-transform-regenerator",
         {
           async: false,
-        },
-      ],
-      [
-        "transform-imports",
-        {
-          "@fortawesome/pro-light-svg-icons": {
-            transform: "@fortawesome/pro-light-svg-icons/${member}",
-            skipDefaultConversion: true,
-            preventFullImport: true,
-          },
-          "@fortawesome/free-solid-svg-icons": {
-            transform: "@fortawesome/free-solid-svg-icons/${member}",
-            skipDefaultConversion: true,
-            preventFullImport: true,
-          },
         },
       ],
       [

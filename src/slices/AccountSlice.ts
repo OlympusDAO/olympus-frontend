@@ -6,9 +6,9 @@ import { RootState } from "src/store";
 import { IERC20, IERC20__factory, WsOHM } from "src/typechain";
 import { GOHM__factory } from "src/typechain/factories/GOHM__factory";
 
-import { abi as ierc20Abi } from "../abi/IERC20.json";
-import { abi as MockSohm } from "../abi/MockSohm.json";
-import { abi as wsOHM } from "../abi/wsOHM.json";
+import ierc20Abi from "../abi/IERC20.json";
+import MockSohm from "../abi/MockSohm.json";
+import wsOHM from "../abi/wsOHM.json";
 import { addresses } from "../constants";
 import { handleContractError, setAll } from "../helpers";
 import { IBaseAddressAsyncThunk } from "./interfaces";
@@ -30,7 +30,11 @@ export const getBalances = createAsyncThunk(
     let mockSohmBalance = BigNumber.from("0");
     let wsohmBalance = BigNumber.from("0");
     try {
-      const wsohmContract = new ethers.Contract(addresses[networkID].WSOHM_ADDRESS as string, wsOHM, provider) as WsOHM;
+      const wsohmContract = new ethers.Contract(
+        addresses[networkID].WSOHM_ADDRESS as string,
+        wsOHM.abi,
+        provider,
+      ) as WsOHM;
       wsohmBalance = await wsohmContract.balanceOf(address);
     } catch (e) {
       handleContractError(e);
@@ -38,7 +42,7 @@ export const getBalances = createAsyncThunk(
     try {
       const ohmContract = new ethers.Contract(
         addresses[networkID].OHM_ADDRESS as string,
-        ierc20Abi,
+        ierc20Abi.abi,
         provider,
       ) as IERC20;
       ohmBalance = await ohmContract.balanceOf(address);
@@ -48,7 +52,7 @@ export const getBalances = createAsyncThunk(
     try {
       const sohmContract = new ethers.Contract(
         addresses[networkID].SOHM_ADDRESS as string,
-        ierc20Abi,
+        ierc20Abi.abi,
         provider,
       ) as IERC20;
       sohmBalance = await sohmContract.balanceOf(address);
@@ -63,7 +67,7 @@ export const getBalances = createAsyncThunk(
       if (Environment.isGiveEnabled() && addresses[networkID] && addresses[networkID].MOCK_SOHM) {
         const mockSohmContract = new ethers.Contract(
           addresses[networkID].MOCK_SOHM as string,
-          MockSohm,
+          MockSohm.abi,
           provider,
         ) as IERC20;
         mockSohmBalance = await mockSohmContract.balanceOf(address);
@@ -190,14 +194,14 @@ export const loadAccountDetails = createAsyncThunk(
 
       const ohmContract = new ethers.Contract(
         addresses[networkID].OHM_ADDRESS as string,
-        ierc20Abi,
+        ierc20Abi.abi,
         provider,
       ) as IERC20;
       stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
 
       const sohmContract = new ethers.Contract(
         addresses[networkID].SOHM_ADDRESS as string,
-        ierc20Abi,
+        ierc20Abi.abi,
         provider,
       ) as IERC20;
       unstakeAllowance = await sohmContract.allowance(address, addresses[networkID].STAKING_ADDRESS);
