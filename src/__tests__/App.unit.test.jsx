@@ -143,7 +143,7 @@ describe("Staging Notification Checks", () => {
   beforeEach(() => {
     const data = jest.spyOn(useWeb3Context, "useWeb3Context");
     data.mockReturnValue(mockWeb3Context);
-    process.env.NODE_ENV = "test";
+    process.env.REACT_APP_STAGING_ENV = true;
   });
   it("Should display a notification banner when hostname = staging.olympusdao.finance", async () => {
     render(<App />);
@@ -163,7 +163,7 @@ describe("Staging Notification Checks", () => {
 });
 describe("Production Notification Check", () => {
   beforeEach(() => {
-    process.env.NODE_ENV = "production";
+    process.env.REACT_APP_STAGING_ENV = false;
     const data = jest.spyOn(useWeb3Context, "useWeb3Context");
     data.mockReturnValue(mockWeb3Context);
   });
