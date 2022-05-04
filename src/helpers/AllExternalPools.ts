@@ -120,12 +120,13 @@ export const oolong_gohm_weth = new ExternalPool({
   icons: ["wETH", "gOHM"],
   stakeOn: "OolongSwap",
   pairGecko: "ethereum",
-  rewardGecko: "boba-network",
+  rewardGecko: "oolongswap",
+  bonusGecko: "boba-network",
   href: "https://oolongswap.com/#/farm/lp",
-  address: "0x547b227A77813Ea70Aacf01212B39Db7b560fa1c", //TODO: Temp for Testing. Swap for real LP
+  address: "0x82d5dce44eddb117f6cca21229ced03965c9e0bb",
   masterchef: "0xd0e6dfA5E5511e138BfCDDaDdF70FDBa2Ab8396C",
-  rewarder: "", //TODO: Need to replace with rewarder address
-  poolId: 9,
+  rewarder: "0xfafF71171ED44d3b1E14f15EE7ee2E0fD2bF22Ae",
+  poolId: 12,
   networkID: NetworkId.BOBA,
 });
 
