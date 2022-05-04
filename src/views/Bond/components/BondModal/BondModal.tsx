@@ -3,7 +3,7 @@ import { Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { Icon, Modal, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
-import { useHistory, useLocation, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { NetworkId } from "src/constants";
 import { Token } from "src/helpers/contracts/Token";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
@@ -19,10 +19,10 @@ import { BondInputArea } from "./components/BondInputArea/BondInputArea";
 import { BondSettingsModal } from "./components/BondSettingsModal";
 
 export const BondModalContainer: React.VFC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { networkId } = useWeb3Context();
   const { id } = useParams<{ id: string }>();
-  usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
+  usePathForNetwork({ pathName: "bonds", networkID: networkId, navigate });
 
   const { pathname } = useLocation();
   const isInverseBond = pathname.includes("/inverse/");
@@ -36,7 +36,7 @@ export const BondModalContainer: React.VFC = () => {
 };
 
 const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const { address } = useWeb3Context();
   const isInverseBond: boolean = pathname.includes("/inverse/");
@@ -47,12 +47,12 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") isSettingsOpen ? setSettingsOpen(false) : history.push("/bonds");
+      if (event.key === "Escape") isSettingsOpen ? setSettingsOpen(false) : navigate("/bonds");
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [history, isSettingsOpen]);
+  }, [navigate, isSettingsOpen]);
 
   useEffect(() => {
     if (address) setRecipientAddress(address);
@@ -63,7 +63,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
       open
       minHeight="auto"
       closePosition="left"
-      onClose={() => history.push(`/bonds`)}
+      onClose={() => navigate(`/bonds`)}
       topRight={<Icon name="settings" style={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
       headerContent={
         <Box display="flex" flexDirection="row">

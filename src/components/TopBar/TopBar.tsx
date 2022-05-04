@@ -59,7 +59,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
           <SvgIcon component={MenuIcon} />
         </Button>
         <Box display="flex" alignItems="center">
-          <Link to={{ pathname: "/wallet", state: { prevPath: location.pathname } }} style={{ marginRight: "0px" }}>
+          <Link to={"/wallet"} state={{ prevPath: location.pathname }} style={{ marginRight: "0px" }}>
             <Button variant="contained" color="secondary">
               <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
               <Typography>{connected ? t`Wallet` : t`Connect`}</Typography>

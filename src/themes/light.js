@@ -204,6 +204,16 @@ export const light = responsiveFontSizes(
             },
           },
         },
+        MuiTabs: {
+          root: {
+            "& .MuiLink-root": {
+              color: lightTheme.blueish_gray,
+              "&.active": {
+                color: lightTheme.color,
+              },
+            },
+          },
+        },
         MuiTab: {
           textColorPrimary: {
             color: lightTheme.blueish_gray,

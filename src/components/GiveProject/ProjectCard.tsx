@@ -10,6 +10,7 @@ import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
 import Countdown from "react-countdown";
 import ReactGA from "react-ga";
+import { Link as RouterLink } from "react-router-dom";
 import { Project } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
@@ -375,7 +376,11 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     // For the moment, we only display the first photo
     else {
       imageElement = (
-        <Link href={`#/give/projects/${project.slug}`} onClick={() => handleProjectDetailsButtonClick("Image")}>
+        <Link
+          to={`/give/projects/${project.slug}`}
+          component={RouterLink}
+          onClick={() => handleProjectDetailsButtonClick("Image")}
+        >
           <img width="100%" src={`${process.env.PUBLIC_URL}${photos[0]}`} />
         </Link>
       );
@@ -501,7 +506,8 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
           {!isBreakpointLarge ? (
             <Grid item xs={12}>
               <Link
-                href={`#/give/projects/${project.slug}`}
+                to={`/give/projects/${project.slug}`}
+                component={RouterLink}
                 onClick={() => handleProjectDetailsButtonClick("Title Link")}
               >
                 <Typography variant="h4">
@@ -519,7 +525,8 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
             {isBreakpointLarge ? (
               <Grid item xs={12}>
                 <Link
-                  href={`#/give/projects/${project.slug}`}
+                  to={`/give/projects/${project.slug}`}
+                  component={RouterLink}
                   onClick={() => handleProjectDetailsButtonClick("Title Link")}
                 >
                   <Typography variant="h4">
@@ -542,7 +549,8 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
               </Grid>
               <Grid item xs={12} sm={6} lg={4}>
                 <Link
-                  href={`#/give/projects/${project.slug}`}
+                  to={`projects/${project.slug}`}
+                  component={RouterLink}
                   onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                 >
                   <TertiaryButton size="small" fullWidth>
@@ -589,7 +597,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                   topLeft={
                     <Grid container spacing={2} alignItems="center">
                       <Grid item>
-                        <Link href={"#/give/"}>
+                        <Link to={"/give"} component={RouterLink}>
                           <ChevronLeft viewBox="6 6 12 12" style={{ width: "12px", height: "12px" }} />
                         </Link>
                       </Grid>
