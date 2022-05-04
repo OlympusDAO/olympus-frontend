@@ -19,7 +19,7 @@ const StagingNotification = () => {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   return (
     <>
-      {Environment.env.NODE_ENV === "test" && (
+      {Environment.getStagingFlag() === "true" && (
         <Box
           style={{ marginTop: "0px" }}
           className={`${isSmallScreen ? classes.contentShift : classes.notification}`}
