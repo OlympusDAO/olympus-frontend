@@ -58,7 +58,6 @@ export function ManageDonationModal({
   cancelFunc,
   project,
   currentDepositId,
-  currentWalletAddress,
   currentDepositAmount,
   depositDate,
   giveAssetType,

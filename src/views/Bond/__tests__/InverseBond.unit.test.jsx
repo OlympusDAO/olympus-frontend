@@ -69,6 +69,7 @@ describe("Inverse Bonds", () => {
   });
 
   it("should display OHM DAI Inverse Bond", async () => {
+    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/inverse" });
     fireEvent.click(await screen.findByText("Inverse Bond"));
     expect(await screen.findByText("DAI")).toBeInTheDocument();
   });

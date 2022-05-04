@@ -30,7 +30,7 @@ afterEach(() => {
 
 describe("<App/>", () => {
   it("should render component", () => {
-    renderRoute("/#");
+    renderRoute("/");
     expect(screen.getByText("Connect your wallet to stake OHM")).toBeInTheDocument();
   });
   it("should not render an error message when user wallet is connected and cached but not locked", async () => {
@@ -43,7 +43,7 @@ describe("<App/>", () => {
     // mock cached provider
     Web3Modal.prototype.cachedProvider = jest.fn();
     await act(async () => {
-      const { container } = await renderRoute("/#");
+      const { container } = await renderRoute("/");
       expect(container).toMatchSnapshot();
     });
     expect(Web3Modal.prototype.connect).toHaveBeenCalledOnce();
@@ -58,7 +58,7 @@ describe("<App/>", () => {
     // no cached provider
     Web3Modal.prototype.cachedProvider = undefined;
     await act(async () => {
-      const { container } = await renderRoute("/#");
+      const { container } = await renderRoute("/");
       expect(container).toMatchSnapshot();
     });
     expect(Web3Modal.prototype.connect).toHaveBeenCalledTimes(0);
@@ -74,7 +74,7 @@ describe("<App/>", () => {
       return jest.fn();
     });
     await act(async () => {
-      const { container } = await renderRoute("/#");
+      const { container } = await renderRoute("/");
       expect(container).toMatchSnapshot();
     });
     expect(Web3Modal.prototype.connect).toHaveBeenCalledOnce();
@@ -143,14 +143,7 @@ describe("Staging Notification Checks", () => {
   beforeEach(() => {
     const data = jest.spyOn(useWeb3Context, "useWeb3Context");
     data.mockReturnValue(mockWeb3Context);
-    global.window = Object.create(window);
-    Object.defineProperty(window, "location", {
-      value: {
-        href: "http://staging.olympusdao.finance",
-        hostname: "staging.olympusdao.finance",
-      },
-      writable: true,
-    });
+    process.env.REACT_APP_STAGING_ENV = true;
   });
   it("Should display a notification banner when hostname = staging.olympusdao.finance", async () => {
     render(<App />);
@@ -170,15 +163,9 @@ describe("Staging Notification Checks", () => {
 });
 describe("Production Notification Check", () => {
   beforeEach(() => {
+    process.env.REACT_APP_STAGING_ENV = false;
     const data = jest.spyOn(useWeb3Context, "useWeb3Context");
     data.mockReturnValue(mockWeb3Context);
-    Object.defineProperty(window, "location", {
-      value: {
-        href: "http://app.olympusdao.finance",
-        hostname: "app.olympusdao.finance",
-      },
-      writable: true,
-    });
   });
   it("Should not display a notification when hostname not staging.olympusdao.finance", async () => {
     render(<App />);

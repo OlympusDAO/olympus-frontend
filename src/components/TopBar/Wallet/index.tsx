@@ -2,8 +2,7 @@ import { t, Trans } from "@lingui/macro";
 import { Box, makeStyles, SwipeableDrawer, Theme, Typography, withStyles } from "@material-ui/core";
 import { Icon, OHMTokenProps, PrimaryButton, SecondaryButton, TabBar, Token } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { shorten } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { NetworkId } from "src/networkDetails";
@@ -41,7 +40,10 @@ const useStyles = makeStyles<Theme>(theme => ({
 }));
 
 export function Wallet(props: { open?: boolean; component?: string }) {
-  const { state: closeRedirect } = useLocation();
+  interface LocationState {
+    state: { prevPath: string };
+  }
+  const { state: closeRedirect } = useLocation() as LocationState;
   const [closeLocation, setCloseLocation] = useState("/");
 
   //Watch for PrevPath passed in and set it as path to close.
@@ -52,7 +54,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
   }, [closeRedirect]);
 
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { address, connect, connected, networkId } = useWeb3Context();
   const { id } = useParams<{ id: string }>();
 
@@ -104,7 +106,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
         anchor="right"
         open={props.open ? true : false}
         onOpen={() => null}
-        onClose={() => history.push(closeLocation)}
+        onClose={() => navigate(closeLocation)}
       >
         <Box p="30px 15px" style={{ overflow: "hidden" }}>
           <Box style={{ top: 0, position: "sticky" }}>
@@ -123,7 +125,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
               <Box display="flex" flexDirection="row" justifyContent="flex-end" alignItems="center" textAlign="right">
                 <Icon
                   onClick={() => {
-                    history.push(closeLocation);
+                    navigate(closeLocation);
                   }}
                   style={{ cursor: "pointer" }}
                   name="x"
@@ -135,7 +137,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
                 { label: "Wallet", to: "/wallet" },
                 { label: "Utility", to: "/utility" },
                 { label: "Calculator", to: "/calculator" },
-                { label: "Info", to: `${process.env.REACT_APP_DISABLE_NEWS ? "/info/proposals" : "/info"}` },
+                { label: "Info", to: "/info" },
               ]}
               mb={"18px"}
             />
