@@ -136,7 +136,7 @@ exports[`<ProjectCard/> should render card 1`] = `
         >
           <a
             class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
-            href="#/give/projects/project-1"
+            href="#/projects/project-1"
           >
             <button
               class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
@@ -284,7 +284,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
         >
           <a
             class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
-            href="#/give/projects/project-1"
+            href="#/projects/project-1"
           >
             <button
               class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
@@ -339,7 +339,7 @@ exports[`<ProjectCard/> should render page 1`] = `
                       >
                         <a
                           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
-                          href="#/give/"
+                          href="#/give"
                         >
                           <svg
                             aria-hidden="true"
@@ -817,7 +817,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                       >
                         <a
                           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
-                          href="#/give/"
+                          href="#/give"
                         >
                           <svg
                             aria-hidden="true"
@@ -1295,7 +1295,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                       >
                         <a
                           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
-                          href="#/give/"
+                          href="#/give"
                         >
                           <svg
                             aria-hidden="true"

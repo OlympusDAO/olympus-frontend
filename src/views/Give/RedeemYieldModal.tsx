@@ -34,7 +34,6 @@ export function RedeemYieldModal({
   isModalOpen,
   callbackFunc,
   cancelFunc,
-  contract,
   redeemableBalance,
   isMutationLoading,
 }: RedeemModalProps) {

@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Project } from "src/components/GiveProject/project.type";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useWeb3Context } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { error } from "src/slices/MessagesSlice";
@@ -40,7 +39,6 @@ const DECIMAL_PLACES = 2;
 
 export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType }: DepositRowProps) => {
   const dispatch = useDispatch();
-  const { networkId, provider } = useWeb3Context();
   const { projects } = data;
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);

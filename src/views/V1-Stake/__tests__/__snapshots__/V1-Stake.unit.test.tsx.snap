@@ -151,7 +151,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
                 class="stake-action-area MuiBox-root css-0"
               >
                 <div
-                  class="MuiTabs-root Tabs-root stake-tab-buttons css-lqnuzn-MuiTabs-root"
+                  class="MuiTabs-root Tabs-root stake-tab-buttons css-u2rngf-MuiTabs-root"
                 >
                   <div
                     class="MuiTabs-scroller MuiTabs-fixed css-kqhgxw-MuiTabs-scroller"
@@ -2990,7 +2990,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
                 class="stake-action-area MuiBox-root css-0"
               >
                 <div
-                  class="MuiTabs-root Tabs-root stake-tab-buttons css-lqnuzn-MuiTabs-root"
+                  class="MuiTabs-root Tabs-root stake-tab-buttons css-u2rngf-MuiTabs-root"
                 >
                   <div
                     class="MuiTabs-scroller MuiTabs-fixed css-kqhgxw-MuiTabs-scroller"
@@ -5871,7 +5871,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
                 class="stake-action-area MuiBox-root css-0"
               >
                 <div
-                  class="MuiTabs-root Tabs-root stake-tab-buttons css-lqnuzn-MuiTabs-root"
+                  class="MuiTabs-root Tabs-root stake-tab-buttons css-u2rngf-MuiTabs-root"
                 >
                   <div
                     class="MuiTabs-scroller MuiTabs-fixed css-kqhgxw-MuiTabs-scroller"
@@ -8752,7 +8752,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                 class="stake-action-area MuiBox-root css-0"
               >
                 <div
-                  class="MuiTabs-root Tabs-root stake-tab-buttons css-lqnuzn-MuiTabs-root"
+                  class="MuiTabs-root Tabs-root stake-tab-buttons css-u2rngf-MuiTabs-root"
                 >
                   <div
                     class="MuiTabs-scroller MuiTabs-fixed css-kqhgxw-MuiTabs-scroller"

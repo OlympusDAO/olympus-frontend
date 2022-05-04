@@ -6,7 +6,7 @@ import { render, RenderOptions, RenderResult } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import React, { ReactElement, ReactNode } from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
 import App from "./App";
 import { Web3ContextProvider } from "./hooks/web3Context";
@@ -20,14 +20,14 @@ const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOp
       <ReactQueryProvider>
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
-            <BrowserRouter basename={"/"}>
+            <HashRouter>
               <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={lightTheme}>
                   <CssBaseline />
                   {children}
                 </ThemeProvider>
               </StyledEngineProvider>
-            </BrowserRouter>
+            </HashRouter>
           </I18nProvider>
         </Provider>
       </ReactQueryProvider>
@@ -44,14 +44,14 @@ const renderRoute = function (route: string, store = defaultStore) {
       <ReactQueryProvider>
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
-            <BrowserRouter basename={"/"}>
+            <HashRouter>
               <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={lightTheme}>
                   <CssBaseline />
                   <App />
                 </ThemeProvider>
               </StyledEngineProvider>
-            </BrowserRouter>
+            </HashRouter>
           </I18nProvider>
         </Provider>
       </ReactQueryProvider>

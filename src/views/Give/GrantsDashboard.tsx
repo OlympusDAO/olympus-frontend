@@ -21,8 +21,6 @@ type GrantsDashboardProps = {
   changeAssetType: ChangeAssetType;
 };
 
-const ZERO_NUMBER = new DecimalBigNumber("0");
-
 export default function GrantsDashboard({ giveAssetType, changeAssetType }: GrantsDashboardProps) {
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const grants: Grant[] = data.grants;

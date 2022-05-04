@@ -4,7 +4,7 @@ import { I18nProvider } from "@lingui/react";
 import { StyledEngineProvider } from "@mui/material/styles";
 import { FC, useEffect } from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
 import App from "./App";
 import { Web3ContextProvider } from "./hooks/web3Context";
@@ -22,11 +22,11 @@ const Root: FC = () => {
       <ReactQueryProvider>
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
-            <BrowserRouter basename={"/#"}>
+            <HashRouter>
               <StyledEngineProvider injectFirst>
                 <App />
               </StyledEngineProvider>
-            </BrowserRouter>
+            </HashRouter>
           </I18nProvider>
         </Provider>
       </ReactQueryProvider>

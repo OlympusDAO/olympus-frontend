@@ -161,6 +161,15 @@ export const dark = responsiveFontSizes(
               },
             },
           },
+          MuiTabs: {
+            styleOverrides: {
+              root: {
+                "& .MuiLink-root.active": {
+                  color: darkTheme.gold,
+                },
+              },
+            },
+          },
           MuiSelect: {
             styleOverrides: {
               select: {

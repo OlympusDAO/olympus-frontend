@@ -55,7 +55,7 @@ const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function GrantCard({ grant, giveAssetType, changeAssetType, mode }: GrantDetailsProps) {
-  const { address, connected, connect, networkId, provider } = useWeb3Context();
+  const { address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(NO_DONATION);

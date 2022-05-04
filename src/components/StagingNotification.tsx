@@ -1,6 +1,7 @@
 import { Box, useMediaQuery } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { WarningNotification } from "@olympusdao/component-library";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 
 const PREFIX = "StagingNotification";
 
@@ -23,7 +24,7 @@ const StagingNotification = () => {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   return (
     <StyledNotification>
-      {window.location.hostname === "staging.olympusdao.finance" && (
+      {Environment.getStagingFlag() === "true" && (
         <Box
           style={{ marginTop: "0px" }}
           className={`${isSmallScreen ? classes.contentShift : classes.notification}`}

@@ -165,6 +165,18 @@ export const light = responsiveFontSizes(
               },
             },
           },
+          MuiTabs: {
+            styleOverrides: {
+              root: {
+                "& .MuiLink-root": {
+                  color: lightTheme.blueish_gray,
+                  "&.active": {
+                    color: lightTheme.color,
+                  },
+                },
+              },
+            },
+          },
           MuiDrawer: {
             styleOverrides: {
               paper: {
