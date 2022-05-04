@@ -3445,21 +3445,21 @@ exports[`<Root/> should render component 1`] = `
                   </td>
                 </tr>
                 <tr
-                  class="MuiTableRow-root-640"
+                  class="MuiTableRow-root"
                 >
                   <td
-                    class="MuiTableCell-root-644"
+                    class="MuiTableCell-root"
                   >
                     <div
-                      class="MuiBox-root-394 MuiBox-root-681"
+                      class="MuiBox-root MuiBox-root-176"
                       style="white-space: nowrap;"
                     >
                       <div
-                        class="MuiBox-root-394 MuiBox-root-682"
+                        class="MuiBox-root MuiBox-root-177"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root-341 MuiSvgIcon-fontSizeLarge-349"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
                           focusable="false"
                           style="z-index: 1;"
                           viewBox="0 0 32 32"
@@ -3505,7 +3505,7 @@ exports[`<Root/> should render component 1`] = `
                         </svg>
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root-341 MuiSvgIcon-fontSizeLarge-349"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
                           focusable="false"
                           style="margin-left: -6px; z-index: 1;"
                           viewBox="0 0 32 32"
@@ -3554,14 +3554,14 @@ exports[`<Root/> should render component 1`] = `
                         </svg>
                       </div>
                       <p
-                        class="MuiTypography-root-280 MuiTypography-body1-282"
+                        class="MuiTypography-root MuiTypography-body1"
                         style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
                       >
                         wETH-gOHM
                       </p>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-341 MuiSvgIcon-fontSizeLarge-349"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
                         focusable="false"
                         style="font-size: 15px;"
                         viewBox="0 0 32 32"
@@ -3611,61 +3611,61 @@ exports[`<Root/> should render component 1`] = `
                     </div>
                   </td>
                   <td
-                    class="MuiTableCell-root-644"
+                    class="MuiTableCell-root"
                   >
                     <p
-                      class="MuiTypography-root-280 MuiTypography-body1-282"
+                      class="MuiTypography-root MuiTypography-body1"
                       style="line-height: 1.4;"
                     >
                       <span
-                        class="MuiSkeleton-root-596 MuiSkeleton-text-597 MuiSkeleton-pulse-600"
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                         style="width: 100%;"
                       />
                     </p>
                   </td>
                   <td
-                    class="MuiTableCell-root-644"
+                    class="MuiTableCell-root"
                   >
                     <p
-                      class="MuiTypography-root-280 MuiTypography-body1-282"
+                      class="MuiTypography-root MuiTypography-body1"
                       style="line-height: 1.4;"
                     >
                       <span
-                        class="MuiSkeleton-root-596 MuiSkeleton-text-597 MuiSkeleton-pulse-600"
+                        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                         style="width: 100%;"
                       />
                     </p>
                   </td>
                   <td
-                    class="MuiTableCell-root-644"
+                    class="MuiTableCell-root"
                   >
                     <p
-                      class="MuiTypography-root-280 MuiTypography-body1-282"
+                      class="MuiTypography-root MuiTypography-body1"
                       style="line-height: 1.4;"
                     />
                   </td>
                   <td
-                    class="MuiTableCell-root-644"
+                    class="MuiTableCell-root"
                   >
                     <a
                       aria-disabled="false"
-                      class="MuiButtonBase-root-340 MuiButton-root-367 MuiButton-outlined-372 makeStyles-root-628 makeStyles-root-683 undefined MuiButton-outlinedSecondary-374 MuiButton-outlinedSizeSmall-382 MuiButton-sizeSmall-386 MuiButton-disableElevation-378 MuiButton-fullWidth-388"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-142 makeStyles-root-178 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                       href="https://oolongswap.com/#/farm/lp"
                       tabindex="0"
                       target="_blank"
                     >
                       <span
-                        class="MuiButton-label-368"
+                        class="MuiButton-label"
                       >
                         Stake on
                          
                         OolongSwap
                         <span
-                          class="MuiButton-endIcon-390 MuiButton-iconSizeSmall-391"
+                          class="MuiButton-endIcon MuiButton-iconSizeSmall"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root-341 MuiSvgIcon-fontSizeLarge-349"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
                             focusable="false"
                             viewBox="0 0 20 20"
                           >
