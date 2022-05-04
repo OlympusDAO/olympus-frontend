@@ -7,14 +7,19 @@ import { IERC20__factory, PairContract__factory } from "src/typechain";
 import {
   DAI_ADDRESSES,
   FRAX_ADDRESSES,
+  GOHM_ADDRESSES,
   LUSD_ADDRESSES,
   OHM_ADDRESSES,
   OHM_DAI_LP_ADDRESSES,
   OHM_LUSD_LP_ADDRESSES,
   OHM_WETH_LP_ADDRESSES,
+  SOHM_ADDRESSES,
   UST_ADDRESSES,
+  V1_OHM_ADDRESSES,
+  V1_SOHM_ADDRESSES,
   WBTC_ADDRESSES,
   WETH_ADDRESSES,
+  WSOHM_ADDRESSES,
 } from "./addresses";
 
 export const OHM_TOKEN = new Token({
@@ -37,6 +42,53 @@ OHM_TOKEN.customPricingFunc = async () => {
   const [ohm, dai] = await contract.getReserves();
   return new DecimalBigNumber(dai.div(ohm), 9);
 };
+
+export const SOHM_TOKEN = new Token({
+  icons: ["sOHM"],
+  name: "sOHM",
+  decimals: 9,
+  addresses: SOHM_ADDRESSES,
+  factory: IERC20__factory,
+  customPricingFunc: OHM_TOKEN.getPrice,
+  purchaseUrl:
+    "https://app.sushi.com/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
+});
+
+export const GOHM_TOKEN = new Token({
+  icons: ["gOHM"],
+  name: "gOHM",
+  decimals: 18,
+  addresses: GOHM_ADDRESSES,
+  factory: IERC20__factory,
+  purchaseUrl: "",
+});
+
+export const V1_OHM_TOKEN = new Token({
+  icons: ["OHM"],
+  name: "OHM (v1)",
+  decimals: 9,
+  addresses: V1_OHM_ADDRESSES,
+  factory: IERC20__factory,
+  purchaseUrl: "",
+});
+
+export const V1_SOHM_TOKEN = new Token({
+  icons: ["sOHM"],
+  name: "sOHM (v1)",
+  decimals: 9,
+  addresses: V1_SOHM_ADDRESSES,
+  factory: IERC20__factory,
+  purchaseUrl: "",
+});
+
+export const WSOHM_TOKEN = new Token({
+  icons: ["wsOHM"],
+  name: "wsOHM",
+  decimals: 18,
+  addresses: WSOHM_ADDRESSES,
+  factory: IERC20__factory,
+  purchaseUrl: "",
+});
 
 export const WETH_TOKEN = new Token({
   icons: ["wETH"],

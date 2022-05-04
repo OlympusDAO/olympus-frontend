@@ -209,6 +209,13 @@ export const dark = responsiveFontSizes(
             },
           },
         },
+        MuiTabs: {
+          root: {
+            "& .MuiLink-root.active": {
+              color: darkTheme.gold,
+            },
+          },
+        },
         MuiTab: {
           textColorPrimary: {
             color: darkTheme.gray,
@@ -358,11 +365,6 @@ export const dark = responsiveFontSizes(
                 },
               },
             },
-          },
-        },
-        MuiLinearProgress: {
-          barColorPrimary: {
-            backgroundColor: darkTheme.gold,
           },
         },
       },

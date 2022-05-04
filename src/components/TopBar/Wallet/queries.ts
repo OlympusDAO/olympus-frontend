@@ -1,14 +1,19 @@
 import axios from "axios";
+import { BigNumber } from "ethers";
 import { gql, request } from "graphql-request";
 import { useInfiniteQuery, useQuery } from "react-query";
 const snapshotUrl = "https://hub.snapshot.org/graphql";
 const mediumUrl = "https://api.rss2json.com/v1/api.json?rss_url=https://olympusdao.medium.com/feed";
 import { FUSE_POOL_18_ADDRESSES } from "src/constants/addresses";
-import { Environment } from "src/helpers/environment/Environment/Environment";
+import { shorten } from "src/helpers";
+import { Token } from "src/helpers/contracts/Token";
+import { interpretTransaction, Transaction } from "src/helpers/covalent/interpretTransaction";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { assert } from "src/helpers/types/assert";
 import { useWeb3Context } from "src/hooks";
 import { useStaticFuseContract } from "src/hooks/useContract";
 import { covalent } from "src/lib/covalent";
-import { CovalentResponse } from "src/lib/covalent.types";
+import { CovalentResponse, CovalentTransaction, CovalentTransfer } from "src/lib/covalent.types";
 import { NetworkId } from "src/networkDetails";
 export const ActiveProposals = () => {
   const { data, isFetched, isLoading } = useQuery("ActiveProposals", async () => {
@@ -70,70 +75,92 @@ export const GetTokenPrice = (tokenId = "olympus") => {
   return { data, isFetched, isLoading };
 };
 
-export const GetTransactionHistory = () => {
+interface UseTransactionHistoryOptions {
+  address?: string;
+  networkId?: NetworkId;
+}
+
+export const transactionHistoryQueryKey = (options: UseTransactionHistoryOptions) =>
+  ["useTransactionHistory", options] as const;
+
+export const useTransactionHistory = () => {
   const { address, networkId } = useWeb3Context();
-  const COVALENT_KEY = Environment.getCovalentApiKey();
-  const { data, isFetched, isLoading, isPreviousData, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery<CovalentResponse, Error>(
-      ["TransactionHistory", networkId],
-      async ({ pageParam = 0 }) => {
-        if (!covalent.isSupportedNetwork(networkId)) return { error: true };
-        const resp = await axios.get(
-          `https://api.covalenthq.com/v1/${networkId}/address/${address}/transactions_v2/?page-number=${pageParam}&page-size=300&key=${COVALENT_KEY}`,
-        );
-        return { ...resp.data, type: "transaction" };
+
+  return useInfiniteQuery<CovalentResponse<CovalentTransaction[]>, Error, Transaction[]>(
+    transactionHistoryQueryKey({ address, networkId }),
+    ({ pageParam = 0 }) => {
+      return covalent.transactions.listAll({
+        address,
+        networkId,
+        pageSize: 300,
+        pageNumber: pageParam,
+      });
+    },
+    {
+      enabled: !!address && !!networkId,
+      select: ({ pages, pageParams }) => ({
+        pageParams,
+        pages: pages.map(page => interpretTransaction(page.items, address)),
+      }),
+      getNextPageParam: lastPage => {
+        if (!lastPage.pagination.has_more) return;
+        return lastPage.pagination.page_number + 1;
       },
-      {
-        enabled: !!address && !!networkId,
-        refetchOnWindowFocus: false,
-        refetchOnMount: false,
-        refetchOnReconnect: false,
-        retry: false,
-        getNextPageParam: lastPage => {
-          if (!lastPage.error) {
-            return lastPage.data.pagination?.has_more ? lastPage.data.pagination?.page_number + 1 : false;
-          }
-          return false;
-        },
-      },
-    );
-  return {
-    data,
-    isFetched,
-    isLoading,
-    isPreviousData,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  };
+    },
+  );
 };
 
-export const GetTransferHistory = (contractAddress: string) => {
+interface UseTransferHistoryOptions {
+  address?: string;
+  networkId?: NetworkId;
+  contractAddress?: string;
+}
+
+export const transferHistoryQueryKey = (options: UseTransferHistoryOptions) => ["useTransferHistory", options] as const;
+
+export const useTransferHistory = <TToken extends Token>(token: TToken) => {
   const { address, networkId } = useWeb3Context();
-  const COVALENT_KEY = Environment.getCovalentApiKey();
-  const { data, isFetched, isLoading, isPreviousData, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery<CovalentResponse>(
-      ["TransferHistory", networkId, contractAddress],
-      async ({ pageParam = 0 }) => {
-        if (!covalent.isSupportedNetwork(networkId) || !contractAddress) return { error: true };
-        const resp = await axios.get(
-          `https://api.covalenthq.com/v1/${networkId}/address/${address}/transfers_v2/?page-number=${pageParam}&quote-currency=USD&format=JSON&contract-address=${contractAddress}&key=${COVALENT_KEY}`,
-        );
-        return { ...resp.data, type: "transfer" };
+  const contractAddress = token.getAddress(networkId);
+
+  return useInfiniteQuery<CovalentResponse<CovalentTransfer[]>, Error, Transaction[]>(
+    transferHistoryQueryKey({ address, networkId, contractAddress }),
+    async ({ pageParam = 0 }) => {
+      return covalent.transfers.listAll({
+        address,
+        networkId,
+        pageSize: 300,
+        contractAddress,
+        pageNumber: pageParam,
+      });
+    },
+    {
+      enabled: !!address && !!networkId && !!contractAddress,
+      select: ({ pages, pageParams }) => ({
+        pageParams,
+        pages: pages.map(page =>
+          page.items.map(transaction => {
+            const [transfer] = transaction.transfers || [];
+            assert(transfer, "There should always be atleast 1 transfer");
+
+            const _transaction: Transaction = {
+              token,
+              transaction,
+              type: "transfer",
+              details:
+                transfer.transfer_type === "OUT"
+                  ? `Transfer to ${shorten(transfer.to_address)}`
+                  : `Deposit from ${shorten(transfer.to_address)}`,
+              value: new DecimalBigNumber(BigNumber.from(transfer.delta), token.decimals),
+            };
+
+            return _transaction;
+          }),
+        ),
+      }),
+      getNextPageParam: lastPage => {
+        if (!lastPage.pagination.has_more) return;
+        return lastPage.pagination.page_number + 1;
       },
-      {
-        enabled: !!address && !!networkId,
-        refetchOnWindowFocus: false,
-        refetchOnMount: false,
-        refetchOnReconnect: false,
-        retry: false,
-        getNextPageParam: lastPage => {
-          if (!lastPage.error) {
-            return lastPage.data.pagination?.has_more ? lastPage.data.pagination?.page_number + 1 : false;
-          }
-          return false;
-        },
-      },
-    );
-  return { data, isFetched, isLoading, isPreviousData, fetchNextPage, hasNextPage, isFetchingNextPage };
+    },
+  );
 };
