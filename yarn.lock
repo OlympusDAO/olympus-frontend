@@ -2191,16 +2191,17 @@
   resolved "https://registry.yarnpkg.com/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz#af577b477c683fad17c619a78208cede06f9605c"
   integrity sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==
 
-"@multifarm/widget@^0.0.111":
-  version "0.0.111"
-  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.111.tgz#7330affc74c5fad3d54def784c53b872d25f50e0"
-  integrity sha512-h+mZ07Gw6XgDNRYYfK31bosbmc8m2P2JrEFZoanttXAqki5mt1K8hbmasLtTml6uca8swfwNXEuf5slODrDW8Q==
+"@multifarm/widget@^0.0.125":
+  version "0.0.125"
+  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.125.tgz#138f4e0c164d1fee4075ccb683e499463435d400"
+  integrity sha512-LKfYRyZNcuVMnTTWxD8CcmuZgdj1kQOWPbYeKcTnFgsJO8Q3DwPMh/VzD6SI2UbYxq3GlQ55Gn11J/lLldh2bA==
   dependencies:
     "@tippyjs/react" "^4.2.6"
     clsx "^1.1.1"
     dayjs "1.10.7"
     i18next "^21.6.12"
     keen-slider "^6.6.3"
+    react-aspect-ratio "^1.1.2"
     react-i18next "^11.15.5"
     react-responsive "^9.0.0-beta.6"
     react-scroll "^1.8.5"
@@ -14266,6 +14267,11 @@ react-app-polyfill@^2.0.0:
     raf "^3.4.1"
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
+
+react-aspect-ratio@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-aspect-ratio/-/react-aspect-ratio-1.1.2.tgz#a65c7ba9862dc31fcd7b6ac33f1c70beb53b8bad"
+  integrity sha512-76dAnSGn00jV2uOVOr2CPgAIgMyRv272qXwQ3JRR6Mt1qkeKSCax9nE19lx3tMTVgKQARHm6pXL7BcUg7cBQbw==
 
 react-countdown@^2.3.2:
   version "2.3.2"
