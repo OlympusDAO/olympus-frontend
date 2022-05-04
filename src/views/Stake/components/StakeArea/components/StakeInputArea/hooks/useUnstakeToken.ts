@@ -40,7 +40,9 @@ export const useUnstakeToken = (fromToken: "sOHM" | "gOHM") => {
 
       const shouldRebase = fromToken === "sOHM";
 
-      const transaction = await contract.unstake(address, _amount.toBigNumber(), true, shouldRebase);
+      const trigger = false; // was true before the mint & sync distributor change
+
+      const transaction = await contract.unstake(address, _amount.toBigNumber(), trigger, shouldRebase);
       txHash = transaction.hash;
       return transaction.wait();
     },
