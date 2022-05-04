@@ -68,7 +68,7 @@
   "devDependencies": {
     "@babel/runtime": "^7.17.9",
     "@chainsafe/dappeteer": "^2.4.1",
-    "@lingui/cli": "^3.13.0",
+    "@lingui/cli": "^3.13.3",
     "@lingui/core": "^3.13.0",
     "@lingui/macro": "^3.12.1",
     "@nomiclabs/hardhat-ethers": "^2.0.5",

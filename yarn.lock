@@ -125,16 +125,7 @@
     json5 "^2.1.2"
     semver "^6.3.0"
 
-"@babel/generator@^7.11.6", "@babel/generator@^7.17.0":
-  version "7.17.0"
-  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.17.0.tgz#7bd890ba706cd86d3e2f727322346ffdbf98f65e"
-  integrity sha512-I3Omiv6FGOC29dtlZhkfXO6pgkmukJSlT26QjVvS1DGZe/NzSVCPG41X0tS21oZkJYlovfj9qDWgKP+Cn4bXxw==
-  dependencies:
-    "@babel/types" "^7.17.0"
-    jsesc "^2.5.1"
-    source-map "^0.5.0"
-
-"@babel/generator@^7.12.1", "@babel/generator@^7.17.3":
+"@babel/generator@^7.11.6", "@babel/generator@^7.12.1", "@babel/generator@^7.17.0", "@babel/generator@^7.17.3":
   version "7.17.3"
   resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.17.3.tgz#a2c30b0c4f89858cb87050c3ffdfd36bdf443200"
   integrity sha512-+R6Dctil/MgUsZsZAkYgK+ADNSZzJRRy0TvY65T71z/CR854xHQ1EweBYXdfT+HNeN7w0cSJJEzgxZMv40pxsg==
@@ -382,12 +373,7 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.1.0", "@babel/parser@^7.11.5", "@babel/parser@^7.14.7", "@babel/parser@^7.16.7", "@babel/parser@^7.17.0":
-  version "7.17.0"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.17.0.tgz#f0ac33eddbe214e4105363bb17c3341c5ffcc43c"
-  integrity sha512-VKXSCQx5D8S04ej+Dqsr1CzYvvWgf20jIw2D+YhQCrIlr2UZGaDds23Y0xg75/skOxpLCRpUZvk/1EAVkGoDOw==
-
-"@babel/parser@^7.12.3", "@babel/parser@^7.17.3", "@babel/parser@^7.7.0":
+"@babel/parser@^7.1.0", "@babel/parser@^7.11.5", "@babel/parser@^7.12.3", "@babel/parser@^7.14.7", "@babel/parser@^7.16.7", "@babel/parser@^7.17.0", "@babel/parser@^7.17.3", "@babel/parser@^7.7.0":
   version "7.17.3"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.17.3.tgz#b07702b982990bf6fdc1da5049a23fece4c5c3d0"
   integrity sha512-7yJPvPV+ESz2IUTPbOL+YkIGyCqOyNIzdguKQuJGnH7bg1WTIifuM21YqokFt/THWh1AkCRn9IgoykTRCBVpzA==
@@ -2014,28 +2000,28 @@
   dependencies:
     eventemitter3 "^4.0.0"
 
-"@lingui/babel-plugin-extract-messages@^3.13.2":
-  version "3.13.2"
-  resolved "https://registry.yarnpkg.com/@lingui/babel-plugin-extract-messages/-/babel-plugin-extract-messages-3.13.2.tgz#8cee6191de69b51f32ab8edd2bcc041041d2c7b8"
-  integrity sha512-SyvwfrPqkyj9XM2CB/YK25o0Zi+B8ikoCENwqNSk7201n80YfOJoksc6lQ3X/QODqvy+iuOsiQrVT3qzKblOmg==
+"@lingui/babel-plugin-extract-messages@^3.13.3":
+  version "3.13.3"
+  resolved "https://registry.yarnpkg.com/@lingui/babel-plugin-extract-messages/-/babel-plugin-extract-messages-3.13.3.tgz#78fa0380760bafbc2e17bb19df1326a21b70f6ab"
+  integrity sha512-s5onRmsR7Y5J8c5yJIZaf1kW+gqV+yece1mYoHHVGlJjEh8id0mksVMj8IrUtkwE4JhUxSCxfRNoloGulaAyqw==
   dependencies:
     "@babel/generator" "^7.11.6"
     "@babel/runtime" "^7.11.2"
-    "@lingui/conf" "^3.13.2"
+    "@lingui/conf" "^3.13.3"
     mkdirp "^1.0.4"
 
-"@lingui/cli@^3.13.0":
-  version "3.13.2"
-  resolved "https://registry.yarnpkg.com/@lingui/cli/-/cli-3.13.2.tgz#35c231d227162de29d8e4f724011b5c8d78f9dae"
-  integrity sha512-wPYlsKI7hx1hyntc6enUVUdKVwBM8XW+DnwHslWWw4ShMNvh98gLgAOW1ajXtUym7x0WTjhR+/s436hdxfZ/Og==
+"@lingui/cli@^3.13.3":
+  version "3.13.3"
+  resolved "https://registry.yarnpkg.com/@lingui/cli/-/cli-3.13.3.tgz#b573a62394c1064c82dc7ac868d7c3311d991446"
+  integrity sha512-6AswBsIAn3+JZj9hhqcKjPGpBPnM8m7TT235iQiWHHbq11DDh1l0eH6KTCqCaWW9nIALWgxmI/03zCInRTrzRQ==
   dependencies:
     "@babel/generator" "^7.11.6"
     "@babel/parser" "^7.11.5"
     "@babel/plugin-syntax-jsx" "^7.10.4"
     "@babel/runtime" "^7.11.2"
     "@babel/types" "^7.11.5"
-    "@lingui/babel-plugin-extract-messages" "^3.13.2"
-    "@lingui/conf" "^3.13.2"
+    "@lingui/babel-plugin-extract-messages" "^3.13.3"
+    "@lingui/conf" "^3.13.3"
     babel-plugin-macros "^3.0.1"
     bcp-47 "^1.0.7"
     chalk "^4.1.0"
@@ -2061,10 +2047,10 @@
     pseudolocale "^1.1.0"
     ramda "^0.27.1"
 
-"@lingui/conf@^3.13.2":
-  version "3.13.2"
-  resolved "https://registry.yarnpkg.com/@lingui/conf/-/conf-3.13.2.tgz#02f246e45a936882edaf5bc3af809b3ab67dce43"
-  integrity sha512-JhiIBxnh2X4QmLP0/+dnTBc7xnZ6qk5MRsQtJqkEOWGFl09CTrha5uPVqjr5MgkmBOQ6Q8+cRYWG+qtJsuUH5A==
+"@lingui/conf@^3.13.2", "@lingui/conf@^3.13.3":
+  version "3.13.3"
+  resolved "https://registry.yarnpkg.com/@lingui/conf/-/conf-3.13.3.tgz#fa5d27f0c63b1320458e2308d5d069678306c28f"
+  integrity sha512-UmGx/5rtSvb2S+RFYjQGiux5Xh5xvVICss4ONf8eU4Xm8jUvjtErTXVSF3GAhCI2aC/R3bZJZf0uSj7LbsrOiw==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@endemolshinegroup/cosmiconfig-typescript-loader" "^3.0.2"
