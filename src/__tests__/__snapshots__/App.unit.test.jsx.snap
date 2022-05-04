@@ -38,7 +38,7 @@ exports[`<App/> should not render a connection error message when user wallet is
           class="MuiBox-root MuiBox-root-540"
         >
           <a
-            href="/wallet"
+            href="#/wallet"
             style="margin-right: 0px;"
           >
             <button
@@ -189,7 +189,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/dashboard"
+                          href="#/dashboard"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-551 link-container"
@@ -231,7 +231,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                                href="/bonds"
+                                href="#/bonds"
                               >
                                 <div
                                   class="MuiBox-root MuiBox-root-555 link-container"
@@ -305,7 +305,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                         <a
                           aria-current="page"
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary active"
-                          href="/stake"
+                          href="#/stake"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-558 link-container"
@@ -334,7 +334,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/zap"
+                          href="#/zap"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-561 link-container"
@@ -363,7 +363,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/give"
+                          href="#/give"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-564 link-container"
@@ -392,7 +392,7 @@ exports[`<App/> should not render a connection error message when user wallet is
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/wrap"
+                          href="#/wrap"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-567 link-container"
@@ -3663,7 +3663,7 @@ exports[`<App/> should not render an error message when user wallet is connected
           class="MuiBox-root MuiBox-root-306"
         >
           <a
-            href="/wallet"
+            href="#/wallet"
             style="margin-right: 0px;"
           >
             <button
@@ -3814,7 +3814,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/dashboard"
+                          href="#/dashboard"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-317 link-container"
@@ -3856,7 +3856,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                                href="/bonds"
+                                href="#/bonds"
                               >
                                 <div
                                   class="MuiBox-root MuiBox-root-321 link-container"
@@ -3930,7 +3930,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                         <a
                           aria-current="page"
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary active"
-                          href="/stake"
+                          href="#/stake"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-324 link-container"
@@ -3959,7 +3959,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/zap"
+                          href="#/zap"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-327 link-container"
@@ -3988,7 +3988,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/give"
+                          href="#/give"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-330 link-container"
@@ -4017,7 +4017,7 @@ exports[`<App/> should not render an error message when user wallet is connected
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/wrap"
+                          href="#/wrap"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-333 link-container"
@@ -7288,7 +7288,7 @@ exports[`<App/> should render an error message when user wallet is connected and
           class="MuiBox-root MuiBox-root-774"
         >
           <a
-            href="/wallet"
+            href="#/wallet"
             style="margin-right: 0px;"
           >
             <button
@@ -7439,7 +7439,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/dashboard"
+                          href="#/dashboard"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-785 link-container"
@@ -7481,7 +7481,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                                href="/bonds"
+                                href="#/bonds"
                               >
                                 <div
                                   class="MuiBox-root MuiBox-root-789 link-container"
@@ -7555,7 +7555,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                         <a
                           aria-current="page"
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary active"
-                          href="/stake"
+                          href="#/stake"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-792 link-container"
@@ -7584,7 +7584,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/zap"
+                          href="#/zap"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-795 link-container"
@@ -7613,7 +7613,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/give"
+                          href="#/give"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-798 link-container"
@@ -7642,7 +7642,7 @@ exports[`<App/> should render an error message when user wallet is connected and
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                          href="/wrap"
+                          href="#/wrap"
                         >
                           <div
                             class="MuiBox-root MuiBox-root-801 link-container"

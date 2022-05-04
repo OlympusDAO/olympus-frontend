@@ -46,6 +46,17 @@ export class Environment {
       fallback: "96e0cc51-a62e-42ca-acee-910ea7d2a241",
     });
 
+  /**
+   * a feature flag for denoting when we are on the staging server
+   * @returns {string} true or false
+   */
+  public static getStagingFlag = (): string =>
+    this._get({
+      first: true,
+      key: "REACT_APP_STAGING_ENV",
+      fallback: "false",
+    });
+
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {
       case NetworkId.MAINNET:

@@ -1,11 +1,12 @@
 import { Box, makeStyles, useMediaQuery } from "@material-ui/core";
 import { WarningNotification } from "@olympusdao/component-library";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 
 /**
  * Component for Displaying Staging Notification Banner
  */
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   contentShift: {
     marginLeft: 0,
   },
@@ -18,7 +19,7 @@ const StagingNotification = () => {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   return (
     <>
-      {window.location.hostname === "staging.olympusdao.finance" && (
+      {Environment.getStagingFlag() === "true" && (
         <Box
           style={{ marginTop: "0px" }}
           className={`${isSmallScreen ? classes.contentShift : classes.notification}`}
