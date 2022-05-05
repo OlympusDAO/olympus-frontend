@@ -1,6 +1,6 @@
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { calculateUniV2LPValue } from "src/helpers/pricing/calculateUniV2LPValue";
+import { calculateUniOrSushiLPValue } from "src/helpers/pricing/calculateUniOrSushiLPValue";
 import { NetworkId } from "src/networkDetails";
 import { IERC20__factory, PairContract__factory } from "src/typechain";
 
@@ -145,7 +145,7 @@ export const OHM_WETH_LP_TOKEN = new Token({
 });
 
 OHM_WETH_LP_TOKEN.customPricingFunc = networkId =>
-  calculateUniV2LPValue({ networkId, lpToken: OHM_WETH_LP_TOKEN, poolTokens: [OHM_TOKEN, WETH_TOKEN] });
+  calculateUniOrSushiLPValue({ networkId, lpToken: OHM_WETH_LP_TOKEN, poolTokens: [OHM_TOKEN, WETH_TOKEN] });
 
 export const OHM_LUSD_LP_TOKEN = new Token({
   decimals: 18,
@@ -158,7 +158,7 @@ export const OHM_LUSD_LP_TOKEN = new Token({
 });
 
 OHM_LUSD_LP_TOKEN.customPricingFunc = networkId =>
-  calculateUniV2LPValue({ networkId, lpToken: OHM_LUSD_LP_TOKEN, poolTokens: [LUSD_TOKEN, OHM_TOKEN] });
+  calculateUniOrSushiLPValue({ networkId, lpToken: OHM_LUSD_LP_TOKEN, poolTokens: [LUSD_TOKEN, OHM_TOKEN] });
 
 export const OHM_DAI_LP_TOKEN = new Token({
   decimals: 18,
@@ -171,7 +171,7 @@ export const OHM_DAI_LP_TOKEN = new Token({
 });
 
 OHM_DAI_LP_TOKEN.customPricingFunc = networkId =>
-  calculateUniV2LPValue({ networkId, lpToken: OHM_DAI_LP_TOKEN, poolTokens: [OHM_TOKEN, DAI_TOKEN] });
+  calculateUniOrSushiLPValue({ networkId, lpToken: OHM_DAI_LP_TOKEN, poolTokens: [OHM_TOKEN, DAI_TOKEN] });
 
 export const UST_TOKEN = new Token({
   icons: ["UST"],

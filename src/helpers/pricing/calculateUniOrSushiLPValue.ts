@@ -5,7 +5,7 @@ import { PairContract__factory } from "src/typechain";
 import { Token } from "../contracts/Token";
 import { DecimalBigNumber } from "../DecimalBigNumber/DecimalBigNumber";
 
-export const calculateUniV2LPValue = async ({
+export const calculateUniOrSushiLPValue = async ({
   lpToken,
   networkId,
   poolTokens,
