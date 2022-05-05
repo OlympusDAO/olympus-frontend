@@ -8,6 +8,8 @@ import { useWeb3Context } from "src/hooks";
 import {
   useStaticBalancerV2PoolContract,
   useStaticBeethovenChefContract,
+  useStaticBobaChefContract,
+  useStaticBobaRewarderContract,
   useStaticChefContract,
   useStaticChefRewarderContract,
   useStaticGaugeContract,
@@ -141,6 +143,22 @@ export const BalancerSwapFees = (address: string) => {
   return { data, isFetched, isLoading };
 };
 
+export const BobaPoolAPY = (pool: ExternalPool) => {
+  const { data: tvl = 0 } = useStakePoolTVL(pool);
+  const bobaChef = useStaticBobaChefContract(pool.masterchef, pool.networkID);
+  const bobaRewarder = useStaticBobaRewarderContract(pool.rewarder, pool.networkID);
+  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
+    const rewardsPerWeek = parseBigNumber(await bobaChef.oolongPerSec(), 18) * 604800;
+    const rewarderRewardsPerSecond = parseBigNumber(await bobaRewarder.rewardRate(), 18);
+    const poolInfo = await bobaChef.poolInfo(pool.poolId);
+    const totalAllocPoint = parseBigNumber(await bobaChef.totalAllocPoint(), 18);
+    const poolRewardsPerWeek = (parseBigNumber(poolInfo.allocPoint, 18) / totalAllocPoint) * rewardsPerWeek;
+    return { poolRewardsPerWeek, rewarderRewardsPerSecond };
+  });
+  const { data: apy = 0 } = APY(pool, tvl, data, pool.bonusGecko);
+  return { apy, isFetched, isLoading };
+};
+
 export const ZipPoolAPY = (pool: ExternalPool) => {
   const { data: tvl = 0 } = useStakePoolTVL(pool);
   const zipRewarderContract = useStaticZipRewarderContract(pool.masterchef, pool.networkID);
@@ -184,17 +202,21 @@ const APY = (
   pool: ExternalPool,
   tvl: number,
   data?: { poolRewardsPerWeek: number; rewarderRewardsPerSecond: number },
+  nongOHMBonus?: string,
 ) => {
   const useDependentQuery = createDependentQuery(stakePoolAPYQueryKey(pool));
   const { data: gohmPrice } = useGohmPrice();
+
+  const bonusGecko = useDependentQuery("bonus", () => getTokenPrice(nongOHMBonus));
   const rewardPrice = useDependentQuery("rewardPrice", () => getTokenPrice(pool.rewardGecko));
+  const bonusTokenPrice = nongOHMBonus ? bonusGecko : gohmPrice;
   return useQuery<number, Error>(
     ["APY", pool],
     () => {
-      queryAssertion(gohmPrice && rewardPrice && tvl && data);
+      queryAssertion(bonusTokenPrice && rewardPrice && tvl && data);
       const rewarderRewardsPerWeek = data.rewarderRewardsPerSecond * 604800;
       const baseRewardAPY = ((data.poolRewardsPerWeek * rewardPrice) / tvl) * 52;
-      const bonusRewardsAPY = ((rewarderRewardsPerWeek * gohmPrice) / tvl) * 52;
+      const bonusRewardsAPY = ((rewarderRewardsPerWeek * bonusTokenPrice) / tvl) * 52;
       return baseRewardAPY + bonusRewardsAPY;
     },
     { enabled: !!tvl && !!gohmPrice && !!rewardPrice && !!data },

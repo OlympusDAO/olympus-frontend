@@ -2259,10 +2259,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@olympusdao/component-library@^1.10.0":
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.10.0.tgz#fcff19ada69288c80bbc6ebaf49c4fda2296f476"
-  integrity sha512-NlcwGWc77ouu2cWR7xOjrwZufKPa4voykkgiDSYrAwKBmj0PoQEoFZHm0YnAHBz5y9q264oELMsfbbiFRkNkVw==
+"@olympusdao/component-library@^1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@olympusdao/component-library/-/component-library-1.11.1.tgz#232ab4a9143214d5b7f2b2d0f464f134fcc49a08"
+  integrity sha512-MhFb17Vr5xc9375EWEiU31n53SP4M9vMgJmGXPcUuNq2DU5Jj1C0VgP0Hf5l5XwzwS7htx9cEwa3F37FYfphNQ==
   dependencies:
     "@react-spring/web" "^9.4.2"
 
