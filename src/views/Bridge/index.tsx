@@ -73,6 +73,12 @@ const Bridge = () => {
                   icon="FANTOM"
                   href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=250"
                 />
+                <MiniCard
+                  label="Bridge to"
+                  title="Boba"
+                  icon="BOBA"
+                  href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=288"
+                />
               </Box>
             </Grid>
           </Grid>
