@@ -7,6 +7,12 @@ import { assert } from "../types/assert";
 import { getTokenByAddress } from "./getTokenByAddress";
 import { Token } from "./Token";
 
+/**
+ * Returns a `Token` given the address of a UniswapV2 or Sushi token contract
+ *
+ * Relevant contracts:
+ * - 0x61a0C8d4945A61bF26c13e07c30AF1f1ca67b473 (FRAX/OHM)
+ */
 export const getGelatoLPToken = async ({ address, networkId }: { address: string; networkId: NetworkId }) => {
   if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_RINKEBY) throw new Error("Not implemented");
 

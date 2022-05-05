@@ -8,6 +8,12 @@ import { nonNullable } from "../types/nonNullable";
 import { getTokenByAddress } from "./getTokenByAddress";
 import { Token } from "./Token";
 
+/**
+ * Returns a `Token` given the address of a Balancer token contract
+ *
+ * Relevant contracts:
+ * - 0xc45d42f801105e861e86658648e3678ad7aa70f9 (OHM/DAI/wETH)
+ */
 export const getBalancerLPToken = async ({ address, networkId }: { address: string; networkId: NetworkId }) => {
   if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_RINKEBY) throw new Error("Not implemented");
 
