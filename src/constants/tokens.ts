@@ -11,8 +11,6 @@ import {
   LUSD_ADDRESSES,
   OHM_ADDRESSES,
   OHM_DAI_LP_ADDRESSES,
-  OHM_LUSD_LP_ADDRESSES,
-  OHM_WETH_LP_ADDRESSES,
   SOHM_ADDRESSES,
   UST_ADDRESSES,
   V1_OHM_ADDRESSES,
@@ -133,32 +131,6 @@ export const LUSD_TOKEN = new Token({
   factory: IERC20__factory,
   purchaseUrl: "",
 });
-
-export const OHM_WETH_LP_TOKEN = new Token({
-  decimals: 18,
-  name: "OHM-WETH LP",
-  icons: ["OHM", "wETH"],
-  factory: PairContract__factory,
-  addresses: OHM_WETH_LP_ADDRESSES,
-  purchaseUrl:
-    "https://app.sushi.com/add/0x64aa3364F17a4D01c6f1751Fd97C2BD3D7e7f1D5/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-});
-
-OHM_WETH_LP_TOKEN.customPricingFunc = networkId =>
-  calculateUniOrSushiLPValue({ networkId, lpToken: OHM_WETH_LP_TOKEN, poolTokens: [OHM_TOKEN, WETH_TOKEN] });
-
-export const OHM_LUSD_LP_TOKEN = new Token({
-  decimals: 18,
-  name: "OHM-LUSD LP",
-  icons: ["OHM", "LUSD"],
-  factory: PairContract__factory,
-  addresses: OHM_LUSD_LP_ADDRESSES,
-  purchaseUrl:
-    "https://app.sushi.com/add/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0/0x64aa3364F17a4D01c6f1751Fd97C2BD3D7e7f1D5",
-});
-
-OHM_LUSD_LP_TOKEN.customPricingFunc = networkId =>
-  calculateUniOrSushiLPValue({ networkId, lpToken: OHM_LUSD_LP_TOKEN, poolTokens: [LUSD_TOKEN, OHM_TOKEN] });
 
 export const OHM_DAI_LP_TOKEN = new Token({
   decimals: 18,
