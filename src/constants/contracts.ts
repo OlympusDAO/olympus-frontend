@@ -1,10 +1,8 @@
 import { Contract } from "src/helpers/contracts/Contract";
-import { NetworkId } from "src/networkDetails";
 import {
   BalancerVault__factory,
   BondDepository__factory,
   CrossChainMigrator__factory,
-  CurveFactory__factory,
   FiatDAOContract__factory,
   FuseProxy__factory,
   OlympusProV2__factory,
@@ -91,12 +89,4 @@ export const BALANCER_VAULT = new Contract({
   factory: BalancerVault__factory,
   name: "Balancer Vault Contract",
   addresses: BALANCER_VAULT_ADDRESSSES,
-});
-
-export const CURVE_FACTORY = new Contract({
-  factory: CurveFactory__factory,
-  name: "Curve Factory Contract",
-  addresses: {
-    [NetworkId.MAINNET]: "0xf18056bbd320e96a48e3fbf8bc061322531aac99",
-  },
 });
