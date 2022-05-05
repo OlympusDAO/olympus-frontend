@@ -19,9 +19,8 @@ export const getCurveLPToken = async ({ address, networkId }: { address: string;
   if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_RINKEBY) throw new Error("Not implemented");
 
   try {
-    const factory = CurveToken__factory;
     const provider = Providers.getStaticProvider(NetworkId.MAINNET);
-    const tokenContract = factory.connect(address, provider);
+    const tokenContract = CurveToken__factory.connect(address, provider);
 
     const [decimals, poolAddress] = await Promise.all([
       tokenContract.decimals(),
@@ -39,17 +38,13 @@ export const getCurveLPToken = async ({ address, networkId }: { address: string;
     if (poolTokens.length !== _poolTokens.length)
       throw new Error(`Unknown token in Curve pool. Token address ${address}`);
 
-    const name = poolTokens.map(token => token.name).join("-") + ` LP`;
-    const icons = poolTokens.map(token => token.icons).flat();
-    const purchaseUrl = `https://curve.fi/factory-crypto/21`; // Don't think it's possible to make this dynamic.
-
     const lpToken = new Token({
       decimals,
-      name,
-      icons,
-      factory,
-      purchaseUrl,
+      factory: CurveToken__factory,
       addresses: { [NetworkId.MAINNET]: address },
+      icons: poolTokens.map(token => token.icons).flat(),
+      name: poolTokens.map(token => token.name).join("-") + ` LP`,
+      purchaseUrl: `https://curve.fi/factory-crypto/21`, // Don't think it's possible to make this dynamic.
     });
 
     lpToken.customPricingFunc = networkId => calculateCurveLPValue({ lpToken, poolTokens, networkId });

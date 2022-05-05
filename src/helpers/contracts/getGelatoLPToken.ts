@@ -17,9 +17,8 @@ export const getGelatoLPToken = async ({ address, networkId }: { address: string
   if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_RINKEBY) throw new Error("Not implemented");
 
   try {
-    const factory = GUniV3Lp__factory;
     const provider = Providers.getStaticProvider(NetworkId.MAINNET);
-    const contract = factory.connect(address, provider);
+    const contract = GUniV3Lp__factory.connect(address, provider);
 
     const [, decimals, ...[tokenZero, tokenOne]] = await Promise.all([
       contract.getUnderlyingBalances(), // Will throw an error if it doesn't exist
@@ -32,17 +31,14 @@ export const getGelatoLPToken = async ({ address, networkId }: { address: string
     assert(tokenOne, `Unknown second token in gUni pool. Pool address: ${address}`);
 
     const poolTokens = [tokenZero, tokenOne] as const;
-    const name = `${tokenOne.name}-${tokenZero.name} LP`;
-    const icons = poolTokens.map(token => token.icons).flat();
-    const purchaseUrl = `https://www.sorbet.finance/#/pools/${address}`;
 
     const lpToken = new Token({
       decimals,
-      name,
-      icons,
-      factory,
-      purchaseUrl,
+      factory: GUniV3Lp__factory,
+      name: `${tokenOne.name}-${tokenZero.name} LP`,
       addresses: { [NetworkId.MAINNET]: address },
+      icons: poolTokens.map(token => token.icons).flat(),
+      purchaseUrl: `https://www.sorbet.finance/#/pools/${address}`,
     });
 
     lpToken.customPricingFunc = networkId => calculateGelatoLPValue({ networkId, lpToken, poolTokens });

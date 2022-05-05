@@ -18,9 +18,8 @@ export const getBalancerLPToken = async ({ address, networkId }: { address: stri
   if (networkId !== NetworkId.MAINNET && networkId !== NetworkId.TESTNET_RINKEBY) throw new Error("Not implemented");
 
   try {
-    const factory = BalancerV2Pool__factory;
     const provider = Providers.getStaticProvider(NetworkId.MAINNET);
-    const contract = factory.connect(address, provider);
+    const contract = BalancerV2Pool__factory.connect(address, provider);
     const vault = BALANCER_VAULT.getEthersContract(NetworkId.MAINNET);
 
     const [decimals, poolId] = await Promise.all([
@@ -37,17 +36,13 @@ export const getBalancerLPToken = async ({ address, networkId }: { address: stri
     const poolTokens = tokens.filter(nonNullable);
     if (poolTokens.length !== tokens.length) throw new Error(`Unknown token in Balancer pool. Pool address ${address}`);
 
-    const name = poolTokens.map(token => token.name).join("-") + ` LP`;
-    const icons = poolTokens.map(token => token.icons).flat();
-    const purchaseUrl = `https://app.balancer.fi/#/pool/${poolId}`;
-
     const lpToken = new Token({
       decimals,
-      name,
-      icons,
-      factory,
-      purchaseUrl,
+      factory: BalancerV2Pool__factory,
       addresses: { [NetworkId.MAINNET]: address },
+      icons: poolTokens.map(token => token.icons).flat(),
+      purchaseUrl: `https://app.balancer.fi/#/pool/${poolId}`,
+      name: poolTokens.map(token => token.name).join("-") + ` LP`,
     });
 
     lpToken.customPricingFunc = networkId => calculateBalancerLPValue({ lpToken, poolTokens, networkId });
