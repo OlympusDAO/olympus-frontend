@@ -1,0 +1,202 @@
+{
+  "abi": [
+    {
+      "type": "constructor",
+      "stateMutability": "nonpayable",
+      "inputs": [
+        { "type": "address", "name": "_rewardsToken", "internalType": "address" },
+        { "type": "uint256", "name": "_rewardsDuration", "internalType": "uint256" },
+        { "type": "address", "name": "_parentFarm", "internalType": "contract IOolongFarm" },
+        { "type": "uint256", "name": "_parentPoolId", "internalType": "uint256" },
+        { "type": "address", "name": "_governance", "internalType": "address" }
+      ]
+    },
+    {
+      "type": "event",
+      "name": "RewardAdded",
+      "inputs": [{ "type": "uint256", "name": "_reward", "internalType": "uint256", "indexed": false }],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "RewardPaid",
+      "inputs": [
+        { "type": "address", "name": "_user", "internalType": "address", "indexed": true },
+        { "type": "uint256", "name": "_reward", "internalType": "uint256", "indexed": false }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "balanceOf",
+      "inputs": [{ "type": "address", "name": "_account", "internalType": "address" }]
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "earned",
+      "inputs": [{ "type": "address", "name": "_account", "internalType": "address" }]
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "address", "name": "", "internalType": "address" }],
+      "name": "getParentFarm",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "getParentPoolId",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "address", "name": "", "internalType": "address" }],
+      "name": "getParentStakingToken",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "getRewardForDuration",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "address", "name": "", "internalType": "address" }],
+      "name": "governance",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "lastTimeRewardApplicable",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "lastUpdateTime",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "nonpayable",
+      "outputs": [],
+      "name": "notifyRewardAmount",
+      "inputs": [{ "type": "uint256", "name": "_reward", "internalType": "uint256" }]
+    },
+    {
+      "type": "function",
+      "stateMutability": "nonpayable",
+      "outputs": [],
+      "name": "onParentReward",
+      "inputs": [
+        { "type": "address", "name": "_account", "internalType": "address" },
+        { "type": "uint256", "name": "_amount", "internalType": "uint256" },
+        { "type": "bool", "name": "_isDeposit", "internalType": "bool" }
+      ]
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "periodFinish",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "nonpayable",
+      "outputs": [],
+      "name": "rescue",
+      "inputs": [{ "type": "address", "name": "_token", "internalType": "address" }]
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "rewardPerToken",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "rewardPerTokenStored",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "rewardRate",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "rewards",
+      "inputs": [{ "type": "address", "name": "", "internalType": "address" }]
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "rewardsDuration",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "address", "name": "", "internalType": "contract IERC20" }],
+      "name": "rewardsToken",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "nonpayable",
+      "outputs": [],
+      "name": "setGovernance",
+      "inputs": [{ "type": "address", "name": "_governance", "internalType": "address" }]
+    },
+    {
+      "type": "function",
+      "stateMutability": "nonpayable",
+      "outputs": [],
+      "name": "setStartTime",
+      "inputs": [{ "type": "uint256", "name": "_startTime", "internalType": "uint256" }]
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "startTime",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "totalSupply",
+      "inputs": []
+    },
+    {
+      "type": "function",
+      "stateMutability": "view",
+      "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
+      "name": "userRewardPerTokenPaid",
+      "inputs": [{ "type": "address", "name": "", "internalType": "address" }]
+    }
+  ]
+}

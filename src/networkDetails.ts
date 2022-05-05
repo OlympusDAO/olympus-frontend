@@ -22,6 +22,9 @@ export enum NetworkId {
 
   OPTIMISM = 10,
   OPTIMISM_TESTNET = 69,
+
+  BOBA = 288,
+  BOBA_TESTNET = 28,
 }
 
 interface IAddresses {
