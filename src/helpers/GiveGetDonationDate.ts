@@ -58,10 +58,6 @@ export const GetFirstDonationDate = async ({
 
   // Converts Unix timestamp into a Datetime and then into a readable string
   const date = new Date(timestamp * 1000);
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const month = months[date.getMonth()];
-  const day = date.getDate();
-  const year = date.getFullYear();
 
   const dateString = date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 

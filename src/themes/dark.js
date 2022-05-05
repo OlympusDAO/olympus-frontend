@@ -209,6 +209,13 @@ export const dark = responsiveFontSizes(
             },
           },
         },
+        MuiTabs: {
+          root: {
+            "& .MuiLink-root.active": {
+              color: darkTheme.gold,
+            },
+          },
+        },
         MuiTab: {
           textColorPrimary: {
             color: darkTheme.gray,
