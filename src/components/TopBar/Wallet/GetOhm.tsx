@@ -11,6 +11,7 @@ import {
   astroportPools,
   balancerPools,
   beetsPools,
+  bobaPools,
   joePools,
   jonesPools,
   spiritPools,
@@ -30,6 +31,7 @@ import {
   BalancerPoolAPY,
   BalancerSwapFees,
   BeetsPoolAPY,
+  BobaPoolAPY,
   JoePoolAPY,
   JonesPoolAPY,
   SpiritPoolAPY,
@@ -154,6 +156,9 @@ const GetOhm: FC = () => {
         {astroportPools.map((pool, index) => (
           <AstroportPools key={index} pool={pool} />
         ))}
+        {bobaPools.map((pool, index) => (
+          <BobaPools key={index} pool={pool} />
+        ))}
 
         <Typography variant="h6" className={classes.title}>
           Vaults
@@ -270,6 +275,11 @@ const BalancerPools: React.FC<{ pool: ExternalPool }> = props => {
   const { data } = BalancerSwapFees(props.pool.address);
   const { apy } = BalancerPoolAPY(props.pool);
   return <PoolCard {...props} value={data.totalLiquidity && formatCurrency(data.totalLiquidity)} roi={apy} />;
+};
+const BobaPools: React.FC<{ pool: ExternalPool }> = props => {
+  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+  const { apy } = BobaPoolAPY(props.pool);
+  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
 };
 
 const AstroportPools: React.FC<{ pool: ExternalPool }> = props => {

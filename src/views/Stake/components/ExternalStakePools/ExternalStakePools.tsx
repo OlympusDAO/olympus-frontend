@@ -8,6 +8,7 @@ import {
   astroportPools,
   balancerPools,
   beetsPools,
+  bobaPools,
   joePools,
   jonesPools,
   spiritPools,
@@ -23,6 +24,7 @@ import {
   BalancerPoolAPY,
   BalancerSwapFees,
   BeetsPoolAPY,
+  BobaPoolAPY,
   JoePoolAPY,
   JonesPoolAPY,
   SpiritPoolAPY,
@@ -79,6 +81,9 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     ))}
     {astroportPools.map(pool => (
       <AstroportPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+    {bobaPools.map(pool => (
+      <BobaPools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
   </>
 );
@@ -285,6 +290,16 @@ const AstroportPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> =
     <MobileStakePool pool={props.pool} tvl={data.pool_liquidity} apy={data.total_rewards.apr} />
   ) : (
     <StakePool pool={props.pool} tvl={data.pool_liquidity} apy={data.total_rewards.apr} />
+  );
+};
+
+const BobaPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
+  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+  const { apy } = BobaPoolAPY(props.pool);
+  return props.isSmallScreen ? (
+    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+  ) : (
+    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
   );
 };
 
