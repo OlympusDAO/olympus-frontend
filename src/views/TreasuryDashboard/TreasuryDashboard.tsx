@@ -5,7 +5,7 @@ import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
 import { DashboardPro, Proteus, TotalIncome, TreasuryAllocation } from "@multifarm/widget";
 import { Metric, MetricCollection, Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { ChangeEvent, memo, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import {
@@ -22,6 +22,12 @@ const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVa
 
 const MetricsDashboard = () => (
   <>
+    <Routes>
+      <Route path="/treasury" element={<TreasuryDashboard activeView={1} />} />
+      <Route path="/revenue" element={<TreasuryDashboard activeView={2} />} />
+      <Route path="/olympuspro" element={<TreasuryDashboard activeView={3} />} />
+      <Route path="/proteus" element={<TreasuryDashboard activeView={4} />} />
+    </Routes>
     <Box className="hero-metrics">
       <Paper className="ohm-card">
         <MetricCollection>
@@ -111,7 +117,7 @@ const dashboardTabs = [
 ];
 
 const TreasuryDashboard: React.FC<{ activeView?: number }> = ({ activeView = 0 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [view, setView] = useState(activeView);
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
@@ -119,7 +125,7 @@ const TreasuryDashboard: React.FC<{ activeView?: number }> = ({ activeView = 0 }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
     setView(newView);
-    history.push(newView === 0 ? "/dashboard" : `/dashboard/${dashboardTabs[newView].pathname}`);
+    navigate(newView === 0 ? "/dashboard" : `/dashboard/${dashboardTabs[newView].pathname}`);
   };
 
   return (
