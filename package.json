@@ -109,7 +109,7 @@
     "gulp-debug": "^4.0.0",
     "gulp-less": "^5.0.0",
     "gulp-postcss": "^9.0.0",
-    "hardhat": "^2.9.2",
+    "hardhat": "^2.9.3",
     "husky": "^7.0.4",
     "jest-coverage-badges": "^1.1.2",
     "jest-extended": "^2.0.0",
