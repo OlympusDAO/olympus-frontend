@@ -1,9 +1,9 @@
-import { CURVE_FACTORY } from "src/constants/contracts";
 import { NetworkId } from "src/networkDetails";
-import { CurveToken__factory } from "src/typechain";
+import { CurveFactory__factory, CurvePool__factory, CurveToken__factory } from "src/typechain";
 
 import { Token } from "../contracts/Token";
 import { DecimalBigNumber } from "../DecimalBigNumber/DecimalBigNumber";
+import { Providers } from "../providers/Providers/Providers";
 
 /**
  * Calculates the value of a Curve LP token in USD
@@ -19,14 +19,18 @@ export const calculateCurveLPValue = async ({
 }) => {
   if (networkId !== NetworkId.MAINNET) throw new Error("Not implemented");
 
+  const provider = Providers.getStaticProvider(networkId);
   const tokenContract = lpToken.getEthersContract(networkId);
-  const factoryContract = CURVE_FACTORY.getEthersContract(networkId);
 
   const [poolAddress, lpSupply, ...tokenPrices] = await Promise.all([
     tokenContract.minter(),
     tokenContract.totalSupply().then(supply => new DecimalBigNumber(supply, lpToken.decimals)),
     ...poolTokens.map(token => token.getPrice(networkId)),
   ]);
+
+  const poolContract = CurvePool__factory.connect(poolAddress, provider);
+  const factoryAddress = await poolContract.factory();
+  const factoryContract = CurveFactory__factory.connect(factoryAddress, provider);
 
   const tokenBalances = await factoryContract
     .get_balances(poolAddress)

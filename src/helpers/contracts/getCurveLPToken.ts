@@ -1,5 +1,5 @@
-import { CURVE_FACTORY } from "src/constants/contracts";
 import { NetworkId } from "src/networkDetails";
+import { CurveFactory__factory, CurvePool__factory } from "src/typechain";
 import { CurveToken__factory } from "src/typechain/factories/CurveToken__factory";
 
 import { calculateCurveLPValue } from "../pricing/calculateCurveLPValue";
@@ -22,14 +22,18 @@ export const getCurveLPToken = async ({ address, networkId }: { address: string;
     const factory = CurveToken__factory;
     const provider = Providers.getStaticProvider(NetworkId.MAINNET);
     const tokenContract = factory.connect(address, provider);
-    const factoryContract = CURVE_FACTORY.getEthersContract(NetworkId.MAINNET);
 
     const [decimals, poolAddress] = await Promise.all([
       tokenContract.decimals(),
       tokenContract.minter(), // Will throw an error if it doesn't exist
     ]);
 
+    const poolContract = CurvePool__factory.connect(poolAddress, provider);
+    const factoryAddress = await poolContract.factory();
+    const factoryContract = CurveFactory__factory.connect(factoryAddress, provider);
+
     const tokenAddresses = await factoryContract.get_coins(poolAddress);
+
     const _poolTokens = await Promise.all(tokenAddresses.map(address => getTokenByAddress({ address, networkId })));
     const poolTokens = _poolTokens.filter(nonNullable);
     if (poolTokens.length !== _poolTokens.length)
