@@ -37,7 +37,7 @@ export const usePurchaseBond = (bond: Bond) => {
       if (!slippage || isNaN(Number(slippage))) throw new Error(t`Please enter a valid slippage amount`);
 
       const parsedAmount = new DecimalBigNumber(amount, bond.quoteToken.decimals);
-      const parsedSlippage = new DecimalBigNumber(slippage, 18);
+      const parsedSlippage = new DecimalBigNumber(slippage, bond.quoteToken.decimals);
 
       if (!parsedAmount.gt("0")) throw new Error(t`Please enter a number greater than 0`);
 
@@ -76,7 +76,11 @@ export const usePurchaseBond = (bond: Bond) => {
       if (isInverseBond) {
         const transaction = await OP_BOND_DEPOSITORY_CONTRACT.getEthersContract(networks.MAINNET)
           .connect(signer)
-          .deposit(bond.id, [parsedAmount.toBigNumber(), 0], [recipientAddress, referrer]);
+          .deposit(
+            bond.id,
+            [parsedAmount.toBigNumber(), parsedAmount.mul(slippageAsPercent).toBigNumber(bond.quoteToken.decimals)],
+            [recipientAddress, referrer],
+          );
 
         return transaction.wait();
       }
