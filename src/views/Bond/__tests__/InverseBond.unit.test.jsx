@@ -27,8 +27,8 @@ beforeEach(() => {
   Token.OHM_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("20"));
   Token.DAI_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
   Token.OHM_DAI_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("200000"));
-  Token.OHM_WETH_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
-  Token.OHM_LUSD_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
+  Token.LUSD_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
+  Token.FRAX_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
 });
 
 jest.mock("react-router", () => ({
