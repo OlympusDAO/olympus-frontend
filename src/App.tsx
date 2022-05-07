@@ -12,8 +12,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import CallToAction from "./components/CallToAction/CallToAction";
 import Messages from "./components/Messages/Messages";
-import MigrationModal from "./components/Migration/MigrationModal";
-import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
+import { MigrationNotification } from "./components/MigrationNotification";
 import NavDrawer from "./components/Sidebar/NavDrawer";
 import Sidebar from "./components/Sidebar/Sidebar";
 import StagingNotification from "./components/StagingNotification";
@@ -180,25 +179,6 @@ function App() {
     return state.app.marketPrice * allAssetsBalance >= 10;
   });
 
-  const hasDust = useAppSelector(state => {
-    if (!state.app.currentIndex || !state.app.marketPrice) {
-      return true;
-    }
-    const wrappedBalance = Number(state.account.balances.wsohm) * Number(state.app.currentIndex!);
-    const ohmBalance = Number(state.account.balances.ohmV1);
-    const sOhmbalance = Number(state.account.balances.sohmV1);
-    if (ohmBalance > 0 && ohmBalance * state.app.marketPrice < 10) {
-      return true;
-    }
-    if (sOhmbalance > 0 && sOhmbalance * state.app.marketPrice < 10) {
-      return true;
-    }
-    if (wrappedBalance > 0 && wrappedBalance * state.app.marketPrice < 10) {
-      return true;
-    }
-    return false;
-  });
-
   const networks = useTestableNetworks();
   const { data: sOhmBalance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
   const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[networks.MAINNET];
@@ -282,14 +262,6 @@ function App() {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
-  const MigrationNotification = () => {
-    return hasDust ? (
-      <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
-    ) : (
-      <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
-    );
-  };
-
   return (
     <ThemeProvider theme={themeMode}>
       <MultifarmProvider
@@ -363,7 +335,8 @@ function App() {
             </Routes>
           </div>
         </div>
-        {oldAssetsDetected && <MigrationNotification />}
+
+        <MigrationNotification isModalOpen={migrationModalOpen} onClose={migModalClose} />
       </MultifarmProvider>
     </ThemeProvider>
   );
