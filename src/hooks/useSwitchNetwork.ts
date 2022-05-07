@@ -35,10 +35,7 @@ export const useSwitchNetwork = () => {
       }
     },
     {
-      onError: error => {
-        
-        
-      },
+      onError: error => {},
     },
   );
 };

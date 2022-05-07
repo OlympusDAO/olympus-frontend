@@ -105,7 +105,7 @@ export const useDonationInfo = () => {
 
         const yieldSentPromise: Promise<BigNumber> = contract.donatedTo(address, allDeposits[0][i]).catch(() => {
           // This will only revert if the user has not donated at all yet
-          
+
           return ethers.constants.Zero;
         });
         yieldSentPromises.push(yieldSentPromise);

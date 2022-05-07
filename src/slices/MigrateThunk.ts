@@ -34,7 +34,7 @@ const chooseContract = (token: string, networkID: NetworkId, signer: ethers.prov
     address = GOHM_ADDRESSES[networkID as keyof typeof GOHM_ADDRESSES];
   } else {
     const message = `Invalid token type: ${token}`;
-    
+
     throw Error(message);
   }
   return IERC20__factory.connect(address, signer);

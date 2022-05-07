@@ -68,7 +68,6 @@ export const getBalances = createAsyncThunk(
         ) as IERC20;
         mockSohmBalance = await mockSohmContract.balanceOf(address);
       } else {
-        
       }
     } catch (e) {
       handleContractError(e);
@@ -280,7 +279,6 @@ const accountSlice = createSlice({
       })
       .addCase(loadAccountDetails.rejected, (state, { error }) => {
         state.loading = false;
-        
       })
       .addCase(getBalances.pending, state => {
         state.loading = true;
@@ -291,14 +289,11 @@ const accountSlice = createSlice({
       })
       .addCase(getBalances.rejected, (state, { error }) => {
         state.loading = false;
-        
       })
       .addCase(getMigrationAllowances.fulfilled, (state, action) => {
         setAll(state, action.payload);
       })
-      .addCase(getMigrationAllowances.rejected, (state, { error }) => {
-        
-      });
+      .addCase(getMigrationAllowances.rejected, (state, { error }) => {});
   },
 });
 

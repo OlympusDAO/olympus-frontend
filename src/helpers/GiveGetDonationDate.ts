@@ -19,7 +19,6 @@ export const GetFirstDonationDate = async ({
   provider,
 }: IBaseAddressRecipientAsyncThunk) => {
   if (!GIVE_ADDRESSES[networkID as keyof typeof GIVE_ADDRESSES]) {
-    
     return "";
   }
 

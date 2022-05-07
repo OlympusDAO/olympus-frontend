@@ -9,9 +9,7 @@ import { exec } from "shelljs";
 const REACT_APP_SEED_PHRASE = "REACT_APP_SEED_PHRASE";
 
 export const setupLogging = (page: Page) => {
-  page
-    .on("console", message => {})
-    .on("pageerror", ({ message }) => {});
+  page.on("console", message => {}).on("pageerror", ({ message }) => {});
 };
 
 export const clickElement = async (page: Page, selector: string) => {
