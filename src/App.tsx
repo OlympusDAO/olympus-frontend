@@ -16,25 +16,16 @@ import { MigrationNotification } from "./components/MigrationNotification";
 import NavDrawer from "./components/Sidebar/NavDrawer";
 import Sidebar from "./components/Sidebar/Sidebar";
 import StagingNotification from "./components/StagingNotification";
+import { StakeVersionContainer } from "./components/StakeVersionContainer";
 import TopBar from "./components/TopBar/TopBar";
 import Wallet from "./components/TopBar/Wallet";
 import { NetworkId } from "./constants";
 import { shouldTriggerSafetyCheck } from "./helpers";
 import { trackGAEvent } from "./helpers/analytics/trackGAEvent";
-import { DecimalBigNumber } from "./helpers/DecimalBigNumber/DecimalBigNumber";
 import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
-import { nonNullable } from "./helpers/types/nonNullable";
 import { useAppSelector, useWeb3Context } from "./hooks";
-import {
-  useFuseBalance,
-  useGohmBalance,
-  useGohmTokemakBalance,
-  useOhmBalance,
-  useSohmBalance,
-} from "./hooks/useBalance";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import { useTestableNetworks } from "./hooks/useTestableNetworks";
 import useTheme from "./hooks/useTheme";
 import { getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
 import { loadAppDetails } from "./slices/AppSlice";
@@ -43,7 +34,7 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { light as lightTheme } from "./themes/light.js";
 import { multifarmDarkTheme, multifarmLightTheme } from "./themes/multifarm";
-import { Bond, Give, Stake, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
+import { Bond, Give, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
 import NotFound from "./views/404/NotFound";
 
 // 😬 Sorry for all the console logging
@@ -179,27 +170,6 @@ function App() {
     return state.app.marketPrice * allAssetsBalance >= 10;
   });
 
-  const networks = useTestableNetworks();
-  const { data: sOhmBalance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
-  const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[networks.MAINNET];
-  const gohmBalances = useGohmBalance();
-  const { data: gohmFuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
-  const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[NetworkId.MAINNET];
-  const gohmTokens = [
-    gohmFuseBalance,
-    gohmTokemakBalance,
-    gohmBalances[networks.MAINNET].data,
-    gohmBalances[NetworkId.ARBITRUM].data,
-    gohmBalances[NetworkId.AVALANCHE].data,
-    gohmBalances[NetworkId.POLYGON].data,
-    gohmBalances[NetworkId.FANTOM].data,
-    gohmBalances[NetworkId.OPTIMISM].data,
-  ];
-  const totalGohmBalance = gohmTokens
-    .filter(nonNullable)
-    .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
-  const newAssetsDetected = Number(totalGohmBalance) || Number(sOhmBalance) || Number(ohmBalance);
-
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
   //
   // this useEffect checks Wallet Connection & then sets State for reload...
@@ -294,16 +264,7 @@ function App() {
 
             <Routes>
               <Route path="/" element={<Navigate to="/stake" />} />
-              <Route
-                path="/stake"
-                element={
-                  newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
-                    <Stake />
-                  ) : (
-                    <V1Stake setMigrationModalOpen={setMigrationModalOpen} />
-                  )
-                }
-              />
+              <Route path="/stake" element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />} />
               <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
               <Route path="/give/*" element={<Give />} />
 
