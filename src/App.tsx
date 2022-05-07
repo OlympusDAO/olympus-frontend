@@ -300,16 +300,11 @@ function App() {
                   newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
                     <Stake />
                   ) : (
-                    <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
+                    <V1Stake setMigrationModalOpen={setMigrationModalOpen} />
                   )
                 }
               />
-              <Route
-                path="/v1-stake"
-                element={
-                  <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
-                }
-              />
+              <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
               <Route path="/give/*" element={<Give />} />
 
               <Route path="/olympusgive" element={<Navigate to="/give" />} />
