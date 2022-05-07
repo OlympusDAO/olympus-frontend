@@ -10,8 +10,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
-import CallToAction from "./components/CallToAction/CallToAction";
 import Messages from "./components/Messages/Messages";
+import { MigrationCallToAction } from "./components/MigrationCallToAction";
 import { MigrationNotification } from "./components/MigrationNotification";
 import NavDrawer from "./components/Sidebar/NavDrawer";
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -19,12 +19,11 @@ import StagingNotification from "./components/StagingNotification";
 import { StakeVersionContainer } from "./components/StakeVersionContainer";
 import TopBar from "./components/TopBar/TopBar";
 import Wallet from "./components/TopBar/Wallet";
-import { NetworkId } from "./constants";
 import { shouldTriggerSafetyCheck } from "./helpers";
 import { trackGAEvent } from "./helpers/analytics/trackGAEvent";
 import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
-import { useAppSelector, useWeb3Context } from "./hooks";
+import { useWeb3Context } from "./hooks";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import useTheme from "./hooks/useTheme";
 import { getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
@@ -90,7 +89,6 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [theme, toggleTheme] = useTheme();
-  const trimmedPath = location.pathname + location.hash;
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -144,31 +142,6 @@ function App() {
     },
     [networkId, address, providerInitialized],
   );
-
-  const oldAssetsDetected = useAppSelector(state => {
-    if (networkId && (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY)) {
-      return (
-        state.account.balances &&
-        (Number(state.account.balances.sohmV1) ||
-        Number(state.account.balances.ohmV1) ||
-        Number(state.account.balances.wsohm)
-          ? true
-          : false)
-      );
-    } else {
-      return false;
-    }
-  });
-
-  const oldAssetsEnoughToMigrate = useAppSelector(state => {
-    if (!state.app.currentIndex || !state.app.marketPrice) {
-      return true;
-    }
-    const wrappedBalance = Number(state.account.balances.wsohm) * Number(state.app.currentIndex!);
-    const allAssetsBalance =
-      Number(state.account.balances.sohmV1) + Number(state.account.balances.ohmV1) + wrappedBalance;
-    return state.app.marketPrice * allAssetsBalance >= 10;
-  });
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
   //
@@ -258,9 +231,7 @@ function App() {
           </nav>
 
           <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-            {oldAssetsDetected && trimmedPath.indexOf("dashboard") === -1 && oldAssetsEnoughToMigrate && (
-              <CallToAction setMigrationModalOpen={setMigrationModalOpen} />
-            )}
+            <MigrationCallToAction setMigrationModalOpen={setMigrationModalOpen} />
 
             <Routes>
               <Route path="/" element={<Navigate to="/stake" />} />
