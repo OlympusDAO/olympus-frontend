@@ -9,12 +9,12 @@ import MigrationModal from "../MigrationModal";
 
 describe("<MigrationModal/>", () => {
   it("should render closed component", () => {
-    const { container } = render(<MigrationModal open={false} handleClose={() => console.log("handleClose")} />);
+    const { container } = render(<MigrationModal open={false} handleClose={() => {}} />);
     expect(container).toMatchSnapshot();
   });
 
   it("should render open component", () => {
-    const { container } = render(<MigrationModal open={true} handleClose={() => console.log("handleClose")} />);
+    const { container } = render(<MigrationModal open={true} handleClose={() => {}} />);
     expect(container).toMatchSnapshot();
   });
 
@@ -53,7 +53,7 @@ describe("<MigrationModal/>", () => {
       preloadedState,
     });
 
-    const migrationModal = <MigrationModal open={true} handleClose={() => console.log("handleClose")} />;
+    const migrationModal = <MigrationModal open={true} handleClose={() => {}} />;
     const { container } = render(migrationModal, store);
 
     // there should be a header inviting user to migrate v1 tokens to v2

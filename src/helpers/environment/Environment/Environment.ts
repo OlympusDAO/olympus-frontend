@@ -10,7 +10,7 @@ export class Environment {
   private static _get(args: { key: string; err?: string; first?: boolean; fallback?: string }) {
     const value = this.env[args.key] || args.fallback;
 
-    if (!value) console.warn(args.err);
+    if (!value) {}
 
     if (value === undefined) return value;
 

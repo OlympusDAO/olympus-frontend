@@ -41,7 +41,7 @@ export function usePathForNetwork({
           break;
         }
       default:
-        console.log("pathForNetwork ok");
+        {}
     }
   };
 

@@ -28,7 +28,7 @@ export const useContractAllowance = (tokenMap: AddressMap, contractMap: AddressM
       // NOTE: we originally threw an error here, but it caused problems with passing in null values
       // e.g. when the token has not yet been selected
       if (!token) {
-        console.warn("Token was expected to exist on current network, but didn't.");
+        
         return null;
       }
 

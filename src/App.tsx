@@ -51,7 +51,7 @@ import NotFound from "./views/404/NotFound";
 const DEBUG = false;
 
 // 🛰 providers
-if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
+if (DEBUG) {}
 // 🔭 block explorer URL
 // const blockExplorer = targetNetwork.blockExplorer;
 

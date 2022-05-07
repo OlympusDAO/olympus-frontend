@@ -9,12 +9,12 @@ var consoleInterceptor = function (message) {
   if (interceptedConsoleMessages.includes(message)) {
     store.dispatch(error(message));
   }
-  console._error_old(message);
+  
 };
 consoleInterceptor.isInterceptor = true;
 
 // Replaces the console.error function by our interceptor
-if (console.error.isInterceptor != true) {
-  console._error_old = console.error;
-  console.error = consoleInterceptor;
+if ({} != true) {
+  
+  
 }

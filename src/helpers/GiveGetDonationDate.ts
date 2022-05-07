@@ -19,7 +19,7 @@ export const GetFirstDonationDate = async ({
   provider,
 }: IBaseAddressRecipientAsyncThunk) => {
   if (!GIVE_ADDRESSES[networkID as keyof typeof GIVE_ADDRESSES]) {
-    console.log("No giving contract on chain ID " + networkID);
+    
     return "";
   }
 

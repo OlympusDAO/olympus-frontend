@@ -10,8 +10,8 @@ const REACT_APP_SEED_PHRASE = "REACT_APP_SEED_PHRASE";
 
 export const setupLogging = (page: Page) => {
   page
-    .on("console", message => console.log(`${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
-    .on("pageerror", ({ message }) => console.log(message));
+    .on("console", message => {})
+    .on("pageerror", ({ message }) => {});
 };
 
 export const clickElement = async (page: Page, selector: string) => {
