@@ -65,7 +65,6 @@ export const useGive = () => {
     },
     {
       onError: error => {
-        console.error(error.message);
         dispatch(createErrorToast(error.message));
       },
       onSuccess: async (data, GiveData) => {

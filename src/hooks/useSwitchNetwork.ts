@@ -35,10 +35,7 @@ export const useSwitchNetwork = () => {
       }
     },
     {
-      onError: error => {
-        console.log(`Error switching to network`);
-        console.error(error);
-      },
+      onError: error => {},
     },
   );
 };

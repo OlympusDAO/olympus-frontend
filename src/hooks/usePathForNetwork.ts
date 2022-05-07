@@ -40,8 +40,8 @@ export function usePathForNetwork({
           navigate("/wrap");
           break;
         }
-      default:
-        console.log("pathForNetwork ok");
+      default: {
+      }
     }
   };
 

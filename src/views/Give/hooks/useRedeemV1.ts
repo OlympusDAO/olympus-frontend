@@ -56,7 +56,6 @@ export const useOldRedeem = () => {
     },
     {
       onError: error => {
-        console.error(error.message);
         dispatch(createErrorToast(error.message));
       },
       onSuccess: async () => {

@@ -56,7 +56,6 @@ export const loadAppDetails = createAsyncThunk(
     const graphData = await apollo<{ protocolMetrics: IProtocolMetrics[] }>(protocolMetricsQuery);
 
     if (!graphData || graphData == null) {
-      console.error("Returned a null response when querying TheGraph");
       return;
     }
 
@@ -82,7 +81,6 @@ export const loadAppDetails = createAsyncThunk(
     // const currentBlock = parseFloat(graphData.data._meta.block.number);
 
     if (!provider) {
-      console.error("failed to connect to provider, please connect your wallet");
       return {
         stakingTVL,
         marketPrice,
@@ -234,7 +232,6 @@ const appSlice = createSlice({
       })
       .addCase(loadAppDetails.rejected, (state, { error }) => {
         state.loading = false;
-        console.error(error.name, error.message, error.stack);
       })
       .addCase(loadMarketPrice.pending, state => {
         state.loadingMarketPrice = true;
@@ -245,7 +242,6 @@ const appSlice = createSlice({
       })
       .addCase(loadMarketPrice.rejected, (state, { error }) => {
         state.loadingMarketPrice = false;
-        console.error(error.name, error.message, error.stack);
       });
   },
 });

@@ -5,7 +5,7 @@ import { Environment } from "src/helpers/environment/Environment/Environment";
 
 export const queryCache = new QueryCache({
   onError: (error, query) => {
-    if (error instanceof Error) console.error({ key: query.queryKey, error: error.message });
+    if (error instanceof Error) {}
   },
 });
 

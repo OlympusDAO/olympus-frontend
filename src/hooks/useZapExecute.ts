@@ -81,10 +81,8 @@ export const useZapExecute = () => {
         ...(tokenAddress === ethers.constants.AddressZero && { value: sellAmount }),
       };
 
-      console.debug("Fetching token swap data from Zapper");
       const swapData = await fetchSwapData(address, sellAmount, tokenAddress, +slippage / 100);
 
-      console.debug("Commencing Zap");
       const transaction = await contract.ZapStake(
         tokenAddress,
         sellAmount,
@@ -96,7 +94,6 @@ export const useZapExecute = () => {
         additionalOptions,
       );
 
-      console.debug("Awaiting transaction");
       return transaction.wait();
     },
     {
@@ -115,8 +112,6 @@ export const useZapExecute = () => {
           metric1: parseFloat(uaData.value),
         });
 
-        console.error(`Encountered error while executing Zap: ${e.message}`);
-
         if (e.message.indexOf("High Slippage") > 0) {
           dispatch(error(t`Transaction would fail due to slippage. Please use a higher slippage tolerance value.`));
         } else if (e.message.indexOf("TRANSFER_AMOUNT_EXCEEDS_BALANCE") > 0) {
@@ -132,8 +127,6 @@ export const useZapExecute = () => {
          */
       },
       onSuccess: (_data, variables) => {
-        console.debug("Zap successful");
-
         const uaData: IUADataZap = {
           address: address,
           value: variables.sellAmount.toString(),
