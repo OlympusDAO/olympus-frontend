@@ -65,21 +65,25 @@ export const ExternalStakePools = () => {
         <AllPools isSmallScreen={isSmallScreen} />
       ) : (
         <Paper headerText={t`Farm Pool`}>
-          <Table>
+          <Table style={{ tableLayout: "fixed" }}>
             <TableHead className={styles.stakePoolHeaderText}>
               <TableRow>
-                <TableCell align="center">
+                <TableCell style={{ width: "250px", padding: "8px 0" }}>
                   <Trans>Asset</Trans>
                 </TableCell>
-                <TableCell>
+
+                <TableCell style={{ width: connected ? "100px" : "150px", padding: "8px 0" }}>
                   <Trans>TVL</Trans>
                 </TableCell>
-                <TableCell>
+
+                <TableCell style={{ width: connected ? "100px" : "150px", padding: "8px 0" }}>
                   <Trans>APY</Trans>
                 </TableCell>
-                <TableCell>{connected ? t`Balance` : ""}</TableCell>
+
+                {connected && <TableCell style={{ width: "100px", padding: "8px 0" }}>{t`Balance`}</TableCell>}
               </TableRow>
             </TableHead>
+
             <AllPools isSmallScreen={isSmallScreen} />
           </Table>
         </Paper>
@@ -125,7 +129,7 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
 
   return (
     <TableRow>
-      <TableCell>
+      <TableCell style={{ padding: "8px 0" }}>
         <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
           <TokenStack tokens={props.pool.icons} />
           <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px", marginRight: "10px" }}>
@@ -134,28 +138,32 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
           <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} />
         </Box>
       </TableCell>
-      <TableCell>
+
+      <TableCell style={{ padding: "8px 0" }}>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!props.tvl ? <Skeleton width="100%" /> : formatCurrency(props.tvl)}
+          {!props.tvl ? <Skeleton width={60} /> : formatCurrency(props.tvl)}
         </Typography>
       </TableCell>
-      <TableCell>
+
+      <TableCell style={{ padding: "8px 0" }}>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!props.apy ? <Skeleton width="100%" /> : `${formatNumber(props.apy * 100, 2)}%`}
+          {!props.apy ? <Skeleton width={60} /> : `${formatNumber(props.apy * 100, 2)}%`}
         </Typography>
       </TableCell>
-      <TableCell>
-        <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!connected ? (
-            ""
-          ) : !userBalance ? (
-            <Skeleton width="100%" />
-          ) : (
-            `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`
-          )}
-        </Typography>
-      </TableCell>
-      <TableCell>
+
+      {connected && (
+        <TableCell style={{ padding: "8px 0" }}>
+          <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+            {!userBalance ? (
+              <Skeleton width={60} />
+            ) : (
+              `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`
+            )}
+          </Typography>
+        </TableCell>
+      )}
+
+      <TableCell style={{ padding: "8px 0" }}>
         <SecondaryButton size="small" target="_blank" href={props.pool.href} fullWidth>
           {t`Stake on`} {props.pool.stakeOn}
         </SecondaryButton>
