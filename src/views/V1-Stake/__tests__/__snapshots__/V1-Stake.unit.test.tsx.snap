@@ -9709,7 +9709,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                   <p
                     class="MuiTypography-root stake-note MuiTypography-body1 MuiTypography-colorTextSecondary"
                   >
-                    You must complete the migration of your assets to stake additional OHM
+                    All your assets are migrated
                   </p>
                 </div>
                 <div
@@ -9757,7 +9757,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
                         <span
                           class="MuiButton-label"
                         >
-                          Migrate
+                          Go to Stake V2
                         </span>
                       </button>
                     </div>
