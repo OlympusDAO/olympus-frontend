@@ -54,36 +54,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const AllPools = (props: { isSmallScreen: boolean }) => (
-  <>
-    {sushiPools.map(pool => (
-      <SushiPools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {joePools.map(pool => (
-      <JoePools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {spiritPools.map(pool => (
-      <SpiritPools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {beetsPools.map(pool => (
-      <BeetsPools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {zipPools.map(pool => (
-      <ZipPools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {jonesPools.map(pool => (
-      <JonesPools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {balancerPools.map(pool => (
-      <BalancerPools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {bobaPools.map(pool => (
-      <BobaPools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-  </>
-);
-
-const ExternalStakePools = () => {
+export const ExternalStakePools = () => {
   const styles = useStyles();
   const { connected } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
@@ -116,6 +87,35 @@ const ExternalStakePools = () => {
     </Zoom>
   );
 };
+
+const AllPools = (props: { isSmallScreen: boolean }) => (
+  <>
+    {sushiPools.map(pool => (
+      <SushiPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+    {joePools.map(pool => (
+      <JoePools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+    {spiritPools.map(pool => (
+      <SpiritPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+    {beetsPools.map(pool => (
+      <BeetsPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+    {zipPools.map(pool => (
+      <ZipPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+    {jonesPools.map(pool => (
+      <JonesPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+    {balancerPools.map(pool => (
+      <BalancerPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+    {bobaPools.map(pool => (
+      <BobaPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+  </>
+);
 
 const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = props => {
   const { connected } = useWeb3Context();
@@ -282,5 +282,3 @@ const BobaPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = prop
     <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
   );
 };
-
-export default ExternalStakePools;

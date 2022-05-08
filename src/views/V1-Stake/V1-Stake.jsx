@@ -36,7 +36,7 @@ import { useGohmBalance, useSohmBalance } from "../../hooks/useBalance";
 import { useTestableNetworks } from "../../hooks/useTestableNetworks";
 import { error } from "../../slices/MessagesSlice";
 import { changeApproval, changeStake } from "../../slices/StakeThunk";
-import ExternalStakePools from "../Stake/components/ExternalStakePools/ExternalStakePools";
+import { ExternalStakePools } from "../Stake/components/ExternalStakePools/ExternalStakePools";
 import RebaseTimer from "../Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 
 function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
