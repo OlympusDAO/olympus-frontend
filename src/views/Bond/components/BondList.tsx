@@ -92,7 +92,7 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
 
     <Box display="flex" justifyContent="space-between" mt="16px">
       <Typography>
-        <Trans>Priced</Trans>
+        <Trans>Price</Trans>
       </Typography>
 
       <Typography>
