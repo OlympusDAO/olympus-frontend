@@ -19,6 +19,7 @@ import {
 } from "../__mocks__/mockLiveMarkets";
 import { Bond } from "../Bond";
 import { BondModalContainer } from "../components/BondModal/BondModal";
+
 beforeEach(() => {
   const data = jest.spyOn(useWeb3Context, "useWeb3Context");
   data.mockReturnValue(mockWeb3Context);
@@ -26,9 +27,10 @@ beforeEach(() => {
   Token.OHM_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("20"));
   Token.DAI_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
   Token.OHM_DAI_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("200000"));
-  Token.OHM_WETH_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
-  Token.OHM_LUSD_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
+  Token.LUSD_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
+  Token.FRAX_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
 });
+
 jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
   useParams: jest.fn(),
