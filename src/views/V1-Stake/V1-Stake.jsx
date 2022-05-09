@@ -24,7 +24,7 @@ import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-
 import { ethers } from "ethers";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -41,7 +41,7 @@ import RebaseTimer from "../Stake/components/StakeArea/components/RebaseTimer/Re
 
 function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { provider, address, networkId } = useWeb3Context();
 
   const [zoomed, setZoomed] = useState(false);
@@ -162,7 +162,7 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
   const nextRewardValue = trim((stakingRebasePercentage / 100) * trimmedBalance, 4);
 
   const goToV2Stake = () => {
-    history.push("/stake");
+    navigate("/stake");
   };
 
   const formattedTrimmedStakingAPY = new Intl.NumberFormat("en-US").format(Number(trimmedStakingAPY));

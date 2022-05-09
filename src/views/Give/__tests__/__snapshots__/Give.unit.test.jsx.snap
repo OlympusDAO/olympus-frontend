@@ -38,7 +38,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/"
+                          href="#/give"
                         >
                           <svg
                             aria-hidden="true"
@@ -492,7 +492,6 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
 <div>
   <div
     class="MuiContainer-root MuiContainer-maxWidthLg"
-    style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   >
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center"
@@ -607,7 +606,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="#/give/projects/impact-market"
+                  href="#/projects/impact-market"
                 >
                   <button
                     class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-48 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -736,7 +735,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="#/give/projects/angel-protocol"
+                  href="#/projects/angel-protocol"
                 >
                   <button
                     class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-54 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -865,7 +864,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="#/give/projects/gitcoin"
+                  href="#/projects/gitcoin"
                 >
                   <button
                     class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-58 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -994,7 +993,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="#/give/projects/kolektivo"
+                  href="#/projects/kolektivo"
                 >
                   <button
                     class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-62 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -1123,7 +1122,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               >
                 <a
                   class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                  href="#/give/projects/popcorndao"
+                  href="#/projects/popcorndao"
                 >
                   <button
                     class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-66 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
@@ -1207,14 +1206,11 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
     class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-center"
   >
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-    />
-    <div
       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-10 MuiGrid-grid-md-10 MuiGrid-grid-lg-8"
     >
       <div
         class="MuiPaper-root makeStyles-root-1 makeStyles-root-2 no-container-padding MuiPaper-elevation0 MuiPaper-rounded"
-        style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+        style="transform: none;"
       >
         <div
           class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
@@ -1254,70 +1250,94 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                   class="MuiTabs-flexContainer MuiTabs-centered"
                   role="tablist"
                 >
-                  <button
-                    aria-controls="simple-tabpanel-0"
-                    aria-selected="true"
-                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected"
-                    id="simple-tab-0"
-                    role="tab"
-                    tabindex="0"
-                    type="button"
+                  <a
+                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                    href="#/give"
+                    textcolor="primary"
+                    value="0"
                   >
-                    <span
-                      class="MuiTab-wrapper"
+                    <button
+                      aria-controls="simple-tabpanel-undefined"
+                      class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
+                      id="simple-tab-undefined"
+                      role="tab"
+                      tabindex="-1"
+                      type="button"
                     >
-                      Causes
-                    </span>
-                  </button>
-                  <button
-                    aria-controls="simple-tabpanel-1"
-                    aria-selected="false"
-                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
-                    id="simple-tab-1"
-                    role="tab"
-                    tabindex="-1"
-                    type="button"
+                      <span
+                        class="MuiTab-wrapper"
+                      >
+                        Causes
+                      </span>
+                    </button>
+                  </a>
+                  <a
+                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                    href="#/give/grants"
+                    textcolor="primary"
+                    value="1"
                   >
-                    <span
-                      class="MuiTab-wrapper"
+                    <button
+                      aria-controls="simple-tabpanel-undefined"
+                      class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
+                      id="simple-tab-undefined"
+                      role="tab"
+                      tabindex="-1"
+                      type="button"
                     >
-                      Grants
-                    </span>
-                  </button>
-                  <button
-                    aria-controls="simple-tabpanel-2"
-                    aria-selected="false"
-                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
-                    id="simple-tab-2"
-                    role="tab"
-                    tabindex="-1"
-                    type="button"
+                      <span
+                        class="MuiTab-wrapper"
+                      >
+                        Grants
+                      </span>
+                    </button>
+                  </a>
+                  <a
+                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                    href="#/give/donations"
+                    textcolor="primary"
+                    value="2"
                   >
-                    <span
-                      class="MuiTab-wrapper"
+                    <button
+                      aria-controls="simple-tabpanel-undefined"
+                      class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
+                      id="simple-tab-undefined"
+                      role="tab"
+                      tabindex="-1"
+                      type="button"
                     >
-                      My Donations
-                    </span>
-                  </button>
-                  <button
-                    aria-controls="simple-tabpanel-3"
-                    aria-selected="false"
-                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
-                    id="simple-tab-3"
-                    role="tab"
-                    tabindex="-1"
-                    type="button"
+                      <span
+                        class="MuiTab-wrapper"
+                      >
+                        My Donations
+                      </span>
+                    </button>
+                  </a>
+                  <a
+                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                    href="#/give/redeem"
+                    textcolor="primary"
+                    value="3"
                   >
-                    <span
-                      class="MuiTab-wrapper"
+                    <button
+                      aria-controls="simple-tabpanel-undefined"
+                      class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
+                      id="simple-tab-undefined"
+                      role="tab"
+                      tabindex="-1"
+                      type="button"
                     >
-                      Redeem
-                    </span>
-                  </button>
+                      <span
+                        class="MuiTab-wrapper"
+                      >
+                        Redeem
+                      </span>
+                    </button>
+                  </a>
                 </div>
                 <span
-                  class="PrivateTabIndicator-root-6 PrivateTabIndicator-colorPrimary-7 MuiTabs-indicator"
-                  style="left: 0px; width: 0px;"
+                  class="PrivateTabIndicator-root-41 PrivateTabIndicator-colorPrimary-42 MuiTabs-indicator"
+                  style="left: 0px; width: 0px; display: none;"
                 />
               </div>
             </div>
@@ -1328,7 +1348,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
               style="overflow: hidden;"
             >
               <div
-                class="MuiBox-root MuiBox-root-10"
+                class="MuiBox-root MuiBox-root-6"
               >
                 <label
                   class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
@@ -1342,14 +1362,14 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                     >
                       <span
                         aria-disabled="false"
-                        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-11 MuiSwitch-switchBase MuiSwitch-colorPrimary"
+                        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-7 MuiSwitch-switchBase MuiSwitch-colorPrimary"
                       >
                         <span
                           class="MuiIconButton-label"
                         >
                           <input
                             aria-label="stake to gohm"
-                            class="PrivateSwitchBase-input-14 MuiSwitch-input"
+                            class="PrivateSwitchBase-input-10 MuiSwitch-input"
                             type="checkbox"
                             value=""
                           />
@@ -1373,7 +1393,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                       gOHM deposits
                     </p>
                     <div
-                      class="MuiBox-root MuiBox-root-15"
+                      class="MuiBox-root MuiBox-root-11"
                       style="display: inline-flex; justify-content: center; align-self: center;"
                     >
                       <svg
@@ -1392,7 +1412,6 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                 </label>
                 <div
                   class="MuiContainer-root MuiContainer-maxWidthLg"
-                  style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center"
@@ -1486,7 +1505,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                     role="progressbar"
                                   >
                                     <div
-                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-17 makeStyles-progress-18 MuiLinearProgress-bar1Determinate"
+                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-13 makeStyles-progress-14 MuiLinearProgress-bar1Determinate"
                                       style="transform: translateX(-100%);"
                                     />
                                   </div>
@@ -1507,10 +1526,10 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/impact-market"
+                                href="#/projects/impact-market"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-19 makeStyles-root-20 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-16 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -1615,7 +1634,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                     role="progressbar"
                                   >
                                     <div
-                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-24 makeStyles-progress-25 MuiLinearProgress-bar1Determinate"
+                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-20 makeStyles-progress-21 MuiLinearProgress-bar1Determinate"
                                       style="transform: translateX(-100%);"
                                     />
                                   </div>
@@ -1636,10 +1655,10 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/angel-protocol"
+                                href="#/projects/angel-protocol"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-19 makeStyles-root-26 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-22 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -1744,7 +1763,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                     role="progressbar"
                                   >
                                     <div
-                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-28 makeStyles-progress-29 MuiLinearProgress-bar1Determinate"
+                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-24 makeStyles-progress-25 MuiLinearProgress-bar1Determinate"
                                       style="transform: translateX(-100%);"
                                     />
                                   </div>
@@ -1765,10 +1784,10 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/gitcoin"
+                                href="#/projects/gitcoin"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-19 makeStyles-root-30 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-26 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -1873,7 +1892,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                     role="progressbar"
                                   >
                                     <div
-                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-32 makeStyles-progress-33 MuiLinearProgress-bar1Determinate"
+                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-28 makeStyles-progress-29 MuiLinearProgress-bar1Determinate"
                                       style="transform: translateX(-100%);"
                                     />
                                   </div>
@@ -1894,10 +1913,10 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/kolektivo"
+                                href="#/projects/kolektivo"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-19 makeStyles-root-34 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-30 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -2002,7 +2021,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                     role="progressbar"
                                   >
                                     <div
-                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-36 makeStyles-progress-37 MuiLinearProgress-bar1Determinate"
+                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-32 makeStyles-progress-33 MuiLinearProgress-bar1Determinate"
                                       style="transform: translateX(-100%);"
                                     />
                                   </div>
@@ -2023,10 +2042,10 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             >
                               <a
                                 class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                                href="#/give/projects/popcorndao"
+                                href="#/projects/popcorndao"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-19 makeStyles-root-38 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-34 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -2046,7 +2065,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-40"
+                        class="MuiBox-root MuiBox-root-36"
                         style="background-color: rgb(250, 250, 251); border-radius: 10px;"
                       >
                         <div
@@ -2078,7 +2097,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                           >
                             <button
-                              class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-19 makeStyles-root-41 undefined MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
+                              class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-15 makeStyles-root-37 undefined MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
                               disabled=""
                               tabindex="-1"
                               type="button"
@@ -2100,32 +2119,11 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                 </div>
               </div>
             </div>
-            <div
-              aria-labelledby="simple-tab-1"
-              hidden=""
-              id="simple-tabpanel-1"
-              role="tabpanel"
-              style="overflow: hidden;"
-            />
-            <div
-              aria-labelledby="simple-tab-2"
-              hidden=""
-              id="simple-tabpanel-2"
-              role="tabpanel"
-              style="overflow: hidden;"
-            />
-            <div
-              aria-labelledby="simple-tab-3"
-              hidden=""
-              id="simple-tabpanel-3"
-              role="tabpanel"
-              style="overflow: hidden;"
-            />
           </div>
         </div>
       </div>
       <div
-        class="MuiPaper-root makeStyles-root-1 makeStyles-root-43  MuiPaper-elevation0 MuiPaper-rounded"
+        class="MuiPaper-root makeStyles-root-1 makeStyles-root-39  MuiPaper-elevation0 MuiPaper-rounded"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
@@ -2360,7 +2358,7 @@ sOHM deposit until you withdraw your sOHM principal from the vault.
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-19 makeStyles-root-44 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-40 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
                   tabindex="0"
                   target="_blank"
@@ -2394,9 +2392,6 @@ sOHM deposit until you withdraw your sOHM principal from the vault.
         </div>
       </div>
     </div>
-    <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-    />
   </div>
 </div>
 `;
@@ -2458,17 +2453,22 @@ exports[`Give View Disconnected should render Yield Recipients Screen with Donat
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
       >
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-75 makeStyles-root-76 undefined MuiButton-outlinedPrimary MuiButton-disableElevation"
-          tabindex="0"
-          type="button"
+        <a
+          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+          href="#/give"
         >
-          <span
-            class="MuiButton-label"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-75 makeStyles-root-76 undefined MuiButton-outlinedPrimary MuiButton-disableElevation"
+            tabindex="0"
+            type="button"
           >
-            Donate to a cause
-          </span>
-        </button>
+            <span
+              class="MuiButton-label"
+            >
+              Donate to a cause
+            </span>
+          </button>
+        </a>
       </div>
     </div>
   </div>
@@ -2513,7 +2513,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                       >
                         <a
                           class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
-                          href="#/give/"
+                          href="#/give"
                         >
                           <svg
                             aria-hidden="true"
