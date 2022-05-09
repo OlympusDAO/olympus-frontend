@@ -12,6 +12,7 @@ import { useWeb3Context } from "src/hooks";
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
 import { locales, selectLocale } from "../../locales";
 import ThemeSwitcher from "./ThemeSwitch";
+import WalletAddressEns from "./Wallet/WalletAddressEns";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -62,7 +63,7 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
           <Link to={"/wallet"} state={{ prevPath: location.pathname }} style={{ marginRight: "0px" }}>
             <Button variant="contained" color="secondary">
               <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-              <Typography>{connected ? t`Wallet` : t`Connect`}</Typography>
+              <Typography>{connected ? <WalletAddressEns /> : t`Connect`}</Typography>
             </Button>
           </Link>
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />

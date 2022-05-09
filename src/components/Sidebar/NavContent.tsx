@@ -11,7 +11,6 @@ import { BondDiscount } from "src/views/Bond/components/BondDiscount";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
-import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
 
 const useStyles = makeStyles(theme => ({
   gray: {
@@ -37,8 +36,6 @@ const NavContent: React.VFC = () => {
                 style={{ minWidth: "151px", minHeight: "98px", width: "151px" }}
               />
             </Link>
-
-            <WalletAddressEns />
           </Box>
 
           <div className="dapp-menu-links">
