@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { NetworkId } from "src/constants";
 import { Token } from "src/helpers/contracts/Token";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
+import { useOhmPrice } from "src/hooks/usePrices";
 import { useTokenPrice } from "src/hooks/useTokenPrice";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
@@ -104,7 +106,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
             </Typography>
 
             <Typography variant="h3" style={{ fontWeight: "bold" }}>
-              {bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} />}
+              {bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
             </Typography>
           </Box>
 
@@ -114,7 +116,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
             </Typography>
 
             <Typography variant="h3" style={{ fontWeight: "bold" }}>
-              <TokenPrice token={bond.baseToken} />
+              <TokenPrice token={bond.baseToken} isInverseBond={isInverseBond} />
             </Typography>
           </Box>
         </Box>
@@ -133,7 +135,9 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   );
 };
 
-const TokenPrice: React.VFC<{ token: Token }> = ({ token }) => {
-  const price = useTokenPrice({ token, networkId: NetworkId.MAINNET }).data;
+const TokenPrice: React.VFC<{ token: Token; isInverseBond?: boolean }> = ({ token, isInverseBond }) => {
+  const { data: priceToken = new DecimalBigNumber("0") } = useTokenPrice({ token, networkId: NetworkId.MAINNET });
+  const { data: ohmPrice = 0 } = useOhmPrice();
+  const price = isInverseBond ? priceToken.mul(new DecimalBigNumber(ohmPrice.toString())) : priceToken;
   return price ? <>${price.toString({ decimals: 2, format: true, trim: false })}</> : <Skeleton width={60} />;
 };
