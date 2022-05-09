@@ -151,7 +151,7 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
         />
 
         <DataRow
-          title={t`Max You Can ${isInverseBond ? `Sell` : `Buy`}`}
+          title={isInverseBond ? t`Max You Can Sell` : t`Max You Can Buy`}
           tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
           balance={
             <span>
