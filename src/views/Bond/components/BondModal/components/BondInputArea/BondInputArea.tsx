@@ -138,7 +138,7 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
         />
 
         <DataRow
-          title={t`Max You Can Buy`}
+          title={t`Max You Can ${isInverseBond ? `Sell` : `Buy`}`}
           tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
           balance={
             <span>
@@ -157,7 +157,7 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
         />
 
         <DataRow
-          title={t`Discount`}
+          title={isInverseBond ? t`Premium` : t`Discount`}
           balance={<BondDiscount discount={props.bond.discount} />}
           tooltip={`${t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between`} ${
             isInverseBond ? props.bond.baseToken.name : `OHM`
