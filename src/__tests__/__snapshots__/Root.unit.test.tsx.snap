@@ -1078,6 +1078,7 @@ exports[`<Root/> should render component 1`] = `
             >
               <table
                 class="MuiTable-root"
+                style="table-layout: fixed;"
               >
                 <thead
                   class="MuiTableHead-root makeStyles-stakePoolHeaderText-141"
@@ -1086,27 +1087,26 @@ exports[`<Root/> should render component 1`] = `
                     class="MuiTableRow-root MuiTableRow-head"
                   >
                     <th
-                      class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignCenter"
+                      class="MuiTableCell-root MuiTableCell-head"
                       scope="col"
+                      style="width: 250px; padding: 8px 0px;"
                     >
                       Asset
                     </th>
                     <th
                       class="MuiTableCell-root MuiTableCell-head"
                       scope="col"
+                      style="width: 150px; padding: 8px 0px;"
                     >
                       TVL
                     </th>
                     <th
                       class="MuiTableCell-root MuiTableCell-head"
                       scope="col"
+                      style="width: 150px; padding: 8px 0px;"
                     >
                       APY
                     </th>
-                    <th
-                      class="MuiTableCell-root MuiTableCell-head"
-                      scope="col"
-                    />
                   </tr>
                 </thead>
                 <tr
@@ -1114,6 +1114,7 @@ exports[`<Root/> should render component 1`] = `
                 >
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <div
                       class="MuiBox-root MuiBox-root-147"
@@ -1536,6 +1537,7 @@ exports[`<Root/> should render component 1`] = `
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -1543,12 +1545,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -1556,20 +1559,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      style="line-height: 1.4;"
-                    />
-                  </td>
-                  <td
-                    class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <a
                       aria-disabled="false"
@@ -1607,6 +1603,7 @@ exports[`<Root/> should render component 1`] = `
                 >
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <div
                       class="MuiBox-root MuiBox-root-151"
@@ -1733,6 +1730,7 @@ exports[`<Root/> should render component 1`] = `
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -1740,12 +1738,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -1753,20 +1752,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      style="line-height: 1.4;"
-                    />
-                  </td>
-                  <td
-                    class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <a
                       aria-disabled="false"
@@ -1804,6 +1796,7 @@ exports[`<Root/> should render component 1`] = `
                 >
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <div
                       class="MuiBox-root MuiBox-root-154"
@@ -1904,6 +1897,7 @@ exports[`<Root/> should render component 1`] = `
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -1911,12 +1905,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -1924,20 +1919,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      style="line-height: 1.4;"
-                    />
-                  </td>
-                  <td
-                    class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <a
                       aria-disabled="false"
@@ -1975,6 +1963,7 @@ exports[`<Root/> should render component 1`] = `
                 >
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <div
                       class="MuiBox-root MuiBox-root-157"
@@ -2139,6 +2128,7 @@ exports[`<Root/> should render component 1`] = `
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -2146,12 +2136,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -2159,20 +2150,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      style="line-height: 1.4;"
-                    />
-                  </td>
-                  <td
-                    class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <a
                       aria-disabled="false"
@@ -2210,6 +2194,7 @@ exports[`<Root/> should render component 1`] = `
                 >
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <div
                       class="MuiBox-root MuiBox-root-160"
@@ -2374,6 +2359,7 @@ exports[`<Root/> should render component 1`] = `
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -2381,12 +2367,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -2394,20 +2381,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      style="line-height: 1.4;"
-                    />
-                  </td>
-                  <td
-                    class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <a
                       aria-disabled="false"
@@ -2445,6 +2425,7 @@ exports[`<Root/> should render component 1`] = `
                 >
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <div
                       class="MuiBox-root MuiBox-root-163"
@@ -2581,6 +2562,7 @@ exports[`<Root/> should render component 1`] = `
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -2588,12 +2570,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -2601,20 +2584,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      style="line-height: 1.4;"
-                    />
-                  </td>
-                  <td
-                    class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <a
                       aria-disabled="false"
@@ -2652,6 +2628,7 @@ exports[`<Root/> should render component 1`] = `
                 >
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <div
                       class="MuiBox-root MuiBox-root-166"
@@ -3160,6 +3137,7 @@ exports[`<Root/> should render component 1`] = `
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -3167,12 +3145,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -3180,20 +3159,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      style="line-height: 1.4;"
-                    />
-                  </td>
-                  <td
-                    class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <a
                       aria-disabled="false"
@@ -3231,6 +3203,7 @@ exports[`<Root/> should render component 1`] = `
                 >
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <div
                       class="MuiBox-root MuiBox-root-169"
@@ -3378,6 +3351,7 @@ exports[`<Root/> should render component 1`] = `
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -3385,12 +3359,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -3398,20 +3373,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      style="line-height: 1.4;"
-                    />
-                  </td>
-                  <td
-                    class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <a
                       aria-disabled="false"
@@ -3449,6 +3417,7 @@ exports[`<Root/> should render component 1`] = `
                 >
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <div
                       class="MuiBox-root MuiBox-root-172"
@@ -3612,6 +3581,7 @@ exports[`<Root/> should render component 1`] = `
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -3619,12 +3589,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body1"
@@ -3632,20 +3603,13 @@ exports[`<Root/> should render component 1`] = `
                     >
                       <span
                         class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                        style="width: 100%;"
+                        style="width: 60px;"
                       />
                     </p>
                   </td>
                   <td
                     class="MuiTableCell-root"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1"
-                      style="line-height: 1.4;"
-                    />
-                  </td>
-                  <td
-                    class="MuiTableCell-root"
+                    style="padding: 8px 0px;"
                   >
                     <a
                       aria-disabled="false"
