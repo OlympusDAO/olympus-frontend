@@ -297,6 +297,14 @@ function App() {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
+  const MigrationNotification = () => {
+    return hasDust ? (
+      <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
+    ) : (
+      <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
+    );
+  };
+
   return (
     <StyledDiv>
       <ThemeProvider theme={themeMode}>
@@ -371,11 +379,7 @@ function App() {
               </Routes>
             </div>
           </div>
-          {hasDust ? (
-            <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
-          ) : (
-            <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
-          )}
+          {oldAssetsDetected && <MigrationNotification />}
         </MultifarmProvider>
       </ThemeProvider>
     </StyledDiv>

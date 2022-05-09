@@ -1,5 +1,6 @@
 import { Contract } from "src/helpers/contracts/Contract";
 import {
+  BalancerVault__factory,
   BondDepository__factory,
   CrossChainMigrator__factory,
   FiatDAOContract__factory,
@@ -11,6 +12,7 @@ import {
 } from "src/typechain";
 
 import {
+  BALANCER_VAULT_ADDRESSSES,
   BOND_DEPOSITORY_ADDRESSES,
   FIATDAO_WSOHM_ADDRESSES,
   FUSE_POOL_6_ADDRESSES,
@@ -81,4 +83,10 @@ export const FIATDAO_WSOHM_CONTRACT = new Contract({
   factory: FiatDAOContract__factory,
   name: "FiatDAO Contract",
   addresses: FIATDAO_WSOHM_ADDRESSES,
+});
+
+export const BALANCER_VAULT = new Contract({
+  factory: BalancerVault__factory,
+  name: "Balancer Vault Contract",
+  addresses: BALANCER_VAULT_ADDRESSSES,
 });

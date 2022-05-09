@@ -67,18 +67,22 @@ export const usePurchaseBond = (bond: Bond) => {
       if (networkId !== networks.MAINNET)
         throw new Error(t`Please switch to the Ethereum network to purchase this bond`);
 
-      const slippageAsPercent = parsedSlippage.div("100").add("1");
-      const maxPrice = bond.price.inBaseToken.mul(slippageAsPercent);
+      const slippageAsPercent = parsedSlippage.div("100");
+      const maxPrice = bond.price.inBaseToken.mul(slippageAsPercent.add("1"));
 
       const signer = provider.getSigner();
       const referrer = DAO_TREASURY_ADDRESSES[networks.MAINNET];
 
       if (isInverseBond) {
+        const minAmountOut = parsedAmount
+          .div(bond.price.inBaseToken)
+          .mul(new DecimalBigNumber("1").sub(slippageAsPercent));
+
         const transaction = await OP_BOND_DEPOSITORY_CONTRACT.getEthersContract(networks.MAINNET)
           .connect(signer)
           .deposit(
             bond.id,
-            [parsedAmount.toBigNumber(), parsedAmount.mul(slippageAsPercent).toBigNumber(bond.quoteToken.decimals)],
+            [parsedAmount.toBigNumber(), minAmountOut.toBigNumber(bond.baseToken.decimals)],
             [recipientAddress, referrer],
           );
 
