@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, Typography } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, Modal, TokenStack } from "@olympusdao/component-library";
+import { Icon, InfoTooltip, Modal, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { NetworkId } from "src/constants";
@@ -102,7 +102,7 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
         <Box display="flex" justifyContent="space-between" width={["100%", "70%"]} mt="24px">
           <Box display="flex" flexDirection="column" alignItems="center">
             <Typography variant="h5" color="textSecondary">
-              <Trans>Bond Price</Trans>
+              <Trans>Bond Price</Trans> {isInverseBond && <InfoTooltip message="Amount you will receive for 1 OHM" />}
             </Typography>
 
             <Typography variant="h3" style={{ fontWeight: "bold" }}>

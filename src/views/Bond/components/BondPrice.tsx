@@ -7,6 +7,7 @@ export const BondPrice: React.VFC<{ price: DecimalBigNumber; isInverseBond?: boo
   isInverseBond,
 }) => {
   const { data: ohmPrice = 0 } = useOhmPrice();
-  const bondPrice = isInverseBond ? price.mul(new DecimalBigNumber(ohmPrice.toString())) : price;
+  const oneOHM = new DecimalBigNumber("1");
+  const bondPrice = isInverseBond ? oneOHM.div(price).mul(new DecimalBigNumber(ohmPrice.toString())) : price;
   return <>{formatCurrency(bondPrice.toApproxNumber(), 2)}</>;
 };
