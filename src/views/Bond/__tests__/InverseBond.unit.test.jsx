@@ -97,6 +97,7 @@ describe("Bond Modal", () => {
     jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/inverse/8" });
     render(<BondModalContainer />);
     expect(await screen.findByText("Instant Payout")).toBeInTheDocument();
-    expect(await screen.findByText("$0.00")).toBeInTheDocument();
+    // NOTE (appleseed): checking for 0 DAI estimated payment (you will get)
+    expect(await screen.findByText("0 DAI")).toBeInTheDocument();
   });
 });
