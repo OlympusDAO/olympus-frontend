@@ -46,6 +46,7 @@ import { light as lightTheme } from "./themes/light.js";
 import { multifarmDarkTheme, multifarmLightTheme } from "./themes/multifarm";
 import { Bond, Give, Stake, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
 import NotFound from "./views/404/NotFound";
+import Range from "./views/Range";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -345,7 +346,7 @@ function App() {
               <Route path="/tyche" element={<Navigate to="/give" />} />
               <Route path="/olympusdaogive" element={<Navigate to="/give" />} />
               <Route path="/ohmgive" element={<Navigate to="/give" />} />
-
+              <Route path="/range" element={<Range />} />
               <Route path="/wrap" element={<Wrap />} />
               <Route path="/zap" element={<Zap />} />
               <Route path="/bonds/*" element={<Bond />} />
