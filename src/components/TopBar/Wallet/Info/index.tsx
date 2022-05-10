@@ -5,7 +5,7 @@ import { NavLink, Outlet, Route, Routes } from "react-router-dom";
 
 import Faq from "./Faq";
 import News from "./News";
-import Proposals from "./Proposals";
+import { Proposals } from "./Proposals";
 
 const useStyles = makeStyles<Theme>(theme => ({
   tabNav: {
@@ -21,14 +21,10 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-export interface OHMInfoProps {
-  path?: string;
-}
-
 /**
- * Component for Displaying Info
+ * Component for displaying info
  */
-const Info: FC<OHMInfoProps> = () => {
+export const Info: FC<{ path?: string }> = () => {
   const classes = useStyles();
   const Container = () => (
     <>
@@ -62,5 +58,3 @@ const Info: FC<OHMInfoProps> = () => {
     </>
   );
 };
-
-export default Info;

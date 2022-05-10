@@ -10,7 +10,7 @@ import { NetworkId } from "src/networkDetails";
 import Assets from "./Assets";
 import Calculator from "./Calculator";
 import GetOhm from "./GetOhm";
-import Info from "./Info";
+import { Info } from "./Info";
 
 const StyledSwipeableDrawer = withStyles(theme => ({
   root: {
