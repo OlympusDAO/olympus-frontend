@@ -3,7 +3,6 @@ import { NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { getTokenByAddress } from "src/helpers/contracts/getTokenByAddress";
-import { LPToken } from "src/helpers/contracts/LPToken";
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { assert } from "src/helpers/types/assert";
@@ -21,8 +20,7 @@ export interface Bond {
   /**
    * The token that the market sells to the protocol
    */
-  quoteToken: LPToken | Token;
-
+  quoteToken: Token;
   /**
    * The discount relative to the current market price of the token being sold
    */
@@ -87,10 +85,12 @@ export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions
 
   const [terms, market] = await Promise.all([contract.terms(id), contract.markets(id)]);
 
-  const baseToken = isInverseBond ? getTokenByAddress((market as any).baseToken) : OHM_TOKEN;
+  const baseToken = isInverseBond
+    ? await getTokenByAddress({ address: (market as any).baseToken, networkId })
+    : OHM_TOKEN;
   assert(baseToken, `Unknown base token address: ${(market as any).baseToken}`);
 
-  const quoteToken = isInverseBond ? OHM_TOKEN : getTokenByAddress(market.quoteToken);
+  const quoteToken = isInverseBond ? OHM_TOKEN : await getTokenByAddress({ address: market.quoteToken, networkId });
   assert(quoteToken, `Unknown quote token address: ${market.quoteToken}`);
 
   const [baseTokenPerUsd, quoteTokenPerUsd, quoteTokenPerBaseToken] = await Promise.all([

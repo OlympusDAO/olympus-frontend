@@ -1,11 +1,12 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Grid, makeStyles, Paper, Switch, Tab, Tabs, Theme } from "@material-ui/core";
-import { InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
+import { Box, Grid, Link, makeStyles, Paper, Switch, Tab, Tabs, Theme } from "@material-ui/core";
+import { InfoNotification, InfoTooltip, Input, PrimaryButton } from "@olympusdao/component-library";
 import React, { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 
 import { GOHMConversion } from "./components/GOHMConversion";
 import { useStakeToken } from "./hooks/useStakeToken";
@@ -65,8 +66,19 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
     (currentAction === "STAKE" ? stakeMutation : unstakeMutation).mutate(amount);
   };
 
+  const bonds = useLiveBonds({ isInverseBond: true }).data;
+
+  const liveInverseBonds = bonds && bonds.length > 0;
+
   return (
     <Box mb={3}>
+      {currentAction === "UNSTAKE" && liveInverseBonds && (
+        <InfoNotification>
+          {t`Unstaking your OHM? Trade for Treasury Stables with no slippage & zero trading fees via`}
+          &nbsp;
+          <Link href={`#/bonds`}>{t`Inverse Bonds`}</Link>
+        </InfoNotification>
+      )}
       <Tabs
         centered
         textColor="primary"

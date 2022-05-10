@@ -46,6 +46,17 @@ export class Environment {
       fallback: "96e0cc51-a62e-42ca-acee-910ea7d2a241",
     });
 
+  /**
+   * a feature flag for denoting when we are on the staging server
+   * @returns {string} true or false
+   */
+  public static getStagingFlag = (): string =>
+    this._get({
+      first: true,
+      key: "REACT_APP_STAGING_ENV",
+      fallback: "false",
+    });
+
   public static getNodeUrls = (networkId: NetworkId) => {
     switch (networkId) {
       case NetworkId.MAINNET:
@@ -107,6 +118,16 @@ export class Environment {
         return this._get({
           key: `REACT_APP_OPTIMISM_TESTNET_NODE_URL`,
           fallback: "https://kovan.optimism.io/",
+        });
+      case NetworkId.BOBA:
+        return this._get({
+          key: `REACT_APP_BOBA_NODE_URL`,
+          fallback: "https://mainnet.boba.network	",
+        });
+      case NetworkId.BOBA_TESTNET:
+        return this._get({
+          key: `REACT_APP_BOBA_TESTNET_NODE_URL`,
+          fallback: "https://rinkeby.boba.network/",
         });
     }
   };

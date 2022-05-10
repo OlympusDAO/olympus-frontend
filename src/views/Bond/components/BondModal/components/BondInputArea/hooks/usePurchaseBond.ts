@@ -37,7 +37,7 @@ export const usePurchaseBond = (bond: Bond) => {
       if (!slippage || isNaN(Number(slippage))) throw new Error(t`Please enter a valid slippage amount`);
 
       const parsedAmount = new DecimalBigNumber(amount, bond.quoteToken.decimals);
-      const parsedSlippage = new DecimalBigNumber(slippage, 18);
+      const parsedSlippage = new DecimalBigNumber(slippage, bond.quoteToken.decimals);
 
       if (!parsedAmount.gt("0")) throw new Error(t`Please enter a number greater than 0`);
 
@@ -67,16 +67,24 @@ export const usePurchaseBond = (bond: Bond) => {
       if (networkId !== networks.MAINNET)
         throw new Error(t`Please switch to the Ethereum network to purchase this bond`);
 
-      const slippageAsPercent = parsedSlippage.div("100").add("1");
-      const maxPrice = bond.price.inBaseToken.mul(slippageAsPercent);
+      const slippageAsPercent = parsedSlippage.div("100");
+      const maxPrice = bond.price.inBaseToken.mul(slippageAsPercent.add("1"));
 
       const signer = provider.getSigner();
       const referrer = DAO_TREASURY_ADDRESSES[networks.MAINNET];
 
       if (isInverseBond) {
+        const minAmountOut = parsedAmount
+          .div(bond.price.inBaseToken)
+          .mul(new DecimalBigNumber("1").sub(slippageAsPercent));
+
         const transaction = await OP_BOND_DEPOSITORY_CONTRACT.getEthersContract(networks.MAINNET)
           .connect(signer)
-          .deposit(bond.id, [parsedAmount.toBigNumber(), 0], [recipientAddress, referrer]);
+          .deposit(
+            bond.id,
+            [parsedAmount.toBigNumber(), minAmountOut.toBigNumber(bond.baseToken.decimals)],
+            [recipientAddress, referrer],
+          );
 
         return transaction.wait();
       }

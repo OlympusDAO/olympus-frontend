@@ -1,6 +1,6 @@
-import { LPToken } from "src/helpers/contracts/LPToken";
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import { calculateUniOrSushiLPValue } from "src/helpers/pricing/calculateUniOrSushiLPValue";
 import { NetworkId } from "src/networkDetails";
 import { IERC20__factory, PairContract__factory } from "src/typechain";
 
@@ -11,8 +11,6 @@ import {
   LUSD_ADDRESSES,
   OHM_ADDRESSES,
   OHM_DAI_LP_ADDRESSES,
-  OHM_LUSD_LP_ADDRESSES,
-  OHM_WETH_LP_ADDRESSES,
   SOHM_ADDRESSES,
   UST_ADDRESSES,
   V1_OHM_ADDRESSES,
@@ -134,38 +132,18 @@ export const LUSD_TOKEN = new Token({
   purchaseUrl: "",
 });
 
-export const OHM_WETH_LP_TOKEN = new LPToken({
-  decimals: 18,
-  name: "OHM-WETH LP",
-  icons: ["OHM", "wETH"],
-  factory: PairContract__factory,
-  tokens: [OHM_TOKEN, WETH_TOKEN],
-  addresses: OHM_WETH_LP_ADDRESSES,
-  purchaseUrl:
-    "https://app.sushi.com/add/0x64aa3364F17a4D01c6f1751Fd97C2BD3D7e7f1D5/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-});
-
-export const OHM_LUSD_LP_TOKEN = new LPToken({
-  decimals: 18,
-  name: "OHM-LUSD LP",
-  icons: ["OHM", "LUSD"],
-  factory: PairContract__factory,
-  tokens: [LUSD_TOKEN, OHM_TOKEN],
-  addresses: OHM_LUSD_LP_ADDRESSES,
-  purchaseUrl:
-    "https://app.sushi.com/add/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0/0x64aa3364F17a4D01c6f1751Fd97C2BD3D7e7f1D5",
-});
-
-export const OHM_DAI_LP_TOKEN = new LPToken({
+export const OHM_DAI_LP_TOKEN = new Token({
   decimals: 18,
   name: "OHM-DAI LP",
   icons: ["OHM", "DAI"],
   factory: PairContract__factory,
-  tokens: [OHM_TOKEN, DAI_TOKEN],
   addresses: OHM_DAI_LP_ADDRESSES,
   purchaseUrl:
     "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x6b175474e89094c44da98b954eedeac495271d0f",
 });
+
+OHM_DAI_LP_TOKEN.customPricingFunc = networkId =>
+  calculateUniOrSushiLPValue({ networkId, lpToken: OHM_DAI_LP_TOKEN, poolTokens: [OHM_TOKEN, DAI_TOKEN] });
 
 export const UST_TOKEN = new Token({
   icons: ["UST"],

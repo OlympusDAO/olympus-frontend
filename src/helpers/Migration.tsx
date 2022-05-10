@@ -12,6 +12,7 @@ export const formatCurrency = (c: number) => {
 
 export function useView() {
   const [view, setView] = React.useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeView: any = (_event: React.ChangeEvent<any>, newView: number) => {
     setView(newView);
   };

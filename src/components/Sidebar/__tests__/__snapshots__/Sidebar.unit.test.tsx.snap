@@ -52,7 +52,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                      href="/dashboard"
+                      href="#/dashboard"
                     >
                       <div
                         class="MuiBox-root MuiBox-root-7 link-container"
@@ -94,7 +94,7 @@ exports[`<Sidebar/> should render component 1`] = `
                         >
                           <a
                             class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                            href="/bonds"
+                            href="#/bonds"
                           >
                             <div
                               class="MuiBox-root MuiBox-root-12 link-container"
@@ -167,7 +167,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                      href="/stake"
+                      href="#/stake"
                     >
                       <div
                         class="MuiBox-root MuiBox-root-15 link-container"
@@ -196,7 +196,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                      href="/zap"
+                      href="#/zap"
                     >
                       <div
                         class="MuiBox-root MuiBox-root-18 link-container"
@@ -225,7 +225,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                      href="/give"
+                      href="#/give"
                     >
                       <div
                         class="MuiBox-root MuiBox-root-21 link-container"
@@ -254,7 +254,7 @@ exports[`<Sidebar/> should render component 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
-                      href="/wrap"
+                      href="#/wrap"
                     >
                       <div
                         class="MuiBox-root MuiBox-root-24 link-container"

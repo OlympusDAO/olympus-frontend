@@ -1,7 +1,7 @@
 import { Box, Fade, Link, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { FC } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet, Route, Routes } from "react-router-dom";
 
 import Faq from "./Faq";
 import News from "./News";
@@ -28,15 +28,14 @@ export interface OHMInfoProps {
 /**
  * Component for Displaying Info
  */
-const Info: FC<OHMInfoProps> = (props: { path?: string }) => {
+const Info: FC<OHMInfoProps> = () => {
   const classes = useStyles();
-
-  return (
+  const Container = () => (
     <>
       <Fade in={true}>
         <Box display="flex" flexDirection="row" className={classes.tabNav} pt="18px" mb="18px">
           {!process.env.REACT_APP_DISABLE_NEWS && (
-            <Link component={NavLink} to="/info" exact>
+            <Link component={NavLink} to="/info">
               News
             </Link>
           )}
@@ -48,18 +47,18 @@ const Info: FC<OHMInfoProps> = (props: { path?: string }) => {
           </Link>
         </Box>
       </Fade>
-      {(() => {
-        switch (props.path) {
-          case "news":
-            return <News />;
-          case "proposals":
-            return <Proposals />;
-          case "faq":
-            return <Faq />;
-          default:
-            return <News />;
-        }
-      })()}
+      <Outlet />
+    </>
+  );
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Container />}>
+          <Route path="news" element={<News />} />
+          <Route path="proposals" element={<Proposals />} />
+          <Route path="faq" element={<Faq />} />
+        </Route>
+      </Routes>
     </>
   );
 };
