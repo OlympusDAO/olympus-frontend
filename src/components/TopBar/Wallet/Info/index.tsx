@@ -1,7 +1,8 @@
 import { Box, Fade, Link, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { FC } from "react";
-import { NavLink, Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, NavLink, Outlet, Route, Routes, useLocation } from "react-router-dom";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import Faq from "./Faq";
 import News from "./News";
@@ -10,7 +11,7 @@ import { Proposals } from "./Proposals";
 /**
  * Component for displaying info
  */
-export const Info: FC<{ path?: string }> = () => (
+export const Info: FC = () => (
   <>
     <Routes>
       <Route path="/" element={<InfoContainer />}>
@@ -38,24 +39,29 @@ const useStyles = makeStyles<Theme>(theme => ({
 
 const InfoContainer = () => {
   const classes = useStyles();
+  const { pathname } = useLocation();
 
   return (
     <>
-      <Fade in={true}>
+      <Fade in>
         <Box display="flex" flexDirection="row" className={classes.tabNav} pt="18px" mb="18px">
-          {!process.env.REACT_APP_DISABLE_NEWS && (
-            <Link component={NavLink} to="/info">
+          {Environment.isWalletNewsEnabled() && (
+            <Link component={NavLink} to="/info/news">
               News
             </Link>
           )}
+
           <Link component={NavLink} to="/info/proposals">
             Votes
           </Link>
+
           <Link component={NavLink} to="/info/faq">
             FAQ
           </Link>
         </Box>
       </Fade>
+
+      {pathname === "/info" && <Navigate to={Environment.isWalletNewsEnabled() ? "news" : "proposals"} />}
 
       <Outlet />
     </>

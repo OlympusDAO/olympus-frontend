@@ -156,7 +156,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
                 case "calculator":
                   return <Calculator />;
                 case "info":
-                  return <Info path={id} />;
+                  return <Info />;
                 case "utility":
                   return <GetOhm />;
                 case "wallet":

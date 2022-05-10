@@ -8,7 +8,7 @@ import { ActiveProposals } from "../queries";
 /**
  * Component for displaying proposals
  */
-export const Proposals: FC<{ path?: string }> = () => {
+export const Proposals: FC = () => {
   const { data, isFetched } = ActiveProposals();
 
   const truncate = (str: string) => {
