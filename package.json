@@ -40,7 +40,7 @@
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.61",
     "@multifarm/widget": "^0.0.125",
-    "@olympusdao/component-library": "^1.11.1",
+    "@olympusdao/component-library": "^1.11.2",
     "@reduxjs/toolkit": "^1.8.1",
     "@types/material-ui": "^0.21.12",
     "@walletconnect/web3-provider": "^1.7.5",
