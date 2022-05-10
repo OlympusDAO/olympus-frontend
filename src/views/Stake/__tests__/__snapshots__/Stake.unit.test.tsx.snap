@@ -70,22 +70,22 @@ exports[`<Stake/> should render component 1`] = `
                       class="makeStyles-root-9 stake-apy"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-10"
+                        class="MuiBox-root MuiBox-root-12"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root makeStyles-label-10 MuiTypography-body1 MuiTypography-colorTextSecondary"
                         >
                           APY
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root makeStyles-metric-11 MuiTypography-body1"
                           style="width: 100%;"
                         >
                           <span
                             class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -96,22 +96,22 @@ exports[`<Stake/> should render component 1`] = `
                       class="makeStyles-root-9 stake-tvl"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-11"
+                        class="MuiBox-root MuiBox-root-13"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root makeStyles-label-10 MuiTypography-body1 MuiTypography-colorTextSecondary"
                         >
                           Total Value Deposited
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root makeStyles-metric-11 MuiTypography-body1"
                           style="width: 100%;"
                         >
                           <span
                             class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -122,18 +122,18 @@ exports[`<Stake/> should render component 1`] = `
                       class="makeStyles-root-9 stake-index"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-12"
+                        class="MuiBox-root MuiBox-root-14"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root makeStyles-label-10 MuiTypography-body1 MuiTypography-colorTextSecondary"
                         >
                           Current Index
                           <div
-                            class="MuiBox-root MuiBox-root-13"
-                            style="font-size: 16px;"
+                            class="MuiBox-root MuiBox-root-15"
+                            style="font-size: 14px;"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-14"
+                              class="MuiBox-root MuiBox-root-16"
                               style="display: inline-flex; justify-content: center; align-self: center;"
                             >
                               <svg
@@ -149,16 +149,16 @@ exports[`<Stake/> should render component 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root makeStyles-metric-11 MuiTypography-body1"
                           style="width: 100%;"
                         >
                           <span
                             class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -167,13 +167,13 @@ exports[`<Stake/> should render component 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-16"
+            class="MuiBox-root MuiBox-root-18"
           >
             <div
-              class="MuiBox-root MuiBox-root-17"
+              class="MuiBox-root MuiBox-root-19"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-18 makeStyles-root-19 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-20 makeStyles-root-21 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
                 style="font-size: 1.2857rem;"
                 tabindex="0"
                 type="button"
@@ -195,7 +195,7 @@ exports[`<Stake/> should render component 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root makeStyles-root-1 makeStyles-root-24  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-26  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -205,10 +205,10 @@ exports[`<Stake/> should render component 1`] = `
           class="MuiGrid-root card-header MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-25"
+            class="MuiBox-root MuiBox-root-27"
           >
             <div
-              class="MuiBox-root MuiBox-root-26"
+              class="MuiBox-root MuiBox-root-28"
             >
               <h5
                 class="MuiTypography-root header-text MuiTypography-h5"
@@ -229,7 +229,7 @@ exports[`<Stake/> should render component 1`] = `
             style="table-layout: fixed;"
           >
             <thead
-              class="MuiTableHead-root makeStyles-stakePoolHeaderText-21"
+              class="MuiTableHead-root makeStyles-stakePoolHeaderText-23"
             >
               <tr
                 class="MuiTableRow-root MuiTableRow-head"
@@ -265,11 +265,11 @@ exports[`<Stake/> should render component 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-27"
+                  class="MuiBox-root MuiBox-root-29"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-28"
+                    class="MuiBox-root MuiBox-root-30"
                   >
                     <svg
                       aria-hidden="true"
@@ -717,7 +717,7 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-30 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-32 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://app.sushi.com/farm?filter=2x"
                   tabindex="0"
                   target="_blank"
@@ -754,11 +754,11 @@ exports[`<Stake/> should render component 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-31"
+                  class="MuiBox-root MuiBox-root-33"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-32"
+                    class="MuiBox-root MuiBox-root-34"
                   >
                     <svg
                       aria-hidden="true"
@@ -910,7 +910,7 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-33 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-35 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://app.sushi.com/farm?filter=2x"
                   tabindex="0"
                   target="_blank"
@@ -947,11 +947,11 @@ exports[`<Stake/> should render component 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-34"
+                  class="MuiBox-root MuiBox-root-36"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-35"
+                    class="MuiBox-root MuiBox-root-37"
                   >
                     <svg
                       aria-hidden="true"
@@ -1077,7 +1077,7 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-36 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-38 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                   tabindex="0"
                   target="_blank"
@@ -1114,11 +1114,11 @@ exports[`<Stake/> should render component 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-37"
+                  class="MuiBox-root MuiBox-root-39"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-38"
+                    class="MuiBox-root MuiBox-root-40"
                   >
                     <svg
                       aria-hidden="true"
@@ -1308,7 +1308,7 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-39 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-41 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://app.spiritswap.finance/#/farms/allfarms"
                   tabindex="0"
                   target="_blank"
@@ -1345,11 +1345,11 @@ exports[`<Stake/> should render component 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-40"
+                  class="MuiBox-root MuiBox-root-42"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-41"
+                    class="MuiBox-root MuiBox-root-43"
                   >
                     <svg
                       aria-hidden="true"
@@ -1539,7 +1539,7 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-42 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-44 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
                   tabindex="0"
                   target="_blank"
@@ -1576,11 +1576,11 @@ exports[`<Stake/> should render component 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-43"
+                  class="MuiBox-root MuiBox-root-45"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-44"
+                    class="MuiBox-root MuiBox-root-46"
                   >
                     <svg
                       aria-hidden="true"
@@ -1742,7 +1742,7 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-45 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-47 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1"
                   tabindex="0"
                   target="_blank"
@@ -1779,11 +1779,11 @@ exports[`<Stake/> should render component 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-46"
+                  class="MuiBox-root MuiBox-root-48"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-47"
+                    class="MuiBox-root MuiBox-root-49"
                   >
                     <svg
                       aria-hidden="true"
@@ -2317,7 +2317,7 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-48 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-50 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://jonesdao.io/farms"
                   tabindex="0"
                   target="_blank"
@@ -2354,11 +2354,11 @@ exports[`<Stake/> should render component 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-49"
+                  class="MuiBox-root MuiBox-root-51"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-50"
+                    class="MuiBox-root MuiBox-root-52"
                   >
                     <svg
                       aria-hidden="true"
@@ -2531,7 +2531,7 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-51 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-53 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
                   tabindex="0"
                   target="_blank"
@@ -2568,11 +2568,11 @@ exports[`<Stake/> should render component 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-52"
+                  class="MuiBox-root MuiBox-root-54"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-53"
+                    class="MuiBox-root MuiBox-root-55"
                   >
                     <svg
                       aria-hidden="true"
@@ -2761,7 +2761,7 @@ exports[`<Stake/> should render component 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-54 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-56 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://oolongswap.com/#/farm/lp"
                   tabindex="0"
                   target="_blank"
@@ -2804,7 +2804,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root makeStyles-root-55 makeStyles-root-56  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-57 makeStyles-root-58  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -2814,10 +2814,10 @@ exports[`<Stake/> should render correct staking headers 1`] = `
           class="MuiGrid-root card-header MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-57"
+            class="MuiBox-root MuiBox-root-59"
           >
             <div
-              class="MuiBox-root MuiBox-root-58"
+              class="MuiBox-root MuiBox-root-60"
             >
               <h5
                 class="MuiTypography-root header-text MuiTypography-h5"
@@ -2830,10 +2830,10 @@ exports[`<Stake/> should render correct staking headers 1`] = `
             />
           </div>
           <div
-            class="MuiBox-root MuiBox-root-59"
+            class="MuiBox-root MuiBox-root-61"
           >
             <div
-              class="MuiBox-root MuiBox-root-60 rebase-timer"
+              class="MuiBox-root MuiBox-root-62 rebase-timer"
             >
               <p
                 class="MuiTypography-root MuiTypography-body2"
@@ -2850,13 +2850,13 @@ exports[`<Stake/> should render correct staking headers 1`] = `
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-61"
+            class="MuiBox-root MuiBox-root-63"
           >
             <div
               class="MuiGrid-root"
             >
               <div
-                class="MuiBox-root MuiBox-root-62"
+                class="MuiBox-root MuiBox-root-64"
               >
                 <div
                   class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
@@ -2865,25 +2865,25 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="makeStyles-root-63 stake-apy"
+                      class="makeStyles-root-65 stake-apy"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-64"
+                        class="MuiBox-root MuiBox-root-68"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root makeStyles-label-66 MuiTypography-body1 MuiTypography-colorTextSecondary"
                         >
                           APY
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root makeStyles-metric-67 MuiTypography-body1"
                           style="width: 100%;"
                         >
                           <span
                             class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -2891,25 +2891,25 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="makeStyles-root-63 stake-tvl"
+                      class="makeStyles-root-65 stake-tvl"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-65"
+                        class="MuiBox-root MuiBox-root-69"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root makeStyles-label-66 MuiTypography-body1 MuiTypography-colorTextSecondary"
                         >
                           Total Value Deposited
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root makeStyles-metric-67 MuiTypography-body1"
                           style="width: 100%;"
                         >
                           <span
                             class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -2917,21 +2917,21 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
                   >
                     <div
-                      class="makeStyles-root-63 stake-index"
+                      class="makeStyles-root-65 stake-index"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-66"
+                        class="MuiBox-root MuiBox-root-70"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root makeStyles-label-66 MuiTypography-body1 MuiTypography-colorTextSecondary"
                         >
                           Current Index
                           <div
-                            class="MuiBox-root MuiBox-root-67"
-                            style="font-size: 16px;"
+                            class="MuiBox-root MuiBox-root-71"
+                            style="font-size: 14px;"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-68"
+                              class="MuiBox-root MuiBox-root-72"
                               style="display: inline-flex; justify-content: center; align-self: center;"
                             >
                               <svg
@@ -2947,16 +2947,16 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root makeStyles-metric-67 MuiTypography-body1"
                           style="width: 100%;"
                         >
                           <span
                             class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -2965,13 +2965,13 @@ exports[`<Stake/> should render correct staking headers 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-70"
+            class="MuiBox-root MuiBox-root-74"
           >
             <div
-              class="MuiBox-root MuiBox-root-71"
+              class="MuiBox-root MuiBox-root-75"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-72 makeStyles-root-73 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-76 makeStyles-root-77 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
                 style="font-size: 1.2857rem;"
                 tabindex="0"
                 type="button"
@@ -2993,7 +2993,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root makeStyles-root-55 makeStyles-root-78  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-57 makeStyles-root-82  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -3003,10 +3003,10 @@ exports[`<Stake/> should render correct staking headers 1`] = `
           class="MuiGrid-root card-header MuiGrid-item"
         >
           <div
-            class="MuiBox-root MuiBox-root-79"
+            class="MuiBox-root MuiBox-root-83"
           >
             <div
-              class="MuiBox-root MuiBox-root-80"
+              class="MuiBox-root MuiBox-root-84"
             >
               <h5
                 class="MuiTypography-root header-text MuiTypography-h5"
@@ -3027,7 +3027,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
             style="table-layout: fixed;"
           >
             <thead
-              class="MuiTableHead-root makeStyles-stakePoolHeaderText-75"
+              class="MuiTableHead-root makeStyles-stakePoolHeaderText-79"
             >
               <tr
                 class="MuiTableRow-root MuiTableRow-head"
@@ -3055,495 +3055,6 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 </th>
               </tr>
             </thead>
-            <tr
-              class="MuiTableRow-root"
-            >
-              <td
-                class="MuiTableCell-root"
-                style="padding: 8px 0px;"
-              >
-                <div
-                  class="MuiBox-root MuiBox-root-81"
-                  style="white-space: nowrap;"
-                >
-                  <div
-                    class="MuiBox-root MuiBox-root-82"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
-                      focusable="false"
-                      style="z-index: 1;"
-                      viewBox="0 0 32 32"
-                    >
-                      <defs>
-                        <lineargradient
-                          gradientTransform="matrix(0.177778, 0, 0, 0.177778, 1.777779, 1.777779)"
-                          gradientUnits="userSpaceOnUse"
-                          id="paint0_linear_359"
-                          x1="80"
-                          x2="80"
-                          y1="-84"
-                          y2="256"
-                        >
-                          <stop
-                            offset="0.1949"
-                            stop-color="#708B96"
-                          />
-                          <stop
-                            offset="1"
-                            stop-color="#F7FBE7"
-                          />
-                        </lineargradient>
-                      </defs>
-                      <path
-                        d="M 1.778 16 C 1.778 8.145 8.145 1.778 16 1.778 C 23.855 1.778 30.222 8.145 30.222 16 C 30.222 23.855 23.855 30.222 16 30.222 C 8.145 30.222 1.778 23.855 1.778 16 Z"
-                        fill="#fff"
-                      />
-                      <rect
-                        fill="#fff"
-                        height="12.516"
-                        width="12.516"
-                        x="9.742"
-                        y="9.771"
-                      />
-                      <path
-                        clip-rule="evenodd"
-                        d="M 14.635 22.286 L 14.635 19.916 C 12.852 19.355 11.563 17.725 11.563 15.801 C 11.563 13.413 13.549 11.477 16 11.477 C 18.451 11.477 20.437 13.413 20.437 15.801 C 20.437 17.725 19.148 19.355 17.365 19.916 L 17.365 21.658 L 17.365 22.258 L 17.365 22.286 L 22.258 22.286 L 22.258 20.523 L 19.842 20.523 C 21.295 19.421 22.229 17.709 22.229 15.787 C 22.229 12.464 19.44 9.771 16 9.771 C 12.56 9.771 9.771 12.464 9.771 15.787 C 9.771 17.709 10.705 19.421 12.158 20.523 L 9.742 20.523 L 9.742 22.286 Z"
-                        fill="#708b96"
-                        fill-rule="evenodd"
-                      />
-                      <path
-                        d="M 16 28.444 C 9.127 28.444 3.556 22.873 3.556 16 L 0 16 C 0 24.837 7.163 32 16 32 Z M 28.444 16 C 28.444 22.873 22.873 28.444 16 28.444 L 16 32 C 24.837 32 32 24.837 32 16 Z M 16 3.556 C 22.873 3.556 28.444 9.127 28.444 16 L 32 16 C 32 7.163 24.837 0 16 0 Z M 16 0 C 7.163 0 0 7.163 0 16 L 3.556 16 C 3.556 9.127 9.127 3.556 16 3.556 Z"
-                        fill="url(#paint0_linear_359)"
-                      />
-                    </svg>
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
-                      focusable="false"
-                      style="margin-left: -6px; z-index: 1;"
-                      viewBox="0 0 32 32"
-                    >
-                      <circle
-                        cx="16"
-                        cy="16"
-                        fill="#fff"
-                        r="15"
-                        stroke="url(#wETH_svg__a)"
-                        stroke-width="2"
-                      />
-                      <path
-                        clip-rule="evenodd"
-                        d="M16.25 20.976 10 17.349 16.25 26V26l6.253-8.65-6.253 3.626Z"
-                        fill="#708B96"
-                        fill-rule="evenodd"
-                      />
-                      <path
-                        clip-rule="evenodd"
-                        d="m16.25 6 6.248 10.186-6.248-2.793L10 16.186 16.25 6Zm0 7.395L10 16.185l6.25 3.629 6.248-3.628-6.248-2.791Z"
-                        fill="#424242"
-                        fill-rule="evenodd"
-                      />
-                      <defs>
-                        <lineargradient
-                          gradientUnits="userSpaceOnUse"
-                          id="wETH_svg__a"
-                          x1="16"
-                          x2="16"
-                          y1="0"
-                          y2="32"
-                        >
-                          <stop
-                            stop-color="#444243"
-                          />
-                          <stop
-                            offset="1"
-                            stop-color="#708B96"
-                          />
-                        </lineargradient>
-                      </defs>
-                    </svg>
-                  </div>
-                  <p
-                    class="MuiTypography-root MuiTypography-body1"
-                    style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
-                  >
-                    gOHM-wETH
-                  </p>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
-                    focusable="false"
-                    style="font-size: 15px;"
-                    viewBox="0 0 32 32"
-                  >
-                    <ellipse
-                      cx="16"
-                      cy="16"
-                      rx="15.442"
-                      ry="15.442"
-                      style="fill: rgb(44, 55, 76);"
-                    />
-                    <g
-                      id="Background"
-                      transform="matrix(0.063934, 0, 0, 0.063934, 0, 0)"
-                    />
-                    <g
-                      id="Logos_and_symbols"
-                      transform="matrix(0.055939, 0, 0, 0.055939, 2.774117, 1.580833)"
-                    >
-                      <g
-                        id="SYMBOL_VER_3"
-                      />
-                      <g
-                        id="SYMBOL_VER_3_3_"
-                      />
-                      <g
-                        id="SYMBOL_VER_4"
-                      />
-                      <g
-                        id="SYMBOL_VER_4_1_"
-                      >
-                        <g
-                          id="SYMBOL_VER_4_3_"
-                        />
-                      </g>
-                      <g
-                        id="SYMBOL_VER_5_1_"
-                      />
-                      <g
-                        id="off_2_1_"
-                      />
-                      <g
-                        id="VER_3_1_"
-                      >
-                        <g
-                          id="SYMBOL_VER_2_1_"
-                        />
-                      </g>
-                      <g
-                        id="VER_3"
-                      >
-                        <g
-                          id="SYMBOL_VER_2"
-                        />
-                      </g>
-                      <g
-                        id="off_2"
-                      />
-                      <g
-                        id="SYMBOL_VER_5"
-                      />
-                      <g
-                        id="SYMBOL_VER_1"
-                      />
-                      <g
-                        id="SYMBOL_VER_1_1_"
-                      />
-                      <g
-                        id="SYMBOL_VER_1-1_3_"
-                      />
-                      <g
-                        id="SYMBOL_VER_1-1_2_"
-                      />
-                      <g
-                        id="SYMBOL_VER_1-1"
-                      />
-                      <g
-                        id="SYMBOL_VER_1-1_1_"
-                      >
-                        <g
-                          id="_x31_-3"
-                        />
-                        <g
-                          id="Symbol_-_Original_14_"
-                        >
-                          <path
-                            d="M291.134,237.469l35.654-60.5l96.103,149.684l0.046,28.727l-0.313-197.672
-      c-0.228-4.832-2.794-9.252-6.887-11.859L242.715,46.324c-4.045-1.99-9.18-1.967-13.22,0.063c-0.546,0.272-1.06,0.57-1.548,0.895
-      l-0.604,0.379L59.399,144.983l-0.651,0.296c-0.838,0.385-1.686,0.875-2.48,1.444c-3.185,2.283-5.299,5.66-5.983,9.448
-      c-0.103,0.574-0.179,1.158-0.214,1.749l0.264,161.083l89.515-138.745c11.271-18.397,35.825-24.323,58.62-24.001l26.753,0.706
-      L67.588,409.765l18.582,10.697L245.692,157.22l70.51-0.256L157.091,426.849l66.306,38.138l7.922,4.556
-      c3.351,1.362,7.302,1.431,10.681,0.21l175.453-101.678l-33.544,19.438L291.134,237.469z M304.736,433.395l-66.969-105.108
-      l40.881-69.371l87.952,138.628L304.736,433.395z"
-                            fill="#2D374B"
-                          />
-                          <polygon
-                            fill="#28A0F0"
-                            points="237.768,328.286 304.736,433.395 366.601,397.543 278.648,258.915 			"
-                          />
-                          <path
-                            d="M422.937,355.379l-0.046-28.727l-96.103-149.684l-35.654,60.5l92.774,150.043l33.544-19.438
-      c3.29-2.673,5.281-6.594,5.49-10.825L422.937,355.379z"
-                            fill="#28A0F0"
-                          />
-                          <path
-                            d="M20.219,382.469l47.369,27.296l157.634-252.801l-26.753-0.706c-22.795-0.322-47.35,5.604-58.62,24.001
-      L50.334,319.004l-30.115,46.271V382.469z"
-                            fill="#FFFFFF"
-                          />
-                          <polygon
-                            fill="#FFFFFF"
-                            points="316.202,156.964 245.692,157.22 86.17,420.462 141.928,452.565 157.091,426.849 			"
-                          />
-                          <path
-                            d="M452.65,156.601c-0.59-14.746-8.574-28.245-21.08-36.104L256.28,19.692
-      c-12.371-6.229-27.825-6.237-40.218-0.004c-1.465,0.739-170.465,98.752-170.465,98.752c-2.339,1.122-4.592,2.458-6.711,3.975
-      c-11.164,8.001-17.969,20.435-18.668,34.095v208.765l30.115-46.271L50.07,157.921c0.035-0.589,0.109-1.169,0.214-1.741
-      c0.681-3.79,2.797-7.171,5.983-9.456c0.795-0.569,172.682-100.064,173.228-100.337c4.04-2.029,9.175-2.053,13.22-0.063
-      l173.022,99.523c4.093,2.607,6.659,7.027,6.887,11.859v199.542c-0.209,4.231-1.882,8.152-5.172,10.825l-33.544,19.438
-      l-17.308,10.031l-61.864,35.852l-62.737,36.357c-3.379,1.221-7.33,1.152-10.681-0.21l-74.228-42.693l-15.163,25.717
-      l66.706,38.406c2.206,1.255,4.171,2.367,5.784,3.272c2.497,1.4,4.199,2.337,4.8,2.629c4.741,2.303,11.563,3.643,17.71,3.643
-      c5.636,0,11.132-1.035,16.332-3.072l182.225-105.531c10.459-8.104,16.612-20.325,17.166-33.564V156.601z"
-                            fill="#96BEDC"
-                          />
-                        </g>
-                        <g
-                          id="Symbol_-_Original_13_"
-                        />
-                        <g
-                          id="Symbol_-_Original_6_"
-                        />
-                        <g
-                          id="Symbol_-_Original_4_"
-                        />
-                        <g
-                          id="One_color_version_-_White_3_"
-                        >
-                          <g
-                            id="Symbol_-_Original_15_"
-                          />
-                        </g>
-                        <g
-                          id="One_color_version_-_White"
-                        >
-                          <g
-                            id="Symbol_-_Original"
-                          />
-                        </g>
-                        <g
-                          id="Symbol_-_Monochromatic_3_"
-                        >
-                          <g
-                            id="_x33__7_"
-                          />
-                        </g>
-                        <g
-                          id="Symbol_-_Monochromatic"
-                        >
-                          <g
-                            id="_x33__3_"
-                          />
-                        </g>
-                        <g
-                          id="_x33__2_"
-                        />
-                        <g
-                          id="_x33__1_"
-                        />
-                        <g
-                          id="_x33_"
-                        />
-                        <g
-                          id="Symbol_-_Original_10_"
-                        />
-                        <g
-                          id="Symbol_-_Original_1_"
-                        />
-                        <g
-                          id="Symbol_-_Original_2_"
-                        />
-                        <g
-                          id="_x34__1_"
-                        />
-                        <g
-                          id="Symbol_-_Monochromatic_2_"
-                        >
-                          <g
-                            id="_x33__6_"
-                          />
-                        </g>
-                        <g
-                          id="One_color_version_-_White_2_"
-                        >
-                          <g
-                            id="Symbol_-_Original_11_"
-                          />
-                        </g>
-                        <g
-                          id="Symbol_-_Original_5_"
-                        >
-                          <g
-                            id="Symbol_-_Original_12_"
-                          />
-                        </g>
-                        <g
-                          id="One_color_version_-_White_1_"
-                        >
-                          <g
-                            id="Symbol_-_Original_9_"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="SYMBOL_VER_1_2_"
-                      >
-                        <g
-                          id="SYMBOL_VER_2_4_"
-                        />
-                        <g
-                          id="SYMBOL_VER_2-1-1_1_"
-                        />
-                        <g
-                          id="SYMBOL_VER_2-2-1_1_"
-                        />
-                        <g
-                          id="SYMBOL_VER_2-3-1_4_"
-                        />
-                        <g
-                          id="New_Symbol_1_"
-                        >
-                          <g
-                            id="SYMBOL_VER_2-3-1_3_"
-                          />
-                        </g>
-                        <g
-                          id="New_Symbol"
-                        >
-                          <g
-                            id="SYMBOL_VER_2-3-1_1_"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="SYMBOL_VER_2_2_"
-                      />
-                      <g
-                        id="SYMBOL_VER_4_2_"
-                      />
-                      <g
-                        id="SYMBOL_VER_3_2_"
-                      />
-                      <g
-                        id="SYMBOL_VER_3_1_"
-                      />
-                      <g
-                        id="SYMBOL_VER_1-1-1_1_"
-                      />
-                      <g
-                        id="SYMBOL_VER_1-1-1"
-                      />
-                      <g
-                        id="SYMBOL_VER_1-1-1_2_2_"
-                      />
-                      <g
-                        id="SYMBOL_VER_1-1-1_2"
-                      />
-                      <g
-                        id="SYMBOL_VER_1-1-1_2_1_"
-                      />
-                      <g
-                        id="Symbol_-_Original_7_"
-                      />
-                      <g
-                        id="Symbol_-_Original_8_"
-                      />
-                      <g
-                        id="SYMBOL_VER_2-1-1"
-                      />
-                      <g
-                        id="SYMBOL_VER_2-2-1"
-                      />
-                      <g
-                        id="SYMBOL_VER_2-3-1"
-                      />
-                      <g
-                        id="SYMBOL_VER_5-1_1_"
-                      />
-                      <g
-                        id="SYMBOL_VER_5-1"
-                      />
-                      <g
-                        id="SYMBOL_VER_5-2_1_"
-                      />
-                      <g
-                        id="SYMBOL_VER_5-2"
-                      />
-                      <g
-                        id="Symbol_-_Monochromatic_1_"
-                      >
-                        <g
-                          id="_x33__4_"
-                        />
-                      </g>
-                    </g>
-                  </svg>
-                </div>
-              </td>
-              <td
-                class="MuiTableCell-root"
-                style="padding: 8px 0px;"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body1"
-                  style="line-height: 1.4;"
-                >
-                  <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 60px;"
-                  />
-                </p>
-              </td>
-              <td
-                class="MuiTableCell-root"
-                style="padding: 8px 0px;"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body1"
-                  style="line-height: 1.4;"
-                >
-                  <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-                    style="width: 60px;"
-                  />
-                </p>
-              </td>
-              <td
-                class="MuiTableCell-root"
-                style="padding: 8px 0px;"
-              >
-                <a
-                  aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-72 makeStyles-root-84 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
-                  href="https://app.sushi.com/farm?filter=2x"
-                  tabindex="0"
-                  target="_blank"
-                >
-                  <span
-                    class="MuiButton-label"
-                  >
-                    Stake on
-                     
-                    Sushi
-                    <span
-                      class="MuiButton-endIcon MuiButton-iconSizeSmall"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
-                        focusable="false"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
-                        />
-                      </svg>
-                    </span>
-                  </span>
-                </a>
-              </td>
-            </tr>
             <tr
               class="MuiTableRow-root"
             >
@@ -3667,6 +3178,495 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                     style="font-size: 15px;"
                     viewBox="0 0 32 32"
                   >
+                    <ellipse
+                      cx="16"
+                      cy="16"
+                      rx="15.442"
+                      ry="15.442"
+                      style="fill: rgb(44, 55, 76);"
+                    />
+                    <g
+                      id="Background"
+                      transform="matrix(0.063934, 0, 0, 0.063934, 0, 0)"
+                    />
+                    <g
+                      id="Logos_and_symbols"
+                      transform="matrix(0.055939, 0, 0, 0.055939, 2.774117, 1.580833)"
+                    >
+                      <g
+                        id="SYMBOL_VER_3"
+                      />
+                      <g
+                        id="SYMBOL_VER_3_3_"
+                      />
+                      <g
+                        id="SYMBOL_VER_4"
+                      />
+                      <g
+                        id="SYMBOL_VER_4_1_"
+                      >
+                        <g
+                          id="SYMBOL_VER_4_3_"
+                        />
+                      </g>
+                      <g
+                        id="SYMBOL_VER_5_1_"
+                      />
+                      <g
+                        id="off_2_1_"
+                      />
+                      <g
+                        id="VER_3_1_"
+                      >
+                        <g
+                          id="SYMBOL_VER_2_1_"
+                        />
+                      </g>
+                      <g
+                        id="VER_3"
+                      >
+                        <g
+                          id="SYMBOL_VER_2"
+                        />
+                      </g>
+                      <g
+                        id="off_2"
+                      />
+                      <g
+                        id="SYMBOL_VER_5"
+                      />
+                      <g
+                        id="SYMBOL_VER_1"
+                      />
+                      <g
+                        id="SYMBOL_VER_1_1_"
+                      />
+                      <g
+                        id="SYMBOL_VER_1-1_3_"
+                      />
+                      <g
+                        id="SYMBOL_VER_1-1_2_"
+                      />
+                      <g
+                        id="SYMBOL_VER_1-1"
+                      />
+                      <g
+                        id="SYMBOL_VER_1-1_1_"
+                      >
+                        <g
+                          id="_x31_-3"
+                        />
+                        <g
+                          id="Symbol_-_Original_14_"
+                        >
+                          <path
+                            d="M291.134,237.469l35.654-60.5l96.103,149.684l0.046,28.727l-0.313-197.672
+      c-0.228-4.832-2.794-9.252-6.887-11.859L242.715,46.324c-4.045-1.99-9.18-1.967-13.22,0.063c-0.546,0.272-1.06,0.57-1.548,0.895
+      l-0.604,0.379L59.399,144.983l-0.651,0.296c-0.838,0.385-1.686,0.875-2.48,1.444c-3.185,2.283-5.299,5.66-5.983,9.448
+      c-0.103,0.574-0.179,1.158-0.214,1.749l0.264,161.083l89.515-138.745c11.271-18.397,35.825-24.323,58.62-24.001l26.753,0.706
+      L67.588,409.765l18.582,10.697L245.692,157.22l70.51-0.256L157.091,426.849l66.306,38.138l7.922,4.556
+      c3.351,1.362,7.302,1.431,10.681,0.21l175.453-101.678l-33.544,19.438L291.134,237.469z M304.736,433.395l-66.969-105.108
+      l40.881-69.371l87.952,138.628L304.736,433.395z"
+                            fill="#2D374B"
+                          />
+                          <polygon
+                            fill="#28A0F0"
+                            points="237.768,328.286 304.736,433.395 366.601,397.543 278.648,258.915 			"
+                          />
+                          <path
+                            d="M422.937,355.379l-0.046-28.727l-96.103-149.684l-35.654,60.5l92.774,150.043l33.544-19.438
+      c3.29-2.673,5.281-6.594,5.49-10.825L422.937,355.379z"
+                            fill="#28A0F0"
+                          />
+                          <path
+                            d="M20.219,382.469l47.369,27.296l157.634-252.801l-26.753-0.706c-22.795-0.322-47.35,5.604-58.62,24.001
+      L50.334,319.004l-30.115,46.271V382.469z"
+                            fill="#FFFFFF"
+                          />
+                          <polygon
+                            fill="#FFFFFF"
+                            points="316.202,156.964 245.692,157.22 86.17,420.462 141.928,452.565 157.091,426.849 			"
+                          />
+                          <path
+                            d="M452.65,156.601c-0.59-14.746-8.574-28.245-21.08-36.104L256.28,19.692
+      c-12.371-6.229-27.825-6.237-40.218-0.004c-1.465,0.739-170.465,98.752-170.465,98.752c-2.339,1.122-4.592,2.458-6.711,3.975
+      c-11.164,8.001-17.969,20.435-18.668,34.095v208.765l30.115-46.271L50.07,157.921c0.035-0.589,0.109-1.169,0.214-1.741
+      c0.681-3.79,2.797-7.171,5.983-9.456c0.795-0.569,172.682-100.064,173.228-100.337c4.04-2.029,9.175-2.053,13.22-0.063
+      l173.022,99.523c4.093,2.607,6.659,7.027,6.887,11.859v199.542c-0.209,4.231-1.882,8.152-5.172,10.825l-33.544,19.438
+      l-17.308,10.031l-61.864,35.852l-62.737,36.357c-3.379,1.221-7.33,1.152-10.681-0.21l-74.228-42.693l-15.163,25.717
+      l66.706,38.406c2.206,1.255,4.171,2.367,5.784,3.272c2.497,1.4,4.199,2.337,4.8,2.629c4.741,2.303,11.563,3.643,17.71,3.643
+      c5.636,0,11.132-1.035,16.332-3.072l182.225-105.531c10.459-8.104,16.612-20.325,17.166-33.564V156.601z"
+                            fill="#96BEDC"
+                          />
+                        </g>
+                        <g
+                          id="Symbol_-_Original_13_"
+                        />
+                        <g
+                          id="Symbol_-_Original_6_"
+                        />
+                        <g
+                          id="Symbol_-_Original_4_"
+                        />
+                        <g
+                          id="One_color_version_-_White_3_"
+                        >
+                          <g
+                            id="Symbol_-_Original_15_"
+                          />
+                        </g>
+                        <g
+                          id="One_color_version_-_White"
+                        >
+                          <g
+                            id="Symbol_-_Original"
+                          />
+                        </g>
+                        <g
+                          id="Symbol_-_Monochromatic_3_"
+                        >
+                          <g
+                            id="_x33__7_"
+                          />
+                        </g>
+                        <g
+                          id="Symbol_-_Monochromatic"
+                        >
+                          <g
+                            id="_x33__3_"
+                          />
+                        </g>
+                        <g
+                          id="_x33__2_"
+                        />
+                        <g
+                          id="_x33__1_"
+                        />
+                        <g
+                          id="_x33_"
+                        />
+                        <g
+                          id="Symbol_-_Original_10_"
+                        />
+                        <g
+                          id="Symbol_-_Original_1_"
+                        />
+                        <g
+                          id="Symbol_-_Original_2_"
+                        />
+                        <g
+                          id="_x34__1_"
+                        />
+                        <g
+                          id="Symbol_-_Monochromatic_2_"
+                        >
+                          <g
+                            id="_x33__6_"
+                          />
+                        </g>
+                        <g
+                          id="One_color_version_-_White_2_"
+                        >
+                          <g
+                            id="Symbol_-_Original_11_"
+                          />
+                        </g>
+                        <g
+                          id="Symbol_-_Original_5_"
+                        >
+                          <g
+                            id="Symbol_-_Original_12_"
+                          />
+                        </g>
+                        <g
+                          id="One_color_version_-_White_1_"
+                        >
+                          <g
+                            id="Symbol_-_Original_9_"
+                          />
+                        </g>
+                      </g>
+                      <g
+                        id="SYMBOL_VER_1_2_"
+                      >
+                        <g
+                          id="SYMBOL_VER_2_4_"
+                        />
+                        <g
+                          id="SYMBOL_VER_2-1-1_1_"
+                        />
+                        <g
+                          id="SYMBOL_VER_2-2-1_1_"
+                        />
+                        <g
+                          id="SYMBOL_VER_2-3-1_4_"
+                        />
+                        <g
+                          id="New_Symbol_1_"
+                        >
+                          <g
+                            id="SYMBOL_VER_2-3-1_3_"
+                          />
+                        </g>
+                        <g
+                          id="New_Symbol"
+                        >
+                          <g
+                            id="SYMBOL_VER_2-3-1_1_"
+                          />
+                        </g>
+                      </g>
+                      <g
+                        id="SYMBOL_VER_2_2_"
+                      />
+                      <g
+                        id="SYMBOL_VER_4_2_"
+                      />
+                      <g
+                        id="SYMBOL_VER_3_2_"
+                      />
+                      <g
+                        id="SYMBOL_VER_3_1_"
+                      />
+                      <g
+                        id="SYMBOL_VER_1-1-1_1_"
+                      />
+                      <g
+                        id="SYMBOL_VER_1-1-1"
+                      />
+                      <g
+                        id="SYMBOL_VER_1-1-1_2_2_"
+                      />
+                      <g
+                        id="SYMBOL_VER_1-1-1_2"
+                      />
+                      <g
+                        id="SYMBOL_VER_1-1-1_2_1_"
+                      />
+                      <g
+                        id="Symbol_-_Original_7_"
+                      />
+                      <g
+                        id="Symbol_-_Original_8_"
+                      />
+                      <g
+                        id="SYMBOL_VER_2-1-1"
+                      />
+                      <g
+                        id="SYMBOL_VER_2-2-1"
+                      />
+                      <g
+                        id="SYMBOL_VER_2-3-1"
+                      />
+                      <g
+                        id="SYMBOL_VER_5-1_1_"
+                      />
+                      <g
+                        id="SYMBOL_VER_5-1"
+                      />
+                      <g
+                        id="SYMBOL_VER_5-2_1_"
+                      />
+                      <g
+                        id="SYMBOL_VER_5-2"
+                      />
+                      <g
+                        id="Symbol_-_Monochromatic_1_"
+                      >
+                        <g
+                          id="_x33__4_"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+              </td>
+              <td
+                class="MuiTableCell-root"
+                style="padding: 8px 0px;"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1"
+                  style="line-height: 1.4;"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                    style="width: 60px;"
+                  />
+                </p>
+              </td>
+              <td
+                class="MuiTableCell-root"
+                style="padding: 8px 0px;"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1"
+                  style="line-height: 1.4;"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                    style="width: 60px;"
+                  />
+                </p>
+              </td>
+              <td
+                class="MuiTableCell-root"
+                style="padding: 8px 0px;"
+              >
+                <a
+                  aria-disabled="false"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-76 makeStyles-root-88 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  href="https://app.sushi.com/farm?filter=2x"
+                  tabindex="0"
+                  target="_blank"
+                >
+                  <span
+                    class="MuiButton-label"
+                  >
+                    Stake on
+                     
+                    Sushi
+                    <span
+                      class="MuiButton-endIcon MuiButton-iconSizeSmall"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+                        focusable="false"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                </a>
+              </td>
+            </tr>
+            <tr
+              class="MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root"
+                style="padding: 8px 0px;"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-89"
+                  style="white-space: nowrap;"
+                >
+                  <div
+                    class="MuiBox-root MuiBox-root-90"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+                      focusable="false"
+                      style="z-index: 1;"
+                      viewBox="0 0 32 32"
+                    >
+                      <defs>
+                        <lineargradient
+                          gradientTransform="matrix(0.177778, 0, 0, 0.177778, 1.777779, 1.777779)"
+                          gradientUnits="userSpaceOnUse"
+                          id="paint0_linear_359"
+                          x1="80"
+                          x2="80"
+                          y1="-84"
+                          y2="256"
+                        >
+                          <stop
+                            offset="0.1949"
+                            stop-color="#708B96"
+                          />
+                          <stop
+                            offset="1"
+                            stop-color="#F7FBE7"
+                          />
+                        </lineargradient>
+                      </defs>
+                      <path
+                        d="M 1.778 16 C 1.778 8.145 8.145 1.778 16 1.778 C 23.855 1.778 30.222 8.145 30.222 16 C 30.222 23.855 23.855 30.222 16 30.222 C 8.145 30.222 1.778 23.855 1.778 16 Z"
+                        fill="#fff"
+                      />
+                      <rect
+                        fill="#fff"
+                        height="12.516"
+                        width="12.516"
+                        x="9.742"
+                        y="9.771"
+                      />
+                      <path
+                        clip-rule="evenodd"
+                        d="M 14.635 22.286 L 14.635 19.916 C 12.852 19.355 11.563 17.725 11.563 15.801 C 11.563 13.413 13.549 11.477 16 11.477 C 18.451 11.477 20.437 13.413 20.437 15.801 C 20.437 17.725 19.148 19.355 17.365 19.916 L 17.365 21.658 L 17.365 22.258 L 17.365 22.286 L 22.258 22.286 L 22.258 20.523 L 19.842 20.523 C 21.295 19.421 22.229 17.709 22.229 15.787 C 22.229 12.464 19.44 9.771 16 9.771 C 12.56 9.771 9.771 12.464 9.771 15.787 C 9.771 17.709 10.705 19.421 12.158 20.523 L 9.742 20.523 L 9.742 22.286 Z"
+                        fill="#708b96"
+                        fill-rule="evenodd"
+                      />
+                      <path
+                        d="M 16 28.444 C 9.127 28.444 3.556 22.873 3.556 16 L 0 16 C 0 24.837 7.163 32 16 32 Z M 28.444 16 C 28.444 22.873 22.873 28.444 16 28.444 L 16 32 C 24.837 32 32 24.837 32 16 Z M 16 3.556 C 22.873 3.556 28.444 9.127 28.444 16 L 32 16 C 32 7.163 24.837 0 16 0 Z M 16 0 C 7.163 0 0 7.163 0 16 L 3.556 16 C 3.556 9.127 9.127 3.556 16 3.556 Z"
+                        fill="url(#paint0_linear_359)"
+                      />
+                    </svg>
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+                      focusable="false"
+                      style="margin-left: -6px; z-index: 1;"
+                      viewBox="0 0 32 32"
+                    >
+                      <circle
+                        cx="16"
+                        cy="16"
+                        fill="#fff"
+                        r="15"
+                        stroke="url(#wETH_svg__a)"
+                        stroke-width="2"
+                      />
+                      <path
+                        clip-rule="evenodd"
+                        d="M16.25 20.976 10 17.349 16.25 26V26l6.253-8.65-6.253 3.626Z"
+                        fill="#708B96"
+                        fill-rule="evenodd"
+                      />
+                      <path
+                        clip-rule="evenodd"
+                        d="m16.25 6 6.248 10.186-6.248-2.793L10 16.186 16.25 6Zm0 7.395L10 16.185l6.25 3.629 6.248-3.628-6.248-2.791Z"
+                        fill="#424242"
+                        fill-rule="evenodd"
+                      />
+                      <defs>
+                        <lineargradient
+                          gradientUnits="userSpaceOnUse"
+                          id="wETH_svg__a"
+                          x1="16"
+                          x2="16"
+                          y1="0"
+                          y2="32"
+                        >
+                          <stop
+                            stop-color="#444243"
+                          />
+                          <stop
+                            offset="1"
+                            stop-color="#708B96"
+                          />
+                        </lineargradient>
+                      </defs>
+                    </svg>
+                  </div>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1"
+                    style="line-height: 1.4; margin-left: 10px; margin-right: 10px;"
+                  >
+                    gOHM-wETH
+                  </p>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+                    focusable="false"
+                    style="font-size: 15px;"
+                    viewBox="0 0 32 32"
+                  >
                     <path
                       d="M 24.23 10.528 C 23.645 10.194 22.893 10.194 22.225 10.528 L 17.546 13.285 L 14.371 15.039 L 9.775 17.797 C 9.191 18.131 8.439 18.131 7.77 17.797 L 4.178 15.624 C 3.593 15.29 3.175 14.622 3.175 13.87 L 3.175 9.692 C 3.175 9.024 3.509 8.355 4.178 7.938 L 7.77 5.849 C 8.355 5.515 9.107 5.515 9.775 5.849 L 13.368 8.021 C 13.953 8.355 14.371 9.024 14.371 9.776 L 14.371 12.533 L 17.546 10.695 L 17.546 7.854 C 17.546 7.186 17.211 6.517 16.543 6.1 L 9.859 2.173 C 9.274 1.838 8.522 1.838 7.854 2.173 L 1.003 6.183 C 0.334 6.517 0 7.186 0 7.854 L 0 15.708 C 0 16.376 0.334 17.045 1.003 17.462 L 7.77 21.389 C 8.355 21.724 9.107 21.724 9.775 21.389 L 14.371 18.716 L 17.546 16.878 L 22.141 14.204 C 22.726 13.87 23.478 13.87 24.146 14.204 L 27.739 16.293 C 28.324 16.627 28.742 17.295 28.742 18.047 L 28.742 22.225 C 28.742 22.893 28.407 23.562 27.739 23.979 L 24.23 26.068 C 23.645 26.402 22.893 26.402 22.225 26.068 L 18.632 23.979 C 18.047 23.645 17.629 22.977 17.629 22.225 L 17.629 19.551 L 14.454 21.389 L 14.454 24.147 C 14.454 24.815 14.789 25.483 15.457 25.901 L 22.225 29.828 C 22.809 30.162 23.561 30.162 24.23 29.828 L 30.997 25.901 C 31.582 25.567 32 24.899 32 24.147 L 32 16.209 C 32 15.541 31.666 14.872 30.997 14.455 L 24.23 10.528 Z"
                       fill="#8247e5"
@@ -3708,7 +3708,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-72 makeStyles-root-87 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-76 makeStyles-root-91 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://app.sushi.com/farm?filter=2x"
                   tabindex="0"
                   target="_blank"
@@ -3745,11 +3745,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-88"
+                  class="MuiBox-root MuiBox-root-92"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-89"
+                    class="MuiBox-root MuiBox-root-93"
                   >
                     <svg
                       aria-hidden="true"
@@ -3875,7 +3875,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-72 makeStyles-root-90 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-76 makeStyles-root-94 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
                   tabindex="0"
                   target="_blank"
@@ -3912,11 +3912,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-91"
+                  class="MuiBox-root MuiBox-root-95"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-92"
+                    class="MuiBox-root MuiBox-root-96"
                   >
                     <svg
                       aria-hidden="true"
@@ -4106,7 +4106,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-72 makeStyles-root-93 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-76 makeStyles-root-97 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://app.spiritswap.finance/#/farms/allfarms"
                   tabindex="0"
                   target="_blank"
@@ -4143,11 +4143,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-94"
+                  class="MuiBox-root MuiBox-root-98"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-95"
+                    class="MuiBox-root MuiBox-root-99"
                   >
                     <svg
                       aria-hidden="true"
@@ -4337,7 +4337,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-72 makeStyles-root-96 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-76 makeStyles-root-100 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
                   tabindex="0"
                   target="_blank"
@@ -4374,11 +4374,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-97"
+                  class="MuiBox-root MuiBox-root-101"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-98"
+                    class="MuiBox-root MuiBox-root-102"
                   >
                     <svg
                       aria-hidden="true"
@@ -4540,7 +4540,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-72 makeStyles-root-99 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-76 makeStyles-root-103 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1"
                   tabindex="0"
                   target="_blank"
@@ -4577,11 +4577,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-100"
+                  class="MuiBox-root MuiBox-root-104"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-101"
+                    class="MuiBox-root MuiBox-root-105"
                   >
                     <svg
                       aria-hidden="true"
@@ -5115,7 +5115,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-72 makeStyles-root-102 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-76 makeStyles-root-106 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://jonesdao.io/farms"
                   tabindex="0"
                   target="_blank"
@@ -5152,11 +5152,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-103"
+                  class="MuiBox-root MuiBox-root-107"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-104"
+                    class="MuiBox-root MuiBox-root-108"
                   >
                     <svg
                       aria-hidden="true"
@@ -5329,7 +5329,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-72 makeStyles-root-105 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-76 makeStyles-root-109 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
                   tabindex="0"
                   target="_blank"
@@ -5366,11 +5366,11 @@ exports[`<Stake/> should render correct staking headers 1`] = `
                 style="padding: 8px 0px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-106"
+                  class="MuiBox-root MuiBox-root-110"
                   style="white-space: nowrap;"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-107"
+                    class="MuiBox-root MuiBox-root-111"
                   >
                     <svg
                       aria-hidden="true"
@@ -5559,7 +5559,7 @@ exports[`<Stake/> should render correct staking headers 1`] = `
               >
                 <a
                   aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-72 makeStyles-root-108 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-76 makeStyles-root-112 undefined MuiButton-outlinedSecondary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
                   href="https://oolongswap.com/#/farm/lp"
                   tabindex="0"
                   target="_blank"
