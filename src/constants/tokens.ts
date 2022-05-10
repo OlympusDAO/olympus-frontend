@@ -2,7 +2,7 @@ import { NetworkId } from "src/constants/networks";
 import { Token } from "src/helpers/contracts/Token";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { calculateUniOrSushiLPValue } from "src/helpers/pricing/calculateUniOrSushiLPValue";
-import { IERC20__factory } from "src/typechain";
+import { IERC20__factory, PairContract__factory } from "src/typechain";
 
 import {
   DAI_ADDRESSES,
@@ -136,6 +136,7 @@ export const OHM_DAI_LP_TOKEN = new Token({
   decimals: 18,
   name: "OHM-DAI LP",
   icons: ["OHM", "DAI"],
+  factory: PairContract__factory,
   addresses: OHM_DAI_LP_ADDRESSES,
   purchaseUrl:
     "https://app.sushi.com/add/0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5/0x6b175474e89094c44da98b954eedeac495271d0f",

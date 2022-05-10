@@ -1,4 +1,4 @@
-import { NetworkId } from "src/networkDetails";
+import { NetworkId } from "src/constants/networks";
 import { CurveFactory__factory, CurvePool__factory, CurveToken__factory } from "src/typechain";
 
 import { Token } from "../contracts/Token";

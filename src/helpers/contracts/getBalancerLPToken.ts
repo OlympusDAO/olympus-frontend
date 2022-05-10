@@ -1,5 +1,5 @@
 import { BALANCER_VAULT } from "src/constants/contracts";
-import { NetworkId } from "src/networkDetails";
+import { NetworkId } from "src/constants/networks";
 import { BalancerV2Pool__factory } from "src/typechain";
 
 import { calculateBalancerLPValue } from "../pricing/calculateBalancerLPValue";

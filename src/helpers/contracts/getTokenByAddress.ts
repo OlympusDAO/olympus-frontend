@@ -1,5 +1,5 @@
+import { NetworkId } from "src/constants/networks";
 import * as _tokens from "src/constants/tokens";
-import { NetworkId } from "src/networkDetails";
 
 import { getLPTokenByAddress } from "./getLPTokenByAddress";
 import { Token } from "./Token";

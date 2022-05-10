@@ -1,4 +1,4 @@
-import { NetworkId } from "src/networkDetails";
+import { NetworkId } from "src/constants/networks";
 
 import { getBalancerLPToken } from "./getBalancerLPToken";
 import { getCurveLPToken } from "./getCurveLPToken";

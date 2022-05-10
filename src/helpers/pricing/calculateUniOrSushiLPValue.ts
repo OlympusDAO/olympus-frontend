@@ -1,5 +1,5 @@
 import { BigNumber } from "ethers";
-import { NetworkId } from "src/networkDetails";
+import { NetworkId } from "src/constants/networks";
 import { PairContract__factory } from "src/typechain";
 
 import { Token } from "../contracts/Token";
