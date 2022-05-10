@@ -7,6 +7,21 @@ import Faq from "./Faq";
 import News from "./News";
 import { Proposals } from "./Proposals";
 
+/**
+ * Component for displaying info
+ */
+export const Info: FC<{ path?: string }> = () => (
+  <>
+    <Routes>
+      <Route path="/" element={<InfoContainer />}>
+        <Route path="news" element={<News />} />
+        <Route path="proposals" element={<Proposals />} />
+        <Route path="faq" element={<Faq />} />
+      </Route>
+    </Routes>
+  </>
+);
+
 const useStyles = makeStyles<Theme>(theme => ({
   tabNav: {
     "& a": {
@@ -21,12 +36,10 @@ const useStyles = makeStyles<Theme>(theme => ({
   },
 }));
 
-/**
- * Component for displaying info
- */
-export const Info: FC<{ path?: string }> = () => {
+const InfoContainer = () => {
   const classes = useStyles();
-  const Container = () => (
+
+  return (
     <>
       <Fade in={true}>
         <Box display="flex" flexDirection="row" className={classes.tabNav} pt="18px" mb="18px">
@@ -43,18 +56,8 @@ export const Info: FC<{ path?: string }> = () => {
           </Link>
         </Box>
       </Fade>
+
       <Outlet />
-    </>
-  );
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<Container />}>
-          <Route path="news" element={<News />} />
-          <Route path="proposals" element={<Proposals />} />
-          <Route path="faq" element={<Faq />} />
-        </Route>
-      </Routes>
     </>
   );
 };
