@@ -151,22 +151,22 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             class="makeStyles-root-12 "
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-13"
+                              class="MuiBox-root MuiBox-root-15"
                             >
-                              <h6
-                                class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
+                              <p
+                                class="MuiTypography-root makeStyles-label-13 MuiTypography-body1 MuiTypography-colorTextSecondary"
                               >
                                 Market Cap
-                              </h6>
-                              <h5
-                                class="MuiTypography-root MuiTypography-h5"
+                              </p>
+                              <p
+                                class="MuiTypography-root makeStyles-metric-14 MuiTypography-body1"
                                 style="width: 100%;"
                               >
                                 <span
                                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                                   style="width: 100%;"
                                 />
-                              </h5>
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -177,22 +177,22 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             class="makeStyles-root-12 "
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-14"
+                              class="MuiBox-root MuiBox-root-16"
                             >
-                              <h6
-                                class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
+                              <p
+                                class="MuiTypography-root makeStyles-label-13 MuiTypography-body1 MuiTypography-colorTextSecondary"
                               >
                                 OHM Price
-                              </h6>
-                              <h5
-                                class="MuiTypography-root MuiTypography-h5"
+                              </p>
+                              <p
+                                class="MuiTypography-root makeStyles-metric-14 MuiTypography-body1"
                                 style="width: 100%;"
                               >
                                 <span
                                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                                   style="width: 100%;"
                                 />
-                              </h5>
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -203,18 +203,18 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             class="makeStyles-root-12 wsoprice"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-15"
+                              class="MuiBox-root MuiBox-root-17"
                             >
-                              <h6
-                                class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
+                              <p
+                                class="MuiTypography-root makeStyles-label-13 MuiTypography-body1 MuiTypography-colorTextSecondary"
                               >
                                 gOHM Price
                                 <div
-                                  class="MuiBox-root MuiBox-root-16"
-                                  style="font-size: 16px;"
+                                  class="MuiBox-root MuiBox-root-18"
+                                  style="font-size: 14px;"
                                 >
                                   <div
-                                    class="MuiBox-root MuiBox-root-17"
+                                    class="MuiBox-root MuiBox-root-19"
                                     style="display: inline-flex; justify-content: center; align-self: center;"
                                   >
                                     <svg
@@ -230,16 +230,16 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                                     </svg>
                                   </div>
                                 </div>
-                              </h6>
-                              <h5
-                                class="MuiTypography-root MuiTypography-h5"
+                              </p>
+                              <p
+                                class="MuiTypography-root makeStyles-metric-14 MuiTypography-body1"
                                 style="width: 100%;"
                               >
                                 <span
                                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                                   style="width: 100%;"
                                 />
-                              </h5>
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -250,22 +250,22 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             class="makeStyles-root-12 "
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-19"
+                              class="MuiBox-root MuiBox-root-21"
                             >
-                              <h6
-                                class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
+                              <p
+                                class="MuiTypography-root makeStyles-label-13 MuiTypography-body1 MuiTypography-colorTextSecondary"
                               >
                                 Circulating Supply (total)
-                              </h6>
-                              <h5
-                                class="MuiTypography-root MuiTypography-h5"
+                              </p>
+                              <p
+                                class="MuiTypography-root makeStyles-metric-14 MuiTypography-body1"
                                 style="width: 100%;"
                               >
                                 <span
                                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                                   style="width: 100%;"
                                 />
-                              </h5>
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -276,18 +276,18 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             class="makeStyles-root-12 "
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-20"
+                              class="MuiBox-root MuiBox-root-22"
                             >
-                              <h6
-                                class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
+                              <p
+                                class="MuiTypography-root makeStyles-label-13 MuiTypography-body1 MuiTypography-colorTextSecondary"
                               >
                                 Liquid Backing per OHM
                                 <div
-                                  class="MuiBox-root MuiBox-root-21"
-                                  style="font-size: 16px;"
+                                  class="MuiBox-root MuiBox-root-23"
+                                  style="font-size: 14px;"
                                 >
                                   <div
-                                    class="MuiBox-root MuiBox-root-22"
+                                    class="MuiBox-root MuiBox-root-24"
                                     style="display: inline-flex; justify-content: center; align-self: center;"
                                   >
                                     <svg
@@ -303,16 +303,16 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                                     </svg>
                                   </div>
                                 </div>
-                              </h6>
-                              <h5
-                                class="MuiTypography-root MuiTypography-h5"
+                              </p>
+                              <p
+                                class="MuiTypography-root makeStyles-metric-14 MuiTypography-body1"
                                 style="width: 100%;"
                               >
                                 <span
                                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                                   style="width: 100%;"
                                 />
-                              </h5>
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -323,18 +323,18 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                             class="makeStyles-root-12 "
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-23"
+                              class="MuiBox-root MuiBox-root-25"
                             >
-                              <h6
-                                class="MuiTypography-root MuiTypography-h6 MuiTypography-colorTextSecondary"
+                              <p
+                                class="MuiTypography-root makeStyles-label-13 MuiTypography-body1 MuiTypography-colorTextSecondary"
                               >
                                 Current Index
                                 <div
-                                  class="MuiBox-root MuiBox-root-24"
-                                  style="font-size: 16px;"
+                                  class="MuiBox-root MuiBox-root-26"
+                                  style="font-size: 14px;"
                                 >
                                   <div
-                                    class="MuiBox-root MuiBox-root-25"
+                                    class="MuiBox-root MuiBox-root-27"
                                     style="display: inline-flex; justify-content: center; align-self: center;"
                                   >
                                     <svg
@@ -350,16 +350,16 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                                     </svg>
                                   </div>
                                 </div>
-                              </h6>
-                              <h5
-                                class="MuiTypography-root MuiTypography-h5"
+                              </p>
+                              <p
+                                class="MuiTypography-root makeStyles-metric-14 MuiTypography-body1"
                                 style="width: 100%;"
                               >
                                 <span
                                   class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                                   style="width: 100%;"
                                 />
-                              </h5>
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -373,47 +373,6 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
               class="MuiGrid-root data-grid MuiGrid-container MuiGrid-spacing-xs-2"
               style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
-              <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
-              >
-                <div
-                  class="MuiPaper-root makeStyles-root-9 makeStyles-root-26 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
-                  style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item"
-                    >
-                      <div
-                        class="MuiBox-root MuiBox-root-27"
-                        style="display: flex; align-items: center; justify-content: center;"
-                      >
-                        <div
-                          class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
-                          role="progressbar"
-                          style="width: 40px; height: 40px;"
-                        >
-                          <svg
-                            class="MuiCircularProgress-svg"
-                            viewBox="22 22 44 44"
-                          >
-                            <circle
-                              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
-                              cx="44"
-                              cy="44"
-                              fill="none"
-                              r="20.2"
-                              stroke-width="3.6"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <div
                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
               >
@@ -593,6 +552,47 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                     >
                       <div
                         class="MuiBox-root MuiBox-root-37"
+                        style="display: flex; align-items: center; justify-content: center;"
+                      >
+                        <div
+                          class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                          role="progressbar"
+                          style="width: 40px; height: 40px;"
+                        >
+                          <svg
+                            class="MuiCircularProgress-svg"
+                            viewBox="22 22 44 44"
+                          >
+                            <circle
+                              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                              cx="44"
+                              cy="44"
+                              fill="none"
+                              r="20.2"
+                              stroke-width="3.6"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
+              >
+                <div
+                  class="MuiPaper-root makeStyles-root-9 makeStyles-root-38 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
+                  style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item"
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-39"
                         style="display: flex; align-items: center; justify-content: center;"
                       >
                         <div
