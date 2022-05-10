@@ -4,7 +4,7 @@ import { Trans } from "@lingui/macro";
 import { Box, Typography, Zoom } from "@material-ui/core";
 import { Paper } from "@olympusdao/component-library";
 import React, { useMemo } from "react";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
@@ -15,8 +15,8 @@ import ZapStakeAction from "./ZapStakeAction";
 
 const Zap: React.FC = () => {
   const { address, networkId } = useWeb3Context();
-  const history = useHistory();
-  usePathForNetwork({ pathName: "zap", networkID: networkId, history });
+  const navigate = useNavigate();
+  usePathForNetwork({ pathName: "zap", networkID: networkId, navigate });
 
   const zapTokenBalances = useZapTokenBalances();
   const tokens = zapTokenBalances.data?.balances;

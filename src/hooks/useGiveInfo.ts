@@ -103,13 +103,11 @@ export const useDonationInfo = () => {
         });
         firstDonationDatePromises.push(firstDonationDatePromise);
 
-        const yieldSentPromise: Promise<BigNumber> = contract
-          .donatedTo(address, allDeposits[0][i])
-          .catch((e: unknown) => {
-            // This will only revert if the user has not donated at all yet
-            console.log("You have not donated any yield yet.");
-            return ethers.constants.Zero;
-          });
+        const yieldSentPromise: Promise<BigNumber> = contract.donatedTo(address, allDeposits[0][i]).catch(() => {
+          // This will only revert if the user has not donated at all yet
+          console.log("You have not donated any yield yet.");
+          return ethers.constants.Zero;
+        });
         yieldSentPromises.push(yieldSentPromise);
       }
 

@@ -4,14 +4,14 @@ import { NetworkId } from "src/constants/networks";
 import { Contract, ContractConfig, Factory } from "src/helpers/contracts/Contract";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
-import { getCoingeckoPrice } from "../misc/getCoingeckoPrice";
+import { getCoingeckoPrice } from "../pricing/getCoingeckoPrice";
 import { assert } from "../types/assert";
 
 export interface TokenConfig<TFactory extends Factory = Factory, TAddressMap extends AddressMap = AddressMap>
   extends ContractConfig<TFactory, TAddressMap> {
   decimals: number;
   purchaseUrl: string;
-  icons: OHMTokenStackProps["tokens"];
+  icons: NonNullable<OHMTokenStackProps["tokens"]>;
   customPricingFunc?: (networkId: keyof TAddressMap) => Promise<DecimalBigNumber>;
 }
 

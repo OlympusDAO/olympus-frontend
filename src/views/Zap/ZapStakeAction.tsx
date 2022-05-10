@@ -26,7 +26,7 @@ import { ReactComponent as CompleteStepIcon } from "src/assets/icons/step-comple
 import { useApproveToken } from "src/components/TokenAllowanceGuard/hooks/useApproveToken";
 import { ZAP_ADDRESSES } from "src/constants/addresses";
 import { trim } from "src/helpers";
-import { trackGAEvent } from "src/helpers/analytics";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isSupportedChain } from "src/helpers/ZapHelper";
 import { useWeb3Context } from "src/hooks";

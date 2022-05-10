@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
 import { addresses, NetworkId } from "src/constants/networks";
-import { trackGAEvent } from "src/helpers/analytics";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { isSupportedChain } from "src/helpers/ZapHelper";
 import { error, info } from "src/slices/MessagesSlice";
 

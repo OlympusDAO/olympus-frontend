@@ -1,18 +1,20 @@
 import { render, screen } from "src/testUtils";
 
-import Info from "../Info";
+import Faq from "../Info/Faq";
+import News from "../Info/News";
+import Proposals from "../Info/Proposals";
 
 describe("Info View", () => {
   it("Should Display News for news Path", async () => {
-    render(<Info path="news" />);
+    render(<News />);
     expect(screen.getByTestId("news")).toBeInTheDocument();
   });
   it("Should Display News for news Path", async () => {
-    render(<Info path="proposals" />);
+    render(<Proposals />);
     expect(screen.getByTestId("proposals")).toBeInTheDocument();
   });
   it("Should Display News for news Path", async () => {
-    render(<Info path="faq" />);
+    render(<Faq />);
     expect(screen.getByTestId("faq")).toBeInTheDocument();
   });
 });

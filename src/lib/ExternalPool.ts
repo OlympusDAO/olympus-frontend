@@ -17,6 +17,7 @@ export class ExternalPool {
   readonly poolId: number | string;
   readonly rewardGecko: string;
   readonly vault: string;
+  readonly bonusGecko: string;
 
   constructor(poolOpts: StakePoolOpts) {
     this.poolName = poolOpts.poolName;
@@ -31,6 +32,7 @@ export class ExternalPool {
     this.rewarder = poolOpts.rewarder;
     this.poolId = poolOpts.poolId;
     this.rewardGecko = poolOpts.rewardGecko;
+    this.bonusGecko = poolOpts.bonusGecko ? poolOpts.bonusGecko : "";
     this.vault = poolOpts.vault ? poolOpts.vault : "";
   }
 }
@@ -47,6 +49,7 @@ export interface StakePoolOpts {
   rewarder: string;
   poolId: number | string;
   rewardGecko: string;
+  bonusGecko?: string;
   vault?: string;
 }
 

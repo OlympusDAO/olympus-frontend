@@ -7,6 +7,7 @@ import { NetworkId } from "src/constants/networks";
 import {
   balancerPools,
   beetsPools,
+  bobaPools,
   joePools,
   jonesPools,
   spiritPools,
@@ -21,6 +22,7 @@ import {
   BalancerPoolAPY,
   BalancerSwapFees,
   BeetsPoolAPY,
+  BobaPoolAPY,
   JoePoolAPY,
   JonesPoolAPY,
   SpiritPoolAPY,
@@ -52,6 +54,44 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+export const ExternalStakePools = () => {
+  const styles = useStyles();
+  const { connected } = useWeb3Context();
+  const isSmallScreen = useMediaQuery("(max-width: 705px)");
+
+  return (
+    <Zoom in={true}>
+      {isSmallScreen ? (
+        <AllPools isSmallScreen={isSmallScreen} />
+      ) : (
+        <Paper headerText={t`Farm Pool`}>
+          <Table style={{ tableLayout: "fixed" }}>
+            <TableHead className={styles.stakePoolHeaderText}>
+              <TableRow>
+                <TableCell style={{ width: "250px", padding: "8px 0" }}>
+                  <Trans>Asset</Trans>
+                </TableCell>
+
+                <TableCell style={{ width: connected ? "100px" : "150px", padding: "8px 0" }}>
+                  <Trans>TVL</Trans>
+                </TableCell>
+
+                <TableCell style={{ width: connected ? "100px" : "150px", padding: "8px 0" }}>
+                  <Trans>APY</Trans>
+                </TableCell>
+
+                {connected && <TableCell style={{ width: "100px", padding: "8px 0" }}>{t`Balance`}</TableCell>}
+              </TableRow>
+            </TableHead>
+
+            <AllPools isSmallScreen={isSmallScreen} />
+          </Table>
+        </Paper>
+      )}
+    </Zoom>
+  );
+};
+
 const AllPools = (props: { isSmallScreen: boolean }) => (
   <>
     {sushiPools.map(pool => (
@@ -75,42 +115,11 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     {balancerPools.map(pool => (
       <BalancerPools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
+    {bobaPools.map(pool => (
+      <BobaPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
   </>
 );
-
-const ExternalStakePools = () => {
-  const styles = useStyles();
-  const { connected } = useWeb3Context();
-  const isSmallScreen = useMediaQuery("(max-width: 705px)");
-
-  return (
-    <Zoom in={true}>
-      {isSmallScreen ? (
-        <AllPools isSmallScreen={isSmallScreen} />
-      ) : (
-        <Paper headerText={t`Farm Pool`}>
-          <Table>
-            <TableHead className={styles.stakePoolHeaderText}>
-              <TableRow>
-                <TableCell align="center">
-                  <Trans>Asset</Trans>
-                </TableCell>
-                <TableCell>
-                  <Trans>TVL</Trans>
-                </TableCell>
-                <TableCell>
-                  <Trans>APY</Trans>
-                </TableCell>
-                <TableCell>{connected ? t`Balance` : ""}</TableCell>
-              </TableRow>
-            </TableHead>
-            <AllPools isSmallScreen={isSmallScreen} />
-          </Table>
-        </Paper>
-      )}
-    </Zoom>
-  );
-};
 
 const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = props => {
   const { connected } = useWeb3Context();
@@ -120,7 +129,7 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
 
   return (
     <TableRow>
-      <TableCell>
+      <TableCell style={{ padding: "8px 0" }}>
         <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
           <TokenStack tokens={props.pool.icons} />
           <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px", marginRight: "10px" }}>
@@ -129,28 +138,32 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
           <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} />
         </Box>
       </TableCell>
-      <TableCell>
+
+      <TableCell style={{ padding: "8px 0" }}>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!props.tvl ? <Skeleton width="100%" /> : formatCurrency(props.tvl)}
+          {!props.tvl ? <Skeleton width={60} /> : formatCurrency(props.tvl)}
         </Typography>
       </TableCell>
-      <TableCell>
+
+      <TableCell style={{ padding: "8px 0" }}>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!props.apy ? <Skeleton width="100%" /> : `${formatNumber(props.apy * 100, 2)}%`}
+          {!props.apy ? <Skeleton width={60} /> : `${formatNumber(props.apy * 100, 2)}%`}
         </Typography>
       </TableCell>
-      <TableCell>
-        <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!connected ? (
-            ""
-          ) : !userBalance ? (
-            <Skeleton width="100%" />
-          ) : (
-            `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`
-          )}
-        </Typography>
-      </TableCell>
-      <TableCell>
+
+      {connected && (
+        <TableCell style={{ padding: "8px 0" }}>
+          <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+            {!userBalance ? (
+              <Skeleton width={60} />
+            ) : (
+              `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`
+            )}
+          </Typography>
+        </TableCell>
+      )}
+
+      <TableCell style={{ padding: "8px 0" }}>
         <SecondaryButton size="small" target="_blank" href={props.pool.href} fullWidth>
           {t`Stake on`} {props.pool.stakeOn}
         </SecondaryButton>
@@ -268,4 +281,12 @@ const BalancerPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = 
   );
 };
 
-export default ExternalStakePools;
+const BobaPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
+  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+  const { apy } = BobaPoolAPY(props.pool);
+  return props.isSmallScreen ? (
+    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+  ) : (
+    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+  );
+};
