@@ -2192,10 +2192,10 @@
   resolved "https://registry.yarnpkg.com/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz#af577b477c683fad17c619a78208cede06f9605c"
   integrity sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==
 
-"@multifarm/widget@^0.0.125":
-  version "0.0.125"
-  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.125.tgz#138f4e0c164d1fee4075ccb683e499463435d400"
-  integrity sha512-LKfYRyZNcuVMnTTWxD8CcmuZgdj1kQOWPbYeKcTnFgsJO8Q3DwPMh/VzD6SI2UbYxq3GlQ55Gn11J/lLldh2bA==
+"@multifarm/widget@^0.0.127":
+  version "0.0.127"
+  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.127.tgz#e082b9f22408dcd10d068c4f97e9658b2a9aee87"
+  integrity sha512-l+7FyW++mbXTnzwlCKrG/I1Z6kVxVvHHi46n3TuTNYKpW7ulojBXsqbkBID/WFXQLkjJxBLIgE5ysL4srjUkww==
   dependencies:
     "@tippyjs/react" "^4.2.6"
     clsx "^1.1.1"
@@ -2858,10 +2858,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest-environment-puppeteer@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@types/jest-environment-puppeteer/-/jest-environment-puppeteer-5.0.0.tgz#6ecdb5e96c3749ccdde0194a81a6dc99b0b714e9"
-  integrity sha512-GiwGkJW6462DFfyAIB1LDSVo4CI0tt4ot3+AsXfrrlDhSMe4mxKYz8xaUSGDVKoLfN1mHEvYO8b1h4V/v1J9Tw==
+"@types/jest-environment-puppeteer@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@types/jest-environment-puppeteer/-/jest-environment-puppeteer-5.0.2.tgz#604370c20b3c62e40d155b19eb544d1580dbc69e"
+  integrity sha512-YCdegQnDou6aIK8wqygDDctHgJZtlXd03fI9Bgbqkdu66EFKnImmt7auiR9OkxkSSiqS9smn0joX2pGpVs7ErA==
   dependencies:
     "@jest/types" ">=24 <=27"
     "@types/puppeteer" "*"
