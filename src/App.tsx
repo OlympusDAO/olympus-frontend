@@ -351,7 +351,6 @@ function App() {
               <Route path="/bonds/*" element={<Bond />} />
               <Route path="/dashboard/*" element={<TreasuryDashboard activeView={0} />} />
 
-              <Route path="/calculator" element={<Wallet open={true} component="calculator" />}></Route>
               <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
               {process.env.REACT_APP_DISABLE_NEWS && (
                 <Route path={"/info"} element={<Navigate to="/info/proposals" />} />
