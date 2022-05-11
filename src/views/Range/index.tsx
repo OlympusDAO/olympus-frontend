@@ -14,7 +14,6 @@ const useStyles = makeStyles<Theme>(theme => ({}));
  */
 const Range = () => {
   const classes = useStyles();
-
   return (
     <div id="stake-view">
       <Paper headerText="Range">

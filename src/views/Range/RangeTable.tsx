@@ -1,7 +1,9 @@
 import { Table, TableBody, TableCell, TableHead, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { TertiaryButton } from "@olympusdao/component-library";
+import { TertiaryButton, Token, TokenStack } from "@olympusdao/component-library";
 import { FC } from "react";
+
+import { Capacity, OperatorPrice } from "./hooks";
 
 const useStyles = makeStyles<Theme>(theme => ({}));
 
@@ -12,6 +14,10 @@ const useStyles = makeStyles<Theme>(theme => ({}));
  */
 const RangeTable: FC = () => {
   const classes = useStyles();
+
+  const { data: capacity } = Capacity("operator");
+
+  const { data: price } = OperatorPrice("operator");
 
   return (
     <>
@@ -24,10 +30,14 @@ const RangeTable: FC = () => {
           <TableCell></TableCell>
         </TableHead>
         <TableBody>
-          <TableCell>Asset 1</TableCell>
-          <TableCell>Operator 1</TableCell>
-          <TableCell>$15.15</TableCell>
-          <TableCell>1,000</TableCell>
+          <TableCell>
+            <Token name="ETH" /> ETH
+          </TableCell>
+          <TableCell>
+            <TokenStack tokens={["OHM", "ETH"]} /> OHM-ETH
+          </TableCell>
+          <TableCell>{price}</TableCell>
+          <TableCell>{capacity}</TableCell>
           <TableCell>
             <TertiaryButton>Swap for OHM</TertiaryButton>
           </TableCell>

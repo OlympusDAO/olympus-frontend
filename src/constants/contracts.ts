@@ -8,6 +8,9 @@ import {
   OlympusProV2__factory,
   OlympusStakingv2__factory,
   PrizePool__factory,
+  Range__factory,
+  RangeOperator__factory,
+  RangePrice__factory,
   Zap__factory,
 } from "src/typechain";
 
@@ -21,6 +24,9 @@ import {
   MIGRATOR_ADDRESSES,
   OP_BOND_DEPOSITORY_ADDRESSES,
   PT_PRIZE_POOL_ADDRESSES,
+  RANGE_ADDRESSES,
+  RANGE_OPERATOR_ADDRESSES,
+  RANGE_PRICE_ADDRESSES,
   STAKING_ADDRESSES,
   ZAP_ADDRESSES,
 } from "./addresses";
@@ -89,4 +95,20 @@ export const BALANCER_VAULT = new Contract({
   factory: BalancerVault__factory,
   name: "Balancer Vault Contract",
   addresses: BALANCER_VAULT_ADDRESSSES,
+});
+
+export const RANGE_OPERATOR_CONTRACT = new Contract({
+  factory: RangeOperator__factory,
+  name: "Range Operator Contract",
+  addresses: RANGE_OPERATOR_ADDRESSES,
+});
+export const RANGE_PRICE_CONTRACT = new Contract({
+  factory: RangePrice__factory,
+  name: "Range Price Contract",
+  addresses: RANGE_PRICE_ADDRESSES,
+});
+export const RANGE_CONTRACT = new Contract({
+  factory: Range__factory,
+  name: "Range Contract",
+  addresses: RANGE_ADDRESSES,
 });

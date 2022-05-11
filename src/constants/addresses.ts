@@ -153,3 +153,15 @@ export const FIATDAO_WSOHM_ADDRESSES = {
 export const BALANCER_VAULT_ADDRESSSES = {
   [NetworkId.MAINNET]: "0xba12222222228d8ba445958a75a0704d566bf2c8",
 };
+
+export const RANGE_OPERATOR_ADDRESSES = {
+  [NetworkId.MAINNET]: "",
+};
+
+export const RANGE_ADDRESSES = {
+  [NetworkId.MAINNET]: "",
+};
+
+export const RANGE_PRICE_ADDRESSES = {
+  [NetworkId.MAINNET]: "",
+};
