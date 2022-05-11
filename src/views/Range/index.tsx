@@ -1,8 +1,10 @@
 import { Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Metric, MetricCollection, Paper } from "@olympusdao/component-library";
+import { Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
+import { Route, Routes } from "react-router-dom";
 
 import RangeChart from "./RangeChart";
+import RangeModal from "./RangeModal";
 import RangeTable from "./RangeTable";
 
 const useStyles = makeStyles<Theme>(theme => ({}));
@@ -23,8 +25,15 @@ const Range = () => {
           <Metric label="Ceiling" metric="$20.15" />
         </MetricCollection>
         <RangeChart />
+        <Tabs centered>
+          <Tab label="Buy" />
+          <Tab label="Sell" />
+        </Tabs>
         <RangeTable />
       </Paper>
+      <Routes>
+        <Route path=":id" element={<RangeModal />} />
+      </Routes>
     </div>
   );
 };

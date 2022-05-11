@@ -1,9 +1,9 @@
-import { Table, TableBody, TableCell, TableHead, Theme } from "@material-ui/core";
+import { Box, Table, TableBody, TableCell, TableHead, Theme, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { TertiaryButton, Token, TokenStack } from "@olympusdao/component-library";
+import { OHMTokenProps, TertiaryButton, Token } from "@olympusdao/component-library";
 import { FC } from "react";
 
-import { Capacity, OperatorPrice } from "./hooks";
+import { Capacity, OperatorPrice, OperatorReserveToken } from "./hooks";
 
 const useStyles = makeStyles<Theme>(theme => ({}));
 
@@ -19,11 +19,13 @@ const RangeTable: FC = () => {
 
   const { data: price } = OperatorPrice("operator");
 
+  const { data: reserve } = OperatorReserveToken("operator");
+
   return (
     <>
       <Table>
         <TableHead>
-          <TableCell>Asset</TableCell>
+          <TableCell>Reserve</TableCell>
           <TableCell>Operator</TableCell>
           <TableCell>Price</TableCell>
           <TableCell>Capacity</TableCell>
@@ -31,10 +33,15 @@ const RangeTable: FC = () => {
         </TableHead>
         <TableBody>
           <TableCell>
-            <Token name="ETH" /> ETH
+            <Box display="flex" alignItems="center">
+              <Token name={reserve as OHMTokenProps["name"]} />{" "}
+              <Typography style={{ paddingLeft: "8px" }}>{reserve}</Typography>
+            </Box>
           </TableCell>
-          <TableCell>
-            <TokenStack tokens={["OHM", "ETH"]} /> OHM-ETH
+          <TableCell align="center">
+            <Box display="flex" alignItems="center">
+              <Token name="OHM" /> <Typography style={{ paddingLeft: "8px" }}>OHM</Typography>
+            </Box>
           </TableCell>
           <TableCell>{price}</TableCell>
           <TableCell>{capacity}</TableCell>

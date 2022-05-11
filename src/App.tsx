@@ -346,7 +346,7 @@ function App() {
               <Route path="/tyche" element={<Navigate to="/give" />} />
               <Route path="/olympusdaogive" element={<Navigate to="/give" />} />
               <Route path="/ohmgive" element={<Navigate to="/give" />} />
-              <Route path="/range" element={<Range />} />
+              <Route path="/range/*" element={<Range />} />
               <Route path="/wrap" element={<Wrap />} />
               <Route path="/zap" element={<Zap />} />
               <Route path="/bonds/*" element={<Bond />} />

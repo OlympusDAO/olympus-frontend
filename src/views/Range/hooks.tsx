@@ -1,5 +1,9 @@
 import { gql, request } from "graphql-request";
 import { useQuery } from "react-query";
+// import { RANGE_OPERATOR_CONTRACT } from "src/constants/contracts";
+// import { Providers } from "src/helpers/providers/Providers/Providers";
+// import { NetworkId } from "src/networkDetails";
+// import { IERC20__factory } from "src/typechain";
 //import { RANGE_CONTRACT, RANGE_PRICE_CONTRACT } from "src/constants/contracts";
 // import { NetworkId } from "src/networkDetails";
 
@@ -78,6 +82,27 @@ export const OperatorPrice = (address: string) => {
     //contract.getCurrentPrice();
     //TODO: REMOVE STUB RESPONSE
     return "$15.50";
+  });
+  return { data, isFetched, isLoading };
+};
+
+/**
+ * @param address
+ * @returns Returns the reserve contract address on the Operator
+ */
+export const OperatorReserveToken = (address: string) => {
+  //const contract = RANGE_OPERATOR_CONTRACT.getEthersContract(NetworkId.MAINNET);
+  const {
+    data = "",
+    isFetched,
+    isLoading,
+  } = useQuery(["OperatorReserve", address], async () => {
+    // const provider = Providers.getStaticProvider(NetworkId.MAINNET);
+    // const TokenContract = IERC20__factory.connect(await contract.reserve(), provider);
+    // const symbol = await TokenContract.symbol();
+    // return symbol;
+    //TODO: REMOVE STUB RESPONSE
+    return "DAI";
   });
   return { data, isFetched, isLoading };
 };
