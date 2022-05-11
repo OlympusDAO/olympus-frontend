@@ -1,0 +1,515 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "contract Kernel",
+          "name": "kernel_",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IBondAuctioneer",
+          "name": "auctioneer_",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IBondCallback[2]",
+          "name": "callbacks_",
+          "type": "address[2]"
+        },
+        {
+          "internalType": "contract IMinter",
+          "name": "minter_",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ITreasury",
+          "name": "treasury_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "heart_",
+          "type": "address"
+        },
+        {
+          "internalType": "contract ERC20[2]",
+          "name": "tokens_",
+          "type": "address[2]"
+        },
+        {
+          "internalType": "uint256[6]",
+          "name": "configParams",
+          "type": "uint256[6]"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "Operator_InsufficientCapacity",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Operator_InvalidParams",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Operator_NotAuthorized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Operator_WallDown",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes5",
+          "name": "keycode_",
+          "type": "bytes5"
+        }
+      ],
+      "name": "Policy_ModuleDoesNotExist",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "caller_",
+          "type": "address"
+        }
+      ],
+      "name": "Policy_OnlyKernel",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "contract ERC20",
+          "name": "tokenIn_",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amountIn_",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amountOut_",
+          "type": "uint256"
+        }
+      ],
+      "name": "Swap",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "_kernel",
+      "outputs": [
+        {
+          "internalType": "contract Kernel",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "auctioneer",
+      "outputs": [
+        {
+          "internalType": "contract IBondAuctioneer",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "config",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "cushionFactor",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "cushionDuration",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "reserveFactor",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "regenWait",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "regenThreshold",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "regenObserve",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct IOperator.Config",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "configureModules",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "high_",
+          "type": "bool"
+        }
+      ],
+      "name": "fullCapacity",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "tokenIn_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amountIn_",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAmountOut",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "heart",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ohm",
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ohmCallback",
+      "outputs": [
+        {
+          "internalType": "contract IBondCallback",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "operate",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "reserve",
+      "outputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "reserveCallback",
+      "outputs": [
+        {
+          "internalType": "contract IBondCallback",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IBondAuctioneer",
+          "name": "auctioneer_",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IBondCallback",
+          "name": "ohmCallback_",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IBondCallback",
+          "name": "reserveCallback_",
+          "type": "address"
+        }
+      ],
+      "name": "setBondContracts",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "cushionDuration_",
+          "type": "uint256"
+        }
+      ],
+      "name": "setCushionDuration",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "cushionFactor_",
+          "type": "uint256"
+        }
+      ],
+      "name": "setCushionFactor",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "heart_",
+          "type": "address"
+        }
+      ],
+      "name": "setHeart",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[3]",
+          "name": "regenParams",
+          "type": "uint256[3]"
+        }
+      ],
+      "name": "setRegenParams",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "reserveFactor_",
+          "type": "uint256"
+        }
+      ],
+      "name": "setReserveFactor",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "cushionSpread_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "wallSpread_",
+          "type": "uint256"
+        }
+      ],
+      "name": "setSpreads",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "status",
+      "outputs": [
+        {
+          "components": [
+            {
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "count",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "lastRegen",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "nextObservation",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "bool[]",
+                  "name": "observations",
+                  "type": "bool[]"
+                }
+              ],
+              "internalType": "struct IOperator.Regen",
+              "name": "low",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "count",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "lastRegen",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "nextObservation",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "bool[]",
+                  "name": "observations",
+                  "type": "bool[]"
+                }
+              ],
+              "internalType": "struct IOperator.Regen",
+              "name": "high",
+              "type": "tuple"
+            }
+          ],
+          "internalType": "struct IOperator.Status",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "tokenIn_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amountIn_",
+          "type": "uint256"
+        }
+      ],
+      "name": "swap",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "amountOut",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}
