@@ -43,7 +43,7 @@
     "@olympusdao/component-library": "^1.11.2",
     "@reduxjs/toolkit": "^1.8.1",
     "@types/material-ui": "^0.21.12",
-    "@walletconnect/web3-provider": "^1.7.5",
+    "@walletconnect/web3-provider": "^1.7.8",
     "axios": "^0.27.2",
     "date-fns": "^2.28.0",
     "ethers": "^5.6.5",
