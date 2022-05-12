@@ -70,22 +70,22 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                       class="makeStyles-root-9 stake-apy"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-10"
+                        class="MuiBox-root MuiBox-root-12"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root makeStyles-label-10 MuiTypography-body1 MuiTypography-colorTextSecondary"
                         >
                           APY
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root makeStyles-metric-11 MuiTypography-body1"
                           style="width: 100%;"
                         >
                           <span
                             class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -96,22 +96,22 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                       class="makeStyles-root-9 stake-tvl"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-11"
+                        class="MuiBox-root MuiBox-root-13"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root makeStyles-label-10 MuiTypography-body1 MuiTypography-colorTextSecondary"
                         >
                           Total Value Deposited
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root makeStyles-metric-11 MuiTypography-body1"
                           style="width: 100%;"
                         >
                           <span
                             class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -122,18 +122,18 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                       class="makeStyles-root-9 stake-index"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-12"
+                        class="MuiBox-root MuiBox-root-14"
                       >
-                        <h5
-                          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary"
+                        <p
+                          class="MuiTypography-root makeStyles-label-10 MuiTypography-body1 MuiTypography-colorTextSecondary"
                         >
                           Current Index
                           <div
-                            class="MuiBox-root MuiBox-root-13"
-                            style="font-size: 16px;"
+                            class="MuiBox-root MuiBox-root-15"
+                            style="font-size: 14px;"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-14"
+                              class="MuiBox-root MuiBox-root-16"
                               style="display: inline-flex; justify-content: center; align-self: center;"
                             >
                               <svg
@@ -149,16 +149,16 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                               </svg>
                             </div>
                           </div>
-                        </h5>
-                        <h4
-                          class="MuiTypography-root MuiTypography-h4"
+                        </p>
+                        <p
+                          class="MuiTypography-root makeStyles-metric-11 MuiTypography-body1"
                           style="width: 100%;"
                         >
                           <span
                             class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
                             style="width: 100%;"
                           />
-                        </h4>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -167,13 +167,13 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </div>
           </div>
           <div
-            class="MuiBox-root MuiBox-root-16"
+            class="MuiBox-root MuiBox-root-18"
           >
             <div
-              class="MuiBox-root MuiBox-root-17"
+              class="MuiBox-root MuiBox-root-19"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-18 makeStyles-root-19 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-20 makeStyles-root-21 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
                 style="font-size: 1.2857rem;"
                 tabindex="0"
                 type="button"
@@ -195,7 +195,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
       </div>
     </div>
     <div
-      class="MuiPaper-root makeStyles-root-1 makeStyles-root-55  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-57  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -205,10 +205,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="makeStyles-poolPair-22"
+            class="makeStyles-poolPair-24"
           >
             <div
-              class="MuiBox-root MuiBox-root-56"
+              class="MuiBox-root MuiBox-root-58"
             >
               <svg
                 aria-hidden="true"
@@ -307,7 +307,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </svg>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1"
@@ -316,7 +316,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <svg
                 aria-hidden="true"
@@ -629,10 +629,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </div>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-59"
+              class="MuiBox-root MuiBox-root-61"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -651,10 +651,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </p>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-60"
+              class="MuiBox-root MuiBox-root-62"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -674,7 +674,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           </div>
           <a
             aria-disabled="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-61 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-63 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
             href="https://app.sushi.com/farm?filter=2x"
             tabindex="0"
             target="_blank"
@@ -705,7 +705,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
       </div>
     </div>
     <div
-      class="MuiPaper-root makeStyles-root-1 makeStyles-root-62  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-64  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -715,10 +715,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="makeStyles-poolPair-22"
+            class="makeStyles-poolPair-24"
           >
             <div
-              class="MuiBox-root MuiBox-root-63"
+              class="MuiBox-root MuiBox-root-65"
             >
               <svg
                 aria-hidden="true"
@@ -817,7 +817,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </svg>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1"
@@ -826,7 +826,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <svg
                 aria-hidden="true"
@@ -843,10 +843,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </div>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-64"
+              class="MuiBox-root MuiBox-root-66"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -865,10 +865,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </p>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-65"
+              class="MuiBox-root MuiBox-root-67"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -888,7 +888,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           </div>
           <a
             aria-disabled="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-66 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-68 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
             href="https://app.sushi.com/farm?filter=2x"
             tabindex="0"
             target="_blank"
@@ -919,7 +919,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
       </div>
     </div>
     <div
-      class="MuiPaper-root makeStyles-root-1 makeStyles-root-67  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-69  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -929,10 +929,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="makeStyles-poolPair-22"
+            class="makeStyles-poolPair-24"
           >
             <div
-              class="MuiBox-root MuiBox-root-68"
+              class="MuiBox-root MuiBox-root-70"
             >
               <svg
                 aria-hidden="true"
@@ -1001,7 +1001,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </svg>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1"
@@ -1010,7 +1010,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <svg
                 aria-hidden="true"
@@ -1031,10 +1031,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </div>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-69"
+              class="MuiBox-root MuiBox-root-71"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -1053,10 +1053,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </p>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-70"
+              class="MuiBox-root MuiBox-root-72"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -1076,7 +1076,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           </div>
           <a
             aria-disabled="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-71 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-73 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
             href="https://traderjoexyz.com/farm/0xB674f93952F02F2538214D4572Aa47F262e990Ff-0x188bED1968b795d5c9022F6a0bb5931Ac4c18F00"
             tabindex="0"
             target="_blank"
@@ -1107,7 +1107,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
       </div>
     </div>
     <div
-      class="MuiPaper-root makeStyles-root-1 makeStyles-root-72  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-74  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -1117,10 +1117,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="makeStyles-poolPair-22"
+            class="makeStyles-poolPair-24"
           >
             <div
-              class="MuiBox-root MuiBox-root-73"
+              class="MuiBox-root MuiBox-root-75"
             >
               <svg
                 aria-hidden="true"
@@ -1221,7 +1221,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </svg>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1"
@@ -1230,7 +1230,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <svg
                 aria-hidden="true"
@@ -1283,10 +1283,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </div>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-74"
+              class="MuiBox-root MuiBox-root-76"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -1305,10 +1305,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </p>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-75"
+              class="MuiBox-root MuiBox-root-77"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -1328,7 +1328,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           </div>
           <a
             aria-disabled="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-76 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-78 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
             href="https://app.spiritswap.finance/#/farms/allfarms"
             tabindex="0"
             target="_blank"
@@ -1359,7 +1359,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
       </div>
     </div>
     <div
-      class="MuiPaper-root makeStyles-root-1 makeStyles-root-77  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-79  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -1369,10 +1369,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="makeStyles-poolPair-22"
+            class="makeStyles-poolPair-24"
           >
             <div
-              class="MuiBox-root MuiBox-root-78"
+              class="MuiBox-root MuiBox-root-80"
             >
               <svg
                 aria-hidden="true"
@@ -1473,7 +1473,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </svg>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1"
@@ -1482,7 +1482,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <svg
                 aria-hidden="true"
@@ -1535,10 +1535,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </div>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-79"
+              class="MuiBox-root MuiBox-root-81"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -1557,10 +1557,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </p>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-80"
+              class="MuiBox-root MuiBox-root-82"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -1580,7 +1580,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           </div>
           <a
             aria-disabled="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-81 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-83 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
             href="https://beets.fi/#/pool/0xf7bf0f161d3240488807ffa23894452246049916000200000000000000000198"
             tabindex="0"
             target="_blank"
@@ -1611,7 +1611,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
       </div>
     </div>
     <div
-      class="MuiPaper-root makeStyles-root-1 makeStyles-root-82  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-84  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -1621,10 +1621,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="makeStyles-poolPair-22"
+            class="makeStyles-poolPair-24"
           >
             <div
-              class="MuiBox-root MuiBox-root-83"
+              class="MuiBox-root MuiBox-root-85"
             >
               <svg
                 aria-hidden="true"
@@ -1723,7 +1723,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </svg>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1"
@@ -1732,7 +1732,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <svg
                 aria-hidden="true"
@@ -1759,10 +1759,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </div>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-84"
+              class="MuiBox-root MuiBox-root-86"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -1781,10 +1781,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </p>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-85"
+              class="MuiBox-root MuiBox-root-87"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -1804,7 +1804,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           </div>
           <a
             aria-disabled="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-86 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-88 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
             href="https://zipswap.fi/#/farm/0x3f6da9334142477718bE2ecC3577d1A28dceAAe1"
             tabindex="0"
             target="_blank"
@@ -1835,7 +1835,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
       </div>
     </div>
     <div
-      class="MuiPaper-root makeStyles-root-1 makeStyles-root-87  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-89  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -1845,10 +1845,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="makeStyles-poolPair-22"
+            class="makeStyles-poolPair-24"
           >
             <div
-              class="MuiBox-root MuiBox-root-88"
+              class="MuiBox-root MuiBox-root-90"
             >
               <svg
                 aria-hidden="true"
@@ -2033,7 +2033,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </svg>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1"
@@ -2042,7 +2042,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <svg
                 aria-hidden="true"
@@ -2355,10 +2355,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </div>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-89"
+              class="MuiBox-root MuiBox-root-91"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -2377,10 +2377,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </p>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-90"
+              class="MuiBox-root MuiBox-root-92"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -2400,7 +2400,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           </div>
           <a
             aria-disabled="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-91 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-93 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
             href="https://jonesdao.io/farms"
             tabindex="0"
             target="_blank"
@@ -2431,7 +2431,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
       </div>
     </div>
     <div
-      class="MuiPaper-root makeStyles-root-1 makeStyles-root-92  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-94  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -2441,10 +2441,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="makeStyles-poolPair-22"
+            class="makeStyles-poolPair-24"
           >
             <div
-              class="MuiBox-root MuiBox-root-93"
+              class="MuiBox-root MuiBox-root-95"
             >
               <svg
                 aria-hidden="true"
@@ -2530,7 +2530,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </svg>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1"
@@ -2539,7 +2539,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <svg
                 aria-hidden="true"
@@ -2590,10 +2590,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </div>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-94"
+              class="MuiBox-root MuiBox-root-96"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -2612,10 +2612,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </p>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-95"
+              class="MuiBox-root MuiBox-root-97"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -2635,7 +2635,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           </div>
           <a
             aria-disabled="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-96 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-98 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
             href="https://app.balancer.fi/#/pool/0xc45d42f801105e861e86658648e3678ad7aa70f900010000000000000000011e"
             tabindex="0"
             target="_blank"
@@ -2666,7 +2666,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
       </div>
     </div>
     <div
-      class="MuiPaper-root makeStyles-root-1 makeStyles-root-97  MuiPaper-elevation0 MuiPaper-rounded"
+      class="MuiPaper-root makeStyles-root-1 makeStyles-root-99  MuiPaper-elevation0 MuiPaper-rounded"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -2676,10 +2676,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           class="MuiGrid-root MuiGrid-item"
         >
           <div
-            class="makeStyles-poolPair-22"
+            class="makeStyles-poolPair-24"
           >
             <div
-              class="MuiBox-root MuiBox-root-98"
+              class="MuiBox-root MuiBox-root-100"
             >
               <svg
                 aria-hidden="true"
@@ -2778,7 +2778,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </svg>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1"
@@ -2787,7 +2787,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
               </p>
             </div>
             <div
-              class="makeStyles-poolName-23"
+              class="makeStyles-poolName-25"
             >
               <svg
                 aria-hidden="true"
@@ -2841,10 +2841,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </div>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-99"
+              class="MuiBox-root MuiBox-root-101"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -2863,10 +2863,10 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
             </p>
           </div>
           <div
-            class="makeStyles-root-57 data-row"
+            class="makeStyles-root-59 data-row"
           >
             <div
-              class="MuiBox-root MuiBox-root-100"
+              class="MuiBox-root MuiBox-root-102"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
@@ -2886,7 +2886,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
           </div>
           <a
             aria-disabled="false"
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-18 makeStyles-root-101 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-20 makeStyles-root-103 undefined MuiButton-outlinedSecondary MuiButton-disableElevation MuiButton-fullWidth"
             href="https://oolongswap.com/#/farm/lp"
             tabindex="0"
             target="_blank"
