@@ -7,32 +7,82 @@ import { useQuery } from "react-query";
 //import { RANGE_CONTRACT, RANGE_PRICE_CONTRACT } from "src/constants/contracts";
 // import { NetworkId } from "src/networkDetails";
 
-export const OHMPriceHistory = (address: string) => {
-  const graphURL = "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3";
+/**Chainlink Price Feed. Retrieves OHMETH and ETH/{RESERVE} feed **/
+export const OHMPriceHistory = (assetPair = "OHMv2/ETH") => {
+  const graphURL = "https://api.thegraph.com/subgraphs/name/openpredict/chainlink-prices-subgraph";
   const {
     data = [],
     isFetched,
     isLoading,
-  } = useQuery(["OHMPriceHistory", address], async () => {
+  } = useQuery(["OHMPriceHistory", assetPair], async () => {
     const data = await request(
       graphURL,
       gql`
         {
-          tokenDayDatas(
-            where: { token: "${address}" }
-            orderBy: date
-            orderDirection: desc
-            first: 7
-          ) {
-            priceUSD
-            date
+          prices(where: { assetPair: "${assetPair}" }, orderBy: timestamp, first: 8, orderDirection: desc) {
+            price
+            timestamp
           }
         }
       `,
     );
-    return data.tokenDayDatas;
+    return data.prices;
   });
 
+  return { data, isFetched, isLoading };
+};
+
+export const ReservePriceHistory = (reserveToken: string) => {
+  const graphURL = "https://api.thegraph.com/subgraphs/name/openpredict/chainlink-prices-subgraph";
+  const {
+    data = [],
+    isFetched,
+    isLoading,
+  } = useQuery(["ReservePriceHistory", reserveToken], async () => {
+    const data = await request(
+      graphURL,
+      gql`
+          {
+            prices(where: { assetPair: "${reserveToken}/ETH" }, orderBy: timestamp, first: 8, orderDirection: desc) {
+              price
+              timestamp
+            }
+          }
+        `,
+    );
+    return data.prices;
+  });
+
+  return { data, isFetched, isLoading };
+};
+
+/**
+ * Returns the price of OHM per Reserve Asset
+ * @param reserveToken Reserve Asset
+ * */
+export const PriceHistory = (reserveToken: string) => {
+  const { data: ohmPriceData } = OHMPriceHistory();
+  const { data: reservePriceData } = ReservePriceHistory(reserveToken);
+
+  // Then get the user's projects
+  const {
+    data = [],
+    isFetched,
+    isLoading,
+  } = useQuery(
+    ["priceHistory", ohmPriceData, reservePriceData],
+    () => {
+      console.log("price history", ohmPriceData, reservePriceData);
+      const prices = ohmPriceData.map((ohmPrice: { price: number; timestamp: number }, index: any) => {
+        return {
+          price: ohmPrice.price / 1e18 / (reservePriceData[index].price / 1e18),
+          timestamp: new Date(ohmPrice.timestamp * 1000).toLocaleString(),
+        };
+      });
+      return prices;
+    },
+    { enabled: !!ohmPriceData && !!ohmPriceData },
+  );
   return { data, isFetched, isLoading };
 };
 
@@ -63,7 +113,7 @@ export const RangeBoundaries = (address: string) => {
     isLoading,
   } = useQuery(["Capacity", address], async () => {
     //TODO: REMOVE STUB RESPONSE
-    return { low: 2000, high: 2500, cushion: 1000, wall: 10000 };
+    return { low: 12, high: 18, cushion: 1000, wall: 10000 };
   });
   return { data, isFetched, isLoading };
 };

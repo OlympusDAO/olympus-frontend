@@ -1,10 +1,60 @@
 import { Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Area, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, ComposedChart, Line, ReferenceDot, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-import { OHMPriceHistory, RangeBoundaries } from "./hooks";
+import { PriceHistory, RangeBoundaries } from "./hooks";
 
-const useStyles = makeStyles<Theme>(theme => ({}));
+const useStyles = makeStyles<Theme>(theme => ({
+  root: {
+    "& .svg-area": {
+      display: "block",
+      margin: "0 auto 1rem",
+      background: " #efefef",
+    },
+    "& #core": {
+      fill: "#F8CC82",
+      animation: "$pulse1 1.5s ease-in-out infinite",
+    },
+    "& #radar": {
+      fill: "rgba(248, 204, 130, 0.5)",
+      animation: "$pulse2 1.5s ease-in-out infinite",
+    },
+  },
+  "@keyframes pulse1": {
+    "0%": {
+      opacity: 0,
+      transform: "scale(0)",
+    },
+    "30%": {
+      opacity: 1,
+      transform: "scale(1.5)",
+    },
+    "60%": {
+      opacity: 1,
+      transform: "scale(2)",
+    },
+
+    "100%": {
+      opacity: 0,
+      transform: "scale(2)",
+    },
+  },
+
+  "@keyframes pulse2": {
+    "0%": {
+      transform: "scale(1, 1)",
+      opacity: 0,
+    },
+
+    "50%": {
+      opacity: 1,
+    },
+    "100%": {
+      transform: "scale(6, 6)",
+      opacity: 0,
+    },
+  },
+}));
 
 //export interface OHMRangeChartProps {}
 
@@ -13,7 +63,7 @@ const useStyles = makeStyles<Theme>(theme => ({}));
  */
 const RangeChart = () => {
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
-  const { data: priceData } = OHMPriceHistory("0x0ab87046fbb341d058f17cbc4c1133f25a20a52f");
+  const { data: priceData } = PriceHistory("DAI");
   const classes = useStyles();
   const { data: rangeBoundaries } = RangeBoundaries("CONTRACT_ADDRESS");
 
@@ -25,37 +75,41 @@ const RangeChart = () => {
     };
   });
 
-  console.log(priceData, chartData);
+  chartData.unshift({
+    uv: [rangeBoundaries.high, rangeBoundaries.high * (1 - rangeBoundaries.cushion / 1e4)],
+    lv: [rangeBoundaries.low, rangeBoundaries.low * (1 + rangeBoundaries.cushion / 1e4)],
+  });
+
+  const CustomReferenceDot = (props: { cx: string | number | undefined; cy: string | number | undefined }) => {
+    return (
+      <g transform="translate(680,210)" className={classes.root}>
+        <circle id="core" r="6"></circle>
+        <circle id="radar" r="6"></circle>
+      </g>
+    );
+  };
 
   return (
     <ResponsiveContainer width="100%" height={400}>
       <ComposedChart data={chartData}>
         <defs>
           <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="4" height="4">
-            <path
-              d="M-1,1 l2,-2
-       M0,4 l4,-4
-       M3,5 l2,-2"
-              stroke="#ff8585"
-              strokeWidth="1"
-            />
+            <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke="#ff8585" strokeWidth="1" />
           </pattern>
           <pattern id="diagonalHatchLow" patternUnits="userSpaceOnUse" width="4" height="4">
-            <path
-              d="M-1,1 l2,-2
-       M0,4 l4,-4
-       M3,5 l2,-2"
-              stroke="#94b9a1"
-              strokeWidth=""
-            />
+            <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke="#94b9a1" strokeWidth="" />
           </pattern>
         </defs>
-        <XAxis reversed scale="auto" dataKey="date" />
+        <XAxis reversed scale="auto" dataKey="timestamp" />
         <YAxis scale="auto" domain={["dataMin", "dataMax"]} />
-        <Tooltip />
-        <Line type="monotone" dataKey="priceUSD" stroke="#fafafa" dot={false} />
         <Area type="monotone" dataKey="uv" fill="url(#diagonalHatch)" stroke="#ff8585" />
         <Area type="linear" fill="url(#diagonalHatchLow)" dataKey="lv" stroke="#94b9a1" dot={false} />
+        <Line type="monotone" dataKey="price" stroke="#fafafa" dot={false} strokeWidth={4} />
+        <ReferenceDot
+          x={chartData.length > 1 && chartData[1].timestamp}
+          y={chartData.length > 1 && chartData[1].price}
+          shape={CustomReferenceDot}
+        />
       </ComposedChart>
     </ResponsiveContainer>
   );
