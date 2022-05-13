@@ -22,12 +22,6 @@ const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVa
 
 const MetricsDashboard = () => (
   <>
-    <Routes>
-      <Route path="/treasury" element={<TreasuryDashboard activeView={1} />} />
-      <Route path="/revenue" element={<TreasuryDashboard activeView={2} />} />
-      <Route path="/olympuspro" element={<TreasuryDashboard activeView={3} />} />
-      <Route path="/proteus" element={<TreasuryDashboard activeView={4} />} />
-    </Routes>
     <Box className="hero-metrics">
       <Paper className="ohm-card">
         <MetricCollection>
@@ -128,6 +122,8 @@ const TreasuryDashboard: React.FC<{ activeView?: number }> = ({ activeView = 0 }
     navigate(newView === 0 ? "/dashboard" : `/dashboard/${dashboardTabs[newView].pathname}`);
   };
 
+  console.log(view);
+
   return (
     <div id="treasury-dashboard-view" className={`${isSmallScreen && "smaller"} ${isVerySmallScreen && "very-small"}`}>
       {!Environment.isMultifarmDashboardEnabled() ? (
@@ -193,4 +189,16 @@ const TreasuryDashboard: React.FC<{ activeView?: number }> = ({ activeView = 0 }
   );
 };
 
-export default memo(TreasuryDashboard);
+const TreasuryDashboardRoutes: React.FC<{ activeView?: number }> = ({ activeView = 0 }) => {
+  return (
+    <Routes>
+      <Route path="/" element={<TreasuryDashboard activeView={0} />} />
+      <Route path="/treasury" element={<TreasuryDashboard activeView={1} />} />
+      <Route path="/revenue" element={<TreasuryDashboard activeView={2} />} />
+      <Route path="/olympuspro" element={<TreasuryDashboard activeView={3} />} />
+      <Route path="/proteus" element={<TreasuryDashboard activeView={4} />} />
+    </Routes>
+  );
+};
+
+export default memo(TreasuryDashboardRoutes);
