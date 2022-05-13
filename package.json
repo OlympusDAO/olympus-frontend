@@ -121,7 +121,7 @@
     "postcss": "^8.4.13",
     "pptr-testing-library": "^0.7.0",
     "prettier": "^2.6.2",
-    "puppeteer": "^14.0.0",
+    "puppeteer": "^14.1.0",
     "sass": "^1.51.0",
     "shelljs": "^0.8.5",
     "surge": "^0.21.5",
