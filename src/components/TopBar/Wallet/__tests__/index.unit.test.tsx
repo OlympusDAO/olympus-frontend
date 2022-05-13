@@ -9,14 +9,7 @@ describe("Wallet Drawer Disconnected", () => {
     render(<Wallet component="wallet" open={true} />);
     expect(screen.getByText("Please Connect Your Wallet")).toBeInTheDocument();
   });
-  it("Should Display Calculator View", async () => {
-    render(<Wallet component="calculator" open={true} />);
-    expect(
-      screen.getByText(
-        "This is strictly a tool to help Ohmies better estimate potential ROI. The estimates above are based on current market conditions and should not be interpreted as financial advice in any way",
-      ),
-    ).toBeInTheDocument();
-  });
+
   it("Should Display Utility View", async () => {
     render(<Wallet component="utility" open={true} />);
     expect(screen.getByText("Exchanges")).toBeInTheDocument();

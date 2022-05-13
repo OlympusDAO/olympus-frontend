@@ -9,7 +9,6 @@ import { useWeb3Context } from "src/hooks";
 import { NetworkId } from "src/networkDetails";
 
 import Assets from "./Assets";
-import Calculator from "./Calculator";
 import GetOhm from "./GetOhm";
 import Info from "./Info";
 
@@ -150,8 +149,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
             items={[
               { label: "Wallet", to: "/wallet" },
               { label: "Utility", to: "/utility" },
-              { label: "Calculator", to: "/calculator" },
-              { label: "Info", to: `${process.env.REACT_APP_DISABLE_NEWS ? "/info/proposals" : "/info"}` },
+              { label: "Info", to: "/info" },
             ]}
             mb={"18px"}
           />
@@ -167,8 +165,6 @@ export function Wallet(props: { open?: boolean; component?: string }) {
         >
           {(() => {
             switch (props.component) {
-              case "calculator":
-                return <Calculator />;
               case "info":
                 return <Info path={id} />;
               case "utility":
