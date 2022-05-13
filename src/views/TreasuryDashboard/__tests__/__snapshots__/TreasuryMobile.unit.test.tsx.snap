@@ -96,6 +96,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
               class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
               id="simple-tab-undefined"
               role="tab"
+              style="white-space: nowrap;"
               tabindex="-1"
               type="button"
             >

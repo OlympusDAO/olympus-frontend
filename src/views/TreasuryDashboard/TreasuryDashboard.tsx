@@ -118,6 +118,7 @@ const PageWrapper = () => {
       ) : (
         <>
           <Tabs
+            value={false}
             variant={!(isSmallScreen || isVerySmallScreen) ? "standard" : "scrollable"}
             centered={!(isSmallScreen || isVerySmallScreen)}
             scrollButtons="auto"
