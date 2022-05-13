@@ -113,7 +113,7 @@ const PageWrapper = () => {
             paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
           }}
         >
-          <MetricsDashboard />
+          <Outlet />
         </Container>
       ) : (
         <>
