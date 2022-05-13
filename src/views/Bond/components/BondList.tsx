@@ -179,7 +179,7 @@ const BondTable: React.FC<{ isInverseBond: boolean }> = ({ children, isInverseBo
 );
 
 const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isInverseBond }) => (
-  <TableRow id={bond.id + `--bond`}>
+  <TableRow id={bond.id + `--bond`} data-testid={bond.id + `--bond`}>
     <TableCell style={{ padding: "8px 0" }}>
       <TokenIcons token={bond.quoteToken} />
     </TableCell>

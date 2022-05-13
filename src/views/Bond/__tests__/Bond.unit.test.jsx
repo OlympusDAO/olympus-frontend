@@ -18,8 +18,10 @@ import {
   inverseTerms,
   marketPrice,
   markets,
+  mockInverseLiveMarkets,
   mockLiveMarkets,
   mockNoInverseLiveMarkets,
+  mockNoLiveMarkets,
   notes,
   terms,
 } from "../__mocks__/mockLiveMarkets";
@@ -35,6 +37,16 @@ beforeEach(() => {
   Token.OHM_DAI_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("200000"));
   Token.LUSD_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
   Token.FRAX_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
+});
+
+afterEach(() => {
+  jest.resetAllMocks();
+
+  Token.OHM_TOKEN.getPrice.mockReset();
+  Token.DAI_TOKEN.getPrice.mockReset();
+  Token.OHM_DAI_LP_TOKEN.getPrice.mockReset();
+  Token.LUSD_TOKEN.getPrice.mockReset();
+  Token.FRAX_TOKEN.getPrice.mockReset();
 });
 
 jest.mock("react-router", () => ({
@@ -83,6 +95,10 @@ describe("Bonds", () => {
     render(<Bond />);
   });
 
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it("should render component with LUSD", async () => {
     expect(await screen.findByText("LUSD")).toBeInTheDocument();
   });
@@ -103,6 +119,61 @@ describe("Bonds", () => {
   });
 });
 
+describe("Empty Bonds", () => {
+  beforeEach(() => {
+    const bondDepository = jest.spyOn(Contract.BOND_DEPOSITORY_CONTRACT, "getEthersContract");
+    const inverseBondDepository = jest.spyOn(Contract.OP_BOND_DEPOSITORY_CONTRACT, "getEthersContract");
+    bondDepository.mockReturnValue({
+      connect: jest.fn().mockReturnValue({
+        deposit: jest.fn().mockResolvedValue(true),
+      }),
+      liveMarkets: jest.fn().mockResolvedValue(mockNoLiveMarkets), // No bonds
+      terms: jest.fn().mockImplementation(id => {
+        return Promise.resolve(terms[id]);
+      }),
+      markets: jest.fn().mockImplementation(id => {
+        return Promise.resolve(markets[id]);
+      }),
+      marketPrice: jest.fn().mockImplementation(id => {
+        return Promise.resolve(marketPrice[id]);
+      }),
+      indexesFor: jest.fn().mockResolvedValue(indexesFor),
+      notes: jest.fn().mockResolvedValue(notes),
+      wait: jest.fn().mockResolvedValue(true),
+    });
+    inverseBondDepository.mockReturnValue({
+      connect: jest.fn().mockReturnValue({
+        deposit: jest.fn().mockResolvedValue(true),
+      }),
+      liveMarkets: jest.fn().mockResolvedValue(mockInverseLiveMarkets),
+      terms: jest.fn().mockImplementation(id => {
+        return Promise.resolve(inverseTerms[id]);
+      }),
+      markets: jest.fn().mockImplementation(id => {
+        return Promise.resolve(inverseMarkets[id]);
+      }),
+      marketPrice: jest.fn().mockImplementation(id => {
+        return Promise.resolve(inverseMarketPrice[id]);
+      }),
+      wait: jest.fn().mockResolvedValue(true),
+    });
+    render(<Bond />);
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it("should default to inverse bond tab", async () => {
+    expect(await screen.findByTestId("8--bond")).toBeInTheDocument(); // bond id of 8
+    expect(await screen.findByText("$0.00")).toBeInTheDocument(); // Price of the DAI inverse bond
+
+    // If the inverse bond tab were not selected, this would appear
+    expect(await screen.queryByText("No active bonds")).toBeNull();
+    expect(await screen.queryByText("$17.21")).toBeNull();
+  });
+});
+
 describe("Bond Modal", () => {
   beforeEach(() => {
     jest.spyOn(Router, "useParams").mockReturnValue({ id: "38" });
@@ -116,6 +187,14 @@ describe("Bond Modal", () => {
     });
     Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
   });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+
+    Balance.useBalance.mockReset();
+    ContractAllowance.useContractAllowance.mockReset();
+  });
+
   it("Should display bond modal with Fixed Term Bond", async () => {
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
     render(<BondModalContainer />);
@@ -127,6 +206,7 @@ describe("Bond Modal", () => {
     render(<BondModalContainer />);
     expect(await screen.findByText("Fixed Term")).toBeInTheDocument();
   });
+
   it("Should display bond modal with Approve Button", async () => {
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(0) });
     render(<BondModalContainer />);

@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 import { Box, Tab, Tabs, Zoom } from "@material-ui/core";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import { OHMPrice, TreasuryBalance } from "../TreasuryDashboard/components/Metric/Metric";
@@ -14,9 +14,17 @@ export const Bond = () => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [currentAction, setCurrentAction] = useState<"BOND" | "INVERSE">("BOND");
 
-  const bonds = useLiveBonds().data;
+  const liveBonds = useLiveBonds();
+  const bonds = liveBonds.data;
   const inverse = useLiveBonds({ isInverseBond: true }).data;
   const showTabs = !!inverse && inverse.length > 0 && !!bonds;
+
+  useEffect(() => {
+    // On initial load, if there are no bonds, switch to inverse bonds
+    if (liveBonds.isSuccess && liveBonds.data.length === 0) {
+      setCurrentAction("INVERSE");
+    }
+  }, [liveBonds]);
 
   return (
     <>
