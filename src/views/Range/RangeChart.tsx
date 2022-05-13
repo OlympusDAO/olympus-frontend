@@ -82,28 +82,47 @@ const RangeChart = () => {
 
   const CustomReferenceDot = (props: { cx: string | number | undefined; cy: string | number | undefined }) => {
     return (
-      <g transform="translate(680,210)" className={classes.root}>
-        <circle id="core" r="6"></circle>
-        <circle id="radar" r="6"></circle>
-      </g>
+      <>
+        <circle cx={props.cx} cy={props.cy} fill="#F8CC82" r="8"></circle>
+        <circle cx={props.cx} cy={props.cy} fill="#F8CC82" r="8">
+          <animate
+            attributeName="opacity"
+            keyTimes="0; .5; 1"
+            values="0; 1; 0"
+            dur="1.5s"
+            begin="0s"
+            repeatCount="indefinite"
+          />
+          <animate attributeName="r" keyTimes="0; 1" values="8; 20" dur="1.5s" begin="0s" repeatCount="indefinite" />
+        </circle>
+      </>
     );
   };
 
   return (
     <ResponsiveContainer width="100%" height={400}>
       <ComposedChart data={chartData}>
-        <defs>
-          <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="4" height="4">
-            <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke="#ff8585" strokeWidth="1" />
-          </pattern>
-          <pattern id="diagonalHatchLow" patternUnits="userSpaceOnUse" width="4" height="4">
-            <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke="#94b9a1" strokeWidth="" />
-          </pattern>
-        </defs>
         <XAxis reversed scale="auto" dataKey="timestamp" />
         <YAxis scale="auto" domain={["dataMin", "dataMax"]} />
-        <Area type="monotone" dataKey="uv" fill="url(#diagonalHatch)" stroke="#ff8585" />
-        <Area type="linear" fill="url(#diagonalHatchLow)" dataKey="lv" stroke="#94b9a1" dot={false} />
+        <Area
+          type="monotone"
+          dataKey="uv"
+          fill="#ff8585"
+          stroke="#ff8585"
+          strokeDasharray={"6 3"}
+          strokeWidth={2}
+          fillOpacity={0.4}
+        />
+        <Area
+          type="linear"
+          fill="#94b9a1"
+          dataKey="lv"
+          stroke="#94b9a1"
+          dot={false}
+          strokeDasharray="6 3"
+          strokeWidth={2}
+          fillOpacity={0.4}
+        />
         <Line type="monotone" dataKey="price" stroke="#fafafa" dot={false} strokeWidth={4} />
         <ReferenceDot
           x={chartData.length > 1 && chartData[1].timestamp}

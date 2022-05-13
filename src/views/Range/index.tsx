@@ -4,8 +4,8 @@ import { Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/componen
 import { Route, Routes } from "react-router-dom";
 
 import RangeChart from "./RangeChart";
+import RangeInputForm from "./RangeInputForm";
 import RangeModal from "./RangeModal";
-import RangeTable from "./RangeTable";
 
 const useStyles = makeStyles<Theme>(theme => ({}));
 
@@ -18,18 +18,18 @@ const Range = () => {
   const classes = useStyles();
   return (
     <div id="stake-view">
-      <Paper headerText="Range">
+      <Paper headerText="Range Swap">
         <MetricCollection>
-          <Metric label="Floor" metric="$15.15" />
           <Metric label="Current OHM Price" metric="$16.15" />
-          <Metric label="Ceiling" metric="$20.15" />
+          <Metric label="Lower Wall" metric="$15.15" />
+          <Metric label="Upper Wall" metric="$20.15" />
         </MetricCollection>
         <RangeChart />
         <Tabs centered>
           <Tab label="Buy" />
           <Tab label="Sell" />
         </Tabs>
-        <RangeTable />
+        <RangeInputForm />
       </Paper>
       <Routes>
         <Route path=":id" element={<RangeModal />} />
