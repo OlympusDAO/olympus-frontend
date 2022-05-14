@@ -16,17 +16,18 @@ const useStyles = makeStyles<Theme>(theme => ({
 /**
  * Component for Displaying RangeChart
  */
-const RangeChart = (props: { rangeBoundaries: any }) => {
+const RangeChart = (props: { rangeBoundaries: any; currentPrice: number }) => {
   const classes = useStyles();
-  const { rangeBoundaries } = props;
+  const { rangeBoundaries, currentPrice } = props;
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData } = PriceHistory("DAI");
-
+  const cushionHigh = rangeBoundaries.high * (1 - rangeBoundaries.cushion / 1e4);
+  const cushionLow = rangeBoundaries.low * (1 + rangeBoundaries.cushion / 1e4);
   const chartData = priceData.map((item: any) => {
     return {
       ...item,
-      uv: [rangeBoundaries.high, rangeBoundaries.high * (1 - rangeBoundaries.cushion / 1e4)],
-      lv: [rangeBoundaries.low, rangeBoundaries.low * (1 + rangeBoundaries.cushion / 1e4)],
+      uv: [rangeBoundaries.high, cushionHigh],
+      lv: [rangeBoundaries.low, cushionLow],
     };
   });
 
@@ -63,11 +64,11 @@ const RangeChart = (props: { rangeBoundaries: any }) => {
 
   const TooltipContent = () => (
     <Paper className={`ohm-card tooltip-container`}>
-      <DataRow title="Price" balance="$16.15" />
-      <DataRow title="Upper Wall" balance="$16.15" />
-      <DataRow title="Upper Cushion" balance="$16.15" />
-      <DataRow title="Lower Cushion" balance="$16.15" />
-      <DataRow title="Lower Wall" balance="$16.15" />
+      <DataRow title="Price" balance={formatCurrency(currentPrice, 2)} />
+      <DataRow title="Upper Wall" balance={formatCurrency(rangeBoundaries.high, 2)} />
+      <DataRow title="Upper Cushion" balance={formatCurrency(cushionHigh, 2)} />
+      <DataRow title="Lower Cushion" balance={formatCurrency(cushionLow, 2)} />
+      <DataRow title="Lower Wall" balance={formatCurrency(rangeBoundaries.low, 2)} />
     </Paper>
   );
 

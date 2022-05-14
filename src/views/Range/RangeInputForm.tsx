@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 import { Box, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { DataRow, Icon, Input, PrimaryButton } from "@olympusdao/component-library";
+import { Icon, Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 
 const useStyles = makeStyles<Theme>(theme => ({}));
@@ -11,7 +11,8 @@ const useStyles = makeStyles<Theme>(theme => ({}));
 /**
  * Component for Displaying RangeInputForm
  */
-const RangeInputForm = ({ reserveSymbol = "DAI" }) => {
+const RangeInputForm = (props: { reserveSymbol: string; currentPrice: number }) => {
+  const { reserveSymbol, currentPrice } = props;
   const classes = useStyles();
   const [reserveAmount, setReserveAmount] = useState("");
   const [ohmAmount, setOhmAmount] = useState("");
@@ -20,7 +21,7 @@ const RangeInputForm = ({ reserveSymbol = "DAI" }) => {
   };
 
   //TODO: Swap for Current Price
-  const currentPrice = 15.15;
+
   const changeOhmBalance = (value: any) => {
     const reserveValue = value * currentPrice;
     setOhmAmount(value);
@@ -73,9 +74,6 @@ const RangeInputForm = ({ reserveSymbol = "DAI" }) => {
           Swap {reserveSymbol} for OHM
         </PrimaryButton>
       </Box>
-      <DataRow title={t`Max you Can Buy`} balance={`20 OHM`} />
-      <DataRow title={t`Discount`} balance={`-33%`} />
-      <DataRow title={t`Price of OHM`} balance={`$15.15`} />
     </Box>
   );
 };
