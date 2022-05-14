@@ -220,13 +220,13 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-lh3jjg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-1rlzluu-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                 >
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="asset-select"
-                    class="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-769ok-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                    class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                     id="asset-select"
                     role="button"
                     tabindex="0"
@@ -241,7 +241,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconOutlined css-1uebwt4-MuiSvgIcon-root-MuiSelect-icon"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-1xyntl6-MuiSvgIcon-root-MuiSelect-icon"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 20 20"
@@ -250,18 +250,6 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                       d="M7 10l5 5 5-5z"
                     />
                   </svg>
-                  <fieldset
-                    aria-hidden="true"
-                    class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
-                  >
-                    <legend
-                      class="css-1in441m"
-                    >
-                      <span>
-                        Asset
-                      </span>
-                    </legend>
-                  </fieldset>
                 </div>
               </div>
               <p
@@ -278,13 +266,13 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-lh3jjg-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-1rlzluu-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                 >
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-labelledby="asset-select"
-                    class="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-769ok-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                    class="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-wa1hpy-MuiSelect-select-MuiInputBase-input-MuiInput-input"
                     id="asset-select"
                     role="button"
                     tabindex="0"
@@ -299,7 +287,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconOutlined css-1uebwt4-MuiSvgIcon-root-MuiSelect-icon"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall MuiSelect-icon MuiSelect-iconStandard css-1xyntl6-MuiSvgIcon-root-MuiSelect-icon"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 20 20"
@@ -308,18 +296,6 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                       d="M7 10l5 5 5-5z"
                     />
                   </svg>
-                  <fieldset
-                    aria-hidden="true"
-                    class="MuiOutlinedInput-notchedOutline css-1csa3kb-MuiOutlinedInput-notchedOutline"
-                  >
-                    <legend
-                      class="css-1in441m"
-                    >
-                      <span>
-                        Asset
-                      </span>
-                    </legend>
-                  </fieldset>
                 </div>
               </div>
             </div>
