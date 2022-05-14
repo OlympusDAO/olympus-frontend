@@ -20,7 +20,7 @@ const RangeInputForm = ({ reserveSymbol = "DAI" }) => {
   };
 
   //TODO: Swap for Current Price
-  const currentPrice = 16.15;
+  const currentPrice = 15.15;
   const changeOhmBalance = (value: any) => {
     const reserveValue = value * currentPrice;
     setOhmAmount(value);
@@ -73,9 +73,9 @@ const RangeInputForm = ({ reserveSymbol = "DAI" }) => {
           Swap {reserveSymbol} for OHM
         </PrimaryButton>
       </Box>
-      <DataRow title={t`Max you Can Buy`} balance={`${reserveAmount} OHM`} />
-      <DataRow title={t`Discount`} balance={`${reserveAmount} OHM`} />
-      <DataRow title={t`Price of OHM`} balance={`${reserveAmount} OHM`} />
+      <DataRow title={t`Max you Can Buy`} balance={`20 OHM`} />
+      <DataRow title={t`Discount`} balance={`-33%`} />
+      <DataRow title={t`Price of OHM`} balance={`$15.15`} />
     </Box>
   );
 };
