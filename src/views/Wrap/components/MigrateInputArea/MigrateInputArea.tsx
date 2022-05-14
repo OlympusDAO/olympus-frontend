@@ -36,7 +36,7 @@ export const MigrateInputArea = () => {
       <Box display="flex" alignItems="center">
         <Typography>Migrate</Typography>
 
-        <FormControl style={{ margin: "0 10px" }}>
+        <FormControl style={{ margin: "0 10px" }} variant="standard">
           <Select label="Asset" disableUnderline id="asset-select" value="wsOHM">
             <MenuItem value="wsOHM">wsOHM</MenuItem>
           </Select>
@@ -46,7 +46,7 @@ export const MigrateInputArea = () => {
           <span className="asset-select-label"> to </span>
         </Typography>
 
-        <FormControl style={{ margin: "0 10px" }}>
+        <FormControl style={{ margin: "0 10px" }} variant="standard">
           <Select value="gOHM" label="Asset" disableUnderline id="asset-select">
             <MenuItem value="gOHM">gOHM</MenuItem>
           </Select>
