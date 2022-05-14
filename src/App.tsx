@@ -349,7 +349,7 @@ function App() {
               <Route path="/wrap" element={<Wrap />} />
               <Route path="/zap" element={<Zap />} />
               <Route path="/bonds/*" element={<Bond />} />
-              <Route path="/dashboard/*" element={<TreasuryDashboard activeView={0} />} />
+              <Route path="/dashboard/*" element={<TreasuryDashboard />} />
 
               <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
               {process.env.REACT_APP_DISABLE_NEWS && (
