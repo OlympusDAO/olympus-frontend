@@ -23,7 +23,7 @@ export const Bond = () => {
 
   const setCurrentTab = (tab: "BOND" | "INVERSE") => {
     setCurrentAction(tab);
-    navigate(`#/bonds/${tab === "INVERSE" ? "inverse" : ""}`);
+    navigate(`/bonds/${tab === "INVERSE" ? "inverse" : ""}`);
   };
 
   const changeTab = (_event: React.ChangeEvent<unknown>, newValue: number) => {
