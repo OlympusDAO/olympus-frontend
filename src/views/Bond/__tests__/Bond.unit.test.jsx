@@ -18,10 +18,8 @@ import {
   inverseTerms,
   marketPrice,
   markets,
-  mockInverseLiveMarkets,
   mockLiveMarkets,
   mockNoInverseLiveMarkets,
-  mockNoLiveMarkets,
   notes,
   terms,
 } from "../__mocks__/mockLiveMarkets";
@@ -92,7 +90,6 @@ describe("Bonds", () => {
       }),
       wait: jest.fn().mockResolvedValue(true),
     });
-    render(<Bond />);
   });
 
   afterEach(() => {
@@ -100,77 +97,33 @@ describe("Bonds", () => {
   });
 
   it("should render component with LUSD", async () => {
+    render(<Bond />);
+
     expect(await screen.findByText("LUSD")).toBeInTheDocument();
   });
 
   it("should render component with OHM-DAI LP", async () => {
+    render(<Bond />);
+
     expect(await screen.queryAllByText("OHM-DAI LP")[0]).toBeInTheDocument();
   });
 
   it("should render component with FRAX", async () => {
+    render(<Bond />);
+
     expect(await screen.findByText("FRAX")).toBeInTheDocument();
   });
 
   it("Should display the correct LP value", async () => {
+    render(<Bond />);
+
     expect(await screen.findByText("$17.21")).toBeInTheDocument();
   });
+
   it("Should display the correct % Discount value", async () => {
-    expect(await screen.findByText("13.96%")).toBeInTheDocument();
-  });
-});
-
-describe("Empty Bonds", () => {
-  beforeEach(() => {
-    const bondDepository = jest.spyOn(Contract.BOND_DEPOSITORY_CONTRACT, "getEthersContract");
-    const inverseBondDepository = jest.spyOn(Contract.OP_BOND_DEPOSITORY_CONTRACT, "getEthersContract");
-    bondDepository.mockReturnValue({
-      connect: jest.fn().mockReturnValue({
-        deposit: jest.fn().mockResolvedValue(true),
-      }),
-      liveMarkets: jest.fn().mockResolvedValue(mockNoLiveMarkets), // No bonds
-      terms: jest.fn().mockImplementation(id => {
-        return Promise.resolve(terms[id]);
-      }),
-      markets: jest.fn().mockImplementation(id => {
-        return Promise.resolve(markets[id]);
-      }),
-      marketPrice: jest.fn().mockImplementation(id => {
-        return Promise.resolve(marketPrice[id]);
-      }),
-      indexesFor: jest.fn().mockResolvedValue(indexesFor),
-      notes: jest.fn().mockResolvedValue(notes),
-      wait: jest.fn().mockResolvedValue(true),
-    });
-    inverseBondDepository.mockReturnValue({
-      connect: jest.fn().mockReturnValue({
-        deposit: jest.fn().mockResolvedValue(true),
-      }),
-      liveMarkets: jest.fn().mockResolvedValue(mockInverseLiveMarkets),
-      terms: jest.fn().mockImplementation(id => {
-        return Promise.resolve(inverseTerms[id]);
-      }),
-      markets: jest.fn().mockImplementation(id => {
-        return Promise.resolve(inverseMarkets[id]);
-      }),
-      marketPrice: jest.fn().mockImplementation(id => {
-        return Promise.resolve(inverseMarketPrice[id]);
-      }),
-      wait: jest.fn().mockResolvedValue(true),
-    });
     render(<Bond />);
-  });
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
-  it("should default to inverse bond tab", async () => {
-    expect(await screen.findByTestId("8--bond")).toBeInTheDocument(); // bond id of 8
-    expect(await screen.findByText("$0.00")).toBeInTheDocument(); // Price of the DAI inverse bond
-
-    // If the inverse bond tab were not selected, this would appear
-    expect(await screen.queryByText("No active bonds")).toBeNull();
-    expect(await screen.queryByText("$17.21")).toBeNull();
+    expect(await screen.findByText("13.96%")).toBeInTheDocument();
   });
 });
 
