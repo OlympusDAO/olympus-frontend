@@ -209,7 +209,7 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
     <TableCell style={{ padding: "8px 0" }}>
       <Link component={NavLink} to={isInverseBond ? `/bonds/inverse/${bond.id}` : `/bonds/${bond.id}`}>
         <TertiaryButton fullWidth disabled={bond.isSoldOut}>
-          {bond.isSoldOut ? "Sold Out" : t`do_bond`}
+          {bond.isSoldOut ? t`Sold Out` : t`Bond`}
         </TertiaryButton>
       </Link>
     </TableCell>
