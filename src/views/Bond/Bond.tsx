@@ -73,8 +73,13 @@ export const Bond = () => {
                   // Hides the tab underline while <Zoom> is zooming
                   TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
                 >
-                  <Tab aria-label="bond-button" label={t`Bond`} style={{ fontSize: "1rem" }} />
-                  <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} style={{ fontSize: "1rem" }} />
+                  <Tab data-testid="bond-tab" aria-label="bond-button" label={t`Bond`} style={{ fontSize: "1rem" }} />
+                  <Tab
+                    data-testid="inverse-bond-tab"
+                    aria-label="inverse-bond-button"
+                    label={t`Inverse Bond`}
+                    style={{ fontSize: "1rem" }}
+                  />
                 </Tabs>
               )}
 
