@@ -1,8 +1,8 @@
 import { t } from "@lingui/macro";
 import { Box, Tab, Tabs, Zoom } from "@material-ui/core";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
-import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import { OHMPrice, TreasuryBalance } from "../TreasuryDashboard/components/Metric/Metric";
 import { BondList } from "./components/BondList";
@@ -14,9 +14,40 @@ export const Bond = () => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [currentAction, setCurrentAction] = useState<"BOND" | "INVERSE">("BOND");
 
-  const bonds = useLiveBonds().data;
+  const navigate = useNavigate();
+
+  const liveBonds = useLiveBonds();
+  const bonds = liveBonds.data;
   const inverse = useLiveBonds({ isInverseBond: true }).data;
   const showTabs = !!inverse && inverse.length > 0 && !!bonds;
+
+  /**
+   * Updates the currently selected tab and navigation/history.
+   *
+   * @param tab "BOND" or "INVERSE"
+   */
+  const setCurrentTab = (tab: "BOND" | "INVERSE") => {
+    setCurrentAction(tab);
+    navigate(`/bonds/${tab === "INVERSE" ? "inverse" : ""}`);
+  };
+
+  /**
+   * Handles a tab change event from the UI
+   *
+   * @param _event Ignored
+   * @param newValue number representing the index of the newly-selected tab
+   */
+  const changeTab = (_event: React.ChangeEvent<unknown>, newValue: number) => {
+    setCurrentTab(newValue === 0 ? "BOND" : "INVERSE");
+  };
+
+  useEffect(() => {
+    // On initial load, if there are no bonds, switch to inverse bonds
+    if (liveBonds.isSuccess && liveBonds.data.length === 0) {
+      console.info("There are no live bonds. Switching to inverse bonds instead.");
+      setCurrentTab("INVERSE");
+    }
+  }, [liveBonds.isSuccess, liveBonds.data]);
 
   return (
     <>
@@ -38,12 +69,22 @@ export const Bond = () => {
                   aria-label="bond tabs"
                   indicatorColor="primary"
                   value={currentAction === "BOND" ? 0 : 1}
-                  onChange={(_, view) => setCurrentAction(view === 0 ? "BOND" : "INVERSE")}
+                  onChange={changeTab}
                   // Hides the tab underline while <Zoom> is zooming
                   TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
                 >
-                  <Tab aria-label="bond-button" label={t`Bond`} style={{ fontSize: "1rem" }} />
-                  <Tab aria-label="inverse-bond-button" label={t`Inverse Bond`} style={{ fontSize: "1rem" }} />
+                  <Tab
+                    data-testid="bond-tab"
+                    aria-label="bond-button"
+                    label={t({ message: `Bond`, comment: `Bonding tab` })}
+                    style={{ fontSize: "1rem" }}
+                  />
+                  <Tab
+                    data-testid="inverse-bond-tab"
+                    aria-label="inverse-bond-button"
+                    label={t`Inverse Bond`}
+                    style={{ fontSize: "1rem" }}
+                  />
                 </Tabs>
               )}
 
