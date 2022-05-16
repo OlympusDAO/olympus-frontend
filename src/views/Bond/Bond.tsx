@@ -21,11 +21,22 @@ export const Bond = () => {
   const inverse = useLiveBonds({ isInverseBond: true }).data;
   const showTabs = !!inverse && inverse.length > 0 && !!bonds;
 
+  /**
+   * Updates the currently selected tab and navigation/history.
+   *
+   * @param tab "BOND" or "INVERSE"
+   */
   const setCurrentTab = (tab: "BOND" | "INVERSE") => {
     setCurrentAction(tab);
     navigate(`/bonds/${tab === "INVERSE" ? "inverse" : ""}`);
   };
 
+  /**
+   * Handles a tab change event from the UI
+   *
+   * @param _event Ignored
+   * @param newValue number representing the index of the newly-selected tab
+   */
   const changeTab = (_event: React.ChangeEvent<unknown>, newValue: number) => {
     setCurrentTab(newValue === 0 ? "BOND" : "INVERSE");
   };
