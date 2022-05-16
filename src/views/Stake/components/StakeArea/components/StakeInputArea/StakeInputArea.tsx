@@ -173,7 +173,6 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
             <Grid item>
               <Switch
-                color="primary"
                 disabled={isMutating}
                 className="stake-to-ohm-checkbox"
                 checked={stakedAssetType === "gOHM"}

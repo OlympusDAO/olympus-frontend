@@ -133,7 +133,7 @@ export const dark = responsiveFontSizes(
               colorPrimary: {
                 color: darkTheme.color,
                 [`&.${switchClasses["checked"]}`]: {
-                  color: darkTheme.switchBg,
+                  color: darkTheme.gold,
                   [`& + ${switchClasses["track"]}`]: {
                     backgroundColor: darkTheme.color,
                     borderColor: darkTheme.color,

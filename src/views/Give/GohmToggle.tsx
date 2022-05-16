@@ -12,7 +12,6 @@ export const GohmToggle = ({ giveAssetType, changeAssetType }: GohmToggleProps) 
     <Grid component="label" container alignItems="center" spacing={1} style={{ marginBottom: "20px" }}>
       <Grid item>
         <Switch
-          color="primary"
           className="give-sohm-gohm-checkbox"
           checked={giveAssetType === "gOHM"}
           inputProps={{ "aria-label": "stake to gohm" }}
