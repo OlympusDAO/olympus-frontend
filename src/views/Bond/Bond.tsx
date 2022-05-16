@@ -19,12 +19,22 @@ export const Bond = () => {
   const inverse = useLiveBonds({ isInverseBond: true }).data;
   const showTabs = !!inverse && inverse.length > 0 && !!bonds;
 
+  const setCurrentTab = (tab: "BOND" | "INVERSE") => {
+    setCurrentAction(tab);
+    window.location.href = `#/bonds/${tab === "INVERSE" ? "inverse" : ""}`;
+  };
+
+  const changeTab = (_event: React.ChangeEvent<unknown>, newValue: number) => {
+    setCurrentTab(newValue === 0 ? "BOND" : "INVERSE");
+  };
+
   useEffect(() => {
     // On initial load, if there are no bonds, switch to inverse bonds
     if (liveBonds.isSuccess && liveBonds.data.length === 0) {
-      setCurrentAction("INVERSE");
+      console.info("There are no live bonds. Switching to inverse bonds instead.");
+      setCurrentTab("INVERSE");
     }
-  }, [liveBonds]);
+  }, [liveBonds.isSuccess, liveBonds.data]);
 
   return (
     <>
@@ -46,7 +56,7 @@ export const Bond = () => {
                   aria-label="bond tabs"
                   indicatorColor="primary"
                   value={currentAction === "BOND" ? 0 : 1}
-                  onChange={(_, view) => setCurrentAction(view === 0 ? "BOND" : "INVERSE")}
+                  onChange={changeTab}
                   // Hides the tab underline while <Zoom> is zooming
                   TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
                 >
