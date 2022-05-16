@@ -210,12 +210,6 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
             usdBalance={formatCurrency(walletTotalValueUSD, 2)}
             underlyingBalance={`${formatNumber(walletTotalValueUSD / ohmPrice, 2)} OHM`}
           />
-          <WalletBalance
-            className={classes.forecast}
-            title="Today's Forecast"
-            usdBalance={`+ ${usdDailyForecast}`}
-            underlyingBalance={`+${sOHMDailyForecast} OHM`}
-          />
         </Box>
         <Box display="flex" flexDirection="row" className={classes.selector} mb="18px" mt="18px">
           <Link component={NavLink} to="/wallet" end>
