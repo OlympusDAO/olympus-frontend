@@ -250,6 +250,9 @@ export const dark = responsiveFontSizes(
               },
               root: {
                 "&.Mui-selected": {
+                  color: colors.primary[300],
+                  textDecoration: "underline",
+                  textUnderlineOffset: "5px",
                   "&:hover": {
                     color: colors.gray[10],
                   },
