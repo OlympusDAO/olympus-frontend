@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, FormControl, Grid, MenuItem, Select, Typography } from "@mui/material";
+import { Box, FormControl, Grid, MenuItem, Select, styled, Typography } from "@mui/material";
 import { Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -31,15 +31,21 @@ export const MigrateInputArea = () => {
     migrateMutation.mutate(amount);
   };
 
+  const StyledSelect = styled(Select)(() => ({
+    "& .MuiSelect-icon": {
+      marginTop: "-2px",
+    },
+  }));
+
   return (
     <Box mt={2} mb={4}>
       <Box display="flex" alignItems="center">
         <Typography>Migrate</Typography>
 
         <FormControl style={{ margin: "0 10px" }} variant="standard">
-          <Select label="Asset" disableUnderline id="asset-select" value="wsOHM">
+          <StyledSelect label="Asset" disableUnderline id="asset-select" value="wsOHM">
             <MenuItem value="wsOHM">wsOHM</MenuItem>
-          </Select>
+          </StyledSelect>
         </FormControl>
 
         <Typography>
@@ -47,9 +53,9 @@ export const MigrateInputArea = () => {
         </Typography>
 
         <FormControl style={{ margin: "0 10px" }} variant="standard">
-          <Select value="gOHM" label="Asset" disableUnderline id="asset-select">
+          <StyledSelect value="gOHM" label="Asset" disableUnderline id="asset-select">
             <MenuItem value="gOHM">gOHM</MenuItem>
-          </Select>
+          </StyledSelect>
         </FormControl>
       </Box>
 

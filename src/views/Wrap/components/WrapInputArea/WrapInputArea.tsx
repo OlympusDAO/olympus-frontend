@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, FormControl, Grid, MenuItem, Select, Typography } from "@mui/material";
+import { Box, FormControl, Grid, MenuItem, Select, styled, Typography } from "@mui/material";
 import { Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -30,13 +30,18 @@ export const WrapInputArea = () => {
     (currentAction === "WRAP" ? wrapMutation : unwrapMutation).mutate(amount);
   };
 
+  const StyledSelect = styled(Select)(() => ({
+    "& .MuiSelect-icon": {
+      marginTop: "-2px",
+    },
+  }));
   return (
     <Box mb={4}>
       <Box display="flex" alignItems="center">
         <Typography>{currentAction === "WRAP" ? "Wrap" : "Unwrap"} from</Typography>
 
         <FormControl style={{ margin: "0 10px" }} variant="standard">
-          <Select
+          <StyledSelect
             label="Asset"
             disableUnderline
             id="asset-select-first"
@@ -47,7 +52,7 @@ export const WrapInputArea = () => {
             <MenuItem value="gOHM" data-testid="gohm-dropdown-select">
               gOHM
             </MenuItem>
-          </Select>
+          </StyledSelect>
         </FormControl>
 
         <Typography>
@@ -55,7 +60,7 @@ export const WrapInputArea = () => {
         </Typography>
 
         <FormControl style={{ margin: "0 10px" }} variant="standard">
-          <Select
+          <StyledSelect
             label="Asset"
             disableUnderline
             id="asset-select"
@@ -65,7 +70,7 @@ export const WrapInputArea = () => {
           >
             <MenuItem value="gOHM">gOHM</MenuItem>
             <MenuItem value="sOHM">sOHM</MenuItem>
-          </Select>
+          </StyledSelect>
         </FormControl>
       </Box>
 
