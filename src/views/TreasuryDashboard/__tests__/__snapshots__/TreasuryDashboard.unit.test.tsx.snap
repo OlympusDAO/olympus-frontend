@@ -27,7 +27,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
           >
             <button
               aria-controls="simple-tabpanel-undefined"
-              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-1b3r5vs-MuiButtonBase-root-MuiTab-root"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-1klsalz-MuiButtonBase-root-MuiTab-root"
               id="simple-tab-undefined"
               role="tab"
               tabindex="-1"
@@ -44,7 +44,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
           >
             <button
               aria-controls="simple-tabpanel-undefined"
-              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-1b3r5vs-MuiButtonBase-root-MuiTab-root"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-1klsalz-MuiButtonBase-root-MuiTab-root"
               id="simple-tab-undefined"
               role="tab"
               tabindex="-1"
@@ -61,7 +61,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
           >
             <button
               aria-controls="simple-tabpanel-undefined"
-              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-1b3r5vs-MuiButtonBase-root-MuiTab-root"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-1klsalz-MuiButtonBase-root-MuiTab-root"
               id="simple-tab-undefined"
               role="tab"
               tabindex="-1"
@@ -78,7 +78,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
           >
             <button
               aria-controls="simple-tabpanel-undefined"
-              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-1b3r5vs-MuiButtonBase-root-MuiTab-root"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-1klsalz-MuiButtonBase-root-MuiTab-root"
               id="simple-tab-undefined"
               role="tab"
               style="white-space: nowrap;"
@@ -96,7 +96,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
           >
             <button
               aria-controls="simple-tabpanel-undefined"
-              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-1b3r5vs-MuiButtonBase-root-MuiTab-root"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-1klsalz-MuiButtonBase-root-MuiTab-root"
               id="simple-tab-undefined"
               role="tab"
               tabindex="-1"
