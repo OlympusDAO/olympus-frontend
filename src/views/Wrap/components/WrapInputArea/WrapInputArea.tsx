@@ -110,17 +110,15 @@ export const WrapInputArea = () => {
               </Grid>
 
               <Grid item xs={12} sm={4}>
-                <Box mt={[1, 0]}>
-                  <PrimaryButton fullWidth type="submit" className="" disabled={isMutating}>
-                    {currentAction === "WRAP"
-                      ? isMutating
-                        ? "Wrapping..."
-                        : "Wrap to gOHM"
-                      : isMutating
-                      ? "Unwrapping..."
-                      : "Unwrap from gOHM"}
-                  </PrimaryButton>
-                </Box>
+                <PrimaryButton fullWidth type="submit" className="" disabled={isMutating} style={{ height: "43px" }}>
+                  {currentAction === "WRAP"
+                    ? isMutating
+                      ? "Wrapping..."
+                      : "Wrap to gOHM"
+                    : isMutating
+                    ? "Unwrapping..."
+                    : "Unwrap from gOHM"}
+                </PrimaryButton>
               </Grid>
             </Grid>
           </form>

@@ -92,6 +92,7 @@ export const MigrateInputArea = () => {
                     className=""
                     disabled={migrateMutation.isLoading}
                     data-testid="migrate-button"
+                    style={{ height: "43px" }}
                   >
                     {migrateMutation.isLoading ? "Migrating..." : "Migrate"}
                   </PrimaryButton>
