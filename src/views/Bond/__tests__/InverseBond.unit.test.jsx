@@ -67,17 +67,42 @@ describe("Inverse Bonds", () => {
         return Promise.resolve(inverseMarketPrice[id]);
       }),
     });
-    render(<Bond />);
   });
 
   it("should display OHM DAI Inverse Bond", async () => {
-    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/inverse" });
+    // Starts on the inverse bond screen
+    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bond/inverse" });
+
+    render(<Bond />);
+
     fireEvent.click(await screen.findByText("Inverse Bond"));
     expect(await screen.findByText("DAI")).toBeInTheDocument();
   });
 
-  it("Should Display No Active Bonds Message", async () => {
+  it("Should Display No Active Bonds Message on Bonds screen", async () => {
+    // Starts on the inverse bond screen
+    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bond/inverse" });
+
+    render(<Bond />);
+
+    // Frontend now defaults to the inverse bonds tab if there are no bonds
+    // So the location needs to be explicitly changed
+    fireEvent.click(await screen.findByText("Bond"));
     expect(await screen.findByText("No active bonds")).toBeInTheDocument();
+  });
+
+  it("should default to inverse bond tab", async () => {
+    // Starts on the bond screen
+    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bond" });
+
+    render(<Bond />);
+
+    expect(await screen.findByTestId("8--bond")).toBeInTheDocument(); // bond id of 8
+    expect(await screen.findByText("$0.00")).toBeInTheDocument(); // Price of the DAI inverse bond
+
+    // If the inverse bond tab were not selected, this would appear
+    expect(await screen.queryByText("No active bonds")).toBeNull();
+    expect(await screen.queryByText("$17.21")).toBeNull();
   });
 });
 
@@ -92,6 +117,11 @@ describe("Bond Modal", () => {
       }),
     });
   });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it("Should display bond modal with Instant Payout Bond (Inverse)", async () => {
     jest.spyOn(Router, "useParams").mockReturnValue({ id: "8" });
     jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/inverse/8" });

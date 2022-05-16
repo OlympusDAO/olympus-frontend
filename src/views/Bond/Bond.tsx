@@ -2,7 +2,7 @@ import { t } from "@lingui/macro";
 import { Box, Tab, Tabs, Zoom } from "@material-ui/core";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import { OHMPrice, TreasuryBalance } from "../TreasuryDashboard/components/Metric/Metric";
 import { BondList } from "./components/BondList";
@@ -14,6 +14,8 @@ export const Bond = () => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [currentAction, setCurrentAction] = useState<"BOND" | "INVERSE">("BOND");
 
+  const navigate = useNavigate();
+
   const liveBonds = useLiveBonds();
   const bonds = liveBonds.data;
   const inverse = useLiveBonds({ isInverseBond: true }).data;
@@ -21,7 +23,7 @@ export const Bond = () => {
 
   const setCurrentTab = (tab: "BOND" | "INVERSE") => {
     setCurrentAction(tab);
-    window.location.href = `#/bonds/${tab === "INVERSE" ? "inverse" : ""}`;
+    navigate(`#/bonds/${tab === "INVERSE" ? "inverse" : ""}`);
   };
 
   const changeTab = (_event: React.ChangeEvent<unknown>, newValue: number) => {
