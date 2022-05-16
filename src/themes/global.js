@@ -231,6 +231,7 @@ const commonSettings = {
           fontSize: "24px",
           fontStyle: "normal",
           lineHeight: "24px",
+          opacity: 1,
         },
       },
     },
