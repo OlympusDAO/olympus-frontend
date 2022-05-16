@@ -1,11 +1,11 @@
 import "./TreasuryDashboard.scss";
 
-import { Trans } from "@lingui/macro";
-import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
+import { t } from "@lingui/macro";
+import { Box, Container, Grid, Link, useMediaQuery } from "@material-ui/core";
 import { DashboardPro, Proteus, TotalIncome, TreasuryAllocation } from "@multifarm/widget";
-import { Metric, MetricCollection, Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
-import { ChangeEvent, memo, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
+import { memo } from "react";
+import { NavLink, Outlet, Route, Routes } from "react-router-dom";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import {
@@ -22,12 +22,6 @@ const sharedMetricProps: PropsOf<typeof Metric> = { labelVariant: "h6", metricVa
 
 const MetricsDashboard = () => (
   <>
-    <Routes>
-      <Route path="/treasury" element={<TreasuryDashboard activeView={1} />} />
-      <Route path="/revenue" element={<TreasuryDashboard activeView={2} />} />
-      <Route path="/olympuspro" element={<TreasuryDashboard activeView={3} />} />
-      <Route path="/proteus" element={<TreasuryDashboard activeView={4} />} />
-    </Routes>
     <Box className="hero-metrics">
       <Paper className="ohm-card">
         <MetricCollection>
@@ -40,35 +34,33 @@ const MetricsDashboard = () => (
         </MetricCollection>
       </Paper>
     </Box>
+    <Grid container spacing={2} className="data-grid">
+      <Grid item lg={6} md={6} sm={12} xs={12}>
+        <Paper className="ohm-card ohm-chart-card">
+          <TotalValueDepositedGraph />
+        </Paper>
+      </Grid>
 
-    <Zoom in={true}>
-      <Grid container spacing={2} className="data-grid">
-        <Grid item lg={6} md={6} sm={12} xs={12}>
-          <Paper className="ohm-card ohm-chart-card">
-            <TotalValueDepositedGraph />
-          </Paper>
-        </Grid>
+      <Grid item lg={6} md={6} sm={12} xs={12}>
+        <Paper className="ohm-card ohm-chart-card">
+          <MarketValueGraph />
+        </Paper>
+      </Grid>
 
-        <Grid item lg={6} md={6} sm={12} xs={12}>
-          <Paper className="ohm-card ohm-chart-card">
-            <MarketValueGraph />
-          </Paper>
-        </Grid>
+      <Grid item lg={6} md={6} sm={12} xs={12}>
+        <Paper className="ohm-card ohm-chart-card">
+          <RiskFreeValueGraph />
+        </Paper>
+      </Grid>
 
-        <Grid item lg={6} md={6} sm={12} xs={12}>
-          <Paper className="ohm-card ohm-chart-card">
-            <RiskFreeValueGraph />
-          </Paper>
-        </Grid>
+      <Grid item lg={6} md={6} sm={12} xs={12}>
+        <Paper className="ohm-card ohm-chart-card">
+          <ProtocolOwnedLiquidityGraph />
+        </Paper>
+      </Grid>
 
-        <Grid item lg={6} md={6} sm={12} xs={12}>
-          <Paper className="ohm-card ohm-chart-card">
-            <ProtocolOwnedLiquidityGraph />
-          </Paper>
-        </Grid>
-
-        {/*  Temporarily removed until correct data is in the graph */}
-        {/* <Grid item lg={6} md={12} sm={12} xs={12}>
+      {/*  Temporarily removed until correct data is in the graph */}
+      {/* <Grid item lg={6} md={12} sm={12} xs={12}>
             <Paper className="ohm-card">
               <Chart
                 type="bar"
@@ -92,41 +84,25 @@ const MetricsDashboard = () => (
             </Paper>
           </Grid> */}
 
-        <Grid item lg={6} md={6} sm={12} xs={12}>
-          <Paper className="ohm-card ohm-chart-card">
-            <OHMStakedGraph />
-          </Paper>
-        </Grid>
-
-        <Grid item lg={6} md={6} sm={12} xs={12}>
-          <Paper className="ohm-card ohm-chart-card">
-            <RunwayAvailableGraph />
-          </Paper>
-        </Grid>
+      <Grid item lg={6} md={6} sm={12} xs={12}>
+        <Paper className="ohm-card ohm-chart-card">
+          <OHMStakedGraph />
+        </Paper>
       </Grid>
-    </Zoom>
+
+      <Grid item lg={6} md={6} sm={12} xs={12}>
+        <Paper className="ohm-card ohm-chart-card">
+          <RunwayAvailableGraph />
+        </Paper>
+      </Grid>
+    </Grid>
   </>
 );
 
-const dashboardTabs = [
-  { pathname: "dashboard", label: <Trans>Overview</Trans> },
-  { pathname: "treasury", label: <Trans>Treasury</Trans> },
-  { pathname: "revenue", label: <Trans>Revenue</Trans> },
-  { pathname: "olympuspro", label: <Trans>Olympus Pro</Trans> },
-  { pathname: "proteus", label: <Trans>Proteus</Trans> },
-];
-
-const TreasuryDashboard: React.FC<{ activeView?: number }> = ({ activeView = 0 }) => {
-  const navigate = useNavigate();
-  const [view, setView] = useState(activeView);
+const PageWrapper = () => {
+  //const [view, setView] = useState(activeView);
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const changeView: any = (_event: ChangeEvent<any>, newView: number) => {
-    setView(newView);
-    navigate(newView === 0 ? "/dashboard" : `/dashboard/${dashboardTabs[newView].pathname}`);
-  };
 
   return (
     <div id="treasury-dashboard-view" className={`${isSmallScreen && "smaller"} ${isVerySmallScreen && "very-small"}`}>
@@ -137,23 +113,34 @@ const TreasuryDashboard: React.FC<{ activeView?: number }> = ({ activeView = 0 }
             paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
           }}
         >
-          <MetricsDashboard />
+          <Outlet />
         </Container>
       ) : (
         <>
           <Tabs
-            value={view}
+            value={false}
             variant={!(isSmallScreen || isVerySmallScreen) ? "standard" : "scrollable"}
             centered={!(isSmallScreen || isVerySmallScreen)}
             scrollButtons="auto"
             textColor="primary"
             indicatorColor="primary"
-            onChange={changeView}
             aria-label="dashboard-tabs"
           >
-            {dashboardTabs.map(({ pathname, label }, key) => (
-              <Tab key={key} aria-label={pathname} label={label} />
-            ))}
+            <Link to="/dashboard" end component={NavLink}>
+              <Tab label={t`Dashboard`} />
+            </Link>
+            <Link to="/dashboard/treasury" component={NavLink}>
+              <Tab label={t`Treasury`} />
+            </Link>
+            <Link to="/dashboard/revenue" component={NavLink}>
+              <Tab label={t`Revenue`} />
+            </Link>
+            <Link to="/dashboard/olympuspro" component={NavLink}>
+              <Tab label={t`Olympus Pro`} style={{ whiteSpace: "nowrap" }} />
+            </Link>
+            <Link to="/dashboard/proteus" component={NavLink}>
+              <Tab label={t`Proteus`} />
+            </Link>
           </Tabs>
           <Container
             style={{
@@ -161,35 +148,61 @@ const TreasuryDashboard: React.FC<{ activeView?: number }> = ({ activeView = 0 }
               paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
             }}
           >
-            <TabPanel value={view} index={0}>
-              <Box sx={{ mt: "15px" }}>
-                <MetricsDashboard />
-              </Box>
-            </TabPanel>
-            <TabPanel value={view} index={1}>
-              <Box className="treasury">
-                <TreasuryAllocation />
-              </Box>
-            </TabPanel>
-            <TabPanel value={view} index={2}>
-              <Box className="income">
-                <TotalIncome />
-              </Box>
-            </TabPanel>
-            <TabPanel value={view} index={3}>
-              <Box className="dashboard-pro">
-                <DashboardPro />
-              </Box>
-            </TabPanel>
-            <TabPanel value={view} index={4}>
-              <Box className="proteus">
-                <Proteus />
-              </Box>
-            </TabPanel>
+            <Outlet />
           </Container>
         </>
       )}
     </div>
+  );
+};
+const TreasuryDashboard = () => {
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<PageWrapper />}>
+          <Route
+            index
+            element={
+              <Box sx={{ mt: "15px" }}>
+                <MetricsDashboard />
+              </Box>
+            }
+          />
+          <Route
+            path="treasury"
+            element={
+              <Box sx={{ mt: "15px" }}>
+                <TreasuryAllocation />
+              </Box>
+            }
+          />
+          <Route
+            path="revenue"
+            element={
+              <Box className="treasury">
+                <TotalIncome />
+              </Box>
+            }
+          />
+          <Route
+            path="olympuspro"
+            element={
+              <Box className="dashboard-pro">
+                <DashboardPro />
+              </Box>
+            }
+          />
+          <Route
+            path="proteus"
+            element={
+              <Box className="proteus">
+                <Proteus />
+              </Box>
+            }
+          />
+        </Route>
+      </Routes>
+    </>
   );
 };
 
