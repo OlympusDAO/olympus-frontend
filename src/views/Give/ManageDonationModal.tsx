@@ -373,8 +373,8 @@ export function ManageDonationModal({
   const getInitialScreen = () => {
     return (
       <Grid container spacing={4}>
-        <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
         <Grid item xs={12}>
+          <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeAssetType} />
           {getRecipientDetails()}
         </Grid>
         {recordType === RecordType.PROJECT ? (
