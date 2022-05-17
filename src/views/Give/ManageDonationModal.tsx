@@ -319,7 +319,7 @@ export function ManageDonationModal({
    */
   const getInitialScreen = () => {
     return (
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         <Grid item xs={12}>
           {getRecipientDetails()}
         </Grid>
@@ -418,7 +418,7 @@ export function ManageDonationModal({
   const getRecipientDetails = () => {
     if (project) {
       return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} style={{ paddingTop: "5px" }}>
           <Grid item xs={3}>
             <Grid
               container
@@ -566,7 +566,7 @@ export function ManageDonationModal({
 
   const getStopDonationScreen = () => {
     return (
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         <Grid item xs={12}>
           {getRecipientDetails()}
         </Grid>
