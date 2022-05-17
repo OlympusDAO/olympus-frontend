@@ -68,11 +68,11 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
   };
 
   const getDeposit = () => {
-    return GetCorrectContractUnits(depositObject.deposit, "sOHM", currentIndex);
+    return GetCorrectContractUnits(depositObject.deposit, giveAssetType, currentIndex);
   };
 
   const getYieldDonated = () => {
-    return GetCorrectContractUnits(depositObject.yieldDonated, "sOHM", currentIndex);
+    return GetCorrectContractUnits(depositObject.yieldDonated, giveAssetType, currentIndex);
   };
 
   const handleManageModalCancel = () => {
@@ -133,19 +133,19 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
       )}
       <Grid item xs={4} sm={2}>
         <Tooltip title={depositObject.recipient} arrow>
-          <Typography variant="body1" className="ellipsis">
+          <Typography variant="body1" className="ellipsis" data-testid={`${depositObject.id}-recipient`}>
             {getRecipientTitle(depositObject.recipient)}
           </Typography>
         </Tooltip>
       </Grid>
       <Grid item xs={4} sm={2} md={3} style={{ textAlign: "right" }}>
-        <Typography variant="body1">
+        <Typography variant="body1" data-testid={`${depositObject.id}-deposit`}>
           {getDeposit().toString(DECIMAL_FORMAT)} {giveAssetType}
         </Typography>
       </Grid>
       {!isSmallScreen && (
         <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
-          <Typography variant="body1">
+          <Typography variant="body1" data-testid={`${depositObject.id}-yield-donated`}>
             {getYieldDonated().toString(DECIMAL_FORMAT)} {giveAssetType}
           </Typography>
         </Grid>

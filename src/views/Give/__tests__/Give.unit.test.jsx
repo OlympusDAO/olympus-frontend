@@ -151,7 +151,33 @@ describe("Give View Connected", () => {
     expect(container).toMatchSnapshot();
   });
 
-  it("should render correct units on Deposits Row", async () => {
+  it("should render sOHM units on Deposits Row", async () => {
+    giveAssetType = "sOHM";
+    useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
+
+    const donationInfo = {
+      id: "1",
+      date: "03/16/2022",
+      deposit: "1.2",
+      recipient: "0x8A8b5a97978dB4a54367D7DCF6a50980990F2373",
+      yieldDonated: "0.1",
+    };
+
+    await act(async () => {
+      render(
+        <DepositTableRow
+          depositObject={donationInfo}
+          giveAssetType={giveAssetType}
+          changeAssetType={changeGiveAssetType}
+        />,
+      );
+    });
+
+    expect(screen.getByTestId("1-deposit").innerHTML).toEqual("120.00 sOHM");
+    expect(screen.getByTestId("1-yield-donated").innerHTML).toEqual("10.00 sOHM");
+  });
+
+  it("should render gOHM units on Deposits Row", async () => {
     giveAssetType = "gOHM";
     useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
 
@@ -173,10 +199,8 @@ describe("Give View Connected", () => {
       );
     });
 
-    const sohmBal = await screen.getByText("120 sOHM");
-    const sohmYield = await screen.getByText("10 sOHM");
-    expect(sohmBal).toBeInTheDocument();
-    expect(sohmYield).toBeInTheDocument();
+    expect(screen.getByTestId("1-deposit").innerHTML).toEqual("1.20 gOHM");
+    expect(screen.getByTestId("1-yield-donated").innerHTML).toEqual("0.10 gOHM");
   });
 
   /*
