@@ -7,7 +7,7 @@ import { Box, Container, Grid, Link, Typography, useMediaQuery } from "@material
 import { useTheme } from "@material-ui/core/styles";
 import { ChevronLeft } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
+import { Icon, Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
 import ReactGA from "react-ga";
@@ -71,6 +71,7 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
 
   const theme = useTheme();
   const isBreakpointLarge = useMediaQuery(theme.breakpoints.up("lg"));
+  const isBreakpointMedium = useMediaQuery(theme.breakpoints.only("md"));
 
   // We use useAppDispatch here so the result of the AsyncThunkAction is typed correctly
   // See: https://stackoverflow.com/a/66753532
@@ -142,15 +143,15 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
     const unaccomplishedStyle = {
       color: `${theme.palette.text.secondary}`,
     };
+    const fillColour =
+      theme.palette.type === "dark" && theme.colors.primary[300]
+        ? theme.colors.primary[300]
+        : theme.palette.text.secondary;
 
     return (
       <>
         <div className={`project-milestone-progress`}>
-          <ProgressBar
-            percent={percentComplete}
-            unfilledBackground="rgb(172, 177, 185)"
-            filledBackground="linear-gradient(269deg, rgba(112, 139, 150, 1) 0%, rgba(247, 251, 231, 1) 100%)"
-          >
+          <ProgressBar percent={percentComplete} unfilledBackground="rgb(172, 177, 185)" filledBackground={fillColour}>
             {
               // We add a dummy step at the start, so that steps are right-aligned
               <Step key={`step-0`}>{({}) => <></>}</Step>
@@ -218,42 +219,52 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
 
     return (
       <>
-        <Grid container spacing={3} alignItems="flex-end">
-          <Grid item xs={5}>
-            <Grid container direction="column" alignItems="flex-start">
-              <Grid item>
-                <Grid container justifyContent="flex-start" alignItems="center" wrap="nowrap" spacing={1}>
-                  <Grid item>
-                    <Icon name="donors" />
-                  </Grid>
-                  <Grid item className="metric">
-                    {isDonationInfoLoading || donorCount === undefined ? (
-                      <Skeleton className="skeleton-inline" />
-                    ) : (
-                      new DecimalBigNumber(donorCount.toString()).toString(NO_DECIMALS_FORMAT)
-                    )}
+        {/* We manually specify the padding to keep this section below the progress bar */}
+        <Grid container spacing={3} alignItems="flex-end" style={{ paddingBottom: "20px" }}>
+          <Grid item xs={12} container>
+            <Grid item xs={6}>
+              <Grid container direction="column" alignItems="flex-start">
+                <Grid item>
+                  <Grid container justifyContent="flex-start" alignItems="center" wrap="nowrap" spacing={1}>
+                    <Grid item>
+                      <Icon name="donors" />
+                    </Grid>
+                    <Grid item className="metric">
+                      {isDonationInfoLoading || donorCount === undefined ? (
+                        <Skeleton className="skeleton-inline" />
+                      ) : (
+                        new DecimalBigNumber(donorCount.toString()).toString(NO_DECIMALS_FORMAT)
+                      )}
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item className="subtext">
-                <Trans>Donors</Trans>
+                <Grid item className="subtext">
+                  <Trans>Donors</Trans>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={7}>
-            <Grid container direction="column" alignItems="flex-end">
-              <Grid item>
-                <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
-                  <Grid item>
-                    <Icon name="sohm-total" />
-                  </Grid>
-                  <Grid item className="metric">
-                    {totalMilestoneAmount.toString(DEFAULT_FORMAT)}
+            <Grid item xs={6}>
+              <Grid container alignItems="flex-end">
+                <Grid item xs={12}>
+                  <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
+                    <Grid item>
+                      <Icon name="sohm-yield-goal" />
+                    </Grid>
+                    <Grid item className="metric">
+                      {totalMilestoneAmount.toString(DEFAULT_FORMAT)}
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item className="subtext">
-                <Trans>Total Milestone Amount</Trans>
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    textAlign: "right",
+                  }}
+                  className="subtext"
+                >
+                  <Trans>Total Milestone Amount</Trans>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
@@ -417,14 +428,14 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
               </Grid>
               <Grid item container xs={12}>
                 <Grid item xs />
-                <Grid item xs={12} lg={4}>
+                <Grid item xs={12} sm={6} lg={4}>
                   <Link
                     href={`#/give/grants/${grant.slug}`}
                     onClick={() => handleGrantDetailsButtonClick("View Details Button")}
                   >
-                    <PrimaryButton fullWidth>
+                    <TertiaryButton size="small" fullWidth>
                       <Trans>View Details</Trans>
-                    </PrimaryButton>
+                    </TertiaryButton>
                   </Link>
                 </Grid>
               </Grid>
@@ -449,7 +460,10 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
       <>
         <Container>
           <Grid container spacing={3} alignItems="flex-start">
-            <Grid container item xs={12} lg={5}>
+            {/* The inbuilt margin of the Grid container creates problems with spacing on smaller screens.
+             * Applying a negative margin fixes that.
+             */}
+            <Grid container item xs={12} lg={5} style={{ marginBottom: "-24px" }}>
               <Grid item xs={12}>
                 <Paper
                   topLeft={
@@ -470,35 +484,39 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                     <Grid item xs={12} sm={6} lg={12}>
                       {getProjectImage()}
                     </Grid>
-                    <Grid item container xs>
-                      <Grid item xs={12}>
-                        {renderDepositData()}
-                      </Grid>
-                      <Grid item xs={12} style={{ paddingTop: "45px" }}>
-                        {!connected ? (
-                          <PrimaryButton onClick={connect} fullWidth>
-                            <Trans>Connect Wallet</Trans>
-                          </PrimaryButton>
-                        ) : isUserDonating ? (
-                          <></>
-                        ) : (
-                          <PrimaryButton
-                            onClick={() => handleGiveButtonClick()}
-                            disabled={!isSupportedChain(networkId)}
-                            fullWidth
-                          >
-                            <Trans>Donate Yield</Trans>
-                          </PrimaryButton>
-                        )}
+                    <Grid item xs>
+                      <Grid container spacing={2} direction="column">
+                        <Grid item xs={12}>
+                          {renderDepositData()}
+                        </Grid>
+                        {/* This Grid item and the marginTop style keep the button bottom-aligned */}
+                        {isBreakpointMedium ? <Grid item xs={12} style={{ flexGrow: 1 }} /> : <></>}
+                        <Grid item xs={12} style={{ marginTop: "auto" }}>
+                          {!connected ? (
+                            <PrimaryButton onClick={connect} fullWidth>
+                              <Trans>Connect Wallet</Trans>
+                            </PrimaryButton>
+                          ) : isUserDonating ? (
+                            <></>
+                          ) : (
+                            <PrimaryButton
+                              onClick={() => handleGiveButtonClick()}
+                              disabled={!isSupportedChain(networkId)}
+                              fullWidth
+                            >
+                              <Trans>Donate Yield</Trans>
+                            </PrimaryButton>
+                          )}
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
                 </Paper>
               </Grid>
-              <Grid item xs={12}>
-                {!isUserDonating ? (
-                  <></>
-                ) : (
+              {!isUserDonating ? (
+                <></>
+              ) : (
+                <Grid item xs={12}>
                   <Paper headerText={t`Your Donations`} fullWidth>
                     <Grid container alignItems="flex-end">
                       <Grid item xs={6}>
@@ -552,8 +570,8 @@ export default function GrantCard({ grant, mode }: GrantDetailsProps) {
                       </Grid>
                     </Grid>
                   </Paper>
-                )}
-              </Grid>
+                </Grid>
+              )}
             </Grid>
             <Grid container item xs={12} lg={7}>
               <Grid item xs={12}>
