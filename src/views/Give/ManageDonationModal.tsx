@@ -367,29 +367,29 @@ export function ManageDonationModal({
       <TopBottomGiveBox borderColor={boxBorder}>
         <Grid container spacing={2}>
           <Grid item xs={4}>
+            <Typography variant="h6" align="center" className="subtext">
+              {isSmallScreen ? "Goal" : "sOHM Goal"}
+            </Typography>
             <Typography variant="h5" align="center">
               {project ? depositGoalNumber.toString(DECIMAL_FORMAT) : "N/A"}
             </Typography>
-            <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? "Goal" : "sOHM Goal"}
-            </Typography>
           </Grid>
           <Grid item xs={4}>
+            <Typography variant="h6" align="center" className="subtext">
+              {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
+            </Typography>
             <Typography variant="h5" align="center">
               {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
             </Typography>
-            <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? "Total sOHM" : "Total sOHM Donated"}
-            </Typography>
           </Grid>
           <Grid item xs={4}>
+            <Typography variant="h6" align="center" className="subtext">
+              {isSmallScreen ? "% of Goal" : "% of sOHM Goal"}
+            </Typography>
             <Typography variant="h5" align="center">
               {project
                 ? totalDebt.mul(new DecimalBigNumber("100")).div(depositGoalNumber).toString(DECIMAL_FORMAT) + "%"
                 : "N/A"}
-            </Typography>
-            <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? "of Goal" : "of sOHM Goal"}
             </Typography>
           </Grid>
         </Grid>
