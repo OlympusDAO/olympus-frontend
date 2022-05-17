@@ -32,7 +32,7 @@ function Give({ selectedIndex = 0 }) {
   const hasV1Assets = v1RedeemableBalance.data && v1RedeemableBalance.data != "0.0";
 
   const theme = useTheme();
-  const isBreakpointXS = useMediaQuery(theme.breakpoints.down("xs"));
+  const isBreakpointXS = useMediaQuery(theme.breakpoints.down("sm"));
 
   const changeGiveAssetType: ChangeAssetType = (checked: boolean) => {
     setGiveAssetType(checked ? "gOHM" : "sOHM");
