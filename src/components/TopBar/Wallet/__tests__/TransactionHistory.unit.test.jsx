@@ -1,28 +1,84 @@
-import axios from "axios";
-import * as useWeb3Context from "src/hooks/web3Context";
-import { mockWeb3Context } from "src/testHelpers";
-import { render, screen } from "src/testUtils";
+import { fireEvent, render, screen } from "src/testUtils";
 
-import { emptyTransfer, mockTransactions } from "../__mocks__/mockTransactionHistory";
+import {
+  bondClaimTransaction,
+  bondPurchaseTransaction,
+  stakeTransaction,
+  supplyToFuseTransaction,
+  unstakeTransaction,
+} from "../__mocks__/mockTransactionHistory";
 import Wallet from "../index";
-import * as Trans from "../queries";
+import * as queries from "../queries";
 
-describe("Wallet Transaction History, Transactions", () => {
-  beforeEach(() => {
-    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    axios.get = jest.fn().mockResolvedValue({ data: mockTransactions });
-    data.mockReturnValue({ ...mockWeb3Context, address: "0xDd1E5f42baA201050c4686FDF4e3FDE16A58BC6F" });
-    Trans.GetTransferHistory = jest.fn().mockReturnValue(emptyTransfer);
-    render(<Wallet component="wallet/history" open={true} />);
+describe("<TransactionHistory />", () => {
+  describe("Show no transactions", () => {
+    beforeEach(() => {
+      const useTransactionHistory = jest.spyOn(queries, "useTransactionHistory");
+      useTransactionHistory.mockReturnValue({ data: { pages: [[]] }, isFetched: true });
+
+      const useTransferHistory = jest.spyOn(queries, "useTransferHistory");
+      useTransferHistory.mockReturnValue({ data: { pages: [[]] }, isFetched: true });
+
+      render(<Wallet component="wallet/history" open />);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+      jest.resetAllMocks();
+    });
+
+    it("Should show no transaction history", () => {
+      expect(screen.getByText("No transactions")).toBeInTheDocument();
+    });
+
+    it("Should filter the list when clicking on Staking", () => {
+      fireEvent.click(screen.getByText("Staking"));
+      expect(screen.getByText("No transactions")).toBeInTheDocument();
+    });
   });
 
-  it("Should display a bond purchased transaction", async () => {
-    expect(screen.getByText("Bond Purchased")).toBeInTheDocument();
-  });
-  it("Should display a bond claimed transaction", async () => {
-    expect(screen.getByText("Bond Claimed")).toBeInTheDocument();
-  });
-  it("Should display a fuse supply transaction", async () => {
-    expect(screen.getByText("Supply to Fuse")).toBeInTheDocument();
+  describe("Show important transactions", () => {
+    beforeEach(() => {
+      const useTransactionHistory = jest.spyOn(queries, "useTransactionHistory");
+      useTransactionHistory.mockReturnValue({
+        data: {
+          pages: [
+            [
+              stakeTransaction,
+              unstakeTransaction,
+              supplyToFuseTransaction,
+              bondClaimTransaction,
+              bondPurchaseTransaction,
+            ],
+          ],
+        },
+        isFetched: true,
+      });
+
+      const useTransferHistory = jest.spyOn(queries, "useTransferHistory");
+      useTransferHistory.mockReturnValue({ data: { pages: [[]] }, isFetched: true });
+
+      render(<Wallet component="wallet/history" open />);
+    });
+
+    it("Should display an unstake transaction", () => {
+      expect(screen.getByText("Unstake")).toBeInTheDocument();
+    });
+
+    it("Should display a stake transaction", () => {
+      expect(screen.getByText("Stake")).toBeInTheDocument();
+    });
+
+    it("Should display a bond purchased transaction", () => {
+      expect(screen.getByText("Bond Purchased")).toBeInTheDocument();
+    });
+
+    it("Should display a bond claimed transaction", () => {
+      expect(screen.getByText("Bond Claimed")).toBeInTheDocument();
+    });
+
+    it("Should display a fuse supply transaction", () => {
+      expect(screen.getByText("Supply to Fuse")).toBeInTheDocument();
+    });
   });
 });

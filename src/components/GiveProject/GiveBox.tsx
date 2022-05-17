@@ -2,6 +2,7 @@ import { Box } from "@material-ui/core";
 
 interface GiveBoxProps {
   children: React.ReactNode;
+  overrideClass?: string;
   borderColor?: string;
 }
 
@@ -13,7 +14,13 @@ interface GiveBoxProps {
  */
 export function GiveBox(props: GiveBoxProps) {
   return (
-    <Box border={1} borderColor={props.borderColor || "#999999"} borderRadius="10px" padding="20px">
+    <Box
+      border={1}
+      className={`grey-box ${props?.overrideClass || ""}`}
+      borderColor={props.borderColor || "#999999"}
+      borderRadius="10px"
+      padding="20px"
+    >
       {props.children}
     </Box>
   );

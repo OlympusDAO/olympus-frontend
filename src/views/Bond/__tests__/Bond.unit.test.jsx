@@ -25,6 +25,7 @@ import {
 } from "../__mocks__/mockLiveMarkets";
 import { Bond } from "../Bond";
 import { BondModalContainer } from "../components/BondModal/BondModal";
+
 beforeEach(() => {
   const data = jest.spyOn(useWeb3Context, "useWeb3Context");
   data.mockReturnValue(mockWeb3Context);
@@ -32,9 +33,20 @@ beforeEach(() => {
   Token.OHM_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("20"));
   Token.DAI_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
   Token.OHM_DAI_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("200000"));
-  Token.OHM_WETH_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
-  Token.OHM_LUSD_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
+  Token.LUSD_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
+  Token.FRAX_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
 });
+
+afterEach(() => {
+  jest.resetAllMocks();
+
+  Token.OHM_TOKEN.getPrice.mockReset();
+  Token.DAI_TOKEN.getPrice.mockReset();
+  Token.OHM_DAI_LP_TOKEN.getPrice.mockReset();
+  Token.LUSD_TOKEN.getPrice.mockReset();
+  Token.FRAX_TOKEN.getPrice.mockReset();
+});
+
 jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
   useParams: jest.fn(),
@@ -78,25 +90,39 @@ describe("Bonds", () => {
       }),
       wait: jest.fn().mockResolvedValue(true),
     });
-    render(<Bond />);
   });
 
-  it("should render component with OHM-LUSD LP", async () => {
-    expect(await screen.findByText("OHM-LUSD LP")).toBeInTheDocument();
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it("should render component with LUSD", async () => {
+    render(<Bond />);
+
+    expect(await screen.findByText("LUSD")).toBeInTheDocument();
   });
 
   it("should render component with OHM-DAI LP", async () => {
+    render(<Bond />);
+
     expect(await screen.queryAllByText("OHM-DAI LP")[0]).toBeInTheDocument();
   });
 
-  it("should render component with OHM-WETH LP", async () => {
-    expect(await screen.findByText("OHM-WETH LP")).toBeInTheDocument();
+  it("should render component with FRAX", async () => {
+    render(<Bond />);
+
+    expect(await screen.findByText("FRAX")).toBeInTheDocument();
   });
 
   it("Should display the correct LP value", async () => {
+    render(<Bond />);
+
     expect(await screen.findByText("$17.21")).toBeInTheDocument();
   });
+
   it("Should display the correct % Discount value", async () => {
+    render(<Bond />);
+
     expect(await screen.findByText("13.96%")).toBeInTheDocument();
   });
 });
@@ -114,6 +140,14 @@ describe("Bond Modal", () => {
     });
     Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
   });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+
+    Balance.useBalance.mockReset();
+    ContractAllowance.useContractAllowance.mockReset();
+  });
+
   it("Should display bond modal with Fixed Term Bond", async () => {
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
     render(<BondModalContainer />);
@@ -125,6 +159,7 @@ describe("Bond Modal", () => {
     render(<BondModalContainer />);
     expect(await screen.findByText("Fixed Term")).toBeInTheDocument();
   });
+
   it("Should display bond modal with Approve Button", async () => {
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(0) });
     render(<BondModalContainer />);

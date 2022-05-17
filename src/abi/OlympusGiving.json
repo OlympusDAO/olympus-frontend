@@ -3,11 +3,22 @@
     {
       "inputs": [
         { "internalType": "address", "name": "sOhm_", "type": "address" },
+        { "internalType": "address", "name": "gOhm_", "type": "address" },
+        { "internalType": "address", "name": "staking_", "type": "address" },
         { "internalType": "address", "name": "authority_", "type": "address" }
       ],
       "stateMutability": "nonpayable",
       "type": "constructor"
     },
+    { "inputs": [], "name": "YieldDirector_InvalidAddress", "type": "error" },
+    { "inputs": [], "name": "YieldDirector_InvalidDeposit", "type": "error" },
+    { "inputs": [], "name": "YieldDirector_InvalidUpdate", "type": "error" },
+    { "inputs": [], "name": "YieldDirector_InvalidWithdrawal", "type": "error" },
+    { "inputs": [], "name": "YieldDirector_NoDeposits", "type": "error" },
+    { "inputs": [], "name": "YieldDirector_NotYourYield", "type": "error" },
+    { "inputs": [], "name": "YieldDirector_RedeemsDisabled", "type": "error" },
+    { "inputs": [], "name": "YieldDirector_WithdrawalsDisabled", "type": "error" },
+    { "inputs": [], "name": "YieldSplitter_NotYourDeposit", "type": "error" },
     {
       "anonymous": false,
       "inputs": [
@@ -71,6 +82,26 @@
       "type": "event"
     },
     {
+      "inputs": [
+        { "internalType": "uint256", "name": "depositId_", "type": "uint256" },
+        { "internalType": "uint256", "name": "amount_", "type": "uint256" }
+      ],
+      "name": "addToDeposit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "depositId_", "type": "uint256" },
+        { "internalType": "uint256", "name": "amount_", "type": "uint256" }
+      ],
+      "name": "addToSohmDeposit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "authority",
       "outputs": [{ "internalType": "contract IOlympusAuthority", "name": "", "type": "address" }],
@@ -83,7 +114,7 @@
         { "internalType": "address", "name": "recipient_", "type": "address" }
       ],
       "name": "deposit",
-      "outputs": [],
+      "outputs": [{ "internalType": "uint256", "name": "depositId", "type": "uint256" }],
       "stateMutability": "nonpayable",
       "type": "function"
     },
@@ -91,6 +122,38 @@
       "inputs": [],
       "name": "depositDisabled",
       "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "name": "depositInfo",
+      "outputs": [
+        { "internalType": "uint256", "name": "id", "type": "uint256" },
+        { "internalType": "address", "name": "depositor", "type": "address" },
+        { "internalType": "uint256", "name": "principalAmount", "type": "uint256" },
+        { "internalType": "uint256", "name": "agnosticAmount", "type": "uint256" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "amount_", "type": "uint256" },
+        { "internalType": "address", "name": "recipient_", "type": "address" }
+      ],
+      "name": "depositSohm",
+      "outputs": [{ "internalType": "uint256", "name": "depositId", "type": "uint256" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "", "type": "address" },
+        { "internalType": "uint256", "name": "", "type": "uint256" }
+      ],
+      "name": "depositorIds",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
       "type": "function"
     },
@@ -136,26 +199,17 @@
       "type": "function"
     },
     {
-      "inputs": [
-        { "internalType": "address", "name": "", "type": "address" },
-        { "internalType": "uint256", "name": "", "type": "uint256" }
-      ],
-      "name": "donationInfo",
-      "outputs": [
-        { "internalType": "address", "name": "recipient", "type": "address" },
-        { "internalType": "uint256", "name": "deposit", "type": "uint256" },
-        { "internalType": "uint256", "name": "agnosticDeposit", "type": "uint256" },
-        { "internalType": "uint256", "name": "carry", "type": "uint256" },
-        { "internalType": "uint256", "name": "indexAtLastChange", "type": "uint256" }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [{ "internalType": "bool", "name": "active_", "type": "bool" }],
       "name": "emergencyShutdown",
       "outputs": [],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "gOHM",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -169,18 +223,58 @@
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-      "name": "recipientInfo",
-      "outputs": [
-        { "internalType": "uint256", "name": "totalDebt", "type": "uint256" },
-        { "internalType": "uint256", "name": "carry", "type": "uint256" },
-        { "internalType": "uint256", "name": "agnosticDebt", "type": "uint256" },
-        { "internalType": "uint256", "name": "indexAtLastChange", "type": "uint256" }
-      ],
+      "inputs": [{ "internalType": "address", "name": "donor_", "type": "address" }],
+      "name": "getDepositorIds",
+      "outputs": [{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }],
       "stateMutability": "view",
       "type": "function"
     },
-    { "inputs": [], "name": "redeem", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [{ "internalType": "address", "name": "recipient_", "type": "address" }],
+      "name": "getRecipientIds",
+      "outputs": [{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "idCount",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "indexWrapper",
+      "outputs": [{ "internalType": "contract IOHMIndexWrapper", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "", "type": "address" },
+        { "internalType": "uint256", "name": "", "type": "uint256" }
+      ],
+      "name": "recipientIds",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "name": "recipientLookup",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    { "inputs": [], "name": "redeemAllYield", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    {
+      "inputs": [],
+      "name": "redeemAllYieldAsSohm",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
     {
       "inputs": [],
       "name": "redeemDisabled",
@@ -189,7 +283,21 @@
       "type": "function"
     },
     {
-      "inputs": [{ "internalType": "address", "name": "recipient_", "type": "address" }],
+      "inputs": [{ "internalType": "uint256", "name": "depositId_", "type": "uint256" }],
+      "name": "redeemYield",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "depositId_", "type": "uint256" }],
+      "name": "redeemYieldAsSohm",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "uint256", "name": "depositId_", "type": "uint256" }],
       "name": "redeemableBalance",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
@@ -210,6 +318,13 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "staking",
+      "outputs": [{ "internalType": "contract IStaking", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [{ "internalType": "address", "name": "donor_", "type": "address" }],
       "name": "totalDeposits",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -224,13 +339,10 @@
       "type": "function"
     },
     {
-      "inputs": [
-        { "internalType": "uint256", "name": "amount_", "type": "uint256" },
-        { "internalType": "address", "name": "recipient_", "type": "address" }
-      ],
-      "name": "withdraw",
-      "outputs": [],
-      "stateMutability": "nonpayable",
+      "inputs": [{ "internalType": "address", "name": "recipient_", "type": "address" }],
+      "name": "totalRedeemableBalance",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
       "type": "function"
     },
     { "inputs": [], "name": "withdrawAll", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
@@ -239,6 +351,26 @@
       "name": "withdrawDisabled",
       "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "depositId_", "type": "uint256" },
+        { "internalType": "uint256", "name": "amount_", "type": "uint256" }
+      ],
+      "name": "withdrawPrincipal",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "depositId_", "type": "uint256" },
+        { "internalType": "uint256", "name": "amount_", "type": "uint256" }
+      ],
+      "name": "withdrawPrincipalAsSohm",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     }
   ]

@@ -1,13 +1,12 @@
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import * as fc from "fast-check";
-import { toInteger } from "lodash";
 
 import { addresses } from "../networkDetails";
 import { getBondCalculator } from "./BondCalculator";
 
 describe("BondCalculator", () => {
   test("getBondCalculator always returns contract with the correct contract address", () => {
-    const networkNames = Object.keys(addresses).map(key => toInteger(key)) as number[];
+    const networkNames = Object.keys(addresses).map(key => parseInt(key)) as number[];
     const provider = null as unknown as StaticJsonRpcProvider;
 
     fc.assert(

@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { DAO_TREASURY_ADDRESSES } from "src/constants/addresses";
 import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { useWeb3Context } from "src/hooks";
@@ -19,6 +20,7 @@ export const usePurchaseBond = (bond: Bond) => {
   const networks = useTestableNetworks();
   const { provider, networkId, address } = useWeb3Context();
   const balance = useBalance(bond.quoteToken.addresses)[networks.MAINNET].data;
+  let txHash: string;
 
   return useMutation<
     ContractReceipt,
@@ -35,7 +37,7 @@ export const usePurchaseBond = (bond: Bond) => {
       if (!slippage || isNaN(Number(slippage))) throw new Error(t`Please enter a valid slippage amount`);
 
       const parsedAmount = new DecimalBigNumber(amount, bond.quoteToken.decimals);
-      const parsedSlippage = new DecimalBigNumber(slippage, 18);
+      const parsedSlippage = new DecimalBigNumber(slippage, bond.quoteToken.decimals);
 
       if (!parsedAmount.gt("0")) throw new Error(t`Please enter a number greater than 0`);
 
@@ -65,16 +67,24 @@ export const usePurchaseBond = (bond: Bond) => {
       if (networkId !== networks.MAINNET)
         throw new Error(t`Please switch to the Ethereum network to purchase this bond`);
 
-      const slippageAsPercent = parsedSlippage.div("100").add("1");
-      const maxPrice = bond.price.inBaseToken.mul(slippageAsPercent);
+      const slippageAsPercent = parsedSlippage.div("100");
+      const maxPrice = bond.price.inBaseToken.mul(slippageAsPercent.add("1"));
 
       const signer = provider.getSigner();
       const referrer = DAO_TREASURY_ADDRESSES[networks.MAINNET];
 
       if (isInverseBond) {
+        const minAmountOut = parsedAmount
+          .div(bond.price.inBaseToken)
+          .mul(new DecimalBigNumber("1").sub(slippageAsPercent));
+
         const transaction = await OP_BOND_DEPOSITORY_CONTRACT.getEthersContract(networks.MAINNET)
           .connect(signer)
-          .deposit(bond.id, [parsedAmount.toBigNumber(), 0], [recipientAddress, referrer]);
+          .deposit(
+            bond.id,
+            [parsedAmount.toBigNumber(), minAmountOut.toBigNumber(bond.baseToken.decimals)],
+            [recipientAddress, referrer],
+          );
 
         return transaction.wait();
       }
@@ -88,14 +98,23 @@ export const usePurchaseBond = (bond: Bond) => {
           recipientAddress,
           referrer,
         );
-
+      txHash = transaction.hash;
       return transaction.wait();
     },
     {
       onError: error => {
         dispatch(createErrorToast(error.message));
       },
-      onSuccess: async () => {
+      onSuccess: async (_, { amount }) => {
+        trackGAEvent({
+          category: "Bonds",
+          action: "Bond",
+          label: bond.quoteToken.name,
+          value: new DecimalBigNumber(amount, bond.quoteToken.decimals).toApproxNumber(),
+          dimension1: txHash ?? "unknown",
+          dimension2: address,
+        });
+
         const keysToRefetch = [
           bondNotesQueryKey(networks.MAINNET, address),
           balanceQueryKey(address, bond.quoteToken.addresses, networks.MAINNET),

@@ -1,7 +1,7 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Container, Grid, Typography, useTheme, Zoom } from "@material-ui/core";
+import { Box, Container, Grid, Typography, useTheme } from "@material-ui/core";
 import { PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
 import { useUIDSeed } from "react-uid";
@@ -9,6 +9,7 @@ import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/Proj
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useAppDispatch } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
+import { ChangeAssetType } from "src/slices/interfaces";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 
@@ -16,7 +17,14 @@ import { error } from "../../slices/MessagesSlice";
 import { useGive } from "./hooks/useGive";
 import data from "./projects.json";
 
-export default function CausesDashboard() {
+type CausesDashboardProps = {
+  giveAssetType: string;
+  changeAssetType: ChangeAssetType;
+};
+
+const ZERO_NUMBER = new DecimalBigNumber("0");
+
+export default function CausesDashboard({ giveAssetType, changeAssetType }: CausesDashboardProps) {
   const { address } = useWeb3Context();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const { projects } = data;
@@ -40,7 +48,13 @@ export default function CausesDashboard() {
       return (
         <>
           <Grid item xs={12}>
-            <ProjectCard key={seed(project.title)} project={project} mode={ProjectDetailsMode.Card} />
+            <ProjectCard
+              key={seed(project.title)}
+              project={project}
+              giveAssetType={giveAssetType}
+              changeAssetType={changeAssetType}
+              mode={ProjectDetailsMode.Card}
+            />
           </Grid>
         </>
       );
@@ -56,12 +70,12 @@ export default function CausesDashboard() {
     eventSource: string,
     depositAmount: DecimalBigNumber,
   ) => {
-    if (depositAmount.eq(new DecimalBigNumber("0"))) {
+    if (depositAmount.eq(ZERO_NUMBER)) {
       return dispatch(error(t`Please enter a value!`));
     }
 
     const amount = depositAmount.toString();
-    await giveMutation.mutate({ amount: amount, recipient: walletAddress });
+    await giveMutation.mutate({ amount: amount, recipient: walletAddress, token: giveAssetType });
   };
 
   const handleCustomGiveModalCancel: CancelCallback = () => {
@@ -74,51 +88,46 @@ export default function CausesDashboard() {
   };
 
   return (
-    <Zoom in={true}>
-      <Container>
-        <Grid container justifyContent="center" alignItems="center" spacing={4}>
-          {renderProjects}
-          <Grid item xs={12}>
-            <Box style={customRecipientBoxStyle}>
-              <Grid
-                container
-                spacing={2}
-                style={{ paddingTop: "10px", paddingBottom: "10px", paddingLeft: "30px", paddingRight: "30px" }}
-              >
-                <Grid item xs={12}>
-                  <Typography variant="h4" align="center">
-                    <Trans>Want to give to a different cause?</Trans>
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="body1" align="center">
-                    <Trans>You can direct your yield to a recipient of your choice</Trans>
-                  </Typography>
-                </Grid>
-                <Grid item xs />
-                <Grid item xs={12} sm={4} container justifyContent="center">
-                  <PrimaryButton
-                    fullWidth
-                    size="small"
-                    onClick={() => handleCustomGiveButtonClick()}
-                    disabled={!address}
-                  >
-                    <Trans>Select Custom Recipient</Trans>
-                  </PrimaryButton>
-                </Grid>
-                <Grid item xs />
+    <Container>
+      <Grid container justifyContent="center" alignItems="center" spacing={4}>
+        {renderProjects}
+        <Grid item xs={12}>
+          <Box style={customRecipientBoxStyle}>
+            <Grid
+              container
+              spacing={2}
+              style={{ paddingTop: "10px", paddingBottom: "10px", paddingLeft: "30px", paddingRight: "30px" }}
+            >
+              <Grid item xs={12}>
+                <Typography variant="h4" align="center">
+                  <Trans>Want to give to a different cause?</Trans>
+                </Typography>
               </Grid>
-            </Box>
-          </Grid>
+              <Grid item xs={12}>
+                <Typography variant="body1" align="center">
+                  <Trans>You can direct your yield to a recipient of your choice</Trans>
+                </Typography>
+              </Grid>
+              <Grid item xs />
+              <Grid item xs={12} sm={4} container justifyContent="center">
+                <PrimaryButton fullWidth size="small" onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
+                  <Trans>Select Custom Recipient</Trans>
+                </PrimaryButton>
+              </Grid>
+              <Grid item xs />
+            </Grid>
+          </Box>
         </Grid>
-        <RecipientModal
-          isModalOpen={isCustomGiveModalOpen}
-          isMutationLoading={isMutating}
-          eventSource="Custom Recipient Button"
-          callbackFunc={handleCustomGiveModalSubmit}
-          cancelFunc={handleCustomGiveModalCancel}
-        />
-      </Container>
-    </Zoom>
+      </Grid>
+      <RecipientModal
+        isModalOpen={isCustomGiveModalOpen}
+        isMutationLoading={isMutating}
+        eventSource="Custom Recipient Button"
+        callbackFunc={handleCustomGiveModalSubmit}
+        cancelFunc={handleCustomGiveModalCancel}
+        giveAssetType={giveAssetType}
+        changeAssetType={changeAssetType}
+      />
+    </Container>
   );
 }

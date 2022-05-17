@@ -15,6 +15,8 @@ import { useMemo } from "react";
 import { abi as BALANCERV2_POOL_ABI } from "src/abi/BalancerV2Pool.json";
 import { abi as BALANCER_VAULT_ABI } from "src/abi/BalancerVault.json";
 import { abi as BEETHOVEN_CHEF_ABI } from "src/abi/BeethovenChef.json";
+import { abi as BOBA_CHEF_ABI } from "src/abi/BobaChef.json";
+import { abi as BOBA_REWARDER_ABI } from "src/abi/BobaRewarder.json";
 import { abi as BOND_ABI } from "src/abi/BondDepository.json";
 import { abi as CROSS_CHAIN_MIGRATOR_ABI } from "src/abi/CrossChainMigrator.json";
 import { abi as FUSE_PROXY_ABI } from "src/abi/FuseProxy.json";
@@ -24,6 +26,7 @@ import { abi as JOECHEF_ABI } from "src/abi/JoeChef.json";
 import { abi as JOE_REWARDER_ABI } from "src/abi/JoeRewarder.json";
 import { abi as JONES_ABI } from "src/abi/Jones.json";
 import { abi as GIVE_ABI } from "src/abi/OlympusGiving.json";
+import { abi as GIVE_OLD_ABI } from "src/abi/OlympusGivingOld.json";
 import { abi as MOCK_GIVE_ABI } from "src/abi/OlympusMockGiving.json";
 import STAKING_ABI from "src/abi/OlympusStakingv2.json";
 import { abi as PAIR_CONTRACT_ABI } from "src/abi/PairContract.json";
@@ -36,12 +39,15 @@ import { AddressMap } from "src/constants/addresses";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
 import {
+  BobaChef,
+  BobaRewarder,
   BondDepository,
   CrossChainMigrator,
   FuseProxy,
   IERC20,
   Jones,
   OlympusGiving,
+  OlympusGivingOld,
   OlympusMockGiving,
   OlympusStakingv2,
   PairContract,
@@ -139,11 +145,14 @@ export const useStaticZipRewarderContract = createStaticContract<ZipRewarder>(ZI
 export const useStaticZipSecondaryRewardercontract =
   createStaticContract<ZipSecondaryRewarder>(ZIP_SECONDARY_REWARDER_ABI);
 export const useStaticJonesContract = createStaticContract<Jones>(JONES_ABI);
+export const useStaticBobaChefContract = createStaticContract<BobaChef>(BOBA_CHEF_ABI);
+export const useStaticBobaRewarderContract = createStaticContract<BobaRewarder>(BOBA_REWARDER_ABI);
 
 // Dynamic contracts
 export const useDynamicTokenContract = createDynamicContract<IERC20>(IERC20_ABI);
 export const useDynamicStakingContract = createDynamicContract<OlympusStakingv2>(STAKING_ABI);
 export const useDynamicGiveContract = createDynamicContract<OlympusGiving>(GIVE_ABI);
+export const useDynamicV1GiveContract = createDynamicContract<OlympusGivingOld>(GIVE_OLD_ABI);
 export const useDynamicMigratorContract = createDynamicContract<CrossChainMigrator>(CROSS_CHAIN_MIGRATOR_ABI);
 
 // Multiple static contracts

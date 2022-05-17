@@ -38,6 +38,9 @@ describe("<ZapStakeAction/> ", () => {
   });
 
   it("gOHM should autopopulate with correct value based on ETH input", async () => {
+    // Workaround for long-running tasks
+    jest.setTimeout(60000);
+
     render(
       <>
         <ZapStakeAction />

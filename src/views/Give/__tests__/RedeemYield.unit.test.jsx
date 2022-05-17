@@ -1,13 +1,17 @@
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
+import * as useCurrentIndex from "src/hooks/useCurrentIndex";
 import * as useGiveInfo from "src/hooks/useGiveInfo";
 import * as useStakingRebaseRate from "src/hooks/useStakingRebaseRate";
 import * as useWeb3Context from "src/hooks/web3Context";
 import {
+  mockCurrentIndex,
   mockRecipientInfo,
   mockRedeemableBalance,
   mockStakingRebaseRate,
   mockTotalYieldDonated,
   mockWeb3Context,
 } from "src/testHelpers";
+import * as useRedeem from "src/views/Give/hooks/useRedeem";
 
 import { act, render, screen } from "../../../testUtils";
 import RedeemYield from "../RedeemYield";
@@ -25,10 +29,8 @@ beforeEach(() => {
   redeemData = "100.0";
   yieldData = "10.0";
   recipientData = {
-    totalDebt: "100.0",
-    carry: "0.0",
-    agnosticDebt: "0.0",
-    indexAtLastChange: "0.0",
+    sohmDebt: "1000.0",
+    gohmDebt: "10.0",
   };
   stakingData = 0.002146913392161418;
 });
@@ -39,7 +41,9 @@ afterEach(() => {
 });
 
 describe("Redeem Yield", () => {
-  it("should render Redeem Yield Screen", async () => {
+  beforeEach(() => {
+    jest.spyOn(useCurrentIndex, "useCurrentIndex").mockReturnValue(mockCurrentIndex(new DecimalBigNumber("100", 9)));
+
     context.mockReturnValue(mockWeb3Context);
 
     const redeemable = jest.spyOn(useGiveInfo, "useRedeemableBalance");
@@ -54,6 +58,11 @@ describe("Redeem Yield", () => {
     const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
     stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
 
+    const redeem = jest.spyOn(useRedeem, "useRedeem");
+    redeem.mockReturnValue({ isLoading: false });
+  });
+
+  it("should render Redeem Yield Screen", async () => {
     let container;
     await act(async () => {
       ({ container } = render(<RedeemYield />));
@@ -61,12 +70,15 @@ describe("Redeem Yield", () => {
     expect(container).toMatchSnapshot();
   });
 
+  it("should have disabled redeem button when there are pending transaction(s)", async () => {
+    jest.spyOn(useRedeem, "useRedeem").mockReturnValue({ isLoading: true });
+
+    render(<RedeemYield />);
+
+    expect(screen.getByText("Redeem Yield").closest("button")).toBeDisabled();
+  });
+
   it("should have disabled redeem button when recipient info is loading", async () => {
-    context.mockReturnValue(mockWeb3Context);
-
-    const redeemable = jest.spyOn(useGiveInfo, "useRedeemableBalance");
-    redeemable.mockReturnValue(mockRedeemableBalance(redeemData));
-
     const recipientInfo = jest.spyOn(useGiveInfo, "useRecipientInfo");
     // Pretend as if it is loading
     const _recipientInfo = mockRecipientInfo(recipientData);
@@ -80,22 +92,14 @@ describe("Redeem Yield", () => {
     const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
     stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
 
-    let container;
-    await act(async () => {
-      ({ container } = render(<RedeemYield />)); //eslint-disable-line
-    });
+    render(<RedeemYield />);
 
-    expect(screen.getByText("Redeem Yield").closest("button")).toHaveAttribute("disabled");
+    expect(screen.getByTestId("redeem-yield-button")).toBeDisabled();
   });
 
-  it("should have disabled redeem button when recipient info is loading", async () => {
-    context.mockReturnValue(mockWeb3Context);
-
+  it("should have disabled redeem button when redeemable balance is 0", async () => {
     const redeemable = jest.spyOn(useGiveInfo, "useRedeemableBalance");
     redeemable.mockReturnValue(mockRedeemableBalance("0")); // Zero redeemable balance
-
-    const recipientInfo = jest.spyOn(useGiveInfo, "useRecipientInfo");
-    recipientInfo.mockReturnValue(recipientInfo);
 
     const yieldInfo = jest.spyOn(useGiveInfo, "useTotalYieldDonated");
     yieldInfo.mockReturnValue(mockTotalYieldDonated(yieldData));
@@ -103,17 +107,12 @@ describe("Redeem Yield", () => {
     const stakingRebaseRate = jest.spyOn(useStakingRebaseRate, "useStakingRebaseRate");
     stakingRebaseRate.mockReturnValue(mockStakingRebaseRate(stakingData));
 
-    let container;
-    await act(async () => {
-      ({ container } = render(<RedeemYield />)); //eslint-disable-line
-    });
+    render(<RedeemYield />);
 
-    expect(screen.getByText("Redeem Yield").closest("button")).toHaveAttribute("disabled");
+    expect(screen.getByTestId("redeem-yield-button")).toBeDisabled();
   });
 
   it("should show redeemable balance as 100 sOHM", async () => {
-    context.mockReturnValue(mockWeb3Context);
-
     const redeemable = jest.spyOn(useGiveInfo, "useRedeemableBalance");
     redeemable.mockReturnValue(mockRedeemableBalance(redeemData));
 
@@ -130,8 +129,9 @@ describe("Redeem Yield", () => {
     await act(async () => {
       ({ container } = render(<RedeemYield />)); //eslint-disable-line
     });
-    expect(container).toMatchSnapshot();
+
     expect(screen.getByTestId("redeemable-balance")).toHaveTextContent("100 sOHM");
+    expect(container).toMatchSnapshot();
   });
 
   it("should show extra content if project wallet", async () => {

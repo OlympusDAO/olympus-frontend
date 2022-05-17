@@ -3,6 +3,7 @@ import { ContractReceipt } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
@@ -41,7 +42,13 @@ export const useUnwrapGohm = () => {
       onError: error => {
         dispatch(createErrorToast(error.message));
       },
-      onSuccess: async () => {
+      onSuccess: async (_, amount) => {
+        trackGAEvent({
+          category: "Wrapping",
+          action: "Unwrap gOHM",
+          value: new DecimalBigNumber(amount, 18).toApproxNumber(),
+        });
+
         const keysToRefetch = [
           balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
           balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
