@@ -179,7 +179,7 @@ const BondTable: React.FC<{ isInverseBond: boolean }> = ({ children, isInverseBo
 );
 
 const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isInverseBond }) => (
-  <TableRow id={bond.id + `--bond`}>
+  <TableRow id={bond.id + `--bond`} data-testid={bond.id + `--bond`}>
     <TableCell style={{ padding: "8px 0" }}>
       <TokenIcons token={bond.quoteToken} />
     </TableCell>
@@ -209,7 +209,9 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
     <TableCell style={{ padding: "8px 0" }}>
       <Link component={NavLink} to={isInverseBond ? `/bonds/inverse/${bond.id}` : `/bonds/${bond.id}`}>
         <TertiaryButton fullWidth disabled={bond.isSoldOut}>
-          {bond.isSoldOut ? "Sold Out" : t`do_bond`}
+          {bond.isSoldOut
+            ? t({ message: `Sold Out`, comment: `Bond is sold out` })
+            : t({ message: `Bond`, comment: `The act of bonding` })}
         </TertiaryButton>
       </Link>
     </TableCell>

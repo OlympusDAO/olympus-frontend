@@ -35,7 +35,7 @@
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@ethersproject/address": "^5.6.0",
-    "@ethersproject/providers": "^5.0.12",
+    "@ethersproject/providers": "^5.6.6",
     "@ledgerhq/iframe-provider": "^0.4.2",
     "@lingui/react": "^3.13.3",
     "@mui/icons-material": "^5.6.2",

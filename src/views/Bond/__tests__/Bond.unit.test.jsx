@@ -37,6 +37,16 @@ beforeEach(() => {
   Token.FRAX_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
 });
 
+afterEach(() => {
+  jest.resetAllMocks();
+
+  Token.OHM_TOKEN.getPrice.mockReset();
+  Token.DAI_TOKEN.getPrice.mockReset();
+  Token.OHM_DAI_LP_TOKEN.getPrice.mockReset();
+  Token.LUSD_TOKEN.getPrice.mockReset();
+  Token.FRAX_TOKEN.getPrice.mockReset();
+});
+
 jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
   useParams: jest.fn(),
@@ -80,25 +90,39 @@ describe("Bonds", () => {
       }),
       wait: jest.fn().mockResolvedValue(true),
     });
-    render(<Bond />);
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
   it("should render component with LUSD", async () => {
+    render(<Bond />);
+
     expect(await screen.findByText("LUSD")).toBeInTheDocument();
   });
 
   it("should render component with OHM-DAI LP", async () => {
+    render(<Bond />);
+
     expect(await screen.queryAllByText("OHM-DAI LP")[0]).toBeInTheDocument();
   });
 
   it("should render component with FRAX", async () => {
+    render(<Bond />);
+
     expect(await screen.findByText("FRAX")).toBeInTheDocument();
   });
 
   it("Should display the correct LP value", async () => {
+    render(<Bond />);
+
     expect(await screen.findByText("$17.21")).toBeInTheDocument();
   });
+
   it("Should display the correct % Discount value", async () => {
+    render(<Bond />);
+
     expect(await screen.findByText("13.96%")).toBeInTheDocument();
   });
 });
@@ -116,6 +140,14 @@ describe("Bond Modal", () => {
     });
     Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
   });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+
+    Balance.useBalance.mockReset();
+    ContractAllowance.useContractAllowance.mockReset();
+  });
+
   it("Should display bond modal with Fixed Term Bond", async () => {
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
     render(<BondModalContainer />);
@@ -127,6 +159,7 @@ describe("Bond Modal", () => {
     render(<BondModalContainer />);
     expect(await screen.findByText("Fixed Term")).toBeInTheDocument();
   });
+
   it("Should display bond modal with Approve Button", async () => {
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(0) });
     render(<BondModalContainer />);
