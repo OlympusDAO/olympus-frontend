@@ -58,7 +58,7 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
             </Typography>
           </Grid>
         )}
-        <Grid item xs={4} sm={3}>
+        <Grid item xs={4} sm={2}>
           <Typography variant="body1" className="grey">
             <Trans>Recipient</Trans>
           </Typography>
@@ -75,7 +75,7 @@ export default function YieldRecipients({ changeView }: RecipientModalProps) {
             </Typography>
           </Grid>
         )}
-        <Grid item xs={4} sm={2} />
+        <Grid item xs={4} sm={3} />
       </Grid>
       <Grid item xs={12}>
         <Divider />

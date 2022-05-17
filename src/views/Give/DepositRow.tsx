@@ -97,9 +97,11 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
           <Typography variant="body1">{depositObject.date}</Typography>
         </Grid>
       )}
-      <Grid item xs={4} sm={3}>
+      <Grid item xs={4} sm={2}>
         <Tooltip title={depositObject.recipient} arrow>
-          <Typography variant="body1">{getRecipientTitle(depositObject.recipient)}</Typography>
+          <Typography variant="body1" className="ellipsis">
+            {getRecipientTitle(depositObject.recipient)}
+          </Typography>
         </Tooltip>
       </Grid>
       <Grid item xs={4} sm={2} md={3} style={{ textAlign: "right" }}>
@@ -112,8 +114,8 @@ export const DepositTableRow = ({ depositObject }: DepositRowProps) => {
           </Typography>
         </Grid>
       )}
-      <Grid item xs={4} sm={2} style={{ textAlign: "right" }}>
-        <TertiaryButton onClick={() => setIsManageModalOpen(true)} size="small" fullWidth>
+      <Grid item xs={4} sm={3} style={{ textAlign: "right" }}>
+        <TertiaryButton onClick={() => setIsManageModalOpen(true)} size="small">
           Manage
         </TertiaryButton>
       </Grid>
