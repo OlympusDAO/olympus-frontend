@@ -50,7 +50,7 @@ const StyledTableHeader = styled(TableHead)(({ theme }) => ({
 }));
 
 const StyledPoolInfo = styled("div")(() => ({
-  [`& .${classes.poolPair}`]: {
+  [`&.${classes.poolPair}`]: {
     display: "flex !important",
     alignItems: "center",
     justifyContent: "left",
