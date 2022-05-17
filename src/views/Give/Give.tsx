@@ -92,7 +92,7 @@ function Give({ selectedIndex = 0 }) {
               <Tab label={t`Grants`} />
             </Link>
             <Link to="/give/donations" component={RouterLink}>
-              <Tab label={t`My Donations`} />
+              <Tab label={t`My Donations`} style={{ whiteSpace: "nowrap" }} />
             </Link>
             <Link to="/give/redeem" component={RouterLink}>
               <Tab label={t`Redeem`} />

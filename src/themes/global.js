@@ -228,7 +228,6 @@ const commonSettings = {
           padding: "0px",
           margin: "0px 10px",
           fontWeight: 400,
-          fontSize: "24px",
           fontStyle: "normal",
           lineHeight: "24px",
           opacity: 1,
