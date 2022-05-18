@@ -1,24 +1,32 @@
-import { SwipeableDrawer } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { SwipeableDrawer } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import NavContent from "./NavContent";
 
-const drawerWidth = 280;
+const PREFIX = "NavDrawer";
 
-const useStyles = makeStyles(theme => ({
-  drawer: {
+const classes = {
+  drawer: `${PREFIX}-drawer`,
+  drawerPaper: `${PREFIX}-drawerPaper`,
+};
+
+const StyledSwipeableDrawer = styled(SwipeableDrawer)(({ theme }) => ({
+  [`& .${classes.drawer}`]: {
     [theme.breakpoints.up("md")]: {
       width: drawerWidth,
       flexShrink: 0,
     },
   },
-  drawerPaper: {
+
+  [`& .${classes.drawerPaper}`]: {
     width: drawerWidth,
     borderRight: 0,
   },
 }));
+
+const drawerWidth = 280;
 
 type NavDrawerProps = {
   mobileOpen: boolean;
@@ -27,7 +35,7 @@ type NavDrawerProps = {
 
 const NavDrawer: React.FC<NavDrawerProps> = ({ mobileOpen, handleDrawerToggle }) => {
   const location = useLocation();
-  const classes = useStyles();
+
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   useEffect(() => {
@@ -38,7 +46,7 @@ const NavDrawer: React.FC<NavDrawerProps> = ({ mobileOpen, handleDrawerToggle })
   }, [location]);
 
   return (
-    <SwipeableDrawer
+    <StyledSwipeableDrawer
       variant="temporary"
       anchor="left"
       open={mobileOpen}
@@ -54,7 +62,7 @@ const NavDrawer: React.FC<NavDrawerProps> = ({ mobileOpen, handleDrawerToggle })
       disableDiscovery={isIOS}
     >
       <NavContent />
-    </SwipeableDrawer>
+    </StyledSwipeableDrawer>
   );
 };
 

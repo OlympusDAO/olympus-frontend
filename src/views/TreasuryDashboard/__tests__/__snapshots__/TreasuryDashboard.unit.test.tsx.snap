@@ -7,176 +7,157 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
     id="treasury-dashboard-view"
   >
     <div
-      class="MuiTabs-root makeStyles-root-1 "
+      class="MuiTabs-root Tabs-root  css-u2rngf-MuiTabs-root"
     >
       <div
-        class="MuiTabs-scroller MuiTabs-fixed"
-        style="overflow: hidden;"
+        class="MuiTabs-scroller MuiTabs-fixed css-kqhgxw-MuiTabs-scroller"
+        style="overflow: hidden; margin-bottom: 0px;"
       >
         <div
           aria-label="dashboard-tabs"
-          class="MuiTabs-flexContainer MuiTabs-centered"
+          class="MuiTabs-flexContainer MuiTabs-centered css-1mqo22u-MuiTabs-flexContainer"
           role="tablist"
         >
           <a
-            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
             href="#/dashboard"
+            tabindex="0"
             textcolor="primary"
             value="0"
           >
             <button
               aria-controls="simple-tabpanel-undefined"
-              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-rzx4ff-MuiButtonBase-root-MuiTab-root"
               id="simple-tab-undefined"
               role="tab"
               tabindex="-1"
               type="button"
             >
-              <span
-                class="MuiTab-wrapper"
-              >
-                Dashboard
-              </span>
+              Dashboard
             </button>
           </a>
           <a
-            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
             href="#/dashboard/treasury"
             textcolor="primary"
             value="1"
           >
             <button
               aria-controls="simple-tabpanel-undefined"
-              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-rzx4ff-MuiButtonBase-root-MuiTab-root"
               id="simple-tab-undefined"
               role="tab"
               tabindex="-1"
               type="button"
             >
-              <span
-                class="MuiTab-wrapper"
-              >
-                Treasury
-              </span>
+              Treasury
             </button>
           </a>
           <a
-            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
             href="#/dashboard/revenue"
             textcolor="primary"
             value="2"
           >
             <button
               aria-controls="simple-tabpanel-undefined"
-              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-rzx4ff-MuiButtonBase-root-MuiTab-root"
               id="simple-tab-undefined"
               role="tab"
               tabindex="-1"
               type="button"
             >
-              <span
-                class="MuiTab-wrapper"
-              >
-                Revenue
-              </span>
+              Revenue
             </button>
           </a>
           <a
-            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
             href="#/dashboard/olympuspro"
             textcolor="primary"
             value="3"
           >
             <button
               aria-controls="simple-tabpanel-undefined"
-              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-rzx4ff-MuiButtonBase-root-MuiTab-root"
               id="simple-tab-undefined"
               role="tab"
               style="white-space: nowrap;"
               tabindex="-1"
               type="button"
             >
-              <span
-                class="MuiTab-wrapper"
-              >
-                Olympus Pro
-              </span>
+              Olympus Pro
             </button>
           </a>
           <a
-            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
             href="#/dashboard/proteus"
             textcolor="primary"
             value="4"
           >
             <button
               aria-controls="simple-tabpanel-undefined"
-              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
+              class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-rzx4ff-MuiButtonBase-root-MuiTab-root"
               id="simple-tab-undefined"
               role="tab"
               tabindex="-1"
               type="button"
             >
-              <span
-                class="MuiTab-wrapper"
-              >
-                Proteus
-              </span>
+              Proteus
             </button>
           </a>
         </div>
         <span
-          class="PrivateTabIndicator-root-35 PrivateTabIndicator-colorPrimary-36 MuiTabs-indicator"
+          class="MuiTabs-indicator css-gi9wfz-MuiTabs-indicator"
           style="left: 0px; width: 0px;"
         />
       </div>
     </div>
     <div
-      class="MuiContainer-root MuiContainer-maxWidthLg"
+      class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
       style="padding-left: 3.3rem; padding-right: 3.3rem;"
     >
       <div
-        class="MuiBox-root MuiBox-root-2"
+        class="MuiBox-root css-tr0r3x"
       >
         <div
-          class="MuiBox-root MuiBox-root-3 hero-metrics"
+          class="hero-metrics MuiBox-root css-0"
         >
           <div
-            class="MuiPaper-root makeStyles-root-4 makeStyles-root-5 ohm-card MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card css-m19e0g-MuiPaper-root"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-item"
+                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-6"
+                  class="MuiBox-root css-rjww1q"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-flex-end"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1wlo379-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                     >
                       <div
-                        class="makeStyles-root-7 "
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-10"
+                          class="MuiBox-root css-1di3kc0"
                         >
                           <p
-                            class="MuiTypography-root makeStyles-label-8 MuiTypography-body1 MuiTypography-colorTextSecondary"
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                           >
                             Market Cap
                           </p>
                           <p
-                            class="MuiTypography-root makeStyles-metric-9 MuiTypography-body1"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
-                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
                           </p>
@@ -184,25 +165,25 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                     >
                       <div
-                        class="makeStyles-root-7 "
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-11"
+                          class="MuiBox-root css-1di3kc0"
                         >
                           <p
-                            class="MuiTypography-root makeStyles-label-8 MuiTypography-body1 MuiTypography-colorTextSecondary"
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                           >
                             OHM Price
                           </p>
                           <p
-                            class="MuiTypography-root makeStyles-metric-9 MuiTypography-body1"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
-                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
                           </p>
@@ -210,29 +191,29 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                     >
                       <div
-                        class="makeStyles-root-7 wsoprice"
+                        class="Metric-root wsoprice css-1xkrsym"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-12"
+                          class="MuiBox-root css-1di3kc0"
                         >
                           <p
-                            class="MuiTypography-root makeStyles-label-8 MuiTypography-body1 MuiTypography-colorTextSecondary"
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                           >
                             gOHM Price
                             <div
-                              class="MuiBox-root MuiBox-root-13"
+                              class="MuiBox-root css-w341jy"
                               style="font-size: 14px;"
                             >
                               <div
-                                class="MuiBox-root MuiBox-root-14"
+                                class="MuiBox-root css-0"
                                 style="display: inline-flex; justify-content: center; align-self: center;"
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -245,11 +226,11 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                             </div>
                           </p>
                           <p
-                            class="MuiTypography-root makeStyles-metric-9 MuiTypography-body1"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
-                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
                           </p>
@@ -257,25 +238,25 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                     >
                       <div
-                        class="makeStyles-root-7 "
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-16"
+                          class="MuiBox-root css-1di3kc0"
                         >
                           <p
-                            class="MuiTypography-root makeStyles-label-8 MuiTypography-body1 MuiTypography-colorTextSecondary"
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                           >
                             Circulating Supply (total)
                           </p>
                           <p
-                            class="MuiTypography-root makeStyles-metric-9 MuiTypography-body1"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
-                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
                           </p>
@@ -283,29 +264,29 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                     >
                       <div
-                        class="makeStyles-root-7 "
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-17"
+                          class="MuiBox-root css-1di3kc0"
                         >
                           <p
-                            class="MuiTypography-root makeStyles-label-8 MuiTypography-body1 MuiTypography-colorTextSecondary"
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                           >
                             Liquid Backing per OHM
                             <div
-                              class="MuiBox-root MuiBox-root-18"
+                              class="MuiBox-root css-w341jy"
                               style="font-size: 14px;"
                             >
                               <div
-                                class="MuiBox-root MuiBox-root-19"
+                                class="MuiBox-root css-0"
                                 style="display: inline-flex; justify-content: center; align-self: center;"
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -318,11 +299,11 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                             </div>
                           </p>
                           <p
-                            class="MuiTypography-root makeStyles-metric-9 MuiTypography-body1"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
-                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
                           </p>
@@ -330,29 +311,29 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
                     >
                       <div
-                        class="makeStyles-root-7 "
+                        class="Metric-root  css-1xkrsym"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-20"
+                          class="MuiBox-root css-1di3kc0"
                         >
                           <p
-                            class="MuiTypography-root makeStyles-label-8 MuiTypography-body1 MuiTypography-colorTextSecondary"
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
                           >
                             Current Index
                             <div
-                              class="MuiBox-root MuiBox-root-21"
+                              class="MuiBox-root css-w341jy"
                               style="font-size: 14px;"
                             >
                               <div
-                                class="MuiBox-root MuiBox-root-22"
+                                class="MuiBox-root css-0"
                                 style="display: inline-flex; justify-content: center; align-self: center;"
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                                   focusable="false"
                                   style="margin: 0px 5px; font-size: 1em;"
                                   viewBox="0 0 20 20"
@@ -365,11 +346,11 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                             </div>
                           </p>
                           <p
-                            class="MuiTypography-root makeStyles-metric-9 MuiTypography-body1"
+                            class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
                             style="width: 100%;"
                           >
                             <span
-                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                               style="width: 100%;"
                             />
                           </p>
@@ -383,36 +364,36 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root data-grid MuiGrid-container MuiGrid-spacing-xs-2"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 data-grid css-pcr0fy-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6 css-ebdhj4-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root makeStyles-root-4 makeStyles-root-23 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-m19e0g-MuiPaper-root"
               style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-24"
+                    class="MuiBox-root css-0"
                     style="display: flex; align-items: center; justify-content: center;"
                   >
-                    <div
-                      class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                    <span
+                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-2r4182-MuiCircularProgress-root"
                       role="progressbar"
                       style="width: 40px; height: 40px;"
                     >
                       <svg
-                        class="MuiCircularProgress-svg"
+                        class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
                         viewBox="22 22 44 44"
                       >
                         <circle
-                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
                           cx="44"
                           cy="44"
                           fill="none"
@@ -420,40 +401,40 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                           stroke-width="3.6"
                         />
                       </svg>
-                    </div>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6 css-ebdhj4-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root makeStyles-root-4 makeStyles-root-25 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-m19e0g-MuiPaper-root"
               style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-26"
+                    class="MuiBox-root css-0"
                     style="display: flex; align-items: center; justify-content: center;"
                   >
-                    <div
-                      class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                    <span
+                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-2r4182-MuiCircularProgress-root"
                       role="progressbar"
                       style="width: 40px; height: 40px;"
                     >
                       <svg
-                        class="MuiCircularProgress-svg"
+                        class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
                         viewBox="22 22 44 44"
                       >
                         <circle
-                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
                           cx="44"
                           cy="44"
                           fill="none"
@@ -461,40 +442,40 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                           stroke-width="3.6"
                         />
                       </svg>
-                    </div>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6 css-ebdhj4-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root makeStyles-root-4 makeStyles-root-27 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-m19e0g-MuiPaper-root"
               style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-28"
+                    class="MuiBox-root css-0"
                     style="display: flex; align-items: center; justify-content: center;"
                   >
-                    <div
-                      class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                    <span
+                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-2r4182-MuiCircularProgress-root"
                       role="progressbar"
                       style="width: 40px; height: 40px;"
                     >
                       <svg
-                        class="MuiCircularProgress-svg"
+                        class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
                         viewBox="22 22 44 44"
                       >
                         <circle
-                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
                           cx="44"
                           cy="44"
                           fill="none"
@@ -502,40 +483,40 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                           stroke-width="3.6"
                         />
                       </svg>
-                    </div>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6 css-ebdhj4-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root makeStyles-root-4 makeStyles-root-29 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-m19e0g-MuiPaper-root"
               style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-30"
+                    class="MuiBox-root css-0"
                     style="display: flex; align-items: center; justify-content: center;"
                   >
-                    <div
-                      class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                    <span
+                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-2r4182-MuiCircularProgress-root"
                       role="progressbar"
                       style="width: 40px; height: 40px;"
                     >
                       <svg
-                        class="MuiCircularProgress-svg"
+                        class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
                         viewBox="22 22 44 44"
                       >
                         <circle
-                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
                           cx="44"
                           cy="44"
                           fill="none"
@@ -543,40 +524,40 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                           stroke-width="3.6"
                         />
                       </svg>
-                    </div>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6 css-ebdhj4-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root makeStyles-root-4 makeStyles-root-31 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-m19e0g-MuiPaper-root"
               style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-32"
+                    class="MuiBox-root css-0"
                     style="display: flex; align-items: center; justify-content: center;"
                   >
-                    <div
-                      class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                    <span
+                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-2r4182-MuiCircularProgress-root"
                       role="progressbar"
                       style="width: 40px; height: 40px;"
                     >
                       <svg
-                        class="MuiCircularProgress-svg"
+                        class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
                         viewBox="22 22 44 44"
                       >
                         <circle
-                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
                           cx="44"
                           cy="44"
                           fill="none"
@@ -584,40 +565,40 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                           stroke-width="3.6"
                         />
                       </svg>
-                    </div>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6 css-ebdhj4-MuiGrid-root"
           >
             <div
-              class="MuiPaper-root makeStyles-root-4 makeStyles-root-33 ohm-card ohm-chart-card MuiPaper-elevation0 MuiPaper-rounded"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root ohm-card ohm-chart-card css-m19e0g-MuiPaper-root"
               style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
             >
               <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item"
+                  class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-34"
+                    class="MuiBox-root css-0"
                     style="display: flex; align-items: center; justify-content: center;"
                   >
-                    <div
-                      class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                    <span
+                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-2r4182-MuiCircularProgress-root"
                       role="progressbar"
                       style="width: 40px; height: 40px;"
                     >
                       <svg
-                        class="MuiCircularProgress-svg"
+                        class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
                         viewBox="22 22 44 44"
                       >
                         <circle
-                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
                           cx="44"
                           cy="44"
                           fill="none"
@@ -625,7 +606,7 @@ exports[`<TreasuryDashboard/> should render component 1`] = `
                           stroke-width="3.6"
                         />
                       </svg>
-                    </div>
+                    </span>
                   </div>
                 </div>
               </div>

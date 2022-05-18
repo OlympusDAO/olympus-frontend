@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, Divider, Grid, Link, Typography, Zoom } from "@material-ui/core";
+import { Box, Divider, Grid, Link, Typography } from "@mui/material";
 import { Icon, MetricCollection, Paper } from "@olympusdao/component-library";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
 import { useWeb3Context } from "src/hooks";
@@ -18,31 +18,29 @@ const Wrap: React.FC = () => {
 
   return (
     <div id="stake-view">
-      <Zoom in>
-        <Paper headerText={t`Wrap / Unwrap`} topRight={<GOHMExternalLink />}>
-          <Box mb="28px">
-            <Grid>
-              <MetricCollection>
-                <SOHMPrice />
-                <CurrentIndex />
-                <GOHMPrice />
-              </MetricCollection>
-            </Grid>
+      <Paper headerText={t`Wrap / Unwrap`} topRight={<GOHMExternalLink />}>
+        <Box mb="28px">
+          <Grid>
+            <MetricCollection>
+              <SOHMPrice />
+              <CurrentIndex />
+              <GOHMPrice />
+            </MetricCollection>
+          </Grid>
+        </Box>
+
+        <WalletConnectedGuard message="Connect your wallet to wrap/unwrap your staked tokens">
+          {isMigrating ? <MigrateInputArea /> : <WrapInputArea />}
+
+          <WrapBalances />
+
+          <Divider />
+
+          <Box width="100%" p={1} sx={{ textAlign: "center" }}>
+            <WrapSwitchNetwork />
           </Box>
-
-          <WalletConnectedGuard message="Connect your wallet to wrap/unwrap your staked tokens">
-            {isMigrating ? <MigrateInputArea /> : <WrapInputArea />}
-
-            <WrapBalances />
-
-            <Divider />
-
-            <Box width="100%" p={1} sx={{ textAlign: "center" }}>
-              <WrapSwitchNetwork />
-            </Box>
-          </WalletConnectedGuard>
-        </Paper>
-      </Zoom>
+        </WalletConnectedGuard>
+      </Paper>
     </div>
   );
 };
@@ -51,11 +49,12 @@ const GOHMExternalLink = () => (
   <Link
     target="_blank"
     aria-label="wsohm-wut"
-    className="migrate-sohm-button"
     style={{ textDecoration: "none" }}
     href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
   >
-    <Typography>gOHM</Typography> <Icon style={{ marginLeft: "5px" }} name="arrow-up" />
+    <Box display="flex" alignItems="center">
+      <Typography>gOHM</Typography> <Icon style={{ marginLeft: "5px" }} name="arrow-up" />
+    </Box>
   </Link>
 );
 

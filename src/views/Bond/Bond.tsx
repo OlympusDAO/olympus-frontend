@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, Tab, Tabs, Zoom } from "@material-ui/core";
+import { Box, Tab, Tabs } from "@mui/material";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ import { ClaimBonds } from "./components/ClaimBonds/ClaimBonds";
 import { useLiveBonds } from "./hooks/useLiveBonds";
 
 export const Bond = () => {
-  const [isZoomed, setIsZoomed] = useState(false);
+  const [isZoomed] = useState(false);
   const [currentAction, setCurrentAction] = useState<"BOND" | "INVERSE">("BOND");
 
   const navigate = useNavigate();
@@ -53,52 +53,49 @@ export const Bond = () => {
     <>
       <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
         <ClaimBonds />
+        <Paper headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`} (3,1)` : `${t`Bond`} (4,4)`}>
+          <MetricCollection>
+            <TreasuryBalance />
+            <OHMPrice />
+          </MetricCollection>
 
-        <Zoom in onEntered={() => setIsZoomed(true)}>
-          <Paper headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`} (3,1)` : `${t`Bond`} (4,4)`}>
-            <MetricCollection>
-              <TreasuryBalance />
-              <OHMPrice />
-            </MetricCollection>
+          <Box mt="24px">
+            {showTabs && (
+              <Tabs
+                centered
+                textColor="primary"
+                aria-label="bond tabs"
+                indicatorColor="primary"
+                value={currentAction === "BOND" ? 0 : 1}
+                onChange={changeTab}
+                // Hides the tab underline while <Zoom> is zooming
+                TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
+              >
+                <Tab
+                  data-testid="bond-tab"
+                  aria-label="bond-button"
+                  label={t({ message: `Bond`, comment: `Bonding tab` })}
+                  style={{ fontSize: "1rem" }}
+                />
+                <Tab
+                  data-testid="inverse-bond-tab"
+                  aria-label="inverse-bond-button"
+                  label={t`Inverse Bond`}
+                  style={{ fontSize: "1rem" }}
+                />
+              </Tabs>
+            )}
 
-            <Box mt="24px">
-              {showTabs && (
-                <Tabs
-                  centered
-                  textColor="primary"
-                  aria-label="bond tabs"
-                  indicatorColor="primary"
-                  value={currentAction === "BOND" ? 0 : 1}
-                  onChange={changeTab}
-                  // Hides the tab underline while <Zoom> is zooming
-                  TabIndicatorProps={!isZoomed ? { style: { display: "none" } } : undefined}
-                >
-                  <Tab
-                    data-testid="bond-tab"
-                    aria-label="bond-button"
-                    label={t({ message: `Bond`, comment: `Bonding tab` })}
-                    style={{ fontSize: "1rem" }}
-                  />
-                  <Tab
-                    data-testid="inverse-bond-tab"
-                    aria-label="inverse-bond-button"
-                    label={t`Inverse Bond`}
-                    style={{ fontSize: "1rem" }}
-                  />
-                </Tabs>
-              )}
-
-              {!!bonds && !!inverse && (
-                <Box mt="24px">
-                  <BondList
-                    isInverseBond={currentAction === "INVERSE"}
-                    bonds={currentAction === "BOND" ? bonds : inverse}
-                  />
-                </Box>
-              )}
-            </Box>
-          </Paper>
-        </Zoom>
+            {!!bonds && !!inverse && (
+              <Box mt="24px">
+                <BondList
+                  isInverseBond={currentAction === "INVERSE"}
+                  bonds={currentAction === "BOND" ? bonds : inverse}
+                />
+              </Box>
+            )}
+          </Box>
+        </Paper>
       </Box>
       <Routes>
         <Route path=":id" element={<BondModalContainer />} />

@@ -1,7 +1,8 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, makeStyles, Table, TableCell, TableHead, TableRow, Typography, Zoom } from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Skeleton } from "@material-ui/lab";
+import { Box, Table, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { DataRow, OHMTokenProps, Paper, SecondaryButton, Token, TokenStack } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
 import {
@@ -32,41 +33,47 @@ import {
 import { useStakePoolBalance } from "./hooks/useStakePoolBalance";
 import { BalancerPoolTVL, useStakePoolTVL } from "./hooks/useStakePoolTVL";
 
-const useStyles = makeStyles(theme => ({
-  stakePoolsWrapper: {
-    display: "grid",
-    gridTemplateColumns: `1.0fr 0.5fr 0.5fr 1.5fr auto`,
-    gridTemplateRows: "auto",
-    alignItems: "center",
-  },
-  stakePoolHeaderText: {
+const PREFIX = "ExternalStakePools";
+
+const classes = {
+  stakePoolsWrapper: `${PREFIX}-stakePoolsWrapper`,
+  stakePoolHeaderText: `${PREFIX}-stakePoolHeaderText`,
+  poolPair: `${PREFIX}-poolPair`,
+  poolName: `${PREFIX}-poolName`,
+};
+
+const StyledTableHeader = styled(TableHead)(({ theme }) => ({
+  [`&.${classes.stakePoolHeaderText}`]: {
     color: theme.palette.text.secondary,
     lineHeight: 1.4,
   },
-  poolPair: {
+}));
+
+const StyledPoolInfo = styled("div")(() => ({
+  [`&.${classes.poolPair}`]: {
     display: "flex !important",
     alignItems: "center",
     justifyContent: "left",
     marginBottom: "15px",
   },
-  poolName: {
+
+  [`& .${classes.poolName}`]: {
     marginLeft: "10px",
   },
 }));
 
 export const ExternalStakePools = () => {
-  const styles = useStyles();
   const { connected } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
 
   return (
-    <Zoom in={true}>
+    <>
       {isSmallScreen ? (
         <AllPools isSmallScreen={isSmallScreen} />
       ) : (
         <Paper headerText={t`Farm Pool`}>
-          <Table style={{ tableLayout: "fixed" }}>
-            <TableHead className={styles.stakePoolHeaderText}>
+          <Table>
+            <StyledTableHeader className={classes.stakePoolHeaderText}>
               <TableRow>
                 <TableCell style={{ width: "250px", padding: "8px 0" }}>
                   <Trans>Asset</Trans>
@@ -82,13 +89,12 @@ export const ExternalStakePools = () => {
 
                 {connected && <TableCell style={{ width: "100px", padding: "8px 0" }}>{t`Balance`}</TableCell>}
               </TableRow>
-            </TableHead>
-
+            </StyledTableHeader>
             <AllPools isSmallScreen={isSmallScreen} />
           </Table>
         </Paper>
       )}
-    </Zoom>
+    </>
   );
 };
 
@@ -173,7 +179,6 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
 };
 
 const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = props => {
-  const styles = useStyles();
   const { connected } = useWeb3Context();
 
   const userBalances = useStakePoolBalance(props.pool);
@@ -181,16 +186,16 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
 
   return (
     <Paper>
-      <div className={styles.poolPair}>
+      <StyledPoolInfo className={classes.poolPair}>
         <TokenStack tokens={props.pool.icons} />
 
-        <div className={styles.poolName}>
+        <div className={classes.poolName}>
           <Typography>{props.pool.poolName}</Typography>
         </div>
-        <div className={styles.poolName}>
+        <div className={classes.poolName}>
           <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} />
         </div>
-      </div>
+      </StyledPoolInfo>
 
       <DataRow title={`TVL`} isLoading={!props.tvl} balance={props.tvl ? formatCurrency(props.tvl) : undefined} />
       <DataRow

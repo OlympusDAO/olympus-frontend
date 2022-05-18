@@ -1,4 +1,4 @@
-import { Link } from "@material-ui/core";
+import { Link } from "@mui/material";
 import { shorten } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { useEns } from "src/hooks/useENS";
