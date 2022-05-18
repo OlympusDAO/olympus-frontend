@@ -1,6 +1,6 @@
 import "./Sidebar.scss";
 
-import { Drawer } from "@material-ui/core";
+import { Drawer } from "@mui/material";
 import React from "react";
 
 import NavContent from "./NavContent";

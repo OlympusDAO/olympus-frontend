@@ -2,6 +2,7 @@ import "../Stake/Stake.scss";
 import "./V1-Stake.scss";
 
 import { t, Trans } from "@lingui/macro";
+import { ExpandMore } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
@@ -15,10 +16,8 @@ import {
   InputLabel,
   OutlinedInput,
   Typography,
-  Zoom,
-} from "@material-ui/core";
-import { ExpandMore } from "@material-ui/icons";
-import { Skeleton } from "@material-ui/lab";
+} from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { DataRow, Metric, MetricCollection, Paper } from "@olympusdao/component-library";
 import { ethers } from "ethers";
@@ -175,239 +174,233 @@ function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
   const formattedCurrentIndex = trim(currentIndex, 1);
   return (
     <div id="v1-stake-view">
-      <Zoom in={true} onEntered={() => setZoomed(true)}>
-        <Paper headerText={`${t`Single Stake`} (3, 3)`} subHeader={<RebaseTimer />}>
-          <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <MetricCollection>
-                <Metric
-                  className="stake-apy"
-                  label={`${t`APY`} (v1)`}
-                  metric={`${formattedTrimmedStakingAPY}%`}
-                  isLoading={stakingAPY ? false : true}
-                />
-                <Metric
-                  className="stake-tvl"
-                  label={`${t`TVL`} (v1)`}
-                  metric={formattedStakingTVL}
-                  isLoading={stakingTVL ? false : true}
-                />
-                <Metric
-                  className="stake-index"
-                  label={`${t`Current Index`} (v1)`}
-                  metric={`${formattedCurrentIndex} OHM`}
-                  isLoading={currentIndex ? false : true}
-                />
-              </MetricCollection>
-            </Grid>
+      <Paper headerText={`${t`Single Stake`} (3, 3)`} subHeader={<RebaseTimer />}>
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <MetricCollection>
+              <Metric
+                className="stake-apy"
+                label={`${t`APY`} (v1)`}
+                metric={`${formattedTrimmedStakingAPY}%`}
+                isLoading={stakingAPY ? false : true}
+              />
+              <Metric
+                className="stake-tvl"
+                label={`${t`TVL`} (v1)`}
+                metric={formattedStakingTVL}
+                isLoading={stakingTVL ? false : true}
+              />
+              <Metric
+                className="stake-index"
+                label={`${t`Current Index`} (v1)`}
+                metric={`${formattedCurrentIndex} OHM`}
+                isLoading={currentIndex ? false : true}
+              />
+            </MetricCollection>
+          </Grid>
 
-            <div className="staking-area">
-              {!address ? (
-                <div className="stake-wallet-notification">
-                  <div className="wallet-menu" id="wallet-menu">
-                    <ConnectButton />
-                  </div>
-                  <Typography variant="h6">
-                    <Trans>Connect your wallet to stake OHM</Trans>
-                  </Typography>
+          <div className="staking-area">
+            {!address ? (
+              <div className="stake-wallet-notification">
+                <div className="wallet-menu" id="wallet-menu">
+                  <ConnectButton />
                 </div>
-              ) : (
-                <>
-                  <Box className="stake-action-area">
-                    <Tabs
-                      key={String(zoomed)}
-                      centered
-                      value={view}
-                      textColor="primary"
-                      indicatorColor="primary"
-                      className="stake-tab-buttons"
-                      onChange={changeView}
-                      aria-label="stake tabs"
-                    >
-                      <Tab aria-label="stake-button" label={t`Stake`} />
-                      <Tab aria-label="unstake-button" label={t`Unstake`} />
-                    </Tabs>
+                <Typography variant="h6">
+                  <Trans>Connect your wallet to stake OHM</Trans>
+                </Typography>
+              </div>
+            ) : (
+              <>
+                <Box className="stake-action-area">
+                  <Tabs
+                    key={String(zoomed)}
+                    centered
+                    value={view}
+                    textColor="primary"
+                    indicatorColor="primary"
+                    className="stake-tab-buttons"
+                    onChange={changeView}
+                    aria-label="stake tabs"
+                  >
+                    <Tab aria-label="stake-button" label={t`Stake`} />
+                    <Tab aria-label="unstake-button" label={t`Unstake`} />
+                  </Tabs>
 
-                    <Box mt={"10px"}>
-                      <Typography variant="body1" className="stake-note" color="textSecondary">
-                        {view === 0 ? (
-                          <>
-                            {!oldAssetsDetected
-                              ? t`All your assets are migrated`
-                              : t`You must complete the migration of your assets to stake additional OHM`}
-                          </>
-                        ) : (
-                          <br />
-                        )}
-                      </Typography>
-                    </Box>
-
-                    <Box className="stake-action-row v1-row " display="flex" alignItems="center">
-                      {address && !isAllowanceDataLoading ? (
-                        !hasAllowance("sohm") && view === 1 ? (
-                          <Box mt={"10px"}>
-                            <Typography variant="body1" className="stake-note" color="textSecondary">
-                              <>
-                                <Trans>First time unstaking</Trans> <b>sOHM</b>?
-                                <br />
-                                <Trans>Please approve Olympus Dao to use your</Trans> <b>sOHM </b>
-                                <Trans> for unstaking</Trans>.
-                              </>
-                            </Typography>
-                          </Box>
-                        ) : (
-                          <>
-                            {view === 1 && (
-                              <FormControl className="ohm-input" variant="outlined" color="primary">
-                                <InputLabel htmlFor="amount-input"></InputLabel>
-                                <OutlinedInput
-                                  id="amount-input"
-                                  type="number"
-                                  placeholder="Enter an amount"
-                                  className="stake-input"
-                                  value={quantity}
-                                  onChange={e => setQuantity(e.target.value)}
-                                  labelWidth={0}
-                                  endAdornment={
-                                    <InputAdornment position="end">
-                                      <Button variant="text" onClick={setMax} color="inherit">
-                                        Max
-                                      </Button>
-                                    </InputAdornment>
-                                  }
-                                />
-                              </FormControl>
-                            )}
-
-                            {view === 0 && <LearnMoreButton />}
-                          </>
-                        )
+                  <Box mt={"10px"}>
+                    <Typography variant="body1" className="stake-note" color="textSecondary">
+                      {view === 0 ? (
+                        <>
+                          {!oldAssetsDetected
+                            ? t`All your assets are migrated`
+                            : t`You must complete the migration of your assets to stake additional OHM`}
+                        </>
                       ) : (
-                        <Skeleton width="150px" />
+                        <br />
                       )}
+                    </Typography>
+                  </Box>
 
-                      {oldAssetsDetected ? (
-                        <TabPanel value={view} index={0}>
-                          {isAllowanceDataLoading ? (
-                            <Skeleton />
-                          ) : (
-                            <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={t`Migrate`} />
+                  <Box className="stake-action-row v1-row " display="flex" alignItems="center">
+                    {address && !isAllowanceDataLoading ? (
+                      !hasAllowance("sohm") && view === 1 ? (
+                        <Box mt={"10px"}>
+                          <Typography variant="body1" className="stake-note" color="textSecondary">
+                            <>
+                              <Trans>First time unstaking</Trans> <b>sOHM</b>?
+                              <br />
+                              <Trans>Please approve Olympus Dao to use your</Trans> <b>sOHM </b>
+                              <Trans> for unstaking</Trans>.
+                            </>
+                          </Typography>
+                        </Box>
+                      ) : (
+                        <>
+                          {view === 1 && (
+                            <FormControl className="ohm-input" variant="outlined" color="primary">
+                              <InputLabel htmlFor="amount-input"></InputLabel>
+                              <OutlinedInput
+                                id="amount-input"
+                                type="number"
+                                placeholder="Enter an amount"
+                                className="stake-input"
+                                value={quantity}
+                                onChange={e => setQuantity(e.target.value)}
+                                labelWidth={0}
+                                endAdornment={
+                                  <InputAdornment position="end">
+                                    <Button variant="text" onClick={setMax} color="inherit">
+                                      Max
+                                    </Button>
+                                  </InputAdornment>
+                                }
+                              />
+                            </FormControl>
                           )}
-                        </TabPanel>
-                      ) : (
-                        <TabPanel value={view} index={0}>
-                          <Button
-                            className="migrate-button"
-                            variant="contained"
-                            color="primary"
-                            onClick={() => {
-                              goToV2Stake();
-                            }}
-                          >
-                            <Trans>Go to Stake V2</Trans>
-                          </Button>
-                        </TabPanel>
-                      )}
 
-                      <TabPanel value={view} index={1}>
+                          {view === 0 && <LearnMoreButton />}
+                        </>
+                      )
+                    ) : (
+                      <Skeleton width="150px" />
+                    )}
+
+                    {oldAssetsDetected ? (
+                      <TabPanel value={view} index={0}>
                         {isAllowanceDataLoading ? (
                           <Skeleton />
-                        ) : address && hasAllowance("sohm") ? (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "unstaking")}
-                            onClick={() => {
-                              onChangeStake("unstake");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
-                          </Button>
                         ) : (
-                          <Button
-                            className="stake-button"
-                            variant="contained"
-                            color="primary"
-                            disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
-                            onClick={() => {
-                              onSeekApproval("sohm");
-                            }}
-                          >
-                            {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
-                          </Button>
+                          <MigrateButton setMigrationModalOpen={setMigrationModalOpen} btnText={t`Migrate`} />
                         )}
                       </TabPanel>
-                    </Box>
+                    ) : (
+                      <TabPanel value={view} index={0}>
+                        <Button
+                          className="migrate-button"
+                          variant="contained"
+                          color="primary"
+                          onClick={() => {
+                            goToV2Stake();
+                          }}
+                        >
+                          <Trans>Go to Stake V2</Trans>
+                        </Button>
+                      </TabPanel>
+                    )}
+
+                    <TabPanel value={view} index={1}>
+                      {isAllowanceDataLoading ? (
+                        <Skeleton />
+                      ) : address && hasAllowance("sohm") ? (
+                        <Button
+                          className="stake-button"
+                          variant="contained"
+                          color="primary"
+                          disabled={isPendingTxn(pendingTransactions, "unstaking")}
+                          onClick={() => {
+                            onChangeStake("unstake");
+                          }}
+                        >
+                          {txnButtonText(pendingTransactions, "unstaking", t`Unstake OHM`)}
+                        </Button>
+                      ) : (
+                        <Button
+                          className="stake-button"
+                          variant="contained"
+                          color="primary"
+                          disabled={isPendingTxn(pendingTransactions, "approve_unstaking")}
+                          onClick={() => {
+                            onSeekApproval("sohm");
+                          }}
+                        >
+                          {txnButtonText(pendingTransactions, "approve_unstaking", t`Approve`)}
+                        </Button>
+                      )}
+                    </TabPanel>
                   </Box>
-                  <div className="stake-user-data">
-                    <DataRow
-                      title={`${t`Unstaked Balance`} (v1)`}
-                      id="user-balance"
-                      balance={`${trim(Number(ohmBalance), 4)} OHM`}
-                      isLoading={isAppLoading}
-                    />
-                    <Accordion className="stake-accordion" square>
-                      <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
+                </Box>
+                <div className="stake-user-data">
+                  <DataRow
+                    title={`${t`Unstaked Balance`} (v1)`}
+                    id="user-balance"
+                    balance={`${trim(Number(ohmBalance), 4)} OHM`}
+                    isLoading={isAppLoading}
+                  />
+                  <Accordion className="stake-accordion" square>
+                    <AccordionSummary expandIcon={<ExpandMore className="stake-expand" />}>
+                      <DataRow
+                        title={t`Total Staked Balance`}
+                        id="user-staked-balance"
+                        balance={`${trimmedBalance} sOHM`}
+                        isLoading={isAppLoading}
+                      />
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <DataRow
+                        title={`${t`sOHM Balance`} (v1)`}
+                        balance={`${trim(Number(sohmBalance), 4)} sOHM`}
+                        indented
+                        isLoading={isAppLoading}
+                      />
+                      {Number(wsohmBalance) > 0.0 && (
                         <DataRow
-                          title={t`Total Staked Balance`}
-                          id="user-staked-balance"
-                          balance={`${trimmedBalance} sOHM`}
+                          title={`${t`wsOHM Balance`} (v1)`}
+                          balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
                           isLoading={isAppLoading}
-                        />
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <DataRow
-                          title={`${t`sOHM Balance`} (v1)`}
-                          balance={`${trim(Number(sohmBalance), 4)} sOHM`}
                           indented
-                          isLoading={isAppLoading}
                         />
-                        {Number(wsohmBalance) > 0.0 && (
-                          <DataRow
-                            title={`${t`wsOHM Balance`} (v1)`}
-                            balance={`${trim(Number(wsohmBalance), 4)} wsOHM`}
-                            isLoading={isAppLoading}
-                            indented
-                          />
-                        )}
-                        <DataRow
-                          title={`${t`sOHM Balance`} (v2)`}
-                          balance={`${trim(Number(sohmV2Balance), 4)} sOHM`}
-                          indented
-                          isLoading={isAppLoading}
-                        />
-                        <DataRow
-                          title={`${t`gOHM Balance`} (v2)`}
-                          balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
-                          indented
-                          isLoading={isAppLoading}
-                        />
-                      </AccordionDetails>
-                    </Accordion>
-                    <Divider color="secondary" />
-                    <DataRow
-                      title={t`Next Reward Amount`}
-                      balance={`${nextRewardValue} sOHM`}
-                      isLoading={isAppLoading}
-                    />
-                    <DataRow
-                      title={t`Next Reward Yield`}
-                      balance={`${stakingRebasePercentage}%`}
-                      isLoading={isAppLoading}
-                    />
-                    <DataRow
-                      title={t`ROI (5-Day Rate)`}
-                      balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
-                      isLoading={isAppLoading}
-                    />
-                  </div>
-                </>
-              )}
-            </div>
-          </Grid>
-        </Paper>
-      </Zoom>
+                      )}
+                      <DataRow
+                        title={`${t`sOHM Balance`} (v2)`}
+                        balance={`${trim(Number(sohmV2Balance), 4)} sOHM`}
+                        indented
+                        isLoading={isAppLoading}
+                      />
+                      <DataRow
+                        title={`${t`gOHM Balance`} (v2)`}
+                        balance={`${trim(Number(gOhmBalance), 4)} gOHM`}
+                        indented
+                        isLoading={isAppLoading}
+                      />
+                    </AccordionDetails>
+                  </Accordion>
+                  <Divider />
+                  <DataRow title={t`Next Reward Amount`} balance={`${nextRewardValue} sOHM`} isLoading={isAppLoading} />
+                  <DataRow
+                    title={t`Next Reward Yield`}
+                    balance={`${stakingRebasePercentage}%`}
+                    isLoading={isAppLoading}
+                  />
+                  <DataRow
+                    title={t`ROI (5-Day Rate)`}
+                    balance={`${trim(Number(fiveDayRate) * 100, 4)}%`}
+                    isLoading={isAppLoading}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+        </Grid>
+      </Paper>
 
       <ExternalStakePools />
     </div>

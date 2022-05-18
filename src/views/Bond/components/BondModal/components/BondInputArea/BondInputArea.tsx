@@ -1,5 +1,6 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Checkbox, FormControlLabel } from "@material-ui/core";
+import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
+import { Box, Checkbox, FormControlLabel } from "@mui/material";
 import { DataRow, InputWrapper } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -123,9 +124,10 @@ export const BondInputArea: React.VFC<{
                   <FormControlLabel
                     control={
                       <Checkbox
-                        color="default"
                         checked={checked}
                         onChange={event => setChecked(event.target.checked)}
+                        icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
+                        checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
                       />
                     }
                     label="I understand that I'm buying a negative discounted bond"

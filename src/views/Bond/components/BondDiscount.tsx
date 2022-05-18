@@ -1,4 +1,4 @@
-import { Box, useTheme } from "@material-ui/core";
+import { Box, useTheme } from "@mui/material";
 import { Chip } from "@olympusdao/component-library";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 

@@ -3,16 +3,12 @@
 exports[`<ConnectButton/> should render component 1`] = `
 <div>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-1 makeStyles-root-2 undefined MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge MuiButton-disableElevation"
+    class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-1s3qiyy-MuiButtonBase-root-MuiButton-root"
     style="font-size: 1.2857rem;"
     tabindex="0"
     type="button"
   >
-    <span
-      class="MuiButton-label"
-    >
-      Connect Wallet
-    </span>
+    Connect Wallet
   </button>
 </div>
 `;

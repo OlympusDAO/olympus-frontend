@@ -1,10 +1,9 @@
 import "./style.scss";
 
 import { i18n } from "@lingui/core";
-import { useMediaQuery } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { ThemeProvider } from "@material-ui/core/styles";
-import { makeStyles } from "@material-ui/core/styles";
+import { useMediaQuery } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import { styled, ThemeProvider } from "@mui/material/styles";
 import { MultifarmProvider } from "@multifarm/widget";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -47,6 +46,57 @@ import { multifarmDarkTheme, multifarmLightTheme } from "./themes/multifarm";
 import { Bond, Give, Stake, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
 import NotFound from "./views/404/NotFound";
 
+const PREFIX = "App";
+
+const classes = {
+  drawer: `${PREFIX}-drawer`,
+  content: `${PREFIX}-content`,
+  contentShift: `${PREFIX}-contentShift`,
+  toolbar: `${PREFIX}-toolbar`,
+  drawerPaper: `${PREFIX}-drawerPaper`,
+  notification: `${PREFIX}-notification`,
+};
+
+const StyledDiv = styled("div")(({ theme }) => ({
+  [`& .${classes.drawer}`]: {
+    [theme.breakpoints.up("md")]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+  },
+
+  [`& .${classes.content}`]: {
+    flexGrow: 1,
+    padding: theme.spacing(1),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: transitionDuration,
+    }),
+    height: "100%",
+    overflow: "auto",
+    marginLeft: drawerWidth,
+  },
+
+  [`& .${classes.contentShift}`]: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: transitionDuration,
+    }),
+    marginLeft: 0,
+  },
+
+  // necessary for content to be below app bar
+  [`& .${classes.toolbar}`]: theme.mixins.toolbar,
+
+  [`& .${classes.drawerPaper}`]: {
+    width: drawerWidth,
+  },
+
+  [`& .${classes.notification}`]: {
+    marginLeft: "312px",
+  },
+}));
+
 // 😬 Sorry for all the console logging
 const DEBUG = false;
 
@@ -58,41 +108,6 @@ if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 const drawerWidth = 312;
 const transitionDuration = 969;
 
-const useStyles = makeStyles(theme => ({
-  drawer: {
-    [theme.breakpoints.up("md")]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(1),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: transitionDuration,
-    }),
-    height: "100%",
-    overflow: "auto",
-    marginLeft: drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: transitionDuration,
-    }),
-    marginLeft: 0,
-  },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  notification: {
-    marginLeft: "312px",
-  },
-}));
-
 const MULTIFARM_API_KEY = getMultiFarmApiKey();
 
 function App() {
@@ -101,7 +116,7 @@ function App() {
   const dispatch = useDispatch();
   const [theme, toggleTheme] = useTheme();
   const trimmedPath = location.pathname + location.hash;
-  const classes = useStyles();
+
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -291,80 +306,82 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={themeMode}>
-      <MultifarmProvider
-        token={MULTIFARM_API_KEY}
-        provider="olympus"
-        lng={i18n.locale}
-        themeColors={theme}
-        badgePlacement="bottom"
-        theme={theme === "light" ? multifarmLightTheme : multifarmDarkTheme}
-        categoryTypesConfig={categoryTypesConfig}
-        strategyTypesConfig={strategyTypesConfig}
-      >
-        <CssBaseline />
-        <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
-          <StagingNotification />
-          <Messages />
-          <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
-          <nav className={classes.drawer}>
-            {isSmallerScreen ? (
-              <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-            ) : (
-              <Sidebar />
-            )}
-          </nav>
-
-          <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-            {oldAssetsDetected && trimmedPath.indexOf("dashboard") === -1 && oldAssetsEnoughToMigrate && (
-              <CallToAction setMigrationModalOpen={setMigrationModalOpen} />
-            )}
-
-            <Routes>
-              <Route path="/" element={<Navigate to="/stake" />} />
-              <Route
-                path="/stake"
-                element={
-                  newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
-                    <Stake />
-                  ) : (
-                    <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
-                  )
-                }
-              />
-              <Route
-                path="/v1-stake"
-                element={
-                  <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
-                }
-              />
-              <Route path="/give/*" element={<Give />} />
-
-              <Route path="/olympusgive" element={<Navigate to="/give" />} />
-              <Route path="/olygive" element={<Navigate to="/give" />} />
-              <Route path="/tyche" element={<Navigate to="/give" />} />
-              <Route path="/olympusdaogive" element={<Navigate to="/give" />} />
-              <Route path="/ohmgive" element={<Navigate to="/give" />} />
-
-              <Route path="/wrap" element={<Wrap />} />
-              <Route path="/zap" element={<Zap />} />
-              <Route path="/bonds/*" element={<Bond />} />
-              <Route path="/dashboard/*" element={<TreasuryDashboard />} />
-
-              <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
-              {process.env.REACT_APP_DISABLE_NEWS && (
-                <Route path={"/info"} element={<Navigate to="/info/proposals" />} />
+    <StyledDiv>
+      <ThemeProvider theme={themeMode}>
+        <MultifarmProvider
+          token={MULTIFARM_API_KEY}
+          provider="olympus"
+          lng={i18n.locale}
+          themeColors={theme}
+          badgePlacement="bottom"
+          theme={theme === "light" ? multifarmLightTheme : multifarmDarkTheme}
+          categoryTypesConfig={categoryTypesConfig}
+          strategyTypesConfig={strategyTypesConfig}
+        >
+          <CssBaseline />
+          <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+            <StagingNotification />
+            <Messages />
+            <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+            <nav className={classes.drawer}>
+              {isSmallerScreen ? (
+                <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+              ) : (
+                <Sidebar />
               )}
-              <Route path={"/utility"} element={<Wallet open={true} component="utility" />} />
-              <Route path={"/wallet/history"} element={<Wallet open={true} component="wallet/history" />} />
-              <Route path="/wallet" element={<Wallet open={true} component="wallet" />}></Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            </nav>
+
+            <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+              {oldAssetsDetected && trimmedPath.indexOf("dashboard") === -1 && oldAssetsEnoughToMigrate && (
+                <CallToAction setMigrationModalOpen={setMigrationModalOpen} />
+              )}
+
+              <Routes>
+                <Route path="/" element={<Navigate to="/stake" />} />
+                <Route
+                  path="/stake"
+                  element={
+                    newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
+                      <Stake />
+                    ) : (
+                      <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
+                    )
+                  }
+                />
+                <Route
+                  path="/v1-stake"
+                  element={
+                    <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
+                  }
+                />
+                <Route path="/give/*" element={<Give />} />
+
+                <Route path="/olympusgive" element={<Navigate to="/give" />} />
+                <Route path="/olygive" element={<Navigate to="/give" />} />
+                <Route path="/tyche" element={<Navigate to="/give" />} />
+                <Route path="/olympusdaogive" element={<Navigate to="/give" />} />
+                <Route path="/ohmgive" element={<Navigate to="/give" />} />
+
+                <Route path="/wrap" element={<Wrap />} />
+                <Route path="/zap" element={<Zap />} />
+                <Route path="/bonds/*" element={<Bond />} />
+                <Route path="/dashboard/*" element={<TreasuryDashboard />} />
+
+                <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
+                {process.env.REACT_APP_DISABLE_NEWS && (
+                  <Route path={"/info"} element={<Navigate to="/info/proposals" />} />
+                )}
+                <Route path={"/utility"} element={<Wallet open={true} component="utility" />} />
+                <Route path={"/wallet/history"} element={<Wallet open={true} component="wallet/history" />} />
+                <Route path="/wallet" element={<Wallet open={true} component="wallet" />}></Route>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
           </div>
-        </div>
-        {oldAssetsDetected && <MigrationNotification />}
-      </MultifarmProvider>
-    </ThemeProvider>
+          {oldAssetsDetected && <MigrationNotification />}
+        </MultifarmProvider>
+      </ThemeProvider>
+    </StyledDiv>
   );
 }
 

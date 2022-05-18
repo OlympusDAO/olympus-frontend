@@ -1,7 +1,7 @@
 import "./CallToRedeem.scss";
 
 import { Trans } from "@lingui/macro";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography } from "@mui/material";
 
 export const CallToRedeem = () => {
   return (
