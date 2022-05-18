@@ -121,14 +121,6 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const gOhmPriceChange = priceFeed.usd_24h_change * currentIndex.toApproxNumber();
   const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
   const rebaseAmountPerDay = rebaseRate * Number(formattedSOhmBalance) * 3;
-  const totalAsSohm = totalGohmBalance
-    .mul(currentIndex)
-    .add(totalWsohmBalance.mul(currentIndex))
-    .add(sOhmBalance)
-    .add(v1SohmBalance);
-
-  const sOHMDailyForecast = formatNumber(totalAsSohm.toApproxNumber() * rebaseRate * 3, 2);
-  const usdDailyForecast = formatCurrency(Number(sOHMDailyForecast) * ohmPrice, 2);
 
   const tokenArray = [
     {
@@ -209,12 +201,6 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
             title="Balance"
             usdBalance={formatCurrency(walletTotalValueUSD, 2)}
             underlyingBalance={`${formatNumber(walletTotalValueUSD / ohmPrice, 2)} OHM`}
-          />
-          <WalletBalance
-            className={classes.forecast}
-            title="Today's Forecast"
-            usdBalance={`+ ${usdDailyForecast}`}
-            underlyingBalance={`+${sOHMDailyForecast} OHM`}
           />
         </Box>
         <Box display="flex" flexDirection="row" className={classes.selector} mb="18px" mt="18px">
