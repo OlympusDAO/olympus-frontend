@@ -39,7 +39,7 @@ export const BondInputArea: React.VFC<{
   const parsedAmount = new DecimalBigNumber(amount, props.bond.quoteToken.decimals);
   const amountInBaseToken = parsedAmount.div(props.bond.price.inBaseToken, 4);
 
-  const showDisclaimer = new DecimalBigNumber("0").gt(props.bond.discount) && isInverseBond;
+  const showDisclaimer = new DecimalBigNumber("0").gt(props.bond.discount);
   /**
    * Sets the input to the maximum amount a user can bond.
    * It returns the smallest value of either:
@@ -130,7 +130,11 @@ export const BondInputArea: React.VFC<{
                         checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
                       />
                     }
-                    label="I understand that I'm buying a negative discounted bond"
+                    label={
+                      isInverseBond
+                        ? t`I understand that I'm buying a negative premium bond`
+                        : t`I understand that I'm buying a negative discount bond`
+                    }
                   />
                 </Box>
               )}
@@ -186,7 +190,7 @@ export const BondInputArea: React.VFC<{
           <DataRow
             title={t`Duration`}
             balance={<BondDuration duration={props.bond.duration} />}
-            tooltip={t`The duration of the Bond whereby the bond can be claimed in it’s entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
+            tooltip={t`The duration of the Bond whereby the bond can be claimed in it's entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
           />
         )}
 
@@ -197,7 +201,3 @@ export const BondInputArea: React.VFC<{
     </Box>
   );
 };
-
-interface StakeFormElement extends HTMLFormElement {
-  elements: HTMLFormControlsCollection & { amount: HTMLInputElement };
-}

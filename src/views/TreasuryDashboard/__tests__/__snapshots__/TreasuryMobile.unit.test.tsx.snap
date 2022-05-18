@@ -149,7 +149,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         class="Metric-root  css-1xkrsym"
                       >
                         <div
-                          class="MuiBox-root css-1di3kc0"
+                          class="MuiBox-root css-g45inh"
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -175,7 +175,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         class="Metric-root  css-1xkrsym"
                       >
                         <div
-                          class="MuiBox-root css-1di3kc0"
+                          class="MuiBox-root css-g45inh"
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -201,7 +201,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         class="Metric-root wsoprice css-1xkrsym"
                       >
                         <div
-                          class="MuiBox-root css-1di3kc0"
+                          class="MuiBox-root css-g45inh"
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -248,7 +248,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         class="Metric-root  css-1xkrsym"
                       >
                         <div
-                          class="MuiBox-root css-1di3kc0"
+                          class="MuiBox-root css-g45inh"
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -274,7 +274,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         class="Metric-root  css-1xkrsym"
                       >
                         <div
-                          class="MuiBox-root css-1di3kc0"
+                          class="MuiBox-root css-g45inh"
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -321,7 +321,7 @@ exports[`<TreasuryDashboard/> Mobile should render component 1`] = `
                         class="Metric-root  css-1xkrsym"
                       >
                         <div
-                          class="MuiBox-root css-1di3kc0"
+                          class="MuiBox-root css-g45inh"
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
