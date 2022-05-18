@@ -1,24 +1,29 @@
-import { Box, makeStyles, useMediaQuery } from "@material-ui/core";
+import { Box, useMediaQuery } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { WarningNotification } from "@olympusdao/component-library";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
-/**
- * Component for Displaying Staging Notification Banner
- */
+const PREFIX = "StagingNotification";
 
-const useStyles = makeStyles(() => ({
-  contentShift: {
+const classes = {
+  contentShift: `${PREFIX}-contentShift`,
+  notification: `${PREFIX}-notification`,
+};
+
+const StyledNotification = styled("div")(() => ({
+  [`& .${classes.contentShift}`]: {
     marginLeft: 0,
   },
-  notification: {
+
+  [`& .${classes.notification}`]: {
     marginLeft: "312px",
   },
 }));
+
 const StagingNotification = () => {
-  const classes = useStyles();
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   return (
-    <>
+    <StyledNotification>
       {Environment.getStagingFlag() === "true" && (
         <Box
           style={{ marginTop: "0px" }}
@@ -31,7 +36,7 @@ const StagingNotification = () => {
           </WarningNotification>
         </Box>
       )}
-    </>
+    </StyledNotification>
   );
 };
 

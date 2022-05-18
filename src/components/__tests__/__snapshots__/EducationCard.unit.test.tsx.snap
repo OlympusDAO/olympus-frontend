@@ -3,16 +3,16 @@
 exports[`<ArrowGraphic/> should render component 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container"
+    class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
     style="margin-top: 25px;"
   >
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
       style="text-align: center;"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
         focusable="false"
         style="font-size: 70px; fill: #999999;"
         viewBox="0 0 20 20"
@@ -30,23 +30,23 @@ exports[`<ArrowGraphic/> should render component 1`] = `
 exports[`<CompactVault/> should render component 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <h6
-        class="MuiTypography-root grey-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter grey-text css-1k2pp8i-MuiTypography-root"
       >
         Vault
       </h6>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
         focusable="false"
         viewBox="0 0 20 20"
       >
@@ -74,10 +74,10 @@ exports[`<CompactVault/> should render component 1`] = `
       </svg>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <h6
-        class="MuiTypography-root grey-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter grey-text css-1k2pp8i-MuiTypography-root"
       >
         1 sOHM deposited
       </h6>
@@ -89,23 +89,23 @@ exports[`<CompactVault/> should render component 1`] = `
 exports[`<CompactVault/> should render component with quantity not exact 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <h6
-        class="MuiTypography-root grey-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter grey-text css-1k2pp8i-MuiTypography-root"
       >
         Vault
       </h6>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
         focusable="false"
         viewBox="0 0 20 20"
       >
@@ -133,10 +133,10 @@ exports[`<CompactVault/> should render component with quantity not exact 1`] = `
       </svg>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <h6
-        class="MuiTypography-root grey-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter grey-text css-1k2pp8i-MuiTypography-root"
       >
         ≈ 1 sOHM deposited
       </h6>
@@ -148,23 +148,23 @@ exports[`<CompactVault/> should render component with quantity not exact 1`] = `
 exports[`<CompactWallet/> should render component 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <h6
-        class="MuiTypography-root grey-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter grey-text css-1k2pp8i-MuiTypography-root"
       >
         Wallet
       </h6>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
         focusable="false"
         viewBox="0 0 20 20"
       >
@@ -189,10 +189,10 @@ exports[`<CompactWallet/> should render component 1`] = `
       </svg>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <h6
-        class="MuiTypography-root grey-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter grey-text css-1k2pp8i-MuiTypography-root"
       >
         1 sOHM retained
       </h6>
@@ -204,23 +204,23 @@ exports[`<CompactWallet/> should render component 1`] = `
 exports[`<CompactWallet/> should render component with quantity not exact 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <h6
-        class="MuiTypography-root grey-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter grey-text css-1k2pp8i-MuiTypography-root"
       >
         Wallet
       </h6>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
         focusable="false"
         viewBox="0 0 20 20"
       >
@@ -245,10 +245,10 @@ exports[`<CompactWallet/> should render component with quantity not exact 1`] = 
       </svg>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <h6
-        class="MuiTypography-root grey-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter grey-text css-1k2pp8i-MuiTypography-root"
       >
         ≈ 1 sOHM retained
       </h6>
@@ -260,23 +260,23 @@ exports[`<CompactWallet/> should render component with quantity not exact 1`] = 
 exports[`<CompactYield/> should render component 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <h6
-        class="MuiTypography-root grey-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter grey-text css-1k2pp8i-MuiTypography-root"
       >
         Recipient
       </h6>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
         focusable="false"
         viewBox="0 0 20 20"
       >
@@ -319,10 +319,10 @@ exports[`<CompactYield/> should render component 1`] = `
       </svg>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <h6
-        class="MuiTypography-root grey-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter grey-text css-1k2pp8i-MuiTypography-root"
       >
         Receives yield from 1 sOHM
       </h6>
@@ -334,23 +334,23 @@ exports[`<CompactYield/> should render component 1`] = `
 exports[`<CompactYield/> should render component with quantity not exact 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <h6
-        class="MuiTypography-root grey-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter grey-text css-1k2pp8i-MuiTypography-root"
       >
         Recipient
       </h6>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
         focusable="false"
         viewBox="0 0 20 20"
       >
@@ -393,10 +393,10 @@ exports[`<CompactYield/> should render component with quantity not exact 1`] = `
       </svg>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <h6
-        class="MuiTypography-root grey-text MuiTypography-h6 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter grey-text css-1k2pp8i-MuiTypography-root"
       >
         Receives yield from ≈ 1 sOHM
       </h6>
@@ -408,14 +408,14 @@ exports[`<CompactYield/> should render component with quantity not exact 1`] = `
 exports[`<LargeVault/> should render component 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
         focusable="false"
         viewBox="0 0 20 20"
       >
@@ -443,28 +443,28 @@ exports[`<LargeVault/> should render component 1`] = `
       </svg>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <p
-        class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter subtext css-4p4edz-MuiTypography-root"
       >
         Vault
       </p>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-4p4edz-MuiTypography-root"
       >
         Lock sOHM in vault
       </p>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-9rey0-MuiTypography-root"
       >
         Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient.
 You can withdraw or edit your principal sOHM amount at any time.
@@ -477,14 +477,14 @@ You can withdraw or edit your principal sOHM amount at any time.
 exports[`<LargeWallet/> should render component 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
         focusable="false"
         viewBox="0 0 20 20"
       >
@@ -509,28 +509,28 @@ exports[`<LargeWallet/> should render component 1`] = `
       </svg>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <p
-        class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter subtext css-4p4edz-MuiTypography-root"
       >
         Wallet
       </p>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-4p4edz-MuiTypography-root"
       >
         Deposit sOHM from wallet
       </p>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-9rey0-MuiTypography-root"
       >
         Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step is depositing your sOHM and specifying a recipient.
       </p>
@@ -542,14 +542,14 @@ exports[`<LargeWallet/> should render component 1`] = `
 exports[`<LargeYield/> should render component 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
         focusable="false"
         viewBox="0 0 20 20"
       >
@@ -592,28 +592,28 @@ exports[`<LargeYield/> should render component 1`] = `
       </svg>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <p
-        class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter subtext css-4p4edz-MuiTypography-root"
       >
         Recipient
       </p>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-4p4edz-MuiTypography-root"
       >
         Recipient earns sOHM rebases
       </p>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter"
+        class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-9rey0-MuiTypography-root"
       >
         The recipient you specified, or the project you selected, will then receive the rebases associated with your
 sOHM deposit until you withdraw your sOHM principal from the vault.

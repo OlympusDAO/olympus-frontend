@@ -3,17 +3,17 @@
 exports[`<ProjectCard/> should render card 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <a
-        class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
         href="#/give/projects/project-1"
       >
         <h4
-          class="MuiTypography-root MuiTypography-h4"
+          class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
         >
           <strong>
             project Owner - some project
@@ -22,17 +22,17 @@ exports[`<ProjectCard/> should render card 1`] = `
       </a>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+        class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
         style="max-height: 184px; overflow: hidden; border-radius: 16px;"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
         >
           <a
-            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
             href="#/give/projects/project-1"
           >
             <img
@@ -44,13 +44,13 @@ exports[`<ProjectCard/> should render card 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
       >
         <p
-          class="MuiTypography-root project-content MuiTypography-body1"
+          class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
         >
           <div>
             <p>
@@ -62,41 +62,41 @@ exports[`<ProjectCard/> should render card 1`] = `
         </p>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
       />
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13b7e87-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8 css-aowpts-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-7qiq2r-MuiGrid-root"
             style="padding-bottom: 8px;"
           >
             <div
-              class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
             >
               <div
                 class="project-countdown"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-1vfisdg-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2"
+                      class="MuiTypography-root MuiTypography-body2 css-112gc2l-MuiTypography-root"
                     >
                       00:00:00
                     </p>
                   </div>
                   <div
-                    class="MuiGrid-root"
+                    class="MuiGrid-root css-vz6rvy-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2"
+                      class="MuiTypography-root MuiTypography-body2 css-112gc2l-MuiTypography-root"
                     >
                       Completed
                     </p>
@@ -105,26 +105,26 @@ exports[`<ProjectCard/> should render card 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9 project-goal-progress css-tao7r1-MuiGrid-root"
             >
-              <div
+              <span
                 aria-valuemax="100"
                 aria-valuemin="0"
                 aria-valuenow="0"
-                class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                 role="progressbar"
               >
-                <div
-                  class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-1 makeStyles-progress-2 MuiLinearProgress-bar1Determinate"
+                <span
+                  class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                   style="transform: translateX(-100%);"
                 />
-              </div>
+              </span>
             </div>
             <div
-              class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 subtext css-nbzprc-MuiGrid-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                 style="width: 20px;"
               />
               %
@@ -132,22 +132,18 @@ exports[`<ProjectCard/> should render card 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
         >
           <a
-            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
             href="#/projects/project-1"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-3 makeStyles-root-4 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
-              <span
-                class="MuiButton-label"
-              >
-                View Details
-              </span>
+              View Details
             </button>
           </a>
         </div>
@@ -160,17 +156,17 @@ exports[`<ProjectCard/> should render card 1`] = `
 exports[`<ProjectCard/> should render card without image 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
     >
       <a
-        class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
         href="#/give/projects/project-1"
       >
         <h4
-          class="MuiTypography-root MuiTypography-h4"
+          class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
         >
           <strong>
             project Owner - some project
@@ -179,14 +175,14 @@ exports[`<ProjectCard/> should render card without image 1`] = `
       </a>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+        class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
         style="max-height: 184px; overflow: hidden; border-radius: 16px;"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
         >
           <img
             height="100%"
@@ -196,13 +192,13 @@ exports[`<ProjectCard/> should render card without image 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
       >
         <p
-          class="MuiTypography-root project-content MuiTypography-body1"
+          class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
         >
           <div>
             <p>
@@ -214,41 +210,41 @@ exports[`<ProjectCard/> should render card without image 1`] = `
         </p>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
       />
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13b7e87-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8 css-aowpts-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-7qiq2r-MuiGrid-root"
             style="padding-bottom: 8px;"
           >
             <div
-              class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
             >
               <div
                 class="project-countdown"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-1vfisdg-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2"
+                      class="MuiTypography-root MuiTypography-body2 css-112gc2l-MuiTypography-root"
                     >
                       00:00:00
                     </p>
                   </div>
                   <div
-                    class="MuiGrid-root"
+                    class="MuiGrid-root css-vz6rvy-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2"
+                      class="MuiTypography-root MuiTypography-body2 css-112gc2l-MuiTypography-root"
                     >
                       Completed
                     </p>
@@ -257,26 +253,26 @@ exports[`<ProjectCard/> should render card without image 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9 project-goal-progress css-tao7r1-MuiGrid-root"
             >
-              <div
+              <span
                 aria-valuemax="100"
                 aria-valuemin="0"
                 aria-valuenow="0"
-                class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                 role="progressbar"
               >
-                <div
-                  class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-8 makeStyles-progress-9 MuiLinearProgress-bar1Determinate"
+                <span
+                  class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                   style="transform: translateX(-100%);"
                 />
-              </div>
+              </span>
             </div>
             <div
-              class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 subtext css-nbzprc-MuiGrid-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                 style="width: 20px;"
               />
               %
@@ -284,22 +280,18 @@ exports[`<ProjectCard/> should render card without image 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
         >
           <a
-            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
             href="#/projects/project-1"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-10 makeStyles-root-11 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
-              <span
-                class="MuiButton-label"
-              >
-                View Details
-              </span>
+              View Details
             </button>
           </a>
         </div>
@@ -312,61 +304,62 @@ exports[`<ProjectCard/> should render card without image 1`] = `
 exports[`<ProjectCard/> should render page 1`] = `
 <div>
   <div
-    class="MuiContainer-root MuiContainer-maxWidthLg"
+    class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-start"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1iagzvf-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
+        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5 css-gr5cd7-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root makeStyles-root-17 makeStyles-root-18  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-19"
+                  class="MuiBox-root css-gg4vpm"
                 >
                   <div
                     class="top-left"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-center"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-vgma6o-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item"
+                        class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                       >
                         <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                           href="#/give"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                            data-testid="ChevronLeftIcon"
                             focusable="false"
                             style="width: 12px; height: 12px;"
                             viewBox="6 6 12 12"
                           >
                             <path
-                              d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                              d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
                             />
                           </svg>
                         </a>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item"
+                        class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                       >
                         <h5
-                          class="MuiTypography-root MuiTypography-h5"
+                          class="MuiTypography-root MuiTypography-h5 css-903ewo-MuiTypography-root"
                         >
                           project Owner - some project
                         </h5>
@@ -379,23 +372,23 @@ exports[`<ProjectCard/> should render page 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item"
+                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12 css-olt10l-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                      class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
                       style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                       >
                         <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                           href="#/give/projects/project-1"
                         >
                           <img
@@ -407,35 +400,35 @@ exports[`<ProjectCard/> should render page 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-cmg3fn-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-qy0ict-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-r441lk-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -490,35 +483,35 @@ exports[`<ProjectCard/> should render page 1`] = `
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   />
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                 Donors
                               </div>
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-e6z9yf-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1jqheh3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -541,16 +534,16 @@ exports[`<ProjectCard/> should render page 1`] = `
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   >
                                     <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                     />
                                   </div>
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                  
                                 Deposited
@@ -560,23 +553,23 @@ exports[`<ProjectCard/> should render page 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-container css-1d18k5y-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-r441lk-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -607,41 +600,41 @@ exports[`<ProjectCard/> should render page 1`] = `
                                 </svg>
                               </div>
                               <div
-                                class="MuiGrid-root metric MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                               >
                                 <span
-                                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                 />
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root subtext MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                             >
                                
                               Yield
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 css-19kq2tc-MuiGrid-root"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1jqheh3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -664,14 +657,14 @@ exports[`<ProjectCard/> should render page 1`] = `
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   >
                                     0
                                   </div>
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                  
                                 Deposit Goal
@@ -679,36 +672,32 @@ exports[`<ProjectCard/> should render page 1`] = `
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 project-goal-progress css-bhsuuc-MuiGrid-root"
                           >
-                            <div
+                            <span
                               aria-valuemax="100"
                               aria-valuemin="0"
                               aria-valuenow="0"
-                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                               role="progressbar"
                             >
-                              <div
-                                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-15 makeStyles-progress-16 MuiLinearProgress-bar1Determinate"
+                              <span
+                                class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                 style="transform: translateX(-100%);"
                               />
-                            </div>
+                            </span>
                           </div>
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-21 makeStyles-root-22 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
                           tabindex="0"
                           type="button"
                         >
-                          <span
-                            class="MuiButton-label"
-                          >
-                            Connect Wallet
-                          </span>
+                          Connect Wallet
                         </button>
                       </div>
                     </div>
@@ -719,30 +708,30 @@ exports[`<ProjectCard/> should render page 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
         />
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7 css-mxqc31-MuiGrid-root"
       >
         <div
-          class="MuiPaper-root makeStyles-root-17 makeStyles-root-23  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root card-header MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
             >
               <div
-                class="MuiBox-root MuiBox-root-24"
+                class="MuiBox-root css-gg4vpm"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-25"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <h5
-                    class="MuiTypography-root header-text MuiTypography-h5"
+                    class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
                   >
                     About
                   </h5>
@@ -751,13 +740,13 @@ exports[`<ProjectCard/> should render page 1`] = `
                   class="top-right"
                 >
                   <a
-                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                     href="https://project.co"
                     target="_blank"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                       focusable="false"
                       viewBox="0 0 20 20"
                     >
@@ -770,7 +759,7 @@ exports[`<ProjectCard/> should render page 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
             >
               <div
                 class="project-content"
@@ -793,61 +782,62 @@ exports[`<ProjectCard/> should render page 1`] = `
 exports[`<ProjectCard/> should render page without finish date 1`] = `
 <div>
   <div
-    class="MuiContainer-root MuiContainer-maxWidthLg"
+    class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-start"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1iagzvf-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
+        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5 css-gr5cd7-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root makeStyles-root-45 makeStyles-root-46  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-47"
+                  class="MuiBox-root css-gg4vpm"
                 >
                   <div
                     class="top-left"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-center"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-vgma6o-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item"
+                        class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                       >
                         <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                           href="#/give"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                            data-testid="ChevronLeftIcon"
                             focusable="false"
                             style="width: 12px; height: 12px;"
                             viewBox="6 6 12 12"
                           >
                             <path
-                              d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                              d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
                             />
                           </svg>
                         </a>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item"
+                        class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                       >
                         <h5
-                          class="MuiTypography-root MuiTypography-h5"
+                          class="MuiTypography-root MuiTypography-h5 css-903ewo-MuiTypography-root"
                         >
                           project Owner - some project
                         </h5>
@@ -860,23 +850,23 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item"
+                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12 css-olt10l-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                      class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
                       style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                       >
                         <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                           href="#/give/projects/project-1"
                         >
                           <img
@@ -888,35 +878,35 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-cmg3fn-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-qy0ict-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-r441lk-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -971,35 +961,35 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   />
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                 Donors
                               </div>
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-e6z9yf-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1jqheh3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -1022,16 +1012,16 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   >
                                     <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                     />
                                   </div>
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                  
                                 Deposited
@@ -1041,23 +1031,23 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-container css-1d18k5y-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-r441lk-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -1088,41 +1078,41 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                 </svg>
                               </div>
                               <div
-                                class="MuiGrid-root metric MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                               >
                                 <span
-                                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                 />
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root subtext MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                             >
                                
                               Yield
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 css-19kq2tc-MuiGrid-root"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1jqheh3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -1145,14 +1135,14 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   >
                                     0
                                   </div>
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                  
                                 Deposit Goal
@@ -1160,36 +1150,32 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 project-goal-progress css-bhsuuc-MuiGrid-root"
                           >
-                            <div
+                            <span
                               aria-valuemax="100"
                               aria-valuemin="0"
                               aria-valuenow="0"
-                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                               role="progressbar"
                             >
-                              <div
-                                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-43 makeStyles-progress-44 MuiLinearProgress-bar1Determinate"
+                              <span
+                                class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                 style="transform: translateX(-100%);"
                               />
-                            </div>
+                            </span>
                           </div>
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-49 makeStyles-root-50 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
                           tabindex="0"
                           type="button"
                         >
-                          <span
-                            class="MuiButton-label"
-                          >
-                            Connect Wallet
-                          </span>
+                          Connect Wallet
                         </button>
                       </div>
                     </div>
@@ -1200,30 +1186,30 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
         />
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7 css-mxqc31-MuiGrid-root"
       >
         <div
-          class="MuiPaper-root makeStyles-root-45 makeStyles-root-51  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root card-header MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
             >
               <div
-                class="MuiBox-root MuiBox-root-52"
+                class="MuiBox-root css-gg4vpm"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-53"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <h5
-                    class="MuiTypography-root header-text MuiTypography-h5"
+                    class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
                   >
                     About
                   </h5>
@@ -1232,13 +1218,13 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
                   class="top-right"
                 >
                   <a
-                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                     href="https://project.co"
                     target="_blank"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                       focusable="false"
                       viewBox="0 0 20 20"
                     >
@@ -1251,7 +1237,7 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
             >
               <div
                 class="project-content"
@@ -1274,61 +1260,62 @@ exports[`<ProjectCard/> should render page without finish date 1`] = `
 exports[`<ProjectCard/> should render page without image 1`] = `
 <div>
   <div
-    class="MuiContainer-root MuiContainer-maxWidthLg"
+    class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-start"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1iagzvf-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
+        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5 css-gr5cd7-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root makeStyles-root-31 makeStyles-root-32  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-33"
+                  class="MuiBox-root css-gg4vpm"
                 >
                   <div
                     class="top-left"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-center"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-vgma6o-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item"
+                        class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                       >
                         <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                           href="#/give"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                            data-testid="ChevronLeftIcon"
                             focusable="false"
                             style="width: 12px; height: 12px;"
                             viewBox="6 6 12 12"
                           >
                             <path
-                              d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                              d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
                             />
                           </svg>
                         </a>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item"
+                        class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                       >
                         <h5
-                          class="MuiTypography-root MuiTypography-h5"
+                          class="MuiTypography-root MuiTypography-h5 css-903ewo-MuiTypography-root"
                         >
                           project Owner - some project
                         </h5>
@@ -1341,20 +1328,20 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item"
+                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12 css-olt10l-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                      class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
                       style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                       >
                         <img
                           height="100%"
@@ -1364,35 +1351,35 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-cmg3fn-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-qy0ict-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-r441lk-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -1447,35 +1434,35 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   />
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                 Donors
                               </div>
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-e6z9yf-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1jqheh3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -1498,16 +1485,16 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   >
                                     <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                     />
                                   </div>
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                  
                                 Deposited
@@ -1517,23 +1504,23 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-container css-1d18k5y-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-r441lk-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -1564,41 +1551,41 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                 </svg>
                               </div>
                               <div
-                                class="MuiGrid-root metric MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                               >
                                 <span
-                                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                 />
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root subtext MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                             >
                                
                               Yield
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 css-19kq2tc-MuiGrid-root"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1jqheh3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -1621,14 +1608,14 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   >
                                     0
                                   </div>
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                  
                                 Deposit Goal
@@ -1636,36 +1623,32 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 project-goal-progress css-bhsuuc-MuiGrid-root"
                           >
-                            <div
+                            <span
                               aria-valuemax="100"
                               aria-valuemin="0"
                               aria-valuenow="0"
-                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                               role="progressbar"
                             >
-                              <div
-                                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-29 makeStyles-progress-30 MuiLinearProgress-bar1Determinate"
+                              <span
+                                class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                 style="transform: translateX(-100%);"
                               />
-                            </div>
+                            </span>
                           </div>
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-35 makeStyles-root-36 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
                           tabindex="0"
                           type="button"
                         >
-                          <span
-                            class="MuiButton-label"
-                          >
-                            Connect Wallet
-                          </span>
+                          Connect Wallet
                         </button>
                       </div>
                     </div>
@@ -1676,30 +1659,30 @@ exports[`<ProjectCard/> should render page without image 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
         />
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7 css-mxqc31-MuiGrid-root"
       >
         <div
-          class="MuiPaper-root makeStyles-root-31 makeStyles-root-37  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root card-header MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
             >
               <div
-                class="MuiBox-root MuiBox-root-38"
+                class="MuiBox-root css-gg4vpm"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-39"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <h5
-                    class="MuiTypography-root header-text MuiTypography-h5"
+                    class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
                   >
                     About
                   </h5>
@@ -1708,13 +1691,13 @@ exports[`<ProjectCard/> should render page without image 1`] = `
                   class="top-right"
                 >
                   <a
-                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                     href="https://project.co"
                     target="_blank"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                       focusable="false"
                       viewBox="0 0 20 20"
                     >
@@ -1727,7 +1710,7 @@ exports[`<ProjectCard/> should render page without image 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
             >
               <div
                 class="project-content"

@@ -1,4 +1,4 @@
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography } from "@mui/material";
 import { useWeb3Context } from "src/hooks";
 
 import ConnectButton from "./ConnectButton/ConnectButton";

@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, FormControl, Grid, MenuItem, Select, Typography } from "@material-ui/core";
+import { Box, FormControl, Grid, MenuItem, Select, styled, Typography } from "@mui/material";
 import { Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -30,13 +30,18 @@ export const WrapInputArea = () => {
     (currentAction === "WRAP" ? wrapMutation : unwrapMutation).mutate(amount);
   };
 
+  const StyledSelect = styled(Select)(() => ({
+    "& .MuiSelect-icon": {
+      marginTop: "-2px",
+    },
+  }));
   return (
     <Box mb={4}>
       <Box display="flex" alignItems="center">
         <Typography>{currentAction === "WRAP" ? "Wrap" : "Unwrap"} from</Typography>
 
-        <FormControl style={{ margin: "0 10px" }}>
-          <Select
+        <FormControl style={{ margin: "0 10px" }} variant="standard">
+          <StyledSelect
             label="Asset"
             disableUnderline
             id="asset-select-first"
@@ -47,15 +52,15 @@ export const WrapInputArea = () => {
             <MenuItem value="gOHM" data-testid="gohm-dropdown-select">
               gOHM
             </MenuItem>
-          </Select>
+          </StyledSelect>
         </FormControl>
 
         <Typography>
           <span className="asset-select-label"> to </span>
         </Typography>
 
-        <FormControl style={{ margin: "0 10px" }}>
-          <Select
+        <FormControl style={{ margin: "0 10px" }} variant="standard">
+          <StyledSelect
             label="Asset"
             disableUnderline
             id="asset-select"
@@ -65,7 +70,7 @@ export const WrapInputArea = () => {
           >
             <MenuItem value="gOHM">gOHM</MenuItem>
             <MenuItem value="sOHM">sOHM</MenuItem>
-          </Select>
+          </StyledSelect>
         </FormControl>
       </Box>
 
@@ -93,7 +98,6 @@ export const WrapInputArea = () => {
             <Grid container>
               <Grid item xs={12} sm={8} style={{ paddingRight: "4px" }}>
                 <Input
-                  labelWidth={0}
                   value={amount}
                   id="amount-input"
                   endString={t`Max`}
@@ -106,17 +110,15 @@ export const WrapInputArea = () => {
               </Grid>
 
               <Grid item xs={12} sm={4}>
-                <Box mt={[1, 0]}>
-                  <PrimaryButton fullWidth type="submit" className="" disabled={isMutating}>
-                    {currentAction === "WRAP"
-                      ? isMutating
-                        ? "Wrapping..."
-                        : "Wrap to gOHM"
-                      : isMutating
-                      ? "Unwrapping..."
-                      : "Unwrap from gOHM"}
-                  </PrimaryButton>
-                </Box>
+                <PrimaryButton fullWidth type="submit" className="" disabled={isMutating} style={{ height: "43px" }}>
+                  {currentAction === "WRAP"
+                    ? isMutating
+                      ? "Wrapping..."
+                      : "Wrap to gOHM"
+                    : isMutating
+                    ? "Unwrapping..."
+                    : "Unwrap from gOHM"}
+                </PrimaryButton>
               </Grid>
             </Grid>
           </form>
