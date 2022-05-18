@@ -55,7 +55,7 @@ export const Bond = () => {
         <ClaimBonds />
 
         <Zoom in onEntered={() => setIsZoomed(true)}>
-          <Paper headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`} (3,1)` : `${t`Bond`} (4,4)`}>
+          <Paper headerText={currentAction === "INVERSE" ? t`Inverse Bond (3,1)` : t`Bond (4,4)`}>
             <MetricCollection>
               <TreasuryBalance />
               <OHMPrice />

@@ -285,15 +285,15 @@ export function ManageDonationModal({
 
     if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(`${`${t`You must have a balance of `} ${giveAssetType} ${t` to continue`}`}`);
+      setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }
 
     if (getDepositAmountDiff().gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        `${`${t`Value cannot be more than your `} ${giveAssetType} ${` balance of `} ${getMaximumDepositAmount().toString(
+        t`Value cannot be more than your ${giveAssetType} balance of ${getMaximumDepositAmount().toString(
           EXACT_FORMAT,
-        )}`}`,
+        )}`,
       );
       return;
     }
