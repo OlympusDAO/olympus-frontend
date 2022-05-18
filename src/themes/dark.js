@@ -60,7 +60,7 @@ export const dark = responsiveFontSizes(
         feedback: {
           success: "#94B9A1",
           userFeedback: "#49A1F2",
-          error: "#FF6767",
+          error: "#FF8585",
           warning: "#FC8E5F",
           pnlGain: "#3D9C70",
         },
