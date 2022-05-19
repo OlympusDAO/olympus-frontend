@@ -60,7 +60,6 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
     if (address) setRecipientAddress(address);
   }, [address]);
 
-  console.log(bond);
   return (
     <Modal
       open

@@ -66,7 +66,8 @@ export const BondInputArea: React.VFC<{
   };
 
   const purchaseBondMutation = usePurchaseBond(props.bond);
-  const handleSubmit = () => {
+  const handleSubmit = (event: React.FormEvent<StakeFormElement>) => {
+    event.preventDefault();
     purchaseBondMutation.mutate({
       amount,
       isInverseBond,
@@ -105,39 +106,41 @@ export const BondInputArea: React.VFC<{
                 </>
               }
             >
-              <InputWrapper
-                fullWidth
-                type="string"
-                name="amount"
-                value={amount}
-                endString={t`Max`}
-                endStringOnClick={setMax}
-                id="outlined-adornment-amount"
-                onChange={event => setAmount(event.currentTarget.value)}
-                placeholder={t`Enter an amount of` + ` ${props.bond.quoteToken.name}`}
-                buttonText={purchaseBondMutation.isLoading ? "Bonding..." : "Bond"}
-                disabled={props.bond.isSoldOut || purchaseBondMutation.isLoading || (showDisclaimer && !checked)}
-                buttonOnClick={() => handleSubmit()}
-              />
-              {showDisclaimer && (
-                <Box mt="28px">
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={checked}
-                        onChange={event => setChecked(event.target.checked)}
-                        icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
-                        checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
-                      />
-                    }
-                    label={
-                      isInverseBond
-                        ? t`I understand that I'm buying a negative premium bond`
-                        : t`I understand that I'm buying a negative discount bond`
-                    }
-                  />
-                </Box>
-              )}
+              <form onSubmit={handleSubmit}>
+                <InputWrapper
+                  fullWidth
+                  type="string"
+                  name="amount"
+                  value={amount}
+                  endString={t`Max`}
+                  endStringOnClick={setMax}
+                  id="outlined-adornment-amount"
+                  onChange={event => setAmount(event.currentTarget.value)}
+                  placeholder={t`Enter an amount of` + ` ${props.bond.quoteToken.name}`}
+                  buttonText={purchaseBondMutation.isLoading ? "Bonding..." : "Bond"}
+                  disabled={props.bond.isSoldOut || purchaseBondMutation.isLoading || (showDisclaimer && !checked)}
+                  buttonType="submit"
+                />
+                {showDisclaimer && (
+                  <Box mt="28px">
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checked}
+                          onChange={event => setChecked(event.target.checked)}
+                          icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
+                          checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
+                        />
+                      }
+                      label={
+                        isInverseBond
+                          ? t`I understand that I'm buying a negative premium bond`
+                          : t`I understand that I'm buying a negative discount bond`
+                      }
+                    />
+                  </Box>
+                )}
+              </form>
             </TokenAllowanceGuard>
           </Box>
         </Box>
@@ -201,3 +204,7 @@ export const BondInputArea: React.VFC<{
     </Box>
   );
 };
+
+interface StakeFormElement extends HTMLFormElement {
+  elements: HTMLFormControlsCollection & { amount: HTMLInputElement };
+}
