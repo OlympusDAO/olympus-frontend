@@ -1,5 +1,5 @@
-import { Box, Fade, Link, Theme } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Fade, Link } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { FC } from "react";
 import { Navigate, NavLink, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { Environment } from "src/helpers/environment/Environment/Environment";
@@ -23,26 +23,32 @@ export const Info: FC = () => (
   </>
 );
 
-const useStyles = makeStyles<Theme>(theme => ({
-  tabNav: {
+const PREFIX = "Info";
+
+const classes = {
+  tabNav: `${PREFIX}-tabNav`,
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled("div")(({ theme }) => ({
+  [`& .${classes.tabNav}`]: {
     "& a": {
       fontSize: "14px",
       lineHeight: "20px",
       color: theme.colors.gray[90],
       padding: "8px 18px 10px 18px",
       "&.active": {
-        color: theme.palette.type === "light" ? theme.palette.primary.main : theme.colors.primary[300],
+        color: theme.palette.mode === "light" ? theme.palette.primary.main : theme.colors.primary[300],
       },
     },
   },
 }));
 
 const InfoContainer = () => {
-  const classes = useStyles();
   const { pathname } = useLocation();
 
   return (
-    <>
+    <Root>
       <Fade in>
         <Box display="flex" flexDirection="row" className={classes.tabNav} pt="18px" mb="18px">
           {Environment.isWalletNewsEnabled() && (
@@ -64,6 +70,6 @@ const InfoContainer = () => {
       {pathname === "/info" && <Navigate to={Environment.isWalletNewsEnabled() ? "news" : "proposals"} />}
 
       <Outlet />
-    </>
+    </Root>
   );
 };

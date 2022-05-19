@@ -13,7 +13,7 @@ import {
   Paper,
   SvgIcon,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Token } from "@olympusdao/component-library";
 import { trim } from "src/helpers";
 import { ZapperToken } from "src/hooks/useZapTokenBalances";

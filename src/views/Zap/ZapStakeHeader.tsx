@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Grid, Typography, useMediaQuery } from "@material-ui/core";
+import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 import { Token, TokenStack } from "@olympusdao/component-library";
 import React from "react";
 

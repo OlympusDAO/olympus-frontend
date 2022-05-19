@@ -1,7 +1,7 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { ThemeProvider } from "@material-ui/core/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
 import { render, RenderOptions, RenderResult } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import React, { ReactElement, ReactNode } from "react";
@@ -21,10 +21,12 @@ const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOp
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
             <HashRouter>
-              <ThemeProvider theme={lightTheme}>
-                <CssBaseline />
-                {children}
-              </ThemeProvider>
+              <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={lightTheme}>
+                  <CssBaseline />
+                  {children}
+                </ThemeProvider>
+              </StyledEngineProvider>
             </HashRouter>
           </I18nProvider>
         </Provider>
@@ -43,7 +45,12 @@ const renderRoute = function (route: string, store = defaultStore) {
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
             <HashRouter>
-              <App />
+              <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={lightTheme}>
+                  <CssBaseline />
+                  <App />
+                </ThemeProvider>
+              </StyledEngineProvider>
             </HashRouter>
           </I18nProvider>
         </Provider>

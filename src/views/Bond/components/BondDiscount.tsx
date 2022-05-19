@@ -1,4 +1,4 @@
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
 export const BondDiscount: React.VFC<{ discount: DecimalBigNumber }> = ({ discount }) => {

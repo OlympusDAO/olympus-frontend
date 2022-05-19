@@ -1,10 +1,10 @@
 import "./ProjectCard.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQuery } from "@material-ui/core";
-import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
-import { ChevronLeft } from "@material-ui/icons";
-import { Skeleton } from "@material-ui/lab";
+import { ChevronLeft } from "@mui/icons-material";
+import { Container, Grid, LinearProgress, Link, Tooltip, Typography, useMediaQuery } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import { styled, useTheme } from "@mui/material/styles";
 import { Icon, Paper, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
@@ -33,6 +33,18 @@ import {
 } from "src/views/Give/Interfaces";
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
+
+const PREFIX = "ProjectCard";
+
+const classes = {
+  progress: `${PREFIX}-progress`,
+};
+
+const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  [`& .${classes.progress}`]: {
+    backgroundColor: theme.palette.mode === "dark" ? theme.colors.primary[300] : theme.colors.gray[700],
+  },
+}));
 
 type CountdownProps = {
   total: number;
@@ -70,12 +82,6 @@ const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function ProjectCard({ project, giveAssetType, changeAssetType, mode }: ProjectDetailsProps) {
-  const useStyles = makeStyles<Theme>(theme => ({
-    progress: {
-      backgroundColor: () => (theme.palette.type === "dark" ? theme.colors.primary[300] : theme.colors.gray[700]),
-    },
-  }));
-  const classes = useStyles();
   const { address, connected, connect, networkId } = useWeb3Context();
   const { title, owner, shortDescription, details, finishDate, photos, wallet, depositGoal } = project;
   const [isUserDonating, setIsUserDonating] = useState(false);
@@ -192,18 +198,16 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
   const countdownRendererDetailed = ({ completed, formatted }: CountdownProps) => {
     if (completed)
       return (
-        <>
-          <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
-            <Grid item>
-              <Typography variant="body2">00:00:00</Typography>
-            </Grid>
-            <Grid>
-              <Typography variant="body2">
-                <Trans>Completed</Trans>
-              </Typography>
-            </Grid>
+        <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
+          <Grid item>
+            <Typography variant="body2">00:00:00</Typography>
           </Grid>
-        </>
+          <Grid>
+            <Typography variant="body2">
+              <Trans>Completed</Trans>
+            </Typography>
+          </Grid>
+        </Grid>
       );
 
     return (
@@ -254,7 +258,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
             {renderCountdownDetailed()}
           </Grid>
           <Grid item xs={11} sm={9} className="project-goal-progress">
-            <LinearProgress
+            <StyledLinearProgress
               classes={{ barColorPrimary: classes.progress }}
               variant="determinate"
               value={goalProgress}
@@ -313,7 +317,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
             </Grid>
           </Grid>
           <Grid item xs={12} className="project-goal-progress">
-            <LinearProgress
+            <StyledLinearProgress
               classes={{ barColorPrimary: classes.progress }}
               variant="determinate"
               value={goalProgress}
