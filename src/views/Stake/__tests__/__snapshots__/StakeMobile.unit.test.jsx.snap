@@ -70,7 +70,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                       class="Metric-root stake-apy css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -96,7 +96,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                       class="Metric-root stake-tvl css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -122,7 +122,7 @@ exports[`Mobile Resolution should render all supported multi chain staking contr
                       class="Metric-root stake-index css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
