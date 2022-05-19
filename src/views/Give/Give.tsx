@@ -1,9 +1,9 @@
 import "./Give.scss";
 
 import { t } from "@lingui/macro";
-import { Grid, Link, Typography } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Grid, Link, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { Paper, Tab, TabPanel, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { Outlet, Route, Routes } from "react-router";
@@ -32,7 +32,7 @@ function Give({ selectedIndex = 0 }) {
   const hasV1Assets = v1RedeemableBalance.data && v1RedeemableBalance.data != "0.0";
 
   const theme = useTheme();
-  const isBreakpointXS = useMediaQuery(theme.breakpoints.down("xs"));
+  const isBreakpointXS = useMediaQuery(theme.breakpoints.down("sm"));
 
   const changeGiveAssetType: ChangeAssetType = (checked: boolean) => {
     setGiveAssetType(checked ? "gOHM" : "sOHM");
@@ -92,7 +92,7 @@ function Give({ selectedIndex = 0 }) {
               <Tab label={t`Grants`} />
             </Link>
             <Link to="/give/donations" component={RouterLink}>
-              <Tab label={t`My Donations`} />
+              <Tab label={t`My Donations`} style={{ whiteSpace: "nowrap" }} />
             </Link>
             <Link to="/give/redeem" component={RouterLink}>
               <Tab label={t`Redeem`} />

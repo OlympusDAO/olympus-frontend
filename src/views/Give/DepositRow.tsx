@@ -1,9 +1,9 @@
 import "./YieldRecipients.scss";
 
 import { t } from "@lingui/macro";
-import { Grid, Tooltip, Typography } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Grid, Tooltip, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { SecondaryButton } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -43,8 +43,8 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
   const projectMap = new Map(projects.map(i => [i.wallet, i] as [string, Project]));
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
   const { data: currentIndex } = useCurrentIndex();
   const increaseMutation = useIncreaseGive();

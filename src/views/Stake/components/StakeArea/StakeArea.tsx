@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, Divider, Grid, Zoom } from "@material-ui/core";
+import { Box, Divider, Grid } from "@mui/material";
 import { MetricCollection, Paper } from "@olympusdao/component-library";
 import { useState } from "react";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
@@ -16,32 +16,30 @@ export const StakeArea: React.FC = () => {
   const [isZoomed, setIsZoomed] = useState(false);
 
   return (
-    <Zoom in onEntered={() => setIsZoomed(true)}>
-      <Paper headerText={t`Single Stake (3, 3)`} subHeader={<RebaseTimer />}>
-        <Box mb="28px">
-          <Grid>
-            <MetricCollection>
-              <StakingAPY className="stake-apy" />
-              <TotalValueDeposited className="stake-tvl" />
-              <CurrentIndex className="stake-index" />
-            </MetricCollection>
-          </Grid>
-        </Box>
+    <Paper headerText={t`Single Stake (3, 3)`} subHeader={<RebaseTimer />} childPaperBackground={true}>
+      <Box mb="28px">
+        <Grid>
+          <MetricCollection>
+            <StakingAPY className="stake-apy" />
+            <TotalValueDeposited className="stake-tvl" />
+            <CurrentIndex className="stake-index" />
+          </MetricCollection>
+        </Grid>
+      </Box>
 
-        <WalletConnectedGuard message="Connect your wallet to stake OHM">
-          <StakeInputArea isZoomed={isZoomed} />
+      <WalletConnectedGuard message="Connect your wallet to stake OHM">
+        <StakeInputArea isZoomed={isZoomed} />
 
-          <StakeBalances />
+        <StakeBalances />
 
-          <Divider color="secondary" />
+        <Divider />
 
-          <StakeNextRebaseAmount />
+        <StakeNextRebaseAmount />
 
-          <StakeRebaseYield />
+        <StakeRebaseYield />
 
-          <StakeFiveDayYield />
-        </WalletConnectedGuard>
-      </Paper>
-    </Zoom>
+        <StakeFiveDayYield />
+      </WalletConnectedGuard>
+    </Paper>
   );
 };

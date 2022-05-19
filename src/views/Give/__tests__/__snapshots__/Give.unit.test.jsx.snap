@@ -3,61 +3,62 @@
 exports[`Give View Connected should render project card with Donate Yield Button 1`] = `
 <div>
   <div
-    class="MuiContainer-root MuiContainer-maxWidthLg"
+    class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-start"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1iagzvf-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
+        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5 css-gr5cd7-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root makeStyles-root-93 makeStyles-root-94  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-95"
+                  class="MuiBox-root css-gg4vpm"
                 >
                   <div
                     class="top-left"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-center"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-vgma6o-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item"
+                        class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                       >
                         <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                           href="#/give"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                            data-testid="ChevronLeftIcon"
                             focusable="false"
                             style="width: 12px; height: 12px;"
                             viewBox="6 6 12 12"
                           >
                             <path
-                              d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                              d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
                             />
                           </svg>
                         </a>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item"
+                        class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                       >
                         <h5
-                          class="MuiTypography-root MuiTypography-h5"
+                          class="MuiTypography-root MuiTypography-h5 css-903ewo-MuiTypography-root"
                         >
                           Angel Protocol
                         </h5>
@@ -70,23 +71,23 @@ exports[`Give View Connected should render project card with Donate Yield Button
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item"
+                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12 css-olt10l-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                      class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
                       style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                       >
                         <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                           href="#/give/projects/angel-protocol"
                         >
                           <img
@@ -98,35 +99,35 @@ exports[`Give View Connected should render project card with Donate Yield Button
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-cmg3fn-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-qy0ict-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-r441lk-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -181,39 +182,39 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   >
                                     <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                     />
                                   </div>
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                 Donors
                               </div>
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-e6z9yf-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1jqheh3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -236,16 +237,16 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   >
                                     <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                     />
                                   </div>
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                 sOHM
                                  
@@ -256,23 +257,23 @@ exports[`Give View Connected should render project card with Donate Yield Button
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-container css-1d18k5y-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-r441lk-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -303,15 +304,15 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                 </svg>
                               </div>
                               <div
-                                class="MuiGrid-root metric MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                               >
                                 <span
-                                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                 />
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root subtext MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                             >
                               sOHM
                                
@@ -319,26 +320,26 @@ exports[`Give View Connected should render project card with Donate Yield Button
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 css-19kq2tc-MuiGrid-root"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1jqheh3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -361,14 +362,14 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   >
                                     1,000
                                   </div>
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                 sOHM
                                  
@@ -377,36 +378,32 @@ exports[`Give View Connected should render project card with Donate Yield Button
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 project-goal-progress css-bhsuuc-MuiGrid-root"
                           >
-                            <div
+                            <span
                               aria-valuemax="100"
                               aria-valuemin="0"
                               aria-valuenow="0"
-                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                               role="progressbar"
                             >
-                              <div
-                                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-91 makeStyles-progress-92 MuiLinearProgress-bar1Determinate"
+                              <span
+                                class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                 style="transform: translateX(-100%);"
                               />
-                            </div>
+                            </span>
                           </div>
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-97 makeStyles-root-98 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
                           tabindex="0"
                           type="button"
                         >
-                          <span
-                            class="MuiButton-label"
-                          >
-                            Donate Yield
-                          </span>
+                          Donate Yield
                         </button>
                       </div>
                     </div>
@@ -417,30 +414,30 @@ exports[`Give View Connected should render project card with Donate Yield Button
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
         />
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7 css-mxqc31-MuiGrid-root"
       >
         <div
-          class="MuiPaper-root makeStyles-root-93 makeStyles-root-99  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root card-header MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
             >
               <div
-                class="MuiBox-root MuiBox-root-100"
+                class="MuiBox-root css-gg4vpm"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-101"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <h5
-                    class="MuiTypography-root header-text MuiTypography-h5"
+                    class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
                   >
                     About
                   </h5>
@@ -449,13 +446,13 @@ exports[`Give View Connected should render project card with Donate Yield Button
                   class="top-right"
                 >
                   <a
-                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                     href="https://www.angelprotocol.io/"
                     target="_blank"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                       focusable="false"
                       viewBox="0 0 20 20"
                     >
@@ -468,7 +465,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
               </div>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
             >
               <div
                 class="project-content"
@@ -491,26 +488,26 @@ exports[`Give View Connected should render project card with Donate Yield Button
 exports[`Give View Disconnected should render Causes Dashboard 1`] = `
 <div>
   <div
-    class="MuiContainer-root MuiContainer-maxWidthLg"
+    class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4 css-1m2utj8-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <a
-              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
               href="#/give/projects/impact-market"
             >
               <h4
-                class="MuiTypography-root MuiTypography-h4"
+                class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
               >
                 <strong>
                   Impact Market
@@ -519,17 +516,17 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
             </a>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+              class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
               style="max-height: 184px; overflow: hidden; border-radius: 16px;"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
               >
                 <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="#/give/projects/impact-market"
                 >
                   <img
@@ -541,13 +538,13 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
             >
               <p
-                class="MuiTypography-root project-content MuiTypography-body1"
+                class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
               >
                 <div>
                   <p>
@@ -559,42 +556,42 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               </p>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
             />
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13b7e87-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8 css-aowpts-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-7qiq2r-MuiGrid-root"
                   style="padding-bottom: 8px;"
                 >
                   <div
-                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                   />
                   <div
-                    class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9 project-goal-progress css-tao7r1-MuiGrid-root"
                   >
-                    <div
+                    <span
                       aria-valuemax="100"
                       aria-valuemin="0"
                       aria-valuenow="0"
-                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                       role="progressbar"
                     >
-                      <div
-                        class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-45 makeStyles-progress-46 MuiLinearProgress-bar1Determinate"
+                      <span
+                        class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                         style="transform: translateX(-100%);"
                       />
-                    </div>
+                    </span>
                   </div>
                   <div
-                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 subtext css-nbzprc-MuiGrid-root"
                   >
                     <span
-                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                       style="width: 20px;"
                     />
                     %
@@ -602,22 +599,18 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
               >
                 <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="#/projects/impact-market"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-48 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
-                    <span
-                      class="MuiButton-label"
-                    >
-                      View Details
-                    </span>
+                    View Details
                   </button>
                 </a>
               </div>
@@ -626,20 +619,20 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <a
-              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
               href="#/give/projects/angel-protocol"
             >
               <h4
-                class="MuiTypography-root MuiTypography-h4"
+                class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
               >
                 <strong>
                   Angel Protocol
@@ -648,17 +641,17 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
             </a>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+              class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
               style="max-height: 184px; overflow: hidden; border-radius: 16px;"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
               >
                 <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="#/give/projects/angel-protocol"
                 >
                   <img
@@ -670,13 +663,13 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
             >
               <p
-                class="MuiTypography-root project-content MuiTypography-body1"
+                class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
               >
                 <div>
                   <p>
@@ -688,42 +681,42 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               </p>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
             />
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13b7e87-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8 css-aowpts-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-7qiq2r-MuiGrid-root"
                   style="padding-bottom: 8px;"
                 >
                   <div
-                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                   />
                   <div
-                    class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9 project-goal-progress css-tao7r1-MuiGrid-root"
                   >
-                    <div
+                    <span
                       aria-valuemax="100"
                       aria-valuemin="0"
                       aria-valuenow="0"
-                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                       role="progressbar"
                     >
-                      <div
-                        class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-52 makeStyles-progress-53 MuiLinearProgress-bar1Determinate"
+                      <span
+                        class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                         style="transform: translateX(-100%);"
                       />
-                    </div>
+                    </span>
                   </div>
                   <div
-                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 subtext css-nbzprc-MuiGrid-root"
                   >
                     <span
-                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                       style="width: 20px;"
                     />
                     %
@@ -731,22 +724,18 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
               >
                 <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="#/projects/angel-protocol"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-54 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
-                    <span
-                      class="MuiButton-label"
-                    >
-                      View Details
-                    </span>
+                    View Details
                   </button>
                 </a>
               </div>
@@ -755,20 +744,20 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <a
-              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
               href="#/give/projects/gitcoin"
             >
               <h4
-                class="MuiTypography-root MuiTypography-h4"
+                class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
               >
                 <strong>
                   Gitcoin
@@ -777,17 +766,17 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
             </a>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+              class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
               style="max-height: 184px; overflow: hidden; border-radius: 16px;"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
               >
                 <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="#/give/projects/gitcoin"
                 >
                   <img
@@ -799,13 +788,13 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
             >
               <p
-                class="MuiTypography-root project-content MuiTypography-body1"
+                class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
               >
                 <div>
                   <p>
@@ -817,42 +806,42 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               </p>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
             />
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13b7e87-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8 css-aowpts-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-7qiq2r-MuiGrid-root"
                   style="padding-bottom: 8px;"
                 >
                   <div
-                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                   />
                   <div
-                    class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9 project-goal-progress css-tao7r1-MuiGrid-root"
                   >
-                    <div
+                    <span
                       aria-valuemax="100"
                       aria-valuemin="0"
                       aria-valuenow="0"
-                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                       role="progressbar"
                     >
-                      <div
-                        class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-56 makeStyles-progress-57 MuiLinearProgress-bar1Determinate"
+                      <span
+                        class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                         style="transform: translateX(-100%);"
                       />
-                    </div>
+                    </span>
                   </div>
                   <div
-                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 subtext css-nbzprc-MuiGrid-root"
                   >
                     <span
-                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                       style="width: 20px;"
                     />
                     %
@@ -860,22 +849,18 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
               >
                 <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="#/projects/gitcoin"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-58 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
-                    <span
-                      class="MuiButton-label"
-                    >
-                      View Details
-                    </span>
+                    View Details
                   </button>
                 </a>
               </div>
@@ -884,20 +869,20 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <a
-              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
               href="#/give/projects/kolektivo"
             >
               <h4
-                class="MuiTypography-root MuiTypography-h4"
+                class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
               >
                 <strong>
                   Kolektivo
@@ -906,17 +891,17 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
             </a>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+              class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
               style="max-height: 184px; overflow: hidden; border-radius: 16px;"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
               >
                 <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="#/give/projects/kolektivo"
                 >
                   <img
@@ -928,13 +913,13 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
             >
               <p
-                class="MuiTypography-root project-content MuiTypography-body1"
+                class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
               >
                 <div>
                   <p>
@@ -946,42 +931,42 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               </p>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
             />
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13b7e87-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8 css-aowpts-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-7qiq2r-MuiGrid-root"
                   style="padding-bottom: 8px;"
                 >
                   <div
-                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                   />
                   <div
-                    class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9 project-goal-progress css-tao7r1-MuiGrid-root"
                   >
-                    <div
+                    <span
                       aria-valuemax="100"
                       aria-valuemin="0"
                       aria-valuenow="0"
-                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                       role="progressbar"
                     >
-                      <div
-                        class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-60 makeStyles-progress-61 MuiLinearProgress-bar1Determinate"
+                      <span
+                        class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                         style="transform: translateX(-100%);"
                       />
-                    </div>
+                    </span>
                   </div>
                   <div
-                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 subtext css-nbzprc-MuiGrid-root"
                   >
                     <span
-                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                       style="width: 20px;"
                     />
                     %
@@ -989,22 +974,18 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
               >
                 <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="#/projects/kolektivo"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-62 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
-                    <span
-                      class="MuiButton-label"
-                    >
-                      View Details
-                    </span>
+                    View Details
                   </button>
                 </a>
               </div>
@@ -1013,20 +994,20 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
           >
             <a
-              class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
               href="#/give/projects/popcorndao"
             >
               <h4
-                class="MuiTypography-root MuiTypography-h4"
+                class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
               >
                 <strong>
                   PopcornDAO
@@ -1035,17 +1016,17 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
             </a>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+              class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
               style="max-height: 184px; overflow: hidden; border-radius: 16px;"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
               >
                 <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="#/give/projects/popcorndao"
                 >
                   <img
@@ -1057,13 +1038,13 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
             >
               <p
-                class="MuiTypography-root project-content MuiTypography-body1"
+                class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
               >
                 <div>
                   <p>
@@ -1075,42 +1056,42 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               </p>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
             />
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13b7e87-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8 css-aowpts-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-7qiq2r-MuiGrid-root"
                   style="padding-bottom: 8px;"
                 >
                   <div
-                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                   />
                   <div
-                    class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9 project-goal-progress css-tao7r1-MuiGrid-root"
                   >
-                    <div
+                    <span
                       aria-valuemax="100"
                       aria-valuemin="0"
                       aria-valuenow="0"
-                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                       role="progressbar"
                     >
-                      <div
-                        class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-64 makeStyles-progress-65 MuiLinearProgress-bar1Determinate"
+                      <span
+                        class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                         style="transform: translateX(-100%);"
                       />
-                    </div>
+                    </span>
                   </div>
                   <div
-                    class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 subtext css-nbzprc-MuiGrid-root"
                   >
                     <span
-                      class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                       style="width: 20px;"
                     />
                     %
@@ -1118,22 +1099,18 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
               >
                 <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="#/projects/popcorndao"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-47 makeStyles-root-66 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
-                    <span
-                      class="MuiButton-label"
-                    >
-                      View Details
-                    </span>
+                    View Details
                   </button>
                 </a>
               </div>
@@ -1142,55 +1119,51 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
       >
         <div
-          class="MuiBox-root MuiBox-root-68"
+          class="MuiBox-root css-0"
           style="background-color: rgb(250, 250, 251); border-radius: 10px;"
         >
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
             style="padding: 10px 30px 10px 30px;"
           >
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
             >
               <h4
-                class="MuiTypography-root MuiTypography-h4 MuiTypography-alignCenter"
+                class="MuiTypography-root MuiTypography-h4 MuiTypography-alignCenter css-1idp9aj-MuiTypography-root"
               >
                 Want to give to a different cause?
               </h4>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-4p4edz-MuiTypography-root"
               >
                 You can direct your yield to a recipient of your choice
               </p>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
             />
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1cnv0eo-MuiGrid-root"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-47 makeStyles-root-69 undefined MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
+                class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Mui-disabled Button-root undefined css-3oxj3s-MuiButtonBase-root-MuiButton-root"
                 disabled=""
                 tabindex="-1"
                 type="button"
               >
-                <span
-                  class="MuiButton-label"
-                >
-                  Select Custom Recipient
-                </span>
+                Select Custom Recipient
               </button>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
             />
           </div>
         </div>
@@ -1203,29 +1176,29 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
 exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-center"
+    class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1x5p8si-MuiGrid-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-10 MuiGrid-grid-md-10 MuiGrid-grid-lg-8"
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-10 MuiGrid-grid-md-10 MuiGrid-grid-lg-8 css-a5cnoe-MuiGrid-root"
     >
       <div
-        class="MuiPaper-root makeStyles-root-1 makeStyles-root-2 no-container-padding MuiPaper-elevation0 MuiPaper-rounded"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root no-container-padding css-m19e0g-MuiPaper-root"
         style="transform: none;"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root card-header MuiGrid-item"
+            class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
           >
             <div
-              class="MuiBox-root MuiBox-root-3"
+              class="MuiBox-root css-gg4vpm"
             >
               <div
-                class="MuiBox-root MuiBox-root-4"
+                class="MuiBox-root css-1xhj18k"
               >
                 <h5
-                  class="MuiTypography-root header-text MuiTypography-h5"
+                  class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
                 >
                   Give
                 </h5>
@@ -1236,107 +1209,92 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item"
+            class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
           >
             <div
-              class="MuiTabs-root makeStyles-root-5 give-tab-buttons "
+              class="MuiTabs-root Tabs-root give-tab-buttons  css-u2rngf-MuiTabs-root"
             >
               <div
-                class="MuiTabs-scroller MuiTabs-fixed"
-                style="overflow: hidden;"
+                class="MuiTabs-scroller MuiTabs-fixed css-kqhgxw-MuiTabs-scroller"
+                style="overflow: hidden; margin-bottom: 0px;"
               >
                 <div
                   aria-label="stake tabs"
-                  class="MuiTabs-flexContainer MuiTabs-centered"
+                  class="MuiTabs-flexContainer MuiTabs-centered css-1mqo22u-MuiTabs-flexContainer"
                   role="tablist"
                 >
                   <a
-                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                     href="#/give"
                     textcolor="primary"
                     value="0"
                   >
                     <button
                       aria-controls="simple-tabpanel-undefined"
-                      class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
+                      class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-rzx4ff-MuiButtonBase-root-MuiTab-root"
                       id="simple-tab-undefined"
                       role="tab"
                       tabindex="-1"
                       type="button"
                     >
-                      <span
-                        class="MuiTab-wrapper"
-                      >
-                        Causes
-                      </span>
+                      Causes
                     </button>
                   </a>
                   <a
-                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                     href="#/give/grants"
                     textcolor="primary"
                     value="1"
                   >
                     <button
                       aria-controls="simple-tabpanel-undefined"
-                      class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
+                      class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-rzx4ff-MuiButtonBase-root-MuiTab-root"
                       id="simple-tab-undefined"
                       role="tab"
                       tabindex="-1"
                       type="button"
                     >
-                      <span
-                        class="MuiTab-wrapper"
-                      >
-                        Grants
-                      </span>
+                      Grants
                     </button>
                   </a>
                   <a
-                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                     href="#/give/donations"
                     textcolor="primary"
                     value="2"
                   >
                     <button
                       aria-controls="simple-tabpanel-undefined"
-                      class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
+                      class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-rzx4ff-MuiButtonBase-root-MuiTab-root"
                       id="simple-tab-undefined"
                       role="tab"
+                      style="white-space: nowrap;"
                       tabindex="-1"
                       type="button"
                     >
-                      <span
-                        class="MuiTab-wrapper"
-                      >
-                        My Donations
-                      </span>
+                      My Donations
                     </button>
                   </a>
                   <a
-                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                     href="#/give/redeem"
                     textcolor="primary"
                     value="3"
                   >
                     <button
                       aria-controls="simple-tabpanel-undefined"
-                      class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit"
+                      class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-rzx4ff-MuiButtonBase-root-MuiTab-root"
                       id="simple-tab-undefined"
                       role="tab"
                       tabindex="-1"
                       type="button"
                     >
-                      <span
-                        class="MuiTab-wrapper"
-                      >
-                        Redeem
-                      </span>
+                      Redeem
                     </button>
                   </a>
                 </div>
                 <span
-                  class="PrivateTabIndicator-root-41 PrivateTabIndicator-colorPrimary-42 MuiTabs-indicator"
+                  class="MuiTabs-indicator css-gi9wfz-MuiTabs-indicator"
                   style="left: 0px; width: 0px; display: none;"
                 />
               </div>
@@ -1348,57 +1306,51 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
               style="overflow: hidden;"
             >
               <div
-                class="MuiBox-root MuiBox-root-6"
+                class="MuiBox-root css-19midj6"
               >
                 <label
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-7qiq2r-MuiGrid-root"
                   style="margin-bottom: 20px;"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                   >
                     <span
-                      class="MuiSwitch-root give-sohm-gohm-checkbox"
+                      class="MuiSwitch-root MuiSwitch-sizeMedium give-sohm-gohm-checkbox css-tnsvld-MuiSwitch-root"
                     >
                       <span
-                        aria-disabled="false"
-                        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-7 MuiSwitch-switchBase MuiSwitch-colorPrimary"
+                        class="MuiSwitch-switchBase MuiSwitch-colorPrimary MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root css-1rrw3y9-MuiButtonBase-root-MuiSwitch-switchBase"
                       >
+                        <input
+                          aria-label="stake to gohm"
+                          class="MuiSwitch-input PrivateSwitchBase-input css-1m9pwf3"
+                          type="checkbox"
+                        />
                         <span
-                          class="MuiIconButton-label"
-                        >
-                          <input
-                            aria-label="stake to gohm"
-                            class="PrivateSwitchBase-input-10 MuiSwitch-input"
-                            type="checkbox"
-                            value=""
-                          />
-                          <span
-                            class="MuiSwitch-thumb"
-                          />
-                        </span>
+                          class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                        />
                       </span>
                       <span
-                        class="MuiSwitch-track"
+                        class="MuiSwitch-track css-ppid42-MuiSwitch-track"
                       />
                     </span>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item"
+                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                     style="display: flex;"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary"
+                      class="MuiTypography-root MuiTypography-body1 css-tlko1g-MuiTypography-root"
                     >
                       gOHM deposits
                     </p>
                     <div
-                      class="MuiBox-root MuiBox-root-11"
+                      class="MuiBox-root css-0"
                       style="display: inline-flex; justify-content: center; align-self: center;"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root info-icon MuiSvgIcon-fontSizeSmall"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall info-icon css-1fx2bp7-MuiSvgIcon-root"
                         focusable="false"
                         style="margin: 0px 5px; font-size: 1em;"
                         viewBox="0 0 20 20"
@@ -1411,26 +1363,26 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                   </div>
                 </label>
                 <div
-                  class="MuiContainer-root MuiContainer-maxWidthLg"
+                  class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4 css-1m2utj8-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                             href="#/give/projects/impact-market"
                           >
                             <h4
-                              class="MuiTypography-root MuiTypography-h4"
+                              class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
                             >
                               <strong>
                                 Impact Market
@@ -1439,17 +1391,17 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                           </a>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                            class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
                             style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                             >
                               <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                                 href="#/give/projects/impact-market"
                               >
                                 <img
@@ -1461,13 +1413,13 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                           </div>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                           >
                             <p
-                              class="MuiTypography-root project-content MuiTypography-body1"
+                              class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                             >
                               <div>
                                 <p>
@@ -1479,42 +1431,42 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             </p>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13b7e87-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8 css-aowpts-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-7qiq2r-MuiGrid-root"
                                 style="padding-bottom: 8px;"
                               >
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                                 />
                                 <div
-                                  class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9 project-goal-progress css-tao7r1-MuiGrid-root"
                                 >
-                                  <div
+                                  <span
                                     aria-valuemax="100"
                                     aria-valuemin="0"
                                     aria-valuenow="0"
-                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                                     role="progressbar"
                                   >
-                                    <div
-                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-13 makeStyles-progress-14 MuiLinearProgress-bar1Determinate"
+                                    <span
+                                      class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                       style="transform: translateX(-100%);"
                                     />
-                                  </div>
+                                  </span>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 subtext css-nbzprc-MuiGrid-root"
                                 >
                                   <span
-                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                                     style="width: 20px;"
                                   />
                                   %
@@ -1522,22 +1474,18 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
                             >
                               <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                                 href="#/projects/impact-market"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-16 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
                                   tabindex="0"
                                   type="button"
                                 >
-                                  <span
-                                    class="MuiButton-label"
-                                  >
-                                    View Details
-                                  </span>
+                                  View Details
                                 </button>
                               </a>
                             </div>
@@ -1546,20 +1494,20 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                             href="#/give/projects/angel-protocol"
                           >
                             <h4
-                              class="MuiTypography-root MuiTypography-h4"
+                              class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
                             >
                               <strong>
                                 Angel Protocol
@@ -1568,17 +1516,17 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                           </a>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                            class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
                             style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                             >
                               <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                                 href="#/give/projects/angel-protocol"
                               >
                                 <img
@@ -1590,13 +1538,13 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                           </div>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                           >
                             <p
-                              class="MuiTypography-root project-content MuiTypography-body1"
+                              class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                             >
                               <div>
                                 <p>
@@ -1608,42 +1556,42 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             </p>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13b7e87-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8 css-aowpts-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-7qiq2r-MuiGrid-root"
                                 style="padding-bottom: 8px;"
                               >
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                                 />
                                 <div
-                                  class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9 project-goal-progress css-tao7r1-MuiGrid-root"
                                 >
-                                  <div
+                                  <span
                                     aria-valuemax="100"
                                     aria-valuemin="0"
                                     aria-valuenow="0"
-                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                                     role="progressbar"
                                   >
-                                    <div
-                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-20 makeStyles-progress-21 MuiLinearProgress-bar1Determinate"
+                                    <span
+                                      class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                       style="transform: translateX(-100%);"
                                     />
-                                  </div>
+                                  </span>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 subtext css-nbzprc-MuiGrid-root"
                                 >
                                   <span
-                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                                     style="width: 20px;"
                                   />
                                   %
@@ -1651,22 +1599,18 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
                             >
                               <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                                 href="#/projects/angel-protocol"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-22 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
                                   tabindex="0"
                                   type="button"
                                 >
-                                  <span
-                                    class="MuiButton-label"
-                                  >
-                                    View Details
-                                  </span>
+                                  View Details
                                 </button>
                               </a>
                             </div>
@@ -1675,20 +1619,20 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                             href="#/give/projects/gitcoin"
                           >
                             <h4
-                              class="MuiTypography-root MuiTypography-h4"
+                              class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
                             >
                               <strong>
                                 Gitcoin
@@ -1697,17 +1641,17 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                           </a>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                            class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
                             style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                             >
                               <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                                 href="#/give/projects/gitcoin"
                               >
                                 <img
@@ -1719,13 +1663,13 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                           </div>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                           >
                             <p
-                              class="MuiTypography-root project-content MuiTypography-body1"
+                              class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                             >
                               <div>
                                 <p>
@@ -1737,42 +1681,42 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             </p>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13b7e87-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8 css-aowpts-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-7qiq2r-MuiGrid-root"
                                 style="padding-bottom: 8px;"
                               >
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                                 />
                                 <div
-                                  class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9 project-goal-progress css-tao7r1-MuiGrid-root"
                                 >
-                                  <div
+                                  <span
                                     aria-valuemax="100"
                                     aria-valuemin="0"
                                     aria-valuenow="0"
-                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                                     role="progressbar"
                                   >
-                                    <div
-                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-24 makeStyles-progress-25 MuiLinearProgress-bar1Determinate"
+                                    <span
+                                      class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                       style="transform: translateX(-100%);"
                                     />
-                                  </div>
+                                  </span>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 subtext css-nbzprc-MuiGrid-root"
                                 >
                                   <span
-                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                                     style="width: 20px;"
                                   />
                                   %
@@ -1780,22 +1724,18 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
                             >
                               <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                                 href="#/projects/gitcoin"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-26 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
                                   tabindex="0"
                                   type="button"
                                 >
-                                  <span
-                                    class="MuiButton-label"
-                                  >
-                                    View Details
-                                  </span>
+                                  View Details
                                 </button>
                               </a>
                             </div>
@@ -1804,20 +1744,20 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                             href="#/give/projects/kolektivo"
                           >
                             <h4
-                              class="MuiTypography-root MuiTypography-h4"
+                              class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
                             >
                               <strong>
                                 Kolektivo
@@ -1826,17 +1766,17 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                           </a>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                            class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
                             style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                             >
                               <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                                 href="#/give/projects/kolektivo"
                               >
                                 <img
@@ -1848,13 +1788,13 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                           </div>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                           >
                             <p
-                              class="MuiTypography-root project-content MuiTypography-body1"
+                              class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                             >
                               <div>
                                 <p>
@@ -1866,42 +1806,42 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             </p>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13b7e87-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8 css-aowpts-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-7qiq2r-MuiGrid-root"
                                 style="padding-bottom: 8px;"
                               >
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                                 />
                                 <div
-                                  class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9 project-goal-progress css-tao7r1-MuiGrid-root"
                                 >
-                                  <div
+                                  <span
                                     aria-valuemax="100"
                                     aria-valuemin="0"
                                     aria-valuenow="0"
-                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                                     role="progressbar"
                                   >
-                                    <div
-                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-28 makeStyles-progress-29 MuiLinearProgress-bar1Determinate"
+                                    <span
+                                      class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                       style="transform: translateX(-100%);"
                                     />
-                                  </div>
+                                  </span>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 subtext css-nbzprc-MuiGrid-root"
                                 >
                                   <span
-                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                                     style="width: 20px;"
                                   />
                                   %
@@ -1909,22 +1849,18 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
                             >
                               <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                                 href="#/projects/kolektivo"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-30 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
                                   tabindex="0"
                                   type="button"
                                 >
-                                  <span
-                                    class="MuiButton-label"
-                                  >
-                                    View Details
-                                  </span>
+                                  View Details
                                 </button>
                               </a>
                             </div>
@@ -1933,20 +1869,20 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                         >
                           <a
-                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                             href="#/give/projects/popcorndao"
                           >
                             <h4
-                              class="MuiTypography-root MuiTypography-h4"
+                              class="MuiTypography-root MuiTypography-h4 css-w9v9yi-MuiTypography-root"
                             >
                               <strong>
                                 PopcornDAO
@@ -1955,17 +1891,17 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                           </a>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 MuiGrid-grid-lg-4 css-pyn2lm-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                            class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
                             style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                             >
                               <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                                 href="#/give/projects/popcorndao"
                               >
                                 <img
@@ -1977,13 +1913,13 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                           </div>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-content-xs-space-between MuiGrid-grid-xs-true"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-qsmpk5-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                           >
                             <p
-                              class="MuiTypography-root project-content MuiTypography-body1"
+                              class="MuiTypography-root MuiTypography-body1 project-content css-69sme-MuiTypography-root"
                             >
                               <div>
                                 <p>
@@ -1995,42 +1931,42 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             </p>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-align-items-xs-flex-end MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13b7e87-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-8 css-aowpts-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-7qiq2r-MuiGrid-root"
                                 style="padding-bottom: 8px;"
                               >
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-12"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 subtext css-bhsuuc-MuiGrid-root"
                                 />
                                 <div
-                                  class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 MuiGrid-grid-sm-9 project-goal-progress css-tao7r1-MuiGrid-root"
                                 >
-                                  <div
+                                  <span
                                     aria-valuemax="100"
                                     aria-valuemin="0"
                                     aria-valuenow="0"
-                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                                     role="progressbar"
                                   >
-                                    <div
-                                      class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-32 makeStyles-progress-33 MuiLinearProgress-bar1Determinate"
+                                    <span
+                                      class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                       style="transform: translateX(-100%);"
                                     />
-                                  </div>
+                                  </span>
                                 </div>
                                 <div
-                                  class="MuiGrid-root subtext MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3"
+                                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 MuiGrid-grid-sm-3 subtext css-nbzprc-MuiGrid-root"
                                 >
                                   <span
-                                    class="MuiSkeleton-root MuiSkeleton-text skeleton-inline MuiSkeleton-pulse"
+                                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse skeleton-inline css-1l7q9tc-MuiSkeleton-root"
                                     style="width: 20px;"
                                   />
                                   %
@@ -2038,22 +1974,18 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4"
+                              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-4 css-dbu6st-MuiGrid-root"
                             >
                               <a
-                                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                                 href="#/projects/popcorndao"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-34 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
                                   tabindex="0"
                                   type="button"
                                 >
-                                  <span
-                                    class="MuiButton-label"
-                                  >
-                                    View Details
-                                  </span>
+                                  View Details
                                 </button>
                               </a>
                             </div>
@@ -2062,55 +1994,51 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-36"
+                        class="MuiBox-root css-0"
                         style="background-color: rgb(250, 250, 251); border-radius: 10px;"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                           style="padding: 10px 30px 10px 30px;"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                           >
                             <h4
-                              class="MuiTypography-root MuiTypography-h4 MuiTypography-alignCenter"
+                              class="MuiTypography-root MuiTypography-h4 MuiTypography-alignCenter css-1idp9aj-MuiTypography-root"
                             >
                               Want to give to a different cause?
                             </h4>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
+                              class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-4p4edz-MuiTypography-root"
                             >
                               You can direct your yield to a recipient of your choice
                             </p>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12 MuiGrid-grid-sm-4"
+                            class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1cnv0eo-MuiGrid-root"
                           >
                             <button
-                              class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-15 makeStyles-root-37 undefined MuiButton-containedPrimary MuiButton-containedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation Mui-disabled MuiButton-fullWidth Mui-disabled"
+                              class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Mui-disabled Button-root undefined css-3oxj3s-MuiButtonBase-root-MuiButton-root"
                               disabled=""
                               tabindex="-1"
                               type="button"
                             >
-                              <span
-                                class="MuiButton-label"
-                              >
-                                Select Custom Recipient
-                              </span>
+                              Select Custom Recipient
                             </button>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                           />
                         </div>
                       </div>
@@ -2123,30 +2051,30 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
         </div>
       </div>
       <div
-        class="MuiPaper-root makeStyles-root-1 makeStyles-root-39  MuiPaper-elevation0 MuiPaper-rounded"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
         style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item"
+            class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-19aogx4-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
                       focusable="false"
                       viewBox="0 0 20 20"
                     >
@@ -2171,28 +2099,28 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                     </svg>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter subtext css-4p4edz-MuiTypography-root"
                     >
                       Wallet
                     </p>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-4p4edz-MuiTypography-root"
                     >
                       Deposit sOHM from wallet
                     </p>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter"
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-9rey0-MuiTypography-root"
                     >
                       Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step is depositing your sOHM and specifying a recipient.
                     </p>
@@ -2200,17 +2128,17 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-19aogx4-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
                       focusable="false"
                       viewBox="0 0 20 20"
                     >
@@ -2238,28 +2166,28 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                     </svg>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter subtext css-4p4edz-MuiTypography-root"
                     >
                       Vault
                     </p>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-4p4edz-MuiTypography-root"
                     >
                       Lock sOHM in vault
                     </p>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter"
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-9rey0-MuiTypography-root"
                     >
                       Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient.
 You can withdraw or edit your principal sOHM amount at any time.
@@ -2268,17 +2196,17 @@ You can withdraw or edit your principal sOHM amount at any time.
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4 css-19aogx4-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
                       focusable="false"
                       viewBox="0 0 20 20"
                     >
@@ -2321,28 +2249,28 @@ You can withdraw or edit your principal sOHM amount at any time.
                     </svg>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root subtext MuiTypography-body1 MuiTypography-alignCenter"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter subtext css-4p4edz-MuiTypography-root"
                     >
                       Recipient
                     </p>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-alignCenter css-4p4edz-MuiTypography-root"
                     >
                       Recipient earns sOHM rebases
                     </p>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter"
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-9rey0-MuiTypography-root"
                     >
                       The recipient you specified, or the project you selected, will then receive the rebases associated with your
 sOHM deposit until you withdraw your sOHM principal from the vault.
@@ -2351,41 +2279,36 @@ sOHM deposit until you withdraw your sOHM principal from the vault.
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
               />
               <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-3"
+                class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-3 css-1fa0lp4-MuiGrid-root"
               >
                 <a
-                  aria-disabled="false"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-15 makeStyles-root-40 undefined MuiButton-outlinedPrimary MuiButton-outlinedSizeSmall MuiButton-sizeSmall MuiButton-disableElevation MuiButton-fullWidth"
+                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
                   href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
                   tabindex="0"
                   target="_blank"
                 >
+                  Learn More
                   <span
-                    class="MuiButton-label"
+                    class="MuiButton-endIcon MuiButton-iconSizeSmall css-jcxoq4-MuiButton-endIcon"
                   >
-                    Learn More
-                    <span
-                      class="MuiButton-endIcon MuiButton-iconSizeSmall"
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge css-1562cnx-MuiSvgIcon-root"
+                      focusable="false"
+                      viewBox="0 0 20 20"
                     >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
-                        focusable="false"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
-                        />
-                      </svg>
-                    </span>
+                      <path
+                        d="M4.297 17.445h9.539c1.523 0 2.305-.78 2.305-2.28v-9.58c0-1.507-.782-2.288-2.305-2.288h-9.54c-1.523 0-2.304.773-2.304 2.289v9.578c0 1.508.781 2.281 2.305 2.281Zm.016-.968c-.875 0-1.352-.461-1.352-1.368V5.633c0-.899.477-1.367 1.352-1.367h9.5c.867 0 1.359.468 1.359 1.367v9.476c0 .907-.492 1.368-1.36 1.368h-9.5Zm7.296-4.235c.266 0 .438-.195.438-.476V7.867c0-.344-.188-.492-.492-.492H7.64c-.29 0-.47.172-.47.438 0 .265.188.445.477.445H9.53l1.133-.078-1.055.992-3.382 3.383a.476.476 0 0 0-.149.328c0 .273.18.453.453.453a.47.47 0 0 0 .344-.149L10.25 9.82l.984-1.047-.078 1.282v1.718c0 .29.18.47.453.47Z"
+                      />
+                    </svg>
                   </span>
                 </a>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
               />
             </div>
           </div>
@@ -2399,30 +2322,30 @@ sOHM deposit until you withdraw your sOHM principal from the vault.
 exports[`Give View Disconnected should render Grants Dashboard 1`] = `
 <div>
   <div
-    class="MuiContainer-root MuiContainer-maxWidthLg"
+    class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
     style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   >
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1"
+          class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
         >
           Upon receiving an Olympus Grant, you gain exposure to the Olympus Give ecosystem where your performance is rewarded every 8 hours through the yield your grant generates; you then can also receive support from other Ohmies and this acts as a loop that compounds value and amplifies the reach and growth of your mission.
         </p>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-justify-content-xs-center"
+          class="MuiGrid-root MuiGrid-container css-h1grlz-MuiGrid-root"
           style="padding-bottom: 10px;"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root MuiTypography-body2 css-112gc2l-MuiTypography-root"
           >
             We don't have any grants open right now, but check back soon!
           </p>
@@ -2436,37 +2359,33 @@ exports[`Give View Disconnected should render Grants Dashboard 1`] = `
 exports[`Give View Disconnected should render Yield Recipients Screen with Donate to a cause button 1`] = `
 <div>
   <div
-    class="MuiBox-root MuiBox-root-74 grey-box "
+    class="grey-box  MuiBox-root css-h33641"
   >
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-justify-content-xs-center"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-bmdbdq-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1"
+          class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
         >
           Looks like you haven’t made any donations yet
         </p>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-justify-content-xs-center MuiGrid-grid-xs-12"
+        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-13blkop-MuiGrid-root"
       >
         <a
-          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
           href="#/give"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-root-75 makeStyles-root-76 undefined MuiButton-outlinedPrimary MuiButton-disableElevation"
+            class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Button-root undefined css-4oj0gj-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
-            <span
-              class="MuiButton-label"
-            >
-              Donate to a cause
-            </span>
+            Donate to a cause
           </button>
         </a>
       </div>
@@ -2478,61 +2397,62 @@ exports[`Give View Disconnected should render Yield Recipients Screen with Donat
 exports[`Give View Disconnected should render project card with connect wallet button 1`] = `
 <div>
   <div
-    class="MuiContainer-root MuiContainer-maxWidthLg"
+    class="MuiContainer-root MuiContainer-maxWidthLg css-e057jq-MuiContainer-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-start"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1iagzvf-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5"
+        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-5 css-gr5cd7-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
         >
           <div
-            class="MuiPaper-root makeStyles-root-79 makeStyles-root-80  MuiPaper-elevation0 MuiPaper-rounded"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
             style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
             >
               <div
-                class="MuiGrid-root card-header MuiGrid-item"
+                class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-81"
+                  class="MuiBox-root css-gg4vpm"
                 >
                   <div
                     class="top-left"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-center"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-vgma6o-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item"
+                        class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                       >
                         <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                           href="#/give"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                            data-testid="ChevronLeftIcon"
                             focusable="false"
                             style="width: 12px; height: 12px;"
                             viewBox="6 6 12 12"
                           >
                             <path
-                              d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                              d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
                             />
                           </svg>
                         </a>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item"
+                        class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                       >
                         <h5
-                          class="MuiTypography-root MuiTypography-h5"
+                          class="MuiTypography-root MuiTypography-h5 css-903ewo-MuiTypography-root"
                         >
                           Angel Protocol
                         </h5>
@@ -2545,23 +2465,23 @@ exports[`Give View Disconnected should render project card with connect wallet b
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item"
+                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-lg-12 css-olt10l-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-align-content-xs-center"
+                      class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
                       style="max-height: 184px; overflow: hidden; border-radius: 16px;"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                       >
                         <a
-                          class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                           href="#/give/projects/angel-protocol"
                         >
                           <img
@@ -2573,35 +2493,35 @@ exports[`Give View Disconnected should render project card with connect wallet b
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-cmg3fn-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-start"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-qy0ict-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-r441lk-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -2656,35 +2576,35 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   />
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                 Donors
                               </div>
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-e6z9yf-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1jqheh3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -2707,16 +2627,16 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   >
                                     <span
-                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                     />
                                   </div>
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                 sOHM
                                  
@@ -2727,23 +2647,23 @@ exports[`Give View Disconnected should render project card with connect wallet b
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-flex-end"
+                          class="MuiGrid-root MuiGrid-container css-1d18k5y-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-r441lk-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -2774,15 +2694,15 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                 </svg>
                               </div>
                               <div
-                                class="MuiGrid-root metric MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                               >
                                 <span
-                                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1l7q9tc-MuiSkeleton-root"
                                 />
                               </div>
                             </div>
                             <div
-                              class="MuiGrid-root subtext MuiGrid-item"
+                              class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                             >
                               sOHM
                                
@@ -2790,26 +2710,26 @@ exports[`Give View Disconnected should render project card with connect wallet b
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 css-19kq2tc-MuiGrid-root"
                           />
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-46wo5z-MuiGrid-root"
                           >
                             <div
-                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-align-items-xs-flex-end"
+                              class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1jqheh3-MuiGrid-root"
                             >
                               <div
-                                class="MuiGrid-root MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                               >
                                 <div
-                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-flex-end"
+                                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-hgkx5n-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiGrid-root MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -2832,14 +2752,14 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                     </svg>
                                   </div>
                                   <div
-                                    class="MuiGrid-root metric MuiGrid-item"
+                                    class="MuiGrid-root MuiGrid-item metric css-159wrwf-MuiGrid-root"
                                   >
                                     1,000
                                   </div>
                                 </div>
                               </div>
                               <div
-                                class="MuiGrid-root subtext MuiGrid-item"
+                                class="MuiGrid-root MuiGrid-item subtext css-159wrwf-MuiGrid-root"
                               >
                                 sOHM
                                  
@@ -2848,36 +2768,32 @@ exports[`Give View Disconnected should render project card with connect wallet b
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root project-goal-progress MuiGrid-item MuiGrid-grid-xs-12"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 project-goal-progress css-bhsuuc-MuiGrid-root"
                           >
-                            <div
+                            <span
                               aria-valuemax="100"
                               aria-valuemin="0"
                               aria-valuenow="0"
-                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate"
+                              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate css-1mcjo4x-MuiLinearProgress-root"
                               role="progressbar"
                             >
-                              <div
-                                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary makeStyles-progress-77 makeStyles-progress-78 MuiLinearProgress-bar1Determinate"
+                              <span
+                                class="MuiLinearProgress-bar ProjectCard-progress MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate css-1o31aob-MuiLinearProgress-bar1"
                                 style="transform: translateX(-100%);"
                               />
-                            </div>
+                            </span>
                           </div>
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-83 makeStyles-root-84 undefined MuiButton-containedPrimary MuiButton-disableElevation MuiButton-fullWidth"
+                          class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
                           tabindex="0"
                           type="button"
                         >
-                          <span
-                            class="MuiButton-label"
-                          >
-                            Connect Wallet
-                          </span>
+                          Connect Wallet
                         </button>
                       </div>
                     </div>
@@ -2888,30 +2804,30 @@ exports[`Give View Disconnected should render project card with connect wallet b
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
         />
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-lg-7 css-mxqc31-MuiGrid-root"
       >
         <div
-          class="MuiPaper-root makeStyles-root-79 makeStyles-root-85  MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
           style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root card-header MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
             >
               <div
-                class="MuiBox-root MuiBox-root-86"
+                class="MuiBox-root css-gg4vpm"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-87"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <h5
-                    class="MuiTypography-root header-text MuiTypography-h5"
+                    class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
                   >
                     About
                   </h5>
@@ -2920,13 +2836,13 @@ exports[`Give View Disconnected should render project card with connect wallet b
                   class="top-right"
                 >
                   <a
-                    class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                     href="https://www.angelprotocol.io/"
                     target="_blank"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                       focusable="false"
                       viewBox="0 0 20 20"
                     >
@@ -2939,7 +2855,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
               </div>
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item"
+              class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
             >
               <div
                 class="project-content"

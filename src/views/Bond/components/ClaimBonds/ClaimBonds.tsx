@@ -10,7 +10,7 @@ import {
   TableRow,
   Tabs,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Paper, PrimaryButton, TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { useState } from "react";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";

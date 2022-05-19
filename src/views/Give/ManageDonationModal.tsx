@@ -1,9 +1,9 @@
 import { isAddress } from "@ethersproject/address";
 import { t, Trans } from "@lingui/macro";
-import { Grid, Link, SvgIcon, Typography } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ChevronLeft } from "@material-ui/icons";
+import { ChevronLeft } from "@mui/icons-material";
+import { Grid, Link, SvgIcon, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { DataRow, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
@@ -117,9 +117,9 @@ export function ManageDonationModal({
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const themedArrow =
-    theme.palette.type === "dark" && theme.colors.primary[300]
+    theme.palette.mode === "dark" && theme.colors.primary[300]
       ? theme.colors.primary[300]
       : theme.palette.text.secondary;
 
