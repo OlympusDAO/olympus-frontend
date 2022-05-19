@@ -157,15 +157,13 @@ export function RecipientModal({
 
     if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(`${`${t`You must have a balance of `} ${giveAssetType} ${t` to continue`}`}`);
+      setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }
 
     if (valueNumber.gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        `${`${t`Value cannot be more than your `} ${giveAssetType} ${t` balance of `} ${getBalance().toString(
-          EXACT_FORMAT,
-        )}`}`,
+        t`Value cannot be more than your ${giveAssetType} balance of ${getBalance().toString(EXACT_FORMAT)}`,
       );
       return;
     }
@@ -368,7 +366,7 @@ export function RecipientModal({
                 <Typography variant="body1" color="textSecondary">
                   {giveAssetType} <Trans>Deposit</Trans>
                   <InfoTooltip
-                    message={`${t`Your `} ${giveAssetType} ${t`will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}`}
+                    message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                     children={null}
                   />
                 </Typography>
@@ -494,7 +492,7 @@ export function RecipientModal({
                   <Typography variant="body1" className="grey-text">
                     {giveAssetType} <Trans>Deposit</Trans>
                     <InfoTooltip
-                      message={`${t`Your `} ${giveAssetType} ${t`will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}`}
+                      message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                       children={null}
                     />
                   </Typography>
@@ -544,8 +542,8 @@ export function RecipientModal({
                 <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
                   {/* We display the exact amount being deposited. */}
                   {isMutationLoading
-                    ? `${`${t`Depositing `} ${giveAssetType}`}`
-                    : `${t`Confirm `} ${getDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`}
+                    ? t`Depositing ${giveAssetType}`
+                    : t`Confirm ${getDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`}
                 </PrimaryButton>
               </Grid>
               <Grid item xs />
