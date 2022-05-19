@@ -1,19 +1,15 @@
 import { t } from "@lingui/macro";
-import { Box, Theme } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box } from "@mui/material";
 import { Icon, Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
-
-const useStyles = makeStyles<Theme>(theme => ({}));
 
 // export interface OHMRangeInputFormProps {}
 
 /**
  * Component for Displaying RangeInputForm
  */
-const RangeInputForm = (props: { reserveSymbol: string; currentPrice: number }) => {
-  const { reserveSymbol, currentPrice } = props;
-  const classes = useStyles();
+const RangeInputForm = (props: { reserveSymbol: string; currentPrice: number; buyOrSell: string }) => {
+  const { reserveSymbol, currentPrice, buyOrSell } = props;
   const [reserveAmount, setReserveAmount] = useState("");
   const [ohmAmount, setOhmAmount] = useState("");
   const setMax = () => {
@@ -33,6 +29,11 @@ const RangeInputForm = (props: { reserveSymbol: string; currentPrice: number }) 
     setOhmAmount(ohmValue.toString());
     setReserveAmount(value);
   };
+
+  let swapButtonText = `Swap ${reserveSymbol} for OHM`;
+  if (buyOrSell === "sell") {
+    swapButtonText = ` Swap OHM for ${reserveSymbol}`;
+  }
 
   return (
     <Box display="flex" flexDirection="column">
@@ -71,7 +72,7 @@ const RangeInputForm = (props: { reserveSymbol: string; currentPrice: number }) 
       </Box>
       <Box mt="8px">
         <PrimaryButton fullWidth type="submit">
-          Swap {reserveSymbol} for OHM
+          {swapButtonText}
         </PrimaryButton>
       </Box>
     </Box>

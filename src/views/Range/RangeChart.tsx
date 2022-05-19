@@ -1,33 +1,36 @@
-import { makeStyles, Theme } from "@material-ui/core";
+import { styled } from "@mui/material/styles";
 import { DataRow, Paper } from "@olympusdao/component-library";
 import { Area, ComposedChart, Label, Line, ReferenceDot, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { formatCurrency } from "src/helpers";
 
 import { PriceHistory } from "./hooks";
 
-//export interface OHMRangeChartProps {}
+const PREFIX = "RangeChart";
 
-const useStyles = makeStyles<Theme>(theme => ({
-  currentPrice: {
+const classes = {
+  currentPrice: `${PREFIX}-currentPrice`,
+};
+
+const StyledResponsiveContainer = styled(ResponsiveContainer)(({ theme }) => ({
+  [`& .${classes.currentPrice}`]: {
     fill: theme.palette.primary.main,
     fontWeight: 600,
   },
 }));
+
 /**
  * Component for Displaying RangeChart
  */
-const RangeChart = (props: { rangeBoundaries: any; currentPrice: number }) => {
-  const classes = useStyles();
-  const { rangeBoundaries, currentPrice } = props;
+const RangeChart = (props: { rangeData: any; currentPrice: number }) => {
+  const { rangeData, currentPrice } = props;
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData } = PriceHistory("DAI");
-  const cushionHigh = rangeBoundaries.high * (1 - rangeBoundaries.cushion / 1e4);
-  const cushionLow = rangeBoundaries.low * (1 + rangeBoundaries.cushion / 1e4);
+
   const chartData = priceData.map((item: any) => {
     return {
       ...item,
-      uv: [rangeBoundaries.high, cushionHigh],
-      lv: [rangeBoundaries.low, cushionLow],
+      uv: [rangeData.wall.high.price, rangeData.cushion.high.price],
+      lv: [rangeData.wall.low.price, rangeData.cushion.low.price],
     };
   });
 
@@ -35,8 +38,8 @@ const RangeChart = (props: { rangeBoundaries: any; currentPrice: number }) => {
    * with no price data to shift the chart line left.
    */
   chartData.unshift({
-    uv: [rangeBoundaries.high, rangeBoundaries.high * (1 - rangeBoundaries.cushion / 1e4)],
-    lv: [rangeBoundaries.low, rangeBoundaries.low * (1 + rangeBoundaries.cushion / 1e4)],
+    uv: [rangeData.wall.high.price, rangeData.cushion.high.price],
+    lv: [rangeData.wall.low.price, rangeData.cushion.low.price],
   });
 
   const CustomReferenceDot = (props: {
@@ -65,15 +68,15 @@ const RangeChart = (props: { rangeBoundaries: any; currentPrice: number }) => {
   const TooltipContent = () => (
     <Paper className={`ohm-card tooltip-container`}>
       <DataRow title="Price" balance={formatCurrency(currentPrice, 2)} />
-      <DataRow title="Upper Wall" balance={formatCurrency(rangeBoundaries.high, 2)} />
-      <DataRow title="Upper Cushion" balance={formatCurrency(cushionHigh, 2)} />
-      <DataRow title="Lower Cushion" balance={formatCurrency(cushionLow, 2)} />
-      <DataRow title="Lower Wall" balance={formatCurrency(rangeBoundaries.low, 2)} />
+      <DataRow title="Upper Wall" balance={formatCurrency(rangeData.wall.high.price, 2)} />
+      <DataRow title="Upper Cushion" balance={formatCurrency(rangeData.cushion.high.price, 2)} />
+      <DataRow title="Lower Cushion" balance={formatCurrency(rangeData.cushion.low.price, 2)} />
+      <DataRow title="Lower Wall" balance={formatCurrency(rangeData.wall.low.price, 2)} />
     </Paper>
   );
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <StyledResponsiveContainer width="100%" height={400}>
       <ComposedChart data={chartData}>
         <XAxis reversed scale="auto" dataKey="timestamp" />
         <YAxis scale="auto" domain={["dataMin", "dataMax"]} />
@@ -120,7 +123,7 @@ const RangeChart = (props: { rangeBoundaries: any; currentPrice: number }) => {
           </Label>
         </ReferenceDot>
       </ComposedChart>
-    </ResponsiveContainer>
+    </StyledResponsiveContainer>
   );
 };
 

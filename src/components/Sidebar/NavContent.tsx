@@ -52,11 +52,11 @@ const NavContent: React.VFC = () => {
               {networkId === networks.MAINNET ? (
                 <>
                   <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
-
                   <NavItem to="/bonds" icon="bond" label={t`Bond`}>
                     <Bonds />
                     <InverseBonds />
                   </NavItem>
+                  <NavItem to="/range" icon="bond" label={t`Range`} />
 
                   <NavItem to="/stake" icon="stake" label={t`Stake`} />
 

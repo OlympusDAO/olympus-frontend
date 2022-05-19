@@ -7,6 +7,35 @@ import { useQuery } from "react-query";
 //import { RANGE_CONTRACT, RANGE_PRICE_CONTRACT } from "src/constants/contracts";
 // import { NetworkId } from "src/networkDetails";
 
+const RangeMock = {
+  low: {
+    active: true,
+    lastActive: "temp",
+    capacity: 100000,
+    threshold: 100000,
+    market: 1,
+    lastMarketCapacity: 100000,
+  },
+  high: {
+    active: true,
+    lastActive: "temp",
+    capacity: 100000,
+    threshold: 100000,
+    market: 1,
+    lastMarketCapacity: 100000,
+  },
+  cushion: {
+    low: { price: 15 },
+    high: { price: 20 },
+    spread: 5,
+  },
+  wall: {
+    low: { price: 10 },
+    high: { price: 25 },
+    spread: 5,
+  },
+};
+
 /**Chainlink Price Feed. Retrieves OHMETH and ETH/{RESERVE} feed **/
 export const OHMPriceHistory = (assetPair = "OHMv2/ETH") => {
   const graphURL = "https://api.thegraph.com/subgraphs/name/openpredict/chainlink-prices-subgraph";
@@ -64,7 +93,6 @@ export const PriceHistory = (reserveToken: string) => {
   const { data: ohmPriceData } = OHMPriceHistory();
   const { data: reservePriceData } = ReservePriceHistory(reserveToken);
 
-  // Then get the user's projects
   const {
     data = [],
     isFetched,
@@ -72,7 +100,6 @@ export const PriceHistory = (reserveToken: string) => {
   } = useQuery(
     ["priceHistory", ohmPriceData, reservePriceData],
     () => {
-      console.log("price history", ohmPriceData, reservePriceData);
       const prices = ohmPriceData.map((ohmPrice: { price: number; timestamp: number }, index: any) => {
         return {
           price: ohmPrice.price / 1e18 / (reservePriceData[index].price / 1e18),
@@ -83,38 +110,6 @@ export const PriceHistory = (reserveToken: string) => {
     },
     { enabled: !!ohmPriceData && !!ohmPriceData },
   );
-  return { data, isFetched, isLoading };
-};
-
-/**
- *
- * @param address
- * @returns Returns the capacity of the Operator at the given address
- */
-export const Capacity = (address: string) => {
-  //const contract = RANGE_CONTRACT.getEthersContract(NetworkId.MAINNET);
-  const { data, isFetched, isLoading } = useQuery(["Capacity", address], async () => {
-    //const capacty = await contract.lastMarketCapacity(false);
-    //TODO: REMOVE STUB RESPONSE
-    return 10000;
-  });
-  return { data, isFetched, isLoading };
-};
-
-/**
- * @param address
- * @returns Returns the upper and lower range of the Operator at the given address
- */
-export const RangeBoundaries = (address: string) => {
-  // const contract = RANGE_CONTRACT.getEthersContract(NetworkId.MAINNET);
-  const {
-    data = { high: 0, low: 0, cushion: 0, wall: 0 },
-    isFetched,
-    isLoading,
-  } = useQuery(["Capacity", address], async () => {
-    //TODO: REMOVE STUB RESPONSE
-    return { low: 12, high: 18, cushion: 1000, wall: 10000 };
-  });
   return { data, isFetched, isLoading };
 };
 
@@ -153,6 +148,20 @@ export const OperatorReserveToken = (address: string) => {
     // return symbol;
     //TODO: REMOVE STUB RESPONSE
     return "DAI";
+  });
+  return { data, isFetched, isLoading };
+};
+
+export const RangeData = (address: string) => {
+  //const contract = RANGE_CONTRACT.getEthersContract(NetworkId.MAINNET);
+
+  const {
+    data = RangeMock,
+    isFetched,
+    isLoading,
+  } = useQuery(["RangeData", address], async () => {
+    //const range = await contract.range();
+    return RangeMock;
   });
   return { data, isFetched, isLoading };
 };
