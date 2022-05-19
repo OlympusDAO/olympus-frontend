@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useWeb3Context } from "src/hooks";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 
-import ExternalStakePools from "./components/ExternalStakePools/ExternalStakePools";
+import { ExternalStakePools } from "./components/ExternalStakePools/ExternalStakePools";
 import { StakeArea } from "./components/StakeArea/StakeArea";
 
 const Stake: React.FC = () => {

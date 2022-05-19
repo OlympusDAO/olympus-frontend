@@ -389,10 +389,10 @@ describe("ManageDonationModal", () => {
     );
 
     expect(screen.getByTestId("edit-donation")).toBeInTheDocument();
-    expect(screen.getByTestId("edit-donation").innerHTML).toEqual('<span class="MuiButton-label">Edit Donation</span>');
+    expect(screen.getByTestId("edit-donation").innerHTML).toEqual("Edit Donation");
 
     expect(screen.getByTestId("stop-donation")).toBeInTheDocument();
-    expect(screen.getByTestId("stop-donation").innerHTML).toEqual('<span class="MuiButton-label">Stop Donation</span>');
+    expect(screen.getByTestId("stop-donation").innerHTML).toEqual("Stop Donation");
   });
 
   it("Should have correct button options on edit screen", async () => {

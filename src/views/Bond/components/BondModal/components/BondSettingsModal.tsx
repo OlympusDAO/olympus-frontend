@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Box, FormControl, InputAdornment, InputLabel, OutlinedInput, Typography } from "@material-ui/core";
+import { Box, FormControl, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
 import { Modal } from "@olympusdao/component-library";
 import { ChangeEvent } from "react";
 

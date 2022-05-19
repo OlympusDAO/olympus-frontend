@@ -19,6 +19,7 @@ import {
 } from "../__mocks__/mockLiveMarkets";
 import { Bond } from "../Bond";
 import { BondModalContainer } from "../components/BondModal/BondModal";
+
 beforeEach(() => {
   const data = jest.spyOn(useWeb3Context, "useWeb3Context");
   data.mockReturnValue(mockWeb3Context);
@@ -26,9 +27,10 @@ beforeEach(() => {
   Token.OHM_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("20"));
   Token.DAI_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
   Token.OHM_DAI_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("200000"));
-  Token.OHM_WETH_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
-  Token.OHM_LUSD_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
+  Token.LUSD_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
+  Token.FRAX_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
 });
+
 jest.mock("react-router", () => ({
   ...jest.requireActual("react-router"),
   useParams: jest.fn(),
@@ -65,17 +67,45 @@ describe("Inverse Bonds", () => {
         return Promise.resolve(inverseMarketPrice[id]);
       }),
     });
-    render(<Bond />);
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
   it("should display OHM DAI Inverse Bond", async () => {
-    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/inverse" });
-    fireEvent.click(await screen.findByText("Inverse Bond"));
+    // Starts on the inverse bond screen
+    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bonds/inverse" });
+    jest.spyOn(Router, "useParams").mockReturnValue({});
+
+    render(<Bond />);
+
+    fireEvent.click(await screen.findByTestId("inverse-bond-tab"));
     expect(await screen.findByText("DAI")).toBeInTheDocument();
   });
 
-  it("Should Display No Active Bonds Message", async () => {
+  it("Should Display No Active Bonds Message on Bonds screen", async () => {
+    // Starts on the inverse bond screen
+    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bonds/inverse" });
+    jest.spyOn(Router, "useParams").mockReturnValue({});
+
+    render(<Bond />);
+
+    // Frontend now defaults to the inverse bonds tab if there are no bonds
+    // So the location needs to be explicitly changed
+    fireEvent.click(await screen.findByTestId("bond-tab"));
     expect(await screen.findByText("No active bonds")).toBeInTheDocument();
+  });
+
+  it("should default to inverse bond tab", async () => {
+    // Starts on the bond screen
+    jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/bonds" });
+    jest.spyOn(Router, "useParams").mockReturnValue({});
+
+    render(<Bond />);
+
+    expect(await screen.findByTestId("8--bond")).toBeInTheDocument(); // bond id of 8
+    expect(await screen.findByText("$0.00")).toBeInTheDocument(); // Price of the DAI inverse bond
   });
 });
 
@@ -90,11 +120,17 @@ describe("Bond Modal", () => {
       }),
     });
   });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it("Should display bond modal with Instant Payout Bond (Inverse)", async () => {
     jest.spyOn(Router, "useParams").mockReturnValue({ id: "8" });
     jest.spyOn(Router, "useLocation").mockReturnValue({ pathname: "/inverse/8" });
     render(<BondModalContainer />);
     expect(await screen.findByText("Instant Payout")).toBeInTheDocument();
-    expect(await screen.findByText("$0.00")).toBeInTheDocument();
+    // NOTE (appleseed): checking for 0 DAI estimated payment (you will get)
+    expect(await screen.findByText("0 DAI")).toBeInTheDocument();
   });
 });
