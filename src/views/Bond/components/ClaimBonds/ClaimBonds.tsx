@@ -1,17 +1,6 @@
 import { t, Trans } from "@lingui/macro";
-import {
-  Box,
-  Tab,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Tabs,
-  Typography,
-} from "@mui/material";
-import { Paper, PrimaryButton, TertiaryButton, TokenStack } from "@olympusdao/component-library";
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Paper, PrimaryButton, Tab, Tabs, TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { useState } from "react";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
