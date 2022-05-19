@@ -23,7 +23,7 @@ import RangeModal from "./RangeModal";
 const Range = () => {
   const networks = useTestableNetworks();
   const { data: rangeData } = RangeData("CONTRACT_ADDRESS");
-  const [currentTab, setCurrentTab] = useState("buy");
+  const [sellActive, setSellActive] = useState(false);
   //TODO: Pull from contract if available
   const reserveBalance = useBalance(DAI_ADDRESSES)[networks.MAINNET].data;
   const ohmBalance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
@@ -35,7 +35,7 @@ const Range = () => {
 
   let maxString = t`Max You Can Buy`;
 
-  if (currentTab === "sell") {
+  if (sellActive === true) {
     maxString = t`Max You Can Sell`;
   }
   return (
@@ -49,11 +49,11 @@ const Range = () => {
         <Box mt={"20px"}>
           <RangeChart rangeData={rangeData} currentPrice={currentPrice} />
         </Box>
-        <Tabs centered value={currentTab}>
-          <Tab label="Buy" value={"buy"} onClick={() => setCurrentTab("buy")} />
-          <Tab label="Sell" value={"sell"} onClick={() => setCurrentTab("sell")} />
+        <Tabs centered value={sellActive}>
+          <Tab label="Buy" value={false} onClick={() => setSellActive(false)} />
+          <Tab label="Sell" value={true} onClick={() => setSellActive(true)} />
         </Tabs>
-        <RangeInputForm currentPrice={currentPrice} reserveSymbol={"DAI"} buyOrSell={currentTab} />
+        <RangeInputForm currentPrice={currentPrice} reserveSymbol={"DAI"} sellActive={sellActive} />
         <DataRow title={maxString} balance={`${maxOhm} OHM (${reserveBalance} DAI)`} />
         <DataRow title={t`Discount`} balance={`${formatNumber(discount * 100, 2)}%`} />
         <DataRow title={t`Swap Price per OHM`} balance={formatCurrency(rangeData.wall.high.price, 2)} />
