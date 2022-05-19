@@ -9,32 +9,21 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
-import CallToAction from "./components/CallToAction/CallToAction";
 import Messages from "./components/Messages/Messages";
-import MigrationModal from "./components/Migration/MigrationModal";
-import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
+import { MigrationCallToAction } from "./components/MigrationCallToAction";
+import { MigrationNotification } from "./components/MigrationNotification";
 import NavDrawer from "./components/Sidebar/NavDrawer";
 import Sidebar from "./components/Sidebar/Sidebar";
 import StagingNotification from "./components/StagingNotification";
+import { StakeVersionContainer } from "./components/StakeVersionContainer";
 import TopBar from "./components/TopBar/TopBar";
 import Wallet from "./components/TopBar/Wallet";
-import { NetworkId } from "./constants";
 import { shouldTriggerSafetyCheck } from "./helpers";
 import { trackGAEvent } from "./helpers/analytics/trackGAEvent";
-import { DecimalBigNumber } from "./helpers/DecimalBigNumber/DecimalBigNumber";
 import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
-import { nonNullable } from "./helpers/types/nonNullable";
-import { useAppSelector, useWeb3Context } from "./hooks";
-import {
-  useFuseBalance,
-  useGohmBalance,
-  useGohmTokemakBalance,
-  useOhmBalance,
-  useSohmBalance,
-} from "./hooks/useBalance";
+import { useWeb3Context } from "./hooks";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import { useTestableNetworks } from "./hooks/useTestableNetworks";
 import useTheme from "./hooks/useTheme";
 import { getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
 import { loadAppDetails } from "./slices/AppSlice";
@@ -43,7 +32,7 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { light as lightTheme } from "./themes/light.js";
 import { multifarmDarkTheme, multifarmLightTheme } from "./themes/multifarm";
-import { Bond, Give, Stake, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
+import { Bond, Give, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
 import NotFound from "./views/404/NotFound";
 
 const PREFIX = "App";
@@ -115,7 +104,6 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [theme, toggleTheme] = useTheme();
-  const trimmedPath = location.pathname + location.hash;
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -169,71 +157,6 @@ function App() {
     },
     [networkId, address, providerInitialized],
   );
-
-  const oldAssetsDetected = useAppSelector(state => {
-    if (networkId && (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY)) {
-      return (
-        state.account.balances &&
-        (Number(state.account.balances.sohmV1) ||
-        Number(state.account.balances.ohmV1) ||
-        Number(state.account.balances.wsohm)
-          ? true
-          : false)
-      );
-    } else {
-      return false;
-    }
-  });
-
-  const oldAssetsEnoughToMigrate = useAppSelector(state => {
-    if (!state.app.currentIndex || !state.app.marketPrice) {
-      return true;
-    }
-    const wrappedBalance = Number(state.account.balances.wsohm) * Number(state.app.currentIndex!);
-    const allAssetsBalance =
-      Number(state.account.balances.sohmV1) + Number(state.account.balances.ohmV1) + wrappedBalance;
-    return state.app.marketPrice * allAssetsBalance >= 10;
-  });
-
-  const hasDust = useAppSelector(state => {
-    if (!state.app.currentIndex || !state.app.marketPrice) {
-      return true;
-    }
-    const wrappedBalance = Number(state.account.balances.wsohm) * Number(state.app.currentIndex!);
-    const ohmBalance = Number(state.account.balances.ohmV1);
-    const sOhmbalance = Number(state.account.balances.sohmV1);
-    if (ohmBalance > 0 && ohmBalance * state.app.marketPrice < 10) {
-      return true;
-    }
-    if (sOhmbalance > 0 && sOhmbalance * state.app.marketPrice < 10) {
-      return true;
-    }
-    if (wrappedBalance > 0 && wrappedBalance * state.app.marketPrice < 10) {
-      return true;
-    }
-    return false;
-  });
-
-  const networks = useTestableNetworks();
-  const { data: sOhmBalance = new DecimalBigNumber("0", 9) } = useSohmBalance()[networks.MAINNET];
-  const { data: ohmBalance = new DecimalBigNumber("0", 9) } = useOhmBalance()[networks.MAINNET];
-  const gohmBalances = useGohmBalance();
-  const { data: gohmFuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
-  const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[NetworkId.MAINNET];
-  const gohmTokens = [
-    gohmFuseBalance,
-    gohmTokemakBalance,
-    gohmBalances[networks.MAINNET].data,
-    gohmBalances[NetworkId.ARBITRUM].data,
-    gohmBalances[NetworkId.AVALANCHE].data,
-    gohmBalances[NetworkId.POLYGON].data,
-    gohmBalances[NetworkId.FANTOM].data,
-    gohmBalances[NetworkId.OPTIMISM].data,
-  ];
-  const totalGohmBalance = gohmTokens
-    .filter(nonNullable)
-    .reduce((res, bal) => res.add(bal), new DecimalBigNumber("0", 18));
-  const newAssetsDetected = Number(totalGohmBalance) || Number(sOhmBalance) || Number(ohmBalance);
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
   //
@@ -297,14 +220,6 @@ function App() {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
-  const MigrationNotification = () => {
-    return hasDust ? (
-      <MigrationModalSingle open={migrationModalOpen} handleClose={migModalClose} />
-    ) : (
-      <MigrationModal open={migrationModalOpen} handleClose={migModalClose} />
-    );
-  };
-
   return (
     <StyledDiv>
       <ThemeProvider theme={themeMode}>
@@ -332,28 +247,15 @@ function App() {
             </nav>
 
             <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-              {oldAssetsDetected && trimmedPath.indexOf("dashboard") === -1 && oldAssetsEnoughToMigrate && (
-                <CallToAction setMigrationModalOpen={setMigrationModalOpen} />
-              )}
+              <MigrationCallToAction setMigrationModalOpen={setMigrationModalOpen} />
 
               <Routes>
                 <Route path="/" element={<Navigate to="/stake" />} />
                 <Route
                   path="/stake"
-                  element={
-                    newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
-                      <Stake />
-                    ) : (
-                      <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
-                    )
-                  }
+                  element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
                 />
-                <Route
-                  path="/v1-stake"
-                  element={
-                    <V1Stake oldAssetsDetected={oldAssetsDetected} setMigrationModalOpen={setMigrationModalOpen} />
-                  }
-                />
+                <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
                 <Route path="/give/*" element={<Give />} />
 
                 <Route path="/olympusgive" element={<Navigate to="/give" />} />
@@ -375,7 +277,8 @@ function App() {
               </Routes>
             </div>
           </div>
-          {oldAssetsDetected && <MigrationNotification />}
+
+          <MigrationNotification isModalOpen={migrationModalOpen} onClose={migModalClose} />
         </MultifarmProvider>
       </ThemeProvider>
     </StyledDiv>
