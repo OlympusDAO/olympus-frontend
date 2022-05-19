@@ -48,7 +48,7 @@
     "@walletconnect/web3-provider": "^1.7.8",
     "axios": "^0.27.2",
     "date-fns": "^2.28.0",
-    "ethers": "^5.6.5",
+    "ethers": "^5.6.6",
     "graphql": "^15.8.0",
     "graphql-request": "^4.2.0",
     "markdown-it": "^13.0.1",
