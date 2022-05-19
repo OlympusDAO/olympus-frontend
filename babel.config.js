@@ -78,21 +78,6 @@ module.exports = api => {
         },
       ],
       [
-        "transform-imports",
-        {
-          "@fortawesome/pro-light-svg-icons": {
-            transform: "@fortawesome/pro-light-svg-icons/${member}",
-            skipDefaultConversion: true,
-            preventFullImport: true,
-          },
-          "@fortawesome/free-solid-svg-icons": {
-            transform: "@fortawesome/free-solid-svg-icons/${member}",
-            skipDefaultConversion: true,
-            preventFullImport: true,
-          },
-        },
-      ],
-      [
         "@babel/plugin-proposal-private-methods",
         {
           loose: true,

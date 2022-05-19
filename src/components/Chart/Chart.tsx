@@ -1,8 +1,8 @@
 import "./chart.scss";
 
 import { t } from "@lingui/macro";
-import { Box, CircularProgress, SvgIcon, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Box, CircularProgress, SvgIcon, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { InfoTooltip } from "@olympusdao/component-library";
 import { format } from "date-fns";
 import { CSSProperties, useEffect, useState } from "react";
@@ -554,7 +554,7 @@ function Chart({
             {renderChart(type, false)}
           </ResponsiveContainer>
         ) : (
-          <Skeleton variant="rect" width="100%" height={260} />
+          <Skeleton variant="rectangular" width="100%" height={260} />
         )}
       </Box>
     </Box>

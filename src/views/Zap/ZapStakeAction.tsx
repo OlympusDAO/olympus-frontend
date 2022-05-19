@@ -12,8 +12,8 @@ import {
   OutlinedInput,
   SvgIcon,
   Typography,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { Icon, Token } from "@olympusdao/component-library";
 import { BigNumber, ethers } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
@@ -42,6 +42,24 @@ import SelectTokenModal from "./SelectTokenModal";
 import SlippageModal from "./SlippageModal";
 import ZapStakeHeader from "./ZapStakeHeader";
 
+const PREFIX = "ZapStakeAction";
+
+const classes = {
+  ApprovedButton: `${PREFIX}-ApprovedButton`,
+  ApprovedText: `${PREFIX}-ApprovedText`,
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled("div")(({ theme }) => ({
+  [`& .${classes.ApprovedButton}`]: {
+    backgroundColor: theme.palette.mode === "light" ? "#9EC4AB !important" : "#92A799 !important",
+  },
+
+  [`& .${classes.ApprovedText}`]: {
+    color: theme.palette.mode === "light" ? "#fff" : "#333333",
+  },
+}));
+
 const DISABLE_ZAPS = false;
 
 const iconStyle = { height: "24px", width: "24px", zIndex: 1 };
@@ -53,22 +71,12 @@ const DECIMAL_PLACES_SHOWN = 2;
 const formatBalance = (balance?: DecimalBigNumber) =>
   balance?.toString({ decimals: DECIMAL_PLACES_SHOWN, trim: false, format: true });
 
-const useStyles = makeStyles(theme => ({
-  ApprovedButton: {
-    backgroundColor: theme.palette.type === "light" ? "#9EC4AB !important" : "#92A799 !important",
-  },
-  ApprovedText: {
-    color: theme.palette.type === "light" ? "#fff" : "#333333",
-  },
-}));
-
 type ZapQuantity = string | number | null;
 
 const ZapStakeAction: React.FC = () => {
   const { address, networkId } = useWeb3Context();
 
   const dispatch = useDispatch();
-  const classes = useStyles();
 
   const zapTokenBalances = useZapTokenBalances();
   const tokensBalance = zapTokenBalances.data?.balances;
@@ -270,9 +278,8 @@ const ZapStakeAction: React.FC = () => {
   };
 
   return (
-    <>
+    <Root>
       <ZapStakeHeader images={inputTokenImages} />
-
       <Typography>
         <Trans>You Pay</Trans>
       </Typography>
@@ -351,7 +358,6 @@ const ZapStakeAction: React.FC = () => {
       <Box minHeight="24px" display="flex" justifyContent="center" alignItems="center" width="100%">
         {downIcon}
       </Box>
-
       <Typography>
         <Trans>You Get</Trans>
       </Typography>
@@ -385,7 +391,6 @@ const ZapStakeAction: React.FC = () => {
             value={outputQuantity}
             disabled={zapToken == null}
             onChange={e => setOutputTokenQuantity(e.target.value)}
-            labelWidth={0}
             endAdornment={
               <InputAdornment position="end">
                 <div
@@ -431,7 +436,7 @@ const ZapStakeAction: React.FC = () => {
         <Box display="flex" alignItems="center">
           <Typography>{customSlippage}%</Typography>
           <Box width="8px" />
-          <IconButton name="settings" onClick={handleSlippageModalOpen} className="zap-settings-icon">
+          <IconButton name="settings" onClick={handleSlippageModalOpen} className="zap-settings-icon" size="large">
             <Icon name="settings" className="zap-settings-icon" />
           </IconButton>
         </Box>
@@ -567,7 +572,7 @@ const ZapStakeAction: React.FC = () => {
         output: true,
       })}
       {SlippageModal(handleSlippageModalClose, slippageModalOpen, customSlippage, setCustomSlippage, zapperCredit)}
-    </>
+    </Root>
   );
 };
 

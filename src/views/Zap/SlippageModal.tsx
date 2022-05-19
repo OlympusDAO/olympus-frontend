@@ -1,12 +1,19 @@
 import { Trans } from "@lingui/macro";
-import { Box, Dialog, DialogTitle, FormControl, makeStyles, Typography } from "@material-ui/core";
+import { Box, Dialog, DialogTitle, FormControl, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { Input, PrimaryButton, SecondaryButton } from "@olympusdao/component-library";
 import { SetStateAction, useEffect, useState } from "react";
 import { trim } from "src/helpers";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    [theme.breakpoints.down("sm")]: {
+const PREFIX = "SlippageModal";
+
+const classes = {
+  root: `${PREFIX}-root`,
+};
+
+const StyledDialog = styled(Dialog)(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    [theme.breakpoints.down("md")]: {
       paddingInline: "16px",
     },
     [theme.breakpoints.up("sm")]: {
@@ -22,7 +29,6 @@ function SlippageModal(
   setCustomSlippage: { (value: SetStateAction<string>): void; (arg0: string): void },
   zapperCredit: JSX.Element,
 ) {
-  const classes = useStyles();
   const [proposedSlippage, setProposedSlippage] = useState(currentSlippage);
   const [errorState, setErrorState] = useState<string | null>(null);
   const handleChangeProposedSlippage = (slippage: string) => {
@@ -46,7 +52,7 @@ function SlippageModal(
   useEffect(() => handleChangeProposedSlippage(currentSlippage), [modalOpen]);
   const presetSlippageOptions = ["2.0", "3.0", "4.0"];
   return (
-    <Dialog
+    <StyledDialog
       onClose={handleClose}
       open={modalOpen}
       fullWidth
@@ -109,7 +115,7 @@ function SlippageModal(
         </Box>
         {zapperCredit}
       </Box>
-    </Dialog>
+    </StyledDialog>
   );
 }
 

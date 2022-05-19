@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { DataRow, Input, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -68,6 +68,19 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
       recipientAddress: props.recipientAddress,
     });
   };
+
+  const baseTokenString = `${(props.bond.maxPayout.inBaseToken.lt(props.bond.capacity.inBaseToken)
+    ? props.bond.maxPayout.inBaseToken
+    : props.bond.capacity.inBaseToken
+  ).toString({ decimals: 4, format: true })}${" "}
+  ${isInverseBond ? props.bond.baseToken.name : `sOHM`}`;
+
+  const quoteTokenString = `
+    ${(props.bond.maxPayout.inQuoteToken.lt(props.bond.capacity.inQuoteToken)
+      ? props.bond.maxPayout.inQuoteToken
+      : props.bond.capacity.inQuoteToken
+    ).toString({ decimals: 4, format: true })}${" "}
+    ${props.bond.quoteToken.name}`;
 
   return (
     <Box display="flex" flexDirection="column">
@@ -138,26 +151,19 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
         />
 
         <DataRow
-          title={t`Max You Can Buy`}
+          title={isInverseBond ? t`Max You Can Sell` : t`Max You Can Buy`}
           tooltip={t`The maximum quantity of payout token we are able to offer via bonds at this moment in time.`}
           balance={
             <span>
-              {(props.bond.maxPayout.inBaseToken.lt(props.bond.capacity.inBaseToken)
-                ? props.bond.maxPayout.inBaseToken
-                : props.bond.capacity.inBaseToken
-              ).toString({ decimals: 4, format: true })}{" "}
-              {isInverseBond ? props.bond.baseToken.name : `sOHM`} (≈
-              {(props.bond.maxPayout.inQuoteToken.lt(props.bond.capacity.inQuoteToken)
-                ? props.bond.maxPayout.inQuoteToken
-                : props.bond.capacity.inQuoteToken
-              ).toString({ decimals: 4, format: true })}{" "}
-              {props.bond.quoteToken.name})
+              {isInverseBond
+                ? `${quoteTokenString} (≈${baseTokenString})`
+                : `${baseTokenString} (≈${quoteTokenString})`}
             </span>
           }
         />
 
         <DataRow
-          title={t`Discount`}
+          title={isInverseBond ? t`Premium` : t`Discount`}
           balance={<BondDiscount discount={props.bond.discount} />}
           tooltip={`${t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between`} ${
             isInverseBond ? props.bond.baseToken.name : `OHM`
