@@ -131,7 +131,7 @@
     "typechain": "^6.0.2"
   },
   "scripts": {
-    "build": "yarn lingui:prepare && GENERATE_SOURCEMAP=false react-scripts build",
+    "build": "yarn lingui:prepare && yarn lingui:extract && yarn lingui:compile && GENERATE_SOURCEMAP=false react-scripts build",
     "eject": "react-scripts eject",
     "start": "yarn lingui:prepare && react-scripts start",
     "test": "react-scripts test",

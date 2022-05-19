@@ -165,9 +165,9 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
         <DataRow
           title={isInverseBond ? t`Premium` : t`Discount`}
           balance={<BondDiscount discount={props.bond.discount} />}
-          tooltip={`${t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between`} ${
+          tooltip={t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between ${
             isInverseBond ? props.bond.baseToken.name : `OHM`
-          }'s ${t`market value and the bond's price.`}`}
+          }'s market value and the bond's price.`}
         />
 
         {!isInverseBond && (
