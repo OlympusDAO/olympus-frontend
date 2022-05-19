@@ -88,7 +88,7 @@ export function CompactYield({ quantity, isQuantityExact, asset }: EducationGrap
     <CompactGraphic
       title={t`Recipient`}
       icon={<Icon name="vault-recipient" fontSize="large" />}
-      subtext={`${t`Receives yield from`} ${isQuantityExact ? "" : "≈ "}${quantity} ${asset}`}
+      subtext={t`Receives yield from ${isQuantityExact ? "" : "≈ "}${quantity} ${asset}`}
     />
   );
 }

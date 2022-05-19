@@ -285,15 +285,15 @@ export function ManageDonationModal({
 
     if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(`${`${t`You must have a balance of `} ${giveAssetType} ${t` to continue`}`}`);
+      setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }
 
     if (getDepositAmountDiff().gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        `${`${t`Value cannot be more than your `} ${giveAssetType} ${` balance of `} ${getMaximumDepositAmount().toString(
+        t`Value cannot be more than your ${giveAssetType} balance of ${getMaximumDepositAmount().toString(
           EXACT_FORMAT,
-        )}`}`,
+        )}`,
       );
       return;
     }
@@ -442,7 +442,7 @@ export function ManageDonationModal({
               {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? `${t`Total `} ${giveAssetType}` : `${t`Total `} ${giveAssetType} ${t` Donated`}`}
+              {isSmallScreen ? t`Total ${giveAssetType}` : t`Total ${giveAssetType} Donated`}
             </Typography>
           </Box>
         </Grid>
@@ -457,7 +457,7 @@ export function ManageDonationModal({
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? t`of Goal` : `${t`of `} ${giveAssetType} ${t` Goal`}`}
+              {isSmallScreen ? t`of Goal` : t`of ${giveAssetType} Goal`}
             </Typography>
           </Box>
         </Grid>
@@ -581,7 +581,7 @@ export function ManageDonationModal({
                 <Typography variant="body1" color="textSecondary">
                   <Trans>New</Trans> {giveAssetType} <Trans>Amount</Trans>
                   <InfoTooltip
-                    message={`${t`Your `} ${giveAssetType} ${t` will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}`}
+                    message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                     children={null}
                   />
                 </Typography>
@@ -595,9 +595,7 @@ export function ManageDonationModal({
                   value={depositAmount}
                   helperText={
                     isDepositAmountValid
-                      ? `${`${t`Your current deposit is `} ${getCurrentDepositAmount().toString(
-                          EXACT_FORMAT,
-                        )} ${giveAssetType}`}`
+                      ? t`Your current deposit is ${getCurrentDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`
                       : isDepositAmountValidError
                   }
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -689,7 +687,7 @@ export function ManageDonationModal({
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
-                    {isMutationLoading ? `${`${t`Withdrawing `} ${giveAssetType}`}` : t`Withdraw`}
+                    {isMutationLoading ? t`Withdrawing ${giveAssetType}` : t`Withdraw`}
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
@@ -727,9 +725,7 @@ export function ManageDonationModal({
             <Grid item xs />
             <Grid item xs={6}>
               <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
-                {isMutationLoading
-                  ? `${`${t`Depositing `} ${giveAssetType}`}`
-                  : `${`${t`Confirm New `} ${giveAssetType}`}`}
+                {isMutationLoading ? t`Depositing ${giveAssetType}` : t`Confirm New ${giveAssetType}`}
               </PrimaryButton>
             </Grid>
             <Grid item xs />
