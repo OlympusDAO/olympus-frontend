@@ -74,7 +74,7 @@ export const Bond = () => {
                 <Tab
                   data-testid="bond-tab"
                   aria-label="bond-button"
-                  label={t({ message: `Bond`, comment: `Bonding tab` })}
+                  label={t({ message: "Bond", comment: "Bonding tab" })}
                   style={{ fontSize: "1rem" }}
                 />
                 <Tab

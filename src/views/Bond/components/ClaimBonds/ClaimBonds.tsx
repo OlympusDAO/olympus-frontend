@@ -35,6 +35,7 @@ export const ClaimBonds = () => {
           value={isPayoutGohm ? 1 : 0}
           aria-label="Payout token tabs"
           onChange={(_, view) => setIsPayoutGohm(view === 1)}
+          TabIndicatorProps={{ style: { display: "none" } }}
         >
           <Tab aria-label="payout-sohm-button" label="sOHM" style={{ fontSize: "1rem" }} />
           <Tab aria-label="payout-sohm-button" label="gOHM" style={{ fontSize: "1rem" }} />

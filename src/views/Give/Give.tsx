@@ -38,86 +38,102 @@ function Give({ selectedIndex = 0 }) {
     setGiveAssetType(checked ? "gOHM" : "sOHM");
   };
 
-  const CausesTab = () => (
-    <TabPanel value={0} index={0}>
-      <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-      <CausesDashboard giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-    </TabPanel>
-  );
-
-  const GrantsTab = () => (
-    <TabPanel value={1} index={1}>
-      <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-      <GrantsDashboard giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-    </TabPanel>
-  );
-
-  const YieldRecipientsTab = () => (
-    <TabPanel value={2} index={2}>
-      {/* We have a button to switch tabs in this child component, so need to pass the handler. */}
-      <YieldRecipients giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
-    </TabPanel>
-  );
-
-  const RedeemYieldTab = () => (
-    <TabPanel value={3} index={3}>
-      <RedeemYield />
-    </TabPanel>
-  );
-
-  const PageWrapper = () => (
-    <Grid container direction="column" alignItems="center">
-      <Grid item xs={12} sm={10} md={10} lg={8}>
-        <Paper headerText={t`Give`} childPaperBackground={true} fullWidth className="no-container-padding" zoom={false}>
-          {!isSupportedChain(networkId) ? (
-            <Typography variant="h6">
-              Note: You are currently using an unsupported network. Please switch to Ethereum to experience the full
-              functionality.
-            </Typography>
-          ) : (
-            <></>
-          )}
-          {hasV1Assets && <CallToRedeem />}
-          <Tabs
-            centered
-            value={selectedIndex}
-            className={`give-tab-buttons ${isBreakpointXS ? `give-tab-buttons-xs` : ``}`}
-            aria-label="stake tabs"
-            TabIndicatorProps={{ style: { display: "none" } }}
-          >
-            <Link to="/give" component={RouterLink} end>
-              <Tab label={t`Causes`} />
-            </Link>
-            <Link to="/give/grants" component={RouterLink}>
-              <Tab label={t`Grants`} />
-            </Link>
-            <Link to="/give/donations" component={RouterLink}>
-              <Tab label={t`My Donations`} style={{ whiteSpace: "nowrap" }} />
-            </Link>
-            <Link to="/give/redeem" component={RouterLink}>
-              <Tab label={t`Redeem`} />
-            </Link>
-          </Tabs>
-          <Outlet />
-        </Paper>
-        <GiveInfo />
-      </Grid>
-    </Grid>
-  );
-
   return (
     <>
       <Routes>
-        <Route path="/" element={<PageWrapper />}>
-          <Route index element={<CausesTab />} />
-          <Route path="grants" element={<GrantsTab />} />
-          <Route path="donations" element={<YieldRecipientsTab />} />
-          <Route path="redeem" element={<RedeemYieldTab />} />
+        <Route
+          path="/"
+          element={
+            <Grid container direction="column" alignItems="center">
+              <Grid item xs={12} sm={10} md={10} lg={8}>
+                <Paper
+                  headerText={t`Give`}
+                  childPaperBackground={true}
+                  fullWidth
+                  className="no-container-padding"
+                  zoom={false}
+                >
+                  {!isSupportedChain(networkId) ? (
+                    <Typography variant="h6">
+                      Note: You are currently using an unsupported network. Please switch to Ethereum to experience the
+                      full functionality.
+                    </Typography>
+                  ) : (
+                    <></>
+                  )}
+                  {hasV1Assets && <CallToRedeem />}
+                  <Tabs
+                    centered
+                    value={selectedIndex}
+                    className={`give-tab-buttons ${isBreakpointXS ? `give-tab-buttons-xs` : ``}`}
+                    aria-label="stake tabs"
+                    TabIndicatorProps={{ style: { display: "none" } }}
+                  >
+                    <Link to="/give" component={RouterLink} end>
+                      <Tab label={t`Causes`} />
+                    </Link>
+                    <Link to="/give/grants" component={RouterLink}>
+                      <Tab label={t`Grants`} />
+                    </Link>
+                    <Link to="/give/donations" component={RouterLink}>
+                      <Tab label={t`My Donations`} style={{ whiteSpace: "nowrap" }} />
+                    </Link>
+                    <Link to="/give/redeem" component={RouterLink}>
+                      <Tab label={t`Redeem`} />
+                    </Link>
+                  </Tabs>
+                  <Outlet />
+                </Paper>
+                <GiveInfo />
+              </Grid>
+            </Grid>
+          }
+        >
+          <Route
+            index
+            element={
+              <TabPanel value={0} index={0}>
+                <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+                <CausesDashboard giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+              </TabPanel>
+            }
+          />
+
+          <Route
+            path="grants"
+            element={
+              <TabPanel value={1} index={1}>
+                <GohmToggle giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+                <GrantsDashboard giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+              </TabPanel>
+            }
+          />
+
+          <Route
+            path="donations"
+            element={
+              <TabPanel value={2} index={2}>
+                {/* We have a button to switch tabs in this child component, so need to pass the handler. */}
+                <YieldRecipients giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />
+              </TabPanel>
+            }
+          />
+
+          <Route
+            path="redeem"
+            element={
+              <TabPanel value={3} index={3}>
+                <RedeemYield />
+              </TabPanel>
+            }
+          />
         </Route>
+
         <Route
           path="/projects/:slug"
           element={<ProjectInfo giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />}
         />
+
         <Route
           path="/grants/:slug"
           element={<GrantInfo giveAssetType={giveAssetType} changeAssetType={changeGiveAssetType} />}

@@ -139,9 +139,7 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
     <Box mt="16px">
       <Link component={NavLink} to={isInverseBond ? `/bonds/inverse/${bond.id}` : `/bonds/${bond.id}`}>
         <TertiaryButton fullWidth>
-          {isInverseBond
-            ? `${t`Bond`} ${bond.quoteToken.name} ${t`for`} ${bond.baseToken.name}`
-            : `${t`Bond`} ${bond.quoteToken.name}`}
+          {isInverseBond ? t`Bond ${bond.quoteToken.name} for ${bond.baseToken.name}` : t`Bond ${bond.quoteToken.name}`}
         </TertiaryButton>
       </Link>
     </Box>

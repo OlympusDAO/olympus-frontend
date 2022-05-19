@@ -249,15 +249,15 @@ In order to mark text for translation you can use:
 
 ```JSX
 t({
- id: "do_bond",
+ message: "Bond",
  comment: "The action of bonding (verb)",
 })
 ```
 
-- Where a variable/javascript function is required within a block of translatable text, a different format is used:
+- Where a variable/javascript function is required within a block of translatable text, string interpolation can be used:
 
 ```JSX
-{`${t`Your current Staked Balance is `} ${getSOhmBalance().toFixed(2)} sOHM`}
+{t`Your current Staked Balance is ${getSOhmBalance().toFixed(2)} sOHM`}
 ```
 
 When new texts are created or existing texts are modified in the application please leave a message in the OlympusDao app-translation channel for the translators to translate them.
