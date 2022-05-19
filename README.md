@@ -160,7 +160,7 @@ _Note_: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sO
 
 1. `create` [here](https://rinkeby.etherscan.io/address/0x22AE99D07584A2AE1af748De573c83f1B9Cdb4c0#writeContract)
 2. _token: `0xbC9eE0D911739cBc72cd094ADA26F56E0C49EeAE` <- this is the payout token, the deposit token will be OHM
-3. _market: `[10000000000000000000000,25000000000000000,10000000000000000,10000]`
+3. _market: `[10000000000000000000000000,25000000000000000,10000000000000000,10000]`
 4. _intervals: `[14400,3600]`
 5. _conclusion: `1680760325` <- a unix timestamp
 
