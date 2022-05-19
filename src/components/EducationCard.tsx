@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import { Grid, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Grid, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { Icon } from "@olympusdao/component-library";
 
 type EducationGraphicProps = {

@@ -1,7 +1,7 @@
 import "./CallToAction.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Button, SvgIcon, Typography } from "@mui/material";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 

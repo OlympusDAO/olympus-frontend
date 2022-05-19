@@ -1,5 +1,5 @@
 import { Trans } from "@lingui/macro";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography } from "@mui/material";
 import { NetworkId, NETWORKS } from "src/constants/networks";
 import { useWeb3Context } from "src/hooks";
 import { useSwitchNetwork } from "src/hooks/useSwitchNetwork";
@@ -19,7 +19,7 @@ export const WrapSwitchNetwork = () => {
           Back to Ethereum Mainnet
         </Typography>
 
-        <Button onClick={() => mutate(NetworkId.MAINNET)} variant="outlined">
+        <Button onClick={() => mutate(NetworkId.MAINNET)} variant="outlined" color="secondary">
           <img
             height="28px"
             width="28px"
@@ -42,7 +42,12 @@ export const WrapSwitchNetwork = () => {
         </Trans>
       </Typography>
 
-      <Button onClick={() => mutate(NetworkId.AVALANCHE)} variant="outlined" style={{ margin: "0.3rem" }}>
+      <Button
+        onClick={() => mutate(NetworkId.AVALANCHE)}
+        variant="outlined"
+        color="secondary"
+        style={{ margin: "0.3rem" }}
+      >
         <img
           height="28px"
           width="28px"
@@ -55,7 +60,12 @@ export const WrapSwitchNetwork = () => {
         </Typography>
       </Button>
 
-      <Button onClick={() => mutate(NetworkId.ARBITRUM)} variant="outlined" style={{ margin: "0.3rem" }}>
+      <Button
+        onClick={() => mutate(NetworkId.ARBITRUM)}
+        variant="outlined"
+        color="secondary"
+        style={{ margin: "0.3rem" }}
+      >
         <img
           height="28px"
           width="28px"

@@ -1,4 +1,4 @@
-import { useMediaQuery } from "@material-ui/core";
+import { useMediaQuery } from "@mui/material";
 
 export const useScreenSize = (size: "xs" | "sm" | "md" | "lg" | "xl") => {
   const breakpoint =
