@@ -7,31 +7,31 @@ exports[`<Sidebar/> should render component 1`] = `
     id="sidebarContent"
   >
     <div
-      class="MuiDrawer-root MuiDrawer-docked"
+      class="MuiDrawer-root MuiDrawer-docked css-6mamqx-MuiDrawer-docked"
     >
       <div
-        class="MuiPaper-root MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft MuiPaper-elevation0"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-62jtqx-MuiPaper-root-MuiDrawer-paper"
       >
         <div
-          class="MuiPaper-root dapp-sidebar MuiPaper-elevation0 MuiPaper-rounded"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 dapp-sidebar css-w1su4o-MuiPaper-root"
         >
           <div
-            class="MuiBox-root MuiBox-root-2 dapp-sidebar-inner"
+            class="dapp-sidebar-inner MuiBox-root css-155ff3i"
           >
             <div
               class="dapp-menu-top"
             >
               <div
-                class="MuiBox-root MuiBox-root-3 branding-header"
+                class="branding-header MuiBox-root css-0"
               >
                 <a
-                  class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                   href="https://olympusdao.finance"
                   target="_blank"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall"
+                    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1x7u7wj-MuiSvgIcon-root"
                     focusable="false"
                     style="min-width: 151px; min-height: 98px; width: 151px;"
                     viewBox="0 0 151 100"
@@ -48,21 +48,21 @@ exports[`<Sidebar/> should render component 1`] = `
                   id="navbarNav"
                 >
                   <div
-                    class="makeStyles-root-4 makeStyles-root-6 nav-item-container"
+                    class="NavItem-root nav-item-container css-2pdow1"
                   >
                     <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-z5jz01-MuiTypography-root-MuiLink-root"
                       href="#/dashboard"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-7 link-container"
+                        class="link-container MuiBox-root css-9zmw2o"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-8 makeStyles-title-5 title"
+                          class="NavItem-title title MuiBox-root css-70qvj9"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 21px;"
                             viewBox="0 0 20 20"
@@ -77,34 +77,33 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-10 nav-item-container"
+                    class="NavItem-root nav-item-container css-2pdow1"
                   >
                     <div
-                      class="MuiPaper-root MuiAccordion-root makeStyles-root-11 undefined Mui-expanded MuiPaper-elevation0"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters Accordion-root undefined css-1nhesla-MuiPaper-root-MuiAccordion-root"
                     >
                       <div
-                        aria-disabled="false"
                         aria-expanded="true"
-                        class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded"
+                        class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root"
                         role="button"
                         tabindex="0"
                       >
                         <div
-                          class="MuiAccordionSummary-content Mui-expanded"
+                          class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
                         >
                           <a
-                            class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
+                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-z5jz01-MuiTypography-root-MuiLink-root"
                             href="#/bonds"
                           >
                             <div
-                              class="MuiBox-root MuiBox-root-12 link-container"
+                              class="link-container MuiBox-root css-9zmw2o"
                             >
                               <div
-                                class="MuiBox-root MuiBox-root-13 makeStyles-title-5 title"
+                                class="NavItem-title title MuiBox-root css-70qvj9"
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                                   focusable="false"
                                   style="font-size: 21px;"
                                   viewBox="0 0 20 20"
@@ -119,42 +118,37 @@ exports[`<Sidebar/> should render component 1`] = `
                           </a>
                         </div>
                         <div
-                          aria-disabled="false"
-                          aria-hidden="true"
-                          class="MuiButtonBase-root MuiIconButton-root MuiAccordionSummary-expandIcon Mui-expanded MuiIconButton-edgeEnd"
+                          class="MuiAccordionSummary-expandIconWrapper Mui-expanded css-yw020d-MuiAccordionSummary-expandIconWrapper"
                         >
-                          <span
-                            class="MuiIconButton-label"
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall accordion-arrow css-1fx2bp7-MuiSvgIcon-root"
+                            focusable="false"
+                            style="font-size: 12px;"
+                            viewBox="0 0 20 20"
                           >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root accordion-arrow MuiSvgIcon-fontSizeSmall"
-                              focusable="false"
-                              style="font-size: 12px;"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                d="M 0.419 4.705 C 0.976 4.146 1.88 4.146 2.439 4.705 L 10 12.265 L 17.561 4.705 C 18.119 4.146 19.023 4.146 19.582 4.705 C 20.139 5.262 20.139 6.166 19.582 6.725 L 11.01 15.296 C 10.452 15.854 9.547 15.854 8.99 15.296 L 0.419 6.725 C -0.14 6.166 -0.14 5.262 0.419 4.705 Z"
-                              />
-                            </svg>
-                          </span>
+                            <path
+                              d="M 0.419 4.705 C 0.976 4.146 1.88 4.146 2.439 4.705 L 10 12.265 L 17.561 4.705 C 18.119 4.146 19.023 4.146 19.582 4.705 C 20.139 5.262 20.139 6.166 19.582 6.725 L 11.01 15.296 C 10.452 15.854 9.547 15.854 8.99 15.296 L 0.419 6.725 C -0.14 6.166 -0.14 5.262 0.419 4.705 Z"
+                            />
+                          </svg>
                         </div>
                       </div>
                       <div
-                        class="MuiCollapse-root"
+                        class="MuiCollapse-root MuiCollapse-vertical css-1fkrdiv-MuiCollapse-root"
                         style="min-height: 0px; height: 0px; transition-duration: 0ms;"
                       >
                         <div
-                          class="MuiCollapse-wrapper"
+                          class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
                         >
                           <div
-                            class="MuiCollapse-wrapperInner"
+                            class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
                           >
                             <div
+                              class="MuiAccordion-region"
                               role="region"
                             >
                               <div
-                                class="MuiAccordionDetails-root"
+                                class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
                               />
                             </div>
                           </div>
@@ -163,21 +157,21 @@ exports[`<Sidebar/> should render component 1`] = `
                     </div>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-14 nav-item-container"
+                    class="NavItem-root nav-item-container css-2pdow1"
                   >
                     <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-z5jz01-MuiTypography-root-MuiLink-root"
                       href="#/stake"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-15 link-container"
+                        class="link-container MuiBox-root css-9zmw2o"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-16 makeStyles-title-5 title"
+                          class="NavItem-title title MuiBox-root css-70qvj9"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 21px;"
                             viewBox="0 0 20 20"
@@ -192,21 +186,21 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-17 nav-item-container"
+                    class="NavItem-root nav-item-container css-2pdow1"
                   >
                     <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-z5jz01-MuiTypography-root-MuiLink-root"
                       href="#/zap"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-18 link-container"
+                        class="link-container MuiBox-root css-9zmw2o"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-19 makeStyles-title-5 title"
+                          class="NavItem-title title MuiBox-root css-70qvj9"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 21px;"
                             viewBox="0 0 20 20"
@@ -221,21 +215,21 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-20 nav-item-container"
+                    class="NavItem-root nav-item-container css-2pdow1"
                   >
                     <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-z5jz01-MuiTypography-root-MuiLink-root"
                       href="#/give"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-21 link-container"
+                        class="link-container MuiBox-root css-9zmw2o"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-22 makeStyles-title-5 title"
+                          class="NavItem-title title MuiBox-root css-70qvj9"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 21px;"
                             viewBox="0 0 20 20"
@@ -250,21 +244,21 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-23 nav-item-container"
+                    class="NavItem-root nav-item-container css-2pdow1"
                   >
                     <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone button-dapp-menu  MuiTypography-colorPrimary"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-z5jz01-MuiTypography-root-MuiLink-root"
                       href="#/wrap"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-24 link-container"
+                        class="link-container MuiBox-root css-9zmw2o"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-25 makeStyles-title-5 title"
+                          class="NavItem-title title MuiBox-root css-70qvj9"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 21px;"
                             viewBox="0 0 20 20"
@@ -279,22 +273,22 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-26 nav-item-container"
+                    class="NavItem-root nav-item-container css-2pdow1"
                   >
                     <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-z5jz01-MuiTypography-root-MuiLink-root"
                       href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-27 link-container"
+                        class="link-container MuiBox-root css-9zmw2o"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-28 makeStyles-title-5 title"
+                          class="NavItem-title title MuiBox-root css-70qvj9"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 21px;"
                             viewBox="0 0 20 20"
@@ -306,7 +300,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           Bridge
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root external-site-link-icon MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             viewBox="0 0 20 20"
                           >
@@ -319,29 +313,29 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-29 menu-divider"
+                    class="menu-divider MuiBox-root css-0"
                   >
                     <hr
-                      class="MuiDivider-root"
+                      class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
                     />
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-30 nav-item-container"
+                    class="NavItem-root nav-item-container css-2pdow1"
                   >
                     <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-z5jz01-MuiTypography-root-MuiLink-root"
                       href="https://pro.olympusdao.finance/"
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-31 link-container"
+                        class="link-container MuiBox-root css-9zmw2o"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-32 makeStyles-title-5 title"
+                          class="NavItem-title title MuiBox-root css-70qvj9"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 21px;"
                             viewBox="0 0 20 20"
@@ -353,7 +347,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           Olympus Pro
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root external-site-link-icon MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             viewBox="0 0 20 20"
                           >
@@ -366,29 +360,29 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="MuiBox-root MuiBox-root-33 menu-divider"
+                    class="menu-divider MuiBox-root css-0"
                   >
                     <hr
-                      class="MuiDivider-root"
+                      class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
                     />
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-34 nav-item-container"
+                    class="NavItem-root nav-item-container css-2pdow1"
                   >
                     <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-z5jz01-MuiTypography-root-MuiLink-root"
                       href="https://forum.olympusdao.finance/"
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-35 link-container"
+                        class="link-container MuiBox-root css-9zmw2o"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-36 makeStyles-title-5 title"
+                          class="NavItem-title title MuiBox-root css-70qvj9"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 21px;"
                             viewBox="0 0 20 20"
@@ -400,7 +394,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           Forum
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root external-site-link-icon MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             viewBox="0 0 20 20"
                           >
@@ -413,22 +407,22 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-37 nav-item-container"
+                    class="NavItem-root nav-item-container css-2pdow1"
                   >
                     <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-z5jz01-MuiTypography-root-MuiLink-root"
                       href="https://vote.olympusdao.finance/"
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-38 link-container"
+                        class="link-container MuiBox-root css-9zmw2o"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-39 makeStyles-title-5 title"
+                          class="NavItem-title title MuiBox-root css-70qvj9"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 21px;"
                             viewBox="0 0 20 20"
@@ -440,7 +434,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           Governance
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root external-site-link-icon MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             viewBox="0 0 20 20"
                           >
@@ -453,22 +447,22 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-40 nav-item-container"
+                    class="NavItem-root nav-item-container css-2pdow1"
                   >
                     <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-z5jz01-MuiTypography-root-MuiLink-root"
                       href="https://docs.olympusdao.finance/"
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-41 link-container"
+                        class="link-container MuiBox-root css-9zmw2o"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-42 makeStyles-title-5 title"
+                          class="NavItem-title title MuiBox-root css-70qvj9"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 21px;"
                             viewBox="0 0 20 20"
@@ -480,7 +474,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           Docs
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root external-site-link-icon MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             viewBox="0 0 20 20"
                           >
@@ -493,22 +487,22 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-43 nav-item-container"
+                    class="NavItem-root nav-item-container css-2pdow1"
                   >
                     <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-z5jz01-MuiTypography-root-MuiLink-root"
                       href="https://immunefi.com/bounty/olympus/"
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-44 link-container"
+                        class="link-container MuiBox-root css-9zmw2o"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-45 makeStyles-title-5 title"
+                          class="NavItem-title title MuiBox-root css-70qvj9"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 21px;"
                             viewBox="0 0 20 20"
@@ -520,7 +514,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           Bug Bounty
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root external-site-link-icon MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             viewBox="0 0 20 20"
                           >
@@ -533,22 +527,22 @@ exports[`<Sidebar/> should render component 1`] = `
                     </a>
                   </div>
                   <div
-                    class="makeStyles-root-4 makeStyles-root-46 nav-item-container"
+                    class="NavItem-root nav-item-container css-2pdow1"
                   >
                     <a
-                      class="MuiTypography-root MuiLink-root MuiLink-underlineNone external-site-link  MuiTypography-colorPrimary"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-z5jz01-MuiTypography-root-MuiLink-root"
                       href="https://grants.olympusdao.finance/"
                       target="_blank"
                     >
                       <div
-                        class="MuiBox-root MuiBox-root-47 link-container"
+                        class="link-container MuiBox-root css-9zmw2o"
                       >
                         <div
-                          class="MuiBox-root MuiBox-root-48 makeStyles-title-5 title"
+                          class="NavItem-title title MuiBox-root css-70qvj9"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             style="font-size: 21px;"
                             viewBox="0 0 20 20"
@@ -560,7 +554,7 @@ exports[`<Sidebar/> should render component 1`] = `
                           Grants
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root external-site-link-icon MuiSvgIcon-fontSizeSmall"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall external-site-link-icon css-1fx2bp7-MuiSvgIcon-root"
                             focusable="false"
                             viewBox="0 0 20 20"
                           >
@@ -576,16 +570,16 @@ exports[`<Sidebar/> should render component 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-49"
+              class="MuiBox-root css-1q2t5ta"
             >
               <a
-                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                 href="https://github.com/OlympusDAO"
                 target="_blank"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root makeStyles-gray-1 MuiSvgIcon-fontSizeSmall"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -595,13 +589,13 @@ exports[`<Sidebar/> should render component 1`] = `
                 </svg>
               </a>
               <a
-                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                 href="https://olympusdao.medium.com/"
                 target="_blank"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root makeStyles-gray-1 MuiSvgIcon-fontSizeSmall"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -611,13 +605,13 @@ exports[`<Sidebar/> should render component 1`] = `
                 </svg>
               </a>
               <a
-                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                 href="https://twitter.com/OlympusDAO"
                 target="_blank"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root makeStyles-gray-1 MuiSvgIcon-fontSizeSmall"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >
@@ -627,13 +621,13 @@ exports[`<Sidebar/> should render component 1`] = `
                 </svg>
               </a>
               <a
-                class="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
                 href="https://discord.gg/6QjjtUcfM4"
                 target="_blank"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root makeStyles-gray-1 MuiSvgIcon-fontSizeSmall"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall NavContent-gray css-1fx2bp7-MuiSvgIcon-root"
                   focusable="false"
                   viewBox="0 0 20 20"
                 >

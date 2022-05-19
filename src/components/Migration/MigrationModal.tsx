@@ -1,9 +1,8 @@
 import "./MigrationModal.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { InfoTooltip, Modal, Tab, Tabs } from "@olympusdao/component-library";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -16,15 +15,14 @@ import { info } from "src/slices/MessagesSlice";
 import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
-const useStyles = makeStyles({
+const classes = {
   custom: {
     color: "#00EE00",
   },
-});
+};
 
 function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any }) {
   const dispatch = useDispatch();
-  const classes = useStyles();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const { provider, address, networkId } = useWeb3Context();
 
@@ -182,11 +180,11 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                     </Box>
                     <Box display="flex" justifyContent="center" style={{ margin: "10px 0px 10px 0px" }}>
                       {isMigrationComplete || !oldAssetsDetected ? (
-                        <Typography align="center" className={classes.custom}>
+                        <Typography align="center" sx={classes.custom}>
                           <Trans>Migrated</Trans>
                         </Typography>
                       ) : row.fullApproval ? (
-                        <Typography align="center" className={classes.custom}>
+                        <Typography align="center" sx={classes.custom}>
                           <Trans>Approved</Trans>
                         </Typography>
                       ) : (
@@ -280,11 +278,11 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                       </TableCell>
                       <TableCell align="left">
                         {isMigrationComplete || !oldAssetsDetected ? (
-                          <Typography align="center" className={classes.custom}>
+                          <Typography align="center" sx={classes.custom}>
                             <Trans>Migrated</Trans>
                           </Typography>
                         ) : row.fullApproval ? (
-                          <Typography align="center" className={classes.custom}>
+                          <Typography align="center" sx={classes.custom}>
                             <Trans>Approved</Trans>
                           </Typography>
                         ) : (
@@ -324,11 +322,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                 <Typography>
                   {isMigrationComplete || !oldAssetsDetected
                     ? "Close"
-                    : txnButtonText(
-                        pendingTransactions,
-                        "migrate_all",
-                        `${t`Migrate all to`} ${isGOHM ? "gOHM" : "sOHM"}`,
-                      )}
+                    : txnButtonText(pendingTransactions, "migrate_all", t`Migrate all to ${isGOHM ? "gOHM" : "sOHM"}`)}
                 </Typography>
               </Box>
             </Button>

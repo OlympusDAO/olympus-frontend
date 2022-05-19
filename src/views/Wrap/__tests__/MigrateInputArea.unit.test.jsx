@@ -58,6 +58,9 @@ describe("Check Migrate to gOHM Error Messages", () => {
   });
 
   it("Error message with no amount", async () => {
+    // Workaround for long-running tasks
+    jest.setTimeout(60000);
+
     fireEvent.click(screen.getByTestId("migrate-button"));
     expect(await screen.findByText("Please enter a number")).toBeInTheDocument();
   });

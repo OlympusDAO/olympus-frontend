@@ -1,7 +1,7 @@
 import "./Give.scss";
 
 import { t, Trans } from "@lingui/macro";
-import { Box, Container, Grid, Typography, useTheme } from "@material-ui/core";
+import { Box, Container, Grid, Typography, useTheme } from "@mui/material";
 import { PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
 import { useUIDSeed } from "react-uid";
@@ -83,7 +83,7 @@ export default function CausesDashboard({ giveAssetType, changeAssetType }: Caus
   };
 
   const customRecipientBoxStyle = {
-    backgroundColor: theme.palette.type === "dark" ? theme.colors.gray[500] : theme.colors.gray[10],
+    backgroundColor: theme.palette.mode === "dark" ? theme.colors.gray[500] : theme.colors.gray[10],
     borderRadius: "10px",
   };
 

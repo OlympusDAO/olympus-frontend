@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import { Grid, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Grid, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { Icon } from "@olympusdao/component-library";
 
 type EducationGraphicProps = {
@@ -88,7 +88,7 @@ export function CompactYield({ quantity, isQuantityExact, asset }: EducationGrap
     <CompactGraphic
       title={t`Recipient`}
       icon={<Icon name="vault-recipient" fontSize="large" />}
-      subtext={`${t`Receives yield from`} ${isQuantityExact ? "" : "≈ "}${quantity} ${asset}`}
+      subtext={t`Receives yield from ${isQuantityExact ? "" : "≈ "}${quantity} ${asset}`}
     />
   );
 }

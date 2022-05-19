@@ -2,7 +2,7 @@ import * as Graph from "graphql-request";
 import { render, screen } from "src/testUtils";
 
 import { proposalContent } from "../__mocks__/mockProposalContent";
-import Proposals from "../Info/Proposals";
+import { Proposals } from "../Info/Proposals";
 
 describe("Proposal View", () => {
   beforeEach(() => {

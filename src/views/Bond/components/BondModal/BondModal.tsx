@@ -1,7 +1,6 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Typography } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
-import { Icon, InfoTooltip, Modal, TokenStack } from "@olympusdao/component-library";
+import { Box, Skeleton, Typography } from "@mui/material";
+import { Icon, Metric, Modal, TokenStack } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { NetworkId } from "src/constants";
@@ -14,6 +13,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 
 import { Bond } from "../../hooks/useBond";
+import { BondDiscount } from "../BondDiscount";
 import { BondDuration } from "../BondDuration";
 import { BondInfoText } from "../BondInfoText";
 import { BondPrice } from "../BondPrice";
@@ -64,9 +64,9 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
     <Modal
       open
       minHeight="auto"
-      closePosition="left"
+      closePosition="right"
       onClose={() => navigate(`/bonds`)}
-      topRight={<Icon name="settings" style={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
+      topLeft={<Icon name="settings" style={{ cursor: "pointer" }} onClick={() => setSettingsOpen(true)} />}
       headerContent={
         <Box display="flex" flexDirection="row">
           <TokenStack tokens={bond.quoteToken.icons} />
@@ -87,42 +87,62 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
           onSlippageChange={event => setSlippage(event.currentTarget.value)}
         />
 
-        <Typography>
-          {isInverseBond ? "Instant Payout" : bond.isFixedTerm ? t`Fixed Term` : t`Fixed Expiration`}
-        </Typography>
-
-        {!isInverseBond && (
-          <Box mt="4px">
-            <Typography>
-              <BondDuration duration={bond.duration} />
-            </Typography>
-          </Box>
-        )}
-
-        <Box display="flex" justifyContent="space-between" width={["100%", "70%"]} mt="24px">
+        <Box display="flex" flexDirection="row" justifyContent="space-between" width={["100%", "70%"]} mt="24px">
+          <Metric
+            label={t`Bond Price`}
+            tooltip={isInverseBond ? "Amount you will receive for 1 OHM" : undefined}
+            metric={bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
+          />
+          <Metric
+            label={t`Market Price`}
+            metric={<TokenPrice token={bond.baseToken} isInverseBond={isInverseBond} />}
+          />
+          <Metric label={t`ROI`} metric={<BondDiscount discount={bond.discount} textOnly />} />
+        </Box>
+        <Box display="flex" flexDirection="row" justifyContent="space-around" width={["100%", "70%"]} mt="24px">
           <Box display="flex" flexDirection="column" alignItems="center">
-            <Typography variant="h5" color="textSecondary">
-              <Trans>Bond Price</Trans> {isInverseBond && <InfoTooltip message="Amount you will receive for 1 OHM" />}
+            <Typography
+              color="textSecondary"
+              style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
+            >
+              <Trans>You Give</Trans>
             </Typography>
-
-            <Typography variant="h3" style={{ fontWeight: "bold" }}>
-              {bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
-            </Typography>
+            <TokenStack tokens={bond.quoteToken.icons} />
           </Box>
 
           <Box display="flex" flexDirection="column" alignItems="center">
-            <Typography variant="h5" color="textSecondary">
-              <Trans>Market Price</Trans>
+            <Typography
+              color="textSecondary"
+              style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
+            >
+              Vested
             </Typography>
-
-            <Typography variant="h3" style={{ fontWeight: "bold" }}>
-              <TokenPrice token={bond.baseToken} isInverseBond={isInverseBond} />
+            <Box display="flex" flexGrow={1} alignItems="center">
+              <Typography style={{ lineHeight: "20px" }}>
+                {isInverseBond ? t`Instantly` : <BondDuration duration={bond.duration} />}
+              </Typography>
+            </Box>
+          </Box>
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <Typography
+              color="textSecondary"
+              style={{ fontSize: "15px", fontWeight: 600, lineHeight: "21px", marginBottom: "3px" }}
+            >
+              <Trans>You Get</Trans>
+            </Typography>
+            <Typography style={{ lineHeight: "20px" }}>
+              <TokenStack tokens={bond.baseToken.icons} />
             </Typography>
           </Box>
         </Box>
 
         <Box width="100%" mt="24px">
-          <BondInputArea bond={bond} slippage={slippage} recipientAddress={recipientAddress} />
+          <BondInputArea
+            isInverseBond={isInverseBond}
+            bond={bond}
+            slippage={slippage}
+            recipientAddress={recipientAddress}
+          />
         </Box>
 
         <Box mt="24px" textAlign="center" width={["100%", "70%"]}>

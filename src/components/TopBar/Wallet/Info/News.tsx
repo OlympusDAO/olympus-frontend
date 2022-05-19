@@ -1,4 +1,4 @@
-import { Box, Fade } from "@material-ui/core";
+import { Box, Fade } from "@mui/material";
 import { ArticleCard } from "@olympusdao/component-library";
 import { FC, Key } from "react";
 
