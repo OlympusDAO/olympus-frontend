@@ -166,4 +166,8 @@ export class Environment {
 
     return isQueryParamActive || isEnvTrue;
   }
+
+  public static isWalletNewsEnabled() {
+    return this.env.REACT_APP_DISABLE_NEWS !== "true";
+  }
 }

@@ -2,7 +2,7 @@ import { render, screen } from "src/testUtils";
 
 import Faq from "../Info/Faq";
 import News from "../Info/News";
-import Proposals from "../Info/Proposals";
+import { Proposals } from "../Info/Proposals";
 
 describe("Info View", () => {
   it("Should Display News for news Path", async () => {

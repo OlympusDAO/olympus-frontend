@@ -121,6 +121,11 @@ const commonSettings = {
         },
       },
     },
+    MuiCheckbox: {
+      defaultProps: {
+        disableRipple: true,
+      },
+    },
     MuiLink: {
       styleOverrides: {
         root: {
