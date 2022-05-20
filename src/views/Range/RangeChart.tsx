@@ -1,4 +1,4 @@
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import { DataRow, Paper } from "@olympusdao/component-library";
 import { Area, ComposedChart, Label, Line, ReferenceDot, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { formatCurrency } from "src/helpers";
@@ -75,6 +75,7 @@ const RangeChart = (props: { rangeData: any; currentPrice: number }) => {
     </Paper>
   );
 
+  const theme = useTheme();
   return (
     <StyledResponsiveContainer width="100%" height={400}>
       <ComposedChart data={chartData}>
@@ -84,17 +85,17 @@ const RangeChart = (props: { rangeData: any; currentPrice: number }) => {
         <Area
           type="monotone"
           dataKey="uv"
-          fill="#ff8585"
-          stroke="#ff8585"
+          fill={rangeData.high.active ? theme.colors.feedback.error : theme.colors.gray[500]}
+          stroke={rangeData.high.active ? theme.colors.feedback.error : theme.colors.gray[500]}
           strokeDasharray={"6 3"}
           strokeWidth={2}
           fillOpacity={0.4}
         />
         <Area
           type="linear"
-          fill="#94b9a1"
+          fill={rangeData.low.active ? theme.colors.feedback.success : theme.colors.gray[500]}
           dataKey="lv"
-          stroke="#94b9a1"
+          stroke={rangeData.low.active ? theme.colors.feedback.success : theme.colors.gray[500]}
           dot={false}
           strokeDasharray="6 3"
           strokeWidth={2}

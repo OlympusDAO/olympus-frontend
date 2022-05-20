@@ -17,7 +17,7 @@ const RangeMock = {
     lastMarketCapacity: 100000,
   },
   high: {
-    active: true,
+    active: false,
     lastActive: "temp",
     capacity: 100000,
     threshold: 100000,
