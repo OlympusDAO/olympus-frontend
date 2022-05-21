@@ -42,7 +42,7 @@
     "@mui/lab": "^5.0.0-alpha.82",
     "@mui/material": "^5.8.0",
     "@multifarm/widget": "^0.0.125",
-    "@olympusdao/component-library": "^2.0.2",
+    "@olympusdao/component-library": "^2.0.3",
     "@reduxjs/toolkit": "^1.8.1",
     "@types/material-ui": "^0.21.12",
     "@walletconnect/web3-provider": "^1.7.8",
