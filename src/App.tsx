@@ -34,6 +34,7 @@ import { light as lightTheme } from "./themes/light.js";
 import { multifarmDarkTheme, multifarmLightTheme } from "./themes/multifarm";
 import { Bond, Give, TreasuryDashboard, V1Stake, Wrap, Zap } from "./views";
 import NotFound from "./views/404/NotFound";
+import Bridge from "./views/Bridge";
 
 const PREFIX = "App";
 
@@ -267,6 +268,7 @@ function App() {
                 <Route path="/wrap" element={<Wrap />} />
                 <Route path="/zap" element={<Zap />} />
                 <Route path="/bonds/*" element={<Bond />} />
+                <Route path="/bridge" element={<Bridge />} />
                 <Route path="/dashboard/*" element={<TreasuryDashboard />} />
 
                 <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
