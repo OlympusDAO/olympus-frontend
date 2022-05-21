@@ -68,83 +68,90 @@ export const BondList: React.VFC<{ bonds: Bond[]; isInverseBond: boolean }> = ({
   );
 };
 
-const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isInverseBond }) => (
-  <Box id={bond.id + `--bond`} mt="32px">
-    <Box display="flex" alignItems="center">
-      <TokenStack tokens={bond.quoteToken.icons} />
+const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isInverseBond }) => {
+  // NOTE (appleseed): adding const here for asset names since translations cannot properly...
+  // ... interpolate the nested bond object strings
+  const quoteTokenName = bond.quoteToken.name;
+  const baseTokenName = bond.baseToken.name;
 
-      <Box display="flex" flexDirection="column" ml="8px">
-        <Typography>{bond.quoteToken.name}</Typography>
+  return (
+    <Box id={bond.id + `--bond`} mt="32px">
+      <Box display="flex" alignItems="center">
+        <TokenStack tokens={bond.quoteToken.icons} />
 
-        <Link href={bond.quoteToken.purchaseUrl} target="_blank">
-          <Box display="flex" alignItems="center">
-            <Typography>
-              <Trans>Get Asset</Trans>
-            </Typography>
+        <Box display="flex" flexDirection="column" ml="8px">
+          <Typography>{bond.quoteToken.name}</Typography>
 
-            <Box ml="4px">
-              <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+          <Link href={bond.quoteToken.purchaseUrl} target="_blank">
+            <Box display="flex" alignItems="center">
+              <Typography>
+                <Trans>Get Asset</Trans>
+              </Typography>
+
+              <Box ml="4px">
+                <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+              </Box>
             </Box>
-          </Box>
+          </Link>
+        </Box>
+      </Box>
+
+      <Box display="flex" justifyContent="space-between" mt="16px">
+        <Typography>
+          <Trans>Price</Trans>
+        </Typography>
+
+        <Typography>
+          {bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
+        </Typography>
+      </Box>
+
+      <Box display="flex" justifyContent="space-between" mt="8px">
+        <Typography>
+          <Trans>Discount</Trans>
+        </Typography>
+
+        <Typography>{bond.isSoldOut ? "--" : <BondDiscount discount={bond.discount} />}</Typography>
+      </Box>
+
+      {isInverseBond && (
+        <Box display="flex" justifyContent="space-between" mt="8px">
+          <Typography>
+            <Trans>Payout</Trans>
+          </Typography>
+
+          <Typography>{bond.baseToken.name}</Typography>
+        </Box>
+      )}
+      <Box display="flex" justifyContent="space-between" mt="8px">
+        <Typography>
+          <Trans>Capacity</Trans>
+        </Typography>
+        {payoutTokenCapacity(bond, isInverseBond)}({quoteTokenCapacity(bond, isInverseBond)})
+      </Box>
+
+      {!isInverseBond && (
+        <Box display="flex" justifyContent="space-between" mt="8px">
+          <Typography>
+            <Trans>Duration</Trans>
+          </Typography>
+
+          <Typography>
+            <BondDuration duration={bond.duration} />
+          </Typography>
+        </Box>
+      )}
+
+      <Box mt="16px">
+        <Link component={NavLink} to={isInverseBond ? `/bonds/inverse/${bond.id}` : `/bonds/${bond.id}`}>
+          <TertiaryButton fullWidth>
+            {isInverseBond ? t`Bond ${quoteTokenName} for ${baseTokenName}` : t`Bond ${quoteTokenName}`}
+          </TertiaryButton>
         </Link>
       </Box>
     </Box>
-
-    <Box display="flex" justifyContent="space-between" mt="16px">
-      <Typography>
-        <Trans>Price</Trans>
-      </Typography>
-
-      <Typography>
-        {bond.isSoldOut ? "--" : <BondPrice price={bond.price.inUsd} isInverseBond={isInverseBond} />}
-      </Typography>
-    </Box>
-
-    <Box display="flex" justifyContent="space-between" mt="8px">
-      <Typography>
-        <Trans>Discount</Trans>
-      </Typography>
-
-      <Typography>{bond.isSoldOut ? "--" : <BondDiscount discount={bond.discount} />}</Typography>
-    </Box>
-
-    {isInverseBond && (
-      <Box display="flex" justifyContent="space-between" mt="8px">
-        <Typography>
-          <Trans>Payout</Trans>
-        </Typography>
-
-        <Typography>{bond.baseToken.name}</Typography>
-      </Box>
-    )}
-    <Box display="flex" justifyContent="space-between" mt="8px">
-      <Typography>
-        <Trans>Capacity</Trans>
-      </Typography>
-      {payoutTokenCapacity(bond, isInverseBond)}({quoteTokenCapacity(bond, isInverseBond)})
-    </Box>
-
-    {!isInverseBond && (
-      <Box display="flex" justifyContent="space-between" mt="8px">
-        <Typography>
-          <Trans>Duration</Trans>
-        </Typography>
-
-        <Typography>
-          <BondDuration duration={bond.duration} />
-        </Typography>
-      </Box>
-    )}
-
-    <Box mt="16px">
-      <Link component={NavLink} to={isInverseBond ? `/bonds/inverse/${bond.id}` : `/bonds/${bond.id}`}>
-        <TertiaryButton fullWidth>
-          {isInverseBond ? t`Bond ${bond.quoteToken.name} for ${bond.baseToken.name}` : t`Bond ${bond.quoteToken.name}`}
-        </TertiaryButton>
-      </Link>
-    </Box>
-  </Box>
-);
+  );
+};
 
 const BondTable: React.FC<{ isInverseBond: boolean }> = ({ children, isInverseBond }) => (
   <TableContainer>
@@ -241,8 +248,8 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
       <Link component={NavLink} to={isInverseBond ? `/bonds/inverse/${bond.id}` : `/bonds/${bond.id}`}>
         <TertiaryButton fullWidth disabled={bond.isSoldOut}>
           {bond.isSoldOut
-            ? t({ message: `Sold Out`, comment: `Bond is sold out` })
-            : t({ message: isInverseBond ? `Inverse Bond` : `Bond`, comment: `The act of bonding` })}
+            ? t({ message: "Sold Out", comment: "Bond is sold out" })
+            : t({ message: isInverseBond ? "Inverse Bond" : "Bond", comment: "The act of bonding" })}
         </TertiaryButton>
       </Link>
     </TableCell>
