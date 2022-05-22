@@ -19,6 +19,9 @@ import { abi as BOBA_CHEF_ABI } from "src/abi/BobaChef.json";
 import { abi as BOBA_REWARDER_ABI } from "src/abi/BobaRewarder.json";
 import { abi as BOND_ABI } from "src/abi/BondDepository.json";
 import { abi as CROSS_CHAIN_MIGRATOR_ABI } from "src/abi/CrossChainMigrator.json";
+import { abi as CURVE_GAUGE_CONTROLLER_ABI } from "src/abi/CurveGaugeController.json";
+import { abi as CURVE_GAUGE_DEPOSIT_ABI } from "src/abi/CurveGaugeDeposit.json";
+import { abi as CURVE_POOL_ABI } from "src/abi/CurvePool.json";
 import { abi as FUSE_PROXY_ABI } from "src/abi/FuseProxy.json";
 import { abi as GAUGE_ABI } from "src/abi/Gauge.json";
 import { abi as IERC20_ABI } from "src/abi/IERC20.json";
@@ -43,6 +46,7 @@ import {
   BobaRewarder,
   BondDepository,
   CrossChainMigrator,
+  CurvePool,
   FuseProxy,
   IERC20,
   Jones,
@@ -56,6 +60,8 @@ import {
 import { BalancerV2Pool } from "src/typechain/BalancerV2Pool";
 import { BalancerVault } from "src/typechain/BalancerVault";
 import { BeethovenChef } from "src/typechain/BeethovenChef";
+import { CurveGaugeController } from "src/typechain/CurveGaugeController";
+import { CurveGaugeDeposit } from "src/typechain/CurveGaugeDeposit";
 import { Gauge } from "src/typechain/Gauge";
 import { JoeChef } from "src/typechain/JoeChef";
 import { JoeRewarder } from "src/typechain/JoeRewarder";
@@ -147,6 +153,10 @@ export const useStaticZipSecondaryRewardercontract =
 export const useStaticJonesContract = createStaticContract<Jones>(JONES_ABI);
 export const useStaticBobaChefContract = createStaticContract<BobaChef>(BOBA_CHEF_ABI);
 export const useStaticBobaRewarderContract = createStaticContract<BobaRewarder>(BOBA_REWARDER_ABI);
+export const useStaticCurvePoolContract = createStaticContract<CurvePool>(CURVE_POOL_ABI);
+export const useStaticCurveGaugeControllerContract =
+  createStaticContract<CurveGaugeController>(CURVE_GAUGE_CONTROLLER_ABI);
+export const useStaticCurveGaugeDepositContract = createStaticContract<CurveGaugeDeposit>(CURVE_GAUGE_DEPOSIT_ABI);
 
 // Dynamic contracts
 export const useDynamicTokenContract = createDynamicContract<IERC20>(IERC20_ABI);
