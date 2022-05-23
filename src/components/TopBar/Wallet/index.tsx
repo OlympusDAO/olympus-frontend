@@ -10,7 +10,7 @@ import { NetworkId } from "src/networkDetails";
 
 import Assets from "./Assets";
 import GetOhm from "./GetOhm";
-import Info from "./Info";
+import { Info } from "./Info";
 
 const PREFIX = "Wallet";
 
@@ -166,7 +166,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
           {(() => {
             switch (props.component) {
               case "info":
-                return <Info path={id} />;
+                return <Info />;
               case "utility":
                 return <GetOhm />;
               case "wallet":

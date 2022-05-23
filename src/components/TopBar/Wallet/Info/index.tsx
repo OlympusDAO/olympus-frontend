@@ -1,11 +1,27 @@
 import { Box, Fade, Link } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { FC } from "react";
-import { NavLink, Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, NavLink, Outlet, Route, Routes, useLocation } from "react-router-dom";
+import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import Faq from "./Faq";
 import News from "./News";
-import Proposals from "./Proposals";
+import { Proposals } from "./Proposals";
+
+/**
+ * Component for displaying info
+ */
+export const Info: FC = () => (
+  <>
+    <Routes>
+      <Route path="/" element={<InfoContainer />}>
+        <Route path="news" element={<News />} />
+        <Route path="proposals" element={<Proposals />} />
+        <Route path="faq" element={<Faq />} />
+      </Route>
+    </Routes>
+  </>
+);
 
 const PREFIX = "Info";
 
@@ -28,45 +44,32 @@ const Root = styled("div")(({ theme }) => ({
   },
 }));
 
-export interface OHMInfoProps {
-  path?: string;
-}
+const InfoContainer = () => {
+  const { pathname } = useLocation();
 
-/**
- * Component for Displaying Info
- */
-const Info: FC<OHMInfoProps> = () => {
-  const Container = () => (
+  return (
     <Root>
-      <Fade in={true}>
+      <Fade in>
         <Box display="flex" flexDirection="row" className={classes.tabNav} pt="18px" mb="18px">
-          {!process.env.REACT_APP_DISABLE_NEWS && (
-            <Link component={NavLink} to="/info">
+          {Environment.isWalletNewsEnabled() && (
+            <Link component={NavLink} to="/info/news">
               News
             </Link>
           )}
+
           <Link component={NavLink} to="/info/proposals">
             Votes
           </Link>
+
           <Link component={NavLink} to="/info/faq">
             FAQ
           </Link>
         </Box>
       </Fade>
+
+      {pathname === "/info" && <Navigate to={Environment.isWalletNewsEnabled() ? "news" : "proposals"} />}
+
       <Outlet />
     </Root>
   );
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<Container />}>
-          <Route path="news" element={<News />} />
-          <Route path="proposals" element={<Proposals />} />
-          <Route path="faq" element={<Faq />} />
-        </Route>
-      </Routes>
-    </>
-  );
 };
-
-export default Info;

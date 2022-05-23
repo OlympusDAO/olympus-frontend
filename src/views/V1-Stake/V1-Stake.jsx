@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
+import { useOldAssetsDetected } from "src/hooks/useOldAssetsDetected";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 
@@ -38,9 +39,10 @@ import { changeApproval, changeStake } from "../../slices/StakeThunk";
 import { ExternalStakePools } from "../Stake/components/ExternalStakePools/ExternalStakePools";
 import RebaseTimer from "../Stake/components/StakeArea/components/RebaseTimer/RebaseTimer";
 
-function V1Stake({ oldAssetsDetected, setMigrationModalOpen }) {
+function V1Stake({ setMigrationModalOpen }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const oldAssetsDetected = useOldAssetsDetected();
   const { provider, address, networkId } = useWeb3Context();
 
   const [zoomed, setZoomed] = useState(false);

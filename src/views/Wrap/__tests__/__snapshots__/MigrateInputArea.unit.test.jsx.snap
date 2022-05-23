@@ -87,7 +87,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -113,7 +113,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -160,7 +160,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -319,7 +319,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                         class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-3tw635-MuiFormControl-root"
                       >
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-cfejmg-MuiInputBase-root-MuiOutlinedInput-root"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-eqe2qg-MuiInputBase-root-MuiOutlinedInput-root"
                         >
                           <input
                             aria-invalid="false"

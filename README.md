@@ -160,7 +160,7 @@ _Note_: This faucet drips sOHM v1 tokens. If you need to test v2 token flows (sO
 
 1. `create` [here](https://rinkeby.etherscan.io/address/0x22AE99D07584A2AE1af748De573c83f1B9Cdb4c0#writeContract)
 2. _token: `0xbC9eE0D911739cBc72cd094ADA26F56E0C49EeAE` <- this is the payout token, the deposit token will be OHM
-3. _market: `[10000000000000000000000,25000000000000000,10000000000000000,10000]`
+3. _market: `[10000000000000000000000000,25000000000000000,10000000000000000,10000]`
 4. _intervals: `[14400,3600]`
 5. _conclusion: `1680760325` <- a unix timestamp
 
@@ -249,15 +249,15 @@ In order to mark text for translation you can use:
 
 ```JSX
 t({
- id: "do_bond",
+ message: "Bond",
  comment: "The action of bonding (verb)",
 })
 ```
 
-- Where a variable/javascript function is required within a block of translatable text, a different format is used:
+- Where a variable/javascript function is required within a block of translatable text, string interpolation can be used:
 
 ```JSX
-{`${t`Your current Staked Balance is `} ${getSOhmBalance().toFixed(2)} sOHM`}
+{t`Your current Staked Balance is ${getSOhmBalance().toFixed(2)} sOHM`}
 ```
 
 When new texts are created or existing texts are modified in the application please leave a message in the OlympusDao app-translation channel for the translators to translate them.

@@ -322,11 +322,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
                 <Typography>
                   {isMigrationComplete || !oldAssetsDetected
                     ? "Close"
-                    : txnButtonText(
-                        pendingTransactions,
-                        "migrate_all",
-                        `${t`Migrate all to`} ${isGOHM ? "gOHM" : "sOHM"}`,
-                      )}
+                    : txnButtonText(pendingTransactions, "migrate_all", t`Migrate all to ${isGOHM ? "gOHM" : "sOHM"}`)}
                 </Typography>
               </Box>
             </Button>

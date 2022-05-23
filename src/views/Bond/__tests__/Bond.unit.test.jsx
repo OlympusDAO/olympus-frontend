@@ -151,13 +151,7 @@ describe("Bond Modal", () => {
   it("Should display bond modal with Fixed Term Bond", async () => {
     ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
     render(<BondModalContainer />);
-    expect(await screen.findByText("Fixed Term")).toBeInTheDocument();
-  });
-
-  it("Should display bond modal with Fixed Term Bond", async () => {
-    ContractAllowance.useContractAllowance = jest.fn().mockReturnValue({ data: BigNumber.from(10) });
-    render(<BondModalContainer />);
-    expect(await screen.findByText("Fixed Term")).toBeInTheDocument();
+    expect(await screen.findByText("Duration")).toBeInTheDocument();
   });
 
   it("Should display bond modal with Approve Button", async () => {
@@ -174,7 +168,6 @@ describe("Bond Modal", () => {
         <BondModalContainer />
       </>,
     );
-    expect(await screen.findByText("Fixed Term")).toBeInTheDocument();
     fireEvent.click(await screen.findByText("Bond"));
     expect(await screen.findByText("Please enter a number")).toBeInTheDocument();
   });
@@ -190,7 +183,6 @@ describe("Bond Modal", () => {
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of OHM-DAI LP"), {
       target: { value: "-1" },
     });
-    expect(await screen.findByText("Fixed Term")).toBeInTheDocument();
     fireEvent.click(await screen.findByText("Bond"));
     expect(await screen.findByText("Please enter a number greater than 0")).toBeInTheDocument();
   });
@@ -206,7 +198,6 @@ describe("Bond Modal", () => {
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of OHM-DAI LP"), {
       target: { value: "20" },
     });
-    expect(await screen.findByText("Fixed Term")).toBeInTheDocument();
     fireEvent.click(await screen.findByText("Bond"));
     expect(await screen.findByText("You cannot bond more than your OHM-DAI LP balance")).toBeInTheDocument();
   });
@@ -222,7 +213,6 @@ describe("Bond Modal", () => {
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of OHM-DAI LP"), {
       target: { value: "5" },
     });
-    expect(await screen.findByText("Fixed Term")).toBeInTheDocument();
     fireEvent.click(await screen.findByText("Bond"));
     expect(
       await screen.findByText("The maximum you can bond at this time is 0.348287073676420851 OHM-DAI LP"),
@@ -240,7 +230,6 @@ describe("Bond Modal", () => {
     fireEvent.change(await screen.findByPlaceholderText("Enter an amount of OHM-DAI LP"), {
       target: { value: "0.31" },
     });
-    expect(await screen.findByText("Fixed Term")).toBeInTheDocument();
     fireEvent.click(await screen.findByText("Bond"));
     expect(await screen.findByText("Successfully bonded OHM-DAI LP")).toBeInTheDocument();
   });

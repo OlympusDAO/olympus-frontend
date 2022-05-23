@@ -84,7 +84,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -110,7 +110,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -157,7 +157,7 @@ exports[`<Wrap/> Should Render Wrap Input Area with Wallet Connected 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -497,7 +497,7 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -523,7 +523,7 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -570,7 +570,7 @@ exports[`<Wrap/> Should show Connect Button when not Connected 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -726,7 +726,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -752,7 +752,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -799,7 +799,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Arbitrum 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -1117,7 +1117,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -1143,7 +1143,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
@@ -1190,7 +1190,7 @@ exports[`<Wrap/> should Render Migrate Input Area on Avalanche 1`] = `
                       class="Metric-root  css-1xkrsym"
                     >
                       <div
-                        class="MuiBox-root css-1di3kc0"
+                        class="MuiBox-root css-g45inh"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
