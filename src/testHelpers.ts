@@ -66,6 +66,7 @@ export const mockZapTokenBalances = (
     status: "success",
     dataUpdatedAt: 0,
     errorUpdatedAt: 0,
+    errorUpdateCount: 0,
     refetch: () => {
       return new Promise(() => {
         return true;
@@ -100,6 +101,7 @@ export const mockRecipientInfo = (data: IUserRecipientInfo): UseQueryResult<IUse
     status: "success",
     dataUpdatedAt: 0,
     errorUpdatedAt: 0,
+    errorUpdateCount: 0,
     refetch: () => {
       return new Promise(() => {
         return true;
@@ -134,6 +136,7 @@ export const mockOhmPrice = (data: number): UseQueryResult<number, Error> => {
     status: "success",
     dataUpdatedAt: 0,
     errorUpdatedAt: 0,
+    errorUpdateCount: 0,
     refetch: () => {
       return new Promise(() => {
         return true;
@@ -168,6 +171,7 @@ export const mockRedeemableBalance = (data: string): UseQueryResult<string, Erro
     status: "success",
     dataUpdatedAt: 0,
     errorUpdatedAt: 0,
+    errorUpdateCount: 0,
     refetch: () => {
       return new Promise(() => {
         return true;
@@ -202,6 +206,7 @@ export const mockGohmPrice = (data: number): UseQueryResult<number, Error> => {
     status: "success",
     dataUpdatedAt: 0,
     errorUpdatedAt: 0,
+    errorUpdateCount: 0,
     refetch: () => {
       return new Promise(() => {
         return true;
@@ -236,6 +241,7 @@ export const mockStakingRebaseRate = (data: number): UseQueryResult<number, Erro
     status: "success",
     dataUpdatedAt: 0,
     errorUpdatedAt: 0,
+    errorUpdateCount: 0,
     refetch: () => {
       return new Promise(() => {
         return true;
@@ -273,6 +279,7 @@ export const mockSohmBalance = (
       status: "success",
       dataUpdatedAt: 0,
       errorUpdatedAt: 0,
+      errorUpdateCount: 0,
       refetch: () => {
         return new Promise(() => {
           return true;
@@ -304,6 +311,7 @@ export const mockSohmBalance = (
       status: "success",
       dataUpdatedAt: 0,
       errorUpdatedAt: 0,
+      errorUpdateCount: 0,
       refetch: () => {
         return new Promise(() => {
           return true;
@@ -364,6 +372,7 @@ export const mockGohmBalance = (
       status: "success",
       dataUpdatedAt: 0,
       errorUpdatedAt: 0,
+      errorUpdateCount: 0,
       refetch: () => {
         return new Promise(() => {
           return true;
@@ -395,6 +404,7 @@ export const mockGohmBalance = (
       status: "success",
       dataUpdatedAt: 0,
       errorUpdatedAt: 0,
+      errorUpdateCount: 0,
       refetch: () => {
         return new Promise(() => {
           return true;
@@ -426,6 +436,7 @@ export const mockGohmBalance = (
       status: "success",
       dataUpdatedAt: 0,
       errorUpdatedAt: 0,
+      errorUpdateCount: 0,
       refetch: () => {
         return new Promise(() => {
           return true;
@@ -457,6 +468,7 @@ export const mockGohmBalance = (
       status: "success",
       dataUpdatedAt: 0,
       errorUpdatedAt: 0,
+      errorUpdateCount: 0,
       refetch: () => {
         return new Promise(() => {
           return true;
@@ -488,6 +500,7 @@ export const mockGohmBalance = (
       status: "success",
       dataUpdatedAt: 0,
       errorUpdatedAt: 0,
+      errorUpdateCount: 0,
       refetch: () => {
         return new Promise(() => {
           return true;
@@ -519,6 +532,7 @@ export const mockGohmBalance = (
       status: "success",
       dataUpdatedAt: 0,
       errorUpdatedAt: 0,
+      errorUpdateCount: 0,
       refetch: () => {
         return new Promise(() => {
           return true;
@@ -550,6 +564,7 @@ export const mockGohmBalance = (
       status: "success",
       dataUpdatedAt: 0,
       errorUpdatedAt: 0,
+      errorUpdateCount: 0,
       refetch: () => {
         return new Promise(() => {
           return true;
@@ -581,6 +596,7 @@ export const mockGohmBalance = (
       status: "success",
       dataUpdatedAt: 0,
       errorUpdatedAt: 0,
+      errorUpdateCount: 0,
       refetch: () => {
         return new Promise(() => {
           return true;
@@ -612,6 +628,7 @@ export const mockGohmBalance = (
       status: "success",
       dataUpdatedAt: 0,
       errorUpdatedAt: 0,
+      errorUpdateCount: 0,
       refetch: () => {
         return new Promise(() => {
           return true;
@@ -647,6 +664,7 @@ export const mockDonationInfo = (data: IUserDonationInfo): UseQueryResult<IUserD
     status: "success",
     dataUpdatedAt: 0,
     errorUpdatedAt: 0,
+    errorUpdateCount: 0,
     refetch: () => {
       return new Promise(() => {
         return true;
@@ -681,6 +699,7 @@ export const mockContractAllowance = (data: BigNumber): UseQueryResult<BigNumber
     status: "success",
     dataUpdatedAt: 0,
     errorUpdatedAt: 0,
+    errorUpdateCount: 0,
     refetch: () => {
       return new Promise(() => {
         return true;
@@ -715,6 +734,7 @@ export const mockCurrentIndex = (data: DecimalBigNumber): UseQueryResult<Decimal
     status: "success",
     dataUpdatedAt: 0,
     errorUpdatedAt: 0,
+    errorUpdateCount: 0,
     refetch: () => {
       return new Promise(() => {
         return true;
