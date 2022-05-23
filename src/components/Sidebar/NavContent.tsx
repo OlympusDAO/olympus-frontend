@@ -1,5 +1,6 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Divider, Link, makeStyles, Paper, SvgIcon, Typography } from "@material-ui/core";
+import { Box, Divider, Link, Paper, SvgIcon, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
 import { NavLink } from "react-router-dom";
@@ -13,14 +14,19 @@ import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
 
-const useStyles = makeStyles(theme => ({
-  gray: {
+const PREFIX = "NavContent";
+
+const classes = {
+  gray: `${PREFIX}-gray`,
+};
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  [`& .${classes.gray}`]: {
     color: theme.colors.gray[90],
   },
 }));
 
 const NavContent: React.VFC = () => {
-  const classes = useStyles();
   const { networkId } = useWeb3Context();
   const networks = useTestableNetworks();
 
@@ -60,11 +66,7 @@ const NavContent: React.VFC = () => {
 
                   <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
 
-                  <NavItem
-                    icon="bridge"
-                    label={t`Bridge`}
-                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
-                  />
+                  <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />
 
                   <Box className="menu-divider">
                     <Divider />
@@ -80,11 +82,7 @@ const NavContent: React.VFC = () => {
                 <>
                   <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
 
-                  <NavItem
-                    icon="bridge"
-                    label={t`Bridge`}
-                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
-                  />
+                  <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />
                 </>
               )}
 
@@ -101,7 +99,7 @@ const NavContent: React.VFC = () => {
           </div>
         </div>
 
-        <Box display="flex" justifyContent="space-between" paddingX="50px" paddingY="24px">
+        <StyledBox display="flex" justifyContent="space-between" paddingX="50px" paddingY="24px">
           <Link href="https://github.com/OlympusDAO" target="_blank">
             <Icon name="github" className={classes.gray} />
           </Link>
@@ -117,7 +115,7 @@ const NavContent: React.VFC = () => {
           <Link href="https://discord.gg/6QjjtUcfM4" target="_blank">
             <Icon name="discord" className={classes.gray} />
           </Link>
-        </Box>
+        </StyledBox>
       </Box>
     </Paper>
   );

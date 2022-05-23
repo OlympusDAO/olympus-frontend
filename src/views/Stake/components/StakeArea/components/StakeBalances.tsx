@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
-import { ExpandMore } from "@material-ui/icons";
+import { ExpandMore } from "@mui/icons-material";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import { DataRow } from "@olympusdao/component-library";
 import { NetworkId } from "src/constants";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";

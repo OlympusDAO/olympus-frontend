@@ -3,19 +3,19 @@
 exports[`<StakeBalances/> should render balances and rebase info 1`] = `
 <div>
   <div
-    class="makeStyles-root-1 data-row"
+    class="DataRow-root data-row css-19fvmib"
   >
     <div
-      class="MuiBox-root MuiBox-root-3"
+      class="MuiBox-root css-1xhj18k"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+        class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
       >
         Unstaked Balance
       </p>
     </div>
     <p
-      class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+      class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
       id="user-balance"
       style="text-align: right;"
     >
@@ -23,32 +23,31 @@ exports[`<StakeBalances/> should render balances and rebase info 1`] = `
     </p>
   </div>
   <div
-    class="MuiPaper-root MuiAccordion-root stake-accordion Mui-expanded MuiPaper-elevation0"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters stake-accordion css-dppvay-MuiPaper-root-MuiAccordion-root"
   >
     <div
-      aria-disabled="false"
       aria-expanded="true"
-      class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded"
+      class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root"
       role="button"
       tabindex="0"
     >
       <div
-        class="MuiAccordionSummary-content Mui-expanded"
+        class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
       >
         <div
-          class="makeStyles-root-1 data-row"
+          class="DataRow-root data-row css-19fvmib"
         >
           <div
-            class="MuiBox-root MuiBox-root-4"
+            class="MuiBox-root css-1xhj18k"
           >
             <p
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+              class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
             >
               Total Staked Balance
             </p>
           </div>
           <p
-            class="MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary"
+            class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
             id="user-staked-balance"
             style="text-align: right;"
           >
@@ -57,57 +56,53 @@ exports[`<StakeBalances/> should render balances and rebase info 1`] = `
         </div>
       </div>
       <div
-        aria-disabled="false"
-        aria-hidden="true"
-        class="MuiButtonBase-root MuiIconButton-root MuiAccordionSummary-expandIcon Mui-expanded MuiIconButton-edgeEnd"
+        class="MuiAccordionSummary-expandIconWrapper Mui-expanded css-yw020d-MuiAccordionSummary-expandIconWrapper"
       >
-        <span
-          class="MuiIconButton-label"
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall stake-expand css-y3v3gx-MuiSvgIcon-root"
+          data-testid="ExpandMoreIcon"
+          focusable="false"
+          viewBox="0 0 20 20"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root stake-expand MuiSvgIcon-fontSizeSmall"
-            focusable="false"
-            viewBox="0 0 20 20"
-          >
-            <path
-              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
-            />
-          </svg>
-        </span>
+          <path
+            d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+          />
+        </svg>
       </div>
     </div>
     <div
-      class="MuiCollapse-root MuiCollapse-entered"
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
       style="min-height: 0px;"
     >
       <div
-        class="MuiCollapse-wrapper"
+        class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
       >
         <div
-          class="MuiCollapse-wrapperInner"
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
         >
           <div
+            class="MuiAccordion-region"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root"
+              class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
             >
               <div
-                class="makeStyles-root-1 data-row"
+                class="DataRow-root data-row css-19fvmib"
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-5"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   >
                     sOHM
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   id="sohm-balance"
                   style="text-align: right;"
                 >
@@ -115,240 +110,240 @@ exports[`<StakeBalances/> should render balances and rebase info 1`] = `
                 </p>
               </div>
               <div
-                class="makeStyles-root-1 data-row"
+                class="DataRow-root data-row css-19fvmib"
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-6"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   >
                     gOHM
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   style="text-align: right;"
                 >
                   131.0000 gOHM
                 </p>
               </div>
               <div
-                class="makeStyles-root-1 data-row"
+                class="DataRow-root data-row css-19fvmib"
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-7"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   >
                     gOHM (Arbitrum)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   style="text-align: right;"
                 >
                   132.0000 gOHM
                 </p>
               </div>
               <div
-                class="makeStyles-root-1 data-row"
+                class="DataRow-root data-row css-19fvmib"
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-8"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   >
                     gOHM (Avalanche)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   style="text-align: right;"
                 >
                   133.0000 gOHM
                 </p>
               </div>
               <div
-                class="makeStyles-root-1 data-row"
+                class="DataRow-root data-row css-19fvmib"
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-9"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   >
                     gOHM (Polygon)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   style="text-align: right;"
                 >
                   134.0000 gOHM
                 </p>
               </div>
               <div
-                class="makeStyles-root-1 data-row"
+                class="DataRow-root data-row css-19fvmib"
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-10"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   >
                     gOHM (Fantom)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   style="text-align: right;"
                 >
                   135.0000 gOHM
                 </p>
               </div>
               <div
-                class="makeStyles-root-1 data-row"
+                class="DataRow-root data-row css-19fvmib"
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-11"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   >
                     gOHM (Optimism)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   style="text-align: right;"
                 >
                   136.0000 gOHM
                 </p>
               </div>
               <div
-                class="makeStyles-root-1 data-row"
+                class="DataRow-root data-row css-19fvmib"
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-12"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   >
                     gOHM (Tokemak)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   style="text-align: right;"
                 >
                   14.0000 gOHM
                 </p>
               </div>
               <div
-                class="makeStyles-root-1 data-row"
+                class="DataRow-root data-row css-19fvmib"
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-13"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   >
                     gOHM (Fuse)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   style="text-align: right;"
                 >
                   11.0000 gOHM
                 </p>
               </div>
               <div
-                class="makeStyles-root-1 data-row"
+                class="DataRow-root data-row css-19fvmib"
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-14"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   >
                     sOHM (v1)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   style="text-align: right;"
                 >
                   16.0000 sOHM
                 </p>
               </div>
               <div
-                class="makeStyles-root-1 data-row"
+                class="DataRow-root data-row css-19fvmib"
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-15"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   >
                     wsOHM
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   style="text-align: right;"
                 >
                   171.0000 wsOHM
                 </p>
               </div>
               <div
-                class="makeStyles-root-1 data-row"
+                class="DataRow-root data-row css-19fvmib"
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-16"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   >
                     wsOHM (Arbitrum)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   style="text-align: right;"
                 >
                   172.0000 wsOHM
                 </p>
               </div>
               <div
-                class="makeStyles-root-1 data-row"
+                class="DataRow-root data-row css-19fvmib"
                 style="padding-left: 10px;"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-17"
+                  class="MuiBox-root css-1xhj18k"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                    class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   >
                     wsOHM (Avalanche)
                   </p>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+                  class="MuiTypography-root MuiTypography-body2 css-1psss7x-MuiTypography-root"
                   style="text-align: right;"
                 >
                   173.0000 wsOHM

@@ -1,7 +1,7 @@
 import "./Zap.scss";
 
 import { Trans } from "@lingui/macro";
-import { Box, Typography, Zoom } from "@material-ui/core";
+import { Box, Typography } from "@mui/material";
 import { Paper } from "@olympusdao/component-library";
 import React, { useMemo } from "react";
 import { useNavigate } from "react-router";
@@ -33,29 +33,26 @@ const Zap: React.FC = () => {
 
   return (
     <div id="zap-view">
-      <Zoom in={true}>
-        <Paper headerText={address && `Zap`}>
-          <div className="staking-area">
-            {!address ? (
-              <div className="stake-wallet-notification">
-                <div className="wallet-menu" id="wallet-menu">
-                  <ConnectButton />
-                </div>
-                <Typography variant="h6">
-                  <Trans>Connect your wallet to use Zap</Trans>
-                </Typography>
+      <Paper headerText={address && `Zap`}>
+        <div className="staking-area">
+          {!address ? (
+            <div className="stake-wallet-notification">
+              <div className="wallet-menu" id="wallet-menu">
+                <ConnectButton />
               </div>
-            ) : (
-              <Box className="stake-action-area">
-                <ZapStakeAction />
-              </Box>
-            )}
-          </div>
-        </Paper>
-      </Zoom>
-      <Zoom in={true}>
-        <ZapInfo tokens={inputTokenImages} address={address} />
-      </Zoom>
+              <Typography variant="h6">
+                <Trans>Connect your wallet to use Zap</Trans>
+              </Typography>
+            </div>
+          ) : (
+            <Box className="stake-action-area">
+              <ZapStakeAction />
+            </Box>
+          )}
+        </div>
+      </Paper>
+
+      <ZapInfo tokens={inputTokenImages} address={address} />
     </div>
   );
 };

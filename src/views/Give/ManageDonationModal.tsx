@@ -1,9 +1,9 @@
 import { isAddress } from "@ethersproject/address";
 import { t, Trans } from "@lingui/macro";
-import { Grid, Link, SvgIcon, Typography } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { ChevronLeft } from "@material-ui/icons";
+import { ChevronLeft } from "@mui/icons-material";
+import { Grid, Link, SvgIcon, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { DataRow, InfoTooltip, Input, Modal, PrimaryButton, TertiaryButton } from "@olympusdao/component-library";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
@@ -117,9 +117,9 @@ export function ManageDonationModal({
 
   const [isAmountSet, setIsAmountSet] = useState(_initialIsAmountSet);
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const themedArrow =
-    theme.palette.type === "dark" && theme.colors.primary[300]
+    theme.palette.mode === "dark" && theme.colors.primary[300]
       ? theme.colors.primary[300]
       : theme.palette.text.secondary;
 
@@ -285,15 +285,15 @@ export function ManageDonationModal({
 
     if (getBalance().eq(ZERO_NUMBER)) {
       setIsDepositAmountValid(false);
-      setIsDepositAmountValidError(`${`${t`You must have a balance of `} ${giveAssetType} ${t` to continue`}`}`);
+      setIsDepositAmountValidError(t`You must have a balance of ${giveAssetType} to continue`);
     }
 
     if (getDepositAmountDiff().gt(getBalance())) {
       setIsDepositAmountValid(false);
       setIsDepositAmountValidError(
-        `${`${t`Value cannot be more than your `} ${giveAssetType} ${` balance of `} ${getMaximumDepositAmount().toString(
+        t`Value cannot be more than your ${giveAssetType} balance of ${getMaximumDepositAmount().toString(
           EXACT_FORMAT,
-        )}`}`,
+        )}`,
       );
       return;
     }
@@ -442,7 +442,7 @@ export function ManageDonationModal({
               {project ? totalDebt.toString(DECIMAL_FORMAT) : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? `${t`Total `} ${giveAssetType}` : `${t`Total `} ${giveAssetType} ${t` Donated`}`}
+              {isSmallScreen ? t`Total ${giveAssetType}` : t`Total ${giveAssetType} Donated`}
             </Typography>
           </Box>
         </Grid>
@@ -457,7 +457,7 @@ export function ManageDonationModal({
                 : "N/A"}
             </Typography>
             <Typography variant="body1" align="center" className="subtext">
-              {isSmallScreen ? t`of Goal` : `${t`of `} ${giveAssetType} ${t` Goal`}`}
+              {isSmallScreen ? t`of Goal` : t`of ${giveAssetType} Goal`}
             </Typography>
           </Box>
         </Grid>
@@ -581,7 +581,7 @@ export function ManageDonationModal({
                 <Typography variant="body1" color="textSecondary">
                   <Trans>New</Trans> {giveAssetType} <Trans>Amount</Trans>
                   <InfoTooltip
-                    message={`${t`Your `} ${giveAssetType} ${t` will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}`}
+                    message={t`Your ${giveAssetType} will be tansferred into the vault when you submit. You will need to approve the transaction and pay for gas fees.`}
                     children={null}
                   />
                 </Typography>
@@ -595,9 +595,7 @@ export function ManageDonationModal({
                   value={depositAmount}
                   helperText={
                     isDepositAmountValid
-                      ? `${`${t`Your current deposit is `} ${getCurrentDepositAmount().toString(
-                          EXACT_FORMAT,
-                        )} ${giveAssetType}`}`
+                      ? t`Your current deposit is ${getCurrentDepositAmount().toString(EXACT_FORMAT)} ${giveAssetType}`
                       : isDepositAmountValidError
                   }
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -689,7 +687,7 @@ export function ManageDonationModal({
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
-                    {isMutationLoading ? `${`${t`Withdrawing `} ${giveAssetType}`}` : t`Withdraw`}
+                    {isMutationLoading ? t`Withdrawing ${giveAssetType}` : t`Withdraw`}
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
@@ -727,9 +725,7 @@ export function ManageDonationModal({
             <Grid item xs />
             <Grid item xs={6}>
               <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
-                {isMutationLoading
-                  ? `${`${t`Depositing `} ${giveAssetType}`}`
-                  : `${`${t`Confirm New `} ${giveAssetType}`}`}
+                {isMutationLoading ? t`Depositing ${giveAssetType}` : t`Confirm New ${giveAssetType}`}
               </PrimaryButton>
             </Grid>
             <Grid item xs />

@@ -1,6 +1,7 @@
 import { t, Trans } from "@lingui/macro";
-import { Box } from "@material-ui/core";
-import { DataRow, Input, PrimaryButton } from "@olympusdao/component-library";
+import { CheckBoxOutlineBlank, CheckBoxOutlined } from "@mui/icons-material";
+import { Box, Checkbox, FormControlLabel } from "@mui/material";
+import { DataRow, InputWrapper } from "@olympusdao/component-library";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
@@ -18,7 +19,12 @@ import { BondDiscount } from "../../../BondDiscount";
 import { BondDuration } from "../../../BondDuration";
 import { usePurchaseBond } from "./hooks/usePurchaseBond";
 
-export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientAddress: string }> = props => {
+export const BondInputArea: React.VFC<{
+  bond: Bond;
+  slippage: string;
+  recipientAddress: string;
+  isInverseBond: boolean;
+}> = props => {
   const { pathname } = useLocation();
   const isInverseBond: boolean = pathname.includes("inverse");
 
@@ -29,9 +35,11 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
   const balance = useBalance(props.bond.quoteToken.addresses)[networks.MAINNET].data;
 
   const [amount, setAmount] = useState("");
+  const [checked, setChecked] = useState(false);
   const parsedAmount = new DecimalBigNumber(amount, props.bond.quoteToken.decimals);
   const amountInBaseToken = parsedAmount.div(props.bond.price.inBaseToken, 4);
 
+  const showDisclaimer = new DecimalBigNumber("0").gt(props.bond.discount);
   /**
    * Sets the input to the maximum amount a user can bond.
    * It returns the smallest value of either:
@@ -60,7 +68,6 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
   const purchaseBondMutation = usePurchaseBond(props.bond);
   const handleSubmit = (event: React.FormEvent<StakeFormElement>) => {
     event.preventDefault();
-    const amount = event.currentTarget.elements["amount"].value;
     purchaseBondMutation.mutate({
       amount,
       isInverseBond,
@@ -85,22 +92,23 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
   return (
     <Box display="flex" flexDirection="column">
       <WalletConnectedGuard message="Please connect your wallet to purchase bonds">
-        <form onSubmit={handleSubmit}>
-          <Box display="flex" justifyContent="center">
-            <Box display="flex" flexDirection="column" width={["100%", "70%"]}>
-              <TokenAllowanceGuard
-                isVertical
-                tokenAddressMap={props.bond.quoteToken.addresses}
-                spenderAddressMap={isInverseBond ? OP_BOND_DEPOSITORY_ADDRESSES : BOND_DEPOSITORY_ADDRESSES}
-                message={
-                  <>
-                    <Trans>First time bonding</Trans> <b>{props.bond.quoteToken.name}</b>? <br />{" "}
-                    <Trans>Please approve Olympus DAO to use your</Trans> <b>{props.bond.quoteToken.name}</b>{" "}
-                    <Trans>for bonding</Trans>.
-                  </>
-                }
-              >
-                <Input
+        <Box display="flex" justifyContent="center">
+          <Box display="flex" flexDirection="column" width="100%">
+            <TokenAllowanceGuard
+              isVertical
+              tokenAddressMap={props.bond.quoteToken.addresses}
+              spenderAddressMap={isInverseBond ? OP_BOND_DEPOSITORY_ADDRESSES : BOND_DEPOSITORY_ADDRESSES}
+              message={
+                <>
+                  <Trans>First time bonding</Trans> <b>{props.bond.quoteToken.name}</b>? <br />{" "}
+                  <Trans>Please approve Olympus DAO to use your</Trans> <b>{props.bond.quoteToken.name}</b>{" "}
+                  <Trans>for bonding</Trans>.
+                </>
+              }
+            >
+              <form onSubmit={handleSubmit}>
+                <InputWrapper
+                  fullWidth
                   type="string"
                   name="amount"
                   value={amount}
@@ -109,22 +117,33 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
                   id="outlined-adornment-amount"
                   onChange={event => setAmount(event.currentTarget.value)}
                   placeholder={t`Enter an amount of` + ` ${props.bond.quoteToken.name}`}
+                  buttonText={purchaseBondMutation.isLoading ? "Bonding..." : "Bond"}
+                  disabled={props.bond.isSoldOut || purchaseBondMutation.isLoading || (showDisclaimer && !checked)}
+                  buttonType="submit"
                 />
-
-                <Box mt="8px">
-                  <PrimaryButton
-                    fullWidth
-                    className=""
-                    type="submit"
-                    disabled={props.bond.isSoldOut || purchaseBondMutation.isLoading}
-                  >
-                    {purchaseBondMutation.isLoading ? "Bonding..." : "Bond"}
-                  </PrimaryButton>
-                </Box>
-              </TokenAllowanceGuard>
-            </Box>
+                {showDisclaimer && (
+                  <Box mt="28px">
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checked}
+                          onChange={event => setChecked(event.target.checked)}
+                          icon={<CheckBoxOutlineBlank viewBox="0 0 24 24" />}
+                          checkedIcon={<CheckBoxOutlined viewBox="0 0 24 24" />}
+                        />
+                      }
+                      label={
+                        isInverseBond
+                          ? t`I understand that I'm buying a negative premium bond`
+                          : t`I understand that I'm buying a negative discount bond`
+                      }
+                    />
+                  </Box>
+                )}
+              </form>
+            </TokenAllowanceGuard>
           </Box>
-        </form>
+        </Box>
       </WalletConnectedGuard>
 
       <Box mt="24px">
@@ -164,17 +183,17 @@ export const BondInputArea: React.VFC<{ bond: Bond; slippage: string; recipientA
 
         <DataRow
           title={isInverseBond ? t`Premium` : t`Discount`}
-          balance={<BondDiscount discount={props.bond.discount} />}
-          tooltip={`${t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between`} ${
+          balance={<BondDiscount discount={props.bond.discount} textOnly />}
+          tooltip={t`Negative discount is bad (you pay more than the market value). The bond discount is the percentage difference between ${
             isInverseBond ? props.bond.baseToken.name : `OHM`
-          }'s ${t`market value and the bond's price.`}`}
+          }'s market value and the bond's price.`}
         />
 
         {!isInverseBond && (
           <DataRow
             title={t`Duration`}
             balance={<BondDuration duration={props.bond.duration} />}
-            tooltip={t`The duration of the Bond whereby the bond can be claimed in it’s entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
+            tooltip={t`The duration of the Bond whereby the bond can be claimed in it's entirety.  Bonds are no longer vested linearly and are locked for entire duration.`}
           />
         )}
 
