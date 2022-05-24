@@ -29,7 +29,9 @@ const Range = () => {
   const ohmBalance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
 
   const { data: currentPrice = 0 } = useOhmPrice();
-  const maxOhm = reserveBalance ? reserveBalance.div(new DecimalBigNumber(currentPrice.toString())) : 0;
+  const maxOhm = reserveBalance
+    ? reserveBalance.div(new DecimalBigNumber(currentPrice.toString())).toString({ decimals: 2 })
+    : 0;
 
   const discount = (currentPrice - rangeData.wall.high.price) / currentPrice;
 
@@ -60,7 +62,10 @@ const Range = () => {
           reserveBalance={reserveBalance}
           ohmBalance={ohmBalance}
         />
-        <DataRow title={maxString} balance={`${maxOhm} OHM (${reserveBalance} DAI)`} />
+        <DataRow
+          title={maxString}
+          balance={`${maxOhm} OHM (${reserveBalance ? reserveBalance.toString({ decimals: 2 }) : "0.00"} DAI)`}
+        />
         <DataRow title={t`Discount`} balance={`${formatNumber(discount * 100, 2)}%`} />
         <DataRow title={t`Swap Price per OHM`} balance={formatCurrency(rangeData.wall.high.price, 2)} />
       </Paper>
