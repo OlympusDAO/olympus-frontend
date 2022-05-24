@@ -136,7 +136,7 @@ export const curve_ohm_eth = new ExternalPool({
   stakeOn: "Curve",
   pairGecko: "ethereum",
   rewardGecko: "curve-dao-token",
-  href: "https://curve.fi/factory-crypto/21",
+  href: "https://curve.fi/factory-crypto/21/deposit",
   address: "0x6ec38b3228251a0C5D491Faf66858e2E23d7728B", //Pool
   masterchef: "0x2F50D538606Fa9EDD2B11E2446BEb18C9D5846bB", //Gauge Controller
   rewarder: "0x8dF6FdAe05C9405853dd4cF2809D5dc2b5E77b0C", //Gauge Deposit
