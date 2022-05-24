@@ -66,11 +66,7 @@ const NavContent: React.VFC = () => {
 
                   <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
 
-                  <NavItem
-                    icon="bridge"
-                    label={t`Bridge`}
-                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
-                  />
+                  <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />
 
                   <Box className="menu-divider">
                     <Divider />
@@ -86,11 +82,7 @@ const NavContent: React.VFC = () => {
                 <>
                   <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
 
-                  <NavItem
-                    icon="bridge"
-                    label={t`Bridge`}
-                    href="https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"
-                  />
+                  <NavItem icon="bridge" label={t`Bridge`} to="/bridge" />
                 </>
               )}
 
