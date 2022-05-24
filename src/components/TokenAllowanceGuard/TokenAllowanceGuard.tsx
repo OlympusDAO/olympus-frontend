@@ -57,7 +57,8 @@ export const TokenAllowanceGuard: React.FC<{
   isVertical?: boolean;
   tokenAddressMap: AddressMap;
   spenderAddressMap: AddressMap;
-}> = ({ message, isVertical = false, tokenAddressMap, spenderAddressMap, children }) => {
+  approvalText?: string;
+}> = ({ message, isVertical = false, tokenAddressMap, spenderAddressMap, children, approvalText = t`Approve` }) => {
   const approveMutation = useApproveToken(tokenAddressMap, spenderAddressMap);
   const { data: allowance } = useContractAllowance(tokenAddressMap, spenderAddressMap);
 
@@ -82,7 +83,7 @@ export const TokenAllowanceGuard: React.FC<{
         <Grid item xs={12} sm={isVertical ? 12 : 4}>
           <Box display="flex" alignItems="center" justifyContent="center" mt={[2, isVertical ? 2 : 0]}>
             <PrimaryButton fullWidth className="" onClick={approveMutation.mutate} disabled={approveMutation.isLoading}>
-              {approveMutation.isLoading ? t`Approving...` : t`Approve`}
+              {approveMutation.isLoading ? t`Approving...` : approvalText}
             </PrimaryButton>
           </Box>
         </Grid>
