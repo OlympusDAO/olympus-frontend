@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
-import { Box } from "@mui/material";
-import { DataRow, Metric, MetricCollection, Paper, Tab, Tabs } from "@olympusdao/component-library";
+import { Box, FormControlLabel, FormGroup, Switch, Typography } from "@mui/material";
+import { DataRow, Metric, MetricCollection, Paper, PrimaryButton, Tab, Tabs } from "@olympusdao/component-library";
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { DAI_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
@@ -20,43 +20,206 @@ import RangeModal from "./RangeModal";
 /**
  * Component for Displaying Range
  */
+
+interface BidAskPrice {
+  active: boolean;
+  low: number;
+  high: number;
+  currentPrice: number;
+  market: number;
+}
+
 const Range = () => {
   const networks = useTestableNetworks();
   const { data: rangeData } = RangeData("CONTRACT_ADDRESS");
   const [sellActive, setSellActive] = useState(false);
+  //TODO: Remove. used for mocking state
+  const [mockRangeData, setMockRangeData] = useState(rangeData);
   //TODO: Pull from contract if available
   const reserveBalance = useBalance(DAI_ADDRESSES)[networks.MAINNET].data;
   const ohmBalance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
 
-  const { data: currentPrice = 0 } = useOhmPrice();
-  const maxOhm = reserveBalance
-    ? reserveBalance.div(new DecimalBigNumber(currentPrice.toString())).toString({ decimals: 2 })
-    : 0;
+  const { data: currentPrice = 18.15 } = useOhmPrice();
 
-  const discount = (currentPrice - rangeData.wall.high.price) / currentPrice;
+  //TODO: Remove. used for mocking state
+  const [mockCurrentPrice, setMockCurrentPrice] = useState(currentPrice);
+  const maxOhm = reserveBalance
+    ? reserveBalance.div(new DecimalBigNumber(mockCurrentPrice.toString())).toString({ decimals: 2 })
+    : 0;
 
   let maxString = t`Max You Can Buy`;
 
   if (sellActive === true) {
     maxString = t`Max You Can Sell`;
   }
+
+  //Buy Tab:
+  //If market price is below wall low, ask price pin should be at wall low.
+  //If market price is in cushion, ask price pin should be bond price
+  //Anywhere else, ask price is wall high
+
+  const determineAskPrice = (props: BidAskPrice) => {
+    if (props.active) {
+      if (props.currentPrice <= props.low) {
+        return props.low;
+      } else if (props.market > 0) {
+        //TODO: query for bond market price
+        return 15.15;
+      } else {
+        return props.high;
+      }
+    }
+    return props.high;
+  };
+
+  //Sell Tab:
+  //Above wall, bid price at wall high
+  //in cushion, bid price = bond price
+  //anywhere else, bid price is wall low.
+
+  const determineBidPrice = (props: BidAskPrice) => {
+    if (props.active) {
+      if (props.currentPrice >= props.high) {
+        return props.high;
+      } else if (props.market > 0) {
+        return 20.22;
+      } else {
+        return props.low;
+      }
+    }
+    return props.low;
+  };
+
+  const bidPrice = determineBidPrice({
+    active: mockRangeData.high.active,
+    low: mockRangeData.wall.low.price,
+    high: mockRangeData.wall.high.price,
+    currentPrice: mockCurrentPrice,
+    market: mockRangeData.high.market,
+  });
+
+  const askPrice = determineAskPrice({
+    active: mockRangeData.low.active,
+    low: mockRangeData.wall.low.price,
+    high: mockRangeData.wall.high.price,
+    currentPrice: mockCurrentPrice,
+    market: mockRangeData.low.market,
+  });
+
+  const discount =
+    (mockCurrentPrice - (sellActive ? bidPrice : askPrice)) / (sellActive ? -bidPrice : mockCurrentPrice);
+
   return (
     <div id="stake-view">
+      <Paper headerText="Mock States">
+        <Typography>Walls</Typography>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={mockRangeData.high.active}
+                onChange={event =>
+                  setMockRangeData({ ...mockRangeData, high: { ...mockRangeData.high, active: event.target.checked } })
+                }
+              />
+            }
+            label="Upper Wall"
+          />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={mockRangeData.low.active}
+                onChange={event =>
+                  setMockRangeData({ ...mockRangeData, low: { ...mockRangeData.low, active: event.target.checked } })
+                }
+              />
+            }
+            label="Lower Wall"
+          />
+        </FormGroup>
+        <Typography>Bonds</Typography>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={mockRangeData.high.market > 0 ? true : false}
+                onChange={event =>
+                  setMockRangeData({
+                    ...mockRangeData,
+                    high: { ...mockRangeData.high, market: event.target.checked ? 10 : 0 },
+                  })
+                }
+              />
+            }
+            label="Upper Cushion"
+          />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={mockRangeData.low.market > 0 ? true : false}
+                onChange={event =>
+                  setMockRangeData({
+                    ...mockRangeData,
+                    low: { ...mockRangeData.low, market: event.target.checked ? 10 : 0 },
+                  })
+                }
+              />
+            }
+            label="Lower Cushion"
+          />
+        </FormGroup>
+
+        <Typography>Price</Typography>
+        <PrimaryButton
+          onClick={() => {
+            setMockCurrentPrice(26.12);
+          }}
+        >
+          Set Price Above Upper Wall
+        </PrimaryButton>
+        <PrimaryButton
+          onClick={() => {
+            setMockCurrentPrice(8.12);
+          }}
+        >
+          Set Price Below Lower Wall
+        </PrimaryButton>
+        <PrimaryButton
+          onClick={() => {
+            setMockCurrentPrice(12.12);
+          }}
+        >
+          Set Price Inside Lower Cushion
+        </PrimaryButton>
+        <PrimaryButton
+          onClick={() => {
+            setMockCurrentPrice(22.12);
+          }}
+        >
+          Set Price Inside Upper Cushion
+        </PrimaryButton>
+      </Paper>
       <Paper headerText="Range Swap">
         <MetricCollection>
-          <Metric label="Current OHM Price" metric={formatCurrency(currentPrice, 2)} />
-          <Metric label="Lower Wall" metric={formatCurrency(rangeData.wall.low.price, 2)} />
-          <Metric label="Upper Wall" metric={formatCurrency(rangeData.wall.high.price, 2)} />
+          <Metric label="Current OHM Price" metric={formatCurrency(mockCurrentPrice, 2)} />
+          <Metric label="Lower Wall" metric={formatCurrency(mockRangeData.wall.low.price, 2)} />
+          <Metric label="Upper Wall" metric={formatCurrency(mockRangeData.wall.high.price, 2)} />
         </MetricCollection>
         <Box mt={"20px"}>
-          <RangeChart rangeData={rangeData} currentPrice={currentPrice} />
+          <RangeChart
+            rangeData={mockRangeData}
+            currentPrice={mockCurrentPrice}
+            bidPrice={bidPrice}
+            askPrice={askPrice}
+            sellActive={sellActive}
+          />
         </Box>
         <Tabs centered value={sellActive}>
           <Tab label="Buy" value={false} onClick={() => setSellActive(false)} />
           <Tab label="Sell" value={true} onClick={() => setSellActive(true)} />
         </Tabs>
         <RangeInputForm
-          currentPrice={currentPrice}
+          currentPrice={mockCurrentPrice}
           reserveSymbol={"DAI"}
           sellActive={sellActive}
           reserveBalance={reserveBalance}
@@ -67,7 +230,10 @@ const Range = () => {
           balance={`${maxOhm} OHM (${reserveBalance ? reserveBalance.toString({ decimals: 2 }) : "0.00"} DAI)`}
         />
         <DataRow title={t`Discount`} balance={`${formatNumber(discount * 100, 2)}%`} />
-        <DataRow title={t`Swap Price per OHM`} balance={formatCurrency(rangeData.wall.high.price, 2)} />
+        <DataRow
+          title={t`Swap Price per OHM`}
+          balance={sellActive ? formatCurrency(bidPrice, 2) : formatCurrency(askPrice, 2)}
+        />
       </Paper>
       <Routes>
         <Route path=":id" element={<RangeModal />} />

@@ -21,8 +21,14 @@ const StyledResponsiveContainer = styled(ResponsiveContainer)(({ theme }) => ({
 /**
  * Component for Displaying RangeChart
  */
-const RangeChart = (props: { rangeData: any; currentPrice: number }) => {
-  const { rangeData, currentPrice } = props;
+const RangeChart = (props: {
+  rangeData: any;
+  currentPrice: number;
+  bidPrice: number;
+  askPrice: number;
+  sellActive: boolean;
+}) => {
+  const { rangeData, currentPrice, bidPrice, askPrice, sellActive } = props;
   //TODO - Figure out which Subgraphs to query. Currently Uniswap.
   const { data: priceData } = PriceHistory("DAI");
 
@@ -74,7 +80,7 @@ const RangeChart = (props: { rangeData: any; currentPrice: number }) => {
   };
 
   const TooltipContent = () => (
-    <Paper className={`ohm-card tooltip-container`}>
+    <Paper className={`ohm-card tooltip-container`} childPaperBackground>
       <DataRow title="Price" balance={formatCurrency(currentPrice, 2)} />
       <DataRow title="Upper Wall" balance={formatCurrency(rangeData.wall.high.price, 2)} />
       <DataRow title="Upper Cushion" balance={formatCurrency(rangeData.cushion.high.price, 2)} />
@@ -120,17 +126,32 @@ const RangeChart = (props: { rangeData: any; currentPrice: number }) => {
             {formatCurrency(chartData.length > 1 && chartData[1].price, 2)}
           </Label>
         </ReferenceDot>
-        <ReferenceDot
-          x={chartData.length > 1 && chartData[1].timestamp}
-          //TODO: replace w/ bond price if were in the cushion
-          y={12.5}
-          shape={CustomReferenceDot}
-          fill="#F8CC82"
-        >
-          <Label className={classes.currentPrice} color="#fff" position={"right"}>
-            $12.50
-          </Label>
-        </ReferenceDot>
+        {!sellActive && (
+          <ReferenceDot
+            x={chartData.length > 1 && chartData[1].timestamp}
+            //TODO: replace w/ bond price if were in the cushion
+            y={askPrice}
+            shape={CustomReferenceDot}
+            fill="#F8CC82"
+          >
+            <Label className={classes.currentPrice} color="#fff" position={"right"}>
+              Ask: {formatCurrency(askPrice, 2)}
+            </Label>
+          </ReferenceDot>
+        )}
+        {sellActive && (
+          <ReferenceDot
+            x={chartData.length > 1 && chartData[1].timestamp}
+            //TODO: replace w/ bond price if were in the cushion
+            y={bidPrice}
+            shape={CustomReferenceDot}
+            fill="#F8CC82"
+          >
+            <Label className={classes.currentPrice} color="#fff" position={"right"}>
+              Bid: {formatCurrency(bidPrice, 2)}
+            </Label>
+          </ReferenceDot>
+        )}
       </ComposedChart>
     </StyledResponsiveContainer>
   );
