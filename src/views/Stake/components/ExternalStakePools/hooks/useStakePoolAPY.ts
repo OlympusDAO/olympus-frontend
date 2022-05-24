@@ -1,3 +1,4 @@
+import axios from "axios";
 import { gql, request } from "graphql-request";
 import { useQuery } from "react-query";
 import { getTokenPrice, parseBigNumber } from "src/helpers";
@@ -12,6 +13,9 @@ import {
   useStaticBobaRewarderContract,
   useStaticChefContract,
   useStaticChefRewarderContract,
+  useStaticCurveGaugeControllerContract,
+  useStaticCurveGaugeDepositContract,
+  useStaticCurvePoolContract,
   useStaticGaugeContract,
   useStaticJoeChefContract,
   useStaticJoeRewarderContract,
@@ -157,6 +161,51 @@ export const BobaPoolAPY = (pool: ExternalPool) => {
   });
   const { data: apy = 0 } = APY(pool, tvl, data, pool.bonusGecko);
   return { apy, isFetched, isLoading };
+};
+
+export const CurvePoolAPY = (pool: ExternalPool) => {
+  const { data: rewardAPY = 0 } = CurvePoolRewardAPY(pool);
+
+  const curveAPI = "https://api.curve.fi/api/getFactoryAPYs?version=crypto";
+  const {
+    data = { apy: 0 },
+    isFetched,
+    isLoading,
+  } = useQuery(["CurvePoolBaseAPY"], async () => {
+    return await axios.get(curveAPI).then(res => {
+      const apy = res.data.data.poolDetails.find(
+        (pool: { poolAddress: string }) => pool.poolAddress == "0x6ec38b3228251a0C5D491Faf66858e2E23d7728B",
+      );
+      return apy;
+    });
+  });
+  const apy = data.apy / 100 + rewardAPY;
+  return { apy, isFetched, isLoading };
+};
+
+export const CurvePoolRewardAPY = (pool: ExternalPool) => {
+  const curvePoolContract = useStaticCurvePoolContract(pool.address, pool.networkID);
+  const curveGaugeControllerContract = useStaticCurveGaugeControllerContract(pool.masterchef, pool.networkID);
+  const curveGaugeDepositContract = useStaticCurveGaugeDepositContract(pool.rewarder, pool.networkID);
+
+  const { data, isFetched, isLoading } = useQuery(["CurvePoolRewardAPY"], async () => {
+    const curvePrice = await getTokenPrice(pool.rewardGecko);
+    const virtualPrice = parseBigNumber(await curvePoolContract.get_virtual_price(), 18);
+    const lpPrice = parseBigNumber(await curvePoolContract.price_oracle(), 18);
+    const inflationRate = parseBigNumber(await curveGaugeDepositContract.inflation_rate(), 18);
+    const relativeWeight = parseBigNumber(
+      await curveGaugeControllerContract["gauge_relative_weight(address)"](pool.rewarder),
+      18,
+    );
+    const workingSupply = parseBigNumber(await curveGaugeDepositContract.totalSupply(), 18);
+
+    //https://github.com/curvefi/brownie-tutorial/tree/main/lesson-19-applications-iii
+    const tAPY = (curvePrice * inflationRate * relativeWeight * 12614400) / (workingSupply * virtualPrice * lpPrice);
+
+    //scale down APY to mid range
+    return tAPY * 0.75;
+  });
+  return { data, isFetched, isLoading };
 };
 
 export const ZipPoolAPY = (pool: ExternalPool) => {
