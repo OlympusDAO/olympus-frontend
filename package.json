@@ -91,7 +91,7 @@
     "@types/shelljs": "^0.8.9",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
-    "@typescript-eslint/parser": "^5.25.0",
+    "@typescript-eslint/parser": "^5.26.0",
     "autoprefixer": "^10.4.7",
     "babel-plugin-transform-imports": "^2.0.0",
     "css-mediaquery": "^0.1.2",
