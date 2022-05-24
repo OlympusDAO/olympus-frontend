@@ -68,7 +68,7 @@
     "web3modal": "^1.9.7"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.17.9",
+    "@babel/runtime": "^7.18.0",
     "@chainsafe/dappeteer": "^2.4.1",
     "@lingui/cli": "^3.13.3",
     "@lingui/core": "^3.13.0",
