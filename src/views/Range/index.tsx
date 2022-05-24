@@ -53,7 +53,13 @@ const Range = () => {
           <Tab label="Buy" value={false} onClick={() => setSellActive(false)} />
           <Tab label="Sell" value={true} onClick={() => setSellActive(true)} />
         </Tabs>
-        <RangeInputForm currentPrice={currentPrice} reserveSymbol={"DAI"} sellActive={sellActive} />
+        <RangeInputForm
+          currentPrice={currentPrice}
+          reserveSymbol={"DAI"}
+          sellActive={sellActive}
+          reserveBalance={reserveBalance}
+          ohmBalance={ohmBalance}
+        />
         <DataRow title={maxString} balance={`${maxOhm} OHM (${reserveBalance} DAI)`} />
         <DataRow title={t`Discount`} balance={`${formatNumber(discount * 100, 2)}%`} />
         <DataRow title={t`Swap Price per OHM`} balance={formatCurrency(rangeData.wall.high.price, 2)} />

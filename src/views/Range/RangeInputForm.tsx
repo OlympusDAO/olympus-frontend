@@ -2,14 +2,23 @@ import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { Icon, Input, OHMTokenProps, PrimaryButton } from "@olympusdao/component-library";
 import { useState } from "react";
+import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
 // export interface OHMRangeInputFormProps {}
 
 /**
  * Component for Displaying RangeInputForm
  */
-const RangeInputForm = (props: { reserveSymbol: OHMTokenProps["name"]; currentPrice: number; sellActive: boolean }) => {
-  const { reserveSymbol, currentPrice, sellActive } = props;
+const RangeInputForm = (props: {
+  reserveSymbol: OHMTokenProps["name"];
+  currentPrice: number;
+  sellActive: boolean;
+  reserveBalance?: DecimalBigNumber;
+  ohmBalance?: DecimalBigNumber;
+}) => {
+  const { reserveSymbol, currentPrice, sellActive, reserveBalance, ohmBalance } = props;
+  const trimmedOhmBalance = ohmBalance && ohmBalance.toString({ decimals: 2 });
+  const trimmedReserveBalance = reserveBalance && reserveBalance.toString({ decimals: 2 });
   const [reserveAmount, setReserveAmount] = useState("");
   const [ohmAmount, setOhmAmount] = useState("");
   const setMax = () => {
@@ -41,12 +50,13 @@ const RangeInputForm = (props: { reserveSymbol: OHMTokenProps["name"]; currentPr
       name="amount"
       value={reserveAmount}
       endString={t`Max`}
-      endStringOnClick={setMax}
+      endStringOnClick={() => changeReserveBalance(reserveBalance)}
       id="outlined-adornment-amount"
       onChange={event => changeReserveBalance(event.currentTarget.value)}
       label={sellActive ? t`Enter Amount of ${reserveSymbol} to Receive` : t`Enter Amount of ${reserveSymbol} to Spend`}
       startAdornment={reserveSymbol}
       placeholder="0.00"
+      info={`Balance: ${trimmedReserveBalance} ${reserveSymbol}`}
     />
   );
 
@@ -56,12 +66,13 @@ const RangeInputForm = (props: { reserveSymbol: OHMTokenProps["name"]; currentPr
       name="amount"
       value={ohmAmount}
       endString={t`Max`}
-      endStringOnClick={setMax}
+      endStringOnClick={() => changeOhmBalance(ohmBalance)}
       id="outlined-adornment-amount"
       onChange={event => changeOhmBalance(event.currentTarget.value)}
       label={sellActive ? t`Enter Amount of OHM to Spend` : t`Enter Amount of OHM to Receive`}
       placeholder="0.00"
       startAdornment={"OHM"}
+      info={`Balance: ${trimmedOhmBalance} OHM`}
     />
   );
   return (
