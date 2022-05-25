@@ -124,7 +124,7 @@
     "pptr-testing-library": "^0.7.0",
     "prettier": "^2.6.2",
     "puppeteer": "^14.1.0",
-    "sass": "^1.51.0",
+    "sass": "^1.52.1",
     "shelljs": "^0.8.5",
     "surge": "^0.21.5",
     "type-graphql": "^1.1.1",
