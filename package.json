@@ -72,7 +72,7 @@
     "@chainsafe/dappeteer": "^2.4.1",
     "@lingui/cli": "^3.13.3",
     "@lingui/core": "^3.13.0",
-    "@lingui/macro": "^3.12.1",
+    "@lingui/macro": "^3.13.3",
     "@nomiclabs/hardhat-ethers": "^2.0.6",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@testing-library/dom": "^8.13.0",
