@@ -12,12 +12,18 @@ jobs:
     steps:
       - name: Checkout front end code.
         uses: actions/checkout@v3
+      - name: Download dev coverage report
+        uses: actions/download-artifact@v3
+        with:
+          name: report.json
+          path: ./coverage/develop/report.json
       - name: Run unit tests
         uses: ArtiomTr/jest-coverage-report-action@v2.0.5
         with:
           test-script: yarn test:unit --silent
           package-manager: yarn
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          base-coverage-file: ./coverage/develop/report.json
       - name: Publish Coverage Report
         uses: actions/upload-artifact@v3
         with:
