@@ -1176,7 +1176,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
 exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = `
 <div>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1x5p8si-MuiGrid-root"
+    class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column give-container css-1x5p8si-MuiGrid-root"
   >
     <div
       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-10 MuiGrid-grid-md-10 MuiGrid-grid-lg-8 css-a5cnoe-MuiGrid-root"
