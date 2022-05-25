@@ -19,7 +19,7 @@ jobs:
           package-manager: yarn
           github-token: ${{ secrets.SECRET_TOKEN }}
       - name: Publish Coverage Report
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: report.json
           path: coverage/coverage-summary.json
