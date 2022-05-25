@@ -130,6 +130,20 @@ export const oolong_gohm_weth = new ExternalPool({
   networkID: NetworkId.BOBA,
 });
 
+export const curve_ohm_eth = new ExternalPool({
+  poolName: "OHM-ETH",
+  icons: ["OHM", "ETH"],
+  stakeOn: "Curve",
+  pairGecko: "ethereum",
+  rewardGecko: "curve-dao-token",
+  href: "https://curve.fi/factory-crypto/21/deposit",
+  address: "0x6ec38b3228251a0C5D491Faf66858e2E23d7728B", //Pool
+  masterchef: "0x2F50D538606Fa9EDD2B11E2446BEb18C9D5846bB", //Gauge Controller
+  rewarder: "0x8dF6FdAe05C9405853dd4cF2809D5dc2b5E77b0C", //Gauge Deposit
+  poolId: 21,
+  networkID: NetworkId.MAINNET,
+});
+
 export const allPools = [tj_gohm_wavax, sushi_arb_gohm_weth, sushi_poly_gohm_weth, spirit_gohm_ftm];
 export const sushiPools = [sushi_arb_gohm_weth, sushi_poly_gohm_weth];
 export const spiritPools = [spirit_gohm_ftm];
@@ -139,4 +153,5 @@ export const zipPools = [zip_gohm_weth];
 export const jonesPools = [jones_gohm_jgohm];
 export const balancerPools = [balancer_ohm_dai_weth];
 export const bobaPools = [oolong_gohm_weth];
+export const curvePools = [curve_ohm_eth];
 export default allPools;
