@@ -44,7 +44,7 @@ function Give({ selectedIndex = 0 }) {
         <Route
           path="/"
           element={
-            <Grid container direction="column" alignItems="center">
+            <Grid container direction="column" alignItems="center" className="give-container">
               <Grid item xs={12} sm={10} md={10} lg={8}>
                 <Paper
                   headerText={t`Give`}
