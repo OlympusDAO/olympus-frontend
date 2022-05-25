@@ -131,6 +131,7 @@
     "start": "yarn lingui:prepare && react-scripts start",
     "test": "react-scripts test",
     "test:unit": "react-scripts test --watchAll=false --bail --ci --coverage",
+    "test:ci": "react-scripts test --watchAll=false --bail --ci --coverage --silent --runInBand",
     "test:e2e": "react-scripts test  --watchAll=false --bail --ci",
     "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
     "lint:fix": "prettier --write ./src/ & yarn lint --fix",
