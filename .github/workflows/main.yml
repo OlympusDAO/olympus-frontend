@@ -2,9 +2,9 @@ name: Main CI
 
 on:
   push:
-    branches: [ master, develop ]
+    branches: [master, develop]
   pull_request:
-    types: [ opened, synchronize, reopened ]
+    types: [opened, synchronize, reopened]
 
 jobs:
   test:
@@ -15,19 +15,19 @@ jobs:
       - name: Download dev coverage report
         uses: actions/download-artifact@v3
         with:
-          name: report.json
-          path: ./coverage/develop/report.json
+          name: ${{ github.base_ref }}-report.json
+          path: ./coverage/base/report.json
       - name: Run unit tests
         uses: ArtiomTr/jest-coverage-report-action@v2.0.5
         with:
           test-script: yarn test:unit --silent
           package-manager: yarn
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          base-coverage-file: ./coverage/develop/report.json
+          base-coverage-file: ./coverage/base/report.json
       - name: Publish Coverage Report
         uses: actions/upload-artifact@v3
         with:
-          name: report.json
+          name: ${{ github.ref }}-report.json
           path: coverage/coverage-summary.json
       - name: Prepare coverage badges
         run: |
