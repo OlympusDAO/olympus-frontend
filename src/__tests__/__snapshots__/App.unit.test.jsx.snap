@@ -3,7 +3,7 @@
 exports[`<App/> should not render a connection error message when user wallet is not cached, i.e. user has not connected wallet yet 1`] = `
 <div>
   <div
-    class="css-1bhy8u5"
+    class="css-1l02gfp"
   >
     <div
       class="app false false light"
@@ -18,7 +18,7 @@ exports[`<App/> should not render a connection error message when user wallet is
         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionSticky TopBar-appBar css-fddjrt-MuiPaper-root-MuiAppBar-root"
       >
         <div
-          class="MuiToolbar-root MuiToolbar-regular dapp-topbar css-v92ha2-MuiToolbar-root"
+          class="MuiToolbar-root MuiToolbar-regular dapp-topbar css-ktpvx9-MuiToolbar-root"
         >
           <button
             aria-label="open drawer"
@@ -3706,7 +3706,7 @@ exports[`<App/> should not render a connection error message when user wallet is
 exports[`<App/> should not render an error message when user wallet is connected and cached but not locked 1`] = `
 <div>
   <div
-    class="css-1bhy8u5"
+    class="css-1l02gfp"
   >
     <div
       class="app false false light"
@@ -3721,7 +3721,7 @@ exports[`<App/> should not render an error message when user wallet is connected
         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionSticky TopBar-appBar css-fddjrt-MuiPaper-root-MuiAppBar-root"
       >
         <div
-          class="MuiToolbar-root MuiToolbar-regular dapp-topbar css-v92ha2-MuiToolbar-root"
+          class="MuiToolbar-root MuiToolbar-regular dapp-topbar css-ktpvx9-MuiToolbar-root"
         >
           <button
             aria-label="open drawer"
@@ -7409,7 +7409,7 @@ exports[`<App/> should not render an error message when user wallet is connected
 exports[`<App/> should render an error message when user wallet is connected and cached then locked 1`] = `
 <div>
   <div
-    class="css-1bhy8u5"
+    class="css-1l02gfp"
   >
     <div
       class="app false false light"
@@ -7424,7 +7424,7 @@ exports[`<App/> should render an error message when user wallet is connected and
         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionSticky TopBar-appBar css-fddjrt-MuiPaper-root-MuiAppBar-root"
       >
         <div
-          class="MuiToolbar-root MuiToolbar-regular dapp-topbar css-v92ha2-MuiToolbar-root"
+          class="MuiToolbar-root MuiToolbar-regular dapp-topbar css-ktpvx9-MuiToolbar-root"
         >
           <button
             aria-label="open drawer"
