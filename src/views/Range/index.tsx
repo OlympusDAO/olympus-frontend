@@ -1,8 +1,7 @@
 import { t } from "@lingui/macro";
 import { Box, FormControlLabel, FormGroup, Switch, Typography } from "@mui/material";
 import { DataRow, Metric, MetricCollection, Paper, PrimaryButton, Tab, Tabs } from "@olympusdao/component-library";
-import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useState } from "react";
 import { DAI_ADDRESSES, OHM_ADDRESSES } from "src/constants/addresses";
 import { formatCurrency, formatNumber } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -12,8 +11,8 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 
 import { RangeData } from "./hooks";
 import RangeChart from "./RangeChart";
+import RangeConfirmationModal from "./RangeConfirmationModal";
 import RangeInputForm from "./RangeInputForm";
-import RangeModal from "./RangeModal";
 
 //export interface OHMRangeProps {}
 
@@ -33,6 +32,9 @@ const Range = () => {
   const networks = useTestableNetworks();
   const { data: rangeData } = RangeData("CONTRACT_ADDRESS");
   const [sellActive, setSellActive] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [reserveAmount, setReserveAmount] = useState("");
+  const [ohmAmount, setOhmAmount] = useState("");
   //TODO: Remove. used for mocking state
   const [mockRangeData, setMockRangeData] = useState(rangeData);
   //TODO: Pull from contract if available
@@ -107,11 +109,32 @@ const Range = () => {
   });
 
   const discount =
-    (mockCurrentPrice - (sellActive ? bidPrice : askPrice)) / (sellActive ? -bidPrice : mockCurrentPrice);
+    (mockCurrentPrice - (sellActive ? bidPrice : askPrice)) / (sellActive ? -mockCurrentPrice : mockCurrentPrice);
 
+  const handleSubmit = (event: React.FormEvent) => {
+    console.log(event);
+    event.preventDefault();
+    setModalOpen(true);
+  };
+
+  //TODO: Swap for Current Price
+
+  const handleChangeOhmAmount = (value: any) => {
+    const reserveValue = value * currentPrice;
+    setOhmAmount(value);
+    setReserveAmount(reserveValue.toString());
+  };
+
+  const handleChangeReserveAmount = (value: any) => {
+    const ohmValue = value / currentPrice;
+    setOhmAmount(ohmValue.toString());
+    setReserveAmount(value);
+  };
+
+  const swapPrice = sellActive ? formatNumber(bidPrice, 2) : formatNumber(askPrice, 2);
   return (
     <div id="stake-view">
-      <Paper headerText="Mock States">
+      <Paper headerText="Shipoooor Mode: Mock States">
         <Typography>Walls</Typography>
         <FormGroup>
           <FormControlLabel
@@ -224,20 +247,28 @@ const Range = () => {
           sellActive={sellActive}
           reserveBalance={reserveBalance}
           ohmBalance={ohmBalance}
+          onFormSubmit={handleSubmit}
+          onChangeReserveAmount={handleChangeReserveAmount}
+          onChangeOhmAmount={handleChangeOhmAmount}
+          ohmAmount={ohmAmount}
+          reserveAmount={reserveAmount}
         />
         <DataRow
           title={maxString}
           balance={`${maxOhm} OHM (${reserveBalance ? reserveBalance.toString({ decimals: 2 }) : "0.00"} DAI)`}
         />
         <DataRow title={t`Discount`} balance={`${formatNumber(discount * 100, 2)}%`} />
-        <DataRow
-          title={t`Swap Price per OHM`}
-          balance={sellActive ? formatCurrency(bidPrice, 2) : formatCurrency(askPrice, 2)}
-        />
+        <DataRow title={t`Swap Price per OHM`} balance={swapPrice} />
       </Paper>
-      <Routes>
-        <Route path=":id" element={<RangeModal />} />
-      </Routes>
+      <RangeConfirmationModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        sellActive={sellActive}
+        reserveAmount={reserveAmount}
+        ohmAmount={ohmAmount}
+        swapPrice={swapPrice}
+        discount={discount}
+      />
     </div>
   );
 };

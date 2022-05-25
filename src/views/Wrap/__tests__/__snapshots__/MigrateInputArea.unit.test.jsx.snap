@@ -9,7 +9,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-6k1qou-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
@@ -316,7 +316,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                       style="padding-right: 4px;"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-3tw635-MuiFormControl-root"
+                        class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-1770pkq-MuiFormControl-root"
                       >
                         <div
                           class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-eqe2qg-MuiInputBase-root-MuiOutlinedInput-root"
@@ -333,13 +333,11 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                           <div
                             class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
                           >
-                            <button
-                              class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-rmjmo8-MuiButtonBase-root-MuiButton-root"
-                              tabindex="0"
-                              type="button"
+                            <a
+                              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-gsmmme-MuiTypography-root-MuiLink-root"
                             >
                               Max
-                            </button>
+                            </a>
                           </div>
                           <fieldset
                             aria-hidden="true"

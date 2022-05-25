@@ -1,16 +1,25 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { Icon, InfoNotification, Modal, PrimaryButton } from "@olympusdao/component-library";
-import { FC } from "react";
 import { useIsMutating } from "react-query";
 import { TokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
 import { BOND_DEPOSITORY_ADDRESSES, DAI_ADDRESSES } from "src/constants/addresses";
+import { formatNumber } from "src/helpers";
 
 /**
  * Component for Displaying RangeModal
  */
-const RangeModal: FC = () => {
+const RangeConfirmationModal = (props: {
+  open: boolean;
+  onClose: () => void;
+  sellActive: boolean;
+  ohmAmount: string;
+  reserveAmount: string;
+  swapPrice: string;
+  discount: number;
+}) => {
   const isMutating = useIsMutating();
+  const theme = useTheme();
   return (
     <Modal
       topLeft={<Icon name="settings" />}
@@ -19,8 +28,8 @@ const RangeModal: FC = () => {
           <Typography variant="h5">Confirm Swap</Typography>
         </Box>
       }
-      open
-      onClose={() => console.log("close")}
+      open={props.open}
+      onClose={props.onClose}
       minHeight={"100px"}
     >
       <Box display="flex" flexDirection="column">
@@ -33,27 +42,37 @@ const RangeModal: FC = () => {
         <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
           <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Price of OHM</Typography>
           <Box display="flex" flexDirection="column" textAlign="right">
-            <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Balance</Typography>
-            <Typography sx={{ fontSize: "12px", lineHeight: "21px" }}>Sub Balance</Typography>
+            <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>{props.swapPrice} DAI</Typography>
           </Box>
         </Box>
         <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
           <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>You Receive</Typography>
           <Box display="flex" flexDirection="column" textAlign="right">
-            <Typography>Balance</Typography>
+            <Typography>
+              {props.sellActive
+                ? `${formatNumber(Number(props.reserveAmount), 2)} DAI`
+                : `${formatNumber(Number(props.ohmAmount), 2)} OHM`}
+            </Typography>
           </Box>
         </Box>
         <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
           <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>You spend</Typography>
           <Box display="flex" flexDirection="column" textAlign="right">
-            <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Balance</Typography>
-            <Typography sx={{ fontSize: "12px", lineHeight: "21px" }}>Sub Balance</Typography>
+            <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>
+              {props.sellActive
+                ? `${formatNumber(Number(props.ohmAmount), 2)} OHM`
+                : `${formatNumber(Number(props.reserveAmount), 2)} DAI`}
+            </Typography>
           </Box>
         </Box>
         <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={"9px"}>
           <Typography sx={{ fontSize: "15px", lineHeight: "21px" }}>Discount</Typography>
           <Box display="flex" flexDirection="column" textAlign="right">
-            <Typography>0.00%</Typography>
+            <Typography
+              sx={{ color: props.discount > 0 ? theme.colors.feedback.pnlGain : theme.colors.feedback.error }}
+            >
+              {formatNumber(props.discount * 100, 2)}%
+            </Typography>
           </Box>
         </Box>
         <TokenAllowanceGuard
@@ -75,4 +94,4 @@ const RangeModal: FC = () => {
   );
 };
 
-export default RangeModal;
+export default RangeConfirmationModal;

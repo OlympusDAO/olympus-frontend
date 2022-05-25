@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 import { Box } from "@mui/material";
 import { Icon, Input, OHMTokenProps, PrimaryButton } from "@olympusdao/component-library";
-import { useState } from "react";
+import React from "react";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 
 // export interface OHMRangeInputFormProps {}
@@ -15,28 +15,28 @@ const RangeInputForm = (props: {
   sellActive: boolean;
   reserveBalance?: DecimalBigNumber;
   ohmBalance?: DecimalBigNumber;
+  reserveAmount: string;
+  ohmAmount: string;
+  onFormSubmit: (event: React.FormEvent) => void;
+  onChangeReserveAmount: (value: any) => void;
+  onChangeOhmAmount: (value: any) => void;
 }) => {
-  const { reserveSymbol, currentPrice, sellActive, reserveBalance, ohmBalance } = props;
+  const {
+    reserveSymbol,
+    currentPrice,
+    sellActive,
+    reserveBalance,
+    ohmBalance,
+    reserveAmount,
+    ohmAmount,
+    onChangeReserveAmount,
+    onChangeOhmAmount,
+  } = props;
   const trimmedOhmBalance = ohmBalance && ohmBalance.toString({ decimals: 2 });
   const trimmedReserveBalance = reserveBalance && reserveBalance.toString({ decimals: 2 });
-  const [reserveAmount, setReserveAmount] = useState("");
-  const [ohmAmount, setOhmAmount] = useState("");
+
   const setMax = () => {
     return "max";
-  };
-
-  //TODO: Swap for Current Price
-
-  const changeOhmBalance = (value: any) => {
-    const reserveValue = value * currentPrice;
-    setOhmAmount(value);
-    setReserveAmount(reserveValue.toString());
-  };
-
-  const changeReserveBalance = (value: any) => {
-    const ohmValue = value / currentPrice;
-    setOhmAmount(ohmValue.toString());
-    setReserveAmount(value);
   };
 
   let swapButtonText = `Swap ${reserveSymbol} for OHM`;
@@ -47,12 +47,12 @@ const RangeInputForm = (props: {
   const OhmInput = () => (
     <Input
       type="string"
-      name="amount"
+      name="reserveAmount"
       value={reserveAmount}
       endString={t`Max`}
-      endStringOnClick={() => changeReserveBalance(reserveBalance)}
-      id="outlined-adornment-amount"
-      onChange={event => changeReserveBalance(event.currentTarget.value)}
+      endStringOnClick={() => onChangeReserveAmount(reserveBalance)}
+      id="reserve-amount"
+      onChange={event => onChangeReserveAmount(event.currentTarget.value)}
       label={sellActive ? t`Enter Amount of ${reserveSymbol} to Receive` : t`Enter Amount of ${reserveSymbol} to Spend`}
       startAdornment={reserveSymbol}
       placeholder="0.00"
@@ -63,37 +63,38 @@ const RangeInputForm = (props: {
   const ReserveInput = () => (
     <Input
       type="string"
-      name="amount"
+      name="ohmAmount"
       value={ohmAmount}
       endString={t`Max`}
-      endStringOnClick={() => changeOhmBalance(ohmBalance)}
-      id="outlined-adornment-amount"
-      onChange={event => changeOhmBalance(event.currentTarget.value)}
+      endStringOnClick={() => onChangeOhmAmount(ohmBalance)}
+      id="ohm-amount"
+      onChange={event => onChangeOhmAmount(event.currentTarget.value)}
       label={sellActive ? t`Enter Amount of OHM to Spend` : t`Enter Amount of OHM to Receive`}
       placeholder="0.00"
       startAdornment={"OHM"}
       info={`Balance: ${trimmedOhmBalance} OHM`}
     />
   );
+
   return (
-    <Box display="flex" flexDirection="column">
-      {/* TODO: Add WalletConnect Guard */}
+    <form onSubmit={props.onFormSubmit}>
       <Box display="flex" flexDirection="column">
-        {/* TODO: Add TokenAlllowanceGuard */}
-        {sellActive ? <ReserveInput /> : <OhmInput />}
-        <Box display="flex" flexDirection="row" mt={2} justifyContent="center">
-          <Box style={{ backgroundColor: "#3F4552" }} p={"10px"} borderRadius="9px">
-            <Icon name="arrow-down" />
+        <Box display="flex" flexDirection="column">
+          {sellActive ? <ReserveInput /> : <OhmInput />}
+          <Box display="flex" flexDirection="row" mt={2} justifyContent="center">
+            <Box style={{ backgroundColor: "#3F4552" }} p={"10px"} borderRadius="9px">
+              <Icon name="arrow-down" />
+            </Box>
           </Box>
+          {sellActive ? <OhmInput /> : <ReserveInput />}
         </Box>
-        {sellActive ? <OhmInput /> : <ReserveInput />}
+        <Box mt="8px">
+          <PrimaryButton fullWidth type="submit">
+            {swapButtonText}
+          </PrimaryButton>
+        </Box>
       </Box>
-      <Box mt="8px">
-        <PrimaryButton fullWidth type="submit">
-          {swapButtonText}
-        </PrimaryButton>
-      </Box>
-    </Box>
+    </form>
   );
 };
 
