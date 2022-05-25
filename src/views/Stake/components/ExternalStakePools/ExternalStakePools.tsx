@@ -9,6 +9,7 @@ import {
   balancerPools,
   beetsPools,
   bobaPools,
+  curvePools,
   joePools,
   jonesPools,
   spiritPools,
@@ -24,6 +25,7 @@ import {
   BalancerSwapFees,
   BeetsPoolAPY,
   BobaPoolAPY,
+  CurvePoolAPY,
   JoePoolAPY,
   JonesPoolAPY,
   SpiritPoolAPY,
@@ -31,7 +33,7 @@ import {
   ZipPoolAPY,
 } from "./hooks/useStakePoolAPY";
 import { useStakePoolBalance } from "./hooks/useStakePoolBalance";
-import { BalancerPoolTVL, useStakePoolTVL } from "./hooks/useStakePoolTVL";
+import { BalancerPoolTVL, CurvePoolTVL, useStakePoolTVL } from "./hooks/useStakePoolTVL";
 
 const PREFIX = "ExternalStakePools";
 
@@ -65,7 +67,6 @@ const StyledPoolInfo = styled("div")(() => ({
 export const ExternalStakePools = () => {
   const { connected } = useWeb3Context();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
-
   return (
     <>
       {isSmallScreen ? (
@@ -123,6 +124,9 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     ))}
     {bobaPools.map(pool => (
       <BobaPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+    {curvePools.map(pool => (
+      <CurvePools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
   </>
 );
@@ -293,5 +297,15 @@ const BobaPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = prop
     <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
   ) : (
     <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+  );
+};
+
+const CurvePools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
+  const { data } = CurvePoolTVL(props.pool);
+  const { apy } = CurvePoolAPY(props.pool);
+  return props.isSmallScreen ? (
+    <MobileStakePool pool={props.pool} tvl={data.usdTotal} apy={apy} />
+  ) : (
+    <StakePool pool={props.pool} tvl={data.usdTotal} apy={apy} />
   );
 };

@@ -10,9 +10,10 @@ import { useMigrationData } from "src/helpers/Migration";
 import { useWeb3Context } from "src/hooks";
 import { changeMigrationApproval, migrateSingle, TokenType } from "src/slices/MigrateThunk";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
+import { AppDispatch } from "src/store";
 
 function MigrationModalSingle({ open, handleClose }: { open: boolean; handleClose: any }) {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
   const { provider, address, networkId } = useWeb3Context();
