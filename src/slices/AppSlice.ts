@@ -4,7 +4,7 @@ import { SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { RootState } from "src/store";
 
-import { abi as sOHMv2 } from "../abi/sOhmv2.json";
+import sOHMv2 from "../abi/sOhmv2.json";
 import { addresses, NetworkId } from "../constants";
 import { getMarketPrice, getTokenPrice, setAll } from "../helpers";
 import apollo from "../lib/apolloClient";
@@ -102,7 +102,7 @@ export const loadAppDetails = createAsyncThunk(
 
     const sohmMainContract = new ethers.Contract(
       SOHM_ADDRESSES[networkID as keyof typeof SOHM_ADDRESSES] as string,
-      sOHMv2,
+      sOHMv2.abi,
       provider,
     ) as SOhmv2;
 
