@@ -17,12 +17,12 @@ jobs:
     - name: Build UI
       run: yarn install --frozen-lockfile
     - name: Run unit tests
-      run:  yarn test:unit --silent --ci --json --coverage --testLocationInResults --maxWorkers=2 --outputFile=report.json
+      run:  yarn test:unit --silent --ci --json --coverage --testLocationInResults --maxWorkers=2 --outputFile=base-report.json
     - name: Upload Report
       uses: actions/upload-artifact@v3
       with:
-        name: base-report.json
-        path: report.json  
+        name: base-report
+        path: base-report.json  
   test-branch:
     runs-on: ubuntu-latest
     steps:
@@ -33,12 +33,12 @@ jobs:
     - name: Build UI
       run: yarn install --frozen-lockfile
     - name: Run unit tests
-      run:  yarn test:unit --silent --ci --json --coverage --testLocationInResults --maxWorkers=2 --outputFile=report.json
+      run:  yarn test:unit --silent --ci --json --coverage --testLocationInResults --maxWorkers=2 --outputFile=branch-report.json
     - name: Upload Report
       uses: actions/upload-artifact@v3
       with:
-        name: branch-report.json
-        path: report.json
+        name: branch-report
+        path: branch-report.json
   coverageReport:
     runs-on: ubuntu-latest
     needs: [test-base, test-branch]
@@ -46,21 +46,19 @@ jobs:
       - name: Download Base Report
         uses: actions/download-artifact@v3
         with:
-          name: base-report.json
-          path: cov
+          name: base-report
       - name: Download Branch Report
         uses: actions/download-artifact@v3
         with:
-          name: branch-report.json
-          path: cov
+          name: branch-report
       - name: Generate Coverage Report
         uses: ArtiomTr/jest-coverage-report-action@v2.0.5
         with:
           test-script: yarn test:unit --silent
           package-manager: yarn
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-file: cov/branch-report.json
-          base-coverage-file: cov/base-report.json
+          coverage-file: branch-report.json
+          base-coverage-file: base-report.json
   prepareBadges:
     runs-on: ubuntu-latest
     needs: [test-branch]
@@ -68,14 +66,13 @@ jobs:
       - name: Download Branch Report
         uses: actions/download-artifact@v3
         with:
-          name: branch-report.json
-          path: cov
+          name: branch-report
       - name: Prepare coverage badges
         run: |
-          echo "COVERAGE_BRANCHES_PCT=$(echo $(jq .total.branches.pct cov/branch-report.json))" >> $GITHUB_ENV
-          echo "COVERAGE_LINES_PCT=$(echo $(jq .total.lines.pct cov/branch-report.json))" >> $GITHUB_ENV
-          echo "COVERAGE_STATEMENTS_PCT=$(echo $(jq .total.statements.pct cov/branch-report.json))" >> $GITHUB_ENV
-          echo "COVERAGE_FUNCTIONS_PCT=$(echo $(jq .total.functions.pct cov/branch-report.json))" >> $GITHUB_ENV
+          echo "COVERAGE_BRANCHES_PCT=$(echo $(jq .total.branches.pct branch-report.json))" >> $GITHUB_ENV
+          echo "COVERAGE_LINES_PCT=$(echo $(jq .total.lines.pct branch-report.json))" >> $GITHUB_ENV
+          echo "COVERAGE_STATEMENTS_PCT=$(echo $(jq .total.statements.pct branch-report.json))" >> $GITHUB_ENV
+          echo "COVERAGE_FUNCTIONS_PCT=$(echo $(jq .total.functions.pct branch-report.json))" >> $GITHUB_ENV
 
           # get branch name
           REF=${{ github.ref }}
