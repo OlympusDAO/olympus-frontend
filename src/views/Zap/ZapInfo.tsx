@@ -1,17 +1,26 @@
 import "./Zap.scss";
 
 import { Trans } from "@lingui/macro";
-import { Box, Button, Grid, Paper, SvgIcon, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Button, Grid, Paper, SvgIcon, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { Token, TokenStack } from "@olympusdao/component-library";
 import React from "react";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { trackGAEvent } from "../../helpers/analytics/trackGAEvent";
 
-const useStyles = makeStyles(theme => ({
-  infoBox: {
-    [theme.breakpoints.down("md")]: {
+const PREFIX = "ZapInfo";
+
+const classes = {
+  infoBox: `${PREFIX}-infoBox`,
+  infoBoxItem: `${PREFIX}-infoBoxItem`,
+  infoHeader: `${PREFIX}-infoHeader`,
+  infoBody: `${PREFIX}-infoBody`,
+};
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  [`& .${classes.infoBox}`]: {
+    [theme.breakpoints.down("lg")]: {
       display: "flex",
       flexDirection: "row",
     },
@@ -20,16 +29,18 @@ const useStyles = makeStyles(theme => ({
       flexDirection: "column",
     },
   },
-  infoBoxItem: {
-    [theme.breakpoints.down("md")]: {
+
+  [`& .${classes.infoBoxItem}`]: {
+    [theme.breakpoints.down("lg")]: {
       padding: "8px !important",
     },
     [theme.breakpoints.up("md")]: {
       padding: "16px !important",
     },
   },
-  infoHeader: {
-    [theme.breakpoints.down("md")]: {
+
+  [`& .${classes.infoHeader}`]: {
+    [theme.breakpoints.down("lg")]: {
       width: "40%",
       padding: "12px 0px",
     },
@@ -38,8 +49,9 @@ const useStyles = makeStyles(theme => ({
       paddingBottom: "1.5rem",
     },
   },
-  infoBody: {
-    [theme.breakpoints.down("md")]: {
+
+  [`& .${classes.infoBody}`]: {
+    [theme.breakpoints.down("lg")]: {
       width: "60%",
       paddingTop: "12px",
       paddingInline: "6px",
@@ -57,8 +69,6 @@ type ZapInfoProps = {
 };
 
 const ZapInfo: React.FC<ZapInfoProps> = ({ address }) => {
-  const classes = useStyles();
-
   const trackClick = (address: string) => {
     const uaData = {
       address,
@@ -70,8 +80,8 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ address }) => {
     });
   };
   return (
-    <Paper className="ohm-card" id="olyzaps-info">
-      <Grid container direction="row" spacing={4}>
+    <StyledPaper className="ohm-card" id="olyzaps-info">
+      <Grid container direction="row">
         <Grid item sm={12} md={4} classes={{ root: classes.infoBox, item: classes.infoBoxItem }}>
           <Box
             alignItems="center"
@@ -164,7 +174,7 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ address }) => {
           <SvgIcon component={ArrowUp} color="primary" />
         </Button>
       </Box>
-    </Paper>
+    </StyledPaper>
   );
 };
 

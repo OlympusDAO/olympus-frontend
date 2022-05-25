@@ -1,17 +1,6 @@
 import { t, Trans } from "@lingui/macro";
-import {
-  Box,
-  Tab,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Tabs,
-  Typography,
-} from "@material-ui/core";
-import { Paper, PrimaryButton, TertiaryButton, TokenStack } from "@olympusdao/component-library";
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Paper, PrimaryButton, Tab, Tabs, TertiaryButton, TokenStack } from "@olympusdao/component-library";
 import { useState } from "react";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
@@ -46,6 +35,7 @@ export const ClaimBonds = () => {
           value={isPayoutGohm ? 1 : 0}
           aria-label="Payout token tabs"
           onChange={(_, view) => setIsPayoutGohm(view === 1)}
+          TabIndicatorProps={{ style: { display: "none" } }}
         >
           <Tab aria-label="payout-sohm-button" label="sOHM" style={{ fontSize: "1rem" }} />
           <Tab aria-label="payout-sohm-button" label="gOHM" style={{ fontSize: "1rem" }} />

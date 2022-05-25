@@ -1,3 +1,4 @@
+import axios from "axios";
 import { gql, request } from "graphql-request";
 import { useQuery } from "react-query";
 import { getTokenPrice, parseBigNumber } from "src/helpers";
@@ -8,8 +9,13 @@ import { useWeb3Context } from "src/hooks";
 import {
   useStaticBalancerV2PoolContract,
   useStaticBeethovenChefContract,
+  useStaticBobaChefContract,
+  useStaticBobaRewarderContract,
   useStaticChefContract,
   useStaticChefRewarderContract,
+  useStaticCurveGaugeControllerContract,
+  useStaticCurveGaugeDepositContract,
+  useStaticCurvePoolContract,
   useStaticGaugeContract,
   useStaticJoeChefContract,
   useStaticJoeRewarderContract,
@@ -141,6 +147,67 @@ export const BalancerSwapFees = (address: string) => {
   return { data, isFetched, isLoading };
 };
 
+export const BobaPoolAPY = (pool: ExternalPool) => {
+  const { data: tvl = 0 } = useStakePoolTVL(pool);
+  const bobaChef = useStaticBobaChefContract(pool.masterchef, pool.networkID);
+  const bobaRewarder = useStaticBobaRewarderContract(pool.rewarder, pool.networkID);
+  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
+    const rewardsPerWeek = parseBigNumber(await bobaChef.oolongPerSec(), 18) * 604800;
+    const rewarderRewardsPerSecond = parseBigNumber(await bobaRewarder.rewardRate(), 18);
+    const poolInfo = await bobaChef.poolInfo(pool.poolId);
+    const totalAllocPoint = parseBigNumber(await bobaChef.totalAllocPoint(), 18);
+    const poolRewardsPerWeek = (parseBigNumber(poolInfo.allocPoint, 18) / totalAllocPoint) * rewardsPerWeek;
+    return { poolRewardsPerWeek, rewarderRewardsPerSecond };
+  });
+  const { data: apy = 0 } = APY(pool, tvl, data, pool.bonusGecko);
+  return { apy, isFetched, isLoading };
+};
+
+export const CurvePoolAPY = (pool: ExternalPool) => {
+  const { data: rewardAPY = 0 } = CurvePoolRewardAPY(pool);
+
+  const curveAPI = "https://api.curve.fi/api/getFactoryAPYs?version=crypto";
+  const {
+    data = { apy: 0 },
+    isFetched,
+    isLoading,
+  } = useQuery(["CurvePoolBaseAPY"], async () => {
+    return await axios.get(curveAPI).then(res => {
+      const apy = res.data.data.poolDetails.find(
+        (pool: { poolAddress: string }) => pool.poolAddress == "0x6ec38b3228251a0C5D491Faf66858e2E23d7728B",
+      );
+      return apy;
+    });
+  });
+  const apy = data.apy / 100 + rewardAPY;
+  return { apy, isFetched, isLoading };
+};
+
+export const CurvePoolRewardAPY = (pool: ExternalPool) => {
+  const curvePoolContract = useStaticCurvePoolContract(pool.address, pool.networkID);
+  const curveGaugeControllerContract = useStaticCurveGaugeControllerContract(pool.masterchef, pool.networkID);
+  const curveGaugeDepositContract = useStaticCurveGaugeDepositContract(pool.rewarder, pool.networkID);
+
+  const { data, isFetched, isLoading } = useQuery(["CurvePoolRewardAPY"], async () => {
+    const curvePrice = await getTokenPrice(pool.rewardGecko);
+    const virtualPrice = parseBigNumber(await curvePoolContract.get_virtual_price(), 18);
+    const lpPrice = parseBigNumber(await curvePoolContract.price_oracle(), 18);
+    const inflationRate = parseBigNumber(await curveGaugeDepositContract.inflation_rate(), 18);
+    const relativeWeight = parseBigNumber(
+      await curveGaugeControllerContract["gauge_relative_weight(address)"](pool.rewarder),
+      18,
+    );
+    const workingSupply = parseBigNumber(await curveGaugeDepositContract.totalSupply(), 18);
+
+    //https://github.com/curvefi/brownie-tutorial/tree/main/lesson-19-applications-iii
+    const tAPY = (curvePrice * inflationRate * relativeWeight * 12614400) / (workingSupply * virtualPrice * lpPrice);
+
+    //scale down APY to mid range
+    return tAPY * 0.75;
+  });
+  return { data, isFetched, isLoading };
+};
+
 export const ZipPoolAPY = (pool: ExternalPool) => {
   const { data: tvl = 0 } = useStakePoolTVL(pool);
   const zipRewarderContract = useStaticZipRewarderContract(pool.masterchef, pool.networkID);
@@ -184,17 +251,21 @@ const APY = (
   pool: ExternalPool,
   tvl: number,
   data?: { poolRewardsPerWeek: number; rewarderRewardsPerSecond: number },
+  nongOHMBonus?: string,
 ) => {
   const useDependentQuery = createDependentQuery(stakePoolAPYQueryKey(pool));
   const { data: gohmPrice } = useGohmPrice();
+
+  const bonusGecko = useDependentQuery("bonus", () => getTokenPrice(nongOHMBonus));
   const rewardPrice = useDependentQuery("rewardPrice", () => getTokenPrice(pool.rewardGecko));
+  const bonusTokenPrice = nongOHMBonus ? bonusGecko : gohmPrice;
   return useQuery<number, Error>(
     ["APY", pool],
     () => {
-      queryAssertion(gohmPrice && rewardPrice && tvl && data);
+      queryAssertion(bonusTokenPrice && rewardPrice && tvl && data);
       const rewarderRewardsPerWeek = data.rewarderRewardsPerSecond * 604800;
       const baseRewardAPY = ((data.poolRewardsPerWeek * rewardPrice) / tvl) * 52;
-      const bonusRewardsAPY = ((rewarderRewardsPerWeek * gohmPrice) / tvl) * 52;
+      const bonusRewardsAPY = ((rewarderRewardsPerWeek * bonusTokenPrice) / tvl) * 52;
       return baseRewardAPY + bonusRewardsAPY;
     },
     { enabled: !!tvl && !!gohmPrice && !!rewardPrice && !!data },

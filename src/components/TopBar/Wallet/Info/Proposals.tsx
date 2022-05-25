@@ -1,18 +1,14 @@
 import { t } from "@lingui/macro";
-import { Box, Fade } from "@material-ui/core";
+import { Box, Fade } from "@mui/material";
 import { InfoCard } from "@olympusdao/component-library";
 import { FC, Key } from "react";
 
 import { ActiveProposals } from "../queries";
 
-export interface OHMInfoProps {
-  path?: string;
-}
-
 /**
- * Component for Displaying Proposals
+ * Component for displaying proposals
  */
-const Info: FC<OHMInfoProps> = () => {
+export const Proposals: FC = () => {
   const { data, isFetched } = ActiveProposals();
 
   const truncate = (str: string) => {
@@ -56,5 +52,3 @@ const Info: FC<OHMInfoProps> = () => {
     </Fade>
   );
 };
-
-export default Info;

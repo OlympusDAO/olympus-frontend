@@ -47,7 +47,7 @@ export const inverseTerms = {
 export const markets = {
   37: {
     capacity: BigNumber.from("0x19e4ad0149"),
-    quoteToken: "0x69b81152c5A8d35A67B32A4D3772795d96CaE4da",
+    quoteToken: "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
     capacityInQuote: false,
     totalDebt: BigNumber.from("0x138b12191ba8"),
     maxPayout: BigNumber.from("0x025aa06d9f87"),
@@ -65,7 +65,7 @@ export const markets = {
   },
   36: {
     capacity: BigNumber.from("0xd53ab28156"),
-    quoteToken: "0x46E4D8A1322B9448905225E52F914094dBd6dDdF",
+    quoteToken: "0x853d955aCEf822Db058eb8505911ED77F175b99e",
     capacityInQuote: false,
     totalDebt: BigNumber.from("0x100ec8993e1b"),
     maxPayout: BigNumber.from("0x01f516b5f89f"),

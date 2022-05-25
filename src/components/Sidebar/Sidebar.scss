@@ -115,22 +115,6 @@
       }
     }
 
-    .MuiAccordionSummary-expandIcon {
-      color: inherit;
-      height: inherit;
-      padding-top: 0;
-      padding-bottom: 0;
-      position: absolute;
-      left: 118px;
-      top: -5px;
-      transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, top 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-        transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-      &.Mui-expanded {
-        left: 120px;
-        top: -2px;
-      }
-    }
-
     .MuiAccordionDetails-root {
       padding: 0;
       display: block;

@@ -3,6 +3,7 @@ import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import React, { ReactElement, useCallback, useContext, useMemo, useState } from "react";
+import { unstable_batchedUpdates } from "react-dom";
 import { idFromHexString, initNetworkFunc } from "src/helpers/NetworkHelper";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import Web3Modal from "web3modal";
@@ -168,19 +169,22 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     _initListeners(rawProvider);
 
     const connectedProvider = new Web3Provider(rawProvider, "any");
-    setProvider(connectedProvider);
     const connectedAddress = await connectedProvider.getSigner().getAddress();
-
-    // Save everything after we've validated the right network.
-    // Eventually we'll be fine without doing network validations.
-    setAddress(connectedAddress);
     const networkHash = await initNetworkFunc({ provider: connectedProvider });
-    setNetworkId(networkHash.networkId);
-    setNetworkName(networkHash.networkName);
-    setProviderUri(networkHash.uri);
-    setProviderInitialized(networkHash.initialized);
-    // Keep this at the bottom of the method, to ensure any repaints have the data we need
-    setConnected(true);
+
+    unstable_batchedUpdates(() => {
+      setProvider(connectedProvider);
+
+      // Save everything after we've validated the right network.
+      // Eventually we'll be fine without doing network validations.
+      setAddress(connectedAddress);
+      setNetworkId(networkHash.networkId);
+      setNetworkName(networkHash.networkName);
+      setProviderUri(networkHash.uri);
+      setProviderInitialized(networkHash.initialized);
+      // Keep this at the bottom of the method, to ensure any repaints have the data we need
+      setConnected(true);
+    });
 
     return connectedProvider;
   }, [provider, web3Modal, connected]);

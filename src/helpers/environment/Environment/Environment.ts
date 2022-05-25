@@ -119,6 +119,16 @@ export class Environment {
           key: `REACT_APP_OPTIMISM_TESTNET_NODE_URL`,
           fallback: "https://kovan.optimism.io/",
         });
+      case NetworkId.BOBA:
+        return this._get({
+          key: `REACT_APP_BOBA_NODE_URL`,
+          fallback: "https://mainnet.boba.network	",
+        });
+      case NetworkId.BOBA_TESTNET:
+        return this._get({
+          key: `REACT_APP_BOBA_TESTNET_NODE_URL`,
+          fallback: "https://rinkeby.boba.network/",
+        });
     }
   };
 
@@ -155,5 +165,9 @@ export class Environment {
     const isEnvTrue = this.env.REACT_APP_MOCK_SOHM_ENABLED === "true";
 
     return isQueryParamActive || isEnvTrue;
+  }
+
+  public static isWalletNewsEnabled() {
+    return this.env.REACT_APP_DISABLE_NEWS !== "true";
   }
 }

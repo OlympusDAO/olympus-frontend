@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { useTheme } from "@material-ui/core/styles";
+import { useTheme } from "@mui/material/styles";
 import Chart from "src/components/Chart/Chart";
 import { formatCurrency, trim } from "src/helpers";
 import { useProtocolMetrics } from "src/hooks/useProtocolMetrics";

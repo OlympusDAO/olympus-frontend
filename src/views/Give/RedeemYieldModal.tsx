@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro";
-import { Grid, Typography } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { Grid, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { Modal, PrimaryButton } from "@olympusdao/component-library";
 import { ArrowGraphic } from "src/components/EducationCard";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
@@ -40,10 +40,10 @@ export function RedeemYieldModal({
   const { address } = useWeb3Context();
   const theme = useTheme();
   const themedArrow =
-    theme.palette.type === "dark" && theme.colors.primary[300]
+    theme.palette.mode === "dark" && theme.colors.primary[300]
       ? theme.colors.primary[300]
       : theme.palette.text.secondary;
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const canSubmit = () => {
     if (!address) return false;

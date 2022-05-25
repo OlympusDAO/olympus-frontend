@@ -1,12 +1,15 @@
 import { t, Trans } from "@lingui/macro";
-import { Box, makeStyles, Table, TableCell, TableHead, TableRow, Typography, Zoom } from "@material-ui/core";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Skeleton } from "@material-ui/lab";
+import { Box, Table, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { DataRow, OHMTokenProps, Paper, SecondaryButton, Token, TokenStack } from "@olympusdao/component-library";
 import { formatCurrency, formatNumber } from "src/helpers";
 import {
   balancerPools,
   beetsPools,
+  bobaPools,
+  curvePools,
   joePools,
   jonesPools,
   spiritPools,
@@ -21,6 +24,8 @@ import {
   BalancerPoolAPY,
   BalancerSwapFees,
   BeetsPoolAPY,
+  BobaPoolAPY,
+  CurvePoolAPY,
   JoePoolAPY,
   JonesPoolAPY,
   SpiritPoolAPY,
@@ -28,29 +33,71 @@ import {
   ZipPoolAPY,
 } from "./hooks/useStakePoolAPY";
 import { useStakePoolBalance } from "./hooks/useStakePoolBalance";
-import { BalancerPoolTVL, useStakePoolTVL } from "./hooks/useStakePoolTVL";
+import { BalancerPoolTVL, CurvePoolTVL, useStakePoolTVL } from "./hooks/useStakePoolTVL";
 
-const useStyles = makeStyles(theme => ({
-  stakePoolsWrapper: {
-    display: "grid",
-    gridTemplateColumns: `1.0fr 0.5fr 0.5fr 1.5fr auto`,
-    gridTemplateRows: "auto",
-    alignItems: "center",
-  },
-  stakePoolHeaderText: {
+const PREFIX = "ExternalStakePools";
+
+const classes = {
+  stakePoolsWrapper: `${PREFIX}-stakePoolsWrapper`,
+  stakePoolHeaderText: `${PREFIX}-stakePoolHeaderText`,
+  poolPair: `${PREFIX}-poolPair`,
+  poolName: `${PREFIX}-poolName`,
+};
+
+const StyledTableHeader = styled(TableHead)(({ theme }) => ({
+  [`&.${classes.stakePoolHeaderText}`]: {
     color: theme.palette.text.secondary,
     lineHeight: 1.4,
   },
-  poolPair: {
+}));
+
+const StyledPoolInfo = styled("div")(() => ({
+  [`&.${classes.poolPair}`]: {
     display: "flex !important",
     alignItems: "center",
     justifyContent: "left",
     marginBottom: "15px",
   },
-  poolName: {
+
+  [`& .${classes.poolName}`]: {
     marginLeft: "10px",
   },
 }));
+
+export const ExternalStakePools = () => {
+  const { connected } = useWeb3Context();
+  const isSmallScreen = useMediaQuery("(max-width: 705px)");
+  return (
+    <>
+      {isSmallScreen ? (
+        <AllPools isSmallScreen={isSmallScreen} />
+      ) : (
+        <Paper headerText={t`Farm Pool`}>
+          <Table>
+            <StyledTableHeader className={classes.stakePoolHeaderText}>
+              <TableRow>
+                <TableCell style={{ width: "250px", padding: "8px 0" }}>
+                  <Trans>Asset</Trans>
+                </TableCell>
+
+                <TableCell style={{ width: connected ? "100px" : "150px", padding: "8px 0" }}>
+                  <Trans>TVL</Trans>
+                </TableCell>
+
+                <TableCell style={{ width: connected ? "100px" : "150px", padding: "8px 0" }}>
+                  <Trans>APY</Trans>
+                </TableCell>
+
+                {connected && <TableCell style={{ width: "100px", padding: "8px 0" }}>{t`Balance`}</TableCell>}
+              </TableRow>
+            </StyledTableHeader>
+            <AllPools isSmallScreen={isSmallScreen} />
+          </Table>
+        </Paper>
+      )}
+    </>
+  );
+};
 
 const AllPools = (props: { isSmallScreen: boolean }) => (
   <>
@@ -75,42 +122,14 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     {balancerPools.map(pool => (
       <BalancerPools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
+    {bobaPools.map(pool => (
+      <BobaPools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+    {curvePools.map(pool => (
+      <CurvePools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
   </>
 );
-
-const ExternalStakePools = () => {
-  const styles = useStyles();
-  const { connected } = useWeb3Context();
-  const isSmallScreen = useMediaQuery("(max-width: 705px)");
-
-  return (
-    <Zoom in={true}>
-      {isSmallScreen ? (
-        <AllPools isSmallScreen={isSmallScreen} />
-      ) : (
-        <Paper headerText={t`Farm Pool`}>
-          <Table>
-            <TableHead className={styles.stakePoolHeaderText}>
-              <TableRow>
-                <TableCell align="center">
-                  <Trans>Asset</Trans>
-                </TableCell>
-                <TableCell>
-                  <Trans>TVL</Trans>
-                </TableCell>
-                <TableCell>
-                  <Trans>APY</Trans>
-                </TableCell>
-                <TableCell>{connected ? t`Balance` : ""}</TableCell>
-              </TableRow>
-            </TableHead>
-            <AllPools isSmallScreen={isSmallScreen} />
-          </Table>
-        </Paper>
-      )}
-    </Zoom>
-  );
-};
 
 const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = props => {
   const { connected } = useWeb3Context();
@@ -120,7 +139,7 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
 
   return (
     <TableRow>
-      <TableCell>
+      <TableCell style={{ padding: "8px 0" }}>
         <Box display="flex" flexDirection="row" alignItems="center" style={{ whiteSpace: "nowrap" }}>
           <TokenStack tokens={props.pool.icons} />
           <Typography gutterBottom={false} style={{ lineHeight: 1.4, marginLeft: "10px", marginRight: "10px" }}>
@@ -129,28 +148,32 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
           <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} />
         </Box>
       </TableCell>
-      <TableCell>
+
+      <TableCell style={{ padding: "8px 0" }}>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!props.tvl ? <Skeleton width="100%" /> : formatCurrency(props.tvl)}
+          {!props.tvl ? <Skeleton width={60} /> : formatCurrency(props.tvl)}
         </Typography>
       </TableCell>
-      <TableCell>
+
+      <TableCell style={{ padding: "8px 0" }}>
         <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!props.apy ? <Skeleton width="100%" /> : `${formatNumber(props.apy * 100, 2)}%`}
+          {!props.apy ? <Skeleton width={60} /> : `${formatNumber(props.apy * 100, 2)}%`}
         </Typography>
       </TableCell>
-      <TableCell>
-        <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
-          {!connected ? (
-            ""
-          ) : !userBalance ? (
-            <Skeleton width="100%" />
-          ) : (
-            `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`
-          )}
-        </Typography>
-      </TableCell>
-      <TableCell>
+
+      {connected && (
+        <TableCell style={{ padding: "8px 0" }}>
+          <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
+            {!userBalance ? (
+              <Skeleton width={60} />
+            ) : (
+              `${userBalance.toString({ decimals: 4, trim: false, format: true })} LP`
+            )}
+          </Typography>
+        </TableCell>
+      )}
+
+      <TableCell style={{ padding: "8px 0" }}>
         <SecondaryButton size="small" target="_blank" href={props.pool.href} fullWidth>
           {t`Stake on`} {props.pool.stakeOn}
         </SecondaryButton>
@@ -160,7 +183,6 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
 };
 
 const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = props => {
-  const styles = useStyles();
   const { connected } = useWeb3Context();
 
   const userBalances = useStakePoolBalance(props.pool);
@@ -168,16 +190,16 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
 
   return (
     <Paper>
-      <div className={styles.poolPair}>
+      <StyledPoolInfo className={classes.poolPair}>
         <TokenStack tokens={props.pool.icons} />
 
-        <div className={styles.poolName}>
+        <div className={classes.poolName}>
           <Typography>{props.pool.poolName}</Typography>
         </div>
-        <div className={styles.poolName}>
+        <div className={classes.poolName}>
           <Token name={NetworkId[props.pool.networkID] as OHMTokenProps["name"]} style={{ fontSize: "15px" }} />
         </div>
-      </div>
+      </StyledPoolInfo>
 
       <DataRow title={`TVL`} isLoading={!props.tvl} balance={props.tvl ? formatCurrency(props.tvl) : undefined} />
       <DataRow
@@ -268,4 +290,22 @@ const BalancerPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = 
   );
 };
 
-export default ExternalStakePools;
+const BobaPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
+  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
+  const { apy } = BobaPoolAPY(props.pool);
+  return props.isSmallScreen ? (
+    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+  ) : (
+    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+  );
+};
+
+const CurvePools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
+  const { data } = CurvePoolTVL(props.pool);
+  const { apy } = CurvePoolAPY(props.pool);
+  return props.isSmallScreen ? (
+    <MobileStakePool pool={props.pool} tvl={data.usdTotal} apy={apy} />
+  ) : (
+    <StakePool pool={props.pool} tvl={data.usdTotal} apy={apy} />
+  );
+};

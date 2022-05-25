@@ -1,6 +1,7 @@
 /* eslint-disable global-require */
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
+import { StyledEngineProvider } from "@mui/material/styles";
 import { FC, useEffect } from "react";
 import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
@@ -22,7 +23,9 @@ const Root: FC = () => {
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
             <HashRouter>
-              <App />
+              <StyledEngineProvider injectFirst>
+                <App />
+              </StyledEngineProvider>
             </HashRouter>
           </I18nProvider>
         </Provider>
