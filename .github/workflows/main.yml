@@ -17,7 +17,7 @@ jobs:
         with:
           test-script: yarn test:unit --silent
           package-manager: yarn
-          github-token: ${{ secrets.SECRET_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish Coverage Report
         uses: actions/upload-artifact@v3
         with:
