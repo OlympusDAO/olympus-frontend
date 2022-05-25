@@ -12,23 +12,33 @@ jobs:
     steps:
       - name: Checkout front end code.
         uses: actions/checkout@v3
-      - name: Download dev coverage report
-        uses: actions/download-artifact@v3
-        with:
-          name: report.json
-          path: ./coverage/base/report.json
-      - name: Run unit tests
+      - name: Download base coverage report
+        id: base-coverage
+        uses: actions/cache@v3
+        with: 
+          path: coverage
+          key: ${{ github.base_ref }}
+      - name: Run unit tests with no base report
+        if: steps.base-coverage.cache-hit != 'true'
         uses: ArtiomTr/jest-coverage-report-action@v2.0.5
         with:
           test-script: yarn test:unit --silent
           package-manager: yarn
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          base-coverage-file: ./coverage/base/report.json
-      - name: Publish Coverage Report
-        uses: actions/upload-artifact@v3
+      - name: Run unit unit tests with base branch report
+        if: steps.base-coverage.cache-hit == 'true'
+        uses: ArtiomTr/jest-coverage-report-action@v2.0.5
         with:
-          name: ${{ github.ref }}-report.json
-          path: coverage/coverage-summary.json
+          test-script: yarn test:unit --silent
+          package-manager: yarn
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          base-coverage-file: ./coverage/coverage-summary.json
+      - name: Cache the coverage after run
+        id: branch-coverage
+        uses: actions/cache@v3
+        with: 
+          path: coverage
+          key: ${{ github.ref }}
       - name: Prepare coverage badges
         run: |
           echo "COVERAGE_BRANCHES_PCT=$(echo $(jq .total.branches.pct coverage/coverage-summary.json))" >> $GITHUB_ENV
