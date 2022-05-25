@@ -15,7 +15,7 @@ jobs:
       - name: Download dev coverage report
         uses: actions/download-artifact@v3
         with:
-          name: ${{ github.base_ref }}-report.json
+          name: report.json
           path: ./coverage/base/report.json
       - name: Run unit tests
         uses: ArtiomTr/jest-coverage-report-action@v2.0.5
