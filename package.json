@@ -113,7 +113,7 @@
     "jest-puppeteer": "^6.1.0",
     "jest-when": "^3.5.1",
     "less-plugin-npm-import": "^2.1.0",
-    "lint-staged": "^12.4.1",
+    "lint-staged": "^12.4.2",
     "node-watch": "^0.7.1",
     "postcss": "^8.4.13",
     "pptr-testing-library": "^0.7.0",
