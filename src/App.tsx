@@ -28,6 +28,7 @@ import useTheme from "./hooks/useTheme";
 import { getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { error, info } from "./slices/MessagesSlice";
+import { AppDispatch } from "./store";
 import { dark as darkTheme } from "./themes/dark.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { light as lightTheme } from "./themes/light.js";
@@ -103,7 +104,7 @@ const MULTIFARM_API_KEY = getMultiFarmApiKey();
 function App() {
   useGoogleAnalytics();
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [theme, toggleTheme] = useTheme();
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);

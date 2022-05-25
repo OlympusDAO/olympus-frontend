@@ -11,6 +11,7 @@ import {
   balancerPools,
   beetsPools,
   bobaPools,
+  curvePools,
   joePools,
   jonesPools,
   spiritPools,
@@ -30,13 +31,18 @@ import {
   BalancerSwapFees,
   BeetsPoolAPY,
   BobaPoolAPY,
+  CurvePoolAPY,
   JoePoolAPY,
   JonesPoolAPY,
   SpiritPoolAPY,
   SushiPoolAPY,
   ZipPoolAPY,
 } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolAPY";
-import { BalancerPoolTVL, useStakePoolTVL } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
+import {
+  BalancerPoolTVL,
+  CurvePoolTVL,
+  useStakePoolTVL,
+} from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
 
 import { SupplyRatePerBlock } from "./queries";
 
@@ -159,6 +165,9 @@ const GetOhm: FC = () => {
         {bobaPools.map((pool, index) => (
           <BobaPools key={index} pool={pool} />
         ))}
+        {curvePools.map((pool, index) => (
+          <CurvePools key={index} pool={pool} />
+        ))}
 
         <Typography variant="h6" className={classes.title}>
           Vaults
@@ -280,6 +289,11 @@ const BobaPools: React.FC<{ pool: ExternalPool }> = props => {
   const { data: totalValueLocked } = useStakePoolTVL(props.pool);
   const { apy } = BobaPoolAPY(props.pool);
   return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
+};
+const CurvePools: React.FC<{ pool: ExternalPool }> = props => {
+  const { data } = CurvePoolTVL(props.pool);
+  const { apy } = CurvePoolAPY(props.pool);
+  return <PoolCard {...props} value={data && formatCurrency(data.usdTotal)} roi={apy} />;
 };
 
 const PoolCard = (props: { pool: ExternalPool; value: OHMItemCardProps["value"]; roi: OHMItemCardProps["roi"] }) => {

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useQuery } from "react-query";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
 import { getTokenPrice, parseBigNumber } from "src/helpers";
@@ -85,5 +86,19 @@ export const BalancerPoolTVL = (pool: ExternalPool) => {
     },
     { enabled: !!gohmPrice && !!nonGohmTokenPrice },
   );
+  return { data, isFetched, isLoading };
+};
+
+export const CurvePoolTVL = (pool: ExternalPool) => {
+  const curveAPI = "https://api.curve.fi/api/getFactoryCryptoPools";
+  const {
+    data = { usdTotal: 0 },
+    isFetched,
+    isLoading,
+  } = useQuery(["CurvePoolTVL"], async () => {
+    return await axios.get(curveAPI).then(res => {
+      return res.data.data.poolData.find((extPool: { address: string }) => extPool.address === pool.address);
+    });
+  });
   return { data, isFetched, isLoading };
 };

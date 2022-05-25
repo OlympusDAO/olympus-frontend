@@ -188,7 +188,7 @@ export const useRedeemableBalance = (address: string) => {
       }
 
       // Convert to proper decimals and return
-      return ethers.utils.formatUnits(redeemableBalance, "gwei");
+      return ethers.utils.formatEther(redeemableBalance);
     },
     { enabled: !!address },
   );
