@@ -23,7 +23,7 @@ jobs:
       with:
         name: base-report.json
         path: report.json  
-  test-current:
+  test-branch:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout front end code.
