@@ -7,6 +7,7 @@ import { Providers } from "./helpers/providers/Providers/Providers";
 export enum NetworkId {
   MAINNET = 1,
   TESTNET_RINKEBY = 4,
+  TESTNET_GOERLI = 5,
 
   ARBITRUM = 42161,
   ARBITRUM_TESTNET = 421611,

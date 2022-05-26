@@ -1,7 +1,7 @@
-import { Box, Fade, Link, Typography } from "@mui/material";
+import { Box, Fade, FormControl, Link, MenuItem, Select, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { OHMTokenStackProps, WalletBalance } from "@olympusdao/component-library";
-import { FC } from "react";
+import { OHMTokenStackProps, SecondaryButton, WalletBalance } from "@olympusdao/component-library";
+import { FC, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { formatCurrency, formatNumber, trim } from "src/helpers";
@@ -35,6 +35,7 @@ const PREFIX = "AssetsIndex";
 const classes = {
   selector: `${PREFIX}-selector`,
   forecast: `${PREFIX}-forecast`,
+  faucet: `${PREFIX}-faucet`,
 };
 
 const StyledFade = styled(Fade)(({ theme }) => ({
@@ -68,6 +69,10 @@ const StyledFade = styled(Fade)(({ theme }) => ({
       justifyContent: "flex-end",
     },
   },
+
+  [`& .${classes.faucet}`]: {
+    width: "30%",
+  },
 }));
 
 /**
@@ -93,6 +98,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const gohmBalances = useGohmBalance();
   const { data: gohmFuseBalance = new DecimalBigNumber("0", 18) } = useFuseBalance()[NetworkId.MAINNET];
   const { data: gohmTokemakBalance = new DecimalBigNumber("0", 18) } = useGohmTokemakBalance()[NetworkId.MAINNET];
+  const [faucetToken, setFaucetToken] = useState("OHM V2");
 
   const gohmTokens = [
     gohmFuseBalance,
@@ -230,6 +236,28 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
               );
           }
         })()}
+        <Typography variant="h5">Faucet</Typography>
+        <Box display="flex" flexDirection="row" justifyContent="space-between" mt="18px">
+          <FormControl className={classes.faucet}>
+            <Select
+              label="Contract"
+              disableUnderline
+              id="contract-select"
+              value={faucetToken}
+              onChange={event => setFaucetToken(event.target.value)}
+            >
+              <MenuItem value="OHM V1">OHM V1</MenuItem>
+              <MenuItem value="OHM V2">OHM V2</MenuItem>
+              <MenuItem value="sOHM V1">sOHM V1</MenuItem>
+              <MenuItem value="sOHM V2">sOHM V2</MenuItem>
+              <MenuItem value="wsOHM">wsOHM</MenuItem>
+              <MenuItem value="gOHM">gOHM</MenuItem>
+              <MenuItem value="DAI">DAI</MenuItem>
+              <MenuItem value="ETH">ETH</MenuItem>
+            </Select>
+          </FormControl>
+          <SecondaryButton>Get Tokens</SecondaryButton>
+        </Box>
       </Box>
     </StyledFade>
   );
