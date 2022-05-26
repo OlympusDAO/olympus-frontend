@@ -54,7 +54,7 @@ export class Token<TFactory extends Factory = Factory, TAddressMap extends Addre
     if (this.customPricingFunc) return this.customPricingFunc(networkId);
 
     const address = this.addresses[networkId];
-    assert(address, `Address should exist for token: ${this.name} on network: ${networkId}`);
+    assert(address, `Address should exist for token: ${this.name} on network: ${networkId.toString()}`);
 
     // Default to coingecko
     return getCoingeckoPrice(networkId as NetworkId, address as unknown as string);
