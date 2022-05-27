@@ -3,7 +3,7 @@
 exports[`<Root/> should render component 1`] = `
 <div>
   <div
-    class="css-ctexm9"
+    class="css-3i09h3"
   >
     <div
       class="app false false light"
@@ -80,7 +80,7 @@ exports[`<Root/> should render component 1`] = `
         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionSticky TopBar-appBar css-fddjrt-MuiPaper-root-MuiAppBar-root"
       >
         <div
-          class="MuiToolbar-root MuiToolbar-regular dapp-topbar css-v92ha2-MuiToolbar-root"
+          class="MuiToolbar-root MuiToolbar-regular dapp-topbar css-ktpvx9-MuiToolbar-root"
         >
           <button
             aria-label="open drawer"
