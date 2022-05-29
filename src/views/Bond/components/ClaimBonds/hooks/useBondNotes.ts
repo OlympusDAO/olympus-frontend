@@ -3,7 +3,6 @@ import { NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { getQueryData } from "src/helpers/react-query/getQueryData";
-import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { Bond, bondQueryKey, fetchBond } from "src/views/Bond/hooks/useBond";
 import { useAccount } from "wagmi";
@@ -31,18 +30,18 @@ export interface BondNote {
   payout: DecimalBigNumber;
 }
 
-export const bondNotesQueryKey = (networkId: NetworkId, address: string) => ["useBondNotes", networkId, address];
+export const bondNotesQueryKey = (networkId: NetworkId, address?: string) => ["useBondNotes", networkId, address];
 
 export const useBondNotes = () => {
   const { data: account } = useAccount();
   const networks = useTestableNetworks();
 
-  queryAssertion(account?.address);
-  const args = [networks.MAINNET, account.address] as const;
-  return useQuery(bondNotesQueryKey(...args), () => fetchBondNotes(...args), { enabled: !!account.address });
+  const args = [networks.MAINNET, account?.address] as const;
+  return useQuery(bondNotesQueryKey(...args), () => fetchBondNotes(...args), { enabled: !!account?.address });
 };
 
-export const fetchBondNotes = async (networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, address: string) => {
+export const fetchBondNotes = async (networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, address?: string) => {
+  if (!address) throw new Error("Invalid address");
   const contract = BOND_DEPOSITORY_CONTRACT.getEthersContract(networkId);
 
   const ids = await contract.indexesFor(address).then(ids => ids.map(id => id.toString()));

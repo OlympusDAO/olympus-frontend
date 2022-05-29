@@ -30,7 +30,7 @@ export interface IUserRecipientInfo {
  * Query key for useDonationInfo, will refresh on address changes or
  * networkId changes
  */
-export const donationInfoQueryKey = (address: string, networkId: NetworkId) =>
+export const donationInfoQueryKey = (networkId: NetworkId, address?: string) =>
   ["useDonationInfo", address, networkId].filter(nonNullable);
 
 /**
@@ -55,12 +55,11 @@ export const useDonationInfo = () => {
   // the user is currently connected to
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
   const networks = useTestableNetworks();
-  queryAssertion(account?.address);
+
   const query = useQuery<IUserDonationInfo[] | null, Error>(
-    donationInfoQueryKey(account.address, activeChain.id),
+    donationInfoQueryKey(activeChain.id, account?.address),
     async () => {
-      queryAssertion(account?.address);
-      queryAssertion([account.address, activeChain.id], donationInfoQueryKey(account.address, activeChain.id));
+      queryAssertion([account?.address, activeChain.id], donationInfoQueryKey(activeChain.id, account?.address));
 
       // Set default return value
       const donationInfo: IUserDonationInfo[] = [];
@@ -75,6 +74,7 @@ export const useDonationInfo = () => {
       // indexed the same way, so we can select them by index
       let depositIds: BigNumber[] = [];
       let allDeposits: [string[], BigNumber[]] = [[], []];
+      if (!account?.address) throw new Error(t`No account found`);
       try {
         depositIds = await contract.getDepositorIds(account.address);
         allDeposits = await contract.getAllDeposits(account.address);
@@ -142,7 +142,7 @@ export const useDonationInfo = () => {
       // Return donationInfo array as the data attribute
       return donationInfo;
     },
-    { enabled: !!account.address }, // will run as long as an address is connected
+    { enabled: !!account?.address }, // will run as long as an address is connected
   );
 
   // Return query
@@ -153,7 +153,7 @@ export const useDonationInfo = () => {
  * Query key for useRedeemableBalance, will refresh on address changes or
  * networkId changes
  */
-export const redeemableBalanceQueryKey = (address: string, networkId: NetworkId) =>
+export const redeemableBalanceQueryKey = (address?: string, networkId?: NetworkId) =>
   ["useRedeemableBalance", address, networkId].filter(nonNullable);
 
 /**
@@ -202,7 +202,7 @@ export const useRedeemableBalance = (address: string) => {
   return query as typeof query;
 };
 
-export const v1RedeemableBalanceQueryKey = (address: string, networkId: NetworkId) =>
+export const v1RedeemableBalanceQueryKey = (address?: string, networkId?: NetworkId) =>
   ["useV1RedeemableBalance", address, networkId].filter(nonNullable);
 
 export const useV1RedeemableBalance = () => {
@@ -211,9 +211,8 @@ export const useV1RedeemableBalance = () => {
 
   // Hook to establish static old Give contract
   const contract = useDynamicV1GiveContract(OLD_GIVE_ADDRESSES, true);
-  queryAssertion(account?.address);
   const query = useQuery<string, Error>(
-    v1RedeemableBalanceQueryKey(account.address, activeChain.id),
+    v1RedeemableBalanceQueryKey(account?.address, activeChain.id),
     async () => {
       queryAssertion(account?.address);
       queryAssertion([account.address, activeChain.id], v1RedeemableBalanceQueryKey(account.address, activeChain.id));
@@ -240,7 +239,7 @@ export const useV1RedeemableBalance = () => {
       // Convert to proper decimals and return
       return ethers.utils.formatUnits(redeemableBalance, "gwei");
     },
-    { enabled: !!account.address },
+    { enabled: !!account?.address },
   );
 
   // Return query
@@ -251,7 +250,7 @@ export const useV1RedeemableBalance = () => {
  * Query key for useRecipientInfo, will refresh on address changes or
  * networkId changes
  */
-export const recipientInfoQueryKey = (address: string, networkId: NetworkId) =>
+export const recipientInfoQueryKey = (address?: string, networkId?: NetworkId) =>
   ["useRecipientInfo", address, networkId].filter(nonNullable);
 
 /**
@@ -270,11 +269,10 @@ export const useRecipientInfo = (address: string) => {
   // Hook to establish dynamic contract, meaning it will connect to the network
   // the user is currently connected to
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
-  if (!signer) throw new Error(t`No signer found`);
   const gohmContract = new ethers.Contract(
     GOHM_ADDRESSES[activeChain.id as keyof typeof GOHM_ADDRESSES],
     gOHM.abi,
-    signer,
+    signer ? signer : undefined,
   );
 
   const query = useQuery<IUserRecipientInfo, Error>(

@@ -8,6 +8,7 @@ import { MultifarmProvider } from "@multifarm/widget";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
 import Messages from "./components/Messages/Messages";
 import { MigrationCallToAction } from "./components/MigrationCallToAction";
@@ -19,10 +20,8 @@ import { StakeVersionContainer } from "./components/StakeVersionContainer";
 import TopBar from "./components/TopBar/TopBar";
 import Wallet from "./components/TopBar/Wallet";
 import { shouldTriggerSafetyCheck } from "./helpers";
-import { trackGAEvent } from "./helpers/analytics/trackGAEvent";
 import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
-import { useWeb3Context } from "./hooks";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import useTheme from "./hooks/useTheme";
 import { getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
@@ -110,8 +109,10 @@ function App() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const { address, connect, connectionError, hasCachedProvider, provider, connected, networkId, providerInitialized } =
-    useWeb3Context();
+  const { data: account } = useAccount();
+  const { connect, isError, isConnected, error: errorMessage } = useConnect();
+  const provider = useProvider();
+  const { activeChain = { id: 1 } } = useNetwork();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalClose = () => {
@@ -137,27 +138,27 @@ function App() {
     }
 
     // don't run unless provider is a Wallet...
-    if (whichDetails === "account" && address && connected) {
+    if (whichDetails === "account" && account?.address && isConnected) {
       loadAccount(loadProvider);
     }
   }
 
   const loadApp = useCallback(
     loadProvider => {
-      dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
+      dispatch(loadAppDetails({ networkID: activeChain.id, provider: loadProvider }));
     },
-    [networkId, address],
+    [activeChain.id, account?.address],
   );
 
   const loadAccount = useCallback(
     loadProvider => {
-      if (!providerInitialized) {
+      if (!account?.address) {
         return;
       }
-      dispatch(loadAccountDetails({ networkID: networkId, provider: loadProvider, address }));
-      dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
+      dispatch(loadAccountDetails({ networkID: activeChain.id, provider, address: account.address }));
+      dispatch(getMigrationAllowances({ address: account.address, provider, networkID: activeChain.id }));
     },
-    [networkId, address, providerInitialized],
+    [activeChain.id, account?.address],
   );
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
@@ -167,46 +168,22 @@ function App() {
   // ... if we don't wait we'll ALWAYS fire API calls via JsonRpc because provider has not
   // ... been reloaded within App.
   useEffect(() => {
-    if (hasCachedProvider()) {
-      // then user DOES have a wallet
-      connect().then(() => {
-        setWalletChecked(true);
-        trackGAEvent({
-          category: "App",
-          action: "connect",
-        });
-      });
-    } else {
-      // then user DOES NOT have a wallet
-      setWalletChecked(true);
-    }
     if (shouldTriggerSafetyCheck()) {
       dispatch(info("Safety Check: Always verify you're on app.olympusdao.finance!"));
     }
   }, []);
 
-  // this useEffect fires on state change from above. It will ALWAYS fire AFTER
-  useEffect(() => {
-    // don't load ANY details until wallet is Checked
-    if (walletChecked) {
-      if (networkId !== -1) {
-        loadDetails("account");
-        loadDetails("app");
-      }
-    }
-  }, [walletChecked, networkId]);
-
   // this useEffect picks up any time a user Connects via the button
   useEffect(() => {
     // don't load ANY details until wallet is Connected
-    if (connected && providerInitialized) {
+    if (isConnected && provider) {
       loadDetails("account");
     }
-  }, [connected, networkId, providerInitialized]);
+  }, [isConnected, activeChain.id, provider]);
 
   useEffect(() => {
-    if (connectionError) dispatch(error(connectionError.text));
-  }, [connectionError]);
+    if (errorMessage) dispatch(error(errorMessage.message));
+  }, [errorMessage]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

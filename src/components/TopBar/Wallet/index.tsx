@@ -2,9 +2,9 @@ import { t, Trans } from "@lingui/macro";
 import { Box, SwipeableDrawer, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon, PrimaryButton, SecondaryButton, TabBar } from "@olympusdao/component-library";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import { useAccount, useConnect, useDisconnect, useNetwork } from "wagmi";
 
 import Assets from "./Assets";

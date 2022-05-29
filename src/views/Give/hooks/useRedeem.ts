@@ -4,7 +4,6 @@ import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUARecipientData, trackGiveRedeemEvent } from "src/helpers/analytics/trackGiveRedeemEvent";
-import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicGiveContract } from "src/hooks/useContract";
 import { recipientInfoQueryKey, redeemableBalanceQueryKey } from "src/hooks/useGiveInfo";
@@ -61,12 +60,11 @@ export const useRedeem = () => {
         dispatch(createErrorToast(error.message));
       },
       onSuccess: async () => {
-        queryAssertion(account?.address);
         const keysToRefetch = [
-          balanceQueryKey(account.address, SOHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(account.address, GOHM_ADDRESSES, networks.MAINNET),
-          recipientInfoQueryKey(account.address, networks.MAINNET),
-          redeemableBalanceQueryKey(account.address, networks.MAINNET),
+          balanceQueryKey(account?.address, SOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(account?.address, GOHM_ADDRESSES, networks.MAINNET),
+          recipientInfoQueryKey(account?.address, networks.MAINNET),
+          redeemableBalanceQueryKey(account?.address, networks.MAINNET),
         ];
 
         keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

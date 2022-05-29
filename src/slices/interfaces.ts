@@ -1,5 +1,5 @@
 import { BaseProvider, JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { BigNumber } from "ethers";
+import { BigNumber, Signer } from "ethers";
 import { NetworkId } from "src/constants";
 
 export interface IJsonRPCError {
@@ -29,7 +29,8 @@ export interface IChangeApprovalWithVersionAsyncThunk extends IChangeApprovalAsy
 export interface IChangeApprovalWithDisplayNameAsyncThunk extends IChangeApprovalAsyncThunk {
   readonly displayName: string;
   readonly insertName: boolean;
-  readonly provider: StaticJsonRpcProvider | JsonRpcProvider;
+  readonly provider: StaticJsonRpcProvider | JsonRpcProvider | BaseProvider;
+  readonly signer: Signer;
 }
 
 export interface IActionAsyncThunk extends IBaseAsyncThunk {
@@ -70,7 +71,8 @@ export interface IBaseAddressRecipientAsyncThunk extends IBaseAddressAsyncThunk 
 
 export interface IMigrateAsyncThunk extends IBaseAddressAsyncThunk {
   readonly gOHM: boolean;
-  readonly provider: StaticJsonRpcProvider | JsonRpcProvider;
+  readonly provider: StaticJsonRpcProvider | JsonRpcProvider | BaseProvider;
+  readonly signer: Signer;
 }
 
 export interface IMigrateSingleAsyncThunk extends IMigrateAsyncThunk {

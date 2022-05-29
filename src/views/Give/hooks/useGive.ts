@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUAData, trackGiveEvent } from "src/helpers/analytics/trackGiveEvent";
 import { ACTION_GIVE, getTypeFromAction } from "src/helpers/GiveHelpers";
-import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicGiveContract } from "src/hooks/useContract";
 import { donationInfoQueryKey, recipientInfoQueryKey } from "src/hooks/useGiveInfo";
@@ -71,11 +70,10 @@ export const useGive = () => {
         dispatch(createErrorToast(error.message));
       },
       onSuccess: async (data, GiveData) => {
-        queryAssertion(account?.address);
         const keysToRefetch = [
-          balanceQueryKey(account.address, SOHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(account.address, GOHM_ADDRESSES, networks.MAINNET),
-          donationInfoQueryKey(account.address, networks.MAINNET),
+          balanceQueryKey(account?.address, SOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(account?.address, GOHM_ADDRESSES, networks.MAINNET),
+          donationInfoQueryKey(networks.MAINNET, account?.address),
           recipientInfoQueryKey(GiveData.recipient, networks.MAINNET),
         ];
 

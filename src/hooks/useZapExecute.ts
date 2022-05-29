@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { NetworkId } from "src/constants";
 import { GOHM_ADDRESSES } from "src/constants/addresses";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
-import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { isSupportedChain } from "src/helpers/ZapHelper";
 import { addresses } from "src/networkDetails";
 import { error, info } from "src/slices/MessagesSlice";
@@ -105,7 +104,7 @@ export const useZapExecute = () => {
     },
     {
       onError: (e, variables) => {
-        queryAssertion(account?.address);
+        if (!account?.address) throw new Error(t`Account is not set`);
         const uaData: IUADataZap = {
           address: account.address,
           value: variables.sellAmount.toString(),
@@ -137,9 +136,8 @@ export const useZapExecute = () => {
          */
       },
       onSuccess: (_data, variables) => {
-        queryAssertion(account?.address);
         console.debug("Zap successful");
-
+        if (!account?.address) throw new Error(t`Account is not set`);
         const uaData: IUADataZap = {
           address: account.address,
           value: variables.sellAmount.toString(),

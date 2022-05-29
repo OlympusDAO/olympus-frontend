@@ -6,7 +6,6 @@ import gOHM from "src/abi/gOHM.json";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUAData, trackGiveEvent } from "src/helpers/analytics/trackGiveEvent";
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, getTypeFromAction } from "src/helpers/GiveHelpers";
-import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicGiveContract } from "src/hooks/useContract";
 import { donationInfoQueryKey, recipientInfoQueryKey } from "src/hooks/useGiveInfo";
@@ -70,12 +69,11 @@ export const useIncreaseGive = () => {
         dispatch(createErrorToast(error.message));
       },
       onSuccess: async (data, EditGiveData) => {
-        queryAssertion(account?.address);
         // Refetch sOHM balance and donation info
         const keysToRefetch = [
-          balanceQueryKey(account.address, SOHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(account.address, GOHM_ADDRESSES, networks.MAINNET),
-          donationInfoQueryKey(account.address, networks.MAINNET),
+          balanceQueryKey(account?.address, SOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(account?.address, GOHM_ADDRESSES, networks.MAINNET),
+          donationInfoQueryKey(networks.MAINNET, account?.address),
           recipientInfoQueryKey(EditGiveData.recipient, networks.MAINNET),
         ];
 
@@ -101,11 +99,10 @@ export const useDecreaseGive = () => {
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
 
-  if (!signer) throw new Error(t`No signer available`);
   const gohmContract = new ethers.Contract(
     GOHM_ADDRESSES[activeChain.id as keyof typeof GOHM_ADDRESSES],
     gOHM.abi,
-    signer,
+    signer ? signer : undefined,
   );
 
   // Mutation to interact with the YieldDirector contract
@@ -158,12 +155,11 @@ export const useDecreaseGive = () => {
         dispatch(createErrorToast(error.message));
       },
       onSuccess: async (data, EditGiveData) => {
-        queryAssertion(account?.address);
         // Refetch balances and donation info
         const keysToRefetch = [
-          balanceQueryKey(account.address, SOHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(account.address, GOHM_ADDRESSES, networks.MAINNET),
-          donationInfoQueryKey(account.address, networks.MAINNET),
+          balanceQueryKey(account?.address, SOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(account?.address, GOHM_ADDRESSES, networks.MAINNET),
+          donationInfoQueryKey(networks.MAINNET, account?.address),
           recipientInfoQueryKey(EditGiveData.recipient, networks.MAINNET),
         ];
 

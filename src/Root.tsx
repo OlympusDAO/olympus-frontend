@@ -10,7 +10,6 @@ import { WagmiConfig } from "wagmi";
 
 import App from "./App";
 import { chains, wagmiClient } from "./hooks/wagmi";
-import { Web3ContextProvider } from "./hooks/web3Context";
 import { ReactQueryProvider } from "./lib/react-query";
 import { initLocale } from "./locales";
 import store from "./store";
@@ -21,23 +20,21 @@ const Root: FC = () => {
   }, []);
 
   return (
-    <Web3ContextProvider>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains}>
-          <ReactQueryProvider>
-            <Provider store={store}>
-              <I18nProvider i18n={i18n}>
-                <HashRouter>
-                  <StyledEngineProvider injectFirst>
-                    <App />
-                  </StyledEngineProvider>
-                </HashRouter>
-              </I18nProvider>
-            </Provider>
-          </ReactQueryProvider>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </Web3ContextProvider>
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains}>
+        <ReactQueryProvider>
+          <Provider store={store}>
+            <I18nProvider i18n={i18n}>
+              <HashRouter>
+                <StyledEngineProvider injectFirst>
+                  <App />
+                </StyledEngineProvider>
+              </HashRouter>
+            </I18nProvider>
+          </Provider>
+        </ReactQueryProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 };
 

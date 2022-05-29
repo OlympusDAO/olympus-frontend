@@ -1,4 +1,5 @@
 import { Link } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import { shorten } from "src/helpers";
 import { useAccount, useEnsAvatar, useEnsName } from "wagmi";
 
@@ -12,7 +13,7 @@ export default function WalletAddressEns() {
   return (
     <div className="wallet-link">
       {ensAvatar && <img className="avatar" src={ensAvatar} alt={account.address} />}
-      <Link href={`https://etherscan.io/address/${account.address}`} target="_blank">
+      <Link to="/wallet" component={RouterLink}>
         {ensName || shorten(account.address)}
       </Link>
     </div>

@@ -9,12 +9,12 @@ import { useDispatch } from "react-redux";
 import { NetworkId } from "src/constants";
 import { trim } from "src/helpers";
 import { useMigrationData } from "src/helpers/Migration";
-import { useWeb3Context } from "src/hooks";
 import { useAppSelector } from "src/hooks";
 import { info } from "src/slices/MessagesSlice";
 import { changeMigrationApproval, migrateAll } from "src/slices/MigrateThunk";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { AppDispatch } from "src/store";
+import { useAccount, useNetwork, useProvider, useSigner } from "wagmi";
 
 const classes = {
   custom: {
@@ -25,7 +25,10 @@ const classes = {
 function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any }) {
   const dispatch: AppDispatch = useDispatch();
   const isMobileScreen = useMediaQuery("(max-width: 513px)");
-  const { provider, address, networkId } = useWeb3Context();
+  const { data: account } = useAccount();
+  const provider = useProvider();
+  const { data: signer } = useSigner();
+  const { activeChain = { id: 1 } } = useNetwork();
 
   const {
     view,
@@ -51,13 +54,15 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
 
   let rows: any[] = [];
   const isMigrationComplete = useAppSelector(state => state.account.isMigrationComplete);
-
+  const address = account?.address ? account.address : "";
   const onSeekApproval = (token: string) => {
+    if (!signer) throw new Error("No signer");
     dispatch(
       changeMigrationApproval({
         address,
-        networkID: networkId,
+        networkID: activeChain.id,
         provider,
+        signer,
         token: token.toLowerCase(),
         displayName: token,
         insertName: true,
@@ -67,8 +72,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
 
   useEffect(() => {
     if (
-      networkId &&
-      (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY) &&
+      (activeChain.id === NetworkId.MAINNET || activeChain.id === NetworkId.TESTNET_RINKEBY) &&
       isAllApproved &&
       (currentOhmBalance || currentSOhmBalance || currentWSOhmBalance)
     ) {
@@ -76,8 +80,10 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
     }
   }, [isAllApproved]);
 
-  const onMigrate = () => dispatch(migrateAll({ provider, address, networkID: networkId, gOHM: isGOHM }));
-
+  const onMigrate = () => {
+    if (!signer) throw new Error("No signer");
+    dispatch(migrateAll({ provider, signer, address, networkID: activeChain.id, gOHM: isGOHM }));
+  };
   rows = [
     {
       initialAsset: "OHM",

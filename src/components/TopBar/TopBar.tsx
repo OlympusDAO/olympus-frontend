@@ -5,13 +5,13 @@ import { t } from "@lingui/macro";
 import { AppBar, Box, Button, SvgIcon, Toolbar, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { LocaleSwitcher } from "@olympusdao/component-library";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Link, useLocation } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
 import { useConnect } from "wagmi";
 
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
 import { locales, selectLocale } from "../../locales";
+import ConnectButton from "../ConnectButton/ConnectButton";
 import ThemeSwitcher from "./ThemeSwitch";
 
 const PREFIX = "TopBar";

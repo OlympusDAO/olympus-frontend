@@ -41,7 +41,7 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
       queryKey: balanceQueryKey(account?.address, tokenAddressMap, networkId),
       enabled: !!account?.address && (isTestMode ? isTestnet(networkId) : !isTestnet(networkId)),
       queryFn: async () => {
-        queryAssertion(account?.address);
+        if (!account?.address) throw new Error("No account");
         const contract = contracts[networkId as NetworkId];
         console.debug("Refetching balance");
         const [balance, decimals] = await Promise.all([contract.balanceOf(account.address), contract.decimals()]);
@@ -74,7 +74,7 @@ export const useFuseBalance = () => {
 
       const results = await Promise.all(
         [pool6Contract, pool18Contract, pool36Contract].map(async contract => {
-          queryAssertion(account?.address);
+          if (!account?.address) throw new Error("No account");
           const balance = await contract.callStatic.balanceOfUnderlying(account.address);
 
           return new DecimalBigNumber(balance, 18);
