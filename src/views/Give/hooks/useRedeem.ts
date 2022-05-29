@@ -4,12 +4,13 @@ import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUARecipientData, trackGiveRedeemEvent } from "src/helpers/analytics/trackGiveRedeemEvent";
-import { useWeb3Context } from "src/hooks";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicGiveContract } from "src/hooks/useContract";
 import { recipientInfoQueryKey, redeemableBalanceQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { useAccount } from "wagmi";
 
 import { RedeemData } from "../Interfaces";
 
@@ -20,7 +21,7 @@ import { RedeemData } from "../Interfaces";
 export const useRedeem = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
 
@@ -30,11 +31,12 @@ export const useRedeem = () => {
         throw new Error(
           t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
+      if (!account?.address) throw new Error(t`Please refresh your page and try again`);
 
-      const redeemableBalance = await contract.totalRedeemableBalance(address);
+      const redeemableBalance = await contract.totalRedeemableBalance(account.address);
 
       const uaData: IUARecipientData = {
-        address: address,
+        address: account.address,
         value: redeemableBalance.toString(),
         approved: true,
         txHash: null,
@@ -59,11 +61,12 @@ export const useRedeem = () => {
         dispatch(createErrorToast(error.message));
       },
       onSuccess: async () => {
+        queryAssertion(account?.address);
         const keysToRefetch = [
-          balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
-          recipientInfoQueryKey(address, networks.MAINNET),
-          redeemableBalanceQueryKey(address, networks.MAINNET),
+          balanceQueryKey(account.address, SOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(account.address, GOHM_ADDRESSES, networks.MAINNET),
+          recipientInfoQueryKey(account.address, networks.MAINNET),
+          redeemableBalanceQueryKey(account.address, networks.MAINNET),
         ];
 
         keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

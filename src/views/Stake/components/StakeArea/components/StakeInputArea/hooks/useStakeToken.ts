@@ -5,16 +5,16 @@ import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { useAccount } from "wagmi";
 
 export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
   const networks = useTestableNetworks();
   const balance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
@@ -34,13 +34,13 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network to stake your OHM`);
 
-      if (!address) throw new Error(t`Please refresh your page and try again`);
+      if (!account?.address) throw new Error(t`Please refresh your page and try again`);
 
       const shouldRebase = toToken === "sOHM";
 
       const claim = true; // was true before the mint & sync distributor change
 
-      const transaction = await contract.stake(address, _amount.toBigNumber(), shouldRebase, claim);
+      const transaction = await contract.stake(account.address, _amount.toBigNumber(), shouldRebase, claim);
       txHash = transaction.hash;
       return transaction.wait();
     },
@@ -55,12 +55,12 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
           label: `Stake to ${toToken}`,
           value: new DecimalBigNumber(amount, 9).toApproxNumber(),
           dimension1: txHash ?? "unknown",
-          dimension2: address,
+          dimension2: account?.address,
         });
 
         const keysToRefetch = [
-          balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(account?.address, OHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(account?.address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

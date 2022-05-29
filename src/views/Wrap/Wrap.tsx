@@ -2,8 +2,8 @@ import { t } from "@lingui/macro";
 import { Box, Divider, Grid, Link, Typography } from "@mui/material";
 import { Icon, MetricCollection, Paper } from "@olympusdao/component-library";
 import { WalletConnectedGuard } from "src/components/WalletConnectedGuard";
-import { useWeb3Context } from "src/hooks";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { useNetwork } from "wagmi";
 
 import { CurrentIndex, GOHMPrice, SOHMPrice } from "../TreasuryDashboard/components/Metric/Metric";
 import { MigrateInputArea } from "./components/MigrateInputArea/MigrateInputArea";
@@ -13,8 +13,8 @@ import { WrapSwitchNetwork } from "./components/WrapSwitchNetwork";
 
 const Wrap: React.FC = () => {
   const networks = useTestableNetworks();
-  const { networkId } = useWeb3Context();
-  const isMigrating = networkId === networks.ARBITRUM || networkId === networks.AVALANCHE;
+  const { activeChain = { id: 1 } } = useNetwork();
+  const isMigrating = activeChain.id === networks.ARBITRUM || activeChain.id === networks.AVALANCHE;
 
   return (
     <div id="stake-view">

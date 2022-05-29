@@ -1,12 +1,11 @@
 import { t, Trans } from "@lingui/macro";
 import { Box, SwipeableDrawer, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Icon, OHMTokenProps, PrimaryButton, SecondaryButton, TabBar, Token } from "@olympusdao/component-library";
+import { Icon, PrimaryButton, SecondaryButton, TabBar } from "@olympusdao/component-library";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { shorten } from "src/helpers";
-import { useWeb3Context } from "src/hooks";
-import { NetworkId } from "src/networkDetails";
+import { useAccount, useConnect, useDisconnect, useNetwork } from "wagmi";
 
 import Assets from "./Assets";
 import GetOhm from "./GetOhm";
@@ -65,7 +64,10 @@ export function Wallet(props: { open?: boolean; component?: string }) {
 
   const navigate = useNavigate();
 
-  const { address, connect, connected, networkId } = useWeb3Context();
+  const { data: account } = useAccount();
+  const { activeChain = { id: 1 } } = useNetwork();
+  const { isConnected, connect } = useConnect();
+
   const { id } = useParams<{ id: string }>();
 
   // only enable backdrop transition on ios devices,
@@ -74,8 +76,8 @@ export function Wallet(props: { open?: boolean; component?: string }) {
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const WalletButtonTop = () => {
-    const onClick = !connected ? connect : undefined;
-    const label = connected ? t`Wallet` : t`Connect Wallet`;
+    const onClick = !isConnected ? connect : undefined;
+    const label = isConnected ? t`Wallet` : t`Connect Wallet`;
     return (
       <PrimaryButton className={classes.connectButton} color="secondary" onClick={onClick}>
         <Icon name="wallet" style={{ marginRight: "9px" }} />
@@ -84,8 +86,8 @@ export function Wallet(props: { open?: boolean; component?: string }) {
     );
   };
   const WalletButtonBottom = () => {
-    const onClick = !connected ? connect : undefined;
-    const label = connected ? t`Wallet` : t`Connect Wallet`;
+    const onClick = !isConnected ? connect : undefined;
+    const label = isConnected ? t`Wallet` : t`Connect Wallet`;
     return (
       <PrimaryButton onClick={onClick}>
         <Typography>{label}</Typography>
@@ -94,7 +96,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
   };
 
   const DisconnectButton = () => {
-    const { disconnect } = useWeb3Context();
+    const { disconnect } = useDisconnect();
     return (
       <SecondaryButton onClick={disconnect}>
         <Trans>Disconnect</Trans>
@@ -125,15 +127,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
         <Box style={{ top: 0, position: "sticky" }}>
           <Box display="flex" justifyContent="space-between" mb={"18px"}>
             <Box>
-              {!connected && <WalletButtonTop />}
-              {connected && (
-                <Box display="flex" className={classes.networkSelector}>
-                  {NetworkId[networkId] && (
-                    <Token name={NetworkId[networkId] as OHMTokenProps["name"]} style={{ fontSize: "21px" }} />
-                  )}
-                  <Typography style={{ marginLeft: "6px" }}> {shorten(address)}</Typography>
-                </Box>
-              )}
+              <ConnectButton />
             </Box>
             <Box display="flex" flexDirection="row" justifyContent="flex-end" alignItems="center" textAlign="right">
               <Icon
@@ -170,7 +164,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
               case "utility":
                 return <GetOhm />;
               case "wallet":
-                return <>{!connected ? <ConnectMessage /> : <Assets />}</>;
+                return <>{!isConnected ? <ConnectMessage /> : <Assets />}</>;
               case "wallet/history":
                 return <Assets path="history" />;
               default:
@@ -187,7 +181,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
         pt={"21px"}
         pb={"21px"}
       >
-        {connected ? <DisconnectButton /> : <WalletButtonBottom />}
+        {isConnected ? <DisconnectButton /> : <WalletButtonBottom />}
       </Box>
     </StyledSwipeableDrawer>
   );

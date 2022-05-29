@@ -21,7 +21,6 @@ import {
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { prettifySecondsInDays } from "src/helpers/timeUtil";
-import { useWeb3Context } from "src/hooks";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
@@ -43,6 +42,7 @@ import {
   CurvePoolTVL,
   useStakePoolTVL,
 } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
+import { useNetwork } from "wagmi";
 
 import { SupplyRatePerBlock } from "./queries";
 
@@ -65,7 +65,7 @@ const StyledBox = styled(Box)(() => ({
  * Component for Displaying GetOhm
  */
 const GetOhm: FC = () => {
-  const { networkId } = useWeb3Context();
+  const { activeChain = { id: 1 } } = useNetwork();
   const { data: supplyRate } = SupplyRatePerBlock();
   const { data: rebaseRate = 0 } = useStakingRebaseRate();
   const ethMantissa = 1e18;
@@ -99,7 +99,7 @@ const GetOhm: FC = () => {
             />
           </Grid>
         </Grid>
-        {NetworkId.MAINNET === networkId && (
+        {NetworkId.MAINNET === activeChain.id && (
           <>
             <Typography variant="h6" className={classes.title}>
               Zap

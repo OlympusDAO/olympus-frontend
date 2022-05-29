@@ -14,9 +14,9 @@ import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/ad
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { GIVE_MAX_DECIMALS } from "src/views/Give/constants";
+import { useAccount, useNetwork } from "wagmi";
 
 import { ArrowGraphic, CompactVault, CompactWallet, CompactYield } from "../../components/EducationCard";
 import { GohmToggle } from "./GohmToggle";
@@ -48,7 +48,8 @@ export function RecipientModal({
   changeAssetType,
   project,
 }: RecipientModalProps) {
-  const { address, networkId } = useWeb3Context();
+  const { data: account } = useAccount();
+  const { activeChain = { id: 1 } } = useNetwork();
 
   const _initialDepositAmount = "";
   const _initialWalletAddress = "";
@@ -101,7 +102,7 @@ export function RecipientModal({
   }, [isModalOpen]);
 
   const _useSohmBalance =
-    useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+    useSohmBalance()[activeChain.id == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
   const sohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
 
@@ -109,7 +110,7 @@ export function RecipientModal({
   }, [_useSohmBalance]);
 
   const _useGohmBalance =
-    useGohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+    useGohmBalance()[activeChain.id == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
   const gohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useGohmBalance.isLoading || _useGohmBalance.data === undefined) return new DecimalBigNumber("0");
 
@@ -193,7 +194,7 @@ export function RecipientModal({
       return;
     }
 
-    if (value == address) {
+    if (value == account?.address) {
       setIsWalletAddressValid(false);
       setIsWalletAddressValidError(t`Please enter a different address: cannot direct to the same wallet`);
       return;
@@ -232,7 +233,7 @@ export function RecipientModal({
     // The wallet address is only set when a project is not given
     if (!isProjectMode() && !isWalletAddressValid) return false;
 
-    if (!address) return false;
+    if (!account?.address) return false;
 
     if (isMutationLoading) return false;
 

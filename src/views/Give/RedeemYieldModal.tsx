@@ -7,7 +7,7 @@ import { ArrowGraphic } from "src/components/EducationCard";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useWeb3Context } from "src/hooks/web3Context";
+import { useAccount } from "wagmi";
 
 export interface RedeemSubmitCallback {
   (): void;
@@ -37,7 +37,7 @@ export function RedeemYieldModal({
   redeemableBalance,
   isMutationLoading,
 }: RedeemModalProps) {
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
   const theme = useTheme();
   const themedArrow =
     theme.palette.mode === "dark" && theme.colors.primary[300]
@@ -46,7 +46,7 @@ export function RedeemYieldModal({
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const canSubmit = () => {
-    if (!address) return false;
+    if (!account?.address) return false;
     if (isMutationLoading) return false;
     if (redeemableBalance.lt(new DecimalBigNumber("0"))) return false;
 
@@ -85,14 +85,16 @@ export function RedeemYieldModal({
                 {/* On small screens, the current and new sOHM deposit numbers are stacked and left-aligned,
                     whereas on larger screens, the numbers are on opposing sides of the box. This adjusts the
                     alignment accordingly. */}
-                <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
-                  <Grid item xs={12}>
-                    <Typography variant="body1" className="grey-text">
-                      <Trans>My Wallet Address</Trans>
-                    </Typography>
-                    <Typography variant="h6">{shorten(address)}</Typography>
+                {account?.address && (
+                  <Grid container direction="column" alignItems={isSmallScreen ? "flex-start" : "flex-end"}>
+                    <Grid item xs={12}>
+                      <Typography variant="body1" className="grey-text">
+                        <Trans>My Wallet Address</Trans>
+                      </Typography>
+                      <Typography variant="h6">{shorten(account.address)}</Typography>
+                    </Grid>
                   </Grid>
-                </Grid>
+                )}
               </Grid>
             </Grid>
           </Box>

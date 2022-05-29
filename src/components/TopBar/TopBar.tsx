@@ -5,9 +5,10 @@ import { t } from "@lingui/macro";
 import { AppBar, Box, Button, SvgIcon, Toolbar, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { LocaleSwitcher } from "@olympusdao/component-library";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Link, useLocation } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
-import { useWeb3Context } from "src/hooks";
+import { useConnect } from "wagmi";
 
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
 import { locales, selectLocale } from "../../locales";
@@ -48,7 +49,7 @@ interface TopBarProps {
 }
 
 function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
-  const { connected } = useWeb3Context();
+  const { isConnected } = useConnect();
 
   const location = useLocation();
 
@@ -70,9 +71,10 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
           <Link to={"/wallet"} state={{ prevPath: location.pathname }} style={{ marginRight: "0px" }}>
             <Button variant="contained" color="secondary">
               <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-              <Typography>{connected ? t`Wallet` : t`Connect`}</Typography>
+              <Typography>{isConnected ? t`Wallet` : t`Connect`}</Typography>
             </Button>
           </Link>
+          <ConnectButton />
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
           <LocaleSwitcher
             initialLocale={i18n.locale}

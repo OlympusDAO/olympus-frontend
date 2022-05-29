@@ -31,9 +31,9 @@ const isContract = (contract: Contract | Token, address: string) =>
     .map(address => address.toLowerCase())
     .includes(address.toLowerCase());
 
-export const interpretTransaction = (transactions: CovalentTransaction[], address: string) => {
+export const interpretTransaction = (transactions: CovalentTransaction[], address?: string) => {
   const results: Transaction[] = [];
-
+  if (!address) return results;
   for (const transaction of transactions) {
     if (!transaction.log_events || transaction.log_events.length === 0) continue;
 

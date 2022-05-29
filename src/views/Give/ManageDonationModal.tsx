@@ -16,9 +16,9 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useRecipientInfo } from "src/hooks/useGiveInfo";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
+import { useAccount, useNetwork } from "wagmi";
 
 import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "./constants";
 import { GohmToggle } from "./GohmToggle";
@@ -65,7 +65,8 @@ export function ManageDonationModal({
   yieldSent,
   recordType = RecordType.PROJECT,
 }: ManageModalProps) {
-  const { address, networkId } = useWeb3Context();
+  const { data: account } = useAccount();
+  const { activeChain = { id: 1 } } = useNetwork();
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
@@ -124,7 +125,7 @@ export function ManageDonationModal({
       : theme.palette.text.secondary;
 
   const _useSohmBalance =
-    useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+    useSohmBalance()[activeChain.id == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
   const sohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
 
@@ -132,7 +133,7 @@ export function ManageDonationModal({
   }, [_useSohmBalance]);
 
   const _useGohmBalance =
-    useGohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+    useGohmBalance()[activeChain.id == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
 
   const gohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useGohmBalance.isLoading || _useGohmBalance.data == undefined) return new DecimalBigNumber("0");
@@ -191,7 +192,7 @@ export function ManageDonationModal({
       return;
     }
 
-    if (value == address) {
+    if (value == account?.address) {
       setIsWalletAddressValid(false);
       return;
     }
@@ -225,7 +226,7 @@ export function ManageDonationModal({
     // The wallet address is only set when a project is not given
     if (!project && !isWalletAddressValid) return false;
 
-    if (!address) return false;
+    if (!account?.address) return false;
     if (getDepositAmountDiff().eq(ZERO_NUMBER)) return false;
 
     if (isMutationLoading) return false;
@@ -234,7 +235,7 @@ export function ManageDonationModal({
   };
 
   const canWithdraw = () => {
-    if (!address) return false;
+    if (!account?.address) return false;
 
     if (isMutationLoading) return false;
 

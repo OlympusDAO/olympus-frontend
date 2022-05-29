@@ -1,13 +1,13 @@
 import { NetworkId } from "src/networkDetails";
+import { useNetwork } from "wagmi";
 
 import { useAppSelector } from ".";
-import { useWeb3Context } from "./web3Context";
 
 export const useOldAssetsDetected = () => {
-  const { networkId } = useWeb3Context();
+  const { activeChain = { id: 1 } } = useNetwork();
 
   return useAppSelector(state => {
-    if (networkId && (networkId === NetworkId.MAINNET || networkId === NetworkId.TESTNET_RINKEBY)) {
+    if (activeChain.id && (activeChain.id === NetworkId.MAINNET || activeChain.id === NetworkId.TESTNET_RINKEBY)) {
       return (
         state.account.balances &&
         (Number(state.account.balances.sohmV1) ||

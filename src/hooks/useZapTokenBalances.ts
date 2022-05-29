@@ -1,7 +1,8 @@
 import { BigNumber, ethers } from "ethers";
 import { useQuery } from "react-query";
 import { Environment } from "src/helpers/environment/Environment/Environment";
-import { useWeb3Context } from "src/hooks";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
+import { useAccount, useConnect } from "wagmi";
 
 interface ZapperResponse {
   [key: string]: ZapperAddress;
@@ -54,15 +55,18 @@ export const zapTokenBalancesKey = (address: string) => ["zapTokenBalances", add
  * @returns react-query result
  */
 export const useZapTokenBalances = () => {
-  const { address, connected } = useWeb3Context();
-  const key = zapTokenBalancesKey(address);
+  const { isConnected } = useConnect();
+  const { data: account } = useAccount();
+  queryAssertion(account?.address);
+  const key = zapTokenBalancesKey(account?.address);
   return useQuery<ZapHelperBalancesResponse, Error>(
     key,
     async () => {
+      queryAssertion(account?.address);
       // TODO handle missing API key
       const apiKey = Environment.getZapperApiKey();
       try {
-        const addressLower = address.toLowerCase();
+        const addressLower = account.address.toLowerCase();
         console.debug("Refetching Zap token balances");
         const response = await fetch(
           `https://api.zapper.fi/v1/protocols/tokens/balances?api_key=${apiKey}&addresses%5B%5D=${addressLower}&newBalances=true`,
@@ -79,7 +83,7 @@ export const useZapTokenBalances = () => {
         throw e;
       }
     },
-    { enabled: !!address && !!connected },
+    { enabled: !!account?.address && !!isConnected },
   );
 };
 

@@ -1,6 +1,5 @@
 import { NetworkId } from "src/networkDetails";
-
-import { useWeb3Context } from ".";
+import { useNetwork } from "wagmi";
 
 const getTestnet = <TTargetNetwork extends NetworkId, TTestNetwork extends NetworkId>(
   targetNetwork: TTargetNetwork,
@@ -11,13 +10,13 @@ const getTestnet = <TTargetNetwork extends NetworkId, TTestNetwork extends Netwo
 };
 
 export const useTestableNetworks = () => {
-  const { networkId } = useWeb3Context();
+  const { activeChain = { id: 1 } } = useNetwork();
 
   return {
-    MAINNET: getTestnet(NetworkId.MAINNET, NetworkId.TESTNET_RINKEBY, networkId),
-    AVALANCHE: getTestnet(NetworkId.AVALANCHE, NetworkId.AVALANCHE_TESTNET, networkId),
-    ARBITRUM: getTestnet(NetworkId.ARBITRUM, NetworkId.ARBITRUM_TESTNET, networkId),
-    POLYGON: getTestnet(NetworkId.POLYGON, NetworkId.POLYGON_TESTNET, networkId),
-    FANTOM: getTestnet(NetworkId.FANTOM, NetworkId.FANTOM_TESTNET, networkId),
+    MAINNET: getTestnet(NetworkId.MAINNET, NetworkId.TESTNET_RINKEBY, activeChain.id),
+    AVALANCHE: getTestnet(NetworkId.AVALANCHE, NetworkId.AVALANCHE_TESTNET, activeChain.id),
+    ARBITRUM: getTestnet(NetworkId.ARBITRUM, NetworkId.ARBITRUM_TESTNET, activeChain.id),
+    POLYGON: getTestnet(NetworkId.POLYGON, NetworkId.POLYGON_TESTNET, activeChain.id),
+    FANTOM: getTestnet(NetworkId.FANTOM, NetworkId.FANTOM_TESTNET, activeChain.id),
   };
 };

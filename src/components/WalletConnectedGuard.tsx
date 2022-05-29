@@ -1,12 +1,11 @@
 import { Box, Typography } from "@mui/material";
-import { useWeb3Context } from "src/hooks";
-
-import ConnectButton from "./ConnectButton/ConnectButton";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 
 export const WalletConnectedGuard: React.FC<{ message?: string }> = props => {
-  const { connected } = useWeb3Context();
+  const { data: account } = useAccount();
 
-  if (!connected)
+  if (!account)
     return (
       <Box display="flex" flexDirection="column" alignItems="center">
         <Box mb="12px">

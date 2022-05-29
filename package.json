@@ -42,6 +42,7 @@
     "@mui/material": "^5.8.1",
     "@multifarm/widget": "^0.0.125",
     "@olympusdao/component-library": "^2.0.4",
+    "@rainbow-me/rainbowkit": "^0.2.1",
     "@reduxjs/toolkit": "^1.8.2",
     "@types/material-ui": "^0.21.12",
     "@walletconnect/web3-provider": "^1.7.8",
@@ -64,6 +65,7 @@
     "react-uid": "^2.3.2",
     "recharts": "^2.1.10",
     "typescript": "^4.7.2",
+    "wagmi": "^0.4.3",
     "web3modal": "^1.9.7"
   },
   "devDependencies": {

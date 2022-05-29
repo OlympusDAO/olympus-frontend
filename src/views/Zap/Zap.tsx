@@ -8,15 +8,16 @@ import { useNavigate } from "react-router";
 import ConnectButton from "src/components/ConnectButton/ConnectButton";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
-import { useWeb3Context } from "src/hooks/web3Context";
+import { useAccount, useNetwork } from "wagmi";
 
 import ZapInfo from "./ZapInfo";
 import ZapStakeAction from "./ZapStakeAction";
 
 const Zap: React.FC = () => {
-  const { address, networkId } = useWeb3Context();
+  const { data: account } = useAccount();
+  const { activeChain = { id: 1 } } = useNetwork();
   const navigate = useNavigate();
-  usePathForNetwork({ pathName: "zap", networkID: networkId, navigate });
+  usePathForNetwork({ pathName: "zap", networkID: activeChain.id, navigate });
 
   const zapTokenBalances = useZapTokenBalances();
   const tokens = zapTokenBalances.data?.balances;
@@ -33,9 +34,9 @@ const Zap: React.FC = () => {
 
   return (
     <div id="zap-view">
-      <Paper headerText={address && `Zap`}>
+      <Paper headerText={account && `Zap`}>
         <div className="staking-area">
-          {!address ? (
+          {!account ? (
             <div className="stake-wallet-notification">
               <div className="wallet-menu" id="wallet-menu">
                 <ConnectButton />
@@ -52,7 +53,7 @@ const Zap: React.FC = () => {
         </div>
       </Paper>
 
-      <ZapInfo tokens={inputTokenImages} address={address} />
+      <ZapInfo tokens={inputTokenImages} />
     </div>
   );
 };

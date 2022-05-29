@@ -5,16 +5,16 @@ import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useDynamicStakingContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { useAccount } from "wagmi";
 
 export const useUnwrapGohm = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
   const networks = useTestableNetworks();
   const balance = useBalance(GOHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
@@ -33,9 +33,9 @@ export const useUnwrapGohm = () => {
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network to unwrap your gOHM`);
 
-      if (!address) throw new Error(t`Please refresh your page and try again`);
+      if (!account?.address) throw new Error(t`Please refresh your page and try again`);
 
-      const transaction = await contract.unwrap(address, _amount.toBigNumber());
+      const transaction = await contract.unwrap(account.address, _amount.toBigNumber());
       return transaction.wait();
     },
     {
@@ -50,8 +50,8 @@ export const useUnwrapGohm = () => {
         });
 
         const keysToRefetch = [
-          balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(account?.address, SOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(account?.address, GOHM_ADDRESSES, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

@@ -1,17 +1,15 @@
 import { Trans } from "@lingui/macro";
 import { Button, Typography } from "@mui/material";
 import { NETWORKS } from "src/constants";
-import { useWeb3Context } from "src/hooks";
-import { useSwitchNetwork } from "src/hooks/useSwitchNetwork";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
+import { useNetwork } from "wagmi";
 
 export const WrapSwitchNetwork = () => {
-  const { mutate } = useSwitchNetwork();
   const networks = useTestableNetworks();
 
-  const { networkId } = useWeb3Context();
-  const isMainnet = networkId === networks.MAINNET;
+  const { activeChain = { id: 1 }, switchNetwork } = useNetwork();
+  const isMainnet = activeChain.id === networks.MAINNET;
 
   if (!isMainnet)
     return (
@@ -20,7 +18,7 @@ export const WrapSwitchNetwork = () => {
           Back to Ethereum Mainnet
         </Typography>
 
-        <Button onClick={() => mutate(NetworkId.MAINNET)} variant="outlined" color="secondary">
+        <Button onClick={() => switchNetwork?.(NetworkId.MAINNET)} variant="outlined" color="secondary">
           <img
             height="28px"
             width="28px"
@@ -44,7 +42,7 @@ export const WrapSwitchNetwork = () => {
       </Typography>
 
       <Button
-        onClick={() => mutate(NetworkId.AVALANCHE)}
+        onClick={() => switchNetwork?.(NetworkId.AVALANCHE)}
         variant="outlined"
         color="secondary"
         style={{ margin: "0.3rem" }}
@@ -62,7 +60,7 @@ export const WrapSwitchNetwork = () => {
       </Button>
 
       <Button
-        onClick={() => mutate(NetworkId.ARBITRUM)}
+        onClick={() => switchNetwork?.(NetworkId.ARBITRUM)}
         variant="outlined"
         color="secondary"
         style={{ margin: "0.3rem" }}

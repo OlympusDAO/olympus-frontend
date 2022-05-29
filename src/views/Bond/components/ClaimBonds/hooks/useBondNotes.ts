@@ -3,9 +3,10 @@ import { NetworkId } from "src/constants";
 import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { getQueryData } from "src/helpers/react-query/getQueryData";
-import { useWeb3Context } from "src/hooks";
+import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { Bond, bondQueryKey, fetchBond } from "src/views/Bond/hooks/useBond";
+import { useAccount } from "wagmi";
 
 export interface BondNote {
   /**
@@ -33,10 +34,12 @@ export interface BondNote {
 export const bondNotesQueryKey = (networkId: NetworkId, address: string) => ["useBondNotes", networkId, address];
 
 export const useBondNotes = () => {
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
   const networks = useTestableNetworks();
-  const args = [networks.MAINNET, address] as const;
-  return useQuery(bondNotesQueryKey(...args), () => fetchBondNotes(...args), { enabled: !!address });
+
+  queryAssertion(account?.address);
+  const args = [networks.MAINNET, account.address] as const;
+  return useQuery(bondNotesQueryKey(...args), () => fetchBondNotes(...args), { enabled: !!account.address });
 };
 
 export const fetchBondNotes = async (networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, address: string) => {
