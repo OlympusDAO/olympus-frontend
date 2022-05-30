@@ -166,6 +166,9 @@ exports[`<App/> should not render a connection error message when user wallet is
                           olympus-nav-header.svg
                         </svg>
                       </a>
+                      <div
+                        class="MuiBox-root css-1hw29i9"
+                      />
                     </div>
                     <div
                       class="dapp-menu-links"
@@ -3869,6 +3872,9 @@ exports[`<App/> should not render an error message when user wallet is connected
                           olympus-nav-header.svg
                         </svg>
                       </a>
+                      <div
+                        class="MuiBox-root css-1hw29i9"
+                      />
                     </div>
                     <div
                       class="dapp-menu-links"
@@ -7572,6 +7578,9 @@ exports[`<App/> should render an error message when user wallet is connected and
                           olympus-nav-header.svg
                         </svg>
                       </a>
+                      <div
+                        class="MuiBox-root css-1hw29i9"
+                      />
                     </div>
                     <div
                       class="dapp-menu-links"

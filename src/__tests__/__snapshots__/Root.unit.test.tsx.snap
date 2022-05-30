@@ -228,6 +228,9 @@ exports[`<Root/> should render component 1`] = `
                           olympus-nav-header.svg
                         </svg>
                       </a>
+                      <div
+                        class="MuiBox-root css-1hw29i9"
+                      />
                     </div>
                     <div
                       class="dapp-menu-links"
