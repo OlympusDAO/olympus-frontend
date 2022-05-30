@@ -1,8 +1,9 @@
 import "@rainbow-me/rainbowkit/styles.css";
 
-import { getDefaultWallets } from "@rainbow-me/rainbowkit";
+import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit";
 import { Chain, chain, configureChains, createClient } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { publicProvider } from "wagmi/providers/public";
 
 const boba: Chain = {
@@ -25,7 +26,7 @@ const avalanche: Chain = {
   network: "avalanche",
   id: 43114,
   nativeCurrency: {
-    name: "AVAX",
+    name: "Avalanche",
     symbol: "AVAX",
     decimals: 18,
   },
@@ -37,7 +38,7 @@ const fantom: Chain = {
   network: "fantom",
   id: 250,
   nativeCurrency: {
-    name: "FTM",
+    name: "Fantom",
     symbol: "FTM",
     decimals: 18,
   },
@@ -52,26 +53,38 @@ export const { chains, provider } = configureChains(
     {
       ...boba,
       iconUrl:
-        "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_boba.jpg&w=64&q=75",
+        "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_boba.jpg&w=64&q=100",
     },
     {
       ...avalanche,
       iconUrl:
-        "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_avalanche.jpg&w=64&q=75",
+        "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_avalanche.jpg&w=64&q=100",
     },
     {
       ...fantom,
       iconUrl:
-        "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_fantom.jpg&w=64&q=75",
+        "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_fantom.jpg&w=64&q=100",
     },
   ],
-  [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()],
+  [
+    alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }),
+    jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) }),
+    publicProvider(),
+  ],
 );
 
-const { connectors } = getDefaultWallets({
-  appName: "Olympus DAO",
-  chains,
-});
+const connectors = connectorsForWallets([
+  {
+    groupName: "Wallets",
+    wallets: [
+      wallet.metaMask({ chains }),
+      wallet.coinbase({ appName: "Olympus DAO", chains }),
+      wallet.rainbow({ chains }),
+      wallet.walletConnect({ chains }),
+      wallet.ledger({ chains }),
+    ],
+  },
+]);
 
 export const wagmiClient = createClient({
   autoConnect: true,

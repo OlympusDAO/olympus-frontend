@@ -186,14 +186,6 @@ interface INetwork {
   uri: () => string;
 }
 
-// These networks will be available for users to select. Other networks may be functional
-// (e.g. testnets, or mainnets being prepared for launch) but need to be selected directly via the wallet.
-export const USER_SELECTABLE_NETWORKS = [NetworkId.MAINNET, NetworkId.ARBITRUM, NetworkId.AVALANCHE];
-
-// Set this to the chain number of the most recently added network in order to enable the 'Now supporting X network'
-// message in the UI. Set to -1 if we don't want to display the message at the current time.
-export const NEWEST_NETWORK_ID = NetworkId.AVALANCHE;
-
 export const NETWORKS: { [key: number]: INetwork } = {
   [NetworkId.MAINNET]: {
     chainName: "Ethereum",
