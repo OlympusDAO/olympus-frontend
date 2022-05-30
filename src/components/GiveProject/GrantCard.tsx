@@ -57,7 +57,7 @@ const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function GrantCard({ grant, giveAssetType, changeAssetType, mode }: GrantDetailsProps) {
-  const { activeChain } = useNetwork();
+  const { activeChain = { id: 1 } } = useNetwork();
   const { data: account } = useAccount();
 
   const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
@@ -117,7 +117,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   useEffect(() => {
     setIsUserDonating(false);
     setDonationId(NO_DONATION);
-  }, [activeChain?.id]);
+  }, [activeChain.id]);
 
   useEffect(() => {
     if (isDonationInfoLoading || !donationInfo) return;
@@ -134,7 +134,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
         break;
       }
     }
-  }, [isDonationInfoLoading, donationInfo, userDonation, activeChain?.id, wallet]);
+  }, [isDonationInfoLoading, donationInfo, userDonation, activeChain.id, wallet]);
 
   // Reset donation states when user switches network
   useEffect(() => {
@@ -545,7 +545,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                         ) : (
                           <PrimaryButton
                             onClick={() => handleGiveButtonClick()}
-                            disabled={!isSupportedChain(activeChain?.id)}
+                            disabled={!isSupportedChain(activeChain.id)}
                             fullWidth
                           >
                             <Trans>Donate Yield</Trans>
@@ -598,7 +598,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                       <Grid item xs={12}>
                         <PrimaryButton
                           onClick={() => handleEditButtonClick()}
-                          disabled={!isSupportedChain(activeChain?.id)}
+                          disabled={!isSupportedChain(activeChain.id)}
                           style={{ marginTop: "24px" }}
                           fullWidth
                         >
