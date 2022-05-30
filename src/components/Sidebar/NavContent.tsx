@@ -12,7 +12,7 @@ import { BondDiscount } from "src/views/Bond/components/BondDiscount";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
-import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
+import { WalletAddressEns } from "../TopBar/Wallet/WalletAddressEns";
 
 const PREFIX = "NavContent";
 
@@ -44,7 +44,9 @@ const NavContent: React.VFC = () => {
               />
             </Link>
 
-            <WalletAddressEns />
+            <Box mt="12px">
+              <WalletAddressEns />
+            </Box>
           </Box>
 
           <div className="dapp-menu-links">

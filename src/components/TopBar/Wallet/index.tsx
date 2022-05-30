@@ -4,13 +4,13 @@ import { styled } from "@mui/material/styles";
 import { Icon, OHMTokenProps, PrimaryButton, SecondaryButton, TabBar, Token } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { shorten } from "src/helpers";
 import { useWeb3Context } from "src/hooks";
 import { NetworkId } from "src/networkDetails";
 
 import Assets from "./Assets";
 import GetOhm from "./GetOhm";
 import { Info } from "./Info";
+import { WalletAddressEns } from "./WalletAddressEns";
 
 const PREFIX = "Wallet";
 
@@ -125,14 +125,18 @@ export function Wallet(props: { open?: boolean; component?: string }) {
         <Box style={{ top: 0, position: "sticky" }}>
           <Box display="flex" justifyContent="space-between" mb={"18px"}>
             <Box>
-              {!connected && <WalletButtonTop />}
-              {connected && (
+              {connected ? (
                 <Box display="flex" className={classes.networkSelector}>
                   {NetworkId[networkId] && (
                     <Token name={NetworkId[networkId] as OHMTokenProps["name"]} style={{ fontSize: "21px" }} />
                   )}
-                  <Typography style={{ marginLeft: "6px" }}> {shorten(address)}</Typography>
+
+                  <Box ml="12px">
+                    <WalletAddressEns noAvatar />
+                  </Box>
                 </Box>
+              ) : (
+                <WalletButtonTop />
               )}
             </Box>
             <Box display="flex" flexDirection="row" justifyContent="flex-end" alignItems="center" textAlign="right">
