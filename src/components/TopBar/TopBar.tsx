@@ -2,12 +2,9 @@ import "./TopBar.scss";
 
 import { i18n } from "@lingui/core";
 import { t } from "@lingui/macro";
-import { AppBar, Box, Button, SvgIcon, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, SvgIcon, Toolbar } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { LocaleSwitcher } from "@olympusdao/component-library";
-import { Link, useLocation } from "react-router-dom";
-import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
-import { useConnect } from "wagmi";
 
 import { ReactComponent as MenuIcon } from "../../assets/icons/hamburger.svg";
 import { locales, selectLocale } from "../../locales";
@@ -49,10 +46,6 @@ interface TopBarProps {
 }
 
 function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
-  const { isConnected } = useConnect();
-
-  const location = useLocation();
-
   return (
     <StyledAppBar position="sticky" className={classes.appBar} elevation={0}>
       <Toolbar disableGutters className="dapp-topbar">
@@ -68,12 +61,6 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }: TopBarProps) {
           <SvgIcon component={MenuIcon} />
         </Button>
         <Box display="flex" alignItems="center">
-          <Link to={"/wallet"} state={{ prevPath: location.pathname }} style={{ marginRight: "0px" }}>
-            <Button variant="contained" color="secondary">
-              <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-              <Typography>{isConnected ? t`Wallet` : t`Connect`}</Typography>
-            </Button>
-          </Link>
           <ConnectButton />
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
           <LocaleSwitcher

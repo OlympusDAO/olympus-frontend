@@ -1,11 +1,11 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import { Box, SwipeableDrawer, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Icon, PrimaryButton, SecondaryButton, TabBar } from "@olympusdao/component-library";
+import { Icon, SecondaryButton, TabBar } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import ConnectButton from "src/components/ConnectButton/ConnectButton";
-import { useAccount, useConnect, useDisconnect, useNetwork } from "wagmi";
+import { useLocation, useNavigate } from "react-router-dom";
+import ConnectButton, { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
+import { useConnect, useDisconnect } from "wagmi";
 
 import Assets from "./Assets";
 import GetOhm from "./GetOhm";
@@ -64,36 +64,12 @@ export function Wallet(props: { open?: boolean; component?: string }) {
 
   const navigate = useNavigate();
 
-  const { data: account } = useAccount();
-  const { activeChain = { id: 1 } } = useNetwork();
-  const { isConnected, connect } = useConnect();
-
-  const { id } = useParams<{ id: string }>();
+  const { isConnected } = useConnect();
 
   // only enable backdrop transition on ios devices,
   // because we can assume IOS is hosted on hight-end devices and will not drop frames
   // also disable discovery on IOS, because of it's 'swipe to go back' feat
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
-  const WalletButtonTop = () => {
-    const onClick = !isConnected ? connect : undefined;
-    const label = isConnected ? t`Wallet` : t`Connect Wallet`;
-    return (
-      <PrimaryButton className={classes.connectButton} color="secondary" onClick={onClick}>
-        <Icon name="wallet" style={{ marginRight: "9px" }} />
-        <Typography>{label}</Typography>
-      </PrimaryButton>
-    );
-  };
-  const WalletButtonBottom = () => {
-    const onClick = !isConnected ? connect : undefined;
-    const label = isConnected ? t`Wallet` : t`Connect Wallet`;
-    return (
-      <PrimaryButton onClick={onClick}>
-        <Typography>{label}</Typography>
-      </PrimaryButton>
-    );
-  };
 
   const DisconnectButton = () => {
     const { disconnect } = useDisconnect();
@@ -181,7 +157,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
         pt={"21px"}
         pb={"21px"}
       >
-        {isConnected ? <DisconnectButton /> : <WalletButtonBottom />}
+        {isConnected ? <DisconnectButton /> : <InPageConnectButton />}
       </Box>
     </StyledSwipeableDrawer>
   );

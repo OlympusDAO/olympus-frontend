@@ -5,7 +5,7 @@ import { Box, Typography } from "@mui/material";
 import { Paper } from "@olympusdao/component-library";
 import React, { useMemo } from "react";
 import { useNavigate } from "react-router";
-import ConnectButton from "src/components/ConnectButton/ConnectButton";
+import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
 import { useAccount, useNetwork } from "wagmi";
@@ -39,7 +39,7 @@ const Zap: React.FC = () => {
           {!account ? (
             <div className="stake-wallet-notification">
               <div className="wallet-menu" id="wallet-menu">
-                <ConnectButton />
+                <InPageConnectButton />
               </div>
               <Typography variant="h6">
                 <Trans>Connect your wallet to use Zap</Trans>

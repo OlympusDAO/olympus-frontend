@@ -8,7 +8,6 @@ import { Box, Container, Grid, Link, Typography, useMediaQuery } from "@mui/mate
 import { Skeleton } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Icon, Paper, PrimaryButton } from "@olympusdao/component-library";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import MarkdownIt from "markdown-it";
 import { useEffect, useMemo, useState } from "react";
 import ReactGA from "react-ga";
@@ -35,6 +34,8 @@ import {
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
 import { useAccount, useNetwork } from "wagmi";
+
+import { InPageConnectButton } from "../ConnectButton/ConnectButton";
 
 export enum GrantDetailsMode {
   Card = "Card",
@@ -538,7 +539,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                       </Grid>
                       <Grid item xs={12} style={{ paddingTop: "45px" }}>
                         {!account ? (
-                          <ConnectButton />
+                          <InPageConnectButton />
                         ) : isUserDonating ? (
                           <></>
                         ) : (

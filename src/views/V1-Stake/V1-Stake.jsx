@@ -25,7 +25,7 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LearnMoreButton, MigrateButton } from "src/components/CallToAction/CallToAction";
-import ConnectButton from "src/components/ConnectButton/ConnectButton";
+import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { useOldAssetsDetected } from "src/hooks/useOldAssetsDetected";
 import { isPendingTxn, txnButtonText } from "src/slices/PendingTxnsSlice";
 import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
@@ -217,7 +217,7 @@ function V1Stake({ setMigrationModalOpen }) {
             {!isConnected ? (
               <div className="stake-wallet-notification">
                 <div className="wallet-menu" id="wallet-menu">
-                  <ConnectButton />
+                  <InPageConnectButton />
                 </div>
                 <Typography variant="h6">
                   <Trans>Connect your wallet to stake OHM</Trans>

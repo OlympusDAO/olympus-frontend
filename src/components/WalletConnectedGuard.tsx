@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
+
+import { InPageConnectButton } from "./ConnectButton/ConnectButton";
 
 export const WalletConnectedGuard: React.FC<{ message?: string }> = props => {
   const { data: account } = useAccount();
@@ -9,7 +10,7 @@ export const WalletConnectedGuard: React.FC<{ message?: string }> = props => {
     return (
       <Box display="flex" flexDirection="column" alignItems="center">
         <Box mb="12px">
-          <ConnectButton />
+          <InPageConnectButton />
         </Box>
 
         <Typography variant="h6">{props.message}</Typography>

@@ -5,6 +5,11 @@ import { useMediaQuery } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { styled, ThemeProvider } from "@mui/material/styles";
 import { MultifarmProvider } from "@multifarm/widget";
+import {
+  darkTheme as rainbowDarkTheme,
+  lightTheme as rainbowLightTheme,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
@@ -24,6 +29,7 @@ import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import useTheme from "./hooks/useTheme";
+import { chains } from "./hooks/wagmi";
 import { getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { error, info } from "./slices/MessagesSlice";
@@ -201,66 +207,75 @@ function App() {
 
   return (
     <StyledDiv>
-      <ThemeProvider theme={themeMode}>
-        <MultifarmProvider
-          token={MULTIFARM_API_KEY}
-          provider="olympus"
-          lng={i18n.locale}
-          themeColors={theme}
-          badgePlacement="bottom"
-          theme={theme === "light" ? multifarmLightTheme : multifarmDarkTheme}
-          categoryTypesConfig={categoryTypesConfig}
-          strategyTypesConfig={strategyTypesConfig}
-        >
-          <CssBaseline />
-          <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
-            <StagingNotification />
-            <Messages />
-            <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
-            <nav className={classes.drawer}>
-              {isSmallerScreen ? (
-                <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-              ) : (
-                <Sidebar />
-              )}
-            </nav>
+      <RainbowKitProvider
+        chains={chains}
+        theme={
+          theme === "dark"
+            ? rainbowDarkTheme({ accentColor: "#676B74" })
+            : rainbowLightTheme({ accentColor: "#E0E2E3", accentColorForeground: "#181A1D" })
+        }
+      >
+        <ThemeProvider theme={themeMode}>
+          <MultifarmProvider
+            token={MULTIFARM_API_KEY}
+            provider="olympus"
+            lng={i18n.locale}
+            themeColors={theme}
+            badgePlacement="bottom"
+            theme={theme === "light" ? multifarmLightTheme : multifarmDarkTheme}
+            categoryTypesConfig={categoryTypesConfig}
+            strategyTypesConfig={strategyTypesConfig}
+          >
+            <CssBaseline />
+            <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+              <StagingNotification />
+              <Messages />
+              <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+              <nav className={classes.drawer}>
+                {isSmallerScreen ? (
+                  <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                ) : (
+                  <Sidebar />
+                )}
+              </nav>
 
-            <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-              <MigrationCallToAction setMigrationModalOpen={setMigrationModalOpen} />
+              <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+                <MigrationCallToAction setMigrationModalOpen={setMigrationModalOpen} />
 
-              <Routes>
-                <Route path="/" element={<Navigate to="/stake" />} />
-                <Route
-                  path="/stake"
-                  element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
-                />
-                <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
-                <Route path="/give/*" element={<Give />} />
+                <Routes>
+                  <Route path="/" element={<Navigate to="/stake" />} />
+                  <Route
+                    path="/stake"
+                    element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
+                  />
+                  <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
+                  <Route path="/give/*" element={<Give />} />
 
-                <Route path="/olympusgive" element={<Navigate to="/give" />} />
-                <Route path="/olygive" element={<Navigate to="/give" />} />
-                <Route path="/tyche" element={<Navigate to="/give" />} />
-                <Route path="/olympusdaogive" element={<Navigate to="/give" />} />
-                <Route path="/ohmgive" element={<Navigate to="/give" />} />
+                  <Route path="/olympusgive" element={<Navigate to="/give" />} />
+                  <Route path="/olygive" element={<Navigate to="/give" />} />
+                  <Route path="/tyche" element={<Navigate to="/give" />} />
+                  <Route path="/olympusdaogive" element={<Navigate to="/give" />} />
+                  <Route path="/ohmgive" element={<Navigate to="/give" />} />
 
-                <Route path="/wrap" element={<Wrap />} />
-                <Route path="/zap" element={<Zap />} />
-                <Route path="/bonds/*" element={<Bond />} />
-                <Route path="/bridge" element={<Bridge />} />
-                <Route path="/dashboard/*" element={<TreasuryDashboard />} />
+                  <Route path="/wrap" element={<Wrap />} />
+                  <Route path="/zap" element={<Zap />} />
+                  <Route path="/bonds/*" element={<Bond />} />
+                  <Route path="/bridge" element={<Bridge />} />
+                  <Route path="/dashboard/*" element={<TreasuryDashboard />} />
 
-                <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
-                <Route path={"/utility"} element={<Wallet open={true} component="utility" />} />
-                <Route path={"/wallet/history"} element={<Wallet open={true} component="wallet/history" />} />
-                <Route path="/wallet" element={<Wallet open={true} component="wallet" />}></Route>
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+                  <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
+                  <Route path={"/utility"} element={<Wallet open={true} component="utility" />} />
+                  <Route path={"/wallet/history"} element={<Wallet open={true} component="wallet/history" />} />
+                  <Route path="/wallet" element={<Wallet open={true} component="wallet" />}></Route>
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </div>
             </div>
-          </div>
 
-          <MigrationNotification isModalOpen={migrationModalOpen} onClose={migModalClose} />
-        </MultifarmProvider>
-      </ThemeProvider>
+            <MigrationNotification isModalOpen={migrationModalOpen} onClose={migModalClose} />
+          </MultifarmProvider>
+        </ThemeProvider>
+      </RainbowKitProvider>
     </StyledDiv>
   );
 }
