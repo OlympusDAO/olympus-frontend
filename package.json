@@ -39,7 +39,7 @@
     "@ledgerhq/iframe-provider": "^0.4.2",
     "@lingui/react": "^3.13.3",
     "@mui/icons-material": "^5.8.0",
-    "@mui/material": "^5.8.1",
+    "@mui/material": "^5.8.2",
     "@multifarm/widget": "^0.0.125",
     "@olympusdao/component-library": "^2.0.4",
     "@reduxjs/toolkit": "^1.8.2",
