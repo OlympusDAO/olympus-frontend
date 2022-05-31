@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CallToAction/> should render component 1`] = `
+<div>
+  <div
+    class="call-to-action ohm-card MuiBox-root css-0"
+  >
+    <h5
+      class="MuiTypography-root MuiTypography-h5 css-903ewo-MuiTypography-root"
+      style="font-size: 20px; font-weight: 600;"
+    >
+      You have assets ready to migrate to v2
+    </h5>
+    <div
+      class="actionable"
+    >
+      <a
+        class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root learn-more-button css-1sigo3z-MuiButtonBase-root-MuiButton-root"
+        href="https://docs.olympusdao.finance/main/basics/migration"
+        tabindex="0"
+        target="_blank"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+        >
+          Learn More
+        </p>
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1x7u7wj-MuiSvgIcon-root"
+          focusable="false"
+          viewBox="0 0 20 20"
+        >
+          arrow-up.svg
+        </svg>
+      </a>
+      <button
+        class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButtonBase-root migrate-button css-155g3gm-MuiButtonBase-root-MuiButton-root"
+        tabindex="0"
+        type="button"
+      >
+        Get Started
+      </button>
+    </div>
+  </div>
+</div>
+`;
