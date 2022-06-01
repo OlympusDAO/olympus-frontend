@@ -12,11 +12,6 @@ interface TrackGAEventOptions extends ReactGA.EventArgs {
   category: Category;
 }
 
-interface GtagEventOptions {
-  name: string;
-  params: any;
-}
-
 export const trackGAEvent = (event: TrackGAEventOptions) => {
   try {
     // Universal GA (using react-ga)
