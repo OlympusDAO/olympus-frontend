@@ -30,7 +30,7 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "^3.6.5",
+    "@apollo/client": "^3.6.6",
     "@coinbase/wallet-sdk": "^3.1.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
