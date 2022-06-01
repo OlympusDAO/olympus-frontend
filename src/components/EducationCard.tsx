@@ -97,7 +97,7 @@ export function ArrowGraphic({ fill, marginTop = "25px" }: ArrowGraphicProps) {
   return (
     <Grid container style={{ marginTop: marginTop }}>
       <Grid item xs={12} style={{ textAlign: "center" }}>
-        <Icon name="arrow-right" style={{ fontSize: 70, fill: fill }} />{" "}
+        <Icon name="arrow-right" data-testid="arrow" style={{ fontSize: 70, fill: fill }} />{" "}
       </Grid>
     </Grid>
   );

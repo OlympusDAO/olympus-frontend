@@ -9,13 +9,8 @@ import MigrationModal from "../MigrationModal";
 
 describe("<MigrationModal/>", () => {
   it("should render closed component", () => {
-    const { container } = render(<MigrationModal open={false} handleClose={() => console.log("handleClose")} />);
-    expect(container).toMatchSnapshot();
-  });
-
-  it("should render open component", () => {
-    const { container } = render(<MigrationModal open={true} handleClose={() => console.log("handleClose")} />);
-    expect(container).toMatchSnapshot();
+    render(<MigrationModal open={false} handleClose={() => console.log("handleClose")} />);
+    expect(screen.queryByText("Migration Output")).not.toBeInTheDocument();
   });
 
   it("should render user account v1 assets and estimated v2 amounts", async () => {
@@ -54,7 +49,7 @@ describe("<MigrationModal/>", () => {
     });
 
     const migrationModal = <MigrationModal open={true} handleClose={() => console.log("handleClose")} />;
-    const { container } = render(migrationModal, store);
+    render(migrationModal, store);
 
     // there should be a header inviting user to migrate v1 tokens to v2
     expect(await screen.getByText("You have assets ready to migrate to v2")).toBeInTheDocument();

@@ -1,4 +1,4 @@
-import { render } from "../../testUtils";
+import { render, screen } from "../../testUtils";
 import {
   ArrowGraphic,
   CompactVault,
@@ -10,71 +10,71 @@ import {
 } from "../EducationCard";
 
 describe("<ArrowGraphic/>", () => {
-  it("should render component", () => {
-    const { container } = render(<ArrowGraphic fill="#999999" />);
-    expect(container).toMatchSnapshot();
+  it("should render component with correct fill", () => {
+    render(<ArrowGraphic fill="#999999" />);
+    expect(screen.getByTestId("arrow")).toHaveStyle({ fill: "#999999" });
   });
 });
 
 describe("<CompactYield/>", () => {
   const giveAssetType = "sOHM";
 
-  it("should render component", () => {
-    const { container } = render(<CompactYield quantity={"1"} asset={giveAssetType} isQuantityExact={true} />);
-    expect(container).toMatchSnapshot();
+  it("should render component with quantity 1 exact", () => {
+    render(<CompactYield quantity={"1"} asset={giveAssetType} isQuantityExact={true} />);
+    expect(screen.getByText("Receives yield from 1 sOHM"));
   });
 
   it("should render component with quantity not exact", () => {
-    const { container } = render(<CompactYield quantity={"1"} asset={giveAssetType} isQuantityExact={false} />);
-    expect(container).toMatchSnapshot();
+    render(<CompactYield quantity={"1"} asset={giveAssetType} isQuantityExact={false} />);
+    expect(screen.getByText("Receives yield from ≈ 1 sOHM"));
   });
 });
 
 describe("<CompactVault/>", () => {
   const giveAssetType = "sOHM";
 
-  it("should render component", () => {
-    const { container } = render(<CompactVault quantity={"1"} asset={giveAssetType} isQuantityExact={true} />);
-    expect(container).toMatchSnapshot();
+  it("should render component with quantiy 1 exact", () => {
+    render(<CompactVault quantity={"1"} asset={giveAssetType} isQuantityExact={true} />);
+    expect(screen.getByText("1 sOHM deposited"));
   });
 
   it("should render component with quantity not exact", () => {
-    const { container } = render(<CompactVault quantity={"1"} asset={giveAssetType} isQuantityExact={false} />);
-    expect(container).toMatchSnapshot();
+    render(<CompactVault quantity={"1"} asset={giveAssetType} isQuantityExact={false} />);
+    expect(screen.getByText("≈ 1 sOHM deposited"));
   });
 });
 
 describe("<CompactWallet/>", () => {
   const giveAssetType = "sOHM";
 
-  it("should render component", () => {
-    const { container } = render(<CompactWallet quantity={"1"} asset={giveAssetType} isQuantityExact={true} />);
-    expect(container).toMatchSnapshot();
+  it("should render component with quantity 1 exact", () => {
+    render(<CompactWallet quantity={"1"} asset={giveAssetType} isQuantityExact={true} />);
+    expect(screen.getByText("1 sOHM retained"));
   });
 
   it("should render component with quantity not exact", () => {
-    const { container } = render(<CompactWallet quantity={"1"} asset={giveAssetType} isQuantityExact={false} />);
-    expect(container).toMatchSnapshot();
+    render(<CompactWallet quantity={"1"} asset={giveAssetType} isQuantityExact={false} />);
+    expect(screen.getByText("≈ 1 sOHM retained"));
   });
 });
 
 describe("<LargeWallet/>", () => {
   it("should render component", () => {
-    const { container } = render(<LargeWallet />);
-    expect(container).toMatchSnapshot();
+    render(<LargeWallet />);
+    expect(screen.getByText("Deposit sOHM from wallet"));
   });
 });
 
 describe("<LargeVault/>", () => {
   it("should render component", () => {
-    const { container } = render(<LargeVault />);
-    expect(container).toMatchSnapshot();
+    render(<LargeVault />);
+    expect(screen.getByText("Lock sOHM in vault"));
   });
 });
 
 describe("<LargeYield/>", () => {
   it("should render component", () => {
-    const { container } = render(<LargeYield />);
-    expect(container).toMatchSnapshot();
+    render(<LargeYield />);
+    expect(screen.getByText("Recipient earns sOHM rebases"));
   });
 });
