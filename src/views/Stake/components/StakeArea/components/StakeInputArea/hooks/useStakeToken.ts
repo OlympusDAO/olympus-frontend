@@ -1,10 +1,9 @@
 import { t } from "@lingui/macro";
 import { ContractReceipt } from "ethers";
-import GA4 from "react-ga4";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
-import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
+import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
@@ -59,13 +58,12 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
           dimension2: address,
         });
 
-        GA4.gtag("event", "Stake", {
+        trackGtagEvent("Stake Test 2", {
           event_category: "Staking",
           value: new DecimalBigNumber(amount, 9).toApproxNumber(),
           address: address.slice(2),
-          txnHash: txHash.slice(2) ?? "unknown",
+          txHash: txHash.slice(2) ?? "unknown",
           token: toToken,
-          send_to: "G-QVG74XXSKF",
         });
 
         const keysToRefetch = [

@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { DAO_TREASURY_ADDRESSES } from "src/constants/addresses";
 import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
-import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
+import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { useWeb3Context } from "src/hooks";
@@ -113,6 +113,14 @@ export const usePurchaseBond = (bond: Bond) => {
           value: new DecimalBigNumber(amount, bond.quoteToken.decimals).toApproxNumber(),
           dimension1: txHash ?? "unknown",
           dimension2: address,
+        });
+
+        trackGtagEvent("Bond", {
+          event_category: "Bonds",
+          value: new DecimalBigNumber(amount, bond.quoteToken.decimals).toApproxNumber(),
+          address: address.slice(2),
+          txHash: txHash.slice(2) ?? "unknown",
+          token: bond.quoteToken.name,
         });
 
         const keysToRefetch = [

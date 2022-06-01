@@ -3,7 +3,7 @@ import { ContractReceipt } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
-import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
+import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { useWeb3Context } from "src/hooks";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
@@ -52,6 +52,13 @@ export const useClaimBonds = () => {
           label: id ?? "unknown",
           dimension1: txHash ?? "unknown",
           dimension2: address,
+        });
+
+        trackGtagEvent("Redeem", {
+          event_category: "Bonds",
+          event_label: id ?? "unknown",
+          address: address.slice(2),
+          txHash: txHash.slice(2) ?? "unknown",
         });
 
         const keysToRefetch = [bondNotesQueryKey(networks.MAINNET, address)];
