@@ -18,7 +18,6 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
   const networks = useTestableNetworks();
   const balance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
-  let txHash: string;
 
   return useMutation<ContractReceipt, Error, string>(
     async amount => {
@@ -41,20 +40,19 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
       const claim = true; // was true before the mint & sync distributor change
 
       const transaction = await contract.stake(address, _amount.toBigNumber(), shouldRebase, claim);
-      txHash = transaction.hash;
       return transaction.wait();
     },
     {
       onError: error => {
         dispatch(createErrorToast(error.message));
       },
-      onSuccess: async (_, amount) => {
+      onSuccess: async (tx, amount) => {
         trackGAEvent({
           category: "Staking",
           action: "stake",
           label: `Stake to ${toToken}`,
           value: new DecimalBigNumber(amount, 9).toApproxNumber(),
-          dimension1: txHash ?? "unknown",
+          dimension1: tx.transactionHash,
           dimension2: address,
         });
 
@@ -62,7 +60,7 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
           event_category: "Staking",
           value: new DecimalBigNumber(amount, 9).toApproxNumber(),
           address: address.slice(2),
-          txHash: txHash.slice(2) ?? "unknown",
+          txHash: tx.transactionHash.slice(2),
           token: toToken,
         });
 
