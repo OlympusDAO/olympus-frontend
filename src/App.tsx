@@ -116,7 +116,7 @@ function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const { data: account } = useAccount();
-  const { connect, isError, isConnected, error: errorMessage } = useConnect();
+  const { isConnected, error: errorMessage } = useConnect();
   const provider = useProvider();
   const { activeChain = { id: 1 } } = useNetwork();
 
@@ -127,8 +127,6 @@ function App() {
 
   const isSmallerScreen = useMediaQuery("(max-width: 980px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
-
-  const [walletChecked, setWalletChecked] = useState(false);
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:

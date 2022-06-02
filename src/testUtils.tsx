@@ -7,16 +7,17 @@ import { createMemoryHistory } from "history";
 import React, { ReactElement, ReactNode } from "react";
 import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
+import { WagmiConfig } from "wagmi";
 
 import App from "./App";
-import { Web3ContextProvider } from "./hooks/web3Context";
+import { wagmiClient } from "./hooks/wagmi";
 import { ReactQueryProvider } from "./lib/react-query";
 import defaultStore from "./store";
 import { light as lightTheme } from "./themes/light.js";
 
 const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOptions): RenderResult => {
   const ProviderWrapper = ({ children }: { children?: ReactNode }) => (
-    <Web3ContextProvider>
+    <WagmiConfig client={wagmiClient}>
       <ReactQueryProvider>
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
@@ -31,7 +32,7 @@ const customRender = (ui: ReactElement, store = defaultStore, options?: RenderOp
           </I18nProvider>
         </Provider>
       </ReactQueryProvider>
-    </Web3ContextProvider>
+    </WagmiConfig>
   );
   return render(ui, { wrapper: ProviderWrapper, ...options });
 };
@@ -40,7 +41,7 @@ const renderRoute = function (route: string, store = defaultStore) {
   const history = createMemoryHistory();
   history.push(route);
   return render(
-    <Web3ContextProvider>
+    <WagmiConfig client={wagmiClient}>
       <ReactQueryProvider>
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
@@ -55,7 +56,7 @@ const renderRoute = function (route: string, store = defaultStore) {
           </I18nProvider>
         </Provider>
       </ReactQueryProvider>
-    </Web3ContextProvider>,
+    </WagmiConfig>,
   );
 };
 
