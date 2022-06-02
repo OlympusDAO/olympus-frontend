@@ -114,7 +114,7 @@ function MigrationModal({ open, handleClose }: { open: boolean; handleClose: any
   // console.info(`MigrationModal rows after: [${rows}]`);
 
   return (
-    <div>
+    <div data-testid="migration-modal">
       <Modal
         aria-labelledby="migration-modal-title"
         aria-describedby="migration-modal-description"
