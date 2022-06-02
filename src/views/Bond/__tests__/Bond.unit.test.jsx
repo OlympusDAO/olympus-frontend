@@ -134,7 +134,7 @@ describe("Bond Modal", () => {
     bondDepository.mockReturnValue({
       connect: jest.fn().mockReturnValue({
         deposit: jest.fn().mockResolvedValue({
-          wait: jest.fn().mockReturnValue(true),
+          wait: jest.fn().mockReturnValue({ transactionHash: "" }),
         }),
       }),
     });
