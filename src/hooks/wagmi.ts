@@ -1,6 +1,7 @@
 import "@rainbow-me/rainbowkit/styles.css";
 
 import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit";
+import { gnosis } from "src/helpers/connectors/Gnosis";
 import { Chain, chain, configureChains, createClient } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
@@ -50,6 +51,7 @@ export const { chains, provider } = configureChains(
     chain.polygon,
     chain.optimism,
     chain.arbitrum,
+    chain.rinkeby,
     {
       ...boba,
       iconUrl:
@@ -82,6 +84,7 @@ const connectors = connectorsForWallets([
       wallet.rainbow({ chains }),
       wallet.walletConnect({ chains }),
       wallet.ledger({ chains }),
+      gnosis({ chains }),
     ],
   },
 ]);
