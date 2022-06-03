@@ -105,7 +105,7 @@ describe("Inverse Bonds", () => {
     render(<Bond />);
 
     expect(await screen.findByTestId("8--bond")).toBeInTheDocument(); // bond id of 8
-    expect(await screen.findByText("$0.00")).toBeInTheDocument(); // Price of the DAI inverse bond
+    expect(await screen.findByText("Sold Out")).toBeInTheDocument(); // Price of the DAI inverse bond. isSoldOut = true so this should be not return price.
   });
 });
 
