@@ -157,7 +157,6 @@ export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions
    * or the maximum has been paid out for a specific interval.
    */
 
-  console.log(capacityInBaseToken, "cap in base token");
   const isSoldOut = isInverseBond
     ? maxPayoutInQuoteToken.lt("1")
     : capacityInBaseToken.lt("1") || maxPayoutInBaseToken.lt("1");
