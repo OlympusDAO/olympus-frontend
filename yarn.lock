@@ -3173,10 +3173,10 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@multifarm/widget@^0.0.125":
-  version "0.0.125"
-  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.125.tgz#138f4e0c164d1fee4075ccb683e499463435d400"
-  integrity sha512-LKfYRyZNcuVMnTTWxD8CcmuZgdj1kQOWPbYeKcTnFgsJO8Q3DwPMh/VzD6SI2UbYxq3GlQ55Gn11J/lLldh2bA==
+"@multifarm/widget@^0.0.146":
+  version "0.0.146"
+  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.146.tgz#f9023e97fdae362078937e421cbb8f892324267a"
+  integrity sha512-1mgk0/3wBmJdR3GdItEZW7HUT/TF0lBk9lP20CCCZbVJ3xplZpXgi4D8keOMjyK9iLzF7+kPbAkXR+PBxorSSQ==
   dependencies:
     "@tippyjs/react" "^4.2.6"
     clsx "^1.1.1"
