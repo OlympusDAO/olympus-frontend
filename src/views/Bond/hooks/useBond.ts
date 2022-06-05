@@ -156,7 +156,10 @@ export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions
    * Bonds are sold out if either there is no capacity left,
    * or the maximum has been paid out for a specific interval.
    */
-  const isSoldOut = capacityInBaseToken.lt("1") || maxPayoutInBaseToken.lt("1");
+
+  const isSoldOut = isInverseBond
+    ? maxPayoutInQuoteToken.lt("1")
+    : capacityInBaseToken.lt("1") || maxPayoutInBaseToken.lt("1");
 
   return {
     id,
