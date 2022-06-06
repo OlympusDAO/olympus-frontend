@@ -11,6 +11,7 @@ import {
   balancerPools,
   beetsPools,
   bobaPools,
+  convexPools,
   curvePools,
   joePools,
   jonesPools,
@@ -31,6 +32,7 @@ import {
   BalancerSwapFees,
   BeetsPoolAPY,
   BobaPoolAPY,
+  ConvexPoolAPY,
   CurvePoolAPY,
   JoePoolAPY,
   JonesPoolAPY,
@@ -168,6 +170,9 @@ const GetOhm: FC = () => {
         {curvePools.map((pool, index) => (
           <CurvePools key={index} pool={pool} />
         ))}
+        {convexPools.map((pool, index) => (
+          <ConvexPools key={index} pool={pool} />
+        ))}
 
         <Typography variant="h6" className={classes.title}>
           Vaults
@@ -294,6 +299,10 @@ const CurvePools: React.FC<{ pool: ExternalPool }> = props => {
   const { data } = CurvePoolTVL(props.pool);
   const { apy } = CurvePoolAPY(props.pool);
   return <PoolCard {...props} value={data && formatCurrency(data.usdTotal)} roi={apy} />;
+};
+const ConvexPools: React.FC<{ pool: ExternalPool }> = props => {
+  const { apy, tvl } = ConvexPoolAPY(props.pool);
+  return <PoolCard {...props} value={tvl && formatCurrency(tvl)} roi={apy} />;
 };
 
 const PoolCard = (props: { pool: ExternalPool; value: OHMItemCardProps["value"]; roi: OHMItemCardProps["roi"] }) => {
