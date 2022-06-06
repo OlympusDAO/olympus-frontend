@@ -150,7 +150,7 @@ export const convex_ohm_eth = new ExternalPool({
   stakeOn: "Convex",
   pairGecko: "ethereum",
   rewardGecko: "curve-dao-token",
-  href: "https://curve.fi/factory-crypto/21/deposit",
+  href: "https://www.convexfinance.com/stake",
   address: "0x3660BD168494d61ffDac21E403d0F6356cF90fD7", //LP
   masterchef: "0xF403C135812408BFbE8713b5A23a04b3D48AAE31", //deposit
   rewarder: "0xd683C7051a28fA150EB3F4BD92263865D4a67778",
