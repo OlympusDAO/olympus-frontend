@@ -2,7 +2,7 @@ import { t } from "@lingui/macro";
 import { ContractReceipt, ethers } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
-import { abi as gOHM } from "src/abi/gOHM.json";
+import gOHM from "src/abi/gOHM.json";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUAData, trackGiveEvent } from "src/helpers/analytics/trackGiveEvent";
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, getTypeFromAction } from "src/helpers/GiveHelpers";
@@ -97,7 +97,7 @@ export const useDecreaseGive = () => {
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
 
   const signer = provider.getSigner();
-  const gohmContract = new ethers.Contract(GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES], gOHM, signer);
+  const gohmContract = new ethers.Contract(GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES], gOHM.abi, signer);
 
   // Mutation to interact with the YieldDirector contract
   return useMutation<ContractReceipt, Error, EditGiveData>(

@@ -1,7 +1,7 @@
 import { t } from "@lingui/macro";
 import { BigNumber, ethers } from "ethers";
 import { useQuery } from "react-query";
-import { abi as gOHM } from "src/abi/gOHM.json";
+import gOHM from "src/abi/gOHM.json";
 import { NetworkId } from "src/constants";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, OLD_GIVE_ADDRESSES } from "src/constants/addresses";
 import { GetFirstDonationDate } from "src/helpers/GiveGetDonationDate";
@@ -265,7 +265,7 @@ export const useRecipientInfo = (address: string) => {
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
 
   const signer = provider.getSigner();
-  const gohmContract = new ethers.Contract(GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES], gOHM, signer);
+  const gohmContract = new ethers.Contract(GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES], gOHM.abi, signer);
 
   const query = useQuery<IUserRecipientInfo, Error>(
     recipientInfoQueryKey(address, networkId),

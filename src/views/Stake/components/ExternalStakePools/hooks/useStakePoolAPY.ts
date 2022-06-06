@@ -223,6 +223,7 @@ export const ZipPoolAPY = (pool: ExternalPool) => {
   const { data: apy = 0 } = APY(pool, tvl, data);
   return { apy, isFetched, isLoading };
 };
+
 export const JonesPoolAPY = (pool: ExternalPool) => {
   const { data: tvl = 0 } = useStakePoolTVL(pool);
   //Spirit uses a Masterchef, Guage, and rewarder contract. Rewarder Not currently used for our FP.
@@ -245,6 +246,35 @@ export const JonesPoolAPY = (pool: ExternalPool) => {
 
   const { data: apy = 0 } = APY(pool, tvl, data);
   return { apy, isFetched, isLoading };
+};
+
+//Returns Convex Pool APY and TVL. Response also returns TVL for the pool, unlike other queries.
+export const ConvexPoolAPY = (pool: ExternalPool) => {
+  const convexAPI = "https://api.thegraph.com/subgraphs/name/convex-community/curve-pools";
+  const {
+    data = { cvxApr: 0, extraRewardsApr: 0, crvApr: 0, baseApr: 0, tvl: 0 },
+    isFetched,
+    isLoading,
+  } = useQuery("ConvexPoolAPY", async () => {
+    const data = await request(
+      convexAPI,
+      gql`
+        { 
+          pool(id:${pool.poolId}) {
+            tvl
+            crvApr
+            cvxApr
+            extraRewardsApr
+            baseApr
+          }
+        }
+      `,
+    );
+    return data.pool;
+  });
+  const apy = Number(data.cvxApr) + Number(data.extraRewardsApr) + Number(data.crvApr) + Number(data.baseApr);
+  const tvl = data.tvl;
+  return { apy, tvl, isFetched, isLoading };
 };
 
 const APY = (

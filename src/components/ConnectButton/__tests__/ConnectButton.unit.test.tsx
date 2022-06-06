@@ -1,9 +1,9 @@
-import { render } from "../../../testUtils";
+import { render, screen } from "../../../testUtils";
 import ConnectButton from "../ConnectButton";
 
 describe("<ConnectButton/>", () => {
-  it("should render component", () => {
-    const { container } = render(<ConnectButton />);
-    expect(container).toMatchSnapshot();
+  it("should display Connect Wallet", () => {
+    render(<ConnectButton />);
+    expect(screen.getByText("Connect Wallet"));
   });
 });

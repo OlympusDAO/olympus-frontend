@@ -46,8 +46,7 @@ describe("<App/>", () => {
     // mock cached provider
     Web3Modal.prototype.cachedProvider = jest.fn();
     await act(async () => {
-      const { container } = await renderRoute("/");
-      expect(container).toMatchSnapshot();
+      renderRoute("/");
     });
     expect(Web3Modal.prototype.connect).toHaveBeenCalledOnce();
     const errorMessage = await screen.queryByText("Please check your Wallet UI for connection errors");
@@ -61,8 +60,7 @@ describe("<App/>", () => {
     // no cached provider
     Web3Modal.prototype.cachedProvider = undefined;
     await act(async () => {
-      const { container } = await renderRoute("/");
-      expect(container).toMatchSnapshot();
+      renderRoute("/");
     });
     expect(Web3Modal.prototype.connect).toHaveBeenCalledTimes(0);
     const errorMessage = await screen.queryByText("Please check your Wallet UI for connection errors");
@@ -77,8 +75,7 @@ describe("<App/>", () => {
       return jest.fn();
     });
     await act(async () => {
-      const { container } = await renderRoute("/");
-      expect(container).toMatchSnapshot();
+      renderRoute("/");
     });
     expect(Web3Modal.prototype.connect).toHaveBeenCalledOnce();
     const errorMessage = await screen.getByText("Please check your Wallet UI for connection errors");
