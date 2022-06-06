@@ -2,8 +2,8 @@ import { t } from "@lingui/macro";
 import { ContractReceipt, ethers } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
-import { GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
-import { GIVE_CONTRACT } from "src/constants/contracts";
+import OlympusGiving from "src/abi/OlympusGiving.json";
+import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUAData, trackGiveEvent } from "src/helpers/analytics/trackGiveEvent";
 import { ACTION_GIVE, getTypeFromAction } from "src/helpers/GiveHelpers";
 import { useWeb3Context } from "src/hooks";
@@ -21,9 +21,9 @@ import { GiveData } from "../Interfaces";
 export const useGive = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { address } = useWeb3Context();
+  const { address, provider } = useWeb3Context();
   const networks = useTestableNetworks();
-  const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
+  const contract = new ethers.Contract(GIVE_ADDRESSES[networks.MAINNET], OlympusGiving.abi, provider.getSigner());
 
   // Mutation to interact with the YieldDirector contract
   return useMutation<ContractReceipt, Error, GiveData>(

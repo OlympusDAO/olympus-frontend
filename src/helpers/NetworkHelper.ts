@@ -22,6 +22,10 @@ export const initNetworkFunc = async ({ provider }: IGetCurrentNetwork) => {
         networkName = "Rinkeby Testnet";
         uri = Providers.getProviderUrl(id);
         break;
+      case 5:
+        networkName = "Goerli Testnet";
+        uri = Providers.getProviderUrl(id);
+        break;
       case 42161:
         networkName = "Arbitrum";
         uri = Providers.getProviderUrl(id);
