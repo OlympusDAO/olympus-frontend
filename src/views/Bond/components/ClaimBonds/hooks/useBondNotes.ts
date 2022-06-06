@@ -39,7 +39,10 @@ export const useBondNotes = () => {
   return useQuery(bondNotesQueryKey(...args), () => fetchBondNotes(...args), { enabled: !!address });
 };
 
-export const fetchBondNotes = async (networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY, address: string) => {
+export const fetchBondNotes = async (
+  networkId: NetworkId.MAINNET | NetworkId.TESTNET_RINKEBY | NetworkId.TESTNET_GOERLI,
+  address: string,
+) => {
   const contract = BOND_DEPOSITORY_CONTRACT.getEthersContract(networkId);
 
   const ids = await contract.indexesFor(address).then(ids => ids.map(id => id.toString()));

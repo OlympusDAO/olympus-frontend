@@ -3,14 +3,14 @@ import { BigNumber, ethers } from "ethers";
 import { useQuery } from "react-query";
 import gOHM from "src/abi/gOHM.json";
 import { NetworkId } from "src/constants";
-import { GIVE_ADDRESSES, GOHM_ADDRESSES, OLD_GIVE_ADDRESSES } from "src/constants/addresses";
+import { GOHM_ADDRESSES } from "src/constants/addresses";
+import { GIVE_CONTRACT, OLD_GIVE_CONTRACT } from "src/constants/contracts";
 import { GetFirstDonationDate } from "src/helpers/GiveGetDonationDate";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
 import { IUserDonationInfo } from "src/views/Give/Interfaces";
 
 import { useWeb3Context } from ".";
-import { useDynamicGiveContract, useDynamicV1GiveContract } from "./useContract";
 import { useTestableNetworks } from "./useTestableNetworks";
 
 interface IDonorAddresses {
@@ -49,10 +49,9 @@ export const donationInfoQueryKey = (address: string, networkId: NetworkId) =>
 export const useDonationInfo = () => {
   const { address, provider, networkId } = useWeb3Context();
 
-  // Hook to establish dynamic contract, meaning it will connect to the network
-  // the user is currently connected to
-  const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  // Establish contract
   const networks = useTestableNetworks();
+  const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   const query = useQuery<IUserDonationInfo[] | null, Error>(
     donationInfoQueryKey(address, networkId),
@@ -162,9 +161,9 @@ export const redeemableBalanceQueryKey = (address: string, networkId: NetworkId)
 export const useRedeemableBalance = (address: string) => {
   const { networkId } = useWeb3Context();
 
-  // Hook to establish dynamic contract, meaning it will connect to the network
-  // the user is currently connected to
-  const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  // Establish contract
+  const networks = useTestableNetworks();
+  const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   const query = useQuery<string, Error>(
     redeemableBalanceQueryKey(address, networkId),
@@ -204,7 +203,7 @@ export const useV1RedeemableBalance = (address: string) => {
   const { networkId } = useWeb3Context();
 
   // Hook to establish static old Give contract
-  const contract = useDynamicV1GiveContract(OLD_GIVE_ADDRESSES, true);
+  const contract = OLD_GIVE_CONTRACT.getEthersContract(1);
 
   const query = useQuery<string, Error>(
     v1RedeemableBalanceQueryKey(address, networkId),
@@ -217,7 +216,7 @@ export const useV1RedeemableBalance = (address: string) => {
       // If no contract is established throw an error to switch to ETH
       if (!contract)
         throw new Error(
-          t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
+          t`Give V1 is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
 
       // Set default redeemable balance value
@@ -260,9 +259,9 @@ export const recipientInfoQueryKey = (address: string, networkId: NetworkId) =>
 export const useRecipientInfo = (address: string) => {
   const { networkId, provider } = useWeb3Context();
 
-  // Hook to establish dynamic contract, meaning it will connect to the network
-  // the user is currently connected to
-  const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  // Establish contract
+  const networks = useTestableNetworks();
+  const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   const signer = provider.getSigner();
   const gohmContract = new ethers.Contract(GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES], gOHM.abi, signer);
@@ -343,9 +342,9 @@ export const useTotalYieldDonated = (address: string) => {
   // pad the given wallet address with zeros
   const zeroPadAddress = ethers.utils.hexZeroPad(address === "" ? ethers.utils.hexlify(0) : address, 32);
 
-  // Hook to establish dynamic contract, meaning it will connect to the network
-  // the user is currently connected to
-  const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  // Establish contract
+  const networks = useTestableNetworks();
+  const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   // Filter to search through event logs and find all redeemed events for a given address
   const filter = {
@@ -419,9 +418,9 @@ export const useDonorNumbers = (address: string) => {
   // pad the given wallet address with zeros
   const zeroPadAddress = ethers.utils.hexZeroPad(address === "" ? ethers.utils.hexlify(0) : address, 32);
 
-  // Hook to establish dynamic contract, meaning it will connect to the network
-  // the user is currently connected to
-  const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  // Establish contract
+  const networks = useTestableNetworks();
+  const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   // Filter to search through event logs and find all Deposited events for a given address as recipient
   const filter = {

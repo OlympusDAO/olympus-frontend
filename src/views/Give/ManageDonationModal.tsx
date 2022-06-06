@@ -10,12 +10,12 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowGraphic } from "src/components/EducationCard";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { Project, RecordType } from "src/components/GiveProject/project.type";
-import { NetworkId } from "src/constants";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useRecipientInfo } from "src/hooks/useGiveInfo";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
@@ -66,6 +66,7 @@ export function ManageDonationModal({
   recordType = RecordType.PROJECT,
 }: ManageModalProps) {
   const { address, networkId } = useWeb3Context();
+  const networks = useTestableNetworks();
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
@@ -123,16 +124,14 @@ export function ManageDonationModal({
       ? theme.colors.primary[300]
       : theme.palette.text.secondary;
 
-  const _useSohmBalance =
-    useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+  const _useSohmBalance = useSohmBalance()[networks.MAINNET];
   const sohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
 
     return _useSohmBalance.data;
   }, [_useSohmBalance]);
 
-  const _useGohmBalance =
-    useGohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+  const _useGohmBalance = useGohmBalance()[networks.MAINNET];
 
   const gohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useGohmBalance.isLoading || _useGohmBalance.data == undefined) return new DecimalBigNumber("0");

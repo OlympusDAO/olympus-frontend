@@ -33,6 +33,22 @@ interface IAddresses {
 }
 
 export const addresses: IAddresses = {
+  [NetworkId.TESTNET_GOERLI]: {
+    DAI_ADDRESS: "0x26Ea52226a108ba48b9343017A5D0dB1456D4474",
+    OHM_ADDRESS: "0x00F40a8a6Ec0892D651757F46a64B64fA41601d2",
+    STAKING_ADDRESS: "0x1c18053B3FD90FC5C4Af7267D3B4D49Aa63396C1",
+    STAKING_HELPER_ADDRESS: "0x21607BE08d64E5f6424982C656E5B88d5F6b83d8",
+    SOHM_ADDRESS: "0x6BfbD5A8B09dd27fDDE73B014c664A5330C23Bfa",
+    WSOHM_ADDRESS: "0x284BBa240a149D2D0aB97d84D62038a58A7Fe7C1",
+    OLD_SOHM_ADDRESS: "0x6BfbD5A8B09dd27fDDE73B014c664A5330C23Bfa",
+    MIGRATE_ADDRESS: "0xb82E0EA1b7E5cdF636aa4ee5F09b1b0D4dBDBa14",
+    DISTRIBUTOR_ADDRESS: "0x8EE1C4F6e8A3aB60A011100192B3265c47C6b01b",
+    TREASURY_ADDRESS: "0xd2D1be4AfeBb2aa1af67F173216552fBC1FD3D13",
+    TREASURY_V2: "0x0C6E0643Ed22E046dd1A2fB3250bbE5261D0DDD7",
+    BOND_DEPOSITORY: "0x12aFfE67F879E6ed04D044F3885AC8D320EcC604",
+    INVERSE_BOND_DEPOSITORY: "0x92F02f17FE1dDba872ec86F94C007b79ebc12737",
+    DAO_TREASURY: "0x6e36b2f9f2BcC273f090ff049952Fa4B5Cc67567",
+  },
   [NetworkId.TESTNET_RINKEBY]: {
     DAI_ADDRESS: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C",
     OHM_ADDRESS: "0xC0b491daBf3709Ee5Eb79E603D73289Ca6060932",
@@ -224,6 +240,20 @@ export const NETWORKS: { [key: number]: INetwork } = {
     imageAltText: "Ethereum Logo",
     uri: () => Providers.getProviderUrl(NetworkId.TESTNET_RINKEBY),
   },
+  [NetworkId.TESTNET_GOERLI]: {
+    chainName: "Goerli Testnet",
+    chainId: 5,
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: [""],
+    blockExplorerUrls: ["https://goerli.etherscan.io/#/"],
+    image: ethereum,
+    imageAltText: "Ethereum Logo",
+    uri: () => Providers.getProviderUrl(NetworkId.TESTNET_GOERLI),
+  },
   [NetworkId.ARBITRUM]: {
     chainName: "Arbitrum",
     chainId: 42161,
@@ -337,6 +367,16 @@ export const VIEWS_FOR_NETWORK: { [key: number]: IViewsForNetwork } = {
     bondsV2: true,
   },
   [NetworkId.TESTNET_RINKEBY]: {
+    dashboard: true,
+    stake: true,
+    wrap: true,
+    zap: true,
+    threeTogether: true,
+    bonds: true,
+    network: true,
+    bondsV2: true,
+  },
+  [NetworkId.TESTNET_GOERLI]: {
     dashboard: true,
     stake: true,
     wrap: true,

@@ -8,6 +8,7 @@ import { formatCurrency, formatNumber, trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { prettifySeconds, prettifySecondsInDays } from "src/helpers/timeUtil";
 import { nonNullable } from "src/helpers/types/nonNullable";
+import { useWeb3Context } from "src/hooks";
 import {
   useFuseBalance,
   useGohmBalance,
@@ -26,6 +27,7 @@ import { NetworkId } from "src/networkDetails";
 import { useBondNotes } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
 
+import { useFaucet } from "../hooks/useFaucet";
 import { GetTokenPrice } from "../queries";
 import Balances from "./Balances";
 import { TransactionHistory } from "./TransactionHistory";
@@ -83,6 +85,7 @@ export interface OHMAssetsProps {
   path?: string;
 }
 const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
+  const { networkId } = useWeb3Context();
   const navigate = useNavigate();
   const networks = useTestableNetworks();
   const { data: ohmPrice = 0 } = useOhmPrice();
@@ -204,6 +207,9 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const assets = [...tokenArray, ...bondsArray];
   const walletTotalValueUSD = Object.values(assets).reduce((totalValue, token) => totalValue + token.assetValue, 0);
 
+  const faucetMutation = useFaucet();
+  const isFaucetLoading = faucetMutation.isLoading;
+
   return (
     <StyledFade in={true}>
       <Box>
@@ -236,28 +242,34 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
               );
           }
         })()}
-        <Typography variant="h5">Faucet</Typography>
-        <Box display="flex" flexDirection="row" justifyContent="space-between" mt="18px">
-          <FormControl className={classes.faucet}>
-            <Select
-              label="Contract"
-              disableUnderline
-              id="contract-select"
-              value={faucetToken}
-              onChange={event => setFaucetToken(event.target.value)}
-            >
-              <MenuItem value="OHM V1">OHM V1</MenuItem>
-              <MenuItem value="OHM V2">OHM V2</MenuItem>
-              <MenuItem value="sOHM V1">sOHM V1</MenuItem>
-              <MenuItem value="sOHM V2">sOHM V2</MenuItem>
-              <MenuItem value="wsOHM">wsOHM</MenuItem>
-              <MenuItem value="gOHM">gOHM</MenuItem>
-              <MenuItem value="DAI">DAI</MenuItem>
-              <MenuItem value="ETH">ETH</MenuItem>
-            </Select>
-          </FormControl>
-          <SecondaryButton>Get Tokens</SecondaryButton>
-        </Box>
+        {networkId === 5 && (
+          <>
+            <Typography variant="h5">Faucet</Typography>
+            <Box display="flex" flexDirection="row" justifyContent="space-between" mt="18px">
+              <FormControl className={classes.faucet}>
+                <Select
+                  label="Contract"
+                  disableUnderline
+                  id="contract-select"
+                  value={faucetToken}
+                  onChange={event => setFaucetToken(event.target.value)}
+                >
+                  <MenuItem value="OHM V1">OHM V1</MenuItem>
+                  <MenuItem value="OHM V2">OHM V2</MenuItem>
+                  <MenuItem value="sOHM V1">sOHM V1</MenuItem>
+                  <MenuItem value="sOHM V2">sOHM V2</MenuItem>
+                  <MenuItem value="wsOHM">wsOHM</MenuItem>
+                  <MenuItem value="gOHM">gOHM</MenuItem>
+                  <MenuItem value="DAI">DAI</MenuItem>
+                  <MenuItem value="ETH">ETH</MenuItem>
+                </Select>
+              </FormControl>
+              <SecondaryButton onClick={() => faucetMutation.mutate(faucetToken)}>
+                {isFaucetLoading ? "Loading..." : "Get Tokens"}
+              </SecondaryButton>
+            </Box>
+          </>
+        )}
       </Box>
     </StyledFade>
   );

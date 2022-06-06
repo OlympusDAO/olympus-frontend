@@ -9,11 +9,11 @@ import { InfoTooltip, Input, Modal, PrimaryButton } from "@olympusdao/component-
 import { useEffect, useMemo, useState } from "react";
 import { Project } from "src/components/GiveProject/project.type";
 import { GiveTokenAllowanceGuard } from "src/components/TokenAllowanceGuard/TokenAllowanceGuard";
-import { NetworkId } from "src/constants";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { shorten } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
+import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { GIVE_MAX_DECIMALS } from "src/views/Give/constants";
@@ -49,6 +49,7 @@ export function RecipientModal({
   project,
 }: RecipientModalProps) {
   const { address, networkId } = useWeb3Context();
+  const networks = useTestableNetworks();
 
   const _initialDepositAmount = "";
   const _initialWalletAddress = "";
@@ -100,16 +101,14 @@ export function RecipientModal({
     }
   }, [isModalOpen]);
 
-  const _useSohmBalance =
-    useSohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+  const _useSohmBalance = useSohmBalance()[networks.MAINNET];
   const sohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
 
     return _useSohmBalance.data;
   }, [_useSohmBalance]);
 
-  const _useGohmBalance =
-    useGohmBalance()[networkId == NetworkId.MAINNET ? NetworkId.MAINNET : NetworkId.TESTNET_RINKEBY];
+  const _useGohmBalance = useGohmBalance()[networks.MAINNET];
   const gohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useGohmBalance.isLoading || _useGohmBalance.data === undefined) return new DecimalBigNumber("0");
 

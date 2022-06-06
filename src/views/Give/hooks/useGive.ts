@@ -2,12 +2,12 @@ import { t } from "@lingui/macro";
 import { ContractReceipt, ethers } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
-import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
+import { GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
+import { GIVE_CONTRACT } from "src/constants/contracts";
 import { IUAData, trackGiveEvent } from "src/helpers/analytics/trackGiveEvent";
 import { ACTION_GIVE, getTypeFromAction } from "src/helpers/GiveHelpers";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey } from "src/hooks/useBalance";
-import { useDynamicGiveContract } from "src/hooks/useContract";
 import { donationInfoQueryKey, recipientInfoQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
@@ -23,7 +23,7 @@ export const useGive = () => {
   const client = useQueryClient();
   const { address } = useWeb3Context();
   const networks = useTestableNetworks();
-  const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  const contract = GIVE_CONTRACT.getEthersContract(networks.MAINNET);
 
   // Mutation to interact with the YieldDirector contract
   return useMutation<ContractReceipt, Error, GiveData>(

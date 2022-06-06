@@ -6,7 +6,8 @@ export const ACTION_GIVE_WITHDRAW = "endGive";
 
 export const isSupportedChain = (chainID: NetworkId): boolean => {
   // Give is only supported on Ethereum mainnet (1) and rinkeby (4) for the moment.
-  if (chainID === NetworkId.MAINNET || chainID === NetworkId.TESTNET_RINKEBY) return true;
+  if (chainID === NetworkId.MAINNET || chainID === NetworkId.TESTNET_RINKEBY || chainID === NetworkId.TESTNET_GOERLI)
+    return true;
 
   return false;
 };
