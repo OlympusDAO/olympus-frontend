@@ -13,7 +13,7 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
+import { useAccount, useConnect, useNetwork, useProvider, useSigner } from "wagmi";
 
 import Messages from "./components/Messages/Messages";
 import { MigrationCallToAction } from "./components/MigrationCallToAction";
@@ -117,6 +117,10 @@ function App() {
 
   const { data: account } = useAccount();
   const { isConnected, error: errorMessage } = useConnect();
+  const { data: signer, isError, isLoading } = useSigner();
+  const testing = useConnect();
+  console.log(testing, "testing");
+  console.log("signer", signer);
   const provider = useProvider();
   const { activeChain = { id: 1 } } = useNetwork();
 

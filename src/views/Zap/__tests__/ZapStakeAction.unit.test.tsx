@@ -7,8 +7,6 @@ import * as Contract from "src/hooks/useContract";
 import * as ContractAllowance from "src/hooks/useContractAllowance";
 import * as Prices from "src/hooks/usePrices";
 import * as ZapBalances from "src/hooks/useZapTokenBalances";
-import * as useWeb3Context from "src/hooks/web3Context";
-import { mockWeb3Context } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
 import * as ZapFactory from "src/typechain/factories/Zap__factory";
 
@@ -22,8 +20,8 @@ afterEach(() => {
 
 describe("<ZapStakeAction/> ", () => {
   beforeEach(() => {
-    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    data.mockReturnValue(mockWeb3Context);
+    // const data = jest.spyOn(useWeb3Context, "useWeb3Context");
+    // data.mockReturnValue(mockWeb3Context);
     global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
     //@ts-expect-error
     Balances.useSohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
@@ -133,8 +131,8 @@ describe("Loading Balances", () => {
   });
 
   it("should display loading modal if balances are still loading", () => {
-    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    data.mockReturnValue(mockWeb3Context);
+    // const data = jest.spyOn(useWeb3Context, "useWeb3Context");
+    // data.mockReturnValue(mockWeb3Context);
     render(
       <>
         <Messages />
@@ -149,8 +147,8 @@ describe("Loading Balances", () => {
 
 describe("<ZapStakeAction/> Not on Mainnet", () => {
   beforeEach(() => {
-    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    data.mockReturnValue({ ...mockWeb3Context, networkId: 123 });
+    // const data = jest.spyOn(useWeb3Context, "useWeb3Context");
+    // data.mockReturnValue({ ...mockWeb3Context, networkId: 123 });
     global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
     //@ts-expect-error
     Balances.useSohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });

@@ -1,3 +1,4 @@
+import { MockConnector } from "@wagmi/core/connectors/mock";
 import mediaQuery from "css-mediaquery";
 import { BigNumber, ethers } from "ethers";
 import { UseQueryResult } from "react-query";
@@ -27,6 +28,10 @@ export const mockWeb3Context = {
   providerInitialized: true,
   web3Modal: new Web3Modal(),
 };
+
+export const mockConnector = new MockConnector({
+  options: { signer: undefined! },
+});
 
 export const createMatchMedia = (width: string) => {
   return (query: string) => ({

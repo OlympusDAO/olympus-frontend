@@ -3,8 +3,6 @@ import Router from "react-router";
 import * as Contract from "src/constants/contracts";
 import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import * as useWeb3Context from "src/hooks/web3Context";
-import { mockWeb3Context } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
 
 import {
@@ -21,8 +19,8 @@ import { Bond } from "../Bond";
 import { BondModalContainer } from "../components/BondModal/BondModal";
 
 beforeEach(() => {
-  const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-  data.mockReturnValue(mockWeb3Context);
+  // const data = jest.spyOn(useWeb3Context, "useWeb3Context");
+  // data.mockReturnValue(mockWeb3Context);
 
   Token.OHM_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("20"));
   Token.DAI_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));

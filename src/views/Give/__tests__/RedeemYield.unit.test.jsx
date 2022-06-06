@@ -2,7 +2,6 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import * as useCurrentIndex from "src/hooks/useCurrentIndex";
 import * as useGiveInfo from "src/hooks/useGiveInfo";
 import * as useStakingRebaseRate from "src/hooks/useStakingRebaseRate";
-import * as useWeb3Context from "src/hooks/web3Context";
 import {
   mockCurrentIndex,
   mockRecipientInfo,
@@ -22,7 +21,7 @@ let recipientData;
 let stakingData;
 
 beforeEach(() => {
-  context = jest.spyOn(useWeb3Context, "useWeb3Context");
+  // context = jest.spyOn(useWeb3Context, "useWeb3Context");
 
   redeemData = "100.0";
   recipientData = {
