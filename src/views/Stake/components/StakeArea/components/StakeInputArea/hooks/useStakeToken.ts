@@ -2,12 +2,12 @@ import { t } from "@lingui/macro";
 import { ContractReceipt } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
-import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES, STAKING_ADDRESSES } from "src/constants/addresses";
+import { GOHM_ADDRESSES, OHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
+import { STAKING_CONTRACT } from "src/constants/contracts";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
-import { useDynamicStakingContract } from "src/hooks/useContract";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
@@ -17,7 +17,7 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
   const { address } = useWeb3Context();
   const networks = useTestableNetworks();
   const balance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
-  const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
+  const contract = STAKING_CONTRACT.getEthersContract(networks.MAINNET);
   let txHash: string;
 
   return useMutation<ContractReceipt, Error, string>(
