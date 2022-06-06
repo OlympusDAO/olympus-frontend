@@ -1,7 +1,4 @@
-import "@rainbow-me/rainbowkit/styles.css";
-
 import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit";
-import { gnosis } from "src/helpers/connectors/Gnosis";
 import { Chain, chain, configureChains, createClient } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
@@ -79,12 +76,12 @@ const connectors = connectorsForWallets([
   {
     groupName: "Wallets",
     wallets: [
+      wallet.injected({ chains }),
       wallet.metaMask({ chains }),
       wallet.coinbase({ appName: "Olympus DAO", chains }),
       wallet.rainbow({ chains }),
       wallet.walletConnect({ chains }),
       wallet.ledger({ chains }),
-      gnosis({ chains }),
     ],
   },
 ]);

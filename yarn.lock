@@ -4441,10 +4441,10 @@
   resolved "https://registry.yarnpkg.com/@vanilla-extract/sprinkles/-/sprinkles-1.4.1.tgz#8c8703ddedaac355c1187db909119816c0fc771c"
   integrity sha512-aW6CfMMToX4a+baLuVxwcT0FSACjX3xrNt8wdi/3LLRlLAfhyue8OK7kJxhcYNZfydBeWTP59aRy8p5FUTIeew==
 
-"@wagmi/core@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@wagmi/core/-/core-0.3.3.tgz#79197593f16e9132760e0c1b417f959adcd011f5"
-  integrity sha512-Xs3OwbnKuFwGH8HtpswwEL9YmoQIj9TFJUh678LSqBlUM/9XIxUpXZmUMhPxw6amOJzMCdh+Di9/gT7LZ6TBcA==
+"@wagmi/core@^0.3.6":
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/@wagmi/core/-/core-0.3.6.tgz#f6dc68e44a0b96ed9cfb3ed35a081f4a7e9e052a"
+  integrity sha512-FJgEp3b6WmVpZj4TuVT4GZQGRIcYuwfCeK3rfhuK8OdV8yVEmsPl16nOGC54JSCaRfN20PA1ljSRXSFVVczlNA==
   dependencies:
     eventemitter3 "^4.0.7"
     zustand "^4.0.0-rc.1"
@@ -13611,17 +13611,6 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-query@4.0.0-beta.12:
-  version "4.0.0-beta.12"
-  resolved "https://registry.yarnpkg.com/react-query/-/react-query-4.0.0-beta.12.tgz#479299c6691e55294e6481ee49131ac6aadf0a0e"
-  integrity sha512-PAeGKj/SlIvxShJVBbyKojUYUK78yK/W9nS9Uw78e40wjhuHiFMqbQWjtAQTBCbliZ5p1VkSHCAtpEVrr5GOvQ==
-  dependencies:
-    "@babel/runtime" "^7.17.9"
-    "@types/use-sync-external-store" "^0.0.3"
-    broadcast-channel "^3.4.1"
-    match-sorter "^6.0.2"
-    use-sync-external-store "^1.1.0"
-
 react-query@^3.39.1:
   version "3.39.1"
   resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.39.1.tgz#3876c0fdac7a3b5a84e195534e5fa8fbdd628847"
@@ -13630,6 +13619,17 @@ react-query@^3.39.1:
     "@babel/runtime" "^7.5.5"
     broadcast-channel "^3.4.1"
     match-sorter "^6.0.2"
+
+react-query@^4.0.0-beta.19:
+  version "4.0.0-beta.20"
+  resolved "https://registry.yarnpkg.com/react-query/-/react-query-4.0.0-beta.20.tgz#37e73280ccbee291d845e08159eb84e9baff6d7b"
+  integrity sha512-ESDxiHbv4R6KL7IOduPZjgVQo1pH5tenehAemh7sNETqXt9r4mfk9vVG6aSWbzGp6F1tudRllTreADOi19RJqg==
+  dependencies:
+    "@babel/runtime" "^7.17.9"
+    "@types/use-sync-external-store" "^0.0.3"
+    broadcast-channel "^3.4.1"
+    match-sorter "^6.0.2"
+    use-sync-external-store "^1.1.0"
 
 react-redux@^8.0.2:
   version "8.0.2"
@@ -15874,15 +15874,15 @@ w3c-xmlserializer@^2.0.0:
   dependencies:
     xml-name-validator "^3.0.0"
 
-wagmi@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/wagmi/-/wagmi-0.4.3.tgz#1071f3e61b9e2b46cfd58c229ee6bd2dc8d19514"
-  integrity sha512-xxb7q9huQnvW0W+5rPPAo+rSHu2gvp1wklAmSLNbczJNILkafBeVbR5v6+C4KL6IeFebRSL6msmaTaTH37k+Pg==
+wagmi@^0.4.7:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/wagmi/-/wagmi-0.4.7.tgz#59d65c973ab51e9200155bc87caac4379294ee07"
+  integrity sha512-pr5besVfPGVaq/l4KU6aD+fgChF6DBLJxFTMEw53uHgXupsk9lJinrYtwKm/dkgUjqQKshH0Ekxi3ozEdbibLQ==
   dependencies:
     "@coinbase/wallet-sdk" "^3.1.0"
-    "@wagmi/core" "^0.3.3"
+    "@wagmi/core" "^0.3.6"
     "@walletconnect/ethereum-provider" "^1.7.8"
-    react-query "4.0.0-beta.12"
+    react-query "^4.0.0-beta.19"
     use-sync-external-store "^1.1.0"
 
 wait-for-expect@^3.0.2:
