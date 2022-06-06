@@ -3381,7 +3381,7 @@ exports[`<Stake/> should render component. not connected 1`] = `
               >
                 <a
                   class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-6dncw-MuiButtonBase-root-MuiButton-root"
-                  href="https://curve.fi/factory-crypto/21/deposit"
+                  href="https://www.convexfinance.com/stake"
                   tabindex="0"
                   target="_blank"
                 >
@@ -6955,7 +6955,7 @@ exports[`<Stake/> should render the stake input Area when connected 1`] = `
               >
                 <a
                   class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-6dncw-MuiButtonBase-root-MuiButton-root"
-                  href="https://curve.fi/factory-crypto/21/deposit"
+                  href="https://www.convexfinance.com/stake"
                   tabindex="0"
                   target="_blank"
                 >
@@ -10529,7 +10529,7 @@ exports[`<Stake/> should render the v1 migration modal 1`] = `
               >
                 <a
                   class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-6dncw-MuiButtonBase-root-MuiButton-root"
-                  href="https://curve.fi/factory-crypto/21/deposit"
+                  href="https://www.convexfinance.com/stake"
                   tabindex="0"
                   target="_blank"
                 >
@@ -14103,7 +14103,7 @@ exports[`<Stake/> should render the v1 migration modal and banner 1`] = `
               >
                 <a
                   class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-6dncw-MuiButtonBase-root-MuiButton-root"
-                  href="https://curve.fi/factory-crypto/21/deposit"
+                  href="https://www.convexfinance.com/stake"
                   tabindex="0"
                   target="_blank"
                 >
