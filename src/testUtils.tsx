@@ -45,22 +45,20 @@ const renderRoute = function (route: string, store = defaultStore) {
   history.push(route);
   return render(
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <ReactQueryProvider>
-          <Provider store={store}>
-            <I18nProvider i18n={i18n}>
-              <HashRouter>
-                <StyledEngineProvider injectFirst>
-                  <ThemeProvider theme={lightTheme}>
-                    <CssBaseline />
-                    <App />
-                  </ThemeProvider>
-                </StyledEngineProvider>
-              </HashRouter>
-            </I18nProvider>
-          </Provider>
-        </ReactQueryProvider>
-      </RainbowKitProvider>
+      <ReactQueryProvider>
+        <Provider store={store}>
+          <I18nProvider i18n={i18n}>
+            <HashRouter>
+              <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={lightTheme}>
+                  <CssBaseline />
+                  <App />
+                </ThemeProvider>
+              </StyledEngineProvider>
+            </HashRouter>
+          </I18nProvider>
+        </Provider>
+      </ReactQueryProvider>
     </WagmiConfig>,
   );
 };

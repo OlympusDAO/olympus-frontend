@@ -8,6 +8,9 @@
     "not op_mini all"
   ],
   "jest": {
+    "moduleNameMapper": {
+      "\\.(css)$": "identity-obj-proxy"
+    },
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
@@ -126,6 +129,7 @@
     "hardhat": "^2.9.3",
     "https-browserify": "^1.0.0",
     "husky": "^8.0.1",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^28.1.0",
     "jest-extended": "^2.0.0",
     "jest-puppeteer": "^6.1.0",
