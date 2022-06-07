@@ -1,12 +1,11 @@
-import { createMatchMedia } from "src/testHelpers";
+import { connectWallet, createMatchMedia } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
 
 import Zap from "../Zap";
 
 beforeAll(() => {
   window.matchMedia = createMatchMedia("300px");
-  // const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-  // data.mockReturnValue(mockWeb3Context);
+  connectWallet();
   render(<Zap />);
 });
 

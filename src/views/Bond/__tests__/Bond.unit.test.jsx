@@ -7,6 +7,7 @@ import * as Token from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import * as ContractAllowance from "src/hooks/useContractAllowance";
+import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
 
 import {
@@ -24,10 +25,7 @@ import {
 import { Bond } from "../Bond";
 import { BondModalContainer } from "../components/BondModal/BondModal";
 
-beforeEach(() => {
-  // const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-  // data.mockReturnValue(mockWeb3Context);
-
+beforeEach(async () => {
   Token.OHM_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("20"));
   Token.DAI_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("1"));
   Token.OHM_DAI_LP_TOKEN.getPrice = jest.fn().mockResolvedValue(new DecimalBigNumber("200000"));
@@ -127,6 +125,7 @@ describe("Bonds", () => {
 
 describe("Bond Modal", () => {
   beforeEach(() => {
+    connectWallet();
     jest.spyOn(Router, "useParams").mockReturnValue({ id: "38" });
     const bondDepository = jest.spyOn(Contract.BOND_DEPOSITORY_CONTRACT, "getEthersContract");
     bondDepository.mockReturnValue({

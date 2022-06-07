@@ -1,3 +1,4 @@
+import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
 
 import Wallet from "../index";
@@ -22,8 +23,7 @@ describe("Wallet Drawer Disconnected", () => {
 
 describe("Wallet Drawer Connected", () => {
   beforeEach(() => {
-    // const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    // data.mockReturnValue(mockWeb3Context);
+    connectWallet();
   });
   it("Default State Should Prompt to Connect Wallet", async () => {
     render(<Wallet component="wallet" open={true} />);

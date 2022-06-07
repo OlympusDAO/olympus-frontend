@@ -1,5 +1,5 @@
 export const zapAPIResponse = {
-  "0x49afdd21097ee0c6e40d69e3233a73ed76ed43e4": {
+  "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266": {
     products: [
       {
         label: "Tokens",

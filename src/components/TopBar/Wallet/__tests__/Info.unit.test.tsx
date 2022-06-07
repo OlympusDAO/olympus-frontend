@@ -9,11 +9,11 @@ describe("Info View", () => {
     render(<News />);
     expect(screen.getByTestId("news")).toBeInTheDocument();
   });
-  it("Should Display News for news Path", async () => {
+  it("Should Display Proposals for proposal Path", async () => {
     render(<Proposals />);
     expect(screen.getByTestId("proposals")).toBeInTheDocument();
   });
-  it("Should Display News for news Path", async () => {
+  it("Should Display Faq's for faq Path", async () => {
     render(<Faq />);
     expect(screen.getByTestId("faq")).toBeInTheDocument();
   });

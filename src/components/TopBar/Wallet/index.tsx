@@ -4,7 +4,7 @@ import { styled } from "@mui/material/styles";
 import { Icon, SecondaryButton, TabBar } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ConnectButton, { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
+import { ConnectButton, InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { useConnect, useDisconnect } from "wagmi";
 
 import Assets from "./Assets";
