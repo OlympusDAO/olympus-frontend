@@ -194,13 +194,5 @@
       "eslint --fix",
       "prettier --write"
     ]
-  },
-  "majestic": {
-    "args": [
-      "--transformIgnorePatterns \"node_modules/(?!@rainbow-me)/\""
-    ],
-    "env": {
-      "CI": "true"
-    }
   }
 }
