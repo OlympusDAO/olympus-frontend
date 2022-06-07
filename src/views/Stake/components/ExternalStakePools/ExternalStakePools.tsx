@@ -9,6 +9,7 @@ import {
   balancerPools,
   beetsPools,
   bobaPools,
+  convexPools,
   curvePools,
   joePools,
   jonesPools,
@@ -25,6 +26,7 @@ import {
   BalancerSwapFees,
   BeetsPoolAPY,
   BobaPoolAPY,
+  ConvexPoolAPY,
   CurvePoolAPY,
   JoePoolAPY,
   JonesPoolAPY,
@@ -127,6 +129,9 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     ))}
     {curvePools.map(pool => (
       <CurvePools pool={pool} isSmallScreen={props.isSmallScreen} />
+    ))}
+    {convexPools.map(pool => (
+      <ConvexPools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
   </>
 );
@@ -297,6 +302,15 @@ const BobaPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = prop
     <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
   ) : (
     <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
+  );
+};
+
+const ConvexPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
+  const { apy, tvl } = ConvexPoolAPY(props.pool);
+  return props.isSmallScreen ? (
+    <MobileStakePool pool={props.pool} tvl={tvl} apy={apy} />
+  ) : (
+    <StakePool pool={props.pool} tvl={tvl} apy={apy} />
   );
 };
 

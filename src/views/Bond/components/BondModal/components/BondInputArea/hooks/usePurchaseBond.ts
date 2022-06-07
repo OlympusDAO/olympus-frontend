@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { DAO_TREASURY_ADDRESSES } from "src/constants/addresses";
 import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
-import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
+import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
@@ -22,7 +22,6 @@ export const usePurchaseBond = (bond: Bond) => {
   const { activeChain = { id: 1 } } = useNetwork();
   const { data: account } = useAccount();
   const balance = useBalance(bond.quoteToken.addresses)[networks.MAINNET].data;
-  let txHash: string;
 
   return useMutation<
     ContractReceipt,
@@ -99,21 +98,28 @@ export const usePurchaseBond = (bond: Bond) => {
           recipientAddress,
           referrer,
         );
-      txHash = transaction.hash;
       return transaction.wait();
     },
     {
       onError: error => {
         dispatch(createErrorToast(error.message));
       },
-      onSuccess: async (_, { amount }) => {
+      onSuccess: async (tx, { amount }) => {
         trackGAEvent({
           category: "Bonds",
           action: "Bond",
           label: bond.quoteToken.name,
           value: new DecimalBigNumber(amount, bond.quoteToken.decimals).toApproxNumber(),
-          dimension1: txHash ?? "unknown",
+          dimension1: tx.transactionHash,
           dimension2: account?.address,
+        });
+
+        trackGtagEvent("Bond", {
+          event_category: "Bonds",
+          value: new DecimalBigNumber(amount, bond.quoteToken.decimals).toApproxNumber(),
+          address: account?.address ? account.address.slice(2) : "",
+          txHash: tx.transactionHash.slice(2),
+          token: bond.quoteToken.name,
         });
 
         const keysToRefetch = [

@@ -3,7 +3,7 @@ import { ContractReceipt } from "ethers";
 import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
-import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
+import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
@@ -18,7 +18,6 @@ export const useClaimBonds = () => {
   const { data: account } = useAccount();
   const { data: signer } = useSigner();
   const { activeChain = { id: 1 } } = useNetwork();
-  let txHash: string;
   return useMutation<ContractReceipt, Error, { id?: string; isPayoutGohm: boolean }>(
     async ({ id, isPayoutGohm }) => {
       if (!signer) throw new Error(t`Please connect a wallet to claim bonds`);
@@ -34,25 +33,30 @@ export const useClaimBonds = () => {
 
       if (id) {
         const transaction = await contract.redeem(account.address, [id], isPayoutGohm);
-        txHash = transaction.hash;
         return transaction.wait();
       }
 
       const transaction = await contract.redeemAll(account.address, isPayoutGohm);
-      txHash = transaction.hash;
       return transaction.wait();
     },
     {
       onError: error => {
         dispatch(createErrorToast(error.message));
       },
-      onSuccess: async (_, { id }) => {
+      onSuccess: async (tx, { id }) => {
         trackGAEvent({
           category: "Bonds",
           action: "Redeem",
           label: id ?? "unknown",
-          dimension1: txHash ?? "unknown",
+          dimension1: tx.transactionHash,
           dimension2: account?.address,
+        });
+
+        trackGtagEvent("Redeem", {
+          event_category: "Bonds",
+          event_label: id ?? "unknown",
+          address: account?.address ? account.address.slice(2) : "",
+          txHash: tx.transactionHash.slice(2),
         });
 
         const keysToRefetch = [bondNotesQueryKey(networks.MAINNET, account?.address)];
