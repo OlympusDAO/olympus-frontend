@@ -4,6 +4,8 @@ import Messages from "src/components/Messages/Messages";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
+import { connectWallet } from "src/testHelpers";
+import * as WAGMI from "wagmi";
 
 import { render, screen } from "../../../testUtils";
 import { MigrateInputArea } from "../components/MigrateInputArea/MigrateInputArea";
@@ -13,14 +15,16 @@ jest.mock("src/hooks/useContractAllowance");
 let container;
 
 beforeEach(async () => {
-  // const data = jest.spyOn(useWeb3Context, "useWeb3Context");
+  connectWallet();
+  WAGMI.useNetwork = jest.fn(() => {
+    return {
+      activeChain: {
+        id: 43114,
+      },
+    };
+  });
   useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
   Balance.useBalance = jest.fn().mockReturnValue({ 43114: { data: new DecimalBigNumber("10", 9) } });
-
-  // data.mockReturnValue({
-  //   ...mockWeb3Context,
-  //   networkId: 43114,
-  // });
 
   ({ container } = render(
     <>
@@ -45,11 +49,13 @@ describe("Wrap Input Area", () => {
 
 describe("Check Migrate to gOHM Error Messages", () => {
   it("Should error when not on Avalanche or Arbitrum", async () => {
-    // const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    // data.mockReturnValue({
-    //   ...mockWeb3Context,
-    //   networkId: 137, //polygon isnt supported for wsOHM to gOHM
-    // });
+    WAGMI.useNetwork = jest.fn(() => {
+      return {
+        activeChain: {
+          id: 137, //polygon isnt supported for wsOHM to gOHM
+        },
+      };
+    });
     expect(() => render(<MigrateInputArea />)).toThrowError(
       "Component should only be mounted when connected to Arbitrum or Avalanche",
     );

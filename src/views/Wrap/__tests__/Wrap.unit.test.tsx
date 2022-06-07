@@ -1,3 +1,6 @@
+import { connectWallet } from "src/testHelpers";
+import * as WAGMI from "wagmi";
+
 import { act, render } from "../../../testUtils";
 import Wrap from "../Wrap";
 
@@ -12,11 +15,16 @@ describe("<Wrap/>", () => {
     expect(container).toMatchSnapshot();
   });
   it("should Render Migrate Input Area on Avalanche", async () => {
-    // const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    // data.mockReturnValue({
-    //   ...mockWeb3Context,
-    //   networkId: 43114,
-    // });
+    connectWallet();
+
+    //@ts-ignore
+    WAGMI.useNetwork = jest.fn(() => {
+      return {
+        activeChain: {
+          id: 43114,
+        },
+      };
+    });
     let container;
     await act(async () => {
       ({ container } = render(<Wrap />));
@@ -25,12 +33,15 @@ describe("<Wrap/>", () => {
     expect(container).toMatchSnapshot();
   });
   it("should Render Migrate Input Area on Arbitrum", async () => {
-    // const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    // data.mockReturnValue({
-    //   ...mockWeb3Context,
-    //   networkId: 42161,
-    // });
-
+    connectWallet();
+    //@ts-ignore
+    WAGMI.useNetwork = jest.fn(() => {
+      return {
+        activeChain: {
+          id: 42161,
+        },
+      };
+    });
     let container;
     await act(async () => {
       ({ container } = render(<Wrap />));
@@ -40,11 +51,15 @@ describe("<Wrap/>", () => {
   });
 
   it("Should Render Wrap Input Area with Wallet Connected", async () => {
-    // const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    // data.mockReturnValue({
-    //   ...mockWeb3Context,
-    //   networkId: 1,
-    // });
+    connectWallet();
+    //@ts-ignore
+    WAGMI.useNetwork = jest.fn(() => {
+      return {
+        activeChain: {
+          id: 1,
+        },
+      };
+    });
 
     let container;
     await act(async () => {
