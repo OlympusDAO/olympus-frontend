@@ -4,19 +4,18 @@ import Messages from "src/components/Messages/Messages";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as Balance from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
+import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
 
 import { StakeArea } from "../StakeArea";
 
 jest.mock("src/hooks/useContractAllowance");
 
-let data;
 beforeEach(async () => {
-  // data = jest.spyOn(useWeb3Context, "useWeb3Context");
+  connectWallet();
   useContractAllowance.mockReturnValue({ data: BigNumber.from(10000) });
   Balance.useBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10", 9) } });
 
-  // data.mockReturnValue(mockWeb3Context);
   render(
     <>
       <Messages />

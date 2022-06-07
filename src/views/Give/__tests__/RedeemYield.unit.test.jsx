@@ -3,6 +3,7 @@ import * as useCurrentIndex from "src/hooks/useCurrentIndex";
 import * as useGiveInfo from "src/hooks/useGiveInfo";
 import * as useStakingRebaseRate from "src/hooks/useStakingRebaseRate";
 import {
+  connectWallet,
   mockCurrentIndex,
   mockRecipientInfo,
   mockRedeemableBalance,
@@ -21,7 +22,7 @@ let recipientData;
 let stakingData;
 
 beforeEach(() => {
-  // context = jest.spyOn(useWeb3Context, "useWeb3Context");
+  connectWallet();
 
   redeemData = "100.0";
   recipientData = {
@@ -39,8 +40,6 @@ afterEach(() => {
 describe("Redeem Yield", () => {
   beforeEach(() => {
     jest.spyOn(useCurrentIndex, "useCurrentIndex").mockReturnValue(mockCurrentIndex(new DecimalBigNumber("100", 9)));
-
-    context.mockReturnValue(mockWeb3Context);
 
     const redeemable = jest.spyOn(useGiveInfo, "useRedeemableBalance");
     redeemable.mockReturnValue(mockRedeemableBalance(redeemData));
