@@ -9,7 +9,6 @@ import { shorten } from "src/helpers";
 import { Token } from "src/helpers/contracts/Token";
 import { interpretTransaction, Transaction } from "src/helpers/covalent/interpretTransaction";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
-import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { assert } from "src/helpers/types/assert";
 import { useStaticFuseContract } from "src/hooks/useContract";
 import { covalent } from "src/lib/covalent";
@@ -87,23 +86,23 @@ export const transactionHistoryQueryKey = (options: UseTransactionHistoryOptions
 export const useTransactionHistory = () => {
   const { data: account } = useAccount();
   const { activeChain = { id: 1 } } = useNetwork();
+  const address = account?.address ? account.address : "";
 
   return useInfiniteQuery<CovalentResponse<CovalentTransaction[]>, Error, Transaction[]>(
-    transactionHistoryQueryKey({ address: account?.address, networkId: activeChain.id }),
+    transactionHistoryQueryKey({ address, networkId: activeChain.id }),
     ({ pageParam = 0 }) => {
-      queryAssertion(account?.address);
       return covalent.transactions.listAll({
-        address: account.address,
+        address,
         networkId: activeChain.id,
         pageSize: 300,
         pageNumber: pageParam,
       });
     },
     {
-      enabled: !!account?.address && !!activeChain.id,
+      enabled: !!address && !!activeChain.id,
       select: ({ pages, pageParams }) => ({
         pageParams,
-        pages: pages.map(page => interpretTransaction(page.items, account?.address)),
+        pages: pages.map(page => interpretTransaction(page.items, address)),
       }),
       getNextPageParam: lastPage => {
         if (!lastPage.pagination.has_more) return;
@@ -125,13 +124,13 @@ export const useTransferHistory = <TToken extends Token>(token: TToken) => {
   const { data: account } = useAccount();
   const { activeChain = { id: 1 } } = useNetwork();
   const contractAddress = token.getAddress(activeChain.id);
+  const address = account?.address ? account.address : "";
 
   return useInfiniteQuery<CovalentResponse<CovalentTransfer[]>, Error, Transaction[]>(
-    transferHistoryQueryKey({ address: account?.address, networkId: activeChain.id, contractAddress }),
+    transferHistoryQueryKey({ address, networkId: activeChain.id, contractAddress }),
     async ({ pageParam = 0 }) => {
-      queryAssertion(account?.address);
       return covalent.transfers.listAll({
-        address: account.address,
+        address,
         networkId: activeChain.id,
         pageSize: 300,
         contractAddress,
@@ -139,7 +138,7 @@ export const useTransferHistory = <TToken extends Token>(token: TToken) => {
       });
     },
     {
-      enabled: !!account?.address && !!activeChain.id && !!contractAddress,
+      enabled: !!address && !!activeChain.id && !!contractAddress,
       select: ({ pages, pageParams }) => ({
         pageParams,
         pages: pages.map(page =>
