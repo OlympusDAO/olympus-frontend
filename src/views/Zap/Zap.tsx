@@ -8,13 +8,13 @@ import { useNavigate } from "react-router";
 import { InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useZapTokenBalances } from "src/hooks/useZapTokenBalances";
-import { useAccount, useNetwork } from "wagmi";
+import { useConnect, useNetwork } from "wagmi";
 
 import ZapInfo from "./ZapInfo";
 import ZapStakeAction from "./ZapStakeAction";
 
 const Zap: React.FC = () => {
-  const { data: account } = useAccount();
+  const { isConnected } = useConnect();
   const { activeChain = { id: 1 } } = useNetwork();
   const navigate = useNavigate();
   usePathForNetwork({ pathName: "zap", networkID: activeChain.id, navigate });
@@ -34,9 +34,9 @@ const Zap: React.FC = () => {
 
   return (
     <div id="zap-view">
-      <Paper headerText={account && `Zap`}>
+      <Paper headerText={isConnected ? `Zap` : ""}>
         <div className="staking-area">
-          {!account ? (
+          {!isConnected ? (
             <div className="stake-wallet-notification">
               <div className="wallet-menu" id="wallet-menu">
                 <InPageConnectButton />

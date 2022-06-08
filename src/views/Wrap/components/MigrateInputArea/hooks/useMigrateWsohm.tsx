@@ -18,6 +18,7 @@ export const useMigrateWsohm = () => {
 
   const { data: account } = useAccount();
   const { activeChain = { id: 1 } } = useNetwork();
+  const address = account?.address ? account.address : "";
 
   const contract = useDynamicMigratorContract(MIGRATOR_ADDRESSES, true);
 
@@ -53,8 +54,8 @@ export const useMigrateWsohm = () => {
         });
 
         const keysToRefetch = [
-          balanceQueryKey(account?.address, WSOHM_ADDRESSES, activeChain.id),
-          balanceQueryKey(account?.address, GOHM_ADDRESSES, activeChain.id),
+          balanceQueryKey(address, WSOHM_ADDRESSES, activeChain.id),
+          balanceQueryKey(address, GOHM_ADDRESSES, activeChain.id),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

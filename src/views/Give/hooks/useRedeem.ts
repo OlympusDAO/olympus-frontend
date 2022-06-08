@@ -31,12 +31,11 @@ export const useRedeem = () => {
         throw new Error(
           t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
-      if (!account?.address) throw new Error(t`Please refresh your page and try again`);
 
-      const redeemableBalance = await contract.totalRedeemableBalance(account.address);
+      const redeemableBalance = await contract.totalRedeemableBalance(address);
 
       const uaData: IUARecipientData = {
-        address: account.address,
+        address: address,
         value: redeemableBalance.toString(),
         approved: true,
         txHash: null,
