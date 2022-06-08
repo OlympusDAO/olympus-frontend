@@ -1,12 +1,10 @@
 import "src/helpers/index";
 
 import * as EthersContract from "@ethersproject/contracts";
-import { renderHook } from "@testing-library/react-hooks";
 import { BigNumber } from "ethers";
 import App from "src/App";
-import { createMatchMedia, mockConnector } from "src/testHelpers";
+import { connectWallet, createMatchMedia, disconnectedWallet } from "src/testHelpers";
 import * as Contract from "src/typechain";
-import { useConnect } from "wagmi";
 
 import { act, render, renderRoute, screen } from "../testUtils";
 
@@ -29,14 +27,14 @@ afterEach(() => {
 
 describe("<App/>", () => {
   it("should render component", () => {
+    disconnectedWallet();
     renderRoute("/");
     expect(screen.getByText("Connect your wallet to stake OHM")).toBeInTheDocument();
   });
   it("should not render an error message when user wallet is connected and cached but not locked", async () => {
     // Workaround for long-running tasks
     jest.setTimeout(60000);
-    const connector = mockConnector;
-    renderHook(() => useConnect({ connector }));
+    connectWallet();
 
     await act(async () => {
       renderRoute("/");
@@ -48,8 +46,7 @@ describe("<App/>", () => {
     });
   });
   it("should not render a connection error message when user wallet is not cached, i.e. user has not connected wallet yet", async () => {
-    const connector = mockConnector;
-    renderHook(() => useConnect({ connector }));
+    connectWallet();
     await act(async () => {
       renderRoute("/");
     });
@@ -63,8 +60,7 @@ describe("Account Balances Slice", () => {
     jest.mock("@ethersproject/contracts");
   });
   it("should load Account Balances with no error", async () => {
-    // const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    // data.mockReturnValue(mockWeb3Context);
+    connectWallet();
     Contract.GOHM__factory.connect = jest.fn().mockReturnValue({
       balanceOf: jest.fn().mockReturnValue(BigNumber.from(10)),
       allowance: jest.fn().mockReturnValue(BigNumber.from(10)),
@@ -86,6 +82,7 @@ describe("Account Balances Slice", () => {
   });
 
   it("should load Account Balances and throw error", async () => {
+    connectWallet();
     Contract.GOHM__factory.connect = jest.fn().mockReturnValue({
       balanceOf: jest.fn().mockImplementation(() => {
         throw Error("An Error!");
@@ -117,6 +114,7 @@ describe("Staging Notification Checks", () => {
     process.env.REACT_APP_STAGING_ENV = true;
   });
   it("Should display a notification banner when hostname = staging.olympusdao.finance", async () => {
+    connectWallet();
     render(<App />);
     expect(screen.getByTestId("staging-notification")).toHaveStyle({ marginLeft: "312px" });
     expect(
@@ -124,6 +122,7 @@ describe("Staging Notification Checks", () => {
     ).toBeInTheDocument();
   });
   it("Should display no left Margin on Mobile", async () => {
+    connectWallet();
     window.matchMedia = createMatchMedia("300px");
     render(<App />);
     expect(screen.getByTestId("staging-notification")).toHaveStyle({ marginLeft: "0px" });
@@ -137,6 +136,7 @@ describe("Production Notification Check", () => {
     process.env.REACT_APP_STAGING_ENV = false;
   });
   it("Should not display a notification when hostname not staging.olympusdao.finance", async () => {
+    connectWallet();
     render(<App />);
     expect(
       screen.queryByText("You are on the staging site. Any interaction could result in loss of assets."),

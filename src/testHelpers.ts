@@ -79,11 +79,61 @@ export const mockConnector = new MockConnector({
   options: { signer: getSigners()[0] },
 });
 
+export function disconnectedWallet() {
+  //@ts-ignore
+  WAGMI.useConnect = jest.fn(() => {
+    return {
+      isConnected: false,
+      activeConnector: mockConnector,
+      connectors: [mockConnector],
+    };
+  });
+
+  //@ts-ignore
+  WAGMI.useAccount = jest.fn(() => {
+    return {
+      data: {
+        address: "",
+        connector: mockConnector,
+      },
+      error: null,
+      fetchStatus: "idle",
+      internal: {
+        dataUpdatedAt: 1654570110046,
+        errorUpdatedAt: 0,
+        failureCount: 0,
+        isFetchedAfterMount: true,
+        isLoadingError: false,
+        isPaused: false,
+        isPlaceholderData: false,
+        isPreviousData: false,
+        isRefetchError: false,
+        isStale: true,
+      },
+      isError: false,
+      isFetched: true,
+      isFetching: false,
+      isIdle: false,
+      isLoading: false,
+      isRefetching: false,
+      isSuccess: true,
+      refetch: jest.fn(),
+      status: "success",
+    };
+  });
+
+  //@ts-ignore
+  WAGMI.useSigner = jest.fn(() => {
+    return {
+      data: getSigners()[0],
+    };
+  });
+}
 export function connectWallet() {
   //@ts-ignore
   WAGMI.useConnect = jest.fn(() => {
     return {
-      isConnected: "true",
+      isConnected: true,
       activeConnector: mockConnector,
       connectors: [mockConnector],
     };
