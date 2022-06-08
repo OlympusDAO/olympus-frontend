@@ -23,6 +23,7 @@ export const useRedeem = () => {
   const { data: account } = useAccount();
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  const address = account?.address ? account.address : "";
 
   return useMutation<ContractReceipt, Error, RedeemData>(
     async ({ token: token_ }) => {
@@ -61,10 +62,10 @@ export const useRedeem = () => {
       },
       onSuccess: async () => {
         const keysToRefetch = [
-          balanceQueryKey(account?.address, SOHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(account?.address, GOHM_ADDRESSES, networks.MAINNET),
-          recipientInfoQueryKey(account?.address, networks.MAINNET),
-          redeemableBalanceQueryKey(account?.address, networks.MAINNET),
+          balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
+          recipientInfoQueryKey(address, networks.MAINNET),
+          redeemableBalanceQueryKey(address, networks.MAINNET),
         ];
 
         keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

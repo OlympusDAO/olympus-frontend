@@ -24,6 +24,7 @@ export const useGive = () => {
   const { data: account } = useAccount();
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  const address = account?.address ? account.address : "";
 
   // Mutation to interact with the YieldDirector contract
   return useMutation<ContractReceipt, Error, GiveData>(
@@ -71,9 +72,9 @@ export const useGive = () => {
       },
       onSuccess: async (data, GiveData) => {
         const keysToRefetch = [
-          balanceQueryKey(account?.address, SOHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(account?.address, GOHM_ADDRESSES, networks.MAINNET),
-          donationInfoQueryKey(networks.MAINNET, account?.address),
+          balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
+          donationInfoQueryKey(address, networks.MAINNET),
           recipientInfoQueryKey(GiveData.recipient, networks.MAINNET),
         ];
 

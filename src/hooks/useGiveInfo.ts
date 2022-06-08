@@ -30,7 +30,7 @@ export interface IUserRecipientInfo {
  * Query key for useDonationInfo, will refresh on address changes or
  * networkId changes
  */
-export const donationInfoQueryKey = (networkId: NetworkId, address?: string) =>
+export const donationInfoQueryKey = (address: string, networkId: NetworkId) =>
   ["useDonationInfo", address, networkId].filter(nonNullable);
 
 /**
@@ -50,6 +50,7 @@ export const useDonationInfo = () => {
   const { data: account } = useAccount();
   const provider = useProvider();
   const { activeChain = { id: 1 } } = useNetwork();
+  const address = account?.address ? account.address : "";
 
   // Hook to establish dynamic contract, meaning it will connect to the network
   // the user is currently connected to
@@ -57,9 +58,9 @@ export const useDonationInfo = () => {
   const networks = useTestableNetworks();
 
   const query = useQuery<IUserDonationInfo[] | null, Error>(
-    donationInfoQueryKey(activeChain.id, account?.address),
+    donationInfoQueryKey(address, activeChain.id),
     async () => {
-      queryAssertion([account?.address, activeChain.id], donationInfoQueryKey(activeChain.id, account?.address));
+      queryAssertion([address, activeChain.id], donationInfoQueryKey(address, activeChain.id));
 
       // Set default return value
       const donationInfo: IUserDonationInfo[] = [];
@@ -74,10 +75,9 @@ export const useDonationInfo = () => {
       // indexed the same way, so we can select them by index
       let depositIds: BigNumber[] = [];
       let allDeposits: [string[], BigNumber[]] = [[], []];
-      if (!account?.address) throw new Error(t`No account found`);
       try {
-        depositIds = await contract.getDepositorIds(account.address);
-        allDeposits = await contract.getAllDeposits(account.address);
+        depositIds = await contract.getDepositorIds(address);
+        allDeposits = await contract.getAllDeposits(address);
       } catch (e: unknown) {
         // These will only revert if the user has not initiated any deposits yet
         console.log("You have not deposited to anyone yet.");
@@ -99,20 +99,18 @@ export const useDonationInfo = () => {
 
         // Get the first donation date for a donation to a specific recipient
         const firstDonationDatePromise = GetFirstDonationDate({
-          address: account.address,
+          address: address,
           recipient: allDeposits[0][i],
           networkID: networks.MAINNET,
           provider,
         });
         firstDonationDatePromises.push(firstDonationDatePromise);
 
-        const yieldSentPromise: Promise<BigNumber> = contract
-          .donatedTo(account.address, allDeposits[0][i])
-          .catch(() => {
-            // This will only revert if the user has not donated at all yet
-            console.log("You have not donated any yield yet.");
-            return ethers.constants.Zero;
-          });
+        const yieldSentPromise: Promise<BigNumber> = contract.donatedTo(address, allDeposits[0][i]).catch(() => {
+          // This will only revert if the user has not donated at all yet
+          console.log("You have not donated any yield yet.");
+          return ethers.constants.Zero;
+        });
         yieldSentPromises.push(yieldSentPromise);
       }
 
@@ -142,7 +140,7 @@ export const useDonationInfo = () => {
       // Return donationInfo array as the data attribute
       return donationInfo;
     },
-    { enabled: !!account?.address }, // will run as long as an address is connected
+    { enabled: !!address }, // will run as long as an address is connected
   );
 
   // Return query
@@ -153,7 +151,7 @@ export const useDonationInfo = () => {
  * Query key for useRedeemableBalance, will refresh on address changes or
  * networkId changes
  */
-export const redeemableBalanceQueryKey = (address?: string, networkId?: NetworkId) =>
+export const redeemableBalanceQueryKey = (address: string, networkId: NetworkId) =>
   ["useRedeemableBalance", address, networkId].filter(nonNullable);
 
 /**
@@ -202,20 +200,20 @@ export const useRedeemableBalance = (address: string) => {
   return query as typeof query;
 };
 
-export const v1RedeemableBalanceQueryKey = (address?: string, networkId?: NetworkId) =>
+export const v1RedeemableBalanceQueryKey = (address: string, networkId: NetworkId) =>
   ["useV1RedeemableBalance", address, networkId].filter(nonNullable);
 
 export const useV1RedeemableBalance = () => {
   const { activeChain = { id: 1 } } = useNetwork();
   const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
 
   // Hook to establish static old Give contract
   const contract = useDynamicV1GiveContract(OLD_GIVE_ADDRESSES, true);
   const query = useQuery<string, Error>(
-    v1RedeemableBalanceQueryKey(account?.address, activeChain.id),
+    v1RedeemableBalanceQueryKey(address, activeChain.id),
     async () => {
-      queryAssertion(account?.address);
-      queryAssertion([account.address, activeChain.id], v1RedeemableBalanceQueryKey(account.address, activeChain.id));
+      queryAssertion([address, activeChain.id], v1RedeemableBalanceQueryKey(address, activeChain.id));
 
       if (activeChain.id != 1)
         throw new Error(t`The old Give contract is only supported on the mainnet. Please switch to Ethereum mainnet`);
@@ -230,16 +228,16 @@ export const useV1RedeemableBalance = () => {
       let redeemableBalance = BigNumber.from("0");
 
       try {
-        redeemableBalance = await contract.redeemableBalance(account.address);
+        redeemableBalance = await contract.redeemableBalance(address);
       } catch (e: unknown) {
         // This shouldn't revert at all, but just in case
-        console.log("No donations to: " + account.address + " yet.");
+        console.log("No donations to: " + address + " yet.");
       }
 
       // Convert to proper decimals and return
       return ethers.utils.formatUnits(redeemableBalance, "gwei");
     },
-    { enabled: !!account?.address },
+    { enabled: !!address },
   );
 
   // Return query
@@ -250,7 +248,7 @@ export const useV1RedeemableBalance = () => {
  * Query key for useRecipientInfo, will refresh on address changes or
  * networkId changes
  */
-export const recipientInfoQueryKey = (address?: string, networkId?: NetworkId) =>
+export const recipientInfoQueryKey = (address: string, networkId: NetworkId) =>
   ["useRecipientInfo", address, networkId].filter(nonNullable);
 
 /**

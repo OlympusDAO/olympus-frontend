@@ -26,6 +26,8 @@ export const useIncreaseGive = () => {
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
 
+  const address = account?.address ? account.address : "";
+
   // Mutation to interact with the YieldDirector contract
   return useMutation<ContractReceipt, Error, EditGiveData>(
     // Pass in an object with an amount and a recipient parameter
@@ -71,9 +73,9 @@ export const useIncreaseGive = () => {
       onSuccess: async (data, EditGiveData) => {
         // Refetch sOHM balance and donation info
         const keysToRefetch = [
-          balanceQueryKey(account?.address, SOHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(account?.address, GOHM_ADDRESSES, networks.MAINNET),
-          donationInfoQueryKey(networks.MAINNET, account?.address),
+          balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
+          donationInfoQueryKey(address, networks.MAINNET),
           recipientInfoQueryKey(EditGiveData.recipient, networks.MAINNET),
         ];
 
@@ -98,7 +100,7 @@ export const useDecreaseGive = () => {
   const { data: signer } = useSigner();
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
-
+  const address = account?.address ? account.address : "";
   const gohmContract = new ethers.Contract(
     GOHM_ADDRESSES[activeChain.id as keyof typeof GOHM_ADDRESSES],
     gOHM.abi,
@@ -157,9 +159,9 @@ export const useDecreaseGive = () => {
       onSuccess: async (data, EditGiveData) => {
         // Refetch balances and donation info
         const keysToRefetch = [
-          balanceQueryKey(account?.address, SOHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(account?.address, GOHM_ADDRESSES, networks.MAINNET),
-          donationInfoQueryKey(networks.MAINNET, account?.address),
+          balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
+          donationInfoQueryKey(address, networks.MAINNET),
           recipientInfoQueryKey(EditGiveData.recipient, networks.MAINNET),
         ];
 
