@@ -19,10 +19,6 @@ import { fireEvent, render, screen } from "src/testUtils";
 import { CancelCallback, SubmitEditCallback, WithdrawSubmitCallback } from "../Interfaces";
 import { ManageDonationModal } from "../ManageDonationModal";
 
-beforeEach(() => {
-  // jest.spyOn(useWeb3Context, "useWeb3Context").mockReturnValue(mockWeb3Context);
-});
-
 describe("ManageDonationModal", () => {
   let submitFunc: SubmitEditCallback;
   let cancelFunc: CancelCallback;

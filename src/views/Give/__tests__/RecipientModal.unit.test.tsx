@@ -10,10 +10,6 @@ import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 
 import { RecipientModal } from "../RecipientModal";
 
-beforeEach(() => {
-  // jest.spyOn(useWeb3Context, "useWeb3Context").mockReturnValue(mockWeb3Context);
-});
-
 describe("RecipientModal", () => {
   let callbackFunc: SubmitCallback;
   let cancelFunc: CancelCallback;
