@@ -37,7 +37,7 @@ export interface ZapHelperBalancesResponse {
   balances: { [key: string]: ZapperToken };
 }
 
-export const zapTokenBalancesKey = (address?: string) => ["zapTokenBalances", address];
+export const zapTokenBalancesKey = (address: string) => ["zapTokenBalances", address];
 
 /**
  * Asynchronously fetches the token balances for the current wallet.
@@ -56,15 +56,16 @@ export const zapTokenBalancesKey = (address?: string) => ["zapTokenBalances", ad
 export const useZapTokenBalances = () => {
   const { isConnected } = useConnect();
   const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
 
-  const key = zapTokenBalancesKey(account?.address);
+  const key = zapTokenBalancesKey(address);
   return useQuery<ZapHelperBalancesResponse, Error>(
     key,
     async () => {
       // TODO handle missing API key
       const apiKey = Environment.getZapperApiKey();
       try {
-        const addressLower = account?.address ? account.address.toLowerCase() : "";
+        const addressLower = address.toLowerCase();
         console.debug("Refetching Zap token balances");
         const response = await fetch(
           `https://api.zapper.fi/v1/protocols/tokens/balances?api_key=${apiKey}&addresses%5B%5D=${addressLower}&newBalances=true`,
@@ -81,7 +82,7 @@ export const useZapTokenBalances = () => {
         throw e;
       }
     },
-    { enabled: !!account?.address && !!isConnected },
+    { enabled: !!address && !!isConnected },
   );
 };
 
