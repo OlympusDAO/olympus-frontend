@@ -50,22 +50,22 @@ export const { chains, provider } = configureChains(
     chain.polygon,
     chain.optimism,
     chain.arbitrum,
-    chain.rinkeby,
     {
       ...boba,
       iconUrl:
-        "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_boba.jpg&w=64&q=100",
+        "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_boba.jpg&w=32&q=100",
     },
     {
       ...avalanche,
       iconUrl:
-        "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_avalanche.jpg&w=64&q=100",
+        "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_avalanche.jpg&w=32&q=100",
     },
     {
       ...fantom,
       iconUrl:
-        "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_fantom.jpg&w=64&q=100",
+        "https://chainlist.org/_next/image?url=https%3A%2F%2Fdefillama.com%2Fchain-icons%2Frsz_fantom.jpg&w=32&q=100",
     },
+    chain.rinkeby,
   ],
   [
     alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }),
@@ -78,7 +78,6 @@ const connectors = connectorsForWallets([
   {
     groupName: "Wallets",
     wallets: [
-      wallet.injected({ chains }),
       wallet.metaMask({ chains }),
       wallet.coinbase({ appName: "Olympus DAO", chains }),
       wallet.rainbow({ chains }),
