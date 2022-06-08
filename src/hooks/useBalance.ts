@@ -32,19 +32,19 @@ export const balanceQueryKey = (address?: string, tokenAddressMap?: AddressMap, 
 export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAddressMap: TAddressMap) => {
   const isTestMode = useTestMode();
   const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
   const contracts = useMultipleTokenContracts(tokenAddressMap);
 
   const networkIds = Object.keys(tokenAddressMap).map(Number);
 
   const results = useQueries(
     networkIds.map(networkId => ({
-      queryKey: balanceQueryKey(account?.address, tokenAddressMap, networkId),
-      enabled: !!account?.address && (isTestMode ? isTestnet(networkId) : !isTestnet(networkId)),
+      queryKey: balanceQueryKey(address, tokenAddressMap, networkId),
+      enabled: !!address && (isTestMode ? isTestnet(networkId) : !isTestnet(networkId)),
       queryFn: async () => {
-        if (!account?.address) throw new Error("No account");
         const contract = contracts[networkId as NetworkId];
         console.debug("Refetching balance");
-        const [balance, decimals] = await Promise.all([contract.balanceOf(account.address), contract.decimals()]);
+        const [balance, decimals] = await Promise.all([contract.balanceOf(address), contract.decimals()]);
 
         return new DecimalBigNumber(balance, decimals);
       },
@@ -60,22 +60,22 @@ export const useBalance = <TAddressMap extends AddressMap = AddressMap>(tokenAdd
 /**
  * Returns gOHM balance in Fuse
  */
-export const fuseBalanceQueryKey = (address?: string) => ["useFuseBalance", address].filter(nonNullable);
+export const fuseBalanceQueryKey = (address: string) => ["useFuseBalance", address].filter(nonNullable);
 export const useFuseBalance = () => {
   const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
   const pool6Contract = useStaticFuseContract(FUSE_POOL_6_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
   const pool18Contract = useStaticFuseContract(FUSE_POOL_18_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
   const pool36Contract = useStaticFuseContract(FUSE_POOL_36_ADDRESSES[NetworkId.MAINNET], NetworkId.MAINNET);
 
   const query = useQuery<DecimalBigNumber, Error>(
-    fuseBalanceQueryKey(account?.address),
+    fuseBalanceQueryKey(address),
     async () => {
-      queryAssertion(fuseBalanceQueryKey(account?.address));
+      queryAssertion(address, fuseBalanceQueryKey(address));
 
       const results = await Promise.all(
         [pool6Contract, pool18Contract, pool36Contract].map(async contract => {
-          if (!account?.address) throw new Error("No account");
-          const balance = await contract.callStatic.balanceOfUnderlying(account.address);
+          const balance = await contract.callStatic.balanceOfUnderlying(address);
 
           return new DecimalBigNumber(balance, 18);
         }),
@@ -83,7 +83,7 @@ export const useFuseBalance = () => {
 
       return results.reduce((prev, bal) => prev.add(bal), new DecimalBigNumber("0", 9));
     },
-    { enabled: !!account?.address },
+    { enabled: !!address },
   );
 
   return { [NetworkId.MAINNET]: query } as Record<NetworkId.MAINNET, typeof query>;
