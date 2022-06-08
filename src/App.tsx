@@ -117,6 +117,7 @@ function App() {
 
   const { data: account } = useAccount();
   const { isConnected, error: errorMessage } = useConnect();
+  const address = account?.address ? account.address : "";
 
   const provider = useProvider();
   const { activeChain = { id: 1 } } = useNetwork();
@@ -143,7 +144,7 @@ function App() {
     }
 
     // don't run unless provider is a Wallet...
-    if (whichDetails === "account" && account?.address && isConnected) {
+    if (whichDetails === "account" && address && isConnected) {
       loadAccount(loadProvider);
     }
   }
@@ -152,18 +153,15 @@ function App() {
     loadProvider => {
       dispatch(loadAppDetails({ networkID: activeChain.id, provider: loadProvider }));
     },
-    [activeChain.id, account?.address],
+    [activeChain.id, address],
   );
 
   const loadAccount = useCallback(
     loadProvider => {
-      if (!account?.address) {
-        return;
-      }
-      dispatch(loadAccountDetails({ networkID: activeChain.id, provider, address: account.address }));
-      dispatch(getMigrationAllowances({ address: account.address, provider, networkID: activeChain.id }));
+      dispatch(loadAccountDetails({ networkID: activeChain.id, provider, address }));
+      dispatch(getMigrationAllowances({ address, provider, networkID: activeChain.id }));
     },
-    [activeChain.id, account?.address],
+    [activeChain.id, address],
   );
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
