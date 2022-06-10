@@ -21,25 +21,26 @@ const useGoogleAnalytics = () => {
       },
       address ? { userId: address } : {},
     );
+    if (process.env.NODE_ENV !== "test") {
+      if (GA4_API_KEY && GA4_API_KEY.length > 1) {
+        GA4.initialize([
+          {
+            trackingId: GA4_API_KEY,
+            gaOptions,
+          },
+        ]);
 
-    if (GA4_API_KEY && GA4_API_KEY.length > 1) {
-      GA4.initialize([
-        {
-          trackingId: GA4_API_KEY,
+        GA4.set({ anonymizeIp: true });
+        GA4.send({ hitType: "pageview", page: path });
+      }
+
+      if (GA_API_KEY && GA_API_KEY.length > 1) {
+        ReactGA.initialize(GA_API_KEY, {
           gaOptions,
-        },
-      ]);
-
-      GA4.set({ anonymizeIp: true });
-      GA4.send({ hitType: "pageview", page: path });
-    }
-
-    if (GA_API_KEY && GA_API_KEY.length > 1) {
-      ReactGA.initialize(GA_API_KEY, {
-        gaOptions,
-      });
-      ReactGA.set({ anonymizeIp: true });
-      ReactGA.pageview(path);
+        });
+        ReactGA.set({ anonymizeIp: true });
+        ReactGA.pageview(path);
+      }
     }
   }, [location]);
 };
