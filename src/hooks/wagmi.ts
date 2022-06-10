@@ -1,6 +1,6 @@
 import "src/assets/rainbowkit.css"; //have to do this for now due to test failures with import direct from library;
 
-import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit";
+import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { Chain, chain, configureChains, createClient } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
@@ -44,7 +44,7 @@ const fantom: Chain = {
   },
   rpcUrls: { default: "https://rpc.fantom.network" },
 };
-export const { chains, provider } = configureChains(
+export const { chains, provider, webSocketProvider } = configureChains(
   [
     chain.mainnet,
     chain.polygon,
@@ -74,18 +74,10 @@ export const { chains, provider } = configureChains(
   ],
 );
 
-const connectors = connectorsForWallets([
-  {
-    groupName: "Wallets",
-    wallets: [
-      wallet.metaMask({ chains }),
-      wallet.coinbase({ appName: "Olympus DAO", chains }),
-      wallet.rainbow({ chains }),
-      wallet.walletConnect({ chains }),
-      wallet.ledger({ chains }),
-    ],
-  },
-]);
+const { connectors } = getDefaultWallets({
+  appName: "OlympusDAO",
+  chains,
+});
 
 export const wagmiClient = createClient({
   autoConnect: true,
