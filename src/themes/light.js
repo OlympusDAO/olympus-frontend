@@ -6,14 +6,8 @@ import fonts from "./fonts";
 import commonSettings, { handleBackdropFilter } from "./global.js";
 
 const lightTheme = {
-  color: "#181A1D",
-  gold: "#F8CC82",
-  gray: "#A3A3A3",
-  blueish_gray: "#676B74",
-  textHighlightColor: "#93AEBC", // "#F4D092",
+  textHighlightColor: "#93AEBC",
   backgroundColor: "#AFCDE9",
-  // background:
-  // "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
   background: "linear-gradient(180.37deg, #B3BFC5 0.49%, #D1D5D4 26.3%, #EEEAE3 99.85%)",
   paperBg: "linear-gradient(65.7deg, #F5F5F5 8.35%, #FFFFFF 100%)",
   modalBg: "#FAFAFAEF",
@@ -49,23 +43,21 @@ const colors = {
   feedback: {
     success: "#94B9A1",
     userFeedback: "#49A1F2",
-    error: "#FF8585",
+    error: "#FF6767",
     warning: "#FC8E5F",
     pnlGain: "#3D9C70",
   },
   gray: {
-    700: "#181A1D",
-    600: "#292C32",
-    500: "#3F4552",
-    90: lightTheme.blueish_gray,
-    40: lightTheme.blueish_gray,
-    10: "#FAFAFB",
+    700: "#FAFAFB",
+    600: "#A3A3A3",
+    500: "#676B74",
+    90: "#3F4552",
+    40: "#292C32",
+    10: "#181A1D",
   },
   primary: {
     300: "#F8CC82",
     100: "#EAD8B8",
-    "300/A75": " rgba(248, 204, 130,0.75)",
-    "300/A50": " rgba(248, 204, 130,0.5)",
   },
 };
 
@@ -76,17 +68,17 @@ export const light = responsiveFontSizes(
         colors,
         palette: {
           mode: "light",
-          contrastText: lightTheme.color,
+          contrastText: colors.gray[10],
           primary: {
-            main: lightTheme.color,
+            main: colors.gray[10],
           },
           neutral: {
-            main: lightTheme.color,
-            secondary: lightTheme.gray,
+            main: colors.gray[10],
+            secondary: colors.gray[600],
           },
           text: {
-            primary: lightTheme.color,
-            secondary: lightTheme.blueish_gray,
+            primary: colors.gray[10],
+            secondary: colors.gray[40],
           },
           graphStrokeColor: lightTheme.graphStrokeColor,
           error: {
@@ -118,17 +110,17 @@ export const light = responsiveFontSizes(
           MuiSwitch: {
             styleOverrides: {
               colorPrimary: {
-                color: lightTheme.color,
+                color: colors.gray[10],
                 [`&.${switchClasses["checked"]}`]: {
                   color: lightTheme.switchBg,
                   [`& + ${switchClasses["track"]}`]: {
-                    backgroundColor: lightTheme.color,
-                    borderColor: lightTheme.color,
+                    backgroundColor: colors.gray[10],
+                    borderColor: colors.gray[10],
                   },
                 },
               },
               track: {
-                border: `1px solid ${lightTheme.color}`,
+                border: `1px solid ${colors.gray[10]}`,
                 backgroundColor: lightTheme.switchBg,
               },
             },
@@ -152,7 +144,7 @@ export const light = responsiveFontSizes(
                 },
                 "&.ohm-popover": {
                   backgroundColor: lightTheme.popoverBg,
-                  color: lightTheme.color,
+                  color: colors.gray[10],
                   backdropFilter: "blur(15px)",
                 },
               },
@@ -169,9 +161,9 @@ export const light = responsiveFontSizes(
             styleOverrides: {
               root: {
                 "& .MuiLink-root": {
-                  color: lightTheme.blueish_gray,
+                  color: colors.gray[40],
                   "&.active": {
-                    color: lightTheme.color,
+                    color: colors.gray[10],
                   },
                 },
               },
@@ -195,16 +187,16 @@ export const light = responsiveFontSizes(
           MuiLink: {
             styleOverrides: {
               root: {
-                color: lightTheme.color,
+                color: colors.gray[10],
                 "&:hover": {
                   color: lightTheme.textHighlightColor,
                   textDecoration: "none",
                   "&.active": {
-                    color: lightTheme.color,
+                    color: colors.gray[10],
                   },
                 },
                 "&.active": {
-                  color: lightTheme.color,
+                  color: colors.gray[10],
                   textDecoration: "underline",
                 },
                 "@media (hover:none)": {
@@ -224,23 +216,23 @@ export const light = responsiveFontSizes(
           MuiTableCell: {
             styleOverrides: {
               root: {
-                color: lightTheme.color,
+                color: colors.gray[10],
               },
             },
           },
           MuiInputBase: {
             styleOverrides: {
               root: {
-                color: lightTheme.color,
+                color: colors.gray[10],
               },
             },
           },
           MuiOutlinedInput: {
             styleOverrides: {
               notchedOutline: {
-                borderColor: `${lightTheme.color} !important`,
+                borderColor: `${colors.gray[10]} !important`,
                 "&:hover": {
-                  borderColor: `${lightTheme.color} !important`,
+                  borderColor: `${colors.gray[10]} !important`,
                 },
               },
             },
@@ -248,9 +240,9 @@ export const light = responsiveFontSizes(
           MuiTab: {
             styleOverrides: {
               textColorPrimary: {
-                color: lightTheme.blueish_gray,
+                color: colors.gray[40],
                 [`&.${tabClasses["selected"]}`]: {
-                  color: lightTheme.color,
+                  color: colors.gray[10],
                 },
               },
               root: {
@@ -269,7 +261,7 @@ export const light = responsiveFontSizes(
           PrivateTabIndicator: {
             styleOverrides: {
               colorPrimary: {
-                backgroundColor: lightTheme.color,
+                backgroundColor: colors.gray[10],
               },
             },
           },
@@ -278,7 +270,7 @@ export const light = responsiveFontSizes(
               root: {
                 background: lightTheme.paperBg,
                 "&:hover": {
-                  color: lightTheme.color,
+                  color: colors.gray[10],
                   backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
                 },
                 selected: {
@@ -286,11 +278,11 @@ export const light = responsiveFontSizes(
                 },
                 "@media (hover:none)": {
                   "&:hover": {
-                    color: lightTheme.color,
+                    color: colors.gray[10],
                     background: lightTheme.paperBg,
                   },
                   "&:focus": {
-                    color: lightTheme.color,
+                    color: colors.gray[10],
                     background: lightTheme.paperBg,
                   },
                 },
@@ -305,11 +297,11 @@ export const light = responsiveFontSizes(
                 },
                 "@media (hover:none)": {
                   "&:hover": {
-                    color: lightTheme.color,
+                    color: colors.gray[10],
                     backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
                   },
                   "&:focus": {
-                    color: lightTheme.color,
+                    color: colors.gray[10],
                     backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
                   },
                 },
@@ -333,7 +325,7 @@ export const light = responsiveFontSizes(
                   color: lightTheme.primaryButtonHoverColor,
                 },
                 "@media (hover:none)": {
-                  color: lightTheme.color,
+                  color: colors.gray[10],
                   backgroundColor: lightTheme.primaryButtonBG,
                   "&:hover": {
                     backgroundColor: lightTheme.primaryButtonHoverBG,
@@ -341,13 +333,13 @@ export const light = responsiveFontSizes(
                 },
               },
               containedSecondary: {
-                color: lightTheme.color,
+                color: colors.gray[10],
                 background: lightTheme.paperBg,
                 "&:hover": {
                   color: "#333333",
                 },
                 "@media (hover:none)": {
-                  color: lightTheme.color,
+                  color: colors.gray[10],
                   background: lightTheme.paperBg,
                   "&:hover": {
                     color: "#FCFCFC",
@@ -358,7 +350,7 @@ export const light = responsiveFontSizes(
                 color: lightTheme.primaryButtonBG,
                 borderColor: lightTheme.primaryButtonBG,
                 "&:hover": {
-                  color: lightTheme.gold,
+                  color: colors.primary[300],
                   backgroundColor: lightTheme.primaryButtonHoverBG,
                   borderColor: lightTheme.primaryButtonBG,
                 },
@@ -366,14 +358,14 @@ export const light = responsiveFontSizes(
                   color: lightTheme.primaryButtonBG,
                   borderColor: lightTheme.primaryButtonBG,
                   "&:hover": {
-                    color: `${lightTheme.gold} !important`,
+                    color: `${colors.primary[300]} !important`,
                     backgroundColor: `${lightTheme.primaryButtonBG} !important`,
                   },
                 },
               },
               outlinedSecondary: {
-                color: lightTheme.color,
-                borderColor: lightTheme.color,
+                color: colors.gray[10],
+                borderColor: colors.gray[10],
                 "&:hover": {
                   color: lightTheme.outlinedSecondaryButtonHoverColor,
                   backgroundColor: lightTheme.outlinedSecondaryButtonHoverBG,
@@ -381,18 +373,18 @@ export const light = responsiveFontSizes(
                 },
               },
               textPrimary: {
-                color: lightTheme.gray,
+                color: colors.gray[600],
                 "&:hover": {
                   color: lightTheme.textHighlightColor,
                   backgroundColor: "#00000000",
                 },
                 "&:active": {
-                  color: lightTheme.gold,
+                  color: colors.primary[300],
                   borderBottom: "#F8CC82",
                 },
               },
               textSecondary: {
-                color: lightTheme.color,
+                color: colors.gray[10],
                 "&:hover": {
                   color: lightTheme.textHighlightColor,
                 },
@@ -403,10 +395,10 @@ export const light = responsiveFontSizes(
             styleOverrides: {
               root: {
                 "&.grid-message-typography": {
-                  color: lightTheme.blueish_gray,
+                  color: colors.gray[40],
                 },
                 "&.chain-highlight": {
-                  color: lightTheme.color,
+                  color: colors.gray[10],
                 },
               },
             },
