@@ -24,7 +24,7 @@ const commonSettings = {
   direction: "ltr",
   typography: {
     fontSize: 16,
-    fontFamily: "Square",
+    fontFamily: "NHassGrotesk",
     h1: {
       fontSize: "3.3rem",
     },
