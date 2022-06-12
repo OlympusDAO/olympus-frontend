@@ -94,7 +94,8 @@ export const WETH_TOKEN = new Token({
   decimals: 18,
   addresses: WETH_ADDRESSES,
   factory: IERC20__factory,
-  purchaseUrl: "",
+  purchaseUrl: `https://etherscan.io/token/${WETH_ADDRESSES[NetworkId.MAINNET]}`,
+  explorer: true,
 });
 
 export const DAI_TOKEN = new Token({
@@ -103,7 +104,8 @@ export const DAI_TOKEN = new Token({
   decimals: 18,
   addresses: DAI_ADDRESSES,
   factory: IERC20__factory,
-  purchaseUrl: "",
+  purchaseUrl: `https://etherscan.io/token/${DAI_ADDRESSES[NetworkId.MAINNET]}`,
+  explorer: true,
 });
 
 /**
