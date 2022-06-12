@@ -1,6 +1,6 @@
 import { t } from "@lingui/macro";
 import { Box, Button, SvgIcon, Typography, useTheme } from "@mui/material";
-import { PrimaryButton } from "@olympusdao/component-library";
+import { Icon, PrimaryButton } from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
 import { Link, useLocation } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
@@ -84,21 +84,6 @@ export const ConnectButton = () => {
                   );
                 }
               }
-
-              if (chain.unsupported) {
-                return (
-                  <Button
-                    onClick={openChainModal}
-                    style={{ fontSize: "0.875rem" }}
-                    variant="contained"
-                    color="secondary"
-                  >
-                    <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-                    Unsupported Network
-                  </Button>
-                );
-              }
-
               return (
                 <Box display="flex" alignItems="center">
                   <Box
@@ -113,6 +98,7 @@ export const ConnectButton = () => {
                     }}
                     onClick={openChainModal}
                   >
+                    {chain.unsupported && <Icon name="alert-circle" style={{ fill: theme.colors.feedback.error }} />}
                     {chain.hasIcon && (
                       <div
                         style={{
@@ -142,16 +128,16 @@ export const ConnectButton = () => {
                         cursor: "pointer",
                         background: theme.colors.paper.card,
                       }}
-                      onClick={openAccountModal}
+                      onClick={chain.unsupported ? openChainModal : openAccountModal}
                     >
                       <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-                      {account.displayName}
+                      {chain.unsupported ? "Unsupported Network" : account.displayName}
                     </Box>
                   ) : (
                     <Link to={"/wallet"} state={{ prevPath: location.pathname }} style={{ marginRight: "0px" }}>
                       <Button style={{ fontSize: "0.875rem" }} variant="contained" color="secondary">
                         <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
-                        {account.displayName}
+                        {chain.unsupported ? "Unsupported Network" : account.displayName}
                       </Button>
                     </Link>
                   )}
