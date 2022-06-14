@@ -18,6 +18,7 @@ export const useClaimBonds = () => {
   const { data: account } = useAccount();
   const { data: signer } = useSigner();
   const { activeChain = { id: 1 } } = useNetwork();
+  const address = account?.address ? account.address : "";
   return useMutation<ContractReceipt, Error, { id?: string; isPayoutGohm: boolean }>(
     async ({ id, isPayoutGohm }) => {
       if (!signer) throw new Error(t`Please connect a wallet to claim bonds`);
@@ -27,16 +28,16 @@ export const useClaimBonds = () => {
             ? t`Please switch to the Ethereum network to claim all bonds`
             : t`Please switch to the Ethereum network to claim this bond`,
         );
-      if (!isValidAddress(account?.address) || !account?.address) throw new Error(t`Invalid address`);
+      if (!isValidAddress(address) || !address) throw new Error(t`Invalid address`);
 
       const contract = BOND_DEPOSITORY_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
 
       if (id) {
-        const transaction = await contract.redeem(account.address, [id], isPayoutGohm);
+        const transaction = await contract.redeem(address, [id], isPayoutGohm);
         return transaction.wait();
       }
 
-      const transaction = await contract.redeemAll(account.address, isPayoutGohm);
+      const transaction = await contract.redeemAll(address, isPayoutGohm);
       return transaction.wait();
     },
     {
@@ -49,17 +50,17 @@ export const useClaimBonds = () => {
           action: "Redeem",
           label: id ?? "unknown",
           dimension1: tx.transactionHash,
-          dimension2: account?.address,
+          dimension2: address,
         });
 
         trackGtagEvent("Redeem", {
           event_category: "Bonds",
           event_label: id ?? "unknown",
-          address: account?.address ? account.address.slice(2) : "",
+          address: address.slice(2),
           txHash: tx.transactionHash.slice(2),
         });
 
-        const keysToRefetch = [bondNotesQueryKey(networks.MAINNET, account?.address)];
+        const keysToRefetch = [bondNotesQueryKey(networks.MAINNET, address)];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));
 

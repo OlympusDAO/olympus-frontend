@@ -15,6 +15,7 @@ export const useUnwrapGohm = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
   const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
   const networks = useTestableNetworks();
   const balance = useBalance(GOHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
@@ -33,9 +34,9 @@ export const useUnwrapGohm = () => {
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network to unwrap your gOHM`);
 
-      if (!account?.address) throw new Error(t`Please refresh your page and try again`);
+      if (!address) throw new Error(t`Please refresh your page and try again`);
 
-      const transaction = await contract.unwrap(account.address, _amount.toBigNumber());
+      const transaction = await contract.unwrap(address, _amount.toBigNumber());
       return transaction.wait();
     },
     {
@@ -50,8 +51,8 @@ export const useUnwrapGohm = () => {
         });
 
         const keysToRefetch = [
-          balanceQueryKey(account?.address, SOHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(account?.address, GOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

@@ -116,7 +116,7 @@ function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const { data: account } = useAccount();
-  const { isConnected, error: errorMessage } = useConnect();
+  const { isConnected, error: errorMessage, isReconnecting } = useConnect();
   const address = account?.address ? account.address : "";
 
   const provider = useProvider();
@@ -201,6 +201,9 @@ function App() {
   useEffect(() => {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
+
+  isReconnecting && console.log("isReconnecting", isReconnecting);
+  isConnected && console.log("isConnected", isConnected);
 
   return (
     <StyledDiv>

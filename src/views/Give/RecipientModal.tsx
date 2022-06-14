@@ -50,7 +50,7 @@ export function RecipientModal({
 }: RecipientModalProps) {
   const { data: account } = useAccount();
   const { activeChain = { id: 1 } } = useNetwork();
-
+  const address = account?.address ? account.address : "";
   const _initialDepositAmount = "";
   const _initialWalletAddress = "";
   const _initialDepositAmountValid = false;
@@ -194,7 +194,7 @@ export function RecipientModal({
       return;
     }
 
-    if (value == account?.address) {
+    if (value == address) {
       setIsWalletAddressValid(false);
       setIsWalletAddressValidError(t`Please enter a different address: cannot direct to the same wallet`);
       return;
@@ -233,7 +233,7 @@ export function RecipientModal({
     // The wallet address is only set when a project is not given
     if (!isProjectMode() && !isWalletAddressValid) return false;
 
-    if (!account?.address) return false;
+    if (!address) return false;
 
     if (isMutationLoading) return false;
 

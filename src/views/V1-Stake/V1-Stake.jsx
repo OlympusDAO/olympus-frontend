@@ -45,6 +45,7 @@ function V1Stake({ setMigrationModalOpen }) {
   const oldAssetsDetected = useOldAssetsDetected();
   const provider = useProvider();
   const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
   const { activeChain = { id: 1 } } = useNetwork();
   const { isConnected } = useConnect();
 
@@ -114,9 +115,7 @@ function V1Stake({ setMigrationModalOpen }) {
   };
 
   const onSeekApproval = async token => {
-    await dispatch(
-      changeApproval({ address: account?.address, token, provider, networkID: activeChain.id, version2: false }),
-    );
+    await dispatch(changeApproval({ address, token, provider, networkID: activeChain.id, version2: false }));
   };
 
   const onChangeStake = async action => {
@@ -138,7 +137,7 @@ function V1Stake({ setMigrationModalOpen }) {
 
     await dispatch(
       changeStake({
-        address: account?.address,
+        address,
         action,
         value: quantity.toString(),
         provider,

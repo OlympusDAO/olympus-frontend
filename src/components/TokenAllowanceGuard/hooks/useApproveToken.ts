@@ -14,7 +14,7 @@ export const useApproveToken = (tokenAddressMap: AddressMap, spenderAddressMap: 
 
   const { data: account } = useAccount();
   const { activeChain = { id: 1 } } = useNetwork();
-
+  const address = account?.address ? account.address : "";
   const token = useDynamicTokenContract(tokenAddressMap, true);
 
   return useMutation<ContractReceipt, Error>(
@@ -33,7 +33,7 @@ export const useApproveToken = (tokenAddressMap: AddressMap, spenderAddressMap: 
       onSuccess: async () => {
         dispatch(createInfoToast("Successfully approved"));
         await client.refetchQueries(
-          contractAllowanceQueryKey(account?.address, activeChain.id, tokenAddressMap, spenderAddressMap),
+          contractAllowanceQueryKey(address, activeChain.id, tokenAddressMap, spenderAddressMap),
         );
       },
     },

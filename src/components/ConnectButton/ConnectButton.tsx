@@ -4,6 +4,14 @@ import { Icon, PrimaryButton } from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
 import { Link, useLocation } from "react-router-dom";
 import { ReactComponent as WalletIcon } from "src/assets/icons/wallet.svg";
+import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
+
+const fireAnalyticsEvent = () => {
+  trackGAEvent({
+    category: "App",
+    action: "connect",
+  });
+};
 
 export const InPageConnectButton = () => {
   return (
@@ -22,7 +30,16 @@ export const InPageConnectButton = () => {
           >
             {(() => {
               if (!mounted || !account || !chain) {
-                return <PrimaryButton onClick={openConnectModal}>Connect Wallet</PrimaryButton>;
+                return (
+                  <PrimaryButton
+                    onClick={() => {
+                      fireAnalyticsEvent();
+                      openConnectModal();
+                    }}
+                  >
+                    Connect Wallet
+                  </PrimaryButton>
+                );
               }
             })()}
           </div>
@@ -67,7 +84,10 @@ export const ConnectButton = () => {
                         cursor: "pointer",
                         background: theme.colors.paper.card,
                       }}
-                      onClick={openConnectModal}
+                      onClick={() => {
+                        fireAnalyticsEvent();
+                        openConnectModal();
+                      }}
                     >
                       <SvgIcon component={WalletIcon} style={{ marginRight: "9px" }} />
                       <Typography>{t`Connect`}</Typography>

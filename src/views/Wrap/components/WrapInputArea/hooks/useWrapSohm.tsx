@@ -15,6 +15,7 @@ export const useWrapSohm = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
   const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
 
   const networks = useTestableNetworks();
   const balance = useBalance(SOHM_ADDRESSES)[networks.MAINNET].data;
@@ -34,9 +35,9 @@ export const useWrapSohm = () => {
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network to wrap your sOHM`);
 
-      if (!account?.address) throw new Error(t`Please refresh your page and try again`);
+      if (!address) throw new Error(t`Please refresh your page and try again`);
 
-      const transaction = await contract.wrap(account.address, _amount.toBigNumber());
+      const transaction = await contract.wrap(address, _amount.toBigNumber());
       return transaction.wait();
     },
     {
@@ -51,8 +52,8 @@ export const useWrapSohm = () => {
         });
 
         const keysToRefetch = [
-          balanceQueryKey(account?.address, SOHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(account?.address, GOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(address, SOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(address, GOHM_ADDRESSES, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

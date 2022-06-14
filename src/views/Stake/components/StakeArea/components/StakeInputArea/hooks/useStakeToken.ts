@@ -15,6 +15,7 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
   const dispatch = useDispatch();
   const client = useQueryClient();
   const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
   const networks = useTestableNetworks();
   const balance = useBalance(OHM_ADDRESSES)[networks.MAINNET].data;
   const contract = useDynamicStakingContract(STAKING_ADDRESSES, true);
@@ -33,13 +34,13 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
 
       if (!contract) throw new Error(t`Please switch to the Ethereum network to stake your OHM`);
 
-      if (!account?.address) throw new Error(t`Please refresh your page and try again`);
+      if (!address) throw new Error(t`Please refresh your page and try again`);
 
       const shouldRebase = toToken === "sOHM";
 
       const claim = true; // was true before the mint & sync distributor change
 
-      const transaction = await contract.stake(account.address, _amount.toBigNumber(), shouldRebase, claim);
+      const transaction = await contract.stake(address, _amount.toBigNumber(), shouldRebase, claim);
       return transaction.wait();
     },
     {
@@ -53,20 +54,20 @@ export const useStakeToken = (toToken: "sOHM" | "gOHM") => {
           label: `Stake to ${toToken}`,
           value: new DecimalBigNumber(amount, 9).toApproxNumber(),
           dimension1: tx.transactionHash,
-          dimension2: account?.address,
+          dimension2: address,
         });
 
         trackGtagEvent("Stake Test 2", {
           event_category: "Staking",
           value: new DecimalBigNumber(amount, 9).toApproxNumber(),
-          address: account?.address ? account.address.slice(2) : "",
+          address: address.slice(2),
           txHash: tx.transactionHash.slice(2),
           token: toToken,
         });
 
         const keysToRefetch = [
-          balanceQueryKey(account?.address, OHM_ADDRESSES, networks.MAINNET),
-          balanceQueryKey(account?.address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(address, OHM_ADDRESSES, networks.MAINNET),
+          balanceQueryKey(address, toToken === "sOHM" ? SOHM_ADDRESSES : GOHM_ADDRESSES, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

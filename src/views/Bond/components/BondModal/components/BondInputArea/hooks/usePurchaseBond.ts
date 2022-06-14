@@ -21,6 +21,7 @@ export const usePurchaseBond = (bond: Bond) => {
   const { data: signer } = useSigner();
   const { activeChain = { id: 1 } } = useNetwork();
   const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
   const balance = useBalance(bond.quoteToken.addresses)[networks.MAINNET].data;
 
   return useMutation<
@@ -111,20 +112,20 @@ export const usePurchaseBond = (bond: Bond) => {
           label: bond.quoteToken.name,
           value: new DecimalBigNumber(amount, bond.quoteToken.decimals).toApproxNumber(),
           dimension1: tx.transactionHash,
-          dimension2: account?.address,
+          dimension2: address,
         });
 
         trackGtagEvent("Bond", {
           event_category: "Bonds",
           value: new DecimalBigNumber(amount, bond.quoteToken.decimals).toApproxNumber(),
-          address: account?.address ? account.address.slice(2) : "",
+          address: address.slice(2),
           txHash: tx.transactionHash.slice(2),
           token: bond.quoteToken.name,
         });
 
         const keysToRefetch = [
-          bondNotesQueryKey(networks.MAINNET, account?.address),
-          balanceQueryKey(account?.address, bond.quoteToken.addresses, networks.MAINNET),
+          bondNotesQueryKey(networks.MAINNET, address),
+          balanceQueryKey(address, bond.quoteToken.addresses, networks.MAINNET),
         ];
 
         const promises = keysToRefetch.map(key => client.refetchQueries(key, { active: true }));

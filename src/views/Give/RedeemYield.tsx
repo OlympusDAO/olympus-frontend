@@ -28,6 +28,7 @@ const NO_DECIMAL_FORMAT = { format: true };
 
 export default function RedeemYield() {
   const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
   const [isRedeemYieldModalOpen, setIsRedeemYieldModalOpen] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -37,10 +38,7 @@ export default function RedeemYield() {
 
   const { data: currentIndex } = useCurrentIndex();
 
-  if (!account?.address) {
-    throw new Error("No account");
-  }
-  const _useRedeemableBalance = useRedeemableBalance(account.address);
+  const _useRedeemableBalance = useRedeemableBalance(address);
   const redeemableBalance: DecimalBigNumber = useMemo(() => {
     if (_useRedeemableBalance.isLoading || _useRedeemableBalance.data === undefined) return new DecimalBigNumber("0");
 
@@ -55,7 +53,7 @@ export default function RedeemYield() {
     return new DecimalBigNumber(_useV1RedeemableBalance.data, 9);
   }, [_useV1RedeemableBalance]);
 
-  const _useRecipientInfo = useRecipientInfo(account.address);
+  const _useRecipientInfo = useRecipientInfo(address);
   const isRecipientInfoLoading = _useRecipientInfo.isLoading;
 
   const _useStakingRebaseRate = useStakingRebaseRate();
@@ -84,7 +82,7 @@ export default function RedeemYield() {
 
   const fiveDayRateValue = fiveDayRate.mul(new DecimalBigNumber("100"));
 
-  const isProject = projectMap.get(account.address);
+  const isProject = projectMap.get(address);
 
   const redeemMutation = useRedeem();
   const isMutating = redeemMutation.isLoading;
@@ -113,7 +111,7 @@ export default function RedeemYield() {
    * @returns
    */
   const canRedeem = () => {
-    if (!account.address) return false;
+    if (!address) return false;
 
     if (isRecipientInfoLoading) return false;
 
@@ -191,7 +189,7 @@ export default function RedeemYield() {
             <Grid item xs={4}>
               <Box>
                 <Typography variant="h5" align="center">
-                  {getRecipientGoal(account.address).toString(DECIMAL_FORMAT)}
+                  {getRecipientGoal(address).toString(DECIMAL_FORMAT)}
                 </Typography>
                 <Typography variant="body1" align="center" className="subtext">
                   <Trans>sOHM Goal</Trans>
@@ -213,7 +211,7 @@ export default function RedeemYield() {
                 <Typography variant="h5" align="center" data-testid="project-goal-achievement">
                   {totalDebt
                     .mul(new DecimalBigNumber("100"))
-                    .div(getRecipientGoal(account.address), GIVE_MAX_DECIMALS)
+                    .div(getRecipientGoal(address), GIVE_MAX_DECIMALS)
                     .toString(DECIMAL_FORMAT)}
                   %
                 </Typography>

@@ -40,10 +40,10 @@ export const useIncreaseGive = () => {
         throw new Error(
           t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
-      if (!account?.address) throw new Error(t`Please refresh your page and try again`);
+      if (!address) throw new Error(t`Please refresh your page and try again`);
 
       const uaData: IUAData = {
-        address: account.address,
+        address: address,
         value: amount_,
         recipient: recipient_,
         approved: true,
@@ -119,9 +119,9 @@ export const useDecreaseGive = () => {
         throw new Error(
           t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
-      if (!account?.address) throw new Error(t`No account available`);
+      if (!address) throw new Error(t`No account available`);
       const uaData: IUAData = {
-        address: account.address,
+        address,
         value: amount_,
         recipient: recipient_,
         approved: true,

@@ -79,6 +79,7 @@ export function ManageDonationModal({
     return GetCorrectContractUnits(_useRecipientInfo.data.gohmDebt, giveAssetType, currentIndex);
   }, [_useRecipientInfo, giveAssetType, currentIndex]);
 
+  const address = account?.address ? account.address : "";
   useEffect(() => {
     checkIsWalletAddressValid(getWalletAddress());
   }, []);
@@ -192,7 +193,7 @@ export function ManageDonationModal({
       return;
     }
 
-    if (value == account?.address) {
+    if (value == address) {
       setIsWalletAddressValid(false);
       return;
     }
@@ -226,7 +227,7 @@ export function ManageDonationModal({
     // The wallet address is only set when a project is not given
     if (!project && !isWalletAddressValid) return false;
 
-    if (!account?.address) return false;
+    if (!address) return false;
     if (getDepositAmountDiff().eq(ZERO_NUMBER)) return false;
 
     if (isMutationLoading) return false;
@@ -235,7 +236,7 @@ export function ManageDonationModal({
   };
 
   const canWithdraw = () => {
-    if (!account?.address) return false;
+    if (!address) return false;
 
     if (isMutationLoading) return false;
 
