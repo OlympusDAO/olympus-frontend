@@ -13,7 +13,6 @@ export interface TokenConfig<TFactory extends Factory = Factory, TAddressMap ext
   purchaseUrl: string;
   icons: NonNullable<OHMTokenStackProps["tokens"]>;
   customPricingFunc?: (networkId: keyof TAddressMap) => Promise<DecimalBigNumber>;
-  explorer?: boolean;
 }
 
 export class Token<TFactory extends Factory = Factory, TAddressMap extends AddressMap = AddressMap> extends Contract<
@@ -38,11 +37,6 @@ export class Token<TFactory extends Factory = Factory, TAddressMap extends Addre
   purchaseUrl: TokenConfig<TFactory, TAddressMap>["purchaseUrl"];
 
   /**
-   * Boolean to determine if Purchase URL is a block explorer
-   */
-  explorer?: boolean;
-
-  /**
    * Function that returns the price of this token in USD
    */
   customPricingFunc?: TokenConfig<TFactory, TAddressMap>["customPricingFunc"];
@@ -54,7 +48,6 @@ export class Token<TFactory extends Factory = Factory, TAddressMap extends Addre
     this.decimals = config.decimals;
     this.purchaseUrl = config.purchaseUrl;
     this.customPricingFunc = config.customPricingFunc;
-    this.explorer = config.explorer;
   }
 
   async getPrice(networkId: keyof TAddressMap) {

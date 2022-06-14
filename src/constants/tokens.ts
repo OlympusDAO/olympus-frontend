@@ -20,6 +20,7 @@ import {
   WSOHM_ADDRESSES,
 } from "./addresses";
 
+//TODO: Refactor Block Explorer URLs to use wagmi once wagmi merged https://wagmi.sh/docs/constants/block-explorers
 export const OHM_TOKEN = new Token({
   icons: ["OHM"],
   name: "OHM",
@@ -94,8 +95,7 @@ export const WETH_TOKEN = new Token({
   decimals: 18,
   addresses: WETH_ADDRESSES,
   factory: IERC20__factory,
-  purchaseUrl: `https://etherscan.io/token/${WETH_ADDRESSES[NetworkId.MAINNET]}`,
-  explorer: true,
+  purchaseUrl: "",
 });
 
 export const DAI_TOKEN = new Token({
@@ -104,8 +104,7 @@ export const DAI_TOKEN = new Token({
   decimals: 18,
   addresses: DAI_ADDRESSES,
   factory: IERC20__factory,
-  purchaseUrl: `https://etherscan.io/token/${DAI_ADDRESSES[NetworkId.MAINNET]}`,
-  explorer: true,
+  purchaseUrl: "",
 });
 
 /**
