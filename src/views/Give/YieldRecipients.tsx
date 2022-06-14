@@ -42,7 +42,7 @@ export default function YieldRecipients({ giveAssetType, changeAssetType }: Reci
           </Grid>
           <Grid item xs={12} container justifyContent="center">
             <Link to="/give" component={RouterLink}>
-              <TertiaryButton>
+              <TertiaryButton size="medium">
                 <Trans>Donate to a cause</Trans>
               </TertiaryButton>
             </Link>

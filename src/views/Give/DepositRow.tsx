@@ -146,7 +146,7 @@ export const DepositTableRow = ({ depositObject, giveAssetType, changeAssetType 
         </Typography>
       </Grid>
       <Grid item xs={4} sm={3} style={{ textAlign: "right" }}>
-        <SecondaryButton onClick={() => setIsManageModalOpen(true)} size="small" fullWidth>
+        <SecondaryButton onClick={() => setIsManageModalOpen(true)} size="medium" fullWidth>
           Manage
         </SecondaryButton>
       </Grid>

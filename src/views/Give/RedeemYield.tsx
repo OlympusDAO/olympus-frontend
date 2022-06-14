@@ -1,9 +1,8 @@
 import { t, Trans } from "@lingui/macro";
-import { FormControl, Grid, MenuItem, Select, Typography } from "@mui/material";
-import { Skeleton } from "@mui/material";
+import { Divider, FormControl, Grid, MenuItem, Select, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { DataRow, PrimaryButton } from "@olympusdao/component-library";
+import { DataRow, Metric, PrimaryButton } from "@olympusdao/component-library";
 import { useEffect, useMemo, useState } from "react";
 import { GiveBox as Box } from "src/components/GiveProject/GiveBox";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -164,18 +163,13 @@ export default function RedeemYield() {
         </Grid>
       )}
       <Grid item xs={12}>
-        <Typography variant="h3" align="center" data-testid="redeemable-balance">
-          {isRecipientInfoLoading ? <Skeleton /> : getRedeemableBalance().toString(DECIMAL_FORMAT)} sOHM
-        </Typography>
-        <Typography variant="body1" align="center" className="subtext">
-          Redeemable Yield
-        </Typography>
+        <Metric label={t`Redeemable Amount`} metric={`${getRedeemableBalance().toString(DECIMAL_FORMAT)} sOHM`} />
       </Grid>
       <Grid item xs={12}>
         <Grid container>
           <Grid item xs />
-          <Grid item xs={12} sm={6}>
-            <PrimaryButton onClick={() => handleRedeemButtonClick()} disabled={!canRedeem()} fullWidth>
+          <Grid className="redeem-button" item xs={12} sm={6}>
+            <PrimaryButton size="medium" onClick={() => handleRedeemButtonClick()} disabled={!canRedeem()}>
               <Trans>Redeem Yield</Trans>
             </PrimaryButton>
           </Grid>
@@ -224,8 +218,40 @@ export default function RedeemYield() {
       ) : (
         <></>
       )}
-      <Grid item xs={12}>
-        <Box>
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <Typography variant="h5" fontWeight="bold">
+            Redeem Details
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <DataRow
+            title={t`Next Reward Amount`}
+            balance={`${nextRewardValue.toString(DECIMAL_FORMAT)} ${t`sOHM`}`}
+            isLoading={isStakingRebaseRateLoading}
+            data-testid="data-next-reward-amount"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <DataRow
+            title={t`Next Reward Yield`}
+            balance={`${stakingRebasePercentage.toString(DECIMAL_FORMAT)} %`}
+            isLoading={isStakingRebaseRateLoading}
+            data-testid="data-next-reward-yield"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <DataRow
+            title={t`ROI (5-Day Rate)`}
+            balance={`${fiveDayRateValue.toString(DECIMAL_FORMAT)} %`}
+            isLoading={isStakingRebaseRateLoading}
+            data-testid="data-roi"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Divider />
+        </Grid>
+        <Grid item xs={12}>
           <DataRow
             title={t`Deposited sOHM`}
             // Exact number
@@ -233,31 +259,30 @@ export default function RedeemYield() {
             isLoading={isRecipientInfoLoading}
             data-testid="data-deposited-sohm"
           />
+        </Grid>
+        <Grid item xs={12}>
           <DataRow
-            title={t`Redeemable Amount`}
+            title={t`Donated Yield`}
             balance={`${getRedeemableBalance().toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
             data-testid="data-redeemable-balance"
           />
-          <DataRow
-            title={t`Next Reward Amount`}
-            balance={`${nextRewardValue.toString(DECIMAL_FORMAT)} ${t`sOHM`}`}
-            isLoading={isStakingRebaseRateLoading}
-            data-testid="data-next-reward-amount"
-          />
-          <DataRow
-            title={t`Next Reward Yield`}
-            balance={`${stakingRebasePercentage.toString(DECIMAL_FORMAT)}%`}
-            isLoading={isStakingRebaseRateLoading}
-            data-testid="data-next-reward-yield"
-          />
-          <DataRow
-            title={t`ROI (5-Day Rate)`}
-            balance={`${fiveDayRateValue.toString(DECIMAL_FORMAT)}%`}
-            isLoading={isStakingRebaseRateLoading}
-            data-testid="data-roi"
-          />
-        </Box>
+        </Grid>
+        {isProject ? (
+          <Grid item xs={12}>
+            <DataRow
+              title={t`% of sOHM Goal`}
+              balance={`${totalDebt
+                .mul(new DecimalBigNumber("100"))
+                .div(getRecipientGoal(address), GIVE_MAX_DECIMALS)
+                .toString(DECIMAL_FORMAT)} %`}
+              isLoading={isRecipientInfoLoading}
+              data-testid="data-project-goal-achievement"
+            />
+          </Grid>
+        ) : (
+          <></>
+        )}
       </Grid>
       <Grid item>
         <RedeemYieldModal

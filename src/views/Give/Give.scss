@@ -53,8 +53,8 @@ div.grey-box {
   // Restrict the height of the tab bar, so the indicator is 4px away
   height: 40px;
 
-  .MuiTab-wrapper {
-    font-size: 24px;
+  .MuiTab-root {
+    font-size: 20px;
   }
 }
 
@@ -75,4 +75,10 @@ div.grey-box {
   // We want the cards on CausesDashboard to be closer to the edges
   padding-left: 0px;
   padding-right: 0px;
+}
+
+.redeem-button {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
 }

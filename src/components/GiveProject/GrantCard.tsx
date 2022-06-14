@@ -479,7 +479,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                     href={`#/give/grants/${grant.slug}`}
                     onClick={() => handleGrantDetailsButtonClick("View Details Button")}
                   >
-                    <PrimaryButton fullWidth>
+                    <PrimaryButton size="medium" fullWidth>
                       <Trans>View Details</Trans>
                     </PrimaryButton>
                   </Link>
@@ -535,13 +535,14 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                       </Grid>
                       <Grid item xs={12} style={{ paddingTop: "45px" }}>
                         {!connected ? (
-                          <PrimaryButton onClick={connect} fullWidth>
+                          <PrimaryButton size="medium" onClick={connect} fullWidth>
                             <Trans>Connect Wallet</Trans>
                           </PrimaryButton>
                         ) : isUserDonating ? (
                           <></>
                         ) : (
                           <PrimaryButton
+                            size="medium"
                             onClick={() => handleGiveButtonClick()}
                             disabled={!isSupportedChain(networkId)}
                             fullWidth
@@ -595,6 +596,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                       <Box width="100%" />
                       <Grid item xs={12}>
                         <PrimaryButton
+                          size="medium"
                           onClick={() => handleEditButtonClick()}
                           disabled={!isSupportedChain(networkId)}
                           style={{ marginTop: "24px" }}

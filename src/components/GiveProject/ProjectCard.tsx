@@ -286,14 +286,14 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
           <Grid item xs={5}>
             <Grid container justifyContent="flex-start" alignItems="center" spacing={1}>
               <Grid item>
-                <Icon name="sohm-yield-sent" />
+                <Icon name="sohm-yield-sent" sx={{ width: "20px", height: "18px" }} />
               </Grid>
               <Grid item className="metric">
                 {totalDonatedIsLoading ? <Skeleton /> : totalYieldDonated.toString(DEFAULT_FORMAT)}
               </Grid>
             </Grid>
             <Grid item className="subtext">
-              {giveAssetType} <Trans>Yield</Trans>
+              {giveAssetType} <Trans>Yield Sent</Trans>
             </Grid>
           </Grid>
           <Grid item xs={2} />
@@ -302,7 +302,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
               <Grid item>
                 <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Icon name="sohm-yield-goal" />
+                    <Icon name="sohm-yield-goal" sx={{ width: "21px", height: "18px" }} />
                   </Grid>
                   <Grid item className="metric">
                     {GetCorrectStaticUnits(depositGoal.toString(), giveAssetType, currentIndex).toString(
@@ -337,7 +337,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
               <Grid item>
                 <Grid container justifyContent="flex-start" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Icon name="donors" />
+                    <Icon name="donors" sx={{ width: "21px", height: "19px" }} />
                   </Grid>
                   <Grid item className="metric">
                     {isDonationInfoLoading ? <Skeleton /> : donorCount}
@@ -354,7 +354,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
               <Grid item>
                 <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Icon name="deposited" />
+                    <Icon name="deposited" sx={{ width: "18px", height: "19px" }} />
                   </Grid>
                   <Grid item className="metric">
                     {recipientInfoIsLoading ? <Skeleton /> : <strong>{totalDebt.toString(DEFAULT_FORMAT)}</strong>}
@@ -391,7 +391,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
     }
 
     return (
-      <Grid container alignContent="center" style={{ maxHeight: "184px", overflow: "hidden", borderRadius: "16px" }}>
+      <Grid container alignContent="center" style={{ maxHeight: "187px", overflow: "hidden", borderRadius: "16px" }}>
         <Grid item xs>
           {imageElement}
         </Grid>
@@ -557,7 +557,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                   component={RouterLink}
                   onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                 >
-                  <TertiaryButton size="small" fullWidth>
+                  <TertiaryButton size="medium" fullWidth>
                     <Trans>View Details</Trans>
                   </TertiaryButton>
                 </Link>
@@ -616,22 +616,23 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                       {getProjectImage()}
                     </Grid>
                     <Grid item xs>
-                      <Grid container spacing={2}>
+                      <Grid container spacing={3}>
                         <Grid item xs={12}>
                           {renderDepositData()}
                         </Grid>
                         <Grid item xs={12}>
                           {renderGoalCompletionDetailed()}
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} style={{ paddingTop: "30px" }}>
                           {!connected ? (
-                            <PrimaryButton onClick={connect} fullWidth>
+                            <PrimaryButton size="medium" onClick={connect} fullWidth>
                               <Trans>Connect Wallet</Trans>
                             </PrimaryButton>
                           ) : isUserDonating ? (
                             <></>
                           ) : (
                             <PrimaryButton
+                              size="medium"
                               onClick={() => handleGiveButtonClick()}
                               disabled={!isSupportedChain(networkId)}
                               fullWidth
@@ -685,6 +686,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                       </Grid>
                       <Grid item xs={12}>
                         <PrimaryButton
+                          size="medium"
                           onClick={() => handleEditButtonClick()}
                           disabled={!isSupportedChain(networkId)}
                           fullWidth

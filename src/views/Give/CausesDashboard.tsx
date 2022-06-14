@@ -110,7 +110,12 @@ export default function CausesDashboard({ giveAssetType, changeAssetType }: Caus
               </Grid>
               <Grid item xs />
               <Grid item xs={12} sm={4} container justifyContent="center">
-                <PrimaryButton fullWidth size="small" onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
+                <PrimaryButton
+                  fullWidth
+                  size="medium"
+                  onClick={() => handleCustomGiveButtonClick()}
+                  disabled={!address}
+                >
                   <Trans>Select Custom Recipient</Trans>
                 </PrimaryButton>
               </Grid>

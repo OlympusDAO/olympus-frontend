@@ -122,7 +122,7 @@ function LargeGraphic({ title, icon, subtitle, subtext }: LargeGraphicProps) {
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Typography variant="body2" align="center">
+        <Typography variant="body2" align="center" sx={{ lineHeight: "1.5" }}>
           {subtext}
         </Typography>
       </Grid>

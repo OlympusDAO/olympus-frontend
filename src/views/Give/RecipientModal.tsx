@@ -457,7 +457,7 @@ export function RecipientModal({
               <Grid container justifyContent="center" alignContent="center">
                 <Grid item xs />
                 <Grid item xs={8}>
-                  <PrimaryButton disabled={!canSubmit()} onClick={handleContinue} fullWidth>
+                  <PrimaryButton size="medium" disabled={!canSubmit()} onClick={handleContinue} fullWidth>
                     <Trans>Continue</Trans>
                   </PrimaryButton>
                 </Grid>
@@ -539,7 +539,7 @@ export function RecipientModal({
             <Grid container>
               <Grid item xs />
               <Grid item xs={8}>
-                <PrimaryButton disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
+                <PrimaryButton size="medium" disabled={!canSubmit()} onClick={handleSubmit} fullWidth>
                   {/* We display the exact amount being deposited. */}
                   {isMutationLoading
                     ? t`Depositing ${giveAssetType}`

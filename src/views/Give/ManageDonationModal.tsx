@@ -392,12 +392,17 @@ export function ManageDonationModal({
             <Grid item xs={6}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
-                  <PrimaryButton data-testid="edit-donation" onClick={() => setIsEditing(true)} fullWidth>
+                  <PrimaryButton size="medium" data-testid="edit-donation" onClick={() => setIsEditing(true)} fullWidth>
                     <Trans>Edit Donation</Trans>
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
-                  <TertiaryButton data-testid="stop-donation" onClick={() => setIsWithdrawing(true)} fullWidth>
+                  <TertiaryButton
+                    size="medium"
+                    data-testid="stop-donation"
+                    onClick={() => setIsWithdrawing(true)}
+                    fullWidth
+                  >
                     <Trans>Stop Donation</Trans>
                   </TertiaryButton>
                 </Grid>
@@ -614,7 +619,7 @@ export function ManageDonationModal({
           <Grid container>
             <Grid item xs />
             <Grid item xs={6}>
-              <PrimaryButton disabled={!canSubmit()} onClick={() => setIsAmountSet(true)} fullWidth>
+              <PrimaryButton size="medium" disabled={!canSubmit()} onClick={() => setIsAmountSet(true)} fullWidth>
                 <Trans>Continue</Trans>
               </PrimaryButton>
             </Grid>
@@ -686,12 +691,12 @@ export function ManageDonationModal({
             <Grid item xs={6}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <PrimaryButton disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
+                  <PrimaryButton size="medium" disabled={!canWithdraw()} onClick={handleWithdrawSubmit} fullWidth>
                     {isMutationLoading ? t`Withdrawing ${giveAssetType}` : t`Withdraw`}
                   </PrimaryButton>
                 </Grid>
                 <Grid item xs={12}>
-                  <TertiaryButton onClick={() => setIsWithdrawing(false)} fullWidth>
+                  <TertiaryButton size="medium" onClick={() => setIsWithdrawing(false)} fullWidth>
                     <Trans>Cancel</Trans>
                   </TertiaryButton>
                 </Grid>
@@ -724,7 +729,7 @@ export function ManageDonationModal({
           <Grid container>
             <Grid item xs />
             <Grid item xs={6}>
-              <PrimaryButton disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
+              <PrimaryButton size="medium" disabled={!canSubmit()} onClick={handleEditSubmit} fullWidth>
                 {isMutationLoading ? t`Depositing ${giveAssetType}` : t`Confirm New ${giveAssetType}`}
               </PrimaryButton>
             </Grid>

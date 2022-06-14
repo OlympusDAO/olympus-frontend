@@ -101,7 +101,7 @@ export function RedeemYieldModal({
           <Grid container>
             <Grid item xs />
             <Grid item xs={12} md={6}>
-              <PrimaryButton disabled={!canSubmit()} onClick={() => handleSubmit()} fullWidth>
+              <PrimaryButton size="medium" disabled={!canSubmit()} onClick={() => handleSubmit()} fullWidth>
                 {isMutationLoading
                   ? t`Redeeming ${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`
                   : t`Redeem ${redeemableBalance.toString(DECIMAL_FORMAT)} sOHM`}
