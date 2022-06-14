@@ -2979,10 +2979,10 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@multifarm/widget@^0.0.155":
-  version "0.0.155"
-  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.155.tgz#30fc13484813990f54c773def828cca748e457b0"
-  integrity sha512-t4vJFAAamrE9spamNFXGqgjlNDV4s9ajCJ91wWENowOnGunfCLuM8mF2rA6XtmhqaOYUbVltsEiTUxzyS1V+vQ==
+"@multifarm/widget@^0.0.156":
+  version "0.0.156"
+  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.156.tgz#73a4d461ef4574b27498d0c65d439f88cfc9fd79"
+  integrity sha512-CfXp8IXXSkiYoZbK+LUmjXx7SXZXyItBAdCK9nC5gKSGOfkXFi7X54iS0P/nRuG6HgFmpVjvX3JVY2HQOV5IoA==
   dependencies:
     "@tippyjs/react" "^4.2.6"
     clsx "^1.1.1"
