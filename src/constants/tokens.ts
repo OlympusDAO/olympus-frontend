@@ -20,7 +20,6 @@ import {
   WSOHM_ADDRESSES,
 } from "./addresses";
 
-//TODO: Refactor Block Explorer URLs to use wagmi once wagmi merged https://wagmi.sh/docs/constants/block-explorers
 export const OHM_TOKEN = new Token({
   icons: ["OHM"],
   name: "OHM",
