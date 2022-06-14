@@ -30,7 +30,7 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "^3.6.6",
+    "@apollo/client": "^3.6.7",
     "@coinbase/wallet-sdk": "^3.2.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -40,7 +40,7 @@
     "@lingui/react": "^3.13.3",
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.3",
-    "@multifarm/widget": "^0.0.125",
+    "@multifarm/widget": "^0.0.155",
     "@olympusdao/component-library": "^2.0.4",
     "@reduxjs/toolkit": "^1.8.2",
     "@types/material-ui": "^0.21.12",
