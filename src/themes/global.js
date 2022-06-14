@@ -48,7 +48,6 @@ const commonSettings = {
     },
     body1: {
       fontSize: "0.875rem",
-      fontWeight: 500,
       lineHeight: 1,
     },
     body2: {
@@ -95,11 +94,6 @@ const commonSettings = {
             overflow: "hidden",
           },
           backdropFilter: "blur(33px)",
-          "&.ohm-menu": {
-            padding: "22px 0px",
-            borderRadius: "10px",
-            margin: "0px",
-          },
           "&.Paper-root&.ohm-chart-card": {
             padding: "20px 0px",
             whiteSpace: "nowrap",

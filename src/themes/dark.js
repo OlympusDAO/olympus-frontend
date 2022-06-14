@@ -193,14 +193,6 @@ export const dark = responsiveFontSizes(
                 "&.MuiPaper-root&.tooltip-container": {
                   background: darkTheme.paperBg,
                 },
-                "&.ohm-menu": {
-                  background: darkTheme.menuBg,
-                  backdropFilter: "blur(33px)",
-                },
-                "&.ohm-popover": {
-                  backgroundColor: darkTheme.popoverBg,
-                  color: darkTheme.color,
-                },
               },
             },
           },

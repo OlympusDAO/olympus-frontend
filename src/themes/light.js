@@ -2,63 +2,15 @@ import { switchClasses, tabClasses } from "@mui/material";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { deepmerge } from "@mui/utils";
 
+import { darkPalette } from "./darkPalette";
 import fonts from "./fonts";
-import commonSettings, { handleBackdropFilter } from "./global.js";
+import commonSettings from "./global.js";
+import { lightPalette as colors } from "./lightPalette";
 
 const lightTheme = {
-  textHighlightColor: "#93AEBC",
-  backgroundColor: "#AFCDE9",
-  background: "linear-gradient(180.37deg, #B3BFC5 0.49%, #D1D5D4 26.3%, #EEEAE3 99.85%)",
-  paperBg: "linear-gradient(65.7deg, #F5F5F5 8.35%, #FFFFFF 100%)",
-  modalBg: "#FAFAFAEF",
-  popoverBg: "rgba(255, 255, 255, 0.95)",
-  menuBg: handleBackdropFilter("rgba(255, 255, 255, 0.5)"),
-  backdropBg: "rgba(200, 200, 200, 0.4)",
-  largeTextColor: "#759AAE",
-  activeLinkColor: "#222222",
-  activeLinkSvgColor: "invert(64%) sepia(11%) saturate(934%) hue-rotate(157deg) brightness(90%) contrast(86%)",
-  // primaryButtonBG: "#759AAE",
-  primaryButtonBG: "#93AEBC",
-  primaryButtonHoverBG: "#759AAE",
-  // these need fixing
-  primaryButtonHoverColor: "#333333",
-  secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
-  outlinedPrimaryButtonHoverBG: "#F8CC82",
-  outlinedPrimaryButtonHoverColor: "#333333",
-  outlinedSecondaryButtonHoverBG: "#FCFCFC",
-  outlinedSecondaryButtonHoverColor: "#333333",
-  containedSecondaryButtonHoverBG: "#333333",
-  graphStrokeColor: "rgba(37, 52, 73, .2)",
   gridButtonHoverBackground: "rgba(118, 130, 153, 0.2)",
   gridButtonActiveBackground: "rgba(118, 130, 153, 0.7)",
   switchBg: "#FCFCFC",
-};
-
-const colors = {
-  paper: {
-    background: lightTheme.paperBg,
-    card: "#F0F0F0",
-    cardHover: "#E0E2E3",
-  },
-  feedback: {
-    success: "#94B9A1",
-    userFeedback: "#49A1F2",
-    error: "#FF6767",
-    warning: "#FC8E5F",
-    pnlGain: "#3D9C70",
-  },
-  gray: {
-    700: "#FAFAFB",
-    600: "#A3A3A3",
-    500: "#676B74",
-    90: "#3F4552",
-    40: "#292C32",
-    10: "#181A1D",
-  },
-  primary: {
-    300: "#F8CC82",
-    100: "#EAD8B8",
-  },
 };
 
 export const light = responsiveFontSizes(
@@ -80,7 +32,7 @@ export const light = responsiveFontSizes(
             primary: colors.gray[10],
             secondary: colors.gray[40],
           },
-          graphStrokeColor: lightTheme.graphStrokeColor,
+          graphStrokeColor: "rgba(37, 52, 73, 0.2)",
           error: {
             main: colors.feedback.error,
           },
@@ -99,7 +51,7 @@ export const light = responsiveFontSizes(
             styleOverrides: `
             ${fonts}
             body {
-              background:${lightTheme.background};
+              background:${colors.paper.background};
               background-repeat:no-repeat;
               background-attachment:fixed;
               font-size:0.75rem;
@@ -128,24 +80,15 @@ export const light = responsiveFontSizes(
           MuiPaper: {
             styleOverrides: {
               root: {
-                background: lightTheme.paperBg,
+                background: colors.paper.card,
                 "&.ohm-card": {
-                  background: lightTheme.paperBg,
+                  background: colors.paper.card,
                 },
                 "&.MuiPaper-root&.tooltip-container": {
-                  background: lightTheme.paperBg,
+                  background: colors.paper.card,
                 },
                 "&.ohm-modal": {
-                  backgroundColor: lightTheme.modalBg,
-                },
-                "&.ohm-menu": {
-                  backgroundColor: lightTheme.menuBg,
-                  backdropFilter: "blur(33px)",
-                },
-                "&.ohm-popover": {
-                  backgroundColor: lightTheme.popoverBg,
-                  color: colors.gray[10],
-                  backdropFilter: "blur(15px)",
+                  backgroundColor: colors.paper.card,
                 },
               },
             },
@@ -172,7 +115,7 @@ export const light = responsiveFontSizes(
           MuiDrawer: {
             styleOverrides: {
               paper: {
-                background: lightTheme.paperBg,
+                background: colors.paper.card,
                 zIndex: 7,
               },
             },
@@ -189,7 +132,7 @@ export const light = responsiveFontSizes(
               root: {
                 color: colors.gray[10],
                 "&:hover": {
-                  color: lightTheme.textHighlightColor,
+                  color: colors.gray[500],
                   textDecoration: "none",
                   "&.active": {
                     color: colors.gray[10],
@@ -201,12 +144,12 @@ export const light = responsiveFontSizes(
                 },
                 "@media (hover:none)": {
                   "&:hover": {
-                    color: lightTheme.textHighlightColor,
+                    color: colors.gray[500],
                     textDecoration: "none",
                     backgroundColor: "#00000000 !important",
                   },
                   "&:focus": {
-                    color: lightTheme.textHighlightColor,
+                    color: colors.gray[500],
                     backgroundColor: "#00000000 !important",
                   },
                 },
@@ -268,22 +211,16 @@ export const light = responsiveFontSizes(
           MuiToggleButton: {
             styleOverrides: {
               root: {
-                background: lightTheme.paperBg,
+                background: colors.paper.card,
                 "&:hover": {
-                  color: colors.gray[10],
-                  backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
-                },
-                selected: {
-                  backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
+                  background: colors.paper.cardHover,
                 },
                 "@media (hover:none)": {
                   "&:hover": {
-                    color: colors.gray[10],
-                    background: lightTheme.paperBg,
+                    background: colors.paper.card,
                   },
                   "&:focus": {
-                    color: colors.gray[10],
-                    background: lightTheme.paperBg,
+                    background: colors.paper.card,
                   },
                 },
               },
@@ -293,16 +230,16 @@ export const light = responsiveFontSizes(
             styleOverrides: {
               root: {
                 "&:hover": {
-                  backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
+                  backgroundColor: colors.gray[500],
                 },
                 "@media (hover:none)": {
                   "&:hover": {
                     color: colors.gray[10],
-                    backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
+                    backgroundColor: colors.gray[500],
                   },
                   "&:focus": {
                     color: colors.gray[10],
-                    backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
+                    backgroundColor: colors.gray[500],
                   },
                 },
               },
@@ -318,64 +255,56 @@ export const light = responsiveFontSizes(
           MuiButton: {
             styleOverrides: {
               containedPrimary: {
-                color: "#FCFCFC",
-                backgroundColor: lightTheme.primaryButtonBG,
+                color: colors.gray[40],
+                backgroundColor: colors.primary[300],
                 "&:hover": {
-                  backgroundColor: lightTheme.primaryButtonHoverBG,
-                  color: lightTheme.primaryButtonHoverColor,
-                },
-                "@media (hover:none)": {
-                  color: colors.gray[10],
-                  backgroundColor: lightTheme.primaryButtonBG,
-                  "&:hover": {
-                    backgroundColor: lightTheme.primaryButtonHoverBG,
-                  },
+                  backgroundColor: colors.primary[100],
                 },
               },
               containedSecondary: {
                 color: colors.gray[10],
-                background: lightTheme.paperBg,
+                background: colors.paper.card,
+                fontWeight: 700,
                 "&:hover": {
-                  color: "#333333",
+                  background: colors.paper.cardHover,
                 },
                 "@media (hover:none)": {
                   color: colors.gray[10],
-                  background: lightTheme.paperBg,
+                  background: colors.paper.card,
+                  fontWeight: 700,
                   "&:hover": {
-                    color: "#FCFCFC",
+                    background: colors.paper.cardHover,
                   },
                 },
               },
               outlinedPrimary: {
-                color: lightTheme.primaryButtonBG,
-                borderColor: lightTheme.primaryButtonBG,
+                color: colors.gray[90],
+                borderColor: colors.gray[90],
                 "&:hover": {
-                  color: colors.primary[300],
-                  backgroundColor: lightTheme.primaryButtonHoverBG,
-                  borderColor: lightTheme.primaryButtonBG,
+                  color: colors.gray[700],
+                  backgroundColor: colors.gray[90],
                 },
                 "@media (hover:none)": {
-                  color: lightTheme.primaryButtonBG,
-                  borderColor: lightTheme.primaryButtonBG,
+                  color: darkPalette.gray[700],
+                  borderColor: darkPalette.gray[700],
                   "&:hover": {
-                    color: `${colors.primary[300]} !important`,
-                    backgroundColor: `${lightTheme.primaryButtonBG} !important`,
+                    color: `${colors.gray[600]} !important`,
+                    backgroundColor: `${darkPalette.gray[10]} !important`,
                   },
                 },
               },
               outlinedSecondary: {
-                color: colors.gray[10],
-                borderColor: colors.gray[10],
+                color: colors.gray[40],
+                borderColor: colors.gray[40],
                 "&:hover": {
-                  color: lightTheme.outlinedSecondaryButtonHoverColor,
-                  backgroundColor: lightTheme.outlinedSecondaryButtonHoverBG,
-                  borderColor: "#333333",
+                  backgroundColor: darkPalette.gray[10],
+                  borderColor: darkPalette.gray[10],
                 },
               },
               textPrimary: {
                 color: colors.gray[600],
                 "&:hover": {
-                  color: lightTheme.textHighlightColor,
+                  color: colors.gray[500],
                   backgroundColor: "#00000000",
                 },
                 "&:active": {
@@ -386,7 +315,7 @@ export const light = responsiveFontSizes(
               textSecondary: {
                 color: colors.gray[10],
                 "&:hover": {
-                  color: lightTheme.textHighlightColor,
+                  color: colors.gray[500],
                 },
               },
             },
@@ -399,24 +328,6 @@ export const light = responsiveFontSizes(
                 },
                 "&.chain-highlight": {
                   color: colors.gray[10],
-                },
-              },
-            },
-          },
-          MuiGrid: {
-            styleOverrides: {
-              root: {
-                "&.grid-button": {
-                  borderColor: `${lightTheme.gridButtonActiveBackground} !important`,
-                  "&:hover": {
-                    backgroundColor: lightTheme.gridButtonHoverBackground,
-                  },
-                  "&.current": {
-                    backgroundColor: lightTheme.gridButtonActiveBackground,
-                    "&:hover": {
-                      backgroundColor: lightTheme.gridButtonHoverBackground,
-                    },
-                  },
                 },
               },
             },

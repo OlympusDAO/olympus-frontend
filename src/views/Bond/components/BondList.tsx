@@ -89,7 +89,7 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
               </Typography>
 
               <Box ml="4px">
-                <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+                <SvgIcon component={ArrowUp} />
               </Box>
             </Box>
           </Link>
@@ -270,7 +270,7 @@ const TokenIcons: React.VFC<{ token: Token }> = ({ token }) => (
           </Typography>
 
           <Box ml="4px">
-            <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+            <SvgIcon component={ArrowUp} />
           </Box>
         </Box>
       </Link>
