@@ -85,7 +85,9 @@ const BondCard: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isI
 
           <Link href={bond.quoteToken.purchaseUrl} target="_blank">
             <Box display="flex" alignItems="center">
-              <Typography>{isInverseBond ? t`Explorer` : t`Get Asset`}</Typography>
+              <Typography>
+                <Trans>Get Asset</Trans>
+              </Typography>
 
               <Box ml="4px">
                 <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
