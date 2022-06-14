@@ -32,7 +32,7 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "^3.6.6",
+    "@apollo/client": "^3.6.7",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@ethersproject/address": "^5.6.1",
