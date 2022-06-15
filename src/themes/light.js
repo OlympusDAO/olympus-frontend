@@ -51,7 +51,7 @@ export const light = responsiveFontSizes(
             styleOverrides: `
             ${fonts}
             body {
-              background:${colors.paper.background};
+              background:${colors.background};
               background-repeat:no-repeat;
               background-attachment:fixed;
               font-size:0.75rem;
@@ -80,11 +80,20 @@ export const light = responsiveFontSizes(
           MuiPaper: {
             styleOverrides: {
               root: {
-                background: colors.paper.card,
+                background: "transparent",
                 "&.ohm-card": {
-                  background: colors.paper.card,
+                  background: "transparent",
                 },
                 "&.MuiPaper-root&.tooltip-container": {
+                  background: colors.paper.card,
+                },
+              },
+            },
+          },
+          MuiModal: {
+            styleOverrides: {
+              root: {
+                ".MuiPaper-root": {
                   background: colors.paper.card,
                 },
               },
