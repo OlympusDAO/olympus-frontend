@@ -40,7 +40,7 @@
     "@lingui/react": "^3.13.3",
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.3",
-    "@multifarm/widget": "^0.0.155",
+    "@multifarm/widget": "^0.0.159",
     "@olympusdao/component-library": "^2.0.4",
     "@reduxjs/toolkit": "^1.8.2",
     "@types/material-ui": "^0.21.12",
