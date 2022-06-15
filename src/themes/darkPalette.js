@@ -17,7 +17,7 @@ export const darkPalette = {
   feedback: {
     success: "#94B9A1",
     userFeedback: "#49A1F2",
-    error: "#FF8585",
+    error: "#FF6767",
     warning: "#FC8E5F",
     pnlGain: "#3D9C70",
   },

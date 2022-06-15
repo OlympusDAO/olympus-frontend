@@ -121,7 +121,7 @@ export const light = responsiveFontSizes(
           MuiDrawer: {
             styleOverrides: {
               paper: {
-                background: colors.paper.card,
+                background: colors.paper.background,
                 zIndex: 7,
               },
             },
