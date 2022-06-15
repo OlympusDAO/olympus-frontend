@@ -84,7 +84,6 @@ const commonSettings = {
     MuiPaper: {
       styleOverrides: {
         root: {
-          backdropFilter: "blur(33px)",
           "&.ohm-card": {
             padding: "20px 30px 30px 30px",
             borderRadius: "var(--ohm-card-border-radius)",
@@ -93,7 +92,6 @@ const commonSettings = {
             marginBottom: "1.8rem",
             overflow: "hidden",
           },
-          backdropFilter: "blur(33px)",
           "&.Paper-root&.ohm-chart-card": {
             padding: "20px 0px",
             whiteSpace: "nowrap",

@@ -48,7 +48,8 @@ export const dark = responsiveFontSizes(
             styleOverrides: `
             ${fonts}
             body {
-              background:${colors.paper.background};
+              background:${colors.background};
+              background-color:${colors.backgroundColor};
               background-repeat:no-repeat;
               background-attachment:fixed;
               font-size:0.75rem;
@@ -84,7 +85,7 @@ export const dark = responsiveFontSizes(
           MuiDrawer: {
             styleOverrides: {
               paper: {
-                background: colors.paper.card,
+                background: colors.paper.background,
                 zIndex: 7,
               },
             },
@@ -111,12 +112,21 @@ export const dark = responsiveFontSizes(
                 "&.MuiAccordion-root": {
                   background: "transparent",
                 },
-                background: colors.paper.card,
+                background: "transparent",
                 "&.ohm-card": {
-                  background: colors.paper.card,
+                  background: "transparent",
                 },
                 "&.MuiPaper-root&.tooltip-container": {
                   background: colors.paper.card,
+                },
+              },
+            },
+          },
+          MuiModal: {
+            styleOverrides: {
+              root: {
+                ".MuiPaper-root": {
+                  background: colors.paper.background,
                 },
               },
             },
@@ -196,11 +206,11 @@ export const dark = responsiveFontSizes(
                 "@media (hover:none)": {
                   "&:hover": {
                     color: colors.gray[10],
-                    background: colors.paper.card,
+                    background: colors.paper.cardHover,
                   },
                   "&:focus": {
                     color: colors.gray[10],
-                    background: colors.paper.card,
+                    background: colors.paper.background,
                     borderColor: "transparent",
                     outline: "#00000000",
                   },
