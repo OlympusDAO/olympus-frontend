@@ -108,7 +108,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
         <Tab aria-label="unstake-button" label={t`Unstake`} />
       </Tabs>
 
-      <Box my={2} alignItems="center">
+      <Box my={2}>
         <TokenAllowanceGuard
           tokenAddressMap={addresses}
           spenderAddressMap={STAKING_ADDRESSES}
