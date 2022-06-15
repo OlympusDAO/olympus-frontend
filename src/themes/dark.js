@@ -93,8 +93,11 @@ export const dark = responsiveFontSizes(
           MuiTabs: {
             styleOverrides: {
               root: {
-                "& .MuiLink-root.active": {
-                  color: colors.primary[300],
+                "& .MuiLink-root": {
+                  color: colors.gray[40],
+                  "&.active": {
+                    color: colors.gray[10],
+                  },
                 },
               },
             },
@@ -168,19 +171,22 @@ export const dark = responsiveFontSizes(
               textColorPrimary: {
                 color: colors.gray[40],
               },
+
               root: {
                 "&.Mui-selected": {
-                  color: colors.primary[300],
+                  color: colors.gray[10],
                   textDecoration: "underline",
-                  textUnderlineOffset: "5px",
+                  textUnderlineOffset: "10px",
+                  textDecorationThickness: "3px",
                   "&:hover": {
-                    color: colors.gray[10],
+                    color: colors.gray[300],
                   },
                 },
                 "&:hover": {
                   color: colors.primary[300],
                   textDecoration: "underline",
-                  textUnderlineOffset: "5px",
+                  textDecorationThickness: "3px",
+                  textUnderlineOffset: "10px",
                 },
               },
             },

@@ -197,12 +197,14 @@ export const light = responsiveFontSizes(
               root: {
                 "&.Mui-selected": {
                   textDecoration: "underline",
-                  textUnderlineOffset: "5px",
+                  textUnderlineOffset: "10px",
+                  textDecorationThickness: "3px",
                 },
                 "&:hover": {
                   color: colors.gray[500],
                   textDecoration: "underline",
-                  textUnderlineOffset: "5px",
+                  textUnderlineOffset: "10px",
+                  textDecorationThickness: "3px",
                 },
               },
             },

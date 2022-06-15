@@ -213,7 +213,10 @@ const commonSettings = {
     MuiTabs: {
       styleOverrides: {
         root: {
-          minHeight: "40px",
+          "& .MuiLink-root": {
+            textUnderlineOffset: "10px",
+            textDecorationThickness: "3px",
+          },
           height: "40px",
         },
       },
@@ -224,9 +227,9 @@ const commonSettings = {
           minWidth: "min-content !important",
           padding: "0px",
           margin: "0px 10px",
-          fontWeight: 400,
+          fontWeight: 700,
           fontStyle: "normal",
-          lineHeight: "24px",
+          lineHeight: "30px",
           opacity: 1,
         },
       },
