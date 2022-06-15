@@ -87,9 +87,6 @@ export const light = responsiveFontSizes(
                 "&.MuiPaper-root&.tooltip-container": {
                   background: colors.paper.card,
                 },
-                "&.ohm-modal": {
-                  backgroundColor: colors.paper.card,
-                },
               },
             },
           },
@@ -283,6 +280,7 @@ export const light = responsiveFontSizes(
                 "&:hover": {
                   color: colors.gray[700],
                   backgroundColor: colors.gray[90],
+                  borderColor: colors.gray[90],
                 },
                 "@media (hover:none)": {
                   color: darkPalette.gray[700],

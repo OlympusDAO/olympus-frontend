@@ -91,15 +91,6 @@ export const girth = responsiveFontSizes(
           }
           `,
           },
-          MuiPaper: {
-            styleOverrides: {
-              root: {
-                "&.ohm-modal": {
-                  backgroundColor: girthTheme.menuBg,
-                },
-              },
-            },
-          },
           MuiBackdrop: {
             styleOverrides: {
               root: {
