@@ -59,6 +59,11 @@ export const dark = responsiveFontSizes(
           },
           MuiSwitch: {
             styleOverrides: {
+              switchBase: {
+                "&:hover": {
+                  backgroundColor: "transparent",
+                },
+              },
               colorPrimary: {
                 color: colors.gray[10],
                 [`&.${switchClasses["checked"]}`]: {
@@ -66,6 +71,9 @@ export const dark = responsiveFontSizes(
                   [`& + .${switchClasses["track"]}`]: {
                     backgroundColor: colors.primary[300],
                     opacity: 1,
+                  },
+                  "&:hover": {
+                    backgroundColor: "transparent",
                   },
                 },
               },
@@ -119,7 +127,7 @@ export const dark = responsiveFontSizes(
                 "&.ohm-card": {
                   background: "transparent",
                 },
-                "&.MuiPaper-root&.info-tooltip": {
+                "&.MuiPaper-root&.info-tooltip,  &.MuiPaper-root&.tooltip-container": {
                   background: colors.gray[500],
                 },
               },
