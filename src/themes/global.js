@@ -167,7 +167,6 @@ const commonSettings = {
         },
         paper: {
           width: "inherit",
-          backgroundColor: "inherit",
           padding: 0,
           zIndex: 7,
         },

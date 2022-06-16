@@ -16,7 +16,7 @@ export const StakeArea: React.FC = () => {
   const [isZoomed, setIsZoomed] = useState(false);
 
   return (
-    <Paper headerText={t`Single Stake`} headerChip="(3,3)" subHeader={<RebaseTimer />} childPaperBackground={true}>
+    <Paper headerText={t`Single Stake`} headerChip="(3,3)" subHeader={<RebaseTimer />}>
       <Box mb="28px">
         <Grid>
           <MetricCollection>

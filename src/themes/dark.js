@@ -85,7 +85,7 @@ export const dark = responsiveFontSizes(
           MuiDrawer: {
             styleOverrides: {
               paper: {
-                background: colors.paper.background,
+                background: colors.paper.card,
                 zIndex: 7,
               },
             },
