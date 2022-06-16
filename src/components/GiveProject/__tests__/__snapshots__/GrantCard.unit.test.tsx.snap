@@ -30,7 +30,7 @@ exports[`<GrantCard/> should render card 1`] = `
       >
         <div
           class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-          style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+          style="max-height: 187px; overflow: hidden; border-radius: 16px;"
         >
           <div
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -125,7 +125,7 @@ exports[`<GrantCard/> should render card without image 1`] = `
       >
         <div
           class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-          style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+          style="max-height: 187px; overflow: hidden; border-radius: 16px;"
         >
           <div
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -266,7 +266,7 @@ exports[`<GrantCard/> should render page 1`] = `
                   >
                     <div
                       class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-                      style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                      style="max-height: 187px; overflow: hidden; border-radius: 16px;"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -284,7 +284,7 @@ exports[`<GrantCard/> should render page 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-1cug4g-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-grid-xs-true css-16w25kz-MuiGrid-root"
                   >
                     <div
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
@@ -309,7 +309,7 @@ exports[`<GrantCard/> should render page 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-r0v48f-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -396,7 +396,7 @@ exports[`<GrantCard/> should render page 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1w160h3-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -470,7 +470,7 @@ exports[`<GrantCard/> should render page 1`] = `
                     </div>
                     <div
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
-                      style="padding-top: 45px;"
+                      style="padding-top: 30px;"
                     >
                       <button
                         class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
@@ -698,7 +698,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                   >
                     <div
                       class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-                      style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                      style="max-height: 187px; overflow: hidden; border-radius: 16px;"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -716,7 +716,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-1cug4g-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-grid-xs-true css-16w25kz-MuiGrid-root"
                   >
                     <div
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
@@ -741,7 +741,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-r0v48f-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -828,7 +828,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1w160h3-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -913,7 +913,7 @@ exports[`<GrantCard/> should render page with multiple milestones 1`] = `
                     </div>
                     <div
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
-                      style="padding-top: 45px;"
+                      style="padding-top: 30px;"
                     >
                       <button
                         class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
@@ -1155,7 +1155,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                   >
                     <div
                       class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-                      style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                      style="max-height: 187px; overflow: hidden; border-radius: 16px;"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -1168,7 +1168,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-1cug4g-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-grid-xs-true css-16w25kz-MuiGrid-root"
                   >
                     <div
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
@@ -1193,7 +1193,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-r0v48f-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -1280,7 +1280,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1w160h3-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -1354,7 +1354,7 @@ exports[`<GrantCard/> should render page without image 1`] = `
                     </div>
                     <div
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
-                      style="padding-top: 45px;"
+                      style="padding-top: 30px;"
                     >
                       <button
                         class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
@@ -1582,7 +1582,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                   >
                     <div
                       class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-                      style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                      style="max-height: 187px; overflow: hidden; border-radius: 16px;"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -1600,7 +1600,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-1cug4g-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-grid-xs-true css-16w25kz-MuiGrid-root"
                   >
                     <div
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
@@ -1625,7 +1625,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-r0v48f-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -1712,7 +1712,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1w160h3-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -1786,7 +1786,7 @@ exports[`<GrantCard/> should render page without milestone description 1`] = `
                     </div>
                     <div
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
-                      style="padding-top: 45px;"
+                      style="padding-top: 30px;"
                     >
                       <button
                         class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
@@ -2014,7 +2014,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                   >
                     <div
                       class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-                      style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                      style="max-height: 187px; overflow: hidden; border-radius: 16px;"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -2032,7 +2032,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-1cug4g-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-grid-xs-true css-16w25kz-MuiGrid-root"
                   >
                     <div
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
@@ -2057,7 +2057,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-r0v48f-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -2144,7 +2144,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                                 >
                                   <svg
                                     aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1w160h3-MuiSvgIcon-root"
                                     focusable="false"
                                     viewBox="0 0 20 20"
                                   >
@@ -2195,7 +2195,7 @@ exports[`<GrantCard/> should render page without milestones 1`] = `
                     </div>
                     <div
                       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
-                      style="padding-top: 45px;"
+                      style="padding-top: 30px;"
                     >
                       <button
                         class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"

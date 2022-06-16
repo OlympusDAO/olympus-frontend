@@ -66,10 +66,10 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
 
   // Pulls a user's donation info
-  const rawDonationInfo = useDonationInfo().data;
+  const _useDonationInfo = useDonationInfo().data;
   const donationInfo = useMemo(() => {
-    return rawDonationInfo ? rawDonationInfo : [];
-  }, [rawDonationInfo]);
+    return _useDonationInfo ? _useDonationInfo : [];
+  }, [_useDonationInfo]);
   const isDonationInfoLoading = useDonationInfo().isLoading;
 
   // Gets the number of donors for a given grant's wallet
@@ -90,7 +90,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   const dispatch = useAppDispatch();
 
   const userDonation: IUserDonationInfo | null = useMemo(() => {
-    if (donationId == NO_DONATION) return null;
+    if (donationId == NO_DONATION || donationInfo.length === 0) return null;
 
     return donationInfo[donationId];
   }, [donationInfo, donationId]);
@@ -107,14 +107,14 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     return GetCorrectContractUnits(userDonation.yieldDonated, giveAssetType, currentIndex);
   }, [currentIndex, giveAssetType, userDonation]);
 
-  // Determine if the current user is donating to the project whose page they are
-  // currently viewing and if so tracks the index of the recipient in the user's
-  // donationInfo array
   useEffect(() => {
     setIsUserDonating(false);
     setDonationId(NO_DONATION);
   }, [networkId]);
 
+  // Determine if the current user is donating to the project whose page they are
+  // currently viewing and if so tracks the index of the recipient in the user's
+  // donationInfo array
   useEffect(() => {
     if (isDonationInfoLoading || !donationInfo) return;
 
@@ -248,7 +248,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
               <Grid item>
                 <Grid container justifyContent="flex-start" alignItems="center" wrap="nowrap" spacing={1}>
                   <Grid item>
-                    <Icon name="donors" />
+                    <Icon name="donors" sx={{ width: "21px", height: "19px" }} />
                   </Grid>
                   <Grid item className="metric">
                     {isDonationInfoLoading || donorCount === undefined ? (
@@ -269,7 +269,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
               <Grid item>
                 <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Icon name="sohm-total" />
+                    <Icon name="sohm-total" sx={{ width: "18px", height: "19px" }} />
                   </Grid>
                   <Grid item className="metric">
                     {totalMilestoneAmount.toString(DEFAULT_FORMAT)}
@@ -306,7 +306,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
     }
 
     return (
-      <Grid container alignContent="center" style={{ maxHeight: "184px", overflow: "hidden", borderRadius: "16px" }}>
+      <Grid container alignContent="center" style={{ maxHeight: "187px", overflow: "hidden", borderRadius: "16px" }}>
         <Grid item xs>
           {imageElement}
         </Grid>
@@ -331,7 +331,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       return dispatch(error(t`Please enter a value!`));
     }
 
-    giveMutation.mutate({
+    await giveMutation.mutate({
       amount: depositAmount.toString(GIVE_MAX_DECIMAL_FORMAT),
       recipient: walletAddress,
       token: giveAssetType,
@@ -529,11 +529,11 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                     <Grid item xs={12} sm={6} lg={12}>
                       {getProjectImage()}
                     </Grid>
-                    <Grid item container xs>
+                    <Grid container xs spacing={3}>
                       <Grid item xs={12}>
                         {renderDepositData()}
                       </Grid>
-                      <Grid item xs={12} style={{ paddingTop: "45px" }}>
+                      <Grid item xs={12} style={{ paddingTop: "30px" }}>
                         {!connected ? (
                           <PrimaryButton size="medium" onClick={connect} fullWidth>
                             <Trans>Connect Wallet</Trans>
@@ -560,7 +560,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                   <></>
                 ) : (
                   <Paper headerText={t`Your Donations`} fullWidth>
-                    <Grid container alignItems="flex-end">
+                    <Grid container alignItems="flex-end" spacing={2}>
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="flex-start">
                           <Grid item container justifyContent="flex-start" alignItems="center" spacing={1}>
@@ -599,7 +599,6 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                           size="medium"
                           onClick={() => handleEditButtonClick()}
                           disabled={!isSupportedChain(networkId)}
-                          style={{ marginTop: "24px" }}
                           fullWidth
                         >
                           <Trans>Edit Donation</Trans>

@@ -81,7 +81,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                   >
                     <div
                       class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-                      style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                      style="max-height: 187px; overflow: hidden; border-radius: 16px;"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -102,7 +102,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
@@ -127,7 +127,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-r0v48f-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -214,7 +214,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1w160h3-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -273,7 +273,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-147868g-MuiSvgIcon-root"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -316,7 +316,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                             >
                               sOHM
                                
-                              Yield
+                              Yield Sent
                             </div>
                           </div>
                           <div
@@ -339,7 +339,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1xt158e-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -397,6 +397,7 @@ exports[`Give View Connected should render project card with Donate Yield Button
                       </div>
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+                        style="padding-top: 30px;"
                       >
                         <button
                           class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
@@ -520,7 +521,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
           >
             <div
               class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-              style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+              style="max-height: 187px; overflow: hidden; border-radius: 16px;"
             >
               <div
                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -606,7 +607,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   href="#/projects/impact-market"
                 >
                   <button
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1k844by-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -645,7 +646,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
           >
             <div
               class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-              style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+              style="max-height: 187px; overflow: hidden; border-radius: 16px;"
             >
               <div
                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -731,7 +732,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   href="#/projects/angel-protocol"
                 >
                   <button
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1k844by-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -770,7 +771,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
           >
             <div
               class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-              style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+              style="max-height: 187px; overflow: hidden; border-radius: 16px;"
             >
               <div
                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -856,7 +857,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   href="#/projects/gitcoin"
                 >
                   <button
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1k844by-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -895,7 +896,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
           >
             <div
               class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-              style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+              style="max-height: 187px; overflow: hidden; border-radius: 16px;"
             >
               <div
                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -981,7 +982,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   href="#/projects/kolektivo"
                 >
                   <button
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1k844by-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -1020,7 +1021,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
           >
             <div
               class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-              style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+              style="max-height: 187px; overflow: hidden; border-radius: 16px;"
             >
               <div
                 class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -1106,7 +1107,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
                   href="#/projects/popcorndao"
                 >
                   <button
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1k844by-MuiButtonBase-root-MuiButton-root"
                     tabindex="0"
                     type="button"
                   >
@@ -1154,7 +1155,7 @@ exports[`Give View Disconnected should render Causes Dashboard 1`] = `
               class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1cnv0eo-MuiGrid-root"
             >
               <button
-                class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Mui-disabled Button-root undefined css-3oxj3s-MuiButtonBase-root-MuiButton-root"
+                class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Mui-disabled Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
                 disabled=""
                 tabindex="-1"
                 type="button"
@@ -1395,7 +1396,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                         >
                           <div
                             class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-                            style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                            style="max-height: 187px; overflow: hidden; border-radius: 16px;"
                           >
                             <div
                               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -1481,7 +1482,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 href="#/projects/impact-market"
                               >
                                 <button
-                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
+                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1k844by-MuiButtonBase-root-MuiButton-root"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -1520,7 +1521,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                         >
                           <div
                             class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-                            style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                            style="max-height: 187px; overflow: hidden; border-radius: 16px;"
                           >
                             <div
                               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -1606,7 +1607,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 href="#/projects/angel-protocol"
                               >
                                 <button
-                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
+                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1k844by-MuiButtonBase-root-MuiButton-root"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -1645,7 +1646,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                         >
                           <div
                             class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-                            style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                            style="max-height: 187px; overflow: hidden; border-radius: 16px;"
                           >
                             <div
                               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -1731,7 +1732,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 href="#/projects/gitcoin"
                               >
                                 <button
-                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
+                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1k844by-MuiButtonBase-root-MuiButton-root"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -1770,7 +1771,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                         >
                           <div
                             class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-                            style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                            style="max-height: 187px; overflow: hidden; border-radius: 16px;"
                           >
                             <div
                               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -1856,7 +1857,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 href="#/projects/kolektivo"
                               >
                                 <button
-                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
+                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1k844by-MuiButtonBase-root-MuiButton-root"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -1895,7 +1896,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                         >
                           <div
                             class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-                            style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                            style="max-height: 187px; overflow: hidden; border-radius: 16px;"
                           >
                             <div
                               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -1981,7 +1982,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                                 href="#/projects/popcorndao"
                               >
                                 <button
-                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
+                                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1k844by-MuiButtonBase-root-MuiButton-root"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -2029,7 +2030,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                             class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1cnv0eo-MuiGrid-root"
                           >
                             <button
-                              class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Mui-disabled Button-root undefined css-3oxj3s-MuiButtonBase-root-MuiButton-root"
+                              class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Mui-disabled Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
                               disabled=""
                               tabindex="-1"
                               type="button"
@@ -2120,7 +2121,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-9rey0-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-pqxe32-MuiTypography-root"
                     >
                       Olympus Give is a means of directing the yield that is accrued on your sOHM to another wallet. The first step is depositing your sOHM and specifying a recipient.
                     </p>
@@ -2187,7 +2188,7 @@ exports[`Give View Disconnected should render Causes Dashboard as Default 1`] = 
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-9rey0-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-pqxe32-MuiTypography-root"
                     >
                       Then, your deposited sOHM is kept in a vault smart contract that will send your rebases to the recipient.
 You can withdraw or edit your principal sOHM amount at any time.
@@ -2270,7 +2271,7 @@ You can withdraw or edit your principal sOHM amount at any time.
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-9rey0-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-pqxe32-MuiTypography-root"
                     >
                       The recipient you specified, or the project you selected, will then receive the rebases associated with your
 sOHM deposit until you withdraw your sOHM principal from the vault.
@@ -2285,14 +2286,14 @@ sOHM deposit until you withdraw your sOHM principal from the vault.
                 class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-3 css-1fa0lp4-MuiGrid-root"
               >
                 <a
-                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-17qa7rh-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-1k844by-MuiButtonBase-root-MuiButton-root"
                   href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
                   tabindex="0"
                   target="_blank"
                 >
                   Learn More
                   <span
-                    class="MuiButton-endIcon MuiButton-iconSizeSmall css-jcxoq4-MuiButton-endIcon"
+                    class="MuiButton-endIcon MuiButton-iconSizeMedium css-1gnd1fd-MuiButton-endIcon"
                   >
                     <svg
                       aria-hidden="true"
@@ -2475,7 +2476,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                   >
                     <div
                       class="MuiGrid-root MuiGrid-container css-1enxi5i-MuiGrid-root"
-                      style="max-height: 184px; overflow: hidden; border-radius: 16px;"
+                      style="max-height: 187px; overflow: hidden; border-radius: 16px;"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
@@ -2496,7 +2497,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                     class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-cm1570-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-pcr0fy-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-1wkillg-MuiGrid-root"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
@@ -2521,7 +2522,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-r0v48f-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -2604,7 +2605,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1w160h3-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -2663,7 +2664,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-147868g-MuiSvgIcon-root"
                                   focusable="false"
                                   viewBox="0 0 20 20"
                                 >
@@ -2706,7 +2707,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                             >
                               sOHM
                                
-                              Yield
+                              Yield Sent
                             </div>
                           </div>
                           <div
@@ -2729,7 +2730,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                                   >
                                     <svg
                                       aria-hidden="true"
-                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1fx2bp7-MuiSvgIcon-root"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-1xt158e-MuiSvgIcon-root"
                                       focusable="false"
                                       viewBox="0 0 20 20"
                                     >
@@ -2787,6 +2788,7 @@ exports[`Give View Disconnected should render project card with connect wallet b
                       </div>
                       <div
                         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-bhsuuc-MuiGrid-root"
+                        style="padding-top: 30px;"
                       >
                         <button
                           class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Button-root undefined css-8aw5i7-MuiButtonBase-root-MuiButton-root"
