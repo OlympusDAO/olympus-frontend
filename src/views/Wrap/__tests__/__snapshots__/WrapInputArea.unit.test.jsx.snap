@@ -9,33 +9,33 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-11d5w0z-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1rl1og4-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-item card-header css-13i4rnv-MuiGrid-root"
         >
           <div
             class="MuiBox-root css-gg4vpm"
           >
             <div
-              class="MuiBox-root css-1xhj18k"
+              class="MuiBox-root css-u4p24i"
             >
-              <h5
-                class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
+              <p
+                class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
               >
                 Wrap / Unwrap
-              </h5>
+              </p>
             </div>
             <div
               class="top-right"
             >
               <a
                 aria-label="wsohm-wut"
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
                 href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
                 style="text-decoration: none;"
                 target="_blank"
@@ -44,7 +44,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                   class="MuiBox-root css-70qvj9"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-p35pu2-MuiTypography-root"
                   >
                     gOHM
                   </p>
@@ -66,36 +66,40 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
         >
           <div
             class="MuiBox-root css-15i1vgz"
           >
             <div
-              class="MuiGrid-root css-vz6rvy-MuiGrid-root"
+              class="MuiGrid-root css-vj1n65-MuiGrid-root"
             >
               <div
                 class="MuiBox-root css-rjww1q"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1wlo379-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-jhdc2n-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                   >
                     <div
-                      class="Metric-root  css-1xkrsym"
+                      class="Metric-root  css-186hj2s"
                     >
                       <div
                         class="MuiBox-root css-g45inh"
                       >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
+                        <div
+                          class="MuiBox-root css-1n2mv2k"
                         >
-                          sOHM Price
-                        </p>
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1624h9p-MuiTypography-root"
+                          >
+                            sOHM Price
+                          </p>
+                        </div>
                         <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body1 css-1gzuxkm-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
@@ -107,20 +111,24 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                   >
                     <div
-                      class="Metric-root  css-1xkrsym"
+                      class="Metric-root  css-186hj2s"
                     >
                       <div
                         class="MuiBox-root css-g45inh"
                       >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
+                        <div
+                          class="MuiBox-root css-1n2mv2k"
                         >
-                          Current Index
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1624h9p-MuiTypography-root"
+                          >
+                            Current Index
+                          </p>
                           <div
-                            class="MuiBox-root css-w341jy"
+                            class="Metric-label MuiBox-root css-70qvj9"
                             style="font-size: 14px;"
                           >
                             <div
@@ -140,9 +148,9 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </p>
+                        </div>
                         <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body1 css-1gzuxkm-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
@@ -154,20 +162,24 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                   >
                     <div
-                      class="Metric-root  css-1xkrsym"
+                      class="Metric-root  css-186hj2s"
                     >
                       <div
                         class="MuiBox-root css-g45inh"
                       >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
+                        <div
+                          class="MuiBox-root css-1n2mv2k"
                         >
-                          gOHM Price
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1624h9p-MuiTypography-root"
+                          >
+                            gOHM Price
+                          </p>
                           <div
-                            class="MuiBox-root css-w341jy"
+                            class="Metric-label MuiBox-root css-70qvj9"
                             style="font-size: 14px;"
                           >
                             <div
@@ -187,9 +199,9 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </p>
+                        </div>
                         <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body1 css-1gzuxkm-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
@@ -211,7 +223,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
               class="MuiBox-root css-70qvj9"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-p35pu2-MuiTypography-root"
               >
                 Unwrap
                  from
@@ -221,7 +233,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl css-1b50vqc-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                 >
                   <div
                     aria-expanded="false"
@@ -254,7 +266,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                 </div>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-p35pu2-MuiTypography-root"
               >
                 <span
                   class="asset-select-label"
@@ -267,7 +279,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1b50vqc-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                   data-testid="second-asset-select"
                 >
                   <div
@@ -311,17 +323,17 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                   class="stake-tab-panel wrap-page"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8 css-111wfws-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8 css-r0umuq-MuiGrid-root"
                       style="padding-right: 4px;"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-3tw635-MuiFormControl-root"
+                        class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-mu9hz7-MuiFormControl-root"
                       >
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-eqe2qg-MuiInputBase-root-MuiOutlinedInput-root"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1emryzf-MuiInputBase-root-MuiOutlinedInput-root"
                         >
                           <input
                             aria-invalid="false"
@@ -336,7 +348,8 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                             class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
                           >
                             <button
-                              class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-rmjmo8-MuiButtonBase-root-MuiButton-root"
+                              class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-ftyfwv-MuiButtonBase-root-MuiButton-root"
+                              style="font-weight: 700; font-size: 15px;"
                               tabindex="0"
                               type="button"
                             >
@@ -361,11 +374,11 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <button
-                        class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  css-8aw5i7-MuiButtonBase-root-MuiButton-root"
-                        style="height: 43px;"
+                        class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1hlfzy6-MuiButtonBase-root-MuiButton-root"
+                        style="margin: 0px;"
                         tabindex="0"
                         type="submit"
                       >
@@ -384,13 +397,13 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
               class="MuiBox-root css-1xhj18k"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1mjfcze-MuiTypography-root"
               >
                 sOHM Balance
               </p>
             </div>
             <p
-              class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-1mjfcze-MuiTypography-root"
               style="text-align: right;"
             >
               <span
@@ -406,13 +419,13 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
               class="MuiBox-root css-1xhj18k"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1mjfcze-MuiTypography-root"
               >
                 gOHM Balance
               </p>
             </div>
             <p
-              class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-1mjfcze-MuiTypography-root"
               style="text-align: right;"
             >
               <span
@@ -428,13 +441,13 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
             class="MuiBox-root css-na3zg8"
           >
             <p
-              class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-p35pu2-MuiTypography-root"
               style="margin: 15px 0px 10px 0px;"
             >
               Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
             </p>
             <button
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-1sigo3z-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-2gvxvl-MuiButtonBase-root-MuiButton-root"
               style="margin: 0.3rem;"
               tabindex="0"
               type="button"
@@ -446,14 +459,14 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                 width="28px"
               />
               <h6
-                class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-h6 css-n1d3i0-MuiTypography-root"
                 style="margin-left: 8px;"
               >
                 Avalanche
               </h6>
             </button>
             <button
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-1sigo3z-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-2gvxvl-MuiButtonBase-root-MuiButton-root"
               style="margin: 0.3rem;"
               tabindex="0"
               type="button"
@@ -465,7 +478,7 @@ exports[`Wrap Input Area Display Unwrap to sOHM when gOHM is selected 1`] = `
                 width="28px"
               />
               <h6
-                class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-h6 css-n1d3i0-MuiTypography-root"
                 style="margin-left: 8px;"
               >
                 Arbitrum
@@ -488,33 +501,33 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
     id="stake-view"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-m19e0g-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 Paper-root  css-11d5w0z-MuiPaper-root"
       style="transform: none; webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1y6dg9a-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column css-1rl1og4-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item card-header css-159wrwf-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-item card-header css-13i4rnv-MuiGrid-root"
         >
           <div
             class="MuiBox-root css-gg4vpm"
           >
             <div
-              class="MuiBox-root css-1xhj18k"
+              class="MuiBox-root css-u4p24i"
             >
-              <h5
-                class="MuiTypography-root MuiTypography-h5 header-text css-903ewo-MuiTypography-root"
+              <p
+                class="MuiTypography-root MuiTypography-body1 header-text css-1i0ed6o-MuiTypography-root"
               >
                 Wrap / Unwrap
-              </h5>
+              </p>
             </div>
             <div
               class="top-right"
             >
               <a
                 aria-label="wsohm-wut"
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-dx05fv-MuiTypography-root-MuiLink-root"
                 href="https://docs.olympusdao.finance/main/contracts/tokens#gohm"
                 style="text-decoration: none;"
                 target="_blank"
@@ -523,7 +536,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                   class="MuiBox-root css-70qvj9"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 css-p35pu2-MuiTypography-root"
                   >
                     gOHM
                   </p>
@@ -545,36 +558,40 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item css-159wrwf-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
         >
           <div
             class="MuiBox-root css-15i1vgz"
           >
             <div
-              class="MuiGrid-root css-vz6rvy-MuiGrid-root"
+              class="MuiGrid-root css-vj1n65-MuiGrid-root"
             >
               <div
                 class="MuiBox-root css-rjww1q"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-1wlo379-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-jhdc2n-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                   >
                     <div
-                      class="Metric-root  css-1xkrsym"
+                      class="Metric-root  css-186hj2s"
                     >
                       <div
                         class="MuiBox-root css-g45inh"
                       >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
+                        <div
+                          class="MuiBox-root css-1n2mv2k"
                         >
-                          sOHM Price
-                        </p>
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1624h9p-MuiTypography-root"
+                          >
+                            sOHM Price
+                          </p>
+                        </div>
                         <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body1 css-1gzuxkm-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
@@ -586,20 +603,24 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                   >
                     <div
-                      class="Metric-root  css-1xkrsym"
+                      class="Metric-root  css-186hj2s"
                     >
                       <div
                         class="MuiBox-root css-g45inh"
                       >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
+                        <div
+                          class="MuiBox-root css-1n2mv2k"
                         >
-                          Current Index
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1624h9p-MuiTypography-root"
+                          >
+                            Current Index
+                          </p>
                           <div
-                            class="MuiBox-root css-w341jy"
+                            class="Metric-label MuiBox-root css-70qvj9"
                             style="font-size: 14px;"
                           >
                             <div
@@ -619,9 +640,9 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </p>
+                        </div>
                         <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body1 css-1gzuxkm-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
@@ -633,20 +654,24 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                   >
                     <div
-                      class="Metric-root  css-1xkrsym"
+                      class="Metric-root  css-186hj2s"
                     >
                       <div
                         class="MuiBox-root css-g45inh"
                       >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-label css-tlko1g-MuiTypography-root"
+                        <div
+                          class="MuiBox-root css-1n2mv2k"
                         >
-                          gOHM Price
+                          <p
+                            class="MuiTypography-root MuiTypography-body1 Metric-label css-1624h9p-MuiTypography-root"
+                          >
+                            gOHM Price
+                          </p>
                           <div
-                            class="MuiBox-root css-w341jy"
+                            class="Metric-label MuiBox-root css-70qvj9"
                             style="font-size: 14px;"
                           >
                             <div
@@ -666,9 +691,9 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                               </svg>
                             </div>
                           </div>
-                        </p>
+                        </div>
                         <p
-                          class="MuiTypography-root MuiTypography-body1 Metric-metric css-69sme-MuiTypography-root"
+                          class="MuiTypography-root MuiTypography-body1 css-1gzuxkm-MuiTypography-root"
                           style="width: 100%;"
                         >
                           <span
@@ -690,7 +715,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
               class="MuiBox-root css-70qvj9"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-p35pu2-MuiTypography-root"
               >
                 Wrap
                  from
@@ -700,7 +725,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1b50vqc-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                 >
                   <div
                     aria-expanded="false"
@@ -733,7 +758,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 </div>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-p35pu2-MuiTypography-root"
               >
                 <span
                   class="asset-select-label"
@@ -746,7 +771,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 style="margin: 0px 10px;"
               >
                 <div
-                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1b50vqc-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                  class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1trjcea-MuiInputBase-root-MuiInput-root-MuiSelect-root"
                   data-testid="second-asset-select"
                 >
                   <div
@@ -790,17 +815,17 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                   class="stake-tab-panel wrap-page"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container css-1bxbb5o-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8 css-111wfws-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8 css-r0umuq-MuiGrid-root"
                       style="padding-right: 4px;"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-3tw635-MuiFormControl-root"
+                        class="MuiFormControl-root MuiFormControl-fullWidth Input-root css-mu9hz7-MuiFormControl-root"
                       >
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-eqe2qg-MuiInputBase-root-MuiOutlinedInput-root"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1emryzf-MuiInputBase-root-MuiOutlinedInput-root"
                         >
                           <input
                             aria-invalid="false"
@@ -815,7 +840,8 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                             class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
                           >
                             <button
-                              class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-rmjmo8-MuiButtonBase-root-MuiButton-root"
+                              class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-ftyfwv-MuiButtonBase-root-MuiButton-root"
+                              style="font-weight: 700; font-size: 15px;"
                               tabindex="0"
                               type="button"
                             >
@@ -840,11 +866,11 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-wmkgw3-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-4 css-1r6indk-MuiGrid-root"
                     >
                       <button
-                        class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  css-8aw5i7-MuiButtonBase-root-MuiButton-root"
-                        style="height: 43px;"
+                        class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-1hlfzy6-MuiButtonBase-root-MuiButton-root"
+                        style="margin: 0px;"
                         tabindex="0"
                         type="submit"
                       >
@@ -863,13 +889,13 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
               class="MuiBox-root css-1xhj18k"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1mjfcze-MuiTypography-root"
               >
                 sOHM Balance
               </p>
             </div>
             <p
-              class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-1mjfcze-MuiTypography-root"
               style="text-align: right;"
             >
               <span
@@ -885,13 +911,13 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
               class="MuiBox-root css-1xhj18k"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1mjfcze-MuiTypography-root"
               >
                 gOHM Balance
               </p>
             </div>
             <p
-              class="MuiTypography-root MuiTypography-body1 css-4xvy19-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-1mjfcze-MuiTypography-root"
               style="text-align: right;"
             >
               <span
@@ -907,13 +933,13 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
             class="MuiBox-root css-na3zg8"
           >
             <p
-              class="MuiTypography-root MuiTypography-body1 css-69sme-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 css-p35pu2-MuiTypography-root"
               style="margin: 15px 0px 10px 0px;"
             >
               Got wsOHM on Avalanche or Arbitrum? Click below to switch networks and migrate to gOHM (no bridge required!)
             </p>
             <button
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-1sigo3z-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-2gvxvl-MuiButtonBase-root-MuiButton-root"
               style="margin: 0.3rem;"
               tabindex="0"
               type="button"
@@ -925,14 +951,14 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 width="28px"
               />
               <h6
-                class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-h6 css-n1d3i0-MuiTypography-root"
                 style="margin-left: 8px;"
               >
                 Avalanche
               </h6>
             </button>
             <button
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-1sigo3z-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root  css-2gvxvl-MuiButtonBase-root-MuiButton-root"
               style="margin: 0.3rem;"
               tabindex="0"
               type="button"
@@ -944,7 +970,7 @@ exports[`Wrap Input Area Should Render Input when has Token Approval 1`] = `
                 width="28px"
               />
               <h6
-                class="MuiTypography-root MuiTypography-h6 css-rg0wkx-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-h6 css-n1d3i0-MuiTypography-root"
                 style="margin-left: 8px;"
               >
                 Arbitrum
