@@ -273,6 +273,7 @@ export const light = responsiveFontSizes(
                 },
               },
               containedSecondary: {
+                height: "39px",
                 color: colors.gray[10],
                 background: colors.paper.card,
                 fontWeight: 700,

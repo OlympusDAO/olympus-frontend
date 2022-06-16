@@ -249,6 +249,7 @@ export const dark = responsiveFontSizes(
                 },
               },
               containedSecondary: {
+                height: "39px",
                 background: colors.paper.background,
                 color: colors.gray[10],
                 "&:hover": {
