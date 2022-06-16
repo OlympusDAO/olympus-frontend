@@ -17,6 +17,7 @@ import { ReactComponent as ArrowUp } from "src/assets/icons/arrow-up.svg";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { Token } from "src/helpers/contracts/Token";
 import { useScreenSize } from "src/hooks/useScreenSize";
+import { NetworkId } from "src/networkDetails";
 
 import { Bond } from "../hooks/useBond";
 import { BondDiscount } from "./BondDiscount";
@@ -216,7 +217,7 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
 
     {isInverseBond && (
       <TableCell style={{ padding: "8px 0" }}>
-        <TokenIcons token={bond.baseToken} />
+        <TokenIcons token={bond.baseToken} explorer />
       </TableCell>
     )}
 
@@ -256,24 +257,30 @@ const BondRow: React.VFC<{ bond: Bond; isInverseBond: boolean }> = ({ bond, isIn
   </TableRow>
 );
 
-const TokenIcons: React.VFC<{ token: Token }> = ({ token }) => (
-  <Box display="flex" alignItems="center">
-    <TokenStack tokens={token.icons} />
+const TokenIcons: React.VFC<{ token: Token; explorer?: boolean }> = ({ token, explorer }) => {
+  return (
+    <Box display="flex" alignItems="center">
+      <TokenStack tokens={token.icons} />
 
-    <Box display="flex" flexDirection="column" ml="16px">
-      <Typography style={{ fontSize: "12px", fontWeight: 600, lineHeight: "18px" }}>{token.name}</Typography>
+      <Box display="flex" flexDirection="column" ml="16px">
+        <Typography style={{ fontSize: "12px", fontWeight: 600, lineHeight: "18px" }}>{token.name}</Typography>
 
-      <Link color="primary" target="_blank" href={token.purchaseUrl}>
-        <Box display="flex" alignItems="center">
-          <Typography style={{ fontSize: "12px", lineHeight: "18px" }}>
-            <Trans>Get Asset</Trans>
-          </Typography>
+        <Link
+          color="primary"
+          target="_blank"
+          href={explorer ? `https://etherscan.io/token/${token.addresses[NetworkId.MAINNET]}` : token.purchaseUrl}
+        >
+          <Box display="flex" alignItems="center">
+            <Typography style={{ fontSize: "12px", lineHeight: "18px" }}>
+              {explorer ? t`Explorer` : t`Get Asset`}
+            </Typography>
 
-          <Box ml="4px">
-            <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+            <Box ml="4px">
+              <SvgIcon component={ArrowUp} htmlColor="#A3A3A3" />
+            </Box>
           </Box>
-        </Box>
-      </Link>
+        </Link>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
