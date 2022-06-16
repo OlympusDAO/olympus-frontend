@@ -48,7 +48,7 @@ const commonSettings = {
     },
     body1: {
       fontSize: "0.875rem",
-      lineHeight: 1,
+      lineHeight: "20px",
     },
     body2: {
       fontSize: "0.75rem",
@@ -68,6 +68,14 @@ const commonSettings = {
       },
     },
     MuiButton: {
+      styleOverrides: {
+        root: {
+          "&.Mui-disabled": {
+            opacity: 0.3,
+            color: "initial",
+          },
+        },
+      },
       defaultProps: {
         disableElevation: true,
         disableFocusRipple: true,
@@ -198,7 +206,7 @@ const commonSettings = {
     MuiInputBase: {
       styleOverrides: {
         root: {
-          height: "43px",
+          height: "39px",
           padding: "5px",
         },
       },

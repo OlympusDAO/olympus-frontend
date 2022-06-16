@@ -265,6 +265,9 @@ export const light = responsiveFontSizes(
               containedPrimary: {
                 color: colors.gray[40],
                 backgroundColor: colors.primary[300],
+                "&.Mui-disabled": {
+                  backgroundColor: colors.primary[300],
+                },
                 "&:hover": {
                   backgroundColor: colors.primary[100],
                 },
@@ -288,6 +291,10 @@ export const light = responsiveFontSizes(
               outlinedPrimary: {
                 color: colors.gray[90],
                 borderColor: colors.gray[90],
+                "&.Mui-disabled": {
+                  color: colors.gray[90],
+                  borderColor: colors.gray[90],
+                },
                 "&:hover": {
                   color: colors.gray[700],
                   backgroundColor: colors.gray[90],
@@ -305,6 +312,10 @@ export const light = responsiveFontSizes(
               outlinedSecondary: {
                 color: colors.gray[40],
                 borderColor: colors.gray[40],
+                "&.Mui-disabled": {
+                  color: colors.gray[40],
+                  borderColor: colors.gray[40],
+                },
                 "&:hover": {
                   backgroundColor: darkPalette.gray[10],
                   borderColor: darkPalette.gray[10],

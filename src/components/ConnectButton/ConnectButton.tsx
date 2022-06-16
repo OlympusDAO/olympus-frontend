@@ -6,7 +6,7 @@ import { useWeb3Context } from "src/hooks/web3Context";
 const ConnectButton: React.FC = () => {
   const { connect } = useWeb3Context();
   return (
-    <PrimaryButton size="large" style={{ fontSize: "1.2857rem" }} onClick={connect}>
+    <PrimaryButton size="large" onClick={connect}>
       <Trans>Connect Wallet</Trans>
     </PrimaryButton>
   );

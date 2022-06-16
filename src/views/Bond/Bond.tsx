@@ -53,7 +53,10 @@ export const Bond = () => {
     <>
       <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
         <ClaimBonds />
-        <Paper headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`} (3,1)` : `${t`Bond`} (4,4)`}>
+        <Paper
+          headerText={currentAction === "INVERSE" ? `${t`Inverse Bond`}` : `${t`Bond`}`}
+          headerChip={currentAction === "INVERSE" ? "(3,1)" : "(4,4)"}
+        >
           <MetricCollection>
             <TreasuryBalance />
             <OHMPrice />

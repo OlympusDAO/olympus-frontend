@@ -47,11 +47,9 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 
   [`& .${classes.button}`]: {
-    alignSelf: "center",
     width: "100%",
     minWidth: "163px",
     maxWidth: "542px",
-    height: "43px",
   },
 }));
 
@@ -146,7 +144,7 @@ export const StakeInputArea: React.FC<{ isZoomed: boolean }> = props => {
 
               <Grid item xs={12} sm={4} className={classes.gridItem}>
                 <Box sx={{ marginTop: { xs: 1, sm: 0 } }}>
-                  <PrimaryButton fullWidth type="submit" className={classes.button} disabled={isMutating}>
+                  <PrimaryButton fullWidth type="submit" disabled={isMutating}>
                     {currentAction === "STAKE"
                       ? isMutating
                         ? "Staking to "

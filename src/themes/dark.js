@@ -119,8 +119,8 @@ export const dark = responsiveFontSizes(
                 "&.ohm-card": {
                   background: "transparent",
                 },
-                "&.MuiPaper-root&.tooltip-container": {
-                  background: colors.paper.card,
+                "&.MuiPaper-root&.info-tooltip": {
+                  background: colors.gray[500],
                 },
               },
             },
@@ -229,6 +229,9 @@ export const dark = responsiveFontSizes(
               containedPrimary: {
                 color: colors.gray[600],
                 backgroundColor: colors.primary[300],
+                "&.Mui-disabled": {
+                  backgroundColor: colors.primary[300],
+                },
                 "&:hover": {
                   backgroundColor: colors.primary[100],
                   color: colors.gray[600],
@@ -268,6 +271,10 @@ export const dark = responsiveFontSizes(
               outlinedPrimary: {
                 color: colors.gray[10],
                 borderColor: colors.gray[10],
+                "&.Mui-disabled": {
+                  borderColor: colors.gray[10],
+                  color: colors.gray[10],
+                },
                 "&:hover": {
                   color: colors.gray[600],
                   backgroundColor: colors.primary[100],
@@ -277,6 +284,10 @@ export const dark = responsiveFontSizes(
               outlinedSecondary: {
                 color: colors.primary[300],
                 borderColor: colors.primary[300],
+                "&.Mui-disabled": {
+                  color: colors.primary[300],
+                  borderColor: colors.primary[300],
+                },
                 "&:hover": {
                   color: colors.gray[600],
                   backgroundColor: colors.primary[100],
