@@ -92,7 +92,7 @@ const NavContent: React.VFC = () => {
 
               <NavItem href="https://docs.olympusdao.finance/" icon="docs" label={t`Docs`} />
 
-              <NavItem href="https://immunefi.com/bounty/olympus/" icon="bug-report" label={t`Bug Bounty`} />
+              <NavItem href="https://immunefi.com/bounty/olympus/" icon="alert-circle" label={t`Bug Bounty`} />
 
               <NavItem href="https://grants.olympusdao.finance/" icon="grants" label={t`Grants`} />
             </div>
