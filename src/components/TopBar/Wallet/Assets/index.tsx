@@ -205,7 +205,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
           <WalletBalance
             title="Balance"
             usdBalance={formatCurrency(walletTotalValueUSD, 2)}
-            underlyingBalance={`${formatNumber(walletTotalValueUSD / ohmPrice, 2)} OHM`}
+            underlyingBalance={`${formatNumber(walletTotalValueUSD / (ohmPrice !== 0 ? ohmPrice : 1), 2)} OHM`}
           />
         </Box>
         <Box display="flex" flexDirection="row" className={classes.selector} mb="18px" mt="18px">
