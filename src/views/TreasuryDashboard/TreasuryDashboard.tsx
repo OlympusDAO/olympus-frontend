@@ -36,25 +36,25 @@ const MetricsDashboard = () => (
     </Box>
     <Grid container spacing={2} className="data-grid">
       <Grid item lg={6} md={6} sm={12} xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
+        <Paper className="ohm-card ohm-chart-card" enableBackground>
           <TotalValueDepositedGraph />
         </Paper>
       </Grid>
 
       <Grid item lg={6} md={6} sm={12} xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
+        <Paper className="ohm-card ohm-chart-card" enableBackground>
           <MarketValueGraph />
         </Paper>
       </Grid>
 
       <Grid item lg={6} md={6} sm={12} xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
+        <Paper className="ohm-card ohm-chart-card" enableBackground>
           <RiskFreeValueGraph />
         </Paper>
       </Grid>
 
       <Grid item lg={6} md={6} sm={12} xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
+        <Paper className="ohm-card ohm-chart-card" enableBackground>
           <ProtocolOwnedLiquidityGraph />
         </Paper>
       </Grid>
@@ -85,13 +85,13 @@ const MetricsDashboard = () => (
           </Grid> */}
 
       <Grid item lg={6} md={6} sm={12} xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
+        <Paper className="ohm-card ohm-chart-card" enableBackground>
           <OHMStakedGraph />
         </Paper>
       </Grid>
 
       <Grid item lg={6} md={6} sm={12} xs={12}>
-        <Paper className="ohm-card ohm-chart-card">
+        <Paper className="ohm-card ohm-chart-card" enableBackground>
           <RunwayAvailableGraph />
         </Paper>
       </Grid>
