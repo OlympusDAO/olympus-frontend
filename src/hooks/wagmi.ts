@@ -1,6 +1,6 @@
 import "src/assets/rainbowkit.css"; //have to do this for now due to test failures with import direct from library;
 
-import { getDefaultWallets } from "@rainbow-me/rainbowkit";
+import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit";
 import { Chain, chain, configureChains, createClient } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
@@ -74,10 +74,21 @@ export const { chains, provider, webSocketProvider } = configureChains(
   ],
 );
 
-const { connectors } = getDefaultWallets({
-  appName: "OlympusDAO",
-  chains,
-});
+const needsInjectedWalletFallback =
+  typeof window !== "undefined" && window.ethereum && !window.ethereum.isMetaMask && !window.ethereum.isCoinbaseWallet;
+
+const connectors = connectorsForWallets([
+  {
+    groupName: "Recommended",
+    wallets: [
+      wallet.metaMask({ chains, shimDisconnect: true }),
+      wallet.rainbow({ chains }),
+      wallet.walletConnect({ chains }),
+      wallet.coinbase({ appName: "Olympus DAO", chains }),
+      ...(needsInjectedWalletFallback ? [wallet.injected({ chains, shimDisconnect: true })] : []),
+    ],
+  },
+]);
 
 export const wagmiClient = createClient({
   autoConnect: true,
