@@ -158,7 +158,7 @@ export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions
    */
 
   const isSoldOut = isInverseBond
-    ? maxPayoutInQuoteToken.lt("1")
+    ? capacityInQuoteToken.lt("1")
     : capacityInBaseToken.lt("1") || maxPayoutInBaseToken.lt("1");
 
   return {

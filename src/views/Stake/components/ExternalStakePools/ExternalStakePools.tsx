@@ -8,7 +8,6 @@ import { formatCurrency, formatNumber } from "src/helpers";
 import {
   balancerPools,
   beetsPools,
-  bobaPools,
   convexPools,
   curvePools,
   joePools,
@@ -25,7 +24,6 @@ import {
   BalancerPoolAPY,
   BalancerSwapFees,
   BeetsPoolAPY,
-  BobaPoolAPY,
   ConvexPoolAPY,
   CurvePoolAPY,
   JoePoolAPY,
@@ -123,9 +121,6 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     ))}
     {balancerPools.map(pool => (
       <BalancerPools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
-    {bobaPools.map(pool => (
-      <BobaPools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
     {curvePools.map(pool => (
       <CurvePools pool={pool} isSmallScreen={props.isSmallScreen} />
@@ -292,16 +287,6 @@ const BalancerPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = 
     <MobileStakePool pool={props.pool} tvl={data.totalLiquidity} apy={apy} />
   ) : (
     <StakePool pool={props.pool} tvl={data.totalLiquidity} apy={apy} />
-  );
-};
-
-const BobaPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = BobaPoolAPY(props.pool);
-  return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  ) : (
-    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
   );
 };
 
