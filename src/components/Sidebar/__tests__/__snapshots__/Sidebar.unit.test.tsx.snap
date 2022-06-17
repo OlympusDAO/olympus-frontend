@@ -617,7 +617,7 @@ exports[`<Sidebar/> should render component 1`] = `
                 </a>
                 <a
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone css-ao3601-MuiTypography-root-MuiLink-root"
-                  href="https://discord.gg/6QjjtUcfM4"
+                  href="https://discord.gg/OlympusDAO"
                   target="_blank"
                 >
                   <svg

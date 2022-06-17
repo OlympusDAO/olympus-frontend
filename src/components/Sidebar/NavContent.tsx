@@ -112,7 +112,7 @@ const NavContent: React.VFC = () => {
             <Icon name="twitter" className={classes.gray} />
           </Link>
 
-          <Link href="https://discord.gg/6QjjtUcfM4" target="_blank">
+          <Link href="https://discord.gg/OlympusDAO" target="_blank">
             <Icon name="discord" className={classes.gray} />
           </Link>
         </StyledBox>
