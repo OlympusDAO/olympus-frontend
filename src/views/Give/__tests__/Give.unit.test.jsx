@@ -181,8 +181,6 @@ describe("Give View Connected", () => {
 
   /*
   it("should render correct units on Manage Donation Modal", async () => {
-    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    data.mockReturnValue(mockWeb3Context);
     useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
 
     const handleEdit = (walletAddress, depositId, eventSource, depositAmount) => {

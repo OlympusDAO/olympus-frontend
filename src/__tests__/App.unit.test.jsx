@@ -14,8 +14,6 @@ jest.mock("src/helpers/index", () => ({
   shouldTriggerSafetyCheck: jest.fn().mockReturnValue(false),
 }));
 
-jest.mock("web3modal");
-
 beforeEach(() => {
   jest.useFakeTimers();
 });

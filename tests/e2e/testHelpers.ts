@@ -1,9 +1,9 @@
 import { Dappeteer, launch } from "@chainsafe/dappeteer";
+import * as dappeteer from "@chainsafe/dappeteer";
+import { ChildProcess } from "child_process";
+import { getDocument, queries } from "pptr-testing-library";
 // @ts-ignore
 import puppeteer, { Browser, ElementHandle, Page } from "puppeteer";
-import * as dappeteer from "@chainsafe/dappeteer";
-import { getDocument, queries } from "pptr-testing-library";
-import { ChildProcess } from "child_process";
 import { exec } from "shelljs";
 
 const REACT_APP_SEED_PHRASE = "REACT_APP_SEED_PHRASE";

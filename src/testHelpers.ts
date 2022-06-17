@@ -5,7 +5,6 @@ import { Wallet } from "ethers/lib/ethers";
 import { UseQueryResult } from "react-query";
 import { allChains, Chain, chain as chain_, createClient, CreateClientConfig } from "wagmi";
 import * as WAGMI from "wagmi";
-import Web3Modal from "web3modal";
 
 import { NetworkId } from "./constants";
 import { DecimalBigNumber } from "./helpers/DecimalBigNumber/DecimalBigNumber";
@@ -13,24 +12,7 @@ import { IUserRecipientInfo } from "./hooks/useGiveInfo";
 import { ZapHelperBalancesResponse } from "./hooks/useZapTokenBalances";
 import { IUserDonationInfo } from "./views/Give/Interfaces";
 
-jest.mock("web3modal");
-
 const provider = new ethers.providers.StaticJsonRpcProvider();
-
-export const mockWeb3Context = {
-  connected: true,
-  networkId: 1,
-  provider: provider,
-  connect: jest.fn(),
-  disconnect: jest.fn(),
-  address: "0x49aFdD21097eE0c6e40d69e3233a73Ed76eD43e4",
-  hasCachedProvider: jest.fn(() => true),
-  connectionError: null,
-  networkName: "mainnet",
-  providerUri: "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
-  providerInitialized: true,
-  web3Modal: new Web3Modal(),
-};
 
 export const createMatchMedia = (width: string) => {
   return (query: string) => ({
