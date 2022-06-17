@@ -55,7 +55,6 @@ describe("Check Stake to sOHM Error Messages", () => {
   });
 
   it("Error message no address", async () => {
-    // data.mockReturnValue({ ...mockWeb3Context, address: undefined });
     fireEvent.input(await screen.findByRole("textbox"), { target: { value: "1" } });
     fireEvent.click(screen.getByText("Stake to sOHM"));
     expect(await screen.findByText("Please refresh your page and try again")).toBeInTheDocument();
@@ -105,7 +104,6 @@ describe("Check Unstake sOHM Error Messages", () => {
   });
 
   it("Error message no address", async () => {
-    // data.mockReturnValue({ ...mockWeb3Context, address: undefined });
     fireEvent.input(await screen.findByRole("textbox"), { target: { value: "1" } });
     fireEvent.click(screen.getByText("Unstake sOHM"));
     expect(screen.getAllByText("Please refresh your page and try again")[0]).toBeInTheDocument();
