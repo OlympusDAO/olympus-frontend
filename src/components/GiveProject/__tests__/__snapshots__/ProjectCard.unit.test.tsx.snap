@@ -139,7 +139,7 @@ exports[`<ProjectCard/> should render card 1`] = `
             href="#/projects/project-1"
           >
             <button
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-frl596-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-20z02r-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -287,7 +287,7 @@ exports[`<ProjectCard/> should render card without image 1`] = `
             href="#/projects/project-1"
           >
             <button
-              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-frl596-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-root  css-20z02r-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
