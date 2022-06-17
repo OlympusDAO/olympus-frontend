@@ -171,14 +171,14 @@ export const RunwayAvailableGraph = () => {
     <Chart
       type="multi"
       data={runway}
-      dataKey={["runwayCurrent", "runway7dot5k", "runway5k", "runway2dot5k"]}
+      dataKey={["ohmCirculatingSupply", "sOhmCirculatingSupply"]}
       color={theme.palette.text.primary}
       stroke={colors}
       headerText={t`Runway Available`}
       headerSubText={`${data && trim(data[0].runwayCurrent, 1)} Days`}
       dataFormat="days"
       bulletpointColors={runwayBulletpoints}
-      itemNames={tooltipItems.runway}
+      itemNames={["ohm", "sOhm"]}
       itemType={""}
       margin={{ left: 30 }}
       infoTooltipMessage={tooltipInfoMessages().runway}
