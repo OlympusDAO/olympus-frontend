@@ -152,6 +152,7 @@ export const OHMStakedGraph = () => {
       infoTooltipMessage={tooltipInfoMessages().staked}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
       headerSubText={`${staked && staked.length && trim(staked[0].staked, 2)}% `}
+      maxDomain={100}
     />
   );
 };

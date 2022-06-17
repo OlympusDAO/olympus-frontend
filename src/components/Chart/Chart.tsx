@@ -47,6 +47,7 @@ const renderAreaChart = (
   expandedGraphStrokeColor: string,
   isPOL: boolean,
   margin: CategoricalChartProps["margin"],
+  maxDomain?: number,
 ) => (
   <AreaChart data={data} margin={margin}>
     <defs>
@@ -76,7 +77,7 @@ const renderAreaChart = (
             : `${trim(parseFloat(number), 2)}%`
           : ""
       }
-      domain={[0, "auto"]}
+      domain={[0, maxDomain || "auto"]}
       dx={3}
       allowDataOverflow={false}
     />
@@ -377,6 +378,7 @@ function Chart({
     bottom: 0,
     left: 0,
   },
+  maxDomain,
 }: {
   type: string;
   data: any[];
@@ -396,6 +398,7 @@ function Chart({
   expandedGraphStrokeColor: string;
   isPOL: boolean;
   margin?: CategoricalChartProps["margin"];
+  maxDomain?: number;
 }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -439,6 +442,7 @@ function Chart({
         expandedGraphStrokeColor,
         isPOL,
         margin,
+        maxDomain,
       );
     if (type === "stack")
       return renderStackedAreaChart(
