@@ -1,12 +1,11 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import { Box, SwipeableDrawer, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Icon, OHMTokenProps, PrimaryButton, SecondaryButton, TabBar, Token } from "@olympusdao/component-library";
+import { Icon, SecondaryButton, TabBar } from "@olympusdao/component-library";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { shorten } from "src/helpers";
-import { useWeb3Context } from "src/hooks";
-import { NetworkId } from "src/networkDetails";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ConnectButton, InPageConnectButton } from "src/components/ConnectButton/ConnectButton";
+import { useConnect, useDisconnect } from "wagmi";
 
 import Assets from "./Assets";
 import GetOhm from "./GetOhm";
@@ -65,36 +64,15 @@ export function Wallet(props: { open?: boolean; component?: string }) {
 
   const navigate = useNavigate();
 
-  const { address, connect, connected, networkId } = useWeb3Context();
-  const { id } = useParams<{ id: string }>();
+  const { isConnected } = useConnect();
 
   // only enable backdrop transition on ios devices,
   // because we can assume IOS is hosted on hight-end devices and will not drop frames
   // also disable discovery on IOS, because of it's 'swipe to go back' feat
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-  const WalletButtonTop = () => {
-    const onClick = !connected ? connect : undefined;
-    const label = connected ? t`Wallet` : t`Connect Wallet`;
-    return (
-      <PrimaryButton className={classes.connectButton} color="secondary" onClick={onClick}>
-        <Icon name="wallet" style={{ marginRight: "9px" }} />
-        <Typography>{label}</Typography>
-      </PrimaryButton>
-    );
-  };
-  const WalletButtonBottom = () => {
-    const onClick = !connected ? connect : undefined;
-    const label = connected ? t`Wallet` : t`Connect Wallet`;
-    return (
-      <PrimaryButton onClick={onClick}>
-        <Typography>{label}</Typography>
-      </PrimaryButton>
-    );
-  };
-
   const DisconnectButton = () => {
-    const { disconnect } = useWeb3Context();
+    const { disconnect } = useDisconnect();
     return (
       <SecondaryButton onClick={disconnect}>
         <Trans>Disconnect</Trans>
@@ -125,15 +103,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
         <Box style={{ top: 0, position: "sticky" }}>
           <Box display="flex" justifyContent="space-between" mb={"18px"}>
             <Box>
-              {!connected && <WalletButtonTop />}
-              {connected && (
-                <Box display="flex" className={classes.networkSelector}>
-                  {NetworkId[networkId] && (
-                    <Token name={NetworkId[networkId] as OHMTokenProps["name"]} style={{ fontSize: "21px" }} />
-                  )}
-                  <Typography style={{ marginLeft: "6px" }}> {shorten(address)}</Typography>
-                </Box>
-              )}
+              <ConnectButton />
             </Box>
             <Box display="flex" flexDirection="row" justifyContent="flex-end" alignItems="center" textAlign="right">
               <Icon
@@ -170,7 +140,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
               case "utility":
                 return <GetOhm />;
               case "wallet":
-                return <>{!connected ? <ConnectMessage /> : <Assets />}</>;
+                return <>{!isConnected ? <ConnectMessage /> : <Assets />}</>;
               case "wallet/history":
                 return <Assets path="history" />;
               default:
@@ -187,7 +157,7 @@ export function Wallet(props: { open?: boolean; component?: string }) {
         pt={"21px"}
         pb={"21px"}
       >
-        {connected ? <DisconnectButton /> : <WalletButtonBottom />}
+        {isConnected ? <DisconnectButton /> : <InPageConnectButton />}
       </Box>
     </StyledSwipeableDrawer>
   );

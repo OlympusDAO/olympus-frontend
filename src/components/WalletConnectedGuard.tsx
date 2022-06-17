@@ -1,16 +1,15 @@
 import { Box, Typography } from "@mui/material";
-import { useWeb3Context } from "src/hooks";
+import { useConnect } from "wagmi";
 
-import ConnectButton from "./ConnectButton/ConnectButton";
+import { InPageConnectButton } from "./ConnectButton/ConnectButton";
 
 export const WalletConnectedGuard: React.FC<{ message?: string }> = props => {
-  const { connected } = useWeb3Context();
-
-  if (!connected)
+  const { isConnected } = useConnect();
+  if (!isConnected)
     return (
       <Box display="flex" flexDirection="column" alignItems="center">
         <Box mb="12px">
-          <ConnectButton />
+          <InPageConnectButton />
         </Box>
 
         <Typography variant="h6">{props.message}</Typography>

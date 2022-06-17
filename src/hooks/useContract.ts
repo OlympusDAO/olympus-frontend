@@ -65,8 +65,7 @@ import { SushiChef } from "src/typechain/SushiChef";
 import { SushiRewarder } from "src/typechain/SushiRewarder";
 import { ZipRewarder } from "src/typechain/ZipRewarder";
 import { ZipSecondaryRewarder } from "src/typechain/ZipSecondaryRewarder";
-
-import { useWeb3Context } from ".";
+import { useNetwork, useProvider, useSigner } from "wagmi";
 
 /**
  * @deprecated Please see note at the top of this file
@@ -93,17 +92,19 @@ export const createStaticContract = <TContract extends Contract = Contract>(ABI:
  */
 const createDynamicContract = <TContract extends Contract = Contract>(ABI: ContractInterface) => {
   return (addressMap: AddressMap, asSigner = false) => {
-    const { provider, connected, networkId } = useWeb3Context();
+    const provider = useProvider();
+    const { data: signer } = useSigner();
+    const { activeChain = { id: 1 } } = useNetwork();
 
     return useMemo(() => {
-      const address = addressMap[networkId as keyof typeof addressMap];
+      const address = addressMap[activeChain.id as keyof typeof addressMap];
 
       if (!address) return null;
 
-      const providerOrSigner = asSigner && connected ? provider.getSigner() : provider;
+      const providerOrSigner = asSigner && signer ? signer : provider;
 
       return new Contract(address, ABI, providerOrSigner) as TContract;
-    }, [addressMap, asSigner, connected, networkId, provider]);
+    }, [addressMap, activeChain.id, asSigner, signer, provider]);
   };
 };
 

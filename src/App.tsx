@@ -5,9 +5,15 @@ import { useMediaQuery } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { styled, ThemeProvider } from "@mui/material/styles";
 import { MultifarmProvider } from "@multifarm/widget";
+import {
+  darkTheme as rainbowDarkTheme,
+  lightTheme as rainbowLightTheme,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { useAccount, useConnect, useNetwork, useProvider } from "wagmi";
 
 import Messages from "./components/Messages/Messages";
 import { MigrationCallToAction } from "./components/MigrationCallToAction";
@@ -19,12 +25,11 @@ import { StakeVersionContainer } from "./components/StakeVersionContainer";
 import TopBar from "./components/TopBar/TopBar";
 import Wallet from "./components/TopBar/Wallet";
 import { shouldTriggerSafetyCheck } from "./helpers";
-import { trackGAEvent } from "./helpers/analytics/trackGAEvent";
 import { getMultiFarmApiKey } from "./helpers/multifarm";
 import { categoryTypesConfig, strategyTypesConfig } from "./helpers/multifarm";
-import { useWeb3Context } from "./hooks";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
 import useTheme from "./hooks/useTheme";
+import { chains } from "./hooks/wagmi";
 import { getMigrationAllowances, loadAccountDetails } from "./slices/AccountSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { error, info } from "./slices/MessagesSlice";
@@ -110,8 +115,12 @@ function App() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const { address, connect, connectionError, hasCachedProvider, provider, connected, networkId, providerInitialized } =
-    useWeb3Context();
+  const { data: account } = useAccount();
+  const { isConnected, error: errorMessage, isReconnecting } = useConnect();
+  const address = account?.address ? account.address : "";
+
+  const provider = useProvider();
+  const { activeChain = { id: 1 } } = useNetwork();
 
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalClose = () => {
@@ -120,8 +129,6 @@ function App() {
 
   const isSmallerScreen = useMediaQuery("(max-width: 980px)");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
-
-  const [walletChecked, setWalletChecked] = useState(false);
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -137,27 +144,24 @@ function App() {
     }
 
     // don't run unless provider is a Wallet...
-    if (whichDetails === "account" && address && connected) {
+    if (whichDetails === "account" && address && isConnected) {
       loadAccount(loadProvider);
     }
   }
 
   const loadApp = useCallback(
     loadProvider => {
-      dispatch(loadAppDetails({ networkID: networkId, provider: loadProvider }));
+      dispatch(loadAppDetails({ networkID: activeChain.id, provider: loadProvider }));
     },
-    [networkId, address],
+    [activeChain.id, address],
   );
 
   const loadAccount = useCallback(
     loadProvider => {
-      if (!providerInitialized) {
-        return;
-      }
-      dispatch(loadAccountDetails({ networkID: networkId, provider: loadProvider, address }));
-      dispatch(getMigrationAllowances({ address, provider: loadProvider, networkID: networkId }));
+      dispatch(loadAccountDetails({ networkID: activeChain.id, provider, address }));
+      dispatch(getMigrationAllowances({ address, provider, networkID: activeChain.id }));
     },
-    [networkId, address, providerInitialized],
+    [activeChain.id, address],
   );
 
   // The next 3 useEffects handle initializing API Loads AFTER wallet is checked
@@ -167,46 +171,22 @@ function App() {
   // ... if we don't wait we'll ALWAYS fire API calls via JsonRpc because provider has not
   // ... been reloaded within App.
   useEffect(() => {
-    if (hasCachedProvider()) {
-      // then user DOES have a wallet
-      connect().then(() => {
-        setWalletChecked(true);
-        trackGAEvent({
-          category: "App",
-          action: "connect",
-        });
-      });
-    } else {
-      // then user DOES NOT have a wallet
-      setWalletChecked(true);
-    }
     if (shouldTriggerSafetyCheck()) {
       dispatch(info("Safety Check: Always verify you're on app.olympusdao.finance!"));
     }
   }, []);
 
-  // this useEffect fires on state change from above. It will ALWAYS fire AFTER
-  useEffect(() => {
-    // don't load ANY details until wallet is Checked
-    if (walletChecked) {
-      if (networkId !== -1) {
-        loadDetails("account");
-        loadDetails("app");
-      }
-    }
-  }, [walletChecked, networkId]);
-
   // this useEffect picks up any time a user Connects via the button
   useEffect(() => {
     // don't load ANY details until wallet is Connected
-    if (connected && providerInitialized) {
+    if (isConnected && provider) {
       loadDetails("account");
     }
-  }, [connected, networkId, providerInitialized]);
+  }, [isConnected, activeChain.id, provider]);
 
   useEffect(() => {
-    if (connectionError) dispatch(error(connectionError.text));
-  }, [connectionError]);
+    if (errorMessage) dispatch(error(errorMessage.message));
+  }, [errorMessage]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -224,66 +204,75 @@ function App() {
 
   return (
     <StyledDiv>
-      <ThemeProvider theme={themeMode}>
-        <MultifarmProvider
-          token={MULTIFARM_API_KEY}
-          provider="olympus"
-          lng={i18n.locale}
-          themeColors={theme}
-          badgePlacement="bottom"
-          theme={theme === "light" ? multifarmLightTheme : multifarmDarkTheme}
-          categoryTypesConfig={categoryTypesConfig}
-          strategyTypesConfig={strategyTypesConfig}
-        >
-          <CssBaseline />
-          <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
-            <StagingNotification />
-            <Messages />
-            <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
-            <nav className={classes.drawer}>
-              {isSmallerScreen ? (
-                <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-              ) : (
-                <Sidebar />
-              )}
-            </nav>
+      <RainbowKitProvider
+        chains={chains}
+        theme={
+          theme === "dark"
+            ? rainbowDarkTheme({ accentColor: "#676B74" })
+            : rainbowLightTheme({ accentColor: "#E0E2E3", accentColorForeground: "#181A1D" })
+        }
+      >
+        <ThemeProvider theme={themeMode}>
+          <MultifarmProvider
+            token={MULTIFARM_API_KEY}
+            provider="olympus"
+            lng={i18n.locale}
+            themeColors={theme}
+            badgePlacement="bottom"
+            theme={theme === "light" ? multifarmLightTheme : multifarmDarkTheme}
+            categoryTypesConfig={categoryTypesConfig}
+            strategyTypesConfig={strategyTypesConfig}
+          >
+            <CssBaseline />
+            <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
+              <StagingNotification />
+              <Messages />
+              <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+              <nav className={classes.drawer}>
+                {isSmallerScreen ? (
+                  <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                ) : (
+                  <Sidebar />
+                )}
+              </nav>
 
-            <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
-              <MigrationCallToAction setMigrationModalOpen={setMigrationModalOpen} />
+              <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
+                <MigrationCallToAction setMigrationModalOpen={setMigrationModalOpen} />
 
-              <Routes>
-                <Route path="/" element={<Navigate to="/stake" />} />
-                <Route
-                  path="/stake"
-                  element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
-                />
-                <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
-                <Route path="/give/*" element={<Give />} />
+                <Routes>
+                  <Route path="/" element={<Navigate to="/stake" />} />
+                  <Route
+                    path="/stake"
+                    element={<StakeVersionContainer setMigrationModalOpen={setMigrationModalOpen} />}
+                  />
+                  <Route path="/v1-stake" element={<V1Stake setMigrationModalOpen={setMigrationModalOpen} />} />
+                  <Route path="/give/*" element={<Give />} />
 
-                <Route path="/olympusgive" element={<Navigate to="/give" />} />
-                <Route path="/olygive" element={<Navigate to="/give" />} />
-                <Route path="/tyche" element={<Navigate to="/give" />} />
-                <Route path="/olympusdaogive" element={<Navigate to="/give" />} />
-                <Route path="/ohmgive" element={<Navigate to="/give" />} />
+                  <Route path="/olympusgive" element={<Navigate to="/give" />} />
+                  <Route path="/olygive" element={<Navigate to="/give" />} />
+                  <Route path="/tyche" element={<Navigate to="/give" />} />
+                  <Route path="/olympusdaogive" element={<Navigate to="/give" />} />
+                  <Route path="/ohmgive" element={<Navigate to="/give" />} />
 
-                <Route path="/wrap" element={<Wrap />} />
-                <Route path="/zap" element={<Zap />} />
-                <Route path="/bonds/*" element={<Bond />} />
-                <Route path="/bridge" element={<Bridge />} />
-                <Route path="/dashboard/*" element={<TreasuryDashboard />} />
+                  <Route path="/wrap" element={<Wrap />} />
+                  <Route path="/zap" element={<Zap />} />
+                  <Route path="/bonds/*" element={<Bond />} />
+                  <Route path="/bridge" element={<Bridge />} />
+                  <Route path="/dashboard/*" element={<TreasuryDashboard />} />
 
-                <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
-                <Route path={"/utility"} element={<Wallet open={true} component="utility" />} />
-                <Route path={"/wallet/history"} element={<Wallet open={true} component="wallet/history" />} />
-                <Route path="/wallet" element={<Wallet open={true} component="wallet" />}></Route>
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+                  <Route path={"/info/*"} element={<Wallet open={true} component="info" />} />
+                  <Route path={"/utility"} element={<Wallet open={true} component="utility" />} />
+                  <Route path={"/wallet/history"} element={<Wallet open={true} component="wallet/history" />} />
+                  <Route path="/wallet" element={<Wallet open={true} component="wallet" />}></Route>
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </div>
             </div>
-          </div>
 
-          <MigrationNotification isModalOpen={migrationModalOpen} onClose={migModalClose} />
-        </MultifarmProvider>
-      </ThemeProvider>
+            <MigrationNotification isModalOpen={migrationModalOpen} onClose={migModalClose} />
+          </MultifarmProvider>
+        </ThemeProvider>
+      </RainbowKitProvider>
     </StyledDiv>
   );
 }

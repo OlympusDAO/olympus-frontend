@@ -12,7 +12,9 @@
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
       "!src/locales/translations/**",
-      "!src/typechain/**"
+      "!src/typechain/**",
+      "!src/testHelpers.ts",
+      "!src/testHandlers.js"
     ],
     "coverageThreshold": {
       "global": {
@@ -31,7 +33,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.8",
-    "@coinbase/wallet-sdk": "^3.2.0",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@ethersproject/address": "^5.6.1",
@@ -42,6 +43,7 @@
     "@mui/material": "^5.8.3",
     "@multifarm/widget": "^0.0.159",
     "@olympusdao/component-library": "^2.0.4",
+    "@rainbow-me/rainbowkit": "^0.3.1",
     "@reduxjs/toolkit": "^1.8.2",
     "@types/material-ui": "^0.21.12",
     "@walletconnect/web3-provider": "^1.7.8",
@@ -66,6 +68,7 @@
     "react-uid": "^2.3.2",
     "recharts": "^2.1.10",
     "typescript": "^4.7.3",
+    "wagmi": "^0.4.12",
     "web3modal": "^1.9.7"
   },
   "devDependencies": {
@@ -151,14 +154,14 @@
     "build": "yarn lingui:prepare && yarn lingui:extract && yarn lingui:compile && GENERATE_SOURCEMAP=false react-app-rewired build",
     "eject": "react-app-rewired eject",
     "start": "yarn lingui:prepare && react-app-rewired start",
-    "test": "react-scripts test",
-    "test:unit": "react-scripts test --watchAll=false --bail --ci --coverage",
+    "test": "react-scripts test --maxWorkers=2 --transformIgnorePatterns \"node_modules/(?!@rainbow-me)/\"",
+    "test:unit": "react-scripts test --maxWorkers=2 --watchAll=false --bail --ci --coverage --transformIgnorePatterns \"node_modules/(?!@rainbow-me)/\" ",
     "test:e2e": "react-scripts test  --watchAll=false --bail --ci",
     "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
     "lint:fix": "prettier --write ./src/ & yarn lint --fix",
     "theme": "npx gulp less",
     "watch": "node ./scripts/watch.js",
-    "snapshot": "react-scripts test --updateSnapshot",
+    "snapshot": "react-scripts test --updateSnapshot --transformIgnorePatterns \"node_modules/(?!@rainbow-me)/\"",
     "predocker-start": "docker build -t olympus-frontend -f Dockerfile .",
     "docker-start": "yarn run postinstall && docker run -it --rm -v `pwd`/src:/usr/src/app/src -v `pwd`/public:/usr/src/app/public -p 3000:3000 olympus-frontend",
     "stats": "yarn build --stats && npx webpack-bundle-analyzer ./build/bundle-stats.json",

@@ -5,7 +5,6 @@ import { getTokenPrice, parseBigNumber } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
-import { useWeb3Context } from "src/hooks";
 import {
   useStaticBalancerV2PoolContract,
   useStaticBeethovenChefContract,
@@ -23,6 +22,7 @@ import {
 } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { ExternalPool } from "src/lib/ExternalPool";
+import { useProvider } from "wagmi";
 
 import { BalancerPoolTVL, useStakePoolTVL } from "./useStakePoolTVL";
 
@@ -107,7 +107,7 @@ export const BalancerPoolAPY = (pool: ExternalPool) => {
 
 export const BalancerSwapFees = (address: string) => {
   const blocksPerDay = 6646; //Average 13 blocks per second MAINNET
-  const { provider } = useWeb3Context();
+  const provider = useProvider();
   const balancerURL = "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2";
   const {
     data = { dailyFees: 0, totalLiquidity: 0 },

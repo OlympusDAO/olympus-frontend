@@ -3,9 +3,8 @@ import { act } from "react-dom/test-utils";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
-import * as useWeb3Context from "src/hooks/web3Context";
 import accountReducer from "src/slices/AccountSlice";
-import { mockWeb3Context } from "src/testHelpers";
+import { connectWallet } from "src/testHelpers";
 
 import { render, screen } from "../../../testUtils";
 import CausesDashboard from "../CausesDashboard";
@@ -129,11 +128,12 @@ describe("Give View Connected", () => {
     devTools: true,
   });
 
+  beforeEach(() => {
+    connectWallet();
+  });
+
   it("should render project card with Donate Yield Button", async () => {
     useCurrentIndex.mockReturnValue({ data: new DecimalBigNumber("100", 9) });
-    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    data.mockReturnValue(mockWeb3Context);
-
     let container;
     await act(async () => {
       ({ container } = render(
