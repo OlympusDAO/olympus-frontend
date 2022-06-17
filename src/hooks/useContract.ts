@@ -15,8 +15,6 @@ import { useMemo } from "react";
 import BALANCERV2_POOL_ABI from "src/abi/BalancerV2Pool.json";
 import BALANCER_VAULT_ABI from "src/abi/BalancerVault.json";
 import BEETHOVEN_CHEF_ABI from "src/abi/BeethovenChef.json";
-import BOBA_CHEF_ABI from "src/abi/BobaChef.json";
-import BOBA_REWARDER_ABI from "src/abi/BobaRewarder.json";
 import BOND_ABI from "src/abi/BondDepository.json";
 import CROSS_CHAIN_MIGRATOR_ABI from "src/abi/CrossChainMigrator.json";
 import CURVE_GAUGE_CONTROLLER_ABI from "src/abi/CurveGaugeController.json";
@@ -42,8 +40,6 @@ import { AddressMap } from "src/constants/addresses";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
 import {
-  BobaChef,
-  BobaRewarder,
   BondDepository,
   CrossChainMigrator,
   CurvePool,
@@ -152,8 +148,6 @@ export const useStaticZipSecondaryRewardercontract = createStaticContract<ZipSec
   ZIP_SECONDARY_REWARDER_ABI.abi,
 );
 export const useStaticJonesContract = createStaticContract<Jones>(JONES_ABI.abi);
-export const useStaticBobaChefContract = createStaticContract<BobaChef>(BOBA_CHEF_ABI.abi);
-export const useStaticBobaRewarderContract = createStaticContract<BobaRewarder>(BOBA_REWARDER_ABI.abi);
 export const useStaticCurvePoolContract = createStaticContract<CurvePool>(CURVE_POOL_ABI.abi);
 export const useStaticCurveGaugeControllerContract = createStaticContract<CurveGaugeController>(
   CURVE_GAUGE_CONTROLLER_ABI.abi,
