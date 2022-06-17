@@ -557,7 +557,7 @@ export default function ProjectCard({ project, giveAssetType, changeAssetType, m
                   component={RouterLink}
                   onClick={() => handleProjectDetailsButtonClick("View Details Button")}
                 >
-                  <TertiaryButton size="small" fullWidth>
+                  <TertiaryButton fullWidth>
                     <Trans>View Details</Trans>
                   </TertiaryButton>
                 </Link>

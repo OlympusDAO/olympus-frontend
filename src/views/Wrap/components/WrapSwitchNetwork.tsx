@@ -1,5 +1,6 @@
 import { Trans } from "@lingui/macro";
 import { Button, Typography } from "@mui/material";
+import { TertiaryButton, Token } from "@olympusdao/component-library";
 import { NETWORKS } from "src/constants";
 import { useWeb3Context } from "src/hooks";
 import { useSwitchNetwork } from "src/hooks/useSwitchNetwork";
@@ -43,41 +44,15 @@ export const WrapSwitchNetwork = () => {
         </Trans>
       </Typography>
 
-      <Button
-        onClick={() => mutate(NetworkId.AVALANCHE)}
-        variant="outlined"
-        color="secondary"
-        style={{ margin: "0.3rem" }}
-      >
-        <img
-          height="28px"
-          width="28px"
-          alt={NETWORKS[NetworkId.AVALANCHE].imageAltText}
-          src={String(NETWORKS[NetworkId.AVALANCHE].image)}
-        />
+      <TertiaryButton size="large" onClick={() => mutate(NetworkId.AVALANCHE)} style={{ margin: "0.3rem" }}>
+        <Token name="AVAX" style={{ marginRight: "8px" }} />
+        {NETWORKS[NetworkId.AVALANCHE].chainName}
+      </TertiaryButton>
 
-        <Typography variant="h6" style={{ marginLeft: "8px" }}>
-          {NETWORKS[NetworkId.AVALANCHE].chainName}
-        </Typography>
-      </Button>
-
-      <Button
-        onClick={() => mutate(NetworkId.ARBITRUM)}
-        variant="outlined"
-        color="secondary"
-        style={{ margin: "0.3rem" }}
-      >
-        <img
-          height="28px"
-          width="28px"
-          alt={NETWORKS[NetworkId.ARBITRUM].imageAltText}
-          src={String(NETWORKS[NetworkId.ARBITRUM].image)}
-        />
-
-        <Typography variant="h6" style={{ marginLeft: "8px" }}>
-          {NETWORKS[NetworkId.ARBITRUM].chainName}
-        </Typography>
-      </Button>
+      <TertiaryButton size="large" onClick={() => mutate(NetworkId.ARBITRUM)} style={{ margin: "0.3rem" }}>
+        <Token name="ARBITRUM" style={{ marginRight: "8px" }} />
+        {NETWORKS[NetworkId.ARBITRUM].chainName}
+      </TertiaryButton>
     </>
   );
 };

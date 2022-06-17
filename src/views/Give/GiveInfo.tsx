@@ -20,7 +20,6 @@ export function GiveInfo() {
           <Grid item xs />
           <Grid item xs={3} container justifyContent="center">
             <TertiaryButton
-              size="small"
               fullWidth
               href="https://docs.olympusdao.finance/main/basics/basics/olympusgive"
               target="_blank"
