@@ -2,24 +2,31 @@
 
 exports[`<ThemeSwitch/> should render component 1`] = `
 <div>
-  <button
-    class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard toggle-button css-1b65e9v-MuiButtonBase-root-MuiToggleButton-root"
-    tabindex="0"
-    title="Change Theme"
-    type="button"
-    value="check"
+  <div
+    data-rk=""
   >
-    <svg
-      aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-xeezxv-MuiSvgIcon-root"
-      focusable="false"
-      style="font-size: 17.5px;"
-      viewBox="0 0 20 20"
+    <style>
+      [data-rk]{--rk-blurs-modalOverlay:blur(0px);--rk-fonts-body:SFRounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";--rk-radii-actionButton:9999px;--rk-radii-connectButton:12px;--rk-radii-menuButton:12px;--rk-radii-modal:24px;--rk-radii-modalMobile:28px;--rk-colors-accentColor:#0E76FD;--rk-colors-accentColorForeground:#FFF;--rk-colors-actionButtonBorder:rgba(0, 0, 0, 0.04);--rk-colors-actionButtonBorderMobile:rgba(0, 0, 0, 0.06);--rk-colors-actionButtonSecondaryBackground:rgba(0, 0, 0, 0.06);--rk-colors-closeButton:rgba(60, 66, 66, 0.8);--rk-colors-closeButtonBackground:rgba(0, 0, 0, 0.06);--rk-colors-connectButtonBackground:#FFF;--rk-colors-connectButtonBackgroundError:#FF494A;--rk-colors-connectButtonInnerBackground:linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));--rk-colors-connectButtonText:#25292E;--rk-colors-connectButtonTextError:#FFF;--rk-colors-connectionIndicator:#30E000;--rk-colors-error:#FF494A;--rk-colors-generalBorder:rgba(0, 0, 0, 0.06);--rk-colors-generalBorderDim:rgba(0, 0, 0, 0.03);--rk-colors-menuItemBackground:rgba(60, 66, 66, 0.1);--rk-colors-modalBackdrop:rgba(0, 0, 0, 0.3);--rk-colors-modalBackground:#FFF;--rk-colors-modalBorder:transparent;--rk-colors-modalText:#25292E;--rk-colors-modalTextDim:rgba(60, 66, 66, 0.3);--rk-colors-modalTextSecondary:rgba(60, 66, 66, 0.6);--rk-colors-profileAction:#FFF;--rk-colors-profileActionHover:rgba(255, 255, 255, 0.5);--rk-colors-profileForeground:rgba(60, 66, 66, 0.06);--rk-colors-selectedOptionBorder:rgba(60, 66, 66, 0.1);--rk-colors-standby:#FFD641;--rk-shadows-connectButton:0px 4px 12px rgba(0, 0, 0, 0.1);--rk-shadows-dialog:0px 8px 32px rgba(0, 0, 0, 0.32);--rk-shadows-profileDetailsAction:0px 2px 6px rgba(37, 41, 46, 0.04);--rk-shadows-selectedOption:0px 2px 6px rgba(0, 0, 0, 0.24);--rk-shadows-selectedWallet:0px 2px 6px rgba(0, 0, 0, 0.12);--rk-shadows-walletLogo:0px 2px 16px rgba(0, 0, 0, 0.16);}
+    </style>
+    <button
+      class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard toggle-button css-1b65e9v-MuiButtonBase-root-MuiToggleButton-root"
+      tabindex="0"
+      title="Change Theme"
+      type="button"
+      value="check"
     >
-      <path
-        d="M10.68 2.531a.692.692 0 0 0-.688-.68.69.69 0 0 0-.68.68v1.64c0 .368.313.68.68.68a.692.692 0 0 0 .688-.68v-1.64Zm3.172 2.977a.694.694 0 0 0 0 .96.681.681 0 0 0 .968 0l1.164-1.163a.689.689 0 0 0 0-.97.684.684 0 0 0-.953 0l-1.18 1.173Zm-8.688.96a.679.679 0 0 0 .961 0 .686.686 0 0 0 .008-.96L4.969 4.336a.701.701 0 0 0-.961 0 .701.701 0 0 0-.008.96L5.164 6.47Zm4.828-.124c-2.18 0-3.984 1.804-3.984 3.984 0 2.18 1.804 3.992 3.984 3.992 2.172 0 3.977-1.812 3.977-3.992 0-2.18-1.805-3.984-3.977-3.984Zm7.774 4.664a.692.692 0 0 0 .687-.68.692.692 0 0 0-.687-.68h-1.633a.69.69 0 0 0-.68.68c0 .367.313.68.68.68h1.633ZM2.219 9.648a.69.69 0 0 0-.68.68c0 .367.313.68.68.68h1.633a.692.692 0 0 0 .687-.68.692.692 0 0 0-.687-.68H2.219Zm12.594 4.547a.694.694 0 0 0-.961 0 .694.694 0 0 0 0 .961l1.18 1.172a.679.679 0 0 0 .953-.969l-1.172-1.164ZM4 15.352a.701.701 0 0 0-.008.96.703.703 0 0 0 .969.008l1.164-1.164a.686.686 0 0 0 .008-.96.703.703 0 0 0-.969 0L4 15.351Zm6.68 1.132a.692.692 0 0 0-.688-.68.69.69 0 0 0-.68.68v1.641c0 .367.313.68.68.68a.692.692 0 0 0 .688-.68v-1.64Z"
-      />
-    </svg>
-  </button>
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-xeezxv-MuiSvgIcon-root"
+        focusable="false"
+        style="font-size: 17.5px;"
+        viewBox="0 0 20 20"
+      >
+        <path
+          d="M10.68 2.531a.692.692 0 0 0-.688-.68.69.69 0 0 0-.68.68v1.64c0 .368.313.68.68.68a.692.692 0 0 0 .688-.68v-1.64Zm3.172 2.977a.694.694 0 0 0 0 .96.681.681 0 0 0 .968 0l1.164-1.163a.689.689 0 0 0 0-.97.684.684 0 0 0-.953 0l-1.18 1.173Zm-8.688.96a.679.679 0 0 0 .961 0 .686.686 0 0 0 .008-.96L4.969 4.336a.701.701 0 0 0-.961 0 .701.701 0 0 0-.008.96L5.164 6.47Zm4.828-.124c-2.18 0-3.984 1.804-3.984 3.984 0 2.18 1.804 3.992 3.984 3.992 2.172 0 3.977-1.812 3.977-3.992 0-2.18-1.805-3.984-3.977-3.984Zm7.774 4.664a.692.692 0 0 0 .687-.68.692.692 0 0 0-.687-.68h-1.633a.69.69 0 0 0-.68.68c0 .367.313.68.68.68h1.633ZM2.219 9.648a.69.69 0 0 0-.68.68c0 .367.313.68.68.68h1.633a.692.692 0 0 0 .687-.68.692.692 0 0 0-.687-.68H2.219Zm12.594 4.547a.694.694 0 0 0-.961 0 .694.694 0 0 0 0 .961l1.18 1.172a.679.679 0 0 0 .953-.969l-1.172-1.164ZM4 15.352a.701.701 0 0 0-.008.96.703.703 0 0 0 .969.008l1.164-1.164a.686.686 0 0 0 .008-.96.703.703 0 0 0-.969 0L4 15.351Zm6.68 1.132a.692.692 0 0 0-.688-.68.69.69 0 0 0-.68.68v1.641c0 .367.313.68.68.68a.692.692 0 0 0 .688-.68v-1.64Z"
+        />
+      </svg>
+    </button>
+  </div>
 </div>
 `;

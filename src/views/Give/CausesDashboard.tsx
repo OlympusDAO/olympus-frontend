@@ -8,10 +8,10 @@ import { useUIDSeed } from "react-uid";
 import ProjectCard, { ProjectDetailsMode } from "src/components/GiveProject/ProjectCard";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useAppDispatch } from "src/hooks";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 import { RecipientModal } from "src/views/Give/RecipientModal";
+import { useAccount } from "wagmi";
 
 import { error } from "../../slices/MessagesSlice";
 import { useGive } from "./hooks/useGive";
@@ -25,7 +25,7 @@ type CausesDashboardProps = {
 const ZERO_NUMBER = new DecimalBigNumber("0");
 
 export default function CausesDashboard({ giveAssetType, changeAssetType }: CausesDashboardProps) {
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
   const [isCustomGiveModalOpen, setIsCustomGiveModalOpen] = useState(false);
   const { projects } = data;
 
@@ -110,7 +110,7 @@ export default function CausesDashboard({ giveAssetType, changeAssetType }: Caus
               </Grid>
               <Grid item xs />
               <Grid item xs={12} sm={4} container justifyContent="center">
-                <PrimaryButton fullWidth onClick={() => handleCustomGiveButtonClick()} disabled={!address}>
+                <PrimaryButton fullWidth onClick={() => handleCustomGiveButtonClick()} disabled={!account?.address}>
                   <Trans>Select Custom Recipient</Trans>
                 </PrimaryButton>
               </Grid>

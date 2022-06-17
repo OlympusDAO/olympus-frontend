@@ -16,7 +16,6 @@ import { formatCurrency, formatNumber } from "src/helpers";
 import {
   balancerPools,
   beetsPools,
-  bobaPools,
   convexPools,
   curvePools,
   joePools,
@@ -25,15 +24,14 @@ import {
   sushiPools,
   zipPools,
 } from "src/helpers/AllExternalPools";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
+import { useConnect } from "wagmi";
 
 import {
   BalancerPoolAPY,
   BalancerSwapFees,
   BeetsPoolAPY,
-  BobaPoolAPY,
   ConvexPoolAPY,
   CurvePoolAPY,
   JoePoolAPY,
@@ -75,7 +73,7 @@ const StyledPoolInfo = styled("div")(() => ({
 }));
 
 export const ExternalStakePools = () => {
-  const { connected } = useWeb3Context();
+  const { isConnected } = useConnect();
   const isSmallScreen = useMediaQuery("(max-width: 705px)");
   return (
     <>
@@ -90,15 +88,15 @@ export const ExternalStakePools = () => {
                   <Trans>Asset</Trans>
                 </TableCell>
 
-                <TableCell style={{ width: connected ? "100px" : "150px", padding: "8px 0" }}>
+                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>
                   <Trans>TVL</Trans>
                 </TableCell>
 
-                <TableCell style={{ width: connected ? "100px" : "150px", padding: "8px 0" }}>
+                <TableCell style={{ width: isConnected ? "100px" : "150px", padding: "8px 0" }}>
                   <Trans>APY</Trans>
                 </TableCell>
 
-                {connected && <TableCell style={{ width: "100px", padding: "8px 0" }}>{t`Balance`}</TableCell>}
+                {isConnected && <TableCell style={{ width: "100px", padding: "8px 0" }}>{t`Balance`}</TableCell>}
               </TableRow>
             </StyledTableHeader>
             <AllPools isSmallScreen={isSmallScreen} />
@@ -132,9 +130,6 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
     {balancerPools.map(pool => (
       <BalancerPools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
-    {bobaPools.map(pool => (
-      <BobaPools pool={pool} isSmallScreen={props.isSmallScreen} />
-    ))}
     {curvePools.map(pool => (
       <CurvePools pool={pool} isSmallScreen={props.isSmallScreen} />
     ))}
@@ -145,7 +140,7 @@ const AllPools = (props: { isSmallScreen: boolean }) => (
 );
 
 const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = props => {
-  const { connected } = useWeb3Context();
+  const { isConnected } = useConnect();
 
   const userBalances = useStakePoolBalance(props.pool);
   const userBalance = userBalances[props.pool.networkID].data;
@@ -174,7 +169,7 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
         </Typography>
       </TableCell>
 
-      {connected && (
+      {isConnected && (
         <TableCell style={{ padding: "8px 0" }}>
           <Typography gutterBottom={false} style={{ lineHeight: 1.4 }}>
             {!userBalance ? (
@@ -196,7 +191,7 @@ const StakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = 
 };
 
 const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number }> = props => {
-  const { connected } = useWeb3Context();
+  const { isConnected } = useConnect();
 
   const userBalances = useStakePoolBalance(props.pool);
   const userBalance = userBalances[props.pool.networkID].data;
@@ -221,7 +216,7 @@ const MobileStakePool: React.FC<{ pool: ExternalPool; tvl?: number; apy?: number
         balance={props.apy ? `${formatNumber(props.apy * 100, 2)} %` : undefined}
       />
 
-      {connected && (
+      {isConnected && (
         <DataRow
           title={t`Balance`}
           isLoading={!userBalance}
@@ -300,16 +295,6 @@ const BalancerPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = 
     <MobileStakePool pool={props.pool} tvl={data.totalLiquidity} apy={apy} />
   ) : (
     <StakePool pool={props.pool} tvl={data.totalLiquidity} apy={apy} />
-  );
-};
-
-const BobaPools: React.FC<{ pool: ExternalPool; isSmallScreen: boolean }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = BobaPoolAPY(props.pool);
-  return props.isSmallScreen ? (
-    <MobileStakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
-  ) : (
-    <StakePool pool={props.pool} tvl={totalValueLocked} apy={apy} />
   );
 };
 

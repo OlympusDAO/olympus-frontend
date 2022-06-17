@@ -5,9 +5,9 @@ import { useDispatch } from "react-redux";
 import { BOND_DEPOSITORY_CONTRACT } from "src/constants/contracts";
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
-import { useWeb3Context } from "src/hooks";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { useAccount, useNetwork, useSigner } from "wagmi";
 
 import { bondNotesQueryKey } from "./useBondNotes";
 
@@ -15,20 +15,21 @@ export const useClaimBonds = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
   const networks = useTestableNetworks();
-  const { address, provider, networkId } = useWeb3Context();
-
+  const { data: account } = useAccount();
+  const { data: signer } = useSigner();
+  const { activeChain = { id: 1 } } = useNetwork();
+  const address = account?.address ? account.address : "";
   return useMutation<ContractReceipt, Error, { id?: string; isPayoutGohm: boolean }>(
     async ({ id, isPayoutGohm }) => {
-      if (!provider) throw new Error(t`Please connect a wallet to claim bonds`);
-      if (networkId !== networks.MAINNET)
+      if (!signer) throw new Error(t`Please connect a wallet to claim bonds`);
+      if (activeChain.id !== networks.MAINNET)
         throw new Error(
           typeof id === "undefined"
             ? t`Please switch to the Ethereum network to claim all bonds`
             : t`Please switch to the Ethereum network to claim this bond`,
         );
-      if (!isValidAddress(address)) throw new Error(t`Invalid address`);
+      if (!isValidAddress(address) || !address) throw new Error(t`Invalid address`);
 
-      const signer = provider.getSigner();
       const contract = BOND_DEPOSITORY_CONTRACT.getEthersContract(networks.MAINNET).connect(signer);
 
       if (id) {

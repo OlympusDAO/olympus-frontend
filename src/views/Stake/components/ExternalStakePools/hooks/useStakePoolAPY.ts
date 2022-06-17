@@ -5,12 +5,9 @@ import { getTokenPrice, parseBigNumber } from "src/helpers";
 import { createDependentQuery } from "src/helpers/react-query/createDependentQuery";
 import { queryAssertion } from "src/helpers/react-query/queryAssertion";
 import { nonNullable } from "src/helpers/types/nonNullable";
-import { useWeb3Context } from "src/hooks";
 import {
   useStaticBalancerV2PoolContract,
   useStaticBeethovenChefContract,
-  useStaticBobaChefContract,
-  useStaticBobaRewarderContract,
   useStaticChefContract,
   useStaticChefRewarderContract,
   useStaticCurveGaugeControllerContract,
@@ -25,6 +22,7 @@ import {
 } from "src/hooks/useContract";
 import { useGohmPrice } from "src/hooks/usePrices";
 import { ExternalPool } from "src/lib/ExternalPool";
+import { useProvider } from "wagmi";
 
 import { BalancerPoolTVL, useStakePoolTVL } from "./useStakePoolTVL";
 
@@ -109,7 +107,7 @@ export const BalancerPoolAPY = (pool: ExternalPool) => {
 
 export const BalancerSwapFees = (address: string) => {
   const blocksPerDay = 6646; //Average 13 blocks per second MAINNET
-  const { provider } = useWeb3Context();
+  const provider = useProvider();
   const balancerURL = "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2";
   const {
     data = { dailyFees: 0, totalLiquidity: 0 },
@@ -145,22 +143,6 @@ export const BalancerSwapFees = (address: string) => {
   });
 
   return { data, isFetched, isLoading };
-};
-
-export const BobaPoolAPY = (pool: ExternalPool) => {
-  const { data: tvl = 0 } = useStakePoolTVL(pool);
-  const bobaChef = useStaticBobaChefContract(pool.masterchef, pool.networkID);
-  const bobaRewarder = useStaticBobaRewarderContract(pool.rewarder, pool.networkID);
-  const { data, isFetched, isLoading } = useQuery(["StakePoolAPY", pool], async () => {
-    const rewardsPerWeek = parseBigNumber(await bobaChef.oolongPerSec(), 18) * 604800;
-    const rewarderRewardsPerSecond = parseBigNumber(await bobaRewarder.rewardRate(), 18);
-    const poolInfo = await bobaChef.poolInfo(pool.poolId);
-    const totalAllocPoint = parseBigNumber(await bobaChef.totalAllocPoint(), 18);
-    const poolRewardsPerWeek = (parseBigNumber(poolInfo.allocPoint, 18) / totalAllocPoint) * rewardsPerWeek;
-    return { poolRewardsPerWeek, rewarderRewardsPerSecond };
-  });
-  const { data: apy = 0 } = APY(pool, tvl, data, pool.bonusGecko);
-  return { apy, isFetched, isLoading };
 };
 
 export const CurvePoolAPY = (pool: ExternalPool) => {

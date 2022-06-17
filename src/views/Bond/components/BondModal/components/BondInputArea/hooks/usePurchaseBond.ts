@@ -7,18 +7,21 @@ import { BOND_DEPOSITORY_CONTRACT, OP_BOND_DEPOSITORY_CONTRACT } from "src/const
 import { trackGAEvent, trackGtagEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isValidAddress } from "src/helpers/misc/isValidAddress";
-import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey, useBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 import { bondNotesQueryKey } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { Bond } from "src/views/Bond/hooks/useBond";
+import { useAccount, useNetwork, useSigner } from "wagmi";
 
 export const usePurchaseBond = (bond: Bond) => {
   const dispatch = useDispatch();
   const client = useQueryClient();
   const networks = useTestableNetworks();
-  const { provider, networkId, address } = useWeb3Context();
+  const { data: signer } = useSigner();
+  const { activeChain = { id: 1 } } = useNetwork();
+  const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
   const balance = useBalance(bond.quoteToken.addresses)[networks.MAINNET].data;
 
   return useMutation<
@@ -61,15 +64,14 @@ export const usePurchaseBond = (bond: Bond) => {
 
       if (!isValidAddress(recipientAddress)) throw new Error(t`Please enter a valid address as the recipient address`);
 
-      if (!provider) throw new Error(t`Please connect a wallet to purchase a bond`);
+      if (!signer) throw new Error(t`Please connect a wallet to purchase a bond`);
 
-      if (networkId !== networks.MAINNET)
+      if (activeChain.id !== networks.MAINNET)
         throw new Error(t`Please switch to the Ethereum network to purchase this bond`);
 
       const slippageAsPercent = parsedSlippage.div("100");
       const maxPrice = bond.price.inBaseToken.mul(slippageAsPercent.add("1"));
 
-      const signer = provider.getSigner();
       const referrer = DAO_TREASURY_ADDRESSES[networks.MAINNET];
 
       if (isInverseBond) {

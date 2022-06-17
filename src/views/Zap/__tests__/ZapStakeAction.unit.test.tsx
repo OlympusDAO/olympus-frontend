@@ -7,23 +7,26 @@ import * as Contract from "src/hooks/useContract";
 import * as ContractAllowance from "src/hooks/useContractAllowance";
 import * as Prices from "src/hooks/usePrices";
 import * as ZapBalances from "src/hooks/useZapTokenBalances";
-import * as useWeb3Context from "src/hooks/web3Context";
-import { mockWeb3Context } from "src/testHelpers";
+import { connectWallet } from "src/testHelpers";
 import { render, screen } from "src/testUtils";
 import * as ZapFactory from "src/typechain/factories/Zap__factory";
+import * as WAGMI from "wagmi";
 
 import { zapAPIResponse } from "../__mocks__/mockZapBalances";
 import ZapStakeAction from "../ZapStakeAction";
 
-afterEach(() => {
-  jest.resetAllMocks();
-  jest.restoreAllMocks();
-});
+// afterEach(() => {
+//   jest.resetAllMocks();
+//   jest.restoreAllMocks();
+// });
+
+// beforeAll(() => {
+//   connectWallet();
+// });
 
 describe("<ZapStakeAction/> ", () => {
   beforeEach(() => {
-    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    data.mockReturnValue(mockWeb3Context);
+    connectWallet();
     global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
     //@ts-expect-error
     Balances.useSohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });
@@ -121,6 +124,7 @@ describe("<ZapStakeAction/> ", () => {
 
 describe("Loading Balances", () => {
   beforeEach(() => {
+    connectWallet();
     const zapBalances = jest.spyOn(ZapBalances, "useZapTokenBalances");
     //@ts-expect-error
     zapBalances.mockReturnValueOnce({ isLoading: true });
@@ -133,8 +137,6 @@ describe("Loading Balances", () => {
   });
 
   it("should display loading modal if balances are still loading", () => {
-    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    data.mockReturnValue(mockWeb3Context);
     render(
       <>
         <Messages />
@@ -149,8 +151,18 @@ describe("Loading Balances", () => {
 
 describe("<ZapStakeAction/> Not on Mainnet", () => {
   beforeEach(() => {
-    const data = jest.spyOn(useWeb3Context, "useWeb3Context");
-    data.mockReturnValue({ ...mockWeb3Context, networkId: 123 });
+    connectWallet();
+    //@ts-ignore
+    WAGMI.useNetwork = jest.fn(() => {
+      return {
+        activeChain: {
+          id: 123,
+        },
+      };
+    });
+    const zapBalances = jest.spyOn(ZapBalances, "useZapTokenBalances");
+    //@ts-expect-error
+    zapBalances.mockReturnValueOnce({ isLoading: true });
     global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockReturnValue(zapAPIResponse) });
     //@ts-expect-error
     Balances.useSohmBalance = jest.fn().mockReturnValue({ 1: { data: new DecimalBigNumber("10") } });

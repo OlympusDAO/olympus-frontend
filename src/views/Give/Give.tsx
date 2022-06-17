@@ -10,8 +10,8 @@ import { Outlet, Route, Routes } from "react-router";
 import { NavLink as RouterLink } from "react-router-dom";
 import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useV1RedeemableBalance } from "src/hooks/useGiveInfo";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
+import { useNetwork } from "wagmi";
 
 import { CallToRedeem } from "./CallToRedeem";
 import CausesDashboard from "./CausesDashboard";
@@ -25,10 +25,9 @@ import YieldRecipients from "./YieldRecipients";
 
 function Give({ selectedIndex = 0 }) {
   const [giveAssetType, setGiveAssetType] = useState<"sOHM" | "gOHM">("sOHM");
+  const { activeChain = { id: 1 } } = useNetwork();
 
-  const { address, networkId } = useWeb3Context();
-
-  const v1RedeemableBalance = useV1RedeemableBalance(address);
+  const v1RedeemableBalance = useV1RedeemableBalance();
   const hasV1Assets = v1RedeemableBalance.data && v1RedeemableBalance.data != "0.0";
 
   const theme = useTheme();
@@ -47,7 +46,7 @@ function Give({ selectedIndex = 0 }) {
             <Grid container direction="column" alignItems="center" className="give-container">
               <Grid item xs={12} sm={10} md={10} lg={8}>
                 <Paper headerText={t`Give`} fullWidth className="no-container-padding" zoom={false}>
-                  {!isSupportedChain(networkId) ? (
+                  {!isSupportedChain(activeChain.id) ? (
                     <Typography variant="h6">
                       Note: You are currently using an unsupported network. Please switch to Ethereum to experience the
                       full functionality.

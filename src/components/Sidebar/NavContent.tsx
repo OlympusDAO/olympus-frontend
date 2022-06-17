@@ -7,9 +7,9 @@ import { NavLink } from "react-router-dom";
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { BondDiscount } from "src/views/Bond/components/BondDiscount";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
+import { useNetwork } from "wagmi";
 
 import { ReactComponent as OlympusIcon } from "../../assets/icons/olympus-nav-header.svg";
 import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
@@ -27,7 +27,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const NavContent: React.VFC = () => {
-  const { networkId } = useWeb3Context();
+  const { activeChain = { id: 1 } } = useNetwork();
   const networks = useTestableNetworks();
 
   return (
@@ -49,7 +49,7 @@ const NavContent: React.VFC = () => {
 
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              {networkId === networks.MAINNET ? (
+              {activeChain.id === networks.MAINNET ? (
                 <>
                   <NavItem to="/dashboard" icon="dashboard" label={t`Dashboard`} />
 
@@ -112,7 +112,7 @@ const NavContent: React.VFC = () => {
             <Icon name="twitter" className={classes.gray} />
           </Link>
 
-          <Link href="https://discord.gg/6QjjtUcfM4" target="_blank">
+          <Link href="https://discord.gg/OlympusDAO" target="_blank">
             <Icon name="discord" className={classes.gray} />
           </Link>
         </StyledBox>

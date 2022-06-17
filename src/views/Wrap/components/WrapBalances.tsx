@@ -1,12 +1,12 @@
 import { t } from "@lingui/macro";
 import { DataRow } from "@olympusdao/component-library";
-import { useWeb3Context } from "src/hooks";
 import { useGohmBalance, useSohmBalance, useWsohmBalance } from "src/hooks/useBalance";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
+import { useNetwork } from "wagmi";
 
 export const WrapBalances = () => {
   const networks = useTestableNetworks();
-  const { networkId } = useWeb3Context();
+  const { activeChain = { id: 1 } } = useNetwork();
   const sohmBalance = useSohmBalance()[networks.MAINNET].data;
 
   const gohmBalances = useGohmBalance();
@@ -18,7 +18,7 @@ export const WrapBalances = () => {
   const wsohmArb = wsohmBalances[networks.ARBITRUM].data;
   const wsohmAvax = wsohmBalances[networks.AVALANCHE].data;
 
-  if (networkId === networks.AVALANCHE)
+  if (activeChain.id === networks.AVALANCHE)
     return (
       <>
         <DataRow
@@ -34,7 +34,7 @@ export const WrapBalances = () => {
       </>
     );
 
-  if (networkId === networks.ARBITRUM)
+  if (activeChain.id === networks.ARBITRUM)
     return (
       <>
         <DataRow

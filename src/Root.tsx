@@ -5,9 +5,10 @@ import { StyledEngineProvider } from "@mui/material/styles";
 import { FC, useEffect } from "react";
 import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
+import { WagmiConfig } from "wagmi";
 
 import App from "./App";
-import { Web3ContextProvider } from "./hooks/web3Context";
+import { wagmiClient } from "./hooks/wagmi";
 import { ReactQueryProvider } from "./lib/react-query";
 import { initLocale } from "./locales";
 import store from "./store";
@@ -18,7 +19,7 @@ const Root: FC = () => {
   }, []);
 
   return (
-    <Web3ContextProvider>
+    <WagmiConfig client={wagmiClient}>
       <ReactQueryProvider>
         <Provider store={store}>
           <I18nProvider i18n={i18n}>
@@ -30,7 +31,7 @@ const Root: FC = () => {
           </I18nProvider>
         </Provider>
       </ReactQueryProvider>
-    </Web3ContextProvider>
+    </WagmiConfig>
   );
 };
 

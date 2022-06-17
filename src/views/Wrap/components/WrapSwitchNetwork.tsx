@@ -1,19 +1,15 @@
 import { Trans } from "@lingui/macro";
 import { Button, Typography } from "@mui/material";
 import { TertiaryButton, Token } from "@olympusdao/component-library";
-import { NETWORKS } from "src/constants";
-import { useWeb3Context } from "src/hooks";
-import { useSwitchNetwork } from "src/hooks/useSwitchNetwork";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
+import { useNetwork } from "wagmi";
 
 export const WrapSwitchNetwork = () => {
-  const { mutate } = useSwitchNetwork();
   const networks = useTestableNetworks();
 
-  const { networkId } = useWeb3Context();
-  const isMainnet = networkId === networks.MAINNET;
-
+  const { activeChain = { id: 1 }, switchNetwork } = useNetwork();
+  const isMainnet = activeChain.id === networks.MAINNET;
   if (!isMainnet)
     return (
       <>
@@ -21,16 +17,11 @@ export const WrapSwitchNetwork = () => {
           Back to Ethereum Mainnet
         </Typography>
 
-        <Button onClick={() => mutate(NetworkId.MAINNET)} variant="outlined" color="secondary">
-          <img
-            height="28px"
-            width="28px"
-            src={String(NETWORKS[NetworkId.MAINNET].image)}
-            alt={NETWORKS[NetworkId.MAINNET].imageAltText}
-          />
+        <Button onClick={() => switchNetwork?.(NetworkId.MAINNET)} variant="outlined" color="secondary">
+          <Token name="ETH" style={{ fontSize: "28px" }} />
 
           <Typography variant="h6" style={{ marginLeft: "8px" }}>
-            {NETWORKS[NetworkId.MAINNET].chainName}
+            Ethereum
           </Typography>
         </Button>
       </>
@@ -44,14 +35,14 @@ export const WrapSwitchNetwork = () => {
         </Trans>
       </Typography>
 
-      <TertiaryButton size="large" onClick={() => mutate(NetworkId.AVALANCHE)} style={{ margin: "0.3rem" }}>
-        <Token name="AVAX" style={{ marginRight: "8px" }} />
-        {NETWORKS[NetworkId.AVALANCHE].chainName}
+      <TertiaryButton size="large" onClick={() => switchNetwork?.(NetworkId.AVALANCHE)} style={{ margin: "0.3rem" }}>
+        <Token name="AVALANCHE" style={{ marginRight: "8px" }} />
+        Avalanche
       </TertiaryButton>
 
-      <TertiaryButton size="large" onClick={() => mutate(NetworkId.ARBITRUM)} style={{ margin: "0.3rem" }}>
+      <TertiaryButton size="large" onClick={() => switchNetwork?.(NetworkId.ARBITRUM)} style={{ margin: "0.3rem" }}>
         <Token name="ARBITRUM" style={{ marginRight: "8px" }} />
-        {NETWORKS[NetworkId.ARBITRUM].chainName}
+        Arbitrum
       </TertiaryButton>
     </>
   );

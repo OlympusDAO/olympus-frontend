@@ -10,7 +10,6 @@ import { formatCurrency, formatNumber, parseBigNumber, trim } from "src/helpers"
 import {
   balancerPools,
   beetsPools,
-  bobaPools,
   convexPools,
   curvePools,
   joePools,
@@ -22,7 +21,6 @@ import {
 import { sortByDiscount } from "src/helpers/bonds/sortByDiscount";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { prettifySecondsInDays } from "src/helpers/timeUtil";
-import { useWeb3Context } from "src/hooks";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { ExternalPool } from "src/lib/ExternalPool";
 import { NetworkId } from "src/networkDetails";
@@ -31,7 +29,6 @@ import {
   BalancerPoolAPY,
   BalancerSwapFees,
   BeetsPoolAPY,
-  BobaPoolAPY,
   ConvexPoolAPY,
   CurvePoolAPY,
   JoePoolAPY,
@@ -45,6 +42,7 @@ import {
   CurvePoolTVL,
   useStakePoolTVL,
 } from "src/views/Stake/components/ExternalStakePools/hooks/useStakePoolTVL";
+import { useNetwork } from "wagmi";
 
 import { SupplyRatePerBlock } from "./queries";
 
@@ -67,7 +65,7 @@ const StyledBox = styled(Box)(() => ({
  * Component for Displaying GetOhm
  */
 const GetOhm: FC = () => {
-  const { networkId } = useWeb3Context();
+  const { activeChain = { id: 1 } } = useNetwork();
   const { data: supplyRate } = SupplyRatePerBlock();
   const { data: rebaseRate = 0 } = useStakingRebaseRate();
   const ethMantissa = 1e18;
@@ -101,7 +99,7 @@ const GetOhm: FC = () => {
             />
           </Grid>
         </Grid>
-        {NetworkId.MAINNET === networkId && (
+        {NetworkId.MAINNET === activeChain.id && (
           <>
             <Typography variant="h6" className={classes.title}>
               Zap
@@ -163,9 +161,6 @@ const GetOhm: FC = () => {
         ))}
         {balancerPools.map((pool, index) => (
           <BalancerPools key={index} pool={pool} />
-        ))}
-        {bobaPools.map((pool, index) => (
-          <BobaPools key={index} pool={pool} />
         ))}
         {curvePools.map((pool, index) => (
           <CurvePools key={index} pool={pool} />
@@ -289,11 +284,6 @@ const BalancerPools: React.FC<{ pool: ExternalPool }> = props => {
   const { data } = BalancerSwapFees(props.pool.address);
   const { apy } = BalancerPoolAPY(props.pool);
   return <PoolCard {...props} value={data.totalLiquidity && formatCurrency(data.totalLiquidity)} roi={apy} />;
-};
-const BobaPools: React.FC<{ pool: ExternalPool }> = props => {
-  const { data: totalValueLocked } = useStakePoolTVL(props.pool);
-  const { apy } = BobaPoolAPY(props.pool);
-  return <PoolCard {...props} value={totalValueLocked && formatCurrency(totalValueLocked)} roi={apy} />;
 };
 const CurvePools: React.FC<{ pool: ExternalPool }> = props => {
   const { data } = CurvePoolTVL(props.pool);
