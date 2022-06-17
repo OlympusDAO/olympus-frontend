@@ -125,15 +125,6 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
   const formattedWsOhmBalance = totalWsohmBalance.toString({ decimals: 4, trim: false, format: true });
   const formattedgOhmBalance = totalGohmBalance.toString({ decimals: 4, trim: false, format: true });
   const formattedSOhmBalance = sOhmBalance.toString({ decimals: 4, trim: false, format: true });
-  console.log(
-    "fs",
-    formattedSOhmBalance,
-    Number(formattedSOhmBalance),
-    sOhmBalance,
-    ohmPrice,
-    Number(formattedSOhmBalance) * ohmPrice,
-  );
-  console.log("fg", formattedgOhmBalance, Number(formattedgOhmBalance), totalGohmBalance);
   const gOhmPriceChange = priceFeed.usd_24h_change * currentIndex.toApproxNumber();
   const gOhmPrice = ohmPrice * currentIndex.toApproxNumber();
   const rebaseAmountPerDay = rebaseRate * Number(formattedSOhmBalance) * 3;
