@@ -2782,10 +2782,10 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@multifarm/widget@^0.0.159":
-  version "0.0.159"
-  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.159.tgz#be2ca5b6c76c731ed8039648a76481923e532e9e"
-  integrity sha512-Q/VrgF3Spc8HtmBznwa9sA3Zx0vbC1QAoxwo1bvQUmIgafcOeFvJMnlrVz1lh5KF/hDemqlErn8x0Hx9r3oK8g==
+"@multifarm/widget@^0.0.162":
+  version "0.0.162"
+  resolved "https://registry.yarnpkg.com/@multifarm/widget/-/widget-0.0.162.tgz#d2c08424e87f5c593712f45a5c5381b4a2de5a0c"
+  integrity sha512-QKr6SbVf9lzDh+Uxw4f0I/KI/SLgJU/CIfWrM/oBa0osuLrqruq0xdMmmZBXYxTh+wIfx1LMc6K6PlKtY0Cn9Q==
   dependencies:
     "@tippyjs/react" "^4.2.6"
     clsx "^1.1.1"
