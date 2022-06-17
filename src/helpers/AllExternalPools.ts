@@ -115,21 +115,6 @@ export const jones_gohm_jgohm = new ExternalPool({
   networkID: NetworkId.ARBITRUM,
 });
 
-export const oolong_gohm_weth = new ExternalPool({
-  poolName: "wETH-gOHM",
-  icons: ["wETH", "gOHM"],
-  stakeOn: "OolongSwap",
-  pairGecko: "ethereum",
-  rewardGecko: "oolongswap",
-  bonusGecko: "boba-network",
-  href: "https://oolongswap.com/#/farm/lp",
-  address: "0x82d5dce44eddb117f6cca21229ced03965c9e0bb",
-  masterchef: "0xd0e6dfA5E5511e138BfCDDaDdF70FDBa2Ab8396C",
-  rewarder: "0xfafF71171ED44d3b1E14f15EE7ee2E0fD2bF22Ae",
-  poolId: 12,
-  networkID: NetworkId.BOBA,
-});
-
 export const curve_ohm_eth = new ExternalPool({
   poolName: "OHM-ETH",
   icons: ["OHM", "ETH"],
@@ -166,7 +151,6 @@ export const beetsPools = [beets_ftm_gohm_wFTM];
 export const zipPools = [zip_gohm_weth];
 export const jonesPools = [jones_gohm_jgohm];
 export const balancerPools = [balancer_ohm_dai_weth];
-export const bobaPools = [oolong_gohm_weth];
 export const curvePools = [curve_ohm_eth];
 export const convexPools = [convex_ohm_eth];
 export default allPools;

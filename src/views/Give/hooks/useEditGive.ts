@@ -6,12 +6,12 @@ import gOHM from "src/abi/gOHM.json";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUAData, trackGiveEvent } from "src/helpers/analytics/trackGiveEvent";
 import { ACTION_GIVE_EDIT, ACTION_GIVE_WITHDRAW, getTypeFromAction } from "src/helpers/GiveHelpers";
-import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicGiveContract } from "src/hooks/useContract";
 import { donationInfoQueryKey, recipientInfoQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { useAccount, useNetwork, useSigner } from "wagmi";
 
 import { EditGiveData } from "../Interfaces";
 
@@ -22,9 +22,11 @@ import { EditGiveData } from "../Interfaces";
 export const useIncreaseGive = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+
+  const address = account?.address ? account.address : "";
 
   // Mutation to interact with the YieldDirector contract
   return useMutation<ContractReceipt, Error, EditGiveData>(
@@ -38,6 +40,7 @@ export const useIncreaseGive = () => {
         throw new Error(
           t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
+      if (!address) throw new Error(t`Please refresh your page and try again`);
 
       const uaData: IUAData = {
         address: address,
@@ -92,12 +95,17 @@ export const useIncreaseGive = () => {
 export const useDecreaseGive = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { address, networkId, provider } = useWeb3Context();
+  const { data: account } = useAccount();
+  const { activeChain = { id: 1 } } = useNetwork();
+  const { data: signer } = useSigner();
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
-
-  const signer = provider.getSigner();
-  const gohmContract = new ethers.Contract(GOHM_ADDRESSES[networkId as keyof typeof GOHM_ADDRESSES], gOHM.abi, signer);
+  const address = account?.address ? account.address : "";
+  const gohmContract = new ethers.Contract(
+    GOHM_ADDRESSES[activeChain.id as keyof typeof GOHM_ADDRESSES],
+    gOHM.abi,
+    signer ? signer : undefined,
+  );
 
   // Mutation to interact with the YieldDirector contract
   return useMutation<ContractReceipt, Error, EditGiveData>(
@@ -111,9 +119,9 @@ export const useDecreaseGive = () => {
         throw new Error(
           t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
-
+      if (!address) throw new Error(t`No account available`);
       const uaData: IUAData = {
-        address: address,
+        address,
         value: amount_,
         recipient: recipient_,
         approved: true,

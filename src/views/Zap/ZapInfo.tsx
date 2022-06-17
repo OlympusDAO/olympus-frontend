@@ -5,6 +5,7 @@ import { Box, Button, Grid, Paper, SvgIcon, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Token, TokenStack } from "@olympusdao/component-library";
 import React from "react";
+import { useAccount } from "wagmi";
 
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
 import { trackGAEvent } from "../../helpers/analytics/trackGAEvent";
@@ -65,11 +66,11 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 type ZapInfoProps = {
   tokens?: Array<string>;
-  address: string;
 };
 
-const ZapInfo: React.FC<ZapInfoProps> = ({ address }) => {
-  const trackClick = (address: string) => {
+const ZapInfo: React.FC<ZapInfoProps> = () => {
+  const { data: account } = useAccount();
+  const trackClick = (address?: string) => {
     const uaData = {
       address,
       type: "Learn more OlyZaps",
@@ -167,7 +168,7 @@ const ZapInfo: React.FC<ZapInfoProps> = ({ address }) => {
           target="_blank"
           className="learn-more-button"
           onClick={() => {
-            trackClick(address);
+            trackClick(account?.address);
           }}
         >
           <Typography variant="body1">Learn More</Typography>

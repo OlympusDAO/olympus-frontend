@@ -8,8 +8,6 @@ test("formatCurrency always returns value starting with $", async () => {
   fc.assert(
     fc.property(fc.float({ min: min32 }), value => {
       const formatted = formatCurrency(value);
-
-      console.log("formatted", value, formatted);
       expect(formatted).toStartWith("$");
     }),
   );

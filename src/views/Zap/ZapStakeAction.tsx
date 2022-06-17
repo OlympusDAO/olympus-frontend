@@ -29,7 +29,6 @@ import { trim } from "src/helpers";
 import { trackGAEvent } from "src/helpers/analytics/trackGAEvent";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { isSupportedChain } from "src/helpers/ZapHelper";
-import { useWeb3Context } from "src/hooks";
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useContractAllowance } from "src/hooks/useContractAllowance";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
@@ -37,6 +36,7 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { useZapExecute } from "src/hooks/useZapExecute";
 import { useZapTokenBalances, ZapperToken } from "src/hooks/useZapTokenBalances";
 import { error } from "src/slices/MessagesSlice";
+import { useAccount, useNetwork } from "wagmi";
 
 import SelectTokenModal from "./SelectTokenModal";
 import SlippageModal from "./SlippageModal";
@@ -74,7 +74,8 @@ const formatBalance = (balance?: DecimalBigNumber) =>
 type ZapQuantity = string | number | null;
 
 const ZapStakeAction: React.FC = () => {
-  const { address, networkId } = useWeb3Context();
+  const { data: account } = useAccount();
+  const { activeChain = { id: 1 } } = useNetwork();
 
   const dispatch = useDispatch();
 
@@ -98,7 +99,7 @@ const ZapStakeAction: React.FC = () => {
     const uaData = {
       type: "OlyZaps Token Select",
       token: token,
-      address: address,
+      address: account?.address,
     };
     trackGAEvent({
       category: "OlyZaps",
@@ -122,9 +123,9 @@ const ZapStakeAction: React.FC = () => {
   }, [selectedTokenBalance]);
 
   useEffect(() => {
-    if (!isSupportedChain(networkId))
+    if (!isSupportedChain(activeChain.id))
       dispatch(error(t`Zaps are only available on Ethereum Mainnet. Please switch networks.`));
-  }, [dispatch, networkId]);
+  }, [dispatch, activeChain.id]);
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const handleOpen = () => {
@@ -222,7 +223,7 @@ const ZapStakeAction: React.FC = () => {
   // And if zapToken is not yet set, don't pass it through either
   // useContractAllowance will return null if no token is given
   const { data: tokenAllowance } = useContractAllowance(
-    selectedTokenBalance && !zapTokenIsEth ? { [networkId]: selectedTokenBalance.address } : {},
+    selectedTokenBalance && !zapTokenIsEth ? { [activeChain.id]: selectedTokenBalance.address } : {},
     ZAP_ADDRESSES,
   );
 
@@ -236,7 +237,7 @@ const ZapStakeAction: React.FC = () => {
   }, [tokenAllowance, zapTokenIsEth]);
 
   const approveMutation = useApproveToken(
-    selectedTokenBalance ? { [networkId]: selectedTokenBalance.address } : {},
+    selectedTokenBalance ? { [activeChain.id]: selectedTokenBalance.address } : {},
     ZAP_ADDRESSES,
   );
 

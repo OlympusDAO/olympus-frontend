@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { BigNumber, ethers } from "ethers";
+import { BigNumber, ethers, Signer } from "ethers";
 import { addresses, NetworkId } from "src/constants";
 import { GOHM_ADDRESSES, MIGRATOR_ADDRESSES } from "src/constants/addresses";
 import { IERC20, IERC20__factory } from "src/typechain";
@@ -22,7 +22,7 @@ export enum TokenType {
   WRAPPED,
 }
 
-const chooseContract = (token: string, networkID: NetworkId, signer: ethers.providers.JsonRpcSigner): IERC20 => {
+const chooseContract = (token: string, networkID: NetworkId, signer: Signer): IERC20 => {
   let address: string;
   if (token === "ohm") {
     address = addresses[networkID].OHM_ADDRESS;
@@ -43,7 +43,7 @@ const chooseContract = (token: string, networkID: NetworkId, signer: ethers.prov
 export const changeMigrationApproval = createAsyncThunk(
   "migrate/changeApproval",
   async (
-    { token, provider, address, networkID, displayName, insertName }: IChangeApprovalWithDisplayNameAsyncThunk,
+    { token, provider, address, networkID, displayName, insertName, signer }: IChangeApprovalWithDisplayNameAsyncThunk,
     { dispatch },
   ) => {
     // NOTE (Appleseed): what is `insertName`??? it looks like it's always true???
@@ -51,7 +51,6 @@ export const changeMigrationApproval = createAsyncThunk(
       dispatch(error("Please connect your wallet!"));
       return;
     }
-    const signer = provider.getSigner();
     const tokenContract = chooseContract(token, networkID, signer);
 
     let migrateAllowance = BigNumber.from("0");
@@ -136,13 +135,12 @@ export const bridgeBack = createAsyncThunk(
 
 export const migrateSingle = createAsyncThunk(
   "migrate/migrateSingle",
-  async ({ provider, address, networkID, type, amount, gOHM }: IMigrateSingleAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID, type, amount, gOHM, signer }: IMigrateSingleAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
     }
 
-    const signer = provider.getSigner();
     const migrator = OlympusTokenMigrator__factory.connect(
       MIGRATOR_ADDRESSES[networkID as keyof typeof MIGRATOR_ADDRESSES],
       signer,
@@ -176,13 +174,12 @@ export const migrateSingle = createAsyncThunk(
 
 export const migrateAll = createAsyncThunk(
   "migrate/migrateAll",
-  async ({ provider, address, networkID, gOHM }: IMigrateAsyncThunk, { dispatch }) => {
+  async ({ provider, address, networkID, gOHM, signer }: IMigrateAsyncThunk, { dispatch }) => {
     if (!provider) {
       dispatch(error("Please connect your wallet!"));
       return;
     }
 
-    const signer = provider.getSigner();
     const migrator = OlympusTokenMigrator__factory.connect(
       MIGRATOR_ADDRESSES[networkID as keyof typeof MIGRATOR_ADDRESSES],
       signer,
