@@ -202,9 +202,6 @@ function App() {
     if (isSidebarExpanded) handleSidebarClose();
   }, [location]);
 
-  isReconnecting && console.log("isReconnecting", isReconnecting);
-  isConnected && console.log("isConnected", isConnected);
-
   return (
     <StyledDiv>
       <RainbowKitProvider
