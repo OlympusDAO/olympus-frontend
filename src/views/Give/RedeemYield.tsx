@@ -9,8 +9,8 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useRecipientInfo, useRedeemableBalance, useV1RedeemableBalance } from "src/hooks/useGiveInfo";
 import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { GetCorrectContractUnits } from "src/views/Give/helpers/GetCorrectUnits";
+import { useAccount } from "wagmi";
 
 import { Project } from "../../components/GiveProject/project.type";
 import { GIVE_MAX_DECIMALS } from "./constants";
@@ -26,7 +26,8 @@ const DECIMAL_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMAL_FORMAT = { format: true };
 
 export default function RedeemYield() {
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
+  const address = account?.address ? account.address : "";
   const [isRedeemYieldModalOpen, setIsRedeemYieldModalOpen] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -43,7 +44,7 @@ export default function RedeemYield() {
     return GetCorrectContractUnits(_useRedeemableBalance.data, "gOHM", currentIndex);
   }, [_useRedeemableBalance, currentIndex]);
 
-  const _useV1RedeemableBalance = useV1RedeemableBalance(address);
+  const _useV1RedeemableBalance = useV1RedeemableBalance();
   const v1RedeemableBalance: DecimalBigNumber = useMemo(() => {
     if (_useV1RedeemableBalance.isLoading || _useV1RedeemableBalance.data === undefined)
       return new DecimalBigNumber("0");
@@ -265,7 +266,7 @@ export default function RedeemYield() {
             title={t`Donated Yield`}
             balance={`${getRedeemableBalance().toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
-            data-testid="data-redeemable-balance"
+            data-testid="data-redeemable-sohm"
           />
         </Grid>
         {isProject ? (

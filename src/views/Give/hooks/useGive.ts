@@ -5,12 +5,12 @@ import { useDispatch } from "react-redux";
 import { GIVE_ADDRESSES, GOHM_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUAData, trackGiveEvent } from "src/helpers/analytics/trackGiveEvent";
 import { ACTION_GIVE, getTypeFromAction } from "src/helpers/GiveHelpers";
-import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicGiveContract } from "src/hooks/useContract";
 import { donationInfoQueryKey, recipientInfoQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
+import { useAccount } from "wagmi";
 
 import { GiveData } from "../Interfaces";
 
@@ -21,9 +21,10 @@ import { GiveData } from "../Interfaces";
 export const useGive = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
   const networks = useTestableNetworks();
   const contract = useDynamicGiveContract(GIVE_ADDRESSES, true);
+  const address = account?.address ? account.address : "";
 
   // Mutation to interact with the YieldDirector contract
   return useMutation<ContractReceipt, Error, GiveData>(
@@ -37,6 +38,7 @@ export const useGive = () => {
         throw new Error(
           t`Give is not supported on this network. Please switch to a supported network, such as Ethereum mainnet`,
         );
+      if (!address) throw new Error(t`Please refresh your page and try again`);
 
       const uaData: IUAData = {
         address: address,

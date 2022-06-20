@@ -1,5 +1,5 @@
-import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
-import { BigNumber } from "ethers";
+import { BaseProvider, JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers";
+import { BigNumber, Signer } from "ethers";
 import { NetworkId } from "src/constants";
 
 export interface IJsonRPCError {
@@ -9,7 +9,7 @@ export interface IJsonRPCError {
 
 export interface IBaseAsyncThunk {
   readonly networkID: NetworkId;
-  readonly provider: StaticJsonRpcProvider | JsonRpcProvider;
+  readonly provider: StaticJsonRpcProvider | JsonRpcProvider | BaseProvider;
 }
 
 export interface IValueOnlyAsyncThunk extends IBaseAsyncThunk {
@@ -23,11 +23,14 @@ export interface IChangeApprovalAsyncThunk extends IBaseAsyncThunk {
 
 export interface IChangeApprovalWithVersionAsyncThunk extends IChangeApprovalAsyncThunk {
   readonly version2: boolean;
+  readonly provider: StaticJsonRpcProvider | JsonRpcProvider;
 }
 
 export interface IChangeApprovalWithDisplayNameAsyncThunk extends IChangeApprovalAsyncThunk {
   readonly displayName: string;
   readonly insertName: boolean;
+  readonly provider: StaticJsonRpcProvider | JsonRpcProvider | BaseProvider;
+  readonly signer: Signer;
 }
 
 export interface IActionAsyncThunk extends IBaseAsyncThunk {
@@ -38,6 +41,7 @@ export interface IActionAsyncThunk extends IBaseAsyncThunk {
 export interface IValueAsyncThunk extends IBaseAsyncThunk {
   readonly value: string;
   readonly address: string;
+  readonly provider: StaticJsonRpcProvider | JsonRpcProvider;
 }
 
 export interface IActionValueAsyncThunk extends IValueAsyncThunk {
@@ -47,6 +51,7 @@ export interface IActionValueAsyncThunk extends IValueAsyncThunk {
 export interface IStakeAsyncThunk extends IActionValueAsyncThunk {
   readonly version2: boolean;
   readonly rebase: boolean;
+  readonly provider: StaticJsonRpcProvider | JsonRpcProvider;
 }
 
 export interface IActionValueGasAsyncThunk extends IActionValueAsyncThunk {
@@ -61,10 +66,13 @@ export interface IBaseAddressAsyncThunk extends IBaseAsyncThunk {
 
 export interface IBaseAddressRecipientAsyncThunk extends IBaseAddressAsyncThunk {
   readonly recipient: string;
+  readonly provider: BaseProvider;
 }
 
 export interface IMigrateAsyncThunk extends IBaseAddressAsyncThunk {
   readonly gOHM: boolean;
+  readonly provider: StaticJsonRpcProvider | JsonRpcProvider | BaseProvider;
+  readonly signer: Signer;
 }
 
 export interface IMigrateSingleAsyncThunk extends IMigrateAsyncThunk {
