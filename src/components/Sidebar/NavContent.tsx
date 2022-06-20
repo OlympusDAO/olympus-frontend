@@ -152,7 +152,7 @@ const InverseBonds: React.VFC = () => {
   if (!bonds || bonds.length === 0) return null;
 
   return (
-    <Box ml="26px" mt="16px" mb="12px">
+    <Box ml="26px" mt="12px" mb="12px">
       <Typography variant="body2" color="textSecondary">
         <Trans>Inverse Bonds</Trans>
       </Typography>
