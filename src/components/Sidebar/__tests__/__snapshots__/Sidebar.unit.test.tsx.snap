@@ -54,17 +54,20 @@ exports[`<Sidebar/> should render component 1`] = `
                     id="navbarNav"
                   >
                     <div
-                      class="NavItem-root nav-item-container css-1l066hi"
+                      class="NavItem-root nav-item-container css-1kcsrti"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1kfl8qt-MuiTypography-root-MuiLink-root"
                         href="#/dashboard"
                       >
                         <div
-                          class="link-container MuiBox-root css-9zmw2o"
+                          class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="NavItem-title title MuiBox-root css-70qvj9"
+                            class="activePill MuiBox-root css-hfhjvs"
+                          />
+                          <div
+                            class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
@@ -85,7 +88,7 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1l066hi"
+                      class="NavItem-root nav-item-container css-1kcsrti"
                     >
                       <div
                         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root Mui-expanded MuiAccordion-gutters Accordion-root undefined css-y4zw2u-MuiPaper-root-MuiAccordion-root"
@@ -104,10 +107,13 @@ exports[`<Sidebar/> should render component 1`] = `
                               href="#/bonds"
                             >
                               <div
-                                class="link-container MuiBox-root css-9zmw2o"
+                                class="link-container MuiBox-root css-b2udjo"
                               >
                                 <div
-                                  class="NavItem-title title MuiBox-root css-70qvj9"
+                                  class="activePill MuiBox-root css-hfhjvs"
+                                />
+                                <div
+                                  class="NavItem-title title MuiBox-root css-13buc9q"
                                 >
                                   <svg
                                     aria-hidden="true"
@@ -165,17 +171,20 @@ exports[`<Sidebar/> should render component 1`] = `
                       </div>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1l066hi"
+                      class="NavItem-root nav-item-container css-1kcsrti"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1kfl8qt-MuiTypography-root-MuiLink-root"
                         href="#/stake"
                       >
                         <div
-                          class="link-container MuiBox-root css-9zmw2o"
+                          class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="NavItem-title title MuiBox-root css-70qvj9"
+                            class="activePill MuiBox-root css-hfhjvs"
+                          />
+                          <div
+                            class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
@@ -194,17 +203,20 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1l066hi"
+                      class="NavItem-root nav-item-container css-1kcsrti"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1kfl8qt-MuiTypography-root-MuiLink-root"
                         href="#/zap"
                       >
                         <div
-                          class="link-container MuiBox-root css-9zmw2o"
+                          class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="NavItem-title title MuiBox-root css-70qvj9"
+                            class="activePill MuiBox-root css-hfhjvs"
+                          />
+                          <div
+                            class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
@@ -223,17 +235,20 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1l066hi"
+                      class="NavItem-root nav-item-container css-1kcsrti"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1kfl8qt-MuiTypography-root-MuiLink-root"
                         href="#/give"
                       >
                         <div
-                          class="link-container MuiBox-root css-9zmw2o"
+                          class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="NavItem-title title MuiBox-root css-70qvj9"
+                            class="activePill MuiBox-root css-hfhjvs"
+                          />
+                          <div
+                            class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
@@ -252,17 +267,20 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1l066hi"
+                      class="NavItem-root nav-item-container css-1kcsrti"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1kfl8qt-MuiTypography-root-MuiLink-root"
                         href="#/wrap"
                       >
                         <div
-                          class="link-container MuiBox-root css-9zmw2o"
+                          class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="NavItem-title title MuiBox-root css-70qvj9"
+                            class="activePill MuiBox-root css-hfhjvs"
+                          />
+                          <div
+                            class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
@@ -286,17 +304,20 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1l066hi"
+                      class="NavItem-root nav-item-container css-1kcsrti"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover button-dapp-menu  css-1kfl8qt-MuiTypography-root-MuiLink-root"
                         href="#/bridge"
                       >
                         <div
-                          class="link-container MuiBox-root css-9zmw2o"
+                          class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="NavItem-title title MuiBox-root css-70qvj9"
+                            class="activePill MuiBox-root css-hfhjvs"
+                          />
+                          <div
+                            class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
@@ -345,7 +366,7 @@ exports[`<Sidebar/> should render component 1`] = `
                       />
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1l066hi"
+                      class="NavItem-root nav-item-container css-1kcsrti"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1kfl8qt-MuiTypography-root-MuiLink-root"
@@ -353,10 +374,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         target="_blank"
                       >
                         <div
-                          class="link-container MuiBox-root css-9zmw2o"
+                          class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="NavItem-title title MuiBox-root css-70qvj9"
+                            class="activePill MuiBox-root css-hfhjvs"
+                          />
+                          <div
+                            class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
@@ -392,7 +416,7 @@ exports[`<Sidebar/> should render component 1`] = `
                       />
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1l066hi"
+                      class="NavItem-root nav-item-container css-1kcsrti"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1kfl8qt-MuiTypography-root-MuiLink-root"
@@ -400,10 +424,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         target="_blank"
                       >
                         <div
-                          class="link-container MuiBox-root css-9zmw2o"
+                          class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="NavItem-title title MuiBox-root css-70qvj9"
+                            class="activePill MuiBox-root css-hfhjvs"
+                          />
+                          <div
+                            class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
@@ -434,7 +461,7 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1l066hi"
+                      class="NavItem-root nav-item-container css-1kcsrti"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1kfl8qt-MuiTypography-root-MuiLink-root"
@@ -442,10 +469,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         target="_blank"
                       >
                         <div
-                          class="link-container MuiBox-root css-9zmw2o"
+                          class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="NavItem-title title MuiBox-root css-70qvj9"
+                            class="activePill MuiBox-root css-hfhjvs"
+                          />
+                          <div
+                            class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
@@ -476,7 +506,7 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1l066hi"
+                      class="NavItem-root nav-item-container css-1kcsrti"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1kfl8qt-MuiTypography-root-MuiLink-root"
@@ -484,10 +514,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         target="_blank"
                       >
                         <div
-                          class="link-container MuiBox-root css-9zmw2o"
+                          class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="NavItem-title title MuiBox-root css-70qvj9"
+                            class="activePill MuiBox-root css-hfhjvs"
+                          />
+                          <div
+                            class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
@@ -518,7 +551,7 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1l066hi"
+                      class="NavItem-root nav-item-container css-1kcsrti"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1kfl8qt-MuiTypography-root-MuiLink-root"
@@ -526,10 +559,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         target="_blank"
                       >
                         <div
-                          class="link-container MuiBox-root css-9zmw2o"
+                          class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="NavItem-title title MuiBox-root css-70qvj9"
+                            class="activePill MuiBox-root css-hfhjvs"
+                          />
+                          <div
+                            class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
@@ -558,7 +594,7 @@ exports[`<Sidebar/> should render component 1`] = `
                       </a>
                     </div>
                     <div
-                      class="NavItem-root nav-item-container css-1l066hi"
+                      class="NavItem-root nav-item-container css-1kcsrti"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover external-site-link  css-1kfl8qt-MuiTypography-root-MuiLink-root"
@@ -566,10 +602,13 @@ exports[`<Sidebar/> should render component 1`] = `
                         target="_blank"
                       >
                         <div
-                          class="link-container MuiBox-root css-9zmw2o"
+                          class="link-container MuiBox-root css-b2udjo"
                         >
                           <div
-                            class="NavItem-title title MuiBox-root css-70qvj9"
+                            class="activePill MuiBox-root css-hfhjvs"
+                          />
+                          <div
+                            class="NavItem-title title MuiBox-root css-13buc9q"
                           >
                             <svg
                               aria-hidden="true"
