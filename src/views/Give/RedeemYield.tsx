@@ -261,12 +261,11 @@ export default function RedeemYield() {
             data-testid="data-deposited-sohm"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid data-testid="data-redeemable-sohm" item xs={12}>
           <DataRow
             title={t`Donated Yield`}
             balance={`${getRedeemableBalance().toString(NO_DECIMAL_FORMAT)} ${t`sOHM`}`}
             isLoading={isRecipientInfoLoading}
-            data-testid="data-redeemable-sohm"
           />
         </Grid>
         {isProject ? (

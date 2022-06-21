@@ -94,10 +94,9 @@ describe("Redeem Yield", () => {
   });
 
   it("should show redeemable balance as 100 sOHM", async () => {
-    const result = render(<RedeemYield />);
+    render(<RedeemYield />);
 
-    expect(screen.getByTestId("data-redeemable-balance")).toHaveTextContent("100 sOHM");
-    expect(result.container).toMatchSnapshot();
+    expect(screen.getByTestId("data-redeemable-sohm")).toHaveTextContent("100 sOHM");
   });
 
   it("should show extra content if project wallet", async () => {
