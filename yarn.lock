@@ -2840,10 +2840,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.2.tgz#830beaec4b4091a9e9398ac50f865ddea52186b9"
   integrity sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==
 
-"@rainbow-me/rainbowkit@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@rainbow-me/rainbowkit/-/rainbowkit-0.3.1.tgz#37cff0b92cd66aa39dbd67cd6a51caab9b14b37a"
-  integrity sha512-bU7s9cncfI8sIExGR62h5gbk/gcKPUdIbmS2O3z2+qPfpP8IUkE9iMyjRRqQS6cjtWh0VsY/Jify9afB6lPiLw==
+"@rainbow-me/rainbowkit@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@rainbow-me/rainbowkit/-/rainbowkit-0.3.3.tgz#cfdfae78d8727265a33957f2b0816db04ec90e0b"
+  integrity sha512-uEHnFKmwXRD7fyV60NrbXT+B/KHIbPIZEzCLbdvKmyuMeDLpoVocMhHtNWcHOAVe1jFBjoCt6nWNaCfzucapdg==
   dependencies:
     "@vanilla-extract/css" "1.7.0"
     "@vanilla-extract/dynamic" "2.0.2"
