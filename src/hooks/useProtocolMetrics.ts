@@ -4,46 +4,51 @@ import apollo from "src/lib/apolloClient";
 const query = `
   query ProtcolMetrics {
     protocolMetrics(first: 100, orderBy: timestamp, orderDirection: desc) {
+      block
+      currentAPY
       id
-      runway5k
-      timestamp
+      marketCap
+      nextDistributedOhm
+      nextEpochRebase
+      ohmCirculatingSupply
       ohmPrice
       runway10k
       runway20k
-      runway50k
-      marketCap
-      currentAPY
-      totalSupply
-      runway7dot5k
       runway2dot5k
+      runway50k
+      runway5k
+      runway7dot5k
       runwayCurrent
-      nextEpochRebase
+      sOhmCirculatingSupply
+      timestamp
+      timestampISO8901
+      totalSupply
       totalValueLocked
+      treasuryDaiMarketValue
+      treasuryDaiRiskFreeValue
+      treasuryFraxMarketValue
+      treasuryFraxRiskFreeValue
+      treasuryLiquidBacking
+      treasuryLusdMarketValue
+      treasuryLusdRiskFreeValue
+      treasuryMarketValue
       treasuryOhmDaiPOL
       treasuryOhmFraxPOL
-      nextDistributedOhm
-      treasuryMarketValue
-      treasuryTotalBacking
-      ohmCirculatingSupply
-      sOhmCirculatingSupply
-      treasuryRiskFreeValue
-      treasuryDaiMarketValue
-      treasuryUstMarketValue
-      treasuryFraxMarketValue
-      treasuryWETHMarketValue
-      treasuryLusdMarketValue
-      treasuryWBTCMarketValue
-      treasuryDaiRiskFreeValue
       treasuryOtherMarketValue
-      treasuryLusdRiskFreeValue
+      treasuryRiskFreeValue
+      treasuryTotalBacking
+      treasuryUstMarketValue
+      treasuryWBTCMarketValue
+      treasuryWETHMarketValue
       treasuryXsushiMarketValue
-      treasuryFraxRiskFreeValue
     }
   }
 `;
 
 interface ProtocolMetrics {
   id: string;
+  block: string;
+  timestampISO8901: string;
   runway5k: string;
   timestamp: string;
   ohmPrice: string;
@@ -62,6 +67,7 @@ interface ProtocolMetrics {
   treasuryOhmFraxPOL: string;
   nextDistributedOhm: string;
   treasuryMarketValue: string;
+  treasuryLiquidBacking: string;
   treasuryTotalBacking: string;
   ohmCirculatingSupply: string;
   sOhmCirculatingSupply: string;
@@ -107,5 +113,5 @@ export const useMarketCap = () => useProtocolMetrics(metrics => metrics[0].marke
 export const useTotalSupply = () => useProtocolMetrics(metrics => metrics[0].totalSupply);
 export const useTotalValueDeposited = () => useProtocolMetrics(metrics => metrics[0].totalValueLocked);
 export const useTreasuryMarketValue = () => useProtocolMetrics(metrics => metrics[0].treasuryMarketValue);
-export const useTreasuryTotalBacking = () => useProtocolMetrics(metrics => metrics[0].treasuryTotalBacking);
+export const useTreasuryLiquidBacking = () => useProtocolMetrics(metrics => metrics[0].treasuryLiquidBacking);
 export const useOhmCirculatingSupply = () => useProtocolMetrics(metrics => metrics[0].ohmCirculatingSupply);
