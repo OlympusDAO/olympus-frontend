@@ -37,28 +37,6 @@ export async function getTokenPrice(tokenId = "olympus"): Promise<number> {
   return tokenPrice;
 }
 
-/**
- * gets price of token from coingecko
- * @param contractAddress STRING representing address
- * @returns INTEGER usd value
- */
-export async function getTokenByContract(contractAddress: string): Promise<number> {
-  const downcasedAddress = contractAddress.toLowerCase();
-  const chainName = "ethereum";
-  try {
-    const resp = (await axios.get(
-      `https://api.coingecko.com/api/v3/simple/token_price/${chainName}?contract_addresses=${downcasedAddress}&vs_currencies=usd`,
-    )) as {
-      data: { [address: string]: { usd: number } };
-    };
-    const tokenPrice: number = resp.data[downcasedAddress].usd;
-    return tokenPrice;
-  } catch (e) {
-    // console.log("coingecko api error: ", e);
-    return 0;
-  }
-}
-
 export function shorten(str: string) {
   if (str.length < 10) return str;
   return `${str.slice(0, 6)}...${str.slice(str.length - 4)}`;

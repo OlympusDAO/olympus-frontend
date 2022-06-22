@@ -1,9 +1,14 @@
-import { render } from "../../../testUtils";
-import ConnectButton from "../ConnectButton";
+import { render, screen } from "../../../testUtils";
+import { ConnectButton, InPageConnectButton } from "../ConnectButton";
 
 describe("<ConnectButton/>", () => {
-  it("should render component", () => {
-    const { container } = render(<ConnectButton />);
-    expect(container).toMatchSnapshot();
+  it("should display Connect Button for TopBar", () => {
+    render(<ConnectButton />);
+    expect(screen.getByText("Connect"));
+  });
+
+  it("should display Connect Wallet for In-Page Connect Buttons", () => {
+    render(<InPageConnectButton />);
+    expect(screen.getByText("Connect Wallet"));
   });
 });

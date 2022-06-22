@@ -1,16 +1,14 @@
 import { t } from "@lingui/macro";
-import { ContractReceipt, ethers } from "ethers";
+import { ContractReceipt } from "ethers";
 import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
-import DevFaucet from "src/abi/DevFaucet.json";
 import { DEV_FAUCET } from "src/constants/addresses";
-import { useWeb3Context } from "src/hooks";
+import { useDynamicFaucetContract } from "src/hooks/useContract";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
 
 export const useFaucet = () => {
   const dispatch = useDispatch();
-  const { provider } = useWeb3Context();
-  const contract = new ethers.Contract(DEV_FAUCET[5], DevFaucet.abi, provider.getSigner());
+  const contract = useDynamicFaucetContract(DEV_FAUCET, true);
 
   return useMutation<ContractReceipt, Error, string>(
     async token_ => {

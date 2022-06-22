@@ -12,8 +12,8 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { Bond } from "src/views/Bond/hooks/useBond";
+import { useAccount } from "wagmi";
 
 import { BondDiscount } from "../../../BondDiscount";
 import { BondDuration } from "../../../BondDuration";
@@ -28,7 +28,7 @@ export const BondInputArea: React.VFC<{
   const { pathname } = useLocation();
   const isInverseBond: boolean = pathname.includes("inverse");
 
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
   const networks = useTestableNetworks();
 
   const currentIndex = useCurrentIndex().data;
@@ -197,7 +197,7 @@ export const BondInputArea: React.VFC<{
           />
         )}
 
-        {props.recipientAddress !== address && (
+        {props.recipientAddress !== account?.address && (
           <DataRow title={t`Recipient`} balance={shorten(props.recipientAddress)} />
         )}
       </Box>

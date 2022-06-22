@@ -4,13 +4,12 @@ import { useMutation, useQueryClient } from "react-query";
 import { useDispatch } from "react-redux";
 import { GOHM_ADDRESSES, OLD_GIVE_ADDRESSES, SOHM_ADDRESSES } from "src/constants/addresses";
 import { IUARecipientData, trackGiveRedeemEvent } from "src/helpers/analytics/trackGiveRedeemEvent";
-import { useWeb3Context } from "src/hooks";
 import { balanceQueryKey } from "src/hooks/useBalance";
 import { useDynamicV1GiveContract } from "src/hooks/useContract";
 import { recipientInfoQueryKey, redeemableBalanceQueryKey, v1RedeemableBalanceQueryKey } from "src/hooks/useGiveInfo";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { error as createErrorToast, info as createInfoToast } from "src/slices/MessagesSlice";
-
+import { useAccount, useNetwork } from "wagmi";
 /**
  * @notice Redeems all available yield
  * @returns ContractReceipt for the redemption
@@ -18,13 +17,15 @@ import { error as createErrorToast, info as createInfoToast } from "src/slices/M
 export const useOldRedeem = () => {
   const dispatch = useDispatch();
   const client = useQueryClient();
-  const { address, networkId } = useWeb3Context();
+  const { data: account } = useAccount();
+  const { activeChain = { id: 1 } } = useNetwork();
   const networks = useTestableNetworks();
   const contract = useDynamicV1GiveContract(OLD_GIVE_ADDRESSES, true);
+  const address = account?.address ? account.address : "";
 
   return useMutation<ContractReceipt, Error>(
     async () => {
-      if (networkId != 1)
+      if (activeChain.id != 1)
         throw new Error(t`The old Give contract is only supported on the mainnet. Please switch to Ethereum mainnet`);
 
       if (!contract)

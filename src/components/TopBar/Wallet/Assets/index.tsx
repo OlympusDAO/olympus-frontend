@@ -8,7 +8,6 @@ import { formatCurrency, formatNumber, trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { prettifySeconds, prettifySecondsInDays } from "src/helpers/timeUtil";
 import { nonNullable } from "src/helpers/types/nonNullable";
-import { useWeb3Context } from "src/hooks";
 import {
   useFuseBalance,
   useGohmBalance,
@@ -26,6 +25,7 @@ import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
 import { useBondNotes } from "src/views/Bond/components/ClaimBonds/hooks/useBondNotes";
 import { useNextRebaseDate } from "src/views/Stake/components/StakeArea/components/RebaseTimer/hooks/useNextRebaseDate";
+import { useNetwork } from "wagmi";
 
 import { useFaucet } from "../hooks/useFaucet";
 import { GetTokenPrice } from "../queries";
@@ -85,9 +85,9 @@ export interface OHMAssetsProps {
   path?: string;
 }
 const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
-  const { networkId } = useWeb3Context();
   const navigate = useNavigate();
   const networks = useTestableNetworks();
+  const { activeChain = { id: 1 } } = useNetwork();
   const { data: ohmPrice = 0 } = useOhmPrice();
   const { data: priceFeed = { usd_24h_change: -0 } } = GetTokenPrice();
   const { data: currentIndex = new DecimalBigNumber("0", 9) } = useCurrentIndex();
@@ -142,21 +142,21 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     {
       symbol: ["OHM"] as OHMTokenStackProps["tokens"],
       balance: formattedohmBalance,
-      assetValue: Number(formattedohmBalance) * ohmPrice,
+      assetValue: ohmBalance.toApproxNumber() * ohmPrice,
       alwaysShow: true,
     },
     {
       symbol: ["OHM"] as OHMTokenStackProps["tokens"],
       balance: formattedV1OhmBalance,
       label: "(v1)",
-      assetValue: Number(formattedV1OhmBalance) * ohmPrice,
+      assetValue: v1OhmBalance.toApproxNumber() * ohmPrice,
     },
     {
       symbol: ["sOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedSOhmBalance,
       timeRemaining:
         nextRebaseDate && `Stakes in ${prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}`,
-      assetValue: Number(formattedSOhmBalance) * ohmPrice,
+      assetValue: sOhmBalance.toApproxNumber() * ohmPrice,
       alwaysShow: true,
       lineThreeLabel: "Rebases per day",
       lineThreeValue:
@@ -170,18 +170,18 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       label: "(v1)",
       timeRemaining:
         nextRebaseDate && `Stakes in ${prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}`,
-      assetValue: Number(formattedV1SohmBalance) * ohmPrice,
+      assetValue: v1SohmBalance.toApproxNumber() * ohmPrice,
     },
     {
       symbol: ["wsOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedWsOhmBalance,
-      assetValue: gOhmPrice * Number(formattedWsOhmBalance),
+      assetValue: gOhmPrice * totalWsohmBalance.toApproxNumber(),
       geckoTicker: "governance-ohm",
     },
     {
       symbol: ["gOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedgOhmBalance,
-      assetValue: gOhmPrice * Number(formattedgOhmBalance),
+      assetValue: gOhmPrice * totalGohmBalance.toApproxNumber(),
       pnl: formattedgOhmBalance ? 0 : formatCurrency(totalGohmBalance.toApproxNumber() * gOhmPriceChange, 2),
       alwaysShow: true,
       geckoTicker: "governance-ohm",
@@ -217,7 +217,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
           <WalletBalance
             title="Balance"
             usdBalance={formatCurrency(walletTotalValueUSD, 2)}
-            underlyingBalance={`${formatNumber(walletTotalValueUSD / ohmPrice, 2)} OHM`}
+            underlyingBalance={`${formatNumber(walletTotalValueUSD / (ohmPrice !== 0 ? ohmPrice : 1), 2)} OHM`}
           />
         </Box>
         <Box display="flex" flexDirection="row" className={classes.selector} mb="18px" mt="18px">
@@ -242,7 +242,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
               );
           }
         })()}
-        {networkId === 5 && (
+        {activeChain.id === 5 && (
           <>
             <Typography variant="h5">Faucet</Typography>
             <Box display="flex" flexDirection="row" justifyContent="space-between" mt="18px">

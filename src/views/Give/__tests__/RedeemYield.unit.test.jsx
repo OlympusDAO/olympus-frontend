@@ -1,16 +1,17 @@
+import { wallet } from "@rainbow-me/rainbowkit";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as useCurrentIndex from "src/hooks/useCurrentIndex";
 import * as useGiveInfo from "src/hooks/useGiveInfo";
 import * as useStakingRebaseRate from "src/hooks/useStakingRebaseRate";
-import * as useWeb3Context from "src/hooks/web3Context";
 import {
+  connectWallet,
   mockCurrentIndex,
   mockRecipientInfo,
   mockRedeemableBalance,
   mockStakingRebaseRate,
-  mockWeb3Context,
 } from "src/testHelpers";
 import * as useRedeem from "src/views/Give/hooks/useRedeem";
+import * as WAGMI from "wagmi";
 
 import { act, render, screen } from "../../../testUtils";
 import RedeemYield from "../RedeemYield";
@@ -22,7 +23,7 @@ let recipientData;
 let stakingData;
 
 beforeEach(() => {
-  context = jest.spyOn(useWeb3Context, "useWeb3Context");
+  const wallet = connectWallet();
 
   redeemData = "100.0";
   recipientData = {
@@ -40,8 +41,6 @@ afterEach(() => {
 describe("Redeem Yield", () => {
   beforeEach(() => {
     jest.spyOn(useCurrentIndex, "useCurrentIndex").mockReturnValue(mockCurrentIndex(new DecimalBigNumber("100", 9)));
-
-    context.mockReturnValue(mockWeb3Context);
 
     const redeemable = jest.spyOn(useGiveInfo, "useRedeemableBalance");
     redeemable.mockReturnValue(mockRedeemableBalance(redeemData));
@@ -102,7 +101,10 @@ describe("Redeem Yield", () => {
   });
 
   it("should show extra content if project wallet", async () => {
-    context.mockReturnValue({ ...mockWeb3Context, address: "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c" });
+    //@ts-ignore
+    WAGMI.useAccount = jest.fn(() => {
+      return { ...wallet, data: { ...wallet.data, address: "0xd3B4a9604c78DDA8692d85Dc15802BA12Fb82b6c" } };
+    });
 
     const result = render(<RedeemYield />);
     expect(screen.getByText("sOHM Goal")).toBeInTheDocument();

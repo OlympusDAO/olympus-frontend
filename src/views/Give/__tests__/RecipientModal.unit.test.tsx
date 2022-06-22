@@ -2,18 +2,13 @@ import { BigNumber } from "ethers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import * as useBalance from "src/hooks/useBalance";
 import * as useContractAllowance from "src/hooks/useContractAllowance";
-import * as useWeb3Context from "src/hooks/web3Context";
 import { NetworkId } from "src/networkDetails";
 import { ChangeAssetType } from "src/slices/interfaces";
-import { mockContractAllowance, mockGohmBalance, mockSohmBalance, mockWeb3Context } from "src/testHelpers";
+import { mockContractAllowance, mockGohmBalance, mockSohmBalance } from "src/testHelpers";
 import { fireEvent, render, screen } from "src/testUtils";
 import { CancelCallback, SubmitCallback } from "src/views/Give/Interfaces";
 
 import { RecipientModal } from "../RecipientModal";
-
-beforeEach(() => {
-  jest.spyOn(useWeb3Context, "useWeb3Context").mockReturnValue(mockWeb3Context);
-});
 
 describe("RecipientModal", () => {
   let callbackFunc: SubmitCallback;

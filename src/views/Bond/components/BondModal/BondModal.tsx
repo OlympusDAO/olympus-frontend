@@ -9,8 +9,8 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { usePathForNetwork } from "src/hooks/usePathForNetwork";
 import { useOhmPrice } from "src/hooks/usePrices";
 import { useTokenPrice } from "src/hooks/useTokenPrice";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { useLiveBonds } from "src/views/Bond/hooks/useLiveBonds";
+import { useAccount, useNetwork } from "wagmi";
 
 import { Bond } from "../../hooks/useBond";
 import { BondDiscount } from "../BondDiscount";
@@ -22,9 +22,9 @@ import { BondSettingsModal } from "./components/BondSettingsModal";
 
 export const BondModalContainer: React.VFC = () => {
   const navigate = useNavigate();
-  const { networkId } = useWeb3Context();
+  const { activeChain = { id: 1 } } = useNetwork();
   const { id } = useParams<{ id: string }>();
-  usePathForNetwork({ pathName: "bonds", networkID: networkId, navigate });
+  usePathForNetwork({ pathName: "bonds", networkID: activeChain.id, navigate });
 
   const { pathname } = useLocation();
   const isInverseBond = pathname.includes("/inverse/");
@@ -40,7 +40,7 @@ export const BondModalContainer: React.VFC = () => {
 const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { address } = useWeb3Context();
+  const { data: account } = useAccount();
   const isInverseBond: boolean = pathname.includes("/inverse/");
 
   const [slippage, setSlippage] = useState("0.5");
@@ -57,8 +57,8 @@ const BondModal: React.VFC<{ bond: Bond }> = ({ bond }) => {
   }, [navigate, isSettingsOpen]);
 
   useEffect(() => {
-    if (address) setRecipientAddress(address);
-  }, [address]);
+    if (account?.address) setRecipientAddress(account.address);
+  }, [account?.address]);
 
   return (
     <Modal

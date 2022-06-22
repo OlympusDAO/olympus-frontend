@@ -18,7 +18,6 @@ import { isSupportedChain } from "src/helpers/GiveHelpers";
 import { useAppDispatch } from "src/hooks";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useDonationInfo, useDonorNumbers } from "src/hooks/useGiveInfo";
-import { useWeb3Context } from "src/hooks/web3Context";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { error } from "src/slices/MessagesSlice";
 import { GIVE_MAX_DECIMAL_FORMAT } from "src/views/Give/constants";
@@ -34,6 +33,9 @@ import {
 } from "src/views/Give/Interfaces";
 import { ManageDonationModal } from "src/views/Give/ManageDonationModal";
 import { RecipientModal } from "src/views/Give/RecipientModal";
+import { useAccount, useNetwork } from "wagmi";
+
+import { InPageConnectButton } from "../ConnectButton/ConnectButton";
 
 export enum GrantDetailsMode {
   Card = "Card",
@@ -55,7 +57,9 @@ const DEFAULT_FORMAT = { decimals: DECIMAL_PLACES, format: true };
 const NO_DECIMALS_FORMAT = { decimals: 0, format: true };
 
 export default function GrantCard({ grant, giveAssetType, changeAssetType, mode }: GrantDetailsProps) {
-  const { address, connected, connect, networkId } = useWeb3Context();
+  const { activeChain = { id: 1 } } = useNetwork();
+  const { data: account } = useAccount();
+
   const { title, owner, shortDescription, details, photos, wallet, milestones, latestMilestoneCompleted } = grant;
   const [isUserDonating, setIsUserDonating] = useState(false);
   const [donationId, setDonationId] = useState(NO_DONATION);
@@ -113,7 +117,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
   useEffect(() => {
     setIsUserDonating(false);
     setDonationId(NO_DONATION);
-  }, [networkId]);
+  }, [activeChain.id]);
 
   useEffect(() => {
     if (isDonationInfoLoading || !donationInfo) return;
@@ -130,7 +134,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
         break;
       }
     }
-  }, [isDonationInfoLoading, donationInfo, userDonation, networkId, wallet]);
+  }, [isDonationInfoLoading, donationInfo, userDonation, activeChain.id, wallet]);
 
   // Reset donation states when user switches network
   useEffect(() => {
@@ -421,7 +425,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
       category: "Olympus Give",
       action: "View Grants Project",
       label: title,
-      dimension1: address ?? "unknown",
+      dimension1: account?.address ?? "unknown",
       dimension2: source,
     });
   };
@@ -534,16 +538,14 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                         {renderDepositData()}
                       </Grid>
                       <Grid item xs={12} style={{ paddingTop: "45px" }}>
-                        {!connected ? (
-                          <PrimaryButton onClick={connect} fullWidth>
-                            <Trans>Connect Wallet</Trans>
-                          </PrimaryButton>
+                        {!account ? (
+                          <InPageConnectButton />
                         ) : isUserDonating ? (
                           <></>
                         ) : (
                           <PrimaryButton
                             onClick={() => handleGiveButtonClick()}
-                            disabled={!isSupportedChain(networkId)}
+                            disabled={!isSupportedChain(activeChain.id)}
                             fullWidth
                           >
                             <Trans>Donate Yield</Trans>
@@ -596,7 +598,7 @@ export default function GrantCard({ grant, giveAssetType, changeAssetType, mode 
                       <Grid item xs={12}>
                         <PrimaryButton
                           onClick={() => handleEditButtonClick()}
-                          disabled={!isSupportedChain(networkId)}
+                          disabled={!isSupportedChain(activeChain.id)}
                           style={{ marginTop: "24px" }}
                           fullWidth
                         >

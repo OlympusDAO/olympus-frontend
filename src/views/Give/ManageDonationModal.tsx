@@ -15,10 +15,10 @@ import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber"
 import { useGohmBalance, useSohmBalance } from "src/hooks/useBalance";
 import { useCurrentIndex } from "src/hooks/useCurrentIndex";
 import { useRecipientInfo } from "src/hooks/useGiveInfo";
-import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useWeb3Context } from "src/hooks/web3Context";
+import { NetworkId } from "src/networkDetails";
 import { ChangeAssetType } from "src/slices/interfaces";
 import { GetCorrectContractUnits, GetCorrectStaticUnits } from "src/views/Give/helpers/GetCorrectUnits";
+import { useAccount, useNetwork } from "wagmi";
 
 import { GIVE_MAX_DECIMAL_FORMAT, GIVE_MAX_DECIMALS } from "./constants";
 import { GohmToggle } from "./GohmToggle";
@@ -65,8 +65,8 @@ export function ManageDonationModal({
   yieldSent,
   recordType = RecordType.PROJECT,
 }: ManageModalProps) {
-  const { address, networkId } = useWeb3Context();
-  const networks = useTestableNetworks();
+  const { data: account } = useAccount();
+  const { activeChain = { id: 1 } } = useNetwork();
   const [isEditing, setIsEditing] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState(false);
 
@@ -79,6 +79,7 @@ export function ManageDonationModal({
     return GetCorrectContractUnits(_useRecipientInfo.data.gohmDebt, giveAssetType, currentIndex);
   }, [_useRecipientInfo, giveAssetType, currentIndex]);
 
+  const address = account?.address ? account.address : "";
   useEffect(() => {
     checkIsWalletAddressValid(getWalletAddress());
   }, []);
@@ -124,14 +125,28 @@ export function ManageDonationModal({
       ? theme.colors.primary[300]
       : theme.palette.text.secondary;
 
-  const _useSohmBalance = useSohmBalance()[networks.MAINNET];
+  const _useSohmBalance =
+    useSohmBalance()[
+      activeChain.id == NetworkId.MAINNET
+        ? NetworkId.MAINNET
+        : activeChain.id === NetworkId.TESTNET_GOERLI
+        ? NetworkId.TESTNET_GOERLI
+        : NetworkId.TESTNET_RINKEBY
+    ];
   const sohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useSohmBalance.isLoading || _useSohmBalance.data === undefined) return new DecimalBigNumber("0");
 
     return _useSohmBalance.data;
   }, [_useSohmBalance]);
 
-  const _useGohmBalance = useGohmBalance()[networks.MAINNET];
+  const _useGohmBalance =
+    useGohmBalance()[
+      activeChain.id == NetworkId.MAINNET
+        ? NetworkId.MAINNET
+        : activeChain.id === NetworkId.TESTNET_GOERLI
+        ? NetworkId.TESTNET_GOERLI
+        : NetworkId.TESTNET_RINKEBY
+    ];
 
   const gohmBalance: DecimalBigNumber = useMemo(() => {
     if (_useGohmBalance.isLoading || _useGohmBalance.data == undefined) return new DecimalBigNumber("0");

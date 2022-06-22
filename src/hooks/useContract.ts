@@ -15,13 +15,12 @@ import { useMemo } from "react";
 import BALANCERV2_POOL_ABI from "src/abi/BalancerV2Pool.json";
 import BALANCER_VAULT_ABI from "src/abi/BalancerVault.json";
 import BEETHOVEN_CHEF_ABI from "src/abi/BeethovenChef.json";
-import BOBA_CHEF_ABI from "src/abi/BobaChef.json";
-import BOBA_REWARDER_ABI from "src/abi/BobaRewarder.json";
 import BOND_ABI from "src/abi/BondDepository.json";
 import CROSS_CHAIN_MIGRATOR_ABI from "src/abi/CrossChainMigrator.json";
 import CURVE_GAUGE_CONTROLLER_ABI from "src/abi/CurveGaugeController.json";
 import CURVE_GAUGE_DEPOSIT_ABI from "src/abi/CurveGaugeDeposit.json";
 import CURVE_POOL_ABI from "src/abi/CurvePool.json";
+import DEV_FAUCET from "src/abi/DevFaucet.json";
 import FUSE_PROXY_ABI from "src/abi/FuseProxy.json";
 import GAUGE_ABI from "src/abi/Gauge.json";
 import IERC20_ABI from "src/abi/IERC20.json";
@@ -42,11 +41,10 @@ import { AddressMap } from "src/constants/addresses";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
 import {
-  BobaChef,
-  BobaRewarder,
   BondDepository,
   CrossChainMigrator,
   CurvePool,
+  DevFaucet,
   FuseProxy,
   IERC20,
   Jones,
@@ -69,8 +67,7 @@ import { SushiChef } from "src/typechain/SushiChef";
 import { SushiRewarder } from "src/typechain/SushiRewarder";
 import { ZipRewarder } from "src/typechain/ZipRewarder";
 import { ZipSecondaryRewarder } from "src/typechain/ZipSecondaryRewarder";
-
-import { useWeb3Context } from ".";
+import { useNetwork, useProvider, useSigner } from "wagmi";
 
 /**
  * @deprecated Please see note at the top of this file
@@ -97,17 +94,19 @@ export const createStaticContract = <TContract extends Contract = Contract>(ABI:
  */
 const createDynamicContract = <TContract extends Contract = Contract>(ABI: ContractInterface) => {
   return (addressMap: AddressMap, asSigner = false) => {
-    const { provider, connected, networkId } = useWeb3Context();
+    const provider = useProvider();
+    const { data: signer } = useSigner();
+    const { activeChain = { id: 1 } } = useNetwork();
 
     return useMemo(() => {
-      const address = addressMap[networkId as keyof typeof addressMap];
+      const address = addressMap[activeChain.id as keyof typeof addressMap];
 
       if (!address) return null;
 
-      const providerOrSigner = asSigner && connected ? provider.getSigner() : provider;
+      const providerOrSigner = asSigner && signer ? signer : provider;
 
       return new Contract(address, ABI, providerOrSigner) as TContract;
-    }, [addressMap, asSigner, connected, networkId, provider]);
+    }, [addressMap, activeChain.id, asSigner, signer, provider]);
   };
 };
 
@@ -152,8 +151,6 @@ export const useStaticZipSecondaryRewardercontract = createStaticContract<ZipSec
   ZIP_SECONDARY_REWARDER_ABI.abi,
 );
 export const useStaticJonesContract = createStaticContract<Jones>(JONES_ABI.abi);
-export const useStaticBobaChefContract = createStaticContract<BobaChef>(BOBA_CHEF_ABI.abi);
-export const useStaticBobaRewarderContract = createStaticContract<BobaRewarder>(BOBA_REWARDER_ABI.abi);
 export const useStaticCurvePoolContract = createStaticContract<CurvePool>(CURVE_POOL_ABI.abi);
 export const useStaticCurveGaugeControllerContract = createStaticContract<CurveGaugeController>(
   CURVE_GAUGE_CONTROLLER_ABI.abi,
@@ -166,6 +163,7 @@ export const useDynamicStakingContract = createDynamicContract<OlympusStakingv2>
 export const useDynamicGiveContract = createDynamicContract<OlympusGiving>(GIVE_ABI.abi);
 export const useDynamicV1GiveContract = createDynamicContract<OlympusGivingOld>(GIVE_OLD_ABI.abi);
 export const useDynamicMigratorContract = createDynamicContract<CrossChainMigrator>(CROSS_CHAIN_MIGRATOR_ABI.abi);
+export const useDynamicFaucetContract = createDynamicContract<DevFaucet>(DEV_FAUCET.abi);
 
 // Multiple static contracts
 export const useMultipleTokenContracts = createMultipleStaticContracts<IERC20>(IERC20_ABI.abi);
