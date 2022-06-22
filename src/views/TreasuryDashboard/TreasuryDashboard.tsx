@@ -9,12 +9,12 @@ import { NavLink, Outlet, Route, Routes } from "react-router-dom";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 
 import {
+  LiquidBackingGraph,
   MarketValueGraph,
   OHMStakedGraph,
   ProtocolOwnedLiquidityGraph,
   RiskFreeValueGraph,
   RunwayAvailableGraph,
-  TotalValueDepositedGraph,
 } from "./components/Graph/Graph";
 import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
 
@@ -37,7 +37,7 @@ const MetricsDashboard = () => (
     <Grid container spacing={2} className="data-grid">
       <Grid item lg={6} md={6} sm={12} xs={12}>
         <Paper className="ohm-card ohm-chart-card">
-          <TotalValueDepositedGraph />
+          <LiquidBackingGraph />
         </Paper>
       </Grid>
 

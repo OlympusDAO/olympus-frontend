@@ -29,6 +29,27 @@ export const TotalValueDepositedGraph = () => {
   );
 };
 
+export const LiquidBackingGraph = () => {
+  const theme = useTheme();
+  const { data } = useProtocolMetrics();
+
+  return (
+    <Chart
+      type="area"
+      data={data}
+      itemType={itemType.dollar}
+      itemNames={tooltipItems.liqb}
+      dataKey={["treasuryLiquidBacking"]}
+      headerText={t`Liquid Backing`}
+      stopColor={[["#768299", "#98B3E9"]]}
+      bulletpointColors={bulletpoints.tvl}
+      infoTooltipMessage={tooltipInfoMessages().liqb}
+      expandedGraphStrokeColor={theme.palette.graphStrokeColor}
+      headerSubText={`${data && formatCurrency(data[0].treasuryLiquidBacking)}`}
+    />
+  );
+};
+
 export const MarketValueGraph = () => {
   const theme = useTheme();
   const { data } = useProtocolMetrics();

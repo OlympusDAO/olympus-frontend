@@ -184,6 +184,7 @@ export const bulletpoints = {
 
 export const tooltipItems = {
   tvl: [t`Total Value Deposited`],
+  liqb: [t`Liquid Backing`],
   marketValueComponents: [t`Stablecoins`, t`Volatile Assets`, t`Protocol-Owned Liquidity`],
   coin: ["DAI", "FRAX", "ETH", "LUSD", "BTC", "UST", "Other"],
   rfv: ["DAI", "FRAX", "LUSD", "UST"],
@@ -196,6 +197,7 @@ export const tooltipItems = {
 export const tooltipInfoMessages = () => {
   return {
     tvl: t`Total Value Deposited, is the dollar amount of all OHM staked in the protocol. This metric is often used as growth or health indicator in DeFi projects.`,
+    liqb: t`Liquid backing is the dollar amount of stablecoins, volatile assets and protocol-owned liquidity in the treasury. This excludes the value of OHM and any illiquid (vesting/locked) assets`,
     mvt: t`Market Value of Treasury Assets, is the sum of the value (in dollars) of all assets held by the treasury (Excluding pTokens and Vested tokens).`,
     rfv: t`Risk Free Value, is the amount of funds the treasury guarantees to use for backing OHM.`,
     pol: t`Protocol Owned Liquidity, is the amount of LP the treasury owns and controls. The more POL the better for the protocol and its users.`,
