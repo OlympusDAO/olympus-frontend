@@ -29,6 +29,7 @@ const query = `
       treasuryFraxMarketValue
       treasuryFraxRiskFreeValue
       treasuryLiquidBacking
+      treasuryLPValue
       treasuryLusdMarketValue
       treasuryLusdRiskFreeValue
       treasuryMarketValue
@@ -36,8 +37,10 @@ const query = `
       treasuryOhmFraxPOL
       treasuryOtherMarketValue
       treasuryRiskFreeValue
+      treasuryStableValue
       treasuryTotalBacking
       treasuryUstMarketValue
+      treasuryVolatileValue
       treasuryWBTCMarketValue
       treasuryWETHMarketValue
       treasuryXsushiMarketValue
@@ -46,43 +49,46 @@ const query = `
 `;
 
 interface ProtocolMetrics {
-  id: string;
   block: string;
-  timestampISO8901: string;
-  runway5k: string;
-  timestamp: string;
+  currentAPY: string;
+  id: string;
+  marketCap: string;
+  nextDistributedOhm: string;
+  nextEpochRebase: string;
+  ohmCirculatingSupply: string;
   ohmPrice: string;
   runway10k: string;
   runway20k: string;
-  runway50k: string;
-  marketCap: string;
-  currentAPY: string;
-  totalSupply: string;
-  runway7dot5k: string;
   runway2dot5k: string;
+  runway50k: string;
+  runway5k: string;
+  runway7dot5k: string;
   runwayCurrent: string;
-  nextEpochRebase: string;
+  sOhmCirculatingSupply: string;
+  timestamp: string;
+  timestampISO8901: string;
+  totalSupply: string;
   totalValueLocked: string;
+  treasuryDaiMarketValue: string;
+  treasuryDaiRiskFreeValue: string;
+  treasuryFraxMarketValue: string;
+  treasuryFraxRiskFreeValue: string;
+  treasuryLiquidBacking: string;
+  treasuryLPValue: string;
+  treasuryLusdMarketValue: string;
+  treasuryLusdRiskFreeValue: string;
+  treasuryMarketValue: string;
   treasuryOhmDaiPOL: string;
   treasuryOhmFraxPOL: string;
-  nextDistributedOhm: string;
-  treasuryMarketValue: string;
-  treasuryLiquidBacking: string;
-  treasuryTotalBacking: string;
-  ohmCirculatingSupply: string;
-  sOhmCirculatingSupply: string;
-  treasuryRiskFreeValue: string;
-  treasuryDaiMarketValue: string;
-  treasuryUstMarketValue: string;
-  treasuryFraxMarketValue: string;
-  treasuryWETHMarketValue: string;
-  treasuryLusdMarketValue: string;
-  treasuryWBTCMarketValue: string;
-  treasuryDaiRiskFreeValue: string;
   treasuryOtherMarketValue: string;
-  treasuryLusdRiskFreeValue: string;
+  treasuryRiskFreeValue: string;
+  treasuryStableValue: string;
+  treasuryTotalBacking: string;
+  treasuryUstMarketValue: string;
+  treasuryVolatileValue: string;
+  treasuryWBTCMarketValue: string;
+  treasuryWETHMarketValue: string;
   treasuryXsushiMarketValue: string;
-  treasuryFraxRiskFreeValue: string;
 }
 
 type ProtocolMetricsNumbers = Record<keyof ProtocolMetrics, number>;

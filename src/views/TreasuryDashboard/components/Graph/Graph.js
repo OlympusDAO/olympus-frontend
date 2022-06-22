@@ -37,15 +37,7 @@ export const MarketValueGraph = () => {
     <Chart
       type="stack"
       data={data}
-      dataKey={[
-        "treasuryDaiMarketValue",
-        "treasuryFraxMarketValue",
-        "treasuryWETHMarketValue",
-        "treasuryLusdMarketValue",
-        "treasuryWBTCMarketValue",
-        "treasuryUstMarketValue",
-        "treasuryOtherMarketValue",
-      ]}
+      dataKey={["treasuryStableValue", "treasuryVolatileValue", "treasuryLPValue"]}
       stopColor={[
         ["#F5AC37", "#F5AC37"],
         ["#768299", "#768299"],
@@ -58,7 +50,7 @@ export const MarketValueGraph = () => {
       headerText={t`Market Value of Treasury Assets`}
       headerSubText={`${data && formatCurrency(data[0].treasuryMarketValue)}`}
       bulletpointColors={bulletpoints.coin}
-      itemNames={tooltipItems.coin}
+      itemNames={tooltipItems.marketValueComponents}
       itemType={itemType.dollar}
       infoTooltipMessage={tooltipInfoMessages().mvt}
       expandedGraphStrokeColor={theme.palette.graphStrokeColor}
