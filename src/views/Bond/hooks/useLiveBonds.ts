@@ -33,8 +33,6 @@ export const fetchLiveBonds = async ({ networkId, isInverseBond }: UseLiveBondsO
     }),
   );
 
-  console.log(promises);
-
   return promises
     .filter(({ status }) => status === "fulfilled")
     .map(promise => (promise as PromiseFulfilledResult<Bond>).value);

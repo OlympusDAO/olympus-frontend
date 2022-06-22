@@ -100,7 +100,6 @@ export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions
   ]);
 
   const priceInUsd = quoteTokenPerUsd.mul(quoteTokenPerBaseToken);
-  console.log(baseTokenPerUsd.toString());
   const discount = baseTokenPerUsd.sub(priceInUsd).div(baseTokenPerUsd);
 
   /**
@@ -138,7 +137,6 @@ export const fetchBond = async ({ id, isInverseBond, networkId }: UseBondOptions
     ? capacity
     : new DecimalBigNumber(capacity.mul(quoteTokenPerBaseToken).toString(), quoteToken.decimals); // Convert to quoteToken if capacity is denominated in baseToken
 
-  console.log(quoteTokenPerBaseToken.toString());
   const capacityInBaseToken = market.capacityInQuote
     ? new DecimalBigNumber(capacity.div(quoteTokenPerBaseToken).toString(), baseToken.decimals) // Convert to baseToken if capacity is denominated in quoteToken
     : capacity;
