@@ -53,6 +53,7 @@
     "ethers": "^5.6.9",
     "graphql": "^15.8.0",
     "graphql-request": "^4.3.0",
+    "gzipper": "^7.1.0",
     "markdown-it": "^13.0.1",
     "react": "17.0.2",
     "react-countdown": "^2.3.2",
@@ -173,6 +174,7 @@
     "lingui:prepare": "pwd && if [ ! -d src/locales/translations ]; then git clone https://github.com/OlympusDAO/olympus-translations.git src/locales/translations; fi",
     "typechain:build": "yarn run typechain --target ethers-v5 --out-dir src/typechain src/abi/*.json src/abi/**/*.json",
     "preinstall": "yarn lingui:prepare || exit 0",
+    "postbuild": "yarn gzipper compress --verbose ./build",
     "postinstall": "yarn typechain:build && yarn lingui:compile",
     "prepare": "husky install"
   },
