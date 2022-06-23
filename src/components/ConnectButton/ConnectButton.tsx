@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Box, Button, SvgIcon, Typography, useTheme } from "@mui/material";
+import { Box, Button, SvgIcon, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Icon, PrimaryButton } from "@olympusdao/component-library";
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
 import { Link, useLocation } from "react-router-dom";
@@ -51,6 +51,7 @@ export const InPageConnectButton = () => {
 export const ConnectButton = () => {
   const location = useLocation();
   const theme = useTheme();
+  const mobileWidth = useMediaQuery(theme.breakpoints.up("sm"));
 
   const walletDrawerOpen =
     location.pathname === "/wallet" || location.pathname === "/utility" || location.pathname === "/info" ? true : false;
@@ -106,35 +107,41 @@ export const ConnectButton = () => {
               }
               return (
                 <Box display="flex" alignItems="center">
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    sx={{
-                      height: "39px",
-                      borderRadius: "6px",
-                      padding: "9px 18px",
-                      cursor: "pointer",
-                      background: walletDrawerOpen ? theme.colors.paper.card : theme.colors.paper.background,
-                    }}
-                    onClick={openChainModal}
-                  >
-                    {chain.unsupported && <Icon name="alert-circle" style={{ fill: theme.colors.feedback.error }} />}
-                    {chain.hasIcon && (
-                      <div
-                        style={{
-                          background: chain.iconBackground,
-                          width: 24,
-                          height: 24,
-                          borderRadius: 999,
-                          overflow: "hidden",
-                        }}
-                      >
-                        {chain.iconUrl && (
-                          <img alt={chain.name ?? "Chain icon"} src={chain.iconUrl} style={{ width: 24, height: 24 }} />
-                        )}
-                      </div>
-                    )}
-                  </Box>
+                  {(mobileWidth || walletDrawerOpen) && (
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      sx={{
+                        height: "39px",
+                        borderRadius: "6px",
+                        padding: "9px 18px",
+                        cursor: "pointer",
+                        background: walletDrawerOpen ? theme.colors.paper.card : theme.colors.paper.background,
+                      }}
+                      onClick={openChainModal}
+                    >
+                      {chain.unsupported && <Icon name="alert-circle" style={{ fill: theme.colors.feedback.error }} />}
+                      {chain.hasIcon && (
+                        <div
+                          style={{
+                            background: chain.iconBackground,
+                            width: 24,
+                            height: 24,
+                            borderRadius: 999,
+                            overflow: "hidden",
+                          }}
+                        >
+                          {chain.iconUrl && (
+                            <img
+                              alt={chain.name ?? "Chain icon"}
+                              src={chain.iconUrl}
+                              style={{ width: 24, height: 24 }}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </Box>
+                  )}
                   {walletDrawerOpen ? (
                     <Box
                       display="flex"

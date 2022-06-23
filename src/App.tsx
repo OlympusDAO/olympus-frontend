@@ -174,6 +174,7 @@ function App() {
     if (shouldTriggerSafetyCheck()) {
       dispatch(info("Safety Check: Always verify you're on app.olympusdao.finance!"));
     }
+    loadDetails("app");
   }, []);
 
   // this useEffect picks up any time a user Connects via the button

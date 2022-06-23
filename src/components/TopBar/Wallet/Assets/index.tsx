@@ -133,21 +133,21 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     {
       symbol: ["OHM"] as OHMTokenStackProps["tokens"],
       balance: formattedohmBalance,
-      assetValue: Number(formattedohmBalance) * ohmPrice,
+      assetValue: ohmBalance.toApproxNumber() * ohmPrice,
       alwaysShow: true,
     },
     {
       symbol: ["OHM"] as OHMTokenStackProps["tokens"],
       balance: formattedV1OhmBalance,
       label: "(v1)",
-      assetValue: Number(formattedV1OhmBalance) * ohmPrice,
+      assetValue: v1OhmBalance.toApproxNumber() * ohmPrice,
     },
     {
       symbol: ["sOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedSOhmBalance,
       timeRemaining:
         nextRebaseDate && `Stakes in ${prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}`,
-      assetValue: Number(formattedSOhmBalance) * ohmPrice,
+      assetValue: sOhmBalance.toApproxNumber() * ohmPrice,
       alwaysShow: true,
       lineThreeLabel: "Rebases per day",
       lineThreeValue:
@@ -161,18 +161,18 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
       label: "(v1)",
       timeRemaining:
         nextRebaseDate && `Stakes in ${prettifySeconds((nextRebaseDate.getTime() - new Date().getTime()) / 1000)}`,
-      assetValue: Number(formattedV1SohmBalance) * ohmPrice,
+      assetValue: v1SohmBalance.toApproxNumber() * ohmPrice,
     },
     {
       symbol: ["wsOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedWsOhmBalance,
-      assetValue: gOhmPrice * Number(formattedWsOhmBalance),
+      assetValue: gOhmPrice * totalWsohmBalance.toApproxNumber(),
       geckoTicker: "governance-ohm",
     },
     {
       symbol: ["gOHM"] as OHMTokenStackProps["tokens"],
       balance: formattedgOhmBalance,
-      assetValue: gOhmPrice * Number(formattedgOhmBalance),
+      assetValue: gOhmPrice * totalGohmBalance.toApproxNumber(),
       pnl: formattedgOhmBalance ? 0 : formatCurrency(totalGohmBalance.toApproxNumber() * gOhmPriceChange, 2),
       alwaysShow: true,
       geckoTicker: "governance-ohm",
@@ -205,7 +205,7 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
           <WalletBalance
             title="Balance"
             usdBalance={formatCurrency(walletTotalValueUSD, 2)}
-            underlyingBalance={`${formatNumber(walletTotalValueUSD / ohmPrice, 2)} OHM`}
+            underlyingBalance={`${formatNumber(walletTotalValueUSD / (ohmPrice !== 0 ? ohmPrice : 1), 2)} OHM`}
           />
         </Box>
         <Box display="flex" flexDirection="row" className={classes.selector} mb="18px" mt="18px">
